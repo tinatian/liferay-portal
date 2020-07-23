@@ -103,6 +103,8 @@ public class LocalizedEntryLocalizationCacheModel
 		LocalizedEntryLocalizationImpl localizedEntryLocalizationImpl =
 			new LocalizedEntryLocalizationImpl();
 
+		localizedEntryLocalizationImpl.setNew(true);
+
 		localizedEntryLocalizationImpl.setMvccVersion(mvccVersion);
 		localizedEntryLocalizationImpl.setLocalizedEntryLocalizationId(
 			localizedEntryLocalizationId);
@@ -130,6 +132,8 @@ public class LocalizedEntryLocalizationCacheModel
 		}
 
 		localizedEntryLocalizationImpl.resetOriginalValues();
+
+		localizedEntryLocalizationImpl.setNew(false);
 
 		return localizedEntryLocalizationImpl;
 	}

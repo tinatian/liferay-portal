@@ -103,6 +103,8 @@ public class AnnouncementsFlagCacheModel
 		AnnouncementsFlagImpl announcementsFlagImpl =
 			new AnnouncementsFlagImpl();
 
+		announcementsFlagImpl.setNew(true);
+
 		announcementsFlagImpl.setMvccVersion(mvccVersion);
 		announcementsFlagImpl.setFlagId(flagId);
 		announcementsFlagImpl.setCompanyId(companyId);
@@ -119,6 +121,8 @@ public class AnnouncementsFlagCacheModel
 		announcementsFlagImpl.setValue(value);
 
 		announcementsFlagImpl.resetOriginalValues();
+
+		announcementsFlagImpl.setNew(false);
 
 		return announcementsFlagImpl;
 	}

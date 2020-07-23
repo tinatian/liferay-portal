@@ -116,6 +116,8 @@ public class LayoutPageTemplateStructureCacheModel
 		LayoutPageTemplateStructureImpl layoutPageTemplateStructureImpl =
 			new LayoutPageTemplateStructureImpl();
 
+		layoutPageTemplateStructureImpl.setNew(true);
+
 		layoutPageTemplateStructureImpl.setMvccVersion(mvccVersion);
 
 		if (uuid == null) {
@@ -157,6 +159,8 @@ public class LayoutPageTemplateStructureCacheModel
 		layoutPageTemplateStructureImpl.setClassPK(classPK);
 
 		layoutPageTemplateStructureImpl.resetOriginalValues();
+
+		layoutPageTemplateStructureImpl.setNew(false);
 
 		return layoutPageTemplateStructureImpl;
 	}

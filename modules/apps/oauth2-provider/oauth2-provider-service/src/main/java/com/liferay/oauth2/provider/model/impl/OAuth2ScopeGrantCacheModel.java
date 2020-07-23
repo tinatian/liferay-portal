@@ -87,6 +87,8 @@ public class OAuth2ScopeGrantCacheModel
 	public OAuth2ScopeGrant toEntityModel() {
 		OAuth2ScopeGrantImpl oAuth2ScopeGrantImpl = new OAuth2ScopeGrantImpl();
 
+		oAuth2ScopeGrantImpl.setNew(true);
+
 		oAuth2ScopeGrantImpl.setOAuth2ScopeGrantId(oAuth2ScopeGrantId);
 		oAuth2ScopeGrantImpl.setCompanyId(companyId);
 		oAuth2ScopeGrantImpl.setOAuth2ApplicationScopeAliasesId(
@@ -121,6 +123,8 @@ public class OAuth2ScopeGrantCacheModel
 		}
 
 		oAuth2ScopeGrantImpl.resetOriginalValues();
+
+		oAuth2ScopeGrantImpl.setNew(false);
 
 		return oAuth2ScopeGrantImpl;
 	}

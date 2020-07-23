@@ -104,6 +104,8 @@ public class WebDAVPropsCacheModel
 	public WebDAVProps toEntityModel() {
 		WebDAVPropsImpl webDAVPropsImpl = new WebDAVPropsImpl();
 
+		webDAVPropsImpl.setNew(true);
+
 		webDAVPropsImpl.setMvccVersion(mvccVersion);
 		webDAVPropsImpl.setWebDavPropsId(webDavPropsId);
 		webDAVPropsImpl.setCompanyId(companyId);
@@ -133,6 +135,8 @@ public class WebDAVPropsCacheModel
 		}
 
 		webDAVPropsImpl.resetOriginalValues();
+
+		webDAVPropsImpl.setNew(false);
 
 		return webDAVPropsImpl;
 	}

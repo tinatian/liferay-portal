@@ -1078,11 +1078,16 @@ public class UserNotificationDeliveryPersistenceImpl
 			 _finderPathFetchByU_P_C_N_D.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				userNotificationDeliveryModelImpl.getOriginalUserId(),
-				userNotificationDeliveryModelImpl.getOriginalPortletId(),
-				userNotificationDeliveryModelImpl.getOriginalClassNameId(),
-				userNotificationDeliveryModelImpl.getOriginalNotificationType(),
-				userNotificationDeliveryModelImpl.getOriginalDeliveryType()
+				userNotificationDeliveryModelImpl.getCacheModelAttribute(
+					"userId"),
+				userNotificationDeliveryModelImpl.getCacheModelAttribute(
+					"portletId"),
+				userNotificationDeliveryModelImpl.getCacheModelAttribute(
+					"classNameId"),
+				userNotificationDeliveryModelImpl.getCacheModelAttribute(
+					"notificationType"),
+				userNotificationDeliveryModelImpl.getCacheModelAttribute(
+					"deliveryType")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByU_P_C_N_D, args);
@@ -1273,7 +1278,8 @@ public class UserNotificationDeliveryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					userNotificationDeliveryModelImpl.getOriginalUserId()
+					userNotificationDeliveryModelImpl.getCacheModelAttribute(
+						"userId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUserId, args);

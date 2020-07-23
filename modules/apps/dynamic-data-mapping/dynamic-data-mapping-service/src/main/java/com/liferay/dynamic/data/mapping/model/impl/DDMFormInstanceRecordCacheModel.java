@@ -124,6 +124,8 @@ public class DDMFormInstanceRecordCacheModel
 		DDMFormInstanceRecordImpl ddmFormInstanceRecordImpl =
 			new DDMFormInstanceRecordImpl();
 
+		ddmFormInstanceRecordImpl.setNew(true);
+
 		ddmFormInstanceRecordImpl.setMvccVersion(mvccVersion);
 		ddmFormInstanceRecordImpl.setCtCollectionId(ctCollectionId);
 
@@ -197,6 +199,8 @@ public class DDMFormInstanceRecordCacheModel
 		}
 
 		ddmFormInstanceRecordImpl.resetOriginalValues();
+
+		ddmFormInstanceRecordImpl.setNew(false);
 
 		return ddmFormInstanceRecordImpl;
 	}

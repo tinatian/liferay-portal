@@ -104,6 +104,8 @@ public class RecentLayoutRevisionCacheModel
 		RecentLayoutRevisionImpl recentLayoutRevisionImpl =
 			new RecentLayoutRevisionImpl();
 
+		recentLayoutRevisionImpl.setNew(true);
+
 		recentLayoutRevisionImpl.setMvccVersion(mvccVersion);
 		recentLayoutRevisionImpl.setRecentLayoutRevisionId(
 			recentLayoutRevisionId);
@@ -115,6 +117,8 @@ public class RecentLayoutRevisionCacheModel
 		recentLayoutRevisionImpl.setPlid(plid);
 
 		recentLayoutRevisionImpl.resetOriginalValues();
+
+		recentLayoutRevisionImpl.setNew(false);
 
 		return recentLayoutRevisionImpl;
 	}

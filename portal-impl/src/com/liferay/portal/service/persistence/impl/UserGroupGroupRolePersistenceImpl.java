@@ -3169,9 +3169,10 @@ public class UserGroupGroupRolePersistenceImpl
 			 _finderPathFetchByU_G_R.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				userGroupGroupRoleModelImpl.getOriginalUserGroupId(),
-				userGroupGroupRoleModelImpl.getOriginalGroupId(),
-				userGroupGroupRoleModelImpl.getOriginalRoleId()
+				userGroupGroupRoleModelImpl.getCacheModelAttribute(
+					"userGroupId"),
+				userGroupGroupRoleModelImpl.getCacheModelAttribute("groupId"),
+				userGroupGroupRoleModelImpl.getCacheModelAttribute("roleId")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByU_G_R, args);
@@ -3407,7 +3408,8 @@ public class UserGroupGroupRolePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					userGroupGroupRoleModelImpl.getOriginalUserGroupId()
+					userGroupGroupRoleModelImpl.getCacheModelAttribute(
+						"userGroupId")
 				};
 
 				FinderCacheUtil.removeResult(
@@ -3430,7 +3432,8 @@ public class UserGroupGroupRolePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					userGroupGroupRoleModelImpl.getOriginalGroupId()
+					userGroupGroupRoleModelImpl.getCacheModelAttribute(
+						"groupId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByGroupId, args);
@@ -3449,7 +3452,7 @@ public class UserGroupGroupRolePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					userGroupGroupRoleModelImpl.getOriginalRoleId()
+					userGroupGroupRoleModelImpl.getCacheModelAttribute("roleId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByRoleId, args);
@@ -3468,8 +3471,10 @@ public class UserGroupGroupRolePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					userGroupGroupRoleModelImpl.getOriginalUserGroupId(),
-					userGroupGroupRoleModelImpl.getOriginalGroupId()
+					userGroupGroupRoleModelImpl.getCacheModelAttribute(
+						"userGroupId"),
+					userGroupGroupRoleModelImpl.getCacheModelAttribute(
+						"groupId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByU_G, args);
@@ -3491,8 +3496,9 @@ public class UserGroupGroupRolePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					userGroupGroupRoleModelImpl.getOriginalGroupId(),
-					userGroupGroupRoleModelImpl.getOriginalRoleId()
+					userGroupGroupRoleModelImpl.getCacheModelAttribute(
+						"groupId"),
+					userGroupGroupRoleModelImpl.getCacheModelAttribute("roleId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByG_R, args);

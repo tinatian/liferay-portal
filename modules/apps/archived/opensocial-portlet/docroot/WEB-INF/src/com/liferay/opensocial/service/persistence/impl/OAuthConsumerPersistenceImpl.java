@@ -1053,8 +1053,8 @@ public class OAuthConsumerPersistenceImpl
 			 _finderPathFetchByG_S.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				oAuthConsumerModelImpl.getOriginalGadgetKey(),
-				oAuthConsumerModelImpl.getOriginalServiceName()
+				oAuthConsumerModelImpl.getCacheModelAttribute("gadgetKey"),
+				oAuthConsumerModelImpl.getCacheModelAttribute("serviceName")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByG_S, args);
@@ -1256,7 +1256,7 @@ public class OAuthConsumerPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					oAuthConsumerModelImpl.getOriginalGadgetKey()
+					oAuthConsumerModelImpl.getCacheModelAttribute("gadgetKey")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByGadgetKey, args);

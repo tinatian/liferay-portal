@@ -89,6 +89,8 @@ public class AttachmentCacheModel
 	public Attachment toEntityModel() {
 		AttachmentImpl attachmentImpl = new AttachmentImpl();
 
+		attachmentImpl.setNew(true);
+
 		attachmentImpl.setAttachmentId(attachmentId);
 		attachmentImpl.setCompanyId(companyId);
 		attachmentImpl.setUserId(userId);
@@ -113,6 +115,8 @@ public class AttachmentCacheModel
 		attachmentImpl.setSize(size);
 
 		attachmentImpl.resetOriginalValues();
+
+		attachmentImpl.setNew(false);
 
 		return attachmentImpl;
 	}

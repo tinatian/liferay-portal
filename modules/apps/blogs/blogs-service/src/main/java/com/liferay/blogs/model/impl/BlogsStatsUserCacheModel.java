@@ -108,6 +108,8 @@ public class BlogsStatsUserCacheModel
 	public BlogsStatsUser toEntityModel() {
 		BlogsStatsUserImpl blogsStatsUserImpl = new BlogsStatsUserImpl();
 
+		blogsStatsUserImpl.setNew(true);
+
 		blogsStatsUserImpl.setMvccVersion(mvccVersion);
 		blogsStatsUserImpl.setStatsUserId(statsUserId);
 		blogsStatsUserImpl.setGroupId(groupId);
@@ -127,6 +129,8 @@ public class BlogsStatsUserCacheModel
 		blogsStatsUserImpl.setRatingsAverageScore(ratingsAverageScore);
 
 		blogsStatsUserImpl.resetOriginalValues();
+
+		blogsStatsUserImpl.setNew(false);
 
 		return blogsStatsUserImpl;
 	}

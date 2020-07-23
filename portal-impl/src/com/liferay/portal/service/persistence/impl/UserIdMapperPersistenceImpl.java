@@ -1253,8 +1253,8 @@ public class UserIdMapperPersistenceImpl
 			 _finderPathFetchByU_T.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				userIdMapperModelImpl.getOriginalUserId(),
-				userIdMapperModelImpl.getOriginalType()
+				userIdMapperModelImpl.getCacheModelAttribute("userId"),
+				userIdMapperModelImpl.getCacheModelAttribute("type")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByU_T, args);
@@ -1275,8 +1275,8 @@ public class UserIdMapperPersistenceImpl
 			 _finderPathFetchByT_E.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				userIdMapperModelImpl.getOriginalType(),
-				userIdMapperModelImpl.getOriginalExternalUserId()
+				userIdMapperModelImpl.getCacheModelAttribute("type"),
+				userIdMapperModelImpl.getCacheModelAttribute("externalUserId")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByT_E, args);
@@ -1452,7 +1452,7 @@ public class UserIdMapperPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					userIdMapperModelImpl.getOriginalUserId()
+					userIdMapperModelImpl.getCacheModelAttribute("userId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUserId, args);

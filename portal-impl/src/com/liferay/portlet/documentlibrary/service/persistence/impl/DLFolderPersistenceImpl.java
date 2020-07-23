@@ -12672,8 +12672,8 @@ public class DLFolderPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				dlFolderModelImpl.getOriginalUuid(),
-				dlFolderModelImpl.getOriginalGroupId()
+				dlFolderModelImpl.getCacheModelAttribute("uuid"),
+				dlFolderModelImpl.getCacheModelAttribute("groupId")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByUUID_G, args);
@@ -12694,8 +12694,8 @@ public class DLFolderPersistenceImpl
 			 _finderPathFetchByR_M.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				dlFolderModelImpl.getOriginalRepositoryId(),
-				dlFolderModelImpl.getOriginalMountPoint()
+				dlFolderModelImpl.getCacheModelAttribute("repositoryId"),
+				dlFolderModelImpl.getCacheModelAttribute("mountPoint")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByR_M, args);
@@ -12717,9 +12717,9 @@ public class DLFolderPersistenceImpl
 			 _finderPathFetchByG_P_N.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				dlFolderModelImpl.getOriginalGroupId(),
-				dlFolderModelImpl.getOriginalParentFolderId(),
-				dlFolderModelImpl.getOriginalName()
+				dlFolderModelImpl.getCacheModelAttribute("groupId"),
+				dlFolderModelImpl.getCacheModelAttribute("parentFolderId"),
+				dlFolderModelImpl.getCacheModelAttribute("name")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByG_P_N, args);
@@ -13041,7 +13041,7 @@ public class DLFolderPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					dlFolderModelImpl.getOriginalUuid()
+					dlFolderModelImpl.getCacheModelAttribute("uuid")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid, args);
@@ -13060,8 +13060,8 @@ public class DLFolderPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					dlFolderModelImpl.getOriginalUuid(),
-					dlFolderModelImpl.getOriginalCompanyId()
+					dlFolderModelImpl.getCacheModelAttribute("uuid"),
+					dlFolderModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid_C, args);
@@ -13083,7 +13083,7 @@ public class DLFolderPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					dlFolderModelImpl.getOriginalGroupId()
+					dlFolderModelImpl.getCacheModelAttribute("groupId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByGroupId, args);
@@ -13102,7 +13102,7 @@ public class DLFolderPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					dlFolderModelImpl.getOriginalCompanyId()
+					dlFolderModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
@@ -13121,7 +13121,7 @@ public class DLFolderPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					dlFolderModelImpl.getOriginalRepositoryId()
+					dlFolderModelImpl.getCacheModelAttribute("repositoryId")
 				};
 
 				FinderCacheUtil.removeResult(
@@ -13142,8 +13142,8 @@ public class DLFolderPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					dlFolderModelImpl.getOriginalGroupId(),
-					dlFolderModelImpl.getOriginalParentFolderId()
+					dlFolderModelImpl.getCacheModelAttribute("groupId"),
+					dlFolderModelImpl.getCacheModelAttribute("parentFolderId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByG_P, args);
@@ -13165,8 +13165,8 @@ public class DLFolderPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					dlFolderModelImpl.getOriginalRepositoryId(),
-					dlFolderModelImpl.getOriginalParentFolderId()
+					dlFolderModelImpl.getCacheModelAttribute("repositoryId"),
+					dlFolderModelImpl.getCacheModelAttribute("parentFolderId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByR_P, args);
@@ -13188,8 +13188,8 @@ public class DLFolderPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					dlFolderModelImpl.getOriginalParentFolderId(),
-					dlFolderModelImpl.getOriginalName()
+					dlFolderModelImpl.getCacheModelAttribute("parentFolderId"),
+					dlFolderModelImpl.getCacheModelAttribute("name")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByP_N, args);
@@ -13211,9 +13211,9 @@ public class DLFolderPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					dlFolderModelImpl.getOriginalGroupId(),
-					dlFolderModelImpl.getOriginalMountPoint(),
-					dlFolderModelImpl.getOriginalParentFolderId()
+					dlFolderModelImpl.getCacheModelAttribute("groupId"),
+					dlFolderModelImpl.getCacheModelAttribute("mountPoint"),
+					dlFolderModelImpl.getCacheModelAttribute("parentFolderId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByG_M_P, args);
@@ -13236,10 +13236,10 @@ public class DLFolderPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					dlFolderModelImpl.getOriginalGroupId(),
-					dlFolderModelImpl.getOriginalMountPoint(),
-					dlFolderModelImpl.getOriginalParentFolderId(),
-					dlFolderModelImpl.getOriginalHidden()
+					dlFolderModelImpl.getCacheModelAttribute("groupId"),
+					dlFolderModelImpl.getCacheModelAttribute("mountPoint"),
+					dlFolderModelImpl.getCacheModelAttribute("parentFolderId"),
+					dlFolderModelImpl.getCacheModelAttribute("hidden")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByG_M_P_H, args);
@@ -13263,10 +13263,10 @@ public class DLFolderPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					dlFolderModelImpl.getOriginalGroupId(),
-					dlFolderModelImpl.getOriginalParentFolderId(),
-					dlFolderModelImpl.getOriginalHidden(),
-					dlFolderModelImpl.getOriginalStatus()
+					dlFolderModelImpl.getCacheModelAttribute("groupId"),
+					dlFolderModelImpl.getCacheModelAttribute("parentFolderId"),
+					dlFolderModelImpl.getCacheModelAttribute("hidden"),
+					dlFolderModelImpl.getCacheModelAttribute("status")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByG_P_H_S, args);
@@ -13289,11 +13289,11 @@ public class DLFolderPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					dlFolderModelImpl.getOriginalGroupId(),
-					dlFolderModelImpl.getOriginalMountPoint(),
-					dlFolderModelImpl.getOriginalParentFolderId(),
-					dlFolderModelImpl.getOriginalHidden(),
-					dlFolderModelImpl.getOriginalStatus()
+					dlFolderModelImpl.getCacheModelAttribute("groupId"),
+					dlFolderModelImpl.getCacheModelAttribute("mountPoint"),
+					dlFolderModelImpl.getCacheModelAttribute("parentFolderId"),
+					dlFolderModelImpl.getCacheModelAttribute("hidden"),
+					dlFolderModelImpl.getCacheModelAttribute("status")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByG_M_P_H_S, args);

@@ -97,6 +97,8 @@ public class KaleoProcessCacheModel
 	public KaleoProcess toEntityModel() {
 		KaleoProcessImpl kaleoProcessImpl = new KaleoProcessImpl();
 
+		kaleoProcessImpl.setNew(true);
+
 		if (uuid == null) {
 			kaleoProcessImpl.setUuid("");
 		}
@@ -144,6 +146,8 @@ public class KaleoProcessCacheModel
 			workflowDefinitionVersion);
 
 		kaleoProcessImpl.resetOriginalValues();
+
+		kaleoProcessImpl.setNew(false);
 
 		return kaleoProcessImpl;
 	}

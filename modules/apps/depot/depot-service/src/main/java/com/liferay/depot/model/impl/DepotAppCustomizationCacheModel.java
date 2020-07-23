@@ -100,6 +100,8 @@ public class DepotAppCustomizationCacheModel
 		DepotAppCustomizationImpl depotAppCustomizationImpl =
 			new DepotAppCustomizationImpl();
 
+		depotAppCustomizationImpl.setNew(true);
+
 		depotAppCustomizationImpl.setMvccVersion(mvccVersion);
 		depotAppCustomizationImpl.setDepotAppCustomizationId(
 			depotAppCustomizationId);
@@ -115,6 +117,8 @@ public class DepotAppCustomizationCacheModel
 		}
 
 		depotAppCustomizationImpl.resetOriginalValues();
+
+		depotAppCustomizationImpl.setNew(false);
 
 		return depotAppCustomizationImpl;
 	}

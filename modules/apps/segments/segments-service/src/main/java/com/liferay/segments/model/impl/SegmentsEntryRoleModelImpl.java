@@ -106,11 +106,25 @@ public class SegmentsEntryRoleModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long ROLEID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long SEGMENTSENTRYID_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
 	public static final long SEGMENTSENTRYROLEID_COLUMN_BITMASK = 4L;
+
+	public static final long COMPANYID_COLUMN_BITMASK = 8L;
+
+	public static final long USERID_COLUMN_BITMASK = 16L;
+
+	public static final long USERNAME_COLUMN_BITMASK = 32L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 64L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 128L;
+
+	public static final long SEGMENTSENTRYID_COLUMN_BITMASK = 256L;
+
+	public static final long ROLEID_COLUMN_BITMASK = 512L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -239,10 +253,39 @@ public class SegmentsEntryRoleModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<SegmentsEntryRole, Object> function =
+			_attributeGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((SegmentsEntryRole)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<SegmentsEntryRoleCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_segmentsEntryRoleCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_segmentsEntryRoleCacheModel);
+	}
+
 	private static final Map<String, Function<SegmentsEntryRole, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<SegmentsEntryRole, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<SegmentsEntryRoleCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<SegmentsEntryRole, Object>>
@@ -252,60 +295,112 @@ public class SegmentsEntryRoleModelImpl
 		Map<String, BiConsumer<SegmentsEntryRole, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<SegmentsEntryRole, ?>>();
+		Map<String, Function<SegmentsEntryRoleCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<SegmentsEntryRoleCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", SegmentsEntryRole::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			segmentsEntryRoleCacheModel ->
+				segmentsEntryRoleCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<SegmentsEntryRole, Long>)
 				SegmentsEntryRole::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", SegmentsEntryRole::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			segmentsEntryRoleCacheModel ->
+				segmentsEntryRoleCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<SegmentsEntryRole, Long>)
 				SegmentsEntryRole::setCtCollectionId);
 		attributeGetterFunctions.put(
 			"segmentsEntryRoleId", SegmentsEntryRole::getSegmentsEntryRoleId);
+
+		cacheModelGetterFunctions.put(
+			"segmentsEntryRoleId",
+			segmentsEntryRoleCacheModel ->
+				segmentsEntryRoleCacheModel.segmentsEntryRoleId);
 		attributeSetterBiConsumers.put(
 			"segmentsEntryRoleId",
 			(BiConsumer<SegmentsEntryRole, Long>)
 				SegmentsEntryRole::setSegmentsEntryRoleId);
 		attributeGetterFunctions.put(
 			"companyId", SegmentsEntryRole::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			segmentsEntryRoleCacheModel ->
+				segmentsEntryRoleCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<SegmentsEntryRole, Long>)
 				SegmentsEntryRole::setCompanyId);
 		attributeGetterFunctions.put("userId", SegmentsEntryRole::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			segmentsEntryRoleCacheModel -> segmentsEntryRoleCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<SegmentsEntryRole, Long>)SegmentsEntryRole::setUserId);
 		attributeGetterFunctions.put(
 			"userName", SegmentsEntryRole::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			segmentsEntryRoleCacheModel ->
+				segmentsEntryRoleCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<SegmentsEntryRole, String>)
 				SegmentsEntryRole::setUserName);
 		attributeGetterFunctions.put(
 			"createDate", SegmentsEntryRole::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			segmentsEntryRoleCacheModel ->
+				segmentsEntryRoleCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<SegmentsEntryRole, Date>)
 				SegmentsEntryRole::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", SegmentsEntryRole::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			segmentsEntryRoleCacheModel ->
+				segmentsEntryRoleCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<SegmentsEntryRole, Date>)
 				SegmentsEntryRole::setModifiedDate);
 		attributeGetterFunctions.put(
 			"segmentsEntryId", SegmentsEntryRole::getSegmentsEntryId);
+
+		cacheModelGetterFunctions.put(
+			"segmentsEntryId",
+			segmentsEntryRoleCacheModel ->
+				segmentsEntryRoleCacheModel.segmentsEntryId);
 		attributeSetterBiConsumers.put(
 			"segmentsEntryId",
 			(BiConsumer<SegmentsEntryRole, Long>)
 				SegmentsEntryRole::setSegmentsEntryId);
 		attributeGetterFunctions.put("roleId", SegmentsEntryRole::getRoleId);
+
+		cacheModelGetterFunctions.put(
+			"roleId",
+			segmentsEntryRoleCacheModel -> segmentsEntryRoleCacheModel.roleId);
 		attributeSetterBiConsumers.put(
 			"roleId",
 			(BiConsumer<SegmentsEntryRole, Long>)SegmentsEntryRole::setRoleId);
@@ -314,6 +409,8 @@ public class SegmentsEntryRoleModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -323,6 +420,13 @@ public class SegmentsEntryRoleModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_segmentsEntryRoleCacheModel == null)) {
+			_segmentsEntryRoleCacheModel =
+				(SegmentsEntryRoleCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -333,6 +437,13 @@ public class SegmentsEntryRoleModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (!isNew() && (_segmentsEntryRoleCacheModel == null)) {
+			_segmentsEntryRoleCacheModel =
+				(SegmentsEntryRoleCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -343,6 +454,13 @@ public class SegmentsEntryRoleModelImpl
 
 	@Override
 	public void setSegmentsEntryRoleId(long segmentsEntryRoleId) {
+		_columnBitmask |= SEGMENTSENTRYROLEID_COLUMN_BITMASK;
+
+		if (!isNew() && (_segmentsEntryRoleCacheModel == null)) {
+			_segmentsEntryRoleCacheModel =
+				(SegmentsEntryRoleCacheModel)toCacheModel();
+		}
+
 		_segmentsEntryRoleId = segmentsEntryRoleId;
 	}
 
@@ -353,6 +471,13 @@ public class SegmentsEntryRoleModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (!isNew() && (_segmentsEntryRoleCacheModel == null)) {
+			_segmentsEntryRoleCacheModel =
+				(SegmentsEntryRoleCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -363,6 +488,13 @@ public class SegmentsEntryRoleModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_segmentsEntryRoleCacheModel == null)) {
+			_segmentsEntryRoleCacheModel =
+				(SegmentsEntryRoleCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -394,6 +526,13 @@ public class SegmentsEntryRoleModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_segmentsEntryRoleCacheModel == null)) {
+			_segmentsEntryRoleCacheModel =
+				(SegmentsEntryRoleCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -404,6 +543,13 @@ public class SegmentsEntryRoleModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_segmentsEntryRoleCacheModel == null)) {
+			_segmentsEntryRoleCacheModel =
+				(SegmentsEntryRoleCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -420,6 +566,13 @@ public class SegmentsEntryRoleModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_segmentsEntryRoleCacheModel == null)) {
+			_segmentsEntryRoleCacheModel =
+				(SegmentsEntryRoleCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -432,17 +585,21 @@ public class SegmentsEntryRoleModelImpl
 	public void setSegmentsEntryId(long segmentsEntryId) {
 		_columnBitmask |= SEGMENTSENTRYID_COLUMN_BITMASK;
 
-		if (!_setOriginalSegmentsEntryId) {
-			_setOriginalSegmentsEntryId = true;
-
-			_originalSegmentsEntryId = _segmentsEntryId;
+		if (!isNew() && (_segmentsEntryRoleCacheModel == null)) {
+			_segmentsEntryRoleCacheModel =
+				(SegmentsEntryRoleCacheModel)toCacheModel();
 		}
 
 		_segmentsEntryId = segmentsEntryId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalSegmentsEntryId() {
-		return _originalSegmentsEntryId;
+		return getCacheModelAttribute("segmentsEntryId");
 	}
 
 	@Override
@@ -454,17 +611,21 @@ public class SegmentsEntryRoleModelImpl
 	public void setRoleId(long roleId) {
 		_columnBitmask |= ROLEID_COLUMN_BITMASK;
 
-		if (!_setOriginalRoleId) {
-			_setOriginalRoleId = true;
-
-			_originalRoleId = _roleId;
+		if (!isNew() && (_segmentsEntryRoleCacheModel == null)) {
+			_segmentsEntryRoleCacheModel =
+				(SegmentsEntryRoleCacheModel)toCacheModel();
 		}
 
 		_roleId = roleId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalRoleId() {
-		return _originalRoleId;
+		return getCacheModelAttribute("roleId");
 	}
 
 	public long getColumnBitmask() {
@@ -582,21 +743,11 @@ public class SegmentsEntryRoleModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		SegmentsEntryRoleModelImpl segmentsEntryRoleModelImpl = this;
+		_setModifiedDate = false;
 
-		segmentsEntryRoleModelImpl._setModifiedDate = false;
+		_columnBitmask = 0;
 
-		segmentsEntryRoleModelImpl._originalSegmentsEntryId =
-			segmentsEntryRoleModelImpl._segmentsEntryId;
-
-		segmentsEntryRoleModelImpl._setOriginalSegmentsEntryId = false;
-
-		segmentsEntryRoleModelImpl._originalRoleId =
-			segmentsEntryRoleModelImpl._roleId;
-
-		segmentsEntryRoleModelImpl._setOriginalRoleId = false;
-
-		segmentsEntryRoleModelImpl._columnBitmask = 0;
+		_segmentsEntryRoleCacheModel = null;
 	}
 
 	@Override
@@ -728,12 +879,9 @@ public class SegmentsEntryRoleModelImpl
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _segmentsEntryId;
-	private long _originalSegmentsEntryId;
-	private boolean _setOriginalSegmentsEntryId;
 	private long _roleId;
-	private long _originalRoleId;
-	private boolean _setOriginalRoleId;
 	private long _columnBitmask;
 	private SegmentsEntryRole _escapedModel;
+	private SegmentsEntryRoleCacheModel _segmentsEntryRoleCacheModel;
 
 }

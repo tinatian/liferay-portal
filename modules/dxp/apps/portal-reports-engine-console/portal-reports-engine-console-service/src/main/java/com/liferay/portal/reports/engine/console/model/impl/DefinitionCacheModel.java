@@ -101,6 +101,8 @@ public class DefinitionCacheModel
 	public Definition toEntityModel() {
 		DefinitionImpl definitionImpl = new DefinitionImpl();
 
+		definitionImpl.setNew(true);
+
 		if (uuid == null) {
 			definitionImpl.setUuid("");
 		}
@@ -172,6 +174,8 @@ public class DefinitionCacheModel
 		}
 
 		definitionImpl.resetOriginalValues();
+
+		definitionImpl.setNew(false);
 
 		return definitionImpl;
 	}

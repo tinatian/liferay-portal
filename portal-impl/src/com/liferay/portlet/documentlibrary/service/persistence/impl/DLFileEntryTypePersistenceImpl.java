@@ -3313,8 +3313,8 @@ public class DLFileEntryTypePersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				dlFileEntryTypeModelImpl.getOriginalUuid(),
-				dlFileEntryTypeModelImpl.getOriginalGroupId()
+				dlFileEntryTypeModelImpl.getCacheModelAttribute("uuid"),
+				dlFileEntryTypeModelImpl.getCacheModelAttribute("groupId")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByUUID_G, args);
@@ -3335,8 +3335,9 @@ public class DLFileEntryTypePersistenceImpl
 			 _finderPathFetchByG_F.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				dlFileEntryTypeModelImpl.getOriginalGroupId(),
-				dlFileEntryTypeModelImpl.getOriginalFileEntryTypeKey()
+				dlFileEntryTypeModelImpl.getCacheModelAttribute("groupId"),
+				dlFileEntryTypeModelImpl.getCacheModelAttribute(
+					"fileEntryTypeKey")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByG_F, args);
@@ -3588,7 +3589,7 @@ public class DLFileEntryTypePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					dlFileEntryTypeModelImpl.getOriginalUuid()
+					dlFileEntryTypeModelImpl.getCacheModelAttribute("uuid")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid, args);
@@ -3607,8 +3608,8 @@ public class DLFileEntryTypePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					dlFileEntryTypeModelImpl.getOriginalUuid(),
-					dlFileEntryTypeModelImpl.getOriginalCompanyId()
+					dlFileEntryTypeModelImpl.getCacheModelAttribute("uuid"),
+					dlFileEntryTypeModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid_C, args);
@@ -3630,7 +3631,7 @@ public class DLFileEntryTypePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					dlFileEntryTypeModelImpl.getOriginalGroupId()
+					dlFileEntryTypeModelImpl.getCacheModelAttribute("groupId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByGroupId, args);

@@ -128,6 +128,8 @@ public class KaleoDefinitionVersionCacheModel
 		KaleoDefinitionVersionImpl kaleoDefinitionVersionImpl =
 			new KaleoDefinitionVersionImpl();
 
+		kaleoDefinitionVersionImpl.setNew(true);
+
 		kaleoDefinitionVersionImpl.setMvccVersion(mvccVersion);
 		kaleoDefinitionVersionImpl.setKaleoDefinitionVersionId(
 			kaleoDefinitionVersionId);
@@ -213,6 +215,8 @@ public class KaleoDefinitionVersionCacheModel
 		kaleoDefinitionVersionImpl.setStatus(status);
 
 		kaleoDefinitionVersionImpl.resetOriginalValues();
+
+		kaleoDefinitionVersionImpl.setNew(false);
 
 		return kaleoDefinitionVersionImpl;
 	}

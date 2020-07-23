@@ -106,6 +106,8 @@ public class SocialActivitySettingCacheModel
 		SocialActivitySettingImpl socialActivitySettingImpl =
 			new SocialActivitySettingImpl();
 
+		socialActivitySettingImpl.setNew(true);
+
 		socialActivitySettingImpl.setMvccVersion(mvccVersion);
 		socialActivitySettingImpl.setCtCollectionId(ctCollectionId);
 		socialActivitySettingImpl.setActivitySettingId(activitySettingId);
@@ -129,6 +131,8 @@ public class SocialActivitySettingCacheModel
 		}
 
 		socialActivitySettingImpl.resetOriginalValues();
+
+		socialActivitySettingImpl.setNew(false);
 
 		return socialActivitySettingImpl;
 	}

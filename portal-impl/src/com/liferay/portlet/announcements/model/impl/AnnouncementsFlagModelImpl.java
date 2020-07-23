@@ -127,15 +127,19 @@ public class AnnouncementsFlagModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long ENTRYID_COLUMN_BITMASK = 2L;
+	public static final long FLAGID_COLUMN_BITMASK = 2L;
 
-	public static final long USERID_COLUMN_BITMASK = 4L;
+	public static final long COMPANYID_COLUMN_BITMASK = 4L;
 
-	public static final long VALUE_COLUMN_BITMASK = 8L;
+	public static final long USERID_COLUMN_BITMASK = 8L;
 
 	public static final long CREATEDATE_COLUMN_BITMASK = 16L;
+
+	public static final long ENTRYID_COLUMN_BITMASK = 32L;
+
+	public static final long VALUE_COLUMN_BITMASK = 64L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -301,10 +305,39 @@ public class AnnouncementsFlagModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<AnnouncementsFlag, Object> function =
+			_attributeGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((AnnouncementsFlag)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<AnnouncementsFlagCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_announcementsFlagCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_announcementsFlagCacheModel);
+	}
+
 	private static final Map<String, Function<AnnouncementsFlag, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<AnnouncementsFlag, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<AnnouncementsFlagCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<AnnouncementsFlag, Object>>
@@ -314,38 +347,73 @@ public class AnnouncementsFlagModelImpl
 		Map<String, BiConsumer<AnnouncementsFlag, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<AnnouncementsFlag, ?>>();
+		Map<String, Function<AnnouncementsFlagCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<AnnouncementsFlagCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", AnnouncementsFlag::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			announcementsFlagCacheModel ->
+				announcementsFlagCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<AnnouncementsFlag, Long>)
 				AnnouncementsFlag::setMvccVersion);
 		attributeGetterFunctions.put("flagId", AnnouncementsFlag::getFlagId);
+
+		cacheModelGetterFunctions.put(
+			"flagId",
+			announcementsFlagCacheModel -> announcementsFlagCacheModel.flagId);
 		attributeSetterBiConsumers.put(
 			"flagId",
 			(BiConsumer<AnnouncementsFlag, Long>)AnnouncementsFlag::setFlagId);
 		attributeGetterFunctions.put(
 			"companyId", AnnouncementsFlag::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			announcementsFlagCacheModel ->
+				announcementsFlagCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<AnnouncementsFlag, Long>)
 				AnnouncementsFlag::setCompanyId);
 		attributeGetterFunctions.put("userId", AnnouncementsFlag::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			announcementsFlagCacheModel -> announcementsFlagCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<AnnouncementsFlag, Long>)AnnouncementsFlag::setUserId);
 		attributeGetterFunctions.put(
 			"createDate", AnnouncementsFlag::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			announcementsFlagCacheModel ->
+				announcementsFlagCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<AnnouncementsFlag, Date>)
 				AnnouncementsFlag::setCreateDate);
 		attributeGetterFunctions.put("entryId", AnnouncementsFlag::getEntryId);
+
+		cacheModelGetterFunctions.put(
+			"entryId",
+			announcementsFlagCacheModel -> announcementsFlagCacheModel.entryId);
 		attributeSetterBiConsumers.put(
 			"entryId",
 			(BiConsumer<AnnouncementsFlag, Long>)AnnouncementsFlag::setEntryId);
 		attributeGetterFunctions.put("value", AnnouncementsFlag::getValue);
+
+		cacheModelGetterFunctions.put(
+			"value",
+			announcementsFlagCacheModel -> announcementsFlagCacheModel.value);
 		attributeSetterBiConsumers.put(
 			"value",
 			(BiConsumer<AnnouncementsFlag, Integer>)
@@ -355,6 +423,8 @@ public class AnnouncementsFlagModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -365,6 +435,13 @@ public class AnnouncementsFlagModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_announcementsFlagCacheModel == null)) {
+			_announcementsFlagCacheModel =
+				(AnnouncementsFlagCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -376,6 +453,13 @@ public class AnnouncementsFlagModelImpl
 
 	@Override
 	public void setFlagId(long flagId) {
+		_columnBitmask |= FLAGID_COLUMN_BITMASK;
+
+		if (!isNew() && (_announcementsFlagCacheModel == null)) {
+			_announcementsFlagCacheModel =
+				(AnnouncementsFlagCacheModel)toCacheModel();
+		}
+
 		_flagId = flagId;
 	}
 
@@ -389,17 +473,21 @@ public class AnnouncementsFlagModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (!isNew() && (_announcementsFlagCacheModel == null)) {
+			_announcementsFlagCacheModel =
+				(AnnouncementsFlagCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getCacheModelAttribute("companyId");
 	}
 
 	@JSON
@@ -410,12 +498,11 @@ public class AnnouncementsFlagModelImpl
 
 	@Override
 	public void setUserId(long userId) {
-		_columnBitmask = -1L;
+		_columnBitmask |= USERID_COLUMN_BITMASK;
 
-		if (!_setOriginalUserId) {
-			_setOriginalUserId = true;
-
-			_originalUserId = _userId;
+		if (!isNew() && (_announcementsFlagCacheModel == null)) {
+			_announcementsFlagCacheModel =
+				(AnnouncementsFlagCacheModel)toCacheModel();
 		}
 
 		_userId = userId;
@@ -437,8 +524,13 @@ public class AnnouncementsFlagModelImpl
 	public void setUserUuid(String userUuid) {
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalUserId() {
-		return _originalUserId;
+		return getCacheModelAttribute("userId");
 	}
 
 	@JSON
@@ -449,7 +541,12 @@ public class AnnouncementsFlagModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
-		_columnBitmask = -1L;
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_announcementsFlagCacheModel == null)) {
+			_announcementsFlagCacheModel =
+				(AnnouncementsFlagCacheModel)toCacheModel();
+		}
 
 		_createDate = createDate;
 	}
@@ -464,17 +561,21 @@ public class AnnouncementsFlagModelImpl
 	public void setEntryId(long entryId) {
 		_columnBitmask |= ENTRYID_COLUMN_BITMASK;
 
-		if (!_setOriginalEntryId) {
-			_setOriginalEntryId = true;
-
-			_originalEntryId = _entryId;
+		if (!isNew() && (_announcementsFlagCacheModel == null)) {
+			_announcementsFlagCacheModel =
+				(AnnouncementsFlagCacheModel)toCacheModel();
 		}
 
 		_entryId = entryId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalEntryId() {
-		return _originalEntryId;
+		return getCacheModelAttribute("entryId");
 	}
 
 	@JSON
@@ -487,17 +588,21 @@ public class AnnouncementsFlagModelImpl
 	public void setValue(int value) {
 		_columnBitmask |= VALUE_COLUMN_BITMASK;
 
-		if (!_setOriginalValue) {
-			_setOriginalValue = true;
-
-			_originalValue = _value;
+		if (!isNew() && (_announcementsFlagCacheModel == null)) {
+			_announcementsFlagCacheModel =
+				(AnnouncementsFlagCacheModel)toCacheModel();
 		}
 
 		_value = value;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public int getOriginalValue() {
-		return _originalValue;
+		return getCacheModelAttribute("value");
 	}
 
 	public long getColumnBitmask() {
@@ -625,29 +730,9 @@ public class AnnouncementsFlagModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		AnnouncementsFlagModelImpl announcementsFlagModelImpl = this;
+		_columnBitmask = 0;
 
-		announcementsFlagModelImpl._originalCompanyId =
-			announcementsFlagModelImpl._companyId;
-
-		announcementsFlagModelImpl._setOriginalCompanyId = false;
-
-		announcementsFlagModelImpl._originalUserId =
-			announcementsFlagModelImpl._userId;
-
-		announcementsFlagModelImpl._setOriginalUserId = false;
-
-		announcementsFlagModelImpl._originalEntryId =
-			announcementsFlagModelImpl._entryId;
-
-		announcementsFlagModelImpl._setOriginalEntryId = false;
-
-		announcementsFlagModelImpl._originalValue =
-			announcementsFlagModelImpl._value;
-
-		announcementsFlagModelImpl._setOriginalValue = false;
-
-		announcementsFlagModelImpl._columnBitmask = 0;
+		_announcementsFlagCacheModel = null;
 	}
 
 	@Override
@@ -752,19 +837,12 @@ public class AnnouncementsFlagModelImpl
 	private long _mvccVersion;
 	private long _flagId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
-	private long _originalUserId;
-	private boolean _setOriginalUserId;
 	private Date _createDate;
 	private long _entryId;
-	private long _originalEntryId;
-	private boolean _setOriginalEntryId;
 	private int _value;
-	private int _originalValue;
-	private boolean _setOriginalValue;
 	private long _columnBitmask;
 	private AnnouncementsFlag _escapedModel;
+	private AnnouncementsFlagCacheModel _announcementsFlagCacheModel;
 
 }

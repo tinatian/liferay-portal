@@ -100,6 +100,8 @@ public class UserGroupRoleCacheModel
 	public UserGroupRole toEntityModel() {
 		UserGroupRoleImpl userGroupRoleImpl = new UserGroupRoleImpl();
 
+		userGroupRoleImpl.setNew(true);
+
 		userGroupRoleImpl.setMvccVersion(mvccVersion);
 		userGroupRoleImpl.setCtCollectionId(ctCollectionId);
 		userGroupRoleImpl.setUserGroupRoleId(userGroupRoleId);
@@ -109,6 +111,8 @@ public class UserGroupRoleCacheModel
 		userGroupRoleImpl.setRoleId(roleId);
 
 		userGroupRoleImpl.resetOriginalValues();
+
+		userGroupRoleImpl.setNew(false);
 
 		return userGroupRoleImpl;
 	}

@@ -500,31 +500,33 @@ public class FriendlyURLEntryLocalizationPersistenceTest {
 			Long.valueOf(
 				existingFriendlyURLEntryLocalization.getFriendlyURLEntryId()),
 			ReflectionTestUtil.<Long>invoke(
-				existingFriendlyURLEntryLocalization,
-				"getOriginalFriendlyURLEntryId", new Class<?>[0]));
+				existingFriendlyURLEntryLocalization, "getCacheModelAttribute",
+				new Class<?>[] {String.class}, friendlyURLEntryId));
 		Assert.assertTrue(
 			Objects.equals(
 				existingFriendlyURLEntryLocalization.getLanguageId(),
 				ReflectionTestUtil.invoke(
 					existingFriendlyURLEntryLocalization,
-					"getOriginalLanguageId", new Class<?>[0])));
+					"getCacheModelAttribute", new Class<?>[] {String.class},
+					languageId)));
 
 		Assert.assertEquals(
 			Long.valueOf(existingFriendlyURLEntryLocalization.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
-				existingFriendlyURLEntryLocalization, "getOriginalGroupId",
-				new Class<?>[0]));
+				existingFriendlyURLEntryLocalization, "getCacheModelAttribute",
+				new Class<?>[] {String.class}, groupId));
 		Assert.assertEquals(
 			Long.valueOf(existingFriendlyURLEntryLocalization.getClassNameId()),
 			ReflectionTestUtil.<Long>invoke(
-				existingFriendlyURLEntryLocalization, "getOriginalClassNameId",
-				new Class<?>[0]));
+				existingFriendlyURLEntryLocalization, "getCacheModelAttribute",
+				new Class<?>[] {String.class}, classNameId));
 		Assert.assertTrue(
 			Objects.equals(
 				existingFriendlyURLEntryLocalization.getUrlTitle(),
 				ReflectionTestUtil.invoke(
-					existingFriendlyURLEntryLocalization, "getOriginalUrlTitle",
-					new Class<?>[0])));
+					existingFriendlyURLEntryLocalization,
+					"getCacheModelAttribute", new Class<?>[] {String.class},
+					urlTitle)));
 	}
 
 	protected FriendlyURLEntryLocalization addFriendlyURLEntryLocalization()

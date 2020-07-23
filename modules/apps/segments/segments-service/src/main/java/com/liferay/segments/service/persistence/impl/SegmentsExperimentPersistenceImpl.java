@@ -6101,8 +6101,8 @@ public class SegmentsExperimentPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				segmentsExperimentModelImpl.getOriginalUuid(),
-				segmentsExperimentModelImpl.getOriginalGroupId()
+				segmentsExperimentModelImpl.getCacheModelAttribute("uuid"),
+				segmentsExperimentModelImpl.getCacheModelAttribute("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -6123,8 +6123,9 @@ public class SegmentsExperimentPersistenceImpl
 			 _finderPathFetchByG_S.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				segmentsExperimentModelImpl.getOriginalGroupId(),
-				segmentsExperimentModelImpl.getOriginalSegmentsExperimentKey()
+				segmentsExperimentModelImpl.getCacheModelAttribute("groupId"),
+				segmentsExperimentModelImpl.getCacheModelAttribute(
+					"segmentsExperimentKey")
 			};
 
 			finderCache.removeResult(_finderPathCountByG_S, args);
@@ -6419,7 +6420,7 @@ public class SegmentsExperimentPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					segmentsExperimentModelImpl.getOriginalUuid()
+					segmentsExperimentModelImpl.getCacheModelAttribute("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -6438,8 +6439,9 @@ public class SegmentsExperimentPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					segmentsExperimentModelImpl.getOriginalUuid(),
-					segmentsExperimentModelImpl.getOriginalCompanyId()
+					segmentsExperimentModelImpl.getCacheModelAttribute("uuid"),
+					segmentsExperimentModelImpl.getCacheModelAttribute(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -6461,7 +6463,8 @@ public class SegmentsExperimentPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					segmentsExperimentModelImpl.getOriginalGroupId()
+					segmentsExperimentModelImpl.getCacheModelAttribute(
+						"groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId, args);
@@ -6480,8 +6483,8 @@ public class SegmentsExperimentPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					segmentsExperimentModelImpl.
-						getOriginalSegmentsExperimentKey()
+					segmentsExperimentModelImpl.getCacheModelAttribute(
+						"segmentsExperimentKey")
 				};
 
 				finderCache.removeResult(
@@ -6506,9 +6509,12 @@ public class SegmentsExperimentPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					segmentsExperimentModelImpl.getOriginalGroupId(),
-					segmentsExperimentModelImpl.getOriginalClassNameId(),
-					segmentsExperimentModelImpl.getOriginalClassPK()
+					segmentsExperimentModelImpl.getCacheModelAttribute(
+						"groupId"),
+					segmentsExperimentModelImpl.getCacheModelAttribute(
+						"classNameId"),
+					segmentsExperimentModelImpl.getCacheModelAttribute(
+						"classPK")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_C_C, args);
@@ -6531,10 +6537,12 @@ public class SegmentsExperimentPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					segmentsExperimentModelImpl.
-						getOriginalSegmentsExperienceId(),
-					segmentsExperimentModelImpl.getOriginalClassNameId(),
-					segmentsExperimentModelImpl.getOriginalClassPK()
+					segmentsExperimentModelImpl.getCacheModelAttribute(
+						"segmentsExperienceId"),
+					segmentsExperimentModelImpl.getCacheModelAttribute(
+						"classNameId"),
+					segmentsExperimentModelImpl.getCacheModelAttribute(
+						"classPK")
 				};
 
 				finderCache.removeResult(_finderPathCountByS_C_C, args);
@@ -6557,11 +6565,13 @@ public class SegmentsExperimentPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					segmentsExperimentModelImpl.
-						getOriginalSegmentsExperienceId(),
-					segmentsExperimentModelImpl.getOriginalClassNameId(),
-					segmentsExperimentModelImpl.getOriginalClassPK(),
-					segmentsExperimentModelImpl.getOriginalStatus()
+					segmentsExperimentModelImpl.getCacheModelAttribute(
+						"segmentsExperienceId"),
+					segmentsExperimentModelImpl.getCacheModelAttribute(
+						"classNameId"),
+					segmentsExperimentModelImpl.getCacheModelAttribute(
+						"classPK"),
+					segmentsExperimentModelImpl.getCacheModelAttribute("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByS_C_C_S, args);

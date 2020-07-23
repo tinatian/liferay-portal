@@ -102,6 +102,8 @@ public class VirtualHostCacheModel
 	public VirtualHost toEntityModel() {
 		VirtualHostImpl virtualHostImpl = new VirtualHostImpl();
 
+		virtualHostImpl.setNew(true);
+
 		virtualHostImpl.setMvccVersion(mvccVersion);
 		virtualHostImpl.setCtCollectionId(ctCollectionId);
 		virtualHostImpl.setVirtualHostId(virtualHostId);
@@ -125,6 +127,8 @@ public class VirtualHostCacheModel
 		}
 
 		virtualHostImpl.resetOriginalValues();
+
+		virtualHostImpl.setNew(false);
 
 		return virtualHostImpl;
 	}

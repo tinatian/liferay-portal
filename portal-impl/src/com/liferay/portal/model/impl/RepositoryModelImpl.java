@@ -142,17 +142,37 @@ public class RepositoryModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 2L;
+	public static final long UUID_COLUMN_BITMASK = 2L;
 
-	public static final long NAME_COLUMN_BITMASK = 4L;
+	public static final long REPOSITORYID_COLUMN_BITMASK = 4L;
 
-	public static final long PORTLETID_COLUMN_BITMASK = 8L;
+	public static final long GROUPID_COLUMN_BITMASK = 8L;
 
-	public static final long UUID_COLUMN_BITMASK = 16L;
+	public static final long COMPANYID_COLUMN_BITMASK = 16L;
 
-	public static final long REPOSITORYID_COLUMN_BITMASK = 32L;
+	public static final long USERID_COLUMN_BITMASK = 32L;
+
+	public static final long USERNAME_COLUMN_BITMASK = 64L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 128L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 256L;
+
+	public static final long CLASSNAMEID_COLUMN_BITMASK = 512L;
+
+	public static final long NAME_COLUMN_BITMASK = 1024L;
+
+	public static final long DESCRIPTION_COLUMN_BITMASK = 2048L;
+
+	public static final long PORTLETID_COLUMN_BITMASK = 4096L;
+
+	public static final long TYPESETTINGS_COLUMN_BITMASK = 8192L;
+
+	public static final long DLFOLDERID_COLUMN_BITMASK = 16384L;
+
+	public static final long LASTPUBLISHDATE_COLUMN_BITMASK = 32768L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -323,78 +343,169 @@ public class RepositoryModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<Repository, Object> function = _attributeGetterFunctions.get(
+			attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((Repository)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<RepositoryCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_repositoryCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_repositoryCacheModel);
+	}
+
 	private static final Map<String, Function<Repository, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<Repository, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<RepositoryCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<Repository, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<Repository, Object>>();
 		Map<String, BiConsumer<Repository, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Repository, ?>>();
+		Map<String, Function<RepositoryCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<RepositoryCacheModel, Object>>();
 
 		attributeGetterFunctions.put("mvccVersion", Repository::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			repositoryCacheModel -> repositoryCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<Repository, Long>)Repository::setMvccVersion);
 		attributeGetterFunctions.put("uuid", Repository::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid", repositoryCacheModel -> repositoryCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<Repository, String>)Repository::setUuid);
 		attributeGetterFunctions.put(
 			"repositoryId", Repository::getRepositoryId);
+
+		cacheModelGetterFunctions.put(
+			"repositoryId",
+			repositoryCacheModel -> repositoryCacheModel.repositoryId);
 		attributeSetterBiConsumers.put(
 			"repositoryId",
 			(BiConsumer<Repository, Long>)Repository::setRepositoryId);
 		attributeGetterFunctions.put("groupId", Repository::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId", repositoryCacheModel -> repositoryCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId", (BiConsumer<Repository, Long>)Repository::setGroupId);
 		attributeGetterFunctions.put("companyId", Repository::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			repositoryCacheModel -> repositoryCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<Repository, Long>)Repository::setCompanyId);
 		attributeGetterFunctions.put("userId", Repository::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", repositoryCacheModel -> repositoryCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<Repository, Long>)Repository::setUserId);
 		attributeGetterFunctions.put("userName", Repository::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName", repositoryCacheModel -> repositoryCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<Repository, String>)Repository::setUserName);
 		attributeGetterFunctions.put("createDate", Repository::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			repositoryCacheModel -> repositoryCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<Repository, Date>)Repository::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", Repository::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			repositoryCacheModel -> repositoryCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<Repository, Date>)Repository::setModifiedDate);
 		attributeGetterFunctions.put("classNameId", Repository::getClassNameId);
+
+		cacheModelGetterFunctions.put(
+			"classNameId",
+			repositoryCacheModel -> repositoryCacheModel.classNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<Repository, Long>)Repository::setClassNameId);
 		attributeGetterFunctions.put("name", Repository::getName);
+
+		cacheModelGetterFunctions.put(
+			"name", repositoryCacheModel -> repositoryCacheModel.name);
 		attributeSetterBiConsumers.put(
 			"name", (BiConsumer<Repository, String>)Repository::setName);
 		attributeGetterFunctions.put("description", Repository::getDescription);
+
+		cacheModelGetterFunctions.put(
+			"description",
+			repositoryCacheModel -> repositoryCacheModel.description);
 		attributeSetterBiConsumers.put(
 			"description",
 			(BiConsumer<Repository, String>)Repository::setDescription);
 		attributeGetterFunctions.put("portletId", Repository::getPortletId);
+
+		cacheModelGetterFunctions.put(
+			"portletId",
+			repositoryCacheModel -> repositoryCacheModel.portletId);
 		attributeSetterBiConsumers.put(
 			"portletId",
 			(BiConsumer<Repository, String>)Repository::setPortletId);
 		attributeGetterFunctions.put(
 			"typeSettings", Repository::getTypeSettings);
+
+		cacheModelGetterFunctions.put(
+			"typeSettings",
+			repositoryCacheModel -> repositoryCacheModel.typeSettings);
 		attributeSetterBiConsumers.put(
 			"typeSettings",
 			(BiConsumer<Repository, String>)Repository::setTypeSettings);
 		attributeGetterFunctions.put("dlFolderId", Repository::getDlFolderId);
+
+		cacheModelGetterFunctions.put(
+			"dlFolderId",
+			repositoryCacheModel -> repositoryCacheModel.dlFolderId);
 		attributeSetterBiConsumers.put(
 			"dlFolderId",
 			(BiConsumer<Repository, Long>)Repository::setDlFolderId);
 		attributeGetterFunctions.put(
 			"lastPublishDate", Repository::getLastPublishDate);
+
+		cacheModelGetterFunctions.put(
+			"lastPublishDate",
+			repositoryCacheModel -> repositoryCacheModel.lastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<Repository, Date>)Repository::setLastPublishDate);
@@ -403,6 +514,8 @@ public class RepositoryModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -413,6 +526,12 @@ public class RepositoryModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_repositoryCacheModel == null)) {
+			_repositoryCacheModel = (RepositoryCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -431,15 +550,20 @@ public class RepositoryModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (!isNew() && (_repositoryCacheModel == null)) {
+			_repositoryCacheModel = (RepositoryCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getCacheModelAttribute("uuid");
 	}
 
 	@JSON
@@ -450,6 +574,12 @@ public class RepositoryModelImpl
 
 	@Override
 	public void setRepositoryId(long repositoryId) {
+		_columnBitmask |= REPOSITORYID_COLUMN_BITMASK;
+
+		if (!isNew() && (_repositoryCacheModel == null)) {
+			_repositoryCacheModel = (RepositoryCacheModel)toCacheModel();
+		}
+
 		_repositoryId = repositoryId;
 	}
 
@@ -463,17 +593,20 @@ public class RepositoryModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (!isNew() && (_repositoryCacheModel == null)) {
+			_repositoryCacheModel = (RepositoryCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getCacheModelAttribute("groupId");
 	}
 
 	@JSON
@@ -486,17 +619,20 @@ public class RepositoryModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (!isNew() && (_repositoryCacheModel == null)) {
+			_repositoryCacheModel = (RepositoryCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getCacheModelAttribute("companyId");
 	}
 
 	@JSON
@@ -507,6 +643,12 @@ public class RepositoryModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_repositoryCacheModel == null)) {
+			_repositoryCacheModel = (RepositoryCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -539,6 +681,12 @@ public class RepositoryModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_repositoryCacheModel == null)) {
+			_repositoryCacheModel = (RepositoryCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -550,6 +698,12 @@ public class RepositoryModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_repositoryCacheModel == null)) {
+			_repositoryCacheModel = (RepositoryCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -566,6 +720,12 @@ public class RepositoryModelImpl
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
+
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_repositoryCacheModel == null)) {
+			_repositoryCacheModel = (RepositoryCacheModel)toCacheModel();
+		}
 
 		_modifiedDate = modifiedDate;
 	}
@@ -598,6 +758,12 @@ public class RepositoryModelImpl
 
 	@Override
 	public void setClassNameId(long classNameId) {
+		_columnBitmask |= CLASSNAMEID_COLUMN_BITMASK;
+
+		if (!isNew() && (_repositoryCacheModel == null)) {
+			_repositoryCacheModel = (RepositoryCacheModel)toCacheModel();
+		}
+
 		_classNameId = classNameId;
 	}
 
@@ -616,15 +782,20 @@ public class RepositoryModelImpl
 	public void setName(String name) {
 		_columnBitmask |= NAME_COLUMN_BITMASK;
 
-		if (_originalName == null) {
-			_originalName = _name;
+		if (!isNew() && (_repositoryCacheModel == null)) {
+			_repositoryCacheModel = (RepositoryCacheModel)toCacheModel();
 		}
 
 		_name = name;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalName() {
-		return GetterUtil.getString(_originalName);
+		return getCacheModelAttribute("name");
 	}
 
 	@JSON
@@ -640,6 +811,12 @@ public class RepositoryModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		_columnBitmask |= DESCRIPTION_COLUMN_BITMASK;
+
+		if (!isNew() && (_repositoryCacheModel == null)) {
+			_repositoryCacheModel = (RepositoryCacheModel)toCacheModel();
+		}
+
 		_description = description;
 	}
 
@@ -658,15 +835,20 @@ public class RepositoryModelImpl
 	public void setPortletId(String portletId) {
 		_columnBitmask |= PORTLETID_COLUMN_BITMASK;
 
-		if (_originalPortletId == null) {
-			_originalPortletId = _portletId;
+		if (!isNew() && (_repositoryCacheModel == null)) {
+			_repositoryCacheModel = (RepositoryCacheModel)toCacheModel();
 		}
 
 		_portletId = portletId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalPortletId() {
-		return GetterUtil.getString(_originalPortletId);
+		return getCacheModelAttribute("portletId");
 	}
 
 	@JSON
@@ -682,6 +864,12 @@ public class RepositoryModelImpl
 
 	@Override
 	public void setTypeSettings(String typeSettings) {
+		_columnBitmask |= TYPESETTINGS_COLUMN_BITMASK;
+
+		if (!isNew() && (_repositoryCacheModel == null)) {
+			_repositoryCacheModel = (RepositoryCacheModel)toCacheModel();
+		}
+
 		_typeSettings = typeSettings;
 	}
 
@@ -693,6 +881,12 @@ public class RepositoryModelImpl
 
 	@Override
 	public void setDlFolderId(long dlFolderId) {
+		_columnBitmask |= DLFOLDERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_repositoryCacheModel == null)) {
+			_repositoryCacheModel = (RepositoryCacheModel)toCacheModel();
+		}
+
 		_dlFolderId = dlFolderId;
 	}
 
@@ -704,6 +898,12 @@ public class RepositoryModelImpl
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		_columnBitmask |= LASTPUBLISHDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_repositoryCacheModel == null)) {
+			_repositoryCacheModel = (RepositoryCacheModel)toCacheModel();
+		}
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -834,25 +1034,11 @@ public class RepositoryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		RepositoryModelImpl repositoryModelImpl = this;
+		_setModifiedDate = false;
 
-		repositoryModelImpl._originalUuid = repositoryModelImpl._uuid;
+		_columnBitmask = 0;
 
-		repositoryModelImpl._originalGroupId = repositoryModelImpl._groupId;
-
-		repositoryModelImpl._setOriginalGroupId = false;
-
-		repositoryModelImpl._originalCompanyId = repositoryModelImpl._companyId;
-
-		repositoryModelImpl._setOriginalCompanyId = false;
-
-		repositoryModelImpl._setModifiedDate = false;
-
-		repositoryModelImpl._originalName = repositoryModelImpl._name;
-
-		repositoryModelImpl._originalPortletId = repositoryModelImpl._portletId;
-
-		repositoryModelImpl._columnBitmask = 0;
+		_repositoryCacheModel = null;
 	}
 
 	@Override
@@ -1023,14 +1209,9 @@ public class RepositoryModelImpl
 
 	private long _mvccVersion;
 	private String _uuid;
-	private String _originalUuid;
 	private long _repositoryId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
@@ -1038,14 +1219,13 @@ public class RepositoryModelImpl
 	private boolean _setModifiedDate;
 	private long _classNameId;
 	private String _name;
-	private String _originalName;
 	private String _description;
 	private String _portletId;
-	private String _originalPortletId;
 	private String _typeSettings;
 	private long _dlFolderId;
 	private Date _lastPublishDate;
 	private long _columnBitmask;
 	private Repository _escapedModel;
+	private RepositoryCacheModel _repositoryCacheModel;
 
 }

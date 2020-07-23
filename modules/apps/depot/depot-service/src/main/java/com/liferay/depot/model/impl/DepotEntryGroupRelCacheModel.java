@@ -102,6 +102,8 @@ public class DepotEntryGroupRelCacheModel
 		DepotEntryGroupRelImpl depotEntryGroupRelImpl =
 			new DepotEntryGroupRelImpl();
 
+		depotEntryGroupRelImpl.setNew(true);
+
 		depotEntryGroupRelImpl.setMvccVersion(mvccVersion);
 		depotEntryGroupRelImpl.setDepotEntryGroupRelId(depotEntryGroupRelId);
 		depotEntryGroupRelImpl.setCompanyId(companyId);
@@ -112,6 +114,8 @@ public class DepotEntryGroupRelCacheModel
 		depotEntryGroupRelImpl.setToGroupId(toGroupId);
 
 		depotEntryGroupRelImpl.resetOriginalValues();
+
+		depotEntryGroupRelImpl.setNew(false);
 
 		return depotEntryGroupRelImpl;
 	}

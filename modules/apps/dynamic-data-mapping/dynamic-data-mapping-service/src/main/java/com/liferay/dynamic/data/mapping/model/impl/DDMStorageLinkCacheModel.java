@@ -104,6 +104,8 @@ public class DDMStorageLinkCacheModel
 	public DDMStorageLink toEntityModel() {
 		DDMStorageLinkImpl ddmStorageLinkImpl = new DDMStorageLinkImpl();
 
+		ddmStorageLinkImpl.setNew(true);
+
 		ddmStorageLinkImpl.setMvccVersion(mvccVersion);
 		ddmStorageLinkImpl.setCtCollectionId(ctCollectionId);
 
@@ -122,6 +124,8 @@ public class DDMStorageLinkCacheModel
 		ddmStorageLinkImpl.setStructureVersionId(structureVersionId);
 
 		ddmStorageLinkImpl.resetOriginalValues();
+
+		ddmStorageLinkImpl.setNew(false);
 
 		return ddmStorageLinkImpl;
 	}

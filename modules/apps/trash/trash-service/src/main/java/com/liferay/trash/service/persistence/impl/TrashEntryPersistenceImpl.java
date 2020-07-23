@@ -2624,8 +2624,8 @@ public class TrashEntryPersistenceImpl
 			 _finderPathFetchByC_C.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				trashEntryModelImpl.getOriginalClassNameId(),
-				trashEntryModelImpl.getOriginalClassPK()
+				trashEntryModelImpl.getCacheModelAttribute("classNameId"),
+				trashEntryModelImpl.getCacheModelAttribute("classPK")
 			};
 
 			finderCache.removeResult(_finderPathCountByC_C, args);
@@ -2831,7 +2831,7 @@ public class TrashEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					trashEntryModelImpl.getOriginalGroupId()
+					trashEntryModelImpl.getCacheModelAttribute("groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId, args);
@@ -2850,7 +2850,7 @@ public class TrashEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					trashEntryModelImpl.getOriginalCompanyId()
+					trashEntryModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCompanyId, args);
@@ -2869,8 +2869,8 @@ public class TrashEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					trashEntryModelImpl.getOriginalGroupId(),
-					trashEntryModelImpl.getOriginalClassNameId()
+					trashEntryModelImpl.getCacheModelAttribute("groupId"),
+					trashEntryModelImpl.getCacheModelAttribute("classNameId")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_C, args);

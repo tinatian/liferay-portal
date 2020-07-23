@@ -106,6 +106,8 @@ public class DLFileEntryMetadataCacheModel
 		DLFileEntryMetadataImpl dlFileEntryMetadataImpl =
 			new DLFileEntryMetadataImpl();
 
+		dlFileEntryMetadataImpl.setNew(true);
+
 		dlFileEntryMetadataImpl.setMvccVersion(mvccVersion);
 		dlFileEntryMetadataImpl.setCtCollectionId(ctCollectionId);
 
@@ -124,6 +126,8 @@ public class DLFileEntryMetadataCacheModel
 		dlFileEntryMetadataImpl.setFileVersionId(fileVersionId);
 
 		dlFileEntryMetadataImpl.resetOriginalValues();
+
+		dlFileEntryMetadataImpl.setNew(false);
 
 		return dlFileEntryMetadataImpl;
 	}

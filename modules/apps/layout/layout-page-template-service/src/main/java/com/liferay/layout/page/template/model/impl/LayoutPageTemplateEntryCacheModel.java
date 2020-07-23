@@ -138,6 +138,8 @@ public class LayoutPageTemplateEntryCacheModel
 		LayoutPageTemplateEntryImpl layoutPageTemplateEntryImpl =
 			new LayoutPageTemplateEntryImpl();
 
+		layoutPageTemplateEntryImpl.setNew(true);
+
 		layoutPageTemplateEntryImpl.setMvccVersion(mvccVersion);
 
 		if (uuid == null) {
@@ -227,6 +229,8 @@ public class LayoutPageTemplateEntryCacheModel
 		}
 
 		layoutPageTemplateEntryImpl.resetOriginalValues();
+
+		layoutPageTemplateEntryImpl.setNew(false);
 
 		return layoutPageTemplateEntryImpl;
 	}

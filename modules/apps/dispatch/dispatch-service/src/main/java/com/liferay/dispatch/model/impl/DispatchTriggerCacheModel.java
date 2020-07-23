@@ -119,6 +119,8 @@ public class DispatchTriggerCacheModel
 	public DispatchTrigger toEntityModel() {
 		DispatchTriggerImpl dispatchTriggerImpl = new DispatchTriggerImpl();
 
+		dispatchTriggerImpl.setNew(true);
+
 		dispatchTriggerImpl.setMvccVersion(mvccVersion);
 		dispatchTriggerImpl.setDispatchTriggerId(dispatchTriggerId);
 		dispatchTriggerImpl.setCompanyId(companyId);
@@ -192,6 +194,8 @@ public class DispatchTriggerCacheModel
 		}
 
 		dispatchTriggerImpl.resetOriginalValues();
+
+		dispatchTriggerImpl.setNew(false);
 
 		return dispatchTriggerImpl;
 	}

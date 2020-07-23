@@ -1024,8 +1024,8 @@ public class ResourceActionPersistenceImpl
 			 _finderPathFetchByN_A.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				resourceActionModelImpl.getOriginalName(),
-				resourceActionModelImpl.getOriginalActionId()
+				resourceActionModelImpl.getCacheModelAttribute("name"),
+				resourceActionModelImpl.getCacheModelAttribute("actionId")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByN_A, args);
@@ -1200,7 +1200,7 @@ public class ResourceActionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					resourceActionModelImpl.getOriginalName()
+					resourceActionModelImpl.getCacheModelAttribute("name")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByName, args);

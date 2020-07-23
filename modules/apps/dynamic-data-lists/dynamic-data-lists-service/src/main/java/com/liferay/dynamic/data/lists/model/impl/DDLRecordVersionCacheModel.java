@@ -122,6 +122,8 @@ public class DDLRecordVersionCacheModel
 	public DDLRecordVersion toEntityModel() {
 		DDLRecordVersionImpl ddlRecordVersionImpl = new DDLRecordVersionImpl();
 
+		ddlRecordVersionImpl.setNew(true);
+
 		ddlRecordVersionImpl.setMvccVersion(mvccVersion);
 		ddlRecordVersionImpl.setRecordVersionId(recordVersionId);
 		ddlRecordVersionImpl.setGroupId(groupId);
@@ -180,6 +182,8 @@ public class DDLRecordVersionCacheModel
 		}
 
 		ddlRecordVersionImpl.resetOriginalValues();
+
+		ddlRecordVersionImpl.setNew(false);
 
 		return ddlRecordVersionImpl;
 	}

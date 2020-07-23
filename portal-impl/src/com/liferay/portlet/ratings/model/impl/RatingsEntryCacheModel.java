@@ -112,6 +112,8 @@ public class RatingsEntryCacheModel
 	public RatingsEntry toEntityModel() {
 		RatingsEntryImpl ratingsEntryImpl = new RatingsEntryImpl();
 
+		ratingsEntryImpl.setNew(true);
+
 		ratingsEntryImpl.setMvccVersion(mvccVersion);
 		ratingsEntryImpl.setCtCollectionId(ctCollectionId);
 
@@ -152,6 +154,8 @@ public class RatingsEntryCacheModel
 		ratingsEntryImpl.setScore(score);
 
 		ratingsEntryImpl.resetOriginalValues();
+
+		ratingsEntryImpl.setNew(false);
 
 		return ratingsEntryImpl;
 	}

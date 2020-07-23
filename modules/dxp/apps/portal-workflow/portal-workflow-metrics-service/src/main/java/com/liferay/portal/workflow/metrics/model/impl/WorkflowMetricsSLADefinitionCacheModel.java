@@ -142,6 +142,8 @@ public class WorkflowMetricsSLADefinitionCacheModel
 		WorkflowMetricsSLADefinitionImpl workflowMetricsSLADefinitionImpl =
 			new WorkflowMetricsSLADefinitionImpl();
 
+		workflowMetricsSLADefinitionImpl.setNew(true);
+
 		workflowMetricsSLADefinitionImpl.setMvccVersion(mvccVersion);
 
 		if (uuid == null) {
@@ -262,6 +264,8 @@ public class WorkflowMetricsSLADefinitionCacheModel
 		}
 
 		workflowMetricsSLADefinitionImpl.resetOriginalValues();
+
+		workflowMetricsSLADefinitionImpl.setNew(false);
 
 		return workflowMetricsSLADefinitionImpl;
 	}

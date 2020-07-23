@@ -158,6 +158,8 @@ public class PasswordPolicyCacheModel
 	public PasswordPolicy toEntityModel() {
 		PasswordPolicyImpl passwordPolicyImpl = new PasswordPolicyImpl();
 
+		passwordPolicyImpl.setNew(true);
+
 		passwordPolicyImpl.setMvccVersion(mvccVersion);
 
 		if (uuid == null) {
@@ -241,6 +243,8 @@ public class PasswordPolicyCacheModel
 		passwordPolicyImpl.setResetTicketMaxAge(resetTicketMaxAge);
 
 		passwordPolicyImpl.resetOriginalValues();
+
+		passwordPolicyImpl.setNew(false);
 
 		return passwordPolicyImpl;
 	}

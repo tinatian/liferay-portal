@@ -140,6 +140,8 @@ public class FragmentEntryLinkCacheModel
 		FragmentEntryLinkImpl fragmentEntryLinkImpl =
 			new FragmentEntryLinkImpl();
 
+		fragmentEntryLinkImpl.setNew(true);
+
 		fragmentEntryLinkImpl.setMvccVersion(mvccVersion);
 
 		if (uuid == null) {
@@ -250,6 +252,8 @@ public class FragmentEntryLinkCacheModel
 		}
 
 		fragmentEntryLinkImpl.resetOriginalValues();
+
+		fragmentEntryLinkImpl.setNew(false);
 
 		return fragmentEntryLinkImpl;
 	}

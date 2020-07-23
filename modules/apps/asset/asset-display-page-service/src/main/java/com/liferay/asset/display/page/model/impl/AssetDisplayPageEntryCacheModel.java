@@ -120,6 +120,8 @@ public class AssetDisplayPageEntryCacheModel
 		AssetDisplayPageEntryImpl assetDisplayPageEntryImpl =
 			new AssetDisplayPageEntryImpl();
 
+		assetDisplayPageEntryImpl.setNew(true);
+
 		assetDisplayPageEntryImpl.setMvccVersion(mvccVersion);
 		assetDisplayPageEntryImpl.setCtCollectionId(ctCollectionId);
 
@@ -165,6 +167,8 @@ public class AssetDisplayPageEntryCacheModel
 		assetDisplayPageEntryImpl.setPlid(plid);
 
 		assetDisplayPageEntryImpl.resetOriginalValues();
+
+		assetDisplayPageEntryImpl.setNew(false);
 
 		return assetDisplayPageEntryImpl;
 	}

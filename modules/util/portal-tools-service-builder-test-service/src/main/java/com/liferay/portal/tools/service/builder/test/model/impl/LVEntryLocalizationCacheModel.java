@@ -104,6 +104,8 @@ public class LVEntryLocalizationCacheModel
 		LVEntryLocalizationImpl lvEntryLocalizationImpl =
 			new LVEntryLocalizationImpl();
 
+		lvEntryLocalizationImpl.setNew(true);
+
 		lvEntryLocalizationImpl.setMvccVersion(mvccVersion);
 		lvEntryLocalizationImpl.setHeadId(headId);
 		lvEntryLocalizationImpl.setHead(head);
@@ -133,6 +135,8 @@ public class LVEntryLocalizationCacheModel
 		}
 
 		lvEntryLocalizationImpl.resetOriginalValues();
+
+		lvEntryLocalizationImpl.setNew(false);
 
 		return lvEntryLocalizationImpl;
 	}

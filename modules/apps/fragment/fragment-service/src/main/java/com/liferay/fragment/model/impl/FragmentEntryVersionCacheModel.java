@@ -128,6 +128,8 @@ public class FragmentEntryVersionCacheModel
 		FragmentEntryVersionImpl fragmentEntryVersionImpl =
 			new FragmentEntryVersionImpl();
 
+		fragmentEntryVersionImpl.setNew(true);
+
 		fragmentEntryVersionImpl.setFragmentEntryVersionId(
 			fragmentEntryVersionId);
 		fragmentEntryVersionImpl.setVersion(version);
@@ -241,6 +243,8 @@ public class FragmentEntryVersionCacheModel
 		}
 
 		fragmentEntryVersionImpl.resetOriginalValues();
+
+		fragmentEntryVersionImpl.setNew(false);
 
 		return fragmentEntryVersionImpl;
 	}

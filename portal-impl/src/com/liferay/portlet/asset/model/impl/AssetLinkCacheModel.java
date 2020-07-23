@@ -109,6 +109,8 @@ public class AssetLinkCacheModel
 	public AssetLink toEntityModel() {
 		AssetLinkImpl assetLinkImpl = new AssetLinkImpl();
 
+		assetLinkImpl.setNew(true);
+
 		assetLinkImpl.setMvccVersion(mvccVersion);
 		assetLinkImpl.setCtCollectionId(ctCollectionId);
 		assetLinkImpl.setLinkId(linkId);
@@ -135,6 +137,8 @@ public class AssetLinkCacheModel
 		assetLinkImpl.setWeight(weight);
 
 		assetLinkImpl.resetOriginalValues();
+
+		assetLinkImpl.setNew(false);
 
 		return assetLinkImpl;
 	}

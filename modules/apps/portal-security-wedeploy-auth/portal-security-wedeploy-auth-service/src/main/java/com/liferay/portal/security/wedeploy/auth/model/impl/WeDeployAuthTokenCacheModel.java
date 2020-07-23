@@ -94,6 +94,8 @@ public class WeDeployAuthTokenCacheModel
 		WeDeployAuthTokenImpl weDeployAuthTokenImpl =
 			new WeDeployAuthTokenImpl();
 
+		weDeployAuthTokenImpl.setNew(true);
+
 		weDeployAuthTokenImpl.setWeDeployAuthTokenId(weDeployAuthTokenId);
 		weDeployAuthTokenImpl.setCompanyId(companyId);
 		weDeployAuthTokenImpl.setUserId(userId);
@@ -136,6 +138,8 @@ public class WeDeployAuthTokenCacheModel
 		weDeployAuthTokenImpl.setType(type);
 
 		weDeployAuthTokenImpl.resetOriginalValues();
+
+		weDeployAuthTokenImpl.setNew(false);
 
 		return weDeployAuthTokenImpl;
 	}

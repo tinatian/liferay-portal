@@ -1044,9 +1044,10 @@ public class SegmentsExperimentRelPersistenceImpl
 			 _finderPathFetchByS_S.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				segmentsExperimentRelModelImpl.
-					getOriginalSegmentsExperimentId(),
-				segmentsExperimentRelModelImpl.getOriginalSegmentsExperienceId()
+				segmentsExperimentRelModelImpl.getCacheModelAttribute(
+					"segmentsExperimentId"),
+				segmentsExperimentRelModelImpl.getCacheModelAttribute(
+					"segmentsExperienceId")
 			};
 
 			finderCache.removeResult(_finderPathCountByS_S, args);
@@ -1280,8 +1281,8 @@ public class SegmentsExperimentRelPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					segmentsExperimentRelModelImpl.
-						getOriginalSegmentsExperimentId()
+					segmentsExperimentRelModelImpl.getCacheModelAttribute(
+						"segmentsExperimentId")
 				};
 
 				finderCache.removeResult(

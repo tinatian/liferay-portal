@@ -108,15 +108,25 @@ public class BlogsStatsUserModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long ENTRYCOUNT_COLUMN_BITMASK = 2L;
+	public static final long STATSUSERID_COLUMN_BITMASK = 2L;
 
 	public static final long GROUPID_COLUMN_BITMASK = 4L;
 
-	public static final long LASTPOSTDATE_COLUMN_BITMASK = 8L;
+	public static final long COMPANYID_COLUMN_BITMASK = 8L;
 
 	public static final long USERID_COLUMN_BITMASK = 16L;
+
+	public static final long ENTRYCOUNT_COLUMN_BITMASK = 32L;
+
+	public static final long LASTPOSTDATE_COLUMN_BITMASK = 64L;
+
+	public static final long RATINGSTOTALENTRIES_COLUMN_BITMASK = 128L;
+
+	public static final long RATINGSTOTALSCORE_COLUMN_BITMASK = 256L;
+
+	public static final long RATINGSAVERAGESCORE_COLUMN_BITMASK = 512L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -245,63 +255,138 @@ public class BlogsStatsUserModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<BlogsStatsUser, Object> function =
+			_attributeGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((BlogsStatsUser)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<BlogsStatsUserCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_blogsStatsUserCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_blogsStatsUserCacheModel);
+	}
+
 	private static final Map<String, Function<BlogsStatsUser, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<BlogsStatsUser, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<BlogsStatsUserCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<BlogsStatsUser, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<BlogsStatsUser, Object>>();
 		Map<String, BiConsumer<BlogsStatsUser, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<BlogsStatsUser, ?>>();
+		Map<String, Function<BlogsStatsUserCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<BlogsStatsUserCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", BlogsStatsUser::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			blogsStatsUserCacheModel -> blogsStatsUserCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<BlogsStatsUser, Long>)BlogsStatsUser::setMvccVersion);
 		attributeGetterFunctions.put(
 			"statsUserId", BlogsStatsUser::getStatsUserId);
+
+		cacheModelGetterFunctions.put(
+			"statsUserId",
+			blogsStatsUserCacheModel -> blogsStatsUserCacheModel.statsUserId);
 		attributeSetterBiConsumers.put(
 			"statsUserId",
 			(BiConsumer<BlogsStatsUser, Long>)BlogsStatsUser::setStatsUserId);
 		attributeGetterFunctions.put("groupId", BlogsStatsUser::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			blogsStatsUserCacheModel -> blogsStatsUserCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<BlogsStatsUser, Long>)BlogsStatsUser::setGroupId);
 		attributeGetterFunctions.put("companyId", BlogsStatsUser::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			blogsStatsUserCacheModel -> blogsStatsUserCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<BlogsStatsUser, Long>)BlogsStatsUser::setCompanyId);
 		attributeGetterFunctions.put("userId", BlogsStatsUser::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			blogsStatsUserCacheModel -> blogsStatsUserCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<BlogsStatsUser, Long>)BlogsStatsUser::setUserId);
 		attributeGetterFunctions.put(
 			"entryCount", BlogsStatsUser::getEntryCount);
+
+		cacheModelGetterFunctions.put(
+			"entryCount",
+			blogsStatsUserCacheModel -> blogsStatsUserCacheModel.entryCount);
 		attributeSetterBiConsumers.put(
 			"entryCount",
 			(BiConsumer<BlogsStatsUser, Integer>)BlogsStatsUser::setEntryCount);
 		attributeGetterFunctions.put(
 			"lastPostDate", BlogsStatsUser::getLastPostDate);
+
+		cacheModelGetterFunctions.put(
+			"lastPostDate",
+			blogsStatsUserCacheModel -> blogsStatsUserCacheModel.lastPostDate);
 		attributeSetterBiConsumers.put(
 			"lastPostDate",
 			(BiConsumer<BlogsStatsUser, Date>)BlogsStatsUser::setLastPostDate);
 		attributeGetterFunctions.put(
 			"ratingsTotalEntries", BlogsStatsUser::getRatingsTotalEntries);
+
+		cacheModelGetterFunctions.put(
+			"ratingsTotalEntries",
+			blogsStatsUserCacheModel ->
+				blogsStatsUserCacheModel.ratingsTotalEntries);
 		attributeSetterBiConsumers.put(
 			"ratingsTotalEntries",
 			(BiConsumer<BlogsStatsUser, Integer>)
 				BlogsStatsUser::setRatingsTotalEntries);
 		attributeGetterFunctions.put(
 			"ratingsTotalScore", BlogsStatsUser::getRatingsTotalScore);
+
+		cacheModelGetterFunctions.put(
+			"ratingsTotalScore",
+			blogsStatsUserCacheModel ->
+				blogsStatsUserCacheModel.ratingsTotalScore);
 		attributeSetterBiConsumers.put(
 			"ratingsTotalScore",
 			(BiConsumer<BlogsStatsUser, Double>)
 				BlogsStatsUser::setRatingsTotalScore);
 		attributeGetterFunctions.put(
 			"ratingsAverageScore", BlogsStatsUser::getRatingsAverageScore);
+
+		cacheModelGetterFunctions.put(
+			"ratingsAverageScore",
+			blogsStatsUserCacheModel ->
+				blogsStatsUserCacheModel.ratingsAverageScore);
 		attributeSetterBiConsumers.put(
 			"ratingsAverageScore",
 			(BiConsumer<BlogsStatsUser, Double>)
@@ -311,6 +396,8 @@ public class BlogsStatsUserModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -320,6 +407,13 @@ public class BlogsStatsUserModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_blogsStatsUserCacheModel == null)) {
+			_blogsStatsUserCacheModel =
+				(BlogsStatsUserCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -330,6 +424,13 @@ public class BlogsStatsUserModelImpl
 
 	@Override
 	public void setStatsUserId(long statsUserId) {
+		_columnBitmask |= STATSUSERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_blogsStatsUserCacheModel == null)) {
+			_blogsStatsUserCacheModel =
+				(BlogsStatsUserCacheModel)toCacheModel();
+		}
+
 		_statsUserId = statsUserId;
 	}
 
@@ -358,17 +459,21 @@ public class BlogsStatsUserModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (!isNew() && (_blogsStatsUserCacheModel == null)) {
+			_blogsStatsUserCacheModel =
+				(BlogsStatsUserCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getCacheModelAttribute("groupId");
 	}
 
 	@Override
@@ -380,17 +485,21 @@ public class BlogsStatsUserModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (!isNew() && (_blogsStatsUserCacheModel == null)) {
+			_blogsStatsUserCacheModel =
+				(BlogsStatsUserCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getCacheModelAttribute("companyId");
 	}
 
 	@Override
@@ -402,10 +511,9 @@ public class BlogsStatsUserModelImpl
 	public void setUserId(long userId) {
 		_columnBitmask |= USERID_COLUMN_BITMASK;
 
-		if (!_setOriginalUserId) {
-			_setOriginalUserId = true;
-
-			_originalUserId = _userId;
+		if (!isNew() && (_blogsStatsUserCacheModel == null)) {
+			_blogsStatsUserCacheModel =
+				(BlogsStatsUserCacheModel)toCacheModel();
 		}
 
 		_userId = userId;
@@ -427,8 +535,13 @@ public class BlogsStatsUserModelImpl
 	public void setUserUuid(String userUuid) {
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalUserId() {
-		return _originalUserId;
+		return getCacheModelAttribute("userId");
 	}
 
 	@Override
@@ -438,19 +551,23 @@ public class BlogsStatsUserModelImpl
 
 	@Override
 	public void setEntryCount(int entryCount) {
-		_columnBitmask = -1L;
+		_columnBitmask |= ENTRYCOUNT_COLUMN_BITMASK;
 
-		if (!_setOriginalEntryCount) {
-			_setOriginalEntryCount = true;
-
-			_originalEntryCount = _entryCount;
+		if (!isNew() && (_blogsStatsUserCacheModel == null)) {
+			_blogsStatsUserCacheModel =
+				(BlogsStatsUserCacheModel)toCacheModel();
 		}
 
 		_entryCount = entryCount;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public int getOriginalEntryCount() {
-		return _originalEntryCount;
+		return getCacheModelAttribute("entryCount");
 	}
 
 	@Override
@@ -462,15 +579,21 @@ public class BlogsStatsUserModelImpl
 	public void setLastPostDate(Date lastPostDate) {
 		_columnBitmask |= LASTPOSTDATE_COLUMN_BITMASK;
 
-		if (_originalLastPostDate == null) {
-			_originalLastPostDate = _lastPostDate;
+		if (!isNew() && (_blogsStatsUserCacheModel == null)) {
+			_blogsStatsUserCacheModel =
+				(BlogsStatsUserCacheModel)toCacheModel();
 		}
 
 		_lastPostDate = lastPostDate;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public Date getOriginalLastPostDate() {
-		return _originalLastPostDate;
+		return getCacheModelAttribute("lastPostDate");
 	}
 
 	@Override
@@ -480,6 +603,13 @@ public class BlogsStatsUserModelImpl
 
 	@Override
 	public void setRatingsTotalEntries(int ratingsTotalEntries) {
+		_columnBitmask |= RATINGSTOTALENTRIES_COLUMN_BITMASK;
+
+		if (!isNew() && (_blogsStatsUserCacheModel == null)) {
+			_blogsStatsUserCacheModel =
+				(BlogsStatsUserCacheModel)toCacheModel();
+		}
+
 		_ratingsTotalEntries = ratingsTotalEntries;
 	}
 
@@ -490,6 +620,13 @@ public class BlogsStatsUserModelImpl
 
 	@Override
 	public void setRatingsTotalScore(double ratingsTotalScore) {
+		_columnBitmask |= RATINGSTOTALSCORE_COLUMN_BITMASK;
+
+		if (!isNew() && (_blogsStatsUserCacheModel == null)) {
+			_blogsStatsUserCacheModel =
+				(BlogsStatsUserCacheModel)toCacheModel();
+		}
+
 		_ratingsTotalScore = ratingsTotalScore;
 	}
 
@@ -500,6 +637,13 @@ public class BlogsStatsUserModelImpl
 
 	@Override
 	public void setRatingsAverageScore(double ratingsAverageScore) {
+		_columnBitmask |= RATINGSAVERAGESCORE_COLUMN_BITMASK;
+
+		if (!isNew() && (_blogsStatsUserCacheModel == null)) {
+			_blogsStatsUserCacheModel =
+				(BlogsStatsUserCacheModel)toCacheModel();
+		}
+
 		_ratingsAverageScore = ratingsAverageScore;
 	}
 
@@ -625,32 +769,9 @@ public class BlogsStatsUserModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		BlogsStatsUserModelImpl blogsStatsUserModelImpl = this;
+		_columnBitmask = 0;
 
-		blogsStatsUserModelImpl._originalGroupId =
-			blogsStatsUserModelImpl._groupId;
-
-		blogsStatsUserModelImpl._setOriginalGroupId = false;
-
-		blogsStatsUserModelImpl._originalCompanyId =
-			blogsStatsUserModelImpl._companyId;
-
-		blogsStatsUserModelImpl._setOriginalCompanyId = false;
-
-		blogsStatsUserModelImpl._originalUserId =
-			blogsStatsUserModelImpl._userId;
-
-		blogsStatsUserModelImpl._setOriginalUserId = false;
-
-		blogsStatsUserModelImpl._originalEntryCount =
-			blogsStatsUserModelImpl._entryCount;
-
-		blogsStatsUserModelImpl._setOriginalEntryCount = false;
-
-		blogsStatsUserModelImpl._originalLastPostDate =
-			blogsStatsUserModelImpl._lastPostDate;
-
-		blogsStatsUserModelImpl._columnBitmask = 0;
+		_blogsStatsUserCacheModel = null;
 	}
 
 	@Override
@@ -761,23 +882,15 @@ public class BlogsStatsUserModelImpl
 	private long _mvccVersion;
 	private long _statsUserId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
-	private long _originalUserId;
-	private boolean _setOriginalUserId;
 	private int _entryCount;
-	private int _originalEntryCount;
-	private boolean _setOriginalEntryCount;
 	private Date _lastPostDate;
-	private Date _originalLastPostDate;
 	private int _ratingsTotalEntries;
 	private double _ratingsTotalScore;
 	private double _ratingsAverageScore;
 	private long _columnBitmask;
 	private BlogsStatsUser _escapedModel;
+	private BlogsStatsUserCacheModel _blogsStatsUserCacheModel;
 
 }

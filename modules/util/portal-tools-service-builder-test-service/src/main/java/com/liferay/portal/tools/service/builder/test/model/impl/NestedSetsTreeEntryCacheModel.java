@@ -84,6 +84,8 @@ public class NestedSetsTreeEntryCacheModel
 		NestedSetsTreeEntryImpl nestedSetsTreeEntryImpl =
 			new NestedSetsTreeEntryImpl();
 
+		nestedSetsTreeEntryImpl.setNew(true);
+
 		nestedSetsTreeEntryImpl.setNestedSetsTreeEntryId(nestedSetsTreeEntryId);
 		nestedSetsTreeEntryImpl.setGroupId(groupId);
 		nestedSetsTreeEntryImpl.setParentNestedSetsTreeEntryId(
@@ -94,6 +96,8 @@ public class NestedSetsTreeEntryCacheModel
 			rightNestedSetsTreeEntryId);
 
 		nestedSetsTreeEntryImpl.resetOriginalValues();
+
+		nestedSetsTreeEntryImpl.setNew(false);
 
 		return nestedSetsTreeEntryImpl;
 	}

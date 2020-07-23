@@ -111,6 +111,8 @@ public class FriendlyURLEntryCacheModel
 	public FriendlyURLEntry toEntityModel() {
 		FriendlyURLEntryImpl friendlyURLEntryImpl = new FriendlyURLEntryImpl();
 
+		friendlyURLEntryImpl.setNew(true);
+
 		friendlyURLEntryImpl.setMvccVersion(mvccVersion);
 		friendlyURLEntryImpl.setCtCollectionId(ctCollectionId);
 
@@ -150,6 +152,8 @@ public class FriendlyURLEntryCacheModel
 		friendlyURLEntryImpl.setClassPK(classPK);
 
 		friendlyURLEntryImpl.resetOriginalValues();
+
+		friendlyURLEntryImpl.setNew(false);
 
 		return friendlyURLEntryImpl;
 	}

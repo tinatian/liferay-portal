@@ -124,6 +124,8 @@ public class KaleoInstanceCacheModel
 	public KaleoInstance toEntityModel() {
 		KaleoInstanceImpl kaleoInstanceImpl = new KaleoInstanceImpl();
 
+		kaleoInstanceImpl.setNew(true);
+
 		kaleoInstanceImpl.setMvccVersion(mvccVersion);
 		kaleoInstanceImpl.setKaleoInstanceId(kaleoInstanceId);
 		kaleoInstanceImpl.setGroupId(groupId);
@@ -189,6 +191,8 @@ public class KaleoInstanceCacheModel
 		}
 
 		kaleoInstanceImpl.resetOriginalValues();
+
+		kaleoInstanceImpl.setNew(false);
 
 		return kaleoInstanceImpl;
 	}

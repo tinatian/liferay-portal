@@ -454,7 +454,7 @@ public class ReleasePersistenceImpl
 			 _finderPathFetchByServletContextName.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				releaseModelImpl.getOriginalServletContextName()
+				releaseModelImpl.getCacheModelAttribute("servletContextName")
 			};
 
 			FinderCacheUtil.removeResult(

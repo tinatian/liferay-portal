@@ -116,6 +116,8 @@ public class KaleoConditionCacheModel
 	public KaleoCondition toEntityModel() {
 		KaleoConditionImpl kaleoConditionImpl = new KaleoConditionImpl();
 
+		kaleoConditionImpl.setNew(true);
+
 		kaleoConditionImpl.setMvccVersion(mvccVersion);
 		kaleoConditionImpl.setKaleoConditionId(kaleoConditionId);
 		kaleoConditionImpl.setGroupId(groupId);
@@ -171,6 +173,8 @@ public class KaleoConditionCacheModel
 		}
 
 		kaleoConditionImpl.resetOriginalValues();
+
+		kaleoConditionImpl.setNew(false);
 
 		return kaleoConditionImpl;
 	}

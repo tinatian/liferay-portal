@@ -101,6 +101,8 @@ public class OAuthTokenCacheModel
 	public OAuthToken toEntityModel() {
 		OAuthTokenImpl oAuthTokenImpl = new OAuthTokenImpl();
 
+		oAuthTokenImpl.setNew(true);
+
 		oAuthTokenImpl.setOAuthTokenId(oAuthTokenId);
 		oAuthTokenImpl.setCompanyId(companyId);
 		oAuthTokenImpl.setUserId(userId);
@@ -173,6 +175,8 @@ public class OAuthTokenCacheModel
 		oAuthTokenImpl.setExpiration(expiration);
 
 		oAuthTokenImpl.resetOriginalValues();
+
+		oAuthTokenImpl.setNew(false);
 
 		return oAuthTokenImpl;
 	}

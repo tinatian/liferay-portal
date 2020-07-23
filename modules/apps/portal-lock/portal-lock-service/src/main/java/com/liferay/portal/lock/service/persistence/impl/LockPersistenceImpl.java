@@ -2659,8 +2659,8 @@ public class LockPersistenceImpl
 			 _finderPathFetchByC_K.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				lockModelImpl.getOriginalClassName(),
-				lockModelImpl.getOriginalKey()
+				lockModelImpl.getCacheModelAttribute("className"),
+				lockModelImpl.getCacheModelAttribute("key")
 			};
 
 			finderCache.removeResult(_finderPathCountByC_K, args);
@@ -2851,7 +2851,9 @@ public class LockPersistenceImpl
 				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
 					 0) {
 
-				Object[] args = new Object[] {lockModelImpl.getOriginalUuid()};
+				Object[] args = new Object[] {
+					lockModelImpl.getCacheModelAttribute("uuid")
+				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
 				finderCache.removeResult(
@@ -2869,8 +2871,8 @@ public class LockPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					lockModelImpl.getOriginalUuid(),
-					lockModelImpl.getOriginalCompanyId()
+					lockModelImpl.getCacheModelAttribute("uuid"),
+					lockModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -2891,7 +2893,7 @@ public class LockPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					lockModelImpl.getOriginalClassName()
+					lockModelImpl.getCacheModelAttribute("className")
 				};
 
 				finderCache.removeResult(_finderPathCountByClassName, args);

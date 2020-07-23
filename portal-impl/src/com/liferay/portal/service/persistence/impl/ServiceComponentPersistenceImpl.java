@@ -1036,8 +1036,9 @@ public class ServiceComponentPersistenceImpl
 			 _finderPathFetchByBNS_BNU.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				serviceComponentModelImpl.getOriginalBuildNamespace(),
-				serviceComponentModelImpl.getOriginalBuildNumber()
+				serviceComponentModelImpl.getCacheModelAttribute(
+					"buildNamespace"),
+				serviceComponentModelImpl.getCacheModelAttribute("buildNumber")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByBNS_BNU, args);
@@ -1216,7 +1217,8 @@ public class ServiceComponentPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					serviceComponentModelImpl.getOriginalBuildNamespace()
+					serviceComponentModelImpl.getCacheModelAttribute(
+						"buildNamespace")
 				};
 
 				FinderCacheUtil.removeResult(

@@ -1876,7 +1876,7 @@ public class UserTrackerPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					userTrackerModelImpl.getOriginalCompanyId()
+					userTrackerModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
@@ -1895,7 +1895,7 @@ public class UserTrackerPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					userTrackerModelImpl.getOriginalUserId()
+					userTrackerModelImpl.getCacheModelAttribute("userId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUserId, args);
@@ -1914,7 +1914,7 @@ public class UserTrackerPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					userTrackerModelImpl.getOriginalSessionId()
+					userTrackerModelImpl.getCacheModelAttribute("sessionId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountBySessionId, args);

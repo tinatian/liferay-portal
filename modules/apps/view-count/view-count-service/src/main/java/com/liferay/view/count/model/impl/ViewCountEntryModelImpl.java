@@ -222,31 +222,79 @@ public class ViewCountEntryModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<ViewCountEntry, Object> function =
+			_attributeGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((ViewCountEntry)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<ViewCountEntryCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_viewCountEntryCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_viewCountEntryCacheModel);
+	}
+
 	private static final Map<String, Function<ViewCountEntry, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<ViewCountEntry, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<ViewCountEntryCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<ViewCountEntry, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<ViewCountEntry, Object>>();
 		Map<String, BiConsumer<ViewCountEntry, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<ViewCountEntry, ?>>();
+		Map<String, Function<ViewCountEntryCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<ViewCountEntryCacheModel, Object>>();
 
 		attributeGetterFunctions.put("companyId", ViewCountEntry::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			viewCountEntryCacheModel -> viewCountEntryCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<ViewCountEntry, Long>)ViewCountEntry::setCompanyId);
 		attributeGetterFunctions.put(
 			"classNameId", ViewCountEntry::getClassNameId);
+
+		cacheModelGetterFunctions.put(
+			"classNameId",
+			viewCountEntryCacheModel -> viewCountEntryCacheModel.classNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<ViewCountEntry, Long>)ViewCountEntry::setClassNameId);
 		attributeGetterFunctions.put("classPK", ViewCountEntry::getClassPK);
+
+		cacheModelGetterFunctions.put(
+			"classPK",
+			viewCountEntryCacheModel -> viewCountEntryCacheModel.classPK);
 		attributeSetterBiConsumers.put(
 			"classPK",
 			(BiConsumer<ViewCountEntry, Long>)ViewCountEntry::setClassPK);
 		attributeGetterFunctions.put("viewCount", ViewCountEntry::getViewCount);
+
+		cacheModelGetterFunctions.put(
+			"viewCount",
+			viewCountEntryCacheModel -> viewCountEntryCacheModel.viewCount);
 		attributeSetterBiConsumers.put(
 			"viewCount",
 			(BiConsumer<ViewCountEntry, Long>)ViewCountEntry::setViewCount);
@@ -255,6 +303,8 @@ public class ViewCountEntryModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -264,6 +314,11 @@ public class ViewCountEntryModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		if (!isNew() && (_viewCountEntryCacheModel == null)) {
+			_viewCountEntryCacheModel =
+				(ViewCountEntryCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -294,6 +349,11 @@ public class ViewCountEntryModelImpl
 
 	@Override
 	public void setClassNameId(long classNameId) {
+		if (!isNew() && (_viewCountEntryCacheModel == null)) {
+			_viewCountEntryCacheModel =
+				(ViewCountEntryCacheModel)toCacheModel();
+		}
+
 		_classNameId = classNameId;
 	}
 
@@ -304,6 +364,11 @@ public class ViewCountEntryModelImpl
 
 	@Override
 	public void setClassPK(long classPK) {
+		if (!isNew() && (_viewCountEntryCacheModel == null)) {
+			_viewCountEntryCacheModel =
+				(ViewCountEntryCacheModel)toCacheModel();
+		}
+
 		_classPK = classPK;
 	}
 
@@ -314,6 +379,11 @@ public class ViewCountEntryModelImpl
 
 	@Override
 	public void setViewCount(long viewCount) {
+		if (!isNew() && (_viewCountEntryCacheModel == null)) {
+			_viewCountEntryCacheModel =
+				(ViewCountEntryCacheModel)toCacheModel();
+		}
+
 		_viewCount = viewCount;
 	}
 
@@ -400,6 +470,7 @@ public class ViewCountEntryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
+		_viewCountEntryCacheModel = null;
 	}
 
 	@Override
@@ -495,5 +566,6 @@ public class ViewCountEntryModelImpl
 	private long _classPK;
 	private long _viewCount;
 	private ViewCountEntry _escapedModel;
+	private ViewCountEntryCacheModel _viewCountEntryCacheModel;
 
 }

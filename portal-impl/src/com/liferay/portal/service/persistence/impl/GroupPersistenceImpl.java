@@ -12818,8 +12818,8 @@ public class GroupPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				groupModelImpl.getOriginalUuid(),
-				groupModelImpl.getOriginalGroupId()
+				groupModelImpl.getCacheModelAttribute("uuid"),
+				groupModelImpl.getCacheModelAttribute("groupId")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByUUID_G, args);
@@ -12837,7 +12837,7 @@ public class GroupPersistenceImpl
 			 _finderPathFetchByLiveGroupId.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				groupModelImpl.getOriginalLiveGroupId()
+				groupModelImpl.getCacheModelAttribute("liveGroupId")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByLiveGroupId, args);
@@ -12857,8 +12857,8 @@ public class GroupPersistenceImpl
 			 _finderPathFetchByC_GK.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				groupModelImpl.getOriginalCompanyId(),
-				groupModelImpl.getOriginalGroupKey()
+				groupModelImpl.getCacheModelAttribute("companyId"),
+				groupModelImpl.getCacheModelAttribute("groupKey")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByC_GK, args);
@@ -12878,8 +12878,8 @@ public class GroupPersistenceImpl
 			 _finderPathFetchByC_F.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				groupModelImpl.getOriginalCompanyId(),
-				groupModelImpl.getOriginalFriendlyURL()
+				groupModelImpl.getCacheModelAttribute("companyId"),
+				groupModelImpl.getCacheModelAttribute("friendlyURL")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByC_F, args);
@@ -12900,9 +12900,9 @@ public class GroupPersistenceImpl
 			 _finderPathFetchByC_C_C.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				groupModelImpl.getOriginalCompanyId(),
-				groupModelImpl.getOriginalClassNameId(),
-				groupModelImpl.getOriginalClassPK()
+				groupModelImpl.getCacheModelAttribute("companyId"),
+				groupModelImpl.getCacheModelAttribute("classNameId"),
+				groupModelImpl.getCacheModelAttribute("classPK")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByC_C_C, args);
@@ -12923,9 +12923,9 @@ public class GroupPersistenceImpl
 			 _finderPathFetchByC_L_GK.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				groupModelImpl.getOriginalCompanyId(),
-				groupModelImpl.getOriginalLiveGroupId(),
-				groupModelImpl.getOriginalGroupKey()
+				groupModelImpl.getCacheModelAttribute("companyId"),
+				groupModelImpl.getCacheModelAttribute("liveGroupId"),
+				groupModelImpl.getCacheModelAttribute("groupKey")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByC_L_GK, args);
@@ -12946,10 +12946,10 @@ public class GroupPersistenceImpl
 			 _finderPathFetchByC_C_L_GK.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				groupModelImpl.getOriginalCompanyId(),
-				groupModelImpl.getOriginalClassNameId(),
-				groupModelImpl.getOriginalLiveGroupId(),
-				groupModelImpl.getOriginalGroupKey()
+				groupModelImpl.getCacheModelAttribute("companyId"),
+				groupModelImpl.getCacheModelAttribute("classNameId"),
+				groupModelImpl.getCacheModelAttribute("liveGroupId"),
+				groupModelImpl.getCacheModelAttribute("groupKey")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByC_C_L_GK, args);
@@ -13257,7 +13257,9 @@ public class GroupPersistenceImpl
 				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
 					 0) {
 
-				Object[] args = new Object[] {groupModelImpl.getOriginalUuid()};
+				Object[] args = new Object[] {
+					groupModelImpl.getCacheModelAttribute("uuid")
+				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid, args);
 				FinderCacheUtil.removeResult(
@@ -13275,8 +13277,8 @@ public class GroupPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					groupModelImpl.getOriginalUuid(),
-					groupModelImpl.getOriginalCompanyId()
+					groupModelImpl.getCacheModelAttribute("uuid"),
+					groupModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid_C, args);
@@ -13297,7 +13299,7 @@ public class GroupPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					groupModelImpl.getOriginalCompanyId()
+					groupModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
@@ -13316,8 +13318,8 @@ public class GroupPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					groupModelImpl.getOriginalCompanyId(),
-					groupModelImpl.getOriginalClassNameId()
+					groupModelImpl.getCacheModelAttribute("companyId"),
+					groupModelImpl.getCacheModelAttribute("classNameId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_C, args);
@@ -13339,8 +13341,8 @@ public class GroupPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					groupModelImpl.getOriginalCompanyId(),
-					groupModelImpl.getOriginalParentGroupId()
+					groupModelImpl.getCacheModelAttribute("companyId"),
+					groupModelImpl.getCacheModelAttribute("parentGroupId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_P, args);
@@ -13362,8 +13364,8 @@ public class GroupPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					groupModelImpl.getOriginalCompanyId(),
-					groupModelImpl.getOriginalSite()
+					groupModelImpl.getCacheModelAttribute("companyId"),
+					groupModelImpl.getCacheModelAttribute("site")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_S, args);
@@ -13384,8 +13386,8 @@ public class GroupPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					groupModelImpl.getOriginalCompanyId(),
-					groupModelImpl.getOriginalActive()
+					groupModelImpl.getCacheModelAttribute("companyId"),
+					groupModelImpl.getCacheModelAttribute("active")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_A, args);
@@ -13406,8 +13408,8 @@ public class GroupPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					groupModelImpl.getOriginalClassNameId(),
-					groupModelImpl.getOriginalClassPK()
+					groupModelImpl.getCacheModelAttribute("classNameId"),
+					groupModelImpl.getCacheModelAttribute("classPK")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_CPK, args);
@@ -13428,8 +13430,8 @@ public class GroupPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					groupModelImpl.getOriginalType(),
-					groupModelImpl.getOriginalActive()
+					groupModelImpl.getCacheModelAttribute("type"),
+					groupModelImpl.getCacheModelAttribute("active")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByT_A, args);
@@ -13450,9 +13452,9 @@ public class GroupPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					groupModelImpl.getOriginalCompanyId(),
-					groupModelImpl.getOriginalClassNameId(),
-					groupModelImpl.getOriginalParentGroupId()
+					groupModelImpl.getCacheModelAttribute("companyId"),
+					groupModelImpl.getCacheModelAttribute("classNameId"),
+					groupModelImpl.getCacheModelAttribute("parentGroupId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_C_P, args);
@@ -13475,9 +13477,9 @@ public class GroupPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					groupModelImpl.getOriginalCompanyId(),
-					groupModelImpl.getOriginalParentGroupId(),
-					groupModelImpl.getOriginalSite()
+					groupModelImpl.getCacheModelAttribute("companyId"),
+					groupModelImpl.getCacheModelAttribute("parentGroupId"),
+					groupModelImpl.getCacheModelAttribute("site")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_P_S, args);
@@ -13499,9 +13501,9 @@ public class GroupPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					groupModelImpl.getOriginalCompanyId(),
-					groupModelImpl.getOriginalSite(),
-					groupModelImpl.getOriginalActive()
+					groupModelImpl.getCacheModelAttribute("companyId"),
+					groupModelImpl.getCacheModelAttribute("site"),
+					groupModelImpl.getCacheModelAttribute("active")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_S_A, args);
@@ -13523,10 +13525,10 @@ public class GroupPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					groupModelImpl.getOriginalCompanyId(),
-					groupModelImpl.getOriginalParentGroupId(),
-					groupModelImpl.getOriginalSite(),
-					groupModelImpl.getOriginalInheritContent()
+					groupModelImpl.getCacheModelAttribute("companyId"),
+					groupModelImpl.getCacheModelAttribute("parentGroupId"),
+					groupModelImpl.getCacheModelAttribute("site"),
+					groupModelImpl.getCacheModelAttribute("inheritContent")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_P_S_I, args);

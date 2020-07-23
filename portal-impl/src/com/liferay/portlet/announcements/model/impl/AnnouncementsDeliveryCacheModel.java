@@ -103,6 +103,8 @@ public class AnnouncementsDeliveryCacheModel
 		AnnouncementsDeliveryImpl announcementsDeliveryImpl =
 			new AnnouncementsDeliveryImpl();
 
+		announcementsDeliveryImpl.setNew(true);
+
 		announcementsDeliveryImpl.setMvccVersion(mvccVersion);
 		announcementsDeliveryImpl.setDeliveryId(deliveryId);
 		announcementsDeliveryImpl.setCompanyId(companyId);
@@ -120,6 +122,8 @@ public class AnnouncementsDeliveryCacheModel
 		announcementsDeliveryImpl.setWebsite(website);
 
 		announcementsDeliveryImpl.resetOriginalValues();
+
+		announcementsDeliveryImpl.setNew(false);
 
 		return announcementsDeliveryImpl;
 	}

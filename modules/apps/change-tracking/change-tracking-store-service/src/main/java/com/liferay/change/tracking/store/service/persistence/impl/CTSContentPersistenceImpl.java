@@ -2717,11 +2717,11 @@ public class CTSContentPersistenceImpl
 			 _finderPathFetchByC_R_P_V_S.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				ctsContentModelImpl.getOriginalCompanyId(),
-				ctsContentModelImpl.getOriginalRepositoryId(),
-				ctsContentModelImpl.getOriginalPath(),
-				ctsContentModelImpl.getOriginalVersion(),
-				ctsContentModelImpl.getOriginalStoreType()
+				ctsContentModelImpl.getCacheModelAttribute("companyId"),
+				ctsContentModelImpl.getCacheModelAttribute("repositoryId"),
+				ctsContentModelImpl.getCacheModelAttribute("path"),
+				ctsContentModelImpl.getCacheModelAttribute("version"),
+				ctsContentModelImpl.getCacheModelAttribute("storeType")
 			};
 
 			finderCache.removeResult(_finderPathCountByC_R_P_V_S, args);
@@ -2931,9 +2931,9 @@ public class CTSContentPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					ctsContentModelImpl.getOriginalCompanyId(),
-					ctsContentModelImpl.getOriginalRepositoryId(),
-					ctsContentModelImpl.getOriginalStoreType()
+					ctsContentModelImpl.getCacheModelAttribute("companyId"),
+					ctsContentModelImpl.getCacheModelAttribute("repositoryId"),
+					ctsContentModelImpl.getCacheModelAttribute("storeType")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_R_S, args);
@@ -2956,10 +2956,10 @@ public class CTSContentPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					ctsContentModelImpl.getOriginalCompanyId(),
-					ctsContentModelImpl.getOriginalRepositoryId(),
-					ctsContentModelImpl.getOriginalPath(),
-					ctsContentModelImpl.getOriginalStoreType()
+					ctsContentModelImpl.getCacheModelAttribute("companyId"),
+					ctsContentModelImpl.getCacheModelAttribute("repositoryId"),
+					ctsContentModelImpl.getCacheModelAttribute("path"),
+					ctsContentModelImpl.getCacheModelAttribute("storeType")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_R_P_S, args);

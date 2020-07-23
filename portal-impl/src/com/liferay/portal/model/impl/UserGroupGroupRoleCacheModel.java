@@ -102,6 +102,8 @@ public class UserGroupGroupRoleCacheModel
 		UserGroupGroupRoleImpl userGroupGroupRoleImpl =
 			new UserGroupGroupRoleImpl();
 
+		userGroupGroupRoleImpl.setNew(true);
+
 		userGroupGroupRoleImpl.setMvccVersion(mvccVersion);
 		userGroupGroupRoleImpl.setCtCollectionId(ctCollectionId);
 		userGroupGroupRoleImpl.setUserGroupGroupRoleId(userGroupGroupRoleId);
@@ -111,6 +113,8 @@ public class UserGroupGroupRoleCacheModel
 		userGroupGroupRoleImpl.setRoleId(roleId);
 
 		userGroupGroupRoleImpl.resetOriginalValues();
+
+		userGroupGroupRoleImpl.setNew(false);
 
 		return userGroupGroupRoleImpl;
 	}

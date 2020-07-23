@@ -113,9 +113,31 @@ public class MFATimeBasedOTPEntryModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long USERID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
 	public static final long MFATIMEBASEDOTPENTRYID_COLUMN_BITMASK = 2L;
+
+	public static final long COMPANYID_COLUMN_BITMASK = 4L;
+
+	public static final long USERID_COLUMN_BITMASK = 8L;
+
+	public static final long USERNAME_COLUMN_BITMASK = 16L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 32L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 64L;
+
+	public static final long FAILEDATTEMPTS_COLUMN_BITMASK = 128L;
+
+	public static final long LASTFAILDATE_COLUMN_BITMASK = 256L;
+
+	public static final long LASTFAILIP_COLUMN_BITMASK = 512L;
+
+	public static final long LASTSUCCESSDATE_COLUMN_BITMASK = 1024L;
+
+	public static final long LASTSUCCESSIP_COLUMN_BITMASK = 2048L;
+
+	public static final long SHAREDSECRET_COLUMN_BITMASK = 4096L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -244,10 +266,39 @@ public class MFATimeBasedOTPEntryModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<MFATimeBasedOTPEntry, Object> function =
+			_attributeGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((MFATimeBasedOTPEntry)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<MFATimeBasedOTPEntryCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_mfaTimeBasedOTPEntryCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_mfaTimeBasedOTPEntryCacheModel);
+	}
+
 	private static final Map<String, Function<MFATimeBasedOTPEntry, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<MFATimeBasedOTPEntry, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<MFATimeBasedOTPEntryCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<MFATimeBasedOTPEntry, Object>>
@@ -258,9 +309,19 @@ public class MFATimeBasedOTPEntryModelImpl
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<MFATimeBasedOTPEntry, ?>>();
+		Map<String, Function<MFATimeBasedOTPEntryCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String,
+					 Function<MFATimeBasedOTPEntryCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", MFATimeBasedOTPEntry::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			mfaTimeBasedOTPEntryCacheModel ->
+				mfaTimeBasedOTPEntryCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<MFATimeBasedOTPEntry, Long>)
@@ -268,71 +329,131 @@ public class MFATimeBasedOTPEntryModelImpl
 		attributeGetterFunctions.put(
 			"mfaTimeBasedOTPEntryId",
 			MFATimeBasedOTPEntry::getMfaTimeBasedOTPEntryId);
+
+		cacheModelGetterFunctions.put(
+			"mfaTimeBasedOTPEntryId",
+			mfaTimeBasedOTPEntryCacheModel ->
+				mfaTimeBasedOTPEntryCacheModel.mfaTimeBasedOTPEntryId);
 		attributeSetterBiConsumers.put(
 			"mfaTimeBasedOTPEntryId",
 			(BiConsumer<MFATimeBasedOTPEntry, Long>)
 				MFATimeBasedOTPEntry::setMfaTimeBasedOTPEntryId);
 		attributeGetterFunctions.put(
 			"companyId", MFATimeBasedOTPEntry::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			mfaTimeBasedOTPEntryCacheModel ->
+				mfaTimeBasedOTPEntryCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<MFATimeBasedOTPEntry, Long>)
 				MFATimeBasedOTPEntry::setCompanyId);
 		attributeGetterFunctions.put("userId", MFATimeBasedOTPEntry::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			mfaTimeBasedOTPEntryCacheModel ->
+				mfaTimeBasedOTPEntryCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<MFATimeBasedOTPEntry, Long>)
 				MFATimeBasedOTPEntry::setUserId);
 		attributeGetterFunctions.put(
 			"userName", MFATimeBasedOTPEntry::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			mfaTimeBasedOTPEntryCacheModel ->
+				mfaTimeBasedOTPEntryCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<MFATimeBasedOTPEntry, String>)
 				MFATimeBasedOTPEntry::setUserName);
 		attributeGetterFunctions.put(
 			"createDate", MFATimeBasedOTPEntry::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			mfaTimeBasedOTPEntryCacheModel ->
+				mfaTimeBasedOTPEntryCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<MFATimeBasedOTPEntry, Date>)
 				MFATimeBasedOTPEntry::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", MFATimeBasedOTPEntry::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			mfaTimeBasedOTPEntryCacheModel ->
+				mfaTimeBasedOTPEntryCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<MFATimeBasedOTPEntry, Date>)
 				MFATimeBasedOTPEntry::setModifiedDate);
 		attributeGetterFunctions.put(
 			"failedAttempts", MFATimeBasedOTPEntry::getFailedAttempts);
+
+		cacheModelGetterFunctions.put(
+			"failedAttempts",
+			mfaTimeBasedOTPEntryCacheModel ->
+				mfaTimeBasedOTPEntryCacheModel.failedAttempts);
 		attributeSetterBiConsumers.put(
 			"failedAttempts",
 			(BiConsumer<MFATimeBasedOTPEntry, Integer>)
 				MFATimeBasedOTPEntry::setFailedAttempts);
 		attributeGetterFunctions.put(
 			"lastFailDate", MFATimeBasedOTPEntry::getLastFailDate);
+
+		cacheModelGetterFunctions.put(
+			"lastFailDate",
+			mfaTimeBasedOTPEntryCacheModel ->
+				mfaTimeBasedOTPEntryCacheModel.lastFailDate);
 		attributeSetterBiConsumers.put(
 			"lastFailDate",
 			(BiConsumer<MFATimeBasedOTPEntry, Date>)
 				MFATimeBasedOTPEntry::setLastFailDate);
 		attributeGetterFunctions.put(
 			"lastFailIP", MFATimeBasedOTPEntry::getLastFailIP);
+
+		cacheModelGetterFunctions.put(
+			"lastFailIP",
+			mfaTimeBasedOTPEntryCacheModel ->
+				mfaTimeBasedOTPEntryCacheModel.lastFailIP);
 		attributeSetterBiConsumers.put(
 			"lastFailIP",
 			(BiConsumer<MFATimeBasedOTPEntry, String>)
 				MFATimeBasedOTPEntry::setLastFailIP);
 		attributeGetterFunctions.put(
 			"lastSuccessDate", MFATimeBasedOTPEntry::getLastSuccessDate);
+
+		cacheModelGetterFunctions.put(
+			"lastSuccessDate",
+			mfaTimeBasedOTPEntryCacheModel ->
+				mfaTimeBasedOTPEntryCacheModel.lastSuccessDate);
 		attributeSetterBiConsumers.put(
 			"lastSuccessDate",
 			(BiConsumer<MFATimeBasedOTPEntry, Date>)
 				MFATimeBasedOTPEntry::setLastSuccessDate);
 		attributeGetterFunctions.put(
 			"lastSuccessIP", MFATimeBasedOTPEntry::getLastSuccessIP);
+
+		cacheModelGetterFunctions.put(
+			"lastSuccessIP",
+			mfaTimeBasedOTPEntryCacheModel ->
+				mfaTimeBasedOTPEntryCacheModel.lastSuccessIP);
 		attributeSetterBiConsumers.put(
 			"lastSuccessIP",
 			(BiConsumer<MFATimeBasedOTPEntry, String>)
 				MFATimeBasedOTPEntry::setLastSuccessIP);
 		attributeGetterFunctions.put(
 			"sharedSecret", MFATimeBasedOTPEntry::getSharedSecret);
+
+		cacheModelGetterFunctions.put(
+			"sharedSecret",
+			mfaTimeBasedOTPEntryCacheModel ->
+				mfaTimeBasedOTPEntryCacheModel.sharedSecret);
 		attributeSetterBiConsumers.put(
 			"sharedSecret",
 			(BiConsumer<MFATimeBasedOTPEntry, String>)
@@ -342,6 +463,8 @@ public class MFATimeBasedOTPEntryModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -351,6 +474,13 @@ public class MFATimeBasedOTPEntryModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_mfaTimeBasedOTPEntryCacheModel == null)) {
+			_mfaTimeBasedOTPEntryCacheModel =
+				(MFATimeBasedOTPEntryCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -361,6 +491,13 @@ public class MFATimeBasedOTPEntryModelImpl
 
 	@Override
 	public void setMfaTimeBasedOTPEntryId(long mfaTimeBasedOTPEntryId) {
+		_columnBitmask |= MFATIMEBASEDOTPENTRYID_COLUMN_BITMASK;
+
+		if (!isNew() && (_mfaTimeBasedOTPEntryCacheModel == null)) {
+			_mfaTimeBasedOTPEntryCacheModel =
+				(MFATimeBasedOTPEntryCacheModel)toCacheModel();
+		}
+
 		_mfaTimeBasedOTPEntryId = mfaTimeBasedOTPEntryId;
 	}
 
@@ -371,6 +508,13 @@ public class MFATimeBasedOTPEntryModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (!isNew() && (_mfaTimeBasedOTPEntryCacheModel == null)) {
+			_mfaTimeBasedOTPEntryCacheModel =
+				(MFATimeBasedOTPEntryCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -383,10 +527,9 @@ public class MFATimeBasedOTPEntryModelImpl
 	public void setUserId(long userId) {
 		_columnBitmask |= USERID_COLUMN_BITMASK;
 
-		if (!_setOriginalUserId) {
-			_setOriginalUserId = true;
-
-			_originalUserId = _userId;
+		if (!isNew() && (_mfaTimeBasedOTPEntryCacheModel == null)) {
+			_mfaTimeBasedOTPEntryCacheModel =
+				(MFATimeBasedOTPEntryCacheModel)toCacheModel();
 		}
 
 		_userId = userId;
@@ -408,8 +551,13 @@ public class MFATimeBasedOTPEntryModelImpl
 	public void setUserUuid(String userUuid) {
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalUserId() {
-		return _originalUserId;
+		return getCacheModelAttribute("userId");
 	}
 
 	@Override
@@ -424,6 +572,13 @@ public class MFATimeBasedOTPEntryModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_mfaTimeBasedOTPEntryCacheModel == null)) {
+			_mfaTimeBasedOTPEntryCacheModel =
+				(MFATimeBasedOTPEntryCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -434,6 +589,13 @@ public class MFATimeBasedOTPEntryModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_mfaTimeBasedOTPEntryCacheModel == null)) {
+			_mfaTimeBasedOTPEntryCacheModel =
+				(MFATimeBasedOTPEntryCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -450,6 +612,13 @@ public class MFATimeBasedOTPEntryModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_mfaTimeBasedOTPEntryCacheModel == null)) {
+			_mfaTimeBasedOTPEntryCacheModel =
+				(MFATimeBasedOTPEntryCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -460,6 +629,13 @@ public class MFATimeBasedOTPEntryModelImpl
 
 	@Override
 	public void setFailedAttempts(int failedAttempts) {
+		_columnBitmask |= FAILEDATTEMPTS_COLUMN_BITMASK;
+
+		if (!isNew() && (_mfaTimeBasedOTPEntryCacheModel == null)) {
+			_mfaTimeBasedOTPEntryCacheModel =
+				(MFATimeBasedOTPEntryCacheModel)toCacheModel();
+		}
+
 		_failedAttempts = failedAttempts;
 	}
 
@@ -470,6 +646,13 @@ public class MFATimeBasedOTPEntryModelImpl
 
 	@Override
 	public void setLastFailDate(Date lastFailDate) {
+		_columnBitmask |= LASTFAILDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_mfaTimeBasedOTPEntryCacheModel == null)) {
+			_mfaTimeBasedOTPEntryCacheModel =
+				(MFATimeBasedOTPEntryCacheModel)toCacheModel();
+		}
+
 		_lastFailDate = lastFailDate;
 	}
 
@@ -485,6 +668,13 @@ public class MFATimeBasedOTPEntryModelImpl
 
 	@Override
 	public void setLastFailIP(String lastFailIP) {
+		_columnBitmask |= LASTFAILIP_COLUMN_BITMASK;
+
+		if (!isNew() && (_mfaTimeBasedOTPEntryCacheModel == null)) {
+			_mfaTimeBasedOTPEntryCacheModel =
+				(MFATimeBasedOTPEntryCacheModel)toCacheModel();
+		}
+
 		_lastFailIP = lastFailIP;
 	}
 
@@ -495,6 +685,13 @@ public class MFATimeBasedOTPEntryModelImpl
 
 	@Override
 	public void setLastSuccessDate(Date lastSuccessDate) {
+		_columnBitmask |= LASTSUCCESSDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_mfaTimeBasedOTPEntryCacheModel == null)) {
+			_mfaTimeBasedOTPEntryCacheModel =
+				(MFATimeBasedOTPEntryCacheModel)toCacheModel();
+		}
+
 		_lastSuccessDate = lastSuccessDate;
 	}
 
@@ -510,6 +707,13 @@ public class MFATimeBasedOTPEntryModelImpl
 
 	@Override
 	public void setLastSuccessIP(String lastSuccessIP) {
+		_columnBitmask |= LASTSUCCESSIP_COLUMN_BITMASK;
+
+		if (!isNew() && (_mfaTimeBasedOTPEntryCacheModel == null)) {
+			_mfaTimeBasedOTPEntryCacheModel =
+				(MFATimeBasedOTPEntryCacheModel)toCacheModel();
+		}
+
 		_lastSuccessIP = lastSuccessIP;
 	}
 
@@ -525,6 +729,13 @@ public class MFATimeBasedOTPEntryModelImpl
 
 	@Override
 	public void setSharedSecret(String sharedSecret) {
+		_columnBitmask |= SHAREDSECRET_COLUMN_BITMASK;
+
+		if (!isNew() && (_mfaTimeBasedOTPEntryCacheModel == null)) {
+			_mfaTimeBasedOTPEntryCacheModel =
+				(MFATimeBasedOTPEntryCacheModel)toCacheModel();
+		}
+
 		_sharedSecret = sharedSecret;
 	}
 
@@ -649,16 +860,11 @@ public class MFATimeBasedOTPEntryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		MFATimeBasedOTPEntryModelImpl mfaTimeBasedOTPEntryModelImpl = this;
+		_setModifiedDate = false;
 
-		mfaTimeBasedOTPEntryModelImpl._originalUserId =
-			mfaTimeBasedOTPEntryModelImpl._userId;
+		_columnBitmask = 0;
 
-		mfaTimeBasedOTPEntryModelImpl._setOriginalUserId = false;
-
-		mfaTimeBasedOTPEntryModelImpl._setModifiedDate = false;
-
-		mfaTimeBasedOTPEntryModelImpl._columnBitmask = 0;
+		_mfaTimeBasedOTPEntryCacheModel = null;
 	}
 
 	@Override
@@ -827,8 +1033,6 @@ public class MFATimeBasedOTPEntryModelImpl
 	private long _mfaTimeBasedOTPEntryId;
 	private long _companyId;
 	private long _userId;
-	private long _originalUserId;
-	private boolean _setOriginalUserId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
@@ -841,5 +1045,6 @@ public class MFATimeBasedOTPEntryModelImpl
 	private String _sharedSecret;
 	private long _columnBitmask;
 	private MFATimeBasedOTPEntry _escapedModel;
+	private MFATimeBasedOTPEntryCacheModel _mfaTimeBasedOTPEntryCacheModel;
 
 }

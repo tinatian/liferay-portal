@@ -2612,8 +2612,8 @@ public class ChangesetCollectionPersistenceImpl
 			 _finderPathFetchByG_N.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				changesetCollectionModelImpl.getOriginalGroupId(),
-				changesetCollectionModelImpl.getOriginalName()
+				changesetCollectionModelImpl.getCacheModelAttribute("groupId"),
+				changesetCollectionModelImpl.getCacheModelAttribute("name")
 			};
 
 			finderCache.removeResult(_finderPathCountByG_N, args);
@@ -2846,7 +2846,8 @@ public class ChangesetCollectionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					changesetCollectionModelImpl.getOriginalGroupId()
+					changesetCollectionModelImpl.getCacheModelAttribute(
+						"groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId, args);
@@ -2865,7 +2866,8 @@ public class ChangesetCollectionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					changesetCollectionModelImpl.getOriginalCompanyId()
+					changesetCollectionModelImpl.getCacheModelAttribute(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCompanyId, args);
@@ -2886,8 +2888,10 @@ public class ChangesetCollectionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					changesetCollectionModelImpl.getOriginalGroupId(),
-					changesetCollectionModelImpl.getOriginalUserId()
+					changesetCollectionModelImpl.getCacheModelAttribute(
+						"groupId"),
+					changesetCollectionModelImpl.getCacheModelAttribute(
+						"userId")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_U, args);
@@ -2909,8 +2913,9 @@ public class ChangesetCollectionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					changesetCollectionModelImpl.getOriginalCompanyId(),
-					changesetCollectionModelImpl.getOriginalName()
+					changesetCollectionModelImpl.getCacheModelAttribute(
+						"companyId"),
+					changesetCollectionModelImpl.getCacheModelAttribute("name")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_N, args);

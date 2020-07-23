@@ -6291,8 +6291,8 @@ public class UserGroupPersistenceImpl
 			 _finderPathFetchByC_N.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				userGroupModelImpl.getOriginalCompanyId(),
-				userGroupModelImpl.getOriginalName()
+				userGroupModelImpl.getCacheModelAttribute("companyId"),
+				userGroupModelImpl.getCacheModelAttribute("name")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByC_N, args);
@@ -6313,8 +6313,9 @@ public class UserGroupPersistenceImpl
 			 _finderPathFetchByC_ERC.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				userGroupModelImpl.getOriginalCompanyId(),
-				userGroupModelImpl.getOriginalExternalReferenceCode()
+				userGroupModelImpl.getCacheModelAttribute("companyId"),
+				userGroupModelImpl.getCacheModelAttribute(
+					"externalReferenceCode")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByC_ERC, args);
@@ -6570,7 +6571,7 @@ public class UserGroupPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					userGroupModelImpl.getOriginalUuid()
+					userGroupModelImpl.getCacheModelAttribute("uuid")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid, args);
@@ -6589,8 +6590,8 @@ public class UserGroupPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					userGroupModelImpl.getOriginalUuid(),
-					userGroupModelImpl.getOriginalCompanyId()
+					userGroupModelImpl.getCacheModelAttribute("uuid"),
+					userGroupModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid_C, args);
@@ -6612,7 +6613,7 @@ public class UserGroupPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					userGroupModelImpl.getOriginalCompanyId()
+					userGroupModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
@@ -6631,8 +6632,9 @@ public class UserGroupPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					userGroupModelImpl.getOriginalCompanyId(),
-					userGroupModelImpl.getOriginalParentUserGroupId()
+					userGroupModelImpl.getCacheModelAttribute("companyId"),
+					userGroupModelImpl.getCacheModelAttribute(
+						"parentUserGroupId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_P, args);

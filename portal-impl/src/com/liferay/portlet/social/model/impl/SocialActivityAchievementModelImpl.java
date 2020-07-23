@@ -125,15 +125,23 @@ public class SocialActivityAchievementModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long FIRSTINGROUP_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
-	public static final long NAME_COLUMN_BITMASK = 4L;
+	public static final long ACTIVITYACHIEVEMENTID_COLUMN_BITMASK = 4L;
 
-	public static final long USERID_COLUMN_BITMASK = 8L;
+	public static final long GROUPID_COLUMN_BITMASK = 8L;
 
-	public static final long ACTIVITYACHIEVEMENTID_COLUMN_BITMASK = 16L;
+	public static final long COMPANYID_COLUMN_BITMASK = 16L;
+
+	public static final long USERID_COLUMN_BITMASK = 32L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 64L;
+
+	public static final long NAME_COLUMN_BITMASK = 128L;
+
+	public static final long FIRSTINGROUP_COLUMN_BITMASK = 256L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		com.liferay.portal.util.PropsUtil.get(
@@ -253,12 +261,41 @@ public class SocialActivityAchievementModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<SocialActivityAchievement, Object> function =
+			_attributeGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((SocialActivityAchievement)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<SocialActivityAchievementCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_socialActivityAchievementCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_socialActivityAchievementCacheModel);
+	}
+
 	private static final Map
 		<String, Function<SocialActivityAchievement, Object>>
 			_attributeGetterFunctions;
 	private static final Map
 		<String, BiConsumer<SocialActivityAchievement, Object>>
 			_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<SocialActivityAchievementCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<SocialActivityAchievement, Object>>
@@ -269,15 +306,30 @@ public class SocialActivityAchievementModelImpl
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<SocialActivityAchievement, ?>>();
+		Map<String, Function<SocialActivityAchievementCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String,
+					 Function<SocialActivityAchievementCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", SocialActivityAchievement::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			socialActivityAchievementCacheModel ->
+				socialActivityAchievementCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<SocialActivityAchievement, Long>)
 				SocialActivityAchievement::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", SocialActivityAchievement::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			socialActivityAchievementCacheModel ->
+				socialActivityAchievementCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<SocialActivityAchievement, Long>)
@@ -285,42 +337,77 @@ public class SocialActivityAchievementModelImpl
 		attributeGetterFunctions.put(
 			"activityAchievementId",
 			SocialActivityAchievement::getActivityAchievementId);
+
+		cacheModelGetterFunctions.put(
+			"activityAchievementId",
+			socialActivityAchievementCacheModel ->
+				socialActivityAchievementCacheModel.activityAchievementId);
 		attributeSetterBiConsumers.put(
 			"activityAchievementId",
 			(BiConsumer<SocialActivityAchievement, Long>)
 				SocialActivityAchievement::setActivityAchievementId);
 		attributeGetterFunctions.put(
 			"groupId", SocialActivityAchievement::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			socialActivityAchievementCacheModel ->
+				socialActivityAchievementCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<SocialActivityAchievement, Long>)
 				SocialActivityAchievement::setGroupId);
 		attributeGetterFunctions.put(
 			"companyId", SocialActivityAchievement::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			socialActivityAchievementCacheModel ->
+				socialActivityAchievementCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<SocialActivityAchievement, Long>)
 				SocialActivityAchievement::setCompanyId);
 		attributeGetterFunctions.put(
 			"userId", SocialActivityAchievement::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			socialActivityAchievementCacheModel ->
+				socialActivityAchievementCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<SocialActivityAchievement, Long>)
 				SocialActivityAchievement::setUserId);
 		attributeGetterFunctions.put(
 			"createDate", SocialActivityAchievement::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			socialActivityAchievementCacheModel ->
+				socialActivityAchievementCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<SocialActivityAchievement, Long>)
 				SocialActivityAchievement::setCreateDate);
 		attributeGetterFunctions.put(
 			"name", SocialActivityAchievement::getName);
+
+		cacheModelGetterFunctions.put(
+			"name",
+			socialActivityAchievementCacheModel ->
+				socialActivityAchievementCacheModel.name);
 		attributeSetterBiConsumers.put(
 			"name",
 			(BiConsumer<SocialActivityAchievement, String>)
 				SocialActivityAchievement::setName);
 		attributeGetterFunctions.put(
 			"firstInGroup", SocialActivityAchievement::getFirstInGroup);
+
+		cacheModelGetterFunctions.put(
+			"firstInGroup",
+			socialActivityAchievementCacheModel ->
+				socialActivityAchievementCacheModel.firstInGroup);
 		attributeSetterBiConsumers.put(
 			"firstInGroup",
 			(BiConsumer<SocialActivityAchievement, Boolean>)
@@ -330,6 +417,8 @@ public class SocialActivityAchievementModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -339,6 +428,13 @@ public class SocialActivityAchievementModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_socialActivityAchievementCacheModel == null)) {
+			_socialActivityAchievementCacheModel =
+				(SocialActivityAchievementCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -349,6 +445,13 @@ public class SocialActivityAchievementModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (!isNew() && (_socialActivityAchievementCacheModel == null)) {
+			_socialActivityAchievementCacheModel =
+				(SocialActivityAchievementCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -359,6 +462,13 @@ public class SocialActivityAchievementModelImpl
 
 	@Override
 	public void setActivityAchievementId(long activityAchievementId) {
+		_columnBitmask |= ACTIVITYACHIEVEMENTID_COLUMN_BITMASK;
+
+		if (!isNew() && (_socialActivityAchievementCacheModel == null)) {
+			_socialActivityAchievementCacheModel =
+				(SocialActivityAchievementCacheModel)toCacheModel();
+		}
+
 		_activityAchievementId = activityAchievementId;
 	}
 
@@ -371,17 +481,21 @@ public class SocialActivityAchievementModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (!isNew() && (_socialActivityAchievementCacheModel == null)) {
+			_socialActivityAchievementCacheModel =
+				(SocialActivityAchievementCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getCacheModelAttribute("groupId");
 	}
 
 	@Override
@@ -391,6 +505,13 @@ public class SocialActivityAchievementModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (!isNew() && (_socialActivityAchievementCacheModel == null)) {
+			_socialActivityAchievementCacheModel =
+				(SocialActivityAchievementCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -403,10 +524,9 @@ public class SocialActivityAchievementModelImpl
 	public void setUserId(long userId) {
 		_columnBitmask |= USERID_COLUMN_BITMASK;
 
-		if (!_setOriginalUserId) {
-			_setOriginalUserId = true;
-
-			_originalUserId = _userId;
+		if (!isNew() && (_socialActivityAchievementCacheModel == null)) {
+			_socialActivityAchievementCacheModel =
+				(SocialActivityAchievementCacheModel)toCacheModel();
 		}
 
 		_userId = userId;
@@ -428,8 +548,13 @@ public class SocialActivityAchievementModelImpl
 	public void setUserUuid(String userUuid) {
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalUserId() {
-		return _originalUserId;
+		return getCacheModelAttribute("userId");
 	}
 
 	@Override
@@ -439,6 +564,13 @@ public class SocialActivityAchievementModelImpl
 
 	@Override
 	public void setCreateDate(long createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_socialActivityAchievementCacheModel == null)) {
+			_socialActivityAchievementCacheModel =
+				(SocialActivityAchievementCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -456,15 +588,21 @@ public class SocialActivityAchievementModelImpl
 	public void setName(String name) {
 		_columnBitmask |= NAME_COLUMN_BITMASK;
 
-		if (_originalName == null) {
-			_originalName = _name;
+		if (!isNew() && (_socialActivityAchievementCacheModel == null)) {
+			_socialActivityAchievementCacheModel =
+				(SocialActivityAchievementCacheModel)toCacheModel();
 		}
 
 		_name = name;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalName() {
-		return GetterUtil.getString(_originalName);
+		return getCacheModelAttribute("name");
 	}
 
 	@Override
@@ -481,17 +619,21 @@ public class SocialActivityAchievementModelImpl
 	public void setFirstInGroup(boolean firstInGroup) {
 		_columnBitmask |= FIRSTINGROUP_COLUMN_BITMASK;
 
-		if (!_setOriginalFirstInGroup) {
-			_setOriginalFirstInGroup = true;
-
-			_originalFirstInGroup = _firstInGroup;
+		if (!isNew() && (_socialActivityAchievementCacheModel == null)) {
+			_socialActivityAchievementCacheModel =
+				(SocialActivityAchievementCacheModel)toCacheModel();
 		}
 
 		_firstInGroup = firstInGroup;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public boolean getOriginalFirstInGroup() {
-		return _originalFirstInGroup;
+		return getCacheModelAttribute("firstInGroup");
 	}
 
 	public long getColumnBitmask() {
@@ -611,28 +753,9 @@ public class SocialActivityAchievementModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		SocialActivityAchievementModelImpl socialActivityAchievementModelImpl =
-			this;
+		_columnBitmask = 0;
 
-		socialActivityAchievementModelImpl._originalGroupId =
-			socialActivityAchievementModelImpl._groupId;
-
-		socialActivityAchievementModelImpl._setOriginalGroupId = false;
-
-		socialActivityAchievementModelImpl._originalUserId =
-			socialActivityAchievementModelImpl._userId;
-
-		socialActivityAchievementModelImpl._setOriginalUserId = false;
-
-		socialActivityAchievementModelImpl._originalName =
-			socialActivityAchievementModelImpl._name;
-
-		socialActivityAchievementModelImpl._originalFirstInGroup =
-			socialActivityAchievementModelImpl._firstInGroup;
-
-		socialActivityAchievementModelImpl._setOriginalFirstInGroup = false;
-
-		socialActivityAchievementModelImpl._columnBitmask = 0;
+		_socialActivityAchievementCacheModel = null;
 	}
 
 	@Override
@@ -748,19 +871,14 @@ public class SocialActivityAchievementModelImpl
 	private long _ctCollectionId;
 	private long _activityAchievementId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
 	private long _userId;
-	private long _originalUserId;
-	private boolean _setOriginalUserId;
 	private long _createDate;
 	private String _name;
-	private String _originalName;
 	private boolean _firstInGroup;
-	private boolean _originalFirstInGroup;
-	private boolean _setOriginalFirstInGroup;
 	private long _columnBitmask;
 	private SocialActivityAchievement _escapedModel;
+	private SocialActivityAchievementCacheModel
+		_socialActivityAchievementCacheModel;
 
 }

@@ -120,6 +120,8 @@ public class LayoutFriendlyURLCacheModel
 		LayoutFriendlyURLImpl layoutFriendlyURLImpl =
 			new LayoutFriendlyURLImpl();
 
+		layoutFriendlyURLImpl.setNew(true);
+
 		layoutFriendlyURLImpl.setMvccVersion(mvccVersion);
 		layoutFriendlyURLImpl.setCtCollectionId(ctCollectionId);
 
@@ -181,6 +183,8 @@ public class LayoutFriendlyURLCacheModel
 		}
 
 		layoutFriendlyURLImpl.resetOriginalValues();
+
+		layoutFriendlyURLImpl.setNew(false);
 
 		return layoutFriendlyURLImpl;
 	}

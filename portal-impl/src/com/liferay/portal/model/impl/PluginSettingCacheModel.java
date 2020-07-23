@@ -100,6 +100,8 @@ public class PluginSettingCacheModel
 	public PluginSetting toEntityModel() {
 		PluginSettingImpl pluginSettingImpl = new PluginSettingImpl();
 
+		pluginSettingImpl.setNew(true);
+
 		pluginSettingImpl.setMvccVersion(mvccVersion);
 		pluginSettingImpl.setPluginSettingId(pluginSettingId);
 		pluginSettingImpl.setCompanyId(companyId);
@@ -128,6 +130,8 @@ public class PluginSettingCacheModel
 		pluginSettingImpl.setActive(active);
 
 		pluginSettingImpl.resetOriginalValues();
+
+		pluginSettingImpl.setNew(false);
 
 		return pluginSettingImpl;
 	}

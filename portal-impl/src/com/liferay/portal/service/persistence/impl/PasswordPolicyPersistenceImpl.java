@@ -3599,8 +3599,8 @@ public class PasswordPolicyPersistenceImpl
 			 _finderPathFetchByC_DP.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				passwordPolicyModelImpl.getOriginalCompanyId(),
-				passwordPolicyModelImpl.getOriginalDefaultPolicy()
+				passwordPolicyModelImpl.getCacheModelAttribute("companyId"),
+				passwordPolicyModelImpl.getCacheModelAttribute("defaultPolicy")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByC_DP, args);
@@ -3621,8 +3621,8 @@ public class PasswordPolicyPersistenceImpl
 			 _finderPathFetchByC_N.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				passwordPolicyModelImpl.getOriginalCompanyId(),
-				passwordPolicyModelImpl.getOriginalName()
+				passwordPolicyModelImpl.getCacheModelAttribute("companyId"),
+				passwordPolicyModelImpl.getCacheModelAttribute("name")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByC_N, args);
@@ -3848,7 +3848,7 @@ public class PasswordPolicyPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					passwordPolicyModelImpl.getOriginalUuid()
+					passwordPolicyModelImpl.getCacheModelAttribute("uuid")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid, args);
@@ -3867,8 +3867,8 @@ public class PasswordPolicyPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					passwordPolicyModelImpl.getOriginalUuid(),
-					passwordPolicyModelImpl.getOriginalCompanyId()
+					passwordPolicyModelImpl.getCacheModelAttribute("uuid"),
+					passwordPolicyModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid_C, args);
@@ -3890,7 +3890,7 @@ public class PasswordPolicyPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					passwordPolicyModelImpl.getOriginalCompanyId()
+					passwordPolicyModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);

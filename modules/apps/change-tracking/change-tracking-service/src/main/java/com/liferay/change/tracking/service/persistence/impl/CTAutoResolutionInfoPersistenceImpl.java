@@ -1803,7 +1803,8 @@ public class CTAutoResolutionInfoPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					ctAutoResolutionInfoModelImpl.getOriginalCtCollectionId()
+					ctAutoResolutionInfoModelImpl.getCacheModelAttribute(
+						"ctCollectionId")
 				};
 
 				finderCache.removeResult(
@@ -1826,10 +1827,12 @@ public class CTAutoResolutionInfoPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					ctAutoResolutionInfoModelImpl.getOriginalCtCollectionId(),
-					ctAutoResolutionInfoModelImpl.getOriginalModelClassNameId(),
-					ctAutoResolutionInfoModelImpl.
-						getOriginalSourceModelClassPK()
+					ctAutoResolutionInfoModelImpl.getCacheModelAttribute(
+						"ctCollectionId"),
+					ctAutoResolutionInfoModelImpl.getCacheModelAttribute(
+						"modelClassNameId"),
+					ctAutoResolutionInfoModelImpl.getCacheModelAttribute(
+						"sourceModelClassPK")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_MCNI_SMCPK, args);

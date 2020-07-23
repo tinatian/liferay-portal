@@ -115,6 +115,8 @@ public class KBFolderCacheModel
 	public KBFolder toEntityModel() {
 		KBFolderImpl kbFolderImpl = new KBFolderImpl();
 
+		kbFolderImpl.setNew(true);
+
 		kbFolderImpl.setMvccVersion(mvccVersion);
 
 		if (uuid == null) {
@@ -181,6 +183,8 @@ public class KBFolderCacheModel
 		}
 
 		kbFolderImpl.resetOriginalValues();
+
+		kbFolderImpl.setNew(false);
 
 		return kbFolderImpl;
 	}

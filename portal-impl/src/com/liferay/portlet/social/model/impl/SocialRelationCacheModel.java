@@ -104,6 +104,8 @@ public class SocialRelationCacheModel
 	public SocialRelation toEntityModel() {
 		SocialRelationImpl socialRelationImpl = new SocialRelationImpl();
 
+		socialRelationImpl.setNew(true);
+
 		socialRelationImpl.setMvccVersion(mvccVersion);
 		socialRelationImpl.setCtCollectionId(ctCollectionId);
 
@@ -122,6 +124,8 @@ public class SocialRelationCacheModel
 		socialRelationImpl.setType(type);
 
 		socialRelationImpl.resetOriginalValues();
+
+		socialRelationImpl.setNew(false);
 
 		return socialRelationImpl;
 	}

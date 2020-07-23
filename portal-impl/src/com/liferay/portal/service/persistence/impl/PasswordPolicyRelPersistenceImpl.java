@@ -953,8 +953,9 @@ public class PasswordPolicyRelPersistenceImpl
 			 _finderPathFetchByC_C.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				passwordPolicyRelModelImpl.getOriginalClassNameId(),
-				passwordPolicyRelModelImpl.getOriginalClassPK()
+				passwordPolicyRelModelImpl.getCacheModelAttribute(
+					"classNameId"),
+				passwordPolicyRelModelImpl.getCacheModelAttribute("classPK")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByC_C, args);
@@ -1138,7 +1139,8 @@ public class PasswordPolicyRelPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					passwordPolicyRelModelImpl.getOriginalPasswordPolicyId()
+					passwordPolicyRelModelImpl.getCacheModelAttribute(
+						"passwordPolicyId")
 				};
 
 				FinderCacheUtil.removeResult(

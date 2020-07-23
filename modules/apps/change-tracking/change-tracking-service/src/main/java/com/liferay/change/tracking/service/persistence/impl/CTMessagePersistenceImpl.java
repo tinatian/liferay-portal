@@ -842,7 +842,7 @@ public class CTMessagePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					ctMessageModelImpl.getOriginalCtCollectionId()
+					ctMessageModelImpl.getCacheModelAttribute("ctCollectionId")
 				};
 
 				finderCache.removeResult(

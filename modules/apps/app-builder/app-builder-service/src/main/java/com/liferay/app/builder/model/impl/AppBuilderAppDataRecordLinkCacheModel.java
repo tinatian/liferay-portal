@@ -84,6 +84,8 @@ public class AppBuilderAppDataRecordLinkCacheModel
 		AppBuilderAppDataRecordLinkImpl appBuilderAppDataRecordLinkImpl =
 			new AppBuilderAppDataRecordLinkImpl();
 
+		appBuilderAppDataRecordLinkImpl.setNew(true);
+
 		appBuilderAppDataRecordLinkImpl.setAppBuilderAppDataRecordLinkId(
 			appBuilderAppDataRecordLinkId);
 		appBuilderAppDataRecordLinkImpl.setCompanyId(companyId);
@@ -91,6 +93,8 @@ public class AppBuilderAppDataRecordLinkCacheModel
 		appBuilderAppDataRecordLinkImpl.setDdlRecordId(ddlRecordId);
 
 		appBuilderAppDataRecordLinkImpl.resetOriginalValues();
+
+		appBuilderAppDataRecordLinkImpl.setNew(false);
 
 		return appBuilderAppDataRecordLinkImpl;
 	}

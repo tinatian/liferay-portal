@@ -120,6 +120,8 @@ public class LayoutPageTemplateCollectionCacheModel
 		LayoutPageTemplateCollectionImpl layoutPageTemplateCollectionImpl =
 			new LayoutPageTemplateCollectionImpl();
 
+		layoutPageTemplateCollectionImpl.setNew(true);
+
 		layoutPageTemplateCollectionImpl.setMvccVersion(mvccVersion);
 
 		if (uuid == null) {
@@ -190,6 +192,8 @@ public class LayoutPageTemplateCollectionCacheModel
 		}
 
 		layoutPageTemplateCollectionImpl.resetOriginalValues();
+
+		layoutPageTemplateCollectionImpl.setNew(false);
 
 		return layoutPageTemplateCollectionImpl;
 	}

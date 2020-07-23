@@ -2263,8 +2263,8 @@ public class FriendlyURLEntryPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				friendlyURLEntryModelImpl.getOriginalUuid(),
-				friendlyURLEntryModelImpl.getOriginalGroupId()
+				friendlyURLEntryModelImpl.getCacheModelAttribute("uuid"),
+				friendlyURLEntryModelImpl.getCacheModelAttribute("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -2516,7 +2516,7 @@ public class FriendlyURLEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					friendlyURLEntryModelImpl.getOriginalUuid()
+					friendlyURLEntryModelImpl.getCacheModelAttribute("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -2535,8 +2535,9 @@ public class FriendlyURLEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					friendlyURLEntryModelImpl.getOriginalUuid(),
-					friendlyURLEntryModelImpl.getOriginalCompanyId()
+					friendlyURLEntryModelImpl.getCacheModelAttribute("uuid"),
+					friendlyURLEntryModelImpl.getCacheModelAttribute(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -2558,9 +2559,10 @@ public class FriendlyURLEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					friendlyURLEntryModelImpl.getOriginalGroupId(),
-					friendlyURLEntryModelImpl.getOriginalClassNameId(),
-					friendlyURLEntryModelImpl.getOriginalClassPK()
+					friendlyURLEntryModelImpl.getCacheModelAttribute("groupId"),
+					friendlyURLEntryModelImpl.getCacheModelAttribute(
+						"classNameId"),
+					friendlyURLEntryModelImpl.getCacheModelAttribute("classPK")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_C_C, args);

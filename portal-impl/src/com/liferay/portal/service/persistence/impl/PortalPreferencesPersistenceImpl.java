@@ -454,8 +454,8 @@ public class PortalPreferencesPersistenceImpl
 			 _finderPathFetchByO_O.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				portalPreferencesModelImpl.getOriginalOwnerId(),
-				portalPreferencesModelImpl.getOriginalOwnerType()
+				portalPreferencesModelImpl.getCacheModelAttribute("ownerId"),
+				portalPreferencesModelImpl.getCacheModelAttribute("ownerType")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByO_O, args);

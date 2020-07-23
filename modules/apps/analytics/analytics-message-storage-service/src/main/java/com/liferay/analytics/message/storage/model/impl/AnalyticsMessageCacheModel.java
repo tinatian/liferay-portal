@@ -100,6 +100,8 @@ public class AnalyticsMessageCacheModel
 	public AnalyticsMessage toEntityModel() {
 		AnalyticsMessageImpl analyticsMessageImpl = new AnalyticsMessageImpl();
 
+		analyticsMessageImpl.setNew(true);
+
 		analyticsMessageImpl.setMvccVersion(mvccVersion);
 		analyticsMessageImpl.setAnalyticsMessageId(analyticsMessageId);
 		analyticsMessageImpl.setCompanyId(companyId);
@@ -120,6 +122,8 @@ public class AnalyticsMessageCacheModel
 		}
 
 		analyticsMessageImpl.resetOriginalValues();
+
+		analyticsMessageImpl.setNew(false);
 
 		return analyticsMessageImpl;
 	}

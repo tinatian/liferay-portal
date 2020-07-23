@@ -25,7 +25,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.saml.persistence.model.SamlSpIdpConnection;
 import com.liferay.saml.persistence.model.SamlSpIdpConnectionModel;
@@ -127,11 +126,45 @@ public class SamlSpIdpConnectionModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long SAMLSPIDPCONNECTIONID_COLUMN_BITMASK = 1L;
 
-	public static final long SAMLIDPENTITYID_COLUMN_BITMASK = 2L;
+	public static final long COMPANYID_COLUMN_BITMASK = 2L;
 
-	public static final long SAMLSPIDPCONNECTIONID_COLUMN_BITMASK = 4L;
+	public static final long USERID_COLUMN_BITMASK = 4L;
+
+	public static final long USERNAME_COLUMN_BITMASK = 8L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 16L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 32L;
+
+	public static final long SAMLIDPENTITYID_COLUMN_BITMASK = 64L;
+
+	public static final long ASSERTIONSIGNATUREREQUIRED_COLUMN_BITMASK = 128L;
+
+	public static final long CLOCKSKEW_COLUMN_BITMASK = 256L;
+
+	public static final long ENABLED_COLUMN_BITMASK = 512L;
+
+	public static final long FORCEAUTHN_COLUMN_BITMASK = 1024L;
+
+	public static final long LDAPIMPORTENABLED_COLUMN_BITMASK = 2048L;
+
+	public static final long METADATAUPDATEDDATE_COLUMN_BITMASK = 4096L;
+
+	public static final long METADATAURL_COLUMN_BITMASK = 8192L;
+
+	public static final long METADATAXML_COLUMN_BITMASK = 16384L;
+
+	public static final long NAME_COLUMN_BITMASK = 32768L;
+
+	public static final long NAMEIDFORMAT_COLUMN_BITMASK = 65536L;
+
+	public static final long SIGNAUTHNREQUEST_COLUMN_BITMASK = 131072L;
+
+	public static final long UNKNOWNUSERSARESTRANGERS_COLUMN_BITMASK = 262144L;
+
+	public static final long USERATTRIBUTEMAPPINGS_COLUMN_BITMASK = 524288L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -260,10 +293,39 @@ public class SamlSpIdpConnectionModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<SamlSpIdpConnection, Object> function =
+			_attributeGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((SamlSpIdpConnection)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<SamlSpIdpConnectionCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_samlSpIdpConnectionCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_samlSpIdpConnectionCacheModel);
+	}
+
 	private static final Map<String, Function<SamlSpIdpConnection, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<SamlSpIdpConnection, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<SamlSpIdpConnectionCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<SamlSpIdpConnection, Object>>
@@ -273,45 +335,84 @@ public class SamlSpIdpConnectionModelImpl
 		Map<String, BiConsumer<SamlSpIdpConnection, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<SamlSpIdpConnection, ?>>();
+		Map<String, Function<SamlSpIdpConnectionCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<SamlSpIdpConnectionCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"samlSpIdpConnectionId",
 			SamlSpIdpConnection::getSamlSpIdpConnectionId);
+
+		cacheModelGetterFunctions.put(
+			"samlSpIdpConnectionId",
+			samlSpIdpConnectionCacheModel ->
+				samlSpIdpConnectionCacheModel.samlSpIdpConnectionId);
 		attributeSetterBiConsumers.put(
 			"samlSpIdpConnectionId",
 			(BiConsumer<SamlSpIdpConnection, Long>)
 				SamlSpIdpConnection::setSamlSpIdpConnectionId);
 		attributeGetterFunctions.put(
 			"companyId", SamlSpIdpConnection::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			samlSpIdpConnectionCacheModel ->
+				samlSpIdpConnectionCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<SamlSpIdpConnection, Long>)
 				SamlSpIdpConnection::setCompanyId);
 		attributeGetterFunctions.put("userId", SamlSpIdpConnection::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			samlSpIdpConnectionCacheModel ->
+				samlSpIdpConnectionCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<SamlSpIdpConnection, Long>)
 				SamlSpIdpConnection::setUserId);
 		attributeGetterFunctions.put(
 			"userName", SamlSpIdpConnection::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			samlSpIdpConnectionCacheModel ->
+				samlSpIdpConnectionCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<SamlSpIdpConnection, String>)
 				SamlSpIdpConnection::setUserName);
 		attributeGetterFunctions.put(
 			"createDate", SamlSpIdpConnection::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			samlSpIdpConnectionCacheModel ->
+				samlSpIdpConnectionCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<SamlSpIdpConnection, Date>)
 				SamlSpIdpConnection::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", SamlSpIdpConnection::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			samlSpIdpConnectionCacheModel ->
+				samlSpIdpConnectionCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<SamlSpIdpConnection, Date>)
 				SamlSpIdpConnection::setModifiedDate);
 		attributeGetterFunctions.put(
 			"samlIdpEntityId", SamlSpIdpConnection::getSamlIdpEntityId);
+
+		cacheModelGetterFunctions.put(
+			"samlIdpEntityId",
+			samlSpIdpConnectionCacheModel ->
+				samlSpIdpConnectionCacheModel.samlIdpEntityId);
 		attributeSetterBiConsumers.put(
 			"samlIdpEntityId",
 			(BiConsumer<SamlSpIdpConnection, String>)
@@ -319,65 +420,120 @@ public class SamlSpIdpConnectionModelImpl
 		attributeGetterFunctions.put(
 			"assertionSignatureRequired",
 			SamlSpIdpConnection::getAssertionSignatureRequired);
+
+		cacheModelGetterFunctions.put(
+			"assertionSignatureRequired",
+			samlSpIdpConnectionCacheModel ->
+				samlSpIdpConnectionCacheModel.assertionSignatureRequired);
 		attributeSetterBiConsumers.put(
 			"assertionSignatureRequired",
 			(BiConsumer<SamlSpIdpConnection, Boolean>)
 				SamlSpIdpConnection::setAssertionSignatureRequired);
 		attributeGetterFunctions.put(
 			"clockSkew", SamlSpIdpConnection::getClockSkew);
+
+		cacheModelGetterFunctions.put(
+			"clockSkew",
+			samlSpIdpConnectionCacheModel ->
+				samlSpIdpConnectionCacheModel.clockSkew);
 		attributeSetterBiConsumers.put(
 			"clockSkew",
 			(BiConsumer<SamlSpIdpConnection, Long>)
 				SamlSpIdpConnection::setClockSkew);
 		attributeGetterFunctions.put(
 			"enabled", SamlSpIdpConnection::getEnabled);
+
+		cacheModelGetterFunctions.put(
+			"enabled",
+			samlSpIdpConnectionCacheModel ->
+				samlSpIdpConnectionCacheModel.enabled);
 		attributeSetterBiConsumers.put(
 			"enabled",
 			(BiConsumer<SamlSpIdpConnection, Boolean>)
 				SamlSpIdpConnection::setEnabled);
 		attributeGetterFunctions.put(
 			"forceAuthn", SamlSpIdpConnection::getForceAuthn);
+
+		cacheModelGetterFunctions.put(
+			"forceAuthn",
+			samlSpIdpConnectionCacheModel ->
+				samlSpIdpConnectionCacheModel.forceAuthn);
 		attributeSetterBiConsumers.put(
 			"forceAuthn",
 			(BiConsumer<SamlSpIdpConnection, Boolean>)
 				SamlSpIdpConnection::setForceAuthn);
 		attributeGetterFunctions.put(
 			"ldapImportEnabled", SamlSpIdpConnection::getLdapImportEnabled);
+
+		cacheModelGetterFunctions.put(
+			"ldapImportEnabled",
+			samlSpIdpConnectionCacheModel ->
+				samlSpIdpConnectionCacheModel.ldapImportEnabled);
 		attributeSetterBiConsumers.put(
 			"ldapImportEnabled",
 			(BiConsumer<SamlSpIdpConnection, Boolean>)
 				SamlSpIdpConnection::setLdapImportEnabled);
 		attributeGetterFunctions.put(
 			"metadataUpdatedDate", SamlSpIdpConnection::getMetadataUpdatedDate);
+
+		cacheModelGetterFunctions.put(
+			"metadataUpdatedDate",
+			samlSpIdpConnectionCacheModel ->
+				samlSpIdpConnectionCacheModel.metadataUpdatedDate);
 		attributeSetterBiConsumers.put(
 			"metadataUpdatedDate",
 			(BiConsumer<SamlSpIdpConnection, Date>)
 				SamlSpIdpConnection::setMetadataUpdatedDate);
 		attributeGetterFunctions.put(
 			"metadataUrl", SamlSpIdpConnection::getMetadataUrl);
+
+		cacheModelGetterFunctions.put(
+			"metadataUrl",
+			samlSpIdpConnectionCacheModel ->
+				samlSpIdpConnectionCacheModel.metadataUrl);
 		attributeSetterBiConsumers.put(
 			"metadataUrl",
 			(BiConsumer<SamlSpIdpConnection, String>)
 				SamlSpIdpConnection::setMetadataUrl);
 		attributeGetterFunctions.put(
 			"metadataXml", SamlSpIdpConnection::getMetadataXml);
+
+		cacheModelGetterFunctions.put(
+			"metadataXml",
+			samlSpIdpConnectionCacheModel ->
+				samlSpIdpConnectionCacheModel.metadataXml);
 		attributeSetterBiConsumers.put(
 			"metadataXml",
 			(BiConsumer<SamlSpIdpConnection, String>)
 				SamlSpIdpConnection::setMetadataXml);
 		attributeGetterFunctions.put("name", SamlSpIdpConnection::getName);
+
+		cacheModelGetterFunctions.put(
+			"name",
+			samlSpIdpConnectionCacheModel ->
+				samlSpIdpConnectionCacheModel.name);
 		attributeSetterBiConsumers.put(
 			"name",
 			(BiConsumer<SamlSpIdpConnection, String>)
 				SamlSpIdpConnection::setName);
 		attributeGetterFunctions.put(
 			"nameIdFormat", SamlSpIdpConnection::getNameIdFormat);
+
+		cacheModelGetterFunctions.put(
+			"nameIdFormat",
+			samlSpIdpConnectionCacheModel ->
+				samlSpIdpConnectionCacheModel.nameIdFormat);
 		attributeSetterBiConsumers.put(
 			"nameIdFormat",
 			(BiConsumer<SamlSpIdpConnection, String>)
 				SamlSpIdpConnection::setNameIdFormat);
 		attributeGetterFunctions.put(
 			"signAuthnRequest", SamlSpIdpConnection::getSignAuthnRequest);
+
+		cacheModelGetterFunctions.put(
+			"signAuthnRequest",
+			samlSpIdpConnectionCacheModel ->
+				samlSpIdpConnectionCacheModel.signAuthnRequest);
 		attributeSetterBiConsumers.put(
 			"signAuthnRequest",
 			(BiConsumer<SamlSpIdpConnection, Boolean>)
@@ -385,6 +541,11 @@ public class SamlSpIdpConnectionModelImpl
 		attributeGetterFunctions.put(
 			"unknownUsersAreStrangers",
 			SamlSpIdpConnection::getUnknownUsersAreStrangers);
+
+		cacheModelGetterFunctions.put(
+			"unknownUsersAreStrangers",
+			samlSpIdpConnectionCacheModel ->
+				samlSpIdpConnectionCacheModel.unknownUsersAreStrangers);
 		attributeSetterBiConsumers.put(
 			"unknownUsersAreStrangers",
 			(BiConsumer<SamlSpIdpConnection, Boolean>)
@@ -392,6 +553,11 @@ public class SamlSpIdpConnectionModelImpl
 		attributeGetterFunctions.put(
 			"userAttributeMappings",
 			SamlSpIdpConnection::getUserAttributeMappings);
+
+		cacheModelGetterFunctions.put(
+			"userAttributeMappings",
+			samlSpIdpConnectionCacheModel ->
+				samlSpIdpConnectionCacheModel.userAttributeMappings);
 		attributeSetterBiConsumers.put(
 			"userAttributeMappings",
 			(BiConsumer<SamlSpIdpConnection, String>)
@@ -401,6 +567,8 @@ public class SamlSpIdpConnectionModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -410,6 +578,13 @@ public class SamlSpIdpConnectionModelImpl
 
 	@Override
 	public void setSamlSpIdpConnectionId(long samlSpIdpConnectionId) {
+		_columnBitmask |= SAMLSPIDPCONNECTIONID_COLUMN_BITMASK;
+
+		if (!isNew() && (_samlSpIdpConnectionCacheModel == null)) {
+			_samlSpIdpConnectionCacheModel =
+				(SamlSpIdpConnectionCacheModel)toCacheModel();
+		}
+
 		_samlSpIdpConnectionId = samlSpIdpConnectionId;
 	}
 
@@ -422,17 +597,21 @@ public class SamlSpIdpConnectionModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (!isNew() && (_samlSpIdpConnectionCacheModel == null)) {
+			_samlSpIdpConnectionCacheModel =
+				(SamlSpIdpConnectionCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getCacheModelAttribute("companyId");
 	}
 
 	@Override
@@ -442,6 +621,13 @@ public class SamlSpIdpConnectionModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_samlSpIdpConnectionCacheModel == null)) {
+			_samlSpIdpConnectionCacheModel =
+				(SamlSpIdpConnectionCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -473,6 +659,13 @@ public class SamlSpIdpConnectionModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_samlSpIdpConnectionCacheModel == null)) {
+			_samlSpIdpConnectionCacheModel =
+				(SamlSpIdpConnectionCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -483,6 +676,13 @@ public class SamlSpIdpConnectionModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_samlSpIdpConnectionCacheModel == null)) {
+			_samlSpIdpConnectionCacheModel =
+				(SamlSpIdpConnectionCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -498,6 +698,13 @@ public class SamlSpIdpConnectionModelImpl
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
+
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_samlSpIdpConnectionCacheModel == null)) {
+			_samlSpIdpConnectionCacheModel =
+				(SamlSpIdpConnectionCacheModel)toCacheModel();
+		}
 
 		_modifiedDate = modifiedDate;
 	}
@@ -516,15 +723,21 @@ public class SamlSpIdpConnectionModelImpl
 	public void setSamlIdpEntityId(String samlIdpEntityId) {
 		_columnBitmask |= SAMLIDPENTITYID_COLUMN_BITMASK;
 
-		if (_originalSamlIdpEntityId == null) {
-			_originalSamlIdpEntityId = _samlIdpEntityId;
+		if (!isNew() && (_samlSpIdpConnectionCacheModel == null)) {
+			_samlSpIdpConnectionCacheModel =
+				(SamlSpIdpConnectionCacheModel)toCacheModel();
 		}
 
 		_samlIdpEntityId = samlIdpEntityId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalSamlIdpEntityId() {
-		return GetterUtil.getString(_originalSamlIdpEntityId);
+		return getCacheModelAttribute("samlIdpEntityId");
 	}
 
 	@Override
@@ -541,6 +754,13 @@ public class SamlSpIdpConnectionModelImpl
 	public void setAssertionSignatureRequired(
 		boolean assertionSignatureRequired) {
 
+		_columnBitmask |= ASSERTIONSIGNATUREREQUIRED_COLUMN_BITMASK;
+
+		if (!isNew() && (_samlSpIdpConnectionCacheModel == null)) {
+			_samlSpIdpConnectionCacheModel =
+				(SamlSpIdpConnectionCacheModel)toCacheModel();
+		}
+
 		_assertionSignatureRequired = assertionSignatureRequired;
 	}
 
@@ -551,6 +771,13 @@ public class SamlSpIdpConnectionModelImpl
 
 	@Override
 	public void setClockSkew(long clockSkew) {
+		_columnBitmask |= CLOCKSKEW_COLUMN_BITMASK;
+
+		if (!isNew() && (_samlSpIdpConnectionCacheModel == null)) {
+			_samlSpIdpConnectionCacheModel =
+				(SamlSpIdpConnectionCacheModel)toCacheModel();
+		}
+
 		_clockSkew = clockSkew;
 	}
 
@@ -566,6 +793,13 @@ public class SamlSpIdpConnectionModelImpl
 
 	@Override
 	public void setEnabled(boolean enabled) {
+		_columnBitmask |= ENABLED_COLUMN_BITMASK;
+
+		if (!isNew() && (_samlSpIdpConnectionCacheModel == null)) {
+			_samlSpIdpConnectionCacheModel =
+				(SamlSpIdpConnectionCacheModel)toCacheModel();
+		}
+
 		_enabled = enabled;
 	}
 
@@ -581,6 +815,13 @@ public class SamlSpIdpConnectionModelImpl
 
 	@Override
 	public void setForceAuthn(boolean forceAuthn) {
+		_columnBitmask |= FORCEAUTHN_COLUMN_BITMASK;
+
+		if (!isNew() && (_samlSpIdpConnectionCacheModel == null)) {
+			_samlSpIdpConnectionCacheModel =
+				(SamlSpIdpConnectionCacheModel)toCacheModel();
+		}
+
 		_forceAuthn = forceAuthn;
 	}
 
@@ -596,6 +837,13 @@ public class SamlSpIdpConnectionModelImpl
 
 	@Override
 	public void setLdapImportEnabled(boolean ldapImportEnabled) {
+		_columnBitmask |= LDAPIMPORTENABLED_COLUMN_BITMASK;
+
+		if (!isNew() && (_samlSpIdpConnectionCacheModel == null)) {
+			_samlSpIdpConnectionCacheModel =
+				(SamlSpIdpConnectionCacheModel)toCacheModel();
+		}
+
 		_ldapImportEnabled = ldapImportEnabled;
 	}
 
@@ -606,6 +854,13 @@ public class SamlSpIdpConnectionModelImpl
 
 	@Override
 	public void setMetadataUpdatedDate(Date metadataUpdatedDate) {
+		_columnBitmask |= METADATAUPDATEDDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_samlSpIdpConnectionCacheModel == null)) {
+			_samlSpIdpConnectionCacheModel =
+				(SamlSpIdpConnectionCacheModel)toCacheModel();
+		}
+
 		_metadataUpdatedDate = metadataUpdatedDate;
 	}
 
@@ -621,6 +876,13 @@ public class SamlSpIdpConnectionModelImpl
 
 	@Override
 	public void setMetadataUrl(String metadataUrl) {
+		_columnBitmask |= METADATAURL_COLUMN_BITMASK;
+
+		if (!isNew() && (_samlSpIdpConnectionCacheModel == null)) {
+			_samlSpIdpConnectionCacheModel =
+				(SamlSpIdpConnectionCacheModel)toCacheModel();
+		}
+
 		_metadataUrl = metadataUrl;
 	}
 
@@ -636,6 +898,13 @@ public class SamlSpIdpConnectionModelImpl
 
 	@Override
 	public void setMetadataXml(String metadataXml) {
+		_columnBitmask |= METADATAXML_COLUMN_BITMASK;
+
+		if (!isNew() && (_samlSpIdpConnectionCacheModel == null)) {
+			_samlSpIdpConnectionCacheModel =
+				(SamlSpIdpConnectionCacheModel)toCacheModel();
+		}
+
 		_metadataXml = metadataXml;
 	}
 
@@ -651,6 +920,13 @@ public class SamlSpIdpConnectionModelImpl
 
 	@Override
 	public void setName(String name) {
+		_columnBitmask |= NAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_samlSpIdpConnectionCacheModel == null)) {
+			_samlSpIdpConnectionCacheModel =
+				(SamlSpIdpConnectionCacheModel)toCacheModel();
+		}
+
 		_name = name;
 	}
 
@@ -666,6 +942,13 @@ public class SamlSpIdpConnectionModelImpl
 
 	@Override
 	public void setNameIdFormat(String nameIdFormat) {
+		_columnBitmask |= NAMEIDFORMAT_COLUMN_BITMASK;
+
+		if (!isNew() && (_samlSpIdpConnectionCacheModel == null)) {
+			_samlSpIdpConnectionCacheModel =
+				(SamlSpIdpConnectionCacheModel)toCacheModel();
+		}
+
 		_nameIdFormat = nameIdFormat;
 	}
 
@@ -681,6 +964,13 @@ public class SamlSpIdpConnectionModelImpl
 
 	@Override
 	public void setSignAuthnRequest(boolean signAuthnRequest) {
+		_columnBitmask |= SIGNAUTHNREQUEST_COLUMN_BITMASK;
+
+		if (!isNew() && (_samlSpIdpConnectionCacheModel == null)) {
+			_samlSpIdpConnectionCacheModel =
+				(SamlSpIdpConnectionCacheModel)toCacheModel();
+		}
+
 		_signAuthnRequest = signAuthnRequest;
 	}
 
@@ -696,6 +986,13 @@ public class SamlSpIdpConnectionModelImpl
 
 	@Override
 	public void setUnknownUsersAreStrangers(boolean unknownUsersAreStrangers) {
+		_columnBitmask |= UNKNOWNUSERSARESTRANGERS_COLUMN_BITMASK;
+
+		if (!isNew() && (_samlSpIdpConnectionCacheModel == null)) {
+			_samlSpIdpConnectionCacheModel =
+				(SamlSpIdpConnectionCacheModel)toCacheModel();
+		}
+
 		_unknownUsersAreStrangers = unknownUsersAreStrangers;
 	}
 
@@ -711,6 +1008,13 @@ public class SamlSpIdpConnectionModelImpl
 
 	@Override
 	public void setUserAttributeMappings(String userAttributeMappings) {
+		_columnBitmask |= USERATTRIBUTEMAPPINGS_COLUMN_BITMASK;
+
+		if (!isNew() && (_samlSpIdpConnectionCacheModel == null)) {
+			_samlSpIdpConnectionCacheModel =
+				(SamlSpIdpConnectionCacheModel)toCacheModel();
+		}
+
 		_userAttributeMappings = userAttributeMappings;
 	}
 
@@ -845,19 +1149,11 @@ public class SamlSpIdpConnectionModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		SamlSpIdpConnectionModelImpl samlSpIdpConnectionModelImpl = this;
+		_setModifiedDate = false;
 
-		samlSpIdpConnectionModelImpl._originalCompanyId =
-			samlSpIdpConnectionModelImpl._companyId;
+		_columnBitmask = 0;
 
-		samlSpIdpConnectionModelImpl._setOriginalCompanyId = false;
-
-		samlSpIdpConnectionModelImpl._setModifiedDate = false;
-
-		samlSpIdpConnectionModelImpl._originalSamlIdpEntityId =
-			samlSpIdpConnectionModelImpl._samlIdpEntityId;
-
-		samlSpIdpConnectionModelImpl._columnBitmask = 0;
+		_samlSpIdpConnectionCacheModel = null;
 	}
 
 	@Override
@@ -1051,15 +1347,12 @@ public class SamlSpIdpConnectionModelImpl
 
 	private long _samlSpIdpConnectionId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private String _samlIdpEntityId;
-	private String _originalSamlIdpEntityId;
 	private boolean _assertionSignatureRequired;
 	private long _clockSkew;
 	private boolean _enabled;
@@ -1075,5 +1368,6 @@ public class SamlSpIdpConnectionModelImpl
 	private String _userAttributeMappings;
 	private long _columnBitmask;
 	private SamlSpIdpConnection _escapedModel;
+	private SamlSpIdpConnectionCacheModel _samlSpIdpConnectionCacheModel;
 
 }

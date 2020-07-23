@@ -86,6 +86,8 @@ public class SamlSpAuthRequestCacheModel
 		SamlSpAuthRequestImpl samlSpAuthRequestImpl =
 			new SamlSpAuthRequestImpl();
 
+		samlSpAuthRequestImpl.setNew(true);
+
 		samlSpAuthRequestImpl.setSamlSpAuthnRequestId(samlSpAuthnRequestId);
 		samlSpAuthRequestImpl.setCompanyId(companyId);
 
@@ -111,6 +113,8 @@ public class SamlSpAuthRequestCacheModel
 		}
 
 		samlSpAuthRequestImpl.resetOriginalValues();
+
+		samlSpAuthRequestImpl.setNew(false);
 
 		return samlSpAuthRequestImpl;
 	}

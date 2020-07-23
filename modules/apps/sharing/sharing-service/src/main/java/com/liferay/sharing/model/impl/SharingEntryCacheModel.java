@@ -101,6 +101,8 @@ public class SharingEntryCacheModel
 	public SharingEntry toEntityModel() {
 		SharingEntryImpl sharingEntryImpl = new SharingEntryImpl();
 
+		sharingEntryImpl.setNew(true);
+
 		if (uuid == null) {
 			sharingEntryImpl.setUuid("");
 		}
@@ -148,6 +150,8 @@ public class SharingEntryCacheModel
 		}
 
 		sharingEntryImpl.resetOriginalValues();
+
+		sharingEntryImpl.setNew(false);
 
 		return sharingEntryImpl;
 	}

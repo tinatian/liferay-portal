@@ -128,6 +128,8 @@ public class KaleoNotificationCacheModel
 		KaleoNotificationImpl kaleoNotificationImpl =
 			new KaleoNotificationImpl();
 
+		kaleoNotificationImpl.setNew(true);
+
 		kaleoNotificationImpl.setMvccVersion(mvccVersion);
 		kaleoNotificationImpl.setKaleoNotificationId(kaleoNotificationId);
 		kaleoNotificationImpl.setGroupId(groupId);
@@ -217,6 +219,8 @@ public class KaleoNotificationCacheModel
 		}
 
 		kaleoNotificationImpl.resetOriginalValues();
+
+		kaleoNotificationImpl.setNew(false);
 
 		return kaleoNotificationImpl;
 	}

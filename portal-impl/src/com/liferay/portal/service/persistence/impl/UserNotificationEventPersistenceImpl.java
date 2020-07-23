@@ -11904,7 +11904,8 @@ public class UserNotificationEventPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					userNotificationEventModelImpl.getOriginalUuid()
+					userNotificationEventModelImpl.getCacheModelAttribute(
+						"uuid")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid, args);
@@ -11923,8 +11924,10 @@ public class UserNotificationEventPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					userNotificationEventModelImpl.getOriginalUuid(),
-					userNotificationEventModelImpl.getOriginalCompanyId()
+					userNotificationEventModelImpl.getCacheModelAttribute(
+						"uuid"),
+					userNotificationEventModelImpl.getCacheModelAttribute(
+						"companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid_C, args);
@@ -11946,7 +11949,8 @@ public class UserNotificationEventPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					userNotificationEventModelImpl.getOriginalUserId()
+					userNotificationEventModelImpl.getCacheModelAttribute(
+						"userId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUserId, args);
@@ -11967,7 +11971,8 @@ public class UserNotificationEventPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					userNotificationEventModelImpl.getOriginalType()
+					userNotificationEventModelImpl.getCacheModelAttribute(
+						"type")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByType, args);
@@ -11986,8 +11991,10 @@ public class UserNotificationEventPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					userNotificationEventModelImpl.getOriginalUserId(),
-					userNotificationEventModelImpl.getOriginalDeliveryType()
+					userNotificationEventModelImpl.getCacheModelAttribute(
+						"userId"),
+					userNotificationEventModelImpl.getCacheModelAttribute(
+						"deliveryType")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByU_DT, args);
@@ -12009,8 +12016,10 @@ public class UserNotificationEventPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					userNotificationEventModelImpl.getOriginalUserId(),
-					userNotificationEventModelImpl.getOriginalDelivered()
+					userNotificationEventModelImpl.getCacheModelAttribute(
+						"userId"),
+					userNotificationEventModelImpl.getCacheModelAttribute(
+						"delivered")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByU_D, args);
@@ -12032,8 +12041,10 @@ public class UserNotificationEventPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					userNotificationEventModelImpl.getOriginalUserId(),
-					userNotificationEventModelImpl.getOriginalArchived()
+					userNotificationEventModelImpl.getCacheModelAttribute(
+						"userId"),
+					userNotificationEventModelImpl.getCacheModelAttribute(
+						"archived")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByU_A, args);
@@ -12055,9 +12066,12 @@ public class UserNotificationEventPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					userNotificationEventModelImpl.getOriginalUserId(),
-					userNotificationEventModelImpl.getOriginalDeliveryType(),
-					userNotificationEventModelImpl.getOriginalDelivered()
+					userNotificationEventModelImpl.getCacheModelAttribute(
+						"userId"),
+					userNotificationEventModelImpl.getCacheModelAttribute(
+						"deliveryType"),
+					userNotificationEventModelImpl.getCacheModelAttribute(
+						"delivered")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByU_DT_D, args);
@@ -12080,9 +12094,12 @@ public class UserNotificationEventPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					userNotificationEventModelImpl.getOriginalUserId(),
-					userNotificationEventModelImpl.getOriginalDeliveryType(),
-					userNotificationEventModelImpl.getOriginalArchived()
+					userNotificationEventModelImpl.getCacheModelAttribute(
+						"userId"),
+					userNotificationEventModelImpl.getCacheModelAttribute(
+						"deliveryType"),
+					userNotificationEventModelImpl.getCacheModelAttribute(
+						"archived")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByU_DT_A, args);
@@ -12105,9 +12122,12 @@ public class UserNotificationEventPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					userNotificationEventModelImpl.getOriginalUserId(),
-					userNotificationEventModelImpl.getOriginalDelivered(),
-					userNotificationEventModelImpl.getOriginalActionRequired()
+					userNotificationEventModelImpl.getCacheModelAttribute(
+						"userId"),
+					userNotificationEventModelImpl.getCacheModelAttribute(
+						"delivered"),
+					userNotificationEventModelImpl.getCacheModelAttribute(
+						"actionRequired")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByU_D_AR, args);
@@ -12130,9 +12150,12 @@ public class UserNotificationEventPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					userNotificationEventModelImpl.getOriginalUserId(),
-					userNotificationEventModelImpl.getOriginalDelivered(),
-					userNotificationEventModelImpl.getOriginalArchived()
+					userNotificationEventModelImpl.getCacheModelAttribute(
+						"userId"),
+					userNotificationEventModelImpl.getCacheModelAttribute(
+						"delivered"),
+					userNotificationEventModelImpl.getCacheModelAttribute(
+						"archived")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByU_D_A, args);
@@ -12155,9 +12178,12 @@ public class UserNotificationEventPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					userNotificationEventModelImpl.getOriginalUserId(),
-					userNotificationEventModelImpl.getOriginalActionRequired(),
-					userNotificationEventModelImpl.getOriginalArchived()
+					userNotificationEventModelImpl.getCacheModelAttribute(
+						"userId"),
+					userNotificationEventModelImpl.getCacheModelAttribute(
+						"actionRequired"),
+					userNotificationEventModelImpl.getCacheModelAttribute(
+						"archived")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByU_AR_A, args);
@@ -12180,10 +12206,14 @@ public class UserNotificationEventPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					userNotificationEventModelImpl.getOriginalUserId(),
-					userNotificationEventModelImpl.getOriginalType(),
-					userNotificationEventModelImpl.getOriginalDeliveryType(),
-					userNotificationEventModelImpl.getOriginalDelivered()
+					userNotificationEventModelImpl.getCacheModelAttribute(
+						"userId"),
+					userNotificationEventModelImpl.getCacheModelAttribute(
+						"type"),
+					userNotificationEventModelImpl.getCacheModelAttribute(
+						"deliveryType"),
+					userNotificationEventModelImpl.getCacheModelAttribute(
+						"delivered")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByU_T_DT_D, args);
@@ -12207,10 +12237,14 @@ public class UserNotificationEventPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					userNotificationEventModelImpl.getOriginalUserId(),
-					userNotificationEventModelImpl.getOriginalDeliveryType(),
-					userNotificationEventModelImpl.getOriginalDelivered(),
-					userNotificationEventModelImpl.getOriginalActionRequired()
+					userNotificationEventModelImpl.getCacheModelAttribute(
+						"userId"),
+					userNotificationEventModelImpl.getCacheModelAttribute(
+						"deliveryType"),
+					userNotificationEventModelImpl.getCacheModelAttribute(
+						"delivered"),
+					userNotificationEventModelImpl.getCacheModelAttribute(
+						"actionRequired")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByU_DT_D_AR, args);
@@ -12234,10 +12268,14 @@ public class UserNotificationEventPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					userNotificationEventModelImpl.getOriginalUserId(),
-					userNotificationEventModelImpl.getOriginalDeliveryType(),
-					userNotificationEventModelImpl.getOriginalDelivered(),
-					userNotificationEventModelImpl.getOriginalArchived()
+					userNotificationEventModelImpl.getCacheModelAttribute(
+						"userId"),
+					userNotificationEventModelImpl.getCacheModelAttribute(
+						"deliveryType"),
+					userNotificationEventModelImpl.getCacheModelAttribute(
+						"delivered"),
+					userNotificationEventModelImpl.getCacheModelAttribute(
+						"archived")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByU_DT_D_A, args);
@@ -12261,10 +12299,14 @@ public class UserNotificationEventPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					userNotificationEventModelImpl.getOriginalUserId(),
-					userNotificationEventModelImpl.getOriginalDeliveryType(),
-					userNotificationEventModelImpl.getOriginalActionRequired(),
-					userNotificationEventModelImpl.getOriginalArchived()
+					userNotificationEventModelImpl.getCacheModelAttribute(
+						"userId"),
+					userNotificationEventModelImpl.getCacheModelAttribute(
+						"deliveryType"),
+					userNotificationEventModelImpl.getCacheModelAttribute(
+						"actionRequired"),
+					userNotificationEventModelImpl.getCacheModelAttribute(
+						"archived")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByU_DT_AR_A, args);
@@ -12288,10 +12330,14 @@ public class UserNotificationEventPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					userNotificationEventModelImpl.getOriginalUserId(),
-					userNotificationEventModelImpl.getOriginalDelivered(),
-					userNotificationEventModelImpl.getOriginalActionRequired(),
-					userNotificationEventModelImpl.getOriginalArchived()
+					userNotificationEventModelImpl.getCacheModelAttribute(
+						"userId"),
+					userNotificationEventModelImpl.getCacheModelAttribute(
+						"delivered"),
+					userNotificationEventModelImpl.getCacheModelAttribute(
+						"actionRequired"),
+					userNotificationEventModelImpl.getCacheModelAttribute(
+						"archived")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByU_D_AR_A, args);
@@ -12315,11 +12361,16 @@ public class UserNotificationEventPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					userNotificationEventModelImpl.getOriginalUserId(),
-					userNotificationEventModelImpl.getOriginalType(),
-					userNotificationEventModelImpl.getOriginalDeliveryType(),
-					userNotificationEventModelImpl.getOriginalDelivered(),
-					userNotificationEventModelImpl.getOriginalArchived()
+					userNotificationEventModelImpl.getCacheModelAttribute(
+						"userId"),
+					userNotificationEventModelImpl.getCacheModelAttribute(
+						"type"),
+					userNotificationEventModelImpl.getCacheModelAttribute(
+						"deliveryType"),
+					userNotificationEventModelImpl.getCacheModelAttribute(
+						"delivered"),
+					userNotificationEventModelImpl.getCacheModelAttribute(
+						"archived")
 				};
 
 				FinderCacheUtil.removeResult(
@@ -12346,11 +12397,16 @@ public class UserNotificationEventPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					userNotificationEventModelImpl.getOriginalUserId(),
-					userNotificationEventModelImpl.getOriginalDeliveryType(),
-					userNotificationEventModelImpl.getOriginalDelivered(),
-					userNotificationEventModelImpl.getOriginalActionRequired(),
-					userNotificationEventModelImpl.getOriginalArchived()
+					userNotificationEventModelImpl.getCacheModelAttribute(
+						"userId"),
+					userNotificationEventModelImpl.getCacheModelAttribute(
+						"deliveryType"),
+					userNotificationEventModelImpl.getCacheModelAttribute(
+						"delivered"),
+					userNotificationEventModelImpl.getCacheModelAttribute(
+						"actionRequired"),
+					userNotificationEventModelImpl.getCacheModelAttribute(
+						"archived")
 				};
 
 				FinderCacheUtil.removeResult(

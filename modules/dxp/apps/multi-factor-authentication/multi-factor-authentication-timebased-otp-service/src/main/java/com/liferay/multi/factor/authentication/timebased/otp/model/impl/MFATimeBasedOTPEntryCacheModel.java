@@ -116,6 +116,8 @@ public class MFATimeBasedOTPEntryCacheModel
 		MFATimeBasedOTPEntryImpl mfaTimeBasedOTPEntryImpl =
 			new MFATimeBasedOTPEntryImpl();
 
+		mfaTimeBasedOTPEntryImpl.setNew(true);
+
 		mfaTimeBasedOTPEntryImpl.setMvccVersion(mvccVersion);
 		mfaTimeBasedOTPEntryImpl.setMfaTimeBasedOTPEntryId(
 			mfaTimeBasedOTPEntryId);
@@ -182,6 +184,8 @@ public class MFATimeBasedOTPEntryCacheModel
 		}
 
 		mfaTimeBasedOTPEntryImpl.resetOriginalValues();
+
+		mfaTimeBasedOTPEntryImpl.setNew(false);
 
 		return mfaTimeBasedOTPEntryImpl;
 	}

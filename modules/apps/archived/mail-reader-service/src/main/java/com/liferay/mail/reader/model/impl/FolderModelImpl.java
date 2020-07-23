@@ -27,7 +27,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -106,9 +105,25 @@ public class FolderModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long ACCOUNTID_COLUMN_BITMASK = 1L;
+	public static final long FOLDERID_COLUMN_BITMASK = 1L;
 
-	public static final long FULLNAME_COLUMN_BITMASK = 2L;
+	public static final long COMPANYID_COLUMN_BITMASK = 2L;
+
+	public static final long USERID_COLUMN_BITMASK = 4L;
+
+	public static final long USERNAME_COLUMN_BITMASK = 8L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 16L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 32L;
+
+	public static final long ACCOUNTID_COLUMN_BITMASK = 64L;
+
+	public static final long FULLNAME_COLUMN_BITMASK = 128L;
+
+	public static final long DISPLAYNAME_COLUMN_BITMASK = 256L;
+
+	public static final long REMOTEMESSAGECOUNT_COLUMN_BITMASK = 512L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -232,46 +247,108 @@ public class FolderModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<Folder, Object> function = _attributeGetterFunctions.get(
+			attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((Folder)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<FolderCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_folderCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_folderCacheModel);
+	}
+
 	private static final Map<String, Function<Folder, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<Folder, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<FolderCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<Folder, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<Folder, Object>>();
 		Map<String, BiConsumer<Folder, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Folder, ?>>();
+		Map<String, Function<FolderCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap<String, Function<FolderCacheModel, Object>>();
 
 		attributeGetterFunctions.put("folderId", Folder::getFolderId);
+
+		cacheModelGetterFunctions.put(
+			"folderId", folderCacheModel -> folderCacheModel.folderId);
 		attributeSetterBiConsumers.put(
 			"folderId", (BiConsumer<Folder, Long>)Folder::setFolderId);
 		attributeGetterFunctions.put("companyId", Folder::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId", folderCacheModel -> folderCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId", (BiConsumer<Folder, Long>)Folder::setCompanyId);
 		attributeGetterFunctions.put("userId", Folder::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", folderCacheModel -> folderCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<Folder, Long>)Folder::setUserId);
 		attributeGetterFunctions.put("userName", Folder::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName", folderCacheModel -> folderCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName", (BiConsumer<Folder, String>)Folder::setUserName);
 		attributeGetterFunctions.put("createDate", Folder::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate", folderCacheModel -> folderCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate", (BiConsumer<Folder, Date>)Folder::setCreateDate);
 		attributeGetterFunctions.put("modifiedDate", Folder::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate", folderCacheModel -> folderCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate", (BiConsumer<Folder, Date>)Folder::setModifiedDate);
 		attributeGetterFunctions.put("accountId", Folder::getAccountId);
+
+		cacheModelGetterFunctions.put(
+			"accountId", folderCacheModel -> folderCacheModel.accountId);
 		attributeSetterBiConsumers.put(
 			"accountId", (BiConsumer<Folder, Long>)Folder::setAccountId);
 		attributeGetterFunctions.put("fullName", Folder::getFullName);
+
+		cacheModelGetterFunctions.put(
+			"fullName", folderCacheModel -> folderCacheModel.fullName);
 		attributeSetterBiConsumers.put(
 			"fullName", (BiConsumer<Folder, String>)Folder::setFullName);
 		attributeGetterFunctions.put("displayName", Folder::getDisplayName);
+
+		cacheModelGetterFunctions.put(
+			"displayName", folderCacheModel -> folderCacheModel.displayName);
 		attributeSetterBiConsumers.put(
 			"displayName", (BiConsumer<Folder, String>)Folder::setDisplayName);
 		attributeGetterFunctions.put(
 			"remoteMessageCount", Folder::getRemoteMessageCount);
+
+		cacheModelGetterFunctions.put(
+			"remoteMessageCount",
+			folderCacheModel -> folderCacheModel.remoteMessageCount);
 		attributeSetterBiConsumers.put(
 			"remoteMessageCount",
 			(BiConsumer<Folder, Integer>)Folder::setRemoteMessageCount);
@@ -280,6 +357,8 @@ public class FolderModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -289,6 +368,12 @@ public class FolderModelImpl
 
 	@Override
 	public void setFolderId(long folderId) {
+		_columnBitmask |= FOLDERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_folderCacheModel == null)) {
+			_folderCacheModel = (FolderCacheModel)toCacheModel();
+		}
+
 		_folderId = folderId;
 	}
 
@@ -299,6 +384,12 @@ public class FolderModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (!isNew() && (_folderCacheModel == null)) {
+			_folderCacheModel = (FolderCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -309,6 +400,12 @@ public class FolderModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_folderCacheModel == null)) {
+			_folderCacheModel = (FolderCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -340,6 +437,12 @@ public class FolderModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_folderCacheModel == null)) {
+			_folderCacheModel = (FolderCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -350,6 +453,12 @@ public class FolderModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_folderCacheModel == null)) {
+			_folderCacheModel = (FolderCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -366,6 +475,12 @@ public class FolderModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_folderCacheModel == null)) {
+			_folderCacheModel = (FolderCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -378,17 +493,20 @@ public class FolderModelImpl
 	public void setAccountId(long accountId) {
 		_columnBitmask |= ACCOUNTID_COLUMN_BITMASK;
 
-		if (!_setOriginalAccountId) {
-			_setOriginalAccountId = true;
-
-			_originalAccountId = _accountId;
+		if (!isNew() && (_folderCacheModel == null)) {
+			_folderCacheModel = (FolderCacheModel)toCacheModel();
 		}
 
 		_accountId = accountId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalAccountId() {
-		return _originalAccountId;
+		return getCacheModelAttribute("accountId");
 	}
 
 	@Override
@@ -403,17 +521,22 @@ public class FolderModelImpl
 
 	@Override
 	public void setFullName(String fullName) {
-		_columnBitmask = -1L;
+		_columnBitmask |= FULLNAME_COLUMN_BITMASK;
 
-		if (_originalFullName == null) {
-			_originalFullName = _fullName;
+		if (!isNew() && (_folderCacheModel == null)) {
+			_folderCacheModel = (FolderCacheModel)toCacheModel();
 		}
 
 		_fullName = fullName;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalFullName() {
-		return GetterUtil.getString(_originalFullName);
+		return getCacheModelAttribute("fullName");
 	}
 
 	@Override
@@ -428,6 +551,12 @@ public class FolderModelImpl
 
 	@Override
 	public void setDisplayName(String displayName) {
+		_columnBitmask |= DISPLAYNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_folderCacheModel == null)) {
+			_folderCacheModel = (FolderCacheModel)toCacheModel();
+		}
+
 		_displayName = displayName;
 	}
 
@@ -438,6 +567,12 @@ public class FolderModelImpl
 
 	@Override
 	public void setRemoteMessageCount(int remoteMessageCount) {
+		_columnBitmask |= REMOTEMESSAGECOUNT_COLUMN_BITMASK;
+
+		if (!isNew() && (_folderCacheModel == null)) {
+			_folderCacheModel = (FolderCacheModel)toCacheModel();
+		}
+
 		_remoteMessageCount = remoteMessageCount;
 	}
 
@@ -553,17 +688,11 @@ public class FolderModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		FolderModelImpl folderModelImpl = this;
+		_setModifiedDate = false;
 
-		folderModelImpl._setModifiedDate = false;
+		_columnBitmask = 0;
 
-		folderModelImpl._originalAccountId = folderModelImpl._accountId;
-
-		folderModelImpl._setOriginalAccountId = false;
-
-		folderModelImpl._originalFullName = folderModelImpl._fullName;
-
-		folderModelImpl._columnBitmask = 0;
+		_folderCacheModel = null;
 	}
 
 	@Override
@@ -701,13 +830,11 @@ public class FolderModelImpl
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _accountId;
-	private long _originalAccountId;
-	private boolean _setOriginalAccountId;
 	private String _fullName;
-	private String _originalFullName;
 	private String _displayName;
 	private int _remoteMessageCount;
 	private long _columnBitmask;
 	private Folder _escapedModel;
+	private FolderCacheModel _folderCacheModel;
 
 }

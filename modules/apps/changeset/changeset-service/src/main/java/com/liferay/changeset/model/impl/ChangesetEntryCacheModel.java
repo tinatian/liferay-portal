@@ -93,6 +93,8 @@ public class ChangesetEntryCacheModel
 	public ChangesetEntry toEntityModel() {
 		ChangesetEntryImpl changesetEntryImpl = new ChangesetEntryImpl();
 
+		changesetEntryImpl.setNew(true);
+
 		changesetEntryImpl.setChangesetEntryId(changesetEntryId);
 		changesetEntryImpl.setGroupId(groupId);
 		changesetEntryImpl.setCompanyId(companyId);
@@ -124,6 +126,8 @@ public class ChangesetEntryCacheModel
 		changesetEntryImpl.setClassPK(classPK);
 
 		changesetEntryImpl.resetOriginalValues();
+
+		changesetEntryImpl.setNew(false);
 
 		return changesetEntryImpl;
 	}

@@ -1385,7 +1385,9 @@ public class CompanyPersistenceImpl
 		if ((companyModelImpl.getColumnBitmask() &
 			 _finderPathFetchByWebId.getColumnBitmask()) != 0) {
 
-			Object[] args = new Object[] {companyModelImpl.getOriginalWebId()};
+			Object[] args = new Object[] {
+				companyModelImpl.getCacheModelAttribute("webId")
+			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByWebId, args);
 			FinderCacheUtil.removeResult(_finderPathFetchByWebId, args);
@@ -1401,7 +1403,9 @@ public class CompanyPersistenceImpl
 		if ((companyModelImpl.getColumnBitmask() &
 			 _finderPathFetchByMx.getColumnBitmask()) != 0) {
 
-			Object[] args = new Object[] {companyModelImpl.getOriginalMx()};
+			Object[] args = new Object[] {
+				companyModelImpl.getCacheModelAttribute("mx")
+			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByMx, args);
 			FinderCacheUtil.removeResult(_finderPathFetchByMx, args);
@@ -1417,7 +1421,9 @@ public class CompanyPersistenceImpl
 		if ((companyModelImpl.getColumnBitmask() &
 			 _finderPathFetchByLogoId.getColumnBitmask()) != 0) {
 
-			Object[] args = new Object[] {companyModelImpl.getOriginalLogoId()};
+			Object[] args = new Object[] {
+				companyModelImpl.getCacheModelAttribute("logoId")
+			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByLogoId, args);
 			FinderCacheUtil.removeResult(_finderPathFetchByLogoId, args);
@@ -1586,7 +1592,7 @@ public class CompanyPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					companyModelImpl.getOriginalSystem()
+					companyModelImpl.getCacheModelAttribute("system")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountBySystem, args);

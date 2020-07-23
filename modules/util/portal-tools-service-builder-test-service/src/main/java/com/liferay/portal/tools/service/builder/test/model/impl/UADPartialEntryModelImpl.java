@@ -282,10 +282,39 @@ public class UADPartialEntryModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<UADPartialEntry, Object> function =
+			_attributeGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((UADPartialEntry)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<UADPartialEntryCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_uadPartialEntryCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_uadPartialEntryCacheModel);
+	}
+
 	private static final Map<String, Function<UADPartialEntry, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<UADPartialEntry, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<UADPartialEntryCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<UADPartialEntry, Object>>
@@ -293,22 +322,43 @@ public class UADPartialEntryModelImpl
 				new LinkedHashMap<String, Function<UADPartialEntry, Object>>();
 		Map<String, BiConsumer<UADPartialEntry, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<UADPartialEntry, ?>>();
+		Map<String, Function<UADPartialEntryCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<UADPartialEntryCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"uadPartialEntryId", UADPartialEntry::getUadPartialEntryId);
+
+		cacheModelGetterFunctions.put(
+			"uadPartialEntryId",
+			uadPartialEntryCacheModel ->
+				uadPartialEntryCacheModel.uadPartialEntryId);
 		attributeSetterBiConsumers.put(
 			"uadPartialEntryId",
 			(BiConsumer<UADPartialEntry, Long>)
 				UADPartialEntry::setUadPartialEntryId);
 		attributeGetterFunctions.put("userId", UADPartialEntry::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			uadPartialEntryCacheModel -> uadPartialEntryCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<UADPartialEntry, Long>)UADPartialEntry::setUserId);
 		attributeGetterFunctions.put("userName", UADPartialEntry::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			uadPartialEntryCacheModel -> uadPartialEntryCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<UADPartialEntry, String>)UADPartialEntry::setUserName);
 		attributeGetterFunctions.put("message", UADPartialEntry::getMessage);
+
+		cacheModelGetterFunctions.put(
+			"message",
+			uadPartialEntryCacheModel -> uadPartialEntryCacheModel.message);
 		attributeSetterBiConsumers.put(
 			"message",
 			(BiConsumer<UADPartialEntry, String>)UADPartialEntry::setMessage);
@@ -317,6 +367,8 @@ public class UADPartialEntryModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -327,6 +379,11 @@ public class UADPartialEntryModelImpl
 
 	@Override
 	public void setUadPartialEntryId(long uadPartialEntryId) {
+		if (!isNew() && (_uadPartialEntryCacheModel == null)) {
+			_uadPartialEntryCacheModel =
+				(UADPartialEntryCacheModel)toCacheModel();
+		}
+
 		_uadPartialEntryId = uadPartialEntryId;
 	}
 
@@ -338,6 +395,11 @@ public class UADPartialEntryModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		if (!isNew() && (_uadPartialEntryCacheModel == null)) {
+			_uadPartialEntryCacheModel =
+				(UADPartialEntryCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -370,6 +432,11 @@ public class UADPartialEntryModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		if (!isNew() && (_uadPartialEntryCacheModel == null)) {
+			_uadPartialEntryCacheModel =
+				(UADPartialEntryCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -386,6 +453,11 @@ public class UADPartialEntryModelImpl
 
 	@Override
 	public void setMessage(String message) {
+		if (!isNew() && (_uadPartialEntryCacheModel == null)) {
+			_uadPartialEntryCacheModel =
+				(UADPartialEntryCacheModel)toCacheModel();
+		}
+
 		_message = message;
 	}
 
@@ -493,6 +565,7 @@ public class UADPartialEntryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
+		_uadPartialEntryCacheModel = null;
 	}
 
 	@Override
@@ -598,5 +671,6 @@ public class UADPartialEntryModelImpl
 	private String _userName;
 	private String _message;
 	private UADPartialEntry _escapedModel;
+	private UADPartialEntryCacheModel _uadPartialEntryCacheModel;
 
 }

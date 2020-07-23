@@ -6903,8 +6903,8 @@ public class BookmarksFolderPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				bookmarksFolderModelImpl.getOriginalUuid(),
-				bookmarksFolderModelImpl.getOriginalGroupId()
+				bookmarksFolderModelImpl.getCacheModelAttribute("uuid"),
+				bookmarksFolderModelImpl.getCacheModelAttribute("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -7154,7 +7154,7 @@ public class BookmarksFolderPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					bookmarksFolderModelImpl.getOriginalUuid()
+					bookmarksFolderModelImpl.getCacheModelAttribute("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -7173,8 +7173,8 @@ public class BookmarksFolderPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					bookmarksFolderModelImpl.getOriginalUuid(),
-					bookmarksFolderModelImpl.getOriginalCompanyId()
+					bookmarksFolderModelImpl.getCacheModelAttribute("uuid"),
+					bookmarksFolderModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -7196,7 +7196,7 @@ public class BookmarksFolderPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					bookmarksFolderModelImpl.getOriginalGroupId()
+					bookmarksFolderModelImpl.getCacheModelAttribute("groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId, args);
@@ -7215,7 +7215,7 @@ public class BookmarksFolderPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					bookmarksFolderModelImpl.getOriginalCompanyId()
+					bookmarksFolderModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCompanyId, args);
@@ -7234,8 +7234,9 @@ public class BookmarksFolderPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					bookmarksFolderModelImpl.getOriginalGroupId(),
-					bookmarksFolderModelImpl.getOriginalParentFolderId()
+					bookmarksFolderModelImpl.getCacheModelAttribute("groupId"),
+					bookmarksFolderModelImpl.getCacheModelAttribute(
+						"parentFolderId")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_P, args);
@@ -7257,9 +7258,10 @@ public class BookmarksFolderPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					bookmarksFolderModelImpl.getOriginalGroupId(),
-					bookmarksFolderModelImpl.getOriginalParentFolderId(),
-					bookmarksFolderModelImpl.getOriginalStatus()
+					bookmarksFolderModelImpl.getCacheModelAttribute("groupId"),
+					bookmarksFolderModelImpl.getCacheModelAttribute(
+						"parentFolderId"),
+					bookmarksFolderModelImpl.getCacheModelAttribute("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_P_S, args);

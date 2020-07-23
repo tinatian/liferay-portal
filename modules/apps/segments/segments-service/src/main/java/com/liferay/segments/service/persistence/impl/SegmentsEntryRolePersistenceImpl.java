@@ -1524,8 +1524,9 @@ public class SegmentsEntryRolePersistenceImpl
 			 _finderPathFetchByS_R.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				segmentsEntryRoleModelImpl.getOriginalSegmentsEntryId(),
-				segmentsEntryRoleModelImpl.getOriginalRoleId()
+				segmentsEntryRoleModelImpl.getCacheModelAttribute(
+					"segmentsEntryId"),
+				segmentsEntryRoleModelImpl.getCacheModelAttribute("roleId")
 			};
 
 			finderCache.removeResult(_finderPathCountByS_R, args);
@@ -1759,7 +1760,8 @@ public class SegmentsEntryRolePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					segmentsEntryRoleModelImpl.getOriginalSegmentsEntryId()
+					segmentsEntryRoleModelImpl.getCacheModelAttribute(
+						"segmentsEntryId")
 				};
 
 				finderCache.removeResult(
@@ -1782,7 +1784,7 @@ public class SegmentsEntryRolePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					segmentsEntryRoleModelImpl.getOriginalRoleId()
+					segmentsEntryRoleModelImpl.getCacheModelAttribute("roleId")
 				};
 
 				finderCache.removeResult(_finderPathCountByRoleId, args);

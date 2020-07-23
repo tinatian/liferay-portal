@@ -33,7 +33,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -133,19 +132,43 @@ public class MBCategoryModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long CATEGORYID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 4L;
+	public static final long UUID_COLUMN_BITMASK = 4L;
 
-	public static final long PARENTCATEGORYID_COLUMN_BITMASK = 8L;
+	public static final long CATEGORYID_COLUMN_BITMASK = 8L;
 
-	public static final long STATUS_COLUMN_BITMASK = 16L;
+	public static final long GROUPID_COLUMN_BITMASK = 16L;
 
-	public static final long UUID_COLUMN_BITMASK = 32L;
+	public static final long COMPANYID_COLUMN_BITMASK = 32L;
 
-	public static final long NAME_COLUMN_BITMASK = 64L;
+	public static final long USERID_COLUMN_BITMASK = 64L;
+
+	public static final long USERNAME_COLUMN_BITMASK = 128L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 256L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 512L;
+
+	public static final long PARENTCATEGORYID_COLUMN_BITMASK = 1024L;
+
+	public static final long NAME_COLUMN_BITMASK = 2048L;
+
+	public static final long DESCRIPTION_COLUMN_BITMASK = 4096L;
+
+	public static final long DISPLAYSTYLE_COLUMN_BITMASK = 8192L;
+
+	public static final long LASTPUBLISHDATE_COLUMN_BITMASK = 16384L;
+
+	public static final long STATUS_COLUMN_BITMASK = 32768L;
+
+	public static final long STATUSBYUSERID_COLUMN_BITMASK = 65536L;
+
+	public static final long STATUSBYUSERNAME_COLUMN_BITMASK = 131072L;
+
+	public static final long STATUSDATE_COLUMN_BITMASK = 262144L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -329,92 +352,194 @@ public class MBCategoryModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<MBCategory, Object> function = _attributeGetterFunctions.get(
+			attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((MBCategory)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<MBCategoryCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_mbCategoryCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_mbCategoryCacheModel);
+	}
+
 	private static final Map<String, Function<MBCategory, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<MBCategory, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<MBCategoryCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<MBCategory, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<MBCategory, Object>>();
 		Map<String, BiConsumer<MBCategory, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<MBCategory, ?>>();
+		Map<String, Function<MBCategoryCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<MBCategoryCacheModel, Object>>();
 
 		attributeGetterFunctions.put("mvccVersion", MBCategory::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			mbCategoryCacheModel -> mbCategoryCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<MBCategory, Long>)MBCategory::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", MBCategory::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			mbCategoryCacheModel -> mbCategoryCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<MBCategory, Long>)MBCategory::setCtCollectionId);
 		attributeGetterFunctions.put("uuid", MBCategory::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid", mbCategoryCacheModel -> mbCategoryCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<MBCategory, String>)MBCategory::setUuid);
 		attributeGetterFunctions.put("categoryId", MBCategory::getCategoryId);
+
+		cacheModelGetterFunctions.put(
+			"categoryId",
+			mbCategoryCacheModel -> mbCategoryCacheModel.categoryId);
 		attributeSetterBiConsumers.put(
 			"categoryId",
 			(BiConsumer<MBCategory, Long>)MBCategory::setCategoryId);
 		attributeGetterFunctions.put("groupId", MBCategory::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId", mbCategoryCacheModel -> mbCategoryCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId", (BiConsumer<MBCategory, Long>)MBCategory::setGroupId);
 		attributeGetterFunctions.put("companyId", MBCategory::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			mbCategoryCacheModel -> mbCategoryCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<MBCategory, Long>)MBCategory::setCompanyId);
 		attributeGetterFunctions.put("userId", MBCategory::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", mbCategoryCacheModel -> mbCategoryCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<MBCategory, Long>)MBCategory::setUserId);
 		attributeGetterFunctions.put("userName", MBCategory::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName", mbCategoryCacheModel -> mbCategoryCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<MBCategory, String>)MBCategory::setUserName);
 		attributeGetterFunctions.put("createDate", MBCategory::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			mbCategoryCacheModel -> mbCategoryCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<MBCategory, Date>)MBCategory::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", MBCategory::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			mbCategoryCacheModel -> mbCategoryCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<MBCategory, Date>)MBCategory::setModifiedDate);
 		attributeGetterFunctions.put(
 			"parentCategoryId", MBCategory::getParentCategoryId);
+
+		cacheModelGetterFunctions.put(
+			"parentCategoryId",
+			mbCategoryCacheModel -> mbCategoryCacheModel.parentCategoryId);
 		attributeSetterBiConsumers.put(
 			"parentCategoryId",
 			(BiConsumer<MBCategory, Long>)MBCategory::setParentCategoryId);
 		attributeGetterFunctions.put("name", MBCategory::getName);
+
+		cacheModelGetterFunctions.put(
+			"name", mbCategoryCacheModel -> mbCategoryCacheModel.name);
 		attributeSetterBiConsumers.put(
 			"name", (BiConsumer<MBCategory, String>)MBCategory::setName);
 		attributeGetterFunctions.put("description", MBCategory::getDescription);
+
+		cacheModelGetterFunctions.put(
+			"description",
+			mbCategoryCacheModel -> mbCategoryCacheModel.description);
 		attributeSetterBiConsumers.put(
 			"description",
 			(BiConsumer<MBCategory, String>)MBCategory::setDescription);
 		attributeGetterFunctions.put(
 			"displayStyle", MBCategory::getDisplayStyle);
+
+		cacheModelGetterFunctions.put(
+			"displayStyle",
+			mbCategoryCacheModel -> mbCategoryCacheModel.displayStyle);
 		attributeSetterBiConsumers.put(
 			"displayStyle",
 			(BiConsumer<MBCategory, String>)MBCategory::setDisplayStyle);
 		attributeGetterFunctions.put(
 			"lastPublishDate", MBCategory::getLastPublishDate);
+
+		cacheModelGetterFunctions.put(
+			"lastPublishDate",
+			mbCategoryCacheModel -> mbCategoryCacheModel.lastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<MBCategory, Date>)MBCategory::setLastPublishDate);
 		attributeGetterFunctions.put("status", MBCategory::getStatus);
+
+		cacheModelGetterFunctions.put(
+			"status", mbCategoryCacheModel -> mbCategoryCacheModel.status);
 		attributeSetterBiConsumers.put(
 			"status", (BiConsumer<MBCategory, Integer>)MBCategory::setStatus);
 		attributeGetterFunctions.put(
 			"statusByUserId", MBCategory::getStatusByUserId);
+
+		cacheModelGetterFunctions.put(
+			"statusByUserId",
+			mbCategoryCacheModel -> mbCategoryCacheModel.statusByUserId);
 		attributeSetterBiConsumers.put(
 			"statusByUserId",
 			(BiConsumer<MBCategory, Long>)MBCategory::setStatusByUserId);
 		attributeGetterFunctions.put(
 			"statusByUserName", MBCategory::getStatusByUserName);
+
+		cacheModelGetterFunctions.put(
+			"statusByUserName",
+			mbCategoryCacheModel -> mbCategoryCacheModel.statusByUserName);
 		attributeSetterBiConsumers.put(
 			"statusByUserName",
 			(BiConsumer<MBCategory, String>)MBCategory::setStatusByUserName);
 		attributeGetterFunctions.put("statusDate", MBCategory::getStatusDate);
+
+		cacheModelGetterFunctions.put(
+			"statusDate",
+			mbCategoryCacheModel -> mbCategoryCacheModel.statusDate);
 		attributeSetterBiConsumers.put(
 			"statusDate",
 			(BiConsumer<MBCategory, Date>)MBCategory::setStatusDate);
@@ -423,6 +548,8 @@ public class MBCategoryModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -433,6 +560,12 @@ public class MBCategoryModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_mbCategoryCacheModel == null)) {
+			_mbCategoryCacheModel = (MBCategoryCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -444,6 +577,12 @@ public class MBCategoryModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (!isNew() && (_mbCategoryCacheModel == null)) {
+			_mbCategoryCacheModel = (MBCategoryCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -462,15 +601,20 @@ public class MBCategoryModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (!isNew() && (_mbCategoryCacheModel == null)) {
+			_mbCategoryCacheModel = (MBCategoryCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getCacheModelAttribute("uuid");
 	}
 
 	@JSON
@@ -483,17 +627,20 @@ public class MBCategoryModelImpl
 	public void setCategoryId(long categoryId) {
 		_columnBitmask |= CATEGORYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCategoryId) {
-			_setOriginalCategoryId = true;
-
-			_originalCategoryId = _categoryId;
+		if (!isNew() && (_mbCategoryCacheModel == null)) {
+			_mbCategoryCacheModel = (MBCategoryCacheModel)toCacheModel();
 		}
 
 		_categoryId = categoryId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCategoryId() {
-		return _originalCategoryId;
+		return getCacheModelAttribute("categoryId");
 	}
 
 	@JSON
@@ -506,17 +653,20 @@ public class MBCategoryModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (!isNew() && (_mbCategoryCacheModel == null)) {
+			_mbCategoryCacheModel = (MBCategoryCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getCacheModelAttribute("groupId");
 	}
 
 	@JSON
@@ -529,17 +679,20 @@ public class MBCategoryModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (!isNew() && (_mbCategoryCacheModel == null)) {
+			_mbCategoryCacheModel = (MBCategoryCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getCacheModelAttribute("companyId");
 	}
 
 	@JSON
@@ -550,6 +703,12 @@ public class MBCategoryModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_mbCategoryCacheModel == null)) {
+			_mbCategoryCacheModel = (MBCategoryCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -582,6 +741,12 @@ public class MBCategoryModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_mbCategoryCacheModel == null)) {
+			_mbCategoryCacheModel = (MBCategoryCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -593,6 +758,12 @@ public class MBCategoryModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_mbCategoryCacheModel == null)) {
+			_mbCategoryCacheModel = (MBCategoryCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -610,6 +781,12 @@ public class MBCategoryModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_mbCategoryCacheModel == null)) {
+			_mbCategoryCacheModel = (MBCategoryCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -621,19 +798,22 @@ public class MBCategoryModelImpl
 
 	@Override
 	public void setParentCategoryId(long parentCategoryId) {
-		_columnBitmask = -1L;
+		_columnBitmask |= PARENTCATEGORYID_COLUMN_BITMASK;
 
-		if (!_setOriginalParentCategoryId) {
-			_setOriginalParentCategoryId = true;
-
-			_originalParentCategoryId = _parentCategoryId;
+		if (!isNew() && (_mbCategoryCacheModel == null)) {
+			_mbCategoryCacheModel = (MBCategoryCacheModel)toCacheModel();
 		}
 
 		_parentCategoryId = parentCategoryId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalParentCategoryId() {
-		return _originalParentCategoryId;
+		return getCacheModelAttribute("parentCategoryId");
 	}
 
 	@JSON
@@ -649,7 +829,11 @@ public class MBCategoryModelImpl
 
 	@Override
 	public void setName(String name) {
-		_columnBitmask = -1L;
+		_columnBitmask |= NAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_mbCategoryCacheModel == null)) {
+			_mbCategoryCacheModel = (MBCategoryCacheModel)toCacheModel();
+		}
 
 		_name = name;
 	}
@@ -667,6 +851,12 @@ public class MBCategoryModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		_columnBitmask |= DESCRIPTION_COLUMN_BITMASK;
+
+		if (!isNew() && (_mbCategoryCacheModel == null)) {
+			_mbCategoryCacheModel = (MBCategoryCacheModel)toCacheModel();
+		}
+
 		_description = description;
 	}
 
@@ -683,6 +873,12 @@ public class MBCategoryModelImpl
 
 	@Override
 	public void setDisplayStyle(String displayStyle) {
+		_columnBitmask |= DISPLAYSTYLE_COLUMN_BITMASK;
+
+		if (!isNew() && (_mbCategoryCacheModel == null)) {
+			_mbCategoryCacheModel = (MBCategoryCacheModel)toCacheModel();
+		}
+
 		_displayStyle = displayStyle;
 	}
 
@@ -694,6 +890,12 @@ public class MBCategoryModelImpl
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		_columnBitmask |= LASTPUBLISHDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_mbCategoryCacheModel == null)) {
+			_mbCategoryCacheModel = (MBCategoryCacheModel)toCacheModel();
+		}
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -707,17 +909,20 @@ public class MBCategoryModelImpl
 	public void setStatus(int status) {
 		_columnBitmask |= STATUS_COLUMN_BITMASK;
 
-		if (!_setOriginalStatus) {
-			_setOriginalStatus = true;
-
-			_originalStatus = _status;
+		if (!isNew() && (_mbCategoryCacheModel == null)) {
+			_mbCategoryCacheModel = (MBCategoryCacheModel)toCacheModel();
 		}
 
 		_status = status;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public int getOriginalStatus() {
-		return _originalStatus;
+		return getCacheModelAttribute("status");
 	}
 
 	@JSON
@@ -728,6 +933,12 @@ public class MBCategoryModelImpl
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		_columnBitmask |= STATUSBYUSERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_mbCategoryCacheModel == null)) {
+			_mbCategoryCacheModel = (MBCategoryCacheModel)toCacheModel();
+		}
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -760,6 +971,12 @@ public class MBCategoryModelImpl
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		_columnBitmask |= STATUSBYUSERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_mbCategoryCacheModel == null)) {
+			_mbCategoryCacheModel = (MBCategoryCacheModel)toCacheModel();
+		}
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -771,6 +988,12 @@ public class MBCategoryModelImpl
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		_columnBitmask |= STATUSDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_mbCategoryCacheModel == null)) {
+			_mbCategoryCacheModel = (MBCategoryCacheModel)toCacheModel();
+		}
+
 		_statusDate = statusDate;
 	}
 
@@ -1165,35 +1388,11 @@ public class MBCategoryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		MBCategoryModelImpl mbCategoryModelImpl = this;
+		_setModifiedDate = false;
 
-		mbCategoryModelImpl._originalUuid = mbCategoryModelImpl._uuid;
+		_columnBitmask = 0;
 
-		mbCategoryModelImpl._originalCategoryId =
-			mbCategoryModelImpl._categoryId;
-
-		mbCategoryModelImpl._setOriginalCategoryId = false;
-
-		mbCategoryModelImpl._originalGroupId = mbCategoryModelImpl._groupId;
-
-		mbCategoryModelImpl._setOriginalGroupId = false;
-
-		mbCategoryModelImpl._originalCompanyId = mbCategoryModelImpl._companyId;
-
-		mbCategoryModelImpl._setOriginalCompanyId = false;
-
-		mbCategoryModelImpl._setModifiedDate = false;
-
-		mbCategoryModelImpl._originalParentCategoryId =
-			mbCategoryModelImpl._parentCategoryId;
-
-		mbCategoryModelImpl._setOriginalParentCategoryId = false;
-
-		mbCategoryModelImpl._originalStatus = mbCategoryModelImpl._status;
-
-		mbCategoryModelImpl._setOriginalStatus = false;
-
-		mbCategoryModelImpl._columnBitmask = 0;
+		_mbCategoryCacheModel = null;
 	}
 
 	@Override
@@ -1378,35 +1577,25 @@ public class MBCategoryModelImpl
 	private long _mvccVersion;
 	private long _ctCollectionId;
 	private String _uuid;
-	private String _originalUuid;
 	private long _categoryId;
-	private long _originalCategoryId;
-	private boolean _setOriginalCategoryId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _parentCategoryId;
-	private long _originalParentCategoryId;
-	private boolean _setOriginalParentCategoryId;
 	private String _name;
 	private String _description;
 	private String _displayStyle;
 	private Date _lastPublishDate;
 	private int _status;
-	private int _originalStatus;
-	private boolean _setOriginalStatus;
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
 	private long _columnBitmask;
 	private MBCategory _escapedModel;
+	private MBCategoryCacheModel _mbCategoryCacheModel;
 
 }

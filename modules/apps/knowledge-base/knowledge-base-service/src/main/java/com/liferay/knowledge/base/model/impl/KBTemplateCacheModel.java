@@ -112,6 +112,8 @@ public class KBTemplateCacheModel
 	public KBTemplate toEntityModel() {
 		KBTemplateImpl kbTemplateImpl = new KBTemplateImpl();
 
+		kbTemplateImpl.setNew(true);
+
 		kbTemplateImpl.setMvccVersion(mvccVersion);
 
 		if (uuid == null) {
@@ -169,6 +171,8 @@ public class KBTemplateCacheModel
 		}
 
 		kbTemplateImpl.resetOriginalValues();
+
+		kbTemplateImpl.setNew(false);
 
 		return kbTemplateImpl;
 	}

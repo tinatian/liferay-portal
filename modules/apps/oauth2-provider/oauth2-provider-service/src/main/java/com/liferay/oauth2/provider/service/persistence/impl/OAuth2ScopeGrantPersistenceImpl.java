@@ -1200,12 +1200,14 @@ public class OAuth2ScopeGrantPersistenceImpl
 			 _finderPathFetchByC_O_A_B_S.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				oAuth2ScopeGrantModelImpl.getOriginalCompanyId(),
-				oAuth2ScopeGrantModelImpl.
-					getOriginalOAuth2ApplicationScopeAliasesId(),
-				oAuth2ScopeGrantModelImpl.getOriginalApplicationName(),
-				oAuth2ScopeGrantModelImpl.getOriginalBundleSymbolicName(),
-				oAuth2ScopeGrantModelImpl.getOriginalScope()
+				oAuth2ScopeGrantModelImpl.getCacheModelAttribute("companyId"),
+				oAuth2ScopeGrantModelImpl.getCacheModelAttribute(
+					"oAuth2ApplicationScopeAliasesId"),
+				oAuth2ScopeGrantModelImpl.getCacheModelAttribute(
+					"applicationName"),
+				oAuth2ScopeGrantModelImpl.getCacheModelAttribute(
+					"bundleSymbolicName"),
+				oAuth2ScopeGrantModelImpl.getCacheModelAttribute("scope")
 			};
 
 			finderCache.removeResult(_finderPathCountByC_O_A_B_S, args);
@@ -1389,8 +1391,8 @@ public class OAuth2ScopeGrantPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					oAuth2ScopeGrantModelImpl.
-						getOriginalOAuth2ApplicationScopeAliasesId()
+					oAuth2ScopeGrantModelImpl.getCacheModelAttribute(
+						"oAuth2ApplicationScopeAliasesId")
 				};
 
 				finderCache.removeResult(

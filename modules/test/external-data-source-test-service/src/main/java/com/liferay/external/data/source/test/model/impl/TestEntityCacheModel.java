@@ -75,6 +75,8 @@ public class TestEntityCacheModel
 	public TestEntity toEntityModel() {
 		TestEntityImpl testEntityImpl = new TestEntityImpl();
 
+		testEntityImpl.setNew(true);
+
 		testEntityImpl.setId(id);
 
 		if (data == null) {
@@ -85,6 +87,8 @@ public class TestEntityCacheModel
 		}
 
 		testEntityImpl.resetOriginalValues();
+
+		testEntityImpl.setNew(false);
 
 		return testEntityImpl;
 	}

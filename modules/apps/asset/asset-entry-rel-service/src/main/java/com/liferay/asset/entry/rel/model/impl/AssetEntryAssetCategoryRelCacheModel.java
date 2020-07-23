@@ -105,6 +105,8 @@ public class AssetEntryAssetCategoryRelCacheModel
 		AssetEntryAssetCategoryRelImpl assetEntryAssetCategoryRelImpl =
 			new AssetEntryAssetCategoryRelImpl();
 
+		assetEntryAssetCategoryRelImpl.setNew(true);
+
 		assetEntryAssetCategoryRelImpl.setMvccVersion(mvccVersion);
 		assetEntryAssetCategoryRelImpl.setCtCollectionId(ctCollectionId);
 		assetEntryAssetCategoryRelImpl.setAssetEntryAssetCategoryRelId(
@@ -115,6 +117,8 @@ public class AssetEntryAssetCategoryRelCacheModel
 		assetEntryAssetCategoryRelImpl.setPriority(priority);
 
 		assetEntryAssetCategoryRelImpl.resetOriginalValues();
+
+		assetEntryAssetCategoryRelImpl.setNew(false);
 
 		return assetEntryAssetCategoryRelImpl;
 	}

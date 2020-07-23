@@ -100,6 +100,8 @@ public class DLOpenerFileEntryReferenceCacheModel
 		DLOpenerFileEntryReferenceImpl dlOpenerFileEntryReferenceImpl =
 			new DLOpenerFileEntryReferenceImpl();
 
+		dlOpenerFileEntryReferenceImpl.setNew(true);
+
 		dlOpenerFileEntryReferenceImpl.setDlOpenerFileEntryReferenceId(
 			dlOpenerFileEntryReferenceId);
 		dlOpenerFileEntryReferenceImpl.setGroupId(groupId);
@@ -146,6 +148,8 @@ public class DLOpenerFileEntryReferenceCacheModel
 		dlOpenerFileEntryReferenceImpl.setType(type);
 
 		dlOpenerFileEntryReferenceImpl.resetOriginalValues();
+
+		dlOpenerFileEntryReferenceImpl.setNew(false);
 
 		return dlOpenerFileEntryReferenceImpl;
 	}

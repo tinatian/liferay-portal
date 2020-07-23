@@ -132,6 +132,8 @@ public class KaleoTaskAssignmentInstanceCacheModel
 		KaleoTaskAssignmentInstanceImpl kaleoTaskAssignmentInstanceImpl =
 			new KaleoTaskAssignmentInstanceImpl();
 
+		kaleoTaskAssignmentInstanceImpl.setNew(true);
+
 		kaleoTaskAssignmentInstanceImpl.setMvccVersion(mvccVersion);
 		kaleoTaskAssignmentInstanceImpl.setKaleoTaskAssignmentInstanceId(
 			kaleoTaskAssignmentInstanceId);
@@ -198,6 +200,8 @@ public class KaleoTaskAssignmentInstanceCacheModel
 		}
 
 		kaleoTaskAssignmentInstanceImpl.resetOriginalValues();
+
+		kaleoTaskAssignmentInstanceImpl.setNew(false);
 
 		return kaleoTaskAssignmentInstanceImpl;
 	}

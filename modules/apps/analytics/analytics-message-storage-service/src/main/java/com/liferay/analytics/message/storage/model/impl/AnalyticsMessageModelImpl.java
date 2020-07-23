@@ -105,9 +105,19 @@ public class AnalyticsMessageModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
 	public static final long ANALYTICSMESSAGEID_COLUMN_BITMASK = 2L;
+
+	public static final long COMPANYID_COLUMN_BITMASK = 4L;
+
+	public static final long USERID_COLUMN_BITMASK = 8L;
+
+	public static final long USERNAME_COLUMN_BITMASK = 16L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 32L;
+
+	public static final long BODY_COLUMN_BITMASK = 64L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -236,10 +246,39 @@ public class AnalyticsMessageModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<AnalyticsMessage, Object> function =
+			_attributeGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((AnalyticsMessage)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<AnalyticsMessageCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_analyticsMessageCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_analyticsMessageCacheModel);
+	}
+
 	private static final Map<String, Function<AnalyticsMessage, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<AnalyticsMessage, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<AnalyticsMessageCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<AnalyticsMessage, Object>>
@@ -248,40 +287,72 @@ public class AnalyticsMessageModelImpl
 		Map<String, BiConsumer<AnalyticsMessage, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<AnalyticsMessage, ?>>();
+		Map<String, Function<AnalyticsMessageCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<AnalyticsMessageCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", AnalyticsMessage::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			analyticsMessageCacheModel ->
+				analyticsMessageCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<AnalyticsMessage, Long>)
 				AnalyticsMessage::setMvccVersion);
 		attributeGetterFunctions.put(
 			"analyticsMessageId", AnalyticsMessage::getAnalyticsMessageId);
+
+		cacheModelGetterFunctions.put(
+			"analyticsMessageId",
+			analyticsMessageCacheModel ->
+				analyticsMessageCacheModel.analyticsMessageId);
 		attributeSetterBiConsumers.put(
 			"analyticsMessageId",
 			(BiConsumer<AnalyticsMessage, Long>)
 				AnalyticsMessage::setAnalyticsMessageId);
 		attributeGetterFunctions.put(
 			"companyId", AnalyticsMessage::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			analyticsMessageCacheModel -> analyticsMessageCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<AnalyticsMessage, Long>)AnalyticsMessage::setCompanyId);
 		attributeGetterFunctions.put("userId", AnalyticsMessage::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			analyticsMessageCacheModel -> analyticsMessageCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<AnalyticsMessage, Long>)AnalyticsMessage::setUserId);
 		attributeGetterFunctions.put("userName", AnalyticsMessage::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			analyticsMessageCacheModel -> analyticsMessageCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<AnalyticsMessage, String>)
 				AnalyticsMessage::setUserName);
 		attributeGetterFunctions.put(
 			"createDate", AnalyticsMessage::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			analyticsMessageCacheModel ->
+				analyticsMessageCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<AnalyticsMessage, Date>)
 				AnalyticsMessage::setCreateDate);
 		attributeGetterFunctions.put("body", AnalyticsMessage::getBody);
+
 		attributeSetterBiConsumers.put(
 			"body",
 			(BiConsumer<AnalyticsMessage, Blob>)AnalyticsMessage::setBody);
@@ -290,6 +361,8 @@ public class AnalyticsMessageModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -299,6 +372,13 @@ public class AnalyticsMessageModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_analyticsMessageCacheModel == null)) {
+			_analyticsMessageCacheModel =
+				(AnalyticsMessageCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -309,7 +389,12 @@ public class AnalyticsMessageModelImpl
 
 	@Override
 	public void setAnalyticsMessageId(long analyticsMessageId) {
-		_columnBitmask = -1L;
+		_columnBitmask |= ANALYTICSMESSAGEID_COLUMN_BITMASK;
+
+		if (!isNew() && (_analyticsMessageCacheModel == null)) {
+			_analyticsMessageCacheModel =
+				(AnalyticsMessageCacheModel)toCacheModel();
+		}
 
 		_analyticsMessageId = analyticsMessageId;
 	}
@@ -323,17 +408,21 @@ public class AnalyticsMessageModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (!isNew() && (_analyticsMessageCacheModel == null)) {
+			_analyticsMessageCacheModel =
+				(AnalyticsMessageCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getCacheModelAttribute("companyId");
 	}
 
 	@Override
@@ -343,6 +432,13 @@ public class AnalyticsMessageModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_analyticsMessageCacheModel == null)) {
+			_analyticsMessageCacheModel =
+				(AnalyticsMessageCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -374,6 +470,13 @@ public class AnalyticsMessageModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_analyticsMessageCacheModel == null)) {
+			_analyticsMessageCacheModel =
+				(AnalyticsMessageCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -384,6 +487,13 @@ public class AnalyticsMessageModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_analyticsMessageCacheModel == null)) {
+			_analyticsMessageCacheModel =
+				(AnalyticsMessageCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -410,6 +520,13 @@ public class AnalyticsMessageModelImpl
 
 	@Override
 	public void setBody(Blob body) {
+		_columnBitmask |= BODY_COLUMN_BITMASK;
+
+		if (!isNew() && (_analyticsMessageCacheModel == null)) {
+			_analyticsMessageCacheModel =
+				(AnalyticsMessageCacheModel)toCacheModel();
+		}
+
 		if (_bodyBlobModel == null) {
 			_bodyBlobModel = new AnalyticsMessageBodyBlobModel(
 				getPrimaryKey(), body);
@@ -539,16 +656,11 @@ public class AnalyticsMessageModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		AnalyticsMessageModelImpl analyticsMessageModelImpl = this;
+		_bodyBlobModel = null;
 
-		analyticsMessageModelImpl._originalCompanyId =
-			analyticsMessageModelImpl._companyId;
+		_columnBitmask = 0;
 
-		analyticsMessageModelImpl._setOriginalCompanyId = false;
-
-		analyticsMessageModelImpl._bodyBlobModel = null;
-
-		analyticsMessageModelImpl._columnBitmask = 0;
+		_analyticsMessageCacheModel = null;
 	}
 
 	@Override
@@ -653,13 +765,12 @@ public class AnalyticsMessageModelImpl
 	private long _mvccVersion;
 	private long _analyticsMessageId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private AnalyticsMessageBodyBlobModel _bodyBlobModel;
 	private long _columnBitmask;
 	private AnalyticsMessage _escapedModel;
+	private AnalyticsMessageCacheModel _analyticsMessageCacheModel;
 
 }

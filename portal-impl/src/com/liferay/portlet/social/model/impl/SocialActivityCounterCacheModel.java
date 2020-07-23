@@ -118,6 +118,8 @@ public class SocialActivityCounterCacheModel
 		SocialActivityCounterImpl socialActivityCounterImpl =
 			new SocialActivityCounterImpl();
 
+		socialActivityCounterImpl.setNew(true);
+
 		socialActivityCounterImpl.setMvccVersion(mvccVersion);
 		socialActivityCounterImpl.setCtCollectionId(ctCollectionId);
 		socialActivityCounterImpl.setActivityCounterId(activityCounterId);
@@ -142,6 +144,8 @@ public class SocialActivityCounterCacheModel
 		socialActivityCounterImpl.setActive(active);
 
 		socialActivityCounterImpl.resetOriginalValues();
+
+		socialActivityCounterImpl.setNew(false);
 
 		return socialActivityCounterImpl;
 	}

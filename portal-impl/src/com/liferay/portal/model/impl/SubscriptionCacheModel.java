@@ -112,6 +112,8 @@ public class SubscriptionCacheModel
 	public Subscription toEntityModel() {
 		SubscriptionImpl subscriptionImpl = new SubscriptionImpl();
 
+		subscriptionImpl.setNew(true);
+
 		subscriptionImpl.setMvccVersion(mvccVersion);
 		subscriptionImpl.setSubscriptionId(subscriptionId);
 		subscriptionImpl.setGroupId(groupId);
@@ -150,6 +152,8 @@ public class SubscriptionCacheModel
 		}
 
 		subscriptionImpl.resetOriginalValues();
+
+		subscriptionImpl.setNew(false);
 
 		return subscriptionImpl;
 	}

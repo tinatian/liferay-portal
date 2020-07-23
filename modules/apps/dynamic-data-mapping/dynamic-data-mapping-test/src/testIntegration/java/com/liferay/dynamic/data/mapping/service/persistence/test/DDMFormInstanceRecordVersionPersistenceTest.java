@@ -585,14 +585,15 @@ public class DDMFormInstanceRecordVersionPersistenceTest {
 			Long.valueOf(
 				existingDDMFormInstanceRecordVersion.getFormInstanceRecordId()),
 			ReflectionTestUtil.<Long>invoke(
-				existingDDMFormInstanceRecordVersion,
-				"getOriginalFormInstanceRecordId", new Class<?>[0]));
+				existingDDMFormInstanceRecordVersion, "getCacheModelAttribute",
+				new Class<?>[] {String.class}, formInstanceRecordId));
 		Assert.assertTrue(
 			Objects.equals(
 				existingDDMFormInstanceRecordVersion.getVersion(),
 				ReflectionTestUtil.invoke(
-					existingDDMFormInstanceRecordVersion, "getOriginalVersion",
-					new Class<?>[0])));
+					existingDDMFormInstanceRecordVersion,
+					"getCacheModelAttribute", new Class<?>[] {String.class},
+					version)));
 	}
 
 	protected DDMFormInstanceRecordVersion addDDMFormInstanceRecordVersion()

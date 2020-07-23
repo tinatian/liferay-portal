@@ -100,6 +100,8 @@ public class DDMTemplateLinkCacheModel
 	public DDMTemplateLink toEntityModel() {
 		DDMTemplateLinkImpl ddmTemplateLinkImpl = new DDMTemplateLinkImpl();
 
+		ddmTemplateLinkImpl.setNew(true);
+
 		ddmTemplateLinkImpl.setMvccVersion(mvccVersion);
 		ddmTemplateLinkImpl.setCtCollectionId(ctCollectionId);
 		ddmTemplateLinkImpl.setTemplateLinkId(templateLinkId);
@@ -109,6 +111,8 @@ public class DDMTemplateLinkCacheModel
 		ddmTemplateLinkImpl.setTemplateId(templateId);
 
 		ddmTemplateLinkImpl.resetOriginalValues();
+
+		ddmTemplateLinkImpl.setNew(false);
 
 		return ddmTemplateLinkImpl;
 	}

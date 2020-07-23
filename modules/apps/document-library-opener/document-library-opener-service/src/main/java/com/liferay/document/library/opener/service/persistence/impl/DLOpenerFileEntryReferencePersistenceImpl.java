@@ -734,7 +734,8 @@ public class DLOpenerFileEntryReferencePersistenceImpl
 			 _finderPathFetchByFileEntryId.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				dlOpenerFileEntryReferenceModelImpl.getOriginalFileEntryId()
+				dlOpenerFileEntryReferenceModelImpl.getCacheModelAttribute(
+					"fileEntryId")
 			};
 
 			finderCache.removeResult(_finderPathCountByFileEntryId, args);
@@ -755,8 +756,10 @@ public class DLOpenerFileEntryReferencePersistenceImpl
 			 _finderPathFetchByR_F.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				dlOpenerFileEntryReferenceModelImpl.getOriginalReferenceType(),
-				dlOpenerFileEntryReferenceModelImpl.getOriginalFileEntryId()
+				dlOpenerFileEntryReferenceModelImpl.getCacheModelAttribute(
+					"referenceType"),
+				dlOpenerFileEntryReferenceModelImpl.getCacheModelAttribute(
+					"fileEntryId")
 			};
 
 			finderCache.removeResult(_finderPathCountByR_F, args);

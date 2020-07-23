@@ -126,6 +126,8 @@ public class KaleoInstanceTokenCacheModel
 		KaleoInstanceTokenImpl kaleoInstanceTokenImpl =
 			new KaleoInstanceTokenImpl();
 
+		kaleoInstanceTokenImpl.setNew(true);
+
 		kaleoInstanceTokenImpl.setMvccVersion(mvccVersion);
 		kaleoInstanceTokenImpl.setKaleoInstanceTokenId(kaleoInstanceTokenId);
 		kaleoInstanceTokenImpl.setGroupId(groupId);
@@ -187,6 +189,8 @@ public class KaleoInstanceTokenCacheModel
 		}
 
 		kaleoInstanceTokenImpl.resetOriginalValues();
+
+		kaleoInstanceTokenImpl.setNew(false);
 
 		return kaleoInstanceTokenImpl;
 	}

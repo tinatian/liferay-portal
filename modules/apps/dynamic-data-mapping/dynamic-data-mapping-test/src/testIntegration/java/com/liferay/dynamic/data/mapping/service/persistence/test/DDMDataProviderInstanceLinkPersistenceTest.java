@@ -490,13 +490,13 @@ public class DDMDataProviderInstanceLinkPersistenceTest {
 				existingDDMDataProviderInstanceLink.
 					getDataProviderInstanceId()),
 			ReflectionTestUtil.<Long>invoke(
-				existingDDMDataProviderInstanceLink,
-				"getOriginalDataProviderInstanceId", new Class<?>[0]));
+				existingDDMDataProviderInstanceLink, "getCacheModelAttribute",
+				new Class<?>[] {String.class}, dataProviderInstanceId));
 		Assert.assertEquals(
 			Long.valueOf(existingDDMDataProviderInstanceLink.getStructureId()),
 			ReflectionTestUtil.<Long>invoke(
-				existingDDMDataProviderInstanceLink, "getOriginalStructureId",
-				new Class<?>[0]));
+				existingDDMDataProviderInstanceLink, "getCacheModelAttribute",
+				new Class<?>[] {String.class}, structureId));
 	}
 
 	protected DDMDataProviderInstanceLink addDDMDataProviderInstanceLink()

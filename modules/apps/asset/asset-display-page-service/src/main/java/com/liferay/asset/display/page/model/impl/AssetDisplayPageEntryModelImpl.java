@@ -30,7 +30,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -125,19 +124,35 @@ public class AssetDisplayPageEntryModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long CLASSNAMEID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long CLASSPK_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 4L;
+	public static final long UUID_COLUMN_BITMASK = 4L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 8L;
+	public static final long ASSETDISPLAYPAGEENTRYID_COLUMN_BITMASK = 8L;
 
-	public static final long LAYOUTPAGETEMPLATEENTRYID_COLUMN_BITMASK = 16L;
+	public static final long GROUPID_COLUMN_BITMASK = 16L;
 
-	public static final long UUID_COLUMN_BITMASK = 32L;
+	public static final long COMPANYID_COLUMN_BITMASK = 32L;
 
-	public static final long ASSETDISPLAYPAGEENTRYID_COLUMN_BITMASK = 64L;
+	public static final long USERID_COLUMN_BITMASK = 64L;
+
+	public static final long USERNAME_COLUMN_BITMASK = 128L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 256L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 512L;
+
+	public static final long CLASSNAMEID_COLUMN_BITMASK = 1024L;
+
+	public static final long CLASSPK_COLUMN_BITMASK = 2048L;
+
+	public static final long LAYOUTPAGETEMPLATEENTRYID_COLUMN_BITMASK = 4096L;
+
+	public static final long TYPE_COLUMN_BITMASK = 8192L;
+
+	public static final long PLID_COLUMN_BITMASK = 16384L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -326,10 +341,39 @@ public class AssetDisplayPageEntryModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<AssetDisplayPageEntry, Object> function =
+			_attributeGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((AssetDisplayPageEntry)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<AssetDisplayPageEntryCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_assetDisplayPageEntryCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_assetDisplayPageEntryCacheModel);
+	}
+
 	private static final Map<String, Function<AssetDisplayPageEntry, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<AssetDisplayPageEntry, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<AssetDisplayPageEntryCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<AssetDisplayPageEntry, Object>>
@@ -340,20 +384,40 @@ public class AssetDisplayPageEntryModelImpl
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<AssetDisplayPageEntry, ?>>();
+		Map<String, Function<AssetDisplayPageEntryCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String,
+					 Function<AssetDisplayPageEntryCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", AssetDisplayPageEntry::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			assetDisplayPageEntryCacheModel ->
+				assetDisplayPageEntryCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<AssetDisplayPageEntry, Long>)
 				AssetDisplayPageEntry::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", AssetDisplayPageEntry::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			assetDisplayPageEntryCacheModel ->
+				assetDisplayPageEntryCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<AssetDisplayPageEntry, Long>)
 				AssetDisplayPageEntry::setCtCollectionId);
 		attributeGetterFunctions.put("uuid", AssetDisplayPageEntry::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid",
+			assetDisplayPageEntryCacheModel ->
+				assetDisplayPageEntryCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid",
 			(BiConsumer<AssetDisplayPageEntry, String>)
@@ -361,54 +425,99 @@ public class AssetDisplayPageEntryModelImpl
 		attributeGetterFunctions.put(
 			"assetDisplayPageEntryId",
 			AssetDisplayPageEntry::getAssetDisplayPageEntryId);
+
+		cacheModelGetterFunctions.put(
+			"assetDisplayPageEntryId",
+			assetDisplayPageEntryCacheModel ->
+				assetDisplayPageEntryCacheModel.assetDisplayPageEntryId);
 		attributeSetterBiConsumers.put(
 			"assetDisplayPageEntryId",
 			(BiConsumer<AssetDisplayPageEntry, Long>)
 				AssetDisplayPageEntry::setAssetDisplayPageEntryId);
 		attributeGetterFunctions.put(
 			"groupId", AssetDisplayPageEntry::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			assetDisplayPageEntryCacheModel ->
+				assetDisplayPageEntryCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<AssetDisplayPageEntry, Long>)
 				AssetDisplayPageEntry::setGroupId);
 		attributeGetterFunctions.put(
 			"companyId", AssetDisplayPageEntry::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			assetDisplayPageEntryCacheModel ->
+				assetDisplayPageEntryCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<AssetDisplayPageEntry, Long>)
 				AssetDisplayPageEntry::setCompanyId);
 		attributeGetterFunctions.put(
 			"userId", AssetDisplayPageEntry::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			assetDisplayPageEntryCacheModel ->
+				assetDisplayPageEntryCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<AssetDisplayPageEntry, Long>)
 				AssetDisplayPageEntry::setUserId);
 		attributeGetterFunctions.put(
 			"userName", AssetDisplayPageEntry::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			assetDisplayPageEntryCacheModel ->
+				assetDisplayPageEntryCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<AssetDisplayPageEntry, String>)
 				AssetDisplayPageEntry::setUserName);
 		attributeGetterFunctions.put(
 			"createDate", AssetDisplayPageEntry::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			assetDisplayPageEntryCacheModel ->
+				assetDisplayPageEntryCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<AssetDisplayPageEntry, Date>)
 				AssetDisplayPageEntry::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", AssetDisplayPageEntry::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			assetDisplayPageEntryCacheModel ->
+				assetDisplayPageEntryCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<AssetDisplayPageEntry, Date>)
 				AssetDisplayPageEntry::setModifiedDate);
 		attributeGetterFunctions.put(
 			"classNameId", AssetDisplayPageEntry::getClassNameId);
+
+		cacheModelGetterFunctions.put(
+			"classNameId",
+			assetDisplayPageEntryCacheModel ->
+				assetDisplayPageEntryCacheModel.classNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<AssetDisplayPageEntry, Long>)
 				AssetDisplayPageEntry::setClassNameId);
 		attributeGetterFunctions.put(
 			"classPK", AssetDisplayPageEntry::getClassPK);
+
+		cacheModelGetterFunctions.put(
+			"classPK",
+			assetDisplayPageEntryCacheModel ->
+				assetDisplayPageEntryCacheModel.classPK);
 		attributeSetterBiConsumers.put(
 			"classPK",
 			(BiConsumer<AssetDisplayPageEntry, Long>)
@@ -416,16 +525,31 @@ public class AssetDisplayPageEntryModelImpl
 		attributeGetterFunctions.put(
 			"layoutPageTemplateEntryId",
 			AssetDisplayPageEntry::getLayoutPageTemplateEntryId);
+
+		cacheModelGetterFunctions.put(
+			"layoutPageTemplateEntryId",
+			assetDisplayPageEntryCacheModel ->
+				assetDisplayPageEntryCacheModel.layoutPageTemplateEntryId);
 		attributeSetterBiConsumers.put(
 			"layoutPageTemplateEntryId",
 			(BiConsumer<AssetDisplayPageEntry, Long>)
 				AssetDisplayPageEntry::setLayoutPageTemplateEntryId);
 		attributeGetterFunctions.put("type", AssetDisplayPageEntry::getType);
+
+		cacheModelGetterFunctions.put(
+			"type",
+			assetDisplayPageEntryCacheModel ->
+				assetDisplayPageEntryCacheModel.type);
 		attributeSetterBiConsumers.put(
 			"type",
 			(BiConsumer<AssetDisplayPageEntry, Integer>)
 				AssetDisplayPageEntry::setType);
 		attributeGetterFunctions.put("plid", AssetDisplayPageEntry::getPlid);
+
+		cacheModelGetterFunctions.put(
+			"plid",
+			assetDisplayPageEntryCacheModel ->
+				assetDisplayPageEntryCacheModel.plid);
 		attributeSetterBiConsumers.put(
 			"plid",
 			(BiConsumer<AssetDisplayPageEntry, Long>)
@@ -435,6 +559,8 @@ public class AssetDisplayPageEntryModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -445,6 +571,13 @@ public class AssetDisplayPageEntryModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_assetDisplayPageEntryCacheModel == null)) {
+			_assetDisplayPageEntryCacheModel =
+				(AssetDisplayPageEntryCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -456,6 +589,13 @@ public class AssetDisplayPageEntryModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (!isNew() && (_assetDisplayPageEntryCacheModel == null)) {
+			_assetDisplayPageEntryCacheModel =
+				(AssetDisplayPageEntryCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -474,15 +614,21 @@ public class AssetDisplayPageEntryModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (!isNew() && (_assetDisplayPageEntryCacheModel == null)) {
+			_assetDisplayPageEntryCacheModel =
+				(AssetDisplayPageEntryCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getCacheModelAttribute("uuid");
 	}
 
 	@JSON
@@ -493,6 +639,13 @@ public class AssetDisplayPageEntryModelImpl
 
 	@Override
 	public void setAssetDisplayPageEntryId(long assetDisplayPageEntryId) {
+		_columnBitmask |= ASSETDISPLAYPAGEENTRYID_COLUMN_BITMASK;
+
+		if (!isNew() && (_assetDisplayPageEntryCacheModel == null)) {
+			_assetDisplayPageEntryCacheModel =
+				(AssetDisplayPageEntryCacheModel)toCacheModel();
+		}
+
 		_assetDisplayPageEntryId = assetDisplayPageEntryId;
 	}
 
@@ -506,17 +659,21 @@ public class AssetDisplayPageEntryModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (!isNew() && (_assetDisplayPageEntryCacheModel == null)) {
+			_assetDisplayPageEntryCacheModel =
+				(AssetDisplayPageEntryCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getCacheModelAttribute("groupId");
 	}
 
 	@JSON
@@ -529,17 +686,21 @@ public class AssetDisplayPageEntryModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (!isNew() && (_assetDisplayPageEntryCacheModel == null)) {
+			_assetDisplayPageEntryCacheModel =
+				(AssetDisplayPageEntryCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getCacheModelAttribute("companyId");
 	}
 
 	@JSON
@@ -550,6 +711,13 @@ public class AssetDisplayPageEntryModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_assetDisplayPageEntryCacheModel == null)) {
+			_assetDisplayPageEntryCacheModel =
+				(AssetDisplayPageEntryCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -582,6 +750,13 @@ public class AssetDisplayPageEntryModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_assetDisplayPageEntryCacheModel == null)) {
+			_assetDisplayPageEntryCacheModel =
+				(AssetDisplayPageEntryCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -593,6 +768,13 @@ public class AssetDisplayPageEntryModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_assetDisplayPageEntryCacheModel == null)) {
+			_assetDisplayPageEntryCacheModel =
+				(AssetDisplayPageEntryCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -609,6 +791,13 @@ public class AssetDisplayPageEntryModelImpl
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
+
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_assetDisplayPageEntryCacheModel == null)) {
+			_assetDisplayPageEntryCacheModel =
+				(AssetDisplayPageEntryCacheModel)toCacheModel();
+		}
 
 		_modifiedDate = modifiedDate;
 	}
@@ -643,17 +832,21 @@ public class AssetDisplayPageEntryModelImpl
 	public void setClassNameId(long classNameId) {
 		_columnBitmask |= CLASSNAMEID_COLUMN_BITMASK;
 
-		if (!_setOriginalClassNameId) {
-			_setOriginalClassNameId = true;
-
-			_originalClassNameId = _classNameId;
+		if (!isNew() && (_assetDisplayPageEntryCacheModel == null)) {
+			_assetDisplayPageEntryCacheModel =
+				(AssetDisplayPageEntryCacheModel)toCacheModel();
 		}
 
 		_classNameId = classNameId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassNameId() {
-		return _originalClassNameId;
+		return getCacheModelAttribute("classNameId");
 	}
 
 	@JSON
@@ -666,17 +859,21 @@ public class AssetDisplayPageEntryModelImpl
 	public void setClassPK(long classPK) {
 		_columnBitmask |= CLASSPK_COLUMN_BITMASK;
 
-		if (!_setOriginalClassPK) {
-			_setOriginalClassPK = true;
-
-			_originalClassPK = _classPK;
+		if (!isNew() && (_assetDisplayPageEntryCacheModel == null)) {
+			_assetDisplayPageEntryCacheModel =
+				(AssetDisplayPageEntryCacheModel)toCacheModel();
 		}
 
 		_classPK = classPK;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassPK() {
-		return _originalClassPK;
+		return getCacheModelAttribute("classPK");
 	}
 
 	@JSON
@@ -689,17 +886,21 @@ public class AssetDisplayPageEntryModelImpl
 	public void setLayoutPageTemplateEntryId(long layoutPageTemplateEntryId) {
 		_columnBitmask |= LAYOUTPAGETEMPLATEENTRYID_COLUMN_BITMASK;
 
-		if (!_setOriginalLayoutPageTemplateEntryId) {
-			_setOriginalLayoutPageTemplateEntryId = true;
-
-			_originalLayoutPageTemplateEntryId = _layoutPageTemplateEntryId;
+		if (!isNew() && (_assetDisplayPageEntryCacheModel == null)) {
+			_assetDisplayPageEntryCacheModel =
+				(AssetDisplayPageEntryCacheModel)toCacheModel();
 		}
 
 		_layoutPageTemplateEntryId = layoutPageTemplateEntryId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalLayoutPageTemplateEntryId() {
-		return _originalLayoutPageTemplateEntryId;
+		return getCacheModelAttribute("layoutPageTemplateEntryId");
 	}
 
 	@JSON
@@ -710,6 +911,13 @@ public class AssetDisplayPageEntryModelImpl
 
 	@Override
 	public void setType(int type) {
+		_columnBitmask |= TYPE_COLUMN_BITMASK;
+
+		if (!isNew() && (_assetDisplayPageEntryCacheModel == null)) {
+			_assetDisplayPageEntryCacheModel =
+				(AssetDisplayPageEntryCacheModel)toCacheModel();
+		}
+
 		_type = type;
 	}
 
@@ -721,6 +929,13 @@ public class AssetDisplayPageEntryModelImpl
 
 	@Override
 	public void setPlid(long plid) {
+		_columnBitmask |= PLID_COLUMN_BITMASK;
+
+		if (!isNew() && (_assetDisplayPageEntryCacheModel == null)) {
+			_assetDisplayPageEntryCacheModel =
+				(AssetDisplayPageEntryCacheModel)toCacheModel();
+		}
+
 		_plid = plid;
 	}
 
@@ -855,40 +1070,11 @@ public class AssetDisplayPageEntryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		AssetDisplayPageEntryModelImpl assetDisplayPageEntryModelImpl = this;
+		_setModifiedDate = false;
 
-		assetDisplayPageEntryModelImpl._originalUuid =
-			assetDisplayPageEntryModelImpl._uuid;
+		_columnBitmask = 0;
 
-		assetDisplayPageEntryModelImpl._originalGroupId =
-			assetDisplayPageEntryModelImpl._groupId;
-
-		assetDisplayPageEntryModelImpl._setOriginalGroupId = false;
-
-		assetDisplayPageEntryModelImpl._originalCompanyId =
-			assetDisplayPageEntryModelImpl._companyId;
-
-		assetDisplayPageEntryModelImpl._setOriginalCompanyId = false;
-
-		assetDisplayPageEntryModelImpl._setModifiedDate = false;
-
-		assetDisplayPageEntryModelImpl._originalClassNameId =
-			assetDisplayPageEntryModelImpl._classNameId;
-
-		assetDisplayPageEntryModelImpl._setOriginalClassNameId = false;
-
-		assetDisplayPageEntryModelImpl._originalClassPK =
-			assetDisplayPageEntryModelImpl._classPK;
-
-		assetDisplayPageEntryModelImpl._setOriginalClassPK = false;
-
-		assetDisplayPageEntryModelImpl._originalLayoutPageTemplateEntryId =
-			assetDisplayPageEntryModelImpl._layoutPageTemplateEntryId;
-
-		assetDisplayPageEntryModelImpl._setOriginalLayoutPageTemplateEntryId =
-			false;
-
-		assetDisplayPageEntryModelImpl._columnBitmask = 0;
+		_assetDisplayPageEntryCacheModel = null;
 	}
 
 	@Override
@@ -1033,31 +1219,21 @@ public class AssetDisplayPageEntryModelImpl
 	private long _mvccVersion;
 	private long _ctCollectionId;
 	private String _uuid;
-	private String _originalUuid;
 	private long _assetDisplayPageEntryId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _classNameId;
-	private long _originalClassNameId;
-	private boolean _setOriginalClassNameId;
 	private long _classPK;
-	private long _originalClassPK;
-	private boolean _setOriginalClassPK;
 	private long _layoutPageTemplateEntryId;
-	private long _originalLayoutPageTemplateEntryId;
-	private boolean _setOriginalLayoutPageTemplateEntryId;
 	private int _type;
 	private long _plid;
 	private long _columnBitmask;
 	private AssetDisplayPageEntry _escapedModel;
+	private AssetDisplayPageEntryCacheModel _assetDisplayPageEntryCacheModel;
 
 }

@@ -93,6 +93,8 @@ public class ListTypeCacheModel
 	public ListType toEntityModel() {
 		ListTypeImpl listTypeImpl = new ListTypeImpl();
 
+		listTypeImpl.setNew(true);
+
 		listTypeImpl.setMvccVersion(mvccVersion);
 		listTypeImpl.setListTypeId(listTypeId);
 
@@ -111,6 +113,8 @@ public class ListTypeCacheModel
 		}
 
 		listTypeImpl.resetOriginalValues();
+
+		listTypeImpl.setNew(false);
 
 		return listTypeImpl;
 	}

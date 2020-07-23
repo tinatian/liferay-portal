@@ -25,7 +25,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.redirect.model.RedirectNotFoundEntry;
 import com.liferay.redirect.model.RedirectNotFoundEntryModel;
@@ -110,11 +109,25 @@ public class RedirectNotFoundEntryModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long GROUPID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long URL_COLUMN_BITMASK = 2L;
+	public static final long REDIRECTNOTFOUNDENTRYID_COLUMN_BITMASK = 2L;
 
-	public static final long REDIRECTNOTFOUNDENTRYID_COLUMN_BITMASK = 4L;
+	public static final long GROUPID_COLUMN_BITMASK = 4L;
+
+	public static final long COMPANYID_COLUMN_BITMASK = 8L;
+
+	public static final long USERID_COLUMN_BITMASK = 16L;
+
+	public static final long USERNAME_COLUMN_BITMASK = 32L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 64L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 128L;
+
+	public static final long IGNORED_COLUMN_BITMASK = 256L;
+
+	public static final long URL_COLUMN_BITMASK = 512L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -244,10 +257,39 @@ public class RedirectNotFoundEntryModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<RedirectNotFoundEntry, Object> function =
+			_attributeGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((RedirectNotFoundEntry)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<RedirectNotFoundEntryCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_redirectNotFoundEntryCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_redirectNotFoundEntryCacheModel);
+	}
+
 	private static final Map<String, Function<RedirectNotFoundEntry, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<RedirectNotFoundEntry, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<RedirectNotFoundEntryCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<RedirectNotFoundEntry, Object>>
@@ -258,9 +300,19 @@ public class RedirectNotFoundEntryModelImpl
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<RedirectNotFoundEntry, ?>>();
+		Map<String, Function<RedirectNotFoundEntryCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String,
+					 Function<RedirectNotFoundEntryCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", RedirectNotFoundEntry::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			redirectNotFoundEntryCacheModel ->
+				redirectNotFoundEntryCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<RedirectNotFoundEntry, Long>)
@@ -268,53 +320,98 @@ public class RedirectNotFoundEntryModelImpl
 		attributeGetterFunctions.put(
 			"redirectNotFoundEntryId",
 			RedirectNotFoundEntry::getRedirectNotFoundEntryId);
+
+		cacheModelGetterFunctions.put(
+			"redirectNotFoundEntryId",
+			redirectNotFoundEntryCacheModel ->
+				redirectNotFoundEntryCacheModel.redirectNotFoundEntryId);
 		attributeSetterBiConsumers.put(
 			"redirectNotFoundEntryId",
 			(BiConsumer<RedirectNotFoundEntry, Long>)
 				RedirectNotFoundEntry::setRedirectNotFoundEntryId);
 		attributeGetterFunctions.put(
 			"groupId", RedirectNotFoundEntry::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			redirectNotFoundEntryCacheModel ->
+				redirectNotFoundEntryCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<RedirectNotFoundEntry, Long>)
 				RedirectNotFoundEntry::setGroupId);
 		attributeGetterFunctions.put(
 			"companyId", RedirectNotFoundEntry::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			redirectNotFoundEntryCacheModel ->
+				redirectNotFoundEntryCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<RedirectNotFoundEntry, Long>)
 				RedirectNotFoundEntry::setCompanyId);
 		attributeGetterFunctions.put(
 			"userId", RedirectNotFoundEntry::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			redirectNotFoundEntryCacheModel ->
+				redirectNotFoundEntryCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<RedirectNotFoundEntry, Long>)
 				RedirectNotFoundEntry::setUserId);
 		attributeGetterFunctions.put(
 			"userName", RedirectNotFoundEntry::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			redirectNotFoundEntryCacheModel ->
+				redirectNotFoundEntryCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<RedirectNotFoundEntry, String>)
 				RedirectNotFoundEntry::setUserName);
 		attributeGetterFunctions.put(
 			"createDate", RedirectNotFoundEntry::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			redirectNotFoundEntryCacheModel ->
+				redirectNotFoundEntryCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<RedirectNotFoundEntry, Date>)
 				RedirectNotFoundEntry::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", RedirectNotFoundEntry::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			redirectNotFoundEntryCacheModel ->
+				redirectNotFoundEntryCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<RedirectNotFoundEntry, Date>)
 				RedirectNotFoundEntry::setModifiedDate);
 		attributeGetterFunctions.put(
 			"ignored", RedirectNotFoundEntry::getIgnored);
+
+		cacheModelGetterFunctions.put(
+			"ignored",
+			redirectNotFoundEntryCacheModel ->
+				redirectNotFoundEntryCacheModel.ignored);
 		attributeSetterBiConsumers.put(
 			"ignored",
 			(BiConsumer<RedirectNotFoundEntry, Boolean>)
 				RedirectNotFoundEntry::setIgnored);
 		attributeGetterFunctions.put("url", RedirectNotFoundEntry::getUrl);
+
+		cacheModelGetterFunctions.put(
+			"url",
+			redirectNotFoundEntryCacheModel ->
+				redirectNotFoundEntryCacheModel.url);
 		attributeSetterBiConsumers.put(
 			"url",
 			(BiConsumer<RedirectNotFoundEntry, String>)
@@ -324,6 +421,8 @@ public class RedirectNotFoundEntryModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -333,6 +432,13 @@ public class RedirectNotFoundEntryModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_redirectNotFoundEntryCacheModel == null)) {
+			_redirectNotFoundEntryCacheModel =
+				(RedirectNotFoundEntryCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -343,6 +449,13 @@ public class RedirectNotFoundEntryModelImpl
 
 	@Override
 	public void setRedirectNotFoundEntryId(long redirectNotFoundEntryId) {
+		_columnBitmask |= REDIRECTNOTFOUNDENTRYID_COLUMN_BITMASK;
+
+		if (!isNew() && (_redirectNotFoundEntryCacheModel == null)) {
+			_redirectNotFoundEntryCacheModel =
+				(RedirectNotFoundEntryCacheModel)toCacheModel();
+		}
+
 		_redirectNotFoundEntryId = redirectNotFoundEntryId;
 	}
 
@@ -355,17 +468,21 @@ public class RedirectNotFoundEntryModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (!isNew() && (_redirectNotFoundEntryCacheModel == null)) {
+			_redirectNotFoundEntryCacheModel =
+				(RedirectNotFoundEntryCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getCacheModelAttribute("groupId");
 	}
 
 	@Override
@@ -375,6 +492,13 @@ public class RedirectNotFoundEntryModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (!isNew() && (_redirectNotFoundEntryCacheModel == null)) {
+			_redirectNotFoundEntryCacheModel =
+				(RedirectNotFoundEntryCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -385,6 +509,13 @@ public class RedirectNotFoundEntryModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_redirectNotFoundEntryCacheModel == null)) {
+			_redirectNotFoundEntryCacheModel =
+				(RedirectNotFoundEntryCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -416,6 +547,13 @@ public class RedirectNotFoundEntryModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_redirectNotFoundEntryCacheModel == null)) {
+			_redirectNotFoundEntryCacheModel =
+				(RedirectNotFoundEntryCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -426,6 +564,13 @@ public class RedirectNotFoundEntryModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_redirectNotFoundEntryCacheModel == null)) {
+			_redirectNotFoundEntryCacheModel =
+				(RedirectNotFoundEntryCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -442,6 +587,13 @@ public class RedirectNotFoundEntryModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_redirectNotFoundEntryCacheModel == null)) {
+			_redirectNotFoundEntryCacheModel =
+				(RedirectNotFoundEntryCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -457,6 +609,13 @@ public class RedirectNotFoundEntryModelImpl
 
 	@Override
 	public void setIgnored(boolean ignored) {
+		_columnBitmask |= IGNORED_COLUMN_BITMASK;
+
+		if (!isNew() && (_redirectNotFoundEntryCacheModel == null)) {
+			_redirectNotFoundEntryCacheModel =
+				(RedirectNotFoundEntryCacheModel)toCacheModel();
+		}
+
 		_ignored = ignored;
 	}
 
@@ -474,15 +633,21 @@ public class RedirectNotFoundEntryModelImpl
 	public void setUrl(String url) {
 		_columnBitmask |= URL_COLUMN_BITMASK;
 
-		if (_originalUrl == null) {
-			_originalUrl = _url;
+		if (!isNew() && (_redirectNotFoundEntryCacheModel == null)) {
+			_redirectNotFoundEntryCacheModel =
+				(RedirectNotFoundEntryCacheModel)toCacheModel();
 		}
 
 		_url = url;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalUrl() {
-		return GetterUtil.getString(_originalUrl);
+		return getCacheModelAttribute("url");
 	}
 
 	public long getColumnBitmask() {
@@ -603,19 +768,11 @@ public class RedirectNotFoundEntryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		RedirectNotFoundEntryModelImpl redirectNotFoundEntryModelImpl = this;
+		_setModifiedDate = false;
 
-		redirectNotFoundEntryModelImpl._originalGroupId =
-			redirectNotFoundEntryModelImpl._groupId;
+		_columnBitmask = 0;
 
-		redirectNotFoundEntryModelImpl._setOriginalGroupId = false;
-
-		redirectNotFoundEntryModelImpl._setModifiedDate = false;
-
-		redirectNotFoundEntryModelImpl._originalUrl =
-			redirectNotFoundEntryModelImpl._url;
-
-		redirectNotFoundEntryModelImpl._columnBitmask = 0;
+		_redirectNotFoundEntryCacheModel = null;
 	}
 
 	@Override
@@ -749,8 +906,6 @@ public class RedirectNotFoundEntryModelImpl
 	private long _mvccVersion;
 	private long _redirectNotFoundEntryId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
 	private long _userId;
 	private String _userName;
@@ -759,8 +914,8 @@ public class RedirectNotFoundEntryModelImpl
 	private boolean _setModifiedDate;
 	private boolean _ignored;
 	private String _url;
-	private String _originalUrl;
 	private long _columnBitmask;
 	private RedirectNotFoundEntry _escapedModel;
+	private RedirectNotFoundEntryCacheModel _redirectNotFoundEntryCacheModel;
 
 }

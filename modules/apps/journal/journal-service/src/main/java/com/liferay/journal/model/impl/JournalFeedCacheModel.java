@@ -138,6 +138,8 @@ public class JournalFeedCacheModel
 	public JournalFeed toEntityModel() {
 		JournalFeedImpl journalFeedImpl = new JournalFeedImpl();
 
+		journalFeedImpl.setNew(true);
+
 		journalFeedImpl.setMvccVersion(mvccVersion);
 		journalFeedImpl.setCtCollectionId(ctCollectionId);
 
@@ -270,6 +272,8 @@ public class JournalFeedCacheModel
 		}
 
 		journalFeedImpl.resetOriginalValues();
+
+		journalFeedImpl.setNew(false);
 
 		return journalFeedImpl;
 	}

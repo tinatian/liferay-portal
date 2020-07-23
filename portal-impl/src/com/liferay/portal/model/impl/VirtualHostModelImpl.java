@@ -118,15 +118,21 @@ public class VirtualHostModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long DEFAULTVIRTUALHOST_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
-	public static final long HOSTNAME_COLUMN_BITMASK = 4L;
+	public static final long VIRTUALHOSTID_COLUMN_BITMASK = 4L;
 
-	public static final long LAYOUTSETID_COLUMN_BITMASK = 8L;
+	public static final long COMPANYID_COLUMN_BITMASK = 8L;
 
-	public static final long VIRTUALHOSTID_COLUMN_BITMASK = 16L;
+	public static final long LAYOUTSETID_COLUMN_BITMASK = 16L;
+
+	public static final long HOSTNAME_COLUMN_BITMASK = 32L;
+
+	public static final long DEFAULTVIRTUALHOST_COLUMN_BITMASK = 64L;
+
+	public static final long LANGUAGEID_COLUMN_BITMASK = 128L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		com.liferay.portal.util.PropsUtil.get(
@@ -245,52 +251,116 @@ public class VirtualHostModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<VirtualHost, Object> function = _attributeGetterFunctions.get(
+			attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((VirtualHost)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<VirtualHostCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_virtualHostCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_virtualHostCacheModel);
+	}
+
 	private static final Map<String, Function<VirtualHost, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<VirtualHost, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<VirtualHostCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<VirtualHost, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<VirtualHost, Object>>();
 		Map<String, BiConsumer<VirtualHost, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<VirtualHost, ?>>();
+		Map<String, Function<VirtualHostCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<VirtualHostCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", VirtualHost::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			virtualHostCacheModel -> virtualHostCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<VirtualHost, Long>)VirtualHost::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", VirtualHost::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			virtualHostCacheModel -> virtualHostCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<VirtualHost, Long>)VirtualHost::setCtCollectionId);
 		attributeGetterFunctions.put(
 			"virtualHostId", VirtualHost::getVirtualHostId);
+
+		cacheModelGetterFunctions.put(
+			"virtualHostId",
+			virtualHostCacheModel -> virtualHostCacheModel.virtualHostId);
 		attributeSetterBiConsumers.put(
 			"virtualHostId",
 			(BiConsumer<VirtualHost, Long>)VirtualHost::setVirtualHostId);
 		attributeGetterFunctions.put("companyId", VirtualHost::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			virtualHostCacheModel -> virtualHostCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<VirtualHost, Long>)VirtualHost::setCompanyId);
 		attributeGetterFunctions.put(
 			"layoutSetId", VirtualHost::getLayoutSetId);
+
+		cacheModelGetterFunctions.put(
+			"layoutSetId",
+			virtualHostCacheModel -> virtualHostCacheModel.layoutSetId);
 		attributeSetterBiConsumers.put(
 			"layoutSetId",
 			(BiConsumer<VirtualHost, Long>)VirtualHost::setLayoutSetId);
 		attributeGetterFunctions.put("hostname", VirtualHost::getHostname);
+
+		cacheModelGetterFunctions.put(
+			"hostname",
+			virtualHostCacheModel -> virtualHostCacheModel.hostname);
 		attributeSetterBiConsumers.put(
 			"hostname",
 			(BiConsumer<VirtualHost, String>)VirtualHost::setHostname);
 		attributeGetterFunctions.put(
 			"defaultVirtualHost", VirtualHost::getDefaultVirtualHost);
+
+		cacheModelGetterFunctions.put(
+			"defaultVirtualHost",
+			virtualHostCacheModel -> virtualHostCacheModel.defaultVirtualHost);
 		attributeSetterBiConsumers.put(
 			"defaultVirtualHost",
 			(BiConsumer<VirtualHost, Boolean>)
 				VirtualHost::setDefaultVirtualHost);
 		attributeGetterFunctions.put("languageId", VirtualHost::getLanguageId);
+
+		cacheModelGetterFunctions.put(
+			"languageId",
+			virtualHostCacheModel -> virtualHostCacheModel.languageId);
 		attributeSetterBiConsumers.put(
 			"languageId",
 			(BiConsumer<VirtualHost, String>)VirtualHost::setLanguageId);
@@ -299,6 +369,8 @@ public class VirtualHostModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -308,6 +380,12 @@ public class VirtualHostModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_virtualHostCacheModel == null)) {
+			_virtualHostCacheModel = (VirtualHostCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -318,6 +396,12 @@ public class VirtualHostModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (!isNew() && (_virtualHostCacheModel == null)) {
+			_virtualHostCacheModel = (VirtualHostCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -328,7 +412,11 @@ public class VirtualHostModelImpl
 
 	@Override
 	public void setVirtualHostId(long virtualHostId) {
-		_columnBitmask = -1L;
+		_columnBitmask |= VIRTUALHOSTID_COLUMN_BITMASK;
+
+		if (!isNew() && (_virtualHostCacheModel == null)) {
+			_virtualHostCacheModel = (VirtualHostCacheModel)toCacheModel();
+		}
 
 		_virtualHostId = virtualHostId;
 	}
@@ -342,17 +430,20 @@ public class VirtualHostModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (!isNew() && (_virtualHostCacheModel == null)) {
+			_virtualHostCacheModel = (VirtualHostCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getCacheModelAttribute("companyId");
 	}
 
 	@Override
@@ -364,17 +455,20 @@ public class VirtualHostModelImpl
 	public void setLayoutSetId(long layoutSetId) {
 		_columnBitmask |= LAYOUTSETID_COLUMN_BITMASK;
 
-		if (!_setOriginalLayoutSetId) {
-			_setOriginalLayoutSetId = true;
-
-			_originalLayoutSetId = _layoutSetId;
+		if (!isNew() && (_virtualHostCacheModel == null)) {
+			_virtualHostCacheModel = (VirtualHostCacheModel)toCacheModel();
 		}
 
 		_layoutSetId = layoutSetId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalLayoutSetId() {
-		return _originalLayoutSetId;
+		return getCacheModelAttribute("layoutSetId");
 	}
 
 	@Override
@@ -391,15 +485,20 @@ public class VirtualHostModelImpl
 	public void setHostname(String hostname) {
 		_columnBitmask |= HOSTNAME_COLUMN_BITMASK;
 
-		if (_originalHostname == null) {
-			_originalHostname = _hostname;
+		if (!isNew() && (_virtualHostCacheModel == null)) {
+			_virtualHostCacheModel = (VirtualHostCacheModel)toCacheModel();
 		}
 
 		_hostname = hostname;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalHostname() {
-		return GetterUtil.getString(_originalHostname);
+		return getCacheModelAttribute("hostname");
 	}
 
 	@Override
@@ -416,17 +515,20 @@ public class VirtualHostModelImpl
 	public void setDefaultVirtualHost(boolean defaultVirtualHost) {
 		_columnBitmask |= DEFAULTVIRTUALHOST_COLUMN_BITMASK;
 
-		if (!_setOriginalDefaultVirtualHost) {
-			_setOriginalDefaultVirtualHost = true;
-
-			_originalDefaultVirtualHost = _defaultVirtualHost;
+		if (!isNew() && (_virtualHostCacheModel == null)) {
+			_virtualHostCacheModel = (VirtualHostCacheModel)toCacheModel();
 		}
 
 		_defaultVirtualHost = defaultVirtualHost;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public boolean getOriginalDefaultVirtualHost() {
-		return _originalDefaultVirtualHost;
+		return getCacheModelAttribute("defaultVirtualHost");
 	}
 
 	@Override
@@ -441,6 +543,12 @@ public class VirtualHostModelImpl
 
 	@Override
 	public void setLanguageId(String languageId) {
+		_columnBitmask |= LANGUAGEID_COLUMN_BITMASK;
+
+		if (!isNew() && (_virtualHostCacheModel == null)) {
+			_virtualHostCacheModel = (VirtualHostCacheModel)toCacheModel();
+		}
+
 		_languageId = languageId;
 	}
 
@@ -564,26 +672,9 @@ public class VirtualHostModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		VirtualHostModelImpl virtualHostModelImpl = this;
+		_columnBitmask = 0;
 
-		virtualHostModelImpl._originalCompanyId =
-			virtualHostModelImpl._companyId;
-
-		virtualHostModelImpl._setOriginalCompanyId = false;
-
-		virtualHostModelImpl._originalLayoutSetId =
-			virtualHostModelImpl._layoutSetId;
-
-		virtualHostModelImpl._setOriginalLayoutSetId = false;
-
-		virtualHostModelImpl._originalHostname = virtualHostModelImpl._hostname;
-
-		virtualHostModelImpl._originalDefaultVirtualHost =
-			virtualHostModelImpl._defaultVirtualHost;
-
-		virtualHostModelImpl._setOriginalDefaultVirtualHost = false;
-
-		virtualHostModelImpl._columnBitmask = 0;
+		_virtualHostCacheModel = null;
 	}
 
 	@Override
@@ -696,18 +787,12 @@ public class VirtualHostModelImpl
 	private long _ctCollectionId;
 	private long _virtualHostId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _layoutSetId;
-	private long _originalLayoutSetId;
-	private boolean _setOriginalLayoutSetId;
 	private String _hostname;
-	private String _originalHostname;
 	private boolean _defaultVirtualHost;
-	private boolean _originalDefaultVirtualHost;
-	private boolean _setOriginalDefaultVirtualHost;
 	private String _languageId;
 	private long _columnBitmask;
 	private VirtualHost _escapedModel;
+	private VirtualHostCacheModel _virtualHostCacheModel;
 
 }

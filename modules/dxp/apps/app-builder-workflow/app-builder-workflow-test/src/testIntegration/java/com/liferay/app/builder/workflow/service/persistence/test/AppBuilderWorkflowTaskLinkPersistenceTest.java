@@ -498,20 +498,21 @@ public class AppBuilderWorkflowTaskLinkPersistenceTest {
 			Long.valueOf(
 				existingAppBuilderWorkflowTaskLink.getAppBuilderAppId()),
 			ReflectionTestUtil.<Long>invoke(
-				existingAppBuilderWorkflowTaskLink,
-				"getOriginalAppBuilderAppId", new Class<?>[0]));
+				existingAppBuilderWorkflowTaskLink, "getCacheModelAttribute",
+				new Class<?>[] {String.class}, appBuilderAppId));
 		Assert.assertEquals(
 			Long.valueOf(
 				existingAppBuilderWorkflowTaskLink.getDdmStructureLayoutId()),
 			ReflectionTestUtil.<Long>invoke(
-				existingAppBuilderWorkflowTaskLink,
-				"getOriginalDdmStructureLayoutId", new Class<?>[0]));
+				existingAppBuilderWorkflowTaskLink, "getCacheModelAttribute",
+				new Class<?>[] {String.class}, ddmStructureLayoutId));
 		Assert.assertTrue(
 			Objects.equals(
 				existingAppBuilderWorkflowTaskLink.getWorkflowTaskName(),
 				ReflectionTestUtil.invoke(
 					existingAppBuilderWorkflowTaskLink,
-					"getOriginalWorkflowTaskName", new Class<?>[0])));
+					"getCacheModelAttribute", new Class<?>[] {String.class},
+					workflowTaskName)));
 	}
 
 	protected AppBuilderWorkflowTaskLink addAppBuilderWorkflowTaskLink()

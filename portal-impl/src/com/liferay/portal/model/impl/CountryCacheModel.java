@@ -103,6 +103,8 @@ public class CountryCacheModel
 	public Country toEntityModel() {
 		CountryImpl countryImpl = new CountryImpl();
 
+		countryImpl.setNew(true);
+
 		countryImpl.setMvccVersion(mvccVersion);
 		countryImpl.setCountryId(countryId);
 
@@ -145,6 +147,8 @@ public class CountryCacheModel
 		countryImpl.setActive(active);
 
 		countryImpl.resetOriginalValues();
+
+		countryImpl.setNew(false);
 
 		return countryImpl;
 	}

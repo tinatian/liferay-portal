@@ -158,6 +158,8 @@ public class JournalArticleCacheModel
 	public JournalArticle toEntityModel() {
 		JournalArticleImpl journalArticleImpl = new JournalArticleImpl();
 
+		journalArticleImpl.setNew(true);
+
 		journalArticleImpl.setMvccVersion(mvccVersion);
 		journalArticleImpl.setCtCollectionId(ctCollectionId);
 
@@ -316,6 +318,8 @@ public class JournalArticleCacheModel
 		journalArticleImpl.resetOriginalValues();
 
 		journalArticleImpl.setDocument(_document);
+
+		journalArticleImpl.setNew(false);
 
 		return journalArticleImpl;
 	}

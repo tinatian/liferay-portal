@@ -100,13 +100,15 @@ public class AccountRoleModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long ACCOUNTENTRYID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 2L;
+	public static final long ACCOUNTROLEID_COLUMN_BITMASK = 2L;
 
-	public static final long ROLEID_COLUMN_BITMASK = 4L;
+	public static final long COMPANYID_COLUMN_BITMASK = 4L;
 
-	public static final long ACCOUNTROLEID_COLUMN_BITMASK = 8L;
+	public static final long ACCOUNTENTRYID_COLUMN_BITMASK = 8L;
+
+	public static final long ROLEID_COLUMN_BITMASK = 16L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -278,37 +280,88 @@ public class AccountRoleModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<AccountRole, Object> function = _attributeGetterFunctions.get(
+			attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((AccountRole)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<AccountRoleCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_accountRoleCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_accountRoleCacheModel);
+	}
+
 	private static final Map<String, Function<AccountRole, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<AccountRole, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<AccountRoleCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<AccountRole, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<AccountRole, Object>>();
 		Map<String, BiConsumer<AccountRole, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<AccountRole, ?>>();
+		Map<String, Function<AccountRoleCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<AccountRoleCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", AccountRole::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			accountRoleCacheModel -> accountRoleCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<AccountRole, Long>)AccountRole::setMvccVersion);
 		attributeGetterFunctions.put(
 			"accountRoleId", AccountRole::getAccountRoleId);
+
+		cacheModelGetterFunctions.put(
+			"accountRoleId",
+			accountRoleCacheModel -> accountRoleCacheModel.accountRoleId);
 		attributeSetterBiConsumers.put(
 			"accountRoleId",
 			(BiConsumer<AccountRole, Long>)AccountRole::setAccountRoleId);
 		attributeGetterFunctions.put("companyId", AccountRole::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			accountRoleCacheModel -> accountRoleCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<AccountRole, Long>)AccountRole::setCompanyId);
 		attributeGetterFunctions.put(
 			"accountEntryId", AccountRole::getAccountEntryId);
+
+		cacheModelGetterFunctions.put(
+			"accountEntryId",
+			accountRoleCacheModel -> accountRoleCacheModel.accountEntryId);
 		attributeSetterBiConsumers.put(
 			"accountEntryId",
 			(BiConsumer<AccountRole, Long>)AccountRole::setAccountEntryId);
 		attributeGetterFunctions.put("roleId", AccountRole::getRoleId);
+
+		cacheModelGetterFunctions.put(
+			"roleId", accountRoleCacheModel -> accountRoleCacheModel.roleId);
 		attributeSetterBiConsumers.put(
 			"roleId", (BiConsumer<AccountRole, Long>)AccountRole::setRoleId);
 
@@ -316,6 +369,8 @@ public class AccountRoleModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -326,6 +381,12 @@ public class AccountRoleModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_accountRoleCacheModel == null)) {
+			_accountRoleCacheModel = (AccountRoleCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -337,6 +398,12 @@ public class AccountRoleModelImpl
 
 	@Override
 	public void setAccountRoleId(long accountRoleId) {
+		_columnBitmask |= ACCOUNTROLEID_COLUMN_BITMASK;
+
+		if (!isNew() && (_accountRoleCacheModel == null)) {
+			_accountRoleCacheModel = (AccountRoleCacheModel)toCacheModel();
+		}
+
 		_accountRoleId = accountRoleId;
 	}
 
@@ -350,17 +417,20 @@ public class AccountRoleModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (!isNew() && (_accountRoleCacheModel == null)) {
+			_accountRoleCacheModel = (AccountRoleCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getCacheModelAttribute("companyId");
 	}
 
 	@JSON
@@ -373,17 +443,20 @@ public class AccountRoleModelImpl
 	public void setAccountEntryId(long accountEntryId) {
 		_columnBitmask |= ACCOUNTENTRYID_COLUMN_BITMASK;
 
-		if (!_setOriginalAccountEntryId) {
-			_setOriginalAccountEntryId = true;
-
-			_originalAccountEntryId = _accountEntryId;
+		if (!isNew() && (_accountRoleCacheModel == null)) {
+			_accountRoleCacheModel = (AccountRoleCacheModel)toCacheModel();
 		}
 
 		_accountEntryId = accountEntryId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalAccountEntryId() {
-		return _originalAccountEntryId;
+		return getCacheModelAttribute("accountEntryId");
 	}
 
 	@JSON
@@ -396,17 +469,20 @@ public class AccountRoleModelImpl
 	public void setRoleId(long roleId) {
 		_columnBitmask |= ROLEID_COLUMN_BITMASK;
 
-		if (!_setOriginalRoleId) {
-			_setOriginalRoleId = true;
-
-			_originalRoleId = _roleId;
+		if (!isNew() && (_accountRoleCacheModel == null)) {
+			_accountRoleCacheModel = (AccountRoleCacheModel)toCacheModel();
 		}
 
 		_roleId = roleId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalRoleId() {
-		return _originalRoleId;
+		return getCacheModelAttribute("roleId");
 	}
 
 	public long getColumnBitmask() {
@@ -518,23 +594,9 @@ public class AccountRoleModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		AccountRoleModelImpl accountRoleModelImpl = this;
+		_columnBitmask = 0;
 
-		accountRoleModelImpl._originalCompanyId =
-			accountRoleModelImpl._companyId;
-
-		accountRoleModelImpl._setOriginalCompanyId = false;
-
-		accountRoleModelImpl._originalAccountEntryId =
-			accountRoleModelImpl._accountEntryId;
-
-		accountRoleModelImpl._setOriginalAccountEntryId = false;
-
-		accountRoleModelImpl._originalRoleId = accountRoleModelImpl._roleId;
-
-		accountRoleModelImpl._setOriginalRoleId = false;
-
-		accountRoleModelImpl._columnBitmask = 0;
+		_accountRoleCacheModel = null;
 	}
 
 	@Override
@@ -628,15 +690,10 @@ public class AccountRoleModelImpl
 	private long _mvccVersion;
 	private long _accountRoleId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _accountEntryId;
-	private long _originalAccountEntryId;
-	private boolean _setOriginalAccountEntryId;
 	private long _roleId;
-	private long _originalRoleId;
-	private boolean _setOriginalRoleId;
 	private long _columnBitmask;
 	private AccountRole _escapedModel;
+	private AccountRoleCacheModel _accountRoleCacheModel;
 
 }

@@ -164,25 +164,65 @@ public class DLFileVersionModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long FILEENTRYID_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
-	public static final long FOLDERID_COLUMN_BITMASK = 4L;
+	public static final long UUID_COLUMN_BITMASK = 4L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 8L;
+	public static final long FILEVERSIONID_COLUMN_BITMASK = 8L;
 
-	public static final long MIMETYPE_COLUMN_BITMASK = 16L;
+	public static final long GROUPID_COLUMN_BITMASK = 16L;
 
-	public static final long STATUS_COLUMN_BITMASK = 32L;
+	public static final long COMPANYID_COLUMN_BITMASK = 32L;
 
-	public static final long TITLE_COLUMN_BITMASK = 64L;
+	public static final long USERID_COLUMN_BITMASK = 64L;
 
-	public static final long UUID_COLUMN_BITMASK = 128L;
+	public static final long USERNAME_COLUMN_BITMASK = 128L;
 
-	public static final long VERSION_COLUMN_BITMASK = 256L;
+	public static final long CREATEDATE_COLUMN_BITMASK = 256L;
 
-	public static final long CREATEDATE_COLUMN_BITMASK = 512L;
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 512L;
+
+	public static final long REPOSITORYID_COLUMN_BITMASK = 1024L;
+
+	public static final long FOLDERID_COLUMN_BITMASK = 2048L;
+
+	public static final long FILEENTRYID_COLUMN_BITMASK = 4096L;
+
+	public static final long TREEPATH_COLUMN_BITMASK = 8192L;
+
+	public static final long FILENAME_COLUMN_BITMASK = 16384L;
+
+	public static final long EXTENSION_COLUMN_BITMASK = 32768L;
+
+	public static final long MIMETYPE_COLUMN_BITMASK = 65536L;
+
+	public static final long TITLE_COLUMN_BITMASK = 131072L;
+
+	public static final long DESCRIPTION_COLUMN_BITMASK = 262144L;
+
+	public static final long CHANGELOG_COLUMN_BITMASK = 524288L;
+
+	public static final long EXTRASETTINGS_COLUMN_BITMASK = 1048576L;
+
+	public static final long FILEENTRYTYPEID_COLUMN_BITMASK = 2097152L;
+
+	public static final long VERSION_COLUMN_BITMASK = 4194304L;
+
+	public static final long SIZE_COLUMN_BITMASK = 8388608L;
+
+	public static final long CHECKSUM_COLUMN_BITMASK = 16777216L;
+
+	public static final long LASTPUBLISHDATE_COLUMN_BITMASK = 33554432L;
+
+	public static final long STATUS_COLUMN_BITMASK = 67108864L;
+
+	public static final long STATUSBYUSERID_COLUMN_BITMASK = 134217728L;
+
+	public static final long STATUSBYUSERNAME_COLUMN_BITMASK = 268435456L;
+
+	public static final long STATUSDATE_COLUMN_BITMASK = 536870912L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -369,147 +409,297 @@ public class DLFileVersionModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<DLFileVersion, Object> function =
+			_attributeGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((DLFileVersion)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<DLFileVersionCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_dlFileVersionCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_dlFileVersionCacheModel);
+	}
+
 	private static final Map<String, Function<DLFileVersion, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<DLFileVersion, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<DLFileVersionCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<DLFileVersion, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<DLFileVersion, Object>>();
 		Map<String, BiConsumer<DLFileVersion, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<DLFileVersion, ?>>();
+		Map<String, Function<DLFileVersionCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<DLFileVersionCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", DLFileVersion::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			dlFileVersionCacheModel -> dlFileVersionCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<DLFileVersion, Long>)DLFileVersion::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", DLFileVersion::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			dlFileVersionCacheModel -> dlFileVersionCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<DLFileVersion, Long>)DLFileVersion::setCtCollectionId);
 		attributeGetterFunctions.put("uuid", DLFileVersion::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid", dlFileVersionCacheModel -> dlFileVersionCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<DLFileVersion, String>)DLFileVersion::setUuid);
 		attributeGetterFunctions.put(
 			"fileVersionId", DLFileVersion::getFileVersionId);
+
+		cacheModelGetterFunctions.put(
+			"fileVersionId",
+			dlFileVersionCacheModel -> dlFileVersionCacheModel.fileVersionId);
 		attributeSetterBiConsumers.put(
 			"fileVersionId",
 			(BiConsumer<DLFileVersion, Long>)DLFileVersion::setFileVersionId);
 		attributeGetterFunctions.put("groupId", DLFileVersion::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			dlFileVersionCacheModel -> dlFileVersionCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<DLFileVersion, Long>)DLFileVersion::setGroupId);
 		attributeGetterFunctions.put("companyId", DLFileVersion::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			dlFileVersionCacheModel -> dlFileVersionCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<DLFileVersion, Long>)DLFileVersion::setCompanyId);
 		attributeGetterFunctions.put("userId", DLFileVersion::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			dlFileVersionCacheModel -> dlFileVersionCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<DLFileVersion, Long>)DLFileVersion::setUserId);
 		attributeGetterFunctions.put("userName", DLFileVersion::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			dlFileVersionCacheModel -> dlFileVersionCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<DLFileVersion, String>)DLFileVersion::setUserName);
 		attributeGetterFunctions.put(
 			"createDate", DLFileVersion::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			dlFileVersionCacheModel -> dlFileVersionCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<DLFileVersion, Date>)DLFileVersion::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", DLFileVersion::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			dlFileVersionCacheModel -> dlFileVersionCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<DLFileVersion, Date>)DLFileVersion::setModifiedDate);
 		attributeGetterFunctions.put(
 			"repositoryId", DLFileVersion::getRepositoryId);
+
+		cacheModelGetterFunctions.put(
+			"repositoryId",
+			dlFileVersionCacheModel -> dlFileVersionCacheModel.repositoryId);
 		attributeSetterBiConsumers.put(
 			"repositoryId",
 			(BiConsumer<DLFileVersion, Long>)DLFileVersion::setRepositoryId);
 		attributeGetterFunctions.put("folderId", DLFileVersion::getFolderId);
+
+		cacheModelGetterFunctions.put(
+			"folderId",
+			dlFileVersionCacheModel -> dlFileVersionCacheModel.folderId);
 		attributeSetterBiConsumers.put(
 			"folderId",
 			(BiConsumer<DLFileVersion, Long>)DLFileVersion::setFolderId);
 		attributeGetterFunctions.put(
 			"fileEntryId", DLFileVersion::getFileEntryId);
+
+		cacheModelGetterFunctions.put(
+			"fileEntryId",
+			dlFileVersionCacheModel -> dlFileVersionCacheModel.fileEntryId);
 		attributeSetterBiConsumers.put(
 			"fileEntryId",
 			(BiConsumer<DLFileVersion, Long>)DLFileVersion::setFileEntryId);
 		attributeGetterFunctions.put("treePath", DLFileVersion::getTreePath);
+
+		cacheModelGetterFunctions.put(
+			"treePath",
+			dlFileVersionCacheModel -> dlFileVersionCacheModel.treePath);
 		attributeSetterBiConsumers.put(
 			"treePath",
 			(BiConsumer<DLFileVersion, String>)DLFileVersion::setTreePath);
 		attributeGetterFunctions.put("fileName", DLFileVersion::getFileName);
+
+		cacheModelGetterFunctions.put(
+			"fileName",
+			dlFileVersionCacheModel -> dlFileVersionCacheModel.fileName);
 		attributeSetterBiConsumers.put(
 			"fileName",
 			(BiConsumer<DLFileVersion, String>)DLFileVersion::setFileName);
 		attributeGetterFunctions.put("extension", DLFileVersion::getExtension);
+
+		cacheModelGetterFunctions.put(
+			"extension",
+			dlFileVersionCacheModel -> dlFileVersionCacheModel.extension);
 		attributeSetterBiConsumers.put(
 			"extension",
 			(BiConsumer<DLFileVersion, String>)DLFileVersion::setExtension);
 		attributeGetterFunctions.put("mimeType", DLFileVersion::getMimeType);
+
+		cacheModelGetterFunctions.put(
+			"mimeType",
+			dlFileVersionCacheModel -> dlFileVersionCacheModel.mimeType);
 		attributeSetterBiConsumers.put(
 			"mimeType",
 			(BiConsumer<DLFileVersion, String>)DLFileVersion::setMimeType);
 		attributeGetterFunctions.put("title", DLFileVersion::getTitle);
+
+		cacheModelGetterFunctions.put(
+			"title", dlFileVersionCacheModel -> dlFileVersionCacheModel.title);
 		attributeSetterBiConsumers.put(
 			"title",
 			(BiConsumer<DLFileVersion, String>)DLFileVersion::setTitle);
 		attributeGetterFunctions.put(
 			"description", DLFileVersion::getDescription);
+
+		cacheModelGetterFunctions.put(
+			"description",
+			dlFileVersionCacheModel -> dlFileVersionCacheModel.description);
 		attributeSetterBiConsumers.put(
 			"description",
 			(BiConsumer<DLFileVersion, String>)DLFileVersion::setDescription);
 		attributeGetterFunctions.put("changeLog", DLFileVersion::getChangeLog);
+
+		cacheModelGetterFunctions.put(
+			"changeLog",
+			dlFileVersionCacheModel -> dlFileVersionCacheModel.changeLog);
 		attributeSetterBiConsumers.put(
 			"changeLog",
 			(BiConsumer<DLFileVersion, String>)DLFileVersion::setChangeLog);
 		attributeGetterFunctions.put(
 			"extraSettings", DLFileVersion::getExtraSettings);
+
+		cacheModelGetterFunctions.put(
+			"extraSettings",
+			dlFileVersionCacheModel -> dlFileVersionCacheModel.extraSettings);
 		attributeSetterBiConsumers.put(
 			"extraSettings",
 			(BiConsumer<DLFileVersion, String>)DLFileVersion::setExtraSettings);
 		attributeGetterFunctions.put(
 			"fileEntryTypeId", DLFileVersion::getFileEntryTypeId);
+
+		cacheModelGetterFunctions.put(
+			"fileEntryTypeId",
+			dlFileVersionCacheModel -> dlFileVersionCacheModel.fileEntryTypeId);
 		attributeSetterBiConsumers.put(
 			"fileEntryTypeId",
 			(BiConsumer<DLFileVersion, Long>)DLFileVersion::setFileEntryTypeId);
 		attributeGetterFunctions.put("version", DLFileVersion::getVersion);
+
+		cacheModelGetterFunctions.put(
+			"version",
+			dlFileVersionCacheModel -> dlFileVersionCacheModel.version);
 		attributeSetterBiConsumers.put(
 			"version",
 			(BiConsumer<DLFileVersion, String>)DLFileVersion::setVersion);
 		attributeGetterFunctions.put("size", DLFileVersion::getSize);
+
+		cacheModelGetterFunctions.put(
+			"size", dlFileVersionCacheModel -> dlFileVersionCacheModel.size);
 		attributeSetterBiConsumers.put(
 			"size", (BiConsumer<DLFileVersion, Long>)DLFileVersion::setSize);
 		attributeGetterFunctions.put("checksum", DLFileVersion::getChecksum);
+
+		cacheModelGetterFunctions.put(
+			"checksum",
+			dlFileVersionCacheModel -> dlFileVersionCacheModel.checksum);
 		attributeSetterBiConsumers.put(
 			"checksum",
 			(BiConsumer<DLFileVersion, String>)DLFileVersion::setChecksum);
 		attributeGetterFunctions.put(
 			"lastPublishDate", DLFileVersion::getLastPublishDate);
+
+		cacheModelGetterFunctions.put(
+			"lastPublishDate",
+			dlFileVersionCacheModel -> dlFileVersionCacheModel.lastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<DLFileVersion, Date>)DLFileVersion::setLastPublishDate);
 		attributeGetterFunctions.put("status", DLFileVersion::getStatus);
+
+		cacheModelGetterFunctions.put(
+			"status",
+			dlFileVersionCacheModel -> dlFileVersionCacheModel.status);
 		attributeSetterBiConsumers.put(
 			"status",
 			(BiConsumer<DLFileVersion, Integer>)DLFileVersion::setStatus);
 		attributeGetterFunctions.put(
 			"statusByUserId", DLFileVersion::getStatusByUserId);
+
+		cacheModelGetterFunctions.put(
+			"statusByUserId",
+			dlFileVersionCacheModel -> dlFileVersionCacheModel.statusByUserId);
 		attributeSetterBiConsumers.put(
 			"statusByUserId",
 			(BiConsumer<DLFileVersion, Long>)DLFileVersion::setStatusByUserId);
 		attributeGetterFunctions.put(
 			"statusByUserName", DLFileVersion::getStatusByUserName);
+
+		cacheModelGetterFunctions.put(
+			"statusByUserName",
+			dlFileVersionCacheModel ->
+				dlFileVersionCacheModel.statusByUserName);
 		attributeSetterBiConsumers.put(
 			"statusByUserName",
 			(BiConsumer<DLFileVersion, String>)
 				DLFileVersion::setStatusByUserName);
 		attributeGetterFunctions.put(
 			"statusDate", DLFileVersion::getStatusDate);
+
+		cacheModelGetterFunctions.put(
+			"statusDate",
+			dlFileVersionCacheModel -> dlFileVersionCacheModel.statusDate);
 		attributeSetterBiConsumers.put(
 			"statusDate",
 			(BiConsumer<DLFileVersion, Date>)DLFileVersion::setStatusDate);
@@ -518,6 +708,8 @@ public class DLFileVersionModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -528,6 +720,12 @@ public class DLFileVersionModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_dlFileVersionCacheModel == null)) {
+			_dlFileVersionCacheModel = (DLFileVersionCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -539,6 +737,12 @@ public class DLFileVersionModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (!isNew() && (_dlFileVersionCacheModel == null)) {
+			_dlFileVersionCacheModel = (DLFileVersionCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -557,15 +761,20 @@ public class DLFileVersionModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (!isNew() && (_dlFileVersionCacheModel == null)) {
+			_dlFileVersionCacheModel = (DLFileVersionCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getCacheModelAttribute("uuid");
 	}
 
 	@JSON
@@ -576,6 +785,12 @@ public class DLFileVersionModelImpl
 
 	@Override
 	public void setFileVersionId(long fileVersionId) {
+		_columnBitmask |= FILEVERSIONID_COLUMN_BITMASK;
+
+		if (!isNew() && (_dlFileVersionCacheModel == null)) {
+			_dlFileVersionCacheModel = (DLFileVersionCacheModel)toCacheModel();
+		}
+
 		_fileVersionId = fileVersionId;
 	}
 
@@ -589,17 +804,20 @@ public class DLFileVersionModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (!isNew() && (_dlFileVersionCacheModel == null)) {
+			_dlFileVersionCacheModel = (DLFileVersionCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getCacheModelAttribute("groupId");
 	}
 
 	@JSON
@@ -612,17 +830,20 @@ public class DLFileVersionModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (!isNew() && (_dlFileVersionCacheModel == null)) {
+			_dlFileVersionCacheModel = (DLFileVersionCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getCacheModelAttribute("companyId");
 	}
 
 	@JSON
@@ -633,6 +854,12 @@ public class DLFileVersionModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_dlFileVersionCacheModel == null)) {
+			_dlFileVersionCacheModel = (DLFileVersionCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -665,6 +892,12 @@ public class DLFileVersionModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_dlFileVersionCacheModel == null)) {
+			_dlFileVersionCacheModel = (DLFileVersionCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -676,7 +909,11 @@ public class DLFileVersionModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
-		_columnBitmask = -1L;
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_dlFileVersionCacheModel == null)) {
+			_dlFileVersionCacheModel = (DLFileVersionCacheModel)toCacheModel();
+		}
 
 		_createDate = createDate;
 	}
@@ -695,6 +932,12 @@ public class DLFileVersionModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_dlFileVersionCacheModel == null)) {
+			_dlFileVersionCacheModel = (DLFileVersionCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -706,6 +949,12 @@ public class DLFileVersionModelImpl
 
 	@Override
 	public void setRepositoryId(long repositoryId) {
+		_columnBitmask |= REPOSITORYID_COLUMN_BITMASK;
+
+		if (!isNew() && (_dlFileVersionCacheModel == null)) {
+			_dlFileVersionCacheModel = (DLFileVersionCacheModel)toCacheModel();
+		}
+
 		_repositoryId = repositoryId;
 	}
 
@@ -719,17 +968,20 @@ public class DLFileVersionModelImpl
 	public void setFolderId(long folderId) {
 		_columnBitmask |= FOLDERID_COLUMN_BITMASK;
 
-		if (!_setOriginalFolderId) {
-			_setOriginalFolderId = true;
-
-			_originalFolderId = _folderId;
+		if (!isNew() && (_dlFileVersionCacheModel == null)) {
+			_dlFileVersionCacheModel = (DLFileVersionCacheModel)toCacheModel();
 		}
 
 		_folderId = folderId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalFolderId() {
-		return _originalFolderId;
+		return getCacheModelAttribute("folderId");
 	}
 
 	@JSON
@@ -740,19 +992,22 @@ public class DLFileVersionModelImpl
 
 	@Override
 	public void setFileEntryId(long fileEntryId) {
-		_columnBitmask = -1L;
+		_columnBitmask |= FILEENTRYID_COLUMN_BITMASK;
 
-		if (!_setOriginalFileEntryId) {
-			_setOriginalFileEntryId = true;
-
-			_originalFileEntryId = _fileEntryId;
+		if (!isNew() && (_dlFileVersionCacheModel == null)) {
+			_dlFileVersionCacheModel = (DLFileVersionCacheModel)toCacheModel();
 		}
 
 		_fileEntryId = fileEntryId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalFileEntryId() {
-		return _originalFileEntryId;
+		return getCacheModelAttribute("fileEntryId");
 	}
 
 	@JSON
@@ -768,6 +1023,12 @@ public class DLFileVersionModelImpl
 
 	@Override
 	public void setTreePath(String treePath) {
+		_columnBitmask |= TREEPATH_COLUMN_BITMASK;
+
+		if (!isNew() && (_dlFileVersionCacheModel == null)) {
+			_dlFileVersionCacheModel = (DLFileVersionCacheModel)toCacheModel();
+		}
+
 		_treePath = treePath;
 	}
 
@@ -784,6 +1045,12 @@ public class DLFileVersionModelImpl
 
 	@Override
 	public void setFileName(String fileName) {
+		_columnBitmask |= FILENAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_dlFileVersionCacheModel == null)) {
+			_dlFileVersionCacheModel = (DLFileVersionCacheModel)toCacheModel();
+		}
+
 		_fileName = fileName;
 	}
 
@@ -800,6 +1067,12 @@ public class DLFileVersionModelImpl
 
 	@Override
 	public void setExtension(String extension) {
+		_columnBitmask |= EXTENSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_dlFileVersionCacheModel == null)) {
+			_dlFileVersionCacheModel = (DLFileVersionCacheModel)toCacheModel();
+		}
+
 		_extension = extension;
 	}
 
@@ -818,15 +1091,20 @@ public class DLFileVersionModelImpl
 	public void setMimeType(String mimeType) {
 		_columnBitmask |= MIMETYPE_COLUMN_BITMASK;
 
-		if (_originalMimeType == null) {
-			_originalMimeType = _mimeType;
+		if (!isNew() && (_dlFileVersionCacheModel == null)) {
+			_dlFileVersionCacheModel = (DLFileVersionCacheModel)toCacheModel();
 		}
 
 		_mimeType = mimeType;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalMimeType() {
-		return GetterUtil.getString(_originalMimeType);
+		return getCacheModelAttribute("mimeType");
 	}
 
 	@JSON
@@ -844,15 +1122,20 @@ public class DLFileVersionModelImpl
 	public void setTitle(String title) {
 		_columnBitmask |= TITLE_COLUMN_BITMASK;
 
-		if (_originalTitle == null) {
-			_originalTitle = _title;
+		if (!isNew() && (_dlFileVersionCacheModel == null)) {
+			_dlFileVersionCacheModel = (DLFileVersionCacheModel)toCacheModel();
 		}
 
 		_title = title;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalTitle() {
-		return GetterUtil.getString(_originalTitle);
+		return getCacheModelAttribute("title");
 	}
 
 	@JSON
@@ -868,6 +1151,12 @@ public class DLFileVersionModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		_columnBitmask |= DESCRIPTION_COLUMN_BITMASK;
+
+		if (!isNew() && (_dlFileVersionCacheModel == null)) {
+			_dlFileVersionCacheModel = (DLFileVersionCacheModel)toCacheModel();
+		}
+
 		_description = description;
 	}
 
@@ -884,6 +1173,12 @@ public class DLFileVersionModelImpl
 
 	@Override
 	public void setChangeLog(String changeLog) {
+		_columnBitmask |= CHANGELOG_COLUMN_BITMASK;
+
+		if (!isNew() && (_dlFileVersionCacheModel == null)) {
+			_dlFileVersionCacheModel = (DLFileVersionCacheModel)toCacheModel();
+		}
+
 		_changeLog = changeLog;
 	}
 
@@ -900,6 +1195,12 @@ public class DLFileVersionModelImpl
 
 	@Override
 	public void setExtraSettings(String extraSettings) {
+		_columnBitmask |= EXTRASETTINGS_COLUMN_BITMASK;
+
+		if (!isNew() && (_dlFileVersionCacheModel == null)) {
+			_dlFileVersionCacheModel = (DLFileVersionCacheModel)toCacheModel();
+		}
+
 		_extraSettings = extraSettings;
 	}
 
@@ -911,6 +1212,12 @@ public class DLFileVersionModelImpl
 
 	@Override
 	public void setFileEntryTypeId(long fileEntryTypeId) {
+		_columnBitmask |= FILEENTRYTYPEID_COLUMN_BITMASK;
+
+		if (!isNew() && (_dlFileVersionCacheModel == null)) {
+			_dlFileVersionCacheModel = (DLFileVersionCacheModel)toCacheModel();
+		}
+
 		_fileEntryTypeId = fileEntryTypeId;
 	}
 
@@ -929,15 +1236,20 @@ public class DLFileVersionModelImpl
 	public void setVersion(String version) {
 		_columnBitmask |= VERSION_COLUMN_BITMASK;
 
-		if (_originalVersion == null) {
-			_originalVersion = _version;
+		if (!isNew() && (_dlFileVersionCacheModel == null)) {
+			_dlFileVersionCacheModel = (DLFileVersionCacheModel)toCacheModel();
 		}
 
 		_version = version;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalVersion() {
-		return GetterUtil.getString(_originalVersion);
+		return getCacheModelAttribute("version");
 	}
 
 	@JSON
@@ -948,6 +1260,12 @@ public class DLFileVersionModelImpl
 
 	@Override
 	public void setSize(long size) {
+		_columnBitmask |= SIZE_COLUMN_BITMASK;
+
+		if (!isNew() && (_dlFileVersionCacheModel == null)) {
+			_dlFileVersionCacheModel = (DLFileVersionCacheModel)toCacheModel();
+		}
+
 		_size = size;
 	}
 
@@ -964,6 +1282,12 @@ public class DLFileVersionModelImpl
 
 	@Override
 	public void setChecksum(String checksum) {
+		_columnBitmask |= CHECKSUM_COLUMN_BITMASK;
+
+		if (!isNew() && (_dlFileVersionCacheModel == null)) {
+			_dlFileVersionCacheModel = (DLFileVersionCacheModel)toCacheModel();
+		}
+
 		_checksum = checksum;
 	}
 
@@ -975,6 +1299,12 @@ public class DLFileVersionModelImpl
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		_columnBitmask |= LASTPUBLISHDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_dlFileVersionCacheModel == null)) {
+			_dlFileVersionCacheModel = (DLFileVersionCacheModel)toCacheModel();
+		}
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -988,17 +1318,20 @@ public class DLFileVersionModelImpl
 	public void setStatus(int status) {
 		_columnBitmask |= STATUS_COLUMN_BITMASK;
 
-		if (!_setOriginalStatus) {
-			_setOriginalStatus = true;
-
-			_originalStatus = _status;
+		if (!isNew() && (_dlFileVersionCacheModel == null)) {
+			_dlFileVersionCacheModel = (DLFileVersionCacheModel)toCacheModel();
 		}
 
 		_status = status;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public int getOriginalStatus() {
-		return _originalStatus;
+		return getCacheModelAttribute("status");
 	}
 
 	@JSON
@@ -1009,6 +1342,12 @@ public class DLFileVersionModelImpl
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		_columnBitmask |= STATUSBYUSERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_dlFileVersionCacheModel == null)) {
+			_dlFileVersionCacheModel = (DLFileVersionCacheModel)toCacheModel();
+		}
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -1041,6 +1380,12 @@ public class DLFileVersionModelImpl
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		_columnBitmask |= STATUSBYUSERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_dlFileVersionCacheModel == null)) {
+			_dlFileVersionCacheModel = (DLFileVersionCacheModel)toCacheModel();
+		}
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -1052,6 +1397,12 @@ public class DLFileVersionModelImpl
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		_columnBitmask |= STATUSDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_dlFileVersionCacheModel == null)) {
+			_dlFileVersionCacheModel = (DLFileVersionCacheModel)toCacheModel();
+		}
+
 		_statusDate = statusDate;
 	}
 
@@ -1292,45 +1643,11 @@ public class DLFileVersionModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		DLFileVersionModelImpl dlFileVersionModelImpl = this;
+		_setModifiedDate = false;
 
-		dlFileVersionModelImpl._originalUuid = dlFileVersionModelImpl._uuid;
+		_columnBitmask = 0;
 
-		dlFileVersionModelImpl._originalGroupId =
-			dlFileVersionModelImpl._groupId;
-
-		dlFileVersionModelImpl._setOriginalGroupId = false;
-
-		dlFileVersionModelImpl._originalCompanyId =
-			dlFileVersionModelImpl._companyId;
-
-		dlFileVersionModelImpl._setOriginalCompanyId = false;
-
-		dlFileVersionModelImpl._setModifiedDate = false;
-
-		dlFileVersionModelImpl._originalFolderId =
-			dlFileVersionModelImpl._folderId;
-
-		dlFileVersionModelImpl._setOriginalFolderId = false;
-
-		dlFileVersionModelImpl._originalFileEntryId =
-			dlFileVersionModelImpl._fileEntryId;
-
-		dlFileVersionModelImpl._setOriginalFileEntryId = false;
-
-		dlFileVersionModelImpl._originalMimeType =
-			dlFileVersionModelImpl._mimeType;
-
-		dlFileVersionModelImpl._originalTitle = dlFileVersionModelImpl._title;
-
-		dlFileVersionModelImpl._originalVersion =
-			dlFileVersionModelImpl._version;
-
-		dlFileVersionModelImpl._originalStatus = dlFileVersionModelImpl._status;
-
-		dlFileVersionModelImpl._setOriginalStatus = false;
-
-		dlFileVersionModelImpl._columnBitmask = 0;
+		_dlFileVersionCacheModel = null;
 	}
 
 	@Override
@@ -1580,14 +1897,9 @@ public class DLFileVersionModelImpl
 	private long _mvccVersion;
 	private long _ctCollectionId;
 	private String _uuid;
-	private String _originalUuid;
 	private long _fileVersionId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
@@ -1595,34 +1907,26 @@ public class DLFileVersionModelImpl
 	private boolean _setModifiedDate;
 	private long _repositoryId;
 	private long _folderId;
-	private long _originalFolderId;
-	private boolean _setOriginalFolderId;
 	private long _fileEntryId;
-	private long _originalFileEntryId;
-	private boolean _setOriginalFileEntryId;
 	private String _treePath;
 	private String _fileName;
 	private String _extension;
 	private String _mimeType;
-	private String _originalMimeType;
 	private String _title;
-	private String _originalTitle;
 	private String _description;
 	private String _changeLog;
 	private String _extraSettings;
 	private long _fileEntryTypeId;
 	private String _version;
-	private String _originalVersion;
 	private long _size;
 	private String _checksum;
 	private Date _lastPublishDate;
 	private int _status;
-	private int _originalStatus;
-	private boolean _setOriginalStatus;
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
 	private long _columnBitmask;
 	private DLFileVersion _escapedModel;
+	private DLFileVersionCacheModel _dlFileVersionCacheModel;
 
 }

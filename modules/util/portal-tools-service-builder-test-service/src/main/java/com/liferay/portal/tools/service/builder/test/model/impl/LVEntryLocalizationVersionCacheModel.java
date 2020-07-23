@@ -92,6 +92,8 @@ public class LVEntryLocalizationVersionCacheModel
 		LVEntryLocalizationVersionImpl lvEntryLocalizationVersionImpl =
 			new LVEntryLocalizationVersionImpl();
 
+		lvEntryLocalizationVersionImpl.setNew(true);
+
 		lvEntryLocalizationVersionImpl.setLvEntryLocalizationVersionId(
 			lvEntryLocalizationVersionId);
 		lvEntryLocalizationVersionImpl.setVersion(version);
@@ -122,6 +124,8 @@ public class LVEntryLocalizationVersionCacheModel
 		}
 
 		lvEntryLocalizationVersionImpl.resetOriginalValues();
+
+		lvEntryLocalizationVersionImpl.setNew(false);
 
 		return lvEntryLocalizationVersionImpl;
 	}

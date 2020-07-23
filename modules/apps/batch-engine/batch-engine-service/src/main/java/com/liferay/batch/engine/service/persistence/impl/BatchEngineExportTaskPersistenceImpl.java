@@ -2120,7 +2120,8 @@ public class BatchEngineExportTaskPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					batchEngineExportTaskModelImpl.getOriginalUuid()
+					batchEngineExportTaskModelImpl.getCacheModelAttribute(
+						"uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -2139,8 +2140,10 @@ public class BatchEngineExportTaskPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					batchEngineExportTaskModelImpl.getOriginalUuid(),
-					batchEngineExportTaskModelImpl.getOriginalCompanyId()
+					batchEngineExportTaskModelImpl.getCacheModelAttribute(
+						"uuid"),
+					batchEngineExportTaskModelImpl.getCacheModelAttribute(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -2162,7 +2165,8 @@ public class BatchEngineExportTaskPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					batchEngineExportTaskModelImpl.getOriginalExecuteStatus()
+					batchEngineExportTaskModelImpl.getCacheModelAttribute(
+						"executeStatus")
 				};
 
 				finderCache.removeResult(_finderPathCountByExecuteStatus, args);

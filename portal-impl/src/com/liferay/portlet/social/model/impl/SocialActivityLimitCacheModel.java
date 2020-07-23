@@ -110,6 +110,8 @@ public class SocialActivityLimitCacheModel
 		SocialActivityLimitImpl socialActivityLimitImpl =
 			new SocialActivityLimitImpl();
 
+		socialActivityLimitImpl.setNew(true);
+
 		socialActivityLimitImpl.setMvccVersion(mvccVersion);
 		socialActivityLimitImpl.setCtCollectionId(ctCollectionId);
 		socialActivityLimitImpl.setActivityLimitId(activityLimitId);
@@ -135,6 +137,8 @@ public class SocialActivityLimitCacheModel
 		}
 
 		socialActivityLimitImpl.resetOriginalValues();
+
+		socialActivityLimitImpl.setNew(false);
 
 		return socialActivityLimitImpl;
 	}

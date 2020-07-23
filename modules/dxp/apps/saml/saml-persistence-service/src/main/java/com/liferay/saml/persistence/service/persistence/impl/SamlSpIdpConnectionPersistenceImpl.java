@@ -1016,8 +1016,10 @@ public class SamlSpIdpConnectionPersistenceImpl
 			 _finderPathFetchByC_SIEI.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				samlSpIdpConnectionModelImpl.getOriginalCompanyId(),
-				samlSpIdpConnectionModelImpl.getOriginalSamlIdpEntityId()
+				samlSpIdpConnectionModelImpl.getCacheModelAttribute(
+					"companyId"),
+				samlSpIdpConnectionModelImpl.getCacheModelAttribute(
+					"samlIdpEntityId")
 			};
 
 			finderCache.removeResult(_finderPathCountByC_SIEI, args);
@@ -1226,7 +1228,8 @@ public class SamlSpIdpConnectionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					samlSpIdpConnectionModelImpl.getOriginalCompanyId()
+					samlSpIdpConnectionModelImpl.getCacheModelAttribute(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCompanyId, args);

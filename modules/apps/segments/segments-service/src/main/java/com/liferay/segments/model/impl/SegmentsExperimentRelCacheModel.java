@@ -114,6 +114,8 @@ public class SegmentsExperimentRelCacheModel
 		SegmentsExperimentRelImpl segmentsExperimentRelImpl =
 			new SegmentsExperimentRelImpl();
 
+		segmentsExperimentRelImpl.setNew(true);
+
 		segmentsExperimentRelImpl.setMvccVersion(mvccVersion);
 		segmentsExperimentRelImpl.setCtCollectionId(ctCollectionId);
 		segmentsExperimentRelImpl.setSegmentsExperimentRelId(
@@ -148,6 +150,8 @@ public class SegmentsExperimentRelCacheModel
 		segmentsExperimentRelImpl.setSplit(split);
 
 		segmentsExperimentRelImpl.resetOriginalValues();
+
+		segmentsExperimentRelImpl.setNew(false);
 
 		return segmentsExperimentRelImpl;
 	}

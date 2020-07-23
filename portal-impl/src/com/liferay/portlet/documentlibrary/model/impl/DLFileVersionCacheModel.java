@@ -148,6 +148,8 @@ public class DLFileVersionCacheModel
 	public DLFileVersion toEntityModel() {
 		DLFileVersionImpl dlFileVersionImpl = new DLFileVersionImpl();
 
+		dlFileVersionImpl.setNew(true);
+
 		dlFileVersionImpl.setMvccVersion(mvccVersion);
 		dlFileVersionImpl.setCtCollectionId(ctCollectionId);
 
@@ -287,6 +289,8 @@ public class DLFileVersionCacheModel
 		}
 
 		dlFileVersionImpl.resetOriginalValues();
+
+		dlFileVersionImpl.setNew(false);
 
 		return dlFileVersionImpl;
 	}

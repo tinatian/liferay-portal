@@ -114,6 +114,8 @@ public class UserNotificationEventCacheModel
 		UserNotificationEventImpl userNotificationEventImpl =
 			new UserNotificationEventImpl();
 
+		userNotificationEventImpl.setNew(true);
+
 		userNotificationEventImpl.setMvccVersion(mvccVersion);
 
 		if (uuid == null) {
@@ -151,6 +153,8 @@ public class UserNotificationEventCacheModel
 		userNotificationEventImpl.setArchived(archived);
 
 		userNotificationEventImpl.resetOriginalValues();
+
+		userNotificationEventImpl.setNew(false);
 
 		return userNotificationEventImpl;
 	}

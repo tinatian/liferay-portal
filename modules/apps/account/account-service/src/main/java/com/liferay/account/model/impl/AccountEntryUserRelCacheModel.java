@@ -98,6 +98,8 @@ public class AccountEntryUserRelCacheModel
 		AccountEntryUserRelImpl accountEntryUserRelImpl =
 			new AccountEntryUserRelImpl();
 
+		accountEntryUserRelImpl.setNew(true);
+
 		accountEntryUserRelImpl.setMvccVersion(mvccVersion);
 		accountEntryUserRelImpl.setAccountEntryUserRelId(accountEntryUserRelId);
 		accountEntryUserRelImpl.setCompanyId(companyId);
@@ -105,6 +107,8 @@ public class AccountEntryUserRelCacheModel
 		accountEntryUserRelImpl.setAccountUserId(accountUserId);
 
 		accountEntryUserRelImpl.resetOriginalValues();
+
+		accountEntryUserRelImpl.setNew(false);
 
 		return accountEntryUserRelImpl;
 	}

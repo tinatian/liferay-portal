@@ -24,7 +24,6 @@ import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -100,13 +99,17 @@ public class DepotAppCustomizationModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long DEPOTENTRYID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long ENABLED_COLUMN_BITMASK = 2L;
+	public static final long DEPOTAPPCUSTOMIZATIONID_COLUMN_BITMASK = 2L;
 
-	public static final long PORTLETID_COLUMN_BITMASK = 4L;
+	public static final long COMPANYID_COLUMN_BITMASK = 4L;
 
-	public static final long DEPOTAPPCUSTOMIZATIONID_COLUMN_BITMASK = 8L;
+	public static final long DEPOTENTRYID_COLUMN_BITMASK = 8L;
+
+	public static final long ENABLED_COLUMN_BITMASK = 16L;
+
+	public static final long PORTLETID_COLUMN_BITMASK = 32L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -236,10 +239,39 @@ public class DepotAppCustomizationModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<DepotAppCustomization, Object> function =
+			_attributeGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((DepotAppCustomization)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<DepotAppCustomizationCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_depotAppCustomizationCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_depotAppCustomizationCacheModel);
+	}
+
 	private static final Map<String, Function<DepotAppCustomization, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<DepotAppCustomization, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<DepotAppCustomizationCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<DepotAppCustomization, Object>>
@@ -250,9 +282,19 @@ public class DepotAppCustomizationModelImpl
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<DepotAppCustomization, ?>>();
+		Map<String, Function<DepotAppCustomizationCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String,
+					 Function<DepotAppCustomizationCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", DepotAppCustomization::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			depotAppCustomizationCacheModel ->
+				depotAppCustomizationCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<DepotAppCustomization, Long>)
@@ -260,30 +302,55 @@ public class DepotAppCustomizationModelImpl
 		attributeGetterFunctions.put(
 			"depotAppCustomizationId",
 			DepotAppCustomization::getDepotAppCustomizationId);
+
+		cacheModelGetterFunctions.put(
+			"depotAppCustomizationId",
+			depotAppCustomizationCacheModel ->
+				depotAppCustomizationCacheModel.depotAppCustomizationId);
 		attributeSetterBiConsumers.put(
 			"depotAppCustomizationId",
 			(BiConsumer<DepotAppCustomization, Long>)
 				DepotAppCustomization::setDepotAppCustomizationId);
 		attributeGetterFunctions.put(
 			"companyId", DepotAppCustomization::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			depotAppCustomizationCacheModel ->
+				depotAppCustomizationCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<DepotAppCustomization, Long>)
 				DepotAppCustomization::setCompanyId);
 		attributeGetterFunctions.put(
 			"depotEntryId", DepotAppCustomization::getDepotEntryId);
+
+		cacheModelGetterFunctions.put(
+			"depotEntryId",
+			depotAppCustomizationCacheModel ->
+				depotAppCustomizationCacheModel.depotEntryId);
 		attributeSetterBiConsumers.put(
 			"depotEntryId",
 			(BiConsumer<DepotAppCustomization, Long>)
 				DepotAppCustomization::setDepotEntryId);
 		attributeGetterFunctions.put(
 			"enabled", DepotAppCustomization::getEnabled);
+
+		cacheModelGetterFunctions.put(
+			"enabled",
+			depotAppCustomizationCacheModel ->
+				depotAppCustomizationCacheModel.enabled);
 		attributeSetterBiConsumers.put(
 			"enabled",
 			(BiConsumer<DepotAppCustomization, Boolean>)
 				DepotAppCustomization::setEnabled);
 		attributeGetterFunctions.put(
 			"portletId", DepotAppCustomization::getPortletId);
+
+		cacheModelGetterFunctions.put(
+			"portletId",
+			depotAppCustomizationCacheModel ->
+				depotAppCustomizationCacheModel.portletId);
 		attributeSetterBiConsumers.put(
 			"portletId",
 			(BiConsumer<DepotAppCustomization, String>)
@@ -293,6 +360,8 @@ public class DepotAppCustomizationModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -302,6 +371,13 @@ public class DepotAppCustomizationModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_depotAppCustomizationCacheModel == null)) {
+			_depotAppCustomizationCacheModel =
+				(DepotAppCustomizationCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -312,6 +388,13 @@ public class DepotAppCustomizationModelImpl
 
 	@Override
 	public void setDepotAppCustomizationId(long depotAppCustomizationId) {
+		_columnBitmask |= DEPOTAPPCUSTOMIZATIONID_COLUMN_BITMASK;
+
+		if (!isNew() && (_depotAppCustomizationCacheModel == null)) {
+			_depotAppCustomizationCacheModel =
+				(DepotAppCustomizationCacheModel)toCacheModel();
+		}
+
 		_depotAppCustomizationId = depotAppCustomizationId;
 	}
 
@@ -322,6 +405,13 @@ public class DepotAppCustomizationModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (!isNew() && (_depotAppCustomizationCacheModel == null)) {
+			_depotAppCustomizationCacheModel =
+				(DepotAppCustomizationCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -334,17 +424,21 @@ public class DepotAppCustomizationModelImpl
 	public void setDepotEntryId(long depotEntryId) {
 		_columnBitmask |= DEPOTENTRYID_COLUMN_BITMASK;
 
-		if (!_setOriginalDepotEntryId) {
-			_setOriginalDepotEntryId = true;
-
-			_originalDepotEntryId = _depotEntryId;
+		if (!isNew() && (_depotAppCustomizationCacheModel == null)) {
+			_depotAppCustomizationCacheModel =
+				(DepotAppCustomizationCacheModel)toCacheModel();
 		}
 
 		_depotEntryId = depotEntryId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalDepotEntryId() {
-		return _originalDepotEntryId;
+		return getCacheModelAttribute("depotEntryId");
 	}
 
 	@Override
@@ -361,17 +455,21 @@ public class DepotAppCustomizationModelImpl
 	public void setEnabled(boolean enabled) {
 		_columnBitmask |= ENABLED_COLUMN_BITMASK;
 
-		if (!_setOriginalEnabled) {
-			_setOriginalEnabled = true;
-
-			_originalEnabled = _enabled;
+		if (!isNew() && (_depotAppCustomizationCacheModel == null)) {
+			_depotAppCustomizationCacheModel =
+				(DepotAppCustomizationCacheModel)toCacheModel();
 		}
 
 		_enabled = enabled;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public boolean getOriginalEnabled() {
-		return _originalEnabled;
+		return getCacheModelAttribute("enabled");
 	}
 
 	@Override
@@ -388,15 +486,21 @@ public class DepotAppCustomizationModelImpl
 	public void setPortletId(String portletId) {
 		_columnBitmask |= PORTLETID_COLUMN_BITMASK;
 
-		if (_originalPortletId == null) {
-			_originalPortletId = _portletId;
+		if (!isNew() && (_depotAppCustomizationCacheModel == null)) {
+			_depotAppCustomizationCacheModel =
+				(DepotAppCustomizationCacheModel)toCacheModel();
 		}
 
 		_portletId = portletId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalPortletId() {
-		return GetterUtil.getString(_originalPortletId);
+		return getCacheModelAttribute("portletId");
 	}
 
 	public long getColumnBitmask() {
@@ -513,22 +617,9 @@ public class DepotAppCustomizationModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		DepotAppCustomizationModelImpl depotAppCustomizationModelImpl = this;
+		_columnBitmask = 0;
 
-		depotAppCustomizationModelImpl._originalDepotEntryId =
-			depotAppCustomizationModelImpl._depotEntryId;
-
-		depotAppCustomizationModelImpl._setOriginalDepotEntryId = false;
-
-		depotAppCustomizationModelImpl._originalEnabled =
-			depotAppCustomizationModelImpl._enabled;
-
-		depotAppCustomizationModelImpl._setOriginalEnabled = false;
-
-		depotAppCustomizationModelImpl._originalPortletId =
-			depotAppCustomizationModelImpl._portletId;
-
-		depotAppCustomizationModelImpl._columnBitmask = 0;
+		_depotAppCustomizationCacheModel = null;
 	}
 
 	@Override
@@ -634,14 +725,10 @@ public class DepotAppCustomizationModelImpl
 	private long _depotAppCustomizationId;
 	private long _companyId;
 	private long _depotEntryId;
-	private long _originalDepotEntryId;
-	private boolean _setOriginalDepotEntryId;
 	private boolean _enabled;
-	private boolean _originalEnabled;
-	private boolean _setOriginalEnabled;
 	private String _portletId;
-	private String _originalPortletId;
 	private long _columnBitmask;
 	private DepotAppCustomization _escapedModel;
+	private DepotAppCustomizationCacheModel _depotAppCustomizationCacheModel;
 
 }

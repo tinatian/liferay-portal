@@ -5505,8 +5505,8 @@ public class LayoutFriendlyURLPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				layoutFriendlyURLModelImpl.getOriginalUuid(),
-				layoutFriendlyURLModelImpl.getOriginalGroupId()
+				layoutFriendlyURLModelImpl.getCacheModelAttribute("uuid"),
+				layoutFriendlyURLModelImpl.getCacheModelAttribute("groupId")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByUUID_G, args);
@@ -5527,8 +5527,8 @@ public class LayoutFriendlyURLPersistenceImpl
 			 _finderPathFetchByP_L.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				layoutFriendlyURLModelImpl.getOriginalPlid(),
-				layoutFriendlyURLModelImpl.getOriginalLanguageId()
+				layoutFriendlyURLModelImpl.getCacheModelAttribute("plid"),
+				layoutFriendlyURLModelImpl.getCacheModelAttribute("languageId")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByP_L, args);
@@ -5551,10 +5551,12 @@ public class LayoutFriendlyURLPersistenceImpl
 			 _finderPathFetchByG_P_F_L.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				layoutFriendlyURLModelImpl.getOriginalGroupId(),
-				layoutFriendlyURLModelImpl.getOriginalPrivateLayout(),
-				layoutFriendlyURLModelImpl.getOriginalFriendlyURL(),
-				layoutFriendlyURLModelImpl.getOriginalLanguageId()
+				layoutFriendlyURLModelImpl.getCacheModelAttribute("groupId"),
+				layoutFriendlyURLModelImpl.getCacheModelAttribute(
+					"privateLayout"),
+				layoutFriendlyURLModelImpl.getCacheModelAttribute(
+					"friendlyURL"),
+				layoutFriendlyURLModelImpl.getCacheModelAttribute("languageId")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByG_P_F_L, args);
@@ -5846,7 +5848,7 @@ public class LayoutFriendlyURLPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					layoutFriendlyURLModelImpl.getOriginalUuid()
+					layoutFriendlyURLModelImpl.getCacheModelAttribute("uuid")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid, args);
@@ -5865,8 +5867,9 @@ public class LayoutFriendlyURLPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					layoutFriendlyURLModelImpl.getOriginalUuid(),
-					layoutFriendlyURLModelImpl.getOriginalCompanyId()
+					layoutFriendlyURLModelImpl.getCacheModelAttribute("uuid"),
+					layoutFriendlyURLModelImpl.getCacheModelAttribute(
+						"companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid_C, args);
@@ -5888,7 +5891,7 @@ public class LayoutFriendlyURLPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					layoutFriendlyURLModelImpl.getOriginalGroupId()
+					layoutFriendlyURLModelImpl.getCacheModelAttribute("groupId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByGroupId, args);
@@ -5907,7 +5910,8 @@ public class LayoutFriendlyURLPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					layoutFriendlyURLModelImpl.getOriginalCompanyId()
+					layoutFriendlyURLModelImpl.getCacheModelAttribute(
+						"companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
@@ -5926,7 +5930,7 @@ public class LayoutFriendlyURLPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					layoutFriendlyURLModelImpl.getOriginalPlid()
+					layoutFriendlyURLModelImpl.getCacheModelAttribute("plid")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByPlid, args);
@@ -5945,8 +5949,9 @@ public class LayoutFriendlyURLPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					layoutFriendlyURLModelImpl.getOriginalPlid(),
-					layoutFriendlyURLModelImpl.getOriginalFriendlyURL()
+					layoutFriendlyURLModelImpl.getCacheModelAttribute("plid"),
+					layoutFriendlyURLModelImpl.getCacheModelAttribute(
+						"friendlyURL")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByP_F, args);
@@ -5968,8 +5973,9 @@ public class LayoutFriendlyURLPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					layoutFriendlyURLModelImpl.getOriginalPlid(),
-					layoutFriendlyURLModelImpl.getOriginalLanguageId()
+					layoutFriendlyURLModelImpl.getCacheModelAttribute("plid"),
+					layoutFriendlyURLModelImpl.getCacheModelAttribute(
+						"languageId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByP_L, args);
@@ -5991,9 +5997,12 @@ public class LayoutFriendlyURLPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					layoutFriendlyURLModelImpl.getOriginalGroupId(),
-					layoutFriendlyURLModelImpl.getOriginalPrivateLayout(),
-					layoutFriendlyURLModelImpl.getOriginalFriendlyURL()
+					layoutFriendlyURLModelImpl.getCacheModelAttribute(
+						"groupId"),
+					layoutFriendlyURLModelImpl.getCacheModelAttribute(
+						"privateLayout"),
+					layoutFriendlyURLModelImpl.getCacheModelAttribute(
+						"friendlyURL")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByG_P_F, args);

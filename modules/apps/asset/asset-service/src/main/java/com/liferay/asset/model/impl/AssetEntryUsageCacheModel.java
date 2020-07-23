@@ -120,6 +120,8 @@ public class AssetEntryUsageCacheModel
 	public AssetEntryUsage toEntityModel() {
 		AssetEntryUsageImpl assetEntryUsageImpl = new AssetEntryUsageImpl();
 
+		assetEntryUsageImpl.setNew(true);
+
 		assetEntryUsageImpl.setMvccVersion(mvccVersion);
 		assetEntryUsageImpl.setCtCollectionId(ctCollectionId);
 
@@ -169,6 +171,8 @@ public class AssetEntryUsageCacheModel
 		}
 
 		assetEntryUsageImpl.resetOriginalValues();
+
+		assetEntryUsageImpl.setNew(false);
 
 		return assetEntryUsageImpl;
 	}

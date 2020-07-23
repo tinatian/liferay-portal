@@ -1013,9 +1013,10 @@ public class SharepointOAuth2TokenEntryPersistenceImpl
 			 _finderPathFetchByU_C.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				sharepointOAuth2TokenEntryModelImpl.getOriginalUserId(),
-				sharepointOAuth2TokenEntryModelImpl.
-					getOriginalConfigurationPid()
+				sharepointOAuth2TokenEntryModelImpl.getCacheModelAttribute(
+					"userId"),
+				sharepointOAuth2TokenEntryModelImpl.getCacheModelAttribute(
+					"configurationPid")
 			};
 
 			finderCache.removeResult(_finderPathCountByU_C, args);
@@ -1208,7 +1209,8 @@ public class SharepointOAuth2TokenEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					sharepointOAuth2TokenEntryModelImpl.getOriginalUserId()
+					sharepointOAuth2TokenEntryModelImpl.getCacheModelAttribute(
+						"userId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUserId, args);

@@ -24,7 +24,6 @@ import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -100,18 +99,20 @@ public class OAuth2ScopeGrantModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long APPLICATIONNAME_COLUMN_BITMASK = 1L;
+	public static final long OAUTH2SCOPEGRANTID_COLUMN_BITMASK = 1L;
 
-	public static final long BUNDLESYMBOLICNAME_COLUMN_BITMASK = 2L;
-
-	public static final long COMPANYID_COLUMN_BITMASK = 4L;
+	public static final long COMPANYID_COLUMN_BITMASK = 2L;
 
 	public static final long OAUTH2APPLICATIONSCOPEALIASESID_COLUMN_BITMASK =
-		8L;
+		4L;
 
-	public static final long SCOPE_COLUMN_BITMASK = 16L;
+	public static final long APPLICATIONNAME_COLUMN_BITMASK = 8L;
 
-	public static final long OAUTH2SCOPEGRANTID_COLUMN_BITMASK = 32L;
+	public static final long BUNDLESYMBOLICNAME_COLUMN_BITMASK = 16L;
+
+	public static final long SCOPE_COLUMN_BITMASK = 32L;
+
+	public static final long SCOPEALIASES_COLUMN_BITMASK = 64L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -254,10 +255,39 @@ public class OAuth2ScopeGrantModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<OAuth2ScopeGrant, Object> function =
+			_attributeGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((OAuth2ScopeGrant)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<OAuth2ScopeGrantCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_oAuth2ScopeGrantCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_oAuth2ScopeGrantCacheModel);
+	}
+
 	private static final Map<String, Function<OAuth2ScopeGrant, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<OAuth2ScopeGrant, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<OAuth2ScopeGrantCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<OAuth2ScopeGrant, Object>>
@@ -266,43 +296,80 @@ public class OAuth2ScopeGrantModelImpl
 		Map<String, BiConsumer<OAuth2ScopeGrant, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<OAuth2ScopeGrant, ?>>();
+		Map<String, Function<OAuth2ScopeGrantCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<OAuth2ScopeGrantCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"oAuth2ScopeGrantId", OAuth2ScopeGrant::getOAuth2ScopeGrantId);
+
+		cacheModelGetterFunctions.put(
+			"oAuth2ScopeGrantId",
+			oAuth2ScopeGrantCacheModel ->
+				oAuth2ScopeGrantCacheModel.oAuth2ScopeGrantId);
 		attributeSetterBiConsumers.put(
 			"oAuth2ScopeGrantId",
 			(BiConsumer<OAuth2ScopeGrant, Long>)
 				OAuth2ScopeGrant::setOAuth2ScopeGrantId);
 		attributeGetterFunctions.put(
 			"companyId", OAuth2ScopeGrant::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			oAuth2ScopeGrantCacheModel -> oAuth2ScopeGrantCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<OAuth2ScopeGrant, Long>)OAuth2ScopeGrant::setCompanyId);
 		attributeGetterFunctions.put(
 			"oAuth2ApplicationScopeAliasesId",
 			OAuth2ScopeGrant::getOAuth2ApplicationScopeAliasesId);
+
+		cacheModelGetterFunctions.put(
+			"oAuth2ApplicationScopeAliasesId",
+			oAuth2ScopeGrantCacheModel ->
+				oAuth2ScopeGrantCacheModel.oAuth2ApplicationScopeAliasesId);
 		attributeSetterBiConsumers.put(
 			"oAuth2ApplicationScopeAliasesId",
 			(BiConsumer<OAuth2ScopeGrant, Long>)
 				OAuth2ScopeGrant::setOAuth2ApplicationScopeAliasesId);
 		attributeGetterFunctions.put(
 			"applicationName", OAuth2ScopeGrant::getApplicationName);
+
+		cacheModelGetterFunctions.put(
+			"applicationName",
+			oAuth2ScopeGrantCacheModel ->
+				oAuth2ScopeGrantCacheModel.applicationName);
 		attributeSetterBiConsumers.put(
 			"applicationName",
 			(BiConsumer<OAuth2ScopeGrant, String>)
 				OAuth2ScopeGrant::setApplicationName);
 		attributeGetterFunctions.put(
 			"bundleSymbolicName", OAuth2ScopeGrant::getBundleSymbolicName);
+
+		cacheModelGetterFunctions.put(
+			"bundleSymbolicName",
+			oAuth2ScopeGrantCacheModel ->
+				oAuth2ScopeGrantCacheModel.bundleSymbolicName);
 		attributeSetterBiConsumers.put(
 			"bundleSymbolicName",
 			(BiConsumer<OAuth2ScopeGrant, String>)
 				OAuth2ScopeGrant::setBundleSymbolicName);
 		attributeGetterFunctions.put("scope", OAuth2ScopeGrant::getScope);
+
+		cacheModelGetterFunctions.put(
+			"scope",
+			oAuth2ScopeGrantCacheModel -> oAuth2ScopeGrantCacheModel.scope);
 		attributeSetterBiConsumers.put(
 			"scope",
 			(BiConsumer<OAuth2ScopeGrant, String>)OAuth2ScopeGrant::setScope);
 		attributeGetterFunctions.put(
 			"scopeAliases", OAuth2ScopeGrant::getScopeAliases);
+
+		cacheModelGetterFunctions.put(
+			"scopeAliases",
+			oAuth2ScopeGrantCacheModel ->
+				oAuth2ScopeGrantCacheModel.scopeAliases);
 		attributeSetterBiConsumers.put(
 			"scopeAliases",
 			(BiConsumer<OAuth2ScopeGrant, String>)
@@ -312,6 +379,8 @@ public class OAuth2ScopeGrantModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -321,6 +390,13 @@ public class OAuth2ScopeGrantModelImpl
 
 	@Override
 	public void setOAuth2ScopeGrantId(long oAuth2ScopeGrantId) {
+		_columnBitmask |= OAUTH2SCOPEGRANTID_COLUMN_BITMASK;
+
+		if (!isNew() && (_oAuth2ScopeGrantCacheModel == null)) {
+			_oAuth2ScopeGrantCacheModel =
+				(OAuth2ScopeGrantCacheModel)toCacheModel();
+		}
+
 		_oAuth2ScopeGrantId = oAuth2ScopeGrantId;
 	}
 
@@ -333,17 +409,21 @@ public class OAuth2ScopeGrantModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (!isNew() && (_oAuth2ScopeGrantCacheModel == null)) {
+			_oAuth2ScopeGrantCacheModel =
+				(OAuth2ScopeGrantCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getCacheModelAttribute("companyId");
 	}
 
 	@Override
@@ -357,18 +437,21 @@ public class OAuth2ScopeGrantModelImpl
 
 		_columnBitmask |= OAUTH2APPLICATIONSCOPEALIASESID_COLUMN_BITMASK;
 
-		if (!_setOriginalOAuth2ApplicationScopeAliasesId) {
-			_setOriginalOAuth2ApplicationScopeAliasesId = true;
-
-			_originalOAuth2ApplicationScopeAliasesId =
-				_oAuth2ApplicationScopeAliasesId;
+		if (!isNew() && (_oAuth2ScopeGrantCacheModel == null)) {
+			_oAuth2ScopeGrantCacheModel =
+				(OAuth2ScopeGrantCacheModel)toCacheModel();
 		}
 
 		_oAuth2ApplicationScopeAliasesId = oAuth2ApplicationScopeAliasesId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalOAuth2ApplicationScopeAliasesId() {
-		return _originalOAuth2ApplicationScopeAliasesId;
+		return getCacheModelAttribute("oAuth2ApplicationScopeAliasesId");
 	}
 
 	@Override
@@ -385,15 +468,21 @@ public class OAuth2ScopeGrantModelImpl
 	public void setApplicationName(String applicationName) {
 		_columnBitmask |= APPLICATIONNAME_COLUMN_BITMASK;
 
-		if (_originalApplicationName == null) {
-			_originalApplicationName = _applicationName;
+		if (!isNew() && (_oAuth2ScopeGrantCacheModel == null)) {
+			_oAuth2ScopeGrantCacheModel =
+				(OAuth2ScopeGrantCacheModel)toCacheModel();
 		}
 
 		_applicationName = applicationName;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalApplicationName() {
-		return GetterUtil.getString(_originalApplicationName);
+		return getCacheModelAttribute("applicationName");
 	}
 
 	@Override
@@ -410,15 +499,21 @@ public class OAuth2ScopeGrantModelImpl
 	public void setBundleSymbolicName(String bundleSymbolicName) {
 		_columnBitmask |= BUNDLESYMBOLICNAME_COLUMN_BITMASK;
 
-		if (_originalBundleSymbolicName == null) {
-			_originalBundleSymbolicName = _bundleSymbolicName;
+		if (!isNew() && (_oAuth2ScopeGrantCacheModel == null)) {
+			_oAuth2ScopeGrantCacheModel =
+				(OAuth2ScopeGrantCacheModel)toCacheModel();
 		}
 
 		_bundleSymbolicName = bundleSymbolicName;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalBundleSymbolicName() {
-		return GetterUtil.getString(_originalBundleSymbolicName);
+		return getCacheModelAttribute("bundleSymbolicName");
 	}
 
 	@Override
@@ -435,15 +530,21 @@ public class OAuth2ScopeGrantModelImpl
 	public void setScope(String scope) {
 		_columnBitmask |= SCOPE_COLUMN_BITMASK;
 
-		if (_originalScope == null) {
-			_originalScope = _scope;
+		if (!isNew() && (_oAuth2ScopeGrantCacheModel == null)) {
+			_oAuth2ScopeGrantCacheModel =
+				(OAuth2ScopeGrantCacheModel)toCacheModel();
 		}
 
 		_scope = scope;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalScope() {
-		return GetterUtil.getString(_originalScope);
+		return getCacheModelAttribute("scope");
 	}
 
 	@Override
@@ -458,6 +559,13 @@ public class OAuth2ScopeGrantModelImpl
 
 	@Override
 	public void setScopeAliases(String scopeAliases) {
+		_columnBitmask |= SCOPEALIASES_COLUMN_BITMASK;
+
+		if (!isNew() && (_oAuth2ScopeGrantCacheModel == null)) {
+			_oAuth2ScopeGrantCacheModel =
+				(OAuth2ScopeGrantCacheModel)toCacheModel();
+		}
+
 		_scopeAliases = scopeAliases;
 	}
 
@@ -573,29 +681,9 @@ public class OAuth2ScopeGrantModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		OAuth2ScopeGrantModelImpl oAuth2ScopeGrantModelImpl = this;
+		_columnBitmask = 0;
 
-		oAuth2ScopeGrantModelImpl._originalCompanyId =
-			oAuth2ScopeGrantModelImpl._companyId;
-
-		oAuth2ScopeGrantModelImpl._setOriginalCompanyId = false;
-
-		oAuth2ScopeGrantModelImpl._originalOAuth2ApplicationScopeAliasesId =
-			oAuth2ScopeGrantModelImpl._oAuth2ApplicationScopeAliasesId;
-
-		oAuth2ScopeGrantModelImpl._setOriginalOAuth2ApplicationScopeAliasesId =
-			false;
-
-		oAuth2ScopeGrantModelImpl._originalApplicationName =
-			oAuth2ScopeGrantModelImpl._applicationName;
-
-		oAuth2ScopeGrantModelImpl._originalBundleSymbolicName =
-			oAuth2ScopeGrantModelImpl._bundleSymbolicName;
-
-		oAuth2ScopeGrantModelImpl._originalScope =
-			oAuth2ScopeGrantModelImpl._scope;
-
-		oAuth2ScopeGrantModelImpl._columnBitmask = 0;
+		_oAuth2ScopeGrantCacheModel = null;
 	}
 
 	@Override
@@ -720,19 +808,13 @@ public class OAuth2ScopeGrantModelImpl
 
 	private long _oAuth2ScopeGrantId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _oAuth2ApplicationScopeAliasesId;
-	private long _originalOAuth2ApplicationScopeAliasesId;
-	private boolean _setOriginalOAuth2ApplicationScopeAliasesId;
 	private String _applicationName;
-	private String _originalApplicationName;
 	private String _bundleSymbolicName;
-	private String _originalBundleSymbolicName;
 	private String _scope;
-	private String _originalScope;
 	private String _scopeAliases;
 	private long _columnBitmask;
 	private OAuth2ScopeGrant _escapedModel;
+	private OAuth2ScopeGrantCacheModel _oAuth2ScopeGrantCacheModel;
 
 }

@@ -110,6 +110,8 @@ public class PortletItemCacheModel
 	public PortletItem toEntityModel() {
 		PortletItemImpl portletItemImpl = new PortletItemImpl();
 
+		portletItemImpl.setNew(true);
+
 		portletItemImpl.setMvccVersion(mvccVersion);
 		portletItemImpl.setPortletItemId(portletItemId);
 		portletItemImpl.setGroupId(groupId);
@@ -154,6 +156,8 @@ public class PortletItemCacheModel
 		portletItemImpl.setClassNameId(classNameId);
 
 		portletItemImpl.resetOriginalValues();
+
+		portletItemImpl.setNew(false);
 
 		return portletItemImpl;
 	}

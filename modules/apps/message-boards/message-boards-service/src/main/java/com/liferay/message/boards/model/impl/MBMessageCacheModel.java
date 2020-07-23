@@ -147,6 +147,8 @@ public class MBMessageCacheModel
 	public MBMessage toEntityModel() {
 		MBMessageImpl mbMessageImpl = new MBMessageImpl();
 
+		mbMessageImpl.setNew(true);
+
 		mbMessageImpl.setMvccVersion(mvccVersion);
 		mbMessageImpl.setCtCollectionId(ctCollectionId);
 
@@ -255,6 +257,8 @@ public class MBMessageCacheModel
 		}
 
 		mbMessageImpl.resetOriginalValues();
+
+		mbMessageImpl.setNew(false);
 
 		return mbMessageImpl;
 	}

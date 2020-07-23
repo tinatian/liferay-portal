@@ -1804,8 +1804,10 @@ public class PowwowParticipantPersistenceImpl
 			 _finderPathFetchByPMI_PUI.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				powwowParticipantModelImpl.getOriginalPowwowMeetingId(),
-				powwowParticipantModelImpl.getOriginalParticipantUserId()
+				powwowParticipantModelImpl.getCacheModelAttribute(
+					"powwowMeetingId"),
+				powwowParticipantModelImpl.getCacheModelAttribute(
+					"participantUserId")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByPMI_PUI, args);
@@ -1826,8 +1828,10 @@ public class PowwowParticipantPersistenceImpl
 			 _finderPathFetchByPMI_EA.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				powwowParticipantModelImpl.getOriginalPowwowMeetingId(),
-				powwowParticipantModelImpl.getOriginalEmailAddress()
+				powwowParticipantModelImpl.getCacheModelAttribute(
+					"powwowMeetingId"),
+				powwowParticipantModelImpl.getCacheModelAttribute(
+					"emailAddress")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByPMI_EA, args);
@@ -2045,7 +2049,8 @@ public class PowwowParticipantPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					powwowParticipantModelImpl.getOriginalPowwowMeetingId()
+					powwowParticipantModelImpl.getCacheModelAttribute(
+						"powwowMeetingId")
 				};
 
 				FinderCacheUtil.removeResult(
@@ -2068,8 +2073,9 @@ public class PowwowParticipantPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					powwowParticipantModelImpl.getOriginalPowwowMeetingId(),
-					powwowParticipantModelImpl.getOriginalType()
+					powwowParticipantModelImpl.getCacheModelAttribute(
+						"powwowMeetingId"),
+					powwowParticipantModelImpl.getCacheModelAttribute("type")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByPMI_T, args);

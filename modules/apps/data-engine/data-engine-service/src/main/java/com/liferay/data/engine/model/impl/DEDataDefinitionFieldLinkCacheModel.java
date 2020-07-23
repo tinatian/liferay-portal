@@ -100,6 +100,8 @@ public class DEDataDefinitionFieldLinkCacheModel
 		DEDataDefinitionFieldLinkImpl deDataDefinitionFieldLinkImpl =
 			new DEDataDefinitionFieldLinkImpl();
 
+		deDataDefinitionFieldLinkImpl.setNew(true);
+
 		if (uuid == null) {
 			deDataDefinitionFieldLinkImpl.setUuid("");
 		}
@@ -147,6 +149,8 @@ public class DEDataDefinitionFieldLinkCacheModel
 		}
 
 		deDataDefinitionFieldLinkImpl.resetOriginalValues();
+
+		deDataDefinitionFieldLinkImpl.setNew(false);
 
 		return deDataDefinitionFieldLinkImpl;
 	}

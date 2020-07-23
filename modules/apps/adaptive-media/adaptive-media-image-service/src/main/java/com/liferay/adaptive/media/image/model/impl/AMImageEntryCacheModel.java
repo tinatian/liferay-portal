@@ -95,6 +95,8 @@ public class AMImageEntryCacheModel
 	public AMImageEntry toEntityModel() {
 		AMImageEntryImpl amImageEntryImpl = new AMImageEntryImpl();
 
+		amImageEntryImpl.setNew(true);
+
 		if (uuid == null) {
 			amImageEntryImpl.setUuid("");
 		}
@@ -134,6 +136,8 @@ public class AMImageEntryCacheModel
 		amImageEntryImpl.setSize(size);
 
 		amImageEntryImpl.resetOriginalValues();
+
+		amImageEntryImpl.setNew(false);
 
 		return amImageEntryImpl;
 	}

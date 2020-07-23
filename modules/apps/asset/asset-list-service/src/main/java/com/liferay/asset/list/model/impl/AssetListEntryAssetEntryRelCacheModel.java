@@ -124,6 +124,8 @@ public class AssetListEntryAssetEntryRelCacheModel
 		AssetListEntryAssetEntryRelImpl assetListEntryAssetEntryRelImpl =
 			new AssetListEntryAssetEntryRelImpl();
 
+		assetListEntryAssetEntryRelImpl.setNew(true);
+
 		assetListEntryAssetEntryRelImpl.setMvccVersion(mvccVersion);
 		assetListEntryAssetEntryRelImpl.setCtCollectionId(ctCollectionId);
 
@@ -176,6 +178,8 @@ public class AssetListEntryAssetEntryRelCacheModel
 		}
 
 		assetListEntryAssetEntryRelImpl.resetOriginalValues();
+
+		assetListEntryAssetEntryRelImpl.setNew(false);
 
 		return assetListEntryAssetEntryRelImpl;
 	}

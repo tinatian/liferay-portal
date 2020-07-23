@@ -99,11 +99,17 @@ public class DDMDataProviderInstanceLinkModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long DATAPROVIDERINSTANCEID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long STRUCTUREID_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
 	public static final long DATAPROVIDERINSTANCELINKID_COLUMN_BITMASK = 4L;
+
+	public static final long COMPANYID_COLUMN_BITMASK = 8L;
+
+	public static final long DATAPROVIDERINSTANCEID_COLUMN_BITMASK = 16L;
+
+	public static final long STRUCTUREID_COLUMN_BITMASK = 32L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -234,12 +240,41 @@ public class DDMDataProviderInstanceLinkModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<DDMDataProviderInstanceLink, Object> function =
+			_attributeGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((DDMDataProviderInstanceLink)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<DDMDataProviderInstanceLinkCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_ddmDataProviderInstanceLinkCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_ddmDataProviderInstanceLinkCacheModel);
+	}
+
 	private static final Map
 		<String, Function<DDMDataProviderInstanceLink, Object>>
 			_attributeGetterFunctions;
 	private static final Map
 		<String, BiConsumer<DDMDataProviderInstanceLink, Object>>
 			_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<DDMDataProviderInstanceLinkCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<DDMDataProviderInstanceLink, Object>>
@@ -250,15 +285,30 @@ public class DDMDataProviderInstanceLinkModelImpl
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<DDMDataProviderInstanceLink, ?>>();
+		Map<String, Function<DDMDataProviderInstanceLinkCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String,
+					 Function<DDMDataProviderInstanceLinkCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", DDMDataProviderInstanceLink::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			ddmDataProviderInstanceLinkCacheModel ->
+				ddmDataProviderInstanceLinkCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<DDMDataProviderInstanceLink, Long>)
 				DDMDataProviderInstanceLink::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", DDMDataProviderInstanceLink::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			ddmDataProviderInstanceLinkCacheModel ->
+				ddmDataProviderInstanceLinkCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<DDMDataProviderInstanceLink, Long>)
@@ -266,12 +316,23 @@ public class DDMDataProviderInstanceLinkModelImpl
 		attributeGetterFunctions.put(
 			"dataProviderInstanceLinkId",
 			DDMDataProviderInstanceLink::getDataProviderInstanceLinkId);
+
+		cacheModelGetterFunctions.put(
+			"dataProviderInstanceLinkId",
+			ddmDataProviderInstanceLinkCacheModel ->
+				ddmDataProviderInstanceLinkCacheModel.
+					dataProviderInstanceLinkId);
 		attributeSetterBiConsumers.put(
 			"dataProviderInstanceLinkId",
 			(BiConsumer<DDMDataProviderInstanceLink, Long>)
 				DDMDataProviderInstanceLink::setDataProviderInstanceLinkId);
 		attributeGetterFunctions.put(
 			"companyId", DDMDataProviderInstanceLink::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			ddmDataProviderInstanceLinkCacheModel ->
+				ddmDataProviderInstanceLinkCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<DDMDataProviderInstanceLink, Long>)
@@ -279,12 +340,22 @@ public class DDMDataProviderInstanceLinkModelImpl
 		attributeGetterFunctions.put(
 			"dataProviderInstanceId",
 			DDMDataProviderInstanceLink::getDataProviderInstanceId);
+
+		cacheModelGetterFunctions.put(
+			"dataProviderInstanceId",
+			ddmDataProviderInstanceLinkCacheModel ->
+				ddmDataProviderInstanceLinkCacheModel.dataProviderInstanceId);
 		attributeSetterBiConsumers.put(
 			"dataProviderInstanceId",
 			(BiConsumer<DDMDataProviderInstanceLink, Long>)
 				DDMDataProviderInstanceLink::setDataProviderInstanceId);
 		attributeGetterFunctions.put(
 			"structureId", DDMDataProviderInstanceLink::getStructureId);
+
+		cacheModelGetterFunctions.put(
+			"structureId",
+			ddmDataProviderInstanceLinkCacheModel ->
+				ddmDataProviderInstanceLinkCacheModel.structureId);
 		attributeSetterBiConsumers.put(
 			"structureId",
 			(BiConsumer<DDMDataProviderInstanceLink, Long>)
@@ -294,6 +365,8 @@ public class DDMDataProviderInstanceLinkModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -303,6 +376,13 @@ public class DDMDataProviderInstanceLinkModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_ddmDataProviderInstanceLinkCacheModel == null)) {
+			_ddmDataProviderInstanceLinkCacheModel =
+				(DDMDataProviderInstanceLinkCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -313,6 +393,13 @@ public class DDMDataProviderInstanceLinkModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (!isNew() && (_ddmDataProviderInstanceLinkCacheModel == null)) {
+			_ddmDataProviderInstanceLinkCacheModel =
+				(DDMDataProviderInstanceLinkCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -323,6 +410,13 @@ public class DDMDataProviderInstanceLinkModelImpl
 
 	@Override
 	public void setDataProviderInstanceLinkId(long dataProviderInstanceLinkId) {
+		_columnBitmask |= DATAPROVIDERINSTANCELINKID_COLUMN_BITMASK;
+
+		if (!isNew() && (_ddmDataProviderInstanceLinkCacheModel == null)) {
+			_ddmDataProviderInstanceLinkCacheModel =
+				(DDMDataProviderInstanceLinkCacheModel)toCacheModel();
+		}
+
 		_dataProviderInstanceLinkId = dataProviderInstanceLinkId;
 	}
 
@@ -333,6 +427,13 @@ public class DDMDataProviderInstanceLinkModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (!isNew() && (_ddmDataProviderInstanceLinkCacheModel == null)) {
+			_ddmDataProviderInstanceLinkCacheModel =
+				(DDMDataProviderInstanceLinkCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -345,17 +446,21 @@ public class DDMDataProviderInstanceLinkModelImpl
 	public void setDataProviderInstanceId(long dataProviderInstanceId) {
 		_columnBitmask |= DATAPROVIDERINSTANCEID_COLUMN_BITMASK;
 
-		if (!_setOriginalDataProviderInstanceId) {
-			_setOriginalDataProviderInstanceId = true;
-
-			_originalDataProviderInstanceId = _dataProviderInstanceId;
+		if (!isNew() && (_ddmDataProviderInstanceLinkCacheModel == null)) {
+			_ddmDataProviderInstanceLinkCacheModel =
+				(DDMDataProviderInstanceLinkCacheModel)toCacheModel();
 		}
 
 		_dataProviderInstanceId = dataProviderInstanceId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalDataProviderInstanceId() {
-		return _originalDataProviderInstanceId;
+		return getCacheModelAttribute("dataProviderInstanceId");
 	}
 
 	@Override
@@ -367,17 +472,21 @@ public class DDMDataProviderInstanceLinkModelImpl
 	public void setStructureId(long structureId) {
 		_columnBitmask |= STRUCTUREID_COLUMN_BITMASK;
 
-		if (!_setOriginalStructureId) {
-			_setOriginalStructureId = true;
-
-			_originalStructureId = _structureId;
+		if (!isNew() && (_ddmDataProviderInstanceLinkCacheModel == null)) {
+			_ddmDataProviderInstanceLinkCacheModel =
+				(DDMDataProviderInstanceLinkCacheModel)toCacheModel();
 		}
 
 		_structureId = structureId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalStructureId() {
-		return _originalStructureId;
+		return getCacheModelAttribute("structureId");
 	}
 
 	public long getColumnBitmask() {
@@ -497,21 +606,9 @@ public class DDMDataProviderInstanceLinkModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		DDMDataProviderInstanceLinkModelImpl
-			ddmDataProviderInstanceLinkModelImpl = this;
+		_columnBitmask = 0;
 
-		ddmDataProviderInstanceLinkModelImpl._originalDataProviderInstanceId =
-			ddmDataProviderInstanceLinkModelImpl._dataProviderInstanceId;
-
-		ddmDataProviderInstanceLinkModelImpl.
-			_setOriginalDataProviderInstanceId = false;
-
-		ddmDataProviderInstanceLinkModelImpl._originalStructureId =
-			ddmDataProviderInstanceLinkModelImpl._structureId;
-
-		ddmDataProviderInstanceLinkModelImpl._setOriginalStructureId = false;
-
-		ddmDataProviderInstanceLinkModelImpl._columnBitmask = 0;
+		_ddmDataProviderInstanceLinkCacheModel = null;
 	}
 
 	@Override
@@ -619,12 +716,10 @@ public class DDMDataProviderInstanceLinkModelImpl
 	private long _dataProviderInstanceLinkId;
 	private long _companyId;
 	private long _dataProviderInstanceId;
-	private long _originalDataProviderInstanceId;
-	private boolean _setOriginalDataProviderInstanceId;
 	private long _structureId;
-	private long _originalStructureId;
-	private boolean _setOriginalStructureId;
 	private long _columnBitmask;
 	private DDMDataProviderInstanceLink _escapedModel;
+	private DDMDataProviderInstanceLinkCacheModel
+		_ddmDataProviderInstanceLinkCacheModel;
 
 }

@@ -114,6 +114,8 @@ public class StyleBookEntryCacheModel
 	public StyleBookEntry toEntityModel() {
 		StyleBookEntryImpl styleBookEntryImpl = new StyleBookEntryImpl();
 
+		styleBookEntryImpl.setNew(true);
+
 		styleBookEntryImpl.setMvccVersion(mvccVersion);
 		styleBookEntryImpl.setHeadId(headId);
 		styleBookEntryImpl.setHead(head);
@@ -162,6 +164,8 @@ public class StyleBookEntryCacheModel
 		}
 
 		styleBookEntryImpl.resetOriginalValues();
+
+		styleBookEntryImpl.setNew(false);
 
 		return styleBookEntryImpl;
 	}

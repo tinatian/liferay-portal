@@ -2980,9 +2980,10 @@ public class LVEntryLocalizationVersionPersistenceImpl
 				 getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				lvEntryLocalizationVersionModelImpl.
-					getOriginalLvEntryLocalizationId(),
-				lvEntryLocalizationVersionModelImpl.getOriginalVersion()
+				lvEntryLocalizationVersionModelImpl.getCacheModelAttribute(
+					"lvEntryLocalizationId"),
+				lvEntryLocalizationVersionModelImpl.getCacheModelAttribute(
+					"version")
 			};
 
 			finderCache.removeResult(
@@ -3009,9 +3010,12 @@ public class LVEntryLocalizationVersionPersistenceImpl
 				 getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				lvEntryLocalizationVersionModelImpl.getOriginalLvEntryId(),
-				lvEntryLocalizationVersionModelImpl.getOriginalLanguageId(),
-				lvEntryLocalizationVersionModelImpl.getOriginalVersion()
+				lvEntryLocalizationVersionModelImpl.getCacheModelAttribute(
+					"lvEntryId"),
+				lvEntryLocalizationVersionModelImpl.getCacheModelAttribute(
+					"languageId"),
+				lvEntryLocalizationVersionModelImpl.getCacheModelAttribute(
+					"version")
 			};
 
 			finderCache.removeResult(
@@ -3235,8 +3239,8 @@ public class LVEntryLocalizationVersionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					lvEntryLocalizationVersionModelImpl.
-						getOriginalLvEntryLocalizationId()
+					lvEntryLocalizationVersionModelImpl.getCacheModelAttribute(
+						"lvEntryLocalizationId")
 				};
 
 				finderCache.removeResult(
@@ -3262,7 +3266,8 @@ public class LVEntryLocalizationVersionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					lvEntryLocalizationVersionModelImpl.getOriginalLvEntryId()
+					lvEntryLocalizationVersionModelImpl.getCacheModelAttribute(
+						"lvEntryId")
 				};
 
 				finderCache.removeResult(_finderPathCountByLvEntryId, args);
@@ -3283,8 +3288,10 @@ public class LVEntryLocalizationVersionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					lvEntryLocalizationVersionModelImpl.getOriginalLvEntryId(),
-					lvEntryLocalizationVersionModelImpl.getOriginalVersion()
+					lvEntryLocalizationVersionModelImpl.getCacheModelAttribute(
+						"lvEntryId"),
+					lvEntryLocalizationVersionModelImpl.getCacheModelAttribute(
+						"version")
 				};
 
 				finderCache.removeResult(
@@ -3308,8 +3315,10 @@ public class LVEntryLocalizationVersionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					lvEntryLocalizationVersionModelImpl.getOriginalLvEntryId(),
-					lvEntryLocalizationVersionModelImpl.getOriginalLanguageId()
+					lvEntryLocalizationVersionModelImpl.getCacheModelAttribute(
+						"lvEntryId"),
+					lvEntryLocalizationVersionModelImpl.getCacheModelAttribute(
+						"languageId")
 				};
 
 				finderCache.removeResult(

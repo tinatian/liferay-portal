@@ -1746,8 +1746,10 @@ public class JournalArticleLocalizationPersistenceImpl
 			 _finderPathFetchByA_L.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				journalArticleLocalizationModelImpl.getOriginalArticlePK(),
-				journalArticleLocalizationModelImpl.getOriginalLanguageId()
+				journalArticleLocalizationModelImpl.getCacheModelAttribute(
+					"articlePK"),
+				journalArticleLocalizationModelImpl.getCacheModelAttribute(
+					"languageId")
 			};
 
 			finderCache.removeResult(_finderPathCountByA_L, args);
@@ -1769,9 +1771,12 @@ public class JournalArticleLocalizationPersistenceImpl
 			 _finderPathFetchByC_A_L.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				journalArticleLocalizationModelImpl.getOriginalCompanyId(),
-				journalArticleLocalizationModelImpl.getOriginalArticlePK(),
-				journalArticleLocalizationModelImpl.getOriginalLanguageId()
+				journalArticleLocalizationModelImpl.getCacheModelAttribute(
+					"companyId"),
+				journalArticleLocalizationModelImpl.getCacheModelAttribute(
+					"articlePK"),
+				journalArticleLocalizationModelImpl.getCacheModelAttribute(
+					"languageId")
 			};
 
 			finderCache.removeResult(_finderPathCountByC_A_L, args);
@@ -1794,10 +1799,14 @@ public class JournalArticleLocalizationPersistenceImpl
 			 _finderPathFetchByC_A_T_L.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				journalArticleLocalizationModelImpl.getOriginalCompanyId(),
-				journalArticleLocalizationModelImpl.getOriginalArticlePK(),
-				journalArticleLocalizationModelImpl.getOriginalTitle(),
-				journalArticleLocalizationModelImpl.getOriginalLanguageId()
+				journalArticleLocalizationModelImpl.getCacheModelAttribute(
+					"companyId"),
+				journalArticleLocalizationModelImpl.getCacheModelAttribute(
+					"articlePK"),
+				journalArticleLocalizationModelImpl.getCacheModelAttribute(
+					"title"),
+				journalArticleLocalizationModelImpl.getCacheModelAttribute(
+					"languageId")
 			};
 
 			finderCache.removeResult(_finderPathCountByC_A_T_L, args);
@@ -2009,7 +2018,8 @@ public class JournalArticleLocalizationPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					journalArticleLocalizationModelImpl.getOriginalArticlePK()
+					journalArticleLocalizationModelImpl.getCacheModelAttribute(
+						"articlePK")
 				};
 
 				finderCache.removeResult(_finderPathCountByArticlePK, args);

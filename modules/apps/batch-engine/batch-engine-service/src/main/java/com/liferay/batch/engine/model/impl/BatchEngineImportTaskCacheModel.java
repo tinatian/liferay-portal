@@ -130,6 +130,8 @@ public class BatchEngineImportTaskCacheModel
 		BatchEngineImportTaskImpl batchEngineImportTaskImpl =
 			new BatchEngineImportTaskImpl();
 
+		batchEngineImportTaskImpl.setNew(true);
+
 		batchEngineImportTaskImpl.setMvccVersion(mvccVersion);
 
 		if (uuid == null) {
@@ -229,6 +231,8 @@ public class BatchEngineImportTaskCacheModel
 		}
 
 		batchEngineImportTaskImpl.resetOriginalValues();
+
+		batchEngineImportTaskImpl.setNew(false);
 
 		return batchEngineImportTaskImpl;
 	}

@@ -8290,7 +8290,7 @@ public class AnnouncementsEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					announcementsEntryModelImpl.getOriginalUuid()
+					announcementsEntryModelImpl.getCacheModelAttribute("uuid")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid, args);
@@ -8309,8 +8309,9 @@ public class AnnouncementsEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					announcementsEntryModelImpl.getOriginalUuid(),
-					announcementsEntryModelImpl.getOriginalCompanyId()
+					announcementsEntryModelImpl.getCacheModelAttribute("uuid"),
+					announcementsEntryModelImpl.getCacheModelAttribute(
+						"companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid_C, args);
@@ -8332,7 +8333,8 @@ public class AnnouncementsEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					announcementsEntryModelImpl.getOriginalCompanyId()
+					announcementsEntryModelImpl.getCacheModelAttribute(
+						"companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
@@ -8353,7 +8355,7 @@ public class AnnouncementsEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					announcementsEntryModelImpl.getOriginalUserId()
+					announcementsEntryModelImpl.getCacheModelAttribute("userId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUserId, args);
@@ -8372,8 +8374,10 @@ public class AnnouncementsEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					announcementsEntryModelImpl.getOriginalClassNameId(),
-					announcementsEntryModelImpl.getOriginalClassPK()
+					announcementsEntryModelImpl.getCacheModelAttribute(
+						"classNameId"),
+					announcementsEntryModelImpl.getCacheModelAttribute(
+						"classPK")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_C, args);
@@ -8395,9 +8399,12 @@ public class AnnouncementsEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					announcementsEntryModelImpl.getOriginalCompanyId(),
-					announcementsEntryModelImpl.getOriginalClassNameId(),
-					announcementsEntryModelImpl.getOriginalClassPK()
+					announcementsEntryModelImpl.getCacheModelAttribute(
+						"companyId"),
+					announcementsEntryModelImpl.getCacheModelAttribute(
+						"classNameId"),
+					announcementsEntryModelImpl.getCacheModelAttribute(
+						"classPK")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_C_C, args);
@@ -8420,9 +8427,11 @@ public class AnnouncementsEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					announcementsEntryModelImpl.getOriginalClassNameId(),
-					announcementsEntryModelImpl.getOriginalClassPK(),
-					announcementsEntryModelImpl.getOriginalAlert()
+					announcementsEntryModelImpl.getCacheModelAttribute(
+						"classNameId"),
+					announcementsEntryModelImpl.getCacheModelAttribute(
+						"classPK"),
+					announcementsEntryModelImpl.getCacheModelAttribute("alert")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_C_A, args);
@@ -8445,10 +8454,13 @@ public class AnnouncementsEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					announcementsEntryModelImpl.getOriginalCompanyId(),
-					announcementsEntryModelImpl.getOriginalClassNameId(),
-					announcementsEntryModelImpl.getOriginalClassPK(),
-					announcementsEntryModelImpl.getOriginalAlert()
+					announcementsEntryModelImpl.getCacheModelAttribute(
+						"companyId"),
+					announcementsEntryModelImpl.getCacheModelAttribute(
+						"classNameId"),
+					announcementsEntryModelImpl.getCacheModelAttribute(
+						"classPK"),
+					announcementsEntryModelImpl.getCacheModelAttribute("alert")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_C_C_A, args);

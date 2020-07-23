@@ -2195,7 +2195,7 @@ public class CTCollectionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					ctCollectionModelImpl.getOriginalCompanyId()
+					ctCollectionModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCompanyId, args);
@@ -2214,8 +2214,8 @@ public class CTCollectionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					ctCollectionModelImpl.getOriginalCompanyId(),
-					ctCollectionModelImpl.getOriginalStatus()
+					ctCollectionModelImpl.getCacheModelAttribute("companyId"),
+					ctCollectionModelImpl.getCacheModelAttribute("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_S, args);

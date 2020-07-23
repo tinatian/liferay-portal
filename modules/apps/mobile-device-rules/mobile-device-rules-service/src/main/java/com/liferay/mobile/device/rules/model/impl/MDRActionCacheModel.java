@@ -121,6 +121,8 @@ public class MDRActionCacheModel
 	public MDRAction toEntityModel() {
 		MDRActionImpl mdrActionImpl = new MDRActionImpl();
 
+		mdrActionImpl.setNew(true);
+
 		mdrActionImpl.setMvccVersion(mvccVersion);
 
 		if (uuid == null) {
@@ -196,6 +198,8 @@ public class MDRActionCacheModel
 		}
 
 		mdrActionImpl.resetOriginalValues();
+
+		mdrActionImpl.setNew(false);
 
 		return mdrActionImpl;
 	}

@@ -21120,8 +21120,8 @@ public class BlogsEntryPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				blogsEntryModelImpl.getOriginalUuid(),
-				blogsEntryModelImpl.getOriginalGroupId()
+				blogsEntryModelImpl.getCacheModelAttribute("uuid"),
+				blogsEntryModelImpl.getCacheModelAttribute("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -21142,8 +21142,8 @@ public class BlogsEntryPersistenceImpl
 			 _finderPathFetchByG_UT.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				blogsEntryModelImpl.getOriginalGroupId(),
-				blogsEntryModelImpl.getOriginalUrlTitle()
+				blogsEntryModelImpl.getCacheModelAttribute("groupId"),
+				blogsEntryModelImpl.getCacheModelAttribute("urlTitle")
 			};
 
 			finderCache.removeResult(_finderPathCountByG_UT, args);
@@ -21461,7 +21461,7 @@ public class BlogsEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					blogsEntryModelImpl.getOriginalUuid()
+					blogsEntryModelImpl.getCacheModelAttribute("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -21480,8 +21480,8 @@ public class BlogsEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					blogsEntryModelImpl.getOriginalUuid(),
-					blogsEntryModelImpl.getOriginalCompanyId()
+					blogsEntryModelImpl.getCacheModelAttribute("uuid"),
+					blogsEntryModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -21503,7 +21503,7 @@ public class BlogsEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					blogsEntryModelImpl.getOriginalGroupId()
+					blogsEntryModelImpl.getCacheModelAttribute("groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId, args);
@@ -21522,7 +21522,7 @@ public class BlogsEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					blogsEntryModelImpl.getOriginalCompanyId()
+					blogsEntryModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCompanyId, args);
@@ -21541,8 +21541,8 @@ public class BlogsEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					blogsEntryModelImpl.getOriginalGroupId(),
-					blogsEntryModelImpl.getOriginalStatus()
+					blogsEntryModelImpl.getCacheModelAttribute("groupId"),
+					blogsEntryModelImpl.getCacheModelAttribute("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_S, args);
@@ -21564,8 +21564,8 @@ public class BlogsEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					blogsEntryModelImpl.getOriginalCompanyId(),
-					blogsEntryModelImpl.getOriginalUserId()
+					blogsEntryModelImpl.getCacheModelAttribute("companyId"),
+					blogsEntryModelImpl.getCacheModelAttribute("userId")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_U, args);
@@ -21587,8 +21587,8 @@ public class BlogsEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					blogsEntryModelImpl.getOriginalCompanyId(),
-					blogsEntryModelImpl.getOriginalStatus()
+					blogsEntryModelImpl.getCacheModelAttribute("companyId"),
+					blogsEntryModelImpl.getCacheModelAttribute("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_S, args);
@@ -21610,9 +21610,9 @@ public class BlogsEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					blogsEntryModelImpl.getOriginalGroupId(),
-					blogsEntryModelImpl.getOriginalUserId(),
-					blogsEntryModelImpl.getOriginalStatus()
+					blogsEntryModelImpl.getCacheModelAttribute("groupId"),
+					blogsEntryModelImpl.getCacheModelAttribute("userId"),
+					blogsEntryModelImpl.getCacheModelAttribute("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_U_S, args);
@@ -21635,9 +21635,9 @@ public class BlogsEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					blogsEntryModelImpl.getOriginalGroupId(),
-					blogsEntryModelImpl.getOriginalDisplayDate(),
-					blogsEntryModelImpl.getOriginalStatus()
+					blogsEntryModelImpl.getCacheModelAttribute("groupId"),
+					blogsEntryModelImpl.getCacheModelAttribute("displayDate"),
+					blogsEntryModelImpl.getCacheModelAttribute("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_D_S, args);
@@ -21660,9 +21660,9 @@ public class BlogsEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					blogsEntryModelImpl.getOriginalCompanyId(),
-					blogsEntryModelImpl.getOriginalUserId(),
-					blogsEntryModelImpl.getOriginalStatus()
+					blogsEntryModelImpl.getCacheModelAttribute("companyId"),
+					blogsEntryModelImpl.getCacheModelAttribute("userId"),
+					blogsEntryModelImpl.getCacheModelAttribute("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_U_S, args);

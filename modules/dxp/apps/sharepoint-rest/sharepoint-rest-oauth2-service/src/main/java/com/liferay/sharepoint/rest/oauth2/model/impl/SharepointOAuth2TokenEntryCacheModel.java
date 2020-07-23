@@ -96,6 +96,8 @@ public class SharepointOAuth2TokenEntryCacheModel
 		SharepointOAuth2TokenEntryImpl sharepointOAuth2TokenEntryImpl =
 			new SharepointOAuth2TokenEntryImpl();
 
+		sharepointOAuth2TokenEntryImpl.setNew(true);
+
 		sharepointOAuth2TokenEntryImpl.setSharepointOAuth2TokenEntryId(
 			sharepointOAuth2TokenEntryId);
 		sharepointOAuth2TokenEntryImpl.setCompanyId(companyId);
@@ -146,6 +148,8 @@ public class SharepointOAuth2TokenEntryCacheModel
 		}
 
 		sharepointOAuth2TokenEntryImpl.resetOriginalValues();
+
+		sharepointOAuth2TokenEntryImpl.setNew(false);
 
 		return sharepointOAuth2TokenEntryImpl;
 	}

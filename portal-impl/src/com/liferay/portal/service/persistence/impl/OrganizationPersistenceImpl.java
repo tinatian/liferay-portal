@@ -9371,8 +9371,8 @@ public class OrganizationPersistenceImpl
 			 _finderPathFetchByC_N.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				organizationModelImpl.getOriginalCompanyId(),
-				organizationModelImpl.getOriginalName()
+				organizationModelImpl.getCacheModelAttribute("companyId"),
+				organizationModelImpl.getCacheModelAttribute("name")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByC_N, args);
@@ -9393,8 +9393,9 @@ public class OrganizationPersistenceImpl
 			 _finderPathFetchByC_ERC.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				organizationModelImpl.getOriginalCompanyId(),
-				organizationModelImpl.getOriginalExternalReferenceCode()
+				organizationModelImpl.getCacheModelAttribute("companyId"),
+				organizationModelImpl.getCacheModelAttribute(
+					"externalReferenceCode")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByC_ERC, args);
@@ -9660,7 +9661,7 @@ public class OrganizationPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					organizationModelImpl.getOriginalUuid()
+					organizationModelImpl.getCacheModelAttribute("uuid")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid, args);
@@ -9679,8 +9680,8 @@ public class OrganizationPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					organizationModelImpl.getOriginalUuid(),
-					organizationModelImpl.getOriginalCompanyId()
+					organizationModelImpl.getCacheModelAttribute("uuid"),
+					organizationModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid_C, args);
@@ -9702,7 +9703,7 @@ public class OrganizationPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					organizationModelImpl.getOriginalCompanyId()
+					organizationModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
@@ -9721,7 +9722,7 @@ public class OrganizationPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					organizationModelImpl.getOriginalCompanyId()
+					organizationModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByLocations, args);
@@ -9740,8 +9741,9 @@ public class OrganizationPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					organizationModelImpl.getOriginalCompanyId(),
-					organizationModelImpl.getOriginalParentOrganizationId()
+					organizationModelImpl.getCacheModelAttribute("companyId"),
+					organizationModelImpl.getCacheModelAttribute(
+						"parentOrganizationId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_P, args);

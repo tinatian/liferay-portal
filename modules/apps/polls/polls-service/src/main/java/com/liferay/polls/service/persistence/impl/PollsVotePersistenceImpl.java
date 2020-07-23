@@ -3112,8 +3112,8 @@ public class PollsVotePersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				pollsVoteModelImpl.getOriginalUuid(),
-				pollsVoteModelImpl.getOriginalGroupId()
+				pollsVoteModelImpl.getCacheModelAttribute("uuid"),
+				pollsVoteModelImpl.getCacheModelAttribute("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -3346,7 +3346,7 @@ public class PollsVotePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					pollsVoteModelImpl.getOriginalUuid()
+					pollsVoteModelImpl.getCacheModelAttribute("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -3365,8 +3365,8 @@ public class PollsVotePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					pollsVoteModelImpl.getOriginalUuid(),
-					pollsVoteModelImpl.getOriginalCompanyId()
+					pollsVoteModelImpl.getCacheModelAttribute("uuid"),
+					pollsVoteModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -3388,7 +3388,7 @@ public class PollsVotePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					pollsVoteModelImpl.getOriginalQuestionId()
+					pollsVoteModelImpl.getCacheModelAttribute("questionId")
 				};
 
 				finderCache.removeResult(_finderPathCountByQuestionId, args);
@@ -3407,7 +3407,7 @@ public class PollsVotePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					pollsVoteModelImpl.getOriginalChoiceId()
+					pollsVoteModelImpl.getCacheModelAttribute("choiceId")
 				};
 
 				finderCache.removeResult(_finderPathCountByChoiceId, args);
@@ -3426,8 +3426,8 @@ public class PollsVotePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					pollsVoteModelImpl.getOriginalQuestionId(),
-					pollsVoteModelImpl.getOriginalUserId()
+					pollsVoteModelImpl.getCacheModelAttribute("questionId"),
+					pollsVoteModelImpl.getCacheModelAttribute("userId")
 				};
 
 				finderCache.removeResult(_finderPathCountByQ_U, args);

@@ -2973,9 +2973,10 @@ public class DDMFormInstanceRecordVersionPersistenceImpl
 			 _finderPathFetchByF_V.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				ddmFormInstanceRecordVersionModelImpl.
-					getOriginalFormInstanceRecordId(),
-				ddmFormInstanceRecordVersionModelImpl.getOriginalVersion()
+				ddmFormInstanceRecordVersionModelImpl.getCacheModelAttribute(
+					"formInstanceRecordId"),
+				ddmFormInstanceRecordVersionModelImpl.getCacheModelAttribute(
+					"version")
 			};
 
 			finderCache.removeResult(_finderPathCountByF_V, args);
@@ -3225,7 +3226,7 @@ public class DDMFormInstanceRecordVersionPersistenceImpl
 
 				Object[] args = new Object[] {
 					ddmFormInstanceRecordVersionModelImpl.
-						getOriginalFormInstanceRecordId()
+						getCacheModelAttribute("formInstanceRecordId")
 				};
 
 				finderCache.removeResult(
@@ -3252,9 +3253,9 @@ public class DDMFormInstanceRecordVersionPersistenceImpl
 
 				Object[] args = new Object[] {
 					ddmFormInstanceRecordVersionModelImpl.
-						getOriginalFormInstanceId(),
+						getCacheModelAttribute("formInstanceId"),
 					ddmFormInstanceRecordVersionModelImpl.
-						getOriginalFormInstanceVersion()
+						getCacheModelAttribute("formInstanceVersion")
 				};
 
 				finderCache.removeResult(_finderPathCountByF_F, args);
@@ -3278,8 +3279,9 @@ public class DDMFormInstanceRecordVersionPersistenceImpl
 
 				Object[] args = new Object[] {
 					ddmFormInstanceRecordVersionModelImpl.
-						getOriginalFormInstanceRecordId(),
-					ddmFormInstanceRecordVersionModelImpl.getOriginalStatus()
+						getCacheModelAttribute("formInstanceRecordId"),
+					ddmFormInstanceRecordVersionModelImpl.
+						getCacheModelAttribute("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByF_S, args);
@@ -3302,12 +3304,14 @@ public class DDMFormInstanceRecordVersionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					ddmFormInstanceRecordVersionModelImpl.getOriginalUserId(),
 					ddmFormInstanceRecordVersionModelImpl.
-						getOriginalFormInstanceId(),
+						getCacheModelAttribute("userId"),
 					ddmFormInstanceRecordVersionModelImpl.
-						getOriginalFormInstanceVersion(),
-					ddmFormInstanceRecordVersionModelImpl.getOriginalStatus()
+						getCacheModelAttribute("formInstanceId"),
+					ddmFormInstanceRecordVersionModelImpl.
+						getCacheModelAttribute("formInstanceVersion"),
+					ddmFormInstanceRecordVersionModelImpl.
+						getCacheModelAttribute("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByU_F_F_S, args);

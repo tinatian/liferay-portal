@@ -97,6 +97,8 @@ public class RegionCacheModel
 	public Region toEntityModel() {
 		RegionImpl regionImpl = new RegionImpl();
 
+		regionImpl.setNew(true);
+
 		regionImpl.setMvccVersion(mvccVersion);
 		regionImpl.setRegionId(regionId);
 		regionImpl.setCountryId(countryId);
@@ -118,6 +120,8 @@ public class RegionCacheModel
 		regionImpl.setActive(active);
 
 		regionImpl.resetOriginalValues();
+
+		regionImpl.setNew(false);
 
 		return regionImpl;
 	}

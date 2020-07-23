@@ -118,11 +118,17 @@ public class LocalizedEntryLocalizationModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long LANGUAGEID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long LOCALIZEDENTRYID_COLUMN_BITMASK = 2L;
+	public static final long LOCALIZEDENTRYLOCALIZATIONID_COLUMN_BITMASK = 2L;
 
-	public static final long LOCALIZEDENTRYLOCALIZATIONID_COLUMN_BITMASK = 4L;
+	public static final long LOCALIZEDENTRYID_COLUMN_BITMASK = 4L;
+
+	public static final long LANGUAGEID_COLUMN_BITMASK = 8L;
+
+	public static final long TITLE_COLUMN_BITMASK = 16L;
+
+	public static final long CONTENT_COLUMN_BITMASK = 32L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		com.liferay.portal.tools.service.builder.test.service.util.ServiceProps.
@@ -244,12 +250,41 @@ public class LocalizedEntryLocalizationModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<LocalizedEntryLocalization, Object> function =
+			_attributeGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((LocalizedEntryLocalization)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<LocalizedEntryLocalizationCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_localizedEntryLocalizationCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_localizedEntryLocalizationCacheModel);
+	}
+
 	private static final Map
 		<String, Function<LocalizedEntryLocalization, Object>>
 			_attributeGetterFunctions;
 	private static final Map
 		<String, BiConsumer<LocalizedEntryLocalization, Object>>
 			_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<LocalizedEntryLocalizationCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<LocalizedEntryLocalization, Object>>
@@ -260,9 +295,19 @@ public class LocalizedEntryLocalizationModelImpl
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<LocalizedEntryLocalization, ?>>();
+		Map<String, Function<LocalizedEntryLocalizationCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String,
+					 Function<LocalizedEntryLocalizationCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", LocalizedEntryLocalization::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			localizedEntryLocalizationCacheModel ->
+				localizedEntryLocalizationCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<LocalizedEntryLocalization, Long>)
@@ -270,6 +315,12 @@ public class LocalizedEntryLocalizationModelImpl
 		attributeGetterFunctions.put(
 			"localizedEntryLocalizationId",
 			LocalizedEntryLocalization::getLocalizedEntryLocalizationId);
+
+		cacheModelGetterFunctions.put(
+			"localizedEntryLocalizationId",
+			localizedEntryLocalizationCacheModel ->
+				localizedEntryLocalizationCacheModel.
+					localizedEntryLocalizationId);
 		attributeSetterBiConsumers.put(
 			"localizedEntryLocalizationId",
 			(BiConsumer<LocalizedEntryLocalization, Long>)
@@ -277,24 +328,44 @@ public class LocalizedEntryLocalizationModelImpl
 		attributeGetterFunctions.put(
 			"localizedEntryId",
 			LocalizedEntryLocalization::getLocalizedEntryId);
+
+		cacheModelGetterFunctions.put(
+			"localizedEntryId",
+			localizedEntryLocalizationCacheModel ->
+				localizedEntryLocalizationCacheModel.localizedEntryId);
 		attributeSetterBiConsumers.put(
 			"localizedEntryId",
 			(BiConsumer<LocalizedEntryLocalization, Long>)
 				LocalizedEntryLocalization::setLocalizedEntryId);
 		attributeGetterFunctions.put(
 			"languageId", LocalizedEntryLocalization::getLanguageId);
+
+		cacheModelGetterFunctions.put(
+			"languageId",
+			localizedEntryLocalizationCacheModel ->
+				localizedEntryLocalizationCacheModel.languageId);
 		attributeSetterBiConsumers.put(
 			"languageId",
 			(BiConsumer<LocalizedEntryLocalization, String>)
 				LocalizedEntryLocalization::setLanguageId);
 		attributeGetterFunctions.put(
 			"title", LocalizedEntryLocalization::getTitle);
+
+		cacheModelGetterFunctions.put(
+			"title",
+			localizedEntryLocalizationCacheModel ->
+				localizedEntryLocalizationCacheModel.title);
 		attributeSetterBiConsumers.put(
 			"title",
 			(BiConsumer<LocalizedEntryLocalization, String>)
 				LocalizedEntryLocalization::setTitle);
 		attributeGetterFunctions.put(
 			"content", LocalizedEntryLocalization::getContent);
+
+		cacheModelGetterFunctions.put(
+			"content",
+			localizedEntryLocalizationCacheModel ->
+				localizedEntryLocalizationCacheModel.content);
 		attributeSetterBiConsumers.put(
 			"content",
 			(BiConsumer<LocalizedEntryLocalization, String>)
@@ -304,6 +375,8 @@ public class LocalizedEntryLocalizationModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -313,6 +386,13 @@ public class LocalizedEntryLocalizationModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_localizedEntryLocalizationCacheModel == null)) {
+			_localizedEntryLocalizationCacheModel =
+				(LocalizedEntryLocalizationCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -324,6 +404,13 @@ public class LocalizedEntryLocalizationModelImpl
 	@Override
 	public void setLocalizedEntryLocalizationId(
 		long localizedEntryLocalizationId) {
+
+		_columnBitmask |= LOCALIZEDENTRYLOCALIZATIONID_COLUMN_BITMASK;
+
+		if (!isNew() && (_localizedEntryLocalizationCacheModel == null)) {
+			_localizedEntryLocalizationCacheModel =
+				(LocalizedEntryLocalizationCacheModel)toCacheModel();
+		}
 
 		_localizedEntryLocalizationId = localizedEntryLocalizationId;
 	}
@@ -337,17 +424,21 @@ public class LocalizedEntryLocalizationModelImpl
 	public void setLocalizedEntryId(long localizedEntryId) {
 		_columnBitmask |= LOCALIZEDENTRYID_COLUMN_BITMASK;
 
-		if (!_setOriginalLocalizedEntryId) {
-			_setOriginalLocalizedEntryId = true;
-
-			_originalLocalizedEntryId = _localizedEntryId;
+		if (!isNew() && (_localizedEntryLocalizationCacheModel == null)) {
+			_localizedEntryLocalizationCacheModel =
+				(LocalizedEntryLocalizationCacheModel)toCacheModel();
 		}
 
 		_localizedEntryId = localizedEntryId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalLocalizedEntryId() {
-		return _originalLocalizedEntryId;
+		return getCacheModelAttribute("localizedEntryId");
 	}
 
 	@Override
@@ -364,15 +455,21 @@ public class LocalizedEntryLocalizationModelImpl
 	public void setLanguageId(String languageId) {
 		_columnBitmask |= LANGUAGEID_COLUMN_BITMASK;
 
-		if (_originalLanguageId == null) {
-			_originalLanguageId = _languageId;
+		if (!isNew() && (_localizedEntryLocalizationCacheModel == null)) {
+			_localizedEntryLocalizationCacheModel =
+				(LocalizedEntryLocalizationCacheModel)toCacheModel();
 		}
 
 		_languageId = languageId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalLanguageId() {
-		return GetterUtil.getString(_originalLanguageId);
+		return getCacheModelAttribute("languageId");
 	}
 
 	@Override
@@ -387,6 +484,13 @@ public class LocalizedEntryLocalizationModelImpl
 
 	@Override
 	public void setTitle(String title) {
+		_columnBitmask |= TITLE_COLUMN_BITMASK;
+
+		if (!isNew() && (_localizedEntryLocalizationCacheModel == null)) {
+			_localizedEntryLocalizationCacheModel =
+				(LocalizedEntryLocalizationCacheModel)toCacheModel();
+		}
+
 		_title = title;
 	}
 
@@ -402,6 +506,13 @@ public class LocalizedEntryLocalizationModelImpl
 
 	@Override
 	public void setContent(String content) {
+		_columnBitmask |= CONTENT_COLUMN_BITMASK;
+
+		if (!isNew() && (_localizedEntryLocalizationCacheModel == null)) {
+			_localizedEntryLocalizationCacheModel =
+				(LocalizedEntryLocalizationCacheModel)toCacheModel();
+		}
+
 		_content = content;
 	}
 
@@ -521,19 +632,9 @@ public class LocalizedEntryLocalizationModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		LocalizedEntryLocalizationModelImpl
-			localizedEntryLocalizationModelImpl = this;
+		_columnBitmask = 0;
 
-		localizedEntryLocalizationModelImpl._originalLocalizedEntryId =
-			localizedEntryLocalizationModelImpl._localizedEntryId;
-
-		localizedEntryLocalizationModelImpl._setOriginalLocalizedEntryId =
-			false;
-
-		localizedEntryLocalizationModelImpl._originalLanguageId =
-			localizedEntryLocalizationModelImpl._languageId;
-
-		localizedEntryLocalizationModelImpl._columnBitmask = 0;
+		_localizedEntryLocalizationCacheModel = null;
 	}
 
 	@Override
@@ -656,13 +757,12 @@ public class LocalizedEntryLocalizationModelImpl
 	private long _mvccVersion;
 	private long _localizedEntryLocalizationId;
 	private long _localizedEntryId;
-	private long _originalLocalizedEntryId;
-	private boolean _setOriginalLocalizedEntryId;
 	private String _languageId;
-	private String _originalLanguageId;
 	private String _title;
 	private String _content;
 	private long _columnBitmask;
 	private LocalizedEntryLocalization _escapedModel;
+	private LocalizedEntryLocalizationCacheModel
+		_localizedEntryLocalizationCacheModel;
 
 }

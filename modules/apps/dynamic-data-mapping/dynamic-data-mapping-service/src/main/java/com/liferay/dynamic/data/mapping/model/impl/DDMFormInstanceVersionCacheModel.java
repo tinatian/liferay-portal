@@ -126,6 +126,8 @@ public class DDMFormInstanceVersionCacheModel
 		DDMFormInstanceVersionImpl ddmFormInstanceVersionImpl =
 			new DDMFormInstanceVersionImpl();
 
+		ddmFormInstanceVersionImpl.setNew(true);
+
 		ddmFormInstanceVersionImpl.setMvccVersion(mvccVersion);
 		ddmFormInstanceVersionImpl.setCtCollectionId(ctCollectionId);
 		ddmFormInstanceVersionImpl.setFormInstanceVersionId(
@@ -197,6 +199,8 @@ public class DDMFormInstanceVersionCacheModel
 		}
 
 		ddmFormInstanceVersionImpl.resetOriginalValues();
+
+		ddmFormInstanceVersionImpl.setNew(false);
 
 		return ddmFormInstanceVersionImpl;
 	}

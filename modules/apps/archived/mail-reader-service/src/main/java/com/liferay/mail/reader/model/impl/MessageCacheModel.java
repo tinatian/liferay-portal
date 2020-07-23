@@ -111,6 +111,8 @@ public class MessageCacheModel implements CacheModel<Message>, Externalizable {
 	public Message toEntityModel() {
 		MessageImpl messageImpl = new MessageImpl();
 
+		messageImpl.setNew(true);
+
 		messageImpl.setMessageId(messageId);
 		messageImpl.setCompanyId(companyId);
 		messageImpl.setUserId(userId);
@@ -213,6 +215,8 @@ public class MessageCacheModel implements CacheModel<Message>, Externalizable {
 		}
 
 		messageImpl.resetOriginalValues();
+
+		messageImpl.setNew(false);
 
 		return messageImpl;
 	}

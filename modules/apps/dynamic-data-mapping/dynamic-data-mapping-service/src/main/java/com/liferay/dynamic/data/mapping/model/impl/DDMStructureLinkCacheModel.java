@@ -100,6 +100,8 @@ public class DDMStructureLinkCacheModel
 	public DDMStructureLink toEntityModel() {
 		DDMStructureLinkImpl ddmStructureLinkImpl = new DDMStructureLinkImpl();
 
+		ddmStructureLinkImpl.setNew(true);
+
 		ddmStructureLinkImpl.setMvccVersion(mvccVersion);
 		ddmStructureLinkImpl.setCtCollectionId(ctCollectionId);
 		ddmStructureLinkImpl.setStructureLinkId(structureLinkId);
@@ -109,6 +111,8 @@ public class DDMStructureLinkCacheModel
 		ddmStructureLinkImpl.setStructureId(structureId);
 
 		ddmStructureLinkImpl.resetOriginalValues();
+
+		ddmStructureLinkImpl.setNew(false);
 
 		return ddmStructureLinkImpl;
 	}

@@ -125,6 +125,8 @@ public class DDLRecordCacheModel
 	public DDLRecord toEntityModel() {
 		DDLRecordImpl ddlRecordImpl = new DDLRecordImpl();
 
+		ddlRecordImpl.setNew(true);
+
 		ddlRecordImpl.setMvccVersion(mvccVersion);
 
 		if (uuid == null) {
@@ -205,6 +207,8 @@ public class DDLRecordCacheModel
 		}
 
 		ddlRecordImpl.resetOriginalValues();
+
+		ddlRecordImpl.setNew(false);
 
 		return ddlRecordImpl;
 	}

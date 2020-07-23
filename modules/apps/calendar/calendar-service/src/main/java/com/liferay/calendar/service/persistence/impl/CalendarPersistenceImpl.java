@@ -3531,8 +3531,8 @@ public class CalendarPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				calendarModelImpl.getOriginalUuid(),
-				calendarModelImpl.getOriginalGroupId()
+				calendarModelImpl.getCacheModelAttribute("uuid"),
+				calendarModelImpl.getCacheModelAttribute("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -3763,7 +3763,7 @@ public class CalendarPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					calendarModelImpl.getOriginalUuid()
+					calendarModelImpl.getCacheModelAttribute("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -3782,8 +3782,8 @@ public class CalendarPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					calendarModelImpl.getOriginalUuid(),
-					calendarModelImpl.getOriginalCompanyId()
+					calendarModelImpl.getCacheModelAttribute("uuid"),
+					calendarModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -3805,8 +3805,9 @@ public class CalendarPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					calendarModelImpl.getOriginalGroupId(),
-					calendarModelImpl.getOriginalCalendarResourceId()
+					calendarModelImpl.getCacheModelAttribute("groupId"),
+					calendarModelImpl.getCacheModelAttribute(
+						"calendarResourceId")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_C, args);
@@ -3828,9 +3829,10 @@ public class CalendarPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					calendarModelImpl.getOriginalGroupId(),
-					calendarModelImpl.getOriginalCalendarResourceId(),
-					calendarModelImpl.getOriginalDefaultCalendar()
+					calendarModelImpl.getCacheModelAttribute("groupId"),
+					calendarModelImpl.getCacheModelAttribute(
+						"calendarResourceId"),
+					calendarModelImpl.getCacheModelAttribute("defaultCalendar")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_C_D, args);

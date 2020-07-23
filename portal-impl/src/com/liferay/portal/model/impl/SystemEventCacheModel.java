@@ -120,6 +120,8 @@ public class SystemEventCacheModel
 	public SystemEvent toEntityModel() {
 		SystemEventImpl systemEventImpl = new SystemEventImpl();
 
+		systemEventImpl.setNew(true);
+
 		systemEventImpl.setMvccVersion(mvccVersion);
 		systemEventImpl.setCtCollectionId(ctCollectionId);
 		systemEventImpl.setSystemEventId(systemEventId);
@@ -164,6 +166,8 @@ public class SystemEventCacheModel
 		}
 
 		systemEventImpl.resetOriginalValues();
+
+		systemEventImpl.setNew(false);
 
 		return systemEventImpl;
 	}

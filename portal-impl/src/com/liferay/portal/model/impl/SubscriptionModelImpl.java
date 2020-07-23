@@ -131,17 +131,27 @@ public class SubscriptionModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long CLASSNAMEID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long CLASSPK_COLUMN_BITMASK = 2L;
+	public static final long SUBSCRIPTIONID_COLUMN_BITMASK = 2L;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 4L;
+	public static final long GROUPID_COLUMN_BITMASK = 4L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 8L;
+	public static final long COMPANYID_COLUMN_BITMASK = 8L;
 
 	public static final long USERID_COLUMN_BITMASK = 16L;
 
-	public static final long SUBSCRIPTIONID_COLUMN_BITMASK = 32L;
+	public static final long USERNAME_COLUMN_BITMASK = 32L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 64L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 128L;
+
+	public static final long CLASSNAMEID_COLUMN_BITMASK = 256L;
+
+	public static final long CLASSPK_COLUMN_BITMASK = 512L;
+
+	public static final long FREQUENCY_COLUMN_BITMASK = 1024L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		com.liferay.portal.util.PropsUtil.get(
@@ -260,61 +270,136 @@ public class SubscriptionModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<Subscription, Object> function = _attributeGetterFunctions.get(
+			attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((Subscription)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<SubscriptionCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_subscriptionCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_subscriptionCacheModel);
+	}
+
 	private static final Map<String, Function<Subscription, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<Subscription, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<SubscriptionCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<Subscription, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<Subscription, Object>>();
 		Map<String, BiConsumer<Subscription, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Subscription, ?>>();
+		Map<String, Function<SubscriptionCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<SubscriptionCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", Subscription::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			subscriptionCacheModel -> subscriptionCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<Subscription, Long>)Subscription::setMvccVersion);
 		attributeGetterFunctions.put(
 			"subscriptionId", Subscription::getSubscriptionId);
+
+		cacheModelGetterFunctions.put(
+			"subscriptionId",
+			subscriptionCacheModel -> subscriptionCacheModel.subscriptionId);
 		attributeSetterBiConsumers.put(
 			"subscriptionId",
 			(BiConsumer<Subscription, Long>)Subscription::setSubscriptionId);
 		attributeGetterFunctions.put("groupId", Subscription::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			subscriptionCacheModel -> subscriptionCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<Subscription, Long>)Subscription::setGroupId);
 		attributeGetterFunctions.put("companyId", Subscription::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			subscriptionCacheModel -> subscriptionCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<Subscription, Long>)Subscription::setCompanyId);
 		attributeGetterFunctions.put("userId", Subscription::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", subscriptionCacheModel -> subscriptionCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<Subscription, Long>)Subscription::setUserId);
 		attributeGetterFunctions.put("userName", Subscription::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			subscriptionCacheModel -> subscriptionCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<Subscription, String>)Subscription::setUserName);
 		attributeGetterFunctions.put("createDate", Subscription::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			subscriptionCacheModel -> subscriptionCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<Subscription, Date>)Subscription::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", Subscription::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			subscriptionCacheModel -> subscriptionCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<Subscription, Date>)Subscription::setModifiedDate);
 		attributeGetterFunctions.put(
 			"classNameId", Subscription::getClassNameId);
+
+		cacheModelGetterFunctions.put(
+			"classNameId",
+			subscriptionCacheModel -> subscriptionCacheModel.classNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<Subscription, Long>)Subscription::setClassNameId);
 		attributeGetterFunctions.put("classPK", Subscription::getClassPK);
+
+		cacheModelGetterFunctions.put(
+			"classPK",
+			subscriptionCacheModel -> subscriptionCacheModel.classPK);
 		attributeSetterBiConsumers.put(
 			"classPK",
 			(BiConsumer<Subscription, Long>)Subscription::setClassPK);
 		attributeGetterFunctions.put("frequency", Subscription::getFrequency);
+
+		cacheModelGetterFunctions.put(
+			"frequency",
+			subscriptionCacheModel -> subscriptionCacheModel.frequency);
 		attributeSetterBiConsumers.put(
 			"frequency",
 			(BiConsumer<Subscription, String>)Subscription::setFrequency);
@@ -323,6 +408,8 @@ public class SubscriptionModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -332,6 +419,12 @@ public class SubscriptionModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_subscriptionCacheModel == null)) {
+			_subscriptionCacheModel = (SubscriptionCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -342,6 +435,12 @@ public class SubscriptionModelImpl
 
 	@Override
 	public void setSubscriptionId(long subscriptionId) {
+		_columnBitmask |= SUBSCRIPTIONID_COLUMN_BITMASK;
+
+		if (!isNew() && (_subscriptionCacheModel == null)) {
+			_subscriptionCacheModel = (SubscriptionCacheModel)toCacheModel();
+		}
+
 		_subscriptionId = subscriptionId;
 	}
 
@@ -354,17 +453,20 @@ public class SubscriptionModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (!isNew() && (_subscriptionCacheModel == null)) {
+			_subscriptionCacheModel = (SubscriptionCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getCacheModelAttribute("groupId");
 	}
 
 	@Override
@@ -376,17 +478,20 @@ public class SubscriptionModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (!isNew() && (_subscriptionCacheModel == null)) {
+			_subscriptionCacheModel = (SubscriptionCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getCacheModelAttribute("companyId");
 	}
 
 	@Override
@@ -398,10 +503,8 @@ public class SubscriptionModelImpl
 	public void setUserId(long userId) {
 		_columnBitmask |= USERID_COLUMN_BITMASK;
 
-		if (!_setOriginalUserId) {
-			_setOriginalUserId = true;
-
-			_originalUserId = _userId;
+		if (!isNew() && (_subscriptionCacheModel == null)) {
+			_subscriptionCacheModel = (SubscriptionCacheModel)toCacheModel();
 		}
 
 		_userId = userId;
@@ -423,8 +526,13 @@ public class SubscriptionModelImpl
 	public void setUserUuid(String userUuid) {
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalUserId() {
-		return _originalUserId;
+		return getCacheModelAttribute("userId");
 	}
 
 	@Override
@@ -439,6 +547,12 @@ public class SubscriptionModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_subscriptionCacheModel == null)) {
+			_subscriptionCacheModel = (SubscriptionCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -449,6 +563,12 @@ public class SubscriptionModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_subscriptionCacheModel == null)) {
+			_subscriptionCacheModel = (SubscriptionCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -464,6 +584,12 @@ public class SubscriptionModelImpl
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
+
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_subscriptionCacheModel == null)) {
+			_subscriptionCacheModel = (SubscriptionCacheModel)toCacheModel();
+		}
 
 		_modifiedDate = modifiedDate;
 	}
@@ -497,17 +623,20 @@ public class SubscriptionModelImpl
 	public void setClassNameId(long classNameId) {
 		_columnBitmask |= CLASSNAMEID_COLUMN_BITMASK;
 
-		if (!_setOriginalClassNameId) {
-			_setOriginalClassNameId = true;
-
-			_originalClassNameId = _classNameId;
+		if (!isNew() && (_subscriptionCacheModel == null)) {
+			_subscriptionCacheModel = (SubscriptionCacheModel)toCacheModel();
 		}
 
 		_classNameId = classNameId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassNameId() {
-		return _originalClassNameId;
+		return getCacheModelAttribute("classNameId");
 	}
 
 	@Override
@@ -519,17 +648,20 @@ public class SubscriptionModelImpl
 	public void setClassPK(long classPK) {
 		_columnBitmask |= CLASSPK_COLUMN_BITMASK;
 
-		if (!_setOriginalClassPK) {
-			_setOriginalClassPK = true;
-
-			_originalClassPK = _classPK;
+		if (!isNew() && (_subscriptionCacheModel == null)) {
+			_subscriptionCacheModel = (SubscriptionCacheModel)toCacheModel();
 		}
 
 		_classPK = classPK;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassPK() {
-		return _originalClassPK;
+		return getCacheModelAttribute("classPK");
 	}
 
 	@Override
@@ -544,6 +676,12 @@ public class SubscriptionModelImpl
 
 	@Override
 	public void setFrequency(String frequency) {
+		_columnBitmask |= FREQUENCY_COLUMN_BITMASK;
+
+		if (!isNew() && (_subscriptionCacheModel == null)) {
+			_subscriptionCacheModel = (SubscriptionCacheModel)toCacheModel();
+		}
+
 		_frequency = frequency;
 	}
 
@@ -662,33 +800,11 @@ public class SubscriptionModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		SubscriptionModelImpl subscriptionModelImpl = this;
+		_setModifiedDate = false;
 
-		subscriptionModelImpl._originalGroupId = subscriptionModelImpl._groupId;
+		_columnBitmask = 0;
 
-		subscriptionModelImpl._setOriginalGroupId = false;
-
-		subscriptionModelImpl._originalCompanyId =
-			subscriptionModelImpl._companyId;
-
-		subscriptionModelImpl._setOriginalCompanyId = false;
-
-		subscriptionModelImpl._originalUserId = subscriptionModelImpl._userId;
-
-		subscriptionModelImpl._setOriginalUserId = false;
-
-		subscriptionModelImpl._setModifiedDate = false;
-
-		subscriptionModelImpl._originalClassNameId =
-			subscriptionModelImpl._classNameId;
-
-		subscriptionModelImpl._setOriginalClassNameId = false;
-
-		subscriptionModelImpl._originalClassPK = subscriptionModelImpl._classPK;
-
-		subscriptionModelImpl._setOriginalClassPK = false;
-
-		subscriptionModelImpl._columnBitmask = 0;
+		_subscriptionCacheModel = null;
 	}
 
 	@Override
@@ -820,26 +936,17 @@ public class SubscriptionModelImpl
 	private long _mvccVersion;
 	private long _subscriptionId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
-	private long _originalUserId;
-	private boolean _setOriginalUserId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _classNameId;
-	private long _originalClassNameId;
-	private boolean _setOriginalClassNameId;
 	private long _classPK;
-	private long _originalClassPK;
-	private boolean _setOriginalClassPK;
 	private String _frequency;
 	private long _columnBitmask;
 	private Subscription _escapedModel;
+	private SubscriptionCacheModel _subscriptionCacheModel;
 
 }

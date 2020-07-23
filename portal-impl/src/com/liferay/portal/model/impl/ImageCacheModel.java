@@ -105,6 +105,8 @@ public class ImageCacheModel
 	public Image toEntityModel() {
 		ImageImpl imageImpl = new ImageImpl();
 
+		imageImpl.setNew(true);
+
 		imageImpl.setMvccVersion(mvccVersion);
 		imageImpl.setCtCollectionId(ctCollectionId);
 		imageImpl.setImageId(imageId);
@@ -129,6 +131,8 @@ public class ImageCacheModel
 		imageImpl.setSize(size);
 
 		imageImpl.resetOriginalValues();
+
+		imageImpl.setNew(false);
 
 		return imageImpl;
 	}

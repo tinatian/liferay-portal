@@ -1003,8 +1003,9 @@ public class RedirectNotFoundEntryPersistenceImpl
 			 _finderPathFetchByG_U.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				redirectNotFoundEntryModelImpl.getOriginalGroupId(),
-				redirectNotFoundEntryModelImpl.getOriginalUrl()
+				redirectNotFoundEntryModelImpl.getCacheModelAttribute(
+					"groupId"),
+				redirectNotFoundEntryModelImpl.getCacheModelAttribute("url")
 			};
 
 			finderCache.removeResult(_finderPathCountByG_U, args);
@@ -1243,7 +1244,8 @@ public class RedirectNotFoundEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					redirectNotFoundEntryModelImpl.getOriginalGroupId()
+					redirectNotFoundEntryModelImpl.getCacheModelAttribute(
+						"groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId, args);

@@ -105,6 +105,8 @@ public class OAuthApplicationCacheModel
 	public OAuthApplication toEntityModel() {
 		OAuthApplicationImpl oAuthApplicationImpl = new OAuthApplicationImpl();
 
+		oAuthApplicationImpl.setNew(true);
+
 		oAuthApplicationImpl.setOAuthApplicationId(oAuthApplicationId);
 		oAuthApplicationImpl.setCompanyId(companyId);
 		oAuthApplicationImpl.setUserId(userId);
@@ -177,6 +179,8 @@ public class OAuthApplicationCacheModel
 		}
 
 		oAuthApplicationImpl.resetOriginalValues();
+
+		oAuthApplicationImpl.setNew(false);
 
 		return oAuthApplicationImpl;
 	}

@@ -2589,9 +2589,10 @@ public class WorkflowMetricsSLADefinitionVersionPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				workflowMetricsSLADefinitionVersionModelImpl.getOriginalUuid(),
 				workflowMetricsSLADefinitionVersionModelImpl.
-					getOriginalGroupId()
+					getCacheModelAttribute("uuid"),
+				workflowMetricsSLADefinitionVersionModelImpl.
+					getCacheModelAttribute("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -2614,9 +2615,9 @@ public class WorkflowMetricsSLADefinitionVersionPersistenceImpl
 
 			Object[] args = new Object[] {
 				workflowMetricsSLADefinitionVersionModelImpl.
-					getOriginalVersion(),
+					getCacheModelAttribute("version"),
 				workflowMetricsSLADefinitionVersionModelImpl.
-					getOriginalWorkflowMetricsSLADefinitionId()
+					getCacheModelAttribute("workflowMetricsSLADefinitionId")
 			};
 
 			finderCache.removeResult(_finderPathCountByV_WMSLAD, args);
@@ -2880,7 +2881,7 @@ public class WorkflowMetricsSLADefinitionVersionPersistenceImpl
 
 				Object[] args = new Object[] {
 					workflowMetricsSLADefinitionVersionModelImpl.
-						getOriginalUuid()
+						getCacheModelAttribute("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -2903,9 +2904,9 @@ public class WorkflowMetricsSLADefinitionVersionPersistenceImpl
 
 				Object[] args = new Object[] {
 					workflowMetricsSLADefinitionVersionModelImpl.
-						getOriginalUuid(),
+						getCacheModelAttribute("uuid"),
 					workflowMetricsSLADefinitionVersionModelImpl.
-						getOriginalCompanyId()
+						getCacheModelAttribute("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -2929,7 +2930,7 @@ public class WorkflowMetricsSLADefinitionVersionPersistenceImpl
 
 				Object[] args = new Object[] {
 					workflowMetricsSLADefinitionVersionModelImpl.
-						getOriginalWorkflowMetricsSLADefinitionId()
+						getCacheModelAttribute("workflowMetricsSLADefinitionId")
 				};
 
 				finderCache.removeResult(

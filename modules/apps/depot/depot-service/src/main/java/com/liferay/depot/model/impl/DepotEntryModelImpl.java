@@ -30,7 +30,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
@@ -113,13 +112,23 @@ public class DepotEntryModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 2L;
+	public static final long UUID_COLUMN_BITMASK = 2L;
 
-	public static final long UUID_COLUMN_BITMASK = 4L;
+	public static final long DEPOTENTRYID_COLUMN_BITMASK = 4L;
 
-	public static final long DEPOTENTRYID_COLUMN_BITMASK = 8L;
+	public static final long GROUPID_COLUMN_BITMASK = 8L;
+
+	public static final long COMPANYID_COLUMN_BITMASK = 16L;
+
+	public static final long USERID_COLUMN_BITMASK = 32L;
+
+	public static final long USERNAME_COLUMN_BITMASK = 64L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 128L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 256L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -293,49 +302,113 @@ public class DepotEntryModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<DepotEntry, Object> function = _attributeGetterFunctions.get(
+			attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((DepotEntry)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<DepotEntryCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_depotEntryCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_depotEntryCacheModel);
+	}
+
 	private static final Map<String, Function<DepotEntry, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<DepotEntry, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<DepotEntryCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<DepotEntry, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<DepotEntry, Object>>();
 		Map<String, BiConsumer<DepotEntry, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<DepotEntry, ?>>();
+		Map<String, Function<DepotEntryCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<DepotEntryCacheModel, Object>>();
 
 		attributeGetterFunctions.put("mvccVersion", DepotEntry::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			depotEntryCacheModel -> depotEntryCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<DepotEntry, Long>)DepotEntry::setMvccVersion);
 		attributeGetterFunctions.put("uuid", DepotEntry::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid", depotEntryCacheModel -> depotEntryCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<DepotEntry, String>)DepotEntry::setUuid);
 		attributeGetterFunctions.put(
 			"depotEntryId", DepotEntry::getDepotEntryId);
+
+		cacheModelGetterFunctions.put(
+			"depotEntryId",
+			depotEntryCacheModel -> depotEntryCacheModel.depotEntryId);
 		attributeSetterBiConsumers.put(
 			"depotEntryId",
 			(BiConsumer<DepotEntry, Long>)DepotEntry::setDepotEntryId);
 		attributeGetterFunctions.put("groupId", DepotEntry::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId", depotEntryCacheModel -> depotEntryCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId", (BiConsumer<DepotEntry, Long>)DepotEntry::setGroupId);
 		attributeGetterFunctions.put("companyId", DepotEntry::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			depotEntryCacheModel -> depotEntryCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<DepotEntry, Long>)DepotEntry::setCompanyId);
 		attributeGetterFunctions.put("userId", DepotEntry::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", depotEntryCacheModel -> depotEntryCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<DepotEntry, Long>)DepotEntry::setUserId);
 		attributeGetterFunctions.put("userName", DepotEntry::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName", depotEntryCacheModel -> depotEntryCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<DepotEntry, String>)DepotEntry::setUserName);
 		attributeGetterFunctions.put("createDate", DepotEntry::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			depotEntryCacheModel -> depotEntryCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<DepotEntry, Date>)DepotEntry::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", DepotEntry::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			depotEntryCacheModel -> depotEntryCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<DepotEntry, Date>)DepotEntry::setModifiedDate);
@@ -344,6 +417,8 @@ public class DepotEntryModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -354,6 +429,12 @@ public class DepotEntryModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_depotEntryCacheModel == null)) {
+			_depotEntryCacheModel = (DepotEntryCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -372,15 +453,20 @@ public class DepotEntryModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (!isNew() && (_depotEntryCacheModel == null)) {
+			_depotEntryCacheModel = (DepotEntryCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getCacheModelAttribute("uuid");
 	}
 
 	@JSON
@@ -391,6 +477,12 @@ public class DepotEntryModelImpl
 
 	@Override
 	public void setDepotEntryId(long depotEntryId) {
+		_columnBitmask |= DEPOTENTRYID_COLUMN_BITMASK;
+
+		if (!isNew() && (_depotEntryCacheModel == null)) {
+			_depotEntryCacheModel = (DepotEntryCacheModel)toCacheModel();
+		}
+
 		_depotEntryId = depotEntryId;
 	}
 
@@ -404,17 +496,20 @@ public class DepotEntryModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (!isNew() && (_depotEntryCacheModel == null)) {
+			_depotEntryCacheModel = (DepotEntryCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getCacheModelAttribute("groupId");
 	}
 
 	@JSON
@@ -427,17 +522,20 @@ public class DepotEntryModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (!isNew() && (_depotEntryCacheModel == null)) {
+			_depotEntryCacheModel = (DepotEntryCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getCacheModelAttribute("companyId");
 	}
 
 	@JSON
@@ -448,6 +546,12 @@ public class DepotEntryModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_depotEntryCacheModel == null)) {
+			_depotEntryCacheModel = (DepotEntryCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -480,6 +584,12 @@ public class DepotEntryModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_depotEntryCacheModel == null)) {
+			_depotEntryCacheModel = (DepotEntryCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -491,6 +601,12 @@ public class DepotEntryModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_depotEntryCacheModel == null)) {
+			_depotEntryCacheModel = (DepotEntryCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -507,6 +623,12 @@ public class DepotEntryModelImpl
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
+
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_depotEntryCacheModel == null)) {
+			_depotEntryCacheModel = (DepotEntryCacheModel)toCacheModel();
+		}
 
 		_modifiedDate = modifiedDate;
 	}
@@ -630,21 +752,11 @@ public class DepotEntryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		DepotEntryModelImpl depotEntryModelImpl = this;
+		_setModifiedDate = false;
 
-		depotEntryModelImpl._originalUuid = depotEntryModelImpl._uuid;
+		_columnBitmask = 0;
 
-		depotEntryModelImpl._originalGroupId = depotEntryModelImpl._groupId;
-
-		depotEntryModelImpl._setOriginalGroupId = false;
-
-		depotEntryModelImpl._originalCompanyId = depotEntryModelImpl._companyId;
-
-		depotEntryModelImpl._setOriginalCompanyId = false;
-
-		depotEntryModelImpl._setModifiedDate = false;
-
-		depotEntryModelImpl._columnBitmask = 0;
+		_depotEntryCacheModel = null;
 	}
 
 	@Override
@@ -770,14 +882,9 @@ public class DepotEntryModelImpl
 
 	private long _mvccVersion;
 	private String _uuid;
-	private String _originalUuid;
 	private long _depotEntryId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
@@ -785,5 +892,6 @@ public class DepotEntryModelImpl
 	private boolean _setModifiedDate;
 	private long _columnBitmask;
 	private DepotEntry _escapedModel;
+	private DepotEntryCacheModel _depotEntryCacheModel;
 
 }

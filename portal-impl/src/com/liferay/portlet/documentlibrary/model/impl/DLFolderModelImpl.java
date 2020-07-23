@@ -161,27 +161,55 @@ public class DLFolderModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long FOLDERID_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 4L;
+	public static final long UUID_COLUMN_BITMASK = 4L;
 
-	public static final long HIDDEN_COLUMN_BITMASK = 8L;
+	public static final long FOLDERID_COLUMN_BITMASK = 8L;
 
-	public static final long MOUNTPOINT_COLUMN_BITMASK = 16L;
+	public static final long GROUPID_COLUMN_BITMASK = 16L;
 
-	public static final long NAME_COLUMN_BITMASK = 32L;
+	public static final long COMPANYID_COLUMN_BITMASK = 32L;
 
-	public static final long PARENTFOLDERID_COLUMN_BITMASK = 64L;
+	public static final long USERID_COLUMN_BITMASK = 64L;
 
-	public static final long REPOSITORYID_COLUMN_BITMASK = 128L;
+	public static final long USERNAME_COLUMN_BITMASK = 128L;
 
-	public static final long STATUS_COLUMN_BITMASK = 256L;
+	public static final long CREATEDATE_COLUMN_BITMASK = 256L;
 
-	public static final long TREEPATH_COLUMN_BITMASK = 512L;
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 512L;
 
-	public static final long UUID_COLUMN_BITMASK = 1024L;
+	public static final long REPOSITORYID_COLUMN_BITMASK = 1024L;
+
+	public static final long MOUNTPOINT_COLUMN_BITMASK = 2048L;
+
+	public static final long PARENTFOLDERID_COLUMN_BITMASK = 4096L;
+
+	public static final long TREEPATH_COLUMN_BITMASK = 8192L;
+
+	public static final long NAME_COLUMN_BITMASK = 16384L;
+
+	public static final long DESCRIPTION_COLUMN_BITMASK = 32768L;
+
+	public static final long LASTPOSTDATE_COLUMN_BITMASK = 65536L;
+
+	public static final long DEFAULTFILEENTRYTYPEID_COLUMN_BITMASK = 131072L;
+
+	public static final long HIDDEN_COLUMN_BITMASK = 262144L;
+
+	public static final long RESTRICTIONTYPE_COLUMN_BITMASK = 524288L;
+
+	public static final long LASTPUBLISHDATE_COLUMN_BITMASK = 1048576L;
+
+	public static final long STATUS_COLUMN_BITMASK = 2097152L;
+
+	public static final long STATUSBYUSERID_COLUMN_BITMASK = 4194304L;
+
+	public static final long STATUSBYUSERNAME_COLUMN_BITMASK = 8388608L;
+
+	public static final long STATUSDATE_COLUMN_BITMASK = 16777216L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -381,110 +409,229 @@ public class DLFolderModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<DLFolder, Object> function = _attributeGetterFunctions.get(
+			attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((DLFolder)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<DLFolderCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_dlFolderCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_dlFolderCacheModel);
+	}
+
 	private static final Map<String, Function<DLFolder, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<DLFolder, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<DLFolderCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<DLFolder, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<DLFolder, Object>>();
 		Map<String, BiConsumer<DLFolder, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<DLFolder, ?>>();
+		Map<String, Function<DLFolderCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<DLFolderCacheModel, Object>>();
 
 		attributeGetterFunctions.put("mvccVersion", DLFolder::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			dlFolderCacheModel -> dlFolderCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<DLFolder, Long>)DLFolder::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", DLFolder::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			dlFolderCacheModel -> dlFolderCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<DLFolder, Long>)DLFolder::setCtCollectionId);
 		attributeGetterFunctions.put("uuid", DLFolder::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid", dlFolderCacheModel -> dlFolderCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<DLFolder, String>)DLFolder::setUuid);
 		attributeGetterFunctions.put("folderId", DLFolder::getFolderId);
+
+		cacheModelGetterFunctions.put(
+			"folderId", dlFolderCacheModel -> dlFolderCacheModel.folderId);
 		attributeSetterBiConsumers.put(
 			"folderId", (BiConsumer<DLFolder, Long>)DLFolder::setFolderId);
 		attributeGetterFunctions.put("groupId", DLFolder::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId", dlFolderCacheModel -> dlFolderCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId", (BiConsumer<DLFolder, Long>)DLFolder::setGroupId);
 		attributeGetterFunctions.put("companyId", DLFolder::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId", dlFolderCacheModel -> dlFolderCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId", (BiConsumer<DLFolder, Long>)DLFolder::setCompanyId);
 		attributeGetterFunctions.put("userId", DLFolder::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", dlFolderCacheModel -> dlFolderCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<DLFolder, Long>)DLFolder::setUserId);
 		attributeGetterFunctions.put("userName", DLFolder::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName", dlFolderCacheModel -> dlFolderCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName", (BiConsumer<DLFolder, String>)DLFolder::setUserName);
 		attributeGetterFunctions.put("createDate", DLFolder::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate", dlFolderCacheModel -> dlFolderCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate", (BiConsumer<DLFolder, Date>)DLFolder::setCreateDate);
 		attributeGetterFunctions.put("modifiedDate", DLFolder::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			dlFolderCacheModel -> dlFolderCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<DLFolder, Date>)DLFolder::setModifiedDate);
 		attributeGetterFunctions.put("repositoryId", DLFolder::getRepositoryId);
+
+		cacheModelGetterFunctions.put(
+			"repositoryId",
+			dlFolderCacheModel -> dlFolderCacheModel.repositoryId);
 		attributeSetterBiConsumers.put(
 			"repositoryId",
 			(BiConsumer<DLFolder, Long>)DLFolder::setRepositoryId);
 		attributeGetterFunctions.put("mountPoint", DLFolder::getMountPoint);
+
+		cacheModelGetterFunctions.put(
+			"mountPoint", dlFolderCacheModel -> dlFolderCacheModel.mountPoint);
 		attributeSetterBiConsumers.put(
 			"mountPoint",
 			(BiConsumer<DLFolder, Boolean>)DLFolder::setMountPoint);
 		attributeGetterFunctions.put(
 			"parentFolderId", DLFolder::getParentFolderId);
+
+		cacheModelGetterFunctions.put(
+			"parentFolderId",
+			dlFolderCacheModel -> dlFolderCacheModel.parentFolderId);
 		attributeSetterBiConsumers.put(
 			"parentFolderId",
 			(BiConsumer<DLFolder, Long>)DLFolder::setParentFolderId);
 		attributeGetterFunctions.put("treePath", DLFolder::getTreePath);
+
+		cacheModelGetterFunctions.put(
+			"treePath", dlFolderCacheModel -> dlFolderCacheModel.treePath);
 		attributeSetterBiConsumers.put(
 			"treePath", (BiConsumer<DLFolder, String>)DLFolder::setTreePath);
 		attributeGetterFunctions.put("name", DLFolder::getName);
+
+		cacheModelGetterFunctions.put(
+			"name", dlFolderCacheModel -> dlFolderCacheModel.name);
 		attributeSetterBiConsumers.put(
 			"name", (BiConsumer<DLFolder, String>)DLFolder::setName);
 		attributeGetterFunctions.put("description", DLFolder::getDescription);
+
+		cacheModelGetterFunctions.put(
+			"description",
+			dlFolderCacheModel -> dlFolderCacheModel.description);
 		attributeSetterBiConsumers.put(
 			"description",
 			(BiConsumer<DLFolder, String>)DLFolder::setDescription);
 		attributeGetterFunctions.put("lastPostDate", DLFolder::getLastPostDate);
+
+		cacheModelGetterFunctions.put(
+			"lastPostDate",
+			dlFolderCacheModel -> dlFolderCacheModel.lastPostDate);
 		attributeSetterBiConsumers.put(
 			"lastPostDate",
 			(BiConsumer<DLFolder, Date>)DLFolder::setLastPostDate);
 		attributeGetterFunctions.put(
 			"defaultFileEntryTypeId", DLFolder::getDefaultFileEntryTypeId);
+
+		cacheModelGetterFunctions.put(
+			"defaultFileEntryTypeId",
+			dlFolderCacheModel -> dlFolderCacheModel.defaultFileEntryTypeId);
 		attributeSetterBiConsumers.put(
 			"defaultFileEntryTypeId",
 			(BiConsumer<DLFolder, Long>)DLFolder::setDefaultFileEntryTypeId);
 		attributeGetterFunctions.put("hidden", DLFolder::getHidden);
+
+		cacheModelGetterFunctions.put(
+			"hidden", dlFolderCacheModel -> dlFolderCacheModel.hidden);
 		attributeSetterBiConsumers.put(
 			"hidden", (BiConsumer<DLFolder, Boolean>)DLFolder::setHidden);
 		attributeGetterFunctions.put(
 			"restrictionType", DLFolder::getRestrictionType);
+
+		cacheModelGetterFunctions.put(
+			"restrictionType",
+			dlFolderCacheModel -> dlFolderCacheModel.restrictionType);
 		attributeSetterBiConsumers.put(
 			"restrictionType",
 			(BiConsumer<DLFolder, Integer>)DLFolder::setRestrictionType);
 		attributeGetterFunctions.put(
 			"lastPublishDate", DLFolder::getLastPublishDate);
+
+		cacheModelGetterFunctions.put(
+			"lastPublishDate",
+			dlFolderCacheModel -> dlFolderCacheModel.lastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<DLFolder, Date>)DLFolder::setLastPublishDate);
 		attributeGetterFunctions.put("status", DLFolder::getStatus);
+
+		cacheModelGetterFunctions.put(
+			"status", dlFolderCacheModel -> dlFolderCacheModel.status);
 		attributeSetterBiConsumers.put(
 			"status", (BiConsumer<DLFolder, Integer>)DLFolder::setStatus);
 		attributeGetterFunctions.put(
 			"statusByUserId", DLFolder::getStatusByUserId);
+
+		cacheModelGetterFunctions.put(
+			"statusByUserId",
+			dlFolderCacheModel -> dlFolderCacheModel.statusByUserId);
 		attributeSetterBiConsumers.put(
 			"statusByUserId",
 			(BiConsumer<DLFolder, Long>)DLFolder::setStatusByUserId);
 		attributeGetterFunctions.put(
 			"statusByUserName", DLFolder::getStatusByUserName);
+
+		cacheModelGetterFunctions.put(
+			"statusByUserName",
+			dlFolderCacheModel -> dlFolderCacheModel.statusByUserName);
 		attributeSetterBiConsumers.put(
 			"statusByUserName",
 			(BiConsumer<DLFolder, String>)DLFolder::setStatusByUserName);
 		attributeGetterFunctions.put("statusDate", DLFolder::getStatusDate);
+
+		cacheModelGetterFunctions.put(
+			"statusDate", dlFolderCacheModel -> dlFolderCacheModel.statusDate);
 		attributeSetterBiConsumers.put(
 			"statusDate", (BiConsumer<DLFolder, Date>)DLFolder::setStatusDate);
 
@@ -492,6 +639,8 @@ public class DLFolderModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -502,6 +651,12 @@ public class DLFolderModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_dlFolderCacheModel == null)) {
+			_dlFolderCacheModel = (DLFolderCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -513,6 +668,12 @@ public class DLFolderModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (!isNew() && (_dlFolderCacheModel == null)) {
+			_dlFolderCacheModel = (DLFolderCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -531,15 +692,20 @@ public class DLFolderModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (!isNew() && (_dlFolderCacheModel == null)) {
+			_dlFolderCacheModel = (DLFolderCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getCacheModelAttribute("uuid");
 	}
 
 	@JSON
@@ -552,17 +718,20 @@ public class DLFolderModelImpl
 	public void setFolderId(long folderId) {
 		_columnBitmask |= FOLDERID_COLUMN_BITMASK;
 
-		if (!_setOriginalFolderId) {
-			_setOriginalFolderId = true;
-
-			_originalFolderId = _folderId;
+		if (!isNew() && (_dlFolderCacheModel == null)) {
+			_dlFolderCacheModel = (DLFolderCacheModel)toCacheModel();
 		}
 
 		_folderId = folderId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalFolderId() {
-		return _originalFolderId;
+		return getCacheModelAttribute("folderId");
 	}
 
 	@JSON
@@ -575,17 +744,20 @@ public class DLFolderModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (!isNew() && (_dlFolderCacheModel == null)) {
+			_dlFolderCacheModel = (DLFolderCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getCacheModelAttribute("groupId");
 	}
 
 	@JSON
@@ -598,17 +770,20 @@ public class DLFolderModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (!isNew() && (_dlFolderCacheModel == null)) {
+			_dlFolderCacheModel = (DLFolderCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getCacheModelAttribute("companyId");
 	}
 
 	@JSON
@@ -619,6 +794,12 @@ public class DLFolderModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_dlFolderCacheModel == null)) {
+			_dlFolderCacheModel = (DLFolderCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -651,6 +832,12 @@ public class DLFolderModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_dlFolderCacheModel == null)) {
+			_dlFolderCacheModel = (DLFolderCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -662,6 +849,12 @@ public class DLFolderModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_dlFolderCacheModel == null)) {
+			_dlFolderCacheModel = (DLFolderCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -679,6 +872,12 @@ public class DLFolderModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_dlFolderCacheModel == null)) {
+			_dlFolderCacheModel = (DLFolderCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -692,17 +891,20 @@ public class DLFolderModelImpl
 	public void setRepositoryId(long repositoryId) {
 		_columnBitmask |= REPOSITORYID_COLUMN_BITMASK;
 
-		if (!_setOriginalRepositoryId) {
-			_setOriginalRepositoryId = true;
-
-			_originalRepositoryId = _repositoryId;
+		if (!isNew() && (_dlFolderCacheModel == null)) {
+			_dlFolderCacheModel = (DLFolderCacheModel)toCacheModel();
 		}
 
 		_repositoryId = repositoryId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalRepositoryId() {
-		return _originalRepositoryId;
+		return getCacheModelAttribute("repositoryId");
 	}
 
 	@JSON
@@ -721,17 +923,20 @@ public class DLFolderModelImpl
 	public void setMountPoint(boolean mountPoint) {
 		_columnBitmask |= MOUNTPOINT_COLUMN_BITMASK;
 
-		if (!_setOriginalMountPoint) {
-			_setOriginalMountPoint = true;
-
-			_originalMountPoint = _mountPoint;
+		if (!isNew() && (_dlFolderCacheModel == null)) {
+			_dlFolderCacheModel = (DLFolderCacheModel)toCacheModel();
 		}
 
 		_mountPoint = mountPoint;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public boolean getOriginalMountPoint() {
-		return _originalMountPoint;
+		return getCacheModelAttribute("mountPoint");
 	}
 
 	@JSON
@@ -742,19 +947,22 @@ public class DLFolderModelImpl
 
 	@Override
 	public void setParentFolderId(long parentFolderId) {
-		_columnBitmask = -1L;
+		_columnBitmask |= PARENTFOLDERID_COLUMN_BITMASK;
 
-		if (!_setOriginalParentFolderId) {
-			_setOriginalParentFolderId = true;
-
-			_originalParentFolderId = _parentFolderId;
+		if (!isNew() && (_dlFolderCacheModel == null)) {
+			_dlFolderCacheModel = (DLFolderCacheModel)toCacheModel();
 		}
 
 		_parentFolderId = parentFolderId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalParentFolderId() {
-		return _originalParentFolderId;
+		return getCacheModelAttribute("parentFolderId");
 	}
 
 	@JSON
@@ -772,15 +980,20 @@ public class DLFolderModelImpl
 	public void setTreePath(String treePath) {
 		_columnBitmask |= TREEPATH_COLUMN_BITMASK;
 
-		if (_originalTreePath == null) {
-			_originalTreePath = _treePath;
+		if (!isNew() && (_dlFolderCacheModel == null)) {
+			_dlFolderCacheModel = (DLFolderCacheModel)toCacheModel();
 		}
 
 		_treePath = treePath;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalTreePath() {
-		return GetterUtil.getString(_originalTreePath);
+		return getCacheModelAttribute("treePath");
 	}
 
 	@JSON
@@ -796,17 +1009,22 @@ public class DLFolderModelImpl
 
 	@Override
 	public void setName(String name) {
-		_columnBitmask = -1L;
+		_columnBitmask |= NAME_COLUMN_BITMASK;
 
-		if (_originalName == null) {
-			_originalName = _name;
+		if (!isNew() && (_dlFolderCacheModel == null)) {
+			_dlFolderCacheModel = (DLFolderCacheModel)toCacheModel();
 		}
 
 		_name = name;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalName() {
-		return GetterUtil.getString(_originalName);
+		return getCacheModelAttribute("name");
 	}
 
 	@JSON
@@ -822,6 +1040,12 @@ public class DLFolderModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		_columnBitmask |= DESCRIPTION_COLUMN_BITMASK;
+
+		if (!isNew() && (_dlFolderCacheModel == null)) {
+			_dlFolderCacheModel = (DLFolderCacheModel)toCacheModel();
+		}
+
 		_description = description;
 	}
 
@@ -833,6 +1057,12 @@ public class DLFolderModelImpl
 
 	@Override
 	public void setLastPostDate(Date lastPostDate) {
+		_columnBitmask |= LASTPOSTDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_dlFolderCacheModel == null)) {
+			_dlFolderCacheModel = (DLFolderCacheModel)toCacheModel();
+		}
+
 		_lastPostDate = lastPostDate;
 	}
 
@@ -844,6 +1074,12 @@ public class DLFolderModelImpl
 
 	@Override
 	public void setDefaultFileEntryTypeId(long defaultFileEntryTypeId) {
+		_columnBitmask |= DEFAULTFILEENTRYTYPEID_COLUMN_BITMASK;
+
+		if (!isNew() && (_dlFolderCacheModel == null)) {
+			_dlFolderCacheModel = (DLFolderCacheModel)toCacheModel();
+		}
+
 		_defaultFileEntryTypeId = defaultFileEntryTypeId;
 	}
 
@@ -863,17 +1099,20 @@ public class DLFolderModelImpl
 	public void setHidden(boolean hidden) {
 		_columnBitmask |= HIDDEN_COLUMN_BITMASK;
 
-		if (!_setOriginalHidden) {
-			_setOriginalHidden = true;
-
-			_originalHidden = _hidden;
+		if (!isNew() && (_dlFolderCacheModel == null)) {
+			_dlFolderCacheModel = (DLFolderCacheModel)toCacheModel();
 		}
 
 		_hidden = hidden;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public boolean getOriginalHidden() {
-		return _originalHidden;
+		return getCacheModelAttribute("hidden");
 	}
 
 	@JSON
@@ -884,6 +1123,12 @@ public class DLFolderModelImpl
 
 	@Override
 	public void setRestrictionType(int restrictionType) {
+		_columnBitmask |= RESTRICTIONTYPE_COLUMN_BITMASK;
+
+		if (!isNew() && (_dlFolderCacheModel == null)) {
+			_dlFolderCacheModel = (DLFolderCacheModel)toCacheModel();
+		}
+
 		_restrictionType = restrictionType;
 	}
 
@@ -895,6 +1140,12 @@ public class DLFolderModelImpl
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		_columnBitmask |= LASTPUBLISHDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_dlFolderCacheModel == null)) {
+			_dlFolderCacheModel = (DLFolderCacheModel)toCacheModel();
+		}
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -908,17 +1159,20 @@ public class DLFolderModelImpl
 	public void setStatus(int status) {
 		_columnBitmask |= STATUS_COLUMN_BITMASK;
 
-		if (!_setOriginalStatus) {
-			_setOriginalStatus = true;
-
-			_originalStatus = _status;
+		if (!isNew() && (_dlFolderCacheModel == null)) {
+			_dlFolderCacheModel = (DLFolderCacheModel)toCacheModel();
 		}
 
 		_status = status;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public int getOriginalStatus() {
-		return _originalStatus;
+		return getCacheModelAttribute("status");
 	}
 
 	@JSON
@@ -929,6 +1183,12 @@ public class DLFolderModelImpl
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		_columnBitmask |= STATUSBYUSERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_dlFolderCacheModel == null)) {
+			_dlFolderCacheModel = (DLFolderCacheModel)toCacheModel();
+		}
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -961,6 +1221,12 @@ public class DLFolderModelImpl
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		_columnBitmask |= STATUSBYUSERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_dlFolderCacheModel == null)) {
+			_dlFolderCacheModel = (DLFolderCacheModel)toCacheModel();
+		}
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -972,6 +1238,12 @@ public class DLFolderModelImpl
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		_columnBitmask |= STATUSDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_dlFolderCacheModel == null)) {
+			_dlFolderCacheModel = (DLFolderCacheModel)toCacheModel();
+		}
+
 		_statusDate = statusDate;
 	}
 
@@ -1372,51 +1644,11 @@ public class DLFolderModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		DLFolderModelImpl dlFolderModelImpl = this;
+		_setModifiedDate = false;
 
-		dlFolderModelImpl._originalUuid = dlFolderModelImpl._uuid;
+		_columnBitmask = 0;
 
-		dlFolderModelImpl._originalFolderId = dlFolderModelImpl._folderId;
-
-		dlFolderModelImpl._setOriginalFolderId = false;
-
-		dlFolderModelImpl._originalGroupId = dlFolderModelImpl._groupId;
-
-		dlFolderModelImpl._setOriginalGroupId = false;
-
-		dlFolderModelImpl._originalCompanyId = dlFolderModelImpl._companyId;
-
-		dlFolderModelImpl._setOriginalCompanyId = false;
-
-		dlFolderModelImpl._setModifiedDate = false;
-
-		dlFolderModelImpl._originalRepositoryId =
-			dlFolderModelImpl._repositoryId;
-
-		dlFolderModelImpl._setOriginalRepositoryId = false;
-
-		dlFolderModelImpl._originalMountPoint = dlFolderModelImpl._mountPoint;
-
-		dlFolderModelImpl._setOriginalMountPoint = false;
-
-		dlFolderModelImpl._originalParentFolderId =
-			dlFolderModelImpl._parentFolderId;
-
-		dlFolderModelImpl._setOriginalParentFolderId = false;
-
-		dlFolderModelImpl._originalTreePath = dlFolderModelImpl._treePath;
-
-		dlFolderModelImpl._originalName = dlFolderModelImpl._name;
-
-		dlFolderModelImpl._originalHidden = dlFolderModelImpl._hidden;
-
-		dlFolderModelImpl._setOriginalHidden = false;
-
-		dlFolderModelImpl._originalStatus = dlFolderModelImpl._status;
-
-		dlFolderModelImpl._setOriginalStatus = false;
-
-		dlFolderModelImpl._columnBitmask = 0;
+		_dlFolderCacheModel = null;
 	}
 
 	@Override
@@ -1620,49 +1852,31 @@ public class DLFolderModelImpl
 	private long _mvccVersion;
 	private long _ctCollectionId;
 	private String _uuid;
-	private String _originalUuid;
 	private long _folderId;
-	private long _originalFolderId;
-	private boolean _setOriginalFolderId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _repositoryId;
-	private long _originalRepositoryId;
-	private boolean _setOriginalRepositoryId;
 	private boolean _mountPoint;
-	private boolean _originalMountPoint;
-	private boolean _setOriginalMountPoint;
 	private long _parentFolderId;
-	private long _originalParentFolderId;
-	private boolean _setOriginalParentFolderId;
 	private String _treePath;
-	private String _originalTreePath;
 	private String _name;
-	private String _originalName;
 	private String _description;
 	private Date _lastPostDate;
 	private long _defaultFileEntryTypeId;
 	private boolean _hidden;
-	private boolean _originalHidden;
-	private boolean _setOriginalHidden;
 	private int _restrictionType;
 	private Date _lastPublishDate;
 	private int _status;
-	private int _originalStatus;
-	private boolean _setOriginalStatus;
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
 	private long _columnBitmask;
 	private DLFolder _escapedModel;
+	private DLFolderCacheModel _dlFolderCacheModel;
 
 }

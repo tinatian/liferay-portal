@@ -122,6 +122,8 @@ public class SiteNavigationMenuItemCacheModel
 		SiteNavigationMenuItemImpl siteNavigationMenuItemImpl =
 			new SiteNavigationMenuItemImpl();
 
+		siteNavigationMenuItemImpl.setNew(true);
+
 		siteNavigationMenuItemImpl.setMvccVersion(mvccVersion);
 
 		if (uuid == null) {
@@ -195,6 +197,8 @@ public class SiteNavigationMenuItemCacheModel
 		}
 
 		siteNavigationMenuItemImpl.resetOriginalValues();
+
+		siteNavigationMenuItemImpl.setNew(false);
 
 		return siteNavigationMenuItemImpl;
 	}

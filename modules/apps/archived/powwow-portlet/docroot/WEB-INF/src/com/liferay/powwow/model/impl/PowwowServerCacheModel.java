@@ -97,6 +97,8 @@ public class PowwowServerCacheModel
 	public PowwowServer toEntityModel() {
 		PowwowServerImpl powwowServerImpl = new PowwowServerImpl();
 
+		powwowServerImpl.setNew(true);
+
 		powwowServerImpl.setPowwowServerId(powwowServerId);
 		powwowServerImpl.setCompanyId(companyId);
 		powwowServerImpl.setUserId(userId);
@@ -160,6 +162,8 @@ public class PowwowServerCacheModel
 		powwowServerImpl.setActive(active);
 
 		powwowServerImpl.resetOriginalValues();
+
+		powwowServerImpl.setNew(false);
 
 		return powwowServerImpl;
 	}

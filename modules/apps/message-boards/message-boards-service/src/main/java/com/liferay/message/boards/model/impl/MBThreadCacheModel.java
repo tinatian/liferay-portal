@@ -133,6 +133,8 @@ public class MBThreadCacheModel
 	public MBThread toEntityModel() {
 		MBThreadImpl mbThreadImpl = new MBThreadImpl();
 
+		mbThreadImpl.setNew(true);
+
 		mbThreadImpl.setMvccVersion(mvccVersion);
 		mbThreadImpl.setCtCollectionId(ctCollectionId);
 
@@ -217,6 +219,8 @@ public class MBThreadCacheModel
 		}
 
 		mbThreadImpl.resetOriginalValues();
+
+		mbThreadImpl.setNew(false);
 
 		return mbThreadImpl;
 	}

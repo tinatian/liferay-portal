@@ -112,6 +112,8 @@ public class AssetCategoryPropertyCacheModel
 		AssetCategoryPropertyImpl assetCategoryPropertyImpl =
 			new AssetCategoryPropertyImpl();
 
+		assetCategoryPropertyImpl.setNew(true);
+
 		assetCategoryPropertyImpl.setMvccVersion(mvccVersion);
 		assetCategoryPropertyImpl.setCtCollectionId(ctCollectionId);
 		assetCategoryPropertyImpl.setCategoryPropertyId(categoryPropertyId);
@@ -156,6 +158,8 @@ public class AssetCategoryPropertyCacheModel
 		}
 
 		assetCategoryPropertyImpl.resetOriginalValues();
+
+		assetCategoryPropertyImpl.setNew(false);
 
 		return assetCategoryPropertyImpl;
 	}

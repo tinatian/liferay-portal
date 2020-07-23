@@ -126,11 +126,27 @@ public class RatingsStatsModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long CLASSNAMEID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long CLASSPK_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
 	public static final long STATSID_COLUMN_BITMASK = 4L;
+
+	public static final long COMPANYID_COLUMN_BITMASK = 8L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 16L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 32L;
+
+	public static final long CLASSNAMEID_COLUMN_BITMASK = 64L;
+
+	public static final long CLASSPK_COLUMN_BITMASK = 128L;
+
+	public static final long TOTALENTRIES_COLUMN_BITMASK = 256L;
+
+	public static final long TOTALSCORE_COLUMN_BITMASK = 512L;
+
+	public static final long AVERAGESCORE_COLUMN_BITMASK = 1024L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		com.liferay.portal.util.PropsUtil.get(
@@ -249,64 +265,140 @@ public class RatingsStatsModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<RatingsStats, Object> function = _attributeGetterFunctions.get(
+			attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((RatingsStats)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<RatingsStatsCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_ratingsStatsCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_ratingsStatsCacheModel);
+	}
+
 	private static final Map<String, Function<RatingsStats, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<RatingsStats, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<RatingsStatsCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<RatingsStats, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<RatingsStats, Object>>();
 		Map<String, BiConsumer<RatingsStats, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<RatingsStats, ?>>();
+		Map<String, Function<RatingsStatsCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<RatingsStatsCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", RatingsStats::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			ratingsStatsCacheModel -> ratingsStatsCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<RatingsStats, Long>)RatingsStats::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", RatingsStats::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			ratingsStatsCacheModel -> ratingsStatsCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<RatingsStats, Long>)RatingsStats::setCtCollectionId);
 		attributeGetterFunctions.put("statsId", RatingsStats::getStatsId);
+
+		cacheModelGetterFunctions.put(
+			"statsId",
+			ratingsStatsCacheModel -> ratingsStatsCacheModel.statsId);
 		attributeSetterBiConsumers.put(
 			"statsId",
 			(BiConsumer<RatingsStats, Long>)RatingsStats::setStatsId);
 		attributeGetterFunctions.put("companyId", RatingsStats::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			ratingsStatsCacheModel -> ratingsStatsCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<RatingsStats, Long>)RatingsStats::setCompanyId);
 		attributeGetterFunctions.put("createDate", RatingsStats::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			ratingsStatsCacheModel -> ratingsStatsCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<RatingsStats, Date>)RatingsStats::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", RatingsStats::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			ratingsStatsCacheModel -> ratingsStatsCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<RatingsStats, Date>)RatingsStats::setModifiedDate);
 		attributeGetterFunctions.put(
 			"classNameId", RatingsStats::getClassNameId);
+
+		cacheModelGetterFunctions.put(
+			"classNameId",
+			ratingsStatsCacheModel -> ratingsStatsCacheModel.classNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<RatingsStats, Long>)RatingsStats::setClassNameId);
 		attributeGetterFunctions.put("classPK", RatingsStats::getClassPK);
+
+		cacheModelGetterFunctions.put(
+			"classPK",
+			ratingsStatsCacheModel -> ratingsStatsCacheModel.classPK);
 		attributeSetterBiConsumers.put(
 			"classPK",
 			(BiConsumer<RatingsStats, Long>)RatingsStats::setClassPK);
 		attributeGetterFunctions.put(
 			"totalEntries", RatingsStats::getTotalEntries);
+
+		cacheModelGetterFunctions.put(
+			"totalEntries",
+			ratingsStatsCacheModel -> ratingsStatsCacheModel.totalEntries);
 		attributeSetterBiConsumers.put(
 			"totalEntries",
 			(BiConsumer<RatingsStats, Integer>)RatingsStats::setTotalEntries);
 		attributeGetterFunctions.put("totalScore", RatingsStats::getTotalScore);
+
+		cacheModelGetterFunctions.put(
+			"totalScore",
+			ratingsStatsCacheModel -> ratingsStatsCacheModel.totalScore);
 		attributeSetterBiConsumers.put(
 			"totalScore",
 			(BiConsumer<RatingsStats, Double>)RatingsStats::setTotalScore);
 		attributeGetterFunctions.put(
 			"averageScore", RatingsStats::getAverageScore);
+
+		cacheModelGetterFunctions.put(
+			"averageScore",
+			ratingsStatsCacheModel -> ratingsStatsCacheModel.averageScore);
 		attributeSetterBiConsumers.put(
 			"averageScore",
 			(BiConsumer<RatingsStats, Double>)RatingsStats::setAverageScore);
@@ -315,6 +407,8 @@ public class RatingsStatsModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -324,6 +418,12 @@ public class RatingsStatsModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_ratingsStatsCacheModel == null)) {
+			_ratingsStatsCacheModel = (RatingsStatsCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -334,6 +434,12 @@ public class RatingsStatsModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (!isNew() && (_ratingsStatsCacheModel == null)) {
+			_ratingsStatsCacheModel = (RatingsStatsCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -344,6 +450,12 @@ public class RatingsStatsModelImpl
 
 	@Override
 	public void setStatsId(long statsId) {
+		_columnBitmask |= STATSID_COLUMN_BITMASK;
+
+		if (!isNew() && (_ratingsStatsCacheModel == null)) {
+			_ratingsStatsCacheModel = (RatingsStatsCacheModel)toCacheModel();
+		}
+
 		_statsId = statsId;
 	}
 
@@ -354,6 +466,12 @@ public class RatingsStatsModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (!isNew() && (_ratingsStatsCacheModel == null)) {
+			_ratingsStatsCacheModel = (RatingsStatsCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -364,6 +482,12 @@ public class RatingsStatsModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_ratingsStatsCacheModel == null)) {
+			_ratingsStatsCacheModel = (RatingsStatsCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -379,6 +503,12 @@ public class RatingsStatsModelImpl
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
+
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_ratingsStatsCacheModel == null)) {
+			_ratingsStatsCacheModel = (RatingsStatsCacheModel)toCacheModel();
+		}
 
 		_modifiedDate = modifiedDate;
 	}
@@ -412,17 +542,20 @@ public class RatingsStatsModelImpl
 	public void setClassNameId(long classNameId) {
 		_columnBitmask |= CLASSNAMEID_COLUMN_BITMASK;
 
-		if (!_setOriginalClassNameId) {
-			_setOriginalClassNameId = true;
-
-			_originalClassNameId = _classNameId;
+		if (!isNew() && (_ratingsStatsCacheModel == null)) {
+			_ratingsStatsCacheModel = (RatingsStatsCacheModel)toCacheModel();
 		}
 
 		_classNameId = classNameId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassNameId() {
-		return _originalClassNameId;
+		return getCacheModelAttribute("classNameId");
 	}
 
 	@Override
@@ -434,17 +567,20 @@ public class RatingsStatsModelImpl
 	public void setClassPK(long classPK) {
 		_columnBitmask |= CLASSPK_COLUMN_BITMASK;
 
-		if (!_setOriginalClassPK) {
-			_setOriginalClassPK = true;
-
-			_originalClassPK = _classPK;
+		if (!isNew() && (_ratingsStatsCacheModel == null)) {
+			_ratingsStatsCacheModel = (RatingsStatsCacheModel)toCacheModel();
 		}
 
 		_classPK = classPK;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassPK() {
-		return _originalClassPK;
+		return getCacheModelAttribute("classPK");
 	}
 
 	@Override
@@ -454,6 +590,12 @@ public class RatingsStatsModelImpl
 
 	@Override
 	public void setTotalEntries(int totalEntries) {
+		_columnBitmask |= TOTALENTRIES_COLUMN_BITMASK;
+
+		if (!isNew() && (_ratingsStatsCacheModel == null)) {
+			_ratingsStatsCacheModel = (RatingsStatsCacheModel)toCacheModel();
+		}
+
 		_totalEntries = totalEntries;
 	}
 
@@ -464,6 +606,12 @@ public class RatingsStatsModelImpl
 
 	@Override
 	public void setTotalScore(double totalScore) {
+		_columnBitmask |= TOTALSCORE_COLUMN_BITMASK;
+
+		if (!isNew() && (_ratingsStatsCacheModel == null)) {
+			_ratingsStatsCacheModel = (RatingsStatsCacheModel)toCacheModel();
+		}
+
 		_totalScore = totalScore;
 	}
 
@@ -474,6 +622,12 @@ public class RatingsStatsModelImpl
 
 	@Override
 	public void setAverageScore(double averageScore) {
+		_columnBitmask |= AVERAGESCORE_COLUMN_BITMASK;
+
+		if (!isNew() && (_ratingsStatsCacheModel == null)) {
+			_ratingsStatsCacheModel = (RatingsStatsCacheModel)toCacheModel();
+		}
+
 		_averageScore = averageScore;
 	}
 
@@ -592,20 +746,11 @@ public class RatingsStatsModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		RatingsStatsModelImpl ratingsStatsModelImpl = this;
+		_setModifiedDate = false;
 
-		ratingsStatsModelImpl._setModifiedDate = false;
+		_columnBitmask = 0;
 
-		ratingsStatsModelImpl._originalClassNameId =
-			ratingsStatsModelImpl._classNameId;
-
-		ratingsStatsModelImpl._setOriginalClassNameId = false;
-
-		ratingsStatsModelImpl._originalClassPK = ratingsStatsModelImpl._classPK;
-
-		ratingsStatsModelImpl._setOriginalClassPK = false;
-
-		ratingsStatsModelImpl._columnBitmask = 0;
+		_ratingsStatsCacheModel = null;
 	}
 
 	@Override
@@ -730,15 +875,12 @@ public class RatingsStatsModelImpl
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _classNameId;
-	private long _originalClassNameId;
-	private boolean _setOriginalClassNameId;
 	private long _classPK;
-	private long _originalClassPK;
-	private boolean _setOriginalClassPK;
 	private int _totalEntries;
 	private double _totalScore;
 	private double _averageScore;
 	private long _columnBitmask;
 	private RatingsStats _escapedModel;
+	private RatingsStatsCacheModel _ratingsStatsCacheModel;
 
 }

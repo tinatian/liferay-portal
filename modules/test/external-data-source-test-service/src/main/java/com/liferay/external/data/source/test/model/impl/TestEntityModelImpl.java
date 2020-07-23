@@ -223,21 +223,59 @@ public class TestEntityModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<TestEntity, Object> function = _attributeGetterFunctions.get(
+			attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((TestEntity)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<TestEntityCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_testEntityCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_testEntityCacheModel);
+	}
+
 	private static final Map<String, Function<TestEntity, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<TestEntity, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<TestEntityCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<TestEntity, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<TestEntity, Object>>();
 		Map<String, BiConsumer<TestEntity, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<TestEntity, ?>>();
+		Map<String, Function<TestEntityCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<TestEntityCacheModel, Object>>();
 
 		attributeGetterFunctions.put("id", TestEntity::getId);
+
+		cacheModelGetterFunctions.put(
+			"id", testEntityCacheModel -> testEntityCacheModel.id);
 		attributeSetterBiConsumers.put(
 			"id", (BiConsumer<TestEntity, Long>)TestEntity::setId);
 		attributeGetterFunctions.put("data", TestEntity::getData);
+
+		cacheModelGetterFunctions.put(
+			"data", testEntityCacheModel -> testEntityCacheModel.data);
 		attributeSetterBiConsumers.put(
 			"data", (BiConsumer<TestEntity, String>)TestEntity::setData);
 
@@ -245,6 +283,8 @@ public class TestEntityModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -254,6 +294,10 @@ public class TestEntityModelImpl
 
 	@Override
 	public void setId(long id) {
+		if (!isNew() && (_testEntityCacheModel == null)) {
+			_testEntityCacheModel = (TestEntityCacheModel)toCacheModel();
+		}
+
 		_id = id;
 	}
 
@@ -269,6 +313,10 @@ public class TestEntityModelImpl
 
 	@Override
 	public void setData(String data) {
+		if (!isNew() && (_testEntityCacheModel == null)) {
+			_testEntityCacheModel = (TestEntityCacheModel)toCacheModel();
+		}
+
 		_data = data;
 	}
 
@@ -374,6 +422,7 @@ public class TestEntityModelImpl
 
 	@Override
 	public void resetOriginalValues() {
+		_testEntityCacheModel = null;
 	}
 
 	@Override
@@ -466,5 +515,6 @@ public class TestEntityModelImpl
 	private long _id;
 	private String _data;
 	private TestEntity _escapedModel;
+	private TestEntityCacheModel _testEntityCacheModel;
 
 }

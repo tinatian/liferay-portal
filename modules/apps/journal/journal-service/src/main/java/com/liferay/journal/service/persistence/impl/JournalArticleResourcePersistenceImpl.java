@@ -2500,8 +2500,9 @@ public class JournalArticleResourcePersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				journalArticleResourceModelImpl.getOriginalUuid(),
-				journalArticleResourceModelImpl.getOriginalGroupId()
+				journalArticleResourceModelImpl.getCacheModelAttribute("uuid"),
+				journalArticleResourceModelImpl.getCacheModelAttribute(
+					"groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -2522,8 +2523,10 @@ public class JournalArticleResourcePersistenceImpl
 			 _finderPathFetchByG_A.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				journalArticleResourceModelImpl.getOriginalGroupId(),
-				journalArticleResourceModelImpl.getOriginalArticleId()
+				journalArticleResourceModelImpl.getCacheModelAttribute(
+					"groupId"),
+				journalArticleResourceModelImpl.getCacheModelAttribute(
+					"articleId")
 			};
 
 			finderCache.removeResult(_finderPathCountByG_A, args);
@@ -2756,7 +2759,8 @@ public class JournalArticleResourcePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					journalArticleResourceModelImpl.getOriginalUuid()
+					journalArticleResourceModelImpl.getCacheModelAttribute(
+						"uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -2775,8 +2779,10 @@ public class JournalArticleResourcePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					journalArticleResourceModelImpl.getOriginalUuid(),
-					journalArticleResourceModelImpl.getOriginalCompanyId()
+					journalArticleResourceModelImpl.getCacheModelAttribute(
+						"uuid"),
+					journalArticleResourceModelImpl.getCacheModelAttribute(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -2798,7 +2804,8 @@ public class JournalArticleResourcePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					journalArticleResourceModelImpl.getOriginalGroupId()
+					journalArticleResourceModelImpl.getCacheModelAttribute(
+						"groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId, args);

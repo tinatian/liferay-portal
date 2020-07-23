@@ -27,7 +27,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -130,9 +129,57 @@ public class AccountModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long ADDRESS_COLUMN_BITMASK = 1L;
+	public static final long ACCOUNTID_COLUMN_BITMASK = 1L;
 
-	public static final long USERID_COLUMN_BITMASK = 2L;
+	public static final long COMPANYID_COLUMN_BITMASK = 2L;
+
+	public static final long USERID_COLUMN_BITMASK = 4L;
+
+	public static final long USERNAME_COLUMN_BITMASK = 8L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 16L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 32L;
+
+	public static final long ADDRESS_COLUMN_BITMASK = 64L;
+
+	public static final long PERSONALNAME_COLUMN_BITMASK = 128L;
+
+	public static final long PROTOCOL_COLUMN_BITMASK = 256L;
+
+	public static final long INCOMINGHOSTNAME_COLUMN_BITMASK = 512L;
+
+	public static final long INCOMINGPORT_COLUMN_BITMASK = 1024L;
+
+	public static final long INCOMINGSECURE_COLUMN_BITMASK = 2048L;
+
+	public static final long OUTGOINGHOSTNAME_COLUMN_BITMASK = 4096L;
+
+	public static final long OUTGOINGPORT_COLUMN_BITMASK = 8192L;
+
+	public static final long OUTGOINGSECURE_COLUMN_BITMASK = 16384L;
+
+	public static final long LOGIN_COLUMN_BITMASK = 32768L;
+
+	public static final long PASSWORD_COLUMN_BITMASK = 65536L;
+
+	public static final long SAVEPASSWORD_COLUMN_BITMASK = 131072L;
+
+	public static final long SIGNATURE_COLUMN_BITMASK = 262144L;
+
+	public static final long USESIGNATURE_COLUMN_BITMASK = 524288L;
+
+	public static final long FOLDERPREFIX_COLUMN_BITMASK = 1048576L;
+
+	public static final long INBOXFOLDERID_COLUMN_BITMASK = 2097152L;
+
+	public static final long DRAFTFOLDERID_COLUMN_BITMASK = 4194304L;
+
+	public static final long SENTFOLDERID_COLUMN_BITMASK = 8388608L;
+
+	public static final long TRASHFOLDERID_COLUMN_BITMASK = 16777216L;
+
+	public static final long DEFAULTSENDER_COLUMN_BITMASK = 33554432L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -259,116 +306,242 @@ public class AccountModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<Account, Object> function = _attributeGetterFunctions.get(
+			attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((Account)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<AccountCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_accountCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_accountCacheModel);
+	}
+
 	private static final Map<String, Function<Account, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<Account, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<AccountCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<Account, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<Account, Object>>();
 		Map<String, BiConsumer<Account, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Account, ?>>();
+		Map<String, Function<AccountCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<AccountCacheModel, Object>>();
 
 		attributeGetterFunctions.put("accountId", Account::getAccountId);
+
+		cacheModelGetterFunctions.put(
+			"accountId", accountCacheModel -> accountCacheModel.accountId);
 		attributeSetterBiConsumers.put(
 			"accountId", (BiConsumer<Account, Long>)Account::setAccountId);
 		attributeGetterFunctions.put("companyId", Account::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId", accountCacheModel -> accountCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId", (BiConsumer<Account, Long>)Account::setCompanyId);
 		attributeGetterFunctions.put("userId", Account::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", accountCacheModel -> accountCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<Account, Long>)Account::setUserId);
 		attributeGetterFunctions.put("userName", Account::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName", accountCacheModel -> accountCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName", (BiConsumer<Account, String>)Account::setUserName);
 		attributeGetterFunctions.put("createDate", Account::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate", accountCacheModel -> accountCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate", (BiConsumer<Account, Date>)Account::setCreateDate);
 		attributeGetterFunctions.put("modifiedDate", Account::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			accountCacheModel -> accountCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<Account, Date>)Account::setModifiedDate);
 		attributeGetterFunctions.put("address", Account::getAddress);
+
+		cacheModelGetterFunctions.put(
+			"address", accountCacheModel -> accountCacheModel.address);
 		attributeSetterBiConsumers.put(
 			"address", (BiConsumer<Account, String>)Account::setAddress);
 		attributeGetterFunctions.put("personalName", Account::getPersonalName);
+
+		cacheModelGetterFunctions.put(
+			"personalName",
+			accountCacheModel -> accountCacheModel.personalName);
 		attributeSetterBiConsumers.put(
 			"personalName",
 			(BiConsumer<Account, String>)Account::setPersonalName);
 		attributeGetterFunctions.put("protocol", Account::getProtocol);
+
+		cacheModelGetterFunctions.put(
+			"protocol", accountCacheModel -> accountCacheModel.protocol);
 		attributeSetterBiConsumers.put(
 			"protocol", (BiConsumer<Account, String>)Account::setProtocol);
 		attributeGetterFunctions.put(
 			"incomingHostName", Account::getIncomingHostName);
+
+		cacheModelGetterFunctions.put(
+			"incomingHostName",
+			accountCacheModel -> accountCacheModel.incomingHostName);
 		attributeSetterBiConsumers.put(
 			"incomingHostName",
 			(BiConsumer<Account, String>)Account::setIncomingHostName);
 		attributeGetterFunctions.put("incomingPort", Account::getIncomingPort);
+
+		cacheModelGetterFunctions.put(
+			"incomingPort",
+			accountCacheModel -> accountCacheModel.incomingPort);
 		attributeSetterBiConsumers.put(
 			"incomingPort",
 			(BiConsumer<Account, Integer>)Account::setIncomingPort);
 		attributeGetterFunctions.put(
 			"incomingSecure", Account::getIncomingSecure);
+
+		cacheModelGetterFunctions.put(
+			"incomingSecure",
+			accountCacheModel -> accountCacheModel.incomingSecure);
 		attributeSetterBiConsumers.put(
 			"incomingSecure",
 			(BiConsumer<Account, Boolean>)Account::setIncomingSecure);
 		attributeGetterFunctions.put(
 			"outgoingHostName", Account::getOutgoingHostName);
+
+		cacheModelGetterFunctions.put(
+			"outgoingHostName",
+			accountCacheModel -> accountCacheModel.outgoingHostName);
 		attributeSetterBiConsumers.put(
 			"outgoingHostName",
 			(BiConsumer<Account, String>)Account::setOutgoingHostName);
 		attributeGetterFunctions.put("outgoingPort", Account::getOutgoingPort);
+
+		cacheModelGetterFunctions.put(
+			"outgoingPort",
+			accountCacheModel -> accountCacheModel.outgoingPort);
 		attributeSetterBiConsumers.put(
 			"outgoingPort",
 			(BiConsumer<Account, Integer>)Account::setOutgoingPort);
 		attributeGetterFunctions.put(
 			"outgoingSecure", Account::getOutgoingSecure);
+
+		cacheModelGetterFunctions.put(
+			"outgoingSecure",
+			accountCacheModel -> accountCacheModel.outgoingSecure);
 		attributeSetterBiConsumers.put(
 			"outgoingSecure",
 			(BiConsumer<Account, Boolean>)Account::setOutgoingSecure);
 		attributeGetterFunctions.put("login", Account::getLogin);
+
+		cacheModelGetterFunctions.put(
+			"login", accountCacheModel -> accountCacheModel.login);
 		attributeSetterBiConsumers.put(
 			"login", (BiConsumer<Account, String>)Account::setLogin);
 		attributeGetterFunctions.put("password", Account::getPassword);
+
+		cacheModelGetterFunctions.put(
+			"password", accountCacheModel -> accountCacheModel.password);
 		attributeSetterBiConsumers.put(
 			"password", (BiConsumer<Account, String>)Account::setPassword);
 		attributeGetterFunctions.put("savePassword", Account::getSavePassword);
+
+		cacheModelGetterFunctions.put(
+			"savePassword",
+			accountCacheModel -> accountCacheModel.savePassword);
 		attributeSetterBiConsumers.put(
 			"savePassword",
 			(BiConsumer<Account, Boolean>)Account::setSavePassword);
 		attributeGetterFunctions.put("signature", Account::getSignature);
+
+		cacheModelGetterFunctions.put(
+			"signature", accountCacheModel -> accountCacheModel.signature);
 		attributeSetterBiConsumers.put(
 			"signature", (BiConsumer<Account, String>)Account::setSignature);
 		attributeGetterFunctions.put("useSignature", Account::getUseSignature);
+
+		cacheModelGetterFunctions.put(
+			"useSignature",
+			accountCacheModel -> accountCacheModel.useSignature);
 		attributeSetterBiConsumers.put(
 			"useSignature",
 			(BiConsumer<Account, Boolean>)Account::setUseSignature);
 		attributeGetterFunctions.put("folderPrefix", Account::getFolderPrefix);
+
+		cacheModelGetterFunctions.put(
+			"folderPrefix",
+			accountCacheModel -> accountCacheModel.folderPrefix);
 		attributeSetterBiConsumers.put(
 			"folderPrefix",
 			(BiConsumer<Account, String>)Account::setFolderPrefix);
 		attributeGetterFunctions.put(
 			"inboxFolderId", Account::getInboxFolderId);
+
+		cacheModelGetterFunctions.put(
+			"inboxFolderId",
+			accountCacheModel -> accountCacheModel.inboxFolderId);
 		attributeSetterBiConsumers.put(
 			"inboxFolderId",
 			(BiConsumer<Account, Long>)Account::setInboxFolderId);
 		attributeGetterFunctions.put(
 			"draftFolderId", Account::getDraftFolderId);
+
+		cacheModelGetterFunctions.put(
+			"draftFolderId",
+			accountCacheModel -> accountCacheModel.draftFolderId);
 		attributeSetterBiConsumers.put(
 			"draftFolderId",
 			(BiConsumer<Account, Long>)Account::setDraftFolderId);
 		attributeGetterFunctions.put("sentFolderId", Account::getSentFolderId);
+
+		cacheModelGetterFunctions.put(
+			"sentFolderId",
+			accountCacheModel -> accountCacheModel.sentFolderId);
 		attributeSetterBiConsumers.put(
 			"sentFolderId",
 			(BiConsumer<Account, Long>)Account::setSentFolderId);
 		attributeGetterFunctions.put(
 			"trashFolderId", Account::getTrashFolderId);
+
+		cacheModelGetterFunctions.put(
+			"trashFolderId",
+			accountCacheModel -> accountCacheModel.trashFolderId);
 		attributeSetterBiConsumers.put(
 			"trashFolderId",
 			(BiConsumer<Account, Long>)Account::setTrashFolderId);
 		attributeGetterFunctions.put(
 			"defaultSender", Account::getDefaultSender);
+
+		cacheModelGetterFunctions.put(
+			"defaultSender",
+			accountCacheModel -> accountCacheModel.defaultSender);
 		attributeSetterBiConsumers.put(
 			"defaultSender",
 			(BiConsumer<Account, Boolean>)Account::setDefaultSender);
@@ -377,6 +550,8 @@ public class AccountModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -386,6 +561,12 @@ public class AccountModelImpl
 
 	@Override
 	public void setAccountId(long accountId) {
+		_columnBitmask |= ACCOUNTID_COLUMN_BITMASK;
+
+		if (!isNew() && (_accountCacheModel == null)) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_accountId = accountId;
 	}
 
@@ -396,6 +577,12 @@ public class AccountModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (!isNew() && (_accountCacheModel == null)) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -408,10 +595,8 @@ public class AccountModelImpl
 	public void setUserId(long userId) {
 		_columnBitmask |= USERID_COLUMN_BITMASK;
 
-		if (!_setOriginalUserId) {
-			_setOriginalUserId = true;
-
-			_originalUserId = _userId;
+		if (!isNew() && (_accountCacheModel == null)) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
 		}
 
 		_userId = userId;
@@ -433,8 +618,13 @@ public class AccountModelImpl
 	public void setUserUuid(String userUuid) {
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalUserId() {
-		return _originalUserId;
+		return getCacheModelAttribute("userId");
 	}
 
 	@Override
@@ -449,6 +639,12 @@ public class AccountModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_accountCacheModel == null)) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -459,6 +655,12 @@ public class AccountModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_accountCacheModel == null)) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -475,6 +677,12 @@ public class AccountModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_accountCacheModel == null)) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -490,17 +698,22 @@ public class AccountModelImpl
 
 	@Override
 	public void setAddress(String address) {
-		_columnBitmask = -1L;
+		_columnBitmask |= ADDRESS_COLUMN_BITMASK;
 
-		if (_originalAddress == null) {
-			_originalAddress = _address;
+		if (!isNew() && (_accountCacheModel == null)) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
 		}
 
 		_address = address;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalAddress() {
-		return GetterUtil.getString(_originalAddress);
+		return getCacheModelAttribute("address");
 	}
 
 	@Override
@@ -515,6 +728,12 @@ public class AccountModelImpl
 
 	@Override
 	public void setPersonalName(String personalName) {
+		_columnBitmask |= PERSONALNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_accountCacheModel == null)) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_personalName = personalName;
 	}
 
@@ -530,6 +749,12 @@ public class AccountModelImpl
 
 	@Override
 	public void setProtocol(String protocol) {
+		_columnBitmask |= PROTOCOL_COLUMN_BITMASK;
+
+		if (!isNew() && (_accountCacheModel == null)) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_protocol = protocol;
 	}
 
@@ -545,6 +770,12 @@ public class AccountModelImpl
 
 	@Override
 	public void setIncomingHostName(String incomingHostName) {
+		_columnBitmask |= INCOMINGHOSTNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_accountCacheModel == null)) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_incomingHostName = incomingHostName;
 	}
 
@@ -555,6 +786,12 @@ public class AccountModelImpl
 
 	@Override
 	public void setIncomingPort(int incomingPort) {
+		_columnBitmask |= INCOMINGPORT_COLUMN_BITMASK;
+
+		if (!isNew() && (_accountCacheModel == null)) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_incomingPort = incomingPort;
 	}
 
@@ -570,6 +807,12 @@ public class AccountModelImpl
 
 	@Override
 	public void setIncomingSecure(boolean incomingSecure) {
+		_columnBitmask |= INCOMINGSECURE_COLUMN_BITMASK;
+
+		if (!isNew() && (_accountCacheModel == null)) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_incomingSecure = incomingSecure;
 	}
 
@@ -585,6 +828,12 @@ public class AccountModelImpl
 
 	@Override
 	public void setOutgoingHostName(String outgoingHostName) {
+		_columnBitmask |= OUTGOINGHOSTNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_accountCacheModel == null)) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_outgoingHostName = outgoingHostName;
 	}
 
@@ -595,6 +844,12 @@ public class AccountModelImpl
 
 	@Override
 	public void setOutgoingPort(int outgoingPort) {
+		_columnBitmask |= OUTGOINGPORT_COLUMN_BITMASK;
+
+		if (!isNew() && (_accountCacheModel == null)) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_outgoingPort = outgoingPort;
 	}
 
@@ -610,6 +865,12 @@ public class AccountModelImpl
 
 	@Override
 	public void setOutgoingSecure(boolean outgoingSecure) {
+		_columnBitmask |= OUTGOINGSECURE_COLUMN_BITMASK;
+
+		if (!isNew() && (_accountCacheModel == null)) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_outgoingSecure = outgoingSecure;
 	}
 
@@ -625,6 +886,12 @@ public class AccountModelImpl
 
 	@Override
 	public void setLogin(String login) {
+		_columnBitmask |= LOGIN_COLUMN_BITMASK;
+
+		if (!isNew() && (_accountCacheModel == null)) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_login = login;
 	}
 
@@ -640,6 +907,12 @@ public class AccountModelImpl
 
 	@Override
 	public void setPassword(String password) {
+		_columnBitmask |= PASSWORD_COLUMN_BITMASK;
+
+		if (!isNew() && (_accountCacheModel == null)) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_password = password;
 	}
 
@@ -655,6 +928,12 @@ public class AccountModelImpl
 
 	@Override
 	public void setSavePassword(boolean savePassword) {
+		_columnBitmask |= SAVEPASSWORD_COLUMN_BITMASK;
+
+		if (!isNew() && (_accountCacheModel == null)) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_savePassword = savePassword;
 	}
 
@@ -670,6 +949,12 @@ public class AccountModelImpl
 
 	@Override
 	public void setSignature(String signature) {
+		_columnBitmask |= SIGNATURE_COLUMN_BITMASK;
+
+		if (!isNew() && (_accountCacheModel == null)) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_signature = signature;
 	}
 
@@ -685,6 +970,12 @@ public class AccountModelImpl
 
 	@Override
 	public void setUseSignature(boolean useSignature) {
+		_columnBitmask |= USESIGNATURE_COLUMN_BITMASK;
+
+		if (!isNew() && (_accountCacheModel == null)) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_useSignature = useSignature;
 	}
 
@@ -700,6 +991,12 @@ public class AccountModelImpl
 
 	@Override
 	public void setFolderPrefix(String folderPrefix) {
+		_columnBitmask |= FOLDERPREFIX_COLUMN_BITMASK;
+
+		if (!isNew() && (_accountCacheModel == null)) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_folderPrefix = folderPrefix;
 	}
 
@@ -710,6 +1007,12 @@ public class AccountModelImpl
 
 	@Override
 	public void setInboxFolderId(long inboxFolderId) {
+		_columnBitmask |= INBOXFOLDERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_accountCacheModel == null)) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_inboxFolderId = inboxFolderId;
 	}
 
@@ -720,6 +1023,12 @@ public class AccountModelImpl
 
 	@Override
 	public void setDraftFolderId(long draftFolderId) {
+		_columnBitmask |= DRAFTFOLDERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_accountCacheModel == null)) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_draftFolderId = draftFolderId;
 	}
 
@@ -730,6 +1039,12 @@ public class AccountModelImpl
 
 	@Override
 	public void setSentFolderId(long sentFolderId) {
+		_columnBitmask |= SENTFOLDERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_accountCacheModel == null)) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_sentFolderId = sentFolderId;
 	}
 
@@ -740,6 +1055,12 @@ public class AccountModelImpl
 
 	@Override
 	public void setTrashFolderId(long trashFolderId) {
+		_columnBitmask |= TRASHFOLDERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_accountCacheModel == null)) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_trashFolderId = trashFolderId;
 	}
 
@@ -755,6 +1076,12 @@ public class AccountModelImpl
 
 	@Override
 	public void setDefaultSender(boolean defaultSender) {
+		_columnBitmask |= DEFAULTSENDER_COLUMN_BITMASK;
+
+		if (!isNew() && (_accountCacheModel == null)) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_defaultSender = defaultSender;
 	}
 
@@ -886,17 +1213,11 @@ public class AccountModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		AccountModelImpl accountModelImpl = this;
+		_setModifiedDate = false;
 
-		accountModelImpl._originalUserId = accountModelImpl._userId;
+		_columnBitmask = 0;
 
-		accountModelImpl._setOriginalUserId = false;
-
-		accountModelImpl._setModifiedDate = false;
-
-		accountModelImpl._originalAddress = accountModelImpl._address;
-
-		accountModelImpl._columnBitmask = 0;
+		_accountCacheModel = null;
 	}
 
 	@Override
@@ -1105,14 +1426,11 @@ public class AccountModelImpl
 	private long _accountId;
 	private long _companyId;
 	private long _userId;
-	private long _originalUserId;
-	private boolean _setOriginalUserId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private String _address;
-	private String _originalAddress;
 	private String _personalName;
 	private String _protocol;
 	private String _incomingHostName;
@@ -1134,5 +1452,6 @@ public class AccountModelImpl
 	private boolean _defaultSender;
 	private long _columnBitmask;
 	private Account _escapedModel;
+	private AccountCacheModel _accountCacheModel;
 
 }

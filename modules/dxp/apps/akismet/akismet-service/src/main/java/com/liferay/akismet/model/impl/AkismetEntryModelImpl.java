@@ -125,13 +125,25 @@ public class AkismetEntryModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long CLASSNAMEID_COLUMN_BITMASK = 1L;
+	public static final long AKISMETENTRYID_COLUMN_BITMASK = 1L;
 
-	public static final long CLASSPK_COLUMN_BITMASK = 2L;
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 2L;
 
-	public static final long MODIFIEDDATE_COLUMN_BITMASK = 4L;
+	public static final long CLASSNAMEID_COLUMN_BITMASK = 4L;
 
-	public static final long AKISMETENTRYID_COLUMN_BITMASK = 8L;
+	public static final long CLASSPK_COLUMN_BITMASK = 8L;
+
+	public static final long TYPE_COLUMN_BITMASK = 16L;
+
+	public static final long PERMALINK_COLUMN_BITMASK = 32L;
+
+	public static final long REFERRER_COLUMN_BITMASK = 64L;
+
+	public static final long USERAGENT_COLUMN_BITMASK = 128L;
+
+	public static final long USERIP_COLUMN_BITMASK = 256L;
+
+	public static final long USERURL_COLUMN_BITMASK = 512L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		com.liferay.akismet.service.util.ServiceProps.get(
@@ -250,56 +262,126 @@ public class AkismetEntryModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<AkismetEntry, Object> function = _attributeGetterFunctions.get(
+			attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((AkismetEntry)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<AkismetEntryCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_akismetEntryCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_akismetEntryCacheModel);
+	}
+
 	private static final Map<String, Function<AkismetEntry, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<AkismetEntry, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<AkismetEntryCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<AkismetEntry, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<AkismetEntry, Object>>();
 		Map<String, BiConsumer<AkismetEntry, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<AkismetEntry, ?>>();
+		Map<String, Function<AkismetEntryCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<AkismetEntryCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"akismetEntryId", AkismetEntry::getAkismetEntryId);
+
+		cacheModelGetterFunctions.put(
+			"akismetEntryId",
+			akismetEntryCacheModel -> akismetEntryCacheModel.akismetEntryId);
 		attributeSetterBiConsumers.put(
 			"akismetEntryId",
 			(BiConsumer<AkismetEntry, Long>)AkismetEntry::setAkismetEntryId);
 		attributeGetterFunctions.put(
 			"modifiedDate", AkismetEntry::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			akismetEntryCacheModel -> akismetEntryCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<AkismetEntry, Date>)AkismetEntry::setModifiedDate);
 		attributeGetterFunctions.put(
 			"classNameId", AkismetEntry::getClassNameId);
+
+		cacheModelGetterFunctions.put(
+			"classNameId",
+			akismetEntryCacheModel -> akismetEntryCacheModel.classNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<AkismetEntry, Long>)AkismetEntry::setClassNameId);
 		attributeGetterFunctions.put("classPK", AkismetEntry::getClassPK);
+
+		cacheModelGetterFunctions.put(
+			"classPK",
+			akismetEntryCacheModel -> akismetEntryCacheModel.classPK);
 		attributeSetterBiConsumers.put(
 			"classPK",
 			(BiConsumer<AkismetEntry, Long>)AkismetEntry::setClassPK);
 		attributeGetterFunctions.put("type", AkismetEntry::getType);
+
+		cacheModelGetterFunctions.put(
+			"type", akismetEntryCacheModel -> akismetEntryCacheModel.type);
 		attributeSetterBiConsumers.put(
 			"type", (BiConsumer<AkismetEntry, String>)AkismetEntry::setType);
 		attributeGetterFunctions.put("permalink", AkismetEntry::getPermalink);
+
+		cacheModelGetterFunctions.put(
+			"permalink",
+			akismetEntryCacheModel -> akismetEntryCacheModel.permalink);
 		attributeSetterBiConsumers.put(
 			"permalink",
 			(BiConsumer<AkismetEntry, String>)AkismetEntry::setPermalink);
 		attributeGetterFunctions.put("referrer", AkismetEntry::getReferrer);
+
+		cacheModelGetterFunctions.put(
+			"referrer",
+			akismetEntryCacheModel -> akismetEntryCacheModel.referrer);
 		attributeSetterBiConsumers.put(
 			"referrer",
 			(BiConsumer<AkismetEntry, String>)AkismetEntry::setReferrer);
 		attributeGetterFunctions.put("userAgent", AkismetEntry::getUserAgent);
+
+		cacheModelGetterFunctions.put(
+			"userAgent",
+			akismetEntryCacheModel -> akismetEntryCacheModel.userAgent);
 		attributeSetterBiConsumers.put(
 			"userAgent",
 			(BiConsumer<AkismetEntry, String>)AkismetEntry::setUserAgent);
 		attributeGetterFunctions.put("userIP", AkismetEntry::getUserIP);
+
+		cacheModelGetterFunctions.put(
+			"userIP", akismetEntryCacheModel -> akismetEntryCacheModel.userIP);
 		attributeSetterBiConsumers.put(
 			"userIP",
 			(BiConsumer<AkismetEntry, String>)AkismetEntry::setUserIP);
 		attributeGetterFunctions.put("userURL", AkismetEntry::getUserURL);
+
+		cacheModelGetterFunctions.put(
+			"userURL",
+			akismetEntryCacheModel -> akismetEntryCacheModel.userURL);
 		attributeSetterBiConsumers.put(
 			"userURL",
 			(BiConsumer<AkismetEntry, String>)AkismetEntry::setUserURL);
@@ -308,6 +390,8 @@ public class AkismetEntryModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -317,6 +401,12 @@ public class AkismetEntryModelImpl
 
 	@Override
 	public void setAkismetEntryId(long akismetEntryId) {
+		_columnBitmask |= AKISMETENTRYID_COLUMN_BITMASK;
+
+		if (!isNew() && (_akismetEntryCacheModel == null)) {
+			_akismetEntryCacheModel = (AkismetEntryCacheModel)toCacheModel();
+		}
+
 		_akismetEntryId = akismetEntryId;
 	}
 
@@ -329,15 +419,20 @@ public class AkismetEntryModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
 
-		if (_originalModifiedDate == null) {
-			_originalModifiedDate = _modifiedDate;
+		if (!isNew() && (_akismetEntryCacheModel == null)) {
+			_akismetEntryCacheModel = (AkismetEntryCacheModel)toCacheModel();
 		}
 
 		_modifiedDate = modifiedDate;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public Date getOriginalModifiedDate() {
-		return _originalModifiedDate;
+		return getCacheModelAttribute("modifiedDate");
 	}
 
 	@Override
@@ -369,17 +464,20 @@ public class AkismetEntryModelImpl
 	public void setClassNameId(long classNameId) {
 		_columnBitmask |= CLASSNAMEID_COLUMN_BITMASK;
 
-		if (!_setOriginalClassNameId) {
-			_setOriginalClassNameId = true;
-
-			_originalClassNameId = _classNameId;
+		if (!isNew() && (_akismetEntryCacheModel == null)) {
+			_akismetEntryCacheModel = (AkismetEntryCacheModel)toCacheModel();
 		}
 
 		_classNameId = classNameId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassNameId() {
-		return _originalClassNameId;
+		return getCacheModelAttribute("classNameId");
 	}
 
 	@Override
@@ -391,17 +489,20 @@ public class AkismetEntryModelImpl
 	public void setClassPK(long classPK) {
 		_columnBitmask |= CLASSPK_COLUMN_BITMASK;
 
-		if (!_setOriginalClassPK) {
-			_setOriginalClassPK = true;
-
-			_originalClassPK = _classPK;
+		if (!isNew() && (_akismetEntryCacheModel == null)) {
+			_akismetEntryCacheModel = (AkismetEntryCacheModel)toCacheModel();
 		}
 
 		_classPK = classPK;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassPK() {
-		return _originalClassPK;
+		return getCacheModelAttribute("classPK");
 	}
 
 	@Override
@@ -416,6 +517,12 @@ public class AkismetEntryModelImpl
 
 	@Override
 	public void setType(String type) {
+		_columnBitmask |= TYPE_COLUMN_BITMASK;
+
+		if (!isNew() && (_akismetEntryCacheModel == null)) {
+			_akismetEntryCacheModel = (AkismetEntryCacheModel)toCacheModel();
+		}
+
 		_type = type;
 	}
 
@@ -431,6 +538,12 @@ public class AkismetEntryModelImpl
 
 	@Override
 	public void setPermalink(String permalink) {
+		_columnBitmask |= PERMALINK_COLUMN_BITMASK;
+
+		if (!isNew() && (_akismetEntryCacheModel == null)) {
+			_akismetEntryCacheModel = (AkismetEntryCacheModel)toCacheModel();
+		}
+
 		_permalink = permalink;
 	}
 
@@ -446,6 +559,12 @@ public class AkismetEntryModelImpl
 
 	@Override
 	public void setReferrer(String referrer) {
+		_columnBitmask |= REFERRER_COLUMN_BITMASK;
+
+		if (!isNew() && (_akismetEntryCacheModel == null)) {
+			_akismetEntryCacheModel = (AkismetEntryCacheModel)toCacheModel();
+		}
+
 		_referrer = referrer;
 	}
 
@@ -461,6 +580,12 @@ public class AkismetEntryModelImpl
 
 	@Override
 	public void setUserAgent(String userAgent) {
+		_columnBitmask |= USERAGENT_COLUMN_BITMASK;
+
+		if (!isNew() && (_akismetEntryCacheModel == null)) {
+			_akismetEntryCacheModel = (AkismetEntryCacheModel)toCacheModel();
+		}
+
 		_userAgent = userAgent;
 	}
 
@@ -476,6 +601,12 @@ public class AkismetEntryModelImpl
 
 	@Override
 	public void setUserIP(String userIP) {
+		_columnBitmask |= USERIP_COLUMN_BITMASK;
+
+		if (!isNew() && (_akismetEntryCacheModel == null)) {
+			_akismetEntryCacheModel = (AkismetEntryCacheModel)toCacheModel();
+		}
+
 		_userIP = userIP;
 	}
 
@@ -491,6 +622,12 @@ public class AkismetEntryModelImpl
 
 	@Override
 	public void setUserURL(String userURL) {
+		_columnBitmask |= USERURL_COLUMN_BITMASK;
+
+		if (!isNew() && (_akismetEntryCacheModel == null)) {
+			_akismetEntryCacheModel = (AkismetEntryCacheModel)toCacheModel();
+		}
+
 		_userURL = userURL;
 	}
 
@@ -608,21 +745,9 @@ public class AkismetEntryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		AkismetEntryModelImpl akismetEntryModelImpl = this;
+		_columnBitmask = 0;
 
-		akismetEntryModelImpl._originalModifiedDate =
-			akismetEntryModelImpl._modifiedDate;
-
-		akismetEntryModelImpl._originalClassNameId =
-			akismetEntryModelImpl._classNameId;
-
-		akismetEntryModelImpl._setOriginalClassNameId = false;
-
-		akismetEntryModelImpl._originalClassPK = akismetEntryModelImpl._classPK;
-
-		akismetEntryModelImpl._setOriginalClassPK = false;
-
-		akismetEntryModelImpl._columnBitmask = 0;
+		_akismetEntryCacheModel = null;
 	}
 
 	@Override
@@ -768,13 +893,8 @@ public class AkismetEntryModelImpl
 
 	private long _akismetEntryId;
 	private Date _modifiedDate;
-	private Date _originalModifiedDate;
 	private long _classNameId;
-	private long _originalClassNameId;
-	private boolean _setOriginalClassNameId;
 	private long _classPK;
-	private long _originalClassPK;
-	private boolean _setOriginalClassPK;
 	private String _type;
 	private String _permalink;
 	private String _referrer;
@@ -783,5 +903,6 @@ public class AkismetEntryModelImpl
 	private String _userURL;
 	private long _columnBitmask;
 	private AkismetEntry _escapedModel;
+	private AkismetEntryCacheModel _akismetEntryCacheModel;
 
 }

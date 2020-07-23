@@ -106,6 +106,8 @@ public class JournalContentSearchCacheModel
 		JournalContentSearchImpl journalContentSearchImpl =
 			new JournalContentSearchImpl();
 
+		journalContentSearchImpl.setNew(true);
+
 		journalContentSearchImpl.setMvccVersion(mvccVersion);
 		journalContentSearchImpl.setCtCollectionId(ctCollectionId);
 		journalContentSearchImpl.setContentSearchId(contentSearchId);
@@ -129,6 +131,8 @@ public class JournalContentSearchCacheModel
 		}
 
 		journalContentSearchImpl.resetOriginalValues();
+
+		journalContentSearchImpl.setNew(false);
 
 		return journalContentSearchImpl;
 	}

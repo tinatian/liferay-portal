@@ -86,6 +86,8 @@ public class DLFileVersionPreviewCacheModel
 		DLFileVersionPreviewImpl dlFileVersionPreviewImpl =
 			new DLFileVersionPreviewImpl();
 
+		dlFileVersionPreviewImpl.setNew(true);
+
 		dlFileVersionPreviewImpl.setDlFileVersionPreviewId(
 			dlFileVersionPreviewId);
 		dlFileVersionPreviewImpl.setGroupId(groupId);
@@ -95,6 +97,8 @@ public class DLFileVersionPreviewCacheModel
 		dlFileVersionPreviewImpl.setPreviewStatus(previewStatus);
 
 		dlFileVersionPreviewImpl.resetOriginalValues();
+
+		dlFileVersionPreviewImpl.setNew(false);
 
 		return dlFileVersionPreviewImpl;
 	}

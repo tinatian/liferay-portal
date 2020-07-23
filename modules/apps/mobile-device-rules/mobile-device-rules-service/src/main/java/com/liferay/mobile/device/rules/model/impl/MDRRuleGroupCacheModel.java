@@ -112,6 +112,8 @@ public class MDRRuleGroupCacheModel
 	public MDRRuleGroup toEntityModel() {
 		MDRRuleGroupImpl mdrRuleGroupImpl = new MDRRuleGroupImpl();
 
+		mdrRuleGroupImpl.setNew(true);
+
 		mdrRuleGroupImpl.setMvccVersion(mvccVersion);
 
 		if (uuid == null) {
@@ -169,6 +171,8 @@ public class MDRRuleGroupCacheModel
 		}
 
 		mdrRuleGroupImpl.resetOriginalValues();
+
+		mdrRuleGroupImpl.setNew(false);
 
 		return mdrRuleGroupImpl;
 	}

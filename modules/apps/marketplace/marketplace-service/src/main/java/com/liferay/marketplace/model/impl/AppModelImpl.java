@@ -30,7 +30,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
@@ -118,15 +117,33 @@ public class AppModelImpl extends BaseModelImpl<App> implements AppModel {
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long CATEGORY_COLUMN_BITMASK = 1L;
+	public static final long UUID_COLUMN_BITMASK = 1L;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 2L;
+	public static final long APPID_COLUMN_BITMASK = 2L;
 
-	public static final long REMOTEAPPID_COLUMN_BITMASK = 4L;
+	public static final long COMPANYID_COLUMN_BITMASK = 4L;
 
-	public static final long UUID_COLUMN_BITMASK = 8L;
+	public static final long USERID_COLUMN_BITMASK = 8L;
 
-	public static final long APPID_COLUMN_BITMASK = 16L;
+	public static final long USERNAME_COLUMN_BITMASK = 16L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 32L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 64L;
+
+	public static final long REMOTEAPPID_COLUMN_BITMASK = 128L;
+
+	public static final long TITLE_COLUMN_BITMASK = 256L;
+
+	public static final long DESCRIPTION_COLUMN_BITMASK = 512L;
+
+	public static final long CATEGORY_COLUMN_BITMASK = 1024L;
+
+	public static final long ICONURL_COLUMN_BITMASK = 2048L;
+
+	public static final long VERSION_COLUMN_BITMASK = 4096L;
+
+	public static final long REQUIRED_COLUMN_BITMASK = 8192L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -300,57 +317,129 @@ public class AppModelImpl extends BaseModelImpl<App> implements AppModel {
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<App, Object> function = _attributeGetterFunctions.get(
+			attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((App)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<AppCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_appCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_appCacheModel);
+	}
+
 	private static final Map<String, Function<App, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<App, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<AppCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<App, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<App, Object>>();
 		Map<String, BiConsumer<App, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<App, ?>>();
+		Map<String, Function<AppCacheModel, Object>> cacheModelGetterFunctions =
+			new LinkedHashMap<String, Function<AppCacheModel, Object>>();
 
 		attributeGetterFunctions.put("uuid", App::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid", appCacheModel -> appCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<App, String>)App::setUuid);
 		attributeGetterFunctions.put("appId", App::getAppId);
+
+		cacheModelGetterFunctions.put(
+			"appId", appCacheModel -> appCacheModel.appId);
 		attributeSetterBiConsumers.put(
 			"appId", (BiConsumer<App, Long>)App::setAppId);
 		attributeGetterFunctions.put("companyId", App::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId", appCacheModel -> appCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId", (BiConsumer<App, Long>)App::setCompanyId);
 		attributeGetterFunctions.put("userId", App::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", appCacheModel -> appCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<App, Long>)App::setUserId);
 		attributeGetterFunctions.put("userName", App::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName", appCacheModel -> appCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName", (BiConsumer<App, String>)App::setUserName);
 		attributeGetterFunctions.put("createDate", App::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate", appCacheModel -> appCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate", (BiConsumer<App, Date>)App::setCreateDate);
 		attributeGetterFunctions.put("modifiedDate", App::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate", appCacheModel -> appCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate", (BiConsumer<App, Date>)App::setModifiedDate);
 		attributeGetterFunctions.put("remoteAppId", App::getRemoteAppId);
+
+		cacheModelGetterFunctions.put(
+			"remoteAppId", appCacheModel -> appCacheModel.remoteAppId);
 		attributeSetterBiConsumers.put(
 			"remoteAppId", (BiConsumer<App, Long>)App::setRemoteAppId);
 		attributeGetterFunctions.put("title", App::getTitle);
+
+		cacheModelGetterFunctions.put(
+			"title", appCacheModel -> appCacheModel.title);
 		attributeSetterBiConsumers.put(
 			"title", (BiConsumer<App, String>)App::setTitle);
 		attributeGetterFunctions.put("description", App::getDescription);
+
+		cacheModelGetterFunctions.put(
+			"description", appCacheModel -> appCacheModel.description);
 		attributeSetterBiConsumers.put(
 			"description", (BiConsumer<App, String>)App::setDescription);
 		attributeGetterFunctions.put("category", App::getCategory);
+
+		cacheModelGetterFunctions.put(
+			"category", appCacheModel -> appCacheModel.category);
 		attributeSetterBiConsumers.put(
 			"category", (BiConsumer<App, String>)App::setCategory);
 		attributeGetterFunctions.put("iconURL", App::getIconURL);
+
+		cacheModelGetterFunctions.put(
+			"iconURL", appCacheModel -> appCacheModel.iconURL);
 		attributeSetterBiConsumers.put(
 			"iconURL", (BiConsumer<App, String>)App::setIconURL);
 		attributeGetterFunctions.put("version", App::getVersion);
+
+		cacheModelGetterFunctions.put(
+			"version", appCacheModel -> appCacheModel.version);
 		attributeSetterBiConsumers.put(
 			"version", (BiConsumer<App, String>)App::setVersion);
 		attributeGetterFunctions.put("required", App::getRequired);
+
+		cacheModelGetterFunctions.put(
+			"required", appCacheModel -> appCacheModel.required);
 		attributeSetterBiConsumers.put(
 			"required", (BiConsumer<App, Boolean>)App::setRequired);
 
@@ -358,6 +447,8 @@ public class AppModelImpl extends BaseModelImpl<App> implements AppModel {
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -375,15 +466,20 @@ public class AppModelImpl extends BaseModelImpl<App> implements AppModel {
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (!isNew() && (_appCacheModel == null)) {
+			_appCacheModel = (AppCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getCacheModelAttribute("uuid");
 	}
 
 	@JSON
@@ -394,6 +490,12 @@ public class AppModelImpl extends BaseModelImpl<App> implements AppModel {
 
 	@Override
 	public void setAppId(long appId) {
+		_columnBitmask |= APPID_COLUMN_BITMASK;
+
+		if (!isNew() && (_appCacheModel == null)) {
+			_appCacheModel = (AppCacheModel)toCacheModel();
+		}
+
 		_appId = appId;
 	}
 
@@ -407,17 +509,20 @@ public class AppModelImpl extends BaseModelImpl<App> implements AppModel {
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (!isNew() && (_appCacheModel == null)) {
+			_appCacheModel = (AppCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getCacheModelAttribute("companyId");
 	}
 
 	@JSON
@@ -428,6 +533,12 @@ public class AppModelImpl extends BaseModelImpl<App> implements AppModel {
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_appCacheModel == null)) {
+			_appCacheModel = (AppCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -460,6 +571,12 @@ public class AppModelImpl extends BaseModelImpl<App> implements AppModel {
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_appCacheModel == null)) {
+			_appCacheModel = (AppCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -471,6 +588,12 @@ public class AppModelImpl extends BaseModelImpl<App> implements AppModel {
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_appCacheModel == null)) {
+			_appCacheModel = (AppCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -488,6 +611,12 @@ public class AppModelImpl extends BaseModelImpl<App> implements AppModel {
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_appCacheModel == null)) {
+			_appCacheModel = (AppCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -501,17 +630,20 @@ public class AppModelImpl extends BaseModelImpl<App> implements AppModel {
 	public void setRemoteAppId(long remoteAppId) {
 		_columnBitmask |= REMOTEAPPID_COLUMN_BITMASK;
 
-		if (!_setOriginalRemoteAppId) {
-			_setOriginalRemoteAppId = true;
-
-			_originalRemoteAppId = _remoteAppId;
+		if (!isNew() && (_appCacheModel == null)) {
+			_appCacheModel = (AppCacheModel)toCacheModel();
 		}
 
 		_remoteAppId = remoteAppId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalRemoteAppId() {
-		return _originalRemoteAppId;
+		return getCacheModelAttribute("remoteAppId");
 	}
 
 	@JSON
@@ -527,6 +659,12 @@ public class AppModelImpl extends BaseModelImpl<App> implements AppModel {
 
 	@Override
 	public void setTitle(String title) {
+		_columnBitmask |= TITLE_COLUMN_BITMASK;
+
+		if (!isNew() && (_appCacheModel == null)) {
+			_appCacheModel = (AppCacheModel)toCacheModel();
+		}
+
 		_title = title;
 	}
 
@@ -543,6 +681,12 @@ public class AppModelImpl extends BaseModelImpl<App> implements AppModel {
 
 	@Override
 	public void setDescription(String description) {
+		_columnBitmask |= DESCRIPTION_COLUMN_BITMASK;
+
+		if (!isNew() && (_appCacheModel == null)) {
+			_appCacheModel = (AppCacheModel)toCacheModel();
+		}
+
 		_description = description;
 	}
 
@@ -561,15 +705,20 @@ public class AppModelImpl extends BaseModelImpl<App> implements AppModel {
 	public void setCategory(String category) {
 		_columnBitmask |= CATEGORY_COLUMN_BITMASK;
 
-		if (_originalCategory == null) {
-			_originalCategory = _category;
+		if (!isNew() && (_appCacheModel == null)) {
+			_appCacheModel = (AppCacheModel)toCacheModel();
 		}
 
 		_category = category;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalCategory() {
-		return GetterUtil.getString(_originalCategory);
+		return getCacheModelAttribute("category");
 	}
 
 	@JSON
@@ -585,6 +734,12 @@ public class AppModelImpl extends BaseModelImpl<App> implements AppModel {
 
 	@Override
 	public void setIconURL(String iconURL) {
+		_columnBitmask |= ICONURL_COLUMN_BITMASK;
+
+		if (!isNew() && (_appCacheModel == null)) {
+			_appCacheModel = (AppCacheModel)toCacheModel();
+		}
+
 		_iconURL = iconURL;
 	}
 
@@ -601,6 +756,12 @@ public class AppModelImpl extends BaseModelImpl<App> implements AppModel {
 
 	@Override
 	public void setVersion(String version) {
+		_columnBitmask |= VERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_appCacheModel == null)) {
+			_appCacheModel = (AppCacheModel)toCacheModel();
+		}
+
 		_version = version;
 	}
 
@@ -618,6 +779,12 @@ public class AppModelImpl extends BaseModelImpl<App> implements AppModel {
 
 	@Override
 	public void setRequired(boolean required) {
+		_columnBitmask |= REQUIRED_COLUMN_BITMASK;
+
+		if (!isNew() && (_appCacheModel == null)) {
+			_appCacheModel = (AppCacheModel)toCacheModel();
+		}
+
 		_required = required;
 	}
 
@@ -744,23 +911,11 @@ public class AppModelImpl extends BaseModelImpl<App> implements AppModel {
 
 	@Override
 	public void resetOriginalValues() {
-		AppModelImpl appModelImpl = this;
+		_setModifiedDate = false;
 
-		appModelImpl._originalUuid = appModelImpl._uuid;
+		_columnBitmask = 0;
 
-		appModelImpl._originalCompanyId = appModelImpl._companyId;
-
-		appModelImpl._setOriginalCompanyId = false;
-
-		appModelImpl._setModifiedDate = false;
-
-		appModelImpl._originalRemoteAppId = appModelImpl._remoteAppId;
-
-		appModelImpl._setOriginalRemoteAppId = false;
-
-		appModelImpl._originalCategory = appModelImpl._category;
-
-		appModelImpl._columnBitmask = 0;
+		_appCacheModel = null;
 	}
 
 	@Override
@@ -923,27 +1078,22 @@ public class AppModelImpl extends BaseModelImpl<App> implements AppModel {
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _appId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _remoteAppId;
-	private long _originalRemoteAppId;
-	private boolean _setOriginalRemoteAppId;
 	private String _title;
 	private String _description;
 	private String _category;
-	private String _originalCategory;
 	private String _iconURL;
 	private String _version;
 	private boolean _required;
 	private long _columnBitmask;
 	private App _escapedModel;
+	private AppCacheModel _appCacheModel;
 
 }

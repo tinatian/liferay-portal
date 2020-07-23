@@ -100,6 +100,8 @@ public class PasswordPolicyRelCacheModel
 		PasswordPolicyRelImpl passwordPolicyRelImpl =
 			new PasswordPolicyRelImpl();
 
+		passwordPolicyRelImpl.setNew(true);
+
 		passwordPolicyRelImpl.setMvccVersion(mvccVersion);
 		passwordPolicyRelImpl.setPasswordPolicyRelId(passwordPolicyRelId);
 		passwordPolicyRelImpl.setCompanyId(companyId);
@@ -108,6 +110,8 @@ public class PasswordPolicyRelCacheModel
 		passwordPolicyRelImpl.setClassPK(classPK);
 
 		passwordPolicyRelImpl.resetOriginalValues();
+
+		passwordPolicyRelImpl.setNew(false);
 
 		return passwordPolicyRelImpl;
 	}

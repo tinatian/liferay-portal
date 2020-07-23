@@ -1263,8 +1263,9 @@ public class DepotAppCustomizationPersistenceImpl
 			 _finderPathFetchByD_E.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				depotAppCustomizationModelImpl.getOriginalDepotEntryId(),
-				depotAppCustomizationModelImpl.getOriginalEnabled()
+				depotAppCustomizationModelImpl.getCacheModelAttribute(
+					"depotEntryId"),
+				depotAppCustomizationModelImpl.getCacheModelAttribute("enabled")
 			};
 
 			finderCache.removeResult(_finderPathCountByD_E, args);
@@ -1285,8 +1286,10 @@ public class DepotAppCustomizationPersistenceImpl
 			 _finderPathFetchByD_P.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				depotAppCustomizationModelImpl.getOriginalDepotEntryId(),
-				depotAppCustomizationModelImpl.getOriginalPortletId()
+				depotAppCustomizationModelImpl.getCacheModelAttribute(
+					"depotEntryId"),
+				depotAppCustomizationModelImpl.getCacheModelAttribute(
+					"portletId")
 			};
 
 			finderCache.removeResult(_finderPathCountByD_P, args);
@@ -1473,7 +1476,8 @@ public class DepotAppCustomizationPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					depotAppCustomizationModelImpl.getOriginalDepotEntryId()
+					depotAppCustomizationModelImpl.getCacheModelAttribute(
+						"depotEntryId")
 				};
 
 				finderCache.removeResult(_finderPathCountByDepotEntryId, args);

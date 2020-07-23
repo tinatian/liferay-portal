@@ -2690,8 +2690,8 @@ public class KaleoProcessPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				kaleoProcessModelImpl.getOriginalUuid(),
-				kaleoProcessModelImpl.getOriginalGroupId()
+				kaleoProcessModelImpl.getCacheModelAttribute("uuid"),
+				kaleoProcessModelImpl.getCacheModelAttribute("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -2711,7 +2711,7 @@ public class KaleoProcessPersistenceImpl
 			 _finderPathFetchByDDLRecordSetId.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				kaleoProcessModelImpl.getOriginalDDLRecordSetId()
+				kaleoProcessModelImpl.getCacheModelAttribute("DDLRecordSetId")
 			};
 
 			finderCache.removeResult(_finderPathCountByDDLRecordSetId, args);
@@ -2935,7 +2935,7 @@ public class KaleoProcessPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					kaleoProcessModelImpl.getOriginalUuid()
+					kaleoProcessModelImpl.getCacheModelAttribute("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -2954,8 +2954,8 @@ public class KaleoProcessPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					kaleoProcessModelImpl.getOriginalUuid(),
-					kaleoProcessModelImpl.getOriginalCompanyId()
+					kaleoProcessModelImpl.getCacheModelAttribute("uuid"),
+					kaleoProcessModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -2977,7 +2977,7 @@ public class KaleoProcessPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoProcessModelImpl.getOriginalGroupId()
+					kaleoProcessModelImpl.getCacheModelAttribute("groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId, args);

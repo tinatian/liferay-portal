@@ -120,6 +120,8 @@ public class AssetVocabularyCacheModel
 	public AssetVocabulary toEntityModel() {
 		AssetVocabularyImpl assetVocabularyImpl = new AssetVocabularyImpl();
 
+		assetVocabularyImpl.setNew(true);
+
 		assetVocabularyImpl.setMvccVersion(mvccVersion);
 		assetVocabularyImpl.setCtCollectionId(ctCollectionId);
 
@@ -199,6 +201,8 @@ public class AssetVocabularyCacheModel
 		}
 
 		assetVocabularyImpl.resetOriginalValues();
+
+		assetVocabularyImpl.setNew(false);
 
 		return assetVocabularyImpl;
 	}

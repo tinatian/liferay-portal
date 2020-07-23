@@ -5926,8 +5926,8 @@ public class DLFileVersionPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				dlFileVersionModelImpl.getOriginalUuid(),
-				dlFileVersionModelImpl.getOriginalGroupId()
+				dlFileVersionModelImpl.getCacheModelAttribute("uuid"),
+				dlFileVersionModelImpl.getCacheModelAttribute("groupId")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByUUID_G, args);
@@ -5948,8 +5948,8 @@ public class DLFileVersionPersistenceImpl
 			 _finderPathFetchByF_V.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				dlFileVersionModelImpl.getOriginalFileEntryId(),
-				dlFileVersionModelImpl.getOriginalVersion()
+				dlFileVersionModelImpl.getCacheModelAttribute("fileEntryId"),
+				dlFileVersionModelImpl.getCacheModelAttribute("version")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByF_V, args);
@@ -6236,7 +6236,7 @@ public class DLFileVersionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					dlFileVersionModelImpl.getOriginalUuid()
+					dlFileVersionModelImpl.getCacheModelAttribute("uuid")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid, args);
@@ -6255,8 +6255,8 @@ public class DLFileVersionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					dlFileVersionModelImpl.getOriginalUuid(),
-					dlFileVersionModelImpl.getOriginalCompanyId()
+					dlFileVersionModelImpl.getCacheModelAttribute("uuid"),
+					dlFileVersionModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid_C, args);
@@ -6278,7 +6278,7 @@ public class DLFileVersionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					dlFileVersionModelImpl.getOriginalCompanyId()
+					dlFileVersionModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
@@ -6297,7 +6297,7 @@ public class DLFileVersionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					dlFileVersionModelImpl.getOriginalFileEntryId()
+					dlFileVersionModelImpl.getCacheModelAttribute("fileEntryId")
 				};
 
 				FinderCacheUtil.removeResult(
@@ -6318,7 +6318,7 @@ public class DLFileVersionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					dlFileVersionModelImpl.getOriginalMimeType()
+					dlFileVersionModelImpl.getCacheModelAttribute("mimeType")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByMimeType, args);
@@ -6337,8 +6337,9 @@ public class DLFileVersionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					dlFileVersionModelImpl.getOriginalFileEntryId(),
-					dlFileVersionModelImpl.getOriginalStatus()
+					dlFileVersionModelImpl.getCacheModelAttribute(
+						"fileEntryId"),
+					dlFileVersionModelImpl.getCacheModelAttribute("status")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByF_S, args);
@@ -6360,9 +6361,9 @@ public class DLFileVersionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					dlFileVersionModelImpl.getOriginalGroupId(),
-					dlFileVersionModelImpl.getOriginalFolderId(),
-					dlFileVersionModelImpl.getOriginalStatus()
+					dlFileVersionModelImpl.getCacheModelAttribute("groupId"),
+					dlFileVersionModelImpl.getCacheModelAttribute("folderId"),
+					dlFileVersionModelImpl.getCacheModelAttribute("status")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByG_F_S, args);
@@ -6385,10 +6386,10 @@ public class DLFileVersionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					dlFileVersionModelImpl.getOriginalGroupId(),
-					dlFileVersionModelImpl.getOriginalFolderId(),
-					dlFileVersionModelImpl.getOriginalTitle(),
-					dlFileVersionModelImpl.getOriginalVersion()
+					dlFileVersionModelImpl.getCacheModelAttribute("groupId"),
+					dlFileVersionModelImpl.getCacheModelAttribute("folderId"),
+					dlFileVersionModelImpl.getCacheModelAttribute("title"),
+					dlFileVersionModelImpl.getCacheModelAttribute("version")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByG_F_T_V, args);

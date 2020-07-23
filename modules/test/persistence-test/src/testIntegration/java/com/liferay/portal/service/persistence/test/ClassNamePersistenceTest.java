@@ -399,7 +399,8 @@ public class ClassNamePersistenceTest {
 			Objects.equals(
 				existingClassName.getValue(),
 				ReflectionTestUtil.invoke(
-					existingClassName, "getOriginalValue", new Class<?>[0])));
+					existingClassName, "getCacheModelAttribute",
+					new Class<?>[] {String.class}, value)));
 	}
 
 	protected ClassName addClassName() throws Exception {

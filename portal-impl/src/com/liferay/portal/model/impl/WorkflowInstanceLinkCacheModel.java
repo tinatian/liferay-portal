@@ -114,6 +114,8 @@ public class WorkflowInstanceLinkCacheModel
 		WorkflowInstanceLinkImpl workflowInstanceLinkImpl =
 			new WorkflowInstanceLinkImpl();
 
+		workflowInstanceLinkImpl.setNew(true);
+
 		workflowInstanceLinkImpl.setMvccVersion(mvccVersion);
 		workflowInstanceLinkImpl.setCtCollectionId(ctCollectionId);
 		workflowInstanceLinkImpl.setWorkflowInstanceLinkId(
@@ -148,6 +150,8 @@ public class WorkflowInstanceLinkCacheModel
 		workflowInstanceLinkImpl.setWorkflowInstanceId(workflowInstanceId);
 
 		workflowInstanceLinkImpl.resetOriginalValues();
+
+		workflowInstanceLinkImpl.setNew(false);
 
 		return workflowInstanceLinkImpl;
 	}

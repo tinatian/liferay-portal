@@ -5088,8 +5088,10 @@ public class WorkflowMetricsSLADefinitionPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				workflowMetricsSLADefinitionModelImpl.getOriginalUuid(),
-				workflowMetricsSLADefinitionModelImpl.getOriginalGroupId()
+				workflowMetricsSLADefinitionModelImpl.getCacheModelAttribute(
+					"uuid"),
+				workflowMetricsSLADefinitionModelImpl.getCacheModelAttribute(
+					"groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -5111,9 +5113,10 @@ public class WorkflowMetricsSLADefinitionPersistenceImpl
 			 _finderPathFetchByWMSLAD_A.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				workflowMetricsSLADefinitionModelImpl.
-					getOriginalWorkflowMetricsSLADefinitionId(),
-				workflowMetricsSLADefinitionModelImpl.getOriginalActive()
+				workflowMetricsSLADefinitionModelImpl.getCacheModelAttribute(
+					"workflowMetricsSLADefinitionId"),
+				workflowMetricsSLADefinitionModelImpl.getCacheModelAttribute(
+					"active")
 			};
 
 			finderCache.removeResult(_finderPathCountByWMSLAD_A, args);
@@ -5396,7 +5399,8 @@ public class WorkflowMetricsSLADefinitionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					workflowMetricsSLADefinitionModelImpl.getOriginalUuid()
+					workflowMetricsSLADefinitionModelImpl.
+						getCacheModelAttribute("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -5417,8 +5421,10 @@ public class WorkflowMetricsSLADefinitionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					workflowMetricsSLADefinitionModelImpl.getOriginalUuid(),
-					workflowMetricsSLADefinitionModelImpl.getOriginalCompanyId()
+					workflowMetricsSLADefinitionModelImpl.
+						getCacheModelAttribute("uuid"),
+					workflowMetricsSLADefinitionModelImpl.
+						getCacheModelAttribute("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -5441,8 +5447,9 @@ public class WorkflowMetricsSLADefinitionPersistenceImpl
 
 				Object[] args = new Object[] {
 					workflowMetricsSLADefinitionModelImpl.
-						getOriginalCompanyId(),
-					workflowMetricsSLADefinitionModelImpl.getOriginalStatus()
+						getCacheModelAttribute("companyId"),
+					workflowMetricsSLADefinitionModelImpl.
+						getCacheModelAttribute("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_S, args);
@@ -5465,9 +5472,11 @@ public class WorkflowMetricsSLADefinitionPersistenceImpl
 
 				Object[] args = new Object[] {
 					workflowMetricsSLADefinitionModelImpl.
-						getOriginalCompanyId(),
-					workflowMetricsSLADefinitionModelImpl.getOriginalActive(),
-					workflowMetricsSLADefinitionModelImpl.getOriginalProcessId()
+						getCacheModelAttribute("companyId"),
+					workflowMetricsSLADefinitionModelImpl.
+						getCacheModelAttribute("active"),
+					workflowMetricsSLADefinitionModelImpl.
+						getCacheModelAttribute("processId")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_A_P, args);
@@ -5491,10 +5500,13 @@ public class WorkflowMetricsSLADefinitionPersistenceImpl
 
 				Object[] args = new Object[] {
 					workflowMetricsSLADefinitionModelImpl.
-						getOriginalCompanyId(),
-					workflowMetricsSLADefinitionModelImpl.getOriginalActive(),
-					workflowMetricsSLADefinitionModelImpl.getOriginalName(),
-					workflowMetricsSLADefinitionModelImpl.getOriginalProcessId()
+						getCacheModelAttribute("companyId"),
+					workflowMetricsSLADefinitionModelImpl.
+						getCacheModelAttribute("active"),
+					workflowMetricsSLADefinitionModelImpl.
+						getCacheModelAttribute("name"),
+					workflowMetricsSLADefinitionModelImpl.
+						getCacheModelAttribute("processId")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_A_N_P, args);
@@ -5519,11 +5531,13 @@ public class WorkflowMetricsSLADefinitionPersistenceImpl
 
 				Object[] args = new Object[] {
 					workflowMetricsSLADefinitionModelImpl.
-						getOriginalCompanyId(),
-					workflowMetricsSLADefinitionModelImpl.getOriginalActive(),
+						getCacheModelAttribute("companyId"),
 					workflowMetricsSLADefinitionModelImpl.
-						getOriginalProcessId(),
-					workflowMetricsSLADefinitionModelImpl.getOriginalStatus()
+						getCacheModelAttribute("active"),
+					workflowMetricsSLADefinitionModelImpl.
+						getCacheModelAttribute("processId"),
+					workflowMetricsSLADefinitionModelImpl.
+						getCacheModelAttribute("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_A_P_S, args);

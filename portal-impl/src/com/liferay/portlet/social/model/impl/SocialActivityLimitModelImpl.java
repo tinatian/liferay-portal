@@ -130,19 +130,27 @@ public class SocialActivityLimitModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long ACTIVITYCOUNTERNAME_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long ACTIVITYTYPE_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
-	public static final long CLASSNAMEID_COLUMN_BITMASK = 4L;
+	public static final long ACTIVITYLIMITID_COLUMN_BITMASK = 4L;
 
-	public static final long CLASSPK_COLUMN_BITMASK = 8L;
+	public static final long GROUPID_COLUMN_BITMASK = 8L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 16L;
+	public static final long COMPANYID_COLUMN_BITMASK = 16L;
 
 	public static final long USERID_COLUMN_BITMASK = 32L;
 
-	public static final long ACTIVITYLIMITID_COLUMN_BITMASK = 64L;
+	public static final long CLASSNAMEID_COLUMN_BITMASK = 64L;
+
+	public static final long CLASSPK_COLUMN_BITMASK = 128L;
+
+	public static final long ACTIVITYTYPE_COLUMN_BITMASK = 256L;
+
+	public static final long ACTIVITYCOUNTERNAME_COLUMN_BITMASK = 512L;
+
+	public static final long VALUE_COLUMN_BITMASK = 1024L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		com.liferay.portal.util.PropsUtil.get(
@@ -261,10 +269,39 @@ public class SocialActivityLimitModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<SocialActivityLimit, Object> function =
+			_attributeGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((SocialActivityLimit)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<SocialActivityLimitCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_socialActivityLimitCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_socialActivityLimitCacheModel);
+	}
+
 	private static final Map<String, Function<SocialActivityLimit, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<SocialActivityLimit, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<SocialActivityLimitCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<SocialActivityLimit, Object>>
@@ -274,67 +311,126 @@ public class SocialActivityLimitModelImpl
 		Map<String, BiConsumer<SocialActivityLimit, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<SocialActivityLimit, ?>>();
+		Map<String, Function<SocialActivityLimitCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<SocialActivityLimitCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", SocialActivityLimit::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			socialActivityLimitCacheModel ->
+				socialActivityLimitCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<SocialActivityLimit, Long>)
 				SocialActivityLimit::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", SocialActivityLimit::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			socialActivityLimitCacheModel ->
+				socialActivityLimitCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<SocialActivityLimit, Long>)
 				SocialActivityLimit::setCtCollectionId);
 		attributeGetterFunctions.put(
 			"activityLimitId", SocialActivityLimit::getActivityLimitId);
+
+		cacheModelGetterFunctions.put(
+			"activityLimitId",
+			socialActivityLimitCacheModel ->
+				socialActivityLimitCacheModel.activityLimitId);
 		attributeSetterBiConsumers.put(
 			"activityLimitId",
 			(BiConsumer<SocialActivityLimit, Long>)
 				SocialActivityLimit::setActivityLimitId);
 		attributeGetterFunctions.put(
 			"groupId", SocialActivityLimit::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			socialActivityLimitCacheModel ->
+				socialActivityLimitCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<SocialActivityLimit, Long>)
 				SocialActivityLimit::setGroupId);
 		attributeGetterFunctions.put(
 			"companyId", SocialActivityLimit::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			socialActivityLimitCacheModel ->
+				socialActivityLimitCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<SocialActivityLimit, Long>)
 				SocialActivityLimit::setCompanyId);
 		attributeGetterFunctions.put("userId", SocialActivityLimit::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			socialActivityLimitCacheModel ->
+				socialActivityLimitCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<SocialActivityLimit, Long>)
 				SocialActivityLimit::setUserId);
 		attributeGetterFunctions.put(
 			"classNameId", SocialActivityLimit::getClassNameId);
+
+		cacheModelGetterFunctions.put(
+			"classNameId",
+			socialActivityLimitCacheModel ->
+				socialActivityLimitCacheModel.classNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<SocialActivityLimit, Long>)
 				SocialActivityLimit::setClassNameId);
 		attributeGetterFunctions.put(
 			"classPK", SocialActivityLimit::getClassPK);
+
+		cacheModelGetterFunctions.put(
+			"classPK",
+			socialActivityLimitCacheModel ->
+				socialActivityLimitCacheModel.classPK);
 		attributeSetterBiConsumers.put(
 			"classPK",
 			(BiConsumer<SocialActivityLimit, Long>)
 				SocialActivityLimit::setClassPK);
 		attributeGetterFunctions.put(
 			"activityType", SocialActivityLimit::getActivityType);
+
+		cacheModelGetterFunctions.put(
+			"activityType",
+			socialActivityLimitCacheModel ->
+				socialActivityLimitCacheModel.activityType);
 		attributeSetterBiConsumers.put(
 			"activityType",
 			(BiConsumer<SocialActivityLimit, Integer>)
 				SocialActivityLimit::setActivityType);
 		attributeGetterFunctions.put(
 			"activityCounterName", SocialActivityLimit::getActivityCounterName);
+
+		cacheModelGetterFunctions.put(
+			"activityCounterName",
+			socialActivityLimitCacheModel ->
+				socialActivityLimitCacheModel.activityCounterName);
 		attributeSetterBiConsumers.put(
 			"activityCounterName",
 			(BiConsumer<SocialActivityLimit, String>)
 				SocialActivityLimit::setActivityCounterName);
 		attributeGetterFunctions.put("value", SocialActivityLimit::getValue);
+
+		cacheModelGetterFunctions.put(
+			"value",
+			socialActivityLimitCacheModel ->
+				socialActivityLimitCacheModel.value);
 		attributeSetterBiConsumers.put(
 			"value",
 			(BiConsumer<SocialActivityLimit, String>)
@@ -344,6 +440,8 @@ public class SocialActivityLimitModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -353,6 +451,13 @@ public class SocialActivityLimitModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_socialActivityLimitCacheModel == null)) {
+			_socialActivityLimitCacheModel =
+				(SocialActivityLimitCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -363,6 +468,13 @@ public class SocialActivityLimitModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (!isNew() && (_socialActivityLimitCacheModel == null)) {
+			_socialActivityLimitCacheModel =
+				(SocialActivityLimitCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -373,6 +485,13 @@ public class SocialActivityLimitModelImpl
 
 	@Override
 	public void setActivityLimitId(long activityLimitId) {
+		_columnBitmask |= ACTIVITYLIMITID_COLUMN_BITMASK;
+
+		if (!isNew() && (_socialActivityLimitCacheModel == null)) {
+			_socialActivityLimitCacheModel =
+				(SocialActivityLimitCacheModel)toCacheModel();
+		}
+
 		_activityLimitId = activityLimitId;
 	}
 
@@ -385,17 +504,21 @@ public class SocialActivityLimitModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (!isNew() && (_socialActivityLimitCacheModel == null)) {
+			_socialActivityLimitCacheModel =
+				(SocialActivityLimitCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getCacheModelAttribute("groupId");
 	}
 
 	@Override
@@ -405,6 +528,13 @@ public class SocialActivityLimitModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (!isNew() && (_socialActivityLimitCacheModel == null)) {
+			_socialActivityLimitCacheModel =
+				(SocialActivityLimitCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -417,10 +547,9 @@ public class SocialActivityLimitModelImpl
 	public void setUserId(long userId) {
 		_columnBitmask |= USERID_COLUMN_BITMASK;
 
-		if (!_setOriginalUserId) {
-			_setOriginalUserId = true;
-
-			_originalUserId = _userId;
+		if (!isNew() && (_socialActivityLimitCacheModel == null)) {
+			_socialActivityLimitCacheModel =
+				(SocialActivityLimitCacheModel)toCacheModel();
 		}
 
 		_userId = userId;
@@ -442,8 +571,13 @@ public class SocialActivityLimitModelImpl
 	public void setUserUuid(String userUuid) {
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalUserId() {
-		return _originalUserId;
+		return getCacheModelAttribute("userId");
 	}
 
 	@Override
@@ -475,17 +609,21 @@ public class SocialActivityLimitModelImpl
 	public void setClassNameId(long classNameId) {
 		_columnBitmask |= CLASSNAMEID_COLUMN_BITMASK;
 
-		if (!_setOriginalClassNameId) {
-			_setOriginalClassNameId = true;
-
-			_originalClassNameId = _classNameId;
+		if (!isNew() && (_socialActivityLimitCacheModel == null)) {
+			_socialActivityLimitCacheModel =
+				(SocialActivityLimitCacheModel)toCacheModel();
 		}
 
 		_classNameId = classNameId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassNameId() {
-		return _originalClassNameId;
+		return getCacheModelAttribute("classNameId");
 	}
 
 	@Override
@@ -497,17 +635,21 @@ public class SocialActivityLimitModelImpl
 	public void setClassPK(long classPK) {
 		_columnBitmask |= CLASSPK_COLUMN_BITMASK;
 
-		if (!_setOriginalClassPK) {
-			_setOriginalClassPK = true;
-
-			_originalClassPK = _classPK;
+		if (!isNew() && (_socialActivityLimitCacheModel == null)) {
+			_socialActivityLimitCacheModel =
+				(SocialActivityLimitCacheModel)toCacheModel();
 		}
 
 		_classPK = classPK;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassPK() {
-		return _originalClassPK;
+		return getCacheModelAttribute("classPK");
 	}
 
 	@Override
@@ -519,17 +661,21 @@ public class SocialActivityLimitModelImpl
 	public void setActivityType(int activityType) {
 		_columnBitmask |= ACTIVITYTYPE_COLUMN_BITMASK;
 
-		if (!_setOriginalActivityType) {
-			_setOriginalActivityType = true;
-
-			_originalActivityType = _activityType;
+		if (!isNew() && (_socialActivityLimitCacheModel == null)) {
+			_socialActivityLimitCacheModel =
+				(SocialActivityLimitCacheModel)toCacheModel();
 		}
 
 		_activityType = activityType;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public int getOriginalActivityType() {
-		return _originalActivityType;
+		return getCacheModelAttribute("activityType");
 	}
 
 	@Override
@@ -546,15 +692,21 @@ public class SocialActivityLimitModelImpl
 	public void setActivityCounterName(String activityCounterName) {
 		_columnBitmask |= ACTIVITYCOUNTERNAME_COLUMN_BITMASK;
 
-		if (_originalActivityCounterName == null) {
-			_originalActivityCounterName = _activityCounterName;
+		if (!isNew() && (_socialActivityLimitCacheModel == null)) {
+			_socialActivityLimitCacheModel =
+				(SocialActivityLimitCacheModel)toCacheModel();
 		}
 
 		_activityCounterName = activityCounterName;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalActivityCounterName() {
-		return GetterUtil.getString(_originalActivityCounterName);
+		return getCacheModelAttribute("activityCounterName");
 	}
 
 	@Override
@@ -569,6 +721,13 @@ public class SocialActivityLimitModelImpl
 
 	@Override
 	public void setValue(String value) {
+		_columnBitmask |= VALUE_COLUMN_BITMASK;
+
+		if (!isNew() && (_socialActivityLimitCacheModel == null)) {
+			_socialActivityLimitCacheModel =
+				(SocialActivityLimitCacheModel)toCacheModel();
+		}
+
 		_value = value;
 	}
 
@@ -690,37 +849,9 @@ public class SocialActivityLimitModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		SocialActivityLimitModelImpl socialActivityLimitModelImpl = this;
+		_columnBitmask = 0;
 
-		socialActivityLimitModelImpl._originalGroupId =
-			socialActivityLimitModelImpl._groupId;
-
-		socialActivityLimitModelImpl._setOriginalGroupId = false;
-
-		socialActivityLimitModelImpl._originalUserId =
-			socialActivityLimitModelImpl._userId;
-
-		socialActivityLimitModelImpl._setOriginalUserId = false;
-
-		socialActivityLimitModelImpl._originalClassNameId =
-			socialActivityLimitModelImpl._classNameId;
-
-		socialActivityLimitModelImpl._setOriginalClassNameId = false;
-
-		socialActivityLimitModelImpl._originalClassPK =
-			socialActivityLimitModelImpl._classPK;
-
-		socialActivityLimitModelImpl._setOriginalClassPK = false;
-
-		socialActivityLimitModelImpl._originalActivityType =
-			socialActivityLimitModelImpl._activityType;
-
-		socialActivityLimitModelImpl._setOriginalActivityType = false;
-
-		socialActivityLimitModelImpl._originalActivityCounterName =
-			socialActivityLimitModelImpl._activityCounterName;
-
-		socialActivityLimitModelImpl._columnBitmask = 0;
+		_socialActivityLimitCacheModel = null;
 	}
 
 	@Override
@@ -843,25 +974,15 @@ public class SocialActivityLimitModelImpl
 	private long _ctCollectionId;
 	private long _activityLimitId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
 	private long _userId;
-	private long _originalUserId;
-	private boolean _setOriginalUserId;
 	private long _classNameId;
-	private long _originalClassNameId;
-	private boolean _setOriginalClassNameId;
 	private long _classPK;
-	private long _originalClassPK;
-	private boolean _setOriginalClassPK;
 	private int _activityType;
-	private int _originalActivityType;
-	private boolean _setOriginalActivityType;
 	private String _activityCounterName;
-	private String _originalActivityCounterName;
 	private String _value;
 	private long _columnBitmask;
 	private SocialActivityLimit _escapedModel;
+	private SocialActivityLimitCacheModel _socialActivityLimitCacheModel;
 
 }

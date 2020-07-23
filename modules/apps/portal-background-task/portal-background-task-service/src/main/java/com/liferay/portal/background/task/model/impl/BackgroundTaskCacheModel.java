@@ -122,6 +122,8 @@ public class BackgroundTaskCacheModel
 	public BackgroundTask toEntityModel() {
 		BackgroundTaskImpl backgroundTaskImpl = new BackgroundTaskImpl();
 
+		backgroundTaskImpl.setNew(true);
+
 		backgroundTaskImpl.setMvccVersion(mvccVersion);
 		backgroundTaskImpl.setBackgroundTaskId(backgroundTaskId);
 		backgroundTaskImpl.setGroupId(groupId);
@@ -190,6 +192,8 @@ public class BackgroundTaskCacheModel
 		}
 
 		backgroundTaskImpl.resetOriginalValues();
+
+		backgroundTaskImpl.setNew(false);
 
 		return backgroundTaskImpl;
 	}

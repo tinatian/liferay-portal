@@ -150,6 +150,8 @@ public class DLFileEntryCacheModel
 	public DLFileEntry toEntityModel() {
 		DLFileEntryImpl dlFileEntryImpl = new DLFileEntryImpl();
 
+		dlFileEntryImpl.setNew(true);
+
 		dlFileEntryImpl.setMvccVersion(mvccVersion);
 		dlFileEntryImpl.setCtCollectionId(ctCollectionId);
 
@@ -271,6 +273,8 @@ public class DLFileEntryCacheModel
 		}
 
 		dlFileEntryImpl.resetOriginalValues();
+
+		dlFileEntryImpl.setNew(false);
 
 		return dlFileEntryImpl;
 	}

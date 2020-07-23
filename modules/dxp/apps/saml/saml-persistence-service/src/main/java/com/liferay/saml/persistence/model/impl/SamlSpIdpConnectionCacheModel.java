@@ -116,6 +116,8 @@ public class SamlSpIdpConnectionCacheModel
 		SamlSpIdpConnectionImpl samlSpIdpConnectionImpl =
 			new SamlSpIdpConnectionImpl();
 
+		samlSpIdpConnectionImpl.setNew(true);
+
 		samlSpIdpConnectionImpl.setSamlSpIdpConnectionId(samlSpIdpConnectionId);
 		samlSpIdpConnectionImpl.setCompanyId(companyId);
 		samlSpIdpConnectionImpl.setUserId(userId);
@@ -204,6 +206,8 @@ public class SamlSpIdpConnectionCacheModel
 		}
 
 		samlSpIdpConnectionImpl.resetOriginalValues();
+
+		samlSpIdpConnectionImpl.setNew(false);
 
 		return samlSpIdpConnectionImpl;
 	}

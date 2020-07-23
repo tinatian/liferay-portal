@@ -120,6 +120,8 @@ public class AssetListEntryUsageCacheModel
 		AssetListEntryUsageImpl assetListEntryUsageImpl =
 			new AssetListEntryUsageImpl();
 
+		assetListEntryUsageImpl.setNew(true);
+
 		assetListEntryUsageImpl.setMvccVersion(mvccVersion);
 		assetListEntryUsageImpl.setCtCollectionId(ctCollectionId);
 
@@ -176,6 +178,8 @@ public class AssetListEntryUsageCacheModel
 		}
 
 		assetListEntryUsageImpl.resetOriginalValues();
+
+		assetListEntryUsageImpl.setNew(false);
 
 		return assetListEntryUsageImpl;
 	}

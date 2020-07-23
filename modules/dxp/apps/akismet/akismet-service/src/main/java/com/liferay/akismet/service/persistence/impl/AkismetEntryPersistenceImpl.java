@@ -987,8 +987,8 @@ public class AkismetEntryPersistenceImpl
 			 _finderPathFetchByC_C.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				akismetEntryModelImpl.getOriginalClassNameId(),
-				akismetEntryModelImpl.getOriginalClassPK()
+				akismetEntryModelImpl.getCacheModelAttribute("classNameId"),
+				akismetEntryModelImpl.getCacheModelAttribute("classPK")
 			};
 
 			finderCache.removeResult(_finderPathCountByC_C, args);

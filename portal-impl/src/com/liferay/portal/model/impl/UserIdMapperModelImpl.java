@@ -120,13 +120,19 @@ public class UserIdMapperModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long EXTERNALUSERID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long TYPE_COLUMN_BITMASK = 2L;
+	public static final long USERIDMAPPERID_COLUMN_BITMASK = 2L;
 
-	public static final long USERID_COLUMN_BITMASK = 4L;
+	public static final long COMPANYID_COLUMN_BITMASK = 4L;
 
-	public static final long USERIDMAPPERID_COLUMN_BITMASK = 8L;
+	public static final long USERID_COLUMN_BITMASK = 8L;
+
+	public static final long TYPE_COLUMN_BITMASK = 16L;
+
+	public static final long DESCRIPTION_COLUMN_BITMASK = 32L;
+
+	public static final long EXTERNALUSERID_COLUMN_BITMASK = 64L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		com.liferay.portal.util.PropsUtil.get(
@@ -245,44 +251,102 @@ public class UserIdMapperModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<UserIdMapper, Object> function = _attributeGetterFunctions.get(
+			attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((UserIdMapper)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<UserIdMapperCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_userIdMapperCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_userIdMapperCacheModel);
+	}
+
 	private static final Map<String, Function<UserIdMapper, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<UserIdMapper, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<UserIdMapperCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<UserIdMapper, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<UserIdMapper, Object>>();
 		Map<String, BiConsumer<UserIdMapper, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<UserIdMapper, ?>>();
+		Map<String, Function<UserIdMapperCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<UserIdMapperCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", UserIdMapper::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			userIdMapperCacheModel -> userIdMapperCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<UserIdMapper, Long>)UserIdMapper::setMvccVersion);
 		attributeGetterFunctions.put(
 			"userIdMapperId", UserIdMapper::getUserIdMapperId);
+
+		cacheModelGetterFunctions.put(
+			"userIdMapperId",
+			userIdMapperCacheModel -> userIdMapperCacheModel.userIdMapperId);
 		attributeSetterBiConsumers.put(
 			"userIdMapperId",
 			(BiConsumer<UserIdMapper, Long>)UserIdMapper::setUserIdMapperId);
 		attributeGetterFunctions.put("companyId", UserIdMapper::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			userIdMapperCacheModel -> userIdMapperCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<UserIdMapper, Long>)UserIdMapper::setCompanyId);
 		attributeGetterFunctions.put("userId", UserIdMapper::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", userIdMapperCacheModel -> userIdMapperCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<UserIdMapper, Long>)UserIdMapper::setUserId);
 		attributeGetterFunctions.put("type", UserIdMapper::getType);
+
+		cacheModelGetterFunctions.put(
+			"type", userIdMapperCacheModel -> userIdMapperCacheModel.type);
 		attributeSetterBiConsumers.put(
 			"type", (BiConsumer<UserIdMapper, String>)UserIdMapper::setType);
 		attributeGetterFunctions.put(
 			"description", UserIdMapper::getDescription);
+
+		cacheModelGetterFunctions.put(
+			"description",
+			userIdMapperCacheModel -> userIdMapperCacheModel.description);
 		attributeSetterBiConsumers.put(
 			"description",
 			(BiConsumer<UserIdMapper, String>)UserIdMapper::setDescription);
 		attributeGetterFunctions.put(
 			"externalUserId", UserIdMapper::getExternalUserId);
+
+		cacheModelGetterFunctions.put(
+			"externalUserId",
+			userIdMapperCacheModel -> userIdMapperCacheModel.externalUserId);
 		attributeSetterBiConsumers.put(
 			"externalUserId",
 			(BiConsumer<UserIdMapper, String>)UserIdMapper::setExternalUserId);
@@ -291,6 +355,8 @@ public class UserIdMapperModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -300,6 +366,12 @@ public class UserIdMapperModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_userIdMapperCacheModel == null)) {
+			_userIdMapperCacheModel = (UserIdMapperCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -310,6 +382,12 @@ public class UserIdMapperModelImpl
 
 	@Override
 	public void setUserIdMapperId(long userIdMapperId) {
+		_columnBitmask |= USERIDMAPPERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_userIdMapperCacheModel == null)) {
+			_userIdMapperCacheModel = (UserIdMapperCacheModel)toCacheModel();
+		}
+
 		_userIdMapperId = userIdMapperId;
 	}
 
@@ -320,6 +398,12 @@ public class UserIdMapperModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (!isNew() && (_userIdMapperCacheModel == null)) {
+			_userIdMapperCacheModel = (UserIdMapperCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -332,10 +416,8 @@ public class UserIdMapperModelImpl
 	public void setUserId(long userId) {
 		_columnBitmask |= USERID_COLUMN_BITMASK;
 
-		if (!_setOriginalUserId) {
-			_setOriginalUserId = true;
-
-			_originalUserId = _userId;
+		if (!isNew() && (_userIdMapperCacheModel == null)) {
+			_userIdMapperCacheModel = (UserIdMapperCacheModel)toCacheModel();
 		}
 
 		_userId = userId;
@@ -357,8 +439,13 @@ public class UserIdMapperModelImpl
 	public void setUserUuid(String userUuid) {
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalUserId() {
-		return _originalUserId;
+		return getCacheModelAttribute("userId");
 	}
 
 	@Override
@@ -375,15 +462,20 @@ public class UserIdMapperModelImpl
 	public void setType(String type) {
 		_columnBitmask |= TYPE_COLUMN_BITMASK;
 
-		if (_originalType == null) {
-			_originalType = _type;
+		if (!isNew() && (_userIdMapperCacheModel == null)) {
+			_userIdMapperCacheModel = (UserIdMapperCacheModel)toCacheModel();
 		}
 
 		_type = type;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalType() {
-		return GetterUtil.getString(_originalType);
+		return getCacheModelAttribute("type");
 	}
 
 	@Override
@@ -398,6 +490,12 @@ public class UserIdMapperModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		_columnBitmask |= DESCRIPTION_COLUMN_BITMASK;
+
+		if (!isNew() && (_userIdMapperCacheModel == null)) {
+			_userIdMapperCacheModel = (UserIdMapperCacheModel)toCacheModel();
+		}
+
 		_description = description;
 	}
 
@@ -415,15 +513,20 @@ public class UserIdMapperModelImpl
 	public void setExternalUserId(String externalUserId) {
 		_columnBitmask |= EXTERNALUSERID_COLUMN_BITMASK;
 
-		if (_originalExternalUserId == null) {
-			_originalExternalUserId = _externalUserId;
+		if (!isNew() && (_userIdMapperCacheModel == null)) {
+			_userIdMapperCacheModel = (UserIdMapperCacheModel)toCacheModel();
 		}
 
 		_externalUserId = externalUserId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalExternalUserId() {
-		return GetterUtil.getString(_originalExternalUserId);
+		return getCacheModelAttribute("externalUserId");
 	}
 
 	public long getColumnBitmask() {
@@ -537,18 +640,9 @@ public class UserIdMapperModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		UserIdMapperModelImpl userIdMapperModelImpl = this;
+		_columnBitmask = 0;
 
-		userIdMapperModelImpl._originalUserId = userIdMapperModelImpl._userId;
-
-		userIdMapperModelImpl._setOriginalUserId = false;
-
-		userIdMapperModelImpl._originalType = userIdMapperModelImpl._type;
-
-		userIdMapperModelImpl._originalExternalUserId =
-			userIdMapperModelImpl._externalUserId;
-
-		userIdMapperModelImpl._columnBitmask = 0;
+		_userIdMapperCacheModel = null;
 	}
 
 	@Override
@@ -665,14 +759,11 @@ public class UserIdMapperModelImpl
 	private long _userIdMapperId;
 	private long _companyId;
 	private long _userId;
-	private long _originalUserId;
-	private boolean _setOriginalUserId;
 	private String _type;
-	private String _originalType;
 	private String _description;
 	private String _externalUserId;
-	private String _originalExternalUserId;
 	private long _columnBitmask;
 	private UserIdMapper _escapedModel;
+	private UserIdMapperCacheModel _userIdMapperCacheModel;
 
 }

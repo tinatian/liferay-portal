@@ -3941,8 +3941,8 @@ public class DDLRecordSetPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				ddlRecordSetModelImpl.getOriginalUuid(),
-				ddlRecordSetModelImpl.getOriginalGroupId()
+				ddlRecordSetModelImpl.getCacheModelAttribute("uuid"),
+				ddlRecordSetModelImpl.getCacheModelAttribute("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -3963,8 +3963,8 @@ public class DDLRecordSetPersistenceImpl
 			 _finderPathFetchByG_R.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				ddlRecordSetModelImpl.getOriginalGroupId(),
-				ddlRecordSetModelImpl.getOriginalRecordSetKey()
+				ddlRecordSetModelImpl.getCacheModelAttribute("groupId"),
+				ddlRecordSetModelImpl.getCacheModelAttribute("recordSetKey")
 			};
 
 			finderCache.removeResult(_finderPathCountByG_R, args);
@@ -4194,7 +4194,7 @@ public class DDLRecordSetPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					ddlRecordSetModelImpl.getOriginalUuid()
+					ddlRecordSetModelImpl.getCacheModelAttribute("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -4213,8 +4213,8 @@ public class DDLRecordSetPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					ddlRecordSetModelImpl.getOriginalUuid(),
-					ddlRecordSetModelImpl.getOriginalCompanyId()
+					ddlRecordSetModelImpl.getCacheModelAttribute("uuid"),
+					ddlRecordSetModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -4236,7 +4236,7 @@ public class DDLRecordSetPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					ddlRecordSetModelImpl.getOriginalGroupId()
+					ddlRecordSetModelImpl.getCacheModelAttribute("groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId, args);
@@ -4255,7 +4255,8 @@ public class DDLRecordSetPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					ddlRecordSetModelImpl.getOriginalDDMStructureId()
+					ddlRecordSetModelImpl.getCacheModelAttribute(
+						"DDMStructureId")
 				};
 
 				finderCache.removeResult(

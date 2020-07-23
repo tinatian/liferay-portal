@@ -128,6 +128,8 @@ public class JournalFolderCacheModel
 	public JournalFolder toEntityModel() {
 		JournalFolderImpl journalFolderImpl = new JournalFolderImpl();
 
+		journalFolderImpl.setNew(true);
+
 		journalFolderImpl.setMvccVersion(mvccVersion);
 		journalFolderImpl.setCtCollectionId(ctCollectionId);
 
@@ -214,6 +216,8 @@ public class JournalFolderCacheModel
 		}
 
 		journalFolderImpl.resetOriginalValues();
+
+		journalFolderImpl.setNew(false);
 
 		return journalFolderImpl;
 	}

@@ -1530,9 +1530,10 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 			 _finderPathFetchByAGI_AEI.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				accountGroupAccountEntryRelModelImpl.
-					getOriginalAccountGroupId(),
-				accountGroupAccountEntryRelModelImpl.getOriginalAccountEntryId()
+				accountGroupAccountEntryRelModelImpl.getCacheModelAttribute(
+					"accountGroupId"),
+				accountGroupAccountEntryRelModelImpl.getCacheModelAttribute(
+					"accountEntryId")
 			};
 
 			finderCache.removeResult(_finderPathCountByAGI_AEI, args);
@@ -1738,8 +1739,8 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					accountGroupAccountEntryRelModelImpl.
-						getOriginalAccountGroupId()
+					accountGroupAccountEntryRelModelImpl.getCacheModelAttribute(
+						"accountGroupId")
 				};
 
 				finderCache.removeResult(
@@ -1762,8 +1763,8 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					accountGroupAccountEntryRelModelImpl.
-						getOriginalAccountEntryId()
+					accountGroupAccountEntryRelModelImpl.getCacheModelAttribute(
+						"accountEntryId")
 				};
 
 				finderCache.removeResult(

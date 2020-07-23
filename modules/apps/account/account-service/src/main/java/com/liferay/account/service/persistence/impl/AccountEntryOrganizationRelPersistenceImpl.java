@@ -1530,9 +1530,10 @@ public class AccountEntryOrganizationRelPersistenceImpl
 			 _finderPathFetchByA_O.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				accountEntryOrganizationRelModelImpl.
-					getOriginalAccountEntryId(),
-				accountEntryOrganizationRelModelImpl.getOriginalOrganizationId()
+				accountEntryOrganizationRelModelImpl.getCacheModelAttribute(
+					"accountEntryId"),
+				accountEntryOrganizationRelModelImpl.getCacheModelAttribute(
+					"organizationId")
 			};
 
 			finderCache.removeResult(_finderPathCountByA_O, args);
@@ -1738,8 +1739,8 @@ public class AccountEntryOrganizationRelPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					accountEntryOrganizationRelModelImpl.
-						getOriginalAccountEntryId()
+					accountEntryOrganizationRelModelImpl.getCacheModelAttribute(
+						"accountEntryId")
 				};
 
 				finderCache.removeResult(
@@ -1762,8 +1763,8 @@ public class AccountEntryOrganizationRelPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					accountEntryOrganizationRelModelImpl.
-						getOriginalOrganizationId()
+					accountEntryOrganizationRelModelImpl.getCacheModelAttribute(
+						"organizationId")
 				};
 
 				finderCache.removeResult(

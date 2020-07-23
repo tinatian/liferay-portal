@@ -6358,8 +6358,8 @@ public class SyncDLObjectPersistenceImpl
 			 _finderPathFetchByT_T.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				syncDLObjectModelImpl.getOriginalType(),
-				syncDLObjectModelImpl.getOriginalTypePK()
+				syncDLObjectModelImpl.getCacheModelAttribute("type"),
+				syncDLObjectModelImpl.getCacheModelAttribute("typePK")
 			};
 
 			finderCache.removeResult(_finderPathCountByT_T, args);
@@ -6565,8 +6565,10 @@ public class SyncDLObjectPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					syncDLObjectModelImpl.getOriginalRepositoryId(),
-					syncDLObjectModelImpl.getOriginalParentFolderId()
+					syncDLObjectModelImpl.getCacheModelAttribute(
+						"repositoryId"),
+					syncDLObjectModelImpl.getCacheModelAttribute(
+						"parentFolderId")
 				};
 
 				finderCache.removeResult(_finderPathCountByR_P, args);
@@ -6588,8 +6590,9 @@ public class SyncDLObjectPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					syncDLObjectModelImpl.getOriginalRepositoryId(),
-					syncDLObjectModelImpl.getOriginalType()
+					syncDLObjectModelImpl.getCacheModelAttribute(
+						"repositoryId"),
+					syncDLObjectModelImpl.getCacheModelAttribute("type")
 				};
 
 				finderCache.removeResult(_finderPathCountByR_T, args);
@@ -6611,8 +6614,8 @@ public class SyncDLObjectPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					syncDLObjectModelImpl.getOriginalVersion(),
-					syncDLObjectModelImpl.getOriginalType()
+					syncDLObjectModelImpl.getCacheModelAttribute("version"),
+					syncDLObjectModelImpl.getCacheModelAttribute("type")
 				};
 
 				finderCache.removeResult(_finderPathCountByV_T, args);
@@ -6634,9 +6637,11 @@ public class SyncDLObjectPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					syncDLObjectModelImpl.getOriginalRepositoryId(),
-					syncDLObjectModelImpl.getOriginalParentFolderId(),
-					syncDLObjectModelImpl.getOriginalType()
+					syncDLObjectModelImpl.getCacheModelAttribute(
+						"repositoryId"),
+					syncDLObjectModelImpl.getCacheModelAttribute(
+						"parentFolderId"),
+					syncDLObjectModelImpl.getCacheModelAttribute("type")
 				};
 
 				finderCache.removeResult(_finderPathCountByR_P_T, args);

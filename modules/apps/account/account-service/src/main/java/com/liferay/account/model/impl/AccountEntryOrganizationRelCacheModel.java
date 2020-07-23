@@ -102,6 +102,8 @@ public class AccountEntryOrganizationRelCacheModel
 		AccountEntryOrganizationRelImpl accountEntryOrganizationRelImpl =
 			new AccountEntryOrganizationRelImpl();
 
+		accountEntryOrganizationRelImpl.setNew(true);
+
 		accountEntryOrganizationRelImpl.setMvccVersion(mvccVersion);
 		accountEntryOrganizationRelImpl.setAccountEntryOrganizationRelId(
 			accountEntryOrganizationRelId);
@@ -110,6 +112,8 @@ public class AccountEntryOrganizationRelCacheModel
 		accountEntryOrganizationRelImpl.setOrganizationId(organizationId);
 
 		accountEntryOrganizationRelImpl.resetOriginalValues();
+
+		accountEntryOrganizationRelImpl.setNew(false);
 
 		return accountEntryOrganizationRelImpl;
 	}

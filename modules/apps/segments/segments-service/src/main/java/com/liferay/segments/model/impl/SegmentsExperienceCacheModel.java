@@ -126,6 +126,8 @@ public class SegmentsExperienceCacheModel
 		SegmentsExperienceImpl segmentsExperienceImpl =
 			new SegmentsExperienceImpl();
 
+		segmentsExperienceImpl.setNew(true);
+
 		segmentsExperienceImpl.setMvccVersion(mvccVersion);
 		segmentsExperienceImpl.setCtCollectionId(ctCollectionId);
 
@@ -194,6 +196,8 @@ public class SegmentsExperienceCacheModel
 		}
 
 		segmentsExperienceImpl.resetOriginalValues();
+
+		segmentsExperienceImpl.setNew(false);
 
 		return segmentsExperienceImpl;
 	}

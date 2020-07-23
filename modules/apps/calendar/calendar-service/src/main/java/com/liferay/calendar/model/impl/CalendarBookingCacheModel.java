@@ -149,6 +149,8 @@ public class CalendarBookingCacheModel
 	public CalendarBooking toEntityModel() {
 		CalendarBookingImpl calendarBookingImpl = new CalendarBookingImpl();
 
+		calendarBookingImpl.setNew(true);
+
 		calendarBookingImpl.setMvccVersion(mvccVersion);
 
 		if (uuid == null) {
@@ -272,6 +274,8 @@ public class CalendarBookingCacheModel
 		}
 
 		calendarBookingImpl.resetOriginalValues();
+
+		calendarBookingImpl.setNew(false);
 
 		return calendarBookingImpl;
 	}

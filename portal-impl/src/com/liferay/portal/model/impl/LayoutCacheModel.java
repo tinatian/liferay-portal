@@ -169,6 +169,8 @@ public class LayoutCacheModel
 	public Layout toEntityModel() {
 		LayoutImpl layoutImpl = new LayoutImpl();
 
+		layoutImpl.setNew(true);
+
 		layoutImpl.setMvccVersion(mvccVersion);
 		layoutImpl.setCtCollectionId(ctCollectionId);
 
@@ -345,6 +347,8 @@ public class LayoutCacheModel
 		}
 
 		layoutImpl.resetOriginalValues();
+
+		layoutImpl.setNew(false);
 
 		return layoutImpl;
 	}

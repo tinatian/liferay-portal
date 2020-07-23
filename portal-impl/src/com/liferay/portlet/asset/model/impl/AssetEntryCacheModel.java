@@ -144,6 +144,8 @@ public class AssetEntryCacheModel
 	public AssetEntry toEntityModel() {
 		AssetEntryImpl assetEntryImpl = new AssetEntryImpl();
 
+		assetEntryImpl.setNew(true);
+
 		assetEntryImpl.setMvccVersion(mvccVersion);
 		assetEntryImpl.setCtCollectionId(ctCollectionId);
 		assetEntryImpl.setEntryId(entryId);
@@ -261,6 +263,8 @@ public class AssetEntryCacheModel
 		assetEntryImpl.setPriority(priority);
 
 		assetEntryImpl.resetOriginalValues();
+
+		assetEntryImpl.setNew(false);
 
 		return assetEntryImpl;
 	}

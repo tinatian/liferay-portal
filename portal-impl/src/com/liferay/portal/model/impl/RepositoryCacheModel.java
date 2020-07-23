@@ -120,6 +120,8 @@ public class RepositoryCacheModel
 	public Repository toEntityModel() {
 		RepositoryImpl repositoryImpl = new RepositoryImpl();
 
+		repositoryImpl.setNew(true);
+
 		repositoryImpl.setMvccVersion(mvccVersion);
 
 		if (uuid == null) {
@@ -195,6 +197,8 @@ public class RepositoryCacheModel
 		}
 
 		repositoryImpl.resetOriginalValues();
+
+		repositoryImpl.setNew(false);
 
 		return repositoryImpl;
 	}

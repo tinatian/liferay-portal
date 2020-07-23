@@ -134,13 +134,31 @@ public class TeamModelImpl extends BaseModelImpl<Team> implements TeamModel {
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
-	public static final long NAME_COLUMN_BITMASK = 4L;
+	public static final long UUID_COLUMN_BITMASK = 4L;
 
-	public static final long UUID_COLUMN_BITMASK = 8L;
+	public static final long TEAMID_COLUMN_BITMASK = 8L;
+
+	public static final long COMPANYID_COLUMN_BITMASK = 16L;
+
+	public static final long USERID_COLUMN_BITMASK = 32L;
+
+	public static final long USERNAME_COLUMN_BITMASK = 64L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 128L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 256L;
+
+	public static final long GROUPID_COLUMN_BITMASK = 512L;
+
+	public static final long NAME_COLUMN_BITMASK = 1024L;
+
+	public static final long DESCRIPTION_COLUMN_BITMASK = 2048L;
+
+	public static final long LASTPUBLISHDATE_COLUMN_BITMASK = 4096L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -336,55 +354,126 @@ public class TeamModelImpl extends BaseModelImpl<Team> implements TeamModel {
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<Team, Object> function = _attributeGetterFunctions.get(
+			attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((Team)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<TeamCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_teamCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_teamCacheModel);
+	}
+
 	private static final Map<String, Function<Team, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<Team, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<TeamCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<Team, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<Team, Object>>();
 		Map<String, BiConsumer<Team, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Team, ?>>();
+		Map<String, Function<TeamCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap<String, Function<TeamCacheModel, Object>>();
 
 		attributeGetterFunctions.put("mvccVersion", Team::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion", teamCacheModel -> teamCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion", (BiConsumer<Team, Long>)Team::setMvccVersion);
 		attributeGetterFunctions.put("ctCollectionId", Team::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId", teamCacheModel -> teamCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId", (BiConsumer<Team, Long>)Team::setCtCollectionId);
 		attributeGetterFunctions.put("uuid", Team::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid", teamCacheModel -> teamCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<Team, String>)Team::setUuid);
 		attributeGetterFunctions.put("teamId", Team::getTeamId);
+
+		cacheModelGetterFunctions.put(
+			"teamId", teamCacheModel -> teamCacheModel.teamId);
 		attributeSetterBiConsumers.put(
 			"teamId", (BiConsumer<Team, Long>)Team::setTeamId);
 		attributeGetterFunctions.put("companyId", Team::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId", teamCacheModel -> teamCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId", (BiConsumer<Team, Long>)Team::setCompanyId);
 		attributeGetterFunctions.put("userId", Team::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", teamCacheModel -> teamCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<Team, Long>)Team::setUserId);
 		attributeGetterFunctions.put("userName", Team::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName", teamCacheModel -> teamCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName", (BiConsumer<Team, String>)Team::setUserName);
 		attributeGetterFunctions.put("createDate", Team::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate", teamCacheModel -> teamCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate", (BiConsumer<Team, Date>)Team::setCreateDate);
 		attributeGetterFunctions.put("modifiedDate", Team::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate", teamCacheModel -> teamCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate", (BiConsumer<Team, Date>)Team::setModifiedDate);
 		attributeGetterFunctions.put("groupId", Team::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId", teamCacheModel -> teamCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId", (BiConsumer<Team, Long>)Team::setGroupId);
 		attributeGetterFunctions.put("name", Team::getName);
+
+		cacheModelGetterFunctions.put(
+			"name", teamCacheModel -> teamCacheModel.name);
 		attributeSetterBiConsumers.put(
 			"name", (BiConsumer<Team, String>)Team::setName);
 		attributeGetterFunctions.put("description", Team::getDescription);
+
+		cacheModelGetterFunctions.put(
+			"description", teamCacheModel -> teamCacheModel.description);
 		attributeSetterBiConsumers.put(
 			"description", (BiConsumer<Team, String>)Team::setDescription);
 		attributeGetterFunctions.put(
 			"lastPublishDate", Team::getLastPublishDate);
+
+		cacheModelGetterFunctions.put(
+			"lastPublishDate",
+			teamCacheModel -> teamCacheModel.lastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<Team, Date>)Team::setLastPublishDate);
@@ -393,6 +482,8 @@ public class TeamModelImpl extends BaseModelImpl<Team> implements TeamModel {
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -403,6 +494,12 @@ public class TeamModelImpl extends BaseModelImpl<Team> implements TeamModel {
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_teamCacheModel == null)) {
+			_teamCacheModel = (TeamCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -414,6 +511,12 @@ public class TeamModelImpl extends BaseModelImpl<Team> implements TeamModel {
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (!isNew() && (_teamCacheModel == null)) {
+			_teamCacheModel = (TeamCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -432,15 +535,20 @@ public class TeamModelImpl extends BaseModelImpl<Team> implements TeamModel {
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (!isNew() && (_teamCacheModel == null)) {
+			_teamCacheModel = (TeamCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getCacheModelAttribute("uuid");
 	}
 
 	@JSON
@@ -451,6 +559,12 @@ public class TeamModelImpl extends BaseModelImpl<Team> implements TeamModel {
 
 	@Override
 	public void setTeamId(long teamId) {
+		_columnBitmask |= TEAMID_COLUMN_BITMASK;
+
+		if (!isNew() && (_teamCacheModel == null)) {
+			_teamCacheModel = (TeamCacheModel)toCacheModel();
+		}
+
 		_teamId = teamId;
 	}
 
@@ -464,17 +578,20 @@ public class TeamModelImpl extends BaseModelImpl<Team> implements TeamModel {
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (!isNew() && (_teamCacheModel == null)) {
+			_teamCacheModel = (TeamCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getCacheModelAttribute("companyId");
 	}
 
 	@JSON
@@ -485,6 +602,12 @@ public class TeamModelImpl extends BaseModelImpl<Team> implements TeamModel {
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_teamCacheModel == null)) {
+			_teamCacheModel = (TeamCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -517,6 +640,12 @@ public class TeamModelImpl extends BaseModelImpl<Team> implements TeamModel {
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_teamCacheModel == null)) {
+			_teamCacheModel = (TeamCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -528,6 +657,12 @@ public class TeamModelImpl extends BaseModelImpl<Team> implements TeamModel {
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_teamCacheModel == null)) {
+			_teamCacheModel = (TeamCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -545,6 +680,12 @@ public class TeamModelImpl extends BaseModelImpl<Team> implements TeamModel {
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_teamCacheModel == null)) {
+			_teamCacheModel = (TeamCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -558,17 +699,20 @@ public class TeamModelImpl extends BaseModelImpl<Team> implements TeamModel {
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (!isNew() && (_teamCacheModel == null)) {
+			_teamCacheModel = (TeamCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getCacheModelAttribute("groupId");
 	}
 
 	@JSON
@@ -584,17 +728,22 @@ public class TeamModelImpl extends BaseModelImpl<Team> implements TeamModel {
 
 	@Override
 	public void setName(String name) {
-		_columnBitmask = -1L;
+		_columnBitmask |= NAME_COLUMN_BITMASK;
 
-		if (_originalName == null) {
-			_originalName = _name;
+		if (!isNew() && (_teamCacheModel == null)) {
+			_teamCacheModel = (TeamCacheModel)toCacheModel();
 		}
 
 		_name = name;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalName() {
-		return GetterUtil.getString(_originalName);
+		return getCacheModelAttribute("name");
 	}
 
 	@JSON
@@ -610,6 +759,12 @@ public class TeamModelImpl extends BaseModelImpl<Team> implements TeamModel {
 
 	@Override
 	public void setDescription(String description) {
+		_columnBitmask |= DESCRIPTION_COLUMN_BITMASK;
+
+		if (!isNew() && (_teamCacheModel == null)) {
+			_teamCacheModel = (TeamCacheModel)toCacheModel();
+		}
+
 		_description = description;
 	}
 
@@ -621,6 +776,12 @@ public class TeamModelImpl extends BaseModelImpl<Team> implements TeamModel {
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		_columnBitmask |= LASTPUBLISHDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_teamCacheModel == null)) {
+			_teamCacheModel = (TeamCacheModel)toCacheModel();
+		}
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -745,23 +906,11 @@ public class TeamModelImpl extends BaseModelImpl<Team> implements TeamModel {
 
 	@Override
 	public void resetOriginalValues() {
-		TeamModelImpl teamModelImpl = this;
+		_setModifiedDate = false;
 
-		teamModelImpl._originalUuid = teamModelImpl._uuid;
+		_columnBitmask = 0;
 
-		teamModelImpl._originalCompanyId = teamModelImpl._companyId;
-
-		teamModelImpl._setOriginalCompanyId = false;
-
-		teamModelImpl._setModifiedDate = false;
-
-		teamModelImpl._originalGroupId = teamModelImpl._groupId;
-
-		teamModelImpl._setOriginalGroupId = false;
-
-		teamModelImpl._originalName = teamModelImpl._name;
-
-		teamModelImpl._columnBitmask = 0;
+		_teamCacheModel = null;
 	}
 
 	@Override
@@ -913,24 +1062,19 @@ public class TeamModelImpl extends BaseModelImpl<Team> implements TeamModel {
 	private long _mvccVersion;
 	private long _ctCollectionId;
 	private String _uuid;
-	private String _originalUuid;
 	private long _teamId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private String _name;
-	private String _originalName;
 	private String _description;
 	private Date _lastPublishDate;
 	private long _columnBitmask;
 	private Team _escapedModel;
+	private TeamCacheModel _teamCacheModel;
 
 }

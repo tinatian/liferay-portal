@@ -31,7 +31,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
@@ -141,17 +140,48 @@ public class LayoutSEOEntryModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 2L;
+	public static final long UUID_COLUMN_BITMASK = 2L;
 
-	public static final long LAYOUTID_COLUMN_BITMASK = 4L;
+	public static final long LAYOUTSEOENTRYID_COLUMN_BITMASK = 4L;
 
-	public static final long PRIVATELAYOUT_COLUMN_BITMASK = 8L;
+	public static final long GROUPID_COLUMN_BITMASK = 8L;
 
-	public static final long UUID_COLUMN_BITMASK = 16L;
+	public static final long COMPANYID_COLUMN_BITMASK = 16L;
 
-	public static final long LAYOUTSEOENTRYID_COLUMN_BITMASK = 32L;
+	public static final long USERID_COLUMN_BITMASK = 32L;
+
+	public static final long USERNAME_COLUMN_BITMASK = 64L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 128L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 256L;
+
+	public static final long PRIVATELAYOUT_COLUMN_BITMASK = 512L;
+
+	public static final long LAYOUTID_COLUMN_BITMASK = 1024L;
+
+	public static final long CANONICALURL_COLUMN_BITMASK = 2048L;
+
+	public static final long CANONICALURLENABLED_COLUMN_BITMASK = 4096L;
+
+	public static final long DDMSTORAGEID_COLUMN_BITMASK = 8192L;
+
+	public static final long OPENGRAPHDESCRIPTION_COLUMN_BITMASK = 16384L;
+
+	public static final long OPENGRAPHDESCRIPTIONENABLED_COLUMN_BITMASK =
+		32768L;
+
+	public static final long OPENGRAPHIMAGEALT_COLUMN_BITMASK = 65536L;
+
+	public static final long OPENGRAPHIMAGEFILEENTRYID_COLUMN_BITMASK = 131072L;
+
+	public static final long OPENGRAPHTITLE_COLUMN_BITMASK = 262144L;
+
+	public static final long OPENGRAPHTITLEENABLED_COLUMN_BITMASK = 524288L;
+
+	public static final long LASTPUBLISHDATE_COLUMN_BITMASK = 1048576L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -343,87 +373,181 @@ public class LayoutSEOEntryModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<LayoutSEOEntry, Object> function =
+			_attributeGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((LayoutSEOEntry)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<LayoutSEOEntryCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_layoutSEOEntryCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_layoutSEOEntryCacheModel);
+	}
+
 	private static final Map<String, Function<LayoutSEOEntry, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<LayoutSEOEntry, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<LayoutSEOEntryCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<LayoutSEOEntry, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<LayoutSEOEntry, Object>>();
 		Map<String, BiConsumer<LayoutSEOEntry, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<LayoutSEOEntry, ?>>();
+		Map<String, Function<LayoutSEOEntryCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<LayoutSEOEntryCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", LayoutSEOEntry::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			layoutSEOEntryCacheModel -> layoutSEOEntryCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<LayoutSEOEntry, Long>)LayoutSEOEntry::setMvccVersion);
 		attributeGetterFunctions.put("uuid", LayoutSEOEntry::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid", layoutSEOEntryCacheModel -> layoutSEOEntryCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid",
 			(BiConsumer<LayoutSEOEntry, String>)LayoutSEOEntry::setUuid);
 		attributeGetterFunctions.put(
 			"layoutSEOEntryId", LayoutSEOEntry::getLayoutSEOEntryId);
+
+		cacheModelGetterFunctions.put(
+			"layoutSEOEntryId",
+			layoutSEOEntryCacheModel ->
+				layoutSEOEntryCacheModel.layoutSEOEntryId);
 		attributeSetterBiConsumers.put(
 			"layoutSEOEntryId",
 			(BiConsumer<LayoutSEOEntry, Long>)
 				LayoutSEOEntry::setLayoutSEOEntryId);
 		attributeGetterFunctions.put("groupId", LayoutSEOEntry::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			layoutSEOEntryCacheModel -> layoutSEOEntryCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<LayoutSEOEntry, Long>)LayoutSEOEntry::setGroupId);
 		attributeGetterFunctions.put("companyId", LayoutSEOEntry::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			layoutSEOEntryCacheModel -> layoutSEOEntryCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<LayoutSEOEntry, Long>)LayoutSEOEntry::setCompanyId);
 		attributeGetterFunctions.put("userId", LayoutSEOEntry::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			layoutSEOEntryCacheModel -> layoutSEOEntryCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<LayoutSEOEntry, Long>)LayoutSEOEntry::setUserId);
 		attributeGetterFunctions.put("userName", LayoutSEOEntry::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			layoutSEOEntryCacheModel -> layoutSEOEntryCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<LayoutSEOEntry, String>)LayoutSEOEntry::setUserName);
 		attributeGetterFunctions.put(
 			"createDate", LayoutSEOEntry::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			layoutSEOEntryCacheModel -> layoutSEOEntryCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<LayoutSEOEntry, Date>)LayoutSEOEntry::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", LayoutSEOEntry::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			layoutSEOEntryCacheModel -> layoutSEOEntryCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<LayoutSEOEntry, Date>)LayoutSEOEntry::setModifiedDate);
 		attributeGetterFunctions.put(
 			"privateLayout", LayoutSEOEntry::getPrivateLayout);
+
+		cacheModelGetterFunctions.put(
+			"privateLayout",
+			layoutSEOEntryCacheModel -> layoutSEOEntryCacheModel.privateLayout);
 		attributeSetterBiConsumers.put(
 			"privateLayout",
 			(BiConsumer<LayoutSEOEntry, Boolean>)
 				LayoutSEOEntry::setPrivateLayout);
 		attributeGetterFunctions.put("layoutId", LayoutSEOEntry::getLayoutId);
+
+		cacheModelGetterFunctions.put(
+			"layoutId",
+			layoutSEOEntryCacheModel -> layoutSEOEntryCacheModel.layoutId);
 		attributeSetterBiConsumers.put(
 			"layoutId",
 			(BiConsumer<LayoutSEOEntry, Long>)LayoutSEOEntry::setLayoutId);
 		attributeGetterFunctions.put(
 			"canonicalURL", LayoutSEOEntry::getCanonicalURL);
+
+		cacheModelGetterFunctions.put(
+			"canonicalURL",
+			layoutSEOEntryCacheModel -> layoutSEOEntryCacheModel.canonicalURL);
 		attributeSetterBiConsumers.put(
 			"canonicalURL",
 			(BiConsumer<LayoutSEOEntry, String>)
 				LayoutSEOEntry::setCanonicalURL);
 		attributeGetterFunctions.put(
 			"canonicalURLEnabled", LayoutSEOEntry::getCanonicalURLEnabled);
+
+		cacheModelGetterFunctions.put(
+			"canonicalURLEnabled",
+			layoutSEOEntryCacheModel ->
+				layoutSEOEntryCacheModel.canonicalURLEnabled);
 		attributeSetterBiConsumers.put(
 			"canonicalURLEnabled",
 			(BiConsumer<LayoutSEOEntry, Boolean>)
 				LayoutSEOEntry::setCanonicalURLEnabled);
 		attributeGetterFunctions.put(
 			"DDMStorageId", LayoutSEOEntry::getDDMStorageId);
+
+		cacheModelGetterFunctions.put(
+			"DDMStorageId",
+			layoutSEOEntryCacheModel -> layoutSEOEntryCacheModel.DDMStorageId);
 		attributeSetterBiConsumers.put(
 			"DDMStorageId",
 			(BiConsumer<LayoutSEOEntry, Long>)LayoutSEOEntry::setDDMStorageId);
 		attributeGetterFunctions.put(
 			"openGraphDescription", LayoutSEOEntry::getOpenGraphDescription);
+
+		cacheModelGetterFunctions.put(
+			"openGraphDescription",
+			layoutSEOEntryCacheModel ->
+				layoutSEOEntryCacheModel.openGraphDescription);
 		attributeSetterBiConsumers.put(
 			"openGraphDescription",
 			(BiConsumer<LayoutSEOEntry, String>)
@@ -431,12 +555,22 @@ public class LayoutSEOEntryModelImpl
 		attributeGetterFunctions.put(
 			"openGraphDescriptionEnabled",
 			LayoutSEOEntry::getOpenGraphDescriptionEnabled);
+
+		cacheModelGetterFunctions.put(
+			"openGraphDescriptionEnabled",
+			layoutSEOEntryCacheModel ->
+				layoutSEOEntryCacheModel.openGraphDescriptionEnabled);
 		attributeSetterBiConsumers.put(
 			"openGraphDescriptionEnabled",
 			(BiConsumer<LayoutSEOEntry, Boolean>)
 				LayoutSEOEntry::setOpenGraphDescriptionEnabled);
 		attributeGetterFunctions.put(
 			"openGraphImageAlt", LayoutSEOEntry::getOpenGraphImageAlt);
+
+		cacheModelGetterFunctions.put(
+			"openGraphImageAlt",
+			layoutSEOEntryCacheModel ->
+				layoutSEOEntryCacheModel.openGraphImageAlt);
 		attributeSetterBiConsumers.put(
 			"openGraphImageAlt",
 			(BiConsumer<LayoutSEOEntry, String>)
@@ -444,24 +578,44 @@ public class LayoutSEOEntryModelImpl
 		attributeGetterFunctions.put(
 			"openGraphImageFileEntryId",
 			LayoutSEOEntry::getOpenGraphImageFileEntryId);
+
+		cacheModelGetterFunctions.put(
+			"openGraphImageFileEntryId",
+			layoutSEOEntryCacheModel ->
+				layoutSEOEntryCacheModel.openGraphImageFileEntryId);
 		attributeSetterBiConsumers.put(
 			"openGraphImageFileEntryId",
 			(BiConsumer<LayoutSEOEntry, Long>)
 				LayoutSEOEntry::setOpenGraphImageFileEntryId);
 		attributeGetterFunctions.put(
 			"openGraphTitle", LayoutSEOEntry::getOpenGraphTitle);
+
+		cacheModelGetterFunctions.put(
+			"openGraphTitle",
+			layoutSEOEntryCacheModel ->
+				layoutSEOEntryCacheModel.openGraphTitle);
 		attributeSetterBiConsumers.put(
 			"openGraphTitle",
 			(BiConsumer<LayoutSEOEntry, String>)
 				LayoutSEOEntry::setOpenGraphTitle);
 		attributeGetterFunctions.put(
 			"openGraphTitleEnabled", LayoutSEOEntry::getOpenGraphTitleEnabled);
+
+		cacheModelGetterFunctions.put(
+			"openGraphTitleEnabled",
+			layoutSEOEntryCacheModel ->
+				layoutSEOEntryCacheModel.openGraphTitleEnabled);
 		attributeSetterBiConsumers.put(
 			"openGraphTitleEnabled",
 			(BiConsumer<LayoutSEOEntry, Boolean>)
 				LayoutSEOEntry::setOpenGraphTitleEnabled);
 		attributeGetterFunctions.put(
 			"lastPublishDate", LayoutSEOEntry::getLastPublishDate);
+
+		cacheModelGetterFunctions.put(
+			"lastPublishDate",
+			layoutSEOEntryCacheModel ->
+				layoutSEOEntryCacheModel.lastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<LayoutSEOEntry, Date>)
@@ -471,6 +625,8 @@ public class LayoutSEOEntryModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -481,6 +637,13 @@ public class LayoutSEOEntryModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_layoutSEOEntryCacheModel == null)) {
+			_layoutSEOEntryCacheModel =
+				(LayoutSEOEntryCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -499,15 +662,21 @@ public class LayoutSEOEntryModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (!isNew() && (_layoutSEOEntryCacheModel == null)) {
+			_layoutSEOEntryCacheModel =
+				(LayoutSEOEntryCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getCacheModelAttribute("uuid");
 	}
 
 	@JSON
@@ -518,6 +687,13 @@ public class LayoutSEOEntryModelImpl
 
 	@Override
 	public void setLayoutSEOEntryId(long layoutSEOEntryId) {
+		_columnBitmask |= LAYOUTSEOENTRYID_COLUMN_BITMASK;
+
+		if (!isNew() && (_layoutSEOEntryCacheModel == null)) {
+			_layoutSEOEntryCacheModel =
+				(LayoutSEOEntryCacheModel)toCacheModel();
+		}
+
 		_layoutSEOEntryId = layoutSEOEntryId;
 	}
 
@@ -531,17 +707,21 @@ public class LayoutSEOEntryModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (!isNew() && (_layoutSEOEntryCacheModel == null)) {
+			_layoutSEOEntryCacheModel =
+				(LayoutSEOEntryCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getCacheModelAttribute("groupId");
 	}
 
 	@JSON
@@ -554,17 +734,21 @@ public class LayoutSEOEntryModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (!isNew() && (_layoutSEOEntryCacheModel == null)) {
+			_layoutSEOEntryCacheModel =
+				(LayoutSEOEntryCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getCacheModelAttribute("companyId");
 	}
 
 	@JSON
@@ -575,6 +759,13 @@ public class LayoutSEOEntryModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_layoutSEOEntryCacheModel == null)) {
+			_layoutSEOEntryCacheModel =
+				(LayoutSEOEntryCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -607,6 +798,13 @@ public class LayoutSEOEntryModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_layoutSEOEntryCacheModel == null)) {
+			_layoutSEOEntryCacheModel =
+				(LayoutSEOEntryCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -618,6 +816,13 @@ public class LayoutSEOEntryModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_layoutSEOEntryCacheModel == null)) {
+			_layoutSEOEntryCacheModel =
+				(LayoutSEOEntryCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -634,6 +839,13 @@ public class LayoutSEOEntryModelImpl
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
+
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_layoutSEOEntryCacheModel == null)) {
+			_layoutSEOEntryCacheModel =
+				(LayoutSEOEntryCacheModel)toCacheModel();
+		}
 
 		_modifiedDate = modifiedDate;
 	}
@@ -654,17 +866,21 @@ public class LayoutSEOEntryModelImpl
 	public void setPrivateLayout(boolean privateLayout) {
 		_columnBitmask |= PRIVATELAYOUT_COLUMN_BITMASK;
 
-		if (!_setOriginalPrivateLayout) {
-			_setOriginalPrivateLayout = true;
-
-			_originalPrivateLayout = _privateLayout;
+		if (!isNew() && (_layoutSEOEntryCacheModel == null)) {
+			_layoutSEOEntryCacheModel =
+				(LayoutSEOEntryCacheModel)toCacheModel();
 		}
 
 		_privateLayout = privateLayout;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public boolean getOriginalPrivateLayout() {
-		return _originalPrivateLayout;
+		return getCacheModelAttribute("privateLayout");
 	}
 
 	@JSON
@@ -677,17 +893,21 @@ public class LayoutSEOEntryModelImpl
 	public void setLayoutId(long layoutId) {
 		_columnBitmask |= LAYOUTID_COLUMN_BITMASK;
 
-		if (!_setOriginalLayoutId) {
-			_setOriginalLayoutId = true;
-
-			_originalLayoutId = _layoutId;
+		if (!isNew() && (_layoutSEOEntryCacheModel == null)) {
+			_layoutSEOEntryCacheModel =
+				(LayoutSEOEntryCacheModel)toCacheModel();
 		}
 
 		_layoutId = layoutId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalLayoutId() {
-		return _originalLayoutId;
+		return getCacheModelAttribute("layoutId");
 	}
 
 	@JSON
@@ -746,6 +966,13 @@ public class LayoutSEOEntryModelImpl
 
 	@Override
 	public void setCanonicalURL(String canonicalURL) {
+		_columnBitmask |= CANONICALURL_COLUMN_BITMASK;
+
+		if (!isNew() && (_layoutSEOEntryCacheModel == null)) {
+			_layoutSEOEntryCacheModel =
+				(LayoutSEOEntryCacheModel)toCacheModel();
+		}
+
 		_canonicalURL = canonicalURL;
 	}
 
@@ -812,6 +1039,13 @@ public class LayoutSEOEntryModelImpl
 
 	@Override
 	public void setCanonicalURLEnabled(boolean canonicalURLEnabled) {
+		_columnBitmask |= CANONICALURLENABLED_COLUMN_BITMASK;
+
+		if (!isNew() && (_layoutSEOEntryCacheModel == null)) {
+			_layoutSEOEntryCacheModel =
+				(LayoutSEOEntryCacheModel)toCacheModel();
+		}
+
 		_canonicalURLEnabled = canonicalURLEnabled;
 	}
 
@@ -823,6 +1057,13 @@ public class LayoutSEOEntryModelImpl
 
 	@Override
 	public void setDDMStorageId(long DDMStorageId) {
+		_columnBitmask |= DDMSTORAGEID_COLUMN_BITMASK;
+
+		if (!isNew() && (_layoutSEOEntryCacheModel == null)) {
+			_layoutSEOEntryCacheModel =
+				(LayoutSEOEntryCacheModel)toCacheModel();
+		}
+
 		_DDMStorageId = DDMStorageId;
 	}
 
@@ -885,6 +1126,13 @@ public class LayoutSEOEntryModelImpl
 
 	@Override
 	public void setOpenGraphDescription(String openGraphDescription) {
+		_columnBitmask |= OPENGRAPHDESCRIPTION_COLUMN_BITMASK;
+
+		if (!isNew() && (_layoutSEOEntryCacheModel == null)) {
+			_layoutSEOEntryCacheModel =
+				(LayoutSEOEntryCacheModel)toCacheModel();
+		}
+
 		_openGraphDescription = openGraphDescription;
 	}
 
@@ -961,6 +1209,13 @@ public class LayoutSEOEntryModelImpl
 	public void setOpenGraphDescriptionEnabled(
 		boolean openGraphDescriptionEnabled) {
 
+		_columnBitmask |= OPENGRAPHDESCRIPTIONENABLED_COLUMN_BITMASK;
+
+		if (!isNew() && (_layoutSEOEntryCacheModel == null)) {
+			_layoutSEOEntryCacheModel =
+				(LayoutSEOEntryCacheModel)toCacheModel();
+		}
+
 		_openGraphDescriptionEnabled = openGraphDescriptionEnabled;
 	}
 
@@ -1021,6 +1276,13 @@ public class LayoutSEOEntryModelImpl
 
 	@Override
 	public void setOpenGraphImageAlt(String openGraphImageAlt) {
+		_columnBitmask |= OPENGRAPHIMAGEALT_COLUMN_BITMASK;
+
+		if (!isNew() && (_layoutSEOEntryCacheModel == null)) {
+			_layoutSEOEntryCacheModel =
+				(LayoutSEOEntryCacheModel)toCacheModel();
+		}
+
 		_openGraphImageAlt = openGraphImageAlt;
 	}
 
@@ -1085,6 +1347,13 @@ public class LayoutSEOEntryModelImpl
 
 	@Override
 	public void setOpenGraphImageFileEntryId(long openGraphImageFileEntryId) {
+		_columnBitmask |= OPENGRAPHIMAGEFILEENTRYID_COLUMN_BITMASK;
+
+		if (!isNew() && (_layoutSEOEntryCacheModel == null)) {
+			_layoutSEOEntryCacheModel =
+				(LayoutSEOEntryCacheModel)toCacheModel();
+		}
+
 		_openGraphImageFileEntryId = openGraphImageFileEntryId;
 	}
 
@@ -1145,6 +1414,13 @@ public class LayoutSEOEntryModelImpl
 
 	@Override
 	public void setOpenGraphTitle(String openGraphTitle) {
+		_columnBitmask |= OPENGRAPHTITLE_COLUMN_BITMASK;
+
+		if (!isNew() && (_layoutSEOEntryCacheModel == null)) {
+			_layoutSEOEntryCacheModel =
+				(LayoutSEOEntryCacheModel)toCacheModel();
+		}
+
 		_openGraphTitle = openGraphTitle;
 	}
 
@@ -1211,6 +1487,13 @@ public class LayoutSEOEntryModelImpl
 
 	@Override
 	public void setOpenGraphTitleEnabled(boolean openGraphTitleEnabled) {
+		_columnBitmask |= OPENGRAPHTITLEENABLED_COLUMN_BITMASK;
+
+		if (!isNew() && (_layoutSEOEntryCacheModel == null)) {
+			_layoutSEOEntryCacheModel =
+				(LayoutSEOEntryCacheModel)toCacheModel();
+		}
+
 		_openGraphTitleEnabled = openGraphTitleEnabled;
 	}
 
@@ -1222,6 +1505,13 @@ public class LayoutSEOEntryModelImpl
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		_columnBitmask |= LASTPUBLISHDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_layoutSEOEntryCacheModel == null)) {
+			_layoutSEOEntryCacheModel =
+				(LayoutSEOEntryCacheModel)toCacheModel();
+		}
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -1499,33 +1789,11 @@ public class LayoutSEOEntryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		LayoutSEOEntryModelImpl layoutSEOEntryModelImpl = this;
+		_setModifiedDate = false;
 
-		layoutSEOEntryModelImpl._originalUuid = layoutSEOEntryModelImpl._uuid;
+		_columnBitmask = 0;
 
-		layoutSEOEntryModelImpl._originalGroupId =
-			layoutSEOEntryModelImpl._groupId;
-
-		layoutSEOEntryModelImpl._setOriginalGroupId = false;
-
-		layoutSEOEntryModelImpl._originalCompanyId =
-			layoutSEOEntryModelImpl._companyId;
-
-		layoutSEOEntryModelImpl._setOriginalCompanyId = false;
-
-		layoutSEOEntryModelImpl._setModifiedDate = false;
-
-		layoutSEOEntryModelImpl._originalPrivateLayout =
-			layoutSEOEntryModelImpl._privateLayout;
-
-		layoutSEOEntryModelImpl._setOriginalPrivateLayout = false;
-
-		layoutSEOEntryModelImpl._originalLayoutId =
-			layoutSEOEntryModelImpl._layoutId;
-
-		layoutSEOEntryModelImpl._setOriginalLayoutId = false;
-
-		layoutSEOEntryModelImpl._columnBitmask = 0;
+		_layoutSEOEntryCacheModel = null;
 	}
 
 	@Override
@@ -1715,25 +1983,16 @@ public class LayoutSEOEntryModelImpl
 
 	private long _mvccVersion;
 	private String _uuid;
-	private String _originalUuid;
 	private long _layoutSEOEntryId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private boolean _privateLayout;
-	private boolean _originalPrivateLayout;
-	private boolean _setOriginalPrivateLayout;
 	private long _layoutId;
-	private long _originalLayoutId;
-	private boolean _setOriginalLayoutId;
 	private String _canonicalURL;
 	private String _canonicalURLCurrentLanguageId;
 	private boolean _canonicalURLEnabled;
@@ -1750,5 +2009,6 @@ public class LayoutSEOEntryModelImpl
 	private Date _lastPublishDate;
 	private long _columnBitmask;
 	private LayoutSEOEntry _escapedModel;
+	private LayoutSEOEntryCacheModel _layoutSEOEntryCacheModel;
 
 }

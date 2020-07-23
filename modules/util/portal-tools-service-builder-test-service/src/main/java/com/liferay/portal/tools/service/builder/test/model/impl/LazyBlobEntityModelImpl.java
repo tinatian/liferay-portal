@@ -122,11 +122,15 @@ public class LazyBlobEntityModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long GROUPID_COLUMN_BITMASK = 1L;
+	public static final long UUID_COLUMN_BITMASK = 1L;
 
-	public static final long UUID_COLUMN_BITMASK = 2L;
+	public static final long LAZYBLOBENTITYID_COLUMN_BITMASK = 2L;
 
-	public static final long LAZYBLOBENTITYID_COLUMN_BITMASK = 4L;
+	public static final long GROUPID_COLUMN_BITMASK = 4L;
+
+	public static final long BLOB1_COLUMN_BITMASK = 8L;
+
+	public static final long BLOB2_COLUMN_BITMASK = 16L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -291,36 +295,82 @@ public class LazyBlobEntityModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<LazyBlobEntity, Object> function =
+			_attributeGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((LazyBlobEntity)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<LazyBlobEntityCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_lazyBlobEntityCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_lazyBlobEntityCacheModel);
+	}
+
 	private static final Map<String, Function<LazyBlobEntity, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<LazyBlobEntity, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<LazyBlobEntityCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<LazyBlobEntity, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<LazyBlobEntity, Object>>();
 		Map<String, BiConsumer<LazyBlobEntity, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<LazyBlobEntity, ?>>();
+		Map<String, Function<LazyBlobEntityCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<LazyBlobEntityCacheModel, Object>>();
 
 		attributeGetterFunctions.put("uuid", LazyBlobEntity::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid", lazyBlobEntityCacheModel -> lazyBlobEntityCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid",
 			(BiConsumer<LazyBlobEntity, String>)LazyBlobEntity::setUuid);
 		attributeGetterFunctions.put(
 			"lazyBlobEntityId", LazyBlobEntity::getLazyBlobEntityId);
+
+		cacheModelGetterFunctions.put(
+			"lazyBlobEntityId",
+			lazyBlobEntityCacheModel ->
+				lazyBlobEntityCacheModel.lazyBlobEntityId);
 		attributeSetterBiConsumers.put(
 			"lazyBlobEntityId",
 			(BiConsumer<LazyBlobEntity, Long>)
 				LazyBlobEntity::setLazyBlobEntityId);
 		attributeGetterFunctions.put("groupId", LazyBlobEntity::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			lazyBlobEntityCacheModel -> lazyBlobEntityCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<LazyBlobEntity, Long>)LazyBlobEntity::setGroupId);
 		attributeGetterFunctions.put("blob1", LazyBlobEntity::getBlob1);
+
 		attributeSetterBiConsumers.put(
 			"blob1",
 			(BiConsumer<LazyBlobEntity, Blob>)LazyBlobEntity::setBlob1);
 		attributeGetterFunctions.put("blob2", LazyBlobEntity::getBlob2);
+
 		attributeSetterBiConsumers.put(
 			"blob2",
 			(BiConsumer<LazyBlobEntity, Blob>)LazyBlobEntity::setBlob2);
@@ -329,6 +379,8 @@ public class LazyBlobEntityModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -346,15 +398,21 @@ public class LazyBlobEntityModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (!isNew() && (_lazyBlobEntityCacheModel == null)) {
+			_lazyBlobEntityCacheModel =
+				(LazyBlobEntityCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getCacheModelAttribute("uuid");
 	}
 
 	@JSON
@@ -365,6 +423,13 @@ public class LazyBlobEntityModelImpl
 
 	@Override
 	public void setLazyBlobEntityId(long lazyBlobEntityId) {
+		_columnBitmask |= LAZYBLOBENTITYID_COLUMN_BITMASK;
+
+		if (!isNew() && (_lazyBlobEntityCacheModel == null)) {
+			_lazyBlobEntityCacheModel =
+				(LazyBlobEntityCacheModel)toCacheModel();
+		}
+
 		_lazyBlobEntityId = lazyBlobEntityId;
 	}
 
@@ -378,17 +443,21 @@ public class LazyBlobEntityModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (!isNew() && (_lazyBlobEntityCacheModel == null)) {
+			_lazyBlobEntityCacheModel =
+				(LazyBlobEntityCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getCacheModelAttribute("groupId");
 	}
 
 	@JSON
@@ -415,6 +484,13 @@ public class LazyBlobEntityModelImpl
 
 	@Override
 	public void setBlob1(Blob blob1) {
+		_columnBitmask |= BLOB1_COLUMN_BITMASK;
+
+		if (!isNew() && (_lazyBlobEntityCacheModel == null)) {
+			_lazyBlobEntityCacheModel =
+				(LazyBlobEntityCacheModel)toCacheModel();
+		}
+
 		if (_blob1BlobModel == null) {
 			_blob1BlobModel = new LazyBlobEntityBlob1BlobModel(
 				getPrimaryKey(), blob1);
@@ -448,6 +524,13 @@ public class LazyBlobEntityModelImpl
 
 	@Override
 	public void setBlob2(Blob blob2) {
+		_columnBitmask |= BLOB2_COLUMN_BITMASK;
+
+		if (!isNew() && (_lazyBlobEntityCacheModel == null)) {
+			_lazyBlobEntityCacheModel =
+				(LazyBlobEntityCacheModel)toCacheModel();
+		}
+
 		if (_blob2BlobModel == null) {
 			_blob2BlobModel = new LazyBlobEntityBlob2BlobModel(
 				getPrimaryKey(), blob2);
@@ -564,20 +647,13 @@ public class LazyBlobEntityModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		LazyBlobEntityModelImpl lazyBlobEntityModelImpl = this;
+		_blob1BlobModel = null;
 
-		lazyBlobEntityModelImpl._originalUuid = lazyBlobEntityModelImpl._uuid;
+		_blob2BlobModel = null;
 
-		lazyBlobEntityModelImpl._originalGroupId =
-			lazyBlobEntityModelImpl._groupId;
+		_columnBitmask = 0;
 
-		lazyBlobEntityModelImpl._setOriginalGroupId = false;
-
-		lazyBlobEntityModelImpl._blob1BlobModel = null;
-
-		lazyBlobEntityModelImpl._blob2BlobModel = null;
-
-		lazyBlobEntityModelImpl._columnBitmask = 0;
+		_lazyBlobEntityCacheModel = null;
 	}
 
 	@Override
@@ -649,14 +725,12 @@ public class LazyBlobEntityModelImpl
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _lazyBlobEntityId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private LazyBlobEntityBlob1BlobModel _blob1BlobModel;
 	private LazyBlobEntityBlob2BlobModel _blob2BlobModel;
 	private long _columnBitmask;
 	private LazyBlobEntity _escapedModel;
+	private LazyBlobEntityCacheModel _lazyBlobEntityCacheModel;
 
 }

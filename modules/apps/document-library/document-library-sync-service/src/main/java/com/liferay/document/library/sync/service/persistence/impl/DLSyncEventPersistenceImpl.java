@@ -897,7 +897,7 @@ public class DLSyncEventPersistenceImpl
 			 _finderPathFetchByTypePK.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				dlSyncEventModelImpl.getOriginalTypePK()
+				dlSyncEventModelImpl.getCacheModelAttribute("typePK")
 			};
 
 			finderCache.removeResult(_finderPathCountByTypePK, args);

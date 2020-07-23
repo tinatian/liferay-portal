@@ -104,6 +104,8 @@ public class DDMDataProviderInstanceLinkCacheModel
 		DDMDataProviderInstanceLinkImpl ddmDataProviderInstanceLinkImpl =
 			new DDMDataProviderInstanceLinkImpl();
 
+		ddmDataProviderInstanceLinkImpl.setNew(true);
+
 		ddmDataProviderInstanceLinkImpl.setMvccVersion(mvccVersion);
 		ddmDataProviderInstanceLinkImpl.setCtCollectionId(ctCollectionId);
 		ddmDataProviderInstanceLinkImpl.setDataProviderInstanceLinkId(
@@ -114,6 +116,8 @@ public class DDMDataProviderInstanceLinkCacheModel
 		ddmDataProviderInstanceLinkImpl.setStructureId(structureId);
 
 		ddmDataProviderInstanceLinkImpl.resetOriginalValues();
+
+		ddmDataProviderInstanceLinkImpl.setNew(false);
 
 		return ddmDataProviderInstanceLinkImpl;
 	}

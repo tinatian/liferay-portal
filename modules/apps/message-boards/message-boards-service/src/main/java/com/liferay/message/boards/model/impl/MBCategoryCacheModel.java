@@ -126,6 +126,8 @@ public class MBCategoryCacheModel
 	public MBCategory toEntityModel() {
 		MBCategoryImpl mbCategoryImpl = new MBCategoryImpl();
 
+		mbCategoryImpl.setNew(true);
+
 		mbCategoryImpl.setMvccVersion(mvccVersion);
 		mbCategoryImpl.setCtCollectionId(ctCollectionId);
 
@@ -210,6 +212,8 @@ public class MBCategoryCacheModel
 		}
 
 		mbCategoryImpl.resetOriginalValues();
+
+		mbCategoryImpl.setNew(false);
 
 		return mbCategoryImpl;
 	}

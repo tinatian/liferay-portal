@@ -28,7 +28,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
@@ -126,13 +125,33 @@ public class SourceModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long UUID_COLUMN_BITMASK = 1L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 2L;
+	public static final long SOURCEID_COLUMN_BITMASK = 2L;
 
-	public static final long UUID_COLUMN_BITMASK = 4L;
+	public static final long GROUPID_COLUMN_BITMASK = 4L;
 
-	public static final long SOURCEID_COLUMN_BITMASK = 8L;
+	public static final long COMPANYID_COLUMN_BITMASK = 8L;
+
+	public static final long USERID_COLUMN_BITMASK = 16L;
+
+	public static final long USERNAME_COLUMN_BITMASK = 32L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 64L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 128L;
+
+	public static final long LASTPUBLISHDATE_COLUMN_BITMASK = 256L;
+
+	public static final long NAME_COLUMN_BITMASK = 512L;
+
+	public static final long DRIVERCLASSNAME_COLUMN_BITMASK = 1024L;
+
+	public static final long DRIVERURL_COLUMN_BITMASK = 2048L;
+
+	public static final long DRIVERUSERNAME_COLUMN_BITMASK = 4096L;
+
+	public static final long DRIVERPASSWORD_COLUMN_BITMASK = 8192L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -307,64 +326,141 @@ public class SourceModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<Source, Object> function = _attributeGetterFunctions.get(
+			attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((Source)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<SourceCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_sourceCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_sourceCacheModel);
+	}
+
 	private static final Map<String, Function<Source, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<Source, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<SourceCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<Source, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<Source, Object>>();
 		Map<String, BiConsumer<Source, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Source, ?>>();
+		Map<String, Function<SourceCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap<String, Function<SourceCacheModel, Object>>();
 
 		attributeGetterFunctions.put("uuid", Source::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid", sourceCacheModel -> sourceCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<Source, String>)Source::setUuid);
 		attributeGetterFunctions.put("sourceId", Source::getSourceId);
+
+		cacheModelGetterFunctions.put(
+			"sourceId", sourceCacheModel -> sourceCacheModel.sourceId);
 		attributeSetterBiConsumers.put(
 			"sourceId", (BiConsumer<Source, Long>)Source::setSourceId);
 		attributeGetterFunctions.put("groupId", Source::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId", sourceCacheModel -> sourceCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId", (BiConsumer<Source, Long>)Source::setGroupId);
 		attributeGetterFunctions.put("companyId", Source::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId", sourceCacheModel -> sourceCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId", (BiConsumer<Source, Long>)Source::setCompanyId);
 		attributeGetterFunctions.put("userId", Source::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", sourceCacheModel -> sourceCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<Source, Long>)Source::setUserId);
 		attributeGetterFunctions.put("userName", Source::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName", sourceCacheModel -> sourceCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName", (BiConsumer<Source, String>)Source::setUserName);
 		attributeGetterFunctions.put("createDate", Source::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate", sourceCacheModel -> sourceCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate", (BiConsumer<Source, Date>)Source::setCreateDate);
 		attributeGetterFunctions.put("modifiedDate", Source::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate", sourceCacheModel -> sourceCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate", (BiConsumer<Source, Date>)Source::setModifiedDate);
 		attributeGetterFunctions.put(
 			"lastPublishDate", Source::getLastPublishDate);
+
+		cacheModelGetterFunctions.put(
+			"lastPublishDate",
+			sourceCacheModel -> sourceCacheModel.lastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<Source, Date>)Source::setLastPublishDate);
 		attributeGetterFunctions.put("name", Source::getName);
+
+		cacheModelGetterFunctions.put(
+			"name", sourceCacheModel -> sourceCacheModel.name);
 		attributeSetterBiConsumers.put(
 			"name", (BiConsumer<Source, String>)Source::setName);
 		attributeGetterFunctions.put(
 			"driverClassName", Source::getDriverClassName);
+
+		cacheModelGetterFunctions.put(
+			"driverClassName",
+			sourceCacheModel -> sourceCacheModel.driverClassName);
 		attributeSetterBiConsumers.put(
 			"driverClassName",
 			(BiConsumer<Source, String>)Source::setDriverClassName);
 		attributeGetterFunctions.put("driverUrl", Source::getDriverUrl);
+
+		cacheModelGetterFunctions.put(
+			"driverUrl", sourceCacheModel -> sourceCacheModel.driverUrl);
 		attributeSetterBiConsumers.put(
 			"driverUrl", (BiConsumer<Source, String>)Source::setDriverUrl);
 		attributeGetterFunctions.put(
 			"driverUserName", Source::getDriverUserName);
+
+		cacheModelGetterFunctions.put(
+			"driverUserName",
+			sourceCacheModel -> sourceCacheModel.driverUserName);
 		attributeSetterBiConsumers.put(
 			"driverUserName",
 			(BiConsumer<Source, String>)Source::setDriverUserName);
 		attributeGetterFunctions.put(
 			"driverPassword", Source::getDriverPassword);
+
+		cacheModelGetterFunctions.put(
+			"driverPassword",
+			sourceCacheModel -> sourceCacheModel.driverPassword);
 		attributeSetterBiConsumers.put(
 			"driverPassword",
 			(BiConsumer<Source, String>)Source::setDriverPassword);
@@ -373,6 +469,8 @@ public class SourceModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -390,15 +488,20 @@ public class SourceModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (!isNew() && (_sourceCacheModel == null)) {
+			_sourceCacheModel = (SourceCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getCacheModelAttribute("uuid");
 	}
 
 	@JSON
@@ -409,6 +512,12 @@ public class SourceModelImpl
 
 	@Override
 	public void setSourceId(long sourceId) {
+		_columnBitmask |= SOURCEID_COLUMN_BITMASK;
+
+		if (!isNew() && (_sourceCacheModel == null)) {
+			_sourceCacheModel = (SourceCacheModel)toCacheModel();
+		}
+
 		_sourceId = sourceId;
 	}
 
@@ -422,17 +531,20 @@ public class SourceModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (!isNew() && (_sourceCacheModel == null)) {
+			_sourceCacheModel = (SourceCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getCacheModelAttribute("groupId");
 	}
 
 	@JSON
@@ -445,17 +557,20 @@ public class SourceModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (!isNew() && (_sourceCacheModel == null)) {
+			_sourceCacheModel = (SourceCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getCacheModelAttribute("companyId");
 	}
 
 	@JSON
@@ -466,6 +581,12 @@ public class SourceModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_sourceCacheModel == null)) {
+			_sourceCacheModel = (SourceCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -498,6 +619,12 @@ public class SourceModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_sourceCacheModel == null)) {
+			_sourceCacheModel = (SourceCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -509,6 +636,12 @@ public class SourceModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_sourceCacheModel == null)) {
+			_sourceCacheModel = (SourceCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -526,6 +659,12 @@ public class SourceModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_sourceCacheModel == null)) {
+			_sourceCacheModel = (SourceCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -537,6 +676,12 @@ public class SourceModelImpl
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		_columnBitmask |= LASTPUBLISHDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_sourceCacheModel == null)) {
+			_sourceCacheModel = (SourceCacheModel)toCacheModel();
+		}
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -596,6 +741,12 @@ public class SourceModelImpl
 
 	@Override
 	public void setName(String name) {
+		_columnBitmask |= NAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_sourceCacheModel == null)) {
+			_sourceCacheModel = (SourceCacheModel)toCacheModel();
+		}
+
 		_name = name;
 	}
 
@@ -656,6 +807,12 @@ public class SourceModelImpl
 
 	@Override
 	public void setDriverClassName(String driverClassName) {
+		_columnBitmask |= DRIVERCLASSNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_sourceCacheModel == null)) {
+			_sourceCacheModel = (SourceCacheModel)toCacheModel();
+		}
+
 		_driverClassName = driverClassName;
 	}
 
@@ -672,6 +829,12 @@ public class SourceModelImpl
 
 	@Override
 	public void setDriverUrl(String driverUrl) {
+		_columnBitmask |= DRIVERURL_COLUMN_BITMASK;
+
+		if (!isNew() && (_sourceCacheModel == null)) {
+			_sourceCacheModel = (SourceCacheModel)toCacheModel();
+		}
+
 		_driverUrl = driverUrl;
 	}
 
@@ -688,6 +851,12 @@ public class SourceModelImpl
 
 	@Override
 	public void setDriverUserName(String driverUserName) {
+		_columnBitmask |= DRIVERUSERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_sourceCacheModel == null)) {
+			_sourceCacheModel = (SourceCacheModel)toCacheModel();
+		}
+
 		_driverUserName = driverUserName;
 	}
 
@@ -704,6 +873,12 @@ public class SourceModelImpl
 
 	@Override
 	public void setDriverPassword(String driverPassword) {
+		_columnBitmask |= DRIVERPASSWORD_COLUMN_BITMASK;
+
+		if (!isNew() && (_sourceCacheModel == null)) {
+			_sourceCacheModel = (SourceCacheModel)toCacheModel();
+		}
+
 		_driverPassword = driverPassword;
 	}
 
@@ -897,21 +1072,11 @@ public class SourceModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		SourceModelImpl sourceModelImpl = this;
+		_setModifiedDate = false;
 
-		sourceModelImpl._originalUuid = sourceModelImpl._uuid;
+		_columnBitmask = 0;
 
-		sourceModelImpl._originalGroupId = sourceModelImpl._groupId;
-
-		sourceModelImpl._setOriginalGroupId = false;
-
-		sourceModelImpl._originalCompanyId = sourceModelImpl._companyId;
-
-		sourceModelImpl._setOriginalCompanyId = false;
-
-		sourceModelImpl._setModifiedDate = false;
-
-		sourceModelImpl._columnBitmask = 0;
+		_sourceCacheModel = null;
 	}
 
 	@Override
@@ -1081,14 +1246,9 @@ public class SourceModelImpl
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _sourceId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
@@ -1103,5 +1263,6 @@ public class SourceModelImpl
 	private String _driverPassword;
 	private long _columnBitmask;
 	private Source _escapedModel;
+	private SourceCacheModel _sourceCacheModel;
 
 }

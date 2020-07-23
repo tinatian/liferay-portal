@@ -81,6 +81,8 @@ public class EntryCacheModel implements CacheModel<Entry>, Externalizable {
 	public Entry toEntityModel() {
 		EntryImpl entryImpl = new EntryImpl();
 
+		entryImpl.setNew(true);
+
 		entryImpl.setEntryId(entryId);
 		entryImpl.setCreateDate(createDate);
 		entryImpl.setFromUserId(fromUserId);
@@ -96,6 +98,8 @@ public class EntryCacheModel implements CacheModel<Entry>, Externalizable {
 		entryImpl.setFlag(flag);
 
 		entryImpl.resetOriginalValues();
+
+		entryImpl.setNew(false);
 
 		return entryImpl;
 	}

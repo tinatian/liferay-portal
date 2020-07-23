@@ -119,6 +119,8 @@ public class KaleoNodeCacheModel
 	public KaleoNode toEntityModel() {
 		KaleoNodeImpl kaleoNodeImpl = new KaleoNodeImpl();
 
+		kaleoNodeImpl.setNew(true);
+
 		kaleoNodeImpl.setMvccVersion(mvccVersion);
 		kaleoNodeImpl.setKaleoNodeId(kaleoNodeId);
 		kaleoNodeImpl.setGroupId(groupId);
@@ -181,6 +183,8 @@ public class KaleoNodeCacheModel
 		kaleoNodeImpl.setTerminal(terminal);
 
 		kaleoNodeImpl.resetOriginalValues();
+
+		kaleoNodeImpl.setNew(false);
 
 		return kaleoNodeImpl;
 	}

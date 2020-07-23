@@ -131,6 +131,8 @@ public class KaleoNotificationRecipientCacheModel
 		KaleoNotificationRecipientImpl kaleoNotificationRecipientImpl =
 			new KaleoNotificationRecipientImpl();
 
+		kaleoNotificationRecipientImpl.setNew(true);
+
 		kaleoNotificationRecipientImpl.setMvccVersion(mvccVersion);
 		kaleoNotificationRecipientImpl.setKaleoNotificationRecipientId(
 			kaleoNotificationRecipientId);
@@ -216,6 +218,8 @@ public class KaleoNotificationRecipientCacheModel
 		}
 
 		kaleoNotificationRecipientImpl.resetOriginalValues();
+
+		kaleoNotificationRecipientImpl.setNew(false);
 
 		return kaleoNotificationRecipientImpl;
 	}

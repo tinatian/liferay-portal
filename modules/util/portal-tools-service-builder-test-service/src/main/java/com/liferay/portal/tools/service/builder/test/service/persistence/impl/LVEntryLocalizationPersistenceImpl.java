@@ -1202,8 +1202,10 @@ public class LVEntryLocalizationPersistenceImpl
 			 _finderPathFetchByLvEntryId_LanguageId.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				lvEntryLocalizationModelImpl.getOriginalLvEntryId(),
-				lvEntryLocalizationModelImpl.getOriginalLanguageId()
+				lvEntryLocalizationModelImpl.getCacheModelAttribute(
+					"lvEntryId"),
+				lvEntryLocalizationModelImpl.getCacheModelAttribute(
+					"languageId")
 			};
 
 			finderCache.removeResult(
@@ -1225,7 +1227,7 @@ public class LVEntryLocalizationPersistenceImpl
 			 _finderPathFetchByHeadId.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				lvEntryLocalizationModelImpl.getOriginalHeadId()
+				lvEntryLocalizationModelImpl.getCacheModelAttribute("headId")
 			};
 
 			finderCache.removeResult(_finderPathCountByHeadId, args);
@@ -1409,7 +1411,8 @@ public class LVEntryLocalizationPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					lvEntryLocalizationModelImpl.getOriginalLvEntryId()
+					lvEntryLocalizationModelImpl.getCacheModelAttribute(
+						"lvEntryId")
 				};
 
 				finderCache.removeResult(_finderPathCountByLvEntryId, args);

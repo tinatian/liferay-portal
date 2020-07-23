@@ -22,7 +22,6 @@ import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.saml.persistence.model.SamlSpAuthRequest;
 import com.liferay.saml.persistence.model.SamlSpAuthRequestModel;
@@ -97,13 +96,15 @@ public class SamlSpAuthRequestModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long CREATEDATE_COLUMN_BITMASK = 1L;
+	public static final long SAMLSPAUTHNREQUESTID_COLUMN_BITMASK = 1L;
 
-	public static final long SAMLIDPENTITYID_COLUMN_BITMASK = 2L;
+	public static final long COMPANYID_COLUMN_BITMASK = 2L;
 
-	public static final long SAMLSPAUTHREQUESTKEY_COLUMN_BITMASK = 4L;
+	public static final long CREATEDATE_COLUMN_BITMASK = 4L;
 
-	public static final long SAMLSPAUTHNREQUESTID_COLUMN_BITMASK = 8L;
+	public static final long SAMLIDPENTITYID_COLUMN_BITMASK = 8L;
+
+	public static final long SAMLSPAUTHREQUESTKEY_COLUMN_BITMASK = 16L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -232,10 +233,39 @@ public class SamlSpAuthRequestModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<SamlSpAuthRequest, Object> function =
+			_attributeGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((SamlSpAuthRequest)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<SamlSpAuthRequestCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_samlSpAuthRequestCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_samlSpAuthRequestCacheModel);
+	}
+
 	private static final Map<String, Function<SamlSpAuthRequest, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<SamlSpAuthRequest, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<SamlSpAuthRequestCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<SamlSpAuthRequest, Object>>
@@ -245,33 +275,62 @@ public class SamlSpAuthRequestModelImpl
 		Map<String, BiConsumer<SamlSpAuthRequest, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<SamlSpAuthRequest, ?>>();
+		Map<String, Function<SamlSpAuthRequestCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<SamlSpAuthRequestCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"samlSpAuthnRequestId", SamlSpAuthRequest::getSamlSpAuthnRequestId);
+
+		cacheModelGetterFunctions.put(
+			"samlSpAuthnRequestId",
+			samlSpAuthRequestCacheModel ->
+				samlSpAuthRequestCacheModel.samlSpAuthnRequestId);
 		attributeSetterBiConsumers.put(
 			"samlSpAuthnRequestId",
 			(BiConsumer<SamlSpAuthRequest, Long>)
 				SamlSpAuthRequest::setSamlSpAuthnRequestId);
 		attributeGetterFunctions.put(
 			"companyId", SamlSpAuthRequest::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			samlSpAuthRequestCacheModel ->
+				samlSpAuthRequestCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<SamlSpAuthRequest, Long>)
 				SamlSpAuthRequest::setCompanyId);
 		attributeGetterFunctions.put(
 			"createDate", SamlSpAuthRequest::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			samlSpAuthRequestCacheModel ->
+				samlSpAuthRequestCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<SamlSpAuthRequest, Date>)
 				SamlSpAuthRequest::setCreateDate);
 		attributeGetterFunctions.put(
 			"samlIdpEntityId", SamlSpAuthRequest::getSamlIdpEntityId);
+
+		cacheModelGetterFunctions.put(
+			"samlIdpEntityId",
+			samlSpAuthRequestCacheModel ->
+				samlSpAuthRequestCacheModel.samlIdpEntityId);
 		attributeSetterBiConsumers.put(
 			"samlIdpEntityId",
 			(BiConsumer<SamlSpAuthRequest, String>)
 				SamlSpAuthRequest::setSamlIdpEntityId);
 		attributeGetterFunctions.put(
 			"samlSpAuthRequestKey", SamlSpAuthRequest::getSamlSpAuthRequestKey);
+
+		cacheModelGetterFunctions.put(
+			"samlSpAuthRequestKey",
+			samlSpAuthRequestCacheModel ->
+				samlSpAuthRequestCacheModel.samlSpAuthRequestKey);
 		attributeSetterBiConsumers.put(
 			"samlSpAuthRequestKey",
 			(BiConsumer<SamlSpAuthRequest, String>)
@@ -281,6 +340,8 @@ public class SamlSpAuthRequestModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -290,6 +351,13 @@ public class SamlSpAuthRequestModelImpl
 
 	@Override
 	public void setSamlSpAuthnRequestId(long samlSpAuthnRequestId) {
+		_columnBitmask |= SAMLSPAUTHNREQUESTID_COLUMN_BITMASK;
+
+		if (!isNew() && (_samlSpAuthRequestCacheModel == null)) {
+			_samlSpAuthRequestCacheModel =
+				(SamlSpAuthRequestCacheModel)toCacheModel();
+		}
+
 		_samlSpAuthnRequestId = samlSpAuthnRequestId;
 	}
 
@@ -300,6 +368,13 @@ public class SamlSpAuthRequestModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (!isNew() && (_samlSpAuthRequestCacheModel == null)) {
+			_samlSpAuthRequestCacheModel =
+				(SamlSpAuthRequestCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -312,15 +387,21 @@ public class SamlSpAuthRequestModelImpl
 	public void setCreateDate(Date createDate) {
 		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
 
-		if (_originalCreateDate == null) {
-			_originalCreateDate = _createDate;
+		if (!isNew() && (_samlSpAuthRequestCacheModel == null)) {
+			_samlSpAuthRequestCacheModel =
+				(SamlSpAuthRequestCacheModel)toCacheModel();
 		}
 
 		_createDate = createDate;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public Date getOriginalCreateDate() {
-		return _originalCreateDate;
+		return getCacheModelAttribute("createDate");
 	}
 
 	@Override
@@ -337,15 +418,21 @@ public class SamlSpAuthRequestModelImpl
 	public void setSamlIdpEntityId(String samlIdpEntityId) {
 		_columnBitmask |= SAMLIDPENTITYID_COLUMN_BITMASK;
 
-		if (_originalSamlIdpEntityId == null) {
-			_originalSamlIdpEntityId = _samlIdpEntityId;
+		if (!isNew() && (_samlSpAuthRequestCacheModel == null)) {
+			_samlSpAuthRequestCacheModel =
+				(SamlSpAuthRequestCacheModel)toCacheModel();
 		}
 
 		_samlIdpEntityId = samlIdpEntityId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalSamlIdpEntityId() {
-		return GetterUtil.getString(_originalSamlIdpEntityId);
+		return getCacheModelAttribute("samlIdpEntityId");
 	}
 
 	@Override
@@ -362,15 +449,21 @@ public class SamlSpAuthRequestModelImpl
 	public void setSamlSpAuthRequestKey(String samlSpAuthRequestKey) {
 		_columnBitmask |= SAMLSPAUTHREQUESTKEY_COLUMN_BITMASK;
 
-		if (_originalSamlSpAuthRequestKey == null) {
-			_originalSamlSpAuthRequestKey = _samlSpAuthRequestKey;
+		if (!isNew() && (_samlSpAuthRequestCacheModel == null)) {
+			_samlSpAuthRequestCacheModel =
+				(SamlSpAuthRequestCacheModel)toCacheModel();
 		}
 
 		_samlSpAuthRequestKey = samlSpAuthRequestKey;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalSamlSpAuthRequestKey() {
-		return GetterUtil.getString(_originalSamlSpAuthRequestKey);
+		return getCacheModelAttribute("samlSpAuthRequestKey");
 	}
 
 	public long getColumnBitmask() {
@@ -485,18 +578,9 @@ public class SamlSpAuthRequestModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		SamlSpAuthRequestModelImpl samlSpAuthRequestModelImpl = this;
+		_columnBitmask = 0;
 
-		samlSpAuthRequestModelImpl._originalCreateDate =
-			samlSpAuthRequestModelImpl._createDate;
-
-		samlSpAuthRequestModelImpl._originalSamlIdpEntityId =
-			samlSpAuthRequestModelImpl._samlIdpEntityId;
-
-		samlSpAuthRequestModelImpl._originalSamlSpAuthRequestKey =
-			samlSpAuthRequestModelImpl._samlSpAuthRequestKey;
-
-		samlSpAuthRequestModelImpl._columnBitmask = 0;
+		_samlSpAuthRequestCacheModel = null;
 	}
 
 	@Override
@@ -614,12 +698,10 @@ public class SamlSpAuthRequestModelImpl
 	private long _samlSpAuthnRequestId;
 	private long _companyId;
 	private Date _createDate;
-	private Date _originalCreateDate;
 	private String _samlIdpEntityId;
-	private String _originalSamlIdpEntityId;
 	private String _samlSpAuthRequestKey;
-	private String _originalSamlSpAuthRequestKey;
 	private long _columnBitmask;
 	private SamlSpAuthRequest _escapedModel;
+	private SamlSpAuthRequestCacheModel _samlSpAuthRequestCacheModel;
 
 }

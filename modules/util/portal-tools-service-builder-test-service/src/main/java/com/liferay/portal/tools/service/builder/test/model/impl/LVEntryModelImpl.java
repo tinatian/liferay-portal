@@ -124,19 +124,23 @@ public class LVEntryModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 2L;
+	public static final long UUID_COLUMN_BITMASK = 2L;
 
-	public static final long HEAD_COLUMN_BITMASK = 4L;
+	public static final long HEADID_COLUMN_BITMASK = 4L;
 
-	public static final long HEADID_COLUMN_BITMASK = 8L;
+	public static final long HEAD_COLUMN_BITMASK = 8L;
 
-	public static final long UNIQUEGROUPKEY_COLUMN_BITMASK = 16L;
+	public static final long DEFAULTLANGUAGEID_COLUMN_BITMASK = 16L;
 
-	public static final long UUID_COLUMN_BITMASK = 32L;
+	public static final long LVENTRYID_COLUMN_BITMASK = 32L;
 
-	public static final long LVENTRYID_COLUMN_BITMASK = 64L;
+	public static final long COMPANYID_COLUMN_BITMASK = 64L;
+
+	public static final long GROUPID_COLUMN_BITMASK = 128L;
+
+	public static final long UNIQUEGROUPKEY_COLUMN_BITMASK = 256L;
 
 	public static final String MAPPING_TABLE_BIGDECIMALENTRIES_LVENTRIES_NAME =
 		"BigDecimalEntries_LVEntries";
@@ -274,42 +278,100 @@ public class LVEntryModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<LVEntry, Object> function = _attributeGetterFunctions.get(
+			attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((LVEntry)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<LVEntryCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_lvEntryCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_lvEntryCacheModel);
+	}
+
 	private static final Map<String, Function<LVEntry, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<LVEntry, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<LVEntryCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<LVEntry, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<LVEntry, Object>>();
 		Map<String, BiConsumer<LVEntry, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<LVEntry, ?>>();
+		Map<String, Function<LVEntryCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<LVEntryCacheModel, Object>>();
 
 		attributeGetterFunctions.put("mvccVersion", LVEntry::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion", lvEntryCacheModel -> lvEntryCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion", (BiConsumer<LVEntry, Long>)LVEntry::setMvccVersion);
 		attributeGetterFunctions.put("uuid", LVEntry::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid", lvEntryCacheModel -> lvEntryCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<LVEntry, String>)LVEntry::setUuid);
 		attributeGetterFunctions.put("headId", LVEntry::getHeadId);
+
+		cacheModelGetterFunctions.put(
+			"headId", lvEntryCacheModel -> lvEntryCacheModel.headId);
 		attributeSetterBiConsumers.put(
 			"headId", (BiConsumer<LVEntry, Long>)LVEntry::setHeadId);
 		attributeGetterFunctions.put(
 			"defaultLanguageId", LVEntry::getDefaultLanguageId);
+
+		cacheModelGetterFunctions.put(
+			"defaultLanguageId",
+			lvEntryCacheModel -> lvEntryCacheModel.defaultLanguageId);
 		attributeSetterBiConsumers.put(
 			"defaultLanguageId",
 			(BiConsumer<LVEntry, String>)LVEntry::setDefaultLanguageId);
 		attributeGetterFunctions.put("lvEntryId", LVEntry::getLvEntryId);
+
+		cacheModelGetterFunctions.put(
+			"lvEntryId", lvEntryCacheModel -> lvEntryCacheModel.lvEntryId);
 		attributeSetterBiConsumers.put(
 			"lvEntryId", (BiConsumer<LVEntry, Long>)LVEntry::setLvEntryId);
 		attributeGetterFunctions.put("companyId", LVEntry::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId", lvEntryCacheModel -> lvEntryCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId", (BiConsumer<LVEntry, Long>)LVEntry::setCompanyId);
 		attributeGetterFunctions.put("groupId", LVEntry::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId", lvEntryCacheModel -> lvEntryCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId", (BiConsumer<LVEntry, Long>)LVEntry::setGroupId);
 		attributeGetterFunctions.put(
 			"uniqueGroupKey", LVEntry::getUniqueGroupKey);
+
+		cacheModelGetterFunctions.put(
+			"uniqueGroupKey",
+			lvEntryCacheModel -> lvEntryCacheModel.uniqueGroupKey);
 		attributeSetterBiConsumers.put(
 			"uniqueGroupKey",
 			(BiConsumer<LVEntry, String>)LVEntry::setUniqueGroupKey);
@@ -318,6 +380,8 @@ public class LVEntryModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -463,31 +527,6 @@ public class LVEntryModelImpl
 		return lvEntryLocalization.getContent();
 	}
 
-	public boolean getHead() {
-		return _head;
-	}
-
-	@Override
-	public boolean isHead() {
-		return _head;
-	}
-
-	public boolean getOriginalHead() {
-		return _originalHead;
-	}
-
-	public void setHead(boolean head) {
-		_columnBitmask |= HEAD_COLUMN_BITMASK;
-
-		if (!_setOriginalHead) {
-			_setOriginalHead = true;
-
-			_originalHead = _head;
-		}
-
-		_head = head;
-	}
-
 	@Override
 	public void populateVersionModel(LVEntryVersion lvEntryVersion) {
 		lvEntryVersion.setUuid(getUuid());
@@ -504,6 +543,12 @@ public class LVEntryModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_lvEntryCacheModel == null)) {
+			_lvEntryCacheModel = (LVEntryCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -521,15 +566,20 @@ public class LVEntryModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (!isNew() && (_lvEntryCacheModel == null)) {
+			_lvEntryCacheModel = (LVEntryCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getCacheModelAttribute("uuid");
 	}
 
 	@Override
@@ -541,10 +591,8 @@ public class LVEntryModelImpl
 	public void setHeadId(long headId) {
 		_columnBitmask |= HEADID_COLUMN_BITMASK;
 
-		if (!_setOriginalHeadId) {
-			_setOriginalHeadId = true;
-
-			_originalHeadId = _headId;
+		if (!isNew() && (_lvEntryCacheModel == null)) {
+			_lvEntryCacheModel = (LVEntryCacheModel)toCacheModel();
 		}
 
 		if (headId >= 0) {
@@ -557,8 +605,41 @@ public class LVEntryModelImpl
 		_headId = headId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalHeadId() {
-		return _originalHeadId;
+		return getCacheModelAttribute("headId");
+	}
+
+	public boolean getHead() {
+		return _head;
+	}
+
+	@Override
+	public boolean isHead() {
+		return _head;
+	}
+
+	public void setHead(boolean head) {
+		_columnBitmask |= HEAD_COLUMN_BITMASK;
+
+		if (!isNew() && (_lvEntryCacheModel == null)) {
+			_lvEntryCacheModel = (LVEntryCacheModel)toCacheModel();
+		}
+
+		_head = head;
+	}
+
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
+	public boolean getOriginalHead() {
+		return getCacheModelAttribute("head");
 	}
 
 	@Override
@@ -573,6 +654,12 @@ public class LVEntryModelImpl
 
 	@Override
 	public void setDefaultLanguageId(String defaultLanguageId) {
+		_columnBitmask |= DEFAULTLANGUAGEID_COLUMN_BITMASK;
+
+		if (!isNew() && (_lvEntryCacheModel == null)) {
+			_lvEntryCacheModel = (LVEntryCacheModel)toCacheModel();
+		}
+
 		_defaultLanguageId = defaultLanguageId;
 	}
 
@@ -583,6 +670,12 @@ public class LVEntryModelImpl
 
 	@Override
 	public void setLvEntryId(long lvEntryId) {
+		_columnBitmask |= LVENTRYID_COLUMN_BITMASK;
+
+		if (!isNew() && (_lvEntryCacheModel == null)) {
+			_lvEntryCacheModel = (LVEntryCacheModel)toCacheModel();
+		}
+
 		_lvEntryId = lvEntryId;
 	}
 
@@ -595,17 +688,20 @@ public class LVEntryModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (!isNew() && (_lvEntryCacheModel == null)) {
+			_lvEntryCacheModel = (LVEntryCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getCacheModelAttribute("companyId");
 	}
 
 	@Override
@@ -617,17 +713,20 @@ public class LVEntryModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (!isNew() && (_lvEntryCacheModel == null)) {
+			_lvEntryCacheModel = (LVEntryCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getCacheModelAttribute("groupId");
 	}
 
 	@Override
@@ -644,15 +743,20 @@ public class LVEntryModelImpl
 	public void setUniqueGroupKey(String uniqueGroupKey) {
 		_columnBitmask |= UNIQUEGROUPKEY_COLUMN_BITMASK;
 
-		if (_originalUniqueGroupKey == null) {
-			_originalUniqueGroupKey = _uniqueGroupKey;
+		if (!isNew() && (_lvEntryCacheModel == null)) {
+			_lvEntryCacheModel = (LVEntryCacheModel)toCacheModel();
 		}
 
 		_uniqueGroupKey = uniqueGroupKey;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalUniqueGroupKey() {
-		return GetterUtil.getString(_originalUniqueGroupKey);
+		return getCacheModelAttribute("uniqueGroupKey");
 	}
 
 	public long getColumnBitmask() {
@@ -767,30 +871,9 @@ public class LVEntryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		LVEntryModelImpl lvEntryModelImpl = this;
+		_columnBitmask = 0;
 
-		lvEntryModelImpl._originalUuid = lvEntryModelImpl._uuid;
-
-		lvEntryModelImpl._originalHeadId = lvEntryModelImpl._headId;
-
-		lvEntryModelImpl._setOriginalHeadId = false;
-
-		lvEntryModelImpl._originalHead = lvEntryModelImpl._head;
-
-		lvEntryModelImpl._setOriginalHead = false;
-
-		lvEntryModelImpl._originalCompanyId = lvEntryModelImpl._companyId;
-
-		lvEntryModelImpl._setOriginalCompanyId = false;
-
-		lvEntryModelImpl._originalGroupId = lvEntryModelImpl._groupId;
-
-		lvEntryModelImpl._setOriginalGroupId = false;
-
-		lvEntryModelImpl._originalUniqueGroupKey =
-			lvEntryModelImpl._uniqueGroupKey;
-
-		lvEntryModelImpl._columnBitmask = 0;
+		_lvEntryCacheModel = null;
 	}
 
 	@Override
@@ -908,24 +991,15 @@ public class LVEntryModelImpl
 
 	private long _mvccVersion;
 	private String _uuid;
-	private String _originalUuid;
 	private long _headId;
-	private long _originalHeadId;
-	private boolean _setOriginalHeadId;
 	private boolean _head;
-	private boolean _originalHead;
-	private boolean _setOriginalHead;
 	private String _defaultLanguageId;
 	private long _lvEntryId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private String _uniqueGroupKey;
-	private String _originalUniqueGroupKey;
 	private long _columnBitmask;
 	private LVEntry _escapedModel;
+	private LVEntryCacheModel _lvEntryCacheModel;
 
 }

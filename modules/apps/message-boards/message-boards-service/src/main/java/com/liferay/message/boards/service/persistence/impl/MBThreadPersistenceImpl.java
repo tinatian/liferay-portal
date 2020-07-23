@@ -13392,8 +13392,8 @@ public class MBThreadPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				mbThreadModelImpl.getOriginalUuid(),
-				mbThreadModelImpl.getOriginalGroupId()
+				mbThreadModelImpl.getCacheModelAttribute("uuid"),
+				mbThreadModelImpl.getCacheModelAttribute("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -13411,7 +13411,7 @@ public class MBThreadPersistenceImpl
 			 _finderPathFetchByRootMessageId.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				mbThreadModelImpl.getOriginalRootMessageId()
+				mbThreadModelImpl.getCacheModelAttribute("rootMessageId")
 			};
 
 			finderCache.removeResult(_finderPathCountByRootMessageId, args);
@@ -13727,7 +13727,7 @@ public class MBThreadPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mbThreadModelImpl.getOriginalUuid()
+					mbThreadModelImpl.getCacheModelAttribute("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -13746,8 +13746,8 @@ public class MBThreadPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mbThreadModelImpl.getOriginalUuid(),
-					mbThreadModelImpl.getOriginalCompanyId()
+					mbThreadModelImpl.getCacheModelAttribute("uuid"),
+					mbThreadModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -13769,7 +13769,7 @@ public class MBThreadPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					mbThreadModelImpl.getOriginalGroupId()
+					mbThreadModelImpl.getCacheModelAttribute("groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId, args);
@@ -13788,8 +13788,8 @@ public class MBThreadPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mbThreadModelImpl.getOriginalGroupId(),
-					mbThreadModelImpl.getOriginalCategoryId()
+					mbThreadModelImpl.getCacheModelAttribute("groupId"),
+					mbThreadModelImpl.getCacheModelAttribute("categoryId")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_C, args);
@@ -13811,8 +13811,8 @@ public class MBThreadPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mbThreadModelImpl.getOriginalGroupId(),
-					mbThreadModelImpl.getOriginalStatus()
+					mbThreadModelImpl.getCacheModelAttribute("groupId"),
+					mbThreadModelImpl.getCacheModelAttribute("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_S, args);
@@ -13834,8 +13834,8 @@ public class MBThreadPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mbThreadModelImpl.getOriginalCategoryId(),
-					mbThreadModelImpl.getOriginalPriority()
+					mbThreadModelImpl.getCacheModelAttribute("categoryId"),
+					mbThreadModelImpl.getCacheModelAttribute("priority")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_P, args);
@@ -13857,8 +13857,8 @@ public class MBThreadPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mbThreadModelImpl.getOriginalLastPostDate(),
-					mbThreadModelImpl.getOriginalPriority()
+					mbThreadModelImpl.getCacheModelAttribute("lastPostDate"),
+					mbThreadModelImpl.getCacheModelAttribute("priority")
 				};
 
 				finderCache.removeResult(_finderPathCountByL_P, args);
@@ -13880,9 +13880,9 @@ public class MBThreadPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mbThreadModelImpl.getOriginalGroupId(),
-					mbThreadModelImpl.getOriginalCategoryId(),
-					mbThreadModelImpl.getOriginalLastPostDate()
+					mbThreadModelImpl.getCacheModelAttribute("groupId"),
+					mbThreadModelImpl.getCacheModelAttribute("categoryId"),
+					mbThreadModelImpl.getCacheModelAttribute("lastPostDate")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_C_L, args);
@@ -13905,9 +13905,9 @@ public class MBThreadPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mbThreadModelImpl.getOriginalGroupId(),
-					mbThreadModelImpl.getOriginalCategoryId(),
-					mbThreadModelImpl.getOriginalStatus()
+					mbThreadModelImpl.getCacheModelAttribute("groupId"),
+					mbThreadModelImpl.getCacheModelAttribute("categoryId"),
+					mbThreadModelImpl.getCacheModelAttribute("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_C_S, args);

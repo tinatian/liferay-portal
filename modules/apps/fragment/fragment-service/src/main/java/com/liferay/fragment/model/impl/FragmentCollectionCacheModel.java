@@ -116,6 +116,8 @@ public class FragmentCollectionCacheModel
 		FragmentCollectionImpl fragmentCollectionImpl =
 			new FragmentCollectionImpl();
 
+		fragmentCollectionImpl.setNew(true);
+
 		fragmentCollectionImpl.setMvccVersion(mvccVersion);
 
 		if (uuid == null) {
@@ -182,6 +184,8 @@ public class FragmentCollectionCacheModel
 		}
 
 		fragmentCollectionImpl.resetOriginalValues();
+
+		fragmentCollectionImpl.setNew(false);
 
 		return fragmentCollectionImpl;
 	}

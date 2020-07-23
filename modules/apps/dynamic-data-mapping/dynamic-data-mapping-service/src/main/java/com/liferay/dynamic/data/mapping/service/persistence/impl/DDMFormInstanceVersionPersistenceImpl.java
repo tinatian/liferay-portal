@@ -1625,8 +1625,10 @@ public class DDMFormInstanceVersionPersistenceImpl
 			 _finderPathFetchByF_V.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				ddmFormInstanceVersionModelImpl.getOriginalFormInstanceId(),
-				ddmFormInstanceVersionModelImpl.getOriginalVersion()
+				ddmFormInstanceVersionModelImpl.getCacheModelAttribute(
+					"formInstanceId"),
+				ddmFormInstanceVersionModelImpl.getCacheModelAttribute(
+					"version")
 			};
 
 			finderCache.removeResult(_finderPathCountByF_V, args);
@@ -1843,7 +1845,8 @@ public class DDMFormInstanceVersionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					ddmFormInstanceVersionModelImpl.getOriginalFormInstanceId()
+					ddmFormInstanceVersionModelImpl.getCacheModelAttribute(
+						"formInstanceId")
 				};
 
 				finderCache.removeResult(
@@ -1866,8 +1869,10 @@ public class DDMFormInstanceVersionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					ddmFormInstanceVersionModelImpl.getOriginalFormInstanceId(),
-					ddmFormInstanceVersionModelImpl.getOriginalStatus()
+					ddmFormInstanceVersionModelImpl.getCacheModelAttribute(
+						"formInstanceId"),
+					ddmFormInstanceVersionModelImpl.getCacheModelAttribute(
+						"status")
 				};
 
 				finderCache.removeResult(_finderPathCountByF_S, args);

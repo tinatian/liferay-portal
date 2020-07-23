@@ -1590,8 +1590,10 @@ public class AssetEntryAssetCategoryRelPersistenceImpl
 			 _finderPathFetchByA_A.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				assetEntryAssetCategoryRelModelImpl.getOriginalAssetEntryId(),
-				assetEntryAssetCategoryRelModelImpl.getOriginalAssetCategoryId()
+				assetEntryAssetCategoryRelModelImpl.getCacheModelAttribute(
+					"assetEntryId"),
+				assetEntryAssetCategoryRelModelImpl.getCacheModelAttribute(
+					"assetCategoryId")
 			};
 
 			finderCache.removeResult(_finderPathCountByA_A, args);
@@ -1813,8 +1815,8 @@ public class AssetEntryAssetCategoryRelPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					assetEntryAssetCategoryRelModelImpl.
-						getOriginalAssetEntryId()
+					assetEntryAssetCategoryRelModelImpl.getCacheModelAttribute(
+						"assetEntryId")
 				};
 
 				finderCache.removeResult(_finderPathCountByAssetEntryId, args);
@@ -1835,8 +1837,8 @@ public class AssetEntryAssetCategoryRelPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					assetEntryAssetCategoryRelModelImpl.
-						getOriginalAssetCategoryId()
+					assetEntryAssetCategoryRelModelImpl.getCacheModelAttribute(
+						"assetCategoryId")
 				};
 
 				finderCache.removeResult(

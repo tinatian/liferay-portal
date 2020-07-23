@@ -103,6 +103,8 @@ public class AppBuilderAppCacheModel
 	public AppBuilderApp toEntityModel() {
 		AppBuilderAppImpl appBuilderAppImpl = new AppBuilderAppImpl();
 
+		appBuilderAppImpl.setNew(true);
+
 		if (uuid == null) {
 			appBuilderAppImpl.setUuid("");
 		}
@@ -157,6 +159,8 @@ public class AppBuilderAppCacheModel
 		}
 
 		appBuilderAppImpl.resetOriginalValues();
+
+		appBuilderAppImpl.setNew(false);
 
 		return appBuilderAppImpl;
 	}

@@ -125,6 +125,8 @@ public class KaleoTransitionCacheModel
 	public KaleoTransition toEntityModel() {
 		KaleoTransitionImpl kaleoTransitionImpl = new KaleoTransitionImpl();
 
+		kaleoTransitionImpl.setNew(true);
+
 		kaleoTransitionImpl.setMvccVersion(mvccVersion);
 		kaleoTransitionImpl.setKaleoTransitionId(kaleoTransitionId);
 		kaleoTransitionImpl.setGroupId(groupId);
@@ -192,6 +194,8 @@ public class KaleoTransitionCacheModel
 		kaleoTransitionImpl.setDefaultTransition(defaultTransition);
 
 		kaleoTransitionImpl.resetOriginalValues();
+
+		kaleoTransitionImpl.setNew(false);
 
 		return kaleoTransitionImpl;
 	}

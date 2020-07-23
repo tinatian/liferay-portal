@@ -114,6 +114,8 @@ public class EmailAddressCacheModel
 	public EmailAddress toEntityModel() {
 		EmailAddressImpl emailAddressImpl = new EmailAddressImpl();
 
+		emailAddressImpl.setNew(true);
+
 		emailAddressImpl.setMvccVersion(mvccVersion);
 
 		if (uuid == null) {
@@ -162,6 +164,8 @@ public class EmailAddressCacheModel
 		emailAddressImpl.setPrimary(primary);
 
 		emailAddressImpl.resetOriginalValues();
+
+		emailAddressImpl.setNew(false);
 
 		return emailAddressImpl;
 	}

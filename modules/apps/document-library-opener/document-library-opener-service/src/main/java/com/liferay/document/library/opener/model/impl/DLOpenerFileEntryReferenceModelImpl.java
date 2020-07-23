@@ -27,7 +27,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -111,11 +110,27 @@ public class DLOpenerFileEntryReferenceModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long FILEENTRYID_COLUMN_BITMASK = 1L;
+	public static final long DLOPENERFILEENTRYREFERENCEID_COLUMN_BITMASK = 1L;
 
-	public static final long REFERENCETYPE_COLUMN_BITMASK = 2L;
+	public static final long GROUPID_COLUMN_BITMASK = 2L;
 
-	public static final long DLOPENERFILEENTRYREFERENCEID_COLUMN_BITMASK = 4L;
+	public static final long COMPANYID_COLUMN_BITMASK = 4L;
+
+	public static final long USERID_COLUMN_BITMASK = 8L;
+
+	public static final long USERNAME_COLUMN_BITMASK = 16L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 32L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 64L;
+
+	public static final long REFERENCEKEY_COLUMN_BITMASK = 128L;
+
+	public static final long REFERENCETYPE_COLUMN_BITMASK = 256L;
+
+	public static final long FILEENTRYID_COLUMN_BITMASK = 512L;
+
+	public static final long TYPE_COLUMN_BITMASK = 1024L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -246,12 +261,41 @@ public class DLOpenerFileEntryReferenceModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<DLOpenerFileEntryReference, Object> function =
+			_attributeGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((DLOpenerFileEntryReference)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<DLOpenerFileEntryReferenceCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_dlOpenerFileEntryReferenceCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_dlOpenerFileEntryReferenceCacheModel);
+	}
+
 	private static final Map
 		<String, Function<DLOpenerFileEntryReference, Object>>
 			_attributeGetterFunctions;
 	private static final Map
 		<String, BiConsumer<DLOpenerFileEntryReference, Object>>
 			_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<DLOpenerFileEntryReferenceCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<DLOpenerFileEntryReference, Object>>
@@ -262,70 +306,131 @@ public class DLOpenerFileEntryReferenceModelImpl
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<DLOpenerFileEntryReference, ?>>();
+		Map<String, Function<DLOpenerFileEntryReferenceCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String,
+					 Function<DLOpenerFileEntryReferenceCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"dlOpenerFileEntryReferenceId",
 			DLOpenerFileEntryReference::getDlOpenerFileEntryReferenceId);
+
+		cacheModelGetterFunctions.put(
+			"dlOpenerFileEntryReferenceId",
+			dlOpenerFileEntryReferenceCacheModel ->
+				dlOpenerFileEntryReferenceCacheModel.
+					dlOpenerFileEntryReferenceId);
 		attributeSetterBiConsumers.put(
 			"dlOpenerFileEntryReferenceId",
 			(BiConsumer<DLOpenerFileEntryReference, Long>)
 				DLOpenerFileEntryReference::setDlOpenerFileEntryReferenceId);
 		attributeGetterFunctions.put(
 			"groupId", DLOpenerFileEntryReference::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			dlOpenerFileEntryReferenceCacheModel ->
+				dlOpenerFileEntryReferenceCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<DLOpenerFileEntryReference, Long>)
 				DLOpenerFileEntryReference::setGroupId);
 		attributeGetterFunctions.put(
 			"companyId", DLOpenerFileEntryReference::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			dlOpenerFileEntryReferenceCacheModel ->
+				dlOpenerFileEntryReferenceCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<DLOpenerFileEntryReference, Long>)
 				DLOpenerFileEntryReference::setCompanyId);
 		attributeGetterFunctions.put(
 			"userId", DLOpenerFileEntryReference::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			dlOpenerFileEntryReferenceCacheModel ->
+				dlOpenerFileEntryReferenceCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<DLOpenerFileEntryReference, Long>)
 				DLOpenerFileEntryReference::setUserId);
 		attributeGetterFunctions.put(
 			"userName", DLOpenerFileEntryReference::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			dlOpenerFileEntryReferenceCacheModel ->
+				dlOpenerFileEntryReferenceCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<DLOpenerFileEntryReference, String>)
 				DLOpenerFileEntryReference::setUserName);
 		attributeGetterFunctions.put(
 			"createDate", DLOpenerFileEntryReference::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			dlOpenerFileEntryReferenceCacheModel ->
+				dlOpenerFileEntryReferenceCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<DLOpenerFileEntryReference, Date>)
 				DLOpenerFileEntryReference::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", DLOpenerFileEntryReference::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			dlOpenerFileEntryReferenceCacheModel ->
+				dlOpenerFileEntryReferenceCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<DLOpenerFileEntryReference, Date>)
 				DLOpenerFileEntryReference::setModifiedDate);
 		attributeGetterFunctions.put(
 			"referenceKey", DLOpenerFileEntryReference::getReferenceKey);
+
+		cacheModelGetterFunctions.put(
+			"referenceKey",
+			dlOpenerFileEntryReferenceCacheModel ->
+				dlOpenerFileEntryReferenceCacheModel.referenceKey);
 		attributeSetterBiConsumers.put(
 			"referenceKey",
 			(BiConsumer<DLOpenerFileEntryReference, String>)
 				DLOpenerFileEntryReference::setReferenceKey);
 		attributeGetterFunctions.put(
 			"referenceType", DLOpenerFileEntryReference::getReferenceType);
+
+		cacheModelGetterFunctions.put(
+			"referenceType",
+			dlOpenerFileEntryReferenceCacheModel ->
+				dlOpenerFileEntryReferenceCacheModel.referenceType);
 		attributeSetterBiConsumers.put(
 			"referenceType",
 			(BiConsumer<DLOpenerFileEntryReference, String>)
 				DLOpenerFileEntryReference::setReferenceType);
 		attributeGetterFunctions.put(
 			"fileEntryId", DLOpenerFileEntryReference::getFileEntryId);
+
+		cacheModelGetterFunctions.put(
+			"fileEntryId",
+			dlOpenerFileEntryReferenceCacheModel ->
+				dlOpenerFileEntryReferenceCacheModel.fileEntryId);
 		attributeSetterBiConsumers.put(
 			"fileEntryId",
 			(BiConsumer<DLOpenerFileEntryReference, Long>)
 				DLOpenerFileEntryReference::setFileEntryId);
 		attributeGetterFunctions.put(
 			"type", DLOpenerFileEntryReference::getType);
+
+		cacheModelGetterFunctions.put(
+			"type",
+			dlOpenerFileEntryReferenceCacheModel ->
+				dlOpenerFileEntryReferenceCacheModel.type);
 		attributeSetterBiConsumers.put(
 			"type",
 			(BiConsumer<DLOpenerFileEntryReference, Integer>)
@@ -335,6 +440,8 @@ public class DLOpenerFileEntryReferenceModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -346,6 +453,13 @@ public class DLOpenerFileEntryReferenceModelImpl
 	public void setDlOpenerFileEntryReferenceId(
 		long dlOpenerFileEntryReferenceId) {
 
+		_columnBitmask |= DLOPENERFILEENTRYREFERENCEID_COLUMN_BITMASK;
+
+		if (!isNew() && (_dlOpenerFileEntryReferenceCacheModel == null)) {
+			_dlOpenerFileEntryReferenceCacheModel =
+				(DLOpenerFileEntryReferenceCacheModel)toCacheModel();
+		}
+
 		_dlOpenerFileEntryReferenceId = dlOpenerFileEntryReferenceId;
 	}
 
@@ -356,6 +470,13 @@ public class DLOpenerFileEntryReferenceModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
+		_columnBitmask |= GROUPID_COLUMN_BITMASK;
+
+		if (!isNew() && (_dlOpenerFileEntryReferenceCacheModel == null)) {
+			_dlOpenerFileEntryReferenceCacheModel =
+				(DLOpenerFileEntryReferenceCacheModel)toCacheModel();
+		}
+
 		_groupId = groupId;
 	}
 
@@ -366,6 +487,13 @@ public class DLOpenerFileEntryReferenceModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (!isNew() && (_dlOpenerFileEntryReferenceCacheModel == null)) {
+			_dlOpenerFileEntryReferenceCacheModel =
+				(DLOpenerFileEntryReferenceCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -376,6 +504,13 @@ public class DLOpenerFileEntryReferenceModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_dlOpenerFileEntryReferenceCacheModel == null)) {
+			_dlOpenerFileEntryReferenceCacheModel =
+				(DLOpenerFileEntryReferenceCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -407,6 +542,13 @@ public class DLOpenerFileEntryReferenceModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_dlOpenerFileEntryReferenceCacheModel == null)) {
+			_dlOpenerFileEntryReferenceCacheModel =
+				(DLOpenerFileEntryReferenceCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -417,6 +559,13 @@ public class DLOpenerFileEntryReferenceModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_dlOpenerFileEntryReferenceCacheModel == null)) {
+			_dlOpenerFileEntryReferenceCacheModel =
+				(DLOpenerFileEntryReferenceCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -433,6 +582,13 @@ public class DLOpenerFileEntryReferenceModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_dlOpenerFileEntryReferenceCacheModel == null)) {
+			_dlOpenerFileEntryReferenceCacheModel =
+				(DLOpenerFileEntryReferenceCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -448,6 +604,13 @@ public class DLOpenerFileEntryReferenceModelImpl
 
 	@Override
 	public void setReferenceKey(String referenceKey) {
+		_columnBitmask |= REFERENCEKEY_COLUMN_BITMASK;
+
+		if (!isNew() && (_dlOpenerFileEntryReferenceCacheModel == null)) {
+			_dlOpenerFileEntryReferenceCacheModel =
+				(DLOpenerFileEntryReferenceCacheModel)toCacheModel();
+		}
+
 		_referenceKey = referenceKey;
 	}
 
@@ -465,15 +628,21 @@ public class DLOpenerFileEntryReferenceModelImpl
 	public void setReferenceType(String referenceType) {
 		_columnBitmask |= REFERENCETYPE_COLUMN_BITMASK;
 
-		if (_originalReferenceType == null) {
-			_originalReferenceType = _referenceType;
+		if (!isNew() && (_dlOpenerFileEntryReferenceCacheModel == null)) {
+			_dlOpenerFileEntryReferenceCacheModel =
+				(DLOpenerFileEntryReferenceCacheModel)toCacheModel();
 		}
 
 		_referenceType = referenceType;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalReferenceType() {
-		return GetterUtil.getString(_originalReferenceType);
+		return getCacheModelAttribute("referenceType");
 	}
 
 	@Override
@@ -485,17 +654,21 @@ public class DLOpenerFileEntryReferenceModelImpl
 	public void setFileEntryId(long fileEntryId) {
 		_columnBitmask |= FILEENTRYID_COLUMN_BITMASK;
 
-		if (!_setOriginalFileEntryId) {
-			_setOriginalFileEntryId = true;
-
-			_originalFileEntryId = _fileEntryId;
+		if (!isNew() && (_dlOpenerFileEntryReferenceCacheModel == null)) {
+			_dlOpenerFileEntryReferenceCacheModel =
+				(DLOpenerFileEntryReferenceCacheModel)toCacheModel();
 		}
 
 		_fileEntryId = fileEntryId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalFileEntryId() {
-		return _originalFileEntryId;
+		return getCacheModelAttribute("fileEntryId");
 	}
 
 	@Override
@@ -505,6 +678,13 @@ public class DLOpenerFileEntryReferenceModelImpl
 
 	@Override
 	public void setType(int type) {
+		_columnBitmask |= TYPE_COLUMN_BITMASK;
+
+		if (!isNew() && (_dlOpenerFileEntryReferenceCacheModel == null)) {
+			_dlOpenerFileEntryReferenceCacheModel =
+				(DLOpenerFileEntryReferenceCacheModel)toCacheModel();
+		}
+
 		_type = type;
 	}
 
@@ -629,20 +809,11 @@ public class DLOpenerFileEntryReferenceModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		DLOpenerFileEntryReferenceModelImpl
-			dlOpenerFileEntryReferenceModelImpl = this;
+		_setModifiedDate = false;
 
-		dlOpenerFileEntryReferenceModelImpl._setModifiedDate = false;
+		_columnBitmask = 0;
 
-		dlOpenerFileEntryReferenceModelImpl._originalReferenceType =
-			dlOpenerFileEntryReferenceModelImpl._referenceType;
-
-		dlOpenerFileEntryReferenceModelImpl._originalFileEntryId =
-			dlOpenerFileEntryReferenceModelImpl._fileEntryId;
-
-		dlOpenerFileEntryReferenceModelImpl._setOriginalFileEntryId = false;
-
-		dlOpenerFileEntryReferenceModelImpl._columnBitmask = 0;
+		_dlOpenerFileEntryReferenceCacheModel = null;
 	}
 
 	@Override
@@ -798,12 +969,11 @@ public class DLOpenerFileEntryReferenceModelImpl
 	private boolean _setModifiedDate;
 	private String _referenceKey;
 	private String _referenceType;
-	private String _originalReferenceType;
 	private long _fileEntryId;
-	private long _originalFileEntryId;
-	private boolean _setOriginalFileEntryId;
 	private int _type;
 	private long _columnBitmask;
 	private DLOpenerFileEntryReference _escapedModel;
+	private DLOpenerFileEntryReferenceCacheModel
+		_dlOpenerFileEntryReferenceCacheModel;
 
 }

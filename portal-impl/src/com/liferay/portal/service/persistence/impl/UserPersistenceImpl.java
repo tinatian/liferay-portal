@@ -8461,7 +8461,9 @@ public class UserPersistenceImpl
 		if ((userModelImpl.getColumnBitmask() &
 			 _finderPathFetchByContactId.getColumnBitmask()) != 0) {
 
-			Object[] args = new Object[] {userModelImpl.getOriginalContactId()};
+			Object[] args = new Object[] {
+				userModelImpl.getCacheModelAttribute("contactId")
+			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByContactId, args);
 			FinderCacheUtil.removeResult(_finderPathFetchByContactId, args);
@@ -8478,7 +8480,7 @@ public class UserPersistenceImpl
 			 _finderPathFetchByPortraitId.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				userModelImpl.getOriginalPortraitId()
+				userModelImpl.getCacheModelAttribute("portraitId")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByPortraitId, args);
@@ -8498,8 +8500,8 @@ public class UserPersistenceImpl
 			 _finderPathFetchByC_U.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				userModelImpl.getOriginalCompanyId(),
-				userModelImpl.getOriginalUserId()
+				userModelImpl.getCacheModelAttribute("companyId"),
+				userModelImpl.getCacheModelAttribute("userId")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByC_U, args);
@@ -8519,8 +8521,8 @@ public class UserPersistenceImpl
 			 _finderPathFetchByC_DU.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				userModelImpl.getOriginalCompanyId(),
-				userModelImpl.getOriginalDefaultUser()
+				userModelImpl.getCacheModelAttribute("companyId"),
+				userModelImpl.getCacheModelAttribute("defaultUser")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByC_DU, args);
@@ -8540,8 +8542,8 @@ public class UserPersistenceImpl
 			 _finderPathFetchByC_SN.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				userModelImpl.getOriginalCompanyId(),
-				userModelImpl.getOriginalScreenName()
+				userModelImpl.getCacheModelAttribute("companyId"),
+				userModelImpl.getCacheModelAttribute("screenName")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByC_SN, args);
@@ -8561,8 +8563,8 @@ public class UserPersistenceImpl
 			 _finderPathFetchByC_EA.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				userModelImpl.getOriginalCompanyId(),
-				userModelImpl.getOriginalEmailAddress()
+				userModelImpl.getCacheModelAttribute("companyId"),
+				userModelImpl.getCacheModelAttribute("emailAddress")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByC_EA, args);
@@ -8582,8 +8584,8 @@ public class UserPersistenceImpl
 			 _finderPathFetchByC_FID.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				userModelImpl.getOriginalCompanyId(),
-				userModelImpl.getOriginalFacebookId()
+				userModelImpl.getCacheModelAttribute("companyId"),
+				userModelImpl.getCacheModelAttribute("facebookId")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByC_FID, args);
@@ -8603,8 +8605,8 @@ public class UserPersistenceImpl
 			 _finderPathFetchByC_GUID.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				userModelImpl.getOriginalCompanyId(),
-				userModelImpl.getOriginalGoogleUserId()
+				userModelImpl.getCacheModelAttribute("companyId"),
+				userModelImpl.getCacheModelAttribute("googleUserId")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByC_GUID, args);
@@ -8624,8 +8626,8 @@ public class UserPersistenceImpl
 			 _finderPathFetchByC_O.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				userModelImpl.getOriginalCompanyId(),
-				userModelImpl.getOriginalOpenId()
+				userModelImpl.getCacheModelAttribute("companyId"),
+				userModelImpl.getCacheModelAttribute("openId")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByC_O, args);
@@ -8646,8 +8648,8 @@ public class UserPersistenceImpl
 			 _finderPathFetchByC_ERC.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				userModelImpl.getOriginalCompanyId(),
-				userModelImpl.getOriginalExternalReferenceCode()
+				userModelImpl.getCacheModelAttribute("companyId"),
+				userModelImpl.getCacheModelAttribute("externalReferenceCode")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByC_ERC, args);
@@ -8944,7 +8946,9 @@ public class UserPersistenceImpl
 				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
 					 0) {
 
-				Object[] args = new Object[] {userModelImpl.getOriginalUuid()};
+				Object[] args = new Object[] {
+					userModelImpl.getCacheModelAttribute("uuid")
+				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid, args);
 				FinderCacheUtil.removeResult(
@@ -8962,8 +8966,8 @@ public class UserPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					userModelImpl.getOriginalUuid(),
-					userModelImpl.getOriginalCompanyId()
+					userModelImpl.getCacheModelAttribute("uuid"),
+					userModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid_C, args);
@@ -8984,7 +8988,7 @@ public class UserPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					userModelImpl.getOriginalCompanyId()
+					userModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
@@ -9003,7 +9007,7 @@ public class UserPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					userModelImpl.getOriginalEmailAddress()
+					userModelImpl.getCacheModelAttribute("emailAddress")
 				};
 
 				FinderCacheUtil.removeResult(
@@ -9024,8 +9028,8 @@ public class UserPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					userModelImpl.getOriginalCompanyId(),
-					userModelImpl.getOriginalCreateDate()
+					userModelImpl.getCacheModelAttribute("companyId"),
+					userModelImpl.getCacheModelAttribute("createDate")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_CD, args);
@@ -9046,8 +9050,8 @@ public class UserPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					userModelImpl.getOriginalCompanyId(),
-					userModelImpl.getOriginalModifiedDate()
+					userModelImpl.getCacheModelAttribute("companyId"),
+					userModelImpl.getCacheModelAttribute("modifiedDate")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_MD, args);
@@ -9069,8 +9073,8 @@ public class UserPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					userModelImpl.getOriginalCompanyId(),
-					userModelImpl.getOriginalStatus()
+					userModelImpl.getCacheModelAttribute("companyId"),
+					userModelImpl.getCacheModelAttribute("status")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_S, args);
@@ -9091,9 +9095,9 @@ public class UserPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					userModelImpl.getOriginalCompanyId(),
-					userModelImpl.getOriginalCreateDate(),
-					userModelImpl.getOriginalModifiedDate()
+					userModelImpl.getCacheModelAttribute("companyId"),
+					userModelImpl.getCacheModelAttribute("createDate"),
+					userModelImpl.getCacheModelAttribute("modifiedDate")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_CD_MD, args);
@@ -9115,9 +9119,9 @@ public class UserPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					userModelImpl.getOriginalCompanyId(),
-					userModelImpl.getOriginalDefaultUser(),
-					userModelImpl.getOriginalStatus()
+					userModelImpl.getCacheModelAttribute("companyId"),
+					userModelImpl.getCacheModelAttribute("defaultUser"),
+					userModelImpl.getCacheModelAttribute("status")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_DU_S, args);

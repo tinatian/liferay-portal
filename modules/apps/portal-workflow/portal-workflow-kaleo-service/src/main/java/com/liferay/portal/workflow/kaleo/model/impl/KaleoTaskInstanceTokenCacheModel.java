@@ -132,6 +132,8 @@ public class KaleoTaskInstanceTokenCacheModel
 		KaleoTaskInstanceTokenImpl kaleoTaskInstanceTokenImpl =
 			new KaleoTaskInstanceTokenImpl();
 
+		kaleoTaskInstanceTokenImpl.setNew(true);
+
 		kaleoTaskInstanceTokenImpl.setMvccVersion(mvccVersion);
 		kaleoTaskInstanceTokenImpl.setKaleoTaskInstanceTokenId(
 			kaleoTaskInstanceTokenId);
@@ -209,6 +211,8 @@ public class KaleoTaskInstanceTokenCacheModel
 		}
 
 		kaleoTaskInstanceTokenImpl.resetOriginalValues();
+
+		kaleoTaskInstanceTokenImpl.setNew(false);
 
 		return kaleoTaskInstanceTokenImpl;
 	}

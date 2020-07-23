@@ -30,7 +30,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
@@ -114,17 +113,29 @@ public class MBBanModelImpl extends BaseModelImpl<MBBan> implements MBBanModel {
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long BANUSERID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 4L;
+	public static final long UUID_COLUMN_BITMASK = 4L;
 
-	public static final long USERID_COLUMN_BITMASK = 8L;
+	public static final long BANID_COLUMN_BITMASK = 8L;
 
-	public static final long UUID_COLUMN_BITMASK = 16L;
+	public static final long GROUPID_COLUMN_BITMASK = 16L;
 
-	public static final long BANID_COLUMN_BITMASK = 32L;
+	public static final long COMPANYID_COLUMN_BITMASK = 32L;
+
+	public static final long USERID_COLUMN_BITMASK = 64L;
+
+	public static final long USERNAME_COLUMN_BITMASK = 128L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 256L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 512L;
+
+	public static final long BANUSERID_COLUMN_BITMASK = 1024L;
+
+	public static final long LASTPUBLISHDATE_COLUMN_BITMASK = 2048L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -296,54 +307,123 @@ public class MBBanModelImpl extends BaseModelImpl<MBBan> implements MBBanModel {
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<MBBan, Object> function = _attributeGetterFunctions.get(
+			attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((MBBan)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<MBBanCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_mbBanCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_mbBanCacheModel);
+	}
+
 	private static final Map<String, Function<MBBan, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<MBBan, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<MBBanCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<MBBan, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<MBBan, Object>>();
 		Map<String, BiConsumer<MBBan, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<MBBan, ?>>();
+		Map<String, Function<MBBanCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap<String, Function<MBBanCacheModel, Object>>();
 
 		attributeGetterFunctions.put("mvccVersion", MBBan::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion", mbBanCacheModel -> mbBanCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion", (BiConsumer<MBBan, Long>)MBBan::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", MBBan::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			mbBanCacheModel -> mbBanCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<MBBan, Long>)MBBan::setCtCollectionId);
 		attributeGetterFunctions.put("uuid", MBBan::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid", mbBanCacheModel -> mbBanCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<MBBan, String>)MBBan::setUuid);
 		attributeGetterFunctions.put("banId", MBBan::getBanId);
+
+		cacheModelGetterFunctions.put(
+			"banId", mbBanCacheModel -> mbBanCacheModel.banId);
 		attributeSetterBiConsumers.put(
 			"banId", (BiConsumer<MBBan, Long>)MBBan::setBanId);
 		attributeGetterFunctions.put("groupId", MBBan::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId", mbBanCacheModel -> mbBanCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId", (BiConsumer<MBBan, Long>)MBBan::setGroupId);
 		attributeGetterFunctions.put("companyId", MBBan::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId", mbBanCacheModel -> mbBanCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId", (BiConsumer<MBBan, Long>)MBBan::setCompanyId);
 		attributeGetterFunctions.put("userId", MBBan::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", mbBanCacheModel -> mbBanCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<MBBan, Long>)MBBan::setUserId);
 		attributeGetterFunctions.put("userName", MBBan::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName", mbBanCacheModel -> mbBanCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName", (BiConsumer<MBBan, String>)MBBan::setUserName);
 		attributeGetterFunctions.put("createDate", MBBan::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate", mbBanCacheModel -> mbBanCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate", (BiConsumer<MBBan, Date>)MBBan::setCreateDate);
 		attributeGetterFunctions.put("modifiedDate", MBBan::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate", mbBanCacheModel -> mbBanCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate", (BiConsumer<MBBan, Date>)MBBan::setModifiedDate);
 		attributeGetterFunctions.put("banUserId", MBBan::getBanUserId);
+
+		cacheModelGetterFunctions.put(
+			"banUserId", mbBanCacheModel -> mbBanCacheModel.banUserId);
 		attributeSetterBiConsumers.put(
 			"banUserId", (BiConsumer<MBBan, Long>)MBBan::setBanUserId);
 		attributeGetterFunctions.put(
 			"lastPublishDate", MBBan::getLastPublishDate);
+
+		cacheModelGetterFunctions.put(
+			"lastPublishDate",
+			mbBanCacheModel -> mbBanCacheModel.lastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<MBBan, Date>)MBBan::setLastPublishDate);
@@ -352,6 +432,8 @@ public class MBBanModelImpl extends BaseModelImpl<MBBan> implements MBBanModel {
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -362,6 +444,12 @@ public class MBBanModelImpl extends BaseModelImpl<MBBan> implements MBBanModel {
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_mbBanCacheModel == null)) {
+			_mbBanCacheModel = (MBBanCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -373,6 +461,12 @@ public class MBBanModelImpl extends BaseModelImpl<MBBan> implements MBBanModel {
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (!isNew() && (_mbBanCacheModel == null)) {
+			_mbBanCacheModel = (MBBanCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -391,15 +485,20 @@ public class MBBanModelImpl extends BaseModelImpl<MBBan> implements MBBanModel {
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (!isNew() && (_mbBanCacheModel == null)) {
+			_mbBanCacheModel = (MBBanCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getCacheModelAttribute("uuid");
 	}
 
 	@JSON
@@ -410,6 +509,12 @@ public class MBBanModelImpl extends BaseModelImpl<MBBan> implements MBBanModel {
 
 	@Override
 	public void setBanId(long banId) {
+		_columnBitmask |= BANID_COLUMN_BITMASK;
+
+		if (!isNew() && (_mbBanCacheModel == null)) {
+			_mbBanCacheModel = (MBBanCacheModel)toCacheModel();
+		}
+
 		_banId = banId;
 	}
 
@@ -423,17 +528,20 @@ public class MBBanModelImpl extends BaseModelImpl<MBBan> implements MBBanModel {
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (!isNew() && (_mbBanCacheModel == null)) {
+			_mbBanCacheModel = (MBBanCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getCacheModelAttribute("groupId");
 	}
 
 	@JSON
@@ -446,17 +554,20 @@ public class MBBanModelImpl extends BaseModelImpl<MBBan> implements MBBanModel {
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (!isNew() && (_mbBanCacheModel == null)) {
+			_mbBanCacheModel = (MBBanCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getCacheModelAttribute("companyId");
 	}
 
 	@JSON
@@ -469,10 +580,8 @@ public class MBBanModelImpl extends BaseModelImpl<MBBan> implements MBBanModel {
 	public void setUserId(long userId) {
 		_columnBitmask |= USERID_COLUMN_BITMASK;
 
-		if (!_setOriginalUserId) {
-			_setOriginalUserId = true;
-
-			_originalUserId = _userId;
+		if (!isNew() && (_mbBanCacheModel == null)) {
+			_mbBanCacheModel = (MBBanCacheModel)toCacheModel();
 		}
 
 		_userId = userId;
@@ -494,8 +603,13 @@ public class MBBanModelImpl extends BaseModelImpl<MBBan> implements MBBanModel {
 	public void setUserUuid(String userUuid) {
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalUserId() {
-		return _originalUserId;
+		return getCacheModelAttribute("userId");
 	}
 
 	@JSON
@@ -511,6 +625,12 @@ public class MBBanModelImpl extends BaseModelImpl<MBBan> implements MBBanModel {
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_mbBanCacheModel == null)) {
+			_mbBanCacheModel = (MBBanCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -522,6 +642,12 @@ public class MBBanModelImpl extends BaseModelImpl<MBBan> implements MBBanModel {
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_mbBanCacheModel == null)) {
+			_mbBanCacheModel = (MBBanCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -539,6 +665,12 @@ public class MBBanModelImpl extends BaseModelImpl<MBBan> implements MBBanModel {
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_mbBanCacheModel == null)) {
+			_mbBanCacheModel = (MBBanCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -552,10 +684,8 @@ public class MBBanModelImpl extends BaseModelImpl<MBBan> implements MBBanModel {
 	public void setBanUserId(long banUserId) {
 		_columnBitmask |= BANUSERID_COLUMN_BITMASK;
 
-		if (!_setOriginalBanUserId) {
-			_setOriginalBanUserId = true;
-
-			_originalBanUserId = _banUserId;
+		if (!isNew() && (_mbBanCacheModel == null)) {
+			_mbBanCacheModel = (MBBanCacheModel)toCacheModel();
 		}
 
 		_banUserId = banUserId;
@@ -577,8 +707,13 @@ public class MBBanModelImpl extends BaseModelImpl<MBBan> implements MBBanModel {
 	public void setBanUserUuid(String banUserUuid) {
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalBanUserId() {
-		return _originalBanUserId;
+		return getCacheModelAttribute("banUserId");
 	}
 
 	@JSON
@@ -589,6 +724,12 @@ public class MBBanModelImpl extends BaseModelImpl<MBBan> implements MBBanModel {
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		_columnBitmask |= LASTPUBLISHDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_mbBanCacheModel == null)) {
+			_mbBanCacheModel = (MBBanCacheModel)toCacheModel();
+		}
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -714,29 +855,11 @@ public class MBBanModelImpl extends BaseModelImpl<MBBan> implements MBBanModel {
 
 	@Override
 	public void resetOriginalValues() {
-		MBBanModelImpl mbBanModelImpl = this;
+		_setModifiedDate = false;
 
-		mbBanModelImpl._originalUuid = mbBanModelImpl._uuid;
+		_columnBitmask = 0;
 
-		mbBanModelImpl._originalGroupId = mbBanModelImpl._groupId;
-
-		mbBanModelImpl._setOriginalGroupId = false;
-
-		mbBanModelImpl._originalCompanyId = mbBanModelImpl._companyId;
-
-		mbBanModelImpl._setOriginalCompanyId = false;
-
-		mbBanModelImpl._originalUserId = mbBanModelImpl._userId;
-
-		mbBanModelImpl._setOriginalUserId = false;
-
-		mbBanModelImpl._setModifiedDate = false;
-
-		mbBanModelImpl._originalBanUserId = mbBanModelImpl._banUserId;
-
-		mbBanModelImpl._setOriginalBanUserId = false;
-
-		mbBanModelImpl._columnBitmask = 0;
+		_mbBanCacheModel = null;
 	}
 
 	@Override
@@ -874,26 +997,18 @@ public class MBBanModelImpl extends BaseModelImpl<MBBan> implements MBBanModel {
 	private long _mvccVersion;
 	private long _ctCollectionId;
 	private String _uuid;
-	private String _originalUuid;
 	private long _banId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
-	private long _originalUserId;
-	private boolean _setOriginalUserId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _banUserId;
-	private long _originalBanUserId;
-	private boolean _setOriginalBanUserId;
 	private Date _lastPublishDate;
 	private long _columnBitmask;
 	private MBBan _escapedModel;
+	private MBBanCacheModel _mbBanCacheModel;
 
 }

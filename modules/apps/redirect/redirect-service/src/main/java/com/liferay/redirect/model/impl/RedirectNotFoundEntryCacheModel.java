@@ -110,6 +110,8 @@ public class RedirectNotFoundEntryCacheModel
 		RedirectNotFoundEntryImpl redirectNotFoundEntryImpl =
 			new RedirectNotFoundEntryImpl();
 
+		redirectNotFoundEntryImpl.setNew(true);
+
 		redirectNotFoundEntryImpl.setMvccVersion(mvccVersion);
 		redirectNotFoundEntryImpl.setRedirectNotFoundEntryId(
 			redirectNotFoundEntryId);
@@ -148,6 +150,8 @@ public class RedirectNotFoundEntryCacheModel
 		}
 
 		redirectNotFoundEntryImpl.resetOriginalValues();
+
+		redirectNotFoundEntryImpl.setNew(false);
 
 		return redirectNotFoundEntryImpl;
 	}

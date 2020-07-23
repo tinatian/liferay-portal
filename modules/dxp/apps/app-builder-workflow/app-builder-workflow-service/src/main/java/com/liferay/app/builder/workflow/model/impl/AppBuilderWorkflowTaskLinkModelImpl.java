@@ -24,7 +24,6 @@ import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -102,13 +101,19 @@ public class AppBuilderWorkflowTaskLinkModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long APPBUILDERAPPID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long DDMSTRUCTURELAYOUTID_COLUMN_BITMASK = 2L;
+	public static final long APPBUILDERWORKFLOWTASKLINKID_COLUMN_BITMASK = 2L;
 
-	public static final long WORKFLOWTASKNAME_COLUMN_BITMASK = 4L;
+	public static final long COMPANYID_COLUMN_BITMASK = 4L;
 
-	public static final long APPBUILDERWORKFLOWTASKLINKID_COLUMN_BITMASK = 8L;
+	public static final long APPBUILDERAPPID_COLUMN_BITMASK = 8L;
+
+	public static final long DDMSTRUCTURELAYOUTID_COLUMN_BITMASK = 16L;
+
+	public static final long READONLY_COLUMN_BITMASK = 32L;
+
+	public static final long WORKFLOWTASKNAME_COLUMN_BITMASK = 64L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -239,12 +244,41 @@ public class AppBuilderWorkflowTaskLinkModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<AppBuilderWorkflowTaskLink, Object> function =
+			_attributeGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((AppBuilderWorkflowTaskLink)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<AppBuilderWorkflowTaskLinkCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_appBuilderWorkflowTaskLinkCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_appBuilderWorkflowTaskLinkCacheModel);
+	}
+
 	private static final Map
 		<String, Function<AppBuilderWorkflowTaskLink, Object>>
 			_attributeGetterFunctions;
 	private static final Map
 		<String, BiConsumer<AppBuilderWorkflowTaskLink, Object>>
 			_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<AppBuilderWorkflowTaskLinkCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<AppBuilderWorkflowTaskLink, Object>>
@@ -255,9 +289,19 @@ public class AppBuilderWorkflowTaskLinkModelImpl
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<AppBuilderWorkflowTaskLink, ?>>();
+		Map<String, Function<AppBuilderWorkflowTaskLinkCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String,
+					 Function<AppBuilderWorkflowTaskLinkCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", AppBuilderWorkflowTaskLink::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			appBuilderWorkflowTaskLinkCacheModel ->
+				appBuilderWorkflowTaskLinkCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<AppBuilderWorkflowTaskLink, Long>)
@@ -265,18 +309,34 @@ public class AppBuilderWorkflowTaskLinkModelImpl
 		attributeGetterFunctions.put(
 			"appBuilderWorkflowTaskLinkId",
 			AppBuilderWorkflowTaskLink::getAppBuilderWorkflowTaskLinkId);
+
+		cacheModelGetterFunctions.put(
+			"appBuilderWorkflowTaskLinkId",
+			appBuilderWorkflowTaskLinkCacheModel ->
+				appBuilderWorkflowTaskLinkCacheModel.
+					appBuilderWorkflowTaskLinkId);
 		attributeSetterBiConsumers.put(
 			"appBuilderWorkflowTaskLinkId",
 			(BiConsumer<AppBuilderWorkflowTaskLink, Long>)
 				AppBuilderWorkflowTaskLink::setAppBuilderWorkflowTaskLinkId);
 		attributeGetterFunctions.put(
 			"companyId", AppBuilderWorkflowTaskLink::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			appBuilderWorkflowTaskLinkCacheModel ->
+				appBuilderWorkflowTaskLinkCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<AppBuilderWorkflowTaskLink, Long>)
 				AppBuilderWorkflowTaskLink::setCompanyId);
 		attributeGetterFunctions.put(
 			"appBuilderAppId", AppBuilderWorkflowTaskLink::getAppBuilderAppId);
+
+		cacheModelGetterFunctions.put(
+			"appBuilderAppId",
+			appBuilderWorkflowTaskLinkCacheModel ->
+				appBuilderWorkflowTaskLinkCacheModel.appBuilderAppId);
 		attributeSetterBiConsumers.put(
 			"appBuilderAppId",
 			(BiConsumer<AppBuilderWorkflowTaskLink, Long>)
@@ -284,12 +344,22 @@ public class AppBuilderWorkflowTaskLinkModelImpl
 		attributeGetterFunctions.put(
 			"ddmStructureLayoutId",
 			AppBuilderWorkflowTaskLink::getDdmStructureLayoutId);
+
+		cacheModelGetterFunctions.put(
+			"ddmStructureLayoutId",
+			appBuilderWorkflowTaskLinkCacheModel ->
+				appBuilderWorkflowTaskLinkCacheModel.ddmStructureLayoutId);
 		attributeSetterBiConsumers.put(
 			"ddmStructureLayoutId",
 			(BiConsumer<AppBuilderWorkflowTaskLink, Long>)
 				AppBuilderWorkflowTaskLink::setDdmStructureLayoutId);
 		attributeGetterFunctions.put(
 			"readOnly", AppBuilderWorkflowTaskLink::getReadOnly);
+
+		cacheModelGetterFunctions.put(
+			"readOnly",
+			appBuilderWorkflowTaskLinkCacheModel ->
+				appBuilderWorkflowTaskLinkCacheModel.readOnly);
 		attributeSetterBiConsumers.put(
 			"readOnly",
 			(BiConsumer<AppBuilderWorkflowTaskLink, Boolean>)
@@ -297,6 +367,11 @@ public class AppBuilderWorkflowTaskLinkModelImpl
 		attributeGetterFunctions.put(
 			"workflowTaskName",
 			AppBuilderWorkflowTaskLink::getWorkflowTaskName);
+
+		cacheModelGetterFunctions.put(
+			"workflowTaskName",
+			appBuilderWorkflowTaskLinkCacheModel ->
+				appBuilderWorkflowTaskLinkCacheModel.workflowTaskName);
 		attributeSetterBiConsumers.put(
 			"workflowTaskName",
 			(BiConsumer<AppBuilderWorkflowTaskLink, String>)
@@ -306,6 +381,8 @@ public class AppBuilderWorkflowTaskLinkModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -315,6 +392,13 @@ public class AppBuilderWorkflowTaskLinkModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_appBuilderWorkflowTaskLinkCacheModel == null)) {
+			_appBuilderWorkflowTaskLinkCacheModel =
+				(AppBuilderWorkflowTaskLinkCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -327,7 +411,12 @@ public class AppBuilderWorkflowTaskLinkModelImpl
 	public void setAppBuilderWorkflowTaskLinkId(
 		long appBuilderWorkflowTaskLinkId) {
 
-		_columnBitmask = -1L;
+		_columnBitmask |= APPBUILDERWORKFLOWTASKLINKID_COLUMN_BITMASK;
+
+		if (!isNew() && (_appBuilderWorkflowTaskLinkCacheModel == null)) {
+			_appBuilderWorkflowTaskLinkCacheModel =
+				(AppBuilderWorkflowTaskLinkCacheModel)toCacheModel();
+		}
 
 		_appBuilderWorkflowTaskLinkId = appBuilderWorkflowTaskLinkId;
 	}
@@ -339,6 +428,13 @@ public class AppBuilderWorkflowTaskLinkModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (!isNew() && (_appBuilderWorkflowTaskLinkCacheModel == null)) {
+			_appBuilderWorkflowTaskLinkCacheModel =
+				(AppBuilderWorkflowTaskLinkCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -351,17 +447,21 @@ public class AppBuilderWorkflowTaskLinkModelImpl
 	public void setAppBuilderAppId(long appBuilderAppId) {
 		_columnBitmask |= APPBUILDERAPPID_COLUMN_BITMASK;
 
-		if (!_setOriginalAppBuilderAppId) {
-			_setOriginalAppBuilderAppId = true;
-
-			_originalAppBuilderAppId = _appBuilderAppId;
+		if (!isNew() && (_appBuilderWorkflowTaskLinkCacheModel == null)) {
+			_appBuilderWorkflowTaskLinkCacheModel =
+				(AppBuilderWorkflowTaskLinkCacheModel)toCacheModel();
 		}
 
 		_appBuilderAppId = appBuilderAppId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalAppBuilderAppId() {
-		return _originalAppBuilderAppId;
+		return getCacheModelAttribute("appBuilderAppId");
 	}
 
 	@Override
@@ -373,17 +473,21 @@ public class AppBuilderWorkflowTaskLinkModelImpl
 	public void setDdmStructureLayoutId(long ddmStructureLayoutId) {
 		_columnBitmask |= DDMSTRUCTURELAYOUTID_COLUMN_BITMASK;
 
-		if (!_setOriginalDdmStructureLayoutId) {
-			_setOriginalDdmStructureLayoutId = true;
-
-			_originalDdmStructureLayoutId = _ddmStructureLayoutId;
+		if (!isNew() && (_appBuilderWorkflowTaskLinkCacheModel == null)) {
+			_appBuilderWorkflowTaskLinkCacheModel =
+				(AppBuilderWorkflowTaskLinkCacheModel)toCacheModel();
 		}
 
 		_ddmStructureLayoutId = ddmStructureLayoutId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalDdmStructureLayoutId() {
-		return _originalDdmStructureLayoutId;
+		return getCacheModelAttribute("ddmStructureLayoutId");
 	}
 
 	@Override
@@ -398,6 +502,13 @@ public class AppBuilderWorkflowTaskLinkModelImpl
 
 	@Override
 	public void setReadOnly(boolean readOnly) {
+		_columnBitmask |= READONLY_COLUMN_BITMASK;
+
+		if (!isNew() && (_appBuilderWorkflowTaskLinkCacheModel == null)) {
+			_appBuilderWorkflowTaskLinkCacheModel =
+				(AppBuilderWorkflowTaskLinkCacheModel)toCacheModel();
+		}
+
 		_readOnly = readOnly;
 	}
 
@@ -415,15 +526,21 @@ public class AppBuilderWorkflowTaskLinkModelImpl
 	public void setWorkflowTaskName(String workflowTaskName) {
 		_columnBitmask |= WORKFLOWTASKNAME_COLUMN_BITMASK;
 
-		if (_originalWorkflowTaskName == null) {
-			_originalWorkflowTaskName = _workflowTaskName;
+		if (!isNew() && (_appBuilderWorkflowTaskLinkCacheModel == null)) {
+			_appBuilderWorkflowTaskLinkCacheModel =
+				(AppBuilderWorkflowTaskLinkCacheModel)toCacheModel();
 		}
 
 		_workflowTaskName = workflowTaskName;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalWorkflowTaskName() {
-		return GetterUtil.getString(_originalWorkflowTaskName);
+		return getCacheModelAttribute("workflowTaskName");
 	}
 
 	public long getColumnBitmask() {
@@ -556,24 +673,9 @@ public class AppBuilderWorkflowTaskLinkModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		AppBuilderWorkflowTaskLinkModelImpl
-			appBuilderWorkflowTaskLinkModelImpl = this;
+		_columnBitmask = 0;
 
-		appBuilderWorkflowTaskLinkModelImpl._originalAppBuilderAppId =
-			appBuilderWorkflowTaskLinkModelImpl._appBuilderAppId;
-
-		appBuilderWorkflowTaskLinkModelImpl._setOriginalAppBuilderAppId = false;
-
-		appBuilderWorkflowTaskLinkModelImpl._originalDdmStructureLayoutId =
-			appBuilderWorkflowTaskLinkModelImpl._ddmStructureLayoutId;
-
-		appBuilderWorkflowTaskLinkModelImpl._setOriginalDdmStructureLayoutId =
-			false;
-
-		appBuilderWorkflowTaskLinkModelImpl._originalWorkflowTaskName =
-			appBuilderWorkflowTaskLinkModelImpl._workflowTaskName;
-
-		appBuilderWorkflowTaskLinkModelImpl._columnBitmask = 0;
+		_appBuilderWorkflowTaskLinkCacheModel = null;
 	}
 
 	@Override
@@ -690,15 +792,12 @@ public class AppBuilderWorkflowTaskLinkModelImpl
 	private long _appBuilderWorkflowTaskLinkId;
 	private long _companyId;
 	private long _appBuilderAppId;
-	private long _originalAppBuilderAppId;
-	private boolean _setOriginalAppBuilderAppId;
 	private long _ddmStructureLayoutId;
-	private long _originalDdmStructureLayoutId;
-	private boolean _setOriginalDdmStructureLayoutId;
 	private boolean _readOnly;
 	private String _workflowTaskName;
-	private String _originalWorkflowTaskName;
 	private long _columnBitmask;
 	private AppBuilderWorkflowTaskLink _escapedModel;
+	private AppBuilderWorkflowTaskLinkCacheModel
+		_appBuilderWorkflowTaskLinkCacheModel;
 
 }

@@ -495,7 +495,8 @@ public class DDMFormInstanceReportPersistenceImpl
 			 _finderPathFetchByFormInstanceId.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				ddmFormInstanceReportModelImpl.getOriginalFormInstanceId()
+				ddmFormInstanceReportModelImpl.getCacheModelAttribute(
+					"formInstanceId")
 			};
 
 			finderCache.removeResult(_finderPathCountByFormInstanceId, args);

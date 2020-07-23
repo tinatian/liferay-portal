@@ -108,6 +108,8 @@ public class CTAutoResolutionInfoCacheModel
 		CTAutoResolutionInfoImpl ctAutoResolutionInfoImpl =
 			new CTAutoResolutionInfoImpl();
 
+		ctAutoResolutionInfoImpl.setNew(true);
+
 		ctAutoResolutionInfoImpl.setMvccVersion(mvccVersion);
 		ctAutoResolutionInfoImpl.setCtAutoResolutionInfoId(
 			ctAutoResolutionInfoId);
@@ -133,6 +135,8 @@ public class CTAutoResolutionInfoCacheModel
 		}
 
 		ctAutoResolutionInfoImpl.resetOriginalValues();
+
+		ctAutoResolutionInfoImpl.setNew(false);
 
 		return ctAutoResolutionInfoImpl;
 	}

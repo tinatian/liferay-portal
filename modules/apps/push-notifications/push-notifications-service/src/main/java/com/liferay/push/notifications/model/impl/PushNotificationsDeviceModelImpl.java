@@ -26,7 +26,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.push.notifications.model.PushNotificationsDevice;
 import com.liferay.push.notifications.model.PushNotificationsDeviceModel;
@@ -109,13 +108,17 @@ public class PushNotificationsDeviceModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long PLATFORM_COLUMN_BITMASK = 1L;
+	public static final long PUSHNOTIFICATIONSDEVICEID_COLUMN_BITMASK = 1L;
 
-	public static final long TOKEN_COLUMN_BITMASK = 2L;
+	public static final long COMPANYID_COLUMN_BITMASK = 2L;
 
 	public static final long USERID_COLUMN_BITMASK = 4L;
 
-	public static final long PUSHNOTIFICATIONSDEVICEID_COLUMN_BITMASK = 8L;
+	public static final long CREATEDATE_COLUMN_BITMASK = 8L;
+
+	public static final long PLATFORM_COLUMN_BITMASK = 16L;
+
+	public static final long TOKEN_COLUMN_BITMASK = 32L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -294,11 +297,40 @@ public class PushNotificationsDeviceModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<PushNotificationsDevice, Object> function =
+			_attributeGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((PushNotificationsDevice)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<PushNotificationsDeviceCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_pushNotificationsDeviceCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_pushNotificationsDeviceCacheModel);
+	}
+
 	private static final Map<String, Function<PushNotificationsDevice, Object>>
 		_attributeGetterFunctions;
 	private static final Map
 		<String, BiConsumer<PushNotificationsDevice, Object>>
 			_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<PushNotificationsDeviceCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<PushNotificationsDevice, Object>>
@@ -309,40 +341,75 @@ public class PushNotificationsDeviceModelImpl
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<PushNotificationsDevice, ?>>();
+		Map<String, Function<PushNotificationsDeviceCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String,
+					 Function<PushNotificationsDeviceCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"pushNotificationsDeviceId",
 			PushNotificationsDevice::getPushNotificationsDeviceId);
+
+		cacheModelGetterFunctions.put(
+			"pushNotificationsDeviceId",
+			pushNotificationsDeviceCacheModel ->
+				pushNotificationsDeviceCacheModel.pushNotificationsDeviceId);
 		attributeSetterBiConsumers.put(
 			"pushNotificationsDeviceId",
 			(BiConsumer<PushNotificationsDevice, Long>)
 				PushNotificationsDevice::setPushNotificationsDeviceId);
 		attributeGetterFunctions.put(
 			"companyId", PushNotificationsDevice::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			pushNotificationsDeviceCacheModel ->
+				pushNotificationsDeviceCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<PushNotificationsDevice, Long>)
 				PushNotificationsDevice::setCompanyId);
 		attributeGetterFunctions.put(
 			"userId", PushNotificationsDevice::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			pushNotificationsDeviceCacheModel ->
+				pushNotificationsDeviceCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<PushNotificationsDevice, Long>)
 				PushNotificationsDevice::setUserId);
 		attributeGetterFunctions.put(
 			"createDate", PushNotificationsDevice::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			pushNotificationsDeviceCacheModel ->
+				pushNotificationsDeviceCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<PushNotificationsDevice, Date>)
 				PushNotificationsDevice::setCreateDate);
 		attributeGetterFunctions.put(
 			"platform", PushNotificationsDevice::getPlatform);
+
+		cacheModelGetterFunctions.put(
+			"platform",
+			pushNotificationsDeviceCacheModel ->
+				pushNotificationsDeviceCacheModel.platform);
 		attributeSetterBiConsumers.put(
 			"platform",
 			(BiConsumer<PushNotificationsDevice, String>)
 				PushNotificationsDevice::setPlatform);
 		attributeGetterFunctions.put(
 			"token", PushNotificationsDevice::getToken);
+
+		cacheModelGetterFunctions.put(
+			"token",
+			pushNotificationsDeviceCacheModel ->
+				pushNotificationsDeviceCacheModel.token);
 		attributeSetterBiConsumers.put(
 			"token",
 			(BiConsumer<PushNotificationsDevice, String>)
@@ -352,6 +419,8 @@ public class PushNotificationsDeviceModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -362,6 +431,13 @@ public class PushNotificationsDeviceModelImpl
 
 	@Override
 	public void setPushNotificationsDeviceId(long pushNotificationsDeviceId) {
+		_columnBitmask |= PUSHNOTIFICATIONSDEVICEID_COLUMN_BITMASK;
+
+		if (!isNew() && (_pushNotificationsDeviceCacheModel == null)) {
+			_pushNotificationsDeviceCacheModel =
+				(PushNotificationsDeviceCacheModel)toCacheModel();
+		}
+
 		_pushNotificationsDeviceId = pushNotificationsDeviceId;
 	}
 
@@ -373,6 +449,13 @@ public class PushNotificationsDeviceModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (!isNew() && (_pushNotificationsDeviceCacheModel == null)) {
+			_pushNotificationsDeviceCacheModel =
+				(PushNotificationsDeviceCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -386,10 +469,9 @@ public class PushNotificationsDeviceModelImpl
 	public void setUserId(long userId) {
 		_columnBitmask |= USERID_COLUMN_BITMASK;
 
-		if (!_setOriginalUserId) {
-			_setOriginalUserId = true;
-
-			_originalUserId = _userId;
+		if (!isNew() && (_pushNotificationsDeviceCacheModel == null)) {
+			_pushNotificationsDeviceCacheModel =
+				(PushNotificationsDeviceCacheModel)toCacheModel();
 		}
 
 		_userId = userId;
@@ -411,8 +493,13 @@ public class PushNotificationsDeviceModelImpl
 	public void setUserUuid(String userUuid) {
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalUserId() {
-		return _originalUserId;
+		return getCacheModelAttribute("userId");
 	}
 
 	@JSON
@@ -423,6 +510,13 @@ public class PushNotificationsDeviceModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_pushNotificationsDeviceCacheModel == null)) {
+			_pushNotificationsDeviceCacheModel =
+				(PushNotificationsDeviceCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -441,15 +535,21 @@ public class PushNotificationsDeviceModelImpl
 	public void setPlatform(String platform) {
 		_columnBitmask |= PLATFORM_COLUMN_BITMASK;
 
-		if (_originalPlatform == null) {
-			_originalPlatform = _platform;
+		if (!isNew() && (_pushNotificationsDeviceCacheModel == null)) {
+			_pushNotificationsDeviceCacheModel =
+				(PushNotificationsDeviceCacheModel)toCacheModel();
 		}
 
 		_platform = platform;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalPlatform() {
-		return GetterUtil.getString(_originalPlatform);
+		return getCacheModelAttribute("platform");
 	}
 
 	@JSON
@@ -467,15 +567,21 @@ public class PushNotificationsDeviceModelImpl
 	public void setToken(String token) {
 		_columnBitmask |= TOKEN_COLUMN_BITMASK;
 
-		if (_originalToken == null) {
-			_originalToken = _token;
+		if (!isNew() && (_pushNotificationsDeviceCacheModel == null)) {
+			_pushNotificationsDeviceCacheModel =
+				(PushNotificationsDeviceCacheModel)toCacheModel();
 		}
 
 		_token = token;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalToken() {
-		return GetterUtil.getString(_originalToken);
+		return getCacheModelAttribute("token");
 	}
 
 	public long getColumnBitmask() {
@@ -592,21 +698,9 @@ public class PushNotificationsDeviceModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		PushNotificationsDeviceModelImpl pushNotificationsDeviceModelImpl =
-			this;
+		_columnBitmask = 0;
 
-		pushNotificationsDeviceModelImpl._originalUserId =
-			pushNotificationsDeviceModelImpl._userId;
-
-		pushNotificationsDeviceModelImpl._setOriginalUserId = false;
-
-		pushNotificationsDeviceModelImpl._originalPlatform =
-			pushNotificationsDeviceModelImpl._platform;
-
-		pushNotificationsDeviceModelImpl._originalToken =
-			pushNotificationsDeviceModelImpl._token;
-
-		pushNotificationsDeviceModelImpl._columnBitmask = 0;
+		_pushNotificationsDeviceCacheModel = null;
 	}
 
 	@Override
@@ -726,14 +820,12 @@ public class PushNotificationsDeviceModelImpl
 	private long _pushNotificationsDeviceId;
 	private long _companyId;
 	private long _userId;
-	private long _originalUserId;
-	private boolean _setOriginalUserId;
 	private Date _createDate;
 	private String _platform;
-	private String _originalPlatform;
 	private String _token;
-	private String _originalToken;
 	private long _columnBitmask;
 	private PushNotificationsDevice _escapedModel;
+	private PushNotificationsDeviceCacheModel
+		_pushNotificationsDeviceCacheModel;
 
 }

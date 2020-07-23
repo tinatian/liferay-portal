@@ -2696,8 +2696,10 @@ public class DLFileEntryMetadataPersistenceImpl
 			 _finderPathFetchByD_F.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				dlFileEntryMetadataModelImpl.getOriginalDDMStructureId(),
-				dlFileEntryMetadataModelImpl.getOriginalFileVersionId()
+				dlFileEntryMetadataModelImpl.getCacheModelAttribute(
+					"DDMStructureId"),
+				dlFileEntryMetadataModelImpl.getCacheModelAttribute(
+					"fileVersionId")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByD_F, args);
@@ -2936,7 +2938,7 @@ public class DLFileEntryMetadataPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					dlFileEntryMetadataModelImpl.getOriginalUuid()
+					dlFileEntryMetadataModelImpl.getCacheModelAttribute("uuid")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid, args);
@@ -2955,8 +2957,9 @@ public class DLFileEntryMetadataPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					dlFileEntryMetadataModelImpl.getOriginalUuid(),
-					dlFileEntryMetadataModelImpl.getOriginalCompanyId()
+					dlFileEntryMetadataModelImpl.getCacheModelAttribute("uuid"),
+					dlFileEntryMetadataModelImpl.getCacheModelAttribute(
+						"companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid_C, args);
@@ -2978,7 +2981,8 @@ public class DLFileEntryMetadataPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					dlFileEntryMetadataModelImpl.getOriginalFileEntryId()
+					dlFileEntryMetadataModelImpl.getCacheModelAttribute(
+						"fileEntryId")
 				};
 
 				FinderCacheUtil.removeResult(
@@ -3001,7 +3005,8 @@ public class DLFileEntryMetadataPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					dlFileEntryMetadataModelImpl.getOriginalFileVersionId()
+					dlFileEntryMetadataModelImpl.getCacheModelAttribute(
+						"fileVersionId")
 				};
 
 				FinderCacheUtil.removeResult(

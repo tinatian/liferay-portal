@@ -89,6 +89,8 @@ public class GadgetCacheModel implements CacheModel<Gadget>, Externalizable {
 	public Gadget toEntityModel() {
 		GadgetImpl gadgetImpl = new GadgetImpl();
 
+		gadgetImpl.setNew(true);
+
 		if (uuid == null) {
 			gadgetImpl.setUuid("");
 		}
@@ -142,6 +144,8 @@ public class GadgetCacheModel implements CacheModel<Gadget>, Externalizable {
 		}
 
 		gadgetImpl.resetOriginalValues();
+
+		gadgetImpl.setNew(false);
 
 		return gadgetImpl;
 	}

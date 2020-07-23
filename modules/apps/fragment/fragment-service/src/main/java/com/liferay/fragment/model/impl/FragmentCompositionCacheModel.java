@@ -130,6 +130,8 @@ public class FragmentCompositionCacheModel
 		FragmentCompositionImpl fragmentCompositionImpl =
 			new FragmentCompositionImpl();
 
+		fragmentCompositionImpl.setNew(true);
+
 		fragmentCompositionImpl.setMvccVersion(mvccVersion);
 
 		if (uuid == null) {
@@ -224,6 +226,8 @@ public class FragmentCompositionCacheModel
 		}
 
 		fragmentCompositionImpl.resetOriginalValues();
+
+		fragmentCompositionImpl.setNew(false);
 
 		return fragmentCompositionImpl;
 	}

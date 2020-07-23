@@ -2518,8 +2518,8 @@ public class KaleoTaskFormPersistenceImpl
 			 _finderPathFetchByFormUuid_KTI.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				kaleoTaskFormModelImpl.getOriginalKaleoTaskId(),
-				kaleoTaskFormModelImpl.getOriginalFormUuid()
+				kaleoTaskFormModelImpl.getCacheModelAttribute("kaleoTaskId"),
+				kaleoTaskFormModelImpl.getCacheModelAttribute("formUuid")
 			};
 
 			finderCache.removeResult(_finderPathCountByFormUuid_KTI, args);
@@ -2742,7 +2742,7 @@ public class KaleoTaskFormPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoTaskFormModelImpl.getOriginalCompanyId()
+					kaleoTaskFormModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCompanyId, args);
@@ -2761,7 +2761,8 @@ public class KaleoTaskFormPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoTaskFormModelImpl.getOriginalKaleoDefinitionVersionId()
+					kaleoTaskFormModelImpl.getCacheModelAttribute(
+						"kaleoDefinitionVersionId")
 				};
 
 				finderCache.removeResult(
@@ -2786,7 +2787,7 @@ public class KaleoTaskFormPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoTaskFormModelImpl.getOriginalKaleoNodeId()
+					kaleoTaskFormModelImpl.getCacheModelAttribute("kaleoNodeId")
 				};
 
 				finderCache.removeResult(_finderPathCountByKaleoNodeId, args);
@@ -2805,7 +2806,7 @@ public class KaleoTaskFormPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoTaskFormModelImpl.getOriginalKaleoTaskId()
+					kaleoTaskFormModelImpl.getCacheModelAttribute("kaleoTaskId")
 				};
 
 				finderCache.removeResult(_finderPathCountByKaleoTaskId, args);

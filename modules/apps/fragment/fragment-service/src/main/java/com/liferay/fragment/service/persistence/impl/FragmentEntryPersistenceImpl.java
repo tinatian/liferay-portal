@@ -14093,9 +14093,9 @@ public class FragmentEntryPersistenceImpl
 			 _finderPathFetchByUUID_G_Head.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				fragmentEntryModelImpl.getOriginalUuid(),
-				fragmentEntryModelImpl.getOriginalGroupId(),
-				fragmentEntryModelImpl.getOriginalHead()
+				fragmentEntryModelImpl.getCacheModelAttribute("uuid"),
+				fragmentEntryModelImpl.getCacheModelAttribute("groupId"),
+				fragmentEntryModelImpl.getCacheModelAttribute("head")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G_Head, args);
@@ -14117,9 +14117,10 @@ public class FragmentEntryPersistenceImpl
 			 _finderPathFetchByG_FEK_Head.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				fragmentEntryModelImpl.getOriginalGroupId(),
-				fragmentEntryModelImpl.getOriginalFragmentEntryKey(),
-				fragmentEntryModelImpl.getOriginalHead()
+				fragmentEntryModelImpl.getCacheModelAttribute("groupId"),
+				fragmentEntryModelImpl.getCacheModelAttribute(
+					"fragmentEntryKey"),
+				fragmentEntryModelImpl.getCacheModelAttribute("head")
 			};
 
 			finderCache.removeResult(_finderPathCountByG_FEK_Head, args);
@@ -14137,7 +14138,7 @@ public class FragmentEntryPersistenceImpl
 			 _finderPathFetchByHeadId.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				fragmentEntryModelImpl.getOriginalHeadId()
+				fragmentEntryModelImpl.getCacheModelAttribute("headId")
 			};
 
 			finderCache.removeResult(_finderPathCountByHeadId, args);
@@ -14511,7 +14512,7 @@ public class FragmentEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					fragmentEntryModelImpl.getOriginalUuid()
+					fragmentEntryModelImpl.getCacheModelAttribute("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -14530,8 +14531,8 @@ public class FragmentEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					fragmentEntryModelImpl.getOriginalUuid(),
-					fragmentEntryModelImpl.getOriginalHead()
+					fragmentEntryModelImpl.getCacheModelAttribute("uuid"),
+					fragmentEntryModelImpl.getCacheModelAttribute("head")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_Head, args);
@@ -14553,8 +14554,8 @@ public class FragmentEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					fragmentEntryModelImpl.getOriginalUuid(),
-					fragmentEntryModelImpl.getOriginalGroupId()
+					fragmentEntryModelImpl.getCacheModelAttribute("uuid"),
+					fragmentEntryModelImpl.getCacheModelAttribute("groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -14576,8 +14577,8 @@ public class FragmentEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					fragmentEntryModelImpl.getOriginalUuid(),
-					fragmentEntryModelImpl.getOriginalCompanyId()
+					fragmentEntryModelImpl.getCacheModelAttribute("uuid"),
+					fragmentEntryModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -14599,9 +14600,9 @@ public class FragmentEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					fragmentEntryModelImpl.getOriginalUuid(),
-					fragmentEntryModelImpl.getOriginalCompanyId(),
-					fragmentEntryModelImpl.getOriginalHead()
+					fragmentEntryModelImpl.getCacheModelAttribute("uuid"),
+					fragmentEntryModelImpl.getCacheModelAttribute("companyId"),
+					fragmentEntryModelImpl.getCacheModelAttribute("head")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C_Head, args);
@@ -14624,7 +14625,7 @@ public class FragmentEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					fragmentEntryModelImpl.getOriginalGroupId()
+					fragmentEntryModelImpl.getCacheModelAttribute("groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId, args);
@@ -14643,8 +14644,8 @@ public class FragmentEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					fragmentEntryModelImpl.getOriginalGroupId(),
-					fragmentEntryModelImpl.getOriginalHead()
+					fragmentEntryModelImpl.getCacheModelAttribute("groupId"),
+					fragmentEntryModelImpl.getCacheModelAttribute("head")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId_Head, args);
@@ -14666,7 +14667,8 @@ public class FragmentEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					fragmentEntryModelImpl.getOriginalFragmentCollectionId()
+					fragmentEntryModelImpl.getCacheModelAttribute(
+						"fragmentCollectionId")
 				};
 
 				finderCache.removeResult(
@@ -14691,8 +14693,9 @@ public class FragmentEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					fragmentEntryModelImpl.getOriginalFragmentCollectionId(),
-					fragmentEntryModelImpl.getOriginalHead()
+					fragmentEntryModelImpl.getCacheModelAttribute(
+						"fragmentCollectionId"),
+					fragmentEntryModelImpl.getCacheModelAttribute("head")
 				};
 
 				finderCache.removeResult(
@@ -14718,8 +14721,9 @@ public class FragmentEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					fragmentEntryModelImpl.getOriginalGroupId(),
-					fragmentEntryModelImpl.getOriginalFragmentCollectionId()
+					fragmentEntryModelImpl.getCacheModelAttribute("groupId"),
+					fragmentEntryModelImpl.getCacheModelAttribute(
+						"fragmentCollectionId")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_FCI, args);
@@ -14741,9 +14745,10 @@ public class FragmentEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					fragmentEntryModelImpl.getOriginalGroupId(),
-					fragmentEntryModelImpl.getOriginalFragmentCollectionId(),
-					fragmentEntryModelImpl.getOriginalHead()
+					fragmentEntryModelImpl.getCacheModelAttribute("groupId"),
+					fragmentEntryModelImpl.getCacheModelAttribute(
+						"fragmentCollectionId"),
+					fragmentEntryModelImpl.getCacheModelAttribute("head")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_FCI_Head, args);
@@ -14766,8 +14771,9 @@ public class FragmentEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					fragmentEntryModelImpl.getOriginalGroupId(),
-					fragmentEntryModelImpl.getOriginalFragmentEntryKey()
+					fragmentEntryModelImpl.getCacheModelAttribute("groupId"),
+					fragmentEntryModelImpl.getCacheModelAttribute(
+						"fragmentEntryKey")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_FEK, args);
@@ -14789,9 +14795,10 @@ public class FragmentEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					fragmentEntryModelImpl.getOriginalGroupId(),
-					fragmentEntryModelImpl.getOriginalFragmentCollectionId(),
-					fragmentEntryModelImpl.getOriginalType()
+					fragmentEntryModelImpl.getCacheModelAttribute("groupId"),
+					fragmentEntryModelImpl.getCacheModelAttribute(
+						"fragmentCollectionId"),
+					fragmentEntryModelImpl.getCacheModelAttribute("type")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_FCI_T, args);
@@ -14814,10 +14821,11 @@ public class FragmentEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					fragmentEntryModelImpl.getOriginalGroupId(),
-					fragmentEntryModelImpl.getOriginalFragmentCollectionId(),
-					fragmentEntryModelImpl.getOriginalType(),
-					fragmentEntryModelImpl.getOriginalHead()
+					fragmentEntryModelImpl.getCacheModelAttribute("groupId"),
+					fragmentEntryModelImpl.getCacheModelAttribute(
+						"fragmentCollectionId"),
+					fragmentEntryModelImpl.getCacheModelAttribute("type"),
+					fragmentEntryModelImpl.getCacheModelAttribute("head")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_FCI_T_Head, args);
@@ -14841,9 +14849,10 @@ public class FragmentEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					fragmentEntryModelImpl.getOriginalGroupId(),
-					fragmentEntryModelImpl.getOriginalFragmentCollectionId(),
-					fragmentEntryModelImpl.getOriginalStatus()
+					fragmentEntryModelImpl.getCacheModelAttribute("groupId"),
+					fragmentEntryModelImpl.getCacheModelAttribute(
+						"fragmentCollectionId"),
+					fragmentEntryModelImpl.getCacheModelAttribute("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_FCI_S, args);
@@ -14866,10 +14875,11 @@ public class FragmentEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					fragmentEntryModelImpl.getOriginalGroupId(),
-					fragmentEntryModelImpl.getOriginalFragmentCollectionId(),
-					fragmentEntryModelImpl.getOriginalStatus(),
-					fragmentEntryModelImpl.getOriginalHead()
+					fragmentEntryModelImpl.getCacheModelAttribute("groupId"),
+					fragmentEntryModelImpl.getCacheModelAttribute(
+						"fragmentCollectionId"),
+					fragmentEntryModelImpl.getCacheModelAttribute("status"),
+					fragmentEntryModelImpl.getCacheModelAttribute("head")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_FCI_S_Head, args);
@@ -14893,10 +14903,11 @@ public class FragmentEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					fragmentEntryModelImpl.getOriginalGroupId(),
-					fragmentEntryModelImpl.getOriginalFragmentCollectionId(),
-					fragmentEntryModelImpl.getOriginalType(),
-					fragmentEntryModelImpl.getOriginalStatus()
+					fragmentEntryModelImpl.getCacheModelAttribute("groupId"),
+					fragmentEntryModelImpl.getCacheModelAttribute(
+						"fragmentCollectionId"),
+					fragmentEntryModelImpl.getCacheModelAttribute("type"),
+					fragmentEntryModelImpl.getCacheModelAttribute("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_FCI_T_S, args);
@@ -14920,11 +14931,12 @@ public class FragmentEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					fragmentEntryModelImpl.getOriginalGroupId(),
-					fragmentEntryModelImpl.getOriginalFragmentCollectionId(),
-					fragmentEntryModelImpl.getOriginalType(),
-					fragmentEntryModelImpl.getOriginalStatus(),
-					fragmentEntryModelImpl.getOriginalHead()
+					fragmentEntryModelImpl.getCacheModelAttribute("groupId"),
+					fragmentEntryModelImpl.getCacheModelAttribute(
+						"fragmentCollectionId"),
+					fragmentEntryModelImpl.getCacheModelAttribute("type"),
+					fragmentEntryModelImpl.getCacheModelAttribute("status"),
+					fragmentEntryModelImpl.getCacheModelAttribute("head")
 				};
 
 				finderCache.removeResult(

@@ -144,6 +144,8 @@ public class DDMTemplateCacheModel
 	public DDMTemplate toEntityModel() {
 		DDMTemplateImpl ddmTemplateImpl = new DDMTemplateImpl();
 
+		ddmTemplateImpl.setNew(true);
+
 		ddmTemplateImpl.setMvccVersion(mvccVersion);
 		ddmTemplateImpl.setCtCollectionId(ctCollectionId);
 
@@ -270,6 +272,8 @@ public class DDMTemplateCacheModel
 		ddmTemplateImpl.resetOriginalValues();
 
 		ddmTemplateImpl.setResourceClassName(_resourceClassName);
+
+		ddmTemplateImpl.setNew(false);
 
 		return ddmTemplateImpl;
 	}

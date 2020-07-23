@@ -94,6 +94,8 @@ public class ChangesetCollectionCacheModel
 		ChangesetCollectionImpl changesetCollectionImpl =
 			new ChangesetCollectionImpl();
 
+		changesetCollectionImpl.setNew(true);
+
 		changesetCollectionImpl.setChangesetCollectionId(changesetCollectionId);
 		changesetCollectionImpl.setGroupId(groupId);
 		changesetCollectionImpl.setCompanyId(companyId);
@@ -135,6 +137,8 @@ public class ChangesetCollectionCacheModel
 		}
 
 		changesetCollectionImpl.resetOriginalValues();
+
+		changesetCollectionImpl.setNew(false);
 
 		return changesetCollectionImpl;
 	}

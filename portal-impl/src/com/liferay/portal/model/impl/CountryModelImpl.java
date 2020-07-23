@@ -122,13 +122,23 @@ public class CountryModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long A2_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long A3_COLUMN_BITMASK = 2L;
+	public static final long COUNTRYID_COLUMN_BITMASK = 2L;
 
-	public static final long ACTIVE_COLUMN_BITMASK = 4L;
+	public static final long NAME_COLUMN_BITMASK = 4L;
 
-	public static final long NAME_COLUMN_BITMASK = 8L;
+	public static final long A2_COLUMN_BITMASK = 8L;
+
+	public static final long A3_COLUMN_BITMASK = 16L;
+
+	public static final long NUMBER_COLUMN_BITMASK = 32L;
+
+	public static final long IDD_COLUMN_BITMASK = 64L;
+
+	public static final long ZIPREQUIRED_COLUMN_BITMASK = 128L;
+
+	public static final long ACTIVE_COLUMN_BITMASK = 256L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -291,43 +301,102 @@ public class CountryModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<Country, Object> function = _attributeGetterFunctions.get(
+			attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((Country)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<CountryCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_countryCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_countryCacheModel);
+	}
+
 	private static final Map<String, Function<Country, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<Country, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<CountryCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<Country, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<Country, Object>>();
 		Map<String, BiConsumer<Country, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Country, ?>>();
+		Map<String, Function<CountryCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<CountryCacheModel, Object>>();
 
 		attributeGetterFunctions.put("mvccVersion", Country::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion", countryCacheModel -> countryCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion", (BiConsumer<Country, Long>)Country::setMvccVersion);
 		attributeGetterFunctions.put("countryId", Country::getCountryId);
+
+		cacheModelGetterFunctions.put(
+			"countryId", countryCacheModel -> countryCacheModel.countryId);
 		attributeSetterBiConsumers.put(
 			"countryId", (BiConsumer<Country, Long>)Country::setCountryId);
 		attributeGetterFunctions.put("name", Country::getName);
+
+		cacheModelGetterFunctions.put(
+			"name", countryCacheModel -> countryCacheModel.name);
 		attributeSetterBiConsumers.put(
 			"name", (BiConsumer<Country, String>)Country::setName);
 		attributeGetterFunctions.put("a2", Country::getA2);
+
+		cacheModelGetterFunctions.put(
+			"a2", countryCacheModel -> countryCacheModel.a2);
 		attributeSetterBiConsumers.put(
 			"a2", (BiConsumer<Country, String>)Country::setA2);
 		attributeGetterFunctions.put("a3", Country::getA3);
+
+		cacheModelGetterFunctions.put(
+			"a3", countryCacheModel -> countryCacheModel.a3);
 		attributeSetterBiConsumers.put(
 			"a3", (BiConsumer<Country, String>)Country::setA3);
 		attributeGetterFunctions.put("number", Country::getNumber);
+
+		cacheModelGetterFunctions.put(
+			"number", countryCacheModel -> countryCacheModel.number);
 		attributeSetterBiConsumers.put(
 			"number", (BiConsumer<Country, String>)Country::setNumber);
 		attributeGetterFunctions.put("idd", Country::getIdd);
+
+		cacheModelGetterFunctions.put(
+			"idd", countryCacheModel -> countryCacheModel.idd);
 		attributeSetterBiConsumers.put(
 			"idd", (BiConsumer<Country, String>)Country::setIdd);
 		attributeGetterFunctions.put("zipRequired", Country::getZipRequired);
+
+		cacheModelGetterFunctions.put(
+			"zipRequired", countryCacheModel -> countryCacheModel.zipRequired);
 		attributeSetterBiConsumers.put(
 			"zipRequired",
 			(BiConsumer<Country, Boolean>)Country::setZipRequired);
 		attributeGetterFunctions.put("active", Country::getActive);
+
+		cacheModelGetterFunctions.put(
+			"active", countryCacheModel -> countryCacheModel.active);
 		attributeSetterBiConsumers.put(
 			"active", (BiConsumer<Country, Boolean>)Country::setActive);
 
@@ -335,6 +404,8 @@ public class CountryModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -345,6 +416,12 @@ public class CountryModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_countryCacheModel == null)) {
+			_countryCacheModel = (CountryCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -356,6 +433,12 @@ public class CountryModelImpl
 
 	@Override
 	public void setCountryId(long countryId) {
+		_columnBitmask |= COUNTRYID_COLUMN_BITMASK;
+
+		if (!isNew() && (_countryCacheModel == null)) {
+			_countryCacheModel = (CountryCacheModel)toCacheModel();
+		}
+
 		_countryId = countryId;
 	}
 
@@ -372,17 +455,22 @@ public class CountryModelImpl
 
 	@Override
 	public void setName(String name) {
-		_columnBitmask = -1L;
+		_columnBitmask |= NAME_COLUMN_BITMASK;
 
-		if (_originalName == null) {
-			_originalName = _name;
+		if (!isNew() && (_countryCacheModel == null)) {
+			_countryCacheModel = (CountryCacheModel)toCacheModel();
 		}
 
 		_name = name;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalName() {
-		return GetterUtil.getString(_originalName);
+		return getCacheModelAttribute("name");
 	}
 
 	@JSON
@@ -400,15 +488,20 @@ public class CountryModelImpl
 	public void setA2(String a2) {
 		_columnBitmask |= A2_COLUMN_BITMASK;
 
-		if (_originalA2 == null) {
-			_originalA2 = _a2;
+		if (!isNew() && (_countryCacheModel == null)) {
+			_countryCacheModel = (CountryCacheModel)toCacheModel();
 		}
 
 		_a2 = a2;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalA2() {
-		return GetterUtil.getString(_originalA2);
+		return getCacheModelAttribute("a2");
 	}
 
 	@JSON
@@ -426,15 +519,20 @@ public class CountryModelImpl
 	public void setA3(String a3) {
 		_columnBitmask |= A3_COLUMN_BITMASK;
 
-		if (_originalA3 == null) {
-			_originalA3 = _a3;
+		if (!isNew() && (_countryCacheModel == null)) {
+			_countryCacheModel = (CountryCacheModel)toCacheModel();
 		}
 
 		_a3 = a3;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalA3() {
-		return GetterUtil.getString(_originalA3);
+		return getCacheModelAttribute("a3");
 	}
 
 	@JSON
@@ -450,6 +548,12 @@ public class CountryModelImpl
 
 	@Override
 	public void setNumber(String number) {
+		_columnBitmask |= NUMBER_COLUMN_BITMASK;
+
+		if (!isNew() && (_countryCacheModel == null)) {
+			_countryCacheModel = (CountryCacheModel)toCacheModel();
+		}
+
 		_number = number;
 	}
 
@@ -466,6 +570,12 @@ public class CountryModelImpl
 
 	@Override
 	public void setIdd(String idd) {
+		_columnBitmask |= IDD_COLUMN_BITMASK;
+
+		if (!isNew() && (_countryCacheModel == null)) {
+			_countryCacheModel = (CountryCacheModel)toCacheModel();
+		}
+
 		_idd = idd;
 	}
 
@@ -483,6 +593,12 @@ public class CountryModelImpl
 
 	@Override
 	public void setZipRequired(boolean zipRequired) {
+		_columnBitmask |= ZIPREQUIRED_COLUMN_BITMASK;
+
+		if (!isNew() && (_countryCacheModel == null)) {
+			_countryCacheModel = (CountryCacheModel)toCacheModel();
+		}
+
 		_zipRequired = zipRequired;
 	}
 
@@ -502,17 +618,20 @@ public class CountryModelImpl
 	public void setActive(boolean active) {
 		_columnBitmask |= ACTIVE_COLUMN_BITMASK;
 
-		if (!_setOriginalActive) {
-			_setOriginalActive = true;
-
-			_originalActive = _active;
+		if (!isNew() && (_countryCacheModel == null)) {
+			_countryCacheModel = (CountryCacheModel)toCacheModel();
 		}
 
 		_active = active;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public boolean getOriginalActive() {
-		return _originalActive;
+		return getCacheModelAttribute("active");
 	}
 
 	public long getColumnBitmask() {
@@ -626,19 +745,9 @@ public class CountryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		CountryModelImpl countryModelImpl = this;
+		_columnBitmask = 0;
 
-		countryModelImpl._originalName = countryModelImpl._name;
-
-		countryModelImpl._originalA2 = countryModelImpl._a2;
-
-		countryModelImpl._originalA3 = countryModelImpl._a3;
-
-		countryModelImpl._originalActive = countryModelImpl._active;
-
-		countryModelImpl._setOriginalActive = false;
-
-		countryModelImpl._columnBitmask = 0;
+		_countryCacheModel = null;
 	}
 
 	@Override
@@ -769,18 +878,14 @@ public class CountryModelImpl
 	private long _mvccVersion;
 	private long _countryId;
 	private String _name;
-	private String _originalName;
 	private String _a2;
-	private String _originalA2;
 	private String _a3;
-	private String _originalA3;
 	private String _number;
 	private String _idd;
 	private boolean _zipRequired;
 	private boolean _active;
-	private boolean _originalActive;
-	private boolean _setOriginalActive;
 	private long _columnBitmask;
 	private Country _escapedModel;
+	private CountryCacheModel _countryCacheModel;
 
 }

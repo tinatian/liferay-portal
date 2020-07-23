@@ -128,6 +128,8 @@ public class KaleoActionCacheModel
 	public KaleoAction toEntityModel() {
 		KaleoActionImpl kaleoActionImpl = new KaleoActionImpl();
 
+		kaleoActionImpl.setNew(true);
+
 		kaleoActionImpl.setMvccVersion(mvccVersion);
 		kaleoActionImpl.setKaleoActionId(kaleoActionId);
 		kaleoActionImpl.setGroupId(groupId);
@@ -218,6 +220,8 @@ public class KaleoActionCacheModel
 		kaleoActionImpl.setPriority(priority);
 
 		kaleoActionImpl.resetOriginalValues();
+
+		kaleoActionImpl.setNew(false);
 
 		return kaleoActionImpl;
 	}

@@ -97,6 +97,8 @@ public class SyncDeviceCacheModel
 	public SyncDevice toEntityModel() {
 		SyncDeviceImpl syncDeviceImpl = new SyncDeviceImpl();
 
+		syncDeviceImpl.setNew(true);
+
 		if (uuid == null) {
 			syncDeviceImpl.setUuid("");
 		}
@@ -149,6 +151,8 @@ public class SyncDeviceCacheModel
 		syncDeviceImpl.setStatus(status);
 
 		syncDeviceImpl.resetOriginalValues();
+
+		syncDeviceImpl.setNew(false);
 
 		return syncDeviceImpl;
 	}

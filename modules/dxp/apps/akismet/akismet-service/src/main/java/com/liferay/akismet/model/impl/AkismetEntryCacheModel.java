@@ -93,6 +93,8 @@ public class AkismetEntryCacheModel
 	public AkismetEntry toEntityModel() {
 		AkismetEntryImpl akismetEntryImpl = new AkismetEntryImpl();
 
+		akismetEntryImpl.setNew(true);
+
 		akismetEntryImpl.setAkismetEntryId(akismetEntryId);
 
 		if (modifiedDate == Long.MIN_VALUE) {
@@ -148,6 +150,8 @@ public class AkismetEntryCacheModel
 		}
 
 		akismetEntryImpl.resetOriginalValues();
+
+		akismetEntryImpl.setNew(false);
 
 		return akismetEntryImpl;
 	}

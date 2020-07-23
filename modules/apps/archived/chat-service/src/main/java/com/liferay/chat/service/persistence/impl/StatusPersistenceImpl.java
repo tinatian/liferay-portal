@@ -1924,7 +1924,9 @@ public class StatusPersistenceImpl
 		if ((statusModelImpl.getColumnBitmask() &
 			 _finderPathFetchByUserId.getColumnBitmask()) != 0) {
 
-			Object[] args = new Object[] {statusModelImpl.getOriginalUserId()};
+			Object[] args = new Object[] {
+				statusModelImpl.getCacheModelAttribute("userId")
+			};
 
 			finderCache.removeResult(_finderPathCountByUserId, args);
 			finderCache.removeResult(_finderPathFetchByUserId, args);
@@ -2103,7 +2105,7 @@ public class StatusPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					statusModelImpl.getOriginalModifiedDate()
+					statusModelImpl.getCacheModelAttribute("modifiedDate")
 				};
 
 				finderCache.removeResult(_finderPathCountByModifiedDate, args);
@@ -2122,7 +2124,7 @@ public class StatusPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					statusModelImpl.getOriginalOnline()
+					statusModelImpl.getCacheModelAttribute("online")
 				};
 
 				finderCache.removeResult(_finderPathCountByOnline, args);
@@ -2141,8 +2143,8 @@ public class StatusPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					statusModelImpl.getOriginalModifiedDate(),
-					statusModelImpl.getOriginalOnline()
+					statusModelImpl.getCacheModelAttribute("modifiedDate"),
+					statusModelImpl.getCacheModelAttribute("online")
 				};
 
 				finderCache.removeResult(_finderPathCountByM_O, args);

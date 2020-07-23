@@ -145,6 +145,8 @@ public class KBArticleCacheModel
 	public KBArticle toEntityModel() {
 		KBArticleImpl kbArticleImpl = new KBArticleImpl();
 
+		kbArticleImpl.setNew(true);
+
 		kbArticleImpl.setMvccVersion(mvccVersion);
 
 		if (uuid == null) {
@@ -259,6 +261,8 @@ public class KBArticleCacheModel
 		}
 
 		kbArticleImpl.resetOriginalValues();
+
+		kbArticleImpl.setNew(false);
 
 		return kbArticleImpl;
 	}

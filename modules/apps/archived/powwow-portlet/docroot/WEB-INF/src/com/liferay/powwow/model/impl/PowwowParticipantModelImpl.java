@@ -135,15 +135,31 @@ public class PowwowParticipantModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long EMAILADDRESS_COLUMN_BITMASK = 1L;
+	public static final long POWWOWPARTICIPANTID_COLUMN_BITMASK = 1L;
 
-	public static final long PARTICIPANTUSERID_COLUMN_BITMASK = 2L;
+	public static final long GROUPID_COLUMN_BITMASK = 2L;
 
-	public static final long POWWOWMEETINGID_COLUMN_BITMASK = 4L;
+	public static final long COMPANYID_COLUMN_BITMASK = 4L;
 
-	public static final long TYPE_COLUMN_BITMASK = 8L;
+	public static final long USERID_COLUMN_BITMASK = 8L;
 
-	public static final long POWWOWPARTICIPANTID_COLUMN_BITMASK = 16L;
+	public static final long USERNAME_COLUMN_BITMASK = 16L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 32L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 64L;
+
+	public static final long POWWOWMEETINGID_COLUMN_BITMASK = 128L;
+
+	public static final long NAME_COLUMN_BITMASK = 256L;
+
+	public static final long PARTICIPANTUSERID_COLUMN_BITMASK = 512L;
+
+	public static final long EMAILADDRESS_COLUMN_BITMASK = 1024L;
+
+	public static final long TYPE_COLUMN_BITMASK = 2048L;
+
+	public static final long STATUS_COLUMN_BITMASK = 4096L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -315,10 +331,39 @@ public class PowwowParticipantModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<PowwowParticipant, Object> function =
+			_attributeGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((PowwowParticipant)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<PowwowParticipantCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_powwowParticipantCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_powwowParticipantCacheModel);
+	}
+
 	private static final Map<String, Function<PowwowParticipant, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<PowwowParticipant, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<PowwowParticipantCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<PowwowParticipant, Object>>
@@ -328,72 +373,136 @@ public class PowwowParticipantModelImpl
 		Map<String, BiConsumer<PowwowParticipant, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<PowwowParticipant, ?>>();
+		Map<String, Function<PowwowParticipantCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<PowwowParticipantCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"powwowParticipantId", PowwowParticipant::getPowwowParticipantId);
+
+		cacheModelGetterFunctions.put(
+			"powwowParticipantId",
+			powwowParticipantCacheModel ->
+				powwowParticipantCacheModel.powwowParticipantId);
 		attributeSetterBiConsumers.put(
 			"powwowParticipantId",
 			(BiConsumer<PowwowParticipant, Long>)
 				PowwowParticipant::setPowwowParticipantId);
 		attributeGetterFunctions.put("groupId", PowwowParticipant::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			powwowParticipantCacheModel -> powwowParticipantCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<PowwowParticipant, Long>)PowwowParticipant::setGroupId);
 		attributeGetterFunctions.put(
 			"companyId", PowwowParticipant::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			powwowParticipantCacheModel ->
+				powwowParticipantCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<PowwowParticipant, Long>)
 				PowwowParticipant::setCompanyId);
 		attributeGetterFunctions.put("userId", PowwowParticipant::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			powwowParticipantCacheModel -> powwowParticipantCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<PowwowParticipant, Long>)PowwowParticipant::setUserId);
 		attributeGetterFunctions.put(
 			"userName", PowwowParticipant::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			powwowParticipantCacheModel ->
+				powwowParticipantCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<PowwowParticipant, String>)
 				PowwowParticipant::setUserName);
 		attributeGetterFunctions.put(
 			"createDate", PowwowParticipant::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			powwowParticipantCacheModel ->
+				powwowParticipantCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<PowwowParticipant, Date>)
 				PowwowParticipant::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", PowwowParticipant::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			powwowParticipantCacheModel ->
+				powwowParticipantCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<PowwowParticipant, Date>)
 				PowwowParticipant::setModifiedDate);
 		attributeGetterFunctions.put(
 			"powwowMeetingId", PowwowParticipant::getPowwowMeetingId);
+
+		cacheModelGetterFunctions.put(
+			"powwowMeetingId",
+			powwowParticipantCacheModel ->
+				powwowParticipantCacheModel.powwowMeetingId);
 		attributeSetterBiConsumers.put(
 			"powwowMeetingId",
 			(BiConsumer<PowwowParticipant, Long>)
 				PowwowParticipant::setPowwowMeetingId);
 		attributeGetterFunctions.put("name", PowwowParticipant::getName);
+
+		cacheModelGetterFunctions.put(
+			"name",
+			powwowParticipantCacheModel -> powwowParticipantCacheModel.name);
 		attributeSetterBiConsumers.put(
 			"name",
 			(BiConsumer<PowwowParticipant, String>)PowwowParticipant::setName);
 		attributeGetterFunctions.put(
 			"participantUserId", PowwowParticipant::getParticipantUserId);
+
+		cacheModelGetterFunctions.put(
+			"participantUserId",
+			powwowParticipantCacheModel ->
+				powwowParticipantCacheModel.participantUserId);
 		attributeSetterBiConsumers.put(
 			"participantUserId",
 			(BiConsumer<PowwowParticipant, Long>)
 				PowwowParticipant::setParticipantUserId);
 		attributeGetterFunctions.put(
 			"emailAddress", PowwowParticipant::getEmailAddress);
+
+		cacheModelGetterFunctions.put(
+			"emailAddress",
+			powwowParticipantCacheModel ->
+				powwowParticipantCacheModel.emailAddress);
 		attributeSetterBiConsumers.put(
 			"emailAddress",
 			(BiConsumer<PowwowParticipant, String>)
 				PowwowParticipant::setEmailAddress);
 		attributeGetterFunctions.put("type", PowwowParticipant::getType);
+
+		cacheModelGetterFunctions.put(
+			"type",
+			powwowParticipantCacheModel -> powwowParticipantCacheModel.type);
 		attributeSetterBiConsumers.put(
 			"type",
 			(BiConsumer<PowwowParticipant, Integer>)PowwowParticipant::setType);
 		attributeGetterFunctions.put("status", PowwowParticipant::getStatus);
+
+		cacheModelGetterFunctions.put(
+			"status",
+			powwowParticipantCacheModel -> powwowParticipantCacheModel.status);
 		attributeSetterBiConsumers.put(
 			"status",
 			(BiConsumer<PowwowParticipant, Integer>)
@@ -403,6 +512,8 @@ public class PowwowParticipantModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -413,6 +524,13 @@ public class PowwowParticipantModelImpl
 
 	@Override
 	public void setPowwowParticipantId(long powwowParticipantId) {
+		_columnBitmask |= POWWOWPARTICIPANTID_COLUMN_BITMASK;
+
+		if (!isNew() && (_powwowParticipantCacheModel == null)) {
+			_powwowParticipantCacheModel =
+				(PowwowParticipantCacheModel)toCacheModel();
+		}
+
 		_powwowParticipantId = powwowParticipantId;
 	}
 
@@ -424,6 +542,13 @@ public class PowwowParticipantModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
+		_columnBitmask |= GROUPID_COLUMN_BITMASK;
+
+		if (!isNew() && (_powwowParticipantCacheModel == null)) {
+			_powwowParticipantCacheModel =
+				(PowwowParticipantCacheModel)toCacheModel();
+		}
+
 		_groupId = groupId;
 	}
 
@@ -435,6 +560,13 @@ public class PowwowParticipantModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (!isNew() && (_powwowParticipantCacheModel == null)) {
+			_powwowParticipantCacheModel =
+				(PowwowParticipantCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -446,6 +578,13 @@ public class PowwowParticipantModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_powwowParticipantCacheModel == null)) {
+			_powwowParticipantCacheModel =
+				(PowwowParticipantCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -478,6 +617,13 @@ public class PowwowParticipantModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_powwowParticipantCacheModel == null)) {
+			_powwowParticipantCacheModel =
+				(PowwowParticipantCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -489,6 +635,13 @@ public class PowwowParticipantModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_powwowParticipantCacheModel == null)) {
+			_powwowParticipantCacheModel =
+				(PowwowParticipantCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -506,6 +659,13 @@ public class PowwowParticipantModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_powwowParticipantCacheModel == null)) {
+			_powwowParticipantCacheModel =
+				(PowwowParticipantCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -519,17 +679,21 @@ public class PowwowParticipantModelImpl
 	public void setPowwowMeetingId(long powwowMeetingId) {
 		_columnBitmask |= POWWOWMEETINGID_COLUMN_BITMASK;
 
-		if (!_setOriginalPowwowMeetingId) {
-			_setOriginalPowwowMeetingId = true;
-
-			_originalPowwowMeetingId = _powwowMeetingId;
+		if (!isNew() && (_powwowParticipantCacheModel == null)) {
+			_powwowParticipantCacheModel =
+				(PowwowParticipantCacheModel)toCacheModel();
 		}
 
 		_powwowMeetingId = powwowMeetingId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalPowwowMeetingId() {
-		return _originalPowwowMeetingId;
+		return getCacheModelAttribute("powwowMeetingId");
 	}
 
 	@JSON
@@ -545,6 +709,13 @@ public class PowwowParticipantModelImpl
 
 	@Override
 	public void setName(String name) {
+		_columnBitmask |= NAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_powwowParticipantCacheModel == null)) {
+			_powwowParticipantCacheModel =
+				(PowwowParticipantCacheModel)toCacheModel();
+		}
+
 		_name = name;
 	}
 
@@ -558,10 +729,9 @@ public class PowwowParticipantModelImpl
 	public void setParticipantUserId(long participantUserId) {
 		_columnBitmask |= PARTICIPANTUSERID_COLUMN_BITMASK;
 
-		if (!_setOriginalParticipantUserId) {
-			_setOriginalParticipantUserId = true;
-
-			_originalParticipantUserId = _participantUserId;
+		if (!isNew() && (_powwowParticipantCacheModel == null)) {
+			_powwowParticipantCacheModel =
+				(PowwowParticipantCacheModel)toCacheModel();
 		}
 
 		_participantUserId = participantUserId;
@@ -584,8 +754,13 @@ public class PowwowParticipantModelImpl
 	public void setParticipantUserUuid(String participantUserUuid) {
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalParticipantUserId() {
-		return _originalParticipantUserId;
+		return getCacheModelAttribute("participantUserId");
 	}
 
 	@JSON
@@ -603,15 +778,21 @@ public class PowwowParticipantModelImpl
 	public void setEmailAddress(String emailAddress) {
 		_columnBitmask |= EMAILADDRESS_COLUMN_BITMASK;
 
-		if (_originalEmailAddress == null) {
-			_originalEmailAddress = _emailAddress;
+		if (!isNew() && (_powwowParticipantCacheModel == null)) {
+			_powwowParticipantCacheModel =
+				(PowwowParticipantCacheModel)toCacheModel();
 		}
 
 		_emailAddress = emailAddress;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalEmailAddress() {
-		return GetterUtil.getString(_originalEmailAddress);
+		return getCacheModelAttribute("emailAddress");
 	}
 
 	@JSON
@@ -624,17 +805,21 @@ public class PowwowParticipantModelImpl
 	public void setType(int type) {
 		_columnBitmask |= TYPE_COLUMN_BITMASK;
 
-		if (!_setOriginalType) {
-			_setOriginalType = true;
-
-			_originalType = _type;
+		if (!isNew() && (_powwowParticipantCacheModel == null)) {
+			_powwowParticipantCacheModel =
+				(PowwowParticipantCacheModel)toCacheModel();
 		}
 
 		_type = type;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public int getOriginalType() {
-		return _originalType;
+		return getCacheModelAttribute("type");
 	}
 
 	@JSON
@@ -645,6 +830,13 @@ public class PowwowParticipantModelImpl
 
 	@Override
 	public void setStatus(int status) {
+		_columnBitmask |= STATUS_COLUMN_BITMASK;
+
+		if (!isNew() && (_powwowParticipantCacheModel == null)) {
+			_powwowParticipantCacheModel =
+				(PowwowParticipantCacheModel)toCacheModel();
+		}
+
 		_status = status;
 	}
 
@@ -766,29 +958,11 @@ public class PowwowParticipantModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		PowwowParticipantModelImpl powwowParticipantModelImpl = this;
+		_setModifiedDate = false;
 
-		powwowParticipantModelImpl._setModifiedDate = false;
+		_columnBitmask = 0;
 
-		powwowParticipantModelImpl._originalPowwowMeetingId =
-			powwowParticipantModelImpl._powwowMeetingId;
-
-		powwowParticipantModelImpl._setOriginalPowwowMeetingId = false;
-
-		powwowParticipantModelImpl._originalParticipantUserId =
-			powwowParticipantModelImpl._participantUserId;
-
-		powwowParticipantModelImpl._setOriginalParticipantUserId = false;
-
-		powwowParticipantModelImpl._originalEmailAddress =
-			powwowParticipantModelImpl._emailAddress;
-
-		powwowParticipantModelImpl._originalType =
-			powwowParticipantModelImpl._type;
-
-		powwowParticipantModelImpl._setOriginalType = false;
-
-		powwowParticipantModelImpl._columnBitmask = 0;
+		_powwowParticipantCacheModel = null;
 	}
 
 	@Override
@@ -937,19 +1111,13 @@ public class PowwowParticipantModelImpl
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _powwowMeetingId;
-	private long _originalPowwowMeetingId;
-	private boolean _setOriginalPowwowMeetingId;
 	private String _name;
 	private long _participantUserId;
-	private long _originalParticipantUserId;
-	private boolean _setOriginalParticipantUserId;
 	private String _emailAddress;
-	private String _originalEmailAddress;
 	private int _type;
-	private int _originalType;
-	private boolean _setOriginalType;
 	private int _status;
 	private long _columnBitmask;
 	private PowwowParticipant _escapedModel;
+	private PowwowParticipantCacheModel _powwowParticipantCacheModel;
 
 }

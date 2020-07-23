@@ -145,19 +145,37 @@ public class RoleModelImpl extends BaseModelImpl<Role> implements RoleModel {
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long CLASSNAMEID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long CLASSPK_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 4L;
+	public static final long UUID_COLUMN_BITMASK = 4L;
 
-	public static final long NAME_COLUMN_BITMASK = 8L;
+	public static final long ROLEID_COLUMN_BITMASK = 8L;
 
-	public static final long SUBTYPE_COLUMN_BITMASK = 16L;
+	public static final long COMPANYID_COLUMN_BITMASK = 16L;
 
-	public static final long TYPE_COLUMN_BITMASK = 32L;
+	public static final long USERID_COLUMN_BITMASK = 32L;
 
-	public static final long UUID_COLUMN_BITMASK = 64L;
+	public static final long USERNAME_COLUMN_BITMASK = 64L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 128L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 256L;
+
+	public static final long CLASSNAMEID_COLUMN_BITMASK = 512L;
+
+	public static final long CLASSPK_COLUMN_BITMASK = 1024L;
+
+	public static final long NAME_COLUMN_BITMASK = 2048L;
+
+	public static final long TITLE_COLUMN_BITMASK = 4096L;
+
+	public static final long DESCRIPTION_COLUMN_BITMASK = 8192L;
+
+	public static final long TYPE_COLUMN_BITMASK = 16384L;
+
+	public static final long SUBTYPE_COLUMN_BITMASK = 32768L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -355,63 +373,142 @@ public class RoleModelImpl extends BaseModelImpl<Role> implements RoleModel {
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<Role, Object> function = _attributeGetterFunctions.get(
+			attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((Role)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<RoleCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_roleCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_roleCacheModel);
+	}
+
 	private static final Map<String, Function<Role, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<Role, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<RoleCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<Role, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<Role, Object>>();
 		Map<String, BiConsumer<Role, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Role, ?>>();
+		Map<String, Function<RoleCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap<String, Function<RoleCacheModel, Object>>();
 
 		attributeGetterFunctions.put("mvccVersion", Role::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion", roleCacheModel -> roleCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion", (BiConsumer<Role, Long>)Role::setMvccVersion);
 		attributeGetterFunctions.put("ctCollectionId", Role::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId", roleCacheModel -> roleCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId", (BiConsumer<Role, Long>)Role::setCtCollectionId);
 		attributeGetterFunctions.put("uuid", Role::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid", roleCacheModel -> roleCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<Role, String>)Role::setUuid);
 		attributeGetterFunctions.put("roleId", Role::getRoleId);
+
+		cacheModelGetterFunctions.put(
+			"roleId", roleCacheModel -> roleCacheModel.roleId);
 		attributeSetterBiConsumers.put(
 			"roleId", (BiConsumer<Role, Long>)Role::setRoleId);
 		attributeGetterFunctions.put("companyId", Role::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId", roleCacheModel -> roleCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId", (BiConsumer<Role, Long>)Role::setCompanyId);
 		attributeGetterFunctions.put("userId", Role::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", roleCacheModel -> roleCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<Role, Long>)Role::setUserId);
 		attributeGetterFunctions.put("userName", Role::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName", roleCacheModel -> roleCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName", (BiConsumer<Role, String>)Role::setUserName);
 		attributeGetterFunctions.put("createDate", Role::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate", roleCacheModel -> roleCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate", (BiConsumer<Role, Date>)Role::setCreateDate);
 		attributeGetterFunctions.put("modifiedDate", Role::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate", roleCacheModel -> roleCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate", (BiConsumer<Role, Date>)Role::setModifiedDate);
 		attributeGetterFunctions.put("classNameId", Role::getClassNameId);
+
+		cacheModelGetterFunctions.put(
+			"classNameId", roleCacheModel -> roleCacheModel.classNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId", (BiConsumer<Role, Long>)Role::setClassNameId);
 		attributeGetterFunctions.put("classPK", Role::getClassPK);
+
+		cacheModelGetterFunctions.put(
+			"classPK", roleCacheModel -> roleCacheModel.classPK);
 		attributeSetterBiConsumers.put(
 			"classPK", (BiConsumer<Role, Long>)Role::setClassPK);
 		attributeGetterFunctions.put("name", Role::getName);
+
+		cacheModelGetterFunctions.put(
+			"name", roleCacheModel -> roleCacheModel.name);
 		attributeSetterBiConsumers.put(
 			"name", (BiConsumer<Role, String>)Role::setName);
 		attributeGetterFunctions.put("title", Role::getTitle);
+
+		cacheModelGetterFunctions.put(
+			"title", roleCacheModel -> roleCacheModel.title);
 		attributeSetterBiConsumers.put(
 			"title", (BiConsumer<Role, String>)Role::setTitle);
 		attributeGetterFunctions.put("description", Role::getDescription);
+
+		cacheModelGetterFunctions.put(
+			"description", roleCacheModel -> roleCacheModel.description);
 		attributeSetterBiConsumers.put(
 			"description", (BiConsumer<Role, String>)Role::setDescription);
 		attributeGetterFunctions.put("type", Role::getType);
+
+		cacheModelGetterFunctions.put(
+			"type", roleCacheModel -> roleCacheModel.type);
 		attributeSetterBiConsumers.put(
 			"type", (BiConsumer<Role, Integer>)Role::setType);
 		attributeGetterFunctions.put("subtype", Role::getSubtype);
+
+		cacheModelGetterFunctions.put(
+			"subtype", roleCacheModel -> roleCacheModel.subtype);
 		attributeSetterBiConsumers.put(
 			"subtype", (BiConsumer<Role, String>)Role::setSubtype);
 
@@ -419,6 +516,8 @@ public class RoleModelImpl extends BaseModelImpl<Role> implements RoleModel {
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -429,6 +528,12 @@ public class RoleModelImpl extends BaseModelImpl<Role> implements RoleModel {
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_roleCacheModel == null)) {
+			_roleCacheModel = (RoleCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -440,6 +545,12 @@ public class RoleModelImpl extends BaseModelImpl<Role> implements RoleModel {
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (!isNew() && (_roleCacheModel == null)) {
+			_roleCacheModel = (RoleCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -458,15 +569,20 @@ public class RoleModelImpl extends BaseModelImpl<Role> implements RoleModel {
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (!isNew() && (_roleCacheModel == null)) {
+			_roleCacheModel = (RoleCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getCacheModelAttribute("uuid");
 	}
 
 	@JSON
@@ -477,6 +593,12 @@ public class RoleModelImpl extends BaseModelImpl<Role> implements RoleModel {
 
 	@Override
 	public void setRoleId(long roleId) {
+		_columnBitmask |= ROLEID_COLUMN_BITMASK;
+
+		if (!isNew() && (_roleCacheModel == null)) {
+			_roleCacheModel = (RoleCacheModel)toCacheModel();
+		}
+
 		_roleId = roleId;
 	}
 
@@ -490,17 +612,20 @@ public class RoleModelImpl extends BaseModelImpl<Role> implements RoleModel {
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (!isNew() && (_roleCacheModel == null)) {
+			_roleCacheModel = (RoleCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getCacheModelAttribute("companyId");
 	}
 
 	@JSON
@@ -511,6 +636,12 @@ public class RoleModelImpl extends BaseModelImpl<Role> implements RoleModel {
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_roleCacheModel == null)) {
+			_roleCacheModel = (RoleCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -543,6 +674,12 @@ public class RoleModelImpl extends BaseModelImpl<Role> implements RoleModel {
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_roleCacheModel == null)) {
+			_roleCacheModel = (RoleCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -554,6 +691,12 @@ public class RoleModelImpl extends BaseModelImpl<Role> implements RoleModel {
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_roleCacheModel == null)) {
+			_roleCacheModel = (RoleCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -570,6 +713,12 @@ public class RoleModelImpl extends BaseModelImpl<Role> implements RoleModel {
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
+
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_roleCacheModel == null)) {
+			_roleCacheModel = (RoleCacheModel)toCacheModel();
+		}
 
 		_modifiedDate = modifiedDate;
 	}
@@ -604,17 +753,20 @@ public class RoleModelImpl extends BaseModelImpl<Role> implements RoleModel {
 	public void setClassNameId(long classNameId) {
 		_columnBitmask |= CLASSNAMEID_COLUMN_BITMASK;
 
-		if (!_setOriginalClassNameId) {
-			_setOriginalClassNameId = true;
-
-			_originalClassNameId = _classNameId;
+		if (!isNew() && (_roleCacheModel == null)) {
+			_roleCacheModel = (RoleCacheModel)toCacheModel();
 		}
 
 		_classNameId = classNameId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassNameId() {
-		return _originalClassNameId;
+		return getCacheModelAttribute("classNameId");
 	}
 
 	@JSON
@@ -627,17 +779,20 @@ public class RoleModelImpl extends BaseModelImpl<Role> implements RoleModel {
 	public void setClassPK(long classPK) {
 		_columnBitmask |= CLASSPK_COLUMN_BITMASK;
 
-		if (!_setOriginalClassPK) {
-			_setOriginalClassPK = true;
-
-			_originalClassPK = _classPK;
+		if (!isNew() && (_roleCacheModel == null)) {
+			_roleCacheModel = (RoleCacheModel)toCacheModel();
 		}
 
 		_classPK = classPK;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassPK() {
-		return _originalClassPK;
+		return getCacheModelAttribute("classPK");
 	}
 
 	@JSON
@@ -653,17 +808,22 @@ public class RoleModelImpl extends BaseModelImpl<Role> implements RoleModel {
 
 	@Override
 	public void setName(String name) {
-		_columnBitmask = -1L;
+		_columnBitmask |= NAME_COLUMN_BITMASK;
 
-		if (_originalName == null) {
-			_originalName = _name;
+		if (!isNew() && (_roleCacheModel == null)) {
+			_roleCacheModel = (RoleCacheModel)toCacheModel();
 		}
 
 		_name = name;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalName() {
-		return GetterUtil.getString(_originalName);
+		return getCacheModelAttribute("name");
 	}
 
 	@JSON
@@ -722,6 +882,12 @@ public class RoleModelImpl extends BaseModelImpl<Role> implements RoleModel {
 
 	@Override
 	public void setTitle(String title) {
+		_columnBitmask |= TITLE_COLUMN_BITMASK;
+
+		if (!isNew() && (_roleCacheModel == null)) {
+			_roleCacheModel = (RoleCacheModel)toCacheModel();
+		}
+
 		_title = title;
 	}
 
@@ -827,6 +993,12 @@ public class RoleModelImpl extends BaseModelImpl<Role> implements RoleModel {
 
 	@Override
 	public void setDescription(String description) {
+		_columnBitmask |= DESCRIPTION_COLUMN_BITMASK;
+
+		if (!isNew() && (_roleCacheModel == null)) {
+			_roleCacheModel = (RoleCacheModel)toCacheModel();
+		}
+
 		_description = description;
 	}
 
@@ -889,17 +1061,20 @@ public class RoleModelImpl extends BaseModelImpl<Role> implements RoleModel {
 	public void setType(int type) {
 		_columnBitmask |= TYPE_COLUMN_BITMASK;
 
-		if (!_setOriginalType) {
-			_setOriginalType = true;
-
-			_originalType = _type;
+		if (!isNew() && (_roleCacheModel == null)) {
+			_roleCacheModel = (RoleCacheModel)toCacheModel();
 		}
 
 		_type = type;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public int getOriginalType() {
-		return _originalType;
+		return getCacheModelAttribute("type");
 	}
 
 	@JSON
@@ -917,15 +1092,20 @@ public class RoleModelImpl extends BaseModelImpl<Role> implements RoleModel {
 	public void setSubtype(String subtype) {
 		_columnBitmask |= SUBTYPE_COLUMN_BITMASK;
 
-		if (_originalSubtype == null) {
-			_originalSubtype = _subtype;
+		if (!isNew() && (_roleCacheModel == null)) {
+			_roleCacheModel = (RoleCacheModel)toCacheModel();
 		}
 
 		_subtype = subtype;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalSubtype() {
-		return GetterUtil.getString(_originalSubtype);
+		return getCacheModelAttribute("subtype");
 	}
 
 	@Override
@@ -1140,33 +1320,11 @@ public class RoleModelImpl extends BaseModelImpl<Role> implements RoleModel {
 
 	@Override
 	public void resetOriginalValues() {
-		RoleModelImpl roleModelImpl = this;
+		_setModifiedDate = false;
 
-		roleModelImpl._originalUuid = roleModelImpl._uuid;
+		_columnBitmask = 0;
 
-		roleModelImpl._originalCompanyId = roleModelImpl._companyId;
-
-		roleModelImpl._setOriginalCompanyId = false;
-
-		roleModelImpl._setModifiedDate = false;
-
-		roleModelImpl._originalClassNameId = roleModelImpl._classNameId;
-
-		roleModelImpl._setOriginalClassNameId = false;
-
-		roleModelImpl._originalClassPK = roleModelImpl._classPK;
-
-		roleModelImpl._setOriginalClassPK = false;
-
-		roleModelImpl._originalName = roleModelImpl._name;
-
-		roleModelImpl._originalType = roleModelImpl._type;
-
-		roleModelImpl._setOriginalType = false;
-
-		roleModelImpl._originalSubtype = roleModelImpl._subtype;
-
-		roleModelImpl._columnBitmask = 0;
+		_roleCacheModel = null;
 	}
 
 	@Override
@@ -1329,34 +1487,24 @@ public class RoleModelImpl extends BaseModelImpl<Role> implements RoleModel {
 	private long _mvccVersion;
 	private long _ctCollectionId;
 	private String _uuid;
-	private String _originalUuid;
 	private long _roleId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _classNameId;
-	private long _originalClassNameId;
-	private boolean _setOriginalClassNameId;
 	private long _classPK;
-	private long _originalClassPK;
-	private boolean _setOriginalClassPK;
 	private String _name;
-	private String _originalName;
 	private String _title;
 	private String _titleCurrentLanguageId;
 	private String _description;
 	private String _descriptionCurrentLanguageId;
 	private int _type;
-	private int _originalType;
-	private boolean _setOriginalType;
 	private String _subtype;
-	private String _originalSubtype;
 	private long _columnBitmask;
 	private Role _escapedModel;
+	private RoleCacheModel _roleCacheModel;
 
 }

@@ -128,6 +128,8 @@ public class SegmentsExperimentCacheModel
 		SegmentsExperimentImpl segmentsExperimentImpl =
 			new SegmentsExperimentImpl();
 
+		segmentsExperimentImpl.setNew(true);
+
 		segmentsExperimentImpl.setMvccVersion(mvccVersion);
 		segmentsExperimentImpl.setCtCollectionId(ctCollectionId);
 
@@ -202,6 +204,8 @@ public class SegmentsExperimentCacheModel
 		segmentsExperimentImpl.setStatus(status);
 
 		segmentsExperimentImpl.resetOriginalValues();
+
+		segmentsExperimentImpl.setNew(false);
 
 		return segmentsExperimentImpl;
 	}

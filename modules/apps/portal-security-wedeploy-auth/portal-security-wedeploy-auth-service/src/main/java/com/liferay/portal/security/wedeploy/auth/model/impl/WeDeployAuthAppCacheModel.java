@@ -93,6 +93,8 @@ public class WeDeployAuthAppCacheModel
 	public WeDeployAuthApp toEntityModel() {
 		WeDeployAuthAppImpl weDeployAuthAppImpl = new WeDeployAuthAppImpl();
 
+		weDeployAuthAppImpl.setNew(true);
+
 		weDeployAuthAppImpl.setWeDeployAuthAppId(weDeployAuthAppId);
 		weDeployAuthAppImpl.setCompanyId(companyId);
 		weDeployAuthAppImpl.setUserId(userId);
@@ -147,6 +149,8 @@ public class WeDeployAuthAppCacheModel
 		}
 
 		weDeployAuthAppImpl.resetOriginalValues();
+
+		weDeployAuthAppImpl.setNew(false);
 
 		return weDeployAuthAppImpl;
 	}

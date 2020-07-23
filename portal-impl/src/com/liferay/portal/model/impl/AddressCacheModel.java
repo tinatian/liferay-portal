@@ -127,6 +127,8 @@ public class AddressCacheModel
 	public Address toEntityModel() {
 		AddressImpl addressImpl = new AddressImpl();
 
+		addressImpl.setNew(true);
+
 		addressImpl.setMvccVersion(mvccVersion);
 
 		if (uuid == null) {
@@ -206,6 +208,8 @@ public class AddressCacheModel
 		addressImpl.setPrimary(primary);
 
 		addressImpl.resetOriginalValues();
+
+		addressImpl.setNew(false);
 
 		return addressImpl;
 	}

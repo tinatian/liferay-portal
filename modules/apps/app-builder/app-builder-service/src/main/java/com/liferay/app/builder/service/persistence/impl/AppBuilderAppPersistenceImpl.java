@@ -7242,8 +7242,8 @@ public class AppBuilderAppPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				appBuilderAppModelImpl.getOriginalUuid(),
-				appBuilderAppModelImpl.getOriginalGroupId()
+				appBuilderAppModelImpl.getCacheModelAttribute("uuid"),
+				appBuilderAppModelImpl.getCacheModelAttribute("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -7526,7 +7526,7 @@ public class AppBuilderAppPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					appBuilderAppModelImpl.getOriginalUuid()
+					appBuilderAppModelImpl.getCacheModelAttribute("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -7545,8 +7545,8 @@ public class AppBuilderAppPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					appBuilderAppModelImpl.getOriginalUuid(),
-					appBuilderAppModelImpl.getOriginalCompanyId()
+					appBuilderAppModelImpl.getCacheModelAttribute("uuid"),
+					appBuilderAppModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -7568,7 +7568,7 @@ public class AppBuilderAppPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					appBuilderAppModelImpl.getOriginalGroupId()
+					appBuilderAppModelImpl.getCacheModelAttribute("groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId, args);
@@ -7587,7 +7587,7 @@ public class AppBuilderAppPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					appBuilderAppModelImpl.getOriginalCompanyId()
+					appBuilderAppModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCompanyId, args);
@@ -7606,7 +7606,8 @@ public class AppBuilderAppPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					appBuilderAppModelImpl.getOriginalDdmStructureId()
+					appBuilderAppModelImpl.getCacheModelAttribute(
+						"ddmStructureId")
 				};
 
 				finderCache.removeResult(
@@ -7629,8 +7630,8 @@ public class AppBuilderAppPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					appBuilderAppModelImpl.getOriginalGroupId(),
-					appBuilderAppModelImpl.getOriginalScope()
+					appBuilderAppModelImpl.getCacheModelAttribute("groupId"),
+					appBuilderAppModelImpl.getCacheModelAttribute("scope")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_S, args);
@@ -7652,8 +7653,8 @@ public class AppBuilderAppPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					appBuilderAppModelImpl.getOriginalCompanyId(),
-					appBuilderAppModelImpl.getOriginalActive()
+					appBuilderAppModelImpl.getCacheModelAttribute("companyId"),
+					appBuilderAppModelImpl.getCacheModelAttribute("active")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_A, args);
@@ -7675,8 +7676,8 @@ public class AppBuilderAppPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					appBuilderAppModelImpl.getOriginalCompanyId(),
-					appBuilderAppModelImpl.getOriginalScope()
+					appBuilderAppModelImpl.getCacheModelAttribute("companyId"),
+					appBuilderAppModelImpl.getCacheModelAttribute("scope")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_S, args);
@@ -7698,9 +7699,10 @@ public class AppBuilderAppPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					appBuilderAppModelImpl.getOriginalGroupId(),
-					appBuilderAppModelImpl.getOriginalCompanyId(),
-					appBuilderAppModelImpl.getOriginalDdmStructureId()
+					appBuilderAppModelImpl.getCacheModelAttribute("groupId"),
+					appBuilderAppModelImpl.getCacheModelAttribute("companyId"),
+					appBuilderAppModelImpl.getCacheModelAttribute(
+						"ddmStructureId")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_C_D, args);
@@ -7723,9 +7725,9 @@ public class AppBuilderAppPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					appBuilderAppModelImpl.getOriginalCompanyId(),
-					appBuilderAppModelImpl.getOriginalActive(),
-					appBuilderAppModelImpl.getOriginalScope()
+					appBuilderAppModelImpl.getCacheModelAttribute("companyId"),
+					appBuilderAppModelImpl.getCacheModelAttribute("active"),
+					appBuilderAppModelImpl.getCacheModelAttribute("scope")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_A_S, args);

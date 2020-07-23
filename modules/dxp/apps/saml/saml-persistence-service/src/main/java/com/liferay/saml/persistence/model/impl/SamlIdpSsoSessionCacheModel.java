@@ -90,6 +90,8 @@ public class SamlIdpSsoSessionCacheModel
 		SamlIdpSsoSessionImpl samlIdpSsoSessionImpl =
 			new SamlIdpSsoSessionImpl();
 
+		samlIdpSsoSessionImpl.setNew(true);
+
 		samlIdpSsoSessionImpl.setSamlIdpSsoSessionId(samlIdpSsoSessionId);
 		samlIdpSsoSessionImpl.setCompanyId(companyId);
 		samlIdpSsoSessionImpl.setUserId(userId);
@@ -123,6 +125,8 @@ public class SamlIdpSsoSessionCacheModel
 		}
 
 		samlIdpSsoSessionImpl.resetOriginalValues();
+
+		samlIdpSsoSessionImpl.setNew(false);
 
 		return samlIdpSsoSessionImpl;
 	}

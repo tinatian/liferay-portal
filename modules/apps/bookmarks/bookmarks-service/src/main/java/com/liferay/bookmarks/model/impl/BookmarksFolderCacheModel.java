@@ -124,6 +124,8 @@ public class BookmarksFolderCacheModel
 	public BookmarksFolder toEntityModel() {
 		BookmarksFolderImpl bookmarksFolderImpl = new BookmarksFolderImpl();
 
+		bookmarksFolderImpl.setNew(true);
+
 		bookmarksFolderImpl.setMvccVersion(mvccVersion);
 
 		if (uuid == null) {
@@ -207,6 +209,8 @@ public class BookmarksFolderCacheModel
 		}
 
 		bookmarksFolderImpl.resetOriginalValues();
+
+		bookmarksFolderImpl.setNew(false);
 
 		return bookmarksFolderImpl;
 	}

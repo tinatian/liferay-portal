@@ -4022,8 +4022,10 @@ public class AssetListEntryAssetEntryRelPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				assetListEntryAssetEntryRelModelImpl.getOriginalUuid(),
-				assetListEntryAssetEntryRelModelImpl.getOriginalGroupId()
+				assetListEntryAssetEntryRelModelImpl.getCacheModelAttribute(
+					"uuid"),
+				assetListEntryAssetEntryRelModelImpl.getCacheModelAttribute(
+					"groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -4045,11 +4047,12 @@ public class AssetListEntryAssetEntryRelPersistenceImpl
 			 _finderPathFetchByA_S_P.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				assetListEntryAssetEntryRelModelImpl.
-					getOriginalAssetListEntryId(),
-				assetListEntryAssetEntryRelModelImpl.
-					getOriginalSegmentsEntryId(),
-				assetListEntryAssetEntryRelModelImpl.getOriginalPosition()
+				assetListEntryAssetEntryRelModelImpl.getCacheModelAttribute(
+					"assetListEntryId"),
+				assetListEntryAssetEntryRelModelImpl.getCacheModelAttribute(
+					"segmentsEntryId"),
+				assetListEntryAssetEntryRelModelImpl.getCacheModelAttribute(
+					"position")
 			};
 
 			finderCache.removeResult(_finderPathCountByA_S_P, args);
@@ -4329,7 +4332,8 @@ public class AssetListEntryAssetEntryRelPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					assetListEntryAssetEntryRelModelImpl.getOriginalUuid()
+					assetListEntryAssetEntryRelModelImpl.getCacheModelAttribute(
+						"uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -4350,8 +4354,10 @@ public class AssetListEntryAssetEntryRelPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					assetListEntryAssetEntryRelModelImpl.getOriginalUuid(),
-					assetListEntryAssetEntryRelModelImpl.getOriginalCompanyId()
+					assetListEntryAssetEntryRelModelImpl.getCacheModelAttribute(
+						"uuid"),
+					assetListEntryAssetEntryRelModelImpl.getCacheModelAttribute(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -4373,8 +4379,8 @@ public class AssetListEntryAssetEntryRelPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					assetListEntryAssetEntryRelModelImpl.
-						getOriginalAssetListEntryId()
+					assetListEntryAssetEntryRelModelImpl.getCacheModelAttribute(
+						"assetListEntryId")
 				};
 
 				finderCache.removeResult(
@@ -4397,10 +4403,10 @@ public class AssetListEntryAssetEntryRelPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					assetListEntryAssetEntryRelModelImpl.
-						getOriginalAssetListEntryId(),
-					assetListEntryAssetEntryRelModelImpl.
-						getOriginalSegmentsEntryId()
+					assetListEntryAssetEntryRelModelImpl.getCacheModelAttribute(
+						"assetListEntryId"),
+					assetListEntryAssetEntryRelModelImpl.getCacheModelAttribute(
+						"segmentsEntryId")
 				};
 
 				finderCache.removeResult(_finderPathCountByA_S, args);

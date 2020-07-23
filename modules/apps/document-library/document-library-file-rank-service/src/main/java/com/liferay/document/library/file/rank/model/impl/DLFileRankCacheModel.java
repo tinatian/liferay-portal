@@ -104,6 +104,8 @@ public class DLFileRankCacheModel
 	public DLFileRank toEntityModel() {
 		DLFileRankImpl dlFileRankImpl = new DLFileRankImpl();
 
+		dlFileRankImpl.setNew(true);
+
 		dlFileRankImpl.setMvccVersion(mvccVersion);
 		dlFileRankImpl.setFileRankId(fileRankId);
 		dlFileRankImpl.setGroupId(groupId);
@@ -121,6 +123,8 @@ public class DLFileRankCacheModel
 		dlFileRankImpl.setActive(active);
 
 		dlFileRankImpl.resetOriginalValues();
+
+		dlFileRankImpl.setNew(false);
 
 		return dlFileRankImpl;
 	}

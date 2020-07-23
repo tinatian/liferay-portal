@@ -28,7 +28,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
@@ -112,17 +111,29 @@ public class MBThreadFlagModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
-	public static final long THREADID_COLUMN_BITMASK = 4L;
+	public static final long UUID_COLUMN_BITMASK = 4L;
 
-	public static final long USERID_COLUMN_BITMASK = 8L;
+	public static final long THREADFLAGID_COLUMN_BITMASK = 8L;
 
-	public static final long UUID_COLUMN_BITMASK = 16L;
+	public static final long GROUPID_COLUMN_BITMASK = 16L;
 
-	public static final long THREADFLAGID_COLUMN_BITMASK = 32L;
+	public static final long COMPANYID_COLUMN_BITMASK = 32L;
+
+	public static final long USERID_COLUMN_BITMASK = 64L;
+
+	public static final long USERNAME_COLUMN_BITMASK = 128L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 256L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 512L;
+
+	public static final long THREADID_COLUMN_BITMASK = 1024L;
+
+	public static final long LASTPUBLISHDATE_COLUMN_BITMASK = 2048L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -251,65 +262,143 @@ public class MBThreadFlagModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<MBThreadFlag, Object> function = _attributeGetterFunctions.get(
+			attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((MBThreadFlag)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<MBThreadFlagCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_mbThreadFlagCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_mbThreadFlagCacheModel);
+	}
+
 	private static final Map<String, Function<MBThreadFlag, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<MBThreadFlag, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<MBThreadFlagCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<MBThreadFlag, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<MBThreadFlag, Object>>();
 		Map<String, BiConsumer<MBThreadFlag, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<MBThreadFlag, ?>>();
+		Map<String, Function<MBThreadFlagCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<MBThreadFlagCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", MBThreadFlag::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			mbThreadFlagCacheModel -> mbThreadFlagCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<MBThreadFlag, Long>)MBThreadFlag::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", MBThreadFlag::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			mbThreadFlagCacheModel -> mbThreadFlagCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<MBThreadFlag, Long>)MBThreadFlag::setCtCollectionId);
 		attributeGetterFunctions.put("uuid", MBThreadFlag::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid", mbThreadFlagCacheModel -> mbThreadFlagCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<MBThreadFlag, String>)MBThreadFlag::setUuid);
 		attributeGetterFunctions.put(
 			"threadFlagId", MBThreadFlag::getThreadFlagId);
+
+		cacheModelGetterFunctions.put(
+			"threadFlagId",
+			mbThreadFlagCacheModel -> mbThreadFlagCacheModel.threadFlagId);
 		attributeSetterBiConsumers.put(
 			"threadFlagId",
 			(BiConsumer<MBThreadFlag, Long>)MBThreadFlag::setThreadFlagId);
 		attributeGetterFunctions.put("groupId", MBThreadFlag::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			mbThreadFlagCacheModel -> mbThreadFlagCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<MBThreadFlag, Long>)MBThreadFlag::setGroupId);
 		attributeGetterFunctions.put("companyId", MBThreadFlag::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			mbThreadFlagCacheModel -> mbThreadFlagCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<MBThreadFlag, Long>)MBThreadFlag::setCompanyId);
 		attributeGetterFunctions.put("userId", MBThreadFlag::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", mbThreadFlagCacheModel -> mbThreadFlagCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<MBThreadFlag, Long>)MBThreadFlag::setUserId);
 		attributeGetterFunctions.put("userName", MBThreadFlag::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			mbThreadFlagCacheModel -> mbThreadFlagCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<MBThreadFlag, String>)MBThreadFlag::setUserName);
 		attributeGetterFunctions.put("createDate", MBThreadFlag::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			mbThreadFlagCacheModel -> mbThreadFlagCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<MBThreadFlag, Date>)MBThreadFlag::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", MBThreadFlag::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			mbThreadFlagCacheModel -> mbThreadFlagCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<MBThreadFlag, Date>)MBThreadFlag::setModifiedDate);
 		attributeGetterFunctions.put("threadId", MBThreadFlag::getThreadId);
+
+		cacheModelGetterFunctions.put(
+			"threadId",
+			mbThreadFlagCacheModel -> mbThreadFlagCacheModel.threadId);
 		attributeSetterBiConsumers.put(
 			"threadId",
 			(BiConsumer<MBThreadFlag, Long>)MBThreadFlag::setThreadId);
 		attributeGetterFunctions.put(
 			"lastPublishDate", MBThreadFlag::getLastPublishDate);
+
+		cacheModelGetterFunctions.put(
+			"lastPublishDate",
+			mbThreadFlagCacheModel -> mbThreadFlagCacheModel.lastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<MBThreadFlag, Date>)MBThreadFlag::setLastPublishDate);
@@ -318,6 +407,8 @@ public class MBThreadFlagModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -327,6 +418,12 @@ public class MBThreadFlagModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_mbThreadFlagCacheModel == null)) {
+			_mbThreadFlagCacheModel = (MBThreadFlagCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -337,6 +434,12 @@ public class MBThreadFlagModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (!isNew() && (_mbThreadFlagCacheModel == null)) {
+			_mbThreadFlagCacheModel = (MBThreadFlagCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -354,15 +457,20 @@ public class MBThreadFlagModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (!isNew() && (_mbThreadFlagCacheModel == null)) {
+			_mbThreadFlagCacheModel = (MBThreadFlagCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getCacheModelAttribute("uuid");
 	}
 
 	@Override
@@ -372,6 +480,12 @@ public class MBThreadFlagModelImpl
 
 	@Override
 	public void setThreadFlagId(long threadFlagId) {
+		_columnBitmask |= THREADFLAGID_COLUMN_BITMASK;
+
+		if (!isNew() && (_mbThreadFlagCacheModel == null)) {
+			_mbThreadFlagCacheModel = (MBThreadFlagCacheModel)toCacheModel();
+		}
+
 		_threadFlagId = threadFlagId;
 	}
 
@@ -384,17 +498,20 @@ public class MBThreadFlagModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (!isNew() && (_mbThreadFlagCacheModel == null)) {
+			_mbThreadFlagCacheModel = (MBThreadFlagCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getCacheModelAttribute("groupId");
 	}
 
 	@Override
@@ -406,17 +523,20 @@ public class MBThreadFlagModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (!isNew() && (_mbThreadFlagCacheModel == null)) {
+			_mbThreadFlagCacheModel = (MBThreadFlagCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getCacheModelAttribute("companyId");
 	}
 
 	@Override
@@ -428,10 +548,8 @@ public class MBThreadFlagModelImpl
 	public void setUserId(long userId) {
 		_columnBitmask |= USERID_COLUMN_BITMASK;
 
-		if (!_setOriginalUserId) {
-			_setOriginalUserId = true;
-
-			_originalUserId = _userId;
+		if (!isNew() && (_mbThreadFlagCacheModel == null)) {
+			_mbThreadFlagCacheModel = (MBThreadFlagCacheModel)toCacheModel();
 		}
 
 		_userId = userId;
@@ -453,8 +571,13 @@ public class MBThreadFlagModelImpl
 	public void setUserUuid(String userUuid) {
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalUserId() {
-		return _originalUserId;
+		return getCacheModelAttribute("userId");
 	}
 
 	@Override
@@ -469,6 +592,12 @@ public class MBThreadFlagModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_mbThreadFlagCacheModel == null)) {
+			_mbThreadFlagCacheModel = (MBThreadFlagCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -479,6 +608,12 @@ public class MBThreadFlagModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_mbThreadFlagCacheModel == null)) {
+			_mbThreadFlagCacheModel = (MBThreadFlagCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -495,6 +630,12 @@ public class MBThreadFlagModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_mbThreadFlagCacheModel == null)) {
+			_mbThreadFlagCacheModel = (MBThreadFlagCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -507,17 +648,20 @@ public class MBThreadFlagModelImpl
 	public void setThreadId(long threadId) {
 		_columnBitmask |= THREADID_COLUMN_BITMASK;
 
-		if (!_setOriginalThreadId) {
-			_setOriginalThreadId = true;
-
-			_originalThreadId = _threadId;
+		if (!isNew() && (_mbThreadFlagCacheModel == null)) {
+			_mbThreadFlagCacheModel = (MBThreadFlagCacheModel)toCacheModel();
 		}
 
 		_threadId = threadId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalThreadId() {
-		return _originalThreadId;
+		return getCacheModelAttribute("threadId");
 	}
 
 	@Override
@@ -527,6 +671,12 @@ public class MBThreadFlagModelImpl
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		_columnBitmask |= LASTPUBLISHDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_mbThreadFlagCacheModel == null)) {
+			_mbThreadFlagCacheModel = (MBThreadFlagCacheModel)toCacheModel();
+		}
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -652,31 +802,11 @@ public class MBThreadFlagModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		MBThreadFlagModelImpl mbThreadFlagModelImpl = this;
+		_setModifiedDate = false;
 
-		mbThreadFlagModelImpl._originalUuid = mbThreadFlagModelImpl._uuid;
+		_columnBitmask = 0;
 
-		mbThreadFlagModelImpl._originalGroupId = mbThreadFlagModelImpl._groupId;
-
-		mbThreadFlagModelImpl._setOriginalGroupId = false;
-
-		mbThreadFlagModelImpl._originalCompanyId =
-			mbThreadFlagModelImpl._companyId;
-
-		mbThreadFlagModelImpl._setOriginalCompanyId = false;
-
-		mbThreadFlagModelImpl._originalUserId = mbThreadFlagModelImpl._userId;
-
-		mbThreadFlagModelImpl._setOriginalUserId = false;
-
-		mbThreadFlagModelImpl._setModifiedDate = false;
-
-		mbThreadFlagModelImpl._originalThreadId =
-			mbThreadFlagModelImpl._threadId;
-
-		mbThreadFlagModelImpl._setOriginalThreadId = false;
-
-		mbThreadFlagModelImpl._columnBitmask = 0;
+		_mbThreadFlagCacheModel = null;
 	}
 
 	@Override
@@ -817,26 +947,18 @@ public class MBThreadFlagModelImpl
 	private long _mvccVersion;
 	private long _ctCollectionId;
 	private String _uuid;
-	private String _originalUuid;
 	private long _threadFlagId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
-	private long _originalUserId;
-	private boolean _setOriginalUserId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _threadId;
-	private long _originalThreadId;
-	private boolean _setOriginalThreadId;
 	private Date _lastPublishDate;
 	private long _columnBitmask;
 	private MBThreadFlag _escapedModel;
+	private MBThreadFlagCacheModel _mbThreadFlagCacheModel;
 
 }

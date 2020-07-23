@@ -123,6 +123,8 @@ public class OrgLaborCacheModel
 	public OrgLabor toEntityModel() {
 		OrgLaborImpl orgLaborImpl = new OrgLaborImpl();
 
+		orgLaborImpl.setNew(true);
+
 		orgLaborImpl.setMvccVersion(mvccVersion);
 		orgLaborImpl.setOrgLaborId(orgLaborId);
 		orgLaborImpl.setCompanyId(companyId);
@@ -144,6 +146,8 @@ public class OrgLaborCacheModel
 		orgLaborImpl.setSatClose(satClose);
 
 		orgLaborImpl.resetOriginalValues();
+
+		orgLaborImpl.setNew(false);
 
 		return orgLaborImpl;
 	}

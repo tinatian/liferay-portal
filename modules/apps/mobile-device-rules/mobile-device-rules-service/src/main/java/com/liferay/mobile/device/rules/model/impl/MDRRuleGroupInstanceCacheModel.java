@@ -118,6 +118,8 @@ public class MDRRuleGroupInstanceCacheModel
 		MDRRuleGroupInstanceImpl mdrRuleGroupInstanceImpl =
 			new MDRRuleGroupInstanceImpl();
 
+		mdrRuleGroupInstanceImpl.setNew(true);
+
 		mdrRuleGroupInstanceImpl.setMvccVersion(mvccVersion);
 
 		if (uuid == null) {
@@ -167,6 +169,8 @@ public class MDRRuleGroupInstanceCacheModel
 		}
 
 		mdrRuleGroupInstanceImpl.resetOriginalValues();
+
+		mdrRuleGroupInstanceImpl.setNew(false);
 
 		return mdrRuleGroupInstanceImpl;
 	}

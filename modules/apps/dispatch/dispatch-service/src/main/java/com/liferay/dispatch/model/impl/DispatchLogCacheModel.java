@@ -114,6 +114,8 @@ public class DispatchLogCacheModel
 	public DispatchLog toEntityModel() {
 		DispatchLogImpl dispatchLogImpl = new DispatchLogImpl();
 
+		dispatchLogImpl.setNew(true);
+
 		dispatchLogImpl.setMvccVersion(mvccVersion);
 		dispatchLogImpl.setDispatchLogId(dispatchLogId);
 		dispatchLogImpl.setCompanyId(companyId);
@@ -173,6 +175,8 @@ public class DispatchLogCacheModel
 		dispatchLogImpl.setStatus(status);
 
 		dispatchLogImpl.resetOriginalValues();
+
+		dispatchLogImpl.setNew(false);
 
 		return dispatchLogImpl;
 	}

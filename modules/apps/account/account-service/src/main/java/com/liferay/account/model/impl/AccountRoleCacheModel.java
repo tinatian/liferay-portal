@@ -96,6 +96,8 @@ public class AccountRoleCacheModel
 	public AccountRole toEntityModel() {
 		AccountRoleImpl accountRoleImpl = new AccountRoleImpl();
 
+		accountRoleImpl.setNew(true);
+
 		accountRoleImpl.setMvccVersion(mvccVersion);
 		accountRoleImpl.setAccountRoleId(accountRoleId);
 		accountRoleImpl.setCompanyId(companyId);
@@ -103,6 +105,8 @@ public class AccountRoleCacheModel
 		accountRoleImpl.setRoleId(roleId);
 
 		accountRoleImpl.resetOriginalValues();
+
+		accountRoleImpl.setNew(false);
 
 		return accountRoleImpl;
 	}

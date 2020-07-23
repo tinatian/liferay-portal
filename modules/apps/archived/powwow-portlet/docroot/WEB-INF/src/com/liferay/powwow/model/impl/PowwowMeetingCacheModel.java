@@ -103,6 +103,8 @@ public class PowwowMeetingCacheModel
 	public PowwowMeeting toEntityModel() {
 		PowwowMeetingImpl powwowMeetingImpl = new PowwowMeetingImpl();
 
+		powwowMeetingImpl.setNew(true);
+
 		powwowMeetingImpl.setPowwowMeetingId(powwowMeetingId);
 		powwowMeetingImpl.setGroupId(groupId);
 		powwowMeetingImpl.setCompanyId(companyId);
@@ -170,6 +172,8 @@ public class PowwowMeetingCacheModel
 		powwowMeetingImpl.setStatus(status);
 
 		powwowMeetingImpl.resetOriginalValues();
+
+		powwowMeetingImpl.setNew(false);
 
 		return powwowMeetingImpl;
 	}

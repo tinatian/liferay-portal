@@ -5122,8 +5122,8 @@ public class ExpandoValuePersistenceImpl
 			 _finderPathFetchByC_R.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				expandoValueModelImpl.getOriginalColumnId(),
-				expandoValueModelImpl.getOriginalRowId()
+				expandoValueModelImpl.getCacheModelAttribute("columnId"),
+				expandoValueModelImpl.getCacheModelAttribute("rowId")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByC_R, args);
@@ -5145,9 +5145,9 @@ public class ExpandoValuePersistenceImpl
 			 _finderPathFetchByT_C_C.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				expandoValueModelImpl.getOriginalTableId(),
-				expandoValueModelImpl.getOriginalColumnId(),
-				expandoValueModelImpl.getOriginalClassPK()
+				expandoValueModelImpl.getCacheModelAttribute("tableId"),
+				expandoValueModelImpl.getCacheModelAttribute("columnId"),
+				expandoValueModelImpl.getCacheModelAttribute("classPK")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByT_C_C, args);
@@ -5399,7 +5399,7 @@ public class ExpandoValuePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					expandoValueModelImpl.getOriginalTableId()
+					expandoValueModelImpl.getCacheModelAttribute("tableId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByTableId, args);
@@ -5418,7 +5418,7 @@ public class ExpandoValuePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					expandoValueModelImpl.getOriginalColumnId()
+					expandoValueModelImpl.getCacheModelAttribute("columnId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByColumnId, args);
@@ -5437,7 +5437,7 @@ public class ExpandoValuePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					expandoValueModelImpl.getOriginalRowId()
+					expandoValueModelImpl.getCacheModelAttribute("rowId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByRowId, args);
@@ -5456,8 +5456,8 @@ public class ExpandoValuePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					expandoValueModelImpl.getOriginalTableId(),
-					expandoValueModelImpl.getOriginalColumnId()
+					expandoValueModelImpl.getCacheModelAttribute("tableId"),
+					expandoValueModelImpl.getCacheModelAttribute("columnId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByT_C, args);
@@ -5479,8 +5479,8 @@ public class ExpandoValuePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					expandoValueModelImpl.getOriginalTableId(),
-					expandoValueModelImpl.getOriginalRowId()
+					expandoValueModelImpl.getCacheModelAttribute("tableId"),
+					expandoValueModelImpl.getCacheModelAttribute("rowId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByT_R, args);
@@ -5502,8 +5502,8 @@ public class ExpandoValuePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					expandoValueModelImpl.getOriginalTableId(),
-					expandoValueModelImpl.getOriginalClassPK()
+					expandoValueModelImpl.getCacheModelAttribute("tableId"),
+					expandoValueModelImpl.getCacheModelAttribute("classPK")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByT_CPK, args);
@@ -5525,8 +5525,8 @@ public class ExpandoValuePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					expandoValueModelImpl.getOriginalClassNameId(),
-					expandoValueModelImpl.getOriginalClassPK()
+					expandoValueModelImpl.getCacheModelAttribute("classNameId"),
+					expandoValueModelImpl.getCacheModelAttribute("classPK")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_C, args);
@@ -5548,9 +5548,9 @@ public class ExpandoValuePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					expandoValueModelImpl.getOriginalTableId(),
-					expandoValueModelImpl.getOriginalColumnId(),
-					expandoValueModelImpl.getOriginalData()
+					expandoValueModelImpl.getCacheModelAttribute("tableId"),
+					expandoValueModelImpl.getCacheModelAttribute("columnId"),
+					expandoValueModelImpl.getCacheModelAttribute("data")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByT_C_D, args);

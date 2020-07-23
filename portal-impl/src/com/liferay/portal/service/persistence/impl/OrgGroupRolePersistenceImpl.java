@@ -1333,7 +1333,7 @@ public class OrgGroupRolePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					orgGroupRoleModelImpl.getOriginalGroupId()
+					orgGroupRoleModelImpl.getCacheModelAttribute("groupId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByGroupId, args);
@@ -1352,7 +1352,7 @@ public class OrgGroupRolePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					orgGroupRoleModelImpl.getOriginalRoleId()
+					orgGroupRoleModelImpl.getCacheModelAttribute("roleId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByRoleId, args);

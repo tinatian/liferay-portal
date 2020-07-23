@@ -30,7 +30,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
@@ -121,16 +120,32 @@ public class LayoutPageTemplateCollectionModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 2L;
+	public static final long UUID_COLUMN_BITMASK = 2L;
+
+	public static final long LAYOUTPAGETEMPLATECOLLECTIONID_COLUMN_BITMASK = 4L;
+
+	public static final long GROUPID_COLUMN_BITMASK = 8L;
+
+	public static final long COMPANYID_COLUMN_BITMASK = 16L;
+
+	public static final long USERID_COLUMN_BITMASK = 32L;
+
+	public static final long USERNAME_COLUMN_BITMASK = 64L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 128L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 256L;
 
 	public static final long LAYOUTPAGETEMPLATECOLLECTIONKEY_COLUMN_BITMASK =
-		4L;
+		512L;
 
-	public static final long NAME_COLUMN_BITMASK = 8L;
+	public static final long NAME_COLUMN_BITMASK = 1024L;
 
-	public static final long UUID_COLUMN_BITMASK = 16L;
+	public static final long DESCRIPTION_COLUMN_BITMASK = 2048L;
+
+	public static final long LASTPUBLISHDATE_COLUMN_BITMASK = 4096L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -319,12 +334,41 @@ public class LayoutPageTemplateCollectionModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<LayoutPageTemplateCollection, Object> function =
+			_attributeGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((LayoutPageTemplateCollection)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<LayoutPageTemplateCollectionCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_layoutPageTemplateCollectionCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_layoutPageTemplateCollectionCacheModel);
+	}
+
 	private static final Map
 		<String, Function<LayoutPageTemplateCollection, Object>>
 			_attributeGetterFunctions;
 	private static final Map
 		<String, BiConsumer<LayoutPageTemplateCollection, Object>>
 			_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<LayoutPageTemplateCollectionCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<LayoutPageTemplateCollection, Object>>
@@ -335,15 +379,31 @@ public class LayoutPageTemplateCollectionModelImpl
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<LayoutPageTemplateCollection, ?>>();
+		Map<String, Function<LayoutPageTemplateCollectionCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String,
+					 Function
+						 <LayoutPageTemplateCollectionCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", LayoutPageTemplateCollection::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			layoutPageTemplateCollectionCacheModel ->
+				layoutPageTemplateCollectionCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<LayoutPageTemplateCollection, Long>)
 				LayoutPageTemplateCollection::setMvccVersion);
 		attributeGetterFunctions.put(
 			"uuid", LayoutPageTemplateCollection::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid",
+			layoutPageTemplateCollectionCacheModel ->
+				layoutPageTemplateCollectionCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid",
 			(BiConsumer<LayoutPageTemplateCollection, String>)
@@ -351,6 +411,12 @@ public class LayoutPageTemplateCollectionModelImpl
 		attributeGetterFunctions.put(
 			"layoutPageTemplateCollectionId",
 			LayoutPageTemplateCollection::getLayoutPageTemplateCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"layoutPageTemplateCollectionId",
+			layoutPageTemplateCollectionCacheModel ->
+				layoutPageTemplateCollectionCacheModel.
+					layoutPageTemplateCollectionId);
 		attributeSetterBiConsumers.put(
 			"layoutPageTemplateCollectionId",
 			(BiConsumer<LayoutPageTemplateCollection, Long>)
@@ -358,36 +424,66 @@ public class LayoutPageTemplateCollectionModelImpl
 					setLayoutPageTemplateCollectionId);
 		attributeGetterFunctions.put(
 			"groupId", LayoutPageTemplateCollection::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			layoutPageTemplateCollectionCacheModel ->
+				layoutPageTemplateCollectionCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<LayoutPageTemplateCollection, Long>)
 				LayoutPageTemplateCollection::setGroupId);
 		attributeGetterFunctions.put(
 			"companyId", LayoutPageTemplateCollection::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			layoutPageTemplateCollectionCacheModel ->
+				layoutPageTemplateCollectionCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<LayoutPageTemplateCollection, Long>)
 				LayoutPageTemplateCollection::setCompanyId);
 		attributeGetterFunctions.put(
 			"userId", LayoutPageTemplateCollection::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			layoutPageTemplateCollectionCacheModel ->
+				layoutPageTemplateCollectionCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<LayoutPageTemplateCollection, Long>)
 				LayoutPageTemplateCollection::setUserId);
 		attributeGetterFunctions.put(
 			"userName", LayoutPageTemplateCollection::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			layoutPageTemplateCollectionCacheModel ->
+				layoutPageTemplateCollectionCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<LayoutPageTemplateCollection, String>)
 				LayoutPageTemplateCollection::setUserName);
 		attributeGetterFunctions.put(
 			"createDate", LayoutPageTemplateCollection::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			layoutPageTemplateCollectionCacheModel ->
+				layoutPageTemplateCollectionCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<LayoutPageTemplateCollection, Date>)
 				LayoutPageTemplateCollection::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", LayoutPageTemplateCollection::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			layoutPageTemplateCollectionCacheModel ->
+				layoutPageTemplateCollectionCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<LayoutPageTemplateCollection, Date>)
@@ -395,6 +491,12 @@ public class LayoutPageTemplateCollectionModelImpl
 		attributeGetterFunctions.put(
 			"layoutPageTemplateCollectionKey",
 			LayoutPageTemplateCollection::getLayoutPageTemplateCollectionKey);
+
+		cacheModelGetterFunctions.put(
+			"layoutPageTemplateCollectionKey",
+			layoutPageTemplateCollectionCacheModel ->
+				layoutPageTemplateCollectionCacheModel.
+					layoutPageTemplateCollectionKey);
 		attributeSetterBiConsumers.put(
 			"layoutPageTemplateCollectionKey",
 			(BiConsumer<LayoutPageTemplateCollection, String>)
@@ -402,12 +504,22 @@ public class LayoutPageTemplateCollectionModelImpl
 					setLayoutPageTemplateCollectionKey);
 		attributeGetterFunctions.put(
 			"name", LayoutPageTemplateCollection::getName);
+
+		cacheModelGetterFunctions.put(
+			"name",
+			layoutPageTemplateCollectionCacheModel ->
+				layoutPageTemplateCollectionCacheModel.name);
 		attributeSetterBiConsumers.put(
 			"name",
 			(BiConsumer<LayoutPageTemplateCollection, String>)
 				LayoutPageTemplateCollection::setName);
 		attributeGetterFunctions.put(
 			"description", LayoutPageTemplateCollection::getDescription);
+
+		cacheModelGetterFunctions.put(
+			"description",
+			layoutPageTemplateCollectionCacheModel ->
+				layoutPageTemplateCollectionCacheModel.description);
 		attributeSetterBiConsumers.put(
 			"description",
 			(BiConsumer<LayoutPageTemplateCollection, String>)
@@ -415,6 +527,11 @@ public class LayoutPageTemplateCollectionModelImpl
 		attributeGetterFunctions.put(
 			"lastPublishDate",
 			LayoutPageTemplateCollection::getLastPublishDate);
+
+		cacheModelGetterFunctions.put(
+			"lastPublishDate",
+			layoutPageTemplateCollectionCacheModel ->
+				layoutPageTemplateCollectionCacheModel.lastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<LayoutPageTemplateCollection, Date>)
@@ -424,6 +541,8 @@ public class LayoutPageTemplateCollectionModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -434,6 +553,13 @@ public class LayoutPageTemplateCollectionModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_layoutPageTemplateCollectionCacheModel == null)) {
+			_layoutPageTemplateCollectionCacheModel =
+				(LayoutPageTemplateCollectionCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -452,15 +578,21 @@ public class LayoutPageTemplateCollectionModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (!isNew() && (_layoutPageTemplateCollectionCacheModel == null)) {
+			_layoutPageTemplateCollectionCacheModel =
+				(LayoutPageTemplateCollectionCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getCacheModelAttribute("uuid");
 	}
 
 	@JSON
@@ -472,6 +604,13 @@ public class LayoutPageTemplateCollectionModelImpl
 	@Override
 	public void setLayoutPageTemplateCollectionId(
 		long layoutPageTemplateCollectionId) {
+
+		_columnBitmask |= LAYOUTPAGETEMPLATECOLLECTIONID_COLUMN_BITMASK;
+
+		if (!isNew() && (_layoutPageTemplateCollectionCacheModel == null)) {
+			_layoutPageTemplateCollectionCacheModel =
+				(LayoutPageTemplateCollectionCacheModel)toCacheModel();
+		}
 
 		_layoutPageTemplateCollectionId = layoutPageTemplateCollectionId;
 	}
@@ -486,17 +625,21 @@ public class LayoutPageTemplateCollectionModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (!isNew() && (_layoutPageTemplateCollectionCacheModel == null)) {
+			_layoutPageTemplateCollectionCacheModel =
+				(LayoutPageTemplateCollectionCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getCacheModelAttribute("groupId");
 	}
 
 	@JSON
@@ -509,17 +652,21 @@ public class LayoutPageTemplateCollectionModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (!isNew() && (_layoutPageTemplateCollectionCacheModel == null)) {
+			_layoutPageTemplateCollectionCacheModel =
+				(LayoutPageTemplateCollectionCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getCacheModelAttribute("companyId");
 	}
 
 	@JSON
@@ -530,6 +677,13 @@ public class LayoutPageTemplateCollectionModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_layoutPageTemplateCollectionCacheModel == null)) {
+			_layoutPageTemplateCollectionCacheModel =
+				(LayoutPageTemplateCollectionCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -562,6 +716,13 @@ public class LayoutPageTemplateCollectionModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_layoutPageTemplateCollectionCacheModel == null)) {
+			_layoutPageTemplateCollectionCacheModel =
+				(LayoutPageTemplateCollectionCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -573,6 +734,13 @@ public class LayoutPageTemplateCollectionModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_layoutPageTemplateCollectionCacheModel == null)) {
+			_layoutPageTemplateCollectionCacheModel =
+				(LayoutPageTemplateCollectionCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -589,6 +757,13 @@ public class LayoutPageTemplateCollectionModelImpl
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
+
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_layoutPageTemplateCollectionCacheModel == null)) {
+			_layoutPageTemplateCollectionCacheModel =
+				(LayoutPageTemplateCollectionCacheModel)toCacheModel();
+		}
 
 		_modifiedDate = modifiedDate;
 	}
@@ -610,16 +785,21 @@ public class LayoutPageTemplateCollectionModelImpl
 
 		_columnBitmask |= LAYOUTPAGETEMPLATECOLLECTIONKEY_COLUMN_BITMASK;
 
-		if (_originalLayoutPageTemplateCollectionKey == null) {
-			_originalLayoutPageTemplateCollectionKey =
-				_layoutPageTemplateCollectionKey;
+		if (!isNew() && (_layoutPageTemplateCollectionCacheModel == null)) {
+			_layoutPageTemplateCollectionCacheModel =
+				(LayoutPageTemplateCollectionCacheModel)toCacheModel();
 		}
 
 		_layoutPageTemplateCollectionKey = layoutPageTemplateCollectionKey;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalLayoutPageTemplateCollectionKey() {
-		return GetterUtil.getString(_originalLayoutPageTemplateCollectionKey);
+		return getCacheModelAttribute("layoutPageTemplateCollectionKey");
 	}
 
 	@JSON
@@ -635,17 +815,23 @@ public class LayoutPageTemplateCollectionModelImpl
 
 	@Override
 	public void setName(String name) {
-		_columnBitmask = -1L;
+		_columnBitmask |= NAME_COLUMN_BITMASK;
 
-		if (_originalName == null) {
-			_originalName = _name;
+		if (!isNew() && (_layoutPageTemplateCollectionCacheModel == null)) {
+			_layoutPageTemplateCollectionCacheModel =
+				(LayoutPageTemplateCollectionCacheModel)toCacheModel();
 		}
 
 		_name = name;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalName() {
-		return GetterUtil.getString(_originalName);
+		return getCacheModelAttribute("name");
 	}
 
 	@JSON
@@ -661,6 +847,13 @@ public class LayoutPageTemplateCollectionModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		_columnBitmask |= DESCRIPTION_COLUMN_BITMASK;
+
+		if (!isNew() && (_layoutPageTemplateCollectionCacheModel == null)) {
+			_layoutPageTemplateCollectionCacheModel =
+				(LayoutPageTemplateCollectionCacheModel)toCacheModel();
+		}
+
 		_description = description;
 	}
 
@@ -672,6 +865,13 @@ public class LayoutPageTemplateCollectionModelImpl
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		_columnBitmask |= LASTPUBLISHDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_layoutPageTemplateCollectionCacheModel == null)) {
+			_layoutPageTemplateCollectionCacheModel =
+				(LayoutPageTemplateCollectionCacheModel)toCacheModel();
+		}
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -805,33 +1005,11 @@ public class LayoutPageTemplateCollectionModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		LayoutPageTemplateCollectionModelImpl
-			layoutPageTemplateCollectionModelImpl = this;
+		_setModifiedDate = false;
 
-		layoutPageTemplateCollectionModelImpl._originalUuid =
-			layoutPageTemplateCollectionModelImpl._uuid;
+		_columnBitmask = 0;
 
-		layoutPageTemplateCollectionModelImpl._originalGroupId =
-			layoutPageTemplateCollectionModelImpl._groupId;
-
-		layoutPageTemplateCollectionModelImpl._setOriginalGroupId = false;
-
-		layoutPageTemplateCollectionModelImpl._originalCompanyId =
-			layoutPageTemplateCollectionModelImpl._companyId;
-
-		layoutPageTemplateCollectionModelImpl._setOriginalCompanyId = false;
-
-		layoutPageTemplateCollectionModelImpl._setModifiedDate = false;
-
-		layoutPageTemplateCollectionModelImpl.
-			_originalLayoutPageTemplateCollectionKey =
-				layoutPageTemplateCollectionModelImpl.
-					_layoutPageTemplateCollectionKey;
-
-		layoutPageTemplateCollectionModelImpl._originalName =
-			layoutPageTemplateCollectionModelImpl._name;
-
-		layoutPageTemplateCollectionModelImpl._columnBitmask = 0;
+		_layoutPageTemplateCollectionCacheModel = null;
 	}
 
 	@Override
@@ -1010,26 +1188,21 @@ public class LayoutPageTemplateCollectionModelImpl
 
 	private long _mvccVersion;
 	private String _uuid;
-	private String _originalUuid;
 	private long _layoutPageTemplateCollectionId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private String _layoutPageTemplateCollectionKey;
-	private String _originalLayoutPageTemplateCollectionKey;
 	private String _name;
-	private String _originalName;
 	private String _description;
 	private Date _lastPublishDate;
 	private long _columnBitmask;
 	private LayoutPageTemplateCollection _escapedModel;
+	private LayoutPageTemplateCollectionCacheModel
+		_layoutPageTemplateCollectionCacheModel;
 
 }

@@ -115,6 +115,8 @@ public class PhoneCacheModel
 	public Phone toEntityModel() {
 		PhoneImpl phoneImpl = new PhoneImpl();
 
+		phoneImpl.setNew(true);
+
 		phoneImpl.setMvccVersion(mvccVersion);
 
 		if (uuid == null) {
@@ -170,6 +172,8 @@ public class PhoneCacheModel
 		phoneImpl.setPrimary(primary);
 
 		phoneImpl.resetOriginalValues();
+
+		phoneImpl.setNew(false);
 
 		return phoneImpl;
 	}

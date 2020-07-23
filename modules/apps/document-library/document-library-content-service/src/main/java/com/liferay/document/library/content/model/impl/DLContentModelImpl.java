@@ -26,7 +26,6 @@ import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -106,13 +105,25 @@ public class DLContentModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long PATH_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
-	public static final long REPOSITORYID_COLUMN_BITMASK = 4L;
+	public static final long CONTENTID_COLUMN_BITMASK = 4L;
 
-	public static final long VERSION_COLUMN_BITMASK = 8L;
+	public static final long GROUPID_COLUMN_BITMASK = 8L;
+
+	public static final long COMPANYID_COLUMN_BITMASK = 16L;
+
+	public static final long REPOSITORYID_COLUMN_BITMASK = 32L;
+
+	public static final long PATH_COLUMN_BITMASK = 64L;
+
+	public static final long VERSION_COLUMN_BITMASK = 128L;
+
+	public static final long DATA_COLUMN_BITMASK = 256L;
+
+	public static final long SIZE_COLUMN_BITMASK = 512L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -240,50 +251,113 @@ public class DLContentModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<DLContent, Object> function = _attributeGetterFunctions.get(
+			attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((DLContent)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<DLContentCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_dlContentCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_dlContentCacheModel);
+	}
+
 	private static final Map<String, Function<DLContent, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<DLContent, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<DLContentCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<DLContent, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<DLContent, Object>>();
 		Map<String, BiConsumer<DLContent, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<DLContent, ?>>();
+		Map<String, Function<DLContentCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<DLContentCacheModel, Object>>();
 
 		attributeGetterFunctions.put("mvccVersion", DLContent::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			dlContentCacheModel -> dlContentCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<DLContent, Long>)DLContent::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", DLContent::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			dlContentCacheModel -> dlContentCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<DLContent, Long>)DLContent::setCtCollectionId);
 		attributeGetterFunctions.put("contentId", DLContent::getContentId);
+
+		cacheModelGetterFunctions.put(
+			"contentId", dlContentCacheModel -> dlContentCacheModel.contentId);
 		attributeSetterBiConsumers.put(
 			"contentId", (BiConsumer<DLContent, Long>)DLContent::setContentId);
 		attributeGetterFunctions.put("groupId", DLContent::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId", dlContentCacheModel -> dlContentCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId", (BiConsumer<DLContent, Long>)DLContent::setGroupId);
 		attributeGetterFunctions.put("companyId", DLContent::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId", dlContentCacheModel -> dlContentCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId", (BiConsumer<DLContent, Long>)DLContent::setCompanyId);
 		attributeGetterFunctions.put(
 			"repositoryId", DLContent::getRepositoryId);
+
+		cacheModelGetterFunctions.put(
+			"repositoryId",
+			dlContentCacheModel -> dlContentCacheModel.repositoryId);
 		attributeSetterBiConsumers.put(
 			"repositoryId",
 			(BiConsumer<DLContent, Long>)DLContent::setRepositoryId);
 		attributeGetterFunctions.put("path", DLContent::getPath);
+
+		cacheModelGetterFunctions.put(
+			"path", dlContentCacheModel -> dlContentCacheModel.path);
 		attributeSetterBiConsumers.put(
 			"path", (BiConsumer<DLContent, String>)DLContent::setPath);
 		attributeGetterFunctions.put("version", DLContent::getVersion);
+
+		cacheModelGetterFunctions.put(
+			"version", dlContentCacheModel -> dlContentCacheModel.version);
 		attributeSetterBiConsumers.put(
 			"version", (BiConsumer<DLContent, String>)DLContent::setVersion);
 		attributeGetterFunctions.put("data", DLContent::getData);
+
 		attributeSetterBiConsumers.put(
 			"data", (BiConsumer<DLContent, Blob>)DLContent::setData);
 		attributeGetterFunctions.put("size", DLContent::getSize);
+
+		cacheModelGetterFunctions.put(
+			"size", dlContentCacheModel -> dlContentCacheModel.size);
 		attributeSetterBiConsumers.put(
 			"size", (BiConsumer<DLContent, Long>)DLContent::setSize);
 
@@ -291,6 +365,8 @@ public class DLContentModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -300,6 +376,12 @@ public class DLContentModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_dlContentCacheModel == null)) {
+			_dlContentCacheModel = (DLContentCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -310,6 +392,12 @@ public class DLContentModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (!isNew() && (_dlContentCacheModel == null)) {
+			_dlContentCacheModel = (DLContentCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -320,6 +408,12 @@ public class DLContentModelImpl
 
 	@Override
 	public void setContentId(long contentId) {
+		_columnBitmask |= CONTENTID_COLUMN_BITMASK;
+
+		if (!isNew() && (_dlContentCacheModel == null)) {
+			_dlContentCacheModel = (DLContentCacheModel)toCacheModel();
+		}
+
 		_contentId = contentId;
 	}
 
@@ -330,6 +424,12 @@ public class DLContentModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
+		_columnBitmask |= GROUPID_COLUMN_BITMASK;
+
+		if (!isNew() && (_dlContentCacheModel == null)) {
+			_dlContentCacheModel = (DLContentCacheModel)toCacheModel();
+		}
+
 		_groupId = groupId;
 	}
 
@@ -342,17 +442,20 @@ public class DLContentModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (!isNew() && (_dlContentCacheModel == null)) {
+			_dlContentCacheModel = (DLContentCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getCacheModelAttribute("companyId");
 	}
 
 	@Override
@@ -364,17 +467,20 @@ public class DLContentModelImpl
 	public void setRepositoryId(long repositoryId) {
 		_columnBitmask |= REPOSITORYID_COLUMN_BITMASK;
 
-		if (!_setOriginalRepositoryId) {
-			_setOriginalRepositoryId = true;
-
-			_originalRepositoryId = _repositoryId;
+		if (!isNew() && (_dlContentCacheModel == null)) {
+			_dlContentCacheModel = (DLContentCacheModel)toCacheModel();
 		}
 
 		_repositoryId = repositoryId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalRepositoryId() {
-		return _originalRepositoryId;
+		return getCacheModelAttribute("repositoryId");
 	}
 
 	@Override
@@ -391,15 +497,20 @@ public class DLContentModelImpl
 	public void setPath(String path) {
 		_columnBitmask |= PATH_COLUMN_BITMASK;
 
-		if (_originalPath == null) {
-			_originalPath = _path;
+		if (!isNew() && (_dlContentCacheModel == null)) {
+			_dlContentCacheModel = (DLContentCacheModel)toCacheModel();
 		}
 
 		_path = path;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalPath() {
-		return GetterUtil.getString(_originalPath);
+		return getCacheModelAttribute("path");
 	}
 
 	@Override
@@ -414,17 +525,22 @@ public class DLContentModelImpl
 
 	@Override
 	public void setVersion(String version) {
-		_columnBitmask = -1L;
+		_columnBitmask |= VERSION_COLUMN_BITMASK;
 
-		if (_originalVersion == null) {
-			_originalVersion = _version;
+		if (!isNew() && (_dlContentCacheModel == null)) {
+			_dlContentCacheModel = (DLContentCacheModel)toCacheModel();
 		}
 
 		_version = version;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalVersion() {
-		return GetterUtil.getString(_originalVersion);
+		return getCacheModelAttribute("version");
 	}
 
 	@Override
@@ -449,6 +565,12 @@ public class DLContentModelImpl
 
 	@Override
 	public void setData(Blob data) {
+		_columnBitmask |= DATA_COLUMN_BITMASK;
+
+		if (!isNew() && (_dlContentCacheModel == null)) {
+			_dlContentCacheModel = (DLContentCacheModel)toCacheModel();
+		}
+
 		if (_dataBlobModel == null) {
 			_dataBlobModel = new DLContentDataBlobModel(getPrimaryKey(), data);
 		}
@@ -464,6 +586,12 @@ public class DLContentModelImpl
 
 	@Override
 	public void setSize(long size) {
+		_columnBitmask |= SIZE_COLUMN_BITMASK;
+
+		if (!isNew() && (_dlContentCacheModel == null)) {
+			_dlContentCacheModel = (DLContentCacheModel)toCacheModel();
+		}
+
 		_size = size;
 	}
 
@@ -580,24 +708,11 @@ public class DLContentModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		DLContentModelImpl dlContentModelImpl = this;
+		_dataBlobModel = null;
 
-		dlContentModelImpl._originalCompanyId = dlContentModelImpl._companyId;
+		_columnBitmask = 0;
 
-		dlContentModelImpl._setOriginalCompanyId = false;
-
-		dlContentModelImpl._originalRepositoryId =
-			dlContentModelImpl._repositoryId;
-
-		dlContentModelImpl._setOriginalRepositoryId = false;
-
-		dlContentModelImpl._originalPath = dlContentModelImpl._path;
-
-		dlContentModelImpl._originalVersion = dlContentModelImpl._version;
-
-		dlContentModelImpl._dataBlobModel = null;
-
-		dlContentModelImpl._columnBitmask = 0;
+		_dlContentCacheModel = null;
 	}
 
 	@Override
@@ -726,18 +841,13 @@ public class DLContentModelImpl
 	private long _contentId;
 	private long _groupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _repositoryId;
-	private long _originalRepositoryId;
-	private boolean _setOriginalRepositoryId;
 	private String _path;
-	private String _originalPath;
 	private String _version;
-	private String _originalVersion;
 	private DLContentDataBlobModel _dataBlobModel;
 	private long _size;
 	private long _columnBitmask;
 	private DLContent _escapedModel;
+	private DLContentCacheModel _dlContentCacheModel;
 
 }

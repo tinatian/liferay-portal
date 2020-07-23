@@ -88,6 +88,8 @@ public class PushNotificationsDeviceCacheModel
 		PushNotificationsDeviceImpl pushNotificationsDeviceImpl =
 			new PushNotificationsDeviceImpl();
 
+		pushNotificationsDeviceImpl.setNew(true);
+
 		pushNotificationsDeviceImpl.setPushNotificationsDeviceId(
 			pushNotificationsDeviceId);
 		pushNotificationsDeviceImpl.setCompanyId(companyId);
@@ -115,6 +117,8 @@ public class PushNotificationsDeviceCacheModel
 		}
 
 		pushNotificationsDeviceImpl.resetOriginalValues();
+
+		pushNotificationsDeviceImpl.setNew(false);
 
 		return pushNotificationsDeviceImpl;
 	}
