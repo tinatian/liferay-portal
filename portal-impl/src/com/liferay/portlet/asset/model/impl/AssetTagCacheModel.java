@@ -113,6 +113,8 @@ public class AssetTagCacheModel
 	public AssetTag toEntityModel() {
 		AssetTagImpl assetTagImpl = new AssetTagImpl();
 
+		assetTagImpl.setNew(true);
+
 		assetTagImpl.setMvccVersion(mvccVersion);
 		assetTagImpl.setCtCollectionId(ctCollectionId);
 
@@ -166,6 +168,8 @@ public class AssetTagCacheModel
 		}
 
 		assetTagImpl.resetOriginalValues();
+
+		assetTagImpl.setNew(false);
 
 		return assetTagImpl;
 	}

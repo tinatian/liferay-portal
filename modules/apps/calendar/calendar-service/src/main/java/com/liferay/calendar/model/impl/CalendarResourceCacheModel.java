@@ -123,6 +123,8 @@ public class CalendarResourceCacheModel
 	public CalendarResource toEntityModel() {
 		CalendarResourceImpl calendarResourceImpl = new CalendarResourceImpl();
 
+		calendarResourceImpl.setNew(true);
+
 		calendarResourceImpl.setMvccVersion(mvccVersion);
 
 		if (uuid == null) {
@@ -199,6 +201,8 @@ public class CalendarResourceCacheModel
 		}
 
 		calendarResourceImpl.resetOriginalValues();
+
+		calendarResourceImpl.setNew(false);
 
 		return calendarResourceImpl;
 	}

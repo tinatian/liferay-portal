@@ -115,11 +115,13 @@ public class VersionedEntryVersionModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long GROUPID_COLUMN_BITMASK = 1L;
+	public static final long VERSIONEDENTRYVERSIONID_COLUMN_BITMASK = 1L;
 
 	public static final long VERSION_COLUMN_BITMASK = 2L;
 
 	public static final long VERSIONEDENTRYID_COLUMN_BITMASK = 4L;
+
+	public static final long GROUPID_COLUMN_BITMASK = 8L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		com.liferay.portal.tools.service.builder.test.service.util.ServiceProps.
@@ -240,10 +242,39 @@ public class VersionedEntryVersionModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<VersionedEntryVersion, Object> function =
+			_attributeGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((VersionedEntryVersion)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<VersionedEntryVersionCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_versionedEntryVersionCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_versionedEntryVersionCacheModel);
+	}
+
 	private static final Map<String, Function<VersionedEntryVersion, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<VersionedEntryVersion, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<VersionedEntryVersionCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<VersionedEntryVersion, Object>>
@@ -254,28 +285,53 @@ public class VersionedEntryVersionModelImpl
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<VersionedEntryVersion, ?>>();
+		Map<String, Function<VersionedEntryVersionCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String,
+					 Function<VersionedEntryVersionCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"versionedEntryVersionId",
 			VersionedEntryVersion::getVersionedEntryVersionId);
+
+		cacheModelGetterFunctions.put(
+			"versionedEntryVersionId",
+			versionedEntryVersionCacheModel ->
+				versionedEntryVersionCacheModel.versionedEntryVersionId);
 		attributeSetterBiConsumers.put(
 			"versionedEntryVersionId",
 			(BiConsumer<VersionedEntryVersion, Long>)
 				VersionedEntryVersion::setVersionedEntryVersionId);
 		attributeGetterFunctions.put(
 			"version", VersionedEntryVersion::getVersion);
+
+		cacheModelGetterFunctions.put(
+			"version",
+			versionedEntryVersionCacheModel ->
+				versionedEntryVersionCacheModel.version);
 		attributeSetterBiConsumers.put(
 			"version",
 			(BiConsumer<VersionedEntryVersion, Integer>)
 				VersionedEntryVersion::setVersion);
 		attributeGetterFunctions.put(
 			"versionedEntryId", VersionedEntryVersion::getVersionedEntryId);
+
+		cacheModelGetterFunctions.put(
+			"versionedEntryId",
+			versionedEntryVersionCacheModel ->
+				versionedEntryVersionCacheModel.versionedEntryId);
 		attributeSetterBiConsumers.put(
 			"versionedEntryId",
 			(BiConsumer<VersionedEntryVersion, Long>)
 				VersionedEntryVersion::setVersionedEntryId);
 		attributeGetterFunctions.put(
 			"groupId", VersionedEntryVersion::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			versionedEntryVersionCacheModel ->
+				versionedEntryVersionCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<VersionedEntryVersion, Long>)
@@ -285,6 +341,8 @@ public class VersionedEntryVersionModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -321,6 +379,13 @@ public class VersionedEntryVersionModelImpl
 
 	@Override
 	public void setVersionedEntryVersionId(long versionedEntryVersionId) {
+		_columnBitmask |= VERSIONEDENTRYVERSIONID_COLUMN_BITMASK;
+
+		if (!isNew() && (_versionedEntryVersionCacheModel == null)) {
+			_versionedEntryVersionCacheModel =
+				(VersionedEntryVersionCacheModel)toCacheModel();
+		}
+
 		_versionedEntryVersionId = versionedEntryVersionId;
 	}
 
@@ -331,19 +396,23 @@ public class VersionedEntryVersionModelImpl
 
 	@Override
 	public void setVersion(int version) {
-		_columnBitmask = -1L;
+		_columnBitmask |= VERSION_COLUMN_BITMASK;
 
-		if (!_setOriginalVersion) {
-			_setOriginalVersion = true;
-
-			_originalVersion = _version;
+		if (!isNew() && (_versionedEntryVersionCacheModel == null)) {
+			_versionedEntryVersionCacheModel =
+				(VersionedEntryVersionCacheModel)toCacheModel();
 		}
 
 		_version = version;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public int getOriginalVersion() {
-		return _originalVersion;
+		return getCacheModelAttribute("version");
 	}
 
 	@Override
@@ -355,17 +424,21 @@ public class VersionedEntryVersionModelImpl
 	public void setVersionedEntryId(long versionedEntryId) {
 		_columnBitmask |= VERSIONEDENTRYID_COLUMN_BITMASK;
 
-		if (!_setOriginalVersionedEntryId) {
-			_setOriginalVersionedEntryId = true;
-
-			_originalVersionedEntryId = _versionedEntryId;
+		if (!isNew() && (_versionedEntryVersionCacheModel == null)) {
+			_versionedEntryVersionCacheModel =
+				(VersionedEntryVersionCacheModel)toCacheModel();
 		}
 
 		_versionedEntryId = versionedEntryId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalVersionedEntryId() {
-		return _originalVersionedEntryId;
+		return getCacheModelAttribute("versionedEntryId");
 	}
 
 	@Override
@@ -377,17 +450,21 @@ public class VersionedEntryVersionModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (!isNew() && (_versionedEntryVersionCacheModel == null)) {
+			_versionedEntryVersionCacheModel =
+				(VersionedEntryVersionCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getCacheModelAttribute("groupId");
 	}
 
 	public long getColumnBitmask() {
@@ -427,6 +504,8 @@ public class VersionedEntryVersionModelImpl
 		VersionedEntryVersionImpl versionedEntryVersionImpl =
 			new VersionedEntryVersionImpl();
 
+		versionedEntryVersionImpl.setNew(true);
+
 		versionedEntryVersionImpl.setVersionedEntryVersionId(
 			getVersionedEntryVersionId());
 		versionedEntryVersionImpl.setVersion(getVersion());
@@ -434,6 +513,8 @@ public class VersionedEntryVersionModelImpl
 		versionedEntryVersionImpl.setGroupId(getGroupId());
 
 		versionedEntryVersionImpl.resetOriginalValues();
+
+		versionedEntryVersionImpl.setNew(false);
 
 		return versionedEntryVersionImpl;
 	}
@@ -509,24 +590,9 @@ public class VersionedEntryVersionModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		VersionedEntryVersionModelImpl versionedEntryVersionModelImpl = this;
+		_columnBitmask = 0;
 
-		versionedEntryVersionModelImpl._originalVersion =
-			versionedEntryVersionModelImpl._version;
-
-		versionedEntryVersionModelImpl._setOriginalVersion = false;
-
-		versionedEntryVersionModelImpl._originalVersionedEntryId =
-			versionedEntryVersionModelImpl._versionedEntryId;
-
-		versionedEntryVersionModelImpl._setOriginalVersionedEntryId = false;
-
-		versionedEntryVersionModelImpl._originalGroupId =
-			versionedEntryVersionModelImpl._groupId;
-
-		versionedEntryVersionModelImpl._setOriginalGroupId = false;
-
-		versionedEntryVersionModelImpl._columnBitmask = 0;
+		_versionedEntryVersionCacheModel = null;
 	}
 
 	@Override
@@ -621,15 +687,10 @@ public class VersionedEntryVersionModelImpl
 
 	private long _versionedEntryVersionId;
 	private int _version;
-	private int _originalVersion;
-	private boolean _setOriginalVersion;
 	private long _versionedEntryId;
-	private long _originalVersionedEntryId;
-	private boolean _setOriginalVersionedEntryId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _columnBitmask;
 	private VersionedEntryVersion _escapedModel;
+	private VersionedEntryVersionCacheModel _versionedEntryVersionCacheModel;
 
 }

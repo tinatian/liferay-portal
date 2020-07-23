@@ -113,6 +113,8 @@ public class LayoutPrototypeCacheModel
 	public LayoutPrototype toEntityModel() {
 		LayoutPrototypeImpl layoutPrototypeImpl = new LayoutPrototypeImpl();
 
+		layoutPrototypeImpl.setNew(true);
+
 		layoutPrototypeImpl.setMvccVersion(mvccVersion);
 
 		if (uuid == null) {
@@ -171,6 +173,8 @@ public class LayoutPrototypeCacheModel
 		layoutPrototypeImpl.setActive(active);
 
 		layoutPrototypeImpl.resetOriginalValues();
+
+		layoutPrototypeImpl.setNew(false);
 
 		return layoutPrototypeImpl;
 	}

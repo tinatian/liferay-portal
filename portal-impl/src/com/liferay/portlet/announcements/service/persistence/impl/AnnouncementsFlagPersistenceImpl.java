@@ -1468,9 +1468,9 @@ public class AnnouncementsFlagPersistenceImpl
 			 _finderPathFetchByU_E_V.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				announcementsFlagModelImpl.getOriginalUserId(),
-				announcementsFlagModelImpl.getOriginalEntryId(),
-				announcementsFlagModelImpl.getOriginalValue()
+				announcementsFlagModelImpl.getCacheModelAttribute("userId"),
+				announcementsFlagModelImpl.getCacheModelAttribute("entryId"),
+				announcementsFlagModelImpl.getCacheModelAttribute("value")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByU_E_V, args);
@@ -1657,7 +1657,8 @@ public class AnnouncementsFlagPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					announcementsFlagModelImpl.getOriginalCompanyId()
+					announcementsFlagModelImpl.getCacheModelAttribute(
+						"companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
@@ -1676,7 +1677,7 @@ public class AnnouncementsFlagPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					announcementsFlagModelImpl.getOriginalEntryId()
+					announcementsFlagModelImpl.getCacheModelAttribute("entryId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByEntryId, args);

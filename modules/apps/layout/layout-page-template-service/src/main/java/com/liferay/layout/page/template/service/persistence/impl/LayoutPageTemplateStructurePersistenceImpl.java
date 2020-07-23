@@ -2431,8 +2431,10 @@ public class LayoutPageTemplateStructurePersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				layoutPageTemplateStructureModelImpl.getOriginalUuid(),
-				layoutPageTemplateStructureModelImpl.getOriginalGroupId()
+				layoutPageTemplateStructureModelImpl.getCacheModelAttribute(
+					"uuid"),
+				layoutPageTemplateStructureModelImpl.getCacheModelAttribute(
+					"groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -2454,9 +2456,12 @@ public class LayoutPageTemplateStructurePersistenceImpl
 			 _finderPathFetchByG_C_C.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				layoutPageTemplateStructureModelImpl.getOriginalGroupId(),
-				layoutPageTemplateStructureModelImpl.getOriginalClassNameId(),
-				layoutPageTemplateStructureModelImpl.getOriginalClassPK()
+				layoutPageTemplateStructureModelImpl.getCacheModelAttribute(
+					"groupId"),
+				layoutPageTemplateStructureModelImpl.getCacheModelAttribute(
+					"classNameId"),
+				layoutPageTemplateStructureModelImpl.getCacheModelAttribute(
+					"classPK")
 			};
 
 			finderCache.removeResult(_finderPathCountByG_C_C, args);
@@ -2706,7 +2711,8 @@ public class LayoutPageTemplateStructurePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					layoutPageTemplateStructureModelImpl.getOriginalUuid()
+					layoutPageTemplateStructureModelImpl.getCacheModelAttribute(
+						"uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -2727,8 +2733,10 @@ public class LayoutPageTemplateStructurePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					layoutPageTemplateStructureModelImpl.getOriginalUuid(),
-					layoutPageTemplateStructureModelImpl.getOriginalCompanyId()
+					layoutPageTemplateStructureModelImpl.getCacheModelAttribute(
+						"uuid"),
+					layoutPageTemplateStructureModelImpl.getCacheModelAttribute(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -2750,7 +2758,8 @@ public class LayoutPageTemplateStructurePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					layoutPageTemplateStructureModelImpl.getOriginalGroupId()
+					layoutPageTemplateStructureModelImpl.getCacheModelAttribute(
+						"groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId, args);

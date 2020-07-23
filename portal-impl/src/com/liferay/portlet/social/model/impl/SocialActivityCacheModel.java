@@ -118,6 +118,8 @@ public class SocialActivityCacheModel
 	public SocialActivity toEntityModel() {
 		SocialActivityImpl socialActivityImpl = new SocialActivityImpl();
 
+		socialActivityImpl.setNew(true);
+
 		socialActivityImpl.setMvccVersion(mvccVersion);
 		socialActivityImpl.setCtCollectionId(ctCollectionId);
 		socialActivityImpl.setActivityId(activityId);
@@ -143,6 +145,8 @@ public class SocialActivityCacheModel
 		socialActivityImpl.setReceiverUserId(receiverUserId);
 
 		socialActivityImpl.resetOriginalValues();
+
+		socialActivityImpl.setNew(false);
 
 		return socialActivityImpl;
 	}

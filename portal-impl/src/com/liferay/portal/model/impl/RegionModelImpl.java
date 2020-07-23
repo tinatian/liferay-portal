@@ -118,13 +118,17 @@ public class RegionModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long ACTIVE_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long COUNTRYID_COLUMN_BITMASK = 2L;
+	public static final long REGIONID_COLUMN_BITMASK = 2L;
 
-	public static final long REGIONCODE_COLUMN_BITMASK = 4L;
+	public static final long COUNTRYID_COLUMN_BITMASK = 4L;
 
-	public static final long NAME_COLUMN_BITMASK = 8L;
+	public static final long REGIONCODE_COLUMN_BITMASK = 8L;
+
+	public static final long NAME_COLUMN_BITMASK = 16L;
+
+	public static final long ACTIVE_COLUMN_BITMASK = 32L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -281,33 +285,82 @@ public class RegionModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<Region, Object> function = _attributeGetterFunctions.get(
+			attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((Region)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<RegionCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_regionCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_regionCacheModel);
+	}
+
 	private static final Map<String, Function<Region, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<Region, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<RegionCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<Region, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<Region, Object>>();
 		Map<String, BiConsumer<Region, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Region, ?>>();
+		Map<String, Function<RegionCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap<String, Function<RegionCacheModel, Object>>();
 
 		attributeGetterFunctions.put("mvccVersion", Region::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion", regionCacheModel -> regionCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion", (BiConsumer<Region, Long>)Region::setMvccVersion);
 		attributeGetterFunctions.put("regionId", Region::getRegionId);
+
+		cacheModelGetterFunctions.put(
+			"regionId", regionCacheModel -> regionCacheModel.regionId);
 		attributeSetterBiConsumers.put(
 			"regionId", (BiConsumer<Region, Long>)Region::setRegionId);
 		attributeGetterFunctions.put("countryId", Region::getCountryId);
+
+		cacheModelGetterFunctions.put(
+			"countryId", regionCacheModel -> regionCacheModel.countryId);
 		attributeSetterBiConsumers.put(
 			"countryId", (BiConsumer<Region, Long>)Region::setCountryId);
 		attributeGetterFunctions.put("regionCode", Region::getRegionCode);
+
+		cacheModelGetterFunctions.put(
+			"regionCode", regionCacheModel -> regionCacheModel.regionCode);
 		attributeSetterBiConsumers.put(
 			"regionCode", (BiConsumer<Region, String>)Region::setRegionCode);
 		attributeGetterFunctions.put("name", Region::getName);
+
+		cacheModelGetterFunctions.put(
+			"name", regionCacheModel -> regionCacheModel.name);
 		attributeSetterBiConsumers.put(
 			"name", (BiConsumer<Region, String>)Region::setName);
 		attributeGetterFunctions.put("active", Region::getActive);
+
+		cacheModelGetterFunctions.put(
+			"active", regionCacheModel -> regionCacheModel.active);
 		attributeSetterBiConsumers.put(
 			"active", (BiConsumer<Region, Boolean>)Region::setActive);
 
@@ -315,6 +368,8 @@ public class RegionModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -325,6 +380,12 @@ public class RegionModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_regionCacheModel == null)) {
+			_regionCacheModel = (RegionCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -336,6 +397,12 @@ public class RegionModelImpl
 
 	@Override
 	public void setRegionId(long regionId) {
+		_columnBitmask |= REGIONID_COLUMN_BITMASK;
+
+		if (!isNew() && (_regionCacheModel == null)) {
+			_regionCacheModel = (RegionCacheModel)toCacheModel();
+		}
+
 		_regionId = regionId;
 	}
 
@@ -349,17 +416,20 @@ public class RegionModelImpl
 	public void setCountryId(long countryId) {
 		_columnBitmask |= COUNTRYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCountryId) {
-			_setOriginalCountryId = true;
-
-			_originalCountryId = _countryId;
+		if (!isNew() && (_regionCacheModel == null)) {
+			_regionCacheModel = (RegionCacheModel)toCacheModel();
 		}
 
 		_countryId = countryId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCountryId() {
-		return _originalCountryId;
+		return getCacheModelAttribute("countryId");
 	}
 
 	@JSON
@@ -377,15 +447,20 @@ public class RegionModelImpl
 	public void setRegionCode(String regionCode) {
 		_columnBitmask |= REGIONCODE_COLUMN_BITMASK;
 
-		if (_originalRegionCode == null) {
-			_originalRegionCode = _regionCode;
+		if (!isNew() && (_regionCacheModel == null)) {
+			_regionCacheModel = (RegionCacheModel)toCacheModel();
 		}
 
 		_regionCode = regionCode;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalRegionCode() {
-		return GetterUtil.getString(_originalRegionCode);
+		return getCacheModelAttribute("regionCode");
 	}
 
 	@JSON
@@ -401,7 +476,11 @@ public class RegionModelImpl
 
 	@Override
 	public void setName(String name) {
-		_columnBitmask = -1L;
+		_columnBitmask |= NAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_regionCacheModel == null)) {
+			_regionCacheModel = (RegionCacheModel)toCacheModel();
+		}
 
 		_name = name;
 	}
@@ -422,17 +501,20 @@ public class RegionModelImpl
 	public void setActive(boolean active) {
 		_columnBitmask |= ACTIVE_COLUMN_BITMASK;
 
-		if (!_setOriginalActive) {
-			_setOriginalActive = true;
-
-			_originalActive = _active;
+		if (!isNew() && (_regionCacheModel == null)) {
+			_regionCacheModel = (RegionCacheModel)toCacheModel();
 		}
 
 		_active = active;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public boolean getOriginalActive() {
-		return _originalActive;
+		return getCacheModelAttribute("active");
 	}
 
 	public long getColumnBitmask() {
@@ -471,6 +553,8 @@ public class RegionModelImpl
 	public Object clone() {
 		RegionImpl regionImpl = new RegionImpl();
 
+		regionImpl.setNew(true);
+
 		regionImpl.setMvccVersion(getMvccVersion());
 		regionImpl.setRegionId(getRegionId());
 		regionImpl.setCountryId(getCountryId());
@@ -479,6 +563,8 @@ public class RegionModelImpl
 		regionImpl.setActive(isActive());
 
 		regionImpl.resetOriginalValues();
+
+		regionImpl.setNew(false);
 
 		return regionImpl;
 	}
@@ -543,19 +629,9 @@ public class RegionModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		RegionModelImpl regionModelImpl = this;
+		_columnBitmask = 0;
 
-		regionModelImpl._originalCountryId = regionModelImpl._countryId;
-
-		regionModelImpl._setOriginalCountryId = false;
-
-		regionModelImpl._originalRegionCode = regionModelImpl._regionCode;
-
-		regionModelImpl._originalActive = regionModelImpl._active;
-
-		regionModelImpl._setOriginalActive = false;
-
-		regionModelImpl._columnBitmask = 0;
+		_regionCacheModel = null;
 	}
 
 	@Override
@@ -660,15 +736,11 @@ public class RegionModelImpl
 	private long _mvccVersion;
 	private long _regionId;
 	private long _countryId;
-	private long _originalCountryId;
-	private boolean _setOriginalCountryId;
 	private String _regionCode;
-	private String _originalRegionCode;
 	private String _name;
 	private boolean _active;
-	private boolean _originalActive;
-	private boolean _setOriginalActive;
 	private long _columnBitmask;
 	private Region _escapedModel;
+	private RegionCacheModel _regionCacheModel;
 
 }

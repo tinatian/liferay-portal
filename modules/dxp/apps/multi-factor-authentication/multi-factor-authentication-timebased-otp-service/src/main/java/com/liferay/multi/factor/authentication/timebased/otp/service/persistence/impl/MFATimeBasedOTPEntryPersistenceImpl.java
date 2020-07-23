@@ -433,7 +433,7 @@ public class MFATimeBasedOTPEntryPersistenceImpl
 			 _finderPathFetchByUserId.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				mfaTimeBasedOTPEntryModelImpl.getOriginalUserId()
+				mfaTimeBasedOTPEntryModelImpl.getCacheModelAttribute("userId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUserId, args);

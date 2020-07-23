@@ -3512,8 +3512,8 @@ public class FragmentCollectionPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				fragmentCollectionModelImpl.getOriginalUuid(),
-				fragmentCollectionModelImpl.getOriginalGroupId()
+				fragmentCollectionModelImpl.getCacheModelAttribute("uuid"),
+				fragmentCollectionModelImpl.getCacheModelAttribute("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -3534,8 +3534,9 @@ public class FragmentCollectionPersistenceImpl
 			 _finderPathFetchByG_FCK.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				fragmentCollectionModelImpl.getOriginalGroupId(),
-				fragmentCollectionModelImpl.getOriginalFragmentCollectionKey()
+				fragmentCollectionModelImpl.getCacheModelAttribute("groupId"),
+				fragmentCollectionModelImpl.getCacheModelAttribute(
+					"fragmentCollectionKey")
 			};
 
 			finderCache.removeResult(_finderPathCountByG_FCK, args);
@@ -3769,7 +3770,7 @@ public class FragmentCollectionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					fragmentCollectionModelImpl.getOriginalUuid()
+					fragmentCollectionModelImpl.getCacheModelAttribute("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -3788,8 +3789,9 @@ public class FragmentCollectionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					fragmentCollectionModelImpl.getOriginalUuid(),
-					fragmentCollectionModelImpl.getOriginalCompanyId()
+					fragmentCollectionModelImpl.getCacheModelAttribute("uuid"),
+					fragmentCollectionModelImpl.getCacheModelAttribute(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -3811,7 +3813,8 @@ public class FragmentCollectionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					fragmentCollectionModelImpl.getOriginalGroupId()
+					fragmentCollectionModelImpl.getCacheModelAttribute(
+						"groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId, args);

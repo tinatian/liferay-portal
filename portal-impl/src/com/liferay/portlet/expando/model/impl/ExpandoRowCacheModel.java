@@ -102,6 +102,8 @@ public class ExpandoRowCacheModel
 	public ExpandoRow toEntityModel() {
 		ExpandoRowImpl expandoRowImpl = new ExpandoRowImpl();
 
+		expandoRowImpl.setNew(true);
+
 		expandoRowImpl.setMvccVersion(mvccVersion);
 		expandoRowImpl.setCtCollectionId(ctCollectionId);
 		expandoRowImpl.setRowId(rowId);
@@ -118,6 +120,8 @@ public class ExpandoRowCacheModel
 		expandoRowImpl.setClassPK(classPK);
 
 		expandoRowImpl.resetOriginalValues();
+
+		expandoRowImpl.setNew(false);
 
 		return expandoRowImpl;
 	}

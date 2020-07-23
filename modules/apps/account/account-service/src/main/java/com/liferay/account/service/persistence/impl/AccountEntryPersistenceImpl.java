@@ -2322,8 +2322,9 @@ public class AccountEntryPersistenceImpl
 			 _finderPathFetchByC_ERC.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				accountEntryModelImpl.getOriginalCompanyId(),
-				accountEntryModelImpl.getOriginalExternalReferenceCode()
+				accountEntryModelImpl.getCacheModelAttribute("companyId"),
+				accountEntryModelImpl.getCacheModelAttribute(
+					"externalReferenceCode")
 			};
 
 			finderCache.removeResult(_finderPathCountByC_ERC, args);
@@ -2531,7 +2532,7 @@ public class AccountEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					accountEntryModelImpl.getOriginalCompanyId()
+					accountEntryModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCompanyId, args);
@@ -2550,8 +2551,8 @@ public class AccountEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					accountEntryModelImpl.getOriginalCompanyId(),
-					accountEntryModelImpl.getOriginalStatus()
+					accountEntryModelImpl.getCacheModelAttribute("companyId"),
+					accountEntryModelImpl.getCacheModelAttribute("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_S, args);

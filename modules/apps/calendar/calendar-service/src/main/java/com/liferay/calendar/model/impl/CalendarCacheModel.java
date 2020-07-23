@@ -123,6 +123,8 @@ public class CalendarCacheModel
 	public Calendar toEntityModel() {
 		CalendarImpl calendarImpl = new CalendarImpl();
 
+		calendarImpl.setNew(true);
+
 		calendarImpl.setMvccVersion(mvccVersion);
 
 		if (uuid == null) {
@@ -194,6 +196,8 @@ public class CalendarCacheModel
 		}
 
 		calendarImpl.resetOriginalValues();
+
+		calendarImpl.setNew(false);
 
 		return calendarImpl;
 	}

@@ -112,6 +112,8 @@ public class MembershipRequestCacheModel
 		MembershipRequestImpl membershipRequestImpl =
 			new MembershipRequestImpl();
 
+		membershipRequestImpl.setNew(true);
+
 		membershipRequestImpl.setMvccVersion(mvccVersion);
 		membershipRequestImpl.setMembershipRequestId(membershipRequestId);
 		membershipRequestImpl.setGroupId(groupId);
@@ -150,6 +152,8 @@ public class MembershipRequestCacheModel
 		membershipRequestImpl.setStatusId(statusId);
 
 		membershipRequestImpl.resetOriginalValues();
+
+		membershipRequestImpl.setNew(false);
 
 		return membershipRequestImpl;
 	}

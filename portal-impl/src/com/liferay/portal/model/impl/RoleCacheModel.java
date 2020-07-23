@@ -119,6 +119,8 @@ public class RoleCacheModel
 	public Role toEntityModel() {
 		RoleImpl roleImpl = new RoleImpl();
 
+		roleImpl.setNew(true);
+
 		roleImpl.setMvccVersion(mvccVersion);
 		roleImpl.setCtCollectionId(ctCollectionId);
 
@@ -188,6 +190,8 @@ public class RoleCacheModel
 		}
 
 		roleImpl.resetOriginalValues();
+
+		roleImpl.setNew(false);
 
 		return roleImpl;
 	}

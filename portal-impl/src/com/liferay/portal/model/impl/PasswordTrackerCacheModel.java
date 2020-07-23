@@ -101,6 +101,8 @@ public class PasswordTrackerCacheModel
 	public PasswordTracker toEntityModel() {
 		PasswordTrackerImpl passwordTrackerImpl = new PasswordTrackerImpl();
 
+		passwordTrackerImpl.setNew(true);
+
 		passwordTrackerImpl.setMvccVersion(mvccVersion);
 		passwordTrackerImpl.setPasswordTrackerId(passwordTrackerId);
 		passwordTrackerImpl.setCompanyId(companyId);
@@ -121,6 +123,8 @@ public class PasswordTrackerCacheModel
 		}
 
 		passwordTrackerImpl.resetOriginalValues();
+
+		passwordTrackerImpl.setNew(false);
 
 		return passwordTrackerImpl;
 	}

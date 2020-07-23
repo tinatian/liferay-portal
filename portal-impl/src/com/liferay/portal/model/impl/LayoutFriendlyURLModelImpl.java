@@ -135,21 +135,35 @@ public class LayoutFriendlyURLModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long FRIENDLYURL_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 4L;
+	public static final long UUID_COLUMN_BITMASK = 4L;
 
-	public static final long LANGUAGEID_COLUMN_BITMASK = 8L;
+	public static final long LAYOUTFRIENDLYURLID_COLUMN_BITMASK = 8L;
 
-	public static final long PLID_COLUMN_BITMASK = 16L;
+	public static final long GROUPID_COLUMN_BITMASK = 16L;
 
-	public static final long PRIVATELAYOUT_COLUMN_BITMASK = 32L;
+	public static final long COMPANYID_COLUMN_BITMASK = 32L;
 
-	public static final long UUID_COLUMN_BITMASK = 64L;
+	public static final long USERID_COLUMN_BITMASK = 64L;
 
-	public static final long LAYOUTFRIENDLYURLID_COLUMN_BITMASK = 128L;
+	public static final long USERNAME_COLUMN_BITMASK = 128L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 256L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 512L;
+
+	public static final long PLID_COLUMN_BITMASK = 1024L;
+
+	public static final long PRIVATELAYOUT_COLUMN_BITMASK = 2048L;
+
+	public static final long FRIENDLYURL_COLUMN_BITMASK = 4096L;
+
+	public static final long LANGUAGEID_COLUMN_BITMASK = 8192L;
+
+	public static final long LASTPUBLISHDATE_COLUMN_BITMASK = 16384L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		com.liferay.portal.util.PropsUtil.get(
@@ -268,10 +282,39 @@ public class LayoutFriendlyURLModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<LayoutFriendlyURL, Object> function =
+			_attributeGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((LayoutFriendlyURL)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<LayoutFriendlyURLCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_layoutFriendlyURLCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_layoutFriendlyURLCacheModel);
+	}
+
 	private static final Map<String, Function<LayoutFriendlyURL, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<LayoutFriendlyURL, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<LayoutFriendlyURLCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<LayoutFriendlyURL, Object>>
@@ -281,85 +324,160 @@ public class LayoutFriendlyURLModelImpl
 		Map<String, BiConsumer<LayoutFriendlyURL, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<LayoutFriendlyURL, ?>>();
+		Map<String, Function<LayoutFriendlyURLCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<LayoutFriendlyURLCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", LayoutFriendlyURL::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			layoutFriendlyURLCacheModel ->
+				layoutFriendlyURLCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<LayoutFriendlyURL, Long>)
 				LayoutFriendlyURL::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", LayoutFriendlyURL::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			layoutFriendlyURLCacheModel ->
+				layoutFriendlyURLCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<LayoutFriendlyURL, Long>)
 				LayoutFriendlyURL::setCtCollectionId);
 		attributeGetterFunctions.put("uuid", LayoutFriendlyURL::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid",
+			layoutFriendlyURLCacheModel -> layoutFriendlyURLCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid",
 			(BiConsumer<LayoutFriendlyURL, String>)LayoutFriendlyURL::setUuid);
 		attributeGetterFunctions.put(
 			"layoutFriendlyURLId", LayoutFriendlyURL::getLayoutFriendlyURLId);
+
+		cacheModelGetterFunctions.put(
+			"layoutFriendlyURLId",
+			layoutFriendlyURLCacheModel ->
+				layoutFriendlyURLCacheModel.layoutFriendlyURLId);
 		attributeSetterBiConsumers.put(
 			"layoutFriendlyURLId",
 			(BiConsumer<LayoutFriendlyURL, Long>)
 				LayoutFriendlyURL::setLayoutFriendlyURLId);
 		attributeGetterFunctions.put("groupId", LayoutFriendlyURL::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			layoutFriendlyURLCacheModel -> layoutFriendlyURLCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<LayoutFriendlyURL, Long>)LayoutFriendlyURL::setGroupId);
 		attributeGetterFunctions.put(
 			"companyId", LayoutFriendlyURL::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			layoutFriendlyURLCacheModel ->
+				layoutFriendlyURLCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<LayoutFriendlyURL, Long>)
 				LayoutFriendlyURL::setCompanyId);
 		attributeGetterFunctions.put("userId", LayoutFriendlyURL::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			layoutFriendlyURLCacheModel -> layoutFriendlyURLCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<LayoutFriendlyURL, Long>)LayoutFriendlyURL::setUserId);
 		attributeGetterFunctions.put(
 			"userName", LayoutFriendlyURL::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			layoutFriendlyURLCacheModel ->
+				layoutFriendlyURLCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<LayoutFriendlyURL, String>)
 				LayoutFriendlyURL::setUserName);
 		attributeGetterFunctions.put(
 			"createDate", LayoutFriendlyURL::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			layoutFriendlyURLCacheModel ->
+				layoutFriendlyURLCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<LayoutFriendlyURL, Date>)
 				LayoutFriendlyURL::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", LayoutFriendlyURL::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			layoutFriendlyURLCacheModel ->
+				layoutFriendlyURLCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<LayoutFriendlyURL, Date>)
 				LayoutFriendlyURL::setModifiedDate);
 		attributeGetterFunctions.put("plid", LayoutFriendlyURL::getPlid);
+
+		cacheModelGetterFunctions.put(
+			"plid",
+			layoutFriendlyURLCacheModel -> layoutFriendlyURLCacheModel.plid);
 		attributeSetterBiConsumers.put(
 			"plid",
 			(BiConsumer<LayoutFriendlyURL, Long>)LayoutFriendlyURL::setPlid);
 		attributeGetterFunctions.put(
 			"privateLayout", LayoutFriendlyURL::getPrivateLayout);
+
+		cacheModelGetterFunctions.put(
+			"privateLayout",
+			layoutFriendlyURLCacheModel ->
+				layoutFriendlyURLCacheModel.privateLayout);
 		attributeSetterBiConsumers.put(
 			"privateLayout",
 			(BiConsumer<LayoutFriendlyURL, Boolean>)
 				LayoutFriendlyURL::setPrivateLayout);
 		attributeGetterFunctions.put(
 			"friendlyURL", LayoutFriendlyURL::getFriendlyURL);
+
+		cacheModelGetterFunctions.put(
+			"friendlyURL",
+			layoutFriendlyURLCacheModel ->
+				layoutFriendlyURLCacheModel.friendlyURL);
 		attributeSetterBiConsumers.put(
 			"friendlyURL",
 			(BiConsumer<LayoutFriendlyURL, String>)
 				LayoutFriendlyURL::setFriendlyURL);
 		attributeGetterFunctions.put(
 			"languageId", LayoutFriendlyURL::getLanguageId);
+
+		cacheModelGetterFunctions.put(
+			"languageId",
+			layoutFriendlyURLCacheModel ->
+				layoutFriendlyURLCacheModel.languageId);
 		attributeSetterBiConsumers.put(
 			"languageId",
 			(BiConsumer<LayoutFriendlyURL, String>)
 				LayoutFriendlyURL::setLanguageId);
 		attributeGetterFunctions.put(
 			"lastPublishDate", LayoutFriendlyURL::getLastPublishDate);
+
+		cacheModelGetterFunctions.put(
+			"lastPublishDate",
+			layoutFriendlyURLCacheModel ->
+				layoutFriendlyURLCacheModel.lastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<LayoutFriendlyURL, Date>)
@@ -369,6 +487,8 @@ public class LayoutFriendlyURLModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -378,6 +498,13 @@ public class LayoutFriendlyURLModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_layoutFriendlyURLCacheModel == null)) {
+			_layoutFriendlyURLCacheModel =
+				(LayoutFriendlyURLCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -388,6 +515,13 @@ public class LayoutFriendlyURLModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (!isNew() && (_layoutFriendlyURLCacheModel == null)) {
+			_layoutFriendlyURLCacheModel =
+				(LayoutFriendlyURLCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -405,15 +539,21 @@ public class LayoutFriendlyURLModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (!isNew() && (_layoutFriendlyURLCacheModel == null)) {
+			_layoutFriendlyURLCacheModel =
+				(LayoutFriendlyURLCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getCacheModelAttribute("uuid");
 	}
 
 	@Override
@@ -423,6 +563,13 @@ public class LayoutFriendlyURLModelImpl
 
 	@Override
 	public void setLayoutFriendlyURLId(long layoutFriendlyURLId) {
+		_columnBitmask |= LAYOUTFRIENDLYURLID_COLUMN_BITMASK;
+
+		if (!isNew() && (_layoutFriendlyURLCacheModel == null)) {
+			_layoutFriendlyURLCacheModel =
+				(LayoutFriendlyURLCacheModel)toCacheModel();
+		}
+
 		_layoutFriendlyURLId = layoutFriendlyURLId;
 	}
 
@@ -435,17 +582,21 @@ public class LayoutFriendlyURLModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (!isNew() && (_layoutFriendlyURLCacheModel == null)) {
+			_layoutFriendlyURLCacheModel =
+				(LayoutFriendlyURLCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getCacheModelAttribute("groupId");
 	}
 
 	@Override
@@ -457,17 +608,21 @@ public class LayoutFriendlyURLModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (!isNew() && (_layoutFriendlyURLCacheModel == null)) {
+			_layoutFriendlyURLCacheModel =
+				(LayoutFriendlyURLCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getCacheModelAttribute("companyId");
 	}
 
 	@Override
@@ -477,6 +632,13 @@ public class LayoutFriendlyURLModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_layoutFriendlyURLCacheModel == null)) {
+			_layoutFriendlyURLCacheModel =
+				(LayoutFriendlyURLCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -508,6 +670,13 @@ public class LayoutFriendlyURLModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_layoutFriendlyURLCacheModel == null)) {
+			_layoutFriendlyURLCacheModel =
+				(LayoutFriendlyURLCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -518,6 +687,13 @@ public class LayoutFriendlyURLModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_layoutFriendlyURLCacheModel == null)) {
+			_layoutFriendlyURLCacheModel =
+				(LayoutFriendlyURLCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -534,6 +710,13 @@ public class LayoutFriendlyURLModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_layoutFriendlyURLCacheModel == null)) {
+			_layoutFriendlyURLCacheModel =
+				(LayoutFriendlyURLCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -546,17 +729,21 @@ public class LayoutFriendlyURLModelImpl
 	public void setPlid(long plid) {
 		_columnBitmask |= PLID_COLUMN_BITMASK;
 
-		if (!_setOriginalPlid) {
-			_setOriginalPlid = true;
-
-			_originalPlid = _plid;
+		if (!isNew() && (_layoutFriendlyURLCacheModel == null)) {
+			_layoutFriendlyURLCacheModel =
+				(LayoutFriendlyURLCacheModel)toCacheModel();
 		}
 
 		_plid = plid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalPlid() {
-		return _originalPlid;
+		return getCacheModelAttribute("plid");
 	}
 
 	@Override
@@ -573,17 +760,21 @@ public class LayoutFriendlyURLModelImpl
 	public void setPrivateLayout(boolean privateLayout) {
 		_columnBitmask |= PRIVATELAYOUT_COLUMN_BITMASK;
 
-		if (!_setOriginalPrivateLayout) {
-			_setOriginalPrivateLayout = true;
-
-			_originalPrivateLayout = _privateLayout;
+		if (!isNew() && (_layoutFriendlyURLCacheModel == null)) {
+			_layoutFriendlyURLCacheModel =
+				(LayoutFriendlyURLCacheModel)toCacheModel();
 		}
 
 		_privateLayout = privateLayout;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public boolean getOriginalPrivateLayout() {
-		return _originalPrivateLayout;
+		return getCacheModelAttribute("privateLayout");
 	}
 
 	@Override
@@ -600,15 +791,21 @@ public class LayoutFriendlyURLModelImpl
 	public void setFriendlyURL(String friendlyURL) {
 		_columnBitmask |= FRIENDLYURL_COLUMN_BITMASK;
 
-		if (_originalFriendlyURL == null) {
-			_originalFriendlyURL = _friendlyURL;
+		if (!isNew() && (_layoutFriendlyURLCacheModel == null)) {
+			_layoutFriendlyURLCacheModel =
+				(LayoutFriendlyURLCacheModel)toCacheModel();
 		}
 
 		_friendlyURL = friendlyURL;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalFriendlyURL() {
-		return GetterUtil.getString(_originalFriendlyURL);
+		return getCacheModelAttribute("friendlyURL");
 	}
 
 	@Override
@@ -625,15 +822,21 @@ public class LayoutFriendlyURLModelImpl
 	public void setLanguageId(String languageId) {
 		_columnBitmask |= LANGUAGEID_COLUMN_BITMASK;
 
-		if (_originalLanguageId == null) {
-			_originalLanguageId = _languageId;
+		if (!isNew() && (_layoutFriendlyURLCacheModel == null)) {
+			_layoutFriendlyURLCacheModel =
+				(LayoutFriendlyURLCacheModel)toCacheModel();
 		}
 
 		_languageId = languageId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalLanguageId() {
-		return GetterUtil.getString(_originalLanguageId);
+		return getCacheModelAttribute("languageId");
 	}
 
 	@Override
@@ -643,6 +846,13 @@ public class LayoutFriendlyURLModelImpl
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		_columnBitmask |= LASTPUBLISHDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_layoutFriendlyURLCacheModel == null)) {
+			_layoutFriendlyURLCacheModel =
+				(LayoutFriendlyURLCacheModel)toCacheModel();
+		}
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -689,6 +899,8 @@ public class LayoutFriendlyURLModelImpl
 		LayoutFriendlyURLImpl layoutFriendlyURLImpl =
 			new LayoutFriendlyURLImpl();
 
+		layoutFriendlyURLImpl.setNew(true);
+
 		layoutFriendlyURLImpl.setMvccVersion(getMvccVersion());
 		layoutFriendlyURLImpl.setCtCollectionId(getCtCollectionId());
 		layoutFriendlyURLImpl.setUuid(getUuid());
@@ -706,6 +918,8 @@ public class LayoutFriendlyURLModelImpl
 		layoutFriendlyURLImpl.setLastPublishDate(getLastPublishDate());
 
 		layoutFriendlyURLImpl.resetOriginalValues();
+
+		layoutFriendlyURLImpl.setNew(false);
 
 		return layoutFriendlyURLImpl;
 	}
@@ -772,40 +986,11 @@ public class LayoutFriendlyURLModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		LayoutFriendlyURLModelImpl layoutFriendlyURLModelImpl = this;
+		_setModifiedDate = false;
 
-		layoutFriendlyURLModelImpl._originalUuid =
-			layoutFriendlyURLModelImpl._uuid;
+		_columnBitmask = 0;
 
-		layoutFriendlyURLModelImpl._originalGroupId =
-			layoutFriendlyURLModelImpl._groupId;
-
-		layoutFriendlyURLModelImpl._setOriginalGroupId = false;
-
-		layoutFriendlyURLModelImpl._originalCompanyId =
-			layoutFriendlyURLModelImpl._companyId;
-
-		layoutFriendlyURLModelImpl._setOriginalCompanyId = false;
-
-		layoutFriendlyURLModelImpl._setModifiedDate = false;
-
-		layoutFriendlyURLModelImpl._originalPlid =
-			layoutFriendlyURLModelImpl._plid;
-
-		layoutFriendlyURLModelImpl._setOriginalPlid = false;
-
-		layoutFriendlyURLModelImpl._originalPrivateLayout =
-			layoutFriendlyURLModelImpl._privateLayout;
-
-		layoutFriendlyURLModelImpl._setOriginalPrivateLayout = false;
-
-		layoutFriendlyURLModelImpl._originalFriendlyURL =
-			layoutFriendlyURLModelImpl._friendlyURL;
-
-		layoutFriendlyURLModelImpl._originalLanguageId =
-			layoutFriendlyURLModelImpl._languageId;
-
-		layoutFriendlyURLModelImpl._columnBitmask = 0;
+		_layoutFriendlyURLCacheModel = null;
 	}
 
 	@Override
@@ -966,31 +1151,21 @@ public class LayoutFriendlyURLModelImpl
 	private long _mvccVersion;
 	private long _ctCollectionId;
 	private String _uuid;
-	private String _originalUuid;
 	private long _layoutFriendlyURLId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _plid;
-	private long _originalPlid;
-	private boolean _setOriginalPlid;
 	private boolean _privateLayout;
-	private boolean _originalPrivateLayout;
-	private boolean _setOriginalPrivateLayout;
 	private String _friendlyURL;
-	private String _originalFriendlyURL;
 	private String _languageId;
-	private String _originalLanguageId;
 	private Date _lastPublishDate;
 	private long _columnBitmask;
 	private LayoutFriendlyURL _escapedModel;
+	private LayoutFriendlyURLCacheModel _layoutFriendlyURLCacheModel;
 
 }

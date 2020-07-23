@@ -116,15 +116,29 @@ public class SegmentsEntryRelModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long CLASSNAMEID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long CLASSPK_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 4L;
+	public static final long SEGMENTSENTRYRELID_COLUMN_BITMASK = 4L;
 
-	public static final long SEGMENTSENTRYID_COLUMN_BITMASK = 8L;
+	public static final long GROUPID_COLUMN_BITMASK = 8L;
 
-	public static final long SEGMENTSENTRYRELID_COLUMN_BITMASK = 16L;
+	public static final long COMPANYID_COLUMN_BITMASK = 16L;
+
+	public static final long USERID_COLUMN_BITMASK = 32L;
+
+	public static final long USERNAME_COLUMN_BITMASK = 64L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 128L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 256L;
+
+	public static final long SEGMENTSENTRYID_COLUMN_BITMASK = 512L;
+
+	public static final long CLASSNAMEID_COLUMN_BITMASK = 1024L;
+
+	public static final long CLASSPK_COLUMN_BITMASK = 2048L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -305,10 +319,39 @@ public class SegmentsEntryRelModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<SegmentsEntryRel, Object> function =
+			_attributeGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((SegmentsEntryRel)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<SegmentsEntryRelCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_segmentsEntryRelCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_segmentsEntryRelCacheModel);
+	}
+
 	private static final Map<String, Function<SegmentsEntryRel, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<SegmentsEntryRel, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<SegmentsEntryRelCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<SegmentsEntryRel, Object>>
@@ -317,68 +360,127 @@ public class SegmentsEntryRelModelImpl
 		Map<String, BiConsumer<SegmentsEntryRel, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<SegmentsEntryRel, ?>>();
+		Map<String, Function<SegmentsEntryRelCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<SegmentsEntryRelCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", SegmentsEntryRel::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			segmentsEntryRelCacheModel ->
+				segmentsEntryRelCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<SegmentsEntryRel, Long>)
 				SegmentsEntryRel::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", SegmentsEntryRel::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			segmentsEntryRelCacheModel ->
+				segmentsEntryRelCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<SegmentsEntryRel, Long>)
 				SegmentsEntryRel::setCtCollectionId);
 		attributeGetterFunctions.put(
 			"segmentsEntryRelId", SegmentsEntryRel::getSegmentsEntryRelId);
+
+		cacheModelGetterFunctions.put(
+			"segmentsEntryRelId",
+			segmentsEntryRelCacheModel ->
+				segmentsEntryRelCacheModel.segmentsEntryRelId);
 		attributeSetterBiConsumers.put(
 			"segmentsEntryRelId",
 			(BiConsumer<SegmentsEntryRel, Long>)
 				SegmentsEntryRel::setSegmentsEntryRelId);
 		attributeGetterFunctions.put("groupId", SegmentsEntryRel::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			segmentsEntryRelCacheModel -> segmentsEntryRelCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<SegmentsEntryRel, Long>)SegmentsEntryRel::setGroupId);
 		attributeGetterFunctions.put(
 			"companyId", SegmentsEntryRel::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			segmentsEntryRelCacheModel -> segmentsEntryRelCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<SegmentsEntryRel, Long>)SegmentsEntryRel::setCompanyId);
 		attributeGetterFunctions.put("userId", SegmentsEntryRel::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			segmentsEntryRelCacheModel -> segmentsEntryRelCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<SegmentsEntryRel, Long>)SegmentsEntryRel::setUserId);
 		attributeGetterFunctions.put("userName", SegmentsEntryRel::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			segmentsEntryRelCacheModel -> segmentsEntryRelCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<SegmentsEntryRel, String>)
 				SegmentsEntryRel::setUserName);
 		attributeGetterFunctions.put(
 			"createDate", SegmentsEntryRel::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			segmentsEntryRelCacheModel ->
+				segmentsEntryRelCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<SegmentsEntryRel, Date>)
 				SegmentsEntryRel::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", SegmentsEntryRel::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			segmentsEntryRelCacheModel ->
+				segmentsEntryRelCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<SegmentsEntryRel, Date>)
 				SegmentsEntryRel::setModifiedDate);
 		attributeGetterFunctions.put(
 			"segmentsEntryId", SegmentsEntryRel::getSegmentsEntryId);
+
+		cacheModelGetterFunctions.put(
+			"segmentsEntryId",
+			segmentsEntryRelCacheModel ->
+				segmentsEntryRelCacheModel.segmentsEntryId);
 		attributeSetterBiConsumers.put(
 			"segmentsEntryId",
 			(BiConsumer<SegmentsEntryRel, Long>)
 				SegmentsEntryRel::setSegmentsEntryId);
 		attributeGetterFunctions.put(
 			"classNameId", SegmentsEntryRel::getClassNameId);
+
+		cacheModelGetterFunctions.put(
+			"classNameId",
+			segmentsEntryRelCacheModel ->
+				segmentsEntryRelCacheModel.classNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<SegmentsEntryRel, Long>)
 				SegmentsEntryRel::setClassNameId);
 		attributeGetterFunctions.put("classPK", SegmentsEntryRel::getClassPK);
+
+		cacheModelGetterFunctions.put(
+			"classPK",
+			segmentsEntryRelCacheModel -> segmentsEntryRelCacheModel.classPK);
 		attributeSetterBiConsumers.put(
 			"classPK",
 			(BiConsumer<SegmentsEntryRel, Long>)SegmentsEntryRel::setClassPK);
@@ -387,6 +489,8 @@ public class SegmentsEntryRelModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -397,6 +501,13 @@ public class SegmentsEntryRelModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_segmentsEntryRelCacheModel == null)) {
+			_segmentsEntryRelCacheModel =
+				(SegmentsEntryRelCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -408,6 +519,13 @@ public class SegmentsEntryRelModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (!isNew() && (_segmentsEntryRelCacheModel == null)) {
+			_segmentsEntryRelCacheModel =
+				(SegmentsEntryRelCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -419,6 +537,13 @@ public class SegmentsEntryRelModelImpl
 
 	@Override
 	public void setSegmentsEntryRelId(long segmentsEntryRelId) {
+		_columnBitmask |= SEGMENTSENTRYRELID_COLUMN_BITMASK;
+
+		if (!isNew() && (_segmentsEntryRelCacheModel == null)) {
+			_segmentsEntryRelCacheModel =
+				(SegmentsEntryRelCacheModel)toCacheModel();
+		}
+
 		_segmentsEntryRelId = segmentsEntryRelId;
 	}
 
@@ -432,17 +557,21 @@ public class SegmentsEntryRelModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (!isNew() && (_segmentsEntryRelCacheModel == null)) {
+			_segmentsEntryRelCacheModel =
+				(SegmentsEntryRelCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getCacheModelAttribute("groupId");
 	}
 
 	@JSON
@@ -453,6 +582,13 @@ public class SegmentsEntryRelModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (!isNew() && (_segmentsEntryRelCacheModel == null)) {
+			_segmentsEntryRelCacheModel =
+				(SegmentsEntryRelCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -464,6 +600,13 @@ public class SegmentsEntryRelModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_segmentsEntryRelCacheModel == null)) {
+			_segmentsEntryRelCacheModel =
+				(SegmentsEntryRelCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -496,6 +639,13 @@ public class SegmentsEntryRelModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_segmentsEntryRelCacheModel == null)) {
+			_segmentsEntryRelCacheModel =
+				(SegmentsEntryRelCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -507,6 +657,13 @@ public class SegmentsEntryRelModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_segmentsEntryRelCacheModel == null)) {
+			_segmentsEntryRelCacheModel =
+				(SegmentsEntryRelCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -524,6 +681,13 @@ public class SegmentsEntryRelModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_segmentsEntryRelCacheModel == null)) {
+			_segmentsEntryRelCacheModel =
+				(SegmentsEntryRelCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -537,17 +701,21 @@ public class SegmentsEntryRelModelImpl
 	public void setSegmentsEntryId(long segmentsEntryId) {
 		_columnBitmask |= SEGMENTSENTRYID_COLUMN_BITMASK;
 
-		if (!_setOriginalSegmentsEntryId) {
-			_setOriginalSegmentsEntryId = true;
-
-			_originalSegmentsEntryId = _segmentsEntryId;
+		if (!isNew() && (_segmentsEntryRelCacheModel == null)) {
+			_segmentsEntryRelCacheModel =
+				(SegmentsEntryRelCacheModel)toCacheModel();
 		}
 
 		_segmentsEntryId = segmentsEntryId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalSegmentsEntryId() {
-		return _originalSegmentsEntryId;
+		return getCacheModelAttribute("segmentsEntryId");
 	}
 
 	@Override
@@ -580,17 +748,21 @@ public class SegmentsEntryRelModelImpl
 	public void setClassNameId(long classNameId) {
 		_columnBitmask |= CLASSNAMEID_COLUMN_BITMASK;
 
-		if (!_setOriginalClassNameId) {
-			_setOriginalClassNameId = true;
-
-			_originalClassNameId = _classNameId;
+		if (!isNew() && (_segmentsEntryRelCacheModel == null)) {
+			_segmentsEntryRelCacheModel =
+				(SegmentsEntryRelCacheModel)toCacheModel();
 		}
 
 		_classNameId = classNameId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassNameId() {
-		return _originalClassNameId;
+		return getCacheModelAttribute("classNameId");
 	}
 
 	@JSON
@@ -603,17 +775,21 @@ public class SegmentsEntryRelModelImpl
 	public void setClassPK(long classPK) {
 		_columnBitmask |= CLASSPK_COLUMN_BITMASK;
 
-		if (!_setOriginalClassPK) {
-			_setOriginalClassPK = true;
-
-			_originalClassPK = _classPK;
+		if (!isNew() && (_segmentsEntryRelCacheModel == null)) {
+			_segmentsEntryRelCacheModel =
+				(SegmentsEntryRelCacheModel)toCacheModel();
 		}
 
 		_classPK = classPK;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassPK() {
-		return _originalClassPK;
+		return getCacheModelAttribute("classPK");
 	}
 
 	public long getColumnBitmask() {
@@ -652,6 +828,8 @@ public class SegmentsEntryRelModelImpl
 	public Object clone() {
 		SegmentsEntryRelImpl segmentsEntryRelImpl = new SegmentsEntryRelImpl();
 
+		segmentsEntryRelImpl.setNew(true);
+
 		segmentsEntryRelImpl.setMvccVersion(getMvccVersion());
 		segmentsEntryRelImpl.setCtCollectionId(getCtCollectionId());
 		segmentsEntryRelImpl.setSegmentsEntryRelId(getSegmentsEntryRelId());
@@ -666,6 +844,8 @@ public class SegmentsEntryRelModelImpl
 		segmentsEntryRelImpl.setClassPK(getClassPK());
 
 		segmentsEntryRelImpl.resetOriginalValues();
+
+		segmentsEntryRelImpl.setNew(false);
 
 		return segmentsEntryRelImpl;
 	}
@@ -732,31 +912,11 @@ public class SegmentsEntryRelModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		SegmentsEntryRelModelImpl segmentsEntryRelModelImpl = this;
+		_setModifiedDate = false;
 
-		segmentsEntryRelModelImpl._originalGroupId =
-			segmentsEntryRelModelImpl._groupId;
+		_columnBitmask = 0;
 
-		segmentsEntryRelModelImpl._setOriginalGroupId = false;
-
-		segmentsEntryRelModelImpl._setModifiedDate = false;
-
-		segmentsEntryRelModelImpl._originalSegmentsEntryId =
-			segmentsEntryRelModelImpl._segmentsEntryId;
-
-		segmentsEntryRelModelImpl._setOriginalSegmentsEntryId = false;
-
-		segmentsEntryRelModelImpl._originalClassNameId =
-			segmentsEntryRelModelImpl._classNameId;
-
-		segmentsEntryRelModelImpl._setOriginalClassNameId = false;
-
-		segmentsEntryRelModelImpl._originalClassPK =
-			segmentsEntryRelModelImpl._classPK;
-
-		segmentsEntryRelModelImpl._setOriginalClassPK = false;
-
-		segmentsEntryRelModelImpl._columnBitmask = 0;
+		_segmentsEntryRelCacheModel = null;
 	}
 
 	@Override
@@ -885,8 +1045,6 @@ public class SegmentsEntryRelModelImpl
 	private long _ctCollectionId;
 	private long _segmentsEntryRelId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
 	private long _userId;
 	private String _userName;
@@ -894,15 +1052,10 @@ public class SegmentsEntryRelModelImpl
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _segmentsEntryId;
-	private long _originalSegmentsEntryId;
-	private boolean _setOriginalSegmentsEntryId;
 	private long _classNameId;
-	private long _originalClassNameId;
-	private boolean _setOriginalClassNameId;
 	private long _classPK;
-	private long _originalClassPK;
-	private boolean _setOriginalClassPK;
 	private long _columnBitmask;
 	private SegmentsEntryRel _escapedModel;
+	private SegmentsEntryRelCacheModel _segmentsEntryRelCacheModel;
 
 }

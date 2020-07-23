@@ -135,13 +135,31 @@ public class AssetTagModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
-	public static final long NAME_COLUMN_BITMASK = 4L;
+	public static final long UUID_COLUMN_BITMASK = 4L;
 
-	public static final long UUID_COLUMN_BITMASK = 8L;
+	public static final long TAGID_COLUMN_BITMASK = 8L;
+
+	public static final long GROUPID_COLUMN_BITMASK = 16L;
+
+	public static final long COMPANYID_COLUMN_BITMASK = 32L;
+
+	public static final long USERID_COLUMN_BITMASK = 64L;
+
+	public static final long USERNAME_COLUMN_BITMASK = 128L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 256L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 512L;
+
+	public static final long NAME_COLUMN_BITMASK = 1024L;
+
+	public static final long ASSETCOUNT_COLUMN_BITMASK = 2048L;
+
+	public static final long LASTPUBLISHDATE_COLUMN_BITMASK = 4096L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -328,60 +346,135 @@ public class AssetTagModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<AssetTag, Object> function = _attributeGetterFunctions.get(
+			attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((AssetTag)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<AssetTagCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_assetTagCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_assetTagCacheModel);
+	}
+
 	private static final Map<String, Function<AssetTag, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<AssetTag, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<AssetTagCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<AssetTag, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<AssetTag, Object>>();
 		Map<String, BiConsumer<AssetTag, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<AssetTag, ?>>();
+		Map<String, Function<AssetTagCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<AssetTagCacheModel, Object>>();
 
 		attributeGetterFunctions.put("mvccVersion", AssetTag::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			assetTagCacheModel -> assetTagCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<AssetTag, Long>)AssetTag::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", AssetTag::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			assetTagCacheModel -> assetTagCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<AssetTag, Long>)AssetTag::setCtCollectionId);
 		attributeGetterFunctions.put("uuid", AssetTag::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid", assetTagCacheModel -> assetTagCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<AssetTag, String>)AssetTag::setUuid);
 		attributeGetterFunctions.put("tagId", AssetTag::getTagId);
+
+		cacheModelGetterFunctions.put(
+			"tagId", assetTagCacheModel -> assetTagCacheModel.tagId);
 		attributeSetterBiConsumers.put(
 			"tagId", (BiConsumer<AssetTag, Long>)AssetTag::setTagId);
 		attributeGetterFunctions.put("groupId", AssetTag::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId", assetTagCacheModel -> assetTagCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId", (BiConsumer<AssetTag, Long>)AssetTag::setGroupId);
 		attributeGetterFunctions.put("companyId", AssetTag::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId", assetTagCacheModel -> assetTagCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId", (BiConsumer<AssetTag, Long>)AssetTag::setCompanyId);
 		attributeGetterFunctions.put("userId", AssetTag::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", assetTagCacheModel -> assetTagCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<AssetTag, Long>)AssetTag::setUserId);
 		attributeGetterFunctions.put("userName", AssetTag::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName", assetTagCacheModel -> assetTagCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName", (BiConsumer<AssetTag, String>)AssetTag::setUserName);
 		attributeGetterFunctions.put("createDate", AssetTag::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate", assetTagCacheModel -> assetTagCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate", (BiConsumer<AssetTag, Date>)AssetTag::setCreateDate);
 		attributeGetterFunctions.put("modifiedDate", AssetTag::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			assetTagCacheModel -> assetTagCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<AssetTag, Date>)AssetTag::setModifiedDate);
 		attributeGetterFunctions.put("name", AssetTag::getName);
+
+		cacheModelGetterFunctions.put(
+			"name", assetTagCacheModel -> assetTagCacheModel.name);
 		attributeSetterBiConsumers.put(
 			"name", (BiConsumer<AssetTag, String>)AssetTag::setName);
 		attributeGetterFunctions.put("assetCount", AssetTag::getAssetCount);
+
+		cacheModelGetterFunctions.put(
+			"assetCount", assetTagCacheModel -> assetTagCacheModel.assetCount);
 		attributeSetterBiConsumers.put(
 			"assetCount",
 			(BiConsumer<AssetTag, Integer>)AssetTag::setAssetCount);
 		attributeGetterFunctions.put(
 			"lastPublishDate", AssetTag::getLastPublishDate);
+
+		cacheModelGetterFunctions.put(
+			"lastPublishDate",
+			assetTagCacheModel -> assetTagCacheModel.lastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<AssetTag, Date>)AssetTag::setLastPublishDate);
@@ -390,6 +483,8 @@ public class AssetTagModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -400,6 +495,12 @@ public class AssetTagModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_assetTagCacheModel == null)) {
+			_assetTagCacheModel = (AssetTagCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -411,6 +512,12 @@ public class AssetTagModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (!isNew() && (_assetTagCacheModel == null)) {
+			_assetTagCacheModel = (AssetTagCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -429,15 +536,20 @@ public class AssetTagModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (!isNew() && (_assetTagCacheModel == null)) {
+			_assetTagCacheModel = (AssetTagCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getCacheModelAttribute("uuid");
 	}
 
 	@JSON
@@ -448,6 +560,12 @@ public class AssetTagModelImpl
 
 	@Override
 	public void setTagId(long tagId) {
+		_columnBitmask |= TAGID_COLUMN_BITMASK;
+
+		if (!isNew() && (_assetTagCacheModel == null)) {
+			_assetTagCacheModel = (AssetTagCacheModel)toCacheModel();
+		}
+
 		_tagId = tagId;
 	}
 
@@ -461,17 +579,20 @@ public class AssetTagModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (!isNew() && (_assetTagCacheModel == null)) {
+			_assetTagCacheModel = (AssetTagCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getCacheModelAttribute("groupId");
 	}
 
 	@JSON
@@ -484,17 +605,20 @@ public class AssetTagModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (!isNew() && (_assetTagCacheModel == null)) {
+			_assetTagCacheModel = (AssetTagCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getCacheModelAttribute("companyId");
 	}
 
 	@JSON
@@ -505,6 +629,12 @@ public class AssetTagModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_assetTagCacheModel == null)) {
+			_assetTagCacheModel = (AssetTagCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -537,6 +667,12 @@ public class AssetTagModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_assetTagCacheModel == null)) {
+			_assetTagCacheModel = (AssetTagCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -548,6 +684,12 @@ public class AssetTagModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_assetTagCacheModel == null)) {
+			_assetTagCacheModel = (AssetTagCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -565,6 +707,12 @@ public class AssetTagModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_assetTagCacheModel == null)) {
+			_assetTagCacheModel = (AssetTagCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -581,17 +729,22 @@ public class AssetTagModelImpl
 
 	@Override
 	public void setName(String name) {
-		_columnBitmask = -1L;
+		_columnBitmask |= NAME_COLUMN_BITMASK;
 
-		if (_originalName == null) {
-			_originalName = _name;
+		if (!isNew() && (_assetTagCacheModel == null)) {
+			_assetTagCacheModel = (AssetTagCacheModel)toCacheModel();
 		}
 
 		_name = name;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalName() {
-		return GetterUtil.getString(_originalName);
+		return getCacheModelAttribute("name");
 	}
 
 	@JSON
@@ -602,6 +755,12 @@ public class AssetTagModelImpl
 
 	@Override
 	public void setAssetCount(int assetCount) {
+		_columnBitmask |= ASSETCOUNT_COLUMN_BITMASK;
+
+		if (!isNew() && (_assetTagCacheModel == null)) {
+			_assetTagCacheModel = (AssetTagCacheModel)toCacheModel();
+		}
+
 		_assetCount = assetCount;
 	}
 
@@ -613,6 +772,12 @@ public class AssetTagModelImpl
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		_columnBitmask |= LASTPUBLISHDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_assetTagCacheModel == null)) {
+			_assetTagCacheModel = (AssetTagCacheModel)toCacheModel();
+		}
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -658,6 +823,8 @@ public class AssetTagModelImpl
 	public Object clone() {
 		AssetTagImpl assetTagImpl = new AssetTagImpl();
 
+		assetTagImpl.setNew(true);
+
 		assetTagImpl.setMvccVersion(getMvccVersion());
 		assetTagImpl.setCtCollectionId(getCtCollectionId());
 		assetTagImpl.setUuid(getUuid());
@@ -673,6 +840,8 @@ public class AssetTagModelImpl
 		assetTagImpl.setLastPublishDate(getLastPublishDate());
 
 		assetTagImpl.resetOriginalValues();
+
+		assetTagImpl.setNew(false);
 
 		return assetTagImpl;
 	}
@@ -737,23 +906,11 @@ public class AssetTagModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		AssetTagModelImpl assetTagModelImpl = this;
+		_setModifiedDate = false;
 
-		assetTagModelImpl._originalUuid = assetTagModelImpl._uuid;
+		_columnBitmask = 0;
 
-		assetTagModelImpl._originalGroupId = assetTagModelImpl._groupId;
-
-		assetTagModelImpl._setOriginalGroupId = false;
-
-		assetTagModelImpl._originalCompanyId = assetTagModelImpl._companyId;
-
-		assetTagModelImpl._setOriginalCompanyId = false;
-
-		assetTagModelImpl._setModifiedDate = false;
-
-		assetTagModelImpl._originalName = assetTagModelImpl._name;
-
-		assetTagModelImpl._columnBitmask = 0;
+		_assetTagCacheModel = null;
 	}
 
 	@Override
@@ -901,24 +1058,19 @@ public class AssetTagModelImpl
 	private long _mvccVersion;
 	private long _ctCollectionId;
 	private String _uuid;
-	private String _originalUuid;
 	private long _tagId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private String _name;
-	private String _originalName;
 	private int _assetCount;
 	private Date _lastPublishDate;
 	private long _columnBitmask;
 	private AssetTag _escapedModel;
+	private AssetTagCacheModel _assetTagCacheModel;
 
 }

@@ -112,6 +112,8 @@ public class LayoutSEOSiteCacheModel
 	public LayoutSEOSite toEntityModel() {
 		LayoutSEOSiteImpl layoutSEOSiteImpl = new LayoutSEOSiteImpl();
 
+		layoutSEOSiteImpl.setNew(true);
+
 		layoutSEOSiteImpl.setMvccVersion(mvccVersion);
 
 		if (uuid == null) {
@@ -160,6 +162,8 @@ public class LayoutSEOSiteCacheModel
 			openGraphImageFileEntryId);
 
 		layoutSEOSiteImpl.resetOriginalValues();
+
+		layoutSEOSiteImpl.setNew(false);
 
 		return layoutSEOSiteImpl;
 	}

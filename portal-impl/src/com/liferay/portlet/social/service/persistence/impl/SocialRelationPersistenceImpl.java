@@ -5910,9 +5910,9 @@ public class SocialRelationPersistenceImpl
 			 _finderPathFetchByU1_U2_T.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				socialRelationModelImpl.getOriginalUserId1(),
-				socialRelationModelImpl.getOriginalUserId2(),
-				socialRelationModelImpl.getOriginalType()
+				socialRelationModelImpl.getCacheModelAttribute("userId1"),
+				socialRelationModelImpl.getCacheModelAttribute("userId2"),
+				socialRelationModelImpl.getCacheModelAttribute("type")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByU1_U2_T, args);
@@ -6189,7 +6189,7 @@ public class SocialRelationPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					socialRelationModelImpl.getOriginalUuid()
+					socialRelationModelImpl.getCacheModelAttribute("uuid")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid, args);
@@ -6208,8 +6208,8 @@ public class SocialRelationPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					socialRelationModelImpl.getOriginalUuid(),
-					socialRelationModelImpl.getOriginalCompanyId()
+					socialRelationModelImpl.getCacheModelAttribute("uuid"),
+					socialRelationModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid_C, args);
@@ -6231,7 +6231,7 @@ public class SocialRelationPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					socialRelationModelImpl.getOriginalCompanyId()
+					socialRelationModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
@@ -6250,7 +6250,7 @@ public class SocialRelationPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					socialRelationModelImpl.getOriginalUserId1()
+					socialRelationModelImpl.getCacheModelAttribute("userId1")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUserId1, args);
@@ -6269,7 +6269,7 @@ public class SocialRelationPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					socialRelationModelImpl.getOriginalUserId2()
+					socialRelationModelImpl.getCacheModelAttribute("userId2")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUserId2, args);
@@ -6288,7 +6288,7 @@ public class SocialRelationPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					socialRelationModelImpl.getOriginalType()
+					socialRelationModelImpl.getCacheModelAttribute("type")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByType, args);
@@ -6307,8 +6307,8 @@ public class SocialRelationPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					socialRelationModelImpl.getOriginalCompanyId(),
-					socialRelationModelImpl.getOriginalType()
+					socialRelationModelImpl.getCacheModelAttribute("companyId"),
+					socialRelationModelImpl.getCacheModelAttribute("type")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_T, args);
@@ -6330,8 +6330,8 @@ public class SocialRelationPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					socialRelationModelImpl.getOriginalUserId1(),
-					socialRelationModelImpl.getOriginalUserId2()
+					socialRelationModelImpl.getCacheModelAttribute("userId1"),
+					socialRelationModelImpl.getCacheModelAttribute("userId2")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByU1_U2, args);
@@ -6353,8 +6353,8 @@ public class SocialRelationPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					socialRelationModelImpl.getOriginalUserId1(),
-					socialRelationModelImpl.getOriginalType()
+					socialRelationModelImpl.getCacheModelAttribute("userId1"),
+					socialRelationModelImpl.getCacheModelAttribute("type")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByU1_T, args);
@@ -6376,8 +6376,8 @@ public class SocialRelationPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					socialRelationModelImpl.getOriginalUserId2(),
-					socialRelationModelImpl.getOriginalType()
+					socialRelationModelImpl.getCacheModelAttribute("userId2"),
+					socialRelationModelImpl.getCacheModelAttribute("type")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByU2_T, args);

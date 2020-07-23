@@ -125,6 +125,8 @@ public class AnnouncementsEntryCacheModel
 		AnnouncementsEntryImpl announcementsEntryImpl =
 			new AnnouncementsEntryImpl();
 
+		announcementsEntryImpl.setNew(true);
+
 		announcementsEntryImpl.setMvccVersion(mvccVersion);
 
 		if (uuid == null) {
@@ -208,6 +210,8 @@ public class AnnouncementsEntryCacheModel
 		announcementsEntryImpl.setAlert(alert);
 
 		announcementsEntryImpl.resetOriginalValues();
+
+		announcementsEntryImpl.setNew(false);
 
 		return announcementsEntryImpl;
 	}

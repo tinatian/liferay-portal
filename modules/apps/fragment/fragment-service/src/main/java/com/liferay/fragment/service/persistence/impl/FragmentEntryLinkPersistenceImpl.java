@@ -7865,8 +7865,8 @@ public class FragmentEntryLinkPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				fragmentEntryLinkModelImpl.getOriginalUuid(),
-				fragmentEntryLinkModelImpl.getOriginalGroupId()
+				fragmentEntryLinkModelImpl.getCacheModelAttribute("uuid"),
+				fragmentEntryLinkModelImpl.getCacheModelAttribute("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -8190,7 +8190,7 @@ public class FragmentEntryLinkPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					fragmentEntryLinkModelImpl.getOriginalUuid()
+					fragmentEntryLinkModelImpl.getCacheModelAttribute("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -8209,8 +8209,9 @@ public class FragmentEntryLinkPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					fragmentEntryLinkModelImpl.getOriginalUuid(),
-					fragmentEntryLinkModelImpl.getOriginalCompanyId()
+					fragmentEntryLinkModelImpl.getCacheModelAttribute("uuid"),
+					fragmentEntryLinkModelImpl.getCacheModelAttribute(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -8232,7 +8233,7 @@ public class FragmentEntryLinkPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					fragmentEntryLinkModelImpl.getOriginalGroupId()
+					fragmentEntryLinkModelImpl.getCacheModelAttribute("groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId, args);
@@ -8251,7 +8252,8 @@ public class FragmentEntryLinkPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					fragmentEntryLinkModelImpl.getOriginalFragmentEntryId()
+					fragmentEntryLinkModelImpl.getCacheModelAttribute(
+						"fragmentEntryId")
 				};
 
 				finderCache.removeResult(
@@ -8274,7 +8276,8 @@ public class FragmentEntryLinkPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					fragmentEntryLinkModelImpl.getOriginalRendererKey()
+					fragmentEntryLinkModelImpl.getCacheModelAttribute(
+						"rendererKey")
 				};
 
 				finderCache.removeResult(_finderPathCountByRendererKey, args);
@@ -8295,8 +8298,10 @@ public class FragmentEntryLinkPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					fragmentEntryLinkModelImpl.getOriginalGroupId(),
-					fragmentEntryLinkModelImpl.getOriginalFragmentEntryId()
+					fragmentEntryLinkModelImpl.getCacheModelAttribute(
+						"groupId"),
+					fragmentEntryLinkModelImpl.getCacheModelAttribute(
+						"fragmentEntryId")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_F, args);
@@ -8318,8 +8323,9 @@ public class FragmentEntryLinkPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					fragmentEntryLinkModelImpl.getOriginalGroupId(),
-					fragmentEntryLinkModelImpl.getOriginalPlid()
+					fragmentEntryLinkModelImpl.getCacheModelAttribute(
+						"groupId"),
+					fragmentEntryLinkModelImpl.getCacheModelAttribute("plid")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_P, args);
@@ -8341,9 +8347,12 @@ public class FragmentEntryLinkPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					fragmentEntryLinkModelImpl.getOriginalGroupId(),
-					fragmentEntryLinkModelImpl.getOriginalFragmentEntryId(),
-					fragmentEntryLinkModelImpl.getOriginalClassNameId()
+					fragmentEntryLinkModelImpl.getCacheModelAttribute(
+						"groupId"),
+					fragmentEntryLinkModelImpl.getCacheModelAttribute(
+						"fragmentEntryId"),
+					fragmentEntryLinkModelImpl.getCacheModelAttribute(
+						"classNameId")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_F_C, args);
@@ -8366,9 +8375,11 @@ public class FragmentEntryLinkPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					fragmentEntryLinkModelImpl.getOriginalGroupId(),
-					fragmentEntryLinkModelImpl.getOriginalFragmentEntryId(),
-					fragmentEntryLinkModelImpl.getOriginalPlid()
+					fragmentEntryLinkModelImpl.getCacheModelAttribute(
+						"groupId"),
+					fragmentEntryLinkModelImpl.getCacheModelAttribute(
+						"fragmentEntryId"),
+					fragmentEntryLinkModelImpl.getCacheModelAttribute("plid")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_F_P, args);
@@ -8391,10 +8402,11 @@ public class FragmentEntryLinkPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					fragmentEntryLinkModelImpl.getOriginalGroupId(),
-					fragmentEntryLinkModelImpl.
-						getOriginalSegmentsExperienceId(),
-					fragmentEntryLinkModelImpl.getOriginalPlid()
+					fragmentEntryLinkModelImpl.getCacheModelAttribute(
+						"groupId"),
+					fragmentEntryLinkModelImpl.getCacheModelAttribute(
+						"segmentsExperienceId"),
+					fragmentEntryLinkModelImpl.getCacheModelAttribute("plid")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_S_P, args);
@@ -8417,9 +8429,11 @@ public class FragmentEntryLinkPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					fragmentEntryLinkModelImpl.getOriginalGroupId(),
-					fragmentEntryLinkModelImpl.getOriginalClassNameId(),
-					fragmentEntryLinkModelImpl.getOriginalClassPK()
+					fragmentEntryLinkModelImpl.getCacheModelAttribute(
+						"groupId"),
+					fragmentEntryLinkModelImpl.getCacheModelAttribute(
+						"classNameId"),
+					fragmentEntryLinkModelImpl.getCacheModelAttribute("classPK")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_C_C, args);
@@ -8442,10 +8456,13 @@ public class FragmentEntryLinkPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					fragmentEntryLinkModelImpl.getOriginalGroupId(),
-					fragmentEntryLinkModelImpl.getOriginalFragmentEntryId(),
-					fragmentEntryLinkModelImpl.getOriginalClassNameId(),
-					fragmentEntryLinkModelImpl.getOriginalClassPK()
+					fragmentEntryLinkModelImpl.getCacheModelAttribute(
+						"groupId"),
+					fragmentEntryLinkModelImpl.getCacheModelAttribute(
+						"fragmentEntryId"),
+					fragmentEntryLinkModelImpl.getCacheModelAttribute(
+						"classNameId"),
+					fragmentEntryLinkModelImpl.getCacheModelAttribute("classPK")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_F_C_C, args);
@@ -8469,11 +8486,13 @@ public class FragmentEntryLinkPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					fragmentEntryLinkModelImpl.getOriginalGroupId(),
-					fragmentEntryLinkModelImpl.
-						getOriginalSegmentsExperienceId(),
-					fragmentEntryLinkModelImpl.getOriginalClassNameId(),
-					fragmentEntryLinkModelImpl.getOriginalClassPK()
+					fragmentEntryLinkModelImpl.getCacheModelAttribute(
+						"groupId"),
+					fragmentEntryLinkModelImpl.getCacheModelAttribute(
+						"segmentsExperienceId"),
+					fragmentEntryLinkModelImpl.getCacheModelAttribute(
+						"classNameId"),
+					fragmentEntryLinkModelImpl.getCacheModelAttribute("classPK")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_S_C_C, args);

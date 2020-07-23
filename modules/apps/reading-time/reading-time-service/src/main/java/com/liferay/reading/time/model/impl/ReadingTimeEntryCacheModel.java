@@ -93,6 +93,8 @@ public class ReadingTimeEntryCacheModel
 	public ReadingTimeEntry toEntityModel() {
 		ReadingTimeEntryImpl readingTimeEntryImpl = new ReadingTimeEntryImpl();
 
+		readingTimeEntryImpl.setNew(true);
+
 		if (uuid == null) {
 			readingTimeEntryImpl.setUuid("");
 		}
@@ -123,6 +125,8 @@ public class ReadingTimeEntryCacheModel
 		readingTimeEntryImpl.setReadingTime(readingTime);
 
 		readingTimeEntryImpl.resetOriginalValues();
+
+		readingTimeEntryImpl.setNew(false);
 
 		return readingTimeEntryImpl;
 	}

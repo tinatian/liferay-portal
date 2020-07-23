@@ -111,6 +111,8 @@ public class LockCacheModel
 	public Lock toEntityModel() {
 		LockImpl lockImpl = new LockImpl();
 
+		lockImpl.setNew(true);
+
 		lockImpl.setMvccVersion(mvccVersion);
 
 		if (uuid == null) {
@@ -169,6 +171,8 @@ public class LockCacheModel
 		}
 
 		lockImpl.resetOriginalValues();
+
+		lockImpl.setNew(false);
 
 		return lockImpl;
 	}

@@ -3406,9 +3406,12 @@ public class SocialActivityAchievementPersistenceImpl
 			 _finderPathFetchByG_U_N.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				socialActivityAchievementModelImpl.getOriginalGroupId(),
-				socialActivityAchievementModelImpl.getOriginalUserId(),
-				socialActivityAchievementModelImpl.getOriginalName()
+				socialActivityAchievementModelImpl.getCacheModelAttribute(
+					"groupId"),
+				socialActivityAchievementModelImpl.getCacheModelAttribute(
+					"userId"),
+				socialActivityAchievementModelImpl.getCacheModelAttribute(
+					"name")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByG_U_N, args);
@@ -3657,7 +3660,8 @@ public class SocialActivityAchievementPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					socialActivityAchievementModelImpl.getOriginalGroupId()
+					socialActivityAchievementModelImpl.getCacheModelAttribute(
+						"groupId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByGroupId, args);
@@ -3678,8 +3682,10 @@ public class SocialActivityAchievementPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					socialActivityAchievementModelImpl.getOriginalGroupId(),
-					socialActivityAchievementModelImpl.getOriginalUserId()
+					socialActivityAchievementModelImpl.getCacheModelAttribute(
+						"groupId"),
+					socialActivityAchievementModelImpl.getCacheModelAttribute(
+						"userId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByG_U, args);
@@ -3701,8 +3707,10 @@ public class SocialActivityAchievementPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					socialActivityAchievementModelImpl.getOriginalGroupId(),
-					socialActivityAchievementModelImpl.getOriginalName()
+					socialActivityAchievementModelImpl.getCacheModelAttribute(
+						"groupId"),
+					socialActivityAchievementModelImpl.getCacheModelAttribute(
+						"name")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByG_N, args);
@@ -3724,8 +3732,10 @@ public class SocialActivityAchievementPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					socialActivityAchievementModelImpl.getOriginalGroupId(),
-					socialActivityAchievementModelImpl.getOriginalFirstInGroup()
+					socialActivityAchievementModelImpl.getCacheModelAttribute(
+						"groupId"),
+					socialActivityAchievementModelImpl.getCacheModelAttribute(
+						"firstInGroup")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByG_F, args);
@@ -3747,9 +3757,12 @@ public class SocialActivityAchievementPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					socialActivityAchievementModelImpl.getOriginalGroupId(),
-					socialActivityAchievementModelImpl.getOriginalUserId(),
-					socialActivityAchievementModelImpl.getOriginalFirstInGroup()
+					socialActivityAchievementModelImpl.getCacheModelAttribute(
+						"groupId"),
+					socialActivityAchievementModelImpl.getCacheModelAttribute(
+						"userId"),
+					socialActivityAchievementModelImpl.getCacheModelAttribute(
+						"firstInGroup")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByG_U_F, args);

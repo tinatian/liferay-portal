@@ -118,6 +118,8 @@ public class WorkflowDefinitionLinkCacheModel
 		WorkflowDefinitionLinkImpl workflowDefinitionLinkImpl =
 			new WorkflowDefinitionLinkImpl();
 
+		workflowDefinitionLinkImpl.setNew(true);
+
 		workflowDefinitionLinkImpl.setMvccVersion(mvccVersion);
 		workflowDefinitionLinkImpl.setCtCollectionId(ctCollectionId);
 		workflowDefinitionLinkImpl.setWorkflowDefinitionLinkId(
@@ -163,6 +165,8 @@ public class WorkflowDefinitionLinkCacheModel
 			workflowDefinitionVersion);
 
 		workflowDefinitionLinkImpl.resetOriginalValues();
+
+		workflowDefinitionLinkImpl.setNew(false);
 
 		return workflowDefinitionLinkImpl;
 	}

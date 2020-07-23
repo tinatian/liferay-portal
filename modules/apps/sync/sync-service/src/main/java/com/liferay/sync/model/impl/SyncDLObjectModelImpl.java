@@ -26,7 +26,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.sync.model.SyncDLObject;
 import com.liferay.sync.model.SyncDLObjectModel;
@@ -140,21 +139,61 @@ public class SyncDLObjectModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long EVENT_COLUMN_BITMASK = 1L;
+	public static final long SYNCDLOBJECTID_COLUMN_BITMASK = 1L;
 
-	public static final long MODIFIEDTIME_COLUMN_BITMASK = 2L;
+	public static final long COMPANYID_COLUMN_BITMASK = 2L;
 
-	public static final long PARENTFOLDERID_COLUMN_BITMASK = 4L;
+	public static final long USERID_COLUMN_BITMASK = 4L;
 
-	public static final long REPOSITORYID_COLUMN_BITMASK = 8L;
+	public static final long USERNAME_COLUMN_BITMASK = 8L;
 
-	public static final long TREEPATH_COLUMN_BITMASK = 16L;
+	public static final long CREATETIME_COLUMN_BITMASK = 16L;
 
-	public static final long TYPE_COLUMN_BITMASK = 32L;
+	public static final long MODIFIEDTIME_COLUMN_BITMASK = 32L;
 
-	public static final long TYPEPK_COLUMN_BITMASK = 64L;
+	public static final long REPOSITORYID_COLUMN_BITMASK = 64L;
 
-	public static final long VERSION_COLUMN_BITMASK = 128L;
+	public static final long PARENTFOLDERID_COLUMN_BITMASK = 128L;
+
+	public static final long TREEPATH_COLUMN_BITMASK = 256L;
+
+	public static final long NAME_COLUMN_BITMASK = 512L;
+
+	public static final long EXTENSION_COLUMN_BITMASK = 1024L;
+
+	public static final long MIMETYPE_COLUMN_BITMASK = 2048L;
+
+	public static final long DESCRIPTION_COLUMN_BITMASK = 4096L;
+
+	public static final long CHANGELOG_COLUMN_BITMASK = 8192L;
+
+	public static final long EXTRASETTINGS_COLUMN_BITMASK = 16384L;
+
+	public static final long VERSION_COLUMN_BITMASK = 32768L;
+
+	public static final long VERSIONID_COLUMN_BITMASK = 65536L;
+
+	public static final long SIZE_COLUMN_BITMASK = 131072L;
+
+	public static final long CHECKSUM_COLUMN_BITMASK = 262144L;
+
+	public static final long EVENT_COLUMN_BITMASK = 524288L;
+
+	public static final long LANTOKENKEY_COLUMN_BITMASK = 1048576L;
+
+	public static final long LASTPERMISSIONCHANGEDATE_COLUMN_BITMASK = 2097152L;
+
+	public static final long LOCKEXPIRATIONDATE_COLUMN_BITMASK = 4194304L;
+
+	public static final long LOCKUSERID_COLUMN_BITMASK = 8388608L;
+
+	public static final long LOCKUSERNAME_COLUMN_BITMASK = 16777216L;
+
+	public static final long TYPE_COLUMN_BITMASK = 33554432L;
+
+	public static final long TYPEPK_COLUMN_BITMASK = 67108864L;
+
+	public static final long TYPEUUID_COLUMN_BITMASK = 134217728L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -350,133 +389,273 @@ public class SyncDLObjectModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<SyncDLObject, Object> function = _attributeGetterFunctions.get(
+			attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((SyncDLObject)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<SyncDLObjectCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_syncDLObjectCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_syncDLObjectCacheModel);
+	}
+
 	private static final Map<String, Function<SyncDLObject, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<SyncDLObject, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<SyncDLObjectCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<SyncDLObject, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<SyncDLObject, Object>>();
 		Map<String, BiConsumer<SyncDLObject, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<SyncDLObject, ?>>();
+		Map<String, Function<SyncDLObjectCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<SyncDLObjectCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"syncDLObjectId", SyncDLObject::getSyncDLObjectId);
+
+		cacheModelGetterFunctions.put(
+			"syncDLObjectId",
+			syncDLObjectCacheModel -> syncDLObjectCacheModel.syncDLObjectId);
 		attributeSetterBiConsumers.put(
 			"syncDLObjectId",
 			(BiConsumer<SyncDLObject, Long>)SyncDLObject::setSyncDLObjectId);
 		attributeGetterFunctions.put("companyId", SyncDLObject::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			syncDLObjectCacheModel -> syncDLObjectCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<SyncDLObject, Long>)SyncDLObject::setCompanyId);
 		attributeGetterFunctions.put("userId", SyncDLObject::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", syncDLObjectCacheModel -> syncDLObjectCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<SyncDLObject, Long>)SyncDLObject::setUserId);
 		attributeGetterFunctions.put("userName", SyncDLObject::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			syncDLObjectCacheModel -> syncDLObjectCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<SyncDLObject, String>)SyncDLObject::setUserName);
 		attributeGetterFunctions.put("createTime", SyncDLObject::getCreateTime);
+
+		cacheModelGetterFunctions.put(
+			"createTime",
+			syncDLObjectCacheModel -> syncDLObjectCacheModel.createTime);
 		attributeSetterBiConsumers.put(
 			"createTime",
 			(BiConsumer<SyncDLObject, Long>)SyncDLObject::setCreateTime);
 		attributeGetterFunctions.put(
 			"modifiedTime", SyncDLObject::getModifiedTime);
+
+		cacheModelGetterFunctions.put(
+			"modifiedTime",
+			syncDLObjectCacheModel -> syncDLObjectCacheModel.modifiedTime);
 		attributeSetterBiConsumers.put(
 			"modifiedTime",
 			(BiConsumer<SyncDLObject, Long>)SyncDLObject::setModifiedTime);
 		attributeGetterFunctions.put(
 			"repositoryId", SyncDLObject::getRepositoryId);
+
+		cacheModelGetterFunctions.put(
+			"repositoryId",
+			syncDLObjectCacheModel -> syncDLObjectCacheModel.repositoryId);
 		attributeSetterBiConsumers.put(
 			"repositoryId",
 			(BiConsumer<SyncDLObject, Long>)SyncDLObject::setRepositoryId);
 		attributeGetterFunctions.put(
 			"parentFolderId", SyncDLObject::getParentFolderId);
+
+		cacheModelGetterFunctions.put(
+			"parentFolderId",
+			syncDLObjectCacheModel -> syncDLObjectCacheModel.parentFolderId);
 		attributeSetterBiConsumers.put(
 			"parentFolderId",
 			(BiConsumer<SyncDLObject, Long>)SyncDLObject::setParentFolderId);
 		attributeGetterFunctions.put("treePath", SyncDLObject::getTreePath);
+
+		cacheModelGetterFunctions.put(
+			"treePath",
+			syncDLObjectCacheModel -> syncDLObjectCacheModel.treePath);
 		attributeSetterBiConsumers.put(
 			"treePath",
 			(BiConsumer<SyncDLObject, String>)SyncDLObject::setTreePath);
 		attributeGetterFunctions.put("name", SyncDLObject::getName);
+
+		cacheModelGetterFunctions.put(
+			"name", syncDLObjectCacheModel -> syncDLObjectCacheModel.name);
 		attributeSetterBiConsumers.put(
 			"name", (BiConsumer<SyncDLObject, String>)SyncDLObject::setName);
 		attributeGetterFunctions.put("extension", SyncDLObject::getExtension);
+
+		cacheModelGetterFunctions.put(
+			"extension",
+			syncDLObjectCacheModel -> syncDLObjectCacheModel.extension);
 		attributeSetterBiConsumers.put(
 			"extension",
 			(BiConsumer<SyncDLObject, String>)SyncDLObject::setExtension);
 		attributeGetterFunctions.put("mimeType", SyncDLObject::getMimeType);
+
+		cacheModelGetterFunctions.put(
+			"mimeType",
+			syncDLObjectCacheModel -> syncDLObjectCacheModel.mimeType);
 		attributeSetterBiConsumers.put(
 			"mimeType",
 			(BiConsumer<SyncDLObject, String>)SyncDLObject::setMimeType);
 		attributeGetterFunctions.put(
 			"description", SyncDLObject::getDescription);
+
+		cacheModelGetterFunctions.put(
+			"description",
+			syncDLObjectCacheModel -> syncDLObjectCacheModel.description);
 		attributeSetterBiConsumers.put(
 			"description",
 			(BiConsumer<SyncDLObject, String>)SyncDLObject::setDescription);
 		attributeGetterFunctions.put("changeLog", SyncDLObject::getChangeLog);
+
+		cacheModelGetterFunctions.put(
+			"changeLog",
+			syncDLObjectCacheModel -> syncDLObjectCacheModel.changeLog);
 		attributeSetterBiConsumers.put(
 			"changeLog",
 			(BiConsumer<SyncDLObject, String>)SyncDLObject::setChangeLog);
 		attributeGetterFunctions.put(
 			"extraSettings", SyncDLObject::getExtraSettings);
+
+		cacheModelGetterFunctions.put(
+			"extraSettings",
+			syncDLObjectCacheModel -> syncDLObjectCacheModel.extraSettings);
 		attributeSetterBiConsumers.put(
 			"extraSettings",
 			(BiConsumer<SyncDLObject, String>)SyncDLObject::setExtraSettings);
 		attributeGetterFunctions.put("version", SyncDLObject::getVersion);
+
+		cacheModelGetterFunctions.put(
+			"version",
+			syncDLObjectCacheModel -> syncDLObjectCacheModel.version);
 		attributeSetterBiConsumers.put(
 			"version",
 			(BiConsumer<SyncDLObject, String>)SyncDLObject::setVersion);
 		attributeGetterFunctions.put("versionId", SyncDLObject::getVersionId);
+
+		cacheModelGetterFunctions.put(
+			"versionId",
+			syncDLObjectCacheModel -> syncDLObjectCacheModel.versionId);
 		attributeSetterBiConsumers.put(
 			"versionId",
 			(BiConsumer<SyncDLObject, Long>)SyncDLObject::setVersionId);
 		attributeGetterFunctions.put("size", SyncDLObject::getSize);
+
+		cacheModelGetterFunctions.put(
+			"size", syncDLObjectCacheModel -> syncDLObjectCacheModel.size);
 		attributeSetterBiConsumers.put(
 			"size", (BiConsumer<SyncDLObject, Long>)SyncDLObject::setSize);
 		attributeGetterFunctions.put("checksum", SyncDLObject::getChecksum);
+
+		cacheModelGetterFunctions.put(
+			"checksum",
+			syncDLObjectCacheModel -> syncDLObjectCacheModel.checksum);
 		attributeSetterBiConsumers.put(
 			"checksum",
 			(BiConsumer<SyncDLObject, String>)SyncDLObject::setChecksum);
 		attributeGetterFunctions.put("event", SyncDLObject::getEvent);
+
+		cacheModelGetterFunctions.put(
+			"event", syncDLObjectCacheModel -> syncDLObjectCacheModel.event);
 		attributeSetterBiConsumers.put(
 			"event", (BiConsumer<SyncDLObject, String>)SyncDLObject::setEvent);
 		attributeGetterFunctions.put(
 			"lanTokenKey", SyncDLObject::getLanTokenKey);
+
+		cacheModelGetterFunctions.put(
+			"lanTokenKey",
+			syncDLObjectCacheModel -> syncDLObjectCacheModel.lanTokenKey);
 		attributeSetterBiConsumers.put(
 			"lanTokenKey",
 			(BiConsumer<SyncDLObject, String>)SyncDLObject::setLanTokenKey);
 		attributeGetterFunctions.put(
 			"lastPermissionChangeDate",
 			SyncDLObject::getLastPermissionChangeDate);
+
+		cacheModelGetterFunctions.put(
+			"lastPermissionChangeDate",
+			syncDLObjectCacheModel ->
+				syncDLObjectCacheModel.lastPermissionChangeDate);
 		attributeSetterBiConsumers.put(
 			"lastPermissionChangeDate",
 			(BiConsumer<SyncDLObject, Date>)
 				SyncDLObject::setLastPermissionChangeDate);
 		attributeGetterFunctions.put(
 			"lockExpirationDate", SyncDLObject::getLockExpirationDate);
+
+		cacheModelGetterFunctions.put(
+			"lockExpirationDate",
+			syncDLObjectCacheModel ->
+				syncDLObjectCacheModel.lockExpirationDate);
 		attributeSetterBiConsumers.put(
 			"lockExpirationDate",
 			(BiConsumer<SyncDLObject, Date>)
 				SyncDLObject::setLockExpirationDate);
 		attributeGetterFunctions.put("lockUserId", SyncDLObject::getLockUserId);
+
+		cacheModelGetterFunctions.put(
+			"lockUserId",
+			syncDLObjectCacheModel -> syncDLObjectCacheModel.lockUserId);
 		attributeSetterBiConsumers.put(
 			"lockUserId",
 			(BiConsumer<SyncDLObject, Long>)SyncDLObject::setLockUserId);
 		attributeGetterFunctions.put(
 			"lockUserName", SyncDLObject::getLockUserName);
+
+		cacheModelGetterFunctions.put(
+			"lockUserName",
+			syncDLObjectCacheModel -> syncDLObjectCacheModel.lockUserName);
 		attributeSetterBiConsumers.put(
 			"lockUserName",
 			(BiConsumer<SyncDLObject, String>)SyncDLObject::setLockUserName);
 		attributeGetterFunctions.put("type", SyncDLObject::getType);
+
+		cacheModelGetterFunctions.put(
+			"type", syncDLObjectCacheModel -> syncDLObjectCacheModel.type);
 		attributeSetterBiConsumers.put(
 			"type", (BiConsumer<SyncDLObject, String>)SyncDLObject::setType);
 		attributeGetterFunctions.put("typePK", SyncDLObject::getTypePK);
+
+		cacheModelGetterFunctions.put(
+			"typePK", syncDLObjectCacheModel -> syncDLObjectCacheModel.typePK);
 		attributeSetterBiConsumers.put(
 			"typePK", (BiConsumer<SyncDLObject, Long>)SyncDLObject::setTypePK);
 		attributeGetterFunctions.put("typeUuid", SyncDLObject::getTypeUuid);
+
+		cacheModelGetterFunctions.put(
+			"typeUuid",
+			syncDLObjectCacheModel -> syncDLObjectCacheModel.typeUuid);
 		attributeSetterBiConsumers.put(
 			"typeUuid",
 			(BiConsumer<SyncDLObject, String>)SyncDLObject::setTypeUuid);
@@ -485,6 +664,8 @@ public class SyncDLObjectModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -495,6 +676,12 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setSyncDLObjectId(long syncDLObjectId) {
+		_columnBitmask |= SYNCDLOBJECTID_COLUMN_BITMASK;
+
+		if (!isNew() && (_syncDLObjectCacheModel == null)) {
+			_syncDLObjectCacheModel = (SyncDLObjectCacheModel)toCacheModel();
+		}
+
 		_syncDLObjectId = syncDLObjectId;
 	}
 
@@ -506,6 +693,12 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (!isNew() && (_syncDLObjectCacheModel == null)) {
+			_syncDLObjectCacheModel = (SyncDLObjectCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -517,6 +710,12 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_syncDLObjectCacheModel == null)) {
+			_syncDLObjectCacheModel = (SyncDLObjectCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -549,6 +748,12 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_syncDLObjectCacheModel == null)) {
+			_syncDLObjectCacheModel = (SyncDLObjectCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -560,6 +765,12 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setCreateTime(long createTime) {
+		_columnBitmask |= CREATETIME_COLUMN_BITMASK;
+
+		if (!isNew() && (_syncDLObjectCacheModel == null)) {
+			_syncDLObjectCacheModel = (SyncDLObjectCacheModel)toCacheModel();
+		}
+
 		_createTime = createTime;
 	}
 
@@ -571,19 +782,22 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setModifiedTime(long modifiedTime) {
-		_columnBitmask = -1L;
+		_columnBitmask |= MODIFIEDTIME_COLUMN_BITMASK;
 
-		if (!_setOriginalModifiedTime) {
-			_setOriginalModifiedTime = true;
-
-			_originalModifiedTime = _modifiedTime;
+		if (!isNew() && (_syncDLObjectCacheModel == null)) {
+			_syncDLObjectCacheModel = (SyncDLObjectCacheModel)toCacheModel();
 		}
 
 		_modifiedTime = modifiedTime;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalModifiedTime() {
-		return _originalModifiedTime;
+		return getCacheModelAttribute("modifiedTime");
 	}
 
 	@JSON
@@ -594,19 +808,22 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setRepositoryId(long repositoryId) {
-		_columnBitmask = -1L;
+		_columnBitmask |= REPOSITORYID_COLUMN_BITMASK;
 
-		if (!_setOriginalRepositoryId) {
-			_setOriginalRepositoryId = true;
-
-			_originalRepositoryId = _repositoryId;
+		if (!isNew() && (_syncDLObjectCacheModel == null)) {
+			_syncDLObjectCacheModel = (SyncDLObjectCacheModel)toCacheModel();
 		}
 
 		_repositoryId = repositoryId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalRepositoryId() {
-		return _originalRepositoryId;
+		return getCacheModelAttribute("repositoryId");
 	}
 
 	@JSON
@@ -619,17 +836,20 @@ public class SyncDLObjectModelImpl
 	public void setParentFolderId(long parentFolderId) {
 		_columnBitmask |= PARENTFOLDERID_COLUMN_BITMASK;
 
-		if (!_setOriginalParentFolderId) {
-			_setOriginalParentFolderId = true;
-
-			_originalParentFolderId = _parentFolderId;
+		if (!isNew() && (_syncDLObjectCacheModel == null)) {
+			_syncDLObjectCacheModel = (SyncDLObjectCacheModel)toCacheModel();
 		}
 
 		_parentFolderId = parentFolderId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalParentFolderId() {
-		return _originalParentFolderId;
+		return getCacheModelAttribute("parentFolderId");
 	}
 
 	@JSON(include = false)
@@ -647,15 +867,20 @@ public class SyncDLObjectModelImpl
 	public void setTreePath(String treePath) {
 		_columnBitmask |= TREEPATH_COLUMN_BITMASK;
 
-		if (_originalTreePath == null) {
-			_originalTreePath = _treePath;
+		if (!isNew() && (_syncDLObjectCacheModel == null)) {
+			_syncDLObjectCacheModel = (SyncDLObjectCacheModel)toCacheModel();
 		}
 
 		_treePath = treePath;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalTreePath() {
-		return GetterUtil.getString(_originalTreePath);
+		return getCacheModelAttribute("treePath");
 	}
 
 	@JSON
@@ -671,6 +896,12 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setName(String name) {
+		_columnBitmask |= NAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_syncDLObjectCacheModel == null)) {
+			_syncDLObjectCacheModel = (SyncDLObjectCacheModel)toCacheModel();
+		}
+
 		_name = name;
 	}
 
@@ -687,6 +918,12 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setExtension(String extension) {
+		_columnBitmask |= EXTENSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_syncDLObjectCacheModel == null)) {
+			_syncDLObjectCacheModel = (SyncDLObjectCacheModel)toCacheModel();
+		}
+
 		_extension = extension;
 	}
 
@@ -703,6 +940,12 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setMimeType(String mimeType) {
+		_columnBitmask |= MIMETYPE_COLUMN_BITMASK;
+
+		if (!isNew() && (_syncDLObjectCacheModel == null)) {
+			_syncDLObjectCacheModel = (SyncDLObjectCacheModel)toCacheModel();
+		}
+
 		_mimeType = mimeType;
 	}
 
@@ -719,6 +962,12 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		_columnBitmask |= DESCRIPTION_COLUMN_BITMASK;
+
+		if (!isNew() && (_syncDLObjectCacheModel == null)) {
+			_syncDLObjectCacheModel = (SyncDLObjectCacheModel)toCacheModel();
+		}
+
 		_description = description;
 	}
 
@@ -735,6 +984,12 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setChangeLog(String changeLog) {
+		_columnBitmask |= CHANGELOG_COLUMN_BITMASK;
+
+		if (!isNew() && (_syncDLObjectCacheModel == null)) {
+			_syncDLObjectCacheModel = (SyncDLObjectCacheModel)toCacheModel();
+		}
+
 		_changeLog = changeLog;
 	}
 
@@ -751,6 +1006,12 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setExtraSettings(String extraSettings) {
+		_columnBitmask |= EXTRASETTINGS_COLUMN_BITMASK;
+
+		if (!isNew() && (_syncDLObjectCacheModel == null)) {
+			_syncDLObjectCacheModel = (SyncDLObjectCacheModel)toCacheModel();
+		}
+
 		_extraSettings = extraSettings;
 	}
 
@@ -769,15 +1030,20 @@ public class SyncDLObjectModelImpl
 	public void setVersion(String version) {
 		_columnBitmask |= VERSION_COLUMN_BITMASK;
 
-		if (_originalVersion == null) {
-			_originalVersion = _version;
+		if (!isNew() && (_syncDLObjectCacheModel == null)) {
+			_syncDLObjectCacheModel = (SyncDLObjectCacheModel)toCacheModel();
 		}
 
 		_version = version;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalVersion() {
-		return GetterUtil.getString(_originalVersion);
+		return getCacheModelAttribute("version");
 	}
 
 	@JSON
@@ -788,6 +1054,12 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setVersionId(long versionId) {
+		_columnBitmask |= VERSIONID_COLUMN_BITMASK;
+
+		if (!isNew() && (_syncDLObjectCacheModel == null)) {
+			_syncDLObjectCacheModel = (SyncDLObjectCacheModel)toCacheModel();
+		}
+
 		_versionId = versionId;
 	}
 
@@ -799,6 +1071,12 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setSize(long size) {
+		_columnBitmask |= SIZE_COLUMN_BITMASK;
+
+		if (!isNew() && (_syncDLObjectCacheModel == null)) {
+			_syncDLObjectCacheModel = (SyncDLObjectCacheModel)toCacheModel();
+		}
+
 		_size = size;
 	}
 
@@ -815,6 +1093,12 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setChecksum(String checksum) {
+		_columnBitmask |= CHECKSUM_COLUMN_BITMASK;
+
+		if (!isNew() && (_syncDLObjectCacheModel == null)) {
+			_syncDLObjectCacheModel = (SyncDLObjectCacheModel)toCacheModel();
+		}
+
 		_checksum = checksum;
 	}
 
@@ -833,15 +1117,20 @@ public class SyncDLObjectModelImpl
 	public void setEvent(String event) {
 		_columnBitmask |= EVENT_COLUMN_BITMASK;
 
-		if (_originalEvent == null) {
-			_originalEvent = _event;
+		if (!isNew() && (_syncDLObjectCacheModel == null)) {
+			_syncDLObjectCacheModel = (SyncDLObjectCacheModel)toCacheModel();
 		}
 
 		_event = event;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalEvent() {
-		return GetterUtil.getString(_originalEvent);
+		return getCacheModelAttribute("event");
 	}
 
 	@JSON
@@ -857,6 +1146,12 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setLanTokenKey(String lanTokenKey) {
+		_columnBitmask |= LANTOKENKEY_COLUMN_BITMASK;
+
+		if (!isNew() && (_syncDLObjectCacheModel == null)) {
+			_syncDLObjectCacheModel = (SyncDLObjectCacheModel)toCacheModel();
+		}
+
 		_lanTokenKey = lanTokenKey;
 	}
 
@@ -868,6 +1163,12 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setLastPermissionChangeDate(Date lastPermissionChangeDate) {
+		_columnBitmask |= LASTPERMISSIONCHANGEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_syncDLObjectCacheModel == null)) {
+			_syncDLObjectCacheModel = (SyncDLObjectCacheModel)toCacheModel();
+		}
+
 		_lastPermissionChangeDate = lastPermissionChangeDate;
 	}
 
@@ -879,6 +1180,12 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setLockExpirationDate(Date lockExpirationDate) {
+		_columnBitmask |= LOCKEXPIRATIONDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_syncDLObjectCacheModel == null)) {
+			_syncDLObjectCacheModel = (SyncDLObjectCacheModel)toCacheModel();
+		}
+
 		_lockExpirationDate = lockExpirationDate;
 	}
 
@@ -890,6 +1197,12 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setLockUserId(long lockUserId) {
+		_columnBitmask |= LOCKUSERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_syncDLObjectCacheModel == null)) {
+			_syncDLObjectCacheModel = (SyncDLObjectCacheModel)toCacheModel();
+		}
+
 		_lockUserId = lockUserId;
 	}
 
@@ -922,6 +1235,12 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setLockUserName(String lockUserName) {
+		_columnBitmask |= LOCKUSERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_syncDLObjectCacheModel == null)) {
+			_syncDLObjectCacheModel = (SyncDLObjectCacheModel)toCacheModel();
+		}
+
 		_lockUserName = lockUserName;
 	}
 
@@ -940,15 +1259,20 @@ public class SyncDLObjectModelImpl
 	public void setType(String type) {
 		_columnBitmask |= TYPE_COLUMN_BITMASK;
 
-		if (_originalType == null) {
-			_originalType = _type;
+		if (!isNew() && (_syncDLObjectCacheModel == null)) {
+			_syncDLObjectCacheModel = (SyncDLObjectCacheModel)toCacheModel();
 		}
 
 		_type = type;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalType() {
-		return GetterUtil.getString(_originalType);
+		return getCacheModelAttribute("type");
 	}
 
 	@JSON
@@ -961,17 +1285,20 @@ public class SyncDLObjectModelImpl
 	public void setTypePK(long typePK) {
 		_columnBitmask |= TYPEPK_COLUMN_BITMASK;
 
-		if (!_setOriginalTypePK) {
-			_setOriginalTypePK = true;
-
-			_originalTypePK = _typePK;
+		if (!isNew() && (_syncDLObjectCacheModel == null)) {
+			_syncDLObjectCacheModel = (SyncDLObjectCacheModel)toCacheModel();
 		}
 
 		_typePK = typePK;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalTypePK() {
-		return _originalTypePK;
+		return getCacheModelAttribute("typePK");
 	}
 
 	@JSON
@@ -987,6 +1314,12 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setTypeUuid(String typeUuid) {
+		_columnBitmask |= TYPEUUID_COLUMN_BITMASK;
+
+		if (!isNew() && (_syncDLObjectCacheModel == null)) {
+			_syncDLObjectCacheModel = (SyncDLObjectCacheModel)toCacheModel();
+		}
+
 		_typeUuid = typeUuid;
 	}
 
@@ -1026,6 +1359,8 @@ public class SyncDLObjectModelImpl
 	public Object clone() {
 		SyncDLObjectImpl syncDLObjectImpl = new SyncDLObjectImpl();
 
+		syncDLObjectImpl.setNew(true);
+
 		syncDLObjectImpl.setSyncDLObjectId(getSyncDLObjectId());
 		syncDLObjectImpl.setCompanyId(getCompanyId());
 		syncDLObjectImpl.setUserId(getUserId());
@@ -1057,6 +1392,8 @@ public class SyncDLObjectModelImpl
 		syncDLObjectImpl.setTypeUuid(getTypeUuid());
 
 		syncDLObjectImpl.resetOriginalValues();
+
+		syncDLObjectImpl.setNew(false);
 
 		return syncDLObjectImpl;
 	}
@@ -1143,37 +1480,9 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		SyncDLObjectModelImpl syncDLObjectModelImpl = this;
+		_columnBitmask = 0;
 
-		syncDLObjectModelImpl._originalModifiedTime =
-			syncDLObjectModelImpl._modifiedTime;
-
-		syncDLObjectModelImpl._setOriginalModifiedTime = false;
-
-		syncDLObjectModelImpl._originalRepositoryId =
-			syncDLObjectModelImpl._repositoryId;
-
-		syncDLObjectModelImpl._setOriginalRepositoryId = false;
-
-		syncDLObjectModelImpl._originalParentFolderId =
-			syncDLObjectModelImpl._parentFolderId;
-
-		syncDLObjectModelImpl._setOriginalParentFolderId = false;
-
-		syncDLObjectModelImpl._originalTreePath =
-			syncDLObjectModelImpl._treePath;
-
-		syncDLObjectModelImpl._originalVersion = syncDLObjectModelImpl._version;
-
-		syncDLObjectModelImpl._originalEvent = syncDLObjectModelImpl._event;
-
-		syncDLObjectModelImpl._originalType = syncDLObjectModelImpl._type;
-
-		syncDLObjectModelImpl._originalTypePK = syncDLObjectModelImpl._typePK;
-
-		syncDLObjectModelImpl._setOriginalTypePK = false;
-
-		syncDLObjectModelImpl._columnBitmask = 0;
+		_syncDLObjectCacheModel = null;
 	}
 
 	@Override
@@ -1422,16 +1731,9 @@ public class SyncDLObjectModelImpl
 	private String _userName;
 	private long _createTime;
 	private long _modifiedTime;
-	private long _originalModifiedTime;
-	private boolean _setOriginalModifiedTime;
 	private long _repositoryId;
-	private long _originalRepositoryId;
-	private boolean _setOriginalRepositoryId;
 	private long _parentFolderId;
-	private long _originalParentFolderId;
-	private boolean _setOriginalParentFolderId;
 	private String _treePath;
-	private String _originalTreePath;
 	private String _name;
 	private String _extension;
 	private String _mimeType;
@@ -1439,24 +1741,20 @@ public class SyncDLObjectModelImpl
 	private String _changeLog;
 	private String _extraSettings;
 	private String _version;
-	private String _originalVersion;
 	private long _versionId;
 	private long _size;
 	private String _checksum;
 	private String _event;
-	private String _originalEvent;
 	private String _lanTokenKey;
 	private Date _lastPermissionChangeDate;
 	private Date _lockExpirationDate;
 	private long _lockUserId;
 	private String _lockUserName;
 	private String _type;
-	private String _originalType;
 	private long _typePK;
-	private long _originalTypePK;
-	private boolean _setOriginalTypePK;
 	private String _typeUuid;
 	private long _columnBitmask;
 	private SyncDLObject _escapedModel;
+	private SyncDLObjectCacheModel _syncDLObjectCacheModel;
 
 }

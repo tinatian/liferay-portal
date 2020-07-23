@@ -106,6 +106,8 @@ public class PortletPreferencesCacheModel
 		PortletPreferencesImpl portletPreferencesImpl =
 			new PortletPreferencesImpl();
 
+		portletPreferencesImpl.setNew(true);
+
 		portletPreferencesImpl.setMvccVersion(mvccVersion);
 		portletPreferencesImpl.setCtCollectionId(ctCollectionId);
 		portletPreferencesImpl.setPortletPreferencesId(portletPreferencesId);
@@ -129,6 +131,8 @@ public class PortletPreferencesCacheModel
 		}
 
 		portletPreferencesImpl.resetOriginalValues();
+
+		portletPreferencesImpl.setNew(false);
 
 		return portletPreferencesImpl;
 	}

@@ -3174,7 +3174,8 @@ public class KaleoInstanceTokenPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoInstanceTokenModelImpl.getOriginalCompanyId()
+					kaleoInstanceTokenModelImpl.getCacheModelAttribute(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCompanyId, args);
@@ -3195,8 +3196,8 @@ public class KaleoInstanceTokenPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoInstanceTokenModelImpl.
-						getOriginalKaleoDefinitionVersionId()
+					kaleoInstanceTokenModelImpl.getCacheModelAttribute(
+						"kaleoDefinitionVersionId")
 				};
 
 				finderCache.removeResult(
@@ -3221,7 +3222,8 @@ public class KaleoInstanceTokenPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoInstanceTokenModelImpl.getOriginalKaleoInstanceId()
+					kaleoInstanceTokenModelImpl.getCacheModelAttribute(
+						"kaleoInstanceId")
 				};
 
 				finderCache.removeResult(
@@ -3244,9 +3246,10 @@ public class KaleoInstanceTokenPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoInstanceTokenModelImpl.getOriginalCompanyId(),
-					kaleoInstanceTokenModelImpl.
-						getOriginalParentKaleoInstanceTokenId()
+					kaleoInstanceTokenModelImpl.getCacheModelAttribute(
+						"companyId"),
+					kaleoInstanceTokenModelImpl.getCacheModelAttribute(
+						"parentKaleoInstanceTokenId")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_PKITI, args);
@@ -3268,10 +3271,12 @@ public class KaleoInstanceTokenPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoInstanceTokenModelImpl.getOriginalCompanyId(),
-					kaleoInstanceTokenModelImpl.
-						getOriginalParentKaleoInstanceTokenId(),
-					kaleoInstanceTokenModelImpl.getOriginalCompletionDate()
+					kaleoInstanceTokenModelImpl.getCacheModelAttribute(
+						"companyId"),
+					kaleoInstanceTokenModelImpl.getCacheModelAttribute(
+						"parentKaleoInstanceTokenId"),
+					kaleoInstanceTokenModelImpl.getCacheModelAttribute(
+						"completionDate")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_PKITI_CD, args);

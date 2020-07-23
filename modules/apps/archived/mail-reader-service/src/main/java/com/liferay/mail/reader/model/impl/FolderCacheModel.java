@@ -91,6 +91,8 @@ public class FolderCacheModel implements CacheModel<Folder>, Externalizable {
 	public Folder toEntityModel() {
 		FolderImpl folderImpl = new FolderImpl();
 
+		folderImpl.setNew(true);
+
 		folderImpl.setFolderId(folderId);
 		folderImpl.setCompanyId(companyId);
 		folderImpl.setUserId(userId);
@@ -135,6 +137,8 @@ public class FolderCacheModel implements CacheModel<Folder>, Externalizable {
 		folderImpl.setRemoteMessageCount(remoteMessageCount);
 
 		folderImpl.resetOriginalValues();
+
+		folderImpl.setNew(false);
 
 		return folderImpl;
 	}

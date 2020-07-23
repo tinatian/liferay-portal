@@ -123,6 +123,8 @@ public class AccountCacheModel implements CacheModel<Account>, Externalizable {
 	public Account toEntityModel() {
 		AccountImpl accountImpl = new AccountImpl();
 
+		accountImpl.setNew(true);
+
 		accountImpl.setAccountId(accountId);
 		accountImpl.setCompanyId(companyId);
 		accountImpl.setUserId(userId);
@@ -228,6 +230,8 @@ public class AccountCacheModel implements CacheModel<Account>, Externalizable {
 		accountImpl.setDefaultSender(defaultSender);
 
 		accountImpl.resetOriginalValues();
+
+		accountImpl.setNew(false);
 
 		return accountImpl;
 	}

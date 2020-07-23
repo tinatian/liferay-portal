@@ -109,6 +109,8 @@ public class CTEntryCacheModel
 	public CTEntry toEntityModel() {
 		CTEntryImpl ctEntryImpl = new CTEntryImpl();
 
+		ctEntryImpl.setNew(true);
+
 		ctEntryImpl.setMvccVersion(mvccVersion);
 		ctEntryImpl.setCtEntryId(ctEntryId);
 		ctEntryImpl.setCompanyId(companyId);
@@ -135,6 +137,8 @@ public class CTEntryCacheModel
 		ctEntryImpl.setChangeType(changeType);
 
 		ctEntryImpl.resetOriginalValues();
+
+		ctEntryImpl.setNew(false);
 
 		return ctEntryImpl;
 	}

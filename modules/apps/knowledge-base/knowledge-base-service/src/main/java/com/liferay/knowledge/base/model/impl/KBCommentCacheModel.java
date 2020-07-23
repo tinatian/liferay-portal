@@ -117,6 +117,8 @@ public class KBCommentCacheModel
 	public KBComment toEntityModel() {
 		KBCommentImpl kbCommentImpl = new KBCommentImpl();
 
+		kbCommentImpl.setNew(true);
+
 		kbCommentImpl.setMvccVersion(mvccVersion);
 
 		if (uuid == null) {
@@ -174,6 +176,8 @@ public class KBCommentCacheModel
 		kbCommentImpl.setStatus(status);
 
 		kbCommentImpl.resetOriginalValues();
+
+		kbCommentImpl.setNew(false);
 
 		return kbCommentImpl;
 	}

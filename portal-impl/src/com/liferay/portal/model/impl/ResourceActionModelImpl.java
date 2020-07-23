@@ -114,11 +114,15 @@ public class ResourceActionModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long ACTIONID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long NAME_COLUMN_BITMASK = 2L;
+	public static final long RESOURCEACTIONID_COLUMN_BITMASK = 2L;
 
-	public static final long BITWISEVALUE_COLUMN_BITMASK = 4L;
+	public static final long NAME_COLUMN_BITMASK = 4L;
+
+	public static final long ACTIONID_COLUMN_BITMASK = 8L;
+
+	public static final long BITWISEVALUE_COLUMN_BITMASK = 16L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		com.liferay.portal.util.PropsUtil.get(
@@ -237,38 +241,90 @@ public class ResourceActionModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<ResourceAction, Object> function =
+			_attributeGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((ResourceAction)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<ResourceActionCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_resourceActionCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_resourceActionCacheModel);
+	}
+
 	private static final Map<String, Function<ResourceAction, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<ResourceAction, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<ResourceActionCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<ResourceAction, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<ResourceAction, Object>>();
 		Map<String, BiConsumer<ResourceAction, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<ResourceAction, ?>>();
+		Map<String, Function<ResourceActionCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<ResourceActionCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", ResourceAction::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			resourceActionCacheModel -> resourceActionCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<ResourceAction, Long>)ResourceAction::setMvccVersion);
 		attributeGetterFunctions.put(
 			"resourceActionId", ResourceAction::getResourceActionId);
+
+		cacheModelGetterFunctions.put(
+			"resourceActionId",
+			resourceActionCacheModel ->
+				resourceActionCacheModel.resourceActionId);
 		attributeSetterBiConsumers.put(
 			"resourceActionId",
 			(BiConsumer<ResourceAction, Long>)
 				ResourceAction::setResourceActionId);
 		attributeGetterFunctions.put("name", ResourceAction::getName);
+
+		cacheModelGetterFunctions.put(
+			"name", resourceActionCacheModel -> resourceActionCacheModel.name);
 		attributeSetterBiConsumers.put(
 			"name",
 			(BiConsumer<ResourceAction, String>)ResourceAction::setName);
 		attributeGetterFunctions.put("actionId", ResourceAction::getActionId);
+
+		cacheModelGetterFunctions.put(
+			"actionId",
+			resourceActionCacheModel -> resourceActionCacheModel.actionId);
 		attributeSetterBiConsumers.put(
 			"actionId",
 			(BiConsumer<ResourceAction, String>)ResourceAction::setActionId);
 		attributeGetterFunctions.put(
 			"bitwiseValue", ResourceAction::getBitwiseValue);
+
+		cacheModelGetterFunctions.put(
+			"bitwiseValue",
+			resourceActionCacheModel -> resourceActionCacheModel.bitwiseValue);
 		attributeSetterBiConsumers.put(
 			"bitwiseValue",
 			(BiConsumer<ResourceAction, Long>)ResourceAction::setBitwiseValue);
@@ -277,6 +333,8 @@ public class ResourceActionModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -286,6 +344,13 @@ public class ResourceActionModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_resourceActionCacheModel == null)) {
+			_resourceActionCacheModel =
+				(ResourceActionCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -296,6 +361,13 @@ public class ResourceActionModelImpl
 
 	@Override
 	public void setResourceActionId(long resourceActionId) {
+		_columnBitmask |= RESOURCEACTIONID_COLUMN_BITMASK;
+
+		if (!isNew() && (_resourceActionCacheModel == null)) {
+			_resourceActionCacheModel =
+				(ResourceActionCacheModel)toCacheModel();
+		}
+
 		_resourceActionId = resourceActionId;
 	}
 
@@ -311,17 +383,23 @@ public class ResourceActionModelImpl
 
 	@Override
 	public void setName(String name) {
-		_columnBitmask = -1L;
+		_columnBitmask |= NAME_COLUMN_BITMASK;
 
-		if (_originalName == null) {
-			_originalName = _name;
+		if (!isNew() && (_resourceActionCacheModel == null)) {
+			_resourceActionCacheModel =
+				(ResourceActionCacheModel)toCacheModel();
 		}
 
 		_name = name;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalName() {
-		return GetterUtil.getString(_originalName);
+		return getCacheModelAttribute("name");
 	}
 
 	@Override
@@ -338,15 +416,21 @@ public class ResourceActionModelImpl
 	public void setActionId(String actionId) {
 		_columnBitmask |= ACTIONID_COLUMN_BITMASK;
 
-		if (_originalActionId == null) {
-			_originalActionId = _actionId;
+		if (!isNew() && (_resourceActionCacheModel == null)) {
+			_resourceActionCacheModel =
+				(ResourceActionCacheModel)toCacheModel();
 		}
 
 		_actionId = actionId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalActionId() {
-		return GetterUtil.getString(_originalActionId);
+		return getCacheModelAttribute("actionId");
 	}
 
 	@Override
@@ -356,7 +440,12 @@ public class ResourceActionModelImpl
 
 	@Override
 	public void setBitwiseValue(long bitwiseValue) {
-		_columnBitmask = -1L;
+		_columnBitmask |= BITWISEVALUE_COLUMN_BITMASK;
+
+		if (!isNew() && (_resourceActionCacheModel == null)) {
+			_resourceActionCacheModel =
+				(ResourceActionCacheModel)toCacheModel();
+		}
 
 		_bitwiseValue = bitwiseValue;
 	}
@@ -397,6 +486,8 @@ public class ResourceActionModelImpl
 	public Object clone() {
 		ResourceActionImpl resourceActionImpl = new ResourceActionImpl();
 
+		resourceActionImpl.setNew(true);
+
 		resourceActionImpl.setMvccVersion(getMvccVersion());
 		resourceActionImpl.setResourceActionId(getResourceActionId());
 		resourceActionImpl.setName(getName());
@@ -404,6 +495,8 @@ public class ResourceActionModelImpl
 		resourceActionImpl.setBitwiseValue(getBitwiseValue());
 
 		resourceActionImpl.resetOriginalValues();
+
+		resourceActionImpl.setNew(false);
 
 		return resourceActionImpl;
 	}
@@ -482,14 +575,9 @@ public class ResourceActionModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		ResourceActionModelImpl resourceActionModelImpl = this;
+		_columnBitmask = 0;
 
-		resourceActionModelImpl._originalName = resourceActionModelImpl._name;
-
-		resourceActionModelImpl._originalActionId =
-			resourceActionModelImpl._actionId;
-
-		resourceActionModelImpl._columnBitmask = 0;
+		_resourceActionCacheModel = null;
 	}
 
 	@Override
@@ -595,11 +683,10 @@ public class ResourceActionModelImpl
 	private long _mvccVersion;
 	private long _resourceActionId;
 	private String _name;
-	private String _originalName;
 	private String _actionId;
-	private String _originalActionId;
 	private long _bitwiseValue;
 	private long _columnBitmask;
 	private ResourceAction _escapedModel;
+	private ResourceActionCacheModel _resourceActionCacheModel;
 
 }

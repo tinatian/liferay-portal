@@ -120,6 +120,8 @@ public class DDMDataProviderInstanceCacheModel
 		DDMDataProviderInstanceImpl ddmDataProviderInstanceImpl =
 			new DDMDataProviderInstanceImpl();
 
+		ddmDataProviderInstanceImpl.setNew(true);
+
 		ddmDataProviderInstanceImpl.setMvccVersion(mvccVersion);
 		ddmDataProviderInstanceImpl.setCtCollectionId(ctCollectionId);
 
@@ -194,6 +196,8 @@ public class DDMDataProviderInstanceCacheModel
 		}
 
 		ddmDataProviderInstanceImpl.resetOriginalValues();
+
+		ddmDataProviderInstanceImpl.setNew(false);
 
 		return ddmDataProviderInstanceImpl;
 	}

@@ -6362,8 +6362,8 @@ public class CalendarResourcePersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				calendarResourceModelImpl.getOriginalUuid(),
-				calendarResourceModelImpl.getOriginalGroupId()
+				calendarResourceModelImpl.getCacheModelAttribute("uuid"),
+				calendarResourceModelImpl.getCacheModelAttribute("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -6384,8 +6384,8 @@ public class CalendarResourcePersistenceImpl
 			 _finderPathFetchByC_C.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				calendarResourceModelImpl.getOriginalClassNameId(),
-				calendarResourceModelImpl.getOriginalClassPK()
+				calendarResourceModelImpl.getCacheModelAttribute("classNameId"),
+				calendarResourceModelImpl.getCacheModelAttribute("classPK")
 			};
 
 			finderCache.removeResult(_finderPathCountByC_C, args);
@@ -6636,7 +6636,7 @@ public class CalendarResourcePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					calendarResourceModelImpl.getOriginalUuid()
+					calendarResourceModelImpl.getCacheModelAttribute("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -6655,8 +6655,9 @@ public class CalendarResourcePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					calendarResourceModelImpl.getOriginalUuid(),
-					calendarResourceModelImpl.getOriginalCompanyId()
+					calendarResourceModelImpl.getCacheModelAttribute("uuid"),
+					calendarResourceModelImpl.getCacheModelAttribute(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -6678,7 +6679,7 @@ public class CalendarResourcePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					calendarResourceModelImpl.getOriginalGroupId()
+					calendarResourceModelImpl.getCacheModelAttribute("groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId, args);
@@ -6697,7 +6698,7 @@ public class CalendarResourcePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					calendarResourceModelImpl.getOriginalActive()
+					calendarResourceModelImpl.getCacheModelAttribute("active")
 				};
 
 				finderCache.removeResult(_finderPathCountByActive, args);
@@ -6716,8 +6717,8 @@ public class CalendarResourcePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					calendarResourceModelImpl.getOriginalGroupId(),
-					calendarResourceModelImpl.getOriginalCode()
+					calendarResourceModelImpl.getCacheModelAttribute("groupId"),
+					calendarResourceModelImpl.getCacheModelAttribute("code")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_C, args);
@@ -6739,8 +6740,8 @@ public class CalendarResourcePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					calendarResourceModelImpl.getOriginalGroupId(),
-					calendarResourceModelImpl.getOriginalActive()
+					calendarResourceModelImpl.getCacheModelAttribute("groupId"),
+					calendarResourceModelImpl.getCacheModelAttribute("active")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_A, args);

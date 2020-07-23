@@ -104,6 +104,8 @@ public class TrashVersionCacheModel
 	public TrashVersion toEntityModel() {
 		TrashVersionImpl trashVersionImpl = new TrashVersionImpl();
 
+		trashVersionImpl.setNew(true);
+
 		trashVersionImpl.setMvccVersion(mvccVersion);
 		trashVersionImpl.setCtCollectionId(ctCollectionId);
 		trashVersionImpl.setVersionId(versionId);
@@ -122,6 +124,8 @@ public class TrashVersionCacheModel
 		trashVersionImpl.setStatus(status);
 
 		trashVersionImpl.resetOriginalValues();
+
+		trashVersionImpl.setNew(false);
 
 		return trashVersionImpl;
 	}

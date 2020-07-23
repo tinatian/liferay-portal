@@ -128,17 +128,23 @@ public class UserNotificationDeliveryModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long CLASSNAMEID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long DELIVERYTYPE_COLUMN_BITMASK = 2L;
+	public static final long USERNOTIFICATIONDELIVERYID_COLUMN_BITMASK = 2L;
 
-	public static final long NOTIFICATIONTYPE_COLUMN_BITMASK = 4L;
+	public static final long COMPANYID_COLUMN_BITMASK = 4L;
 
-	public static final long PORTLETID_COLUMN_BITMASK = 8L;
+	public static final long USERID_COLUMN_BITMASK = 8L;
 
-	public static final long USERID_COLUMN_BITMASK = 16L;
+	public static final long PORTLETID_COLUMN_BITMASK = 16L;
 
-	public static final long USERNOTIFICATIONDELIVERYID_COLUMN_BITMASK = 32L;
+	public static final long CLASSNAMEID_COLUMN_BITMASK = 32L;
+
+	public static final long NOTIFICATIONTYPE_COLUMN_BITMASK = 64L;
+
+	public static final long DELIVERYTYPE_COLUMN_BITMASK = 128L;
+
+	public static final long DELIVER_COLUMN_BITMASK = 256L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		com.liferay.portal.util.PropsUtil.get(
@@ -258,11 +264,40 @@ public class UserNotificationDeliveryModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<UserNotificationDelivery, Object> function =
+			_attributeGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((UserNotificationDelivery)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<UserNotificationDeliveryCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_userNotificationDeliveryCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_userNotificationDeliveryCacheModel);
+	}
+
 	private static final Map<String, Function<UserNotificationDelivery, Object>>
 		_attributeGetterFunctions;
 	private static final Map
 		<String, BiConsumer<UserNotificationDelivery, Object>>
 			_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<UserNotificationDeliveryCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<UserNotificationDelivery, Object>>
@@ -273,9 +308,19 @@ public class UserNotificationDeliveryModelImpl
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<UserNotificationDelivery, ?>>();
+		Map<String, Function<UserNotificationDeliveryCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String,
+					 Function<UserNotificationDeliveryCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", UserNotificationDelivery::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			userNotificationDeliveryCacheModel ->
+				userNotificationDeliveryCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<UserNotificationDelivery, Long>)
@@ -283,48 +328,88 @@ public class UserNotificationDeliveryModelImpl
 		attributeGetterFunctions.put(
 			"userNotificationDeliveryId",
 			UserNotificationDelivery::getUserNotificationDeliveryId);
+
+		cacheModelGetterFunctions.put(
+			"userNotificationDeliveryId",
+			userNotificationDeliveryCacheModel ->
+				userNotificationDeliveryCacheModel.userNotificationDeliveryId);
 		attributeSetterBiConsumers.put(
 			"userNotificationDeliveryId",
 			(BiConsumer<UserNotificationDelivery, Long>)
 				UserNotificationDelivery::setUserNotificationDeliveryId);
 		attributeGetterFunctions.put(
 			"companyId", UserNotificationDelivery::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			userNotificationDeliveryCacheModel ->
+				userNotificationDeliveryCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<UserNotificationDelivery, Long>)
 				UserNotificationDelivery::setCompanyId);
 		attributeGetterFunctions.put(
 			"userId", UserNotificationDelivery::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			userNotificationDeliveryCacheModel ->
+				userNotificationDeliveryCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<UserNotificationDelivery, Long>)
 				UserNotificationDelivery::setUserId);
 		attributeGetterFunctions.put(
 			"portletId", UserNotificationDelivery::getPortletId);
+
+		cacheModelGetterFunctions.put(
+			"portletId",
+			userNotificationDeliveryCacheModel ->
+				userNotificationDeliveryCacheModel.portletId);
 		attributeSetterBiConsumers.put(
 			"portletId",
 			(BiConsumer<UserNotificationDelivery, String>)
 				UserNotificationDelivery::setPortletId);
 		attributeGetterFunctions.put(
 			"classNameId", UserNotificationDelivery::getClassNameId);
+
+		cacheModelGetterFunctions.put(
+			"classNameId",
+			userNotificationDeliveryCacheModel ->
+				userNotificationDeliveryCacheModel.classNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<UserNotificationDelivery, Long>)
 				UserNotificationDelivery::setClassNameId);
 		attributeGetterFunctions.put(
 			"notificationType", UserNotificationDelivery::getNotificationType);
+
+		cacheModelGetterFunctions.put(
+			"notificationType",
+			userNotificationDeliveryCacheModel ->
+				userNotificationDeliveryCacheModel.notificationType);
 		attributeSetterBiConsumers.put(
 			"notificationType",
 			(BiConsumer<UserNotificationDelivery, Integer>)
 				UserNotificationDelivery::setNotificationType);
 		attributeGetterFunctions.put(
 			"deliveryType", UserNotificationDelivery::getDeliveryType);
+
+		cacheModelGetterFunctions.put(
+			"deliveryType",
+			userNotificationDeliveryCacheModel ->
+				userNotificationDeliveryCacheModel.deliveryType);
 		attributeSetterBiConsumers.put(
 			"deliveryType",
 			(BiConsumer<UserNotificationDelivery, Integer>)
 				UserNotificationDelivery::setDeliveryType);
 		attributeGetterFunctions.put(
 			"deliver", UserNotificationDelivery::getDeliver);
+
+		cacheModelGetterFunctions.put(
+			"deliver",
+			userNotificationDeliveryCacheModel ->
+				userNotificationDeliveryCacheModel.deliver);
 		attributeSetterBiConsumers.put(
 			"deliver",
 			(BiConsumer<UserNotificationDelivery, Boolean>)
@@ -334,6 +419,8 @@ public class UserNotificationDeliveryModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -343,6 +430,13 @@ public class UserNotificationDeliveryModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_userNotificationDeliveryCacheModel == null)) {
+			_userNotificationDeliveryCacheModel =
+				(UserNotificationDeliveryCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -353,6 +447,13 @@ public class UserNotificationDeliveryModelImpl
 
 	@Override
 	public void setUserNotificationDeliveryId(long userNotificationDeliveryId) {
+		_columnBitmask |= USERNOTIFICATIONDELIVERYID_COLUMN_BITMASK;
+
+		if (!isNew() && (_userNotificationDeliveryCacheModel == null)) {
+			_userNotificationDeliveryCacheModel =
+				(UserNotificationDeliveryCacheModel)toCacheModel();
+		}
+
 		_userNotificationDeliveryId = userNotificationDeliveryId;
 	}
 
@@ -363,6 +464,13 @@ public class UserNotificationDeliveryModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (!isNew() && (_userNotificationDeliveryCacheModel == null)) {
+			_userNotificationDeliveryCacheModel =
+				(UserNotificationDeliveryCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -375,10 +483,9 @@ public class UserNotificationDeliveryModelImpl
 	public void setUserId(long userId) {
 		_columnBitmask |= USERID_COLUMN_BITMASK;
 
-		if (!_setOriginalUserId) {
-			_setOriginalUserId = true;
-
-			_originalUserId = _userId;
+		if (!isNew() && (_userNotificationDeliveryCacheModel == null)) {
+			_userNotificationDeliveryCacheModel =
+				(UserNotificationDeliveryCacheModel)toCacheModel();
 		}
 
 		_userId = userId;
@@ -400,8 +507,13 @@ public class UserNotificationDeliveryModelImpl
 	public void setUserUuid(String userUuid) {
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalUserId() {
-		return _originalUserId;
+		return getCacheModelAttribute("userId");
 	}
 
 	@Override
@@ -418,15 +530,21 @@ public class UserNotificationDeliveryModelImpl
 	public void setPortletId(String portletId) {
 		_columnBitmask |= PORTLETID_COLUMN_BITMASK;
 
-		if (_originalPortletId == null) {
-			_originalPortletId = _portletId;
+		if (!isNew() && (_userNotificationDeliveryCacheModel == null)) {
+			_userNotificationDeliveryCacheModel =
+				(UserNotificationDeliveryCacheModel)toCacheModel();
 		}
 
 		_portletId = portletId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalPortletId() {
-		return GetterUtil.getString(_originalPortletId);
+		return getCacheModelAttribute("portletId");
 	}
 
 	@Override
@@ -458,17 +576,21 @@ public class UserNotificationDeliveryModelImpl
 	public void setClassNameId(long classNameId) {
 		_columnBitmask |= CLASSNAMEID_COLUMN_BITMASK;
 
-		if (!_setOriginalClassNameId) {
-			_setOriginalClassNameId = true;
-
-			_originalClassNameId = _classNameId;
+		if (!isNew() && (_userNotificationDeliveryCacheModel == null)) {
+			_userNotificationDeliveryCacheModel =
+				(UserNotificationDeliveryCacheModel)toCacheModel();
 		}
 
 		_classNameId = classNameId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassNameId() {
-		return _originalClassNameId;
+		return getCacheModelAttribute("classNameId");
 	}
 
 	@Override
@@ -480,17 +602,21 @@ public class UserNotificationDeliveryModelImpl
 	public void setNotificationType(int notificationType) {
 		_columnBitmask |= NOTIFICATIONTYPE_COLUMN_BITMASK;
 
-		if (!_setOriginalNotificationType) {
-			_setOriginalNotificationType = true;
-
-			_originalNotificationType = _notificationType;
+		if (!isNew() && (_userNotificationDeliveryCacheModel == null)) {
+			_userNotificationDeliveryCacheModel =
+				(UserNotificationDeliveryCacheModel)toCacheModel();
 		}
 
 		_notificationType = notificationType;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public int getOriginalNotificationType() {
-		return _originalNotificationType;
+		return getCacheModelAttribute("notificationType");
 	}
 
 	@Override
@@ -502,17 +628,21 @@ public class UserNotificationDeliveryModelImpl
 	public void setDeliveryType(int deliveryType) {
 		_columnBitmask |= DELIVERYTYPE_COLUMN_BITMASK;
 
-		if (!_setOriginalDeliveryType) {
-			_setOriginalDeliveryType = true;
-
-			_originalDeliveryType = _deliveryType;
+		if (!isNew() && (_userNotificationDeliveryCacheModel == null)) {
+			_userNotificationDeliveryCacheModel =
+				(UserNotificationDeliveryCacheModel)toCacheModel();
 		}
 
 		_deliveryType = deliveryType;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public int getOriginalDeliveryType() {
-		return _originalDeliveryType;
+		return getCacheModelAttribute("deliveryType");
 	}
 
 	@Override
@@ -527,6 +657,13 @@ public class UserNotificationDeliveryModelImpl
 
 	@Override
 	public void setDeliver(boolean deliver) {
+		_columnBitmask |= DELIVER_COLUMN_BITMASK;
+
+		if (!isNew() && (_userNotificationDeliveryCacheModel == null)) {
+			_userNotificationDeliveryCacheModel =
+				(UserNotificationDeliveryCacheModel)toCacheModel();
+		}
+
 		_deliver = deliver;
 	}
 
@@ -568,6 +705,8 @@ public class UserNotificationDeliveryModelImpl
 		UserNotificationDeliveryImpl userNotificationDeliveryImpl =
 			new UserNotificationDeliveryImpl();
 
+		userNotificationDeliveryImpl.setNew(true);
+
 		userNotificationDeliveryImpl.setMvccVersion(getMvccVersion());
 		userNotificationDeliveryImpl.setUserNotificationDeliveryId(
 			getUserNotificationDeliveryId());
@@ -580,6 +719,8 @@ public class UserNotificationDeliveryModelImpl
 		userNotificationDeliveryImpl.setDeliver(isDeliver());
 
 		userNotificationDeliveryImpl.resetOriginalValues();
+
+		userNotificationDeliveryImpl.setNew(false);
 
 		return userNotificationDeliveryImpl;
 	}
@@ -647,33 +788,9 @@ public class UserNotificationDeliveryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		UserNotificationDeliveryModelImpl userNotificationDeliveryModelImpl =
-			this;
+		_columnBitmask = 0;
 
-		userNotificationDeliveryModelImpl._originalUserId =
-			userNotificationDeliveryModelImpl._userId;
-
-		userNotificationDeliveryModelImpl._setOriginalUserId = false;
-
-		userNotificationDeliveryModelImpl._originalPortletId =
-			userNotificationDeliveryModelImpl._portletId;
-
-		userNotificationDeliveryModelImpl._originalClassNameId =
-			userNotificationDeliveryModelImpl._classNameId;
-
-		userNotificationDeliveryModelImpl._setOriginalClassNameId = false;
-
-		userNotificationDeliveryModelImpl._originalNotificationType =
-			userNotificationDeliveryModelImpl._notificationType;
-
-		userNotificationDeliveryModelImpl._setOriginalNotificationType = false;
-
-		userNotificationDeliveryModelImpl._originalDeliveryType =
-			userNotificationDeliveryModelImpl._deliveryType;
-
-		userNotificationDeliveryModelImpl._setOriginalDeliveryType = false;
-
-		userNotificationDeliveryModelImpl._columnBitmask = 0;
+		_userNotificationDeliveryCacheModel = null;
 	}
 
 	@Override
@@ -788,21 +905,14 @@ public class UserNotificationDeliveryModelImpl
 	private long _userNotificationDeliveryId;
 	private long _companyId;
 	private long _userId;
-	private long _originalUserId;
-	private boolean _setOriginalUserId;
 	private String _portletId;
-	private String _originalPortletId;
 	private long _classNameId;
-	private long _originalClassNameId;
-	private boolean _setOriginalClassNameId;
 	private int _notificationType;
-	private int _originalNotificationType;
-	private boolean _setOriginalNotificationType;
 	private int _deliveryType;
-	private int _originalDeliveryType;
-	private boolean _setOriginalDeliveryType;
 	private boolean _deliver;
 	private long _columnBitmask;
 	private UserNotificationDelivery _escapedModel;
+	private UserNotificationDeliveryCacheModel
+		_userNotificationDeliveryCacheModel;
 
 }

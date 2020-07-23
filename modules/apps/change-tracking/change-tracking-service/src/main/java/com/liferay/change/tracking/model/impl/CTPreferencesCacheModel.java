@@ -100,6 +100,8 @@ public class CTPreferencesCacheModel
 	public CTPreferences toEntityModel() {
 		CTPreferencesImpl ctPreferencesImpl = new CTPreferencesImpl();
 
+		ctPreferencesImpl.setNew(true);
+
 		ctPreferencesImpl.setMvccVersion(mvccVersion);
 		ctPreferencesImpl.setCtPreferencesId(ctPreferencesId);
 		ctPreferencesImpl.setCompanyId(companyId);
@@ -109,6 +111,8 @@ public class CTPreferencesCacheModel
 		ctPreferencesImpl.setConfirmationEnabled(confirmationEnabled);
 
 		ctPreferencesImpl.resetOriginalValues();
+
+		ctPreferencesImpl.setNew(false);
 
 		return ctPreferencesImpl;
 	}

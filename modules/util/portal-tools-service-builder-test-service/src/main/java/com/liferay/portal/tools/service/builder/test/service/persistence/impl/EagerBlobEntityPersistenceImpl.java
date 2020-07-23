@@ -1007,13 +1007,14 @@ public class EagerBlobEntityPersistenceImpl
 
 		if (!Objects.equals(
 				eagerBlobEntityModelImpl.getUuid(),
-				eagerBlobEntityModelImpl.getOriginalUuid()) ||
-			(eagerBlobEntityModelImpl.getGroupId() !=
-				eagerBlobEntityModelImpl.getOriginalGroupId())) {
+				eagerBlobEntityModelImpl.getCacheModelAttribute("uuid")) ||
+			!Objects.equals(
+				eagerBlobEntityModelImpl.getGroupId(),
+				eagerBlobEntityModelImpl.getCacheModelAttribute("groupId"))) {
 
 			Object[] args = new Object[] {
-				eagerBlobEntityModelImpl.getOriginalUuid(),
-				eagerBlobEntityModelImpl.getOriginalGroupId()
+				eagerBlobEntityModelImpl.getCacheModelAttribute("uuid"),
+				eagerBlobEntityModelImpl.getCacheModelAttribute("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -1189,10 +1190,10 @@ public class EagerBlobEntityPersistenceImpl
 		else {
 			if (!Objects.equals(
 					eagerBlobEntity.getUuid(),
-					eagerBlobEntityModelImpl.getOriginalUuid())) {
+					eagerBlobEntityModelImpl.getCacheModelAttribute("uuid"))) {
 
 				Object[] args = new Object[] {
-					eagerBlobEntityModelImpl.getOriginalUuid()
+					eagerBlobEntityModelImpl.getCacheModelAttribute("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);

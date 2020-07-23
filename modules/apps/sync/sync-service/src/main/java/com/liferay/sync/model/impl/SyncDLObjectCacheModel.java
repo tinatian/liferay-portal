@@ -129,6 +129,8 @@ public class SyncDLObjectCacheModel
 	public SyncDLObject toEntityModel() {
 		SyncDLObjectImpl syncDLObjectImpl = new SyncDLObjectImpl();
 
+		syncDLObjectImpl.setNew(true);
+
 		syncDLObjectImpl.setSyncDLObjectId(syncDLObjectId);
 		syncDLObjectImpl.setCompanyId(companyId);
 		syncDLObjectImpl.setUserId(userId);
@@ -267,6 +269,8 @@ public class SyncDLObjectCacheModel
 		}
 
 		syncDLObjectImpl.resetOriginalValues();
+
+		syncDLObjectImpl.setNew(false);
 
 		return syncDLObjectImpl;
 	}

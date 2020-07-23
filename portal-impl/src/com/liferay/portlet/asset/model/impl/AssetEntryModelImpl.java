@@ -165,25 +165,61 @@ public class AssetEntryModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long CLASSNAMEID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long CLASSPK_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
-	public static final long CLASSUUID_COLUMN_BITMASK = 4L;
+	public static final long ENTRYID_COLUMN_BITMASK = 4L;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 8L;
+	public static final long GROUPID_COLUMN_BITMASK = 8L;
 
-	public static final long EXPIRATIONDATE_COLUMN_BITMASK = 16L;
+	public static final long COMPANYID_COLUMN_BITMASK = 16L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 32L;
+	public static final long USERID_COLUMN_BITMASK = 32L;
 
-	public static final long LAYOUTUUID_COLUMN_BITMASK = 64L;
+	public static final long USERNAME_COLUMN_BITMASK = 64L;
 
-	public static final long PUBLISHDATE_COLUMN_BITMASK = 128L;
+	public static final long CREATEDATE_COLUMN_BITMASK = 128L;
 
-	public static final long VISIBLE_COLUMN_BITMASK = 256L;
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 256L;
 
-	public static final long ENTRYID_COLUMN_BITMASK = 512L;
+	public static final long CLASSNAMEID_COLUMN_BITMASK = 512L;
+
+	public static final long CLASSPK_COLUMN_BITMASK = 1024L;
+
+	public static final long CLASSUUID_COLUMN_BITMASK = 2048L;
+
+	public static final long CLASSTYPEID_COLUMN_BITMASK = 4096L;
+
+	public static final long LISTABLE_COLUMN_BITMASK = 8192L;
+
+	public static final long VISIBLE_COLUMN_BITMASK = 16384L;
+
+	public static final long STARTDATE_COLUMN_BITMASK = 32768L;
+
+	public static final long ENDDATE_COLUMN_BITMASK = 65536L;
+
+	public static final long PUBLISHDATE_COLUMN_BITMASK = 131072L;
+
+	public static final long EXPIRATIONDATE_COLUMN_BITMASK = 262144L;
+
+	public static final long MIMETYPE_COLUMN_BITMASK = 524288L;
+
+	public static final long TITLE_COLUMN_BITMASK = 1048576L;
+
+	public static final long DESCRIPTION_COLUMN_BITMASK = 2097152L;
+
+	public static final long SUMMARY_COLUMN_BITMASK = 4194304L;
+
+	public static final long URL_COLUMN_BITMASK = 8388608L;
+
+	public static final long LAYOUTUUID_COLUMN_BITMASK = 16777216L;
+
+	public static final long HEIGHT_COLUMN_BITMASK = 33554432L;
+
+	public static final long WIDTH_COLUMN_BITMASK = 67108864L;
+
+	public static final long PRIORITY_COLUMN_BITMASK = 134217728L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -405,118 +441,247 @@ public class AssetEntryModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<AssetEntry, Object> function = _attributeGetterFunctions.get(
+			attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((AssetEntry)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<AssetEntryCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_assetEntryCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_assetEntryCacheModel);
+	}
+
 	private static final Map<String, Function<AssetEntry, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<AssetEntry, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<AssetEntryCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<AssetEntry, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<AssetEntry, Object>>();
 		Map<String, BiConsumer<AssetEntry, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<AssetEntry, ?>>();
+		Map<String, Function<AssetEntryCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<AssetEntryCacheModel, Object>>();
 
 		attributeGetterFunctions.put("mvccVersion", AssetEntry::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			assetEntryCacheModel -> assetEntryCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<AssetEntry, Long>)AssetEntry::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", AssetEntry::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			assetEntryCacheModel -> assetEntryCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<AssetEntry, Long>)AssetEntry::setCtCollectionId);
 		attributeGetterFunctions.put("entryId", AssetEntry::getEntryId);
+
+		cacheModelGetterFunctions.put(
+			"entryId", assetEntryCacheModel -> assetEntryCacheModel.entryId);
 		attributeSetterBiConsumers.put(
 			"entryId", (BiConsumer<AssetEntry, Long>)AssetEntry::setEntryId);
 		attributeGetterFunctions.put("groupId", AssetEntry::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId", assetEntryCacheModel -> assetEntryCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId", (BiConsumer<AssetEntry, Long>)AssetEntry::setGroupId);
 		attributeGetterFunctions.put("companyId", AssetEntry::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			assetEntryCacheModel -> assetEntryCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<AssetEntry, Long>)AssetEntry::setCompanyId);
 		attributeGetterFunctions.put("userId", AssetEntry::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", assetEntryCacheModel -> assetEntryCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<AssetEntry, Long>)AssetEntry::setUserId);
 		attributeGetterFunctions.put("userName", AssetEntry::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName", assetEntryCacheModel -> assetEntryCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<AssetEntry, String>)AssetEntry::setUserName);
 		attributeGetterFunctions.put("createDate", AssetEntry::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			assetEntryCacheModel -> assetEntryCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<AssetEntry, Date>)AssetEntry::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", AssetEntry::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			assetEntryCacheModel -> assetEntryCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<AssetEntry, Date>)AssetEntry::setModifiedDate);
 		attributeGetterFunctions.put("classNameId", AssetEntry::getClassNameId);
+
+		cacheModelGetterFunctions.put(
+			"classNameId",
+			assetEntryCacheModel -> assetEntryCacheModel.classNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<AssetEntry, Long>)AssetEntry::setClassNameId);
 		attributeGetterFunctions.put("classPK", AssetEntry::getClassPK);
+
+		cacheModelGetterFunctions.put(
+			"classPK", assetEntryCacheModel -> assetEntryCacheModel.classPK);
 		attributeSetterBiConsumers.put(
 			"classPK", (BiConsumer<AssetEntry, Long>)AssetEntry::setClassPK);
 		attributeGetterFunctions.put("classUuid", AssetEntry::getClassUuid);
+
+		cacheModelGetterFunctions.put(
+			"classUuid",
+			assetEntryCacheModel -> assetEntryCacheModel.classUuid);
 		attributeSetterBiConsumers.put(
 			"classUuid",
 			(BiConsumer<AssetEntry, String>)AssetEntry::setClassUuid);
 		attributeGetterFunctions.put("classTypeId", AssetEntry::getClassTypeId);
+
+		cacheModelGetterFunctions.put(
+			"classTypeId",
+			assetEntryCacheModel -> assetEntryCacheModel.classTypeId);
 		attributeSetterBiConsumers.put(
 			"classTypeId",
 			(BiConsumer<AssetEntry, Long>)AssetEntry::setClassTypeId);
 		attributeGetterFunctions.put("listable", AssetEntry::getListable);
+
+		cacheModelGetterFunctions.put(
+			"listable", assetEntryCacheModel -> assetEntryCacheModel.listable);
 		attributeSetterBiConsumers.put(
 			"listable",
 			(BiConsumer<AssetEntry, Boolean>)AssetEntry::setListable);
 		attributeGetterFunctions.put("visible", AssetEntry::getVisible);
+
+		cacheModelGetterFunctions.put(
+			"visible", assetEntryCacheModel -> assetEntryCacheModel.visible);
 		attributeSetterBiConsumers.put(
 			"visible", (BiConsumer<AssetEntry, Boolean>)AssetEntry::setVisible);
 		attributeGetterFunctions.put("startDate", AssetEntry::getStartDate);
+
+		cacheModelGetterFunctions.put(
+			"startDate",
+			assetEntryCacheModel -> assetEntryCacheModel.startDate);
 		attributeSetterBiConsumers.put(
 			"startDate",
 			(BiConsumer<AssetEntry, Date>)AssetEntry::setStartDate);
 		attributeGetterFunctions.put("endDate", AssetEntry::getEndDate);
+
+		cacheModelGetterFunctions.put(
+			"endDate", assetEntryCacheModel -> assetEntryCacheModel.endDate);
 		attributeSetterBiConsumers.put(
 			"endDate", (BiConsumer<AssetEntry, Date>)AssetEntry::setEndDate);
 		attributeGetterFunctions.put("publishDate", AssetEntry::getPublishDate);
+
+		cacheModelGetterFunctions.put(
+			"publishDate",
+			assetEntryCacheModel -> assetEntryCacheModel.publishDate);
 		attributeSetterBiConsumers.put(
 			"publishDate",
 			(BiConsumer<AssetEntry, Date>)AssetEntry::setPublishDate);
 		attributeGetterFunctions.put(
 			"expirationDate", AssetEntry::getExpirationDate);
+
+		cacheModelGetterFunctions.put(
+			"expirationDate",
+			assetEntryCacheModel -> assetEntryCacheModel.expirationDate);
 		attributeSetterBiConsumers.put(
 			"expirationDate",
 			(BiConsumer<AssetEntry, Date>)AssetEntry::setExpirationDate);
 		attributeGetterFunctions.put("mimeType", AssetEntry::getMimeType);
+
+		cacheModelGetterFunctions.put(
+			"mimeType", assetEntryCacheModel -> assetEntryCacheModel.mimeType);
 		attributeSetterBiConsumers.put(
 			"mimeType",
 			(BiConsumer<AssetEntry, String>)AssetEntry::setMimeType);
 		attributeGetterFunctions.put("title", AssetEntry::getTitle);
+
+		cacheModelGetterFunctions.put(
+			"title", assetEntryCacheModel -> assetEntryCacheModel.title);
 		attributeSetterBiConsumers.put(
 			"title", (BiConsumer<AssetEntry, String>)AssetEntry::setTitle);
 		attributeGetterFunctions.put("description", AssetEntry::getDescription);
+
+		cacheModelGetterFunctions.put(
+			"description",
+			assetEntryCacheModel -> assetEntryCacheModel.description);
 		attributeSetterBiConsumers.put(
 			"description",
 			(BiConsumer<AssetEntry, String>)AssetEntry::setDescription);
 		attributeGetterFunctions.put("summary", AssetEntry::getSummary);
+
+		cacheModelGetterFunctions.put(
+			"summary", assetEntryCacheModel -> assetEntryCacheModel.summary);
 		attributeSetterBiConsumers.put(
 			"summary", (BiConsumer<AssetEntry, String>)AssetEntry::setSummary);
 		attributeGetterFunctions.put("url", AssetEntry::getUrl);
+
+		cacheModelGetterFunctions.put(
+			"url", assetEntryCacheModel -> assetEntryCacheModel.url);
 		attributeSetterBiConsumers.put(
 			"url", (BiConsumer<AssetEntry, String>)AssetEntry::setUrl);
 		attributeGetterFunctions.put("layoutUuid", AssetEntry::getLayoutUuid);
+
+		cacheModelGetterFunctions.put(
+			"layoutUuid",
+			assetEntryCacheModel -> assetEntryCacheModel.layoutUuid);
 		attributeSetterBiConsumers.put(
 			"layoutUuid",
 			(BiConsumer<AssetEntry, String>)AssetEntry::setLayoutUuid);
 		attributeGetterFunctions.put("height", AssetEntry::getHeight);
+
+		cacheModelGetterFunctions.put(
+			"height", assetEntryCacheModel -> assetEntryCacheModel.height);
 		attributeSetterBiConsumers.put(
 			"height", (BiConsumer<AssetEntry, Integer>)AssetEntry::setHeight);
 		attributeGetterFunctions.put("width", AssetEntry::getWidth);
+
+		cacheModelGetterFunctions.put(
+			"width", assetEntryCacheModel -> assetEntryCacheModel.width);
 		attributeSetterBiConsumers.put(
 			"width", (BiConsumer<AssetEntry, Integer>)AssetEntry::setWidth);
 		attributeGetterFunctions.put("priority", AssetEntry::getPriority);
+
+		cacheModelGetterFunctions.put(
+			"priority", assetEntryCacheModel -> assetEntryCacheModel.priority);
 		attributeSetterBiConsumers.put(
 			"priority",
 			(BiConsumer<AssetEntry, Double>)AssetEntry::setPriority);
@@ -525,6 +690,8 @@ public class AssetEntryModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -535,6 +702,12 @@ public class AssetEntryModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_assetEntryCacheModel == null)) {
+			_assetEntryCacheModel = (AssetEntryCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -546,6 +719,12 @@ public class AssetEntryModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (!isNew() && (_assetEntryCacheModel == null)) {
+			_assetEntryCacheModel = (AssetEntryCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -557,6 +736,12 @@ public class AssetEntryModelImpl
 
 	@Override
 	public void setEntryId(long entryId) {
+		_columnBitmask |= ENTRYID_COLUMN_BITMASK;
+
+		if (!isNew() && (_assetEntryCacheModel == null)) {
+			_assetEntryCacheModel = (AssetEntryCacheModel)toCacheModel();
+		}
+
 		_entryId = entryId;
 	}
 
@@ -570,17 +755,20 @@ public class AssetEntryModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (!isNew() && (_assetEntryCacheModel == null)) {
+			_assetEntryCacheModel = (AssetEntryCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getCacheModelAttribute("groupId");
 	}
 
 	@JSON
@@ -593,17 +781,20 @@ public class AssetEntryModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (!isNew() && (_assetEntryCacheModel == null)) {
+			_assetEntryCacheModel = (AssetEntryCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getCacheModelAttribute("companyId");
 	}
 
 	@JSON
@@ -614,6 +805,12 @@ public class AssetEntryModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_assetEntryCacheModel == null)) {
+			_assetEntryCacheModel = (AssetEntryCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -646,6 +843,12 @@ public class AssetEntryModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_assetEntryCacheModel == null)) {
+			_assetEntryCacheModel = (AssetEntryCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -657,6 +860,12 @@ public class AssetEntryModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_assetEntryCacheModel == null)) {
+			_assetEntryCacheModel = (AssetEntryCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -673,6 +882,12 @@ public class AssetEntryModelImpl
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
+
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_assetEntryCacheModel == null)) {
+			_assetEntryCacheModel = (AssetEntryCacheModel)toCacheModel();
+		}
 
 		_modifiedDate = modifiedDate;
 	}
@@ -707,17 +922,20 @@ public class AssetEntryModelImpl
 	public void setClassNameId(long classNameId) {
 		_columnBitmask |= CLASSNAMEID_COLUMN_BITMASK;
 
-		if (!_setOriginalClassNameId) {
-			_setOriginalClassNameId = true;
-
-			_originalClassNameId = _classNameId;
+		if (!isNew() && (_assetEntryCacheModel == null)) {
+			_assetEntryCacheModel = (AssetEntryCacheModel)toCacheModel();
 		}
 
 		_classNameId = classNameId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassNameId() {
-		return _originalClassNameId;
+		return getCacheModelAttribute("classNameId");
 	}
 
 	@JSON
@@ -730,17 +948,20 @@ public class AssetEntryModelImpl
 	public void setClassPK(long classPK) {
 		_columnBitmask |= CLASSPK_COLUMN_BITMASK;
 
-		if (!_setOriginalClassPK) {
-			_setOriginalClassPK = true;
-
-			_originalClassPK = _classPK;
+		if (!isNew() && (_assetEntryCacheModel == null)) {
+			_assetEntryCacheModel = (AssetEntryCacheModel)toCacheModel();
 		}
 
 		_classPK = classPK;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassPK() {
-		return _originalClassPK;
+		return getCacheModelAttribute("classPK");
 	}
 
 	@JSON
@@ -758,15 +979,20 @@ public class AssetEntryModelImpl
 	public void setClassUuid(String classUuid) {
 		_columnBitmask |= CLASSUUID_COLUMN_BITMASK;
 
-		if (_originalClassUuid == null) {
-			_originalClassUuid = _classUuid;
+		if (!isNew() && (_assetEntryCacheModel == null)) {
+			_assetEntryCacheModel = (AssetEntryCacheModel)toCacheModel();
 		}
 
 		_classUuid = classUuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalClassUuid() {
-		return GetterUtil.getString(_originalClassUuid);
+		return getCacheModelAttribute("classUuid");
 	}
 
 	@JSON
@@ -777,6 +1003,12 @@ public class AssetEntryModelImpl
 
 	@Override
 	public void setClassTypeId(long classTypeId) {
+		_columnBitmask |= CLASSTYPEID_COLUMN_BITMASK;
+
+		if (!isNew() && (_assetEntryCacheModel == null)) {
+			_assetEntryCacheModel = (AssetEntryCacheModel)toCacheModel();
+		}
+
 		_classTypeId = classTypeId;
 	}
 
@@ -794,6 +1026,12 @@ public class AssetEntryModelImpl
 
 	@Override
 	public void setListable(boolean listable) {
+		_columnBitmask |= LISTABLE_COLUMN_BITMASK;
+
+		if (!isNew() && (_assetEntryCacheModel == null)) {
+			_assetEntryCacheModel = (AssetEntryCacheModel)toCacheModel();
+		}
+
 		_listable = listable;
 	}
 
@@ -813,17 +1051,20 @@ public class AssetEntryModelImpl
 	public void setVisible(boolean visible) {
 		_columnBitmask |= VISIBLE_COLUMN_BITMASK;
 
-		if (!_setOriginalVisible) {
-			_setOriginalVisible = true;
-
-			_originalVisible = _visible;
+		if (!isNew() && (_assetEntryCacheModel == null)) {
+			_assetEntryCacheModel = (AssetEntryCacheModel)toCacheModel();
 		}
 
 		_visible = visible;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public boolean getOriginalVisible() {
-		return _originalVisible;
+		return getCacheModelAttribute("visible");
 	}
 
 	@JSON
@@ -834,6 +1075,12 @@ public class AssetEntryModelImpl
 
 	@Override
 	public void setStartDate(Date startDate) {
+		_columnBitmask |= STARTDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_assetEntryCacheModel == null)) {
+			_assetEntryCacheModel = (AssetEntryCacheModel)toCacheModel();
+		}
+
 		_startDate = startDate;
 	}
 
@@ -845,6 +1092,12 @@ public class AssetEntryModelImpl
 
 	@Override
 	public void setEndDate(Date endDate) {
+		_columnBitmask |= ENDDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_assetEntryCacheModel == null)) {
+			_assetEntryCacheModel = (AssetEntryCacheModel)toCacheModel();
+		}
+
 		_endDate = endDate;
 	}
 
@@ -858,15 +1111,20 @@ public class AssetEntryModelImpl
 	public void setPublishDate(Date publishDate) {
 		_columnBitmask |= PUBLISHDATE_COLUMN_BITMASK;
 
-		if (_originalPublishDate == null) {
-			_originalPublishDate = _publishDate;
+		if (!isNew() && (_assetEntryCacheModel == null)) {
+			_assetEntryCacheModel = (AssetEntryCacheModel)toCacheModel();
 		}
 
 		_publishDate = publishDate;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public Date getOriginalPublishDate() {
-		return _originalPublishDate;
+		return getCacheModelAttribute("publishDate");
 	}
 
 	@JSON
@@ -879,15 +1137,20 @@ public class AssetEntryModelImpl
 	public void setExpirationDate(Date expirationDate) {
 		_columnBitmask |= EXPIRATIONDATE_COLUMN_BITMASK;
 
-		if (_originalExpirationDate == null) {
-			_originalExpirationDate = _expirationDate;
+		if (!isNew() && (_assetEntryCacheModel == null)) {
+			_assetEntryCacheModel = (AssetEntryCacheModel)toCacheModel();
 		}
 
 		_expirationDate = expirationDate;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public Date getOriginalExpirationDate() {
-		return _originalExpirationDate;
+		return getCacheModelAttribute("expirationDate");
 	}
 
 	@JSON
@@ -903,6 +1166,12 @@ public class AssetEntryModelImpl
 
 	@Override
 	public void setMimeType(String mimeType) {
+		_columnBitmask |= MIMETYPE_COLUMN_BITMASK;
+
+		if (!isNew() && (_assetEntryCacheModel == null)) {
+			_assetEntryCacheModel = (AssetEntryCacheModel)toCacheModel();
+		}
+
 		_mimeType = mimeType;
 	}
 
@@ -962,6 +1231,12 @@ public class AssetEntryModelImpl
 
 	@Override
 	public void setTitle(String title) {
+		_columnBitmask |= TITLE_COLUMN_BITMASK;
+
+		if (!isNew() && (_assetEntryCacheModel == null)) {
+			_assetEntryCacheModel = (AssetEntryCacheModel)toCacheModel();
+		}
+
 		_title = title;
 	}
 
@@ -1067,6 +1342,12 @@ public class AssetEntryModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		_columnBitmask |= DESCRIPTION_COLUMN_BITMASK;
+
+		if (!isNew() && (_assetEntryCacheModel == null)) {
+			_assetEntryCacheModel = (AssetEntryCacheModel)toCacheModel();
+		}
+
 		_description = description;
 	}
 
@@ -1175,6 +1456,12 @@ public class AssetEntryModelImpl
 
 	@Override
 	public void setSummary(String summary) {
+		_columnBitmask |= SUMMARY_COLUMN_BITMASK;
+
+		if (!isNew() && (_assetEntryCacheModel == null)) {
+			_assetEntryCacheModel = (AssetEntryCacheModel)toCacheModel();
+		}
+
 		_summary = summary;
 	}
 
@@ -1240,6 +1527,12 @@ public class AssetEntryModelImpl
 
 	@Override
 	public void setUrl(String url) {
+		_columnBitmask |= URL_COLUMN_BITMASK;
+
+		if (!isNew() && (_assetEntryCacheModel == null)) {
+			_assetEntryCacheModel = (AssetEntryCacheModel)toCacheModel();
+		}
+
 		_url = url;
 	}
 
@@ -1258,15 +1551,20 @@ public class AssetEntryModelImpl
 	public void setLayoutUuid(String layoutUuid) {
 		_columnBitmask |= LAYOUTUUID_COLUMN_BITMASK;
 
-		if (_originalLayoutUuid == null) {
-			_originalLayoutUuid = _layoutUuid;
+		if (!isNew() && (_assetEntryCacheModel == null)) {
+			_assetEntryCacheModel = (AssetEntryCacheModel)toCacheModel();
 		}
 
 		_layoutUuid = layoutUuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalLayoutUuid() {
-		return GetterUtil.getString(_originalLayoutUuid);
+		return getCacheModelAttribute("layoutUuid");
 	}
 
 	@JSON
@@ -1277,6 +1575,12 @@ public class AssetEntryModelImpl
 
 	@Override
 	public void setHeight(int height) {
+		_columnBitmask |= HEIGHT_COLUMN_BITMASK;
+
+		if (!isNew() && (_assetEntryCacheModel == null)) {
+			_assetEntryCacheModel = (AssetEntryCacheModel)toCacheModel();
+		}
+
 		_height = height;
 	}
 
@@ -1288,6 +1592,12 @@ public class AssetEntryModelImpl
 
 	@Override
 	public void setWidth(int width) {
+		_columnBitmask |= WIDTH_COLUMN_BITMASK;
+
+		if (!isNew() && (_assetEntryCacheModel == null)) {
+			_assetEntryCacheModel = (AssetEntryCacheModel)toCacheModel();
+		}
+
 		_width = width;
 	}
 
@@ -1299,6 +1609,12 @@ public class AssetEntryModelImpl
 
 	@Override
 	public void setPriority(double priority) {
+		_columnBitmask |= PRIORITY_COLUMN_BITMASK;
+
+		if (!isNew() && (_assetEntryCacheModel == null)) {
+			_assetEntryCacheModel = (AssetEntryCacheModel)toCacheModel();
+		}
+
 		_priority = priority;
 	}
 
@@ -1446,6 +1762,8 @@ public class AssetEntryModelImpl
 	public Object clone() {
 		AssetEntryImpl assetEntryImpl = new AssetEntryImpl();
 
+		assetEntryImpl.setNew(true);
+
 		assetEntryImpl.setMvccVersion(getMvccVersion());
 		assetEntryImpl.setCtCollectionId(getCtCollectionId());
 		assetEntryImpl.setEntryId(getEntryId());
@@ -1476,6 +1794,8 @@ public class AssetEntryModelImpl
 		assetEntryImpl.setPriority(getPriority());
 
 		assetEntryImpl.resetOriginalValues();
+
+		assetEntryImpl.setNew(false);
 
 		return assetEntryImpl;
 	}
@@ -1542,43 +1862,11 @@ public class AssetEntryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		AssetEntryModelImpl assetEntryModelImpl = this;
+		_setModifiedDate = false;
 
-		assetEntryModelImpl._originalGroupId = assetEntryModelImpl._groupId;
+		_columnBitmask = 0;
 
-		assetEntryModelImpl._setOriginalGroupId = false;
-
-		assetEntryModelImpl._originalCompanyId = assetEntryModelImpl._companyId;
-
-		assetEntryModelImpl._setOriginalCompanyId = false;
-
-		assetEntryModelImpl._setModifiedDate = false;
-
-		assetEntryModelImpl._originalClassNameId =
-			assetEntryModelImpl._classNameId;
-
-		assetEntryModelImpl._setOriginalClassNameId = false;
-
-		assetEntryModelImpl._originalClassPK = assetEntryModelImpl._classPK;
-
-		assetEntryModelImpl._setOriginalClassPK = false;
-
-		assetEntryModelImpl._originalClassUuid = assetEntryModelImpl._classUuid;
-
-		assetEntryModelImpl._originalVisible = assetEntryModelImpl._visible;
-
-		assetEntryModelImpl._setOriginalVisible = false;
-
-		assetEntryModelImpl._originalPublishDate =
-			assetEntryModelImpl._publishDate;
-
-		assetEntryModelImpl._originalExpirationDate =
-			assetEntryModelImpl._expirationDate;
-
-		assetEntryModelImpl._originalLayoutUuid =
-			assetEntryModelImpl._layoutUuid;
-
-		assetEntryModelImpl._columnBitmask = 0;
+		_assetEntryCacheModel = null;
 	}
 
 	@Override
@@ -1808,35 +2096,22 @@ public class AssetEntryModelImpl
 	private long _ctCollectionId;
 	private long _entryId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _classNameId;
-	private long _originalClassNameId;
-	private boolean _setOriginalClassNameId;
 	private long _classPK;
-	private long _originalClassPK;
-	private boolean _setOriginalClassPK;
 	private String _classUuid;
-	private String _originalClassUuid;
 	private long _classTypeId;
 	private boolean _listable;
 	private boolean _visible;
-	private boolean _originalVisible;
-	private boolean _setOriginalVisible;
 	private Date _startDate;
 	private Date _endDate;
 	private Date _publishDate;
-	private Date _originalPublishDate;
 	private Date _expirationDate;
-	private Date _originalExpirationDate;
 	private String _mimeType;
 	private String _title;
 	private String _titleCurrentLanguageId;
@@ -1846,11 +2121,11 @@ public class AssetEntryModelImpl
 	private String _summaryCurrentLanguageId;
 	private String _url;
 	private String _layoutUuid;
-	private String _originalLayoutUuid;
 	private int _height;
 	private int _width;
 	private double _priority;
 	private long _columnBitmask;
 	private AssetEntry _escapedModel;
+	private AssetEntryCacheModel _assetEntryCacheModel;
 
 }

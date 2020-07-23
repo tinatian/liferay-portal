@@ -112,6 +112,8 @@ public class ResourcePermissionCacheModel
 		ResourcePermissionImpl resourcePermissionImpl =
 			new ResourcePermissionImpl();
 
+		resourcePermissionImpl.setNew(true);
+
 		resourcePermissionImpl.setMvccVersion(mvccVersion);
 		resourcePermissionImpl.setCtCollectionId(ctCollectionId);
 		resourcePermissionImpl.setResourcePermissionId(resourcePermissionId);
@@ -140,6 +142,8 @@ public class ResourcePermissionCacheModel
 		resourcePermissionImpl.setViewActionId(viewActionId);
 
 		resourcePermissionImpl.resetOriginalValues();
+
+		resourcePermissionImpl.setNew(false);
 
 		return resourcePermissionImpl;
 	}

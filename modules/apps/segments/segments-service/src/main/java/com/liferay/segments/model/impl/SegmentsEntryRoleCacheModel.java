@@ -110,6 +110,8 @@ public class SegmentsEntryRoleCacheModel
 		SegmentsEntryRoleImpl segmentsEntryRoleImpl =
 			new SegmentsEntryRoleImpl();
 
+		segmentsEntryRoleImpl.setNew(true);
+
 		segmentsEntryRoleImpl.setMvccVersion(mvccVersion);
 		segmentsEntryRoleImpl.setCtCollectionId(ctCollectionId);
 		segmentsEntryRoleImpl.setSegmentsEntryRoleId(segmentsEntryRoleId);
@@ -141,6 +143,8 @@ public class SegmentsEntryRoleCacheModel
 		segmentsEntryRoleImpl.setRoleId(roleId);
 
 		segmentsEntryRoleImpl.resetOriginalValues();
+
+		segmentsEntryRoleImpl.setNew(false);
 
 		return segmentsEntryRoleImpl;
 	}

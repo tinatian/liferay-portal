@@ -31,7 +31,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
@@ -131,19 +130,37 @@ public class DDMStructureLayoutModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long CLASSNAMEID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 4L;
+	public static final long UUID_COLUMN_BITMASK = 4L;
 
-	public static final long STRUCTURELAYOUTKEY_COLUMN_BITMASK = 8L;
+	public static final long STRUCTURELAYOUTID_COLUMN_BITMASK = 8L;
 
-	public static final long STRUCTUREVERSIONID_COLUMN_BITMASK = 16L;
+	public static final long GROUPID_COLUMN_BITMASK = 16L;
 
-	public static final long UUID_COLUMN_BITMASK = 32L;
+	public static final long COMPANYID_COLUMN_BITMASK = 32L;
 
-	public static final long STRUCTURELAYOUTID_COLUMN_BITMASK = 64L;
+	public static final long USERID_COLUMN_BITMASK = 64L;
+
+	public static final long USERNAME_COLUMN_BITMASK = 128L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 256L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 512L;
+
+	public static final long CLASSNAMEID_COLUMN_BITMASK = 1024L;
+
+	public static final long STRUCTURELAYOUTKEY_COLUMN_BITMASK = 2048L;
+
+	public static final long STRUCTUREVERSIONID_COLUMN_BITMASK = 4096L;
+
+	public static final long NAME_COLUMN_BITMASK = 8192L;
+
+	public static final long DESCRIPTION_COLUMN_BITMASK = 16384L;
+
+	public static final long DEFINITION_COLUMN_BITMASK = 32768L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -328,10 +345,39 @@ public class DDMStructureLayoutModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<DDMStructureLayout, Object> function =
+			_attributeGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((DDMStructureLayout)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<DDMStructureLayoutCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_ddmStructureLayoutCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_ddmStructureLayoutCacheModel);
+	}
+
 	private static final Map<String, Function<DDMStructureLayout, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<DDMStructureLayout, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<DDMStructureLayoutCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<DDMStructureLayout, Object>>
@@ -341,95 +387,177 @@ public class DDMStructureLayoutModelImpl
 		Map<String, BiConsumer<DDMStructureLayout, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<DDMStructureLayout, ?>>();
+		Map<String, Function<DDMStructureLayoutCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<DDMStructureLayoutCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", DDMStructureLayout::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			ddmStructureLayoutCacheModel ->
+				ddmStructureLayoutCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<DDMStructureLayout, Long>)
 				DDMStructureLayout::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", DDMStructureLayout::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			ddmStructureLayoutCacheModel ->
+				ddmStructureLayoutCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<DDMStructureLayout, Long>)
 				DDMStructureLayout::setCtCollectionId);
 		attributeGetterFunctions.put("uuid", DDMStructureLayout::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid",
+			ddmStructureLayoutCacheModel -> ddmStructureLayoutCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid",
 			(BiConsumer<DDMStructureLayout, String>)
 				DDMStructureLayout::setUuid);
 		attributeGetterFunctions.put(
 			"structureLayoutId", DDMStructureLayout::getStructureLayoutId);
+
+		cacheModelGetterFunctions.put(
+			"structureLayoutId",
+			ddmStructureLayoutCacheModel ->
+				ddmStructureLayoutCacheModel.structureLayoutId);
 		attributeSetterBiConsumers.put(
 			"structureLayoutId",
 			(BiConsumer<DDMStructureLayout, Long>)
 				DDMStructureLayout::setStructureLayoutId);
 		attributeGetterFunctions.put("groupId", DDMStructureLayout::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			ddmStructureLayoutCacheModel ->
+				ddmStructureLayoutCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<DDMStructureLayout, Long>)
 				DDMStructureLayout::setGroupId);
 		attributeGetterFunctions.put(
 			"companyId", DDMStructureLayout::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			ddmStructureLayoutCacheModel ->
+				ddmStructureLayoutCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<DDMStructureLayout, Long>)
 				DDMStructureLayout::setCompanyId);
 		attributeGetterFunctions.put("userId", DDMStructureLayout::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			ddmStructureLayoutCacheModel ->
+				ddmStructureLayoutCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<DDMStructureLayout, Long>)
 				DDMStructureLayout::setUserId);
 		attributeGetterFunctions.put(
 			"userName", DDMStructureLayout::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			ddmStructureLayoutCacheModel ->
+				ddmStructureLayoutCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<DDMStructureLayout, String>)
 				DDMStructureLayout::setUserName);
 		attributeGetterFunctions.put(
 			"createDate", DDMStructureLayout::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			ddmStructureLayoutCacheModel ->
+				ddmStructureLayoutCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<DDMStructureLayout, Date>)
 				DDMStructureLayout::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", DDMStructureLayout::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			ddmStructureLayoutCacheModel ->
+				ddmStructureLayoutCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<DDMStructureLayout, Date>)
 				DDMStructureLayout::setModifiedDate);
 		attributeGetterFunctions.put(
 			"classNameId", DDMStructureLayout::getClassNameId);
+
+		cacheModelGetterFunctions.put(
+			"classNameId",
+			ddmStructureLayoutCacheModel ->
+				ddmStructureLayoutCacheModel.classNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<DDMStructureLayout, Long>)
 				DDMStructureLayout::setClassNameId);
 		attributeGetterFunctions.put(
 			"structureLayoutKey", DDMStructureLayout::getStructureLayoutKey);
+
+		cacheModelGetterFunctions.put(
+			"structureLayoutKey",
+			ddmStructureLayoutCacheModel ->
+				ddmStructureLayoutCacheModel.structureLayoutKey);
 		attributeSetterBiConsumers.put(
 			"structureLayoutKey",
 			(BiConsumer<DDMStructureLayout, String>)
 				DDMStructureLayout::setStructureLayoutKey);
 		attributeGetterFunctions.put(
 			"structureVersionId", DDMStructureLayout::getStructureVersionId);
+
+		cacheModelGetterFunctions.put(
+			"structureVersionId",
+			ddmStructureLayoutCacheModel ->
+				ddmStructureLayoutCacheModel.structureVersionId);
 		attributeSetterBiConsumers.put(
 			"structureVersionId",
 			(BiConsumer<DDMStructureLayout, Long>)
 				DDMStructureLayout::setStructureVersionId);
 		attributeGetterFunctions.put("name", DDMStructureLayout::getName);
+
+		cacheModelGetterFunctions.put(
+			"name",
+			ddmStructureLayoutCacheModel -> ddmStructureLayoutCacheModel.name);
 		attributeSetterBiConsumers.put(
 			"name",
 			(BiConsumer<DDMStructureLayout, String>)
 				DDMStructureLayout::setName);
 		attributeGetterFunctions.put(
 			"description", DDMStructureLayout::getDescription);
+
+		cacheModelGetterFunctions.put(
+			"description",
+			ddmStructureLayoutCacheModel ->
+				ddmStructureLayoutCacheModel.description);
 		attributeSetterBiConsumers.put(
 			"description",
 			(BiConsumer<DDMStructureLayout, String>)
 				DDMStructureLayout::setDescription);
 		attributeGetterFunctions.put(
 			"definition", DDMStructureLayout::getDefinition);
+
+		cacheModelGetterFunctions.put(
+			"definition",
+			ddmStructureLayoutCacheModel ->
+				ddmStructureLayoutCacheModel.definition);
 		attributeSetterBiConsumers.put(
 			"definition",
 			(BiConsumer<DDMStructureLayout, String>)
@@ -439,6 +567,8 @@ public class DDMStructureLayoutModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -449,6 +579,13 @@ public class DDMStructureLayoutModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_ddmStructureLayoutCacheModel == null)) {
+			_ddmStructureLayoutCacheModel =
+				(DDMStructureLayoutCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -460,6 +597,13 @@ public class DDMStructureLayoutModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (!isNew() && (_ddmStructureLayoutCacheModel == null)) {
+			_ddmStructureLayoutCacheModel =
+				(DDMStructureLayoutCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -478,15 +622,21 @@ public class DDMStructureLayoutModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (!isNew() && (_ddmStructureLayoutCacheModel == null)) {
+			_ddmStructureLayoutCacheModel =
+				(DDMStructureLayoutCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getCacheModelAttribute("uuid");
 	}
 
 	@JSON
@@ -497,6 +647,13 @@ public class DDMStructureLayoutModelImpl
 
 	@Override
 	public void setStructureLayoutId(long structureLayoutId) {
+		_columnBitmask |= STRUCTURELAYOUTID_COLUMN_BITMASK;
+
+		if (!isNew() && (_ddmStructureLayoutCacheModel == null)) {
+			_ddmStructureLayoutCacheModel =
+				(DDMStructureLayoutCacheModel)toCacheModel();
+		}
+
 		_structureLayoutId = structureLayoutId;
 	}
 
@@ -510,17 +667,21 @@ public class DDMStructureLayoutModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (!isNew() && (_ddmStructureLayoutCacheModel == null)) {
+			_ddmStructureLayoutCacheModel =
+				(DDMStructureLayoutCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getCacheModelAttribute("groupId");
 	}
 
 	@JSON
@@ -533,17 +694,21 @@ public class DDMStructureLayoutModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (!isNew() && (_ddmStructureLayoutCacheModel == null)) {
+			_ddmStructureLayoutCacheModel =
+				(DDMStructureLayoutCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getCacheModelAttribute("companyId");
 	}
 
 	@JSON
@@ -554,6 +719,13 @@ public class DDMStructureLayoutModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_ddmStructureLayoutCacheModel == null)) {
+			_ddmStructureLayoutCacheModel =
+				(DDMStructureLayoutCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -586,6 +758,13 @@ public class DDMStructureLayoutModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_ddmStructureLayoutCacheModel == null)) {
+			_ddmStructureLayoutCacheModel =
+				(DDMStructureLayoutCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -597,6 +776,13 @@ public class DDMStructureLayoutModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_ddmStructureLayoutCacheModel == null)) {
+			_ddmStructureLayoutCacheModel =
+				(DDMStructureLayoutCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -613,6 +799,13 @@ public class DDMStructureLayoutModelImpl
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
+
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_ddmStructureLayoutCacheModel == null)) {
+			_ddmStructureLayoutCacheModel =
+				(DDMStructureLayoutCacheModel)toCacheModel();
+		}
 
 		_modifiedDate = modifiedDate;
 	}
@@ -647,17 +840,21 @@ public class DDMStructureLayoutModelImpl
 	public void setClassNameId(long classNameId) {
 		_columnBitmask |= CLASSNAMEID_COLUMN_BITMASK;
 
-		if (!_setOriginalClassNameId) {
-			_setOriginalClassNameId = true;
-
-			_originalClassNameId = _classNameId;
+		if (!isNew() && (_ddmStructureLayoutCacheModel == null)) {
+			_ddmStructureLayoutCacheModel =
+				(DDMStructureLayoutCacheModel)toCacheModel();
 		}
 
 		_classNameId = classNameId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassNameId() {
-		return _originalClassNameId;
+		return getCacheModelAttribute("classNameId");
 	}
 
 	@JSON
@@ -675,15 +872,21 @@ public class DDMStructureLayoutModelImpl
 	public void setStructureLayoutKey(String structureLayoutKey) {
 		_columnBitmask |= STRUCTURELAYOUTKEY_COLUMN_BITMASK;
 
-		if (_originalStructureLayoutKey == null) {
-			_originalStructureLayoutKey = _structureLayoutKey;
+		if (!isNew() && (_ddmStructureLayoutCacheModel == null)) {
+			_ddmStructureLayoutCacheModel =
+				(DDMStructureLayoutCacheModel)toCacheModel();
 		}
 
 		_structureLayoutKey = structureLayoutKey;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalStructureLayoutKey() {
-		return GetterUtil.getString(_originalStructureLayoutKey);
+		return getCacheModelAttribute("structureLayoutKey");
 	}
 
 	@JSON
@@ -696,17 +899,21 @@ public class DDMStructureLayoutModelImpl
 	public void setStructureVersionId(long structureVersionId) {
 		_columnBitmask |= STRUCTUREVERSIONID_COLUMN_BITMASK;
 
-		if (!_setOriginalStructureVersionId) {
-			_setOriginalStructureVersionId = true;
-
-			_originalStructureVersionId = _structureVersionId;
+		if (!isNew() && (_ddmStructureLayoutCacheModel == null)) {
+			_ddmStructureLayoutCacheModel =
+				(DDMStructureLayoutCacheModel)toCacheModel();
 		}
 
 		_structureVersionId = structureVersionId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalStructureVersionId() {
-		return _originalStructureVersionId;
+		return getCacheModelAttribute("structureVersionId");
 	}
 
 	@JSON
@@ -765,6 +972,13 @@ public class DDMStructureLayoutModelImpl
 
 	@Override
 	public void setName(String name) {
+		_columnBitmask |= NAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_ddmStructureLayoutCacheModel == null)) {
+			_ddmStructureLayoutCacheModel =
+				(DDMStructureLayoutCacheModel)toCacheModel();
+		}
+
 		_name = name;
 	}
 
@@ -868,6 +1082,13 @@ public class DDMStructureLayoutModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		_columnBitmask |= DESCRIPTION_COLUMN_BITMASK;
+
+		if (!isNew() && (_ddmStructureLayoutCacheModel == null)) {
+			_ddmStructureLayoutCacheModel =
+				(DDMStructureLayoutCacheModel)toCacheModel();
+		}
+
 		_description = description;
 	}
 
@@ -933,6 +1154,13 @@ public class DDMStructureLayoutModelImpl
 
 	@Override
 	public void setDefinition(String definition) {
+		_columnBitmask |= DEFINITION_COLUMN_BITMASK;
+
+		if (!isNew() && (_ddmStructureLayoutCacheModel == null)) {
+			_ddmStructureLayoutCacheModel =
+				(DDMStructureLayoutCacheModel)toCacheModel();
+		}
+
 		_definition = definition;
 	}
 
@@ -1079,6 +1307,8 @@ public class DDMStructureLayoutModelImpl
 		DDMStructureLayoutImpl ddmStructureLayoutImpl =
 			new DDMStructureLayoutImpl();
 
+		ddmStructureLayoutImpl.setNew(true);
+
 		ddmStructureLayoutImpl.setMvccVersion(getMvccVersion());
 		ddmStructureLayoutImpl.setCtCollectionId(getCtCollectionId());
 		ddmStructureLayoutImpl.setUuid(getUuid());
@@ -1097,6 +1327,8 @@ public class DDMStructureLayoutModelImpl
 		ddmStructureLayoutImpl.setDefinition(getDefinition());
 
 		ddmStructureLayoutImpl.resetOriginalValues();
+
+		ddmStructureLayoutImpl.setNew(false);
 
 		return ddmStructureLayoutImpl;
 	}
@@ -1163,39 +1395,13 @@ public class DDMStructureLayoutModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		DDMStructureLayoutModelImpl ddmStructureLayoutModelImpl = this;
-
-		ddmStructureLayoutModelImpl._originalUuid =
-			ddmStructureLayoutModelImpl._uuid;
-
-		ddmStructureLayoutModelImpl._originalGroupId =
-			ddmStructureLayoutModelImpl._groupId;
-
-		ddmStructureLayoutModelImpl._setOriginalGroupId = false;
-
-		ddmStructureLayoutModelImpl._originalCompanyId =
-			ddmStructureLayoutModelImpl._companyId;
-
-		ddmStructureLayoutModelImpl._setOriginalCompanyId = false;
-
-		ddmStructureLayoutModelImpl._setModifiedDate = false;
-
-		ddmStructureLayoutModelImpl._originalClassNameId =
-			ddmStructureLayoutModelImpl._classNameId;
-
-		ddmStructureLayoutModelImpl._setOriginalClassNameId = false;
-
-		ddmStructureLayoutModelImpl._originalStructureLayoutKey =
-			ddmStructureLayoutModelImpl._structureLayoutKey;
-
-		ddmStructureLayoutModelImpl._originalStructureVersionId =
-			ddmStructureLayoutModelImpl._structureVersionId;
-
-		ddmStructureLayoutModelImpl._setOriginalStructureVersionId = false;
+		_setModifiedDate = false;
 
 		setDDMFormLayout(null);
 
-		ddmStructureLayoutModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
+
+		_ddmStructureLayoutCacheModel = null;
 	}
 
 	@Override
@@ -1368,27 +1574,17 @@ public class DDMStructureLayoutModelImpl
 	private long _mvccVersion;
 	private long _ctCollectionId;
 	private String _uuid;
-	private String _originalUuid;
 	private long _structureLayoutId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _classNameId;
-	private long _originalClassNameId;
-	private boolean _setOriginalClassNameId;
 	private String _structureLayoutKey;
-	private String _originalStructureLayoutKey;
 	private long _structureVersionId;
-	private long _originalStructureVersionId;
-	private boolean _setOriginalStructureVersionId;
 	private String _name;
 	private String _nameCurrentLanguageId;
 	private String _description;
@@ -1396,5 +1592,6 @@ public class DDMStructureLayoutModelImpl
 	private String _definition;
 	private long _columnBitmask;
 	private DDMStructureLayout _escapedModel;
+	private DDMStructureLayoutCacheModel _ddmStructureLayoutCacheModel;
 
 }

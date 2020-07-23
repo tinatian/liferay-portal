@@ -82,6 +82,8 @@ public class VersionedEntryVersionCacheModel
 		VersionedEntryVersionImpl versionedEntryVersionImpl =
 			new VersionedEntryVersionImpl();
 
+		versionedEntryVersionImpl.setNew(true);
+
 		versionedEntryVersionImpl.setVersionedEntryVersionId(
 			versionedEntryVersionId);
 		versionedEntryVersionImpl.setVersion(version);
@@ -89,6 +91,8 @@ public class VersionedEntryVersionCacheModel
 		versionedEntryVersionImpl.setGroupId(groupId);
 
 		versionedEntryVersionImpl.resetOriginalValues();
+
+		versionedEntryVersionImpl.setNew(false);
 
 		return versionedEntryVersionImpl;
 	}

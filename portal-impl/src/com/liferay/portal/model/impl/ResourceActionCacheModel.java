@@ -96,6 +96,8 @@ public class ResourceActionCacheModel
 	public ResourceAction toEntityModel() {
 		ResourceActionImpl resourceActionImpl = new ResourceActionImpl();
 
+		resourceActionImpl.setNew(true);
+
 		resourceActionImpl.setMvccVersion(mvccVersion);
 		resourceActionImpl.setResourceActionId(resourceActionId);
 
@@ -116,6 +118,8 @@ public class ResourceActionCacheModel
 		resourceActionImpl.setBitwiseValue(bitwiseValue);
 
 		resourceActionImpl.resetOriginalValues();
+
+		resourceActionImpl.setNew(false);
 
 		return resourceActionImpl;
 	}

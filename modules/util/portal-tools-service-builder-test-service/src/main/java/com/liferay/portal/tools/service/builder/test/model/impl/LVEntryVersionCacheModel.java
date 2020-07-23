@@ -87,6 +87,8 @@ public class LVEntryVersionCacheModel
 	public LVEntryVersion toEntityModel() {
 		LVEntryVersionImpl lvEntryVersionImpl = new LVEntryVersionImpl();
 
+		lvEntryVersionImpl.setNew(true);
+
 		lvEntryVersionImpl.setLvEntryVersionId(lvEntryVersionId);
 		lvEntryVersionImpl.setVersion(version);
 
@@ -116,6 +118,8 @@ public class LVEntryVersionCacheModel
 		}
 
 		lvEntryVersionImpl.resetOriginalValues();
+
+		lvEntryVersionImpl.setNew(false);
 
 		return lvEntryVersionImpl;
 	}

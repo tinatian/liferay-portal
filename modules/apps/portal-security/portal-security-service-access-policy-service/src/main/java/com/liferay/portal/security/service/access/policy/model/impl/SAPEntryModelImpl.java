@@ -28,7 +28,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
@@ -125,15 +124,29 @@ public class SAPEntryModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long UUID_COLUMN_BITMASK = 1L;
 
-	public static final long DEFAULTSAPENTRY_COLUMN_BITMASK = 2L;
+	public static final long SAPENTRYID_COLUMN_BITMASK = 2L;
 
-	public static final long NAME_COLUMN_BITMASK = 4L;
+	public static final long COMPANYID_COLUMN_BITMASK = 4L;
 
-	public static final long UUID_COLUMN_BITMASK = 8L;
+	public static final long USERID_COLUMN_BITMASK = 8L;
 
-	public static final long SAPENTRYID_COLUMN_BITMASK = 16L;
+	public static final long USERNAME_COLUMN_BITMASK = 16L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 32L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 64L;
+
+	public static final long ALLOWEDSERVICESIGNATURES_COLUMN_BITMASK = 128L;
+
+	public static final long DEFAULTSAPENTRY_COLUMN_BITMASK = 256L;
+
+	public static final long ENABLED_COLUMN_BITMASK = 512L;
+
+	public static final long NAME_COLUMN_BITMASK = 1024L;
+
+	public static final long TITLE_COLUMN_BITMASK = 2048L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -311,57 +324,128 @@ public class SAPEntryModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<SAPEntry, Object> function = _attributeGetterFunctions.get(
+			attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((SAPEntry)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<SAPEntryCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_sapEntryCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_sapEntryCacheModel);
+	}
+
 	private static final Map<String, Function<SAPEntry, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<SAPEntry, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<SAPEntryCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<SAPEntry, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<SAPEntry, Object>>();
 		Map<String, BiConsumer<SAPEntry, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<SAPEntry, ?>>();
+		Map<String, Function<SAPEntryCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<SAPEntryCacheModel, Object>>();
 
 		attributeGetterFunctions.put("uuid", SAPEntry::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid", sapEntryCacheModel -> sapEntryCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<SAPEntry, String>)SAPEntry::setUuid);
 		attributeGetterFunctions.put("sapEntryId", SAPEntry::getSapEntryId);
+
+		cacheModelGetterFunctions.put(
+			"sapEntryId", sapEntryCacheModel -> sapEntryCacheModel.sapEntryId);
 		attributeSetterBiConsumers.put(
 			"sapEntryId", (BiConsumer<SAPEntry, Long>)SAPEntry::setSapEntryId);
 		attributeGetterFunctions.put("companyId", SAPEntry::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId", sapEntryCacheModel -> sapEntryCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId", (BiConsumer<SAPEntry, Long>)SAPEntry::setCompanyId);
 		attributeGetterFunctions.put("userId", SAPEntry::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", sapEntryCacheModel -> sapEntryCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<SAPEntry, Long>)SAPEntry::setUserId);
 		attributeGetterFunctions.put("userName", SAPEntry::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName", sapEntryCacheModel -> sapEntryCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName", (BiConsumer<SAPEntry, String>)SAPEntry::setUserName);
 		attributeGetterFunctions.put("createDate", SAPEntry::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate", sapEntryCacheModel -> sapEntryCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate", (BiConsumer<SAPEntry, Date>)SAPEntry::setCreateDate);
 		attributeGetterFunctions.put("modifiedDate", SAPEntry::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			sapEntryCacheModel -> sapEntryCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<SAPEntry, Date>)SAPEntry::setModifiedDate);
 		attributeGetterFunctions.put(
 			"allowedServiceSignatures", SAPEntry::getAllowedServiceSignatures);
+
+		cacheModelGetterFunctions.put(
+			"allowedServiceSignatures",
+			sapEntryCacheModel -> sapEntryCacheModel.allowedServiceSignatures);
 		attributeSetterBiConsumers.put(
 			"allowedServiceSignatures",
 			(BiConsumer<SAPEntry, String>)
 				SAPEntry::setAllowedServiceSignatures);
 		attributeGetterFunctions.put(
 			"defaultSAPEntry", SAPEntry::getDefaultSAPEntry);
+
+		cacheModelGetterFunctions.put(
+			"defaultSAPEntry",
+			sapEntryCacheModel -> sapEntryCacheModel.defaultSAPEntry);
 		attributeSetterBiConsumers.put(
 			"defaultSAPEntry",
 			(BiConsumer<SAPEntry, Boolean>)SAPEntry::setDefaultSAPEntry);
 		attributeGetterFunctions.put("enabled", SAPEntry::getEnabled);
+
+		cacheModelGetterFunctions.put(
+			"enabled", sapEntryCacheModel -> sapEntryCacheModel.enabled);
 		attributeSetterBiConsumers.put(
 			"enabled", (BiConsumer<SAPEntry, Boolean>)SAPEntry::setEnabled);
 		attributeGetterFunctions.put("name", SAPEntry::getName);
+
+		cacheModelGetterFunctions.put(
+			"name", sapEntryCacheModel -> sapEntryCacheModel.name);
 		attributeSetterBiConsumers.put(
 			"name", (BiConsumer<SAPEntry, String>)SAPEntry::setName);
 		attributeGetterFunctions.put("title", SAPEntry::getTitle);
+
+		cacheModelGetterFunctions.put(
+			"title", sapEntryCacheModel -> sapEntryCacheModel.title);
 		attributeSetterBiConsumers.put(
 			"title", (BiConsumer<SAPEntry, String>)SAPEntry::setTitle);
 
@@ -369,6 +453,8 @@ public class SAPEntryModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -386,15 +472,20 @@ public class SAPEntryModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (!isNew() && (_sapEntryCacheModel == null)) {
+			_sapEntryCacheModel = (SAPEntryCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getCacheModelAttribute("uuid");
 	}
 
 	@JSON
@@ -405,6 +496,12 @@ public class SAPEntryModelImpl
 
 	@Override
 	public void setSapEntryId(long sapEntryId) {
+		_columnBitmask |= SAPENTRYID_COLUMN_BITMASK;
+
+		if (!isNew() && (_sapEntryCacheModel == null)) {
+			_sapEntryCacheModel = (SAPEntryCacheModel)toCacheModel();
+		}
+
 		_sapEntryId = sapEntryId;
 	}
 
@@ -418,17 +515,20 @@ public class SAPEntryModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (!isNew() && (_sapEntryCacheModel == null)) {
+			_sapEntryCacheModel = (SAPEntryCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getCacheModelAttribute("companyId");
 	}
 
 	@JSON
@@ -439,6 +539,12 @@ public class SAPEntryModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_sapEntryCacheModel == null)) {
+			_sapEntryCacheModel = (SAPEntryCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -471,6 +577,12 @@ public class SAPEntryModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_sapEntryCacheModel == null)) {
+			_sapEntryCacheModel = (SAPEntryCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -482,6 +594,12 @@ public class SAPEntryModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_sapEntryCacheModel == null)) {
+			_sapEntryCacheModel = (SAPEntryCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -499,6 +617,12 @@ public class SAPEntryModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_sapEntryCacheModel == null)) {
+			_sapEntryCacheModel = (SAPEntryCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -515,6 +639,12 @@ public class SAPEntryModelImpl
 
 	@Override
 	public void setAllowedServiceSignatures(String allowedServiceSignatures) {
+		_columnBitmask |= ALLOWEDSERVICESIGNATURES_COLUMN_BITMASK;
+
+		if (!isNew() && (_sapEntryCacheModel == null)) {
+			_sapEntryCacheModel = (SAPEntryCacheModel)toCacheModel();
+		}
+
 		_allowedServiceSignatures = allowedServiceSignatures;
 	}
 
@@ -534,17 +664,20 @@ public class SAPEntryModelImpl
 	public void setDefaultSAPEntry(boolean defaultSAPEntry) {
 		_columnBitmask |= DEFAULTSAPENTRY_COLUMN_BITMASK;
 
-		if (!_setOriginalDefaultSAPEntry) {
-			_setOriginalDefaultSAPEntry = true;
-
-			_originalDefaultSAPEntry = _defaultSAPEntry;
+		if (!isNew() && (_sapEntryCacheModel == null)) {
+			_sapEntryCacheModel = (SAPEntryCacheModel)toCacheModel();
 		}
 
 		_defaultSAPEntry = defaultSAPEntry;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public boolean getOriginalDefaultSAPEntry() {
-		return _originalDefaultSAPEntry;
+		return getCacheModelAttribute("defaultSAPEntry");
 	}
 
 	@JSON
@@ -561,6 +694,12 @@ public class SAPEntryModelImpl
 
 	@Override
 	public void setEnabled(boolean enabled) {
+		_columnBitmask |= ENABLED_COLUMN_BITMASK;
+
+		if (!isNew() && (_sapEntryCacheModel == null)) {
+			_sapEntryCacheModel = (SAPEntryCacheModel)toCacheModel();
+		}
+
 		_enabled = enabled;
 	}
 
@@ -579,15 +718,20 @@ public class SAPEntryModelImpl
 	public void setName(String name) {
 		_columnBitmask |= NAME_COLUMN_BITMASK;
 
-		if (_originalName == null) {
-			_originalName = _name;
+		if (!isNew() && (_sapEntryCacheModel == null)) {
+			_sapEntryCacheModel = (SAPEntryCacheModel)toCacheModel();
 		}
 
 		_name = name;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalName() {
-		return GetterUtil.getString(_originalName);
+		return getCacheModelAttribute("name");
 	}
 
 	@JSON
@@ -646,6 +790,12 @@ public class SAPEntryModelImpl
 
 	@Override
 	public void setTitle(String title) {
+		_columnBitmask |= TITLE_COLUMN_BITMASK;
+
+		if (!isNew() && (_sapEntryCacheModel == null)) {
+			_sapEntryCacheModel = (SAPEntryCacheModel)toCacheModel();
+		}
+
 		_title = title;
 	}
 
@@ -803,6 +953,8 @@ public class SAPEntryModelImpl
 	public Object clone() {
 		SAPEntryImpl sapEntryImpl = new SAPEntryImpl();
 
+		sapEntryImpl.setNew(true);
+
 		sapEntryImpl.setUuid(getUuid());
 		sapEntryImpl.setSapEntryId(getSapEntryId());
 		sapEntryImpl.setCompanyId(getCompanyId());
@@ -817,6 +969,8 @@ public class SAPEntryModelImpl
 		sapEntryImpl.setTitle(getTitle());
 
 		sapEntryImpl.resetOriginalValues();
+
+		sapEntryImpl.setNew(false);
 
 		return sapEntryImpl;
 	}
@@ -883,24 +1037,11 @@ public class SAPEntryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		SAPEntryModelImpl sapEntryModelImpl = this;
+		_setModifiedDate = false;
 
-		sapEntryModelImpl._originalUuid = sapEntryModelImpl._uuid;
+		_columnBitmask = 0;
 
-		sapEntryModelImpl._originalCompanyId = sapEntryModelImpl._companyId;
-
-		sapEntryModelImpl._setOriginalCompanyId = false;
-
-		sapEntryModelImpl._setModifiedDate = false;
-
-		sapEntryModelImpl._originalDefaultSAPEntry =
-			sapEntryModelImpl._defaultSAPEntry;
-
-		sapEntryModelImpl._setOriginalDefaultSAPEntry = false;
-
-		sapEntryModelImpl._originalName = sapEntryModelImpl._name;
-
-		sapEntryModelImpl._columnBitmask = 0;
+		_sapEntryCacheModel = null;
 	}
 
 	@Override
@@ -1053,11 +1194,8 @@ public class SAPEntryModelImpl
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _sapEntryId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
@@ -1065,14 +1203,12 @@ public class SAPEntryModelImpl
 	private boolean _setModifiedDate;
 	private String _allowedServiceSignatures;
 	private boolean _defaultSAPEntry;
-	private boolean _originalDefaultSAPEntry;
-	private boolean _setOriginalDefaultSAPEntry;
 	private boolean _enabled;
 	private String _name;
-	private String _originalName;
 	private String _title;
 	private String _titleCurrentLanguageId;
 	private long _columnBitmask;
 	private SAPEntry _escapedModel;
+	private SAPEntryCacheModel _sapEntryCacheModel;
 
 }

@@ -97,6 +97,8 @@ public class MicroblogsEntryCacheModel
 	public MicroblogsEntry toEntityModel() {
 		MicroblogsEntryImpl microblogsEntryImpl = new MicroblogsEntryImpl();
 
+		microblogsEntryImpl.setNew(true);
+
 		microblogsEntryImpl.setMicroblogsEntryId(microblogsEntryId);
 		microblogsEntryImpl.setCompanyId(companyId);
 		microblogsEntryImpl.setUserId(userId);
@@ -137,6 +139,8 @@ public class MicroblogsEntryCacheModel
 		microblogsEntryImpl.setSocialRelationType(socialRelationType);
 
 		microblogsEntryImpl.resetOriginalValues();
+
+		microblogsEntryImpl.setNew(false);
 
 		return microblogsEntryImpl;
 	}

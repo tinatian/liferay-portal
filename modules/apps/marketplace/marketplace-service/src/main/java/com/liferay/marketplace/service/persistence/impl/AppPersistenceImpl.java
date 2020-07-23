@@ -2547,7 +2547,7 @@ public class AppPersistenceImpl
 			 _finderPathFetchByRemoteAppId.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				appModelImpl.getOriginalRemoteAppId()
+				appModelImpl.getCacheModelAttribute("remoteAppId")
 			};
 
 			finderCache.removeResult(_finderPathCountByRemoteAppId, args);
@@ -2766,7 +2766,9 @@ public class AppPersistenceImpl
 				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
 					 0) {
 
-				Object[] args = new Object[] {appModelImpl.getOriginalUuid()};
+				Object[] args = new Object[] {
+					appModelImpl.getCacheModelAttribute("uuid")
+				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
 				finderCache.removeResult(
@@ -2784,8 +2786,8 @@ public class AppPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					appModelImpl.getOriginalUuid(),
-					appModelImpl.getOriginalCompanyId()
+					appModelImpl.getCacheModelAttribute("uuid"),
+					appModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -2806,7 +2808,7 @@ public class AppPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					appModelImpl.getOriginalCompanyId()
+					appModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCompanyId, args);
@@ -2825,7 +2827,7 @@ public class AppPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					appModelImpl.getOriginalCategory()
+					appModelImpl.getCacheModelAttribute("category")
 				};
 
 				finderCache.removeResult(_finderPathCountByCategory, args);

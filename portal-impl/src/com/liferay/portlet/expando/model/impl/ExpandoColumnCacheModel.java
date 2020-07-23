@@ -104,6 +104,8 @@ public class ExpandoColumnCacheModel
 	public ExpandoColumn toEntityModel() {
 		ExpandoColumnImpl expandoColumnImpl = new ExpandoColumnImpl();
 
+		expandoColumnImpl.setNew(true);
+
 		expandoColumnImpl.setMvccVersion(mvccVersion);
 		expandoColumnImpl.setCtCollectionId(ctCollectionId);
 		expandoColumnImpl.setColumnId(columnId);
@@ -134,6 +136,8 @@ public class ExpandoColumnCacheModel
 		}
 
 		expandoColumnImpl.resetOriginalValues();
+
+		expandoColumnImpl.setNew(false);
 
 		return expandoColumnImpl;
 	}

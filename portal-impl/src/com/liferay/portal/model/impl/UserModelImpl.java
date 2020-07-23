@@ -181,35 +181,94 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long CONTACTID_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
-	public static final long CREATEDATE_COLUMN_BITMASK = 4L;
+	public static final long UUID_COLUMN_BITMASK = 4L;
 
-	public static final long DEFAULTUSER_COLUMN_BITMASK = 8L;
+	public static final long EXTERNALREFERENCECODE_COLUMN_BITMASK = 8L;
 
-	public static final long EMAILADDRESS_COLUMN_BITMASK = 16L;
+	public static final long USERID_COLUMN_BITMASK = 16L;
 
-	public static final long EXTERNALREFERENCECODE_COLUMN_BITMASK = 32L;
+	public static final long COMPANYID_COLUMN_BITMASK = 32L;
 
-	public static final long FACEBOOKID_COLUMN_BITMASK = 64L;
+	public static final long CREATEDATE_COLUMN_BITMASK = 64L;
 
-	public static final long GOOGLEUSERID_COLUMN_BITMASK = 128L;
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 128L;
 
-	public static final long MODIFIEDDATE_COLUMN_BITMASK = 256L;
+	public static final long DEFAULTUSER_COLUMN_BITMASK = 256L;
 
-	public static final long OPENID_COLUMN_BITMASK = 512L;
+	public static final long CONTACTID_COLUMN_BITMASK = 512L;
 
-	public static final long PORTRAITID_COLUMN_BITMASK = 1024L;
+	public static final long PASSWORD_COLUMN_BITMASK = 1024L;
 
-	public static final long SCREENNAME_COLUMN_BITMASK = 2048L;
+	public static final long PASSWORDENCRYPTED_COLUMN_BITMASK = 2048L;
 
-	public static final long STATUS_COLUMN_BITMASK = 4096L;
+	public static final long PASSWORDRESET_COLUMN_BITMASK = 4096L;
 
-	public static final long USERID_COLUMN_BITMASK = 8192L;
+	public static final long PASSWORDMODIFIEDDATE_COLUMN_BITMASK = 8192L;
 
-	public static final long UUID_COLUMN_BITMASK = 16384L;
+	public static final long DIGEST_COLUMN_BITMASK = 16384L;
+
+	public static final long REMINDERQUERYQUESTION_COLUMN_BITMASK = 32768L;
+
+	public static final long REMINDERQUERYANSWER_COLUMN_BITMASK = 65536L;
+
+	public static final long GRACELOGINCOUNT_COLUMN_BITMASK = 131072L;
+
+	public static final long SCREENNAME_COLUMN_BITMASK = 262144L;
+
+	public static final long EMAILADDRESS_COLUMN_BITMASK = 524288L;
+
+	public static final long FACEBOOKID_COLUMN_BITMASK = 1048576L;
+
+	public static final long GOOGLEUSERID_COLUMN_BITMASK = 2097152L;
+
+	public static final long LDAPSERVERID_COLUMN_BITMASK = 4194304L;
+
+	public static final long OPENID_COLUMN_BITMASK = 8388608L;
+
+	public static final long PORTRAITID_COLUMN_BITMASK = 16777216L;
+
+	public static final long LANGUAGEID_COLUMN_BITMASK = 33554432L;
+
+	public static final long TIMEZONEID_COLUMN_BITMASK = 67108864L;
+
+	public static final long GREETING_COLUMN_BITMASK = 134217728L;
+
+	public static final long COMMENTS_COLUMN_BITMASK = 268435456L;
+
+	public static final long FIRSTNAME_COLUMN_BITMASK = 536870912L;
+
+	public static final long MIDDLENAME_COLUMN_BITMASK = 1073741824L;
+
+	public static final long LASTNAME_COLUMN_BITMASK = 2147483648L;
+
+	public static final long JOBTITLE_COLUMN_BITMASK = 4294967296L;
+
+	public static final long LOGINDATE_COLUMN_BITMASK = 8589934592L;
+
+	public static final long LOGINIP_COLUMN_BITMASK = 17179869184L;
+
+	public static final long LASTLOGINDATE_COLUMN_BITMASK = 34359738368L;
+
+	public static final long LASTLOGINIP_COLUMN_BITMASK = 68719476736L;
+
+	public static final long LASTFAILEDLOGINDATE_COLUMN_BITMASK = 137438953472L;
+
+	public static final long FAILEDLOGINATTEMPTS_COLUMN_BITMASK = 274877906944L;
+
+	public static final long LOCKOUT_COLUMN_BITMASK = 549755813888L;
+
+	public static final long LOCKOUTDATE_COLUMN_BITMASK = 1099511627776L;
+
+	public static final long AGREEDTOTERMSOFUSE_COLUMN_BITMASK = 2199023255552L;
+
+	public static final long EMAILADDRESSVERIFIED_COLUMN_BITMASK =
+		4398046511104L;
+
+	public static final long STATUS_COLUMN_BITMASK = 8796093022208L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -484,167 +543,340 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<User, Object> function = _attributeGetterFunctions.get(
+			attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((User)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<UserCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_userCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_userCacheModel);
+	}
+
 	private static final Map<String, Function<User, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<User, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<UserCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<User, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<User, Object>>();
 		Map<String, BiConsumer<User, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<User, ?>>();
+		Map<String, Function<UserCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap<String, Function<UserCacheModel, Object>>();
 
 		attributeGetterFunctions.put("mvccVersion", User::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion", userCacheModel -> userCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion", (BiConsumer<User, Long>)User::setMvccVersion);
 		attributeGetterFunctions.put("ctCollectionId", User::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId", userCacheModel -> userCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId", (BiConsumer<User, Long>)User::setCtCollectionId);
 		attributeGetterFunctions.put("uuid", User::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid", userCacheModel -> userCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<User, String>)User::setUuid);
 		attributeGetterFunctions.put(
 			"externalReferenceCode", User::getExternalReferenceCode);
+
+		cacheModelGetterFunctions.put(
+			"externalReferenceCode",
+			userCacheModel -> userCacheModel.externalReferenceCode);
 		attributeSetterBiConsumers.put(
 			"externalReferenceCode",
 			(BiConsumer<User, String>)User::setExternalReferenceCode);
 		attributeGetterFunctions.put("userId", User::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", userCacheModel -> userCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<User, Long>)User::setUserId);
 		attributeGetterFunctions.put("companyId", User::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId", userCacheModel -> userCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId", (BiConsumer<User, Long>)User::setCompanyId);
 		attributeGetterFunctions.put("createDate", User::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate", userCacheModel -> userCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate", (BiConsumer<User, Date>)User::setCreateDate);
 		attributeGetterFunctions.put("modifiedDate", User::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate", userCacheModel -> userCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate", (BiConsumer<User, Date>)User::setModifiedDate);
 		attributeGetterFunctions.put("defaultUser", User::getDefaultUser);
+
+		cacheModelGetterFunctions.put(
+			"defaultUser", userCacheModel -> userCacheModel.defaultUser);
 		attributeSetterBiConsumers.put(
 			"defaultUser", (BiConsumer<User, Boolean>)User::setDefaultUser);
 		attributeGetterFunctions.put("contactId", User::getContactId);
+
+		cacheModelGetterFunctions.put(
+			"contactId", userCacheModel -> userCacheModel.contactId);
 		attributeSetterBiConsumers.put(
 			"contactId", (BiConsumer<User, Long>)User::setContactId);
 		attributeGetterFunctions.put("password", User::getPassword);
+
+		cacheModelGetterFunctions.put(
+			"password", userCacheModel -> userCacheModel.password);
 		attributeSetterBiConsumers.put(
 			"password", (BiConsumer<User, String>)User::setPassword);
 		attributeGetterFunctions.put(
 			"passwordEncrypted", User::getPasswordEncrypted);
+
+		cacheModelGetterFunctions.put(
+			"passwordEncrypted",
+			userCacheModel -> userCacheModel.passwordEncrypted);
 		attributeSetterBiConsumers.put(
 			"passwordEncrypted",
 			(BiConsumer<User, Boolean>)User::setPasswordEncrypted);
 		attributeGetterFunctions.put("passwordReset", User::getPasswordReset);
+
+		cacheModelGetterFunctions.put(
+			"passwordReset", userCacheModel -> userCacheModel.passwordReset);
 		attributeSetterBiConsumers.put(
 			"passwordReset", (BiConsumer<User, Boolean>)User::setPasswordReset);
 		attributeGetterFunctions.put(
 			"passwordModifiedDate", User::getPasswordModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"passwordModifiedDate",
+			userCacheModel -> userCacheModel.passwordModifiedDate);
 		attributeSetterBiConsumers.put(
 			"passwordModifiedDate",
 			(BiConsumer<User, Date>)User::setPasswordModifiedDate);
 		attributeGetterFunctions.put("digest", User::getDigest);
+
+		cacheModelGetterFunctions.put(
+			"digest", userCacheModel -> userCacheModel.digest);
 		attributeSetterBiConsumers.put(
 			"digest", (BiConsumer<User, String>)User::setDigest);
 		attributeGetterFunctions.put(
 			"reminderQueryQuestion", User::getReminderQueryQuestion);
+
+		cacheModelGetterFunctions.put(
+			"reminderQueryQuestion",
+			userCacheModel -> userCacheModel.reminderQueryQuestion);
 		attributeSetterBiConsumers.put(
 			"reminderQueryQuestion",
 			(BiConsumer<User, String>)User::setReminderQueryQuestion);
 		attributeGetterFunctions.put(
 			"reminderQueryAnswer", User::getReminderQueryAnswer);
+
+		cacheModelGetterFunctions.put(
+			"reminderQueryAnswer",
+			userCacheModel -> userCacheModel.reminderQueryAnswer);
 		attributeSetterBiConsumers.put(
 			"reminderQueryAnswer",
 			(BiConsumer<User, String>)User::setReminderQueryAnswer);
 		attributeGetterFunctions.put(
 			"graceLoginCount", User::getGraceLoginCount);
+
+		cacheModelGetterFunctions.put(
+			"graceLoginCount",
+			userCacheModel -> userCacheModel.graceLoginCount);
 		attributeSetterBiConsumers.put(
 			"graceLoginCount",
 			(BiConsumer<User, Integer>)User::setGraceLoginCount);
 		attributeGetterFunctions.put("screenName", User::getScreenName);
+
+		cacheModelGetterFunctions.put(
+			"screenName", userCacheModel -> userCacheModel.screenName);
 		attributeSetterBiConsumers.put(
 			"screenName", (BiConsumer<User, String>)User::setScreenName);
 		attributeGetterFunctions.put("emailAddress", User::getEmailAddress);
+
+		cacheModelGetterFunctions.put(
+			"emailAddress", userCacheModel -> userCacheModel.emailAddress);
 		attributeSetterBiConsumers.put(
 			"emailAddress", (BiConsumer<User, String>)User::setEmailAddress);
 		attributeGetterFunctions.put("facebookId", User::getFacebookId);
+
+		cacheModelGetterFunctions.put(
+			"facebookId", userCacheModel -> userCacheModel.facebookId);
 		attributeSetterBiConsumers.put(
 			"facebookId", (BiConsumer<User, Long>)User::setFacebookId);
 		attributeGetterFunctions.put("googleUserId", User::getGoogleUserId);
+
+		cacheModelGetterFunctions.put(
+			"googleUserId", userCacheModel -> userCacheModel.googleUserId);
 		attributeSetterBiConsumers.put(
 			"googleUserId", (BiConsumer<User, String>)User::setGoogleUserId);
 		attributeGetterFunctions.put("ldapServerId", User::getLdapServerId);
+
+		cacheModelGetterFunctions.put(
+			"ldapServerId", userCacheModel -> userCacheModel.ldapServerId);
 		attributeSetterBiConsumers.put(
 			"ldapServerId", (BiConsumer<User, Long>)User::setLdapServerId);
 		attributeGetterFunctions.put("openId", User::getOpenId);
+
+		cacheModelGetterFunctions.put(
+			"openId", userCacheModel -> userCacheModel.openId);
 		attributeSetterBiConsumers.put(
 			"openId", (BiConsumer<User, String>)User::setOpenId);
 		attributeGetterFunctions.put("portraitId", User::getPortraitId);
+
+		cacheModelGetterFunctions.put(
+			"portraitId", userCacheModel -> userCacheModel.portraitId);
 		attributeSetterBiConsumers.put(
 			"portraitId", (BiConsumer<User, Long>)User::setPortraitId);
 		attributeGetterFunctions.put("languageId", User::getLanguageId);
+
+		cacheModelGetterFunctions.put(
+			"languageId", userCacheModel -> userCacheModel.languageId);
 		attributeSetterBiConsumers.put(
 			"languageId", (BiConsumer<User, String>)User::setLanguageId);
 		attributeGetterFunctions.put("timeZoneId", User::getTimeZoneId);
+
+		cacheModelGetterFunctions.put(
+			"timeZoneId", userCacheModel -> userCacheModel.timeZoneId);
 		attributeSetterBiConsumers.put(
 			"timeZoneId", (BiConsumer<User, String>)User::setTimeZoneId);
 		attributeGetterFunctions.put("greeting", User::getGreeting);
+
+		cacheModelGetterFunctions.put(
+			"greeting", userCacheModel -> userCacheModel.greeting);
 		attributeSetterBiConsumers.put(
 			"greeting", (BiConsumer<User, String>)User::setGreeting);
 		attributeGetterFunctions.put("comments", User::getComments);
+
+		cacheModelGetterFunctions.put(
+			"comments", userCacheModel -> userCacheModel.comments);
 		attributeSetterBiConsumers.put(
 			"comments", (BiConsumer<User, String>)User::setComments);
 		attributeGetterFunctions.put("firstName", User::getFirstName);
+
+		cacheModelGetterFunctions.put(
+			"firstName", userCacheModel -> userCacheModel.firstName);
 		attributeSetterBiConsumers.put(
 			"firstName", (BiConsumer<User, String>)User::setFirstName);
 		attributeGetterFunctions.put("middleName", User::getMiddleName);
+
+		cacheModelGetterFunctions.put(
+			"middleName", userCacheModel -> userCacheModel.middleName);
 		attributeSetterBiConsumers.put(
 			"middleName", (BiConsumer<User, String>)User::setMiddleName);
 		attributeGetterFunctions.put("lastName", User::getLastName);
+
+		cacheModelGetterFunctions.put(
+			"lastName", userCacheModel -> userCacheModel.lastName);
 		attributeSetterBiConsumers.put(
 			"lastName", (BiConsumer<User, String>)User::setLastName);
 		attributeGetterFunctions.put("jobTitle", User::getJobTitle);
+
+		cacheModelGetterFunctions.put(
+			"jobTitle", userCacheModel -> userCacheModel.jobTitle);
 		attributeSetterBiConsumers.put(
 			"jobTitle", (BiConsumer<User, String>)User::setJobTitle);
 		attributeGetterFunctions.put("loginDate", User::getLoginDate);
+
+		cacheModelGetterFunctions.put(
+			"loginDate", userCacheModel -> userCacheModel.loginDate);
 		attributeSetterBiConsumers.put(
 			"loginDate", (BiConsumer<User, Date>)User::setLoginDate);
 		attributeGetterFunctions.put("loginIP", User::getLoginIP);
+
+		cacheModelGetterFunctions.put(
+			"loginIP", userCacheModel -> userCacheModel.loginIP);
 		attributeSetterBiConsumers.put(
 			"loginIP", (BiConsumer<User, String>)User::setLoginIP);
 		attributeGetterFunctions.put("lastLoginDate", User::getLastLoginDate);
+
+		cacheModelGetterFunctions.put(
+			"lastLoginDate", userCacheModel -> userCacheModel.lastLoginDate);
 		attributeSetterBiConsumers.put(
 			"lastLoginDate", (BiConsumer<User, Date>)User::setLastLoginDate);
 		attributeGetterFunctions.put("lastLoginIP", User::getLastLoginIP);
+
+		cacheModelGetterFunctions.put(
+			"lastLoginIP", userCacheModel -> userCacheModel.lastLoginIP);
 		attributeSetterBiConsumers.put(
 			"lastLoginIP", (BiConsumer<User, String>)User::setLastLoginIP);
 		attributeGetterFunctions.put(
 			"lastFailedLoginDate", User::getLastFailedLoginDate);
+
+		cacheModelGetterFunctions.put(
+			"lastFailedLoginDate",
+			userCacheModel -> userCacheModel.lastFailedLoginDate);
 		attributeSetterBiConsumers.put(
 			"lastFailedLoginDate",
 			(BiConsumer<User, Date>)User::setLastFailedLoginDate);
 		attributeGetterFunctions.put(
 			"failedLoginAttempts", User::getFailedLoginAttempts);
+
+		cacheModelGetterFunctions.put(
+			"failedLoginAttempts",
+			userCacheModel -> userCacheModel.failedLoginAttempts);
 		attributeSetterBiConsumers.put(
 			"failedLoginAttempts",
 			(BiConsumer<User, Integer>)User::setFailedLoginAttempts);
 		attributeGetterFunctions.put("lockout", User::getLockout);
+
+		cacheModelGetterFunctions.put(
+			"lockout", userCacheModel -> userCacheModel.lockout);
 		attributeSetterBiConsumers.put(
 			"lockout", (BiConsumer<User, Boolean>)User::setLockout);
 		attributeGetterFunctions.put("lockoutDate", User::getLockoutDate);
+
+		cacheModelGetterFunctions.put(
+			"lockoutDate", userCacheModel -> userCacheModel.lockoutDate);
 		attributeSetterBiConsumers.put(
 			"lockoutDate", (BiConsumer<User, Date>)User::setLockoutDate);
 		attributeGetterFunctions.put(
 			"agreedToTermsOfUse", User::getAgreedToTermsOfUse);
+
+		cacheModelGetterFunctions.put(
+			"agreedToTermsOfUse",
+			userCacheModel -> userCacheModel.agreedToTermsOfUse);
 		attributeSetterBiConsumers.put(
 			"agreedToTermsOfUse",
 			(BiConsumer<User, Boolean>)User::setAgreedToTermsOfUse);
 		attributeGetterFunctions.put(
 			"emailAddressVerified", User::getEmailAddressVerified);
+
+		cacheModelGetterFunctions.put(
+			"emailAddressVerified",
+			userCacheModel -> userCacheModel.emailAddressVerified);
 		attributeSetterBiConsumers.put(
 			"emailAddressVerified",
 			(BiConsumer<User, Boolean>)User::setEmailAddressVerified);
 		attributeGetterFunctions.put("status", User::getStatus);
+
+		cacheModelGetterFunctions.put(
+			"status", userCacheModel -> userCacheModel.status);
 		attributeSetterBiConsumers.put(
 			"status", (BiConsumer<User, Integer>)User::setStatus);
 
@@ -652,6 +884,8 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -662,6 +896,12 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_userCacheModel == null)) {
+			_userCacheModel = (UserCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -673,6 +913,12 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (!isNew() && (_userCacheModel == null)) {
+			_userCacheModel = (UserCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -691,15 +937,20 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (!isNew() && (_userCacheModel == null)) {
+			_userCacheModel = (UserCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getCacheModelAttribute("uuid");
 	}
 
 	@JSON
@@ -717,15 +968,20 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 	public void setExternalReferenceCode(String externalReferenceCode) {
 		_columnBitmask |= EXTERNALREFERENCECODE_COLUMN_BITMASK;
 
-		if (_originalExternalReferenceCode == null) {
-			_originalExternalReferenceCode = _externalReferenceCode;
+		if (!isNew() && (_userCacheModel == null)) {
+			_userCacheModel = (UserCacheModel)toCacheModel();
 		}
 
 		_externalReferenceCode = externalReferenceCode;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalExternalReferenceCode() {
-		return GetterUtil.getString(_originalExternalReferenceCode);
+		return getCacheModelAttribute("externalReferenceCode");
 	}
 
 	@JSON
@@ -738,10 +994,8 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 	public void setUserId(long userId) {
 		_columnBitmask |= USERID_COLUMN_BITMASK;
 
-		if (!_setOriginalUserId) {
-			_setOriginalUserId = true;
-
-			_originalUserId = _userId;
+		if (!isNew() && (_userCacheModel == null)) {
+			_userCacheModel = (UserCacheModel)toCacheModel();
 		}
 
 		_userId = userId;
@@ -763,8 +1017,13 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 	public void setUserUuid(String userUuid) {
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalUserId() {
-		return _originalUserId;
+		return getCacheModelAttribute("userId");
 	}
 
 	@JSON
@@ -777,17 +1036,20 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (!isNew() && (_userCacheModel == null)) {
+			_userCacheModel = (UserCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getCacheModelAttribute("companyId");
 	}
 
 	@JSON
@@ -800,15 +1062,20 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 	public void setCreateDate(Date createDate) {
 		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
 
-		if (_originalCreateDate == null) {
-			_originalCreateDate = _createDate;
+		if (!isNew() && (_userCacheModel == null)) {
+			_userCacheModel = (UserCacheModel)toCacheModel();
 		}
 
 		_createDate = createDate;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public Date getOriginalCreateDate() {
-		return _originalCreateDate;
+		return getCacheModelAttribute("createDate");
 	}
 
 	@JSON
@@ -827,15 +1094,20 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
 
-		if (_originalModifiedDate == null) {
-			_originalModifiedDate = _modifiedDate;
+		if (!isNew() && (_userCacheModel == null)) {
+			_userCacheModel = (UserCacheModel)toCacheModel();
 		}
 
 		_modifiedDate = modifiedDate;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public Date getOriginalModifiedDate() {
-		return _originalModifiedDate;
+		return getCacheModelAttribute("modifiedDate");
 	}
 
 	@JSON
@@ -854,17 +1126,20 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 	public void setDefaultUser(boolean defaultUser) {
 		_columnBitmask |= DEFAULTUSER_COLUMN_BITMASK;
 
-		if (!_setOriginalDefaultUser) {
-			_setOriginalDefaultUser = true;
-
-			_originalDefaultUser = _defaultUser;
+		if (!isNew() && (_userCacheModel == null)) {
+			_userCacheModel = (UserCacheModel)toCacheModel();
 		}
 
 		_defaultUser = defaultUser;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public boolean getOriginalDefaultUser() {
-		return _originalDefaultUser;
+		return getCacheModelAttribute("defaultUser");
 	}
 
 	@JSON
@@ -877,17 +1152,20 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 	public void setContactId(long contactId) {
 		_columnBitmask |= CONTACTID_COLUMN_BITMASK;
 
-		if (!_setOriginalContactId) {
-			_setOriginalContactId = true;
-
-			_originalContactId = _contactId;
+		if (!isNew() && (_userCacheModel == null)) {
+			_userCacheModel = (UserCacheModel)toCacheModel();
 		}
 
 		_contactId = contactId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalContactId() {
-		return _originalContactId;
+		return getCacheModelAttribute("contactId");
 	}
 
 	@JSON(include = false)
@@ -903,6 +1181,12 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setPassword(String password) {
+		_columnBitmask |= PASSWORD_COLUMN_BITMASK;
+
+		if (!isNew() && (_userCacheModel == null)) {
+			_userCacheModel = (UserCacheModel)toCacheModel();
+		}
+
 		_password = password;
 	}
 
@@ -919,6 +1203,12 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setPasswordEncrypted(boolean passwordEncrypted) {
+		_columnBitmask |= PASSWORDENCRYPTED_COLUMN_BITMASK;
+
+		if (!isNew() && (_userCacheModel == null)) {
+			_userCacheModel = (UserCacheModel)toCacheModel();
+		}
+
 		_passwordEncrypted = passwordEncrypted;
 	}
 
@@ -935,6 +1225,12 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setPasswordReset(boolean passwordReset) {
+		_columnBitmask |= PASSWORDRESET_COLUMN_BITMASK;
+
+		if (!isNew() && (_userCacheModel == null)) {
+			_userCacheModel = (UserCacheModel)toCacheModel();
+		}
+
 		_passwordReset = passwordReset;
 	}
 
@@ -946,6 +1242,12 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setPasswordModifiedDate(Date passwordModifiedDate) {
+		_columnBitmask |= PASSWORDMODIFIEDDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_userCacheModel == null)) {
+			_userCacheModel = (UserCacheModel)toCacheModel();
+		}
+
 		_passwordModifiedDate = passwordModifiedDate;
 	}
 
@@ -962,6 +1264,12 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setDigest(String digest) {
+		_columnBitmask |= DIGEST_COLUMN_BITMASK;
+
+		if (!isNew() && (_userCacheModel == null)) {
+			_userCacheModel = (UserCacheModel)toCacheModel();
+		}
+
 		_digest = digest;
 	}
 
@@ -978,6 +1286,12 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setReminderQueryQuestion(String reminderQueryQuestion) {
+		_columnBitmask |= REMINDERQUERYQUESTION_COLUMN_BITMASK;
+
+		if (!isNew() && (_userCacheModel == null)) {
+			_userCacheModel = (UserCacheModel)toCacheModel();
+		}
+
 		_reminderQueryQuestion = reminderQueryQuestion;
 	}
 
@@ -994,6 +1308,12 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setReminderQueryAnswer(String reminderQueryAnswer) {
+		_columnBitmask |= REMINDERQUERYANSWER_COLUMN_BITMASK;
+
+		if (!isNew() && (_userCacheModel == null)) {
+			_userCacheModel = (UserCacheModel)toCacheModel();
+		}
+
 		_reminderQueryAnswer = reminderQueryAnswer;
 	}
 
@@ -1005,6 +1325,12 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setGraceLoginCount(int graceLoginCount) {
+		_columnBitmask |= GRACELOGINCOUNT_COLUMN_BITMASK;
+
+		if (!isNew() && (_userCacheModel == null)) {
+			_userCacheModel = (UserCacheModel)toCacheModel();
+		}
+
 		_graceLoginCount = graceLoginCount;
 	}
 
@@ -1023,15 +1349,20 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 	public void setScreenName(String screenName) {
 		_columnBitmask |= SCREENNAME_COLUMN_BITMASK;
 
-		if (_originalScreenName == null) {
-			_originalScreenName = _screenName;
+		if (!isNew() && (_userCacheModel == null)) {
+			_userCacheModel = (UserCacheModel)toCacheModel();
 		}
 
 		_screenName = screenName;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalScreenName() {
-		return GetterUtil.getString(_originalScreenName);
+		return getCacheModelAttribute("screenName");
 	}
 
 	@JSON
@@ -1049,15 +1380,20 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 	public void setEmailAddress(String emailAddress) {
 		_columnBitmask |= EMAILADDRESS_COLUMN_BITMASK;
 
-		if (_originalEmailAddress == null) {
-			_originalEmailAddress = _emailAddress;
+		if (!isNew() && (_userCacheModel == null)) {
+			_userCacheModel = (UserCacheModel)toCacheModel();
 		}
 
 		_emailAddress = emailAddress;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalEmailAddress() {
-		return GetterUtil.getString(_originalEmailAddress);
+		return getCacheModelAttribute("emailAddress");
 	}
 
 	@JSON
@@ -1070,17 +1406,20 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 	public void setFacebookId(long facebookId) {
 		_columnBitmask |= FACEBOOKID_COLUMN_BITMASK;
 
-		if (!_setOriginalFacebookId) {
-			_setOriginalFacebookId = true;
-
-			_originalFacebookId = _facebookId;
+		if (!isNew() && (_userCacheModel == null)) {
+			_userCacheModel = (UserCacheModel)toCacheModel();
 		}
 
 		_facebookId = facebookId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalFacebookId() {
-		return _originalFacebookId;
+		return getCacheModelAttribute("facebookId");
 	}
 
 	@JSON
@@ -1098,15 +1437,20 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 	public void setGoogleUserId(String googleUserId) {
 		_columnBitmask |= GOOGLEUSERID_COLUMN_BITMASK;
 
-		if (_originalGoogleUserId == null) {
-			_originalGoogleUserId = _googleUserId;
+		if (!isNew() && (_userCacheModel == null)) {
+			_userCacheModel = (UserCacheModel)toCacheModel();
 		}
 
 		_googleUserId = googleUserId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalGoogleUserId() {
-		return GetterUtil.getString(_originalGoogleUserId);
+		return getCacheModelAttribute("googleUserId");
 	}
 
 	@JSON
@@ -1117,6 +1461,12 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setLdapServerId(long ldapServerId) {
+		_columnBitmask |= LDAPSERVERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_userCacheModel == null)) {
+			_userCacheModel = (UserCacheModel)toCacheModel();
+		}
+
 		_ldapServerId = ldapServerId;
 	}
 
@@ -1135,15 +1485,20 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 	public void setOpenId(String openId) {
 		_columnBitmask |= OPENID_COLUMN_BITMASK;
 
-		if (_originalOpenId == null) {
-			_originalOpenId = _openId;
+		if (!isNew() && (_userCacheModel == null)) {
+			_userCacheModel = (UserCacheModel)toCacheModel();
 		}
 
 		_openId = openId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalOpenId() {
-		return GetterUtil.getString(_originalOpenId);
+		return getCacheModelAttribute("openId");
 	}
 
 	@JSON
@@ -1156,17 +1511,20 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 	public void setPortraitId(long portraitId) {
 		_columnBitmask |= PORTRAITID_COLUMN_BITMASK;
 
-		if (!_setOriginalPortraitId) {
-			_setOriginalPortraitId = true;
-
-			_originalPortraitId = _portraitId;
+		if (!isNew() && (_userCacheModel == null)) {
+			_userCacheModel = (UserCacheModel)toCacheModel();
 		}
 
 		_portraitId = portraitId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalPortraitId() {
-		return _originalPortraitId;
+		return getCacheModelAttribute("portraitId");
 	}
 
 	@JSON
@@ -1182,6 +1540,12 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setLanguageId(String languageId) {
+		_columnBitmask |= LANGUAGEID_COLUMN_BITMASK;
+
+		if (!isNew() && (_userCacheModel == null)) {
+			_userCacheModel = (UserCacheModel)toCacheModel();
+		}
+
 		_languageId = languageId;
 	}
 
@@ -1198,6 +1562,12 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setTimeZoneId(String timeZoneId) {
+		_columnBitmask |= TIMEZONEID_COLUMN_BITMASK;
+
+		if (!isNew() && (_userCacheModel == null)) {
+			_userCacheModel = (UserCacheModel)toCacheModel();
+		}
+
 		_timeZoneId = timeZoneId;
 	}
 
@@ -1214,6 +1584,12 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setGreeting(String greeting) {
+		_columnBitmask |= GREETING_COLUMN_BITMASK;
+
+		if (!isNew() && (_userCacheModel == null)) {
+			_userCacheModel = (UserCacheModel)toCacheModel();
+		}
+
 		_greeting = greeting;
 	}
 
@@ -1230,6 +1606,12 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setComments(String comments) {
+		_columnBitmask |= COMMENTS_COLUMN_BITMASK;
+
+		if (!isNew() && (_userCacheModel == null)) {
+			_userCacheModel = (UserCacheModel)toCacheModel();
+		}
+
 		_comments = comments;
 	}
 
@@ -1246,6 +1628,12 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setFirstName(String firstName) {
+		_columnBitmask |= FIRSTNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_userCacheModel == null)) {
+			_userCacheModel = (UserCacheModel)toCacheModel();
+		}
+
 		_firstName = firstName;
 	}
 
@@ -1262,6 +1650,12 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setMiddleName(String middleName) {
+		_columnBitmask |= MIDDLENAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_userCacheModel == null)) {
+			_userCacheModel = (UserCacheModel)toCacheModel();
+		}
+
 		_middleName = middleName;
 	}
 
@@ -1278,6 +1672,12 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setLastName(String lastName) {
+		_columnBitmask |= LASTNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_userCacheModel == null)) {
+			_userCacheModel = (UserCacheModel)toCacheModel();
+		}
+
 		_lastName = lastName;
 	}
 
@@ -1294,6 +1694,12 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setJobTitle(String jobTitle) {
+		_columnBitmask |= JOBTITLE_COLUMN_BITMASK;
+
+		if (!isNew() && (_userCacheModel == null)) {
+			_userCacheModel = (UserCacheModel)toCacheModel();
+		}
+
 		_jobTitle = jobTitle;
 	}
 
@@ -1305,6 +1711,12 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setLoginDate(Date loginDate) {
+		_columnBitmask |= LOGINDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_userCacheModel == null)) {
+			_userCacheModel = (UserCacheModel)toCacheModel();
+		}
+
 		_loginDate = loginDate;
 	}
 
@@ -1321,6 +1733,12 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setLoginIP(String loginIP) {
+		_columnBitmask |= LOGINIP_COLUMN_BITMASK;
+
+		if (!isNew() && (_userCacheModel == null)) {
+			_userCacheModel = (UserCacheModel)toCacheModel();
+		}
+
 		_loginIP = loginIP;
 	}
 
@@ -1332,6 +1750,12 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setLastLoginDate(Date lastLoginDate) {
+		_columnBitmask |= LASTLOGINDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_userCacheModel == null)) {
+			_userCacheModel = (UserCacheModel)toCacheModel();
+		}
+
 		_lastLoginDate = lastLoginDate;
 	}
 
@@ -1348,6 +1772,12 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setLastLoginIP(String lastLoginIP) {
+		_columnBitmask |= LASTLOGINIP_COLUMN_BITMASK;
+
+		if (!isNew() && (_userCacheModel == null)) {
+			_userCacheModel = (UserCacheModel)toCacheModel();
+		}
+
 		_lastLoginIP = lastLoginIP;
 	}
 
@@ -1359,6 +1789,12 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setLastFailedLoginDate(Date lastFailedLoginDate) {
+		_columnBitmask |= LASTFAILEDLOGINDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_userCacheModel == null)) {
+			_userCacheModel = (UserCacheModel)toCacheModel();
+		}
+
 		_lastFailedLoginDate = lastFailedLoginDate;
 	}
 
@@ -1370,6 +1806,12 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setFailedLoginAttempts(int failedLoginAttempts) {
+		_columnBitmask |= FAILEDLOGINATTEMPTS_COLUMN_BITMASK;
+
+		if (!isNew() && (_userCacheModel == null)) {
+			_userCacheModel = (UserCacheModel)toCacheModel();
+		}
+
 		_failedLoginAttempts = failedLoginAttempts;
 	}
 
@@ -1387,6 +1829,12 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setLockout(boolean lockout) {
+		_columnBitmask |= LOCKOUT_COLUMN_BITMASK;
+
+		if (!isNew() && (_userCacheModel == null)) {
+			_userCacheModel = (UserCacheModel)toCacheModel();
+		}
+
 		_lockout = lockout;
 	}
 
@@ -1398,6 +1846,12 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setLockoutDate(Date lockoutDate) {
+		_columnBitmask |= LOCKOUTDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_userCacheModel == null)) {
+			_userCacheModel = (UserCacheModel)toCacheModel();
+		}
+
 		_lockoutDate = lockoutDate;
 	}
 
@@ -1415,6 +1869,12 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setAgreedToTermsOfUse(boolean agreedToTermsOfUse) {
+		_columnBitmask |= AGREEDTOTERMSOFUSE_COLUMN_BITMASK;
+
+		if (!isNew() && (_userCacheModel == null)) {
+			_userCacheModel = (UserCacheModel)toCacheModel();
+		}
+
 		_agreedToTermsOfUse = agreedToTermsOfUse;
 	}
 
@@ -1432,6 +1892,12 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setEmailAddressVerified(boolean emailAddressVerified) {
+		_columnBitmask |= EMAILADDRESSVERIFIED_COLUMN_BITMASK;
+
+		if (!isNew() && (_userCacheModel == null)) {
+			_userCacheModel = (UserCacheModel)toCacheModel();
+		}
+
 		_emailAddressVerified = emailAddressVerified;
 	}
 
@@ -1445,17 +1911,20 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 	public void setStatus(int status) {
 		_columnBitmask |= STATUS_COLUMN_BITMASK;
 
-		if (!_setOriginalStatus) {
-			_setOriginalStatus = true;
-
-			_originalStatus = _status;
+		if (!isNew() && (_userCacheModel == null)) {
+			_userCacheModel = (UserCacheModel)toCacheModel();
 		}
 
 		_status = status;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public int getOriginalStatus() {
-		return _originalStatus;
+		return getCacheModelAttribute("status");
 	}
 
 	@Override
@@ -1499,6 +1968,8 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 	@Override
 	public Object clone() {
 		UserImpl userImpl = new UserImpl();
+
+		userImpl.setNew(true);
 
 		userImpl.setMvccVersion(getMvccVersion());
 		userImpl.setCtCollectionId(getCtCollectionId());
@@ -1546,6 +2017,8 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 		userImpl.setStatus(getStatus());
 
 		userImpl.resetOriginalValues();
+
+		userImpl.setNew(false);
 
 		return userImpl;
 	}
@@ -1612,56 +2085,11 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void resetOriginalValues() {
-		UserModelImpl userModelImpl = this;
+		_setModifiedDate = false;
 
-		userModelImpl._originalUuid = userModelImpl._uuid;
+		_columnBitmask = 0;
 
-		userModelImpl._originalExternalReferenceCode =
-			userModelImpl._externalReferenceCode;
-
-		userModelImpl._originalUserId = userModelImpl._userId;
-
-		userModelImpl._setOriginalUserId = false;
-
-		userModelImpl._originalCompanyId = userModelImpl._companyId;
-
-		userModelImpl._setOriginalCompanyId = false;
-
-		userModelImpl._originalCreateDate = userModelImpl._createDate;
-
-		userModelImpl._originalModifiedDate = userModelImpl._modifiedDate;
-
-		userModelImpl._setModifiedDate = false;
-
-		userModelImpl._originalDefaultUser = userModelImpl._defaultUser;
-
-		userModelImpl._setOriginalDefaultUser = false;
-
-		userModelImpl._originalContactId = userModelImpl._contactId;
-
-		userModelImpl._setOriginalContactId = false;
-
-		userModelImpl._originalScreenName = userModelImpl._screenName;
-
-		userModelImpl._originalEmailAddress = userModelImpl._emailAddress;
-
-		userModelImpl._originalFacebookId = userModelImpl._facebookId;
-
-		userModelImpl._setOriginalFacebookId = false;
-
-		userModelImpl._originalGoogleUserId = userModelImpl._googleUserId;
-
-		userModelImpl._originalOpenId = userModelImpl._openId;
-
-		userModelImpl._originalPortraitId = userModelImpl._portraitId;
-
-		userModelImpl._setOriginalPortraitId = false;
-
-		userModelImpl._originalStatus = userModelImpl._status;
-
-		userModelImpl._setOriginalStatus = false;
-
-		userModelImpl._columnBitmask = 0;
+		_userCacheModel = null;
 	}
 
 	@Override
@@ -2006,26 +2434,14 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 	private long _mvccVersion;
 	private long _ctCollectionId;
 	private String _uuid;
-	private String _originalUuid;
 	private String _externalReferenceCode;
-	private String _originalExternalReferenceCode;
 	private long _userId;
-	private long _originalUserId;
-	private boolean _setOriginalUserId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private Date _createDate;
-	private Date _originalCreateDate;
 	private Date _modifiedDate;
-	private Date _originalModifiedDate;
 	private boolean _setModifiedDate;
 	private boolean _defaultUser;
-	private boolean _originalDefaultUser;
-	private boolean _setOriginalDefaultUser;
 	private long _contactId;
-	private long _originalContactId;
-	private boolean _setOriginalContactId;
 	private String _password;
 	private boolean _passwordEncrypted;
 	private boolean _passwordReset;
@@ -2035,20 +2451,12 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 	private String _reminderQueryAnswer;
 	private int _graceLoginCount;
 	private String _screenName;
-	private String _originalScreenName;
 	private String _emailAddress;
-	private String _originalEmailAddress;
 	private long _facebookId;
-	private long _originalFacebookId;
-	private boolean _setOriginalFacebookId;
 	private String _googleUserId;
-	private String _originalGoogleUserId;
 	private long _ldapServerId;
 	private String _openId;
-	private String _originalOpenId;
 	private long _portraitId;
-	private long _originalPortraitId;
-	private boolean _setOriginalPortraitId;
 	private String _languageId;
 	private String _timeZoneId;
 	private String _greeting;
@@ -2068,9 +2476,8 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 	private boolean _agreedToTermsOfUse;
 	private boolean _emailAddressVerified;
 	private int _status;
-	private int _originalStatus;
-	private boolean _setOriginalStatus;
 	private long _columnBitmask;
 	private User _escapedModel;
+	private UserCacheModel _userCacheModel;
 
 }

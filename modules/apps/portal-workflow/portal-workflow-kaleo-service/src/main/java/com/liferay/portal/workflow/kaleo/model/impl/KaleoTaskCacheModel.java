@@ -113,6 +113,8 @@ public class KaleoTaskCacheModel
 	public KaleoTask toEntityModel() {
 		KaleoTaskImpl kaleoTaskImpl = new KaleoTaskImpl();
 
+		kaleoTaskImpl.setNew(true);
+
 		kaleoTaskImpl.setMvccVersion(mvccVersion);
 		kaleoTaskImpl.setKaleoTaskId(kaleoTaskId);
 		kaleoTaskImpl.setGroupId(groupId);
@@ -159,6 +161,8 @@ public class KaleoTaskCacheModel
 		}
 
 		kaleoTaskImpl.resetOriginalValues();
+
+		kaleoTaskImpl.setNew(false);
 
 		return kaleoTaskImpl;
 	}

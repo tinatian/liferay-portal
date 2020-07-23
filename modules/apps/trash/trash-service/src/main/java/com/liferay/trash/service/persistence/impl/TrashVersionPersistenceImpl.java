@@ -1538,8 +1538,8 @@ public class TrashVersionPersistenceImpl
 			 _finderPathFetchByC_C.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				trashVersionModelImpl.getOriginalClassNameId(),
-				trashVersionModelImpl.getOriginalClassPK()
+				trashVersionModelImpl.getCacheModelAttribute("classNameId"),
+				trashVersionModelImpl.getCacheModelAttribute("classPK")
 			};
 
 			finderCache.removeResult(_finderPathCountByC_C, args);
@@ -1741,7 +1741,7 @@ public class TrashVersionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					trashVersionModelImpl.getOriginalEntryId()
+					trashVersionModelImpl.getCacheModelAttribute("entryId")
 				};
 
 				finderCache.removeResult(_finderPathCountByEntryId, args);
@@ -1760,8 +1760,8 @@ public class TrashVersionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					trashVersionModelImpl.getOriginalEntryId(),
-					trashVersionModelImpl.getOriginalClassNameId()
+					trashVersionModelImpl.getCacheModelAttribute("entryId"),
+					trashVersionModelImpl.getCacheModelAttribute("classNameId")
 				};
 
 				finderCache.removeResult(_finderPathCountByE_C, args);

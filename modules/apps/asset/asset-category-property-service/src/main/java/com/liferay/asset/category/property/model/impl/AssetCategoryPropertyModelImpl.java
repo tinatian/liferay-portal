@@ -29,7 +29,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -116,11 +115,27 @@ public class AssetCategoryPropertyModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long CATEGORYID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
-	public static final long KEY_COLUMN_BITMASK = 4L;
+	public static final long CATEGORYPROPERTYID_COLUMN_BITMASK = 4L;
+
+	public static final long COMPANYID_COLUMN_BITMASK = 8L;
+
+	public static final long USERID_COLUMN_BITMASK = 16L;
+
+	public static final long USERNAME_COLUMN_BITMASK = 32L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 64L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 128L;
+
+	public static final long CATEGORYID_COLUMN_BITMASK = 256L;
+
+	public static final long KEY_COLUMN_BITMASK = 512L;
+
+	public static final long VALUE_COLUMN_BITMASK = 1024L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -303,10 +318,39 @@ public class AssetCategoryPropertyModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<AssetCategoryProperty, Object> function =
+			_attributeGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((AssetCategoryProperty)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<AssetCategoryPropertyCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_assetCategoryPropertyCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_assetCategoryPropertyCacheModel);
+	}
+
 	private static final Map<String, Function<AssetCategoryProperty, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<AssetCategoryProperty, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<AssetCategoryPropertyCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<AssetCategoryProperty, Object>>
@@ -317,67 +361,127 @@ public class AssetCategoryPropertyModelImpl
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<AssetCategoryProperty, ?>>();
+		Map<String, Function<AssetCategoryPropertyCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String,
+					 Function<AssetCategoryPropertyCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", AssetCategoryProperty::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			assetCategoryPropertyCacheModel ->
+				assetCategoryPropertyCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<AssetCategoryProperty, Long>)
 				AssetCategoryProperty::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", AssetCategoryProperty::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			assetCategoryPropertyCacheModel ->
+				assetCategoryPropertyCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<AssetCategoryProperty, Long>)
 				AssetCategoryProperty::setCtCollectionId);
 		attributeGetterFunctions.put(
 			"categoryPropertyId", AssetCategoryProperty::getCategoryPropertyId);
+
+		cacheModelGetterFunctions.put(
+			"categoryPropertyId",
+			assetCategoryPropertyCacheModel ->
+				assetCategoryPropertyCacheModel.categoryPropertyId);
 		attributeSetterBiConsumers.put(
 			"categoryPropertyId",
 			(BiConsumer<AssetCategoryProperty, Long>)
 				AssetCategoryProperty::setCategoryPropertyId);
 		attributeGetterFunctions.put(
 			"companyId", AssetCategoryProperty::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			assetCategoryPropertyCacheModel ->
+				assetCategoryPropertyCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<AssetCategoryProperty, Long>)
 				AssetCategoryProperty::setCompanyId);
 		attributeGetterFunctions.put(
 			"userId", AssetCategoryProperty::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			assetCategoryPropertyCacheModel ->
+				assetCategoryPropertyCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<AssetCategoryProperty, Long>)
 				AssetCategoryProperty::setUserId);
 		attributeGetterFunctions.put(
 			"userName", AssetCategoryProperty::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			assetCategoryPropertyCacheModel ->
+				assetCategoryPropertyCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<AssetCategoryProperty, String>)
 				AssetCategoryProperty::setUserName);
 		attributeGetterFunctions.put(
 			"createDate", AssetCategoryProperty::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			assetCategoryPropertyCacheModel ->
+				assetCategoryPropertyCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<AssetCategoryProperty, Date>)
 				AssetCategoryProperty::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", AssetCategoryProperty::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			assetCategoryPropertyCacheModel ->
+				assetCategoryPropertyCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<AssetCategoryProperty, Date>)
 				AssetCategoryProperty::setModifiedDate);
 		attributeGetterFunctions.put(
 			"categoryId", AssetCategoryProperty::getCategoryId);
+
+		cacheModelGetterFunctions.put(
+			"categoryId",
+			assetCategoryPropertyCacheModel ->
+				assetCategoryPropertyCacheModel.categoryId);
 		attributeSetterBiConsumers.put(
 			"categoryId",
 			(BiConsumer<AssetCategoryProperty, Long>)
 				AssetCategoryProperty::setCategoryId);
 		attributeGetterFunctions.put("key", AssetCategoryProperty::getKey);
+
+		cacheModelGetterFunctions.put(
+			"key",
+			assetCategoryPropertyCacheModel ->
+				assetCategoryPropertyCacheModel.key);
 		attributeSetterBiConsumers.put(
 			"key",
 			(BiConsumer<AssetCategoryProperty, String>)
 				AssetCategoryProperty::setKey);
 		attributeGetterFunctions.put("value", AssetCategoryProperty::getValue);
+
+		cacheModelGetterFunctions.put(
+			"value",
+			assetCategoryPropertyCacheModel ->
+				assetCategoryPropertyCacheModel.value);
 		attributeSetterBiConsumers.put(
 			"value",
 			(BiConsumer<AssetCategoryProperty, String>)
@@ -387,6 +491,8 @@ public class AssetCategoryPropertyModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -397,6 +503,13 @@ public class AssetCategoryPropertyModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_assetCategoryPropertyCacheModel == null)) {
+			_assetCategoryPropertyCacheModel =
+				(AssetCategoryPropertyCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -408,6 +521,13 @@ public class AssetCategoryPropertyModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (!isNew() && (_assetCategoryPropertyCacheModel == null)) {
+			_assetCategoryPropertyCacheModel =
+				(AssetCategoryPropertyCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -419,6 +539,13 @@ public class AssetCategoryPropertyModelImpl
 
 	@Override
 	public void setCategoryPropertyId(long categoryPropertyId) {
+		_columnBitmask |= CATEGORYPROPERTYID_COLUMN_BITMASK;
+
+		if (!isNew() && (_assetCategoryPropertyCacheModel == null)) {
+			_assetCategoryPropertyCacheModel =
+				(AssetCategoryPropertyCacheModel)toCacheModel();
+		}
+
 		_categoryPropertyId = categoryPropertyId;
 	}
 
@@ -432,17 +559,21 @@ public class AssetCategoryPropertyModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (!isNew() && (_assetCategoryPropertyCacheModel == null)) {
+			_assetCategoryPropertyCacheModel =
+				(AssetCategoryPropertyCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getCacheModelAttribute("companyId");
 	}
 
 	@JSON
@@ -453,6 +584,13 @@ public class AssetCategoryPropertyModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_assetCategoryPropertyCacheModel == null)) {
+			_assetCategoryPropertyCacheModel =
+				(AssetCategoryPropertyCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -485,6 +623,13 @@ public class AssetCategoryPropertyModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_assetCategoryPropertyCacheModel == null)) {
+			_assetCategoryPropertyCacheModel =
+				(AssetCategoryPropertyCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -496,6 +641,13 @@ public class AssetCategoryPropertyModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_assetCategoryPropertyCacheModel == null)) {
+			_assetCategoryPropertyCacheModel =
+				(AssetCategoryPropertyCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -513,6 +665,13 @@ public class AssetCategoryPropertyModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_assetCategoryPropertyCacheModel == null)) {
+			_assetCategoryPropertyCacheModel =
+				(AssetCategoryPropertyCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -526,17 +685,21 @@ public class AssetCategoryPropertyModelImpl
 	public void setCategoryId(long categoryId) {
 		_columnBitmask |= CATEGORYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCategoryId) {
-			_setOriginalCategoryId = true;
-
-			_originalCategoryId = _categoryId;
+		if (!isNew() && (_assetCategoryPropertyCacheModel == null)) {
+			_assetCategoryPropertyCacheModel =
+				(AssetCategoryPropertyCacheModel)toCacheModel();
 		}
 
 		_categoryId = categoryId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCategoryId() {
-		return _originalCategoryId;
+		return getCacheModelAttribute("categoryId");
 	}
 
 	@JSON
@@ -552,17 +715,23 @@ public class AssetCategoryPropertyModelImpl
 
 	@Override
 	public void setKey(String key) {
-		_columnBitmask = -1L;
+		_columnBitmask |= KEY_COLUMN_BITMASK;
 
-		if (_originalKey == null) {
-			_originalKey = _key;
+		if (!isNew() && (_assetCategoryPropertyCacheModel == null)) {
+			_assetCategoryPropertyCacheModel =
+				(AssetCategoryPropertyCacheModel)toCacheModel();
 		}
 
 		_key = key;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalKey() {
-		return GetterUtil.getString(_originalKey);
+		return getCacheModelAttribute("key");
 	}
 
 	@JSON
@@ -578,6 +747,13 @@ public class AssetCategoryPropertyModelImpl
 
 	@Override
 	public void setValue(String value) {
+		_columnBitmask |= VALUE_COLUMN_BITMASK;
+
+		if (!isNew() && (_assetCategoryPropertyCacheModel == null)) {
+			_assetCategoryPropertyCacheModel =
+				(AssetCategoryPropertyCacheModel)toCacheModel();
+		}
+
 		_value = value;
 	}
 
@@ -619,6 +795,8 @@ public class AssetCategoryPropertyModelImpl
 		AssetCategoryPropertyImpl assetCategoryPropertyImpl =
 			new AssetCategoryPropertyImpl();
 
+		assetCategoryPropertyImpl.setNew(true);
+
 		assetCategoryPropertyImpl.setMvccVersion(getMvccVersion());
 		assetCategoryPropertyImpl.setCtCollectionId(getCtCollectionId());
 		assetCategoryPropertyImpl.setCategoryPropertyId(
@@ -633,6 +811,8 @@ public class AssetCategoryPropertyModelImpl
 		assetCategoryPropertyImpl.setValue(getValue());
 
 		assetCategoryPropertyImpl.resetOriginalValues();
+
+		assetCategoryPropertyImpl.setNew(false);
 
 		return assetCategoryPropertyImpl;
 	}
@@ -698,24 +878,11 @@ public class AssetCategoryPropertyModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		AssetCategoryPropertyModelImpl assetCategoryPropertyModelImpl = this;
+		_setModifiedDate = false;
 
-		assetCategoryPropertyModelImpl._originalCompanyId =
-			assetCategoryPropertyModelImpl._companyId;
+		_columnBitmask = 0;
 
-		assetCategoryPropertyModelImpl._setOriginalCompanyId = false;
-
-		assetCategoryPropertyModelImpl._setModifiedDate = false;
-
-		assetCategoryPropertyModelImpl._originalCategoryId =
-			assetCategoryPropertyModelImpl._categoryId;
-
-		assetCategoryPropertyModelImpl._setOriginalCategoryId = false;
-
-		assetCategoryPropertyModelImpl._originalKey =
-			assetCategoryPropertyModelImpl._key;
-
-		assetCategoryPropertyModelImpl._columnBitmask = 0;
+		_assetCategoryPropertyCacheModel = null;
 	}
 
 	@Override
@@ -858,20 +1025,16 @@ public class AssetCategoryPropertyModelImpl
 	private long _ctCollectionId;
 	private long _categoryPropertyId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _categoryId;
-	private long _originalCategoryId;
-	private boolean _setOriginalCategoryId;
 	private String _key;
-	private String _originalKey;
 	private String _value;
 	private long _columnBitmask;
 	private AssetCategoryProperty _escapedModel;
+	private AssetCategoryPropertyCacheModel _assetCategoryPropertyCacheModel;
 
 }

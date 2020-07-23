@@ -101,6 +101,8 @@ public class UserTrackerPathCacheModel
 	public UserTrackerPath toEntityModel() {
 		UserTrackerPathImpl userTrackerPathImpl = new UserTrackerPathImpl();
 
+		userTrackerPathImpl.setNew(true);
+
 		userTrackerPathImpl.setMvccVersion(mvccVersion);
 		userTrackerPathImpl.setUserTrackerPathId(userTrackerPathId);
 		userTrackerPathImpl.setCompanyId(companyId);
@@ -121,6 +123,8 @@ public class UserTrackerPathCacheModel
 		}
 
 		userTrackerPathImpl.resetOriginalValues();
+
+		userTrackerPathImpl.setNew(false);
 
 		return userTrackerPathImpl;
 	}

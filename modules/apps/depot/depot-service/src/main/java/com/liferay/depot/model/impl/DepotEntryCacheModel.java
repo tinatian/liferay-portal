@@ -106,6 +106,8 @@ public class DepotEntryCacheModel
 	public DepotEntry toEntityModel() {
 		DepotEntryImpl depotEntryImpl = new DepotEntryImpl();
 
+		depotEntryImpl.setNew(true);
+
 		depotEntryImpl.setMvccVersion(mvccVersion);
 
 		if (uuid == null) {
@@ -142,6 +144,8 @@ public class DepotEntryCacheModel
 		}
 
 		depotEntryImpl.resetOriginalValues();
+
+		depotEntryImpl.setNew(false);
 
 		return depotEntryImpl;
 	}

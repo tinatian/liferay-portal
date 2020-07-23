@@ -105,6 +105,8 @@ public class CompanyCacheModel
 	public Company toEntityModel() {
 		CompanyImpl companyImpl = new CompanyImpl();
 
+		companyImpl.setNew(true);
+
 		companyImpl.setMvccVersion(mvccVersion);
 		companyImpl.setCompanyId(companyId);
 		companyImpl.setAccountId(accountId);
@@ -140,6 +142,8 @@ public class CompanyCacheModel
 		companyImpl.setCompanySecurityBag(_companySecurityBag);
 
 		companyImpl.setVirtualHostname(_virtualHostname);
+
+		companyImpl.setNew(false);
 
 		return companyImpl;
 	}

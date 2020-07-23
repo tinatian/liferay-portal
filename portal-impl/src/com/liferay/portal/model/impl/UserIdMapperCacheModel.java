@@ -100,6 +100,8 @@ public class UserIdMapperCacheModel
 	public UserIdMapper toEntityModel() {
 		UserIdMapperImpl userIdMapperImpl = new UserIdMapperImpl();
 
+		userIdMapperImpl.setNew(true);
+
 		userIdMapperImpl.setMvccVersion(mvccVersion);
 		userIdMapperImpl.setUserIdMapperId(userIdMapperId);
 		userIdMapperImpl.setCompanyId(companyId);
@@ -127,6 +129,8 @@ public class UserIdMapperCacheModel
 		}
 
 		userIdMapperImpl.resetOriginalValues();
+
+		userIdMapperImpl.setNew(false);
 
 		return userIdMapperImpl;
 	}

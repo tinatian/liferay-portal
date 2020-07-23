@@ -836,8 +836,8 @@ public class WeDeployAuthAppPersistenceImpl
 			 _finderPathFetchByRU_CI.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				weDeployAuthAppModelImpl.getOriginalRedirectURI(),
-				weDeployAuthAppModelImpl.getOriginalClientId()
+				weDeployAuthAppModelImpl.getCacheModelAttribute("redirectURI"),
+				weDeployAuthAppModelImpl.getCacheModelAttribute("clientId")
 			};
 
 			finderCache.removeResult(_finderPathCountByRU_CI, args);
@@ -858,8 +858,8 @@ public class WeDeployAuthAppPersistenceImpl
 			 _finderPathFetchByCI_CS.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				weDeployAuthAppModelImpl.getOriginalClientId(),
-				weDeployAuthAppModelImpl.getOriginalClientSecret()
+				weDeployAuthAppModelImpl.getCacheModelAttribute("clientId"),
+				weDeployAuthAppModelImpl.getCacheModelAttribute("clientSecret")
 			};
 
 			finderCache.removeResult(_finderPathCountByCI_CS, args);

@@ -1796,7 +1796,7 @@ public class MemberRequestPersistenceImpl
 			 _finderPathFetchByKey.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				memberRequestModelImpl.getOriginalKey()
+				memberRequestModelImpl.getCacheModelAttribute("key")
 			};
 
 			finderCache.removeResult(_finderPathCountByKey, args);
@@ -1818,9 +1818,9 @@ public class MemberRequestPersistenceImpl
 			 _finderPathFetchByG_R_S.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				memberRequestModelImpl.getOriginalGroupId(),
-				memberRequestModelImpl.getOriginalReceiverUserId(),
-				memberRequestModelImpl.getOriginalStatus()
+				memberRequestModelImpl.getCacheModelAttribute("groupId"),
+				memberRequestModelImpl.getCacheModelAttribute("receiverUserId"),
+				memberRequestModelImpl.getCacheModelAttribute("status")
 			};
 
 			finderCache.removeResult(_finderPathCountByG_R_S, args);
@@ -2030,7 +2030,8 @@ public class MemberRequestPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					memberRequestModelImpl.getOriginalReceiverUserId()
+					memberRequestModelImpl.getCacheModelAttribute(
+						"receiverUserId")
 				};
 
 				finderCache.removeResult(
@@ -2053,8 +2054,9 @@ public class MemberRequestPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					memberRequestModelImpl.getOriginalReceiverUserId(),
-					memberRequestModelImpl.getOriginalStatus()
+					memberRequestModelImpl.getCacheModelAttribute(
+						"receiverUserId"),
+					memberRequestModelImpl.getCacheModelAttribute("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByR_S, args);

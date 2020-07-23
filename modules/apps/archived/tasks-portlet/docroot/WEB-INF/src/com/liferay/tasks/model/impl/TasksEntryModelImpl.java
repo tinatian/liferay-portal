@@ -137,21 +137,33 @@ public class TasksEntryModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long ASSIGNEEUSERID_COLUMN_BITMASK = 1L;
+	public static final long TASKSENTRYID_COLUMN_BITMASK = 1L;
 
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
 
-	public static final long RESOLVERUSERID_COLUMN_BITMASK = 4L;
+	public static final long COMPANYID_COLUMN_BITMASK = 4L;
 
-	public static final long STATUS_COLUMN_BITMASK = 8L;
+	public static final long USERID_COLUMN_BITMASK = 8L;
 
-	public static final long USERID_COLUMN_BITMASK = 16L;
+	public static final long USERNAME_COLUMN_BITMASK = 16L;
 
-	public static final long PRIORITY_COLUMN_BITMASK = 32L;
+	public static final long CREATEDATE_COLUMN_BITMASK = 32L;
 
-	public static final long DUEDATE_COLUMN_BITMASK = 64L;
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 64L;
 
-	public static final long CREATEDATE_COLUMN_BITMASK = 128L;
+	public static final long TITLE_COLUMN_BITMASK = 128L;
+
+	public static final long PRIORITY_COLUMN_BITMASK = 256L;
+
+	public static final long ASSIGNEEUSERID_COLUMN_BITMASK = 512L;
+
+	public static final long RESOLVERUSERID_COLUMN_BITMASK = 1024L;
+
+	public static final long DUEDATE_COLUMN_BITMASK = 2048L;
+
+	public static final long FINISHDATE_COLUMN_BITMASK = 4096L;
+
+	public static final long STATUS_COLUMN_BITMASK = 8192L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -320,70 +332,151 @@ public class TasksEntryModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<TasksEntry, Object> function = _attributeGetterFunctions.get(
+			attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((TasksEntry)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<TasksEntryCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_tasksEntryCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_tasksEntryCacheModel);
+	}
+
 	private static final Map<String, Function<TasksEntry, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<TasksEntry, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<TasksEntryCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<TasksEntry, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<TasksEntry, Object>>();
 		Map<String, BiConsumer<TasksEntry, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<TasksEntry, ?>>();
+		Map<String, Function<TasksEntryCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<TasksEntryCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"tasksEntryId", TasksEntry::getTasksEntryId);
+
+		cacheModelGetterFunctions.put(
+			"tasksEntryId",
+			tasksEntryCacheModel -> tasksEntryCacheModel.tasksEntryId);
 		attributeSetterBiConsumers.put(
 			"tasksEntryId",
 			(BiConsumer<TasksEntry, Long>)TasksEntry::setTasksEntryId);
 		attributeGetterFunctions.put("groupId", TasksEntry::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId", tasksEntryCacheModel -> tasksEntryCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId", (BiConsumer<TasksEntry, Long>)TasksEntry::setGroupId);
 		attributeGetterFunctions.put("companyId", TasksEntry::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			tasksEntryCacheModel -> tasksEntryCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<TasksEntry, Long>)TasksEntry::setCompanyId);
 		attributeGetterFunctions.put("userId", TasksEntry::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", tasksEntryCacheModel -> tasksEntryCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<TasksEntry, Long>)TasksEntry::setUserId);
 		attributeGetterFunctions.put("userName", TasksEntry::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName", tasksEntryCacheModel -> tasksEntryCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<TasksEntry, String>)TasksEntry::setUserName);
 		attributeGetterFunctions.put("createDate", TasksEntry::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			tasksEntryCacheModel -> tasksEntryCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<TasksEntry, Date>)TasksEntry::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", TasksEntry::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			tasksEntryCacheModel -> tasksEntryCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<TasksEntry, Date>)TasksEntry::setModifiedDate);
 		attributeGetterFunctions.put("title", TasksEntry::getTitle);
+
+		cacheModelGetterFunctions.put(
+			"title", tasksEntryCacheModel -> tasksEntryCacheModel.title);
 		attributeSetterBiConsumers.put(
 			"title", (BiConsumer<TasksEntry, String>)TasksEntry::setTitle);
 		attributeGetterFunctions.put("priority", TasksEntry::getPriority);
+
+		cacheModelGetterFunctions.put(
+			"priority", tasksEntryCacheModel -> tasksEntryCacheModel.priority);
 		attributeSetterBiConsumers.put(
 			"priority",
 			(BiConsumer<TasksEntry, Integer>)TasksEntry::setPriority);
 		attributeGetterFunctions.put(
 			"assigneeUserId", TasksEntry::getAssigneeUserId);
+
+		cacheModelGetterFunctions.put(
+			"assigneeUserId",
+			tasksEntryCacheModel -> tasksEntryCacheModel.assigneeUserId);
 		attributeSetterBiConsumers.put(
 			"assigneeUserId",
 			(BiConsumer<TasksEntry, Long>)TasksEntry::setAssigneeUserId);
 		attributeGetterFunctions.put(
 			"resolverUserId", TasksEntry::getResolverUserId);
+
+		cacheModelGetterFunctions.put(
+			"resolverUserId",
+			tasksEntryCacheModel -> tasksEntryCacheModel.resolverUserId);
 		attributeSetterBiConsumers.put(
 			"resolverUserId",
 			(BiConsumer<TasksEntry, Long>)TasksEntry::setResolverUserId);
 		attributeGetterFunctions.put("dueDate", TasksEntry::getDueDate);
+
+		cacheModelGetterFunctions.put(
+			"dueDate", tasksEntryCacheModel -> tasksEntryCacheModel.dueDate);
 		attributeSetterBiConsumers.put(
 			"dueDate", (BiConsumer<TasksEntry, Date>)TasksEntry::setDueDate);
 		attributeGetterFunctions.put("finishDate", TasksEntry::getFinishDate);
+
+		cacheModelGetterFunctions.put(
+			"finishDate",
+			tasksEntryCacheModel -> tasksEntryCacheModel.finishDate);
 		attributeSetterBiConsumers.put(
 			"finishDate",
 			(BiConsumer<TasksEntry, Date>)TasksEntry::setFinishDate);
 		attributeGetterFunctions.put("status", TasksEntry::getStatus);
+
+		cacheModelGetterFunctions.put(
+			"status", tasksEntryCacheModel -> tasksEntryCacheModel.status);
 		attributeSetterBiConsumers.put(
 			"status", (BiConsumer<TasksEntry, Integer>)TasksEntry::setStatus);
 
@@ -391,6 +484,8 @@ public class TasksEntryModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -401,6 +496,12 @@ public class TasksEntryModelImpl
 
 	@Override
 	public void setTasksEntryId(long tasksEntryId) {
+		_columnBitmask |= TASKSENTRYID_COLUMN_BITMASK;
+
+		if (!isNew() && (_tasksEntryCacheModel == null)) {
+			_tasksEntryCacheModel = (TasksEntryCacheModel)toCacheModel();
+		}
+
 		_tasksEntryId = tasksEntryId;
 	}
 
@@ -414,17 +515,20 @@ public class TasksEntryModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (!isNew() && (_tasksEntryCacheModel == null)) {
+			_tasksEntryCacheModel = (TasksEntryCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getCacheModelAttribute("groupId");
 	}
 
 	@JSON
@@ -435,6 +539,12 @@ public class TasksEntryModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (!isNew() && (_tasksEntryCacheModel == null)) {
+			_tasksEntryCacheModel = (TasksEntryCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -448,10 +558,8 @@ public class TasksEntryModelImpl
 	public void setUserId(long userId) {
 		_columnBitmask |= USERID_COLUMN_BITMASK;
 
-		if (!_setOriginalUserId) {
-			_setOriginalUserId = true;
-
-			_originalUserId = _userId;
+		if (!isNew() && (_tasksEntryCacheModel == null)) {
+			_tasksEntryCacheModel = (TasksEntryCacheModel)toCacheModel();
 		}
 
 		_userId = userId;
@@ -473,8 +581,13 @@ public class TasksEntryModelImpl
 	public void setUserUuid(String userUuid) {
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalUserId() {
-		return _originalUserId;
+		return getCacheModelAttribute("userId");
 	}
 
 	@JSON
@@ -490,6 +603,12 @@ public class TasksEntryModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_tasksEntryCacheModel == null)) {
+			_tasksEntryCacheModel = (TasksEntryCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -501,7 +620,11 @@ public class TasksEntryModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
-		_columnBitmask = -1L;
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_tasksEntryCacheModel == null)) {
+			_tasksEntryCacheModel = (TasksEntryCacheModel)toCacheModel();
+		}
 
 		_createDate = createDate;
 	}
@@ -520,6 +643,12 @@ public class TasksEntryModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_tasksEntryCacheModel == null)) {
+			_tasksEntryCacheModel = (TasksEntryCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -536,6 +665,12 @@ public class TasksEntryModelImpl
 
 	@Override
 	public void setTitle(String title) {
+		_columnBitmask |= TITLE_COLUMN_BITMASK;
+
+		if (!isNew() && (_tasksEntryCacheModel == null)) {
+			_tasksEntryCacheModel = (TasksEntryCacheModel)toCacheModel();
+		}
+
 		_title = title;
 	}
 
@@ -547,7 +682,11 @@ public class TasksEntryModelImpl
 
 	@Override
 	public void setPriority(int priority) {
-		_columnBitmask = -1L;
+		_columnBitmask |= PRIORITY_COLUMN_BITMASK;
+
+		if (!isNew() && (_tasksEntryCacheModel == null)) {
+			_tasksEntryCacheModel = (TasksEntryCacheModel)toCacheModel();
+		}
 
 		_priority = priority;
 	}
@@ -562,10 +701,8 @@ public class TasksEntryModelImpl
 	public void setAssigneeUserId(long assigneeUserId) {
 		_columnBitmask |= ASSIGNEEUSERID_COLUMN_BITMASK;
 
-		if (!_setOriginalAssigneeUserId) {
-			_setOriginalAssigneeUserId = true;
-
-			_originalAssigneeUserId = _assigneeUserId;
+		if (!isNew() && (_tasksEntryCacheModel == null)) {
+			_tasksEntryCacheModel = (TasksEntryCacheModel)toCacheModel();
 		}
 
 		_assigneeUserId = assigneeUserId;
@@ -587,8 +724,13 @@ public class TasksEntryModelImpl
 	public void setAssigneeUserUuid(String assigneeUserUuid) {
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalAssigneeUserId() {
-		return _originalAssigneeUserId;
+		return getCacheModelAttribute("assigneeUserId");
 	}
 
 	@JSON
@@ -601,10 +743,8 @@ public class TasksEntryModelImpl
 	public void setResolverUserId(long resolverUserId) {
 		_columnBitmask |= RESOLVERUSERID_COLUMN_BITMASK;
 
-		if (!_setOriginalResolverUserId) {
-			_setOriginalResolverUserId = true;
-
-			_originalResolverUserId = _resolverUserId;
+		if (!isNew() && (_tasksEntryCacheModel == null)) {
+			_tasksEntryCacheModel = (TasksEntryCacheModel)toCacheModel();
 		}
 
 		_resolverUserId = resolverUserId;
@@ -626,8 +766,13 @@ public class TasksEntryModelImpl
 	public void setResolverUserUuid(String resolverUserUuid) {
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalResolverUserId() {
-		return _originalResolverUserId;
+		return getCacheModelAttribute("resolverUserId");
 	}
 
 	@JSON
@@ -638,7 +783,11 @@ public class TasksEntryModelImpl
 
 	@Override
 	public void setDueDate(Date dueDate) {
-		_columnBitmask = -1L;
+		_columnBitmask |= DUEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_tasksEntryCacheModel == null)) {
+			_tasksEntryCacheModel = (TasksEntryCacheModel)toCacheModel();
+		}
 
 		_dueDate = dueDate;
 	}
@@ -651,6 +800,12 @@ public class TasksEntryModelImpl
 
 	@Override
 	public void setFinishDate(Date finishDate) {
+		_columnBitmask |= FINISHDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_tasksEntryCacheModel == null)) {
+			_tasksEntryCacheModel = (TasksEntryCacheModel)toCacheModel();
+		}
+
 		_finishDate = finishDate;
 	}
 
@@ -664,17 +819,20 @@ public class TasksEntryModelImpl
 	public void setStatus(int status) {
 		_columnBitmask |= STATUS_COLUMN_BITMASK;
 
-		if (!_setOriginalStatus) {
-			_setOriginalStatus = true;
-
-			_originalStatus = _status;
+		if (!isNew() && (_tasksEntryCacheModel == null)) {
+			_tasksEntryCacheModel = (TasksEntryCacheModel)toCacheModel();
 		}
 
 		_status = status;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public int getOriginalStatus() {
-		return _originalStatus;
+		return getCacheModelAttribute("status");
 	}
 
 	public long getColumnBitmask() {
@@ -713,6 +871,8 @@ public class TasksEntryModelImpl
 	public Object clone() {
 		TasksEntryImpl tasksEntryImpl = new TasksEntryImpl();
 
+		tasksEntryImpl.setNew(true);
+
 		tasksEntryImpl.setTasksEntryId(getTasksEntryId());
 		tasksEntryImpl.setGroupId(getGroupId());
 		tasksEntryImpl.setCompanyId(getCompanyId());
@@ -729,6 +889,8 @@ public class TasksEntryModelImpl
 		tasksEntryImpl.setStatus(getStatus());
 
 		tasksEntryImpl.resetOriginalValues();
+
+		tasksEntryImpl.setNew(false);
 
 		return tasksEntryImpl;
 	}
@@ -813,33 +975,11 @@ public class TasksEntryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		TasksEntryModelImpl tasksEntryModelImpl = this;
+		_setModifiedDate = false;
 
-		tasksEntryModelImpl._originalGroupId = tasksEntryModelImpl._groupId;
+		_columnBitmask = 0;
 
-		tasksEntryModelImpl._setOriginalGroupId = false;
-
-		tasksEntryModelImpl._originalUserId = tasksEntryModelImpl._userId;
-
-		tasksEntryModelImpl._setOriginalUserId = false;
-
-		tasksEntryModelImpl._setModifiedDate = false;
-
-		tasksEntryModelImpl._originalAssigneeUserId =
-			tasksEntryModelImpl._assigneeUserId;
-
-		tasksEntryModelImpl._setOriginalAssigneeUserId = false;
-
-		tasksEntryModelImpl._originalResolverUserId =
-			tasksEntryModelImpl._resolverUserId;
-
-		tasksEntryModelImpl._setOriginalResolverUserId = false;
-
-		tasksEntryModelImpl._originalStatus = tasksEntryModelImpl._status;
-
-		tasksEntryModelImpl._setOriginalStatus = false;
-
-		tasksEntryModelImpl._columnBitmask = 0;
+		_tasksEntryCacheModel = null;
 	}
 
 	@Override
@@ -989,12 +1129,8 @@ public class TasksEntryModelImpl
 
 	private long _tasksEntryId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
 	private long _userId;
-	private long _originalUserId;
-	private boolean _setOriginalUserId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
@@ -1002,17 +1138,12 @@ public class TasksEntryModelImpl
 	private String _title;
 	private int _priority;
 	private long _assigneeUserId;
-	private long _originalAssigneeUserId;
-	private boolean _setOriginalAssigneeUserId;
 	private long _resolverUserId;
-	private long _originalResolverUserId;
-	private boolean _setOriginalResolverUserId;
 	private Date _dueDate;
 	private Date _finishDate;
 	private int _status;
-	private int _originalStatus;
-	private boolean _setOriginalStatus;
 	private long _columnBitmask;
 	private TasksEntry _escapedModel;
+	private TasksEntryCacheModel _tasksEntryCacheModel;
 
 }

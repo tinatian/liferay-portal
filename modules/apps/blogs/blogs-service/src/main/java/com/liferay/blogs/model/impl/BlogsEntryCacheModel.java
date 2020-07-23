@@ -148,6 +148,8 @@ public class BlogsEntryCacheModel
 	public BlogsEntry toEntityModel() {
 		BlogsEntryImpl blogsEntryImpl = new BlogsEntryImpl();
 
+		blogsEntryImpl.setNew(true);
+
 		blogsEntryImpl.setMvccVersion(mvccVersion);
 
 		if (uuid == null) {
@@ -287,6 +289,8 @@ public class BlogsEntryCacheModel
 		}
 
 		blogsEntryImpl.resetOriginalValues();
+
+		blogsEntryImpl.setNew(false);
 
 		return blogsEntryImpl;
 	}

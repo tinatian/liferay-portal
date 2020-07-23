@@ -115,6 +115,8 @@ public class UserGroupCacheModel
 	public UserGroup toEntityModel() {
 		UserGroupImpl userGroupImpl = new UserGroupImpl();
 
+		userGroupImpl.setNew(true);
+
 		userGroupImpl.setMvccVersion(mvccVersion);
 		userGroupImpl.setCtCollectionId(ctCollectionId);
 
@@ -176,6 +178,8 @@ public class UserGroupCacheModel
 		userGroupImpl.setAddedByLDAPImport(addedByLDAPImport);
 
 		userGroupImpl.resetOriginalValues();
+
+		userGroupImpl.setNew(false);
 
 		return userGroupImpl;
 	}

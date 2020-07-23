@@ -137,6 +137,8 @@ public class DLFolderCacheModel
 	public DLFolder toEntityModel() {
 		DLFolderImpl dlFolderImpl = new DLFolderImpl();
 
+		dlFolderImpl.setNew(true);
+
 		dlFolderImpl.setMvccVersion(mvccVersion);
 		dlFolderImpl.setCtCollectionId(ctCollectionId);
 
@@ -234,6 +236,8 @@ public class DLFolderCacheModel
 		}
 
 		dlFolderImpl.resetOriginalValues();
+
+		dlFolderImpl.setNew(false);
 
 		return dlFolderImpl;
 	}

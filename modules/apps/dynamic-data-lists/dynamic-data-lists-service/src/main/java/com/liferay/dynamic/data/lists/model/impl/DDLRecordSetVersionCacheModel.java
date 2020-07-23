@@ -124,6 +124,8 @@ public class DDLRecordSetVersionCacheModel
 		DDLRecordSetVersionImpl ddlRecordSetVersionImpl =
 			new DDLRecordSetVersionImpl();
 
+		ddlRecordSetVersionImpl.setNew(true);
+
 		ddlRecordSetVersionImpl.setMvccVersion(mvccVersion);
 		ddlRecordSetVersionImpl.setRecordSetVersionId(recordSetVersionId);
 		ddlRecordSetVersionImpl.setGroupId(groupId);
@@ -193,6 +195,8 @@ public class DDLRecordSetVersionCacheModel
 		}
 
 		ddlRecordSetVersionImpl.resetOriginalValues();
+
+		ddlRecordSetVersionImpl.setNew(false);
 
 		return ddlRecordSetVersionImpl;
 	}

@@ -95,6 +95,8 @@ public class HtmlPreviewEntryCacheModel
 	public HtmlPreviewEntry toEntityModel() {
 		HtmlPreviewEntryImpl htmlPreviewEntryImpl = new HtmlPreviewEntryImpl();
 
+		htmlPreviewEntryImpl.setNew(true);
+
 		htmlPreviewEntryImpl.setHtmlPreviewEntryId(htmlPreviewEntryId);
 		htmlPreviewEntryImpl.setGroupId(groupId);
 		htmlPreviewEntryImpl.setCompanyId(companyId);
@@ -126,6 +128,8 @@ public class HtmlPreviewEntryCacheModel
 		htmlPreviewEntryImpl.setFileEntryId(fileEntryId);
 
 		htmlPreviewEntryImpl.resetOriginalValues();
+
+		htmlPreviewEntryImpl.setNew(false);
 
 		return htmlPreviewEntryImpl;
 	}

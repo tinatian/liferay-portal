@@ -849,7 +849,7 @@ public class AttachmentPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					attachmentModelImpl.getOriginalMessageId()
+					attachmentModelImpl.getCacheModelAttribute("messageId")
 				};
 
 				finderCache.removeResult(_finderPathCountByMessageId, args);

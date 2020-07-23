@@ -76,6 +76,8 @@ public class EagerBlobEntityCacheModel
 	public EagerBlobEntity toEntityModel() {
 		EagerBlobEntityImpl eagerBlobEntityImpl = new EagerBlobEntityImpl();
 
+		eagerBlobEntityImpl.setNew(true);
+
 		if (uuid == null) {
 			eagerBlobEntityImpl.setUuid("");
 		}
@@ -87,6 +89,8 @@ public class EagerBlobEntityCacheModel
 		eagerBlobEntityImpl.setGroupId(groupId);
 
 		eagerBlobEntityImpl.resetOriginalValues();
+
+		eagerBlobEntityImpl.setNew(false);
 
 		return eagerBlobEntityImpl;
 	}

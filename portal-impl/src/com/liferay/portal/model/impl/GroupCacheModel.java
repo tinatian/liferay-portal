@@ -131,6 +131,8 @@ public class GroupCacheModel
 	public Group toEntityModel() {
 		GroupImpl groupImpl = new GroupImpl();
 
+		groupImpl.setNew(true);
+
 		groupImpl.setMvccVersion(mvccVersion);
 		groupImpl.setCtCollectionId(ctCollectionId);
 
@@ -202,6 +204,8 @@ public class GroupCacheModel
 		groupImpl.setActive(active);
 
 		groupImpl.resetOriginalValues();
+
+		groupImpl.setNew(false);
 
 		return groupImpl;
 	}

@@ -1604,8 +1604,9 @@ public class KaleoTimerPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoTimerModelImpl.getOriginalKaleoClassName(),
-					kaleoTimerModelImpl.getOriginalKaleoClassPK()
+					kaleoTimerModelImpl.getCacheModelAttribute(
+						"kaleoClassName"),
+					kaleoTimerModelImpl.getCacheModelAttribute("kaleoClassPK")
 				};
 
 				finderCache.removeResult(_finderPathCountByKCN_KCPK, args);
@@ -1627,9 +1628,10 @@ public class KaleoTimerPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoTimerModelImpl.getOriginalKaleoClassName(),
-					kaleoTimerModelImpl.getOriginalKaleoClassPK(),
-					kaleoTimerModelImpl.getOriginalBlocking()
+					kaleoTimerModelImpl.getCacheModelAttribute(
+						"kaleoClassName"),
+					kaleoTimerModelImpl.getCacheModelAttribute("kaleoClassPK"),
+					kaleoTimerModelImpl.getCacheModelAttribute("blocking")
 				};
 
 				finderCache.removeResult(

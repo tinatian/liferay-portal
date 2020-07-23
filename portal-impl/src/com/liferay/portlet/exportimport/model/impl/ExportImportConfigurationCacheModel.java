@@ -125,6 +125,8 @@ public class ExportImportConfigurationCacheModel
 		ExportImportConfigurationImpl exportImportConfigurationImpl =
 			new ExportImportConfigurationImpl();
 
+		exportImportConfigurationImpl.setNew(true);
+
 		exportImportConfigurationImpl.setMvccVersion(mvccVersion);
 		exportImportConfigurationImpl.setExportImportConfigurationId(
 			exportImportConfigurationId);
@@ -195,6 +197,8 @@ public class ExportImportConfigurationCacheModel
 		}
 
 		exportImportConfigurationImpl.resetOriginalValues();
+
+		exportImportConfigurationImpl.setNew(false);
 
 		return exportImportConfigurationImpl;
 	}

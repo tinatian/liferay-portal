@@ -108,6 +108,8 @@ public class SocialActivityAchievementCacheModel
 		SocialActivityAchievementImpl socialActivityAchievementImpl =
 			new SocialActivityAchievementImpl();
 
+		socialActivityAchievementImpl.setNew(true);
+
 		socialActivityAchievementImpl.setMvccVersion(mvccVersion);
 		socialActivityAchievementImpl.setCtCollectionId(ctCollectionId);
 		socialActivityAchievementImpl.setActivityAchievementId(
@@ -127,6 +129,8 @@ public class SocialActivityAchievementCacheModel
 		socialActivityAchievementImpl.setFirstInGroup(firstInGroup);
 
 		socialActivityAchievementImpl.resetOriginalValues();
+
+		socialActivityAchievementImpl.setNew(false);
 
 		return socialActivityAchievementImpl;
 	}

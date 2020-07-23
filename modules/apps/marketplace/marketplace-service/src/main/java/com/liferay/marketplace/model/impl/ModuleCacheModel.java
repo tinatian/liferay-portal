@@ -83,6 +83,8 @@ public class ModuleCacheModel implements CacheModel<Module>, Externalizable {
 	public Module toEntityModel() {
 		ModuleImpl moduleImpl = new ModuleImpl();
 
+		moduleImpl.setNew(true);
+
 		if (uuid == null) {
 			moduleImpl.setUuid("");
 		}
@@ -116,6 +118,8 @@ public class ModuleCacheModel implements CacheModel<Module>, Externalizable {
 		}
 
 		moduleImpl.resetOriginalValues();
+
+		moduleImpl.setNew(false);
 
 		return moduleImpl;
 	}

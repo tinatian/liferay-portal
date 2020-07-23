@@ -102,6 +102,8 @@ public class StyleBookEntryVersionCacheModel
 		StyleBookEntryVersionImpl styleBookEntryVersionImpl =
 			new StyleBookEntryVersionImpl();
 
+		styleBookEntryVersionImpl.setNew(true);
+
 		styleBookEntryVersionImpl.setStyleBookEntryVersionId(
 			styleBookEntryVersionId);
 		styleBookEntryVersionImpl.setVersion(version);
@@ -151,6 +153,8 @@ public class StyleBookEntryVersionCacheModel
 		}
 
 		styleBookEntryVersionImpl.resetOriginalValues();
+
+		styleBookEntryVersionImpl.setNew(false);
 
 		return styleBookEntryVersionImpl;
 	}

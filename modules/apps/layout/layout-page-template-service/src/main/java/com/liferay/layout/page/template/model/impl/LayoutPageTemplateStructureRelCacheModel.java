@@ -118,6 +118,8 @@ public class LayoutPageTemplateStructureRelCacheModel
 		LayoutPageTemplateStructureRelImpl layoutPageTemplateStructureRelImpl =
 			new LayoutPageTemplateStructureRelImpl();
 
+		layoutPageTemplateStructureRelImpl.setNew(true);
+
 		layoutPageTemplateStructureRelImpl.setMvccVersion(mvccVersion);
 
 		if (uuid == null) {
@@ -169,6 +171,8 @@ public class LayoutPageTemplateStructureRelCacheModel
 		}
 
 		layoutPageTemplateStructureRelImpl.resetOriginalValues();
+
+		layoutPageTemplateStructureRelImpl.setNew(false);
 
 		return layoutPageTemplateStructureRelImpl;
 	}

@@ -2369,8 +2369,8 @@ public class RepositoryEntryPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				repositoryEntryModelImpl.getOriginalUuid(),
-				repositoryEntryModelImpl.getOriginalGroupId()
+				repositoryEntryModelImpl.getCacheModelAttribute("uuid"),
+				repositoryEntryModelImpl.getCacheModelAttribute("groupId")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByUUID_G, args);
@@ -2391,8 +2391,8 @@ public class RepositoryEntryPersistenceImpl
 			 _finderPathFetchByR_M.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				repositoryEntryModelImpl.getOriginalRepositoryId(),
-				repositoryEntryModelImpl.getOriginalMappedId()
+				repositoryEntryModelImpl.getCacheModelAttribute("repositoryId"),
+				repositoryEntryModelImpl.getCacheModelAttribute("mappedId")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByR_M, args);
@@ -2620,7 +2620,7 @@ public class RepositoryEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					repositoryEntryModelImpl.getOriginalUuid()
+					repositoryEntryModelImpl.getCacheModelAttribute("uuid")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid, args);
@@ -2639,8 +2639,8 @@ public class RepositoryEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					repositoryEntryModelImpl.getOriginalUuid(),
-					repositoryEntryModelImpl.getOriginalCompanyId()
+					repositoryEntryModelImpl.getCacheModelAttribute("uuid"),
+					repositoryEntryModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid_C, args);
@@ -2662,7 +2662,8 @@ public class RepositoryEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					repositoryEntryModelImpl.getOriginalRepositoryId()
+					repositoryEntryModelImpl.getCacheModelAttribute(
+						"repositoryId")
 				};
 
 				FinderCacheUtil.removeResult(

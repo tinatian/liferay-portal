@@ -2836,10 +2836,13 @@ public class SocialActivitySettingPersistenceImpl
 			 _finderPathFetchByG_C_A_N.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				socialActivitySettingModelImpl.getOriginalGroupId(),
-				socialActivitySettingModelImpl.getOriginalClassNameId(),
-				socialActivitySettingModelImpl.getOriginalActivityType(),
-				socialActivitySettingModelImpl.getOriginalName()
+				socialActivitySettingModelImpl.getCacheModelAttribute(
+					"groupId"),
+				socialActivitySettingModelImpl.getCacheModelAttribute(
+					"classNameId"),
+				socialActivitySettingModelImpl.getCacheModelAttribute(
+					"activityType"),
+				socialActivitySettingModelImpl.getCacheModelAttribute("name")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByG_C_A_N, args);
@@ -3076,7 +3079,8 @@ public class SocialActivitySettingPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					socialActivitySettingModelImpl.getOriginalGroupId()
+					socialActivitySettingModelImpl.getCacheModelAttribute(
+						"groupId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByGroupId, args);
@@ -3097,8 +3101,10 @@ public class SocialActivitySettingPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					socialActivitySettingModelImpl.getOriginalGroupId(),
-					socialActivitySettingModelImpl.getOriginalClassNameId()
+					socialActivitySettingModelImpl.getCacheModelAttribute(
+						"groupId"),
+					socialActivitySettingModelImpl.getCacheModelAttribute(
+						"classNameId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByG_C, args);
@@ -3120,8 +3126,10 @@ public class SocialActivitySettingPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					socialActivitySettingModelImpl.getOriginalGroupId(),
-					socialActivitySettingModelImpl.getOriginalActivityType()
+					socialActivitySettingModelImpl.getCacheModelAttribute(
+						"groupId"),
+					socialActivitySettingModelImpl.getCacheModelAttribute(
+						"activityType")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByG_A, args);
@@ -3143,9 +3151,12 @@ public class SocialActivitySettingPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					socialActivitySettingModelImpl.getOriginalGroupId(),
-					socialActivitySettingModelImpl.getOriginalClassNameId(),
-					socialActivitySettingModelImpl.getOriginalActivityType()
+					socialActivitySettingModelImpl.getCacheModelAttribute(
+						"groupId"),
+					socialActivitySettingModelImpl.getCacheModelAttribute(
+						"classNameId"),
+					socialActivitySettingModelImpl.getCacheModelAttribute(
+						"activityType")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByG_C_A, args);

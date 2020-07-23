@@ -1439,7 +1439,8 @@ public class DispatchLogPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					dispatchLogModelImpl.getOriginalDispatchTriggerId()
+					dispatchLogModelImpl.getCacheModelAttribute(
+						"dispatchTriggerId")
 				};
 
 				finderCache.removeResult(
@@ -1462,8 +1463,9 @@ public class DispatchLogPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					dispatchLogModelImpl.getOriginalDispatchTriggerId(),
-					dispatchLogModelImpl.getOriginalStatus()
+					dispatchLogModelImpl.getCacheModelAttribute(
+						"dispatchTriggerId"),
+					dispatchLogModelImpl.getCacheModelAttribute("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByDTI_S, args);

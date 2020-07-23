@@ -31,7 +31,6 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.DateUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
@@ -118,13 +117,29 @@ public class KBTemplateModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 2L;
+	public static final long UUID_COLUMN_BITMASK = 2L;
 
-	public static final long UUID_COLUMN_BITMASK = 4L;
+	public static final long KBTEMPLATEID_COLUMN_BITMASK = 4L;
 
-	public static final long MODIFIEDDATE_COLUMN_BITMASK = 8L;
+	public static final long GROUPID_COLUMN_BITMASK = 8L;
+
+	public static final long COMPANYID_COLUMN_BITMASK = 16L;
+
+	public static final long USERID_COLUMN_BITMASK = 32L;
+
+	public static final long USERNAME_COLUMN_BITMASK = 64L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 128L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 256L;
+
+	public static final long TITLE_COLUMN_BITMASK = 512L;
+
+	public static final long CONTENT_COLUMN_BITMASK = 1024L;
+
+	public static final long LASTPUBLISHDATE_COLUMN_BITMASK = 2048L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -301,60 +316,134 @@ public class KBTemplateModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<KBTemplate, Object> function = _attributeGetterFunctions.get(
+			attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((KBTemplate)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<KBTemplateCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_kbTemplateCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_kbTemplateCacheModel);
+	}
+
 	private static final Map<String, Function<KBTemplate, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<KBTemplate, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<KBTemplateCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<KBTemplate, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<KBTemplate, Object>>();
 		Map<String, BiConsumer<KBTemplate, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<KBTemplate, ?>>();
+		Map<String, Function<KBTemplateCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<KBTemplateCacheModel, Object>>();
 
 		attributeGetterFunctions.put("mvccVersion", KBTemplate::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			kbTemplateCacheModel -> kbTemplateCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<KBTemplate, Long>)KBTemplate::setMvccVersion);
 		attributeGetterFunctions.put("uuid", KBTemplate::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid", kbTemplateCacheModel -> kbTemplateCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<KBTemplate, String>)KBTemplate::setUuid);
 		attributeGetterFunctions.put(
 			"kbTemplateId", KBTemplate::getKbTemplateId);
+
+		cacheModelGetterFunctions.put(
+			"kbTemplateId",
+			kbTemplateCacheModel -> kbTemplateCacheModel.kbTemplateId);
 		attributeSetterBiConsumers.put(
 			"kbTemplateId",
 			(BiConsumer<KBTemplate, Long>)KBTemplate::setKbTemplateId);
 		attributeGetterFunctions.put("groupId", KBTemplate::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId", kbTemplateCacheModel -> kbTemplateCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId", (BiConsumer<KBTemplate, Long>)KBTemplate::setGroupId);
 		attributeGetterFunctions.put("companyId", KBTemplate::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			kbTemplateCacheModel -> kbTemplateCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<KBTemplate, Long>)KBTemplate::setCompanyId);
 		attributeGetterFunctions.put("userId", KBTemplate::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", kbTemplateCacheModel -> kbTemplateCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<KBTemplate, Long>)KBTemplate::setUserId);
 		attributeGetterFunctions.put("userName", KBTemplate::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName", kbTemplateCacheModel -> kbTemplateCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<KBTemplate, String>)KBTemplate::setUserName);
 		attributeGetterFunctions.put("createDate", KBTemplate::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			kbTemplateCacheModel -> kbTemplateCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<KBTemplate, Date>)KBTemplate::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", KBTemplate::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			kbTemplateCacheModel -> kbTemplateCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<KBTemplate, Date>)KBTemplate::setModifiedDate);
 		attributeGetterFunctions.put("title", KBTemplate::getTitle);
+
+		cacheModelGetterFunctions.put(
+			"title", kbTemplateCacheModel -> kbTemplateCacheModel.title);
 		attributeSetterBiConsumers.put(
 			"title", (BiConsumer<KBTemplate, String>)KBTemplate::setTitle);
 		attributeGetterFunctions.put("content", KBTemplate::getContent);
+
+		cacheModelGetterFunctions.put(
+			"content", kbTemplateCacheModel -> kbTemplateCacheModel.content);
 		attributeSetterBiConsumers.put(
 			"content", (BiConsumer<KBTemplate, String>)KBTemplate::setContent);
 		attributeGetterFunctions.put(
 			"lastPublishDate", KBTemplate::getLastPublishDate);
+
+		cacheModelGetterFunctions.put(
+			"lastPublishDate",
+			kbTemplateCacheModel -> kbTemplateCacheModel.lastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<KBTemplate, Date>)KBTemplate::setLastPublishDate);
@@ -363,6 +452,8 @@ public class KBTemplateModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -373,6 +464,12 @@ public class KBTemplateModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_kbTemplateCacheModel == null)) {
+			_kbTemplateCacheModel = (KBTemplateCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -391,15 +488,20 @@ public class KBTemplateModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (!isNew() && (_kbTemplateCacheModel == null)) {
+			_kbTemplateCacheModel = (KBTemplateCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getCacheModelAttribute("uuid");
 	}
 
 	@JSON
@@ -410,6 +512,12 @@ public class KBTemplateModelImpl
 
 	@Override
 	public void setKbTemplateId(long kbTemplateId) {
+		_columnBitmask |= KBTEMPLATEID_COLUMN_BITMASK;
+
+		if (!isNew() && (_kbTemplateCacheModel == null)) {
+			_kbTemplateCacheModel = (KBTemplateCacheModel)toCacheModel();
+		}
+
 		_kbTemplateId = kbTemplateId;
 	}
 
@@ -423,17 +531,20 @@ public class KBTemplateModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (!isNew() && (_kbTemplateCacheModel == null)) {
+			_kbTemplateCacheModel = (KBTemplateCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getCacheModelAttribute("groupId");
 	}
 
 	@JSON
@@ -446,17 +557,20 @@ public class KBTemplateModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (!isNew() && (_kbTemplateCacheModel == null)) {
+			_kbTemplateCacheModel = (KBTemplateCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getCacheModelAttribute("companyId");
 	}
 
 	@JSON
@@ -467,6 +581,12 @@ public class KBTemplateModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_kbTemplateCacheModel == null)) {
+			_kbTemplateCacheModel = (KBTemplateCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -499,6 +619,12 @@ public class KBTemplateModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_kbTemplateCacheModel == null)) {
+			_kbTemplateCacheModel = (KBTemplateCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -510,6 +636,12 @@ public class KBTemplateModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_kbTemplateCacheModel == null)) {
+			_kbTemplateCacheModel = (KBTemplateCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -527,7 +659,11 @@ public class KBTemplateModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
-		_columnBitmask = -1L;
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_kbTemplateCacheModel == null)) {
+			_kbTemplateCacheModel = (KBTemplateCacheModel)toCacheModel();
+		}
 
 		_modifiedDate = modifiedDate;
 	}
@@ -545,6 +681,12 @@ public class KBTemplateModelImpl
 
 	@Override
 	public void setTitle(String title) {
+		_columnBitmask |= TITLE_COLUMN_BITMASK;
+
+		if (!isNew() && (_kbTemplateCacheModel == null)) {
+			_kbTemplateCacheModel = (KBTemplateCacheModel)toCacheModel();
+		}
+
 		_title = title;
 	}
 
@@ -561,6 +703,12 @@ public class KBTemplateModelImpl
 
 	@Override
 	public void setContent(String content) {
+		_columnBitmask |= CONTENT_COLUMN_BITMASK;
+
+		if (!isNew() && (_kbTemplateCacheModel == null)) {
+			_kbTemplateCacheModel = (KBTemplateCacheModel)toCacheModel();
+		}
+
 		_content = content;
 	}
 
@@ -572,6 +720,12 @@ public class KBTemplateModelImpl
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		_columnBitmask |= LASTPUBLISHDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_kbTemplateCacheModel == null)) {
+			_kbTemplateCacheModel = (KBTemplateCacheModel)toCacheModel();
+		}
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -617,6 +771,8 @@ public class KBTemplateModelImpl
 	public Object clone() {
 		KBTemplateImpl kbTemplateImpl = new KBTemplateImpl();
 
+		kbTemplateImpl.setNew(true);
+
 		kbTemplateImpl.setMvccVersion(getMvccVersion());
 		kbTemplateImpl.setUuid(getUuid());
 		kbTemplateImpl.setKbTemplateId(getKbTemplateId());
@@ -631,6 +787,8 @@ public class KBTemplateModelImpl
 		kbTemplateImpl.setLastPublishDate(getLastPublishDate());
 
 		kbTemplateImpl.resetOriginalValues();
+
+		kbTemplateImpl.setNew(false);
 
 		return kbTemplateImpl;
 	}
@@ -698,21 +856,11 @@ public class KBTemplateModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		KBTemplateModelImpl kbTemplateModelImpl = this;
+		_setModifiedDate = false;
 
-		kbTemplateModelImpl._originalUuid = kbTemplateModelImpl._uuid;
+		_columnBitmask = 0;
 
-		kbTemplateModelImpl._originalGroupId = kbTemplateModelImpl._groupId;
-
-		kbTemplateModelImpl._setOriginalGroupId = false;
-
-		kbTemplateModelImpl._originalCompanyId = kbTemplateModelImpl._companyId;
-
-		kbTemplateModelImpl._setOriginalCompanyId = false;
-
-		kbTemplateModelImpl._setModifiedDate = false;
-
-		kbTemplateModelImpl._columnBitmask = 0;
+		_kbTemplateCacheModel = null;
 	}
 
 	@Override
@@ -863,14 +1011,9 @@ public class KBTemplateModelImpl
 
 	private long _mvccVersion;
 	private String _uuid;
-	private String _originalUuid;
 	private long _kbTemplateId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
@@ -881,5 +1024,6 @@ public class KBTemplateModelImpl
 	private Date _lastPublishDate;
 	private long _columnBitmask;
 	private KBTemplate _escapedModel;
+	private KBTemplateCacheModel _kbTemplateCacheModel;
 
 }

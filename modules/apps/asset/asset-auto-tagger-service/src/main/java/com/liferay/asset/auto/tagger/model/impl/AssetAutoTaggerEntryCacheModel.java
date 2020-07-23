@@ -108,6 +108,8 @@ public class AssetAutoTaggerEntryCacheModel
 		AssetAutoTaggerEntryImpl assetAutoTaggerEntryImpl =
 			new AssetAutoTaggerEntryImpl();
 
+		assetAutoTaggerEntryImpl.setNew(true);
+
 		assetAutoTaggerEntryImpl.setMvccVersion(mvccVersion);
 		assetAutoTaggerEntryImpl.setCtCollectionId(ctCollectionId);
 		assetAutoTaggerEntryImpl.setAssetAutoTaggerEntryId(
@@ -133,6 +135,8 @@ public class AssetAutoTaggerEntryCacheModel
 		assetAutoTaggerEntryImpl.setAssetTagId(assetTagId);
 
 		assetAutoTaggerEntryImpl.resetOriginalValues();
+
+		assetAutoTaggerEntryImpl.setNew(false);
 
 		return assetAutoTaggerEntryImpl;
 	}

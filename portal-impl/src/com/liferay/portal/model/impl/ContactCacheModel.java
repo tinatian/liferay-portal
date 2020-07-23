@@ -145,6 +145,8 @@ public class ContactCacheModel
 	public Contact toEntityModel() {
 		ContactImpl contactImpl = new ContactImpl();
 
+		contactImpl.setNew(true);
+
 		contactImpl.setMvccVersion(mvccVersion);
 		contactImpl.setContactId(contactId);
 		contactImpl.setCompanyId(companyId);
@@ -286,6 +288,8 @@ public class ContactCacheModel
 		}
 
 		contactImpl.resetOriginalValues();
+
+		contactImpl.setNew(false);
 
 		return contactImpl;
 	}

@@ -1639,7 +1639,9 @@ public class TicketPersistenceImpl
 		if ((ticketModelImpl.getColumnBitmask() &
 			 _finderPathFetchByKey.getColumnBitmask()) != 0) {
 
-			Object[] args = new Object[] {ticketModelImpl.getOriginalKey()};
+			Object[] args = new Object[] {
+				ticketModelImpl.getCacheModelAttribute("key")
+			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByKey, args);
 			FinderCacheUtil.removeResult(_finderPathFetchByKey, args);
@@ -1820,9 +1822,9 @@ public class TicketPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					ticketModelImpl.getOriginalClassNameId(),
-					ticketModelImpl.getOriginalClassPK(),
-					ticketModelImpl.getOriginalType()
+					ticketModelImpl.getCacheModelAttribute("classNameId"),
+					ticketModelImpl.getCacheModelAttribute("classPK"),
+					ticketModelImpl.getCacheModelAttribute("type")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_C_T, args);
@@ -1844,10 +1846,10 @@ public class TicketPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					ticketModelImpl.getOriginalCompanyId(),
-					ticketModelImpl.getOriginalClassNameId(),
-					ticketModelImpl.getOriginalClassPK(),
-					ticketModelImpl.getOriginalType()
+					ticketModelImpl.getCacheModelAttribute("companyId"),
+					ticketModelImpl.getCacheModelAttribute("classNameId"),
+					ticketModelImpl.getCacheModelAttribute("classPK"),
+					ticketModelImpl.getCacheModelAttribute("type")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_C_C_T, args);

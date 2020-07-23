@@ -108,6 +108,8 @@ public class DDMFormInstanceReportCacheModel
 		DDMFormInstanceReportImpl ddmFormInstanceReportImpl =
 			new DDMFormInstanceReportImpl();
 
+		ddmFormInstanceReportImpl.setNew(true);
+
 		ddmFormInstanceReportImpl.setMvccVersion(mvccVersion);
 		ddmFormInstanceReportImpl.setCtCollectionId(ctCollectionId);
 		ddmFormInstanceReportImpl.setFormInstanceReportId(formInstanceReportId);
@@ -138,6 +140,8 @@ public class DDMFormInstanceReportCacheModel
 		}
 
 		ddmFormInstanceReportImpl.resetOriginalValues();
+
+		ddmFormInstanceReportImpl.setNew(false);
 
 		return ddmFormInstanceReportImpl;
 	}

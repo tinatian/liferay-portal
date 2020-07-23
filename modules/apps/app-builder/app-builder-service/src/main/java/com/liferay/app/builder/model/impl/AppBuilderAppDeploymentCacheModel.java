@@ -84,6 +84,8 @@ public class AppBuilderAppDeploymentCacheModel
 		AppBuilderAppDeploymentImpl appBuilderAppDeploymentImpl =
 			new AppBuilderAppDeploymentImpl();
 
+		appBuilderAppDeploymentImpl.setNew(true);
+
 		appBuilderAppDeploymentImpl.setAppBuilderAppDeploymentId(
 			appBuilderAppDeploymentId);
 		appBuilderAppDeploymentImpl.setCompanyId(companyId);
@@ -104,6 +106,8 @@ public class AppBuilderAppDeploymentCacheModel
 		}
 
 		appBuilderAppDeploymentImpl.resetOriginalValues();
+
+		appBuilderAppDeploymentImpl.setNew(false);
 
 		return appBuilderAppDeploymentImpl;
 	}

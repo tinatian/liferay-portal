@@ -107,13 +107,27 @@ public class CTEntryModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long MODELCLASSNAMEID_COLUMN_BITMASK = 2L;
+	public static final long CTENTRYID_COLUMN_BITMASK = 2L;
 
-	public static final long MODELCLASSPK_COLUMN_BITMASK = 4L;
+	public static final long COMPANYID_COLUMN_BITMASK = 4L;
 
-	public static final long CTENTRYID_COLUMN_BITMASK = 8L;
+	public static final long USERID_COLUMN_BITMASK = 8L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 16L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 32L;
+
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 64L;
+
+	public static final long MODELCLASSNAMEID_COLUMN_BITMASK = 128L;
+
+	public static final long MODELCLASSPK_COLUMN_BITMASK = 256L;
+
+	public static final long MODELMVCCVERSION_COLUMN_BITMASK = 512L;
+
+	public static final long CHANGETYPE_COLUMN_BITMASK = 1024L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -240,56 +254,126 @@ public class CTEntryModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<CTEntry, Object> function = _attributeGetterFunctions.get(
+			attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((CTEntry)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<CTEntryCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_ctEntryCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_ctEntryCacheModel);
+	}
+
 	private static final Map<String, Function<CTEntry, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<CTEntry, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<CTEntryCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<CTEntry, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<CTEntry, Object>>();
 		Map<String, BiConsumer<CTEntry, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<CTEntry, ?>>();
+		Map<String, Function<CTEntryCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<CTEntryCacheModel, Object>>();
 
 		attributeGetterFunctions.put("mvccVersion", CTEntry::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion", ctEntryCacheModel -> ctEntryCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion", (BiConsumer<CTEntry, Long>)CTEntry::setMvccVersion);
 		attributeGetterFunctions.put("ctEntryId", CTEntry::getCtEntryId);
+
+		cacheModelGetterFunctions.put(
+			"ctEntryId", ctEntryCacheModel -> ctEntryCacheModel.ctEntryId);
 		attributeSetterBiConsumers.put(
 			"ctEntryId", (BiConsumer<CTEntry, Long>)CTEntry::setCtEntryId);
 		attributeGetterFunctions.put("companyId", CTEntry::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId", ctEntryCacheModel -> ctEntryCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId", (BiConsumer<CTEntry, Long>)CTEntry::setCompanyId);
 		attributeGetterFunctions.put("userId", CTEntry::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", ctEntryCacheModel -> ctEntryCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<CTEntry, Long>)CTEntry::setUserId);
 		attributeGetterFunctions.put("createDate", CTEntry::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate", ctEntryCacheModel -> ctEntryCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate", (BiConsumer<CTEntry, Date>)CTEntry::setCreateDate);
 		attributeGetterFunctions.put("modifiedDate", CTEntry::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			ctEntryCacheModel -> ctEntryCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<CTEntry, Date>)CTEntry::setModifiedDate);
 		attributeGetterFunctions.put(
 			"ctCollectionId", CTEntry::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			ctEntryCacheModel -> ctEntryCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<CTEntry, Long>)CTEntry::setCtCollectionId);
 		attributeGetterFunctions.put(
 			"modelClassNameId", CTEntry::getModelClassNameId);
+
+		cacheModelGetterFunctions.put(
+			"modelClassNameId",
+			ctEntryCacheModel -> ctEntryCacheModel.modelClassNameId);
 		attributeSetterBiConsumers.put(
 			"modelClassNameId",
 			(BiConsumer<CTEntry, Long>)CTEntry::setModelClassNameId);
 		attributeGetterFunctions.put("modelClassPK", CTEntry::getModelClassPK);
+
+		cacheModelGetterFunctions.put(
+			"modelClassPK",
+			ctEntryCacheModel -> ctEntryCacheModel.modelClassPK);
 		attributeSetterBiConsumers.put(
 			"modelClassPK",
 			(BiConsumer<CTEntry, Long>)CTEntry::setModelClassPK);
 		attributeGetterFunctions.put(
 			"modelMvccVersion", CTEntry::getModelMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"modelMvccVersion",
+			ctEntryCacheModel -> ctEntryCacheModel.modelMvccVersion);
 		attributeSetterBiConsumers.put(
 			"modelMvccVersion",
 			(BiConsumer<CTEntry, Long>)CTEntry::setModelMvccVersion);
 		attributeGetterFunctions.put("changeType", CTEntry::getChangeType);
+
+		cacheModelGetterFunctions.put(
+			"changeType", ctEntryCacheModel -> ctEntryCacheModel.changeType);
 		attributeSetterBiConsumers.put(
 			"changeType", (BiConsumer<CTEntry, Integer>)CTEntry::setChangeType);
 
@@ -297,6 +381,8 @@ public class CTEntryModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -306,6 +392,12 @@ public class CTEntryModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_ctEntryCacheModel == null)) {
+			_ctEntryCacheModel = (CTEntryCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -316,6 +408,12 @@ public class CTEntryModelImpl
 
 	@Override
 	public void setCtEntryId(long ctEntryId) {
+		_columnBitmask |= CTENTRYID_COLUMN_BITMASK;
+
+		if (!isNew() && (_ctEntryCacheModel == null)) {
+			_ctEntryCacheModel = (CTEntryCacheModel)toCacheModel();
+		}
+
 		_ctEntryId = ctEntryId;
 	}
 
@@ -326,6 +424,12 @@ public class CTEntryModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (!isNew() && (_ctEntryCacheModel == null)) {
+			_ctEntryCacheModel = (CTEntryCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -336,6 +440,12 @@ public class CTEntryModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_ctEntryCacheModel == null)) {
+			_ctEntryCacheModel = (CTEntryCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -362,6 +472,12 @@ public class CTEntryModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_ctEntryCacheModel == null)) {
+			_ctEntryCacheModel = (CTEntryCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -378,6 +494,12 @@ public class CTEntryModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_ctEntryCacheModel == null)) {
+			_ctEntryCacheModel = (CTEntryCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -390,17 +512,20 @@ public class CTEntryModelImpl
 	public void setCtCollectionId(long ctCollectionId) {
 		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
 
-		if (!_setOriginalCtCollectionId) {
-			_setOriginalCtCollectionId = true;
-
-			_originalCtCollectionId = _ctCollectionId;
+		if (!isNew() && (_ctEntryCacheModel == null)) {
+			_ctEntryCacheModel = (CTEntryCacheModel)toCacheModel();
 		}
 
 		_ctCollectionId = ctCollectionId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCtCollectionId() {
-		return _originalCtCollectionId;
+		return getCacheModelAttribute("ctCollectionId");
 	}
 
 	@Override
@@ -412,17 +537,20 @@ public class CTEntryModelImpl
 	public void setModelClassNameId(long modelClassNameId) {
 		_columnBitmask |= MODELCLASSNAMEID_COLUMN_BITMASK;
 
-		if (!_setOriginalModelClassNameId) {
-			_setOriginalModelClassNameId = true;
-
-			_originalModelClassNameId = _modelClassNameId;
+		if (!isNew() && (_ctEntryCacheModel == null)) {
+			_ctEntryCacheModel = (CTEntryCacheModel)toCacheModel();
 		}
 
 		_modelClassNameId = modelClassNameId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalModelClassNameId() {
-		return _originalModelClassNameId;
+		return getCacheModelAttribute("modelClassNameId");
 	}
 
 	@Override
@@ -434,17 +562,20 @@ public class CTEntryModelImpl
 	public void setModelClassPK(long modelClassPK) {
 		_columnBitmask |= MODELCLASSPK_COLUMN_BITMASK;
 
-		if (!_setOriginalModelClassPK) {
-			_setOriginalModelClassPK = true;
-
-			_originalModelClassPK = _modelClassPK;
+		if (!isNew() && (_ctEntryCacheModel == null)) {
+			_ctEntryCacheModel = (CTEntryCacheModel)toCacheModel();
 		}
 
 		_modelClassPK = modelClassPK;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalModelClassPK() {
-		return _originalModelClassPK;
+		return getCacheModelAttribute("modelClassPK");
 	}
 
 	@Override
@@ -454,6 +585,12 @@ public class CTEntryModelImpl
 
 	@Override
 	public void setModelMvccVersion(long modelMvccVersion) {
+		_columnBitmask |= MODELMVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_ctEntryCacheModel == null)) {
+			_ctEntryCacheModel = (CTEntryCacheModel)toCacheModel();
+		}
+
 		_modelMvccVersion = modelMvccVersion;
 	}
 
@@ -464,6 +601,12 @@ public class CTEntryModelImpl
 
 	@Override
 	public void setChangeType(int changeType) {
+		_columnBitmask |= CHANGETYPE_COLUMN_BITMASK;
+
+		if (!isNew() && (_ctEntryCacheModel == null)) {
+			_ctEntryCacheModel = (CTEntryCacheModel)toCacheModel();
+		}
+
 		_changeType = changeType;
 	}
 
@@ -503,6 +646,8 @@ public class CTEntryModelImpl
 	public Object clone() {
 		CTEntryImpl ctEntryImpl = new CTEntryImpl();
 
+		ctEntryImpl.setNew(true);
+
 		ctEntryImpl.setMvccVersion(getMvccVersion());
 		ctEntryImpl.setCtEntryId(getCtEntryId());
 		ctEntryImpl.setCompanyId(getCompanyId());
@@ -516,6 +661,8 @@ public class CTEntryModelImpl
 		ctEntryImpl.setChangeType(getChangeType());
 
 		ctEntryImpl.resetOriginalValues();
+
+		ctEntryImpl.setNew(false);
 
 		return ctEntryImpl;
 	}
@@ -582,25 +729,11 @@ public class CTEntryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		CTEntryModelImpl ctEntryModelImpl = this;
+		_setModifiedDate = false;
 
-		ctEntryModelImpl._setModifiedDate = false;
+		_columnBitmask = 0;
 
-		ctEntryModelImpl._originalCtCollectionId =
-			ctEntryModelImpl._ctCollectionId;
-
-		ctEntryModelImpl._setOriginalCtCollectionId = false;
-
-		ctEntryModelImpl._originalModelClassNameId =
-			ctEntryModelImpl._modelClassNameId;
-
-		ctEntryModelImpl._setOriginalModelClassNameId = false;
-
-		ctEntryModelImpl._originalModelClassPK = ctEntryModelImpl._modelClassPK;
-
-		ctEntryModelImpl._setOriginalModelClassPK = false;
-
-		ctEntryModelImpl._columnBitmask = 0;
+		_ctEntryCacheModel = null;
 	}
 
 	@Override
@@ -724,17 +857,12 @@ public class CTEntryModelImpl
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _ctCollectionId;
-	private long _originalCtCollectionId;
-	private boolean _setOriginalCtCollectionId;
 	private long _modelClassNameId;
-	private long _originalModelClassNameId;
-	private boolean _setOriginalModelClassNameId;
 	private long _modelClassPK;
-	private long _originalModelClassPK;
-	private boolean _setOriginalModelClassPK;
 	private long _modelMvccVersion;
 	private int _changeType;
 	private long _columnBitmask;
 	private CTEntry _escapedModel;
+	private CTEntryCacheModel _ctEntryCacheModel;
 
 }

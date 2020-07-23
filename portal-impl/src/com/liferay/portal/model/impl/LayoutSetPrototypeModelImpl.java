@@ -143,13 +143,29 @@ public class LayoutSetPrototypeModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long ACTIVE_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 2L;
+	public static final long UUID_COLUMN_BITMASK = 2L;
 
-	public static final long UUID_COLUMN_BITMASK = 4L;
+	public static final long LAYOUTSETPROTOTYPEID_COLUMN_BITMASK = 4L;
 
-	public static final long LAYOUTSETPROTOTYPEID_COLUMN_BITMASK = 8L;
+	public static final long COMPANYID_COLUMN_BITMASK = 8L;
+
+	public static final long USERID_COLUMN_BITMASK = 16L;
+
+	public static final long USERNAME_COLUMN_BITMASK = 32L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 64L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 128L;
+
+	public static final long NAME_COLUMN_BITMASK = 256L;
+
+	public static final long DESCRIPTION_COLUMN_BITMASK = 512L;
+
+	public static final long SETTINGS_COLUMN_BITMASK = 1024L;
+
+	public static final long ACTIVE_COLUMN_BITMASK = 2048L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -320,10 +336,39 @@ public class LayoutSetPrototypeModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<LayoutSetPrototype, Object> function =
+			_attributeGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((LayoutSetPrototype)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<LayoutSetPrototypeCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_layoutSetPrototypeCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_layoutSetPrototypeCacheModel);
+	}
+
 	private static final Map<String, Function<LayoutSetPrototype, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<LayoutSetPrototype, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<LayoutSetPrototypeCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<LayoutSetPrototype, Object>>
@@ -333,14 +378,27 @@ public class LayoutSetPrototypeModelImpl
 		Map<String, BiConsumer<LayoutSetPrototype, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<LayoutSetPrototype, ?>>();
+		Map<String, Function<LayoutSetPrototypeCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<LayoutSetPrototypeCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", LayoutSetPrototype::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			layoutSetPrototypeCacheModel ->
+				layoutSetPrototypeCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<LayoutSetPrototype, Long>)
 				LayoutSetPrototype::setMvccVersion);
 		attributeGetterFunctions.put("uuid", LayoutSetPrototype::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid",
+			layoutSetPrototypeCacheModel -> layoutSetPrototypeCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid",
 			(BiConsumer<LayoutSetPrototype, String>)
@@ -348,57 +406,106 @@ public class LayoutSetPrototypeModelImpl
 		attributeGetterFunctions.put(
 			"layoutSetPrototypeId",
 			LayoutSetPrototype::getLayoutSetPrototypeId);
+
+		cacheModelGetterFunctions.put(
+			"layoutSetPrototypeId",
+			layoutSetPrototypeCacheModel ->
+				layoutSetPrototypeCacheModel.layoutSetPrototypeId);
 		attributeSetterBiConsumers.put(
 			"layoutSetPrototypeId",
 			(BiConsumer<LayoutSetPrototype, Long>)
 				LayoutSetPrototype::setLayoutSetPrototypeId);
 		attributeGetterFunctions.put(
 			"companyId", LayoutSetPrototype::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			layoutSetPrototypeCacheModel ->
+				layoutSetPrototypeCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<LayoutSetPrototype, Long>)
 				LayoutSetPrototype::setCompanyId);
 		attributeGetterFunctions.put("userId", LayoutSetPrototype::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			layoutSetPrototypeCacheModel ->
+				layoutSetPrototypeCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<LayoutSetPrototype, Long>)
 				LayoutSetPrototype::setUserId);
 		attributeGetterFunctions.put(
 			"userName", LayoutSetPrototype::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			layoutSetPrototypeCacheModel ->
+				layoutSetPrototypeCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<LayoutSetPrototype, String>)
 				LayoutSetPrototype::setUserName);
 		attributeGetterFunctions.put(
 			"createDate", LayoutSetPrototype::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			layoutSetPrototypeCacheModel ->
+				layoutSetPrototypeCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<LayoutSetPrototype, Date>)
 				LayoutSetPrototype::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", LayoutSetPrototype::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			layoutSetPrototypeCacheModel ->
+				layoutSetPrototypeCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<LayoutSetPrototype, Date>)
 				LayoutSetPrototype::setModifiedDate);
 		attributeGetterFunctions.put("name", LayoutSetPrototype::getName);
+
+		cacheModelGetterFunctions.put(
+			"name",
+			layoutSetPrototypeCacheModel -> layoutSetPrototypeCacheModel.name);
 		attributeSetterBiConsumers.put(
 			"name",
 			(BiConsumer<LayoutSetPrototype, String>)
 				LayoutSetPrototype::setName);
 		attributeGetterFunctions.put(
 			"description", LayoutSetPrototype::getDescription);
+
+		cacheModelGetterFunctions.put(
+			"description",
+			layoutSetPrototypeCacheModel ->
+				layoutSetPrototypeCacheModel.description);
 		attributeSetterBiConsumers.put(
 			"description",
 			(BiConsumer<LayoutSetPrototype, String>)
 				LayoutSetPrototype::setDescription);
 		attributeGetterFunctions.put(
 			"settings", LayoutSetPrototype::getSettings);
+
+		cacheModelGetterFunctions.put(
+			"settings",
+			layoutSetPrototypeCacheModel ->
+				layoutSetPrototypeCacheModel.settings);
 		attributeSetterBiConsumers.put(
 			"settings",
 			(BiConsumer<LayoutSetPrototype, String>)
 				LayoutSetPrototype::setSettings);
 		attributeGetterFunctions.put("active", LayoutSetPrototype::getActive);
+
+		cacheModelGetterFunctions.put(
+			"active",
+			layoutSetPrototypeCacheModel ->
+				layoutSetPrototypeCacheModel.active);
 		attributeSetterBiConsumers.put(
 			"active",
 			(BiConsumer<LayoutSetPrototype, Boolean>)
@@ -408,6 +515,8 @@ public class LayoutSetPrototypeModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -418,6 +527,13 @@ public class LayoutSetPrototypeModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_layoutSetPrototypeCacheModel == null)) {
+			_layoutSetPrototypeCacheModel =
+				(LayoutSetPrototypeCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -436,15 +552,21 @@ public class LayoutSetPrototypeModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (!isNew() && (_layoutSetPrototypeCacheModel == null)) {
+			_layoutSetPrototypeCacheModel =
+				(LayoutSetPrototypeCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getCacheModelAttribute("uuid");
 	}
 
 	@JSON
@@ -455,6 +577,13 @@ public class LayoutSetPrototypeModelImpl
 
 	@Override
 	public void setLayoutSetPrototypeId(long layoutSetPrototypeId) {
+		_columnBitmask |= LAYOUTSETPROTOTYPEID_COLUMN_BITMASK;
+
+		if (!isNew() && (_layoutSetPrototypeCacheModel == null)) {
+			_layoutSetPrototypeCacheModel =
+				(LayoutSetPrototypeCacheModel)toCacheModel();
+		}
+
 		_layoutSetPrototypeId = layoutSetPrototypeId;
 	}
 
@@ -468,17 +597,21 @@ public class LayoutSetPrototypeModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (!isNew() && (_layoutSetPrototypeCacheModel == null)) {
+			_layoutSetPrototypeCacheModel =
+				(LayoutSetPrototypeCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getCacheModelAttribute("companyId");
 	}
 
 	@JSON
@@ -489,6 +622,13 @@ public class LayoutSetPrototypeModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_layoutSetPrototypeCacheModel == null)) {
+			_layoutSetPrototypeCacheModel =
+				(LayoutSetPrototypeCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -521,6 +661,13 @@ public class LayoutSetPrototypeModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_layoutSetPrototypeCacheModel == null)) {
+			_layoutSetPrototypeCacheModel =
+				(LayoutSetPrototypeCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -532,6 +679,13 @@ public class LayoutSetPrototypeModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_layoutSetPrototypeCacheModel == null)) {
+			_layoutSetPrototypeCacheModel =
+				(LayoutSetPrototypeCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -548,6 +702,13 @@ public class LayoutSetPrototypeModelImpl
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
+
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_layoutSetPrototypeCacheModel == null)) {
+			_layoutSetPrototypeCacheModel =
+				(LayoutSetPrototypeCacheModel)toCacheModel();
+		}
 
 		_modifiedDate = modifiedDate;
 	}
@@ -608,6 +769,13 @@ public class LayoutSetPrototypeModelImpl
 
 	@Override
 	public void setName(String name) {
+		_columnBitmask |= NAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_layoutSetPrototypeCacheModel == null)) {
+			_layoutSetPrototypeCacheModel =
+				(LayoutSetPrototypeCacheModel)toCacheModel();
+		}
+
 		_name = name;
 	}
 
@@ -711,6 +879,13 @@ public class LayoutSetPrototypeModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		_columnBitmask |= DESCRIPTION_COLUMN_BITMASK;
+
+		if (!isNew() && (_layoutSetPrototypeCacheModel == null)) {
+			_layoutSetPrototypeCacheModel =
+				(LayoutSetPrototypeCacheModel)toCacheModel();
+		}
+
 		_description = description;
 	}
 
@@ -776,6 +951,13 @@ public class LayoutSetPrototypeModelImpl
 
 	@Override
 	public void setSettings(String settings) {
+		_columnBitmask |= SETTINGS_COLUMN_BITMASK;
+
+		if (!isNew() && (_layoutSetPrototypeCacheModel == null)) {
+			_layoutSetPrototypeCacheModel =
+				(LayoutSetPrototypeCacheModel)toCacheModel();
+		}
+
 		_settings = settings;
 	}
 
@@ -795,17 +977,21 @@ public class LayoutSetPrototypeModelImpl
 	public void setActive(boolean active) {
 		_columnBitmask |= ACTIVE_COLUMN_BITMASK;
 
-		if (!_setOriginalActive) {
-			_setOriginalActive = true;
-
-			_originalActive = _active;
+		if (!isNew() && (_layoutSetPrototypeCacheModel == null)) {
+			_layoutSetPrototypeCacheModel =
+				(LayoutSetPrototypeCacheModel)toCacheModel();
 		}
 
 		_active = active;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public boolean getOriginalActive() {
-		return _originalActive;
+		return getCacheModelAttribute("active");
 	}
 
 	@Override
@@ -940,6 +1126,8 @@ public class LayoutSetPrototypeModelImpl
 		LayoutSetPrototypeImpl layoutSetPrototypeImpl =
 			new LayoutSetPrototypeImpl();
 
+		layoutSetPrototypeImpl.setNew(true);
+
 		layoutSetPrototypeImpl.setMvccVersion(getMvccVersion());
 		layoutSetPrototypeImpl.setUuid(getUuid());
 		layoutSetPrototypeImpl.setLayoutSetPrototypeId(
@@ -955,6 +1143,8 @@ public class LayoutSetPrototypeModelImpl
 		layoutSetPrototypeImpl.setActive(isActive());
 
 		layoutSetPrototypeImpl.resetOriginalValues();
+
+		layoutSetPrototypeImpl.setNew(false);
 
 		return layoutSetPrototypeImpl;
 	}
@@ -1021,24 +1211,11 @@ public class LayoutSetPrototypeModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		LayoutSetPrototypeModelImpl layoutSetPrototypeModelImpl = this;
+		_setModifiedDate = false;
 
-		layoutSetPrototypeModelImpl._originalUuid =
-			layoutSetPrototypeModelImpl._uuid;
+		_columnBitmask = 0;
 
-		layoutSetPrototypeModelImpl._originalCompanyId =
-			layoutSetPrototypeModelImpl._companyId;
-
-		layoutSetPrototypeModelImpl._setOriginalCompanyId = false;
-
-		layoutSetPrototypeModelImpl._setModifiedDate = false;
-
-		layoutSetPrototypeModelImpl._originalActive =
-			layoutSetPrototypeModelImpl._active;
-
-		layoutSetPrototypeModelImpl._setOriginalActive = false;
-
-		layoutSetPrototypeModelImpl._columnBitmask = 0;
+		_layoutSetPrototypeCacheModel = null;
 	}
 
 	@Override
@@ -1190,11 +1367,8 @@ public class LayoutSetPrototypeModelImpl
 
 	private long _mvccVersion;
 	private String _uuid;
-	private String _originalUuid;
 	private long _layoutSetPrototypeId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
@@ -1206,9 +1380,8 @@ public class LayoutSetPrototypeModelImpl
 	private String _descriptionCurrentLanguageId;
 	private String _settings;
 	private boolean _active;
-	private boolean _originalActive;
-	private boolean _setOriginalActive;
 	private long _columnBitmask;
 	private LayoutSetPrototype _escapedModel;
+	private LayoutSetPrototypeCacheModel _layoutSetPrototypeCacheModel;
 
 }

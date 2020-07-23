@@ -95,6 +95,8 @@ public class CTMessageCacheModel
 	public CTMessage toEntityModel() {
 		CTMessageImpl ctMessageImpl = new CTMessageImpl();
 
+		ctMessageImpl.setNew(true);
+
 		ctMessageImpl.setMvccVersion(mvccVersion);
 		ctMessageImpl.setCtMessageId(ctMessageId);
 		ctMessageImpl.setCompanyId(companyId);
@@ -108,6 +110,8 @@ public class CTMessageCacheModel
 		}
 
 		ctMessageImpl.resetOriginalValues();
+
+		ctMessageImpl.setNew(false);
 
 		return ctMessageImpl;
 	}

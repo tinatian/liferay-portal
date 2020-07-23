@@ -120,6 +120,8 @@ public class LayoutClassedModelUsageCacheModel
 		LayoutClassedModelUsageImpl layoutClassedModelUsageImpl =
 			new LayoutClassedModelUsageImpl();
 
+		layoutClassedModelUsageImpl.setNew(true);
+
 		layoutClassedModelUsageImpl.setMvccVersion(mvccVersion);
 		layoutClassedModelUsageImpl.setCtCollectionId(ctCollectionId);
 
@@ -172,6 +174,8 @@ public class LayoutClassedModelUsageCacheModel
 		}
 
 		layoutClassedModelUsageImpl.resetOriginalValues();
+
+		layoutClassedModelUsageImpl.setNew(false);
 
 		return layoutClassedModelUsageImpl;
 	}

@@ -5480,8 +5480,8 @@ public class SharingEntryPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				sharingEntryModelImpl.getOriginalUuid(),
-				sharingEntryModelImpl.getOriginalGroupId()
+				sharingEntryModelImpl.getCacheModelAttribute("uuid"),
+				sharingEntryModelImpl.getCacheModelAttribute("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -5503,9 +5503,9 @@ public class SharingEntryPersistenceImpl
 			 _finderPathFetchByTU_C_C.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				sharingEntryModelImpl.getOriginalToUserId(),
-				sharingEntryModelImpl.getOriginalClassNameId(),
-				sharingEntryModelImpl.getOriginalClassPK()
+				sharingEntryModelImpl.getCacheModelAttribute("toUserId"),
+				sharingEntryModelImpl.getCacheModelAttribute("classNameId"),
+				sharingEntryModelImpl.getCacheModelAttribute("classPK")
 			};
 
 			finderCache.removeResult(_finderPathCountByTU_C_C, args);
@@ -5768,7 +5768,7 @@ public class SharingEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					sharingEntryModelImpl.getOriginalUuid()
+					sharingEntryModelImpl.getCacheModelAttribute("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -5787,8 +5787,8 @@ public class SharingEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					sharingEntryModelImpl.getOriginalUuid(),
-					sharingEntryModelImpl.getOriginalCompanyId()
+					sharingEntryModelImpl.getCacheModelAttribute("uuid"),
+					sharingEntryModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -5810,7 +5810,7 @@ public class SharingEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					sharingEntryModelImpl.getOriginalGroupId()
+					sharingEntryModelImpl.getCacheModelAttribute("groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId, args);
@@ -5829,7 +5829,7 @@ public class SharingEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					sharingEntryModelImpl.getOriginalUserId()
+					sharingEntryModelImpl.getCacheModelAttribute("userId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUserId, args);
@@ -5848,7 +5848,7 @@ public class SharingEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					sharingEntryModelImpl.getOriginalToUserId()
+					sharingEntryModelImpl.getCacheModelAttribute("toUserId")
 				};
 
 				finderCache.removeResult(_finderPathCountByToUserId, args);
@@ -5867,8 +5867,8 @@ public class SharingEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					sharingEntryModelImpl.getOriginalUserId(),
-					sharingEntryModelImpl.getOriginalClassNameId()
+					sharingEntryModelImpl.getCacheModelAttribute("userId"),
+					sharingEntryModelImpl.getCacheModelAttribute("classNameId")
 				};
 
 				finderCache.removeResult(_finderPathCountByU_C, args);
@@ -5890,8 +5890,8 @@ public class SharingEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					sharingEntryModelImpl.getOriginalToUserId(),
-					sharingEntryModelImpl.getOriginalClassNameId()
+					sharingEntryModelImpl.getCacheModelAttribute("toUserId"),
+					sharingEntryModelImpl.getCacheModelAttribute("classNameId")
 				};
 
 				finderCache.removeResult(_finderPathCountByTU_C, args);
@@ -5913,8 +5913,8 @@ public class SharingEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					sharingEntryModelImpl.getOriginalClassNameId(),
-					sharingEntryModelImpl.getOriginalClassPK()
+					sharingEntryModelImpl.getCacheModelAttribute("classNameId"),
+					sharingEntryModelImpl.getCacheModelAttribute("classPK")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_C, args);

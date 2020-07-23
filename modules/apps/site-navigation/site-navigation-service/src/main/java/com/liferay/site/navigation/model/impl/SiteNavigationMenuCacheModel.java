@@ -116,6 +116,8 @@ public class SiteNavigationMenuCacheModel
 		SiteNavigationMenuImpl siteNavigationMenuImpl =
 			new SiteNavigationMenuImpl();
 
+		siteNavigationMenuImpl.setNew(true);
+
 		siteNavigationMenuImpl.setMvccVersion(mvccVersion);
 
 		if (uuid == null) {
@@ -170,6 +172,8 @@ public class SiteNavigationMenuCacheModel
 		}
 
 		siteNavigationMenuImpl.resetOriginalValues();
+
+		siteNavigationMenuImpl.setNew(false);
 
 		return siteNavigationMenuImpl;
 	}

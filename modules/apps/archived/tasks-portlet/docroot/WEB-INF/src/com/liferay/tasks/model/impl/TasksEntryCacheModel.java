@@ -101,6 +101,8 @@ public class TasksEntryCacheModel
 	public TasksEntry toEntityModel() {
 		TasksEntryImpl tasksEntryImpl = new TasksEntryImpl();
 
+		tasksEntryImpl.setNew(true);
+
 		tasksEntryImpl.setTasksEntryId(tasksEntryId);
 		tasksEntryImpl.setGroupId(groupId);
 		tasksEntryImpl.setCompanyId(companyId);
@@ -155,6 +157,8 @@ public class TasksEntryCacheModel
 		tasksEntryImpl.setStatus(status);
 
 		tasksEntryImpl.resetOriginalValues();
+
+		tasksEntryImpl.setNew(false);
 
 		return tasksEntryImpl;
 	}

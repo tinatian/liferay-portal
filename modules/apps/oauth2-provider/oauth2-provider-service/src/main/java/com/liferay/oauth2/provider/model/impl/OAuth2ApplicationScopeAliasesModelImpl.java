@@ -102,12 +102,18 @@ public class OAuth2ApplicationScopeAliasesModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
-
-	public static final long OAUTH2APPLICATIONID_COLUMN_BITMASK = 2L;
-
 	public static final long OAUTH2APPLICATIONSCOPEALIASESID_COLUMN_BITMASK =
-		4L;
+		1L;
+
+	public static final long COMPANYID_COLUMN_BITMASK = 2L;
+
+	public static final long USERID_COLUMN_BITMASK = 4L;
+
+	public static final long USERNAME_COLUMN_BITMASK = 8L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 16L;
+
+	public static final long OAUTH2APPLICATIONID_COLUMN_BITMASK = 32L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -238,12 +244,41 @@ public class OAuth2ApplicationScopeAliasesModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<OAuth2ApplicationScopeAliases, Object> function =
+			_attributeGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((OAuth2ApplicationScopeAliases)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<OAuth2ApplicationScopeAliasesCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_oAuth2ApplicationScopeAliasesCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_oAuth2ApplicationScopeAliasesCacheModel);
+	}
+
 	private static final Map
 		<String, Function<OAuth2ApplicationScopeAliases, Object>>
 			_attributeGetterFunctions;
 	private static final Map
 		<String, BiConsumer<OAuth2ApplicationScopeAliases, Object>>
 			_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<OAuth2ApplicationScopeAliasesCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<OAuth2ApplicationScopeAliases, Object>>
@@ -254,10 +289,22 @@ public class OAuth2ApplicationScopeAliasesModelImpl
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<OAuth2ApplicationScopeAliases, ?>>();
+		Map<String, Function<OAuth2ApplicationScopeAliasesCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String,
+					 Function
+						 <OAuth2ApplicationScopeAliasesCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"oAuth2ApplicationScopeAliasesId",
 			OAuth2ApplicationScopeAliases::getOAuth2ApplicationScopeAliasesId);
+
+		cacheModelGetterFunctions.put(
+			"oAuth2ApplicationScopeAliasesId",
+			oAuth2ApplicationScopeAliasesCacheModel ->
+				oAuth2ApplicationScopeAliasesCacheModel.
+					oAuth2ApplicationScopeAliasesId);
 		attributeSetterBiConsumers.put(
 			"oAuth2ApplicationScopeAliasesId",
 			(BiConsumer<OAuth2ApplicationScopeAliases, Long>)
@@ -265,24 +312,44 @@ public class OAuth2ApplicationScopeAliasesModelImpl
 					setOAuth2ApplicationScopeAliasesId);
 		attributeGetterFunctions.put(
 			"companyId", OAuth2ApplicationScopeAliases::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			oAuth2ApplicationScopeAliasesCacheModel ->
+				oAuth2ApplicationScopeAliasesCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<OAuth2ApplicationScopeAliases, Long>)
 				OAuth2ApplicationScopeAliases::setCompanyId);
 		attributeGetterFunctions.put(
 			"userId", OAuth2ApplicationScopeAliases::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			oAuth2ApplicationScopeAliasesCacheModel ->
+				oAuth2ApplicationScopeAliasesCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<OAuth2ApplicationScopeAliases, Long>)
 				OAuth2ApplicationScopeAliases::setUserId);
 		attributeGetterFunctions.put(
 			"userName", OAuth2ApplicationScopeAliases::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			oAuth2ApplicationScopeAliasesCacheModel ->
+				oAuth2ApplicationScopeAliasesCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<OAuth2ApplicationScopeAliases, String>)
 				OAuth2ApplicationScopeAliases::setUserName);
 		attributeGetterFunctions.put(
 			"createDate", OAuth2ApplicationScopeAliases::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			oAuth2ApplicationScopeAliasesCacheModel ->
+				oAuth2ApplicationScopeAliasesCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<OAuth2ApplicationScopeAliases, Date>)
@@ -290,6 +357,11 @@ public class OAuth2ApplicationScopeAliasesModelImpl
 		attributeGetterFunctions.put(
 			"oAuth2ApplicationId",
 			OAuth2ApplicationScopeAliases::getOAuth2ApplicationId);
+
+		cacheModelGetterFunctions.put(
+			"oAuth2ApplicationId",
+			oAuth2ApplicationScopeAliasesCacheModel ->
+				oAuth2ApplicationScopeAliasesCacheModel.oAuth2ApplicationId);
 		attributeSetterBiConsumers.put(
 			"oAuth2ApplicationId",
 			(BiConsumer<OAuth2ApplicationScopeAliases, Long>)
@@ -299,6 +371,8 @@ public class OAuth2ApplicationScopeAliasesModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -309,6 +383,13 @@ public class OAuth2ApplicationScopeAliasesModelImpl
 	@Override
 	public void setOAuth2ApplicationScopeAliasesId(
 		long oAuth2ApplicationScopeAliasesId) {
+
+		_columnBitmask |= OAUTH2APPLICATIONSCOPEALIASESID_COLUMN_BITMASK;
+
+		if (!isNew() && (_oAuth2ApplicationScopeAliasesCacheModel == null)) {
+			_oAuth2ApplicationScopeAliasesCacheModel =
+				(OAuth2ApplicationScopeAliasesCacheModel)toCacheModel();
+		}
 
 		_oAuth2ApplicationScopeAliasesId = oAuth2ApplicationScopeAliasesId;
 	}
@@ -322,17 +403,21 @@ public class OAuth2ApplicationScopeAliasesModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (!isNew() && (_oAuth2ApplicationScopeAliasesCacheModel == null)) {
+			_oAuth2ApplicationScopeAliasesCacheModel =
+				(OAuth2ApplicationScopeAliasesCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getCacheModelAttribute("companyId");
 	}
 
 	@Override
@@ -342,6 +427,13 @@ public class OAuth2ApplicationScopeAliasesModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_oAuth2ApplicationScopeAliasesCacheModel == null)) {
+			_oAuth2ApplicationScopeAliasesCacheModel =
+				(OAuth2ApplicationScopeAliasesCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -373,6 +465,13 @@ public class OAuth2ApplicationScopeAliasesModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_oAuth2ApplicationScopeAliasesCacheModel == null)) {
+			_oAuth2ApplicationScopeAliasesCacheModel =
+				(OAuth2ApplicationScopeAliasesCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -383,6 +482,13 @@ public class OAuth2ApplicationScopeAliasesModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_oAuth2ApplicationScopeAliasesCacheModel == null)) {
+			_oAuth2ApplicationScopeAliasesCacheModel =
+				(OAuth2ApplicationScopeAliasesCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -395,17 +501,21 @@ public class OAuth2ApplicationScopeAliasesModelImpl
 	public void setOAuth2ApplicationId(long oAuth2ApplicationId) {
 		_columnBitmask |= OAUTH2APPLICATIONID_COLUMN_BITMASK;
 
-		if (!_setOriginalOAuth2ApplicationId) {
-			_setOriginalOAuth2ApplicationId = true;
-
-			_originalOAuth2ApplicationId = _oAuth2ApplicationId;
+		if (!isNew() && (_oAuth2ApplicationScopeAliasesCacheModel == null)) {
+			_oAuth2ApplicationScopeAliasesCacheModel =
+				(OAuth2ApplicationScopeAliasesCacheModel)toCacheModel();
 		}
 
 		_oAuth2ApplicationId = oAuth2ApplicationId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalOAuth2ApplicationId() {
-		return _originalOAuth2ApplicationId;
+		return getCacheModelAttribute("oAuth2ApplicationId");
 	}
 
 	public long getColumnBitmask() {
@@ -446,6 +556,8 @@ public class OAuth2ApplicationScopeAliasesModelImpl
 		OAuth2ApplicationScopeAliasesImpl oAuth2ApplicationScopeAliasesImpl =
 			new OAuth2ApplicationScopeAliasesImpl();
 
+		oAuth2ApplicationScopeAliasesImpl.setNew(true);
+
 		oAuth2ApplicationScopeAliasesImpl.setOAuth2ApplicationScopeAliasesId(
 			getOAuth2ApplicationScopeAliasesId());
 		oAuth2ApplicationScopeAliasesImpl.setCompanyId(getCompanyId());
@@ -456,6 +568,8 @@ public class OAuth2ApplicationScopeAliasesModelImpl
 			getOAuth2ApplicationId());
 
 		oAuth2ApplicationScopeAliasesImpl.resetOriginalValues();
+
+		oAuth2ApplicationScopeAliasesImpl.setNew(false);
 
 		return oAuth2ApplicationScopeAliasesImpl;
 	}
@@ -525,21 +639,9 @@ public class OAuth2ApplicationScopeAliasesModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		OAuth2ApplicationScopeAliasesModelImpl
-			oAuth2ApplicationScopeAliasesModelImpl = this;
+		_columnBitmask = 0;
 
-		oAuth2ApplicationScopeAliasesModelImpl._originalCompanyId =
-			oAuth2ApplicationScopeAliasesModelImpl._companyId;
-
-		oAuth2ApplicationScopeAliasesModelImpl._setOriginalCompanyId = false;
-
-		oAuth2ApplicationScopeAliasesModelImpl._originalOAuth2ApplicationId =
-			oAuth2ApplicationScopeAliasesModelImpl._oAuth2ApplicationId;
-
-		oAuth2ApplicationScopeAliasesModelImpl._setOriginalOAuth2ApplicationId =
-			false;
-
-		oAuth2ApplicationScopeAliasesModelImpl._columnBitmask = 0;
+		_oAuth2ApplicationScopeAliasesCacheModel = null;
 	}
 
 	@Override
@@ -658,15 +760,13 @@ public class OAuth2ApplicationScopeAliasesModelImpl
 
 	private long _oAuth2ApplicationScopeAliasesId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private long _oAuth2ApplicationId;
-	private long _originalOAuth2ApplicationId;
-	private boolean _setOriginalOAuth2ApplicationId;
 	private long _columnBitmask;
 	private OAuth2ApplicationScopeAliases _escapedModel;
+	private OAuth2ApplicationScopeAliasesCacheModel
+		_oAuth2ApplicationScopeAliasesCacheModel;
 
 }

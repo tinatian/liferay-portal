@@ -113,7 +113,11 @@ public class BigDecimalEntryModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long BIGDECIMALVALUE_COLUMN_BITMASK = 1L;
+	public static final long BIGDECIMALENTRYID_COLUMN_BITMASK = 1L;
+
+	public static final long COMPANYID_COLUMN_BITMASK = 2L;
+
+	public static final long BIGDECIMALVALUE_COLUMN_BITMASK = 4L;
 
 	public static final String MAPPING_TABLE_BIGDECIMALENTRIES_LVENTRIES_NAME =
 		"BigDecimalEntries_LVEntries";
@@ -253,10 +257,39 @@ public class BigDecimalEntryModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<BigDecimalEntry, Object> function =
+			_attributeGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((BigDecimalEntry)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<BigDecimalEntryCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_bigDecimalEntryCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_bigDecimalEntryCacheModel);
+	}
+
 	private static final Map<String, Function<BigDecimalEntry, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<BigDecimalEntry, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<BigDecimalEntryCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<BigDecimalEntry, Object>>
@@ -264,20 +297,38 @@ public class BigDecimalEntryModelImpl
 				new LinkedHashMap<String, Function<BigDecimalEntry, Object>>();
 		Map<String, BiConsumer<BigDecimalEntry, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<BigDecimalEntry, ?>>();
+		Map<String, Function<BigDecimalEntryCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<BigDecimalEntryCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"bigDecimalEntryId", BigDecimalEntry::getBigDecimalEntryId);
+
+		cacheModelGetterFunctions.put(
+			"bigDecimalEntryId",
+			bigDecimalEntryCacheModel ->
+				bigDecimalEntryCacheModel.bigDecimalEntryId);
 		attributeSetterBiConsumers.put(
 			"bigDecimalEntryId",
 			(BiConsumer<BigDecimalEntry, Long>)
 				BigDecimalEntry::setBigDecimalEntryId);
 		attributeGetterFunctions.put(
 			"companyId", BigDecimalEntry::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			bigDecimalEntryCacheModel -> bigDecimalEntryCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<BigDecimalEntry, Long>)BigDecimalEntry::setCompanyId);
 		attributeGetterFunctions.put(
 			"bigDecimalValue", BigDecimalEntry::getBigDecimalValue);
+
+		cacheModelGetterFunctions.put(
+			"bigDecimalValue",
+			bigDecimalEntryCacheModel ->
+				bigDecimalEntryCacheModel.bigDecimalValue);
 		attributeSetterBiConsumers.put(
 			"bigDecimalValue",
 			(BiConsumer<BigDecimalEntry, BigDecimal>)
@@ -287,6 +338,8 @@ public class BigDecimalEntryModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -296,6 +349,13 @@ public class BigDecimalEntryModelImpl
 
 	@Override
 	public void setBigDecimalEntryId(long bigDecimalEntryId) {
+		_columnBitmask |= BIGDECIMALENTRYID_COLUMN_BITMASK;
+
+		if (!isNew() && (_bigDecimalEntryCacheModel == null)) {
+			_bigDecimalEntryCacheModel =
+				(BigDecimalEntryCacheModel)toCacheModel();
+		}
+
 		_bigDecimalEntryId = bigDecimalEntryId;
 	}
 
@@ -306,6 +366,13 @@ public class BigDecimalEntryModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (!isNew() && (_bigDecimalEntryCacheModel == null)) {
+			_bigDecimalEntryCacheModel =
+				(BigDecimalEntryCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -316,17 +383,23 @@ public class BigDecimalEntryModelImpl
 
 	@Override
 	public void setBigDecimalValue(BigDecimal bigDecimalValue) {
-		_columnBitmask = -1L;
+		_columnBitmask |= BIGDECIMALVALUE_COLUMN_BITMASK;
 
-		if (_originalBigDecimalValue == null) {
-			_originalBigDecimalValue = _bigDecimalValue;
+		if (!isNew() && (_bigDecimalEntryCacheModel == null)) {
+			_bigDecimalEntryCacheModel =
+				(BigDecimalEntryCacheModel)toCacheModel();
 		}
 
 		_bigDecimalValue = bigDecimalValue;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public BigDecimal getOriginalBigDecimalValue() {
-		return _originalBigDecimalValue;
+		return getCacheModelAttribute("bigDecimalValue");
 	}
 
 	public long getColumnBitmask() {
@@ -365,11 +438,15 @@ public class BigDecimalEntryModelImpl
 	public Object clone() {
 		BigDecimalEntryImpl bigDecimalEntryImpl = new BigDecimalEntryImpl();
 
+		bigDecimalEntryImpl.setNew(true);
+
 		bigDecimalEntryImpl.setBigDecimalEntryId(getBigDecimalEntryId());
 		bigDecimalEntryImpl.setCompanyId(getCompanyId());
 		bigDecimalEntryImpl.setBigDecimalValue(getBigDecimalValue());
 
 		bigDecimalEntryImpl.resetOriginalValues();
+
+		bigDecimalEntryImpl.setNew(false);
 
 		return bigDecimalEntryImpl;
 	}
@@ -435,12 +512,9 @@ public class BigDecimalEntryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		BigDecimalEntryModelImpl bigDecimalEntryModelImpl = this;
+		_columnBitmask = 0;
 
-		bigDecimalEntryModelImpl._originalBigDecimalValue =
-			bigDecimalEntryModelImpl._bigDecimalValue;
-
-		bigDecimalEntryModelImpl._columnBitmask = 0;
+		_bigDecimalEntryCacheModel = null;
 	}
 
 	@Override
@@ -530,8 +604,8 @@ public class BigDecimalEntryModelImpl
 	private long _bigDecimalEntryId;
 	private long _companyId;
 	private BigDecimal _bigDecimalValue;
-	private BigDecimal _originalBigDecimalValue;
 	private long _columnBitmask;
 	private BigDecimalEntry _escapedModel;
+	private BigDecimalEntryCacheModel _bigDecimalEntryCacheModel;
 
 }

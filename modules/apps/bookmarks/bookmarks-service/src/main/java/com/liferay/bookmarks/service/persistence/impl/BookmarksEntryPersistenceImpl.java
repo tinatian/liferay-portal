@@ -12597,8 +12597,8 @@ public class BookmarksEntryPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				bookmarksEntryModelImpl.getOriginalUuid(),
-				bookmarksEntryModelImpl.getOriginalGroupId()
+				bookmarksEntryModelImpl.getCacheModelAttribute("uuid"),
+				bookmarksEntryModelImpl.getCacheModelAttribute("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -12870,7 +12870,7 @@ public class BookmarksEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					bookmarksEntryModelImpl.getOriginalUuid()
+					bookmarksEntryModelImpl.getCacheModelAttribute("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -12889,8 +12889,8 @@ public class BookmarksEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					bookmarksEntryModelImpl.getOriginalUuid(),
-					bookmarksEntryModelImpl.getOriginalCompanyId()
+					bookmarksEntryModelImpl.getCacheModelAttribute("uuid"),
+					bookmarksEntryModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -12912,7 +12912,7 @@ public class BookmarksEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					bookmarksEntryModelImpl.getOriginalCompanyId()
+					bookmarksEntryModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCompanyId, args);
@@ -12931,8 +12931,8 @@ public class BookmarksEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					bookmarksEntryModelImpl.getOriginalGroupId(),
-					bookmarksEntryModelImpl.getOriginalFolderId()
+					bookmarksEntryModelImpl.getCacheModelAttribute("groupId"),
+					bookmarksEntryModelImpl.getCacheModelAttribute("folderId")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_F, args);
@@ -12954,8 +12954,8 @@ public class BookmarksEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					bookmarksEntryModelImpl.getOriginalGroupId(),
-					bookmarksEntryModelImpl.getOriginalStatus()
+					bookmarksEntryModelImpl.getCacheModelAttribute("groupId"),
+					bookmarksEntryModelImpl.getCacheModelAttribute("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_S, args);
@@ -12977,9 +12977,9 @@ public class BookmarksEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					bookmarksEntryModelImpl.getOriginalGroupId(),
-					bookmarksEntryModelImpl.getOriginalUserId(),
-					bookmarksEntryModelImpl.getOriginalStatus()
+					bookmarksEntryModelImpl.getCacheModelAttribute("groupId"),
+					bookmarksEntryModelImpl.getCacheModelAttribute("userId"),
+					bookmarksEntryModelImpl.getCacheModelAttribute("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_U_S, args);
@@ -13002,9 +13002,9 @@ public class BookmarksEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					bookmarksEntryModelImpl.getOriginalGroupId(),
-					bookmarksEntryModelImpl.getOriginalFolderId(),
-					bookmarksEntryModelImpl.getOriginalStatus()
+					bookmarksEntryModelImpl.getCacheModelAttribute("groupId"),
+					bookmarksEntryModelImpl.getCacheModelAttribute("folderId"),
+					bookmarksEntryModelImpl.getCacheModelAttribute("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_F_S, args);
@@ -13027,10 +13027,10 @@ public class BookmarksEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					bookmarksEntryModelImpl.getOriginalGroupId(),
-					bookmarksEntryModelImpl.getOriginalUserId(),
-					bookmarksEntryModelImpl.getOriginalFolderId(),
-					bookmarksEntryModelImpl.getOriginalStatus()
+					bookmarksEntryModelImpl.getCacheModelAttribute("groupId"),
+					bookmarksEntryModelImpl.getCacheModelAttribute("userId"),
+					bookmarksEntryModelImpl.getCacheModelAttribute("folderId"),
+					bookmarksEntryModelImpl.getCacheModelAttribute("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_U_F_S, args);

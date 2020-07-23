@@ -116,6 +116,8 @@ public class SocialRequestCacheModel
 	public SocialRequest toEntityModel() {
 		SocialRequestImpl socialRequestImpl = new SocialRequestImpl();
 
+		socialRequestImpl.setNew(true);
+
 		socialRequestImpl.setMvccVersion(mvccVersion);
 		socialRequestImpl.setCtCollectionId(ctCollectionId);
 
@@ -147,6 +149,8 @@ public class SocialRequestCacheModel
 		socialRequestImpl.setStatus(status);
 
 		socialRequestImpl.resetOriginalValues();
+
+		socialRequestImpl.setNew(false);
 
 		return socialRequestImpl;
 	}

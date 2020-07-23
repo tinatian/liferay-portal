@@ -1679,9 +1679,12 @@ public class WorkflowInstanceLinkPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					workflowInstanceLinkModelImpl.getOriginalGroupId(),
-					workflowInstanceLinkModelImpl.getOriginalCompanyId(),
-					workflowInstanceLinkModelImpl.getOriginalClassNameId()
+					workflowInstanceLinkModelImpl.getCacheModelAttribute(
+						"groupId"),
+					workflowInstanceLinkModelImpl.getCacheModelAttribute(
+						"companyId"),
+					workflowInstanceLinkModelImpl.getCacheModelAttribute(
+						"classNameId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByG_C_C, args);
@@ -1704,10 +1707,14 @@ public class WorkflowInstanceLinkPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					workflowInstanceLinkModelImpl.getOriginalGroupId(),
-					workflowInstanceLinkModelImpl.getOriginalCompanyId(),
-					workflowInstanceLinkModelImpl.getOriginalClassNameId(),
-					workflowInstanceLinkModelImpl.getOriginalClassPK()
+					workflowInstanceLinkModelImpl.getCacheModelAttribute(
+						"groupId"),
+					workflowInstanceLinkModelImpl.getCacheModelAttribute(
+						"companyId"),
+					workflowInstanceLinkModelImpl.getCacheModelAttribute(
+						"classNameId"),
+					workflowInstanceLinkModelImpl.getCacheModelAttribute(
+						"classPK")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByG_C_C_C, args);

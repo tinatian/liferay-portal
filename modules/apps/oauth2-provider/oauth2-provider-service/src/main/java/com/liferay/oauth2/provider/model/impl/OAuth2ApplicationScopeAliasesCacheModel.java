@@ -90,6 +90,8 @@ public class OAuth2ApplicationScopeAliasesCacheModel
 		OAuth2ApplicationScopeAliasesImpl oAuth2ApplicationScopeAliasesImpl =
 			new OAuth2ApplicationScopeAliasesImpl();
 
+		oAuth2ApplicationScopeAliasesImpl.setNew(true);
+
 		oAuth2ApplicationScopeAliasesImpl.setOAuth2ApplicationScopeAliasesId(
 			oAuth2ApplicationScopeAliasesId);
 		oAuth2ApplicationScopeAliasesImpl.setCompanyId(companyId);
@@ -114,6 +116,8 @@ public class OAuth2ApplicationScopeAliasesCacheModel
 			oAuth2ApplicationId);
 
 		oAuth2ApplicationScopeAliasesImpl.resetOriginalValues();
+
+		oAuth2ApplicationScopeAliasesImpl.setNew(false);
 
 		return oAuth2ApplicationScopeAliasesImpl;
 	}

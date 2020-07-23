@@ -3013,8 +3013,10 @@ public class LayoutPageTemplateStructureRelPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				layoutPageTemplateStructureRelModelImpl.getOriginalUuid(),
-				layoutPageTemplateStructureRelModelImpl.getOriginalGroupId()
+				layoutPageTemplateStructureRelModelImpl.getCacheModelAttribute(
+					"uuid"),
+				layoutPageTemplateStructureRelModelImpl.getCacheModelAttribute(
+					"groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -3037,10 +3039,10 @@ public class LayoutPageTemplateStructureRelPersistenceImpl
 			 _finderPathFetchByL_S.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				layoutPageTemplateStructureRelModelImpl.
-					getOriginalLayoutPageTemplateStructureId(),
-				layoutPageTemplateStructureRelModelImpl.
-					getOriginalSegmentsExperienceId()
+				layoutPageTemplateStructureRelModelImpl.getCacheModelAttribute(
+					"layoutPageTemplateStructureId"),
+				layoutPageTemplateStructureRelModelImpl.getCacheModelAttribute(
+					"segmentsExperienceId")
 			};
 
 			finderCache.removeResult(_finderPathCountByL_S, args);
@@ -3303,7 +3305,8 @@ public class LayoutPageTemplateStructureRelPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					layoutPageTemplateStructureRelModelImpl.getOriginalUuid()
+					layoutPageTemplateStructureRelModelImpl.
+						getCacheModelAttribute("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -3324,9 +3327,10 @@ public class LayoutPageTemplateStructureRelPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					layoutPageTemplateStructureRelModelImpl.getOriginalUuid(),
 					layoutPageTemplateStructureRelModelImpl.
-						getOriginalCompanyId()
+						getCacheModelAttribute("uuid"),
+					layoutPageTemplateStructureRelModelImpl.
+						getCacheModelAttribute("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -3349,7 +3353,7 @@ public class LayoutPageTemplateStructureRelPersistenceImpl
 
 				Object[] args = new Object[] {
 					layoutPageTemplateStructureRelModelImpl.
-						getOriginalLayoutPageTemplateStructureId()
+						getCacheModelAttribute("layoutPageTemplateStructureId")
 				};
 
 				finderCache.removeResult(
@@ -3376,7 +3380,7 @@ public class LayoutPageTemplateStructureRelPersistenceImpl
 
 				Object[] args = new Object[] {
 					layoutPageTemplateStructureRelModelImpl.
-						getOriginalSegmentsExperienceId()
+						getCacheModelAttribute("segmentsExperienceId")
 				};
 
 				finderCache.removeResult(

@@ -130,6 +130,8 @@ public class LayoutSEOEntryCacheModel
 	public LayoutSEOEntry toEntityModel() {
 		LayoutSEOEntryImpl layoutSEOEntryImpl = new LayoutSEOEntryImpl();
 
+		layoutSEOEntryImpl.setNew(true);
+
 		layoutSEOEntryImpl.setMvccVersion(mvccVersion);
 
 		if (uuid == null) {
@@ -215,6 +217,8 @@ public class LayoutSEOEntryCacheModel
 		}
 
 		layoutSEOEntryImpl.resetOriginalValues();
+
+		layoutSEOEntryImpl.setNew(false);
 
 		return layoutSEOEntryImpl;
 	}

@@ -116,13 +116,17 @@ public class ExpandoTableModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long CLASSNAMEID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
-	public static final long NAME_COLUMN_BITMASK = 4L;
+	public static final long TABLEID_COLUMN_BITMASK = 4L;
 
-	public static final long TABLEID_COLUMN_BITMASK = 8L;
+	public static final long COMPANYID_COLUMN_BITMASK = 8L;
+
+	public static final long CLASSNAMEID_COLUMN_BITMASK = 16L;
+
+	public static final long NAME_COLUMN_BITMASK = 32L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		com.liferay.portal.util.PropsUtil.get(
@@ -241,41 +245,96 @@ public class ExpandoTableModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<ExpandoTable, Object> function = _attributeGetterFunctions.get(
+			attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((ExpandoTable)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<ExpandoTableCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_expandoTableCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_expandoTableCacheModel);
+	}
+
 	private static final Map<String, Function<ExpandoTable, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<ExpandoTable, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<ExpandoTableCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<ExpandoTable, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<ExpandoTable, Object>>();
 		Map<String, BiConsumer<ExpandoTable, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<ExpandoTable, ?>>();
+		Map<String, Function<ExpandoTableCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<ExpandoTableCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", ExpandoTable::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			expandoTableCacheModel -> expandoTableCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<ExpandoTable, Long>)ExpandoTable::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", ExpandoTable::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			expandoTableCacheModel -> expandoTableCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<ExpandoTable, Long>)ExpandoTable::setCtCollectionId);
 		attributeGetterFunctions.put("tableId", ExpandoTable::getTableId);
+
+		cacheModelGetterFunctions.put(
+			"tableId",
+			expandoTableCacheModel -> expandoTableCacheModel.tableId);
 		attributeSetterBiConsumers.put(
 			"tableId",
 			(BiConsumer<ExpandoTable, Long>)ExpandoTable::setTableId);
 		attributeGetterFunctions.put("companyId", ExpandoTable::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			expandoTableCacheModel -> expandoTableCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<ExpandoTable, Long>)ExpandoTable::setCompanyId);
 		attributeGetterFunctions.put(
 			"classNameId", ExpandoTable::getClassNameId);
+
+		cacheModelGetterFunctions.put(
+			"classNameId",
+			expandoTableCacheModel -> expandoTableCacheModel.classNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<ExpandoTable, Long>)ExpandoTable::setClassNameId);
 		attributeGetterFunctions.put("name", ExpandoTable::getName);
+
+		cacheModelGetterFunctions.put(
+			"name", expandoTableCacheModel -> expandoTableCacheModel.name);
 		attributeSetterBiConsumers.put(
 			"name", (BiConsumer<ExpandoTable, String>)ExpandoTable::setName);
 
@@ -283,6 +342,8 @@ public class ExpandoTableModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -293,6 +354,12 @@ public class ExpandoTableModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_expandoTableCacheModel == null)) {
+			_expandoTableCacheModel = (ExpandoTableCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -304,6 +371,12 @@ public class ExpandoTableModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (!isNew() && (_expandoTableCacheModel == null)) {
+			_expandoTableCacheModel = (ExpandoTableCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -315,6 +388,12 @@ public class ExpandoTableModelImpl
 
 	@Override
 	public void setTableId(long tableId) {
+		_columnBitmask |= TABLEID_COLUMN_BITMASK;
+
+		if (!isNew() && (_expandoTableCacheModel == null)) {
+			_expandoTableCacheModel = (ExpandoTableCacheModel)toCacheModel();
+		}
+
 		_tableId = tableId;
 	}
 
@@ -328,17 +407,20 @@ public class ExpandoTableModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (!isNew() && (_expandoTableCacheModel == null)) {
+			_expandoTableCacheModel = (ExpandoTableCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getCacheModelAttribute("companyId");
 	}
 
 	@Override
@@ -371,17 +453,20 @@ public class ExpandoTableModelImpl
 	public void setClassNameId(long classNameId) {
 		_columnBitmask |= CLASSNAMEID_COLUMN_BITMASK;
 
-		if (!_setOriginalClassNameId) {
-			_setOriginalClassNameId = true;
-
-			_originalClassNameId = _classNameId;
+		if (!isNew() && (_expandoTableCacheModel == null)) {
+			_expandoTableCacheModel = (ExpandoTableCacheModel)toCacheModel();
 		}
 
 		_classNameId = classNameId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassNameId() {
-		return _originalClassNameId;
+		return getCacheModelAttribute("classNameId");
 	}
 
 	@JSON
@@ -399,15 +484,20 @@ public class ExpandoTableModelImpl
 	public void setName(String name) {
 		_columnBitmask |= NAME_COLUMN_BITMASK;
 
-		if (_originalName == null) {
-			_originalName = _name;
+		if (!isNew() && (_expandoTableCacheModel == null)) {
+			_expandoTableCacheModel = (ExpandoTableCacheModel)toCacheModel();
 		}
 
 		_name = name;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalName() {
-		return GetterUtil.getString(_originalName);
+		return getCacheModelAttribute("name");
 	}
 
 	public long getColumnBitmask() {
@@ -433,6 +523,8 @@ public class ExpandoTableModelImpl
 	public Object clone() {
 		ExpandoTableImpl expandoTableImpl = new ExpandoTableImpl();
 
+		expandoTableImpl.setNew(true);
+
 		expandoTableImpl.setMvccVersion(getMvccVersion());
 		expandoTableImpl.setCtCollectionId(getCtCollectionId());
 		expandoTableImpl.setTableId(getTableId());
@@ -441,6 +533,8 @@ public class ExpandoTableModelImpl
 		expandoTableImpl.setName(getName());
 
 		expandoTableImpl.resetOriginalValues();
+
+		expandoTableImpl.setNew(false);
 
 		return expandoTableImpl;
 	}
@@ -507,21 +601,9 @@ public class ExpandoTableModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		ExpandoTableModelImpl expandoTableModelImpl = this;
+		_columnBitmask = 0;
 
-		expandoTableModelImpl._originalCompanyId =
-			expandoTableModelImpl._companyId;
-
-		expandoTableModelImpl._setOriginalCompanyId = false;
-
-		expandoTableModelImpl._originalClassNameId =
-			expandoTableModelImpl._classNameId;
-
-		expandoTableModelImpl._setOriginalClassNameId = false;
-
-		expandoTableModelImpl._originalName = expandoTableModelImpl._name;
-
-		expandoTableModelImpl._columnBitmask = 0;
+		_expandoTableCacheModel = null;
 	}
 
 	@Override
@@ -624,14 +706,10 @@ public class ExpandoTableModelImpl
 	private long _ctCollectionId;
 	private long _tableId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _classNameId;
-	private long _originalClassNameId;
-	private boolean _setOriginalClassNameId;
 	private String _name;
-	private String _originalName;
 	private long _columnBitmask;
 	private ExpandoTable _escapedModel;
+	private ExpandoTableCacheModel _expandoTableCacheModel;
 
 }

@@ -27,7 +27,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.sync.model.SyncDevice;
@@ -117,15 +116,29 @@ public class SyncDeviceModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long UUID_COLUMN_BITMASK = 1L;
 
-	public static final long USERID_COLUMN_BITMASK = 2L;
+	public static final long SYNCDEVICEID_COLUMN_BITMASK = 2L;
 
-	public static final long USERNAME_COLUMN_BITMASK = 4L;
+	public static final long COMPANYID_COLUMN_BITMASK = 4L;
 
-	public static final long UUID_COLUMN_BITMASK = 8L;
+	public static final long USERID_COLUMN_BITMASK = 8L;
 
-	public static final long SYNCDEVICEID_COLUMN_BITMASK = 16L;
+	public static final long USERNAME_COLUMN_BITMASK = 16L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 32L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 64L;
+
+	public static final long TYPE_COLUMN_BITMASK = 128L;
+
+	public static final long BUILDNUMBER_COLUMN_BITMASK = 256L;
+
+	public static final long FEATURESET_COLUMN_BITMASK = 512L;
+
+	public static final long HOSTNAME_COLUMN_BITMASK = 1024L;
+
+	public static final long STATUS_COLUMN_BITMASK = 2048L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -302,61 +315,135 @@ public class SyncDeviceModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<SyncDevice, Object> function = _attributeGetterFunctions.get(
+			attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((SyncDevice)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<SyncDeviceCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_syncDeviceCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_syncDeviceCacheModel);
+	}
+
 	private static final Map<String, Function<SyncDevice, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<SyncDevice, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<SyncDeviceCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<SyncDevice, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<SyncDevice, Object>>();
 		Map<String, BiConsumer<SyncDevice, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<SyncDevice, ?>>();
+		Map<String, Function<SyncDeviceCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<SyncDeviceCacheModel, Object>>();
 
 		attributeGetterFunctions.put("uuid", SyncDevice::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid", syncDeviceCacheModel -> syncDeviceCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<SyncDevice, String>)SyncDevice::setUuid);
 		attributeGetterFunctions.put(
 			"syncDeviceId", SyncDevice::getSyncDeviceId);
+
+		cacheModelGetterFunctions.put(
+			"syncDeviceId",
+			syncDeviceCacheModel -> syncDeviceCacheModel.syncDeviceId);
 		attributeSetterBiConsumers.put(
 			"syncDeviceId",
 			(BiConsumer<SyncDevice, Long>)SyncDevice::setSyncDeviceId);
 		attributeGetterFunctions.put("companyId", SyncDevice::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			syncDeviceCacheModel -> syncDeviceCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<SyncDevice, Long>)SyncDevice::setCompanyId);
 		attributeGetterFunctions.put("userId", SyncDevice::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", syncDeviceCacheModel -> syncDeviceCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<SyncDevice, Long>)SyncDevice::setUserId);
 		attributeGetterFunctions.put("userName", SyncDevice::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName", syncDeviceCacheModel -> syncDeviceCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<SyncDevice, String>)SyncDevice::setUserName);
 		attributeGetterFunctions.put("createDate", SyncDevice::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			syncDeviceCacheModel -> syncDeviceCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<SyncDevice, Date>)SyncDevice::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", SyncDevice::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			syncDeviceCacheModel -> syncDeviceCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<SyncDevice, Date>)SyncDevice::setModifiedDate);
 		attributeGetterFunctions.put("type", SyncDevice::getType);
+
+		cacheModelGetterFunctions.put(
+			"type", syncDeviceCacheModel -> syncDeviceCacheModel.type);
 		attributeSetterBiConsumers.put(
 			"type", (BiConsumer<SyncDevice, String>)SyncDevice::setType);
 		attributeGetterFunctions.put("buildNumber", SyncDevice::getBuildNumber);
+
+		cacheModelGetterFunctions.put(
+			"buildNumber",
+			syncDeviceCacheModel -> syncDeviceCacheModel.buildNumber);
 		attributeSetterBiConsumers.put(
 			"buildNumber",
 			(BiConsumer<SyncDevice, Long>)SyncDevice::setBuildNumber);
 		attributeGetterFunctions.put("featureSet", SyncDevice::getFeatureSet);
+
+		cacheModelGetterFunctions.put(
+			"featureSet",
+			syncDeviceCacheModel -> syncDeviceCacheModel.featureSet);
 		attributeSetterBiConsumers.put(
 			"featureSet",
 			(BiConsumer<SyncDevice, Integer>)SyncDevice::setFeatureSet);
 		attributeGetterFunctions.put("hostname", SyncDevice::getHostname);
+
+		cacheModelGetterFunctions.put(
+			"hostname", syncDeviceCacheModel -> syncDeviceCacheModel.hostname);
 		attributeSetterBiConsumers.put(
 			"hostname",
 			(BiConsumer<SyncDevice, String>)SyncDevice::setHostname);
 		attributeGetterFunctions.put("status", SyncDevice::getStatus);
+
+		cacheModelGetterFunctions.put(
+			"status", syncDeviceCacheModel -> syncDeviceCacheModel.status);
 		attributeSetterBiConsumers.put(
 			"status", (BiConsumer<SyncDevice, Integer>)SyncDevice::setStatus);
 
@@ -364,6 +451,8 @@ public class SyncDeviceModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -381,15 +470,20 @@ public class SyncDeviceModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (!isNew() && (_syncDeviceCacheModel == null)) {
+			_syncDeviceCacheModel = (SyncDeviceCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getCacheModelAttribute("uuid");
 	}
 
 	@JSON
@@ -400,6 +494,12 @@ public class SyncDeviceModelImpl
 
 	@Override
 	public void setSyncDeviceId(long syncDeviceId) {
+		_columnBitmask |= SYNCDEVICEID_COLUMN_BITMASK;
+
+		if (!isNew() && (_syncDeviceCacheModel == null)) {
+			_syncDeviceCacheModel = (SyncDeviceCacheModel)toCacheModel();
+		}
+
 		_syncDeviceId = syncDeviceId;
 	}
 
@@ -413,17 +513,20 @@ public class SyncDeviceModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (!isNew() && (_syncDeviceCacheModel == null)) {
+			_syncDeviceCacheModel = (SyncDeviceCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getCacheModelAttribute("companyId");
 	}
 
 	@JSON
@@ -436,10 +539,8 @@ public class SyncDeviceModelImpl
 	public void setUserId(long userId) {
 		_columnBitmask |= USERID_COLUMN_BITMASK;
 
-		if (!_setOriginalUserId) {
-			_setOriginalUserId = true;
-
-			_originalUserId = _userId;
+		if (!isNew() && (_syncDeviceCacheModel == null)) {
+			_syncDeviceCacheModel = (SyncDeviceCacheModel)toCacheModel();
 		}
 
 		_userId = userId;
@@ -461,8 +562,13 @@ public class SyncDeviceModelImpl
 	public void setUserUuid(String userUuid) {
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalUserId() {
-		return _originalUserId;
+		return getCacheModelAttribute("userId");
 	}
 
 	@JSON
@@ -480,15 +586,20 @@ public class SyncDeviceModelImpl
 	public void setUserName(String userName) {
 		_columnBitmask |= USERNAME_COLUMN_BITMASK;
 
-		if (_originalUserName == null) {
-			_originalUserName = _userName;
+		if (!isNew() && (_syncDeviceCacheModel == null)) {
+			_syncDeviceCacheModel = (SyncDeviceCacheModel)toCacheModel();
 		}
 
 		_userName = userName;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalUserName() {
-		return GetterUtil.getString(_originalUserName);
+		return getCacheModelAttribute("userName");
 	}
 
 	@JSON
@@ -499,6 +610,12 @@ public class SyncDeviceModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_syncDeviceCacheModel == null)) {
+			_syncDeviceCacheModel = (SyncDeviceCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -516,6 +633,12 @@ public class SyncDeviceModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_syncDeviceCacheModel == null)) {
+			_syncDeviceCacheModel = (SyncDeviceCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -532,6 +655,12 @@ public class SyncDeviceModelImpl
 
 	@Override
 	public void setType(String type) {
+		_columnBitmask |= TYPE_COLUMN_BITMASK;
+
+		if (!isNew() && (_syncDeviceCacheModel == null)) {
+			_syncDeviceCacheModel = (SyncDeviceCacheModel)toCacheModel();
+		}
+
 		_type = type;
 	}
 
@@ -543,6 +672,12 @@ public class SyncDeviceModelImpl
 
 	@Override
 	public void setBuildNumber(long buildNumber) {
+		_columnBitmask |= BUILDNUMBER_COLUMN_BITMASK;
+
+		if (!isNew() && (_syncDeviceCacheModel == null)) {
+			_syncDeviceCacheModel = (SyncDeviceCacheModel)toCacheModel();
+		}
+
 		_buildNumber = buildNumber;
 	}
 
@@ -554,6 +689,12 @@ public class SyncDeviceModelImpl
 
 	@Override
 	public void setFeatureSet(int featureSet) {
+		_columnBitmask |= FEATURESET_COLUMN_BITMASK;
+
+		if (!isNew() && (_syncDeviceCacheModel == null)) {
+			_syncDeviceCacheModel = (SyncDeviceCacheModel)toCacheModel();
+		}
+
 		_featureSet = featureSet;
 	}
 
@@ -570,6 +711,12 @@ public class SyncDeviceModelImpl
 
 	@Override
 	public void setHostname(String hostname) {
+		_columnBitmask |= HOSTNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_syncDeviceCacheModel == null)) {
+			_syncDeviceCacheModel = (SyncDeviceCacheModel)toCacheModel();
+		}
+
 		_hostname = hostname;
 	}
 
@@ -581,6 +728,12 @@ public class SyncDeviceModelImpl
 
 	@Override
 	public void setStatus(int status) {
+		_columnBitmask |= STATUS_COLUMN_BITMASK;
+
+		if (!isNew() && (_syncDeviceCacheModel == null)) {
+			_syncDeviceCacheModel = (SyncDeviceCacheModel)toCacheModel();
+		}
+
 		_status = status;
 	}
 
@@ -626,6 +779,8 @@ public class SyncDeviceModelImpl
 	public Object clone() {
 		SyncDeviceImpl syncDeviceImpl = new SyncDeviceImpl();
 
+		syncDeviceImpl.setNew(true);
+
 		syncDeviceImpl.setUuid(getUuid());
 		syncDeviceImpl.setSyncDeviceId(getSyncDeviceId());
 		syncDeviceImpl.setCompanyId(getCompanyId());
@@ -640,6 +795,8 @@ public class SyncDeviceModelImpl
 		syncDeviceImpl.setStatus(getStatus());
 
 		syncDeviceImpl.resetOriginalValues();
+
+		syncDeviceImpl.setNew(false);
 
 		return syncDeviceImpl;
 	}
@@ -706,23 +863,11 @@ public class SyncDeviceModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		SyncDeviceModelImpl syncDeviceModelImpl = this;
+		_setModifiedDate = false;
 
-		syncDeviceModelImpl._originalUuid = syncDeviceModelImpl._uuid;
+		_columnBitmask = 0;
 
-		syncDeviceModelImpl._originalCompanyId = syncDeviceModelImpl._companyId;
-
-		syncDeviceModelImpl._setOriginalCompanyId = false;
-
-		syncDeviceModelImpl._originalUserId = syncDeviceModelImpl._userId;
-
-		syncDeviceModelImpl._setOriginalUserId = false;
-
-		syncDeviceModelImpl._originalUserName = syncDeviceModelImpl._userName;
-
-		syncDeviceModelImpl._setModifiedDate = false;
-
-		syncDeviceModelImpl._columnBitmask = 0;
+		_syncDeviceCacheModel = null;
 	}
 
 	@Override
@@ -865,16 +1010,10 @@ public class SyncDeviceModelImpl
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _syncDeviceId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
-	private long _originalUserId;
-	private boolean _setOriginalUserId;
 	private String _userName;
-	private String _originalUserName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
@@ -885,5 +1024,6 @@ public class SyncDeviceModelImpl
 	private int _status;
 	private long _columnBitmask;
 	private SyncDevice _escapedModel;
+	private SyncDeviceCacheModel _syncDeviceCacheModel;
 
 }

@@ -3394,8 +3394,8 @@ public class MBBanPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				mbBanModelImpl.getOriginalUuid(),
-				mbBanModelImpl.getOriginalGroupId()
+				mbBanModelImpl.getCacheModelAttribute("uuid"),
+				mbBanModelImpl.getCacheModelAttribute("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -3415,8 +3415,8 @@ public class MBBanPersistenceImpl
 			 _finderPathFetchByG_B.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				mbBanModelImpl.getOriginalGroupId(),
-				mbBanModelImpl.getOriginalBanUserId()
+				mbBanModelImpl.getCacheModelAttribute("groupId"),
+				mbBanModelImpl.getCacheModelAttribute("banUserId")
 			};
 
 			finderCache.removeResult(_finderPathCountByG_B, args);
@@ -3661,7 +3661,9 @@ public class MBBanPersistenceImpl
 				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
 					 0) {
 
-				Object[] args = new Object[] {mbBanModelImpl.getOriginalUuid()};
+				Object[] args = new Object[] {
+					mbBanModelImpl.getCacheModelAttribute("uuid")
+				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
 				finderCache.removeResult(
@@ -3679,8 +3681,8 @@ public class MBBanPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mbBanModelImpl.getOriginalUuid(),
-					mbBanModelImpl.getOriginalCompanyId()
+					mbBanModelImpl.getCacheModelAttribute("uuid"),
+					mbBanModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -3701,7 +3703,7 @@ public class MBBanPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					mbBanModelImpl.getOriginalGroupId()
+					mbBanModelImpl.getCacheModelAttribute("groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId, args);
@@ -3720,7 +3722,7 @@ public class MBBanPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mbBanModelImpl.getOriginalUserId()
+					mbBanModelImpl.getCacheModelAttribute("userId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUserId, args);
@@ -3739,7 +3741,7 @@ public class MBBanPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					mbBanModelImpl.getOriginalBanUserId()
+					mbBanModelImpl.getCacheModelAttribute("banUserId")
 				};
 
 				finderCache.removeResult(_finderPathCountByBanUserId, args);

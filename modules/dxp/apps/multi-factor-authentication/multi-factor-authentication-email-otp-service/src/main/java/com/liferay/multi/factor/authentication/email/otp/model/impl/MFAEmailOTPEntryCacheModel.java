@@ -113,6 +113,8 @@ public class MFAEmailOTPEntryCacheModel
 	public MFAEmailOTPEntry toEntityModel() {
 		MFAEmailOTPEntryImpl mfaEmailOTPEntryImpl = new MFAEmailOTPEntryImpl();
 
+		mfaEmailOTPEntryImpl.setNew(true);
+
 		mfaEmailOTPEntryImpl.setMvccVersion(mvccVersion);
 		mfaEmailOTPEntryImpl.setMfaEmailOTPEntryId(mfaEmailOTPEntryId);
 		mfaEmailOTPEntryImpl.setCompanyId(companyId);
@@ -170,6 +172,8 @@ public class MFAEmailOTPEntryCacheModel
 		}
 
 		mfaEmailOTPEntryImpl.resetOriginalValues();
+
+		mfaEmailOTPEntryImpl.setNew(false);
 
 		return mfaEmailOTPEntryImpl;
 	}

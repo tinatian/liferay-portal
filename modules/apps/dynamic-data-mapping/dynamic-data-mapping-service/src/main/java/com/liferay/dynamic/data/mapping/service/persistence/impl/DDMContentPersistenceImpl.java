@@ -2667,8 +2667,8 @@ public class DDMContentPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				ddmContentModelImpl.getOriginalUuid(),
-				ddmContentModelImpl.getOriginalGroupId()
+				ddmContentModelImpl.getCacheModelAttribute("uuid"),
+				ddmContentModelImpl.getCacheModelAttribute("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -2913,7 +2913,7 @@ public class DDMContentPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					ddmContentModelImpl.getOriginalUuid()
+					ddmContentModelImpl.getCacheModelAttribute("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -2932,8 +2932,8 @@ public class DDMContentPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					ddmContentModelImpl.getOriginalUuid(),
-					ddmContentModelImpl.getOriginalCompanyId()
+					ddmContentModelImpl.getCacheModelAttribute("uuid"),
+					ddmContentModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -2955,7 +2955,7 @@ public class DDMContentPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					ddmContentModelImpl.getOriginalGroupId()
+					ddmContentModelImpl.getCacheModelAttribute("groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId, args);
@@ -2974,7 +2974,7 @@ public class DDMContentPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					ddmContentModelImpl.getOriginalCompanyId()
+					ddmContentModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCompanyId, args);

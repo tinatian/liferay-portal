@@ -6785,11 +6785,11 @@ public class ResourcePermissionPersistenceImpl
 			 _finderPathFetchByC_N_S_P_R.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				resourcePermissionModelImpl.getOriginalCompanyId(),
-				resourcePermissionModelImpl.getOriginalName(),
-				resourcePermissionModelImpl.getOriginalScope(),
-				resourcePermissionModelImpl.getOriginalPrimKey(),
-				resourcePermissionModelImpl.getOriginalRoleId()
+				resourcePermissionModelImpl.getCacheModelAttribute("companyId"),
+				resourcePermissionModelImpl.getCacheModelAttribute("name"),
+				resourcePermissionModelImpl.getCacheModelAttribute("scope"),
+				resourcePermissionModelImpl.getCacheModelAttribute("primKey"),
+				resourcePermissionModelImpl.getCacheModelAttribute("roleId")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByC_N_S_P_R, args);
@@ -7064,7 +7064,7 @@ public class ResourcePermissionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					resourcePermissionModelImpl.getOriginalName()
+					resourcePermissionModelImpl.getCacheModelAttribute("name")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByName, args);
@@ -7083,7 +7083,7 @@ public class ResourcePermissionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					resourcePermissionModelImpl.getOriginalScope()
+					resourcePermissionModelImpl.getCacheModelAttribute("scope")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByScope, args);
@@ -7102,7 +7102,7 @@ public class ResourcePermissionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					resourcePermissionModelImpl.getOriginalRoleId()
+					resourcePermissionModelImpl.getCacheModelAttribute("roleId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByRoleId, args);
@@ -7121,9 +7121,11 @@ public class ResourcePermissionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					resourcePermissionModelImpl.getOriginalCompanyId(),
-					resourcePermissionModelImpl.getOriginalScope(),
-					resourcePermissionModelImpl.getOriginalPrimKey()
+					resourcePermissionModelImpl.getCacheModelAttribute(
+						"companyId"),
+					resourcePermissionModelImpl.getCacheModelAttribute("scope"),
+					resourcePermissionModelImpl.getCacheModelAttribute(
+						"primKey")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_S_P, args);
@@ -7146,10 +7148,12 @@ public class ResourcePermissionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					resourcePermissionModelImpl.getOriginalCompanyId(),
-					resourcePermissionModelImpl.getOriginalName(),
-					resourcePermissionModelImpl.getOriginalScope(),
-					resourcePermissionModelImpl.getOriginalPrimKey()
+					resourcePermissionModelImpl.getCacheModelAttribute(
+						"companyId"),
+					resourcePermissionModelImpl.getCacheModelAttribute("name"),
+					resourcePermissionModelImpl.getCacheModelAttribute("scope"),
+					resourcePermissionModelImpl.getCacheModelAttribute(
+						"primKey")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_N_S_P, args);
@@ -7173,10 +7177,11 @@ public class ResourcePermissionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					resourcePermissionModelImpl.getOriginalCompanyId(),
-					resourcePermissionModelImpl.getOriginalName(),
-					resourcePermissionModelImpl.getOriginalScope(),
-					resourcePermissionModelImpl.getOriginalRoleId()
+					resourcePermissionModelImpl.getCacheModelAttribute(
+						"companyId"),
+					resourcePermissionModelImpl.getCacheModelAttribute("name"),
+					resourcePermissionModelImpl.getCacheModelAttribute("scope"),
+					resourcePermissionModelImpl.getCacheModelAttribute("roleId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_N_S_R, args);
@@ -7200,11 +7205,13 @@ public class ResourcePermissionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					resourcePermissionModelImpl.getOriginalCompanyId(),
-					resourcePermissionModelImpl.getOriginalName(),
-					resourcePermissionModelImpl.getOriginalScope(),
-					resourcePermissionModelImpl.getOriginalPrimKey(),
-					resourcePermissionModelImpl.getOriginalRoleId()
+					resourcePermissionModelImpl.getCacheModelAttribute(
+						"companyId"),
+					resourcePermissionModelImpl.getCacheModelAttribute("name"),
+					resourcePermissionModelImpl.getCacheModelAttribute("scope"),
+					resourcePermissionModelImpl.getCacheModelAttribute(
+						"primKey"),
+					resourcePermissionModelImpl.getCacheModelAttribute("roleId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_N_S_P_R, args);
@@ -7229,12 +7236,16 @@ public class ResourcePermissionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					resourcePermissionModelImpl.getOriginalCompanyId(),
-					resourcePermissionModelImpl.getOriginalName(),
-					resourcePermissionModelImpl.getOriginalScope(),
-					resourcePermissionModelImpl.getOriginalPrimKeyId(),
-					resourcePermissionModelImpl.getOriginalRoleId(),
-					resourcePermissionModelImpl.getOriginalViewActionId()
+					resourcePermissionModelImpl.getCacheModelAttribute(
+						"companyId"),
+					resourcePermissionModelImpl.getCacheModelAttribute("name"),
+					resourcePermissionModelImpl.getCacheModelAttribute("scope"),
+					resourcePermissionModelImpl.getCacheModelAttribute(
+						"primKeyId"),
+					resourcePermissionModelImpl.getCacheModelAttribute(
+						"roleId"),
+					resourcePermissionModelImpl.getCacheModelAttribute(
+						"viewActionId")
 				};
 
 				FinderCacheUtil.removeResult(

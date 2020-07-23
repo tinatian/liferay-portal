@@ -1040,8 +1040,9 @@ public class AppBuilderAppDeploymentPersistenceImpl
 			 _finderPathFetchByA_T.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				appBuilderAppDeploymentModelImpl.getOriginalAppBuilderAppId(),
-				appBuilderAppDeploymentModelImpl.getOriginalType()
+				appBuilderAppDeploymentModelImpl.getCacheModelAttribute(
+					"appBuilderAppId"),
+				appBuilderAppDeploymentModelImpl.getCacheModelAttribute("type")
 			};
 
 			finderCache.removeResult(_finderPathCountByA_T, args);
@@ -1229,8 +1230,8 @@ public class AppBuilderAppDeploymentPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					appBuilderAppDeploymentModelImpl.
-						getOriginalAppBuilderAppId()
+					appBuilderAppDeploymentModelImpl.getCacheModelAttribute(
+						"appBuilderAppId")
 				};
 
 				finderCache.removeResult(

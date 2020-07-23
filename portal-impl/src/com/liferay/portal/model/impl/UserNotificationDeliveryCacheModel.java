@@ -107,6 +107,8 @@ public class UserNotificationDeliveryCacheModel
 		UserNotificationDeliveryImpl userNotificationDeliveryImpl =
 			new UserNotificationDeliveryImpl();
 
+		userNotificationDeliveryImpl.setNew(true);
+
 		userNotificationDeliveryImpl.setMvccVersion(mvccVersion);
 		userNotificationDeliveryImpl.setUserNotificationDeliveryId(
 			userNotificationDeliveryId);
@@ -126,6 +128,8 @@ public class UserNotificationDeliveryCacheModel
 		userNotificationDeliveryImpl.setDeliver(deliver);
 
 		userNotificationDeliveryImpl.resetOriginalValues();
+
+		userNotificationDeliveryImpl.setNew(false);
 
 		return userNotificationDeliveryImpl;
 	}

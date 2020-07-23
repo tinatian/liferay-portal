@@ -479,8 +479,8 @@ public class PushNotificationsDevicePersistenceTest {
 			Objects.equals(
 				existingPushNotificationsDevice.getToken(),
 				ReflectionTestUtil.invoke(
-					existingPushNotificationsDevice, "getOriginalToken",
-					new Class<?>[0])));
+					existingPushNotificationsDevice, "getCacheModelAttribute",
+					new Class<?>[] {String.class}, token)));
 	}
 
 	protected PushNotificationsDevice addPushNotificationsDevice()

@@ -116,11 +116,37 @@ public class KaleoNodeModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long KALEODEFINITIONVERSIONID_COLUMN_BITMASK = 2L;
+	public static final long KALEONODEID_COLUMN_BITMASK = 2L;
 
-	public static final long KALEONODEID_COLUMN_BITMASK = 4L;
+	public static final long GROUPID_COLUMN_BITMASK = 4L;
+
+	public static final long COMPANYID_COLUMN_BITMASK = 8L;
+
+	public static final long USERID_COLUMN_BITMASK = 16L;
+
+	public static final long USERNAME_COLUMN_BITMASK = 32L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 64L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 128L;
+
+	public static final long KALEODEFINITIONID_COLUMN_BITMASK = 256L;
+
+	public static final long KALEODEFINITIONVERSIONID_COLUMN_BITMASK = 512L;
+
+	public static final long NAME_COLUMN_BITMASK = 1024L;
+
+	public static final long METADATA_COLUMN_BITMASK = 2048L;
+
+	public static final long DESCRIPTION_COLUMN_BITMASK = 4096L;
+
+	public static final long TYPE_COLUMN_BITMASK = 8192L;
+
+	public static final long INITIAL_COLUMN_BITMASK = 16384L;
+
+	public static final long TERMINAL_COLUMN_BITMASK = 32768L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -248,74 +274,162 @@ public class KaleoNodeModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<KaleoNode, Object> function = _attributeGetterFunctions.get(
+			attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((KaleoNode)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<KaleoNodeCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_kaleoNodeCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_kaleoNodeCacheModel);
+	}
+
 	private static final Map<String, Function<KaleoNode, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<KaleoNode, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<KaleoNodeCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<KaleoNode, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<KaleoNode, Object>>();
 		Map<String, BiConsumer<KaleoNode, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<KaleoNode, ?>>();
+		Map<String, Function<KaleoNodeCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<KaleoNodeCacheModel, Object>>();
 
 		attributeGetterFunctions.put("mvccVersion", KaleoNode::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			kaleoNodeCacheModel -> kaleoNodeCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<KaleoNode, Long>)KaleoNode::setMvccVersion);
 		attributeGetterFunctions.put("kaleoNodeId", KaleoNode::getKaleoNodeId);
+
+		cacheModelGetterFunctions.put(
+			"kaleoNodeId",
+			kaleoNodeCacheModel -> kaleoNodeCacheModel.kaleoNodeId);
 		attributeSetterBiConsumers.put(
 			"kaleoNodeId",
 			(BiConsumer<KaleoNode, Long>)KaleoNode::setKaleoNodeId);
 		attributeGetterFunctions.put("groupId", KaleoNode::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId", kaleoNodeCacheModel -> kaleoNodeCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId", (BiConsumer<KaleoNode, Long>)KaleoNode::setGroupId);
 		attributeGetterFunctions.put("companyId", KaleoNode::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId", kaleoNodeCacheModel -> kaleoNodeCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId", (BiConsumer<KaleoNode, Long>)KaleoNode::setCompanyId);
 		attributeGetterFunctions.put("userId", KaleoNode::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", kaleoNodeCacheModel -> kaleoNodeCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<KaleoNode, Long>)KaleoNode::setUserId);
 		attributeGetterFunctions.put("userName", KaleoNode::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName", kaleoNodeCacheModel -> kaleoNodeCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName", (BiConsumer<KaleoNode, String>)KaleoNode::setUserName);
 		attributeGetterFunctions.put("createDate", KaleoNode::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			kaleoNodeCacheModel -> kaleoNodeCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<KaleoNode, Date>)KaleoNode::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", KaleoNode::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			kaleoNodeCacheModel -> kaleoNodeCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<KaleoNode, Date>)KaleoNode::setModifiedDate);
 		attributeGetterFunctions.put(
 			"kaleoDefinitionId", KaleoNode::getKaleoDefinitionId);
+
+		cacheModelGetterFunctions.put(
+			"kaleoDefinitionId",
+			kaleoNodeCacheModel -> kaleoNodeCacheModel.kaleoDefinitionId);
 		attributeSetterBiConsumers.put(
 			"kaleoDefinitionId",
 			(BiConsumer<KaleoNode, Long>)KaleoNode::setKaleoDefinitionId);
 		attributeGetterFunctions.put(
 			"kaleoDefinitionVersionId", KaleoNode::getKaleoDefinitionVersionId);
+
+		cacheModelGetterFunctions.put(
+			"kaleoDefinitionVersionId",
+			kaleoNodeCacheModel ->
+				kaleoNodeCacheModel.kaleoDefinitionVersionId);
 		attributeSetterBiConsumers.put(
 			"kaleoDefinitionVersionId",
 			(BiConsumer<KaleoNode, Long>)
 				KaleoNode::setKaleoDefinitionVersionId);
 		attributeGetterFunctions.put("name", KaleoNode::getName);
+
+		cacheModelGetterFunctions.put(
+			"name", kaleoNodeCacheModel -> kaleoNodeCacheModel.name);
 		attributeSetterBiConsumers.put(
 			"name", (BiConsumer<KaleoNode, String>)KaleoNode::setName);
 		attributeGetterFunctions.put("metadata", KaleoNode::getMetadata);
+
+		cacheModelGetterFunctions.put(
+			"metadata", kaleoNodeCacheModel -> kaleoNodeCacheModel.metadata);
 		attributeSetterBiConsumers.put(
 			"metadata", (BiConsumer<KaleoNode, String>)KaleoNode::setMetadata);
 		attributeGetterFunctions.put("description", KaleoNode::getDescription);
+
+		cacheModelGetterFunctions.put(
+			"description",
+			kaleoNodeCacheModel -> kaleoNodeCacheModel.description);
 		attributeSetterBiConsumers.put(
 			"description",
 			(BiConsumer<KaleoNode, String>)KaleoNode::setDescription);
 		attributeGetterFunctions.put("type", KaleoNode::getType);
+
+		cacheModelGetterFunctions.put(
+			"type", kaleoNodeCacheModel -> kaleoNodeCacheModel.type);
 		attributeSetterBiConsumers.put(
 			"type", (BiConsumer<KaleoNode, String>)KaleoNode::setType);
 		attributeGetterFunctions.put("initial", KaleoNode::getInitial);
+
+		cacheModelGetterFunctions.put(
+			"initial", kaleoNodeCacheModel -> kaleoNodeCacheModel.initial);
 		attributeSetterBiConsumers.put(
 			"initial", (BiConsumer<KaleoNode, Boolean>)KaleoNode::setInitial);
 		attributeGetterFunctions.put("terminal", KaleoNode::getTerminal);
+
+		cacheModelGetterFunctions.put(
+			"terminal", kaleoNodeCacheModel -> kaleoNodeCacheModel.terminal);
 		attributeSetterBiConsumers.put(
 			"terminal", (BiConsumer<KaleoNode, Boolean>)KaleoNode::setTerminal);
 
@@ -323,6 +437,8 @@ public class KaleoNodeModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -332,6 +448,12 @@ public class KaleoNodeModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_kaleoNodeCacheModel == null)) {
+			_kaleoNodeCacheModel = (KaleoNodeCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -342,7 +464,11 @@ public class KaleoNodeModelImpl
 
 	@Override
 	public void setKaleoNodeId(long kaleoNodeId) {
-		_columnBitmask = -1L;
+		_columnBitmask |= KALEONODEID_COLUMN_BITMASK;
+
+		if (!isNew() && (_kaleoNodeCacheModel == null)) {
+			_kaleoNodeCacheModel = (KaleoNodeCacheModel)toCacheModel();
+		}
 
 		_kaleoNodeId = kaleoNodeId;
 	}
@@ -354,6 +480,12 @@ public class KaleoNodeModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
+		_columnBitmask |= GROUPID_COLUMN_BITMASK;
+
+		if (!isNew() && (_kaleoNodeCacheModel == null)) {
+			_kaleoNodeCacheModel = (KaleoNodeCacheModel)toCacheModel();
+		}
+
 		_groupId = groupId;
 	}
 
@@ -366,17 +498,20 @@ public class KaleoNodeModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (!isNew() && (_kaleoNodeCacheModel == null)) {
+			_kaleoNodeCacheModel = (KaleoNodeCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getCacheModelAttribute("companyId");
 	}
 
 	@Override
@@ -386,6 +521,12 @@ public class KaleoNodeModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_kaleoNodeCacheModel == null)) {
+			_kaleoNodeCacheModel = (KaleoNodeCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -417,6 +558,12 @@ public class KaleoNodeModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_kaleoNodeCacheModel == null)) {
+			_kaleoNodeCacheModel = (KaleoNodeCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -427,6 +574,12 @@ public class KaleoNodeModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_kaleoNodeCacheModel == null)) {
+			_kaleoNodeCacheModel = (KaleoNodeCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -443,6 +596,12 @@ public class KaleoNodeModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_kaleoNodeCacheModel == null)) {
+			_kaleoNodeCacheModel = (KaleoNodeCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -453,6 +612,12 @@ public class KaleoNodeModelImpl
 
 	@Override
 	public void setKaleoDefinitionId(long kaleoDefinitionId) {
+		_columnBitmask |= KALEODEFINITIONID_COLUMN_BITMASK;
+
+		if (!isNew() && (_kaleoNodeCacheModel == null)) {
+			_kaleoNodeCacheModel = (KaleoNodeCacheModel)toCacheModel();
+		}
+
 		_kaleoDefinitionId = kaleoDefinitionId;
 	}
 
@@ -465,17 +630,20 @@ public class KaleoNodeModelImpl
 	public void setKaleoDefinitionVersionId(long kaleoDefinitionVersionId) {
 		_columnBitmask |= KALEODEFINITIONVERSIONID_COLUMN_BITMASK;
 
-		if (!_setOriginalKaleoDefinitionVersionId) {
-			_setOriginalKaleoDefinitionVersionId = true;
-
-			_originalKaleoDefinitionVersionId = _kaleoDefinitionVersionId;
+		if (!isNew() && (_kaleoNodeCacheModel == null)) {
+			_kaleoNodeCacheModel = (KaleoNodeCacheModel)toCacheModel();
 		}
 
 		_kaleoDefinitionVersionId = kaleoDefinitionVersionId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalKaleoDefinitionVersionId() {
-		return _originalKaleoDefinitionVersionId;
+		return getCacheModelAttribute("kaleoDefinitionVersionId");
 	}
 
 	@Override
@@ -490,6 +658,12 @@ public class KaleoNodeModelImpl
 
 	@Override
 	public void setName(String name) {
+		_columnBitmask |= NAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_kaleoNodeCacheModel == null)) {
+			_kaleoNodeCacheModel = (KaleoNodeCacheModel)toCacheModel();
+		}
+
 		_name = name;
 	}
 
@@ -505,6 +679,12 @@ public class KaleoNodeModelImpl
 
 	@Override
 	public void setMetadata(String metadata) {
+		_columnBitmask |= METADATA_COLUMN_BITMASK;
+
+		if (!isNew() && (_kaleoNodeCacheModel == null)) {
+			_kaleoNodeCacheModel = (KaleoNodeCacheModel)toCacheModel();
+		}
+
 		_metadata = metadata;
 	}
 
@@ -520,6 +700,12 @@ public class KaleoNodeModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		_columnBitmask |= DESCRIPTION_COLUMN_BITMASK;
+
+		if (!isNew() && (_kaleoNodeCacheModel == null)) {
+			_kaleoNodeCacheModel = (KaleoNodeCacheModel)toCacheModel();
+		}
+
 		_description = description;
 	}
 
@@ -535,6 +721,12 @@ public class KaleoNodeModelImpl
 
 	@Override
 	public void setType(String type) {
+		_columnBitmask |= TYPE_COLUMN_BITMASK;
+
+		if (!isNew() && (_kaleoNodeCacheModel == null)) {
+			_kaleoNodeCacheModel = (KaleoNodeCacheModel)toCacheModel();
+		}
+
 		_type = type;
 	}
 
@@ -550,6 +742,12 @@ public class KaleoNodeModelImpl
 
 	@Override
 	public void setInitial(boolean initial) {
+		_columnBitmask |= INITIAL_COLUMN_BITMASK;
+
+		if (!isNew() && (_kaleoNodeCacheModel == null)) {
+			_kaleoNodeCacheModel = (KaleoNodeCacheModel)toCacheModel();
+		}
+
 		_initial = initial;
 	}
 
@@ -565,6 +763,12 @@ public class KaleoNodeModelImpl
 
 	@Override
 	public void setTerminal(boolean terminal) {
+		_columnBitmask |= TERMINAL_COLUMN_BITMASK;
+
+		if (!isNew() && (_kaleoNodeCacheModel == null)) {
+			_kaleoNodeCacheModel = (KaleoNodeCacheModel)toCacheModel();
+		}
+
 		_terminal = terminal;
 	}
 
@@ -604,6 +808,8 @@ public class KaleoNodeModelImpl
 	public Object clone() {
 		KaleoNodeImpl kaleoNodeImpl = new KaleoNodeImpl();
 
+		kaleoNodeImpl.setNew(true);
+
 		kaleoNodeImpl.setMvccVersion(getMvccVersion());
 		kaleoNodeImpl.setKaleoNodeId(getKaleoNodeId());
 		kaleoNodeImpl.setGroupId(getGroupId());
@@ -623,6 +829,8 @@ public class KaleoNodeModelImpl
 		kaleoNodeImpl.setTerminal(isTerminal());
 
 		kaleoNodeImpl.resetOriginalValues();
+
+		kaleoNodeImpl.setNew(false);
 
 		return kaleoNodeImpl;
 	}
@@ -695,20 +903,11 @@ public class KaleoNodeModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		KaleoNodeModelImpl kaleoNodeModelImpl = this;
+		_setModifiedDate = false;
 
-		kaleoNodeModelImpl._originalCompanyId = kaleoNodeModelImpl._companyId;
+		_columnBitmask = 0;
 
-		kaleoNodeModelImpl._setOriginalCompanyId = false;
-
-		kaleoNodeModelImpl._setModifiedDate = false;
-
-		kaleoNodeModelImpl._originalKaleoDefinitionVersionId =
-			kaleoNodeModelImpl._kaleoDefinitionVersionId;
-
-		kaleoNodeModelImpl._setOriginalKaleoDefinitionVersionId = false;
-
-		kaleoNodeModelImpl._columnBitmask = 0;
+		_kaleoNodeCacheModel = null;
 	}
 
 	@Override
@@ -869,8 +1068,6 @@ public class KaleoNodeModelImpl
 	private long _kaleoNodeId;
 	private long _groupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
@@ -878,8 +1075,6 @@ public class KaleoNodeModelImpl
 	private boolean _setModifiedDate;
 	private long _kaleoDefinitionId;
 	private long _kaleoDefinitionVersionId;
-	private long _originalKaleoDefinitionVersionId;
-	private boolean _setOriginalKaleoDefinitionVersionId;
 	private String _name;
 	private String _metadata;
 	private String _description;
@@ -888,5 +1083,6 @@ public class KaleoNodeModelImpl
 	private boolean _terminal;
 	private long _columnBitmask;
 	private KaleoNode _escapedModel;
+	private KaleoNodeCacheModel _kaleoNodeCacheModel;
 
 }

@@ -3924,9 +3924,10 @@ public class KaleoInstancePersistenceImpl
 			 _finderPathFetchByKII_C_U.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				kaleoInstanceModelImpl.getOriginalKaleoInstanceId(),
-				kaleoInstanceModelImpl.getOriginalCompanyId(),
-				kaleoInstanceModelImpl.getOriginalUserId()
+				kaleoInstanceModelImpl.getCacheModelAttribute(
+					"kaleoInstanceId"),
+				kaleoInstanceModelImpl.getCacheModelAttribute("companyId"),
+				kaleoInstanceModelImpl.getCacheModelAttribute("userId")
 			};
 
 			finderCache.removeResult(_finderPathCountByKII_C_U, args);
@@ -4175,7 +4176,7 @@ public class KaleoInstancePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoInstanceModelImpl.getOriginalCompanyId()
+					kaleoInstanceModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCompanyId, args);
@@ -4194,7 +4195,8 @@ public class KaleoInstancePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoInstanceModelImpl.getOriginalKaleoDefinitionVersionId()
+					kaleoInstanceModelImpl.getCacheModelAttribute(
+						"kaleoDefinitionVersionId")
 				};
 
 				finderCache.removeResult(
@@ -4219,8 +4221,8 @@ public class KaleoInstancePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					kaleoInstanceModelImpl.getOriginalCompanyId(),
-					kaleoInstanceModelImpl.getOriginalUserId()
+					kaleoInstanceModelImpl.getCacheModelAttribute("companyId"),
+					kaleoInstanceModelImpl.getCacheModelAttribute("userId")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_U, args);
@@ -4242,9 +4244,9 @@ public class KaleoInstancePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					kaleoInstanceModelImpl.
-						getOriginalKaleoDefinitionVersionId(),
-					kaleoInstanceModelImpl.getOriginalCompleted()
+					kaleoInstanceModelImpl.getCacheModelAttribute(
+						"kaleoDefinitionVersionId"),
+					kaleoInstanceModelImpl.getCacheModelAttribute("completed")
 				};
 
 				finderCache.removeResult(_finderPathCountByKDVI_C, args);
@@ -4266,8 +4268,8 @@ public class KaleoInstancePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					kaleoInstanceModelImpl.getOriginalClassName(),
-					kaleoInstanceModelImpl.getOriginalClassPK()
+					kaleoInstanceModelImpl.getCacheModelAttribute("className"),
+					kaleoInstanceModelImpl.getCacheModelAttribute("classPK")
 				};
 
 				finderCache.removeResult(_finderPathCountByCN_CPK, args);
@@ -4289,10 +4291,13 @@ public class KaleoInstancePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoInstanceModelImpl.getOriginalCompanyId(),
-					kaleoInstanceModelImpl.getOriginalKaleoDefinitionName(),
-					kaleoInstanceModelImpl.getOriginalKaleoDefinitionVersion(),
-					kaleoInstanceModelImpl.getOriginalCompletionDate()
+					kaleoInstanceModelImpl.getCacheModelAttribute("companyId"),
+					kaleoInstanceModelImpl.getCacheModelAttribute(
+						"kaleoDefinitionName"),
+					kaleoInstanceModelImpl.getCacheModelAttribute(
+						"kaleoDefinitionVersion"),
+					kaleoInstanceModelImpl.getCacheModelAttribute(
+						"completionDate")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_KDN_KDV_CD, args);

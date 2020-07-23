@@ -123,15 +123,23 @@ public class LVEntryLocalizationModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long HEAD_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
 	public static final long HEADID_COLUMN_BITMASK = 2L;
 
-	public static final long LANGUAGEID_COLUMN_BITMASK = 4L;
+	public static final long HEAD_COLUMN_BITMASK = 4L;
 
-	public static final long LVENTRYID_COLUMN_BITMASK = 8L;
+	public static final long LVENTRYLOCALIZATIONID_COLUMN_BITMASK = 8L;
 
-	public static final long LVENTRYLOCALIZATIONID_COLUMN_BITMASK = 16L;
+	public static final long COMPANYID_COLUMN_BITMASK = 16L;
+
+	public static final long LVENTRYID_COLUMN_BITMASK = 32L;
+
+	public static final long LANGUAGEID_COLUMN_BITMASK = 64L;
+
+	public static final long TITLE_COLUMN_BITMASK = 128L;
+
+	public static final long CONTENT_COLUMN_BITMASK = 256L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		com.liferay.portal.tools.service.builder.test.service.util.ServiceProps.
@@ -251,10 +259,39 @@ public class LVEntryLocalizationModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<LVEntryLocalization, Object> function =
+			_attributeGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((LVEntryLocalization)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<LVEntryLocalizationCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_lvEntryLocalizationCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_lvEntryLocalizationCacheModel);
+	}
+
 	private static final Map<String, Function<LVEntryLocalization, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<LVEntryLocalization, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<LVEntryLocalizationCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<LVEntryLocalization, Object>>
@@ -264,14 +301,28 @@ public class LVEntryLocalizationModelImpl
 		Map<String, BiConsumer<LVEntryLocalization, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<LVEntryLocalization, ?>>();
+		Map<String, Function<LVEntryLocalizationCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<LVEntryLocalizationCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", LVEntryLocalization::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			lvEntryLocalizationCacheModel ->
+				lvEntryLocalizationCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<LVEntryLocalization, Long>)
 				LVEntryLocalization::setMvccVersion);
 		attributeGetterFunctions.put("headId", LVEntryLocalization::getHeadId);
+
+		cacheModelGetterFunctions.put(
+			"headId",
+			lvEntryLocalizationCacheModel ->
+				lvEntryLocalizationCacheModel.headId);
 		attributeSetterBiConsumers.put(
 			"headId",
 			(BiConsumer<LVEntryLocalization, Long>)
@@ -279,35 +330,65 @@ public class LVEntryLocalizationModelImpl
 		attributeGetterFunctions.put(
 			"lvEntryLocalizationId",
 			LVEntryLocalization::getLvEntryLocalizationId);
+
+		cacheModelGetterFunctions.put(
+			"lvEntryLocalizationId",
+			lvEntryLocalizationCacheModel ->
+				lvEntryLocalizationCacheModel.lvEntryLocalizationId);
 		attributeSetterBiConsumers.put(
 			"lvEntryLocalizationId",
 			(BiConsumer<LVEntryLocalization, Long>)
 				LVEntryLocalization::setLvEntryLocalizationId);
 		attributeGetterFunctions.put(
 			"companyId", LVEntryLocalization::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			lvEntryLocalizationCacheModel ->
+				lvEntryLocalizationCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<LVEntryLocalization, Long>)
 				LVEntryLocalization::setCompanyId);
 		attributeGetterFunctions.put(
 			"lvEntryId", LVEntryLocalization::getLvEntryId);
+
+		cacheModelGetterFunctions.put(
+			"lvEntryId",
+			lvEntryLocalizationCacheModel ->
+				lvEntryLocalizationCacheModel.lvEntryId);
 		attributeSetterBiConsumers.put(
 			"lvEntryId",
 			(BiConsumer<LVEntryLocalization, Long>)
 				LVEntryLocalization::setLvEntryId);
 		attributeGetterFunctions.put(
 			"languageId", LVEntryLocalization::getLanguageId);
+
+		cacheModelGetterFunctions.put(
+			"languageId",
+			lvEntryLocalizationCacheModel ->
+				lvEntryLocalizationCacheModel.languageId);
 		attributeSetterBiConsumers.put(
 			"languageId",
 			(BiConsumer<LVEntryLocalization, String>)
 				LVEntryLocalization::setLanguageId);
 		attributeGetterFunctions.put("title", LVEntryLocalization::getTitle);
+
+		cacheModelGetterFunctions.put(
+			"title",
+			lvEntryLocalizationCacheModel ->
+				lvEntryLocalizationCacheModel.title);
 		attributeSetterBiConsumers.put(
 			"title",
 			(BiConsumer<LVEntryLocalization, String>)
 				LVEntryLocalization::setTitle);
 		attributeGetterFunctions.put(
 			"content", LVEntryLocalization::getContent);
+
+		cacheModelGetterFunctions.put(
+			"content",
+			lvEntryLocalizationCacheModel ->
+				lvEntryLocalizationCacheModel.content);
 		attributeSetterBiConsumers.put(
 			"content",
 			(BiConsumer<LVEntryLocalization, String>)
@@ -317,31 +398,8 @@ public class LVEntryLocalizationModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
-	}
-
-	public boolean getHead() {
-		return _head;
-	}
-
-	@Override
-	public boolean isHead() {
-		return _head;
-	}
-
-	public boolean getOriginalHead() {
-		return _originalHead;
-	}
-
-	public void setHead(boolean head) {
-		_columnBitmask |= HEAD_COLUMN_BITMASK;
-
-		if (!_setOriginalHead) {
-			_setOriginalHead = true;
-
-			_originalHead = _head;
-		}
-
-		_head = head;
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -362,6 +420,13 @@ public class LVEntryLocalizationModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_lvEntryLocalizationCacheModel == null)) {
+			_lvEntryLocalizationCacheModel =
+				(LVEntryLocalizationCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -374,10 +439,9 @@ public class LVEntryLocalizationModelImpl
 	public void setHeadId(long headId) {
 		_columnBitmask |= HEADID_COLUMN_BITMASK;
 
-		if (!_setOriginalHeadId) {
-			_setOriginalHeadId = true;
-
-			_originalHeadId = _headId;
+		if (!isNew() && (_lvEntryLocalizationCacheModel == null)) {
+			_lvEntryLocalizationCacheModel =
+				(LVEntryLocalizationCacheModel)toCacheModel();
 		}
 
 		if (headId >= 0) {
@@ -390,8 +454,42 @@ public class LVEntryLocalizationModelImpl
 		_headId = headId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalHeadId() {
-		return _originalHeadId;
+		return getCacheModelAttribute("headId");
+	}
+
+	public boolean getHead() {
+		return _head;
+	}
+
+	@Override
+	public boolean isHead() {
+		return _head;
+	}
+
+	public void setHead(boolean head) {
+		_columnBitmask |= HEAD_COLUMN_BITMASK;
+
+		if (!isNew() && (_lvEntryLocalizationCacheModel == null)) {
+			_lvEntryLocalizationCacheModel =
+				(LVEntryLocalizationCacheModel)toCacheModel();
+		}
+
+		_head = head;
+	}
+
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
+	public boolean getOriginalHead() {
+		return getCacheModelAttribute("head");
 	}
 
 	@Override
@@ -401,6 +499,13 @@ public class LVEntryLocalizationModelImpl
 
 	@Override
 	public void setLvEntryLocalizationId(long lvEntryLocalizationId) {
+		_columnBitmask |= LVENTRYLOCALIZATIONID_COLUMN_BITMASK;
+
+		if (!isNew() && (_lvEntryLocalizationCacheModel == null)) {
+			_lvEntryLocalizationCacheModel =
+				(LVEntryLocalizationCacheModel)toCacheModel();
+		}
+
 		_lvEntryLocalizationId = lvEntryLocalizationId;
 	}
 
@@ -411,6 +516,13 @@ public class LVEntryLocalizationModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (!isNew() && (_lvEntryLocalizationCacheModel == null)) {
+			_lvEntryLocalizationCacheModel =
+				(LVEntryLocalizationCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -423,17 +535,21 @@ public class LVEntryLocalizationModelImpl
 	public void setLvEntryId(long lvEntryId) {
 		_columnBitmask |= LVENTRYID_COLUMN_BITMASK;
 
-		if (!_setOriginalLvEntryId) {
-			_setOriginalLvEntryId = true;
-
-			_originalLvEntryId = _lvEntryId;
+		if (!isNew() && (_lvEntryLocalizationCacheModel == null)) {
+			_lvEntryLocalizationCacheModel =
+				(LVEntryLocalizationCacheModel)toCacheModel();
 		}
 
 		_lvEntryId = lvEntryId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalLvEntryId() {
-		return _originalLvEntryId;
+		return getCacheModelAttribute("lvEntryId");
 	}
 
 	@Override
@@ -450,15 +566,21 @@ public class LVEntryLocalizationModelImpl
 	public void setLanguageId(String languageId) {
 		_columnBitmask |= LANGUAGEID_COLUMN_BITMASK;
 
-		if (_originalLanguageId == null) {
-			_originalLanguageId = _languageId;
+		if (!isNew() && (_lvEntryLocalizationCacheModel == null)) {
+			_lvEntryLocalizationCacheModel =
+				(LVEntryLocalizationCacheModel)toCacheModel();
 		}
 
 		_languageId = languageId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalLanguageId() {
-		return GetterUtil.getString(_originalLanguageId);
+		return getCacheModelAttribute("languageId");
 	}
 
 	@Override
@@ -473,6 +595,13 @@ public class LVEntryLocalizationModelImpl
 
 	@Override
 	public void setTitle(String title) {
+		_columnBitmask |= TITLE_COLUMN_BITMASK;
+
+		if (!isNew() && (_lvEntryLocalizationCacheModel == null)) {
+			_lvEntryLocalizationCacheModel =
+				(LVEntryLocalizationCacheModel)toCacheModel();
+		}
+
 		_title = title;
 	}
 
@@ -488,6 +617,13 @@ public class LVEntryLocalizationModelImpl
 
 	@Override
 	public void setContent(String content) {
+		_columnBitmask |= CONTENT_COLUMN_BITMASK;
+
+		if (!isNew() && (_lvEntryLocalizationCacheModel == null)) {
+			_lvEntryLocalizationCacheModel =
+				(LVEntryLocalizationCacheModel)toCacheModel();
+		}
+
 		_content = content;
 	}
 
@@ -529,6 +665,8 @@ public class LVEntryLocalizationModelImpl
 		LVEntryLocalizationImpl lvEntryLocalizationImpl =
 			new LVEntryLocalizationImpl();
 
+		lvEntryLocalizationImpl.setNew(true);
+
 		lvEntryLocalizationImpl.setMvccVersion(getMvccVersion());
 		lvEntryLocalizationImpl.setHeadId(getHeadId());
 		lvEntryLocalizationImpl.setLvEntryLocalizationId(
@@ -540,6 +678,8 @@ public class LVEntryLocalizationModelImpl
 		lvEntryLocalizationImpl.setContent(getContent());
 
 		lvEntryLocalizationImpl.resetOriginalValues();
+
+		lvEntryLocalizationImpl.setNew(false);
 
 		return lvEntryLocalizationImpl;
 	}
@@ -606,27 +746,9 @@ public class LVEntryLocalizationModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		LVEntryLocalizationModelImpl lvEntryLocalizationModelImpl = this;
+		_columnBitmask = 0;
 
-		lvEntryLocalizationModelImpl._originalHeadId =
-			lvEntryLocalizationModelImpl._headId;
-
-		lvEntryLocalizationModelImpl._setOriginalHeadId = false;
-
-		lvEntryLocalizationModelImpl._originalHead =
-			lvEntryLocalizationModelImpl._head;
-
-		lvEntryLocalizationModelImpl._setOriginalHead = false;
-
-		lvEntryLocalizationModelImpl._originalLvEntryId =
-			lvEntryLocalizationModelImpl._lvEntryId;
-
-		lvEntryLocalizationModelImpl._setOriginalLvEntryId = false;
-
-		lvEntryLocalizationModelImpl._originalLanguageId =
-			lvEntryLocalizationModelImpl._languageId;
-
-		lvEntryLocalizationModelImpl._columnBitmask = 0;
+		_lvEntryLocalizationCacheModel = null;
 	}
 
 	@Override
@@ -746,21 +868,15 @@ public class LVEntryLocalizationModelImpl
 
 	private long _mvccVersion;
 	private long _headId;
-	private long _originalHeadId;
-	private boolean _setOriginalHeadId;
 	private boolean _head;
-	private boolean _originalHead;
-	private boolean _setOriginalHead;
 	private long _lvEntryLocalizationId;
 	private long _companyId;
 	private long _lvEntryId;
-	private long _originalLvEntryId;
-	private boolean _setOriginalLvEntryId;
 	private String _languageId;
-	private String _originalLanguageId;
 	private String _title;
 	private String _content;
 	private long _columnBitmask;
 	private LVEntryLocalization _escapedModel;
+	private LVEntryLocalizationCacheModel _lvEntryLocalizationCacheModel;
 
 }

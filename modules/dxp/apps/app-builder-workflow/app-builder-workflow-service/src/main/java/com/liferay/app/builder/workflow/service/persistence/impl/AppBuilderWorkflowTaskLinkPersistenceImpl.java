@@ -1676,12 +1676,12 @@ public class AppBuilderWorkflowTaskLinkPersistenceImpl
 			 _finderPathFetchByA_D_W.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				appBuilderWorkflowTaskLinkModelImpl.
-					getOriginalAppBuilderAppId(),
-				appBuilderWorkflowTaskLinkModelImpl.
-					getOriginalDdmStructureLayoutId(),
-				appBuilderWorkflowTaskLinkModelImpl.
-					getOriginalWorkflowTaskName()
+				appBuilderWorkflowTaskLinkModelImpl.getCacheModelAttribute(
+					"appBuilderAppId"),
+				appBuilderWorkflowTaskLinkModelImpl.getCacheModelAttribute(
+					"ddmStructureLayoutId"),
+				appBuilderWorkflowTaskLinkModelImpl.getCacheModelAttribute(
+					"workflowTaskName")
 			};
 
 			finderCache.removeResult(_finderPathCountByA_D_W, args);
@@ -1883,8 +1883,8 @@ public class AppBuilderWorkflowTaskLinkPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					appBuilderWorkflowTaskLinkModelImpl.
-						getOriginalAppBuilderAppId()
+					appBuilderWorkflowTaskLinkModelImpl.getCacheModelAttribute(
+						"appBuilderAppId")
 				};
 
 				finderCache.removeResult(
@@ -1907,10 +1907,10 @@ public class AppBuilderWorkflowTaskLinkPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					appBuilderWorkflowTaskLinkModelImpl.
-						getOriginalAppBuilderAppId(),
-					appBuilderWorkflowTaskLinkModelImpl.
-						getOriginalWorkflowTaskName()
+					appBuilderWorkflowTaskLinkModelImpl.getCacheModelAttribute(
+						"appBuilderAppId"),
+					appBuilderWorkflowTaskLinkModelImpl.getCacheModelAttribute(
+						"workflowTaskName")
 				};
 
 				finderCache.removeResult(_finderPathCountByA_W, args);

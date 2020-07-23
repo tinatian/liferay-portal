@@ -91,6 +91,8 @@ public class ClassNameCacheModel
 	public ClassName toEntityModel() {
 		ClassNameImpl classNameImpl = new ClassNameImpl();
 
+		classNameImpl.setNew(true);
+
 		classNameImpl.setMvccVersion(mvccVersion);
 		classNameImpl.setClassNameId(classNameId);
 
@@ -102,6 +104,8 @@ public class ClassNameCacheModel
 		}
 
 		classNameImpl.resetOriginalValues();
+
+		classNameImpl.setNew(false);
 
 		return classNameImpl;
 	}

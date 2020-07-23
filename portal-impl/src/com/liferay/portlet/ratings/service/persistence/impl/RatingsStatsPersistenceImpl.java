@@ -834,8 +834,8 @@ public class RatingsStatsPersistenceImpl
 			 _finderPathFetchByC_C.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				ratingsStatsModelImpl.getOriginalClassNameId(),
-				ratingsStatsModelImpl.getOriginalClassPK()
+				ratingsStatsModelImpl.getCacheModelAttribute("classNameId"),
+				ratingsStatsModelImpl.getCacheModelAttribute("classPK")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByC_C, args);
@@ -1056,8 +1056,8 @@ public class RatingsStatsPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					ratingsStatsModelImpl.getOriginalClassNameId(),
-					ratingsStatsModelImpl.getOriginalClassPK()
+					ratingsStatsModelImpl.getCacheModelAttribute("classNameId"),
+					ratingsStatsModelImpl.getCacheModelAttribute("classPK")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_C, args);

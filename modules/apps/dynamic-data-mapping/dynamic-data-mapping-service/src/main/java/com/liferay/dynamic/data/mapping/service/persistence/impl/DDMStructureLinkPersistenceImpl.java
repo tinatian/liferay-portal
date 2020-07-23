@@ -2106,9 +2106,9 @@ public class DDMStructureLinkPersistenceImpl
 			 _finderPathFetchByC_C_S.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				ddmStructureLinkModelImpl.getOriginalClassNameId(),
-				ddmStructureLinkModelImpl.getOriginalClassPK(),
-				ddmStructureLinkModelImpl.getOriginalStructureId()
+				ddmStructureLinkModelImpl.getCacheModelAttribute("classNameId"),
+				ddmStructureLinkModelImpl.getCacheModelAttribute("classPK"),
+				ddmStructureLinkModelImpl.getCacheModelAttribute("structureId")
 			};
 
 			finderCache.removeResult(_finderPathCountByC_C_S, args);
@@ -2323,7 +2323,8 @@ public class DDMStructureLinkPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					ddmStructureLinkModelImpl.getOriginalClassNameId()
+					ddmStructureLinkModelImpl.getCacheModelAttribute(
+						"classNameId")
 				};
 
 				finderCache.removeResult(_finderPathCountByClassNameId, args);
@@ -2344,7 +2345,8 @@ public class DDMStructureLinkPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					ddmStructureLinkModelImpl.getOriginalStructureId()
+					ddmStructureLinkModelImpl.getCacheModelAttribute(
+						"structureId")
 				};
 
 				finderCache.removeResult(_finderPathCountByStructureId, args);
@@ -2365,8 +2367,9 @@ public class DDMStructureLinkPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					ddmStructureLinkModelImpl.getOriginalClassNameId(),
-					ddmStructureLinkModelImpl.getOriginalClassPK()
+					ddmStructureLinkModelImpl.getCacheModelAttribute(
+						"classNameId"),
+					ddmStructureLinkModelImpl.getCacheModelAttribute("classPK")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_C, args);

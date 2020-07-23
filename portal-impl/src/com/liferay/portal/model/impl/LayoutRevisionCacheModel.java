@@ -146,6 +146,8 @@ public class LayoutRevisionCacheModel
 	public LayoutRevision toEntityModel() {
 		LayoutRevisionImpl layoutRevisionImpl = new LayoutRevisionImpl();
 
+		layoutRevisionImpl.setNew(true);
+
 		layoutRevisionImpl.setMvccVersion(mvccVersion);
 		layoutRevisionImpl.setLayoutRevisionId(layoutRevisionId);
 		layoutRevisionImpl.setGroupId(groupId);
@@ -264,6 +266,8 @@ public class LayoutRevisionCacheModel
 		}
 
 		layoutRevisionImpl.resetOriginalValues();
+
+		layoutRevisionImpl.setNew(false);
 
 		return layoutRevisionImpl;
 	}

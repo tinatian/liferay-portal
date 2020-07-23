@@ -117,9 +117,15 @@ public class BrowserTrackerModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long USERID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
 	public static final long BROWSERTRACKERID_COLUMN_BITMASK = 2L;
+
+	public static final long COMPANYID_COLUMN_BITMASK = 4L;
+
+	public static final long USERID_COLUMN_BITMASK = 8L;
+
+	public static final long BROWSERKEY_COLUMN_BITMASK = 16L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		com.liferay.portal.util.PropsUtil.get(
@@ -238,38 +244,91 @@ public class BrowserTrackerModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<BrowserTracker, Object> function =
+			_attributeGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((BrowserTracker)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<BrowserTrackerCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_browserTrackerCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_browserTrackerCacheModel);
+	}
+
 	private static final Map<String, Function<BrowserTracker, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<BrowserTracker, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<BrowserTrackerCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<BrowserTracker, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<BrowserTracker, Object>>();
 		Map<String, BiConsumer<BrowserTracker, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<BrowserTracker, ?>>();
+		Map<String, Function<BrowserTrackerCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<BrowserTrackerCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", BrowserTracker::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			browserTrackerCacheModel -> browserTrackerCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<BrowserTracker, Long>)BrowserTracker::setMvccVersion);
 		attributeGetterFunctions.put(
 			"browserTrackerId", BrowserTracker::getBrowserTrackerId);
+
+		cacheModelGetterFunctions.put(
+			"browserTrackerId",
+			browserTrackerCacheModel ->
+				browserTrackerCacheModel.browserTrackerId);
 		attributeSetterBiConsumers.put(
 			"browserTrackerId",
 			(BiConsumer<BrowserTracker, Long>)
 				BrowserTracker::setBrowserTrackerId);
 		attributeGetterFunctions.put("companyId", BrowserTracker::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			browserTrackerCacheModel -> browserTrackerCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<BrowserTracker, Long>)BrowserTracker::setCompanyId);
 		attributeGetterFunctions.put("userId", BrowserTracker::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			browserTrackerCacheModel -> browserTrackerCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<BrowserTracker, Long>)BrowserTracker::setUserId);
 		attributeGetterFunctions.put(
 			"browserKey", BrowserTracker::getBrowserKey);
+
+		cacheModelGetterFunctions.put(
+			"browserKey",
+			browserTrackerCacheModel -> browserTrackerCacheModel.browserKey);
 		attributeSetterBiConsumers.put(
 			"browserKey",
 			(BiConsumer<BrowserTracker, Long>)BrowserTracker::setBrowserKey);
@@ -278,6 +337,8 @@ public class BrowserTrackerModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -287,6 +348,13 @@ public class BrowserTrackerModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_browserTrackerCacheModel == null)) {
+			_browserTrackerCacheModel =
+				(BrowserTrackerCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -297,6 +365,13 @@ public class BrowserTrackerModelImpl
 
 	@Override
 	public void setBrowserTrackerId(long browserTrackerId) {
+		_columnBitmask |= BROWSERTRACKERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_browserTrackerCacheModel == null)) {
+			_browserTrackerCacheModel =
+				(BrowserTrackerCacheModel)toCacheModel();
+		}
+
 		_browserTrackerId = browserTrackerId;
 	}
 
@@ -307,6 +382,13 @@ public class BrowserTrackerModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (!isNew() && (_browserTrackerCacheModel == null)) {
+			_browserTrackerCacheModel =
+				(BrowserTrackerCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -319,10 +401,9 @@ public class BrowserTrackerModelImpl
 	public void setUserId(long userId) {
 		_columnBitmask |= USERID_COLUMN_BITMASK;
 
-		if (!_setOriginalUserId) {
-			_setOriginalUserId = true;
-
-			_originalUserId = _userId;
+		if (!isNew() && (_browserTrackerCacheModel == null)) {
+			_browserTrackerCacheModel =
+				(BrowserTrackerCacheModel)toCacheModel();
 		}
 
 		_userId = userId;
@@ -344,8 +425,13 @@ public class BrowserTrackerModelImpl
 	public void setUserUuid(String userUuid) {
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalUserId() {
-		return _originalUserId;
+		return getCacheModelAttribute("userId");
 	}
 
 	@Override
@@ -355,6 +441,13 @@ public class BrowserTrackerModelImpl
 
 	@Override
 	public void setBrowserKey(long browserKey) {
+		_columnBitmask |= BROWSERKEY_COLUMN_BITMASK;
+
+		if (!isNew() && (_browserTrackerCacheModel == null)) {
+			_browserTrackerCacheModel =
+				(BrowserTrackerCacheModel)toCacheModel();
+		}
+
 		_browserKey = browserKey;
 	}
 
@@ -394,6 +487,8 @@ public class BrowserTrackerModelImpl
 	public Object clone() {
 		BrowserTrackerImpl browserTrackerImpl = new BrowserTrackerImpl();
 
+		browserTrackerImpl.setNew(true);
+
 		browserTrackerImpl.setMvccVersion(getMvccVersion());
 		browserTrackerImpl.setBrowserTrackerId(getBrowserTrackerId());
 		browserTrackerImpl.setCompanyId(getCompanyId());
@@ -401,6 +496,8 @@ public class BrowserTrackerModelImpl
 		browserTrackerImpl.setBrowserKey(getBrowserKey());
 
 		browserTrackerImpl.resetOriginalValues();
+
+		browserTrackerImpl.setNew(false);
 
 		return browserTrackerImpl;
 	}
@@ -467,14 +564,9 @@ public class BrowserTrackerModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		BrowserTrackerModelImpl browserTrackerModelImpl = this;
+		_columnBitmask = 0;
 
-		browserTrackerModelImpl._originalUserId =
-			browserTrackerModelImpl._userId;
-
-		browserTrackerModelImpl._setOriginalUserId = false;
-
-		browserTrackerModelImpl._columnBitmask = 0;
+		_browserTrackerCacheModel = null;
 	}
 
 	@Override
@@ -569,10 +661,9 @@ public class BrowserTrackerModelImpl
 	private long _browserTrackerId;
 	private long _companyId;
 	private long _userId;
-	private long _originalUserId;
-	private boolean _setOriginalUserId;
 	private long _browserKey;
 	private long _columnBitmask;
 	private BrowserTracker _escapedModel;
+	private BrowserTrackerCacheModel _browserTrackerCacheModel;
 
 }

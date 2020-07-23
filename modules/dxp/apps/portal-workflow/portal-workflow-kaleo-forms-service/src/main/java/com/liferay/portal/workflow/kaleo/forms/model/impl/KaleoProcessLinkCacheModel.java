@@ -83,6 +83,8 @@ public class KaleoProcessLinkCacheModel
 	public KaleoProcessLink toEntityModel() {
 		KaleoProcessLinkImpl kaleoProcessLinkImpl = new KaleoProcessLinkImpl();
 
+		kaleoProcessLinkImpl.setNew(true);
+
 		kaleoProcessLinkImpl.setKaleoProcessLinkId(kaleoProcessLinkId);
 		kaleoProcessLinkImpl.setCompanyId(companyId);
 		kaleoProcessLinkImpl.setKaleoProcessId(kaleoProcessId);
@@ -97,6 +99,8 @@ public class KaleoProcessLinkCacheModel
 		kaleoProcessLinkImpl.setDDMTemplateId(DDMTemplateId);
 
 		kaleoProcessLinkImpl.resetOriginalValues();
+
+		kaleoProcessLinkImpl.setNew(false);
 
 		return kaleoProcessLinkImpl;
 	}

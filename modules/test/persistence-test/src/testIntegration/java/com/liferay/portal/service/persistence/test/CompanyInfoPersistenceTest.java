@@ -401,7 +401,8 @@ public class CompanyInfoPersistenceTest {
 		Assert.assertEquals(
 			Long.valueOf(existingCompanyInfo.getCompanyId()),
 			ReflectionTestUtil.<Long>invoke(
-				existingCompanyInfo, "getOriginalCompanyId", new Class<?>[0]));
+				existingCompanyInfo, "getCacheModelAttribute",
+				new Class<?>[] {String.class}, companyId));
 	}
 
 	protected CompanyInfo addCompanyInfo() throws Exception {

@@ -2160,8 +2160,8 @@ public class KaleoDefinitionPersistenceImpl
 			 _finderPathFetchByC_N.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				kaleoDefinitionModelImpl.getOriginalCompanyId(),
-				kaleoDefinitionModelImpl.getOriginalName()
+				kaleoDefinitionModelImpl.getCacheModelAttribute("companyId"),
+				kaleoDefinitionModelImpl.getCacheModelAttribute("name")
 			};
 
 			finderCache.removeResult(_finderPathCountByC_N, args);
@@ -2183,9 +2183,9 @@ public class KaleoDefinitionPersistenceImpl
 			 _finderPathFetchByC_N_V.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				kaleoDefinitionModelImpl.getOriginalCompanyId(),
-				kaleoDefinitionModelImpl.getOriginalName(),
-				kaleoDefinitionModelImpl.getOriginalVersion()
+				kaleoDefinitionModelImpl.getCacheModelAttribute("companyId"),
+				kaleoDefinitionModelImpl.getCacheModelAttribute("name"),
+				kaleoDefinitionModelImpl.getCacheModelAttribute("version")
 			};
 
 			finderCache.removeResult(_finderPathCountByC_N_V, args);
@@ -2207,9 +2207,9 @@ public class KaleoDefinitionPersistenceImpl
 			 _finderPathFetchByC_N_A.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				kaleoDefinitionModelImpl.getOriginalCompanyId(),
-				kaleoDefinitionModelImpl.getOriginalName(),
-				kaleoDefinitionModelImpl.getOriginalActive()
+				kaleoDefinitionModelImpl.getCacheModelAttribute("companyId"),
+				kaleoDefinitionModelImpl.getCacheModelAttribute("name"),
+				kaleoDefinitionModelImpl.getCacheModelAttribute("active")
 			};
 
 			finderCache.removeResult(_finderPathCountByC_N_A, args);
@@ -2422,7 +2422,7 @@ public class KaleoDefinitionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoDefinitionModelImpl.getOriginalCompanyId()
+					kaleoDefinitionModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCompanyId, args);
@@ -2441,8 +2441,9 @@ public class KaleoDefinitionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					kaleoDefinitionModelImpl.getOriginalCompanyId(),
-					kaleoDefinitionModelImpl.getOriginalActive()
+					kaleoDefinitionModelImpl.getCacheModelAttribute(
+						"companyId"),
+					kaleoDefinitionModelImpl.getCacheModelAttribute("active")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_A, args);

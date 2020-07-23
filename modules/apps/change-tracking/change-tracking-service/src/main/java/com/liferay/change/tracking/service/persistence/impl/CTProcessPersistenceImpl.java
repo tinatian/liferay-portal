@@ -1340,7 +1340,7 @@ public class CTProcessPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					ctProcessModelImpl.getOriginalCompanyId()
+					ctProcessModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCompanyId, args);
@@ -1359,7 +1359,7 @@ public class CTProcessPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					ctProcessModelImpl.getOriginalCtCollectionId()
+					ctProcessModelImpl.getCacheModelAttribute("ctCollectionId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCollectionId, args);

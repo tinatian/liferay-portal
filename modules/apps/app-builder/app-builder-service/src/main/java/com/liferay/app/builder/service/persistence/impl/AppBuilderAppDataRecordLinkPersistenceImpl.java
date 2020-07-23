@@ -981,7 +981,8 @@ public class AppBuilderAppDataRecordLinkPersistenceImpl
 			 _finderPathFetchByDDLRecordId.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				appBuilderAppDataRecordLinkModelImpl.getOriginalDdlRecordId()
+				appBuilderAppDataRecordLinkModelImpl.getCacheModelAttribute(
+					"ddlRecordId")
 			};
 
 			finderCache.removeResult(_finderPathCountByDDLRecordId, args);
@@ -1179,8 +1180,8 @@ public class AppBuilderAppDataRecordLinkPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					appBuilderAppDataRecordLinkModelImpl.
-						getOriginalAppBuilderAppId()
+					appBuilderAppDataRecordLinkModelImpl.getCacheModelAttribute(
+						"appBuilderAppId")
 				};
 
 				finderCache.removeResult(

@@ -79,11 +79,15 @@ public class BigDecimalEntryCacheModel
 	public BigDecimalEntry toEntityModel() {
 		BigDecimalEntryImpl bigDecimalEntryImpl = new BigDecimalEntryImpl();
 
+		bigDecimalEntryImpl.setNew(true);
+
 		bigDecimalEntryImpl.setBigDecimalEntryId(bigDecimalEntryId);
 		bigDecimalEntryImpl.setCompanyId(companyId);
 		bigDecimalEntryImpl.setBigDecimalValue(bigDecimalValue);
 
 		bigDecimalEntryImpl.resetOriginalValues();
+
+		bigDecimalEntryImpl.setNew(false);
 
 		return bigDecimalEntryImpl;
 	}

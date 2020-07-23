@@ -25,7 +25,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.workflow.kaleo.model.KaleoTimer;
 import com.liferay.portal.workflow.kaleo.model.KaleoTimerModel;
@@ -121,13 +120,43 @@ public class KaleoTimerModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long BLOCKING_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long KALEOCLASSNAME_COLUMN_BITMASK = 2L;
+	public static final long KALEOTIMERID_COLUMN_BITMASK = 2L;
 
-	public static final long KALEOCLASSPK_COLUMN_BITMASK = 4L;
+	public static final long GROUPID_COLUMN_BITMASK = 4L;
 
-	public static final long KALEOTIMERID_COLUMN_BITMASK = 8L;
+	public static final long COMPANYID_COLUMN_BITMASK = 8L;
+
+	public static final long USERID_COLUMN_BITMASK = 16L;
+
+	public static final long USERNAME_COLUMN_BITMASK = 32L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 64L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 128L;
+
+	public static final long KALEOCLASSNAME_COLUMN_BITMASK = 256L;
+
+	public static final long KALEOCLASSPK_COLUMN_BITMASK = 512L;
+
+	public static final long KALEODEFINITIONID_COLUMN_BITMASK = 1024L;
+
+	public static final long KALEODEFINITIONVERSIONID_COLUMN_BITMASK = 2048L;
+
+	public static final long NAME_COLUMN_BITMASK = 4096L;
+
+	public static final long BLOCKING_COLUMN_BITMASK = 8192L;
+
+	public static final long DESCRIPTION_COLUMN_BITMASK = 16384L;
+
+	public static final long DURATION_COLUMN_BITMASK = 32768L;
+
+	public static final long SCALE_COLUMN_BITMASK = 65536L;
+
+	public static final long RECURRENCEDURATION_COLUMN_BITMASK = 131072L;
+
+	public static final long RECURRENCESCALE_COLUMN_BITMASK = 262144L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -255,96 +284,198 @@ public class KaleoTimerModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<KaleoTimer, Object> function = _attributeGetterFunctions.get(
+			attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((KaleoTimer)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<KaleoTimerCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_kaleoTimerCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_kaleoTimerCacheModel);
+	}
+
 	private static final Map<String, Function<KaleoTimer, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<KaleoTimer, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<KaleoTimerCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<KaleoTimer, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<KaleoTimer, Object>>();
 		Map<String, BiConsumer<KaleoTimer, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<KaleoTimer, ?>>();
+		Map<String, Function<KaleoTimerCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<KaleoTimerCacheModel, Object>>();
 
 		attributeGetterFunctions.put("mvccVersion", KaleoTimer::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			kaleoTimerCacheModel -> kaleoTimerCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<KaleoTimer, Long>)KaleoTimer::setMvccVersion);
 		attributeGetterFunctions.put(
 			"kaleoTimerId", KaleoTimer::getKaleoTimerId);
+
+		cacheModelGetterFunctions.put(
+			"kaleoTimerId",
+			kaleoTimerCacheModel -> kaleoTimerCacheModel.kaleoTimerId);
 		attributeSetterBiConsumers.put(
 			"kaleoTimerId",
 			(BiConsumer<KaleoTimer, Long>)KaleoTimer::setKaleoTimerId);
 		attributeGetterFunctions.put("groupId", KaleoTimer::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId", kaleoTimerCacheModel -> kaleoTimerCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId", (BiConsumer<KaleoTimer, Long>)KaleoTimer::setGroupId);
 		attributeGetterFunctions.put("companyId", KaleoTimer::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			kaleoTimerCacheModel -> kaleoTimerCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<KaleoTimer, Long>)KaleoTimer::setCompanyId);
 		attributeGetterFunctions.put("userId", KaleoTimer::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", kaleoTimerCacheModel -> kaleoTimerCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<KaleoTimer, Long>)KaleoTimer::setUserId);
 		attributeGetterFunctions.put("userName", KaleoTimer::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName", kaleoTimerCacheModel -> kaleoTimerCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<KaleoTimer, String>)KaleoTimer::setUserName);
 		attributeGetterFunctions.put("createDate", KaleoTimer::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			kaleoTimerCacheModel -> kaleoTimerCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<KaleoTimer, Date>)KaleoTimer::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", KaleoTimer::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			kaleoTimerCacheModel -> kaleoTimerCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<KaleoTimer, Date>)KaleoTimer::setModifiedDate);
 		attributeGetterFunctions.put(
 			"kaleoClassName", KaleoTimer::getKaleoClassName);
+
+		cacheModelGetterFunctions.put(
+			"kaleoClassName",
+			kaleoTimerCacheModel -> kaleoTimerCacheModel.kaleoClassName);
 		attributeSetterBiConsumers.put(
 			"kaleoClassName",
 			(BiConsumer<KaleoTimer, String>)KaleoTimer::setKaleoClassName);
 		attributeGetterFunctions.put(
 			"kaleoClassPK", KaleoTimer::getKaleoClassPK);
+
+		cacheModelGetterFunctions.put(
+			"kaleoClassPK",
+			kaleoTimerCacheModel -> kaleoTimerCacheModel.kaleoClassPK);
 		attributeSetterBiConsumers.put(
 			"kaleoClassPK",
 			(BiConsumer<KaleoTimer, Long>)KaleoTimer::setKaleoClassPK);
 		attributeGetterFunctions.put(
 			"kaleoDefinitionId", KaleoTimer::getKaleoDefinitionId);
+
+		cacheModelGetterFunctions.put(
+			"kaleoDefinitionId",
+			kaleoTimerCacheModel -> kaleoTimerCacheModel.kaleoDefinitionId);
 		attributeSetterBiConsumers.put(
 			"kaleoDefinitionId",
 			(BiConsumer<KaleoTimer, Long>)KaleoTimer::setKaleoDefinitionId);
 		attributeGetterFunctions.put(
 			"kaleoDefinitionVersionId",
 			KaleoTimer::getKaleoDefinitionVersionId);
+
+		cacheModelGetterFunctions.put(
+			"kaleoDefinitionVersionId",
+			kaleoTimerCacheModel ->
+				kaleoTimerCacheModel.kaleoDefinitionVersionId);
 		attributeSetterBiConsumers.put(
 			"kaleoDefinitionVersionId",
 			(BiConsumer<KaleoTimer, Long>)
 				KaleoTimer::setKaleoDefinitionVersionId);
 		attributeGetterFunctions.put("name", KaleoTimer::getName);
+
+		cacheModelGetterFunctions.put(
+			"name", kaleoTimerCacheModel -> kaleoTimerCacheModel.name);
 		attributeSetterBiConsumers.put(
 			"name", (BiConsumer<KaleoTimer, String>)KaleoTimer::setName);
 		attributeGetterFunctions.put("blocking", KaleoTimer::getBlocking);
+
+		cacheModelGetterFunctions.put(
+			"blocking", kaleoTimerCacheModel -> kaleoTimerCacheModel.blocking);
 		attributeSetterBiConsumers.put(
 			"blocking",
 			(BiConsumer<KaleoTimer, Boolean>)KaleoTimer::setBlocking);
 		attributeGetterFunctions.put("description", KaleoTimer::getDescription);
+
+		cacheModelGetterFunctions.put(
+			"description",
+			kaleoTimerCacheModel -> kaleoTimerCacheModel.description);
 		attributeSetterBiConsumers.put(
 			"description",
 			(BiConsumer<KaleoTimer, String>)KaleoTimer::setDescription);
 		attributeGetterFunctions.put("duration", KaleoTimer::getDuration);
+
+		cacheModelGetterFunctions.put(
+			"duration", kaleoTimerCacheModel -> kaleoTimerCacheModel.duration);
 		attributeSetterBiConsumers.put(
 			"duration",
 			(BiConsumer<KaleoTimer, Double>)KaleoTimer::setDuration);
 		attributeGetterFunctions.put("scale", KaleoTimer::getScale);
+
+		cacheModelGetterFunctions.put(
+			"scale", kaleoTimerCacheModel -> kaleoTimerCacheModel.scale);
 		attributeSetterBiConsumers.put(
 			"scale", (BiConsumer<KaleoTimer, String>)KaleoTimer::setScale);
 		attributeGetterFunctions.put(
 			"recurrenceDuration", KaleoTimer::getRecurrenceDuration);
+
+		cacheModelGetterFunctions.put(
+			"recurrenceDuration",
+			kaleoTimerCacheModel -> kaleoTimerCacheModel.recurrenceDuration);
 		attributeSetterBiConsumers.put(
 			"recurrenceDuration",
 			(BiConsumer<KaleoTimer, Double>)KaleoTimer::setRecurrenceDuration);
 		attributeGetterFunctions.put(
 			"recurrenceScale", KaleoTimer::getRecurrenceScale);
+
+		cacheModelGetterFunctions.put(
+			"recurrenceScale",
+			kaleoTimerCacheModel -> kaleoTimerCacheModel.recurrenceScale);
 		attributeSetterBiConsumers.put(
 			"recurrenceScale",
 			(BiConsumer<KaleoTimer, String>)KaleoTimer::setRecurrenceScale);
@@ -353,6 +484,8 @@ public class KaleoTimerModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -362,6 +495,12 @@ public class KaleoTimerModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_kaleoTimerCacheModel == null)) {
+			_kaleoTimerCacheModel = (KaleoTimerCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -372,7 +511,11 @@ public class KaleoTimerModelImpl
 
 	@Override
 	public void setKaleoTimerId(long kaleoTimerId) {
-		_columnBitmask = -1L;
+		_columnBitmask |= KALEOTIMERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_kaleoTimerCacheModel == null)) {
+			_kaleoTimerCacheModel = (KaleoTimerCacheModel)toCacheModel();
+		}
 
 		_kaleoTimerId = kaleoTimerId;
 	}
@@ -384,6 +527,12 @@ public class KaleoTimerModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
+		_columnBitmask |= GROUPID_COLUMN_BITMASK;
+
+		if (!isNew() && (_kaleoTimerCacheModel == null)) {
+			_kaleoTimerCacheModel = (KaleoTimerCacheModel)toCacheModel();
+		}
+
 		_groupId = groupId;
 	}
 
@@ -394,6 +543,12 @@ public class KaleoTimerModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (!isNew() && (_kaleoTimerCacheModel == null)) {
+			_kaleoTimerCacheModel = (KaleoTimerCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -404,6 +559,12 @@ public class KaleoTimerModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_kaleoTimerCacheModel == null)) {
+			_kaleoTimerCacheModel = (KaleoTimerCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -435,6 +596,12 @@ public class KaleoTimerModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_kaleoTimerCacheModel == null)) {
+			_kaleoTimerCacheModel = (KaleoTimerCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -445,6 +612,12 @@ public class KaleoTimerModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_kaleoTimerCacheModel == null)) {
+			_kaleoTimerCacheModel = (KaleoTimerCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -460,6 +633,12 @@ public class KaleoTimerModelImpl
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
+
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_kaleoTimerCacheModel == null)) {
+			_kaleoTimerCacheModel = (KaleoTimerCacheModel)toCacheModel();
+		}
 
 		_modifiedDate = modifiedDate;
 	}
@@ -478,15 +657,20 @@ public class KaleoTimerModelImpl
 	public void setKaleoClassName(String kaleoClassName) {
 		_columnBitmask |= KALEOCLASSNAME_COLUMN_BITMASK;
 
-		if (_originalKaleoClassName == null) {
-			_originalKaleoClassName = _kaleoClassName;
+		if (!isNew() && (_kaleoTimerCacheModel == null)) {
+			_kaleoTimerCacheModel = (KaleoTimerCacheModel)toCacheModel();
 		}
 
 		_kaleoClassName = kaleoClassName;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalKaleoClassName() {
-		return GetterUtil.getString(_originalKaleoClassName);
+		return getCacheModelAttribute("kaleoClassName");
 	}
 
 	@Override
@@ -498,17 +682,20 @@ public class KaleoTimerModelImpl
 	public void setKaleoClassPK(long kaleoClassPK) {
 		_columnBitmask |= KALEOCLASSPK_COLUMN_BITMASK;
 
-		if (!_setOriginalKaleoClassPK) {
-			_setOriginalKaleoClassPK = true;
-
-			_originalKaleoClassPK = _kaleoClassPK;
+		if (!isNew() && (_kaleoTimerCacheModel == null)) {
+			_kaleoTimerCacheModel = (KaleoTimerCacheModel)toCacheModel();
 		}
 
 		_kaleoClassPK = kaleoClassPK;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalKaleoClassPK() {
-		return _originalKaleoClassPK;
+		return getCacheModelAttribute("kaleoClassPK");
 	}
 
 	@Override
@@ -518,6 +705,12 @@ public class KaleoTimerModelImpl
 
 	@Override
 	public void setKaleoDefinitionId(long kaleoDefinitionId) {
+		_columnBitmask |= KALEODEFINITIONID_COLUMN_BITMASK;
+
+		if (!isNew() && (_kaleoTimerCacheModel == null)) {
+			_kaleoTimerCacheModel = (KaleoTimerCacheModel)toCacheModel();
+		}
+
 		_kaleoDefinitionId = kaleoDefinitionId;
 	}
 
@@ -528,6 +721,12 @@ public class KaleoTimerModelImpl
 
 	@Override
 	public void setKaleoDefinitionVersionId(long kaleoDefinitionVersionId) {
+		_columnBitmask |= KALEODEFINITIONVERSIONID_COLUMN_BITMASK;
+
+		if (!isNew() && (_kaleoTimerCacheModel == null)) {
+			_kaleoTimerCacheModel = (KaleoTimerCacheModel)toCacheModel();
+		}
+
 		_kaleoDefinitionVersionId = kaleoDefinitionVersionId;
 	}
 
@@ -543,6 +742,12 @@ public class KaleoTimerModelImpl
 
 	@Override
 	public void setName(String name) {
+		_columnBitmask |= NAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_kaleoTimerCacheModel == null)) {
+			_kaleoTimerCacheModel = (KaleoTimerCacheModel)toCacheModel();
+		}
+
 		_name = name;
 	}
 
@@ -560,17 +765,20 @@ public class KaleoTimerModelImpl
 	public void setBlocking(boolean blocking) {
 		_columnBitmask |= BLOCKING_COLUMN_BITMASK;
 
-		if (!_setOriginalBlocking) {
-			_setOriginalBlocking = true;
-
-			_originalBlocking = _blocking;
+		if (!isNew() && (_kaleoTimerCacheModel == null)) {
+			_kaleoTimerCacheModel = (KaleoTimerCacheModel)toCacheModel();
 		}
 
 		_blocking = blocking;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public boolean getOriginalBlocking() {
-		return _originalBlocking;
+		return getCacheModelAttribute("blocking");
 	}
 
 	@Override
@@ -585,6 +793,12 @@ public class KaleoTimerModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		_columnBitmask |= DESCRIPTION_COLUMN_BITMASK;
+
+		if (!isNew() && (_kaleoTimerCacheModel == null)) {
+			_kaleoTimerCacheModel = (KaleoTimerCacheModel)toCacheModel();
+		}
+
 		_description = description;
 	}
 
@@ -595,6 +809,12 @@ public class KaleoTimerModelImpl
 
 	@Override
 	public void setDuration(double duration) {
+		_columnBitmask |= DURATION_COLUMN_BITMASK;
+
+		if (!isNew() && (_kaleoTimerCacheModel == null)) {
+			_kaleoTimerCacheModel = (KaleoTimerCacheModel)toCacheModel();
+		}
+
 		_duration = duration;
 	}
 
@@ -610,6 +830,12 @@ public class KaleoTimerModelImpl
 
 	@Override
 	public void setScale(String scale) {
+		_columnBitmask |= SCALE_COLUMN_BITMASK;
+
+		if (!isNew() && (_kaleoTimerCacheModel == null)) {
+			_kaleoTimerCacheModel = (KaleoTimerCacheModel)toCacheModel();
+		}
+
 		_scale = scale;
 	}
 
@@ -620,6 +846,12 @@ public class KaleoTimerModelImpl
 
 	@Override
 	public void setRecurrenceDuration(double recurrenceDuration) {
+		_columnBitmask |= RECURRENCEDURATION_COLUMN_BITMASK;
+
+		if (!isNew() && (_kaleoTimerCacheModel == null)) {
+			_kaleoTimerCacheModel = (KaleoTimerCacheModel)toCacheModel();
+		}
+
 		_recurrenceDuration = recurrenceDuration;
 	}
 
@@ -635,6 +867,12 @@ public class KaleoTimerModelImpl
 
 	@Override
 	public void setRecurrenceScale(String recurrenceScale) {
+		_columnBitmask |= RECURRENCESCALE_COLUMN_BITMASK;
+
+		if (!isNew() && (_kaleoTimerCacheModel == null)) {
+			_kaleoTimerCacheModel = (KaleoTimerCacheModel)toCacheModel();
+		}
+
 		_recurrenceScale = recurrenceScale;
 	}
 
@@ -674,6 +912,8 @@ public class KaleoTimerModelImpl
 	public Object clone() {
 		KaleoTimerImpl kaleoTimerImpl = new KaleoTimerImpl();
 
+		kaleoTimerImpl.setNew(true);
+
 		kaleoTimerImpl.setMvccVersion(getMvccVersion());
 		kaleoTimerImpl.setKaleoTimerId(getKaleoTimerId());
 		kaleoTimerImpl.setGroupId(getGroupId());
@@ -696,6 +936,8 @@ public class KaleoTimerModelImpl
 		kaleoTimerImpl.setRecurrenceScale(getRecurrenceScale());
 
 		kaleoTimerImpl.resetOriginalValues();
+
+		kaleoTimerImpl.setNew(false);
 
 		return kaleoTimerImpl;
 	}
@@ -768,23 +1010,11 @@ public class KaleoTimerModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		KaleoTimerModelImpl kaleoTimerModelImpl = this;
+		_setModifiedDate = false;
 
-		kaleoTimerModelImpl._setModifiedDate = false;
+		_columnBitmask = 0;
 
-		kaleoTimerModelImpl._originalKaleoClassName =
-			kaleoTimerModelImpl._kaleoClassName;
-
-		kaleoTimerModelImpl._originalKaleoClassPK =
-			kaleoTimerModelImpl._kaleoClassPK;
-
-		kaleoTimerModelImpl._setOriginalKaleoClassPK = false;
-
-		kaleoTimerModelImpl._originalBlocking = kaleoTimerModelImpl._blocking;
-
-		kaleoTimerModelImpl._setOriginalBlocking = false;
-
-		kaleoTimerModelImpl._columnBitmask = 0;
+		_kaleoTimerCacheModel = null;
 	}
 
 	@Override
@@ -963,16 +1193,11 @@ public class KaleoTimerModelImpl
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private String _kaleoClassName;
-	private String _originalKaleoClassName;
 	private long _kaleoClassPK;
-	private long _originalKaleoClassPK;
-	private boolean _setOriginalKaleoClassPK;
 	private long _kaleoDefinitionId;
 	private long _kaleoDefinitionVersionId;
 	private String _name;
 	private boolean _blocking;
-	private boolean _originalBlocking;
-	private boolean _setOriginalBlocking;
 	private String _description;
 	private double _duration;
 	private String _scale;
@@ -980,5 +1205,6 @@ public class KaleoTimerModelImpl
 	private String _recurrenceScale;
 	private long _columnBitmask;
 	private KaleoTimer _escapedModel;
+	private KaleoTimerCacheModel _kaleoTimerCacheModel;
 
 }

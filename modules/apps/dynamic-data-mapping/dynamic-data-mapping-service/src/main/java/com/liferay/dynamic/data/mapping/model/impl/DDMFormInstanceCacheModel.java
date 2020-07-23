@@ -124,6 +124,8 @@ public class DDMFormInstanceCacheModel
 	public DDMFormInstance toEntityModel() {
 		DDMFormInstanceImpl ddmFormInstanceImpl = new DDMFormInstanceImpl();
 
+		ddmFormInstanceImpl.setNew(true);
+
 		ddmFormInstanceImpl.setMvccVersion(mvccVersion);
 		ddmFormInstanceImpl.setCtCollectionId(ctCollectionId);
 
@@ -209,6 +211,8 @@ public class DDMFormInstanceCacheModel
 		ddmFormInstanceImpl.resetOriginalValues();
 
 		ddmFormInstanceImpl.setDDMFormValues(_ddmFormValues);
+
+		ddmFormInstanceImpl.setNew(false);
 
 		return ddmFormInstanceImpl;
 	}

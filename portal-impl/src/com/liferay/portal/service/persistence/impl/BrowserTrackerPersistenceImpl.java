@@ -403,7 +403,7 @@ public class BrowserTrackerPersistenceImpl
 			 _finderPathFetchByUserId.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				browserTrackerModelImpl.getOriginalUserId()
+				browserTrackerModelImpl.getCacheModelAttribute("userId")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByUserId, args);

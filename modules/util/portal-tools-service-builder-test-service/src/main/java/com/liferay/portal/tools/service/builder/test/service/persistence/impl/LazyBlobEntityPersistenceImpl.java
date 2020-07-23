@@ -1005,8 +1005,8 @@ public class LazyBlobEntityPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				lazyBlobEntityModelImpl.getOriginalUuid(),
-				lazyBlobEntityModelImpl.getOriginalGroupId()
+				lazyBlobEntityModelImpl.getCacheModelAttribute("uuid"),
+				lazyBlobEntityModelImpl.getCacheModelAttribute("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -1194,7 +1194,7 @@ public class LazyBlobEntityPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					lazyBlobEntityModelImpl.getOriginalUuid()
+					lazyBlobEntityModelImpl.getCacheModelAttribute("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);

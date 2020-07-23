@@ -105,6 +105,8 @@ public class AppBuilderWorkflowTaskLinkCacheModel
 		AppBuilderWorkflowTaskLinkImpl appBuilderWorkflowTaskLinkImpl =
 			new AppBuilderWorkflowTaskLinkImpl();
 
+		appBuilderWorkflowTaskLinkImpl.setNew(true);
+
 		appBuilderWorkflowTaskLinkImpl.setMvccVersion(mvccVersion);
 		appBuilderWorkflowTaskLinkImpl.setAppBuilderWorkflowTaskLinkId(
 			appBuilderWorkflowTaskLinkId);
@@ -123,6 +125,8 @@ public class AppBuilderWorkflowTaskLinkCacheModel
 		}
 
 		appBuilderWorkflowTaskLinkImpl.resetOriginalValues();
+
+		appBuilderWorkflowTaskLinkImpl.setNew(false);
 
 		return appBuilderWorkflowTaskLinkImpl;
 	}

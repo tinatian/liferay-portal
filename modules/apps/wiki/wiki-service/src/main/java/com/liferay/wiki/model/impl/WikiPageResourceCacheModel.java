@@ -100,6 +100,8 @@ public class WikiPageResourceCacheModel
 	public WikiPageResource toEntityModel() {
 		WikiPageResourceImpl wikiPageResourceImpl = new WikiPageResourceImpl();
 
+		wikiPageResourceImpl.setNew(true);
+
 		wikiPageResourceImpl.setMvccVersion(mvccVersion);
 
 		if (uuid == null) {
@@ -122,6 +124,8 @@ public class WikiPageResourceCacheModel
 		}
 
 		wikiPageResourceImpl.resetOriginalValues();
+
+		wikiPageResourceImpl.setNew(false);
 
 		return wikiPageResourceImpl;
 	}

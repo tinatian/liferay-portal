@@ -120,6 +120,8 @@ public class AssetListEntryCacheModel
 	public AssetListEntry toEntityModel() {
 		AssetListEntryImpl assetListEntryImpl = new AssetListEntryImpl();
 
+		assetListEntryImpl.setNew(true);
+
 		assetListEntryImpl.setMvccVersion(mvccVersion);
 		assetListEntryImpl.setCtCollectionId(ctCollectionId);
 
@@ -194,6 +196,8 @@ public class AssetListEntryCacheModel
 		}
 
 		assetListEntryImpl.resetOriginalValues();
+
+		assetListEntryImpl.setNew(false);
 
 		return assetListEntryImpl;
 	}

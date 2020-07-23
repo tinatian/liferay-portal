@@ -99,6 +99,8 @@ public class SourceCacheModel implements CacheModel<Source>, Externalizable {
 	public Source toEntityModel() {
 		SourceImpl sourceImpl = new SourceImpl();
 
+		sourceImpl.setNew(true);
+
 		if (uuid == null) {
 			sourceImpl.setUuid("");
 		}
@@ -175,6 +177,8 @@ public class SourceCacheModel implements CacheModel<Source>, Externalizable {
 		}
 
 		sourceImpl.resetOriginalValues();
+
+		sourceImpl.setNew(false);
 
 		return sourceImpl;
 	}

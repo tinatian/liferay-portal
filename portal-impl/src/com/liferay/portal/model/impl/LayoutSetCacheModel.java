@@ -117,6 +117,8 @@ public class LayoutSetCacheModel
 	public LayoutSet toEntityModel() {
 		LayoutSetImpl layoutSetImpl = new LayoutSetImpl();
 
+		layoutSetImpl.setNew(true);
+
 		layoutSetImpl.setMvccVersion(mvccVersion);
 		layoutSetImpl.setCtCollectionId(ctCollectionId);
 		layoutSetImpl.setLayoutSetId(layoutSetId);
@@ -184,6 +186,8 @@ public class LayoutSetCacheModel
 			_companyFallbackVirtualHostname);
 
 		layoutSetImpl.setVirtualHostnames(_virtualHostnames);
+
+		layoutSetImpl.setNew(false);
 
 		return layoutSetImpl;
 	}

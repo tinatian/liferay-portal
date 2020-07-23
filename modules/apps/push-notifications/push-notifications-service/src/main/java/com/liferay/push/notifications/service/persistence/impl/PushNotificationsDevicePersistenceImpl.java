@@ -1359,7 +1359,7 @@ public class PushNotificationsDevicePersistenceImpl
 			 _finderPathFetchByToken.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				pushNotificationsDeviceModelImpl.getOriginalToken()
+				pushNotificationsDeviceModelImpl.getCacheModelAttribute("token")
 			};
 
 			finderCache.removeResult(_finderPathCountByToken, args);
@@ -1548,8 +1548,10 @@ public class PushNotificationsDevicePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					pushNotificationsDeviceModelImpl.getOriginalUserId(),
-					pushNotificationsDeviceModelImpl.getOriginalPlatform()
+					pushNotificationsDeviceModelImpl.getCacheModelAttribute(
+						"userId"),
+					pushNotificationsDeviceModelImpl.getCacheModelAttribute(
+						"platform")
 				};
 
 				finderCache.removeResult(_finderPathCountByU_P, args);

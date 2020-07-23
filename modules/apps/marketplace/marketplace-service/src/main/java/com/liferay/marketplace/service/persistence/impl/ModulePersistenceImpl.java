@@ -3509,8 +3509,8 @@ public class ModulePersistenceImpl
 			 _finderPathFetchByA_CN.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				moduleModelImpl.getOriginalAppId(),
-				moduleModelImpl.getOriginalContextName()
+				moduleModelImpl.getCacheModelAttribute("appId"),
+				moduleModelImpl.getCacheModelAttribute("contextName")
 			};
 
 			finderCache.removeResult(_finderPathCountByA_CN, args);
@@ -3532,9 +3532,9 @@ public class ModulePersistenceImpl
 			 _finderPathFetchByA_BSN_BV.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				moduleModelImpl.getOriginalAppId(),
-				moduleModelImpl.getOriginalBundleSymbolicName(),
-				moduleModelImpl.getOriginalBundleVersion()
+				moduleModelImpl.getCacheModelAttribute("appId"),
+				moduleModelImpl.getCacheModelAttribute("bundleSymbolicName"),
+				moduleModelImpl.getCacheModelAttribute("bundleVersion")
 			};
 
 			finderCache.removeResult(_finderPathCountByA_BSN_BV, args);
@@ -3739,7 +3739,7 @@ public class ModulePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					moduleModelImpl.getOriginalUuid()
+					moduleModelImpl.getCacheModelAttribute("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -3758,8 +3758,8 @@ public class ModulePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					moduleModelImpl.getOriginalUuid(),
-					moduleModelImpl.getOriginalCompanyId()
+					moduleModelImpl.getCacheModelAttribute("uuid"),
+					moduleModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -3780,7 +3780,7 @@ public class ModulePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					moduleModelImpl.getOriginalAppId()
+					moduleModelImpl.getCacheModelAttribute("appId")
 				};
 
 				finderCache.removeResult(_finderPathCountByAppId, args);
@@ -3799,7 +3799,7 @@ public class ModulePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					moduleModelImpl.getOriginalBundleSymbolicName()
+					moduleModelImpl.getCacheModelAttribute("bundleSymbolicName")
 				};
 
 				finderCache.removeResult(
@@ -3820,7 +3820,7 @@ public class ModulePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					moduleModelImpl.getOriginalContextName()
+					moduleModelImpl.getCacheModelAttribute("contextName")
 				};
 
 				finderCache.removeResult(_finderPathCountByContextName, args);

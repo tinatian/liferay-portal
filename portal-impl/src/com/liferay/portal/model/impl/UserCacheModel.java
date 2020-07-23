@@ -175,6 +175,8 @@ public class UserCacheModel
 	public User toEntityModel() {
 		UserImpl userImpl = new UserImpl();
 
+		userImpl.setNew(true);
+
 		userImpl.setMvccVersion(mvccVersion);
 		userImpl.setCtCollectionId(ctCollectionId);
 
@@ -392,6 +394,8 @@ public class UserCacheModel
 		userImpl.setStatus(status);
 
 		userImpl.resetOriginalValues();
+
+		userImpl.setNew(false);
 
 		return userImpl;
 	}

@@ -128,6 +128,8 @@ public class KaleoTaskAssignmentCacheModel
 		KaleoTaskAssignmentImpl kaleoTaskAssignmentImpl =
 			new KaleoTaskAssignmentImpl();
 
+		kaleoTaskAssignmentImpl.setNew(true);
+
 		kaleoTaskAssignmentImpl.setMvccVersion(mvccVersion);
 		kaleoTaskAssignmentImpl.setKaleoTaskAssignmentId(kaleoTaskAssignmentId);
 		kaleoTaskAssignmentImpl.setGroupId(groupId);
@@ -208,6 +210,8 @@ public class KaleoTaskAssignmentCacheModel
 		}
 
 		kaleoTaskAssignmentImpl.resetOriginalValues();
+
+		kaleoTaskAssignmentImpl.setNew(false);
 
 		return kaleoTaskAssignmentImpl;
 	}

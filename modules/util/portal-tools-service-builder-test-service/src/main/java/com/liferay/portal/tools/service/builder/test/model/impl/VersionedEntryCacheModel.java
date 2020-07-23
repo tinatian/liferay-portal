@@ -94,6 +94,8 @@ public class VersionedEntryCacheModel
 	public VersionedEntry toEntityModel() {
 		VersionedEntryImpl versionedEntryImpl = new VersionedEntryImpl();
 
+		versionedEntryImpl.setNew(true);
+
 		versionedEntryImpl.setMvccVersion(mvccVersion);
 		versionedEntryImpl.setHeadId(headId);
 		versionedEntryImpl.setHead(head);
@@ -101,6 +103,8 @@ public class VersionedEntryCacheModel
 		versionedEntryImpl.setGroupId(groupId);
 
 		versionedEntryImpl.resetOriginalValues();
+
+		versionedEntryImpl.setNew(false);
 
 		return versionedEntryImpl;
 	}

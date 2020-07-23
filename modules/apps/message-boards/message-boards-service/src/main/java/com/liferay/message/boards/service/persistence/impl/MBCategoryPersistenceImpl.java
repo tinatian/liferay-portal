@@ -11726,8 +11726,8 @@ public class MBCategoryPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				mbCategoryModelImpl.getOriginalUuid(),
-				mbCategoryModelImpl.getOriginalGroupId()
+				mbCategoryModelImpl.getCacheModelAttribute("uuid"),
+				mbCategoryModelImpl.getCacheModelAttribute("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -12009,7 +12009,7 @@ public class MBCategoryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mbCategoryModelImpl.getOriginalUuid()
+					mbCategoryModelImpl.getCacheModelAttribute("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -12028,8 +12028,8 @@ public class MBCategoryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mbCategoryModelImpl.getOriginalUuid(),
-					mbCategoryModelImpl.getOriginalCompanyId()
+					mbCategoryModelImpl.getCacheModelAttribute("uuid"),
+					mbCategoryModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -12051,7 +12051,7 @@ public class MBCategoryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					mbCategoryModelImpl.getOriginalGroupId()
+					mbCategoryModelImpl.getCacheModelAttribute("groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId, args);
@@ -12070,7 +12070,7 @@ public class MBCategoryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					mbCategoryModelImpl.getOriginalCompanyId()
+					mbCategoryModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCompanyId, args);
@@ -12089,8 +12089,9 @@ public class MBCategoryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mbCategoryModelImpl.getOriginalGroupId(),
-					mbCategoryModelImpl.getOriginalParentCategoryId()
+					mbCategoryModelImpl.getCacheModelAttribute("groupId"),
+					mbCategoryModelImpl.getCacheModelAttribute(
+						"parentCategoryId")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_P, args);
@@ -12112,8 +12113,8 @@ public class MBCategoryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mbCategoryModelImpl.getOriginalGroupId(),
-					mbCategoryModelImpl.getOriginalStatus()
+					mbCategoryModelImpl.getCacheModelAttribute("groupId"),
+					mbCategoryModelImpl.getCacheModelAttribute("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_S, args);
@@ -12135,8 +12136,8 @@ public class MBCategoryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mbCategoryModelImpl.getOriginalCompanyId(),
-					mbCategoryModelImpl.getOriginalStatus()
+					mbCategoryModelImpl.getCacheModelAttribute("companyId"),
+					mbCategoryModelImpl.getCacheModelAttribute("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_S, args);
@@ -12158,9 +12159,10 @@ public class MBCategoryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mbCategoryModelImpl.getOriginalGroupId(),
-					mbCategoryModelImpl.getOriginalParentCategoryId(),
-					mbCategoryModelImpl.getOriginalStatus()
+					mbCategoryModelImpl.getCacheModelAttribute("groupId"),
+					mbCategoryModelImpl.getCacheModelAttribute(
+						"parentCategoryId"),
+					mbCategoryModelImpl.getCacheModelAttribute("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_P_S, args);

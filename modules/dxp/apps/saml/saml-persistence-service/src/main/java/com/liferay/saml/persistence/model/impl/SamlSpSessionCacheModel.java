@@ -105,6 +105,8 @@ public class SamlSpSessionCacheModel
 	public SamlSpSession toEntityModel() {
 		SamlSpSessionImpl samlSpSessionImpl = new SamlSpSessionImpl();
 
+		samlSpSessionImpl.setNew(true);
+
 		samlSpSessionImpl.setSamlSpSessionId(samlSpSessionId);
 		samlSpSessionImpl.setCompanyId(companyId);
 		samlSpSessionImpl.setUserId(userId);
@@ -196,6 +198,8 @@ public class SamlSpSessionCacheModel
 		samlSpSessionImpl.setTerminated(terminated);
 
 		samlSpSessionImpl.resetOriginalValues();
+
+		samlSpSessionImpl.setNew(false);
 
 		return samlSpSessionImpl;
 	}

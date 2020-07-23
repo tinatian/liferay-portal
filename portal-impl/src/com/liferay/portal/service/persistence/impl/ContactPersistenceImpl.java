@@ -1895,7 +1895,7 @@ public class ContactPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					contactModelImpl.getOriginalCompanyId()
+					contactModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
@@ -1914,7 +1914,7 @@ public class ContactPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					contactModelImpl.getOriginalAccountId()
+					contactModelImpl.getCacheModelAttribute("accountId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByAccountId, args);
@@ -1933,8 +1933,8 @@ public class ContactPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					contactModelImpl.getOriginalClassNameId(),
-					contactModelImpl.getOriginalClassPK()
+					contactModelImpl.getCacheModelAttribute("classNameId"),
+					contactModelImpl.getCacheModelAttribute("classPK")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_C, args);

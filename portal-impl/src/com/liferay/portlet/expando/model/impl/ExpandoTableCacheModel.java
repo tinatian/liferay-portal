@@ -98,6 +98,8 @@ public class ExpandoTableCacheModel
 	public ExpandoTable toEntityModel() {
 		ExpandoTableImpl expandoTableImpl = new ExpandoTableImpl();
 
+		expandoTableImpl.setNew(true);
+
 		expandoTableImpl.setMvccVersion(mvccVersion);
 		expandoTableImpl.setCtCollectionId(ctCollectionId);
 		expandoTableImpl.setTableId(tableId);
@@ -112,6 +114,8 @@ public class ExpandoTableCacheModel
 		}
 
 		expandoTableImpl.resetOriginalValues();
+
+		expandoTableImpl.setNew(false);
 
 		return expandoTableImpl;
 	}

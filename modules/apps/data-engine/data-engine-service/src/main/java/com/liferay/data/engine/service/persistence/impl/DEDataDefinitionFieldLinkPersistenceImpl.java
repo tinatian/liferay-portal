@@ -5597,8 +5597,10 @@ public class DEDataDefinitionFieldLinkPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				deDataDefinitionFieldLinkModelImpl.getOriginalUuid(),
-				deDataDefinitionFieldLinkModelImpl.getOriginalGroupId()
+				deDataDefinitionFieldLinkModelImpl.getCacheModelAttribute(
+					"uuid"),
+				deDataDefinitionFieldLinkModelImpl.getCacheModelAttribute(
+					"groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -5621,10 +5623,14 @@ public class DEDataDefinitionFieldLinkPersistenceImpl
 			 _finderPathFetchByC_C_DDMSI_F.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				deDataDefinitionFieldLinkModelImpl.getOriginalClassNameId(),
-				deDataDefinitionFieldLinkModelImpl.getOriginalClassPK(),
-				deDataDefinitionFieldLinkModelImpl.getOriginalDdmStructureId(),
-				deDataDefinitionFieldLinkModelImpl.getOriginalFieldName()
+				deDataDefinitionFieldLinkModelImpl.getCacheModelAttribute(
+					"classNameId"),
+				deDataDefinitionFieldLinkModelImpl.getCacheModelAttribute(
+					"classPK"),
+				deDataDefinitionFieldLinkModelImpl.getCacheModelAttribute(
+					"ddmStructureId"),
+				deDataDefinitionFieldLinkModelImpl.getCacheModelAttribute(
+					"fieldName")
 			};
 
 			finderCache.removeResult(_finderPathCountByC_C_DDMSI_F, args);
@@ -5903,7 +5909,8 @@ public class DEDataDefinitionFieldLinkPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					deDataDefinitionFieldLinkModelImpl.getOriginalUuid()
+					deDataDefinitionFieldLinkModelImpl.getCacheModelAttribute(
+						"uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -5924,8 +5931,10 @@ public class DEDataDefinitionFieldLinkPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					deDataDefinitionFieldLinkModelImpl.getOriginalUuid(),
-					deDataDefinitionFieldLinkModelImpl.getOriginalCompanyId()
+					deDataDefinitionFieldLinkModelImpl.getCacheModelAttribute(
+						"uuid"),
+					deDataDefinitionFieldLinkModelImpl.getCacheModelAttribute(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -5947,8 +5956,8 @@ public class DEDataDefinitionFieldLinkPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					deDataDefinitionFieldLinkModelImpl.
-						getOriginalDdmStructureId()
+					deDataDefinitionFieldLinkModelImpl.getCacheModelAttribute(
+						"ddmStructureId")
 				};
 
 				finderCache.removeResult(
@@ -5971,8 +5980,10 @@ public class DEDataDefinitionFieldLinkPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					deDataDefinitionFieldLinkModelImpl.getOriginalClassNameId(),
-					deDataDefinitionFieldLinkModelImpl.getOriginalClassPK()
+					deDataDefinitionFieldLinkModelImpl.getCacheModelAttribute(
+						"classNameId"),
+					deDataDefinitionFieldLinkModelImpl.getCacheModelAttribute(
+						"classPK")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_C, args);
@@ -5994,9 +6005,10 @@ public class DEDataDefinitionFieldLinkPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					deDataDefinitionFieldLinkModelImpl.getOriginalClassNameId(),
-					deDataDefinitionFieldLinkModelImpl.
-						getOriginalDdmStructureId()
+					deDataDefinitionFieldLinkModelImpl.getCacheModelAttribute(
+						"classNameId"),
+					deDataDefinitionFieldLinkModelImpl.getCacheModelAttribute(
+						"ddmStructureId")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_DDMSI, args);
@@ -6018,9 +6030,10 @@ public class DEDataDefinitionFieldLinkPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					deDataDefinitionFieldLinkModelImpl.
-						getOriginalDdmStructureId(),
-					deDataDefinitionFieldLinkModelImpl.getOriginalFieldName()
+					deDataDefinitionFieldLinkModelImpl.getCacheModelAttribute(
+						"ddmStructureId"),
+					deDataDefinitionFieldLinkModelImpl.getCacheModelAttribute(
+						"fieldName")
 				};
 
 				finderCache.removeResult(_finderPathCountByDDMSI_F, args);
@@ -6042,10 +6055,12 @@ public class DEDataDefinitionFieldLinkPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					deDataDefinitionFieldLinkModelImpl.getOriginalClassNameId(),
-					deDataDefinitionFieldLinkModelImpl.
-						getOriginalDdmStructureId(),
-					deDataDefinitionFieldLinkModelImpl.getOriginalFieldName()
+					deDataDefinitionFieldLinkModelImpl.getCacheModelAttribute(
+						"classNameId"),
+					deDataDefinitionFieldLinkModelImpl.getCacheModelAttribute(
+						"ddmStructureId"),
+					deDataDefinitionFieldLinkModelImpl.getCacheModelAttribute(
+						"fieldName")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_DDMSI_F, args);

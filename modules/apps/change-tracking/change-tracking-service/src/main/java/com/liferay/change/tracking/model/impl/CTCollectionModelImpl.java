@@ -114,11 +114,27 @@ public class CTCollectionModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long STATUS_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
-	public static final long CREATEDATE_COLUMN_BITMASK = 4L;
+	public static final long COMPANYID_COLUMN_BITMASK = 4L;
+
+	public static final long USERID_COLUMN_BITMASK = 8L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 16L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 32L;
+
+	public static final long NAME_COLUMN_BITMASK = 64L;
+
+	public static final long DESCRIPTION_COLUMN_BITMASK = 128L;
+
+	public static final long STATUS_COLUMN_BITMASK = 256L;
+
+	public static final long STATUSBYUSERID_COLUMN_BITMASK = 512L;
+
+	public static final long STATUSDATE_COLUMN_BITMASK = 1024L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -296,61 +312,134 @@ public class CTCollectionModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<CTCollection, Object> function = _attributeGetterFunctions.get(
+			attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((CTCollection)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<CTCollectionCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_ctCollectionCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_ctCollectionCacheModel);
+	}
+
 	private static final Map<String, Function<CTCollection, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<CTCollection, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<CTCollectionCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<CTCollection, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<CTCollection, Object>>();
 		Map<String, BiConsumer<CTCollection, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<CTCollection, ?>>();
+		Map<String, Function<CTCollectionCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<CTCollectionCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", CTCollection::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			ctCollectionCacheModel -> ctCollectionCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<CTCollection, Long>)CTCollection::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", CTCollection::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			ctCollectionCacheModel -> ctCollectionCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<CTCollection, Long>)CTCollection::setCtCollectionId);
 		attributeGetterFunctions.put("companyId", CTCollection::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			ctCollectionCacheModel -> ctCollectionCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<CTCollection, Long>)CTCollection::setCompanyId);
 		attributeGetterFunctions.put("userId", CTCollection::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", ctCollectionCacheModel -> ctCollectionCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<CTCollection, Long>)CTCollection::setUserId);
 		attributeGetterFunctions.put("createDate", CTCollection::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			ctCollectionCacheModel -> ctCollectionCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<CTCollection, Date>)CTCollection::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", CTCollection::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			ctCollectionCacheModel -> ctCollectionCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<CTCollection, Date>)CTCollection::setModifiedDate);
 		attributeGetterFunctions.put("name", CTCollection::getName);
+
+		cacheModelGetterFunctions.put(
+			"name", ctCollectionCacheModel -> ctCollectionCacheModel.name);
 		attributeSetterBiConsumers.put(
 			"name", (BiConsumer<CTCollection, String>)CTCollection::setName);
 		attributeGetterFunctions.put(
 			"description", CTCollection::getDescription);
+
+		cacheModelGetterFunctions.put(
+			"description",
+			ctCollectionCacheModel -> ctCollectionCacheModel.description);
 		attributeSetterBiConsumers.put(
 			"description",
 			(BiConsumer<CTCollection, String>)CTCollection::setDescription);
 		attributeGetterFunctions.put("status", CTCollection::getStatus);
+
+		cacheModelGetterFunctions.put(
+			"status", ctCollectionCacheModel -> ctCollectionCacheModel.status);
 		attributeSetterBiConsumers.put(
 			"status",
 			(BiConsumer<CTCollection, Integer>)CTCollection::setStatus);
 		attributeGetterFunctions.put(
 			"statusByUserId", CTCollection::getStatusByUserId);
+
+		cacheModelGetterFunctions.put(
+			"statusByUserId",
+			ctCollectionCacheModel -> ctCollectionCacheModel.statusByUserId);
 		attributeSetterBiConsumers.put(
 			"statusByUserId",
 			(BiConsumer<CTCollection, Long>)CTCollection::setStatusByUserId);
 		attributeGetterFunctions.put("statusDate", CTCollection::getStatusDate);
+
+		cacheModelGetterFunctions.put(
+			"statusDate",
+			ctCollectionCacheModel -> ctCollectionCacheModel.statusDate);
 		attributeSetterBiConsumers.put(
 			"statusDate",
 			(BiConsumer<CTCollection, Date>)CTCollection::setStatusDate);
@@ -359,6 +448,8 @@ public class CTCollectionModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -369,6 +460,12 @@ public class CTCollectionModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_ctCollectionCacheModel == null)) {
+			_ctCollectionCacheModel = (CTCollectionCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -380,6 +477,12 @@ public class CTCollectionModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (!isNew() && (_ctCollectionCacheModel == null)) {
+			_ctCollectionCacheModel = (CTCollectionCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -393,17 +496,20 @@ public class CTCollectionModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (!isNew() && (_ctCollectionCacheModel == null)) {
+			_ctCollectionCacheModel = (CTCollectionCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getCacheModelAttribute("companyId");
 	}
 
 	@JSON
@@ -414,6 +520,12 @@ public class CTCollectionModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_ctCollectionCacheModel == null)) {
+			_ctCollectionCacheModel = (CTCollectionCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -441,7 +553,11 @@ public class CTCollectionModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
-		_columnBitmask = -1L;
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_ctCollectionCacheModel == null)) {
+			_ctCollectionCacheModel = (CTCollectionCacheModel)toCacheModel();
+		}
 
 		_createDate = createDate;
 	}
@@ -460,6 +576,12 @@ public class CTCollectionModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_ctCollectionCacheModel == null)) {
+			_ctCollectionCacheModel = (CTCollectionCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -476,6 +598,12 @@ public class CTCollectionModelImpl
 
 	@Override
 	public void setName(String name) {
+		_columnBitmask |= NAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_ctCollectionCacheModel == null)) {
+			_ctCollectionCacheModel = (CTCollectionCacheModel)toCacheModel();
+		}
+
 		_name = name;
 	}
 
@@ -492,6 +620,12 @@ public class CTCollectionModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		_columnBitmask |= DESCRIPTION_COLUMN_BITMASK;
+
+		if (!isNew() && (_ctCollectionCacheModel == null)) {
+			_ctCollectionCacheModel = (CTCollectionCacheModel)toCacheModel();
+		}
+
 		_description = description;
 	}
 
@@ -505,17 +639,20 @@ public class CTCollectionModelImpl
 	public void setStatus(int status) {
 		_columnBitmask |= STATUS_COLUMN_BITMASK;
 
-		if (!_setOriginalStatus) {
-			_setOriginalStatus = true;
-
-			_originalStatus = _status;
+		if (!isNew() && (_ctCollectionCacheModel == null)) {
+			_ctCollectionCacheModel = (CTCollectionCacheModel)toCacheModel();
 		}
 
 		_status = status;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public int getOriginalStatus() {
-		return _originalStatus;
+		return getCacheModelAttribute("status");
 	}
 
 	@JSON
@@ -526,6 +663,12 @@ public class CTCollectionModelImpl
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		_columnBitmask |= STATUSBYUSERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_ctCollectionCacheModel == null)) {
+			_ctCollectionCacheModel = (CTCollectionCacheModel)toCacheModel();
+		}
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -553,6 +696,12 @@ public class CTCollectionModelImpl
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		_columnBitmask |= STATUSDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_ctCollectionCacheModel == null)) {
+			_ctCollectionCacheModel = (CTCollectionCacheModel)toCacheModel();
+		}
+
 		_statusDate = statusDate;
 	}
 
@@ -592,6 +741,8 @@ public class CTCollectionModelImpl
 	public Object clone() {
 		CTCollectionImpl ctCollectionImpl = new CTCollectionImpl();
 
+		ctCollectionImpl.setNew(true);
+
 		ctCollectionImpl.setMvccVersion(getMvccVersion());
 		ctCollectionImpl.setCtCollectionId(getCtCollectionId());
 		ctCollectionImpl.setCompanyId(getCompanyId());
@@ -605,6 +756,8 @@ public class CTCollectionModelImpl
 		ctCollectionImpl.setStatusDate(getStatusDate());
 
 		ctCollectionImpl.resetOriginalValues();
+
+		ctCollectionImpl.setNew(false);
 
 		return ctCollectionImpl;
 	}
@@ -670,20 +823,11 @@ public class CTCollectionModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		CTCollectionModelImpl ctCollectionModelImpl = this;
+		_setModifiedDate = false;
 
-		ctCollectionModelImpl._originalCompanyId =
-			ctCollectionModelImpl._companyId;
+		_columnBitmask = 0;
 
-		ctCollectionModelImpl._setOriginalCompanyId = false;
-
-		ctCollectionModelImpl._setModifiedDate = false;
-
-		ctCollectionModelImpl._originalStatus = ctCollectionModelImpl._status;
-
-		ctCollectionModelImpl._setOriginalStatus = false;
-
-		ctCollectionModelImpl._columnBitmask = 0;
+		_ctCollectionCacheModel = null;
 	}
 
 	@Override
@@ -822,8 +966,6 @@ public class CTCollectionModelImpl
 	private long _mvccVersion;
 	private long _ctCollectionId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private Date _createDate;
 	private Date _modifiedDate;
@@ -831,11 +973,10 @@ public class CTCollectionModelImpl
 	private String _name;
 	private String _description;
 	private int _status;
-	private int _originalStatus;
-	private boolean _setOriginalStatus;
 	private long _statusByUserId;
 	private Date _statusDate;
 	private long _columnBitmask;
 	private CTCollection _escapedModel;
+	private CTCollectionCacheModel _ctCollectionCacheModel;
 
 }

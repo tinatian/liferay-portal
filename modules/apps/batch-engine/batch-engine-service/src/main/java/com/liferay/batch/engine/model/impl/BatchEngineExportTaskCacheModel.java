@@ -126,6 +126,8 @@ public class BatchEngineExportTaskCacheModel
 		BatchEngineExportTaskImpl batchEngineExportTaskImpl =
 			new BatchEngineExportTaskImpl();
 
+		batchEngineExportTaskImpl.setNew(true);
+
 		batchEngineExportTaskImpl.setMvccVersion(mvccVersion);
 
 		if (uuid == null) {
@@ -221,6 +223,8 @@ public class BatchEngineExportTaskCacheModel
 		}
 
 		batchEngineExportTaskImpl.resetOriginalValues();
+
+		batchEngineExportTaskImpl.setNew(false);
 
 		return batchEngineExportTaskImpl;
 	}

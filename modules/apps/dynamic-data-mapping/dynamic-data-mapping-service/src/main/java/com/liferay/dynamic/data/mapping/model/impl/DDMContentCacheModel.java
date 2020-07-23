@@ -114,6 +114,8 @@ public class DDMContentCacheModel
 	public DDMContent toEntityModel() {
 		DDMContentImpl ddmContentImpl = new DDMContentImpl();
 
+		ddmContentImpl.setNew(true);
+
 		ddmContentImpl.setMvccVersion(mvccVersion);
 		ddmContentImpl.setCtCollectionId(ctCollectionId);
 
@@ -172,6 +174,8 @@ public class DDMContentCacheModel
 		}
 
 		ddmContentImpl.resetOriginalValues();
+
+		ddmContentImpl.setNew(false);
 
 		return ddmContentImpl;
 	}

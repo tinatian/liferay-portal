@@ -107,6 +107,8 @@ public class TicketCacheModel
 	public Ticket toEntityModel() {
 		TicketImpl ticketImpl = new TicketImpl();
 
+		ticketImpl.setNew(true);
+
 		ticketImpl.setMvccVersion(mvccVersion);
 		ticketImpl.setTicketId(ticketId);
 		ticketImpl.setCompanyId(companyId);
@@ -145,6 +147,8 @@ public class TicketCacheModel
 		}
 
 		ticketImpl.resetOriginalValues();
+
+		ticketImpl.setNew(false);
 
 		return ticketImpl;
 	}

@@ -132,6 +132,8 @@ public class DDMStructureCacheModel
 	public DDMStructure toEntityModel() {
 		DDMStructureImpl ddmStructureImpl = new DDMStructureImpl();
 
+		ddmStructureImpl.setNew(true);
+
 		ddmStructureImpl.setMvccVersion(mvccVersion);
 		ddmStructureImpl.setCtCollectionId(ctCollectionId);
 
@@ -236,6 +238,8 @@ public class DDMStructureCacheModel
 		ddmStructureImpl.setClassName(_className);
 
 		ddmStructureImpl.setDDMForm(_ddmForm);
+
+		ddmStructureImpl.setNew(false);
 
 		return ddmStructureImpl;
 	}

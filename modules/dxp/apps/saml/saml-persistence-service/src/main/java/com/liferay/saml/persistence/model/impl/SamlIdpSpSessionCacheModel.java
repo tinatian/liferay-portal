@@ -95,6 +95,8 @@ public class SamlIdpSpSessionCacheModel
 	public SamlIdpSpSession toEntityModel() {
 		SamlIdpSpSessionImpl samlIdpSpSessionImpl = new SamlIdpSpSessionImpl();
 
+		samlIdpSpSessionImpl.setNew(true);
+
 		samlIdpSpSessionImpl.setSamlIdpSpSessionId(samlIdpSpSessionId);
 		samlIdpSpSessionImpl.setCompanyId(companyId);
 		samlIdpSpSessionImpl.setUserId(userId);
@@ -144,6 +146,8 @@ public class SamlIdpSpSessionCacheModel
 		}
 
 		samlIdpSpSessionImpl.resetOriginalValues();
+
+		samlIdpSpSessionImpl.setNew(false);
 
 		return samlIdpSpSessionImpl;
 	}

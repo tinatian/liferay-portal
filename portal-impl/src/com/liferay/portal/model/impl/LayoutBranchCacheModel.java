@@ -108,6 +108,8 @@ public class LayoutBranchCacheModel
 	public LayoutBranch toEntityModel() {
 		LayoutBranchImpl layoutBranchImpl = new LayoutBranchImpl();
 
+		layoutBranchImpl.setNew(true);
+
 		layoutBranchImpl.setMvccVersion(mvccVersion);
 		layoutBranchImpl.setLayoutBranchId(layoutBranchId);
 		layoutBranchImpl.setGroupId(groupId);
@@ -141,6 +143,8 @@ public class LayoutBranchCacheModel
 		layoutBranchImpl.setMaster(master);
 
 		layoutBranchImpl.resetOriginalValues();
+
+		layoutBranchImpl.setNew(false);
 
 		return layoutBranchImpl;
 	}

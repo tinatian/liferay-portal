@@ -3910,8 +3910,8 @@ public class DDMFormInstanceRecordPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				ddmFormInstanceRecordModelImpl.getOriginalUuid(),
-				ddmFormInstanceRecordModelImpl.getOriginalGroupId()
+				ddmFormInstanceRecordModelImpl.getCacheModelAttribute("uuid"),
+				ddmFormInstanceRecordModelImpl.getCacheModelAttribute("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -4195,7 +4195,8 @@ public class DDMFormInstanceRecordPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					ddmFormInstanceRecordModelImpl.getOriginalUuid()
+					ddmFormInstanceRecordModelImpl.getCacheModelAttribute(
+						"uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -4214,8 +4215,10 @@ public class DDMFormInstanceRecordPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					ddmFormInstanceRecordModelImpl.getOriginalUuid(),
-					ddmFormInstanceRecordModelImpl.getOriginalCompanyId()
+					ddmFormInstanceRecordModelImpl.getCacheModelAttribute(
+						"uuid"),
+					ddmFormInstanceRecordModelImpl.getCacheModelAttribute(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -4237,7 +4240,8 @@ public class DDMFormInstanceRecordPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					ddmFormInstanceRecordModelImpl.getOriginalCompanyId()
+					ddmFormInstanceRecordModelImpl.getCacheModelAttribute(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCompanyId, args);
@@ -4258,7 +4262,8 @@ public class DDMFormInstanceRecordPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					ddmFormInstanceRecordModelImpl.getOriginalFormInstanceId()
+					ddmFormInstanceRecordModelImpl.getCacheModelAttribute(
+						"formInstanceId")
 				};
 
 				finderCache.removeResult(
@@ -4281,8 +4286,10 @@ public class DDMFormInstanceRecordPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					ddmFormInstanceRecordModelImpl.getOriginalUserId(),
-					ddmFormInstanceRecordModelImpl.getOriginalFormInstanceId()
+					ddmFormInstanceRecordModelImpl.getCacheModelAttribute(
+						"userId"),
+					ddmFormInstanceRecordModelImpl.getCacheModelAttribute(
+						"formInstanceId")
 				};
 
 				finderCache.removeResult(_finderPathCountByU_F, args);
@@ -4304,9 +4311,10 @@ public class DDMFormInstanceRecordPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					ddmFormInstanceRecordModelImpl.getOriginalFormInstanceId(),
-					ddmFormInstanceRecordModelImpl.
-						getOriginalFormInstanceVersion()
+					ddmFormInstanceRecordModelImpl.getCacheModelAttribute(
+						"formInstanceId"),
+					ddmFormInstanceRecordModelImpl.getCacheModelAttribute(
+						"formInstanceVersion")
 				};
 
 				finderCache.removeResult(_finderPathCountByF_F, args);

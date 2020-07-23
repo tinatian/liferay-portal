@@ -144,6 +144,8 @@ public class MBMailingListCacheModel
 	public MBMailingList toEntityModel() {
 		MBMailingListImpl mbMailingListImpl = new MBMailingListImpl();
 
+		mbMailingListImpl.setNew(true);
+
 		mbMailingListImpl.setMvccVersion(mvccVersion);
 		mbMailingListImpl.setCtCollectionId(ctCollectionId);
 
@@ -259,6 +261,8 @@ public class MBMailingListCacheModel
 		mbMailingListImpl.setActive(active);
 
 		mbMailingListImpl.resetOriginalValues();
+
+		mbMailingListImpl.setNew(false);
 
 		return mbMailingListImpl;
 	}

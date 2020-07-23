@@ -128,13 +128,21 @@ public class AnnouncementsDeliveryModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long TYPE_COLUMN_BITMASK = 2L;
+	public static final long DELIVERYID_COLUMN_BITMASK = 2L;
 
-	public static final long USERID_COLUMN_BITMASK = 4L;
+	public static final long COMPANYID_COLUMN_BITMASK = 4L;
 
-	public static final long DELIVERYID_COLUMN_BITMASK = 8L;
+	public static final long USERID_COLUMN_BITMASK = 8L;
+
+	public static final long TYPE_COLUMN_BITMASK = 16L;
+
+	public static final long EMAIL_COLUMN_BITMASK = 32L;
+
+	public static final long SMS_COLUMN_BITMASK = 64L;
+
+	public static final long WEBSITE_COLUMN_BITMASK = 128L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -304,10 +312,39 @@ public class AnnouncementsDeliveryModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<AnnouncementsDelivery, Object> function =
+			_attributeGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((AnnouncementsDelivery)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<AnnouncementsDeliveryCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_announcementsDeliveryCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_announcementsDeliveryCacheModel);
+	}
+
 	private static final Map<String, Function<AnnouncementsDelivery, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<AnnouncementsDelivery, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<AnnouncementsDeliveryCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<AnnouncementsDelivery, Object>>
@@ -318,48 +355,93 @@ public class AnnouncementsDeliveryModelImpl
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<AnnouncementsDelivery, ?>>();
+		Map<String, Function<AnnouncementsDeliveryCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String,
+					 Function<AnnouncementsDeliveryCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", AnnouncementsDelivery::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			announcementsDeliveryCacheModel ->
+				announcementsDeliveryCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<AnnouncementsDelivery, Long>)
 				AnnouncementsDelivery::setMvccVersion);
 		attributeGetterFunctions.put(
 			"deliveryId", AnnouncementsDelivery::getDeliveryId);
+
+		cacheModelGetterFunctions.put(
+			"deliveryId",
+			announcementsDeliveryCacheModel ->
+				announcementsDeliveryCacheModel.deliveryId);
 		attributeSetterBiConsumers.put(
 			"deliveryId",
 			(BiConsumer<AnnouncementsDelivery, Long>)
 				AnnouncementsDelivery::setDeliveryId);
 		attributeGetterFunctions.put(
 			"companyId", AnnouncementsDelivery::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			announcementsDeliveryCacheModel ->
+				announcementsDeliveryCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<AnnouncementsDelivery, Long>)
 				AnnouncementsDelivery::setCompanyId);
 		attributeGetterFunctions.put(
 			"userId", AnnouncementsDelivery::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			announcementsDeliveryCacheModel ->
+				announcementsDeliveryCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<AnnouncementsDelivery, Long>)
 				AnnouncementsDelivery::setUserId);
 		attributeGetterFunctions.put("type", AnnouncementsDelivery::getType);
+
+		cacheModelGetterFunctions.put(
+			"type",
+			announcementsDeliveryCacheModel ->
+				announcementsDeliveryCacheModel.type);
 		attributeSetterBiConsumers.put(
 			"type",
 			(BiConsumer<AnnouncementsDelivery, String>)
 				AnnouncementsDelivery::setType);
 		attributeGetterFunctions.put("email", AnnouncementsDelivery::getEmail);
+
+		cacheModelGetterFunctions.put(
+			"email",
+			announcementsDeliveryCacheModel ->
+				announcementsDeliveryCacheModel.email);
 		attributeSetterBiConsumers.put(
 			"email",
 			(BiConsumer<AnnouncementsDelivery, Boolean>)
 				AnnouncementsDelivery::setEmail);
 		attributeGetterFunctions.put("sms", AnnouncementsDelivery::getSms);
+
+		cacheModelGetterFunctions.put(
+			"sms",
+			announcementsDeliveryCacheModel ->
+				announcementsDeliveryCacheModel.sms);
 		attributeSetterBiConsumers.put(
 			"sms",
 			(BiConsumer<AnnouncementsDelivery, Boolean>)
 				AnnouncementsDelivery::setSms);
 		attributeGetterFunctions.put(
 			"website", AnnouncementsDelivery::getWebsite);
+
+		cacheModelGetterFunctions.put(
+			"website",
+			announcementsDeliveryCacheModel ->
+				announcementsDeliveryCacheModel.website);
 		attributeSetterBiConsumers.put(
 			"website",
 			(BiConsumer<AnnouncementsDelivery, Boolean>)
@@ -369,6 +451,8 @@ public class AnnouncementsDeliveryModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -379,6 +463,13 @@ public class AnnouncementsDeliveryModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_announcementsDeliveryCacheModel == null)) {
+			_announcementsDeliveryCacheModel =
+				(AnnouncementsDeliveryCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -390,6 +481,13 @@ public class AnnouncementsDeliveryModelImpl
 
 	@Override
 	public void setDeliveryId(long deliveryId) {
+		_columnBitmask |= DELIVERYID_COLUMN_BITMASK;
+
+		if (!isNew() && (_announcementsDeliveryCacheModel == null)) {
+			_announcementsDeliveryCacheModel =
+				(AnnouncementsDeliveryCacheModel)toCacheModel();
+		}
+
 		_deliveryId = deliveryId;
 	}
 
@@ -403,17 +501,21 @@ public class AnnouncementsDeliveryModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (!isNew() && (_announcementsDeliveryCacheModel == null)) {
+			_announcementsDeliveryCacheModel =
+				(AnnouncementsDeliveryCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getCacheModelAttribute("companyId");
 	}
 
 	@JSON
@@ -426,10 +528,9 @@ public class AnnouncementsDeliveryModelImpl
 	public void setUserId(long userId) {
 		_columnBitmask |= USERID_COLUMN_BITMASK;
 
-		if (!_setOriginalUserId) {
-			_setOriginalUserId = true;
-
-			_originalUserId = _userId;
+		if (!isNew() && (_announcementsDeliveryCacheModel == null)) {
+			_announcementsDeliveryCacheModel =
+				(AnnouncementsDeliveryCacheModel)toCacheModel();
 		}
 
 		_userId = userId;
@@ -451,8 +552,13 @@ public class AnnouncementsDeliveryModelImpl
 	public void setUserUuid(String userUuid) {
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalUserId() {
-		return _originalUserId;
+		return getCacheModelAttribute("userId");
 	}
 
 	@JSON
@@ -470,15 +576,21 @@ public class AnnouncementsDeliveryModelImpl
 	public void setType(String type) {
 		_columnBitmask |= TYPE_COLUMN_BITMASK;
 
-		if (_originalType == null) {
-			_originalType = _type;
+		if (!isNew() && (_announcementsDeliveryCacheModel == null)) {
+			_announcementsDeliveryCacheModel =
+				(AnnouncementsDeliveryCacheModel)toCacheModel();
 		}
 
 		_type = type;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalType() {
-		return GetterUtil.getString(_originalType);
+		return getCacheModelAttribute("type");
 	}
 
 	@JSON
@@ -495,6 +607,13 @@ public class AnnouncementsDeliveryModelImpl
 
 	@Override
 	public void setEmail(boolean email) {
+		_columnBitmask |= EMAIL_COLUMN_BITMASK;
+
+		if (!isNew() && (_announcementsDeliveryCacheModel == null)) {
+			_announcementsDeliveryCacheModel =
+				(AnnouncementsDeliveryCacheModel)toCacheModel();
+		}
+
 		_email = email;
 	}
 
@@ -512,6 +631,13 @@ public class AnnouncementsDeliveryModelImpl
 
 	@Override
 	public void setSms(boolean sms) {
+		_columnBitmask |= SMS_COLUMN_BITMASK;
+
+		if (!isNew() && (_announcementsDeliveryCacheModel == null)) {
+			_announcementsDeliveryCacheModel =
+				(AnnouncementsDeliveryCacheModel)toCacheModel();
+		}
+
 		_sms = sms;
 	}
 
@@ -529,6 +655,13 @@ public class AnnouncementsDeliveryModelImpl
 
 	@Override
 	public void setWebsite(boolean website) {
+		_columnBitmask |= WEBSITE_COLUMN_BITMASK;
+
+		if (!isNew() && (_announcementsDeliveryCacheModel == null)) {
+			_announcementsDeliveryCacheModel =
+				(AnnouncementsDeliveryCacheModel)toCacheModel();
+		}
+
 		_website = website;
 	}
 
@@ -570,6 +703,8 @@ public class AnnouncementsDeliveryModelImpl
 		AnnouncementsDeliveryImpl announcementsDeliveryImpl =
 			new AnnouncementsDeliveryImpl();
 
+		announcementsDeliveryImpl.setNew(true);
+
 		announcementsDeliveryImpl.setMvccVersion(getMvccVersion());
 		announcementsDeliveryImpl.setDeliveryId(getDeliveryId());
 		announcementsDeliveryImpl.setCompanyId(getCompanyId());
@@ -580,6 +715,8 @@ public class AnnouncementsDeliveryModelImpl
 		announcementsDeliveryImpl.setWebsite(isWebsite());
 
 		announcementsDeliveryImpl.resetOriginalValues();
+
+		announcementsDeliveryImpl.setNew(false);
 
 		return announcementsDeliveryImpl;
 	}
@@ -647,22 +784,9 @@ public class AnnouncementsDeliveryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		AnnouncementsDeliveryModelImpl announcementsDeliveryModelImpl = this;
+		_columnBitmask = 0;
 
-		announcementsDeliveryModelImpl._originalCompanyId =
-			announcementsDeliveryModelImpl._companyId;
-
-		announcementsDeliveryModelImpl._setOriginalCompanyId = false;
-
-		announcementsDeliveryModelImpl._originalUserId =
-			announcementsDeliveryModelImpl._userId;
-
-		announcementsDeliveryModelImpl._setOriginalUserId = false;
-
-		announcementsDeliveryModelImpl._originalType =
-			announcementsDeliveryModelImpl._type;
-
-		announcementsDeliveryModelImpl._columnBitmask = 0;
+		_announcementsDeliveryCacheModel = null;
 	}
 
 	@Override
@@ -770,17 +894,13 @@ public class AnnouncementsDeliveryModelImpl
 	private long _mvccVersion;
 	private long _deliveryId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
-	private long _originalUserId;
-	private boolean _setOriginalUserId;
 	private String _type;
-	private String _originalType;
 	private boolean _email;
 	private boolean _sms;
 	private boolean _website;
 	private long _columnBitmask;
 	private AnnouncementsDelivery _escapedModel;
+	private AnnouncementsDeliveryCacheModel _announcementsDeliveryCacheModel;
 
 }

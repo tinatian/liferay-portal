@@ -106,6 +106,8 @@ public class JournalArticleLocalizationCacheModel
 		JournalArticleLocalizationImpl journalArticleLocalizationImpl =
 			new JournalArticleLocalizationImpl();
 
+		journalArticleLocalizationImpl.setNew(true);
+
 		journalArticleLocalizationImpl.setMvccVersion(mvccVersion);
 		journalArticleLocalizationImpl.setCtCollectionId(ctCollectionId);
 		journalArticleLocalizationImpl.setArticleLocalizationId(
@@ -135,6 +137,8 @@ public class JournalArticleLocalizationCacheModel
 		}
 
 		journalArticleLocalizationImpl.resetOriginalValues();
+
+		journalArticleLocalizationImpl.setNew(false);
 
 		return journalArticleLocalizationImpl;
 	}

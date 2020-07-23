@@ -97,6 +97,8 @@ public class PortletCacheModel
 	public Portlet toEntityModel() {
 		PortletImpl portletImpl = new PortletImpl();
 
+		portletImpl.setNew(true);
+
 		portletImpl.setMvccVersion(mvccVersion);
 		portletImpl.setId(id);
 		portletImpl.setCompanyId(companyId);
@@ -118,6 +120,8 @@ public class PortletCacheModel
 		portletImpl.setActive(active);
 
 		portletImpl.resetOriginalValues();
+
+		portletImpl.setNew(false);
 
 		return portletImpl;
 	}

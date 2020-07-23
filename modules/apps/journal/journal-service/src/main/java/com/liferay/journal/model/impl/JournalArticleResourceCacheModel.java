@@ -102,6 +102,8 @@ public class JournalArticleResourceCacheModel
 		JournalArticleResourceImpl journalArticleResourceImpl =
 			new JournalArticleResourceImpl();
 
+		journalArticleResourceImpl.setNew(true);
+
 		journalArticleResourceImpl.setMvccVersion(mvccVersion);
 		journalArticleResourceImpl.setCtCollectionId(ctCollectionId);
 
@@ -124,6 +126,8 @@ public class JournalArticleResourceCacheModel
 		}
 
 		journalArticleResourceImpl.resetOriginalValues();
+
+		journalArticleResourceImpl.setNew(false);
 
 		return journalArticleResourceImpl;
 	}

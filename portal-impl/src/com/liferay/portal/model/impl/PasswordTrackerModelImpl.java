@@ -120,9 +120,17 @@ public class PasswordTrackerModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long USERID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long CREATEDATE_COLUMN_BITMASK = 2L;
+	public static final long PASSWORDTRACKERID_COLUMN_BITMASK = 2L;
+
+	public static final long COMPANYID_COLUMN_BITMASK = 4L;
+
+	public static final long USERID_COLUMN_BITMASK = 8L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 16L;
+
+	public static final long PASSWORD_COLUMN_BITMASK = 32L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		com.liferay.portal.util.PropsUtil.get(
@@ -241,10 +249,39 @@ public class PasswordTrackerModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<PasswordTracker, Object> function =
+			_attributeGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((PasswordTracker)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<PasswordTrackerCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_passwordTrackerCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_passwordTrackerCacheModel);
+	}
+
 	private static final Map<String, Function<PasswordTracker, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<PasswordTracker, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<PasswordTrackerCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<PasswordTracker, Object>>
@@ -252,33 +289,62 @@ public class PasswordTrackerModelImpl
 				new LinkedHashMap<String, Function<PasswordTracker, Object>>();
 		Map<String, BiConsumer<PasswordTracker, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<PasswordTracker, ?>>();
+		Map<String, Function<PasswordTrackerCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<PasswordTrackerCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", PasswordTracker::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			passwordTrackerCacheModel -> passwordTrackerCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<PasswordTracker, Long>)PasswordTracker::setMvccVersion);
 		attributeGetterFunctions.put(
 			"passwordTrackerId", PasswordTracker::getPasswordTrackerId);
+
+		cacheModelGetterFunctions.put(
+			"passwordTrackerId",
+			passwordTrackerCacheModel ->
+				passwordTrackerCacheModel.passwordTrackerId);
 		attributeSetterBiConsumers.put(
 			"passwordTrackerId",
 			(BiConsumer<PasswordTracker, Long>)
 				PasswordTracker::setPasswordTrackerId);
 		attributeGetterFunctions.put(
 			"companyId", PasswordTracker::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			passwordTrackerCacheModel -> passwordTrackerCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<PasswordTracker, Long>)PasswordTracker::setCompanyId);
 		attributeGetterFunctions.put("userId", PasswordTracker::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			passwordTrackerCacheModel -> passwordTrackerCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<PasswordTracker, Long>)PasswordTracker::setUserId);
 		attributeGetterFunctions.put(
 			"createDate", PasswordTracker::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			passwordTrackerCacheModel -> passwordTrackerCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<PasswordTracker, Date>)PasswordTracker::setCreateDate);
 		attributeGetterFunctions.put("password", PasswordTracker::getPassword);
+
+		cacheModelGetterFunctions.put(
+			"password",
+			passwordTrackerCacheModel -> passwordTrackerCacheModel.password);
 		attributeSetterBiConsumers.put(
 			"password",
 			(BiConsumer<PasswordTracker, String>)PasswordTracker::setPassword);
@@ -287,6 +353,8 @@ public class PasswordTrackerModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -296,6 +364,13 @@ public class PasswordTrackerModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_passwordTrackerCacheModel == null)) {
+			_passwordTrackerCacheModel =
+				(PasswordTrackerCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -306,6 +381,13 @@ public class PasswordTrackerModelImpl
 
 	@Override
 	public void setPasswordTrackerId(long passwordTrackerId) {
+		_columnBitmask |= PASSWORDTRACKERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_passwordTrackerCacheModel == null)) {
+			_passwordTrackerCacheModel =
+				(PasswordTrackerCacheModel)toCacheModel();
+		}
+
 		_passwordTrackerId = passwordTrackerId;
 	}
 
@@ -316,6 +398,13 @@ public class PasswordTrackerModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (!isNew() && (_passwordTrackerCacheModel == null)) {
+			_passwordTrackerCacheModel =
+				(PasswordTrackerCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -326,12 +415,11 @@ public class PasswordTrackerModelImpl
 
 	@Override
 	public void setUserId(long userId) {
-		_columnBitmask = -1L;
+		_columnBitmask |= USERID_COLUMN_BITMASK;
 
-		if (!_setOriginalUserId) {
-			_setOriginalUserId = true;
-
-			_originalUserId = _userId;
+		if (!isNew() && (_passwordTrackerCacheModel == null)) {
+			_passwordTrackerCacheModel =
+				(PasswordTrackerCacheModel)toCacheModel();
 		}
 
 		_userId = userId;
@@ -353,8 +441,13 @@ public class PasswordTrackerModelImpl
 	public void setUserUuid(String userUuid) {
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalUserId() {
-		return _originalUserId;
+		return getCacheModelAttribute("userId");
 	}
 
 	@Override
@@ -364,7 +457,12 @@ public class PasswordTrackerModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
-		_columnBitmask = -1L;
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_passwordTrackerCacheModel == null)) {
+			_passwordTrackerCacheModel =
+				(PasswordTrackerCacheModel)toCacheModel();
+		}
 
 		_createDate = createDate;
 	}
@@ -381,6 +479,13 @@ public class PasswordTrackerModelImpl
 
 	@Override
 	public void setPassword(String password) {
+		_columnBitmask |= PASSWORD_COLUMN_BITMASK;
+
+		if (!isNew() && (_passwordTrackerCacheModel == null)) {
+			_passwordTrackerCacheModel =
+				(PasswordTrackerCacheModel)toCacheModel();
+		}
+
 		_password = password;
 	}
 
@@ -420,6 +525,8 @@ public class PasswordTrackerModelImpl
 	public Object clone() {
 		PasswordTrackerImpl passwordTrackerImpl = new PasswordTrackerImpl();
 
+		passwordTrackerImpl.setNew(true);
+
 		passwordTrackerImpl.setMvccVersion(getMvccVersion());
 		passwordTrackerImpl.setPasswordTrackerId(getPasswordTrackerId());
 		passwordTrackerImpl.setCompanyId(getCompanyId());
@@ -428,6 +535,8 @@ public class PasswordTrackerModelImpl
 		passwordTrackerImpl.setPassword(getPassword());
 
 		passwordTrackerImpl.resetOriginalValues();
+
+		passwordTrackerImpl.setNew(false);
 
 		return passwordTrackerImpl;
 	}
@@ -511,14 +620,9 @@ public class PasswordTrackerModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		PasswordTrackerModelImpl passwordTrackerModelImpl = this;
+		_columnBitmask = 0;
 
-		passwordTrackerModelImpl._originalUserId =
-			passwordTrackerModelImpl._userId;
-
-		passwordTrackerModelImpl._setOriginalUserId = false;
-
-		passwordTrackerModelImpl._columnBitmask = 0;
+		_passwordTrackerCacheModel = null;
 	}
 
 	@Override
@@ -628,11 +732,10 @@ public class PasswordTrackerModelImpl
 	private long _passwordTrackerId;
 	private long _companyId;
 	private long _userId;
-	private long _originalUserId;
-	private boolean _setOriginalUserId;
 	private Date _createDate;
 	private String _password;
 	private long _columnBitmask;
 	private PasswordTracker _escapedModel;
+	private PasswordTrackerCacheModel _passwordTrackerCacheModel;
 
 }

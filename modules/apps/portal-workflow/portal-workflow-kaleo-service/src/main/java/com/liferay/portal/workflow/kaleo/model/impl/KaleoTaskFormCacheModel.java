@@ -132,6 +132,8 @@ public class KaleoTaskFormCacheModel
 	public KaleoTaskForm toEntityModel() {
 		KaleoTaskFormImpl kaleoTaskFormImpl = new KaleoTaskFormImpl();
 
+		kaleoTaskFormImpl.setNew(true);
+
 		kaleoTaskFormImpl.setMvccVersion(mvccVersion);
 		kaleoTaskFormImpl.setKaleoTaskFormId(kaleoTaskFormId);
 		kaleoTaskFormImpl.setGroupId(groupId);
@@ -214,6 +216,8 @@ public class KaleoTaskFormCacheModel
 		kaleoTaskFormImpl.setPriority(priority);
 
 		kaleoTaskFormImpl.resetOriginalValues();
+
+		kaleoTaskFormImpl.setNew(false);
 
 		return kaleoTaskFormImpl;
 	}

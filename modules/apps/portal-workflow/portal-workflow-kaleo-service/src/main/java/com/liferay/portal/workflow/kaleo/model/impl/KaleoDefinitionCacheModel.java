@@ -119,6 +119,8 @@ public class KaleoDefinitionCacheModel
 	public KaleoDefinition toEntityModel() {
 		KaleoDefinitionImpl kaleoDefinitionImpl = new KaleoDefinitionImpl();
 
+		kaleoDefinitionImpl.setNew(true);
+
 		kaleoDefinitionImpl.setMvccVersion(mvccVersion);
 		kaleoDefinitionImpl.setKaleoDefinitionId(kaleoDefinitionId);
 		kaleoDefinitionImpl.setGroupId(groupId);
@@ -185,6 +187,8 @@ public class KaleoDefinitionCacheModel
 		kaleoDefinitionImpl.setActive(active);
 
 		kaleoDefinitionImpl.resetOriginalValues();
+
+		kaleoDefinitionImpl.setNew(false);
 
 		return kaleoDefinitionImpl;
 	}

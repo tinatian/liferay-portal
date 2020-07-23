@@ -113,6 +113,8 @@ public class SegmentsEntryRelCacheModel
 	public SegmentsEntryRel toEntityModel() {
 		SegmentsEntryRelImpl segmentsEntryRelImpl = new SegmentsEntryRelImpl();
 
+		segmentsEntryRelImpl.setNew(true);
+
 		segmentsEntryRelImpl.setMvccVersion(mvccVersion);
 		segmentsEntryRelImpl.setCtCollectionId(ctCollectionId);
 		segmentsEntryRelImpl.setSegmentsEntryRelId(segmentsEntryRelId);
@@ -146,6 +148,8 @@ public class SegmentsEntryRelCacheModel
 		segmentsEntryRelImpl.setClassPK(classPK);
 
 		segmentsEntryRelImpl.resetOriginalValues();
+
+		segmentsEntryRelImpl.setNew(false);
 
 		return segmentsEntryRelImpl;
 	}

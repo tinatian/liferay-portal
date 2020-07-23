@@ -126,6 +126,8 @@ public class KaleoTimerCacheModel
 	public KaleoTimer toEntityModel() {
 		KaleoTimerImpl kaleoTimerImpl = new KaleoTimerImpl();
 
+		kaleoTimerImpl.setNew(true);
+
 		kaleoTimerImpl.setMvccVersion(mvccVersion);
 		kaleoTimerImpl.setKaleoTimerId(kaleoTimerId);
 		kaleoTimerImpl.setGroupId(groupId);
@@ -199,6 +201,8 @@ public class KaleoTimerCacheModel
 		}
 
 		kaleoTimerImpl.resetOriginalValues();
+
+		kaleoTimerImpl.setNew(false);
 
 		return kaleoTimerImpl;
 	}

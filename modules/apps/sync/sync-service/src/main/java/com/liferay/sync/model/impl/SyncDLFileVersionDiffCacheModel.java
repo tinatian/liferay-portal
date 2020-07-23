@@ -92,6 +92,8 @@ public class SyncDLFileVersionDiffCacheModel
 		SyncDLFileVersionDiffImpl syncDLFileVersionDiffImpl =
 			new SyncDLFileVersionDiffImpl();
 
+		syncDLFileVersionDiffImpl.setNew(true);
+
 		syncDLFileVersionDiffImpl.setSyncDLFileVersionDiffId(
 			syncDLFileVersionDiffId);
 		syncDLFileVersionDiffImpl.setCompanyId(companyId);
@@ -110,6 +112,8 @@ public class SyncDLFileVersionDiffCacheModel
 		}
 
 		syncDLFileVersionDiffImpl.resetOriginalValues();
+
+		syncDLFileVersionDiffImpl.setNew(false);
 
 		return syncDLFileVersionDiffImpl;
 	}

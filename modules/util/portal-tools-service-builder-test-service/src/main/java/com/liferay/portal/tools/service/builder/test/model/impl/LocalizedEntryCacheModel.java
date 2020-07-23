@@ -75,6 +75,8 @@ public class LocalizedEntryCacheModel
 	public LocalizedEntry toEntityModel() {
 		LocalizedEntryImpl localizedEntryImpl = new LocalizedEntryImpl();
 
+		localizedEntryImpl.setNew(true);
+
 		if (defaultLanguageId == null) {
 			localizedEntryImpl.setDefaultLanguageId("");
 		}
@@ -85,6 +87,8 @@ public class LocalizedEntryCacheModel
 		localizedEntryImpl.setLocalizedEntryId(localizedEntryId);
 
 		localizedEntryImpl.resetOriginalValues();
+
+		localizedEntryImpl.setNew(false);
 
 		return localizedEntryImpl;
 	}

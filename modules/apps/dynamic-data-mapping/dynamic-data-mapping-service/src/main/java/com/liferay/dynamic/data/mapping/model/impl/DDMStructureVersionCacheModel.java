@@ -130,6 +130,8 @@ public class DDMStructureVersionCacheModel
 		DDMStructureVersionImpl ddmStructureVersionImpl =
 			new DDMStructureVersionImpl();
 
+		ddmStructureVersionImpl.setNew(true);
+
 		ddmStructureVersionImpl.setMvccVersion(mvccVersion);
 		ddmStructureVersionImpl.setCtCollectionId(ctCollectionId);
 		ddmStructureVersionImpl.setStructureVersionId(structureVersionId);
@@ -211,6 +213,8 @@ public class DDMStructureVersionCacheModel
 		ddmStructureVersionImpl.resetOriginalValues();
 
 		ddmStructureVersionImpl.setDDMForm(_ddmForm);
+
+		ddmStructureVersionImpl.setNew(false);
 
 		return ddmStructureVersionImpl;
 	}

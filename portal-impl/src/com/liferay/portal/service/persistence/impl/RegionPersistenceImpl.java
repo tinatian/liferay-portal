@@ -1974,8 +1974,8 @@ public class RegionPersistenceImpl
 			 _finderPathFetchByC_R.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				regionModelImpl.getOriginalCountryId(),
-				regionModelImpl.getOriginalRegionCode()
+				regionModelImpl.getCacheModelAttribute("countryId"),
+				regionModelImpl.getCacheModelAttribute("regionCode")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByC_R, args);
@@ -2156,7 +2156,7 @@ public class RegionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					regionModelImpl.getOriginalCountryId()
+					regionModelImpl.getCacheModelAttribute("countryId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByCountryId, args);
@@ -2175,7 +2175,7 @@ public class RegionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					regionModelImpl.getOriginalActive()
+					regionModelImpl.getCacheModelAttribute("active")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByActive, args);
@@ -2194,8 +2194,8 @@ public class RegionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					regionModelImpl.getOriginalCountryId(),
-					regionModelImpl.getOriginalActive()
+					regionModelImpl.getCacheModelAttribute("countryId"),
+					regionModelImpl.getCacheModelAttribute("active")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_A, args);

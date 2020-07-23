@@ -121,6 +121,8 @@ public class AccountCacheModel
 	public Account toEntityModel() {
 		AccountImpl accountImpl = new AccountImpl();
 
+		accountImpl.setNew(true);
+
 		accountImpl.setMvccVersion(mvccVersion);
 		accountImpl.setAccountId(accountId);
 		accountImpl.setCompanyId(companyId);
@@ -213,6 +215,8 @@ public class AccountCacheModel
 		}
 
 		accountImpl.resetOriginalValues();
+
+		accountImpl.setNew(false);
 
 		return accountImpl;
 	}

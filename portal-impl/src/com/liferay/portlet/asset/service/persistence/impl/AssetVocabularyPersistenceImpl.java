@@ -5159,8 +5159,8 @@ public class AssetVocabularyPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				assetVocabularyModelImpl.getOriginalUuid(),
-				assetVocabularyModelImpl.getOriginalGroupId()
+				assetVocabularyModelImpl.getCacheModelAttribute("uuid"),
+				assetVocabularyModelImpl.getCacheModelAttribute("groupId")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByUUID_G, args);
@@ -5181,8 +5181,8 @@ public class AssetVocabularyPersistenceImpl
 			 _finderPathFetchByG_N.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				assetVocabularyModelImpl.getOriginalGroupId(),
-				assetVocabularyModelImpl.getOriginalName()
+				assetVocabularyModelImpl.getCacheModelAttribute("groupId"),
+				assetVocabularyModelImpl.getCacheModelAttribute("name")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByG_N, args);
@@ -5203,8 +5203,9 @@ public class AssetVocabularyPersistenceImpl
 			 _finderPathFetchByC_ERC.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				assetVocabularyModelImpl.getOriginalCompanyId(),
-				assetVocabularyModelImpl.getOriginalExternalReferenceCode()
+				assetVocabularyModelImpl.getCacheModelAttribute("companyId"),
+				assetVocabularyModelImpl.getCacheModelAttribute(
+					"externalReferenceCode")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByC_ERC, args);
@@ -5459,7 +5460,7 @@ public class AssetVocabularyPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					assetVocabularyModelImpl.getOriginalUuid()
+					assetVocabularyModelImpl.getCacheModelAttribute("uuid")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid, args);
@@ -5478,8 +5479,8 @@ public class AssetVocabularyPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					assetVocabularyModelImpl.getOriginalUuid(),
-					assetVocabularyModelImpl.getOriginalCompanyId()
+					assetVocabularyModelImpl.getCacheModelAttribute("uuid"),
+					assetVocabularyModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid_C, args);
@@ -5501,7 +5502,7 @@ public class AssetVocabularyPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					assetVocabularyModelImpl.getOriginalGroupId()
+					assetVocabularyModelImpl.getCacheModelAttribute("groupId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByGroupId, args);
@@ -5520,7 +5521,7 @@ public class AssetVocabularyPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					assetVocabularyModelImpl.getOriginalCompanyId()
+					assetVocabularyModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);

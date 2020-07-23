@@ -103,6 +103,8 @@ public class DLContentCacheModel
 	public DLContent toEntityModel() {
 		DLContentImpl dlContentImpl = new DLContentImpl();
 
+		dlContentImpl.setNew(true);
+
 		dlContentImpl.setMvccVersion(mvccVersion);
 		dlContentImpl.setCtCollectionId(ctCollectionId);
 		dlContentImpl.setContentId(contentId);
@@ -127,6 +129,8 @@ public class DLContentCacheModel
 		dlContentImpl.setSize(size);
 
 		dlContentImpl.resetOriginalValues();
+
+		dlContentImpl.setNew(false);
 
 		return dlContentImpl;
 	}

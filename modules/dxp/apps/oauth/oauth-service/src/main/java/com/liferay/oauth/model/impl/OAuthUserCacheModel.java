@@ -90,6 +90,8 @@ public class OAuthUserCacheModel
 	public OAuthUser toEntityModel() {
 		OAuthUserImpl oAuthUserImpl = new OAuthUserImpl();
 
+		oAuthUserImpl.setNew(true);
+
 		oAuthUserImpl.setOAuthUserId(oAuthUserId);
 		oAuthUserImpl.setCompanyId(companyId);
 		oAuthUserImpl.setUserId(userId);
@@ -132,6 +134,8 @@ public class OAuthUserCacheModel
 		}
 
 		oAuthUserImpl.resetOriginalValues();
+
+		oAuthUserImpl.setNew(false);
 
 		return oAuthUserImpl;
 	}

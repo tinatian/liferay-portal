@@ -117,6 +117,8 @@ public class TranslationEntryCacheModel
 	public TranslationEntry toEntityModel() {
 		TranslationEntryImpl translationEntryImpl = new TranslationEntryImpl();
 
+		translationEntryImpl.setNew(true);
+
 		translationEntryImpl.setMvccVersion(mvccVersion);
 
 		if (uuid == null) {
@@ -177,6 +179,8 @@ public class TranslationEntryCacheModel
 		}
 
 		translationEntryImpl.resetOriginalValues();
+
+		translationEntryImpl.setNew(false);
 
 		return translationEntryImpl;
 	}

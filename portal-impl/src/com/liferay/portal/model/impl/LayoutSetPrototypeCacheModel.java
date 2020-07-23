@@ -114,6 +114,8 @@ public class LayoutSetPrototypeCacheModel
 		LayoutSetPrototypeImpl layoutSetPrototypeImpl =
 			new LayoutSetPrototypeImpl();
 
+		layoutSetPrototypeImpl.setNew(true);
+
 		layoutSetPrototypeImpl.setMvccVersion(mvccVersion);
 
 		if (uuid == null) {
@@ -172,6 +174,8 @@ public class LayoutSetPrototypeCacheModel
 		layoutSetPrototypeImpl.setActive(active);
 
 		layoutSetPrototypeImpl.resetOriginalValues();
+
+		layoutSetPrototypeImpl.setNew(false);
 
 		return layoutSetPrototypeImpl;
 	}

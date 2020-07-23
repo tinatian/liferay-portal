@@ -91,6 +91,8 @@ public class OAuthConsumerCacheModel
 	public OAuthConsumer toEntityModel() {
 		OAuthConsumerImpl oAuthConsumerImpl = new OAuthConsumerImpl();
 
+		oAuthConsumerImpl.setNew(true);
+
 		oAuthConsumerImpl.setOAuthConsumerId(oAuthConsumerId);
 		oAuthConsumerImpl.setCompanyId(companyId);
 
@@ -144,6 +146,8 @@ public class OAuthConsumerCacheModel
 		}
 
 		oAuthConsumerImpl.resetOriginalValues();
+
+		oAuthConsumerImpl.setNew(false);
 
 		return oAuthConsumerImpl;
 	}

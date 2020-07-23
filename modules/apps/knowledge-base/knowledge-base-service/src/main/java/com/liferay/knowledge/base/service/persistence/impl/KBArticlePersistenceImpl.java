@@ -33571,8 +33571,8 @@ public class KBArticlePersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				kbArticleModelImpl.getOriginalUuid(),
-				kbArticleModelImpl.getOriginalGroupId()
+				kbArticleModelImpl.getCacheModelAttribute("uuid"),
+				kbArticleModelImpl.getCacheModelAttribute("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -33593,8 +33593,8 @@ public class KBArticlePersistenceImpl
 			 _finderPathFetchByR_V.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				kbArticleModelImpl.getOriginalResourcePrimKey(),
-				kbArticleModelImpl.getOriginalVersion()
+				kbArticleModelImpl.getCacheModelAttribute("resourcePrimKey"),
+				kbArticleModelImpl.getCacheModelAttribute("version")
 			};
 
 			finderCache.removeResult(_finderPathCountByR_V, args);
@@ -33615,9 +33615,9 @@ public class KBArticlePersistenceImpl
 			 _finderPathFetchByR_G_V.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				kbArticleModelImpl.getOriginalResourcePrimKey(),
-				kbArticleModelImpl.getOriginalGroupId(),
-				kbArticleModelImpl.getOriginalVersion()
+				kbArticleModelImpl.getCacheModelAttribute("resourcePrimKey"),
+				kbArticleModelImpl.getCacheModelAttribute("groupId"),
+				kbArticleModelImpl.getCacheModelAttribute("version")
 			};
 
 			finderCache.removeResult(_finderPathCountByR_G_V, args);
@@ -34081,7 +34081,7 @@ public class KBArticlePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kbArticleModelImpl.getOriginalResourcePrimKey()
+					kbArticleModelImpl.getCacheModelAttribute("resourcePrimKey")
 				};
 
 				finderCache.removeResult(
@@ -34102,7 +34102,7 @@ public class KBArticlePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					kbArticleModelImpl.getOriginalUuid()
+					kbArticleModelImpl.getCacheModelAttribute("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -34121,8 +34121,8 @@ public class KBArticlePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					kbArticleModelImpl.getOriginalUuid(),
-					kbArticleModelImpl.getOriginalCompanyId()
+					kbArticleModelImpl.getCacheModelAttribute("uuid"),
+					kbArticleModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -34144,8 +34144,9 @@ public class KBArticlePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					kbArticleModelImpl.getOriginalResourcePrimKey(),
-					kbArticleModelImpl.getOriginalGroupId()
+					kbArticleModelImpl.getCacheModelAttribute(
+						"resourcePrimKey"),
+					kbArticleModelImpl.getCacheModelAttribute("groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByR_G, args);
@@ -34167,8 +34168,9 @@ public class KBArticlePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					kbArticleModelImpl.getOriginalResourcePrimKey(),
-					kbArticleModelImpl.getOriginalLatest()
+					kbArticleModelImpl.getCacheModelAttribute(
+						"resourcePrimKey"),
+					kbArticleModelImpl.getCacheModelAttribute("latest")
 				};
 
 				finderCache.removeResult(_finderPathCountByR_L, args);
@@ -34190,8 +34192,9 @@ public class KBArticlePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					kbArticleModelImpl.getOriginalResourcePrimKey(),
-					kbArticleModelImpl.getOriginalMain()
+					kbArticleModelImpl.getCacheModelAttribute(
+						"resourcePrimKey"),
+					kbArticleModelImpl.getCacheModelAttribute("main")
 				};
 
 				finderCache.removeResult(_finderPathCountByR_M, args);
@@ -34213,8 +34216,9 @@ public class KBArticlePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					kbArticleModelImpl.getOriginalResourcePrimKey(),
-					kbArticleModelImpl.getOriginalStatus()
+					kbArticleModelImpl.getCacheModelAttribute(
+						"resourcePrimKey"),
+					kbArticleModelImpl.getCacheModelAttribute("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByR_S, args);
@@ -34236,8 +34240,8 @@ public class KBArticlePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					kbArticleModelImpl.getOriginalGroupId(),
-					kbArticleModelImpl.getOriginalLatest()
+					kbArticleModelImpl.getCacheModelAttribute("groupId"),
+					kbArticleModelImpl.getCacheModelAttribute("latest")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_L, args);
@@ -34259,8 +34263,8 @@ public class KBArticlePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					kbArticleModelImpl.getOriginalGroupId(),
-					kbArticleModelImpl.getOriginalMain()
+					kbArticleModelImpl.getCacheModelAttribute("groupId"),
+					kbArticleModelImpl.getCacheModelAttribute("main")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_M, args);
@@ -34281,8 +34285,8 @@ public class KBArticlePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					kbArticleModelImpl.getOriginalGroupId(),
-					kbArticleModelImpl.getOriginalStatus()
+					kbArticleModelImpl.getCacheModelAttribute("groupId"),
+					kbArticleModelImpl.getCacheModelAttribute("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_S, args);
@@ -34304,8 +34308,8 @@ public class KBArticlePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					kbArticleModelImpl.getOriginalCompanyId(),
-					kbArticleModelImpl.getOriginalLatest()
+					kbArticleModelImpl.getCacheModelAttribute("companyId"),
+					kbArticleModelImpl.getCacheModelAttribute("latest")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_L, args);
@@ -34327,8 +34331,8 @@ public class KBArticlePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					kbArticleModelImpl.getOriginalCompanyId(),
-					kbArticleModelImpl.getOriginalMain()
+					kbArticleModelImpl.getCacheModelAttribute("companyId"),
+					kbArticleModelImpl.getCacheModelAttribute("main")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_M, args);
@@ -34350,8 +34354,8 @@ public class KBArticlePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					kbArticleModelImpl.getOriginalCompanyId(),
-					kbArticleModelImpl.getOriginalStatus()
+					kbArticleModelImpl.getCacheModelAttribute("companyId"),
+					kbArticleModelImpl.getCacheModelAttribute("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_S, args);
@@ -34373,8 +34377,9 @@ public class KBArticlePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					kbArticleModelImpl.getOriginalParentResourcePrimKey(),
-					kbArticleModelImpl.getOriginalLatest()
+					kbArticleModelImpl.getCacheModelAttribute(
+						"parentResourcePrimKey"),
+					kbArticleModelImpl.getCacheModelAttribute("latest")
 				};
 
 				finderCache.removeResult(_finderPathCountByP_L, args);
@@ -34396,8 +34401,9 @@ public class KBArticlePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					kbArticleModelImpl.getOriginalParentResourcePrimKey(),
-					kbArticleModelImpl.getOriginalMain()
+					kbArticleModelImpl.getCacheModelAttribute(
+						"parentResourcePrimKey"),
+					kbArticleModelImpl.getCacheModelAttribute("main")
 				};
 
 				finderCache.removeResult(_finderPathCountByP_M, args);
@@ -34419,8 +34425,9 @@ public class KBArticlePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					kbArticleModelImpl.getOriginalParentResourcePrimKey(),
-					kbArticleModelImpl.getOriginalStatus()
+					kbArticleModelImpl.getCacheModelAttribute(
+						"parentResourcePrimKey"),
+					kbArticleModelImpl.getCacheModelAttribute("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByP_S, args);
@@ -34442,9 +34449,10 @@ public class KBArticlePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					kbArticleModelImpl.getOriginalResourcePrimKey(),
-					kbArticleModelImpl.getOriginalGroupId(),
-					kbArticleModelImpl.getOriginalLatest()
+					kbArticleModelImpl.getCacheModelAttribute(
+						"resourcePrimKey"),
+					kbArticleModelImpl.getCacheModelAttribute("groupId"),
+					kbArticleModelImpl.getCacheModelAttribute("latest")
 				};
 
 				finderCache.removeResult(_finderPathCountByR_G_L, args);
@@ -34467,9 +34475,10 @@ public class KBArticlePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					kbArticleModelImpl.getOriginalResourcePrimKey(),
-					kbArticleModelImpl.getOriginalGroupId(),
-					kbArticleModelImpl.getOriginalMain()
+					kbArticleModelImpl.getCacheModelAttribute(
+						"resourcePrimKey"),
+					kbArticleModelImpl.getCacheModelAttribute("groupId"),
+					kbArticleModelImpl.getCacheModelAttribute("main")
 				};
 
 				finderCache.removeResult(_finderPathCountByR_G_M, args);
@@ -34491,9 +34500,10 @@ public class KBArticlePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					kbArticleModelImpl.getOriginalResourcePrimKey(),
-					kbArticleModelImpl.getOriginalGroupId(),
-					kbArticleModelImpl.getOriginalStatus()
+					kbArticleModelImpl.getCacheModelAttribute(
+						"resourcePrimKey"),
+					kbArticleModelImpl.getCacheModelAttribute("groupId"),
+					kbArticleModelImpl.getCacheModelAttribute("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByR_G_S, args);
@@ -34516,9 +34526,10 @@ public class KBArticlePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					kbArticleModelImpl.getOriginalGroupId(),
-					kbArticleModelImpl.getOriginalParentResourcePrimKey(),
-					kbArticleModelImpl.getOriginalLatest()
+					kbArticleModelImpl.getCacheModelAttribute("groupId"),
+					kbArticleModelImpl.getCacheModelAttribute(
+						"parentResourcePrimKey"),
+					kbArticleModelImpl.getCacheModelAttribute("latest")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_P_L, args);
@@ -34541,9 +34552,10 @@ public class KBArticlePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					kbArticleModelImpl.getOriginalGroupId(),
-					kbArticleModelImpl.getOriginalParentResourcePrimKey(),
-					kbArticleModelImpl.getOriginalMain()
+					kbArticleModelImpl.getCacheModelAttribute("groupId"),
+					kbArticleModelImpl.getCacheModelAttribute(
+						"parentResourcePrimKey"),
+					kbArticleModelImpl.getCacheModelAttribute("main")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_P_M, args);
@@ -34566,9 +34578,10 @@ public class KBArticlePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					kbArticleModelImpl.getOriginalGroupId(),
-					kbArticleModelImpl.getOriginalParentResourcePrimKey(),
-					kbArticleModelImpl.getOriginalStatus()
+					kbArticleModelImpl.getCacheModelAttribute("groupId"),
+					kbArticleModelImpl.getCacheModelAttribute(
+						"parentResourcePrimKey"),
+					kbArticleModelImpl.getCacheModelAttribute("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_P_S, args);
@@ -34591,9 +34604,9 @@ public class KBArticlePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kbArticleModelImpl.getOriginalGroupId(),
-					kbArticleModelImpl.getOriginalKbFolderId(),
-					kbArticleModelImpl.getOriginalUrlTitle()
+					kbArticleModelImpl.getCacheModelAttribute("groupId"),
+					kbArticleModelImpl.getCacheModelAttribute("kbFolderId"),
+					kbArticleModelImpl.getCacheModelAttribute("urlTitle")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_KBFI_UT, args);
@@ -34616,9 +34629,9 @@ public class KBArticlePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kbArticleModelImpl.getOriginalGroupId(),
-					kbArticleModelImpl.getOriginalKbFolderId(),
-					kbArticleModelImpl.getOriginalLatest()
+					kbArticleModelImpl.getCacheModelAttribute("groupId"),
+					kbArticleModelImpl.getCacheModelAttribute("kbFolderId"),
+					kbArticleModelImpl.getCacheModelAttribute("latest")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_KBFI_L, args);
@@ -34641,9 +34654,9 @@ public class KBArticlePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kbArticleModelImpl.getOriginalGroupId(),
-					kbArticleModelImpl.getOriginalKbFolderId(),
-					kbArticleModelImpl.getOriginalStatus()
+					kbArticleModelImpl.getCacheModelAttribute("groupId"),
+					kbArticleModelImpl.getCacheModelAttribute("kbFolderId"),
+					kbArticleModelImpl.getCacheModelAttribute("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_KBFI_S, args);
@@ -34666,10 +34679,11 @@ public class KBArticlePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kbArticleModelImpl.getOriginalGroupId(),
-					kbArticleModelImpl.getOriginalParentResourcePrimKey(),
-					kbArticleModelImpl.getOriginalLatest(),
-					kbArticleModelImpl.getOriginalStatus()
+					kbArticleModelImpl.getCacheModelAttribute("groupId"),
+					kbArticleModelImpl.getCacheModelAttribute(
+						"parentResourcePrimKey"),
+					kbArticleModelImpl.getCacheModelAttribute("latest"),
+					kbArticleModelImpl.getCacheModelAttribute("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_P_L_S, args);
@@ -34693,10 +34707,10 @@ public class KBArticlePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kbArticleModelImpl.getOriginalGroupId(),
-					kbArticleModelImpl.getOriginalKbFolderId(),
-					kbArticleModelImpl.getOriginalUrlTitle(),
-					kbArticleModelImpl.getOriginalStatus()
+					kbArticleModelImpl.getCacheModelAttribute("groupId"),
+					kbArticleModelImpl.getCacheModelAttribute("kbFolderId"),
+					kbArticleModelImpl.getCacheModelAttribute("urlTitle"),
+					kbArticleModelImpl.getCacheModelAttribute("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_KBFI_UT_ST, args);

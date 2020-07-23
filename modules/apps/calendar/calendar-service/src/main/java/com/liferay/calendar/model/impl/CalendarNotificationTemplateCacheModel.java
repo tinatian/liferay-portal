@@ -126,6 +126,8 @@ public class CalendarNotificationTemplateCacheModel
 		CalendarNotificationTemplateImpl calendarNotificationTemplateImpl =
 			new CalendarNotificationTemplateImpl();
 
+		calendarNotificationTemplateImpl.setNew(true);
+
 		calendarNotificationTemplateImpl.setMvccVersion(mvccVersion);
 
 		if (uuid == null) {
@@ -213,6 +215,8 @@ public class CalendarNotificationTemplateCacheModel
 		}
 
 		calendarNotificationTemplateImpl.resetOriginalValues();
+
+		calendarNotificationTemplateImpl.setNew(false);
 
 		return calendarNotificationTemplateImpl;
 	}

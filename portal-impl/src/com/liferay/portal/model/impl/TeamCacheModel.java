@@ -113,6 +113,8 @@ public class TeamCacheModel
 	public Team toEntityModel() {
 		TeamImpl teamImpl = new TeamImpl();
 
+		teamImpl.setNew(true);
+
 		teamImpl.setMvccVersion(mvccVersion);
 		teamImpl.setCtCollectionId(ctCollectionId);
 
@@ -172,6 +174,8 @@ public class TeamCacheModel
 		}
 
 		teamImpl.resetOriginalValues();
+
+		teamImpl.setNew(false);
 
 		return teamImpl;
 	}

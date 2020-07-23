@@ -134,6 +134,8 @@ public class KaleoTimerInstanceTokenCacheModel
 		KaleoTimerInstanceTokenImpl kaleoTimerInstanceTokenImpl =
 			new KaleoTimerInstanceTokenImpl();
 
+		kaleoTimerInstanceTokenImpl.setNew(true);
+
 		kaleoTimerInstanceTokenImpl.setMvccVersion(mvccVersion);
 		kaleoTimerInstanceTokenImpl.setKaleoTimerInstanceTokenId(
 			kaleoTimerInstanceTokenId);
@@ -207,6 +209,8 @@ public class KaleoTimerInstanceTokenCacheModel
 		}
 
 		kaleoTimerInstanceTokenImpl.resetOriginalValues();
+
+		kaleoTimerInstanceTokenImpl.setNew(false);
 
 		return kaleoTimerInstanceTokenImpl;
 	}

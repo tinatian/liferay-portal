@@ -483,14 +483,14 @@ public class AccountGroupAccountEntryRelPersistenceTest {
 			Long.valueOf(
 				existingAccountGroupAccountEntryRel.getAccountGroupId()),
 			ReflectionTestUtil.<Long>invoke(
-				existingAccountGroupAccountEntryRel,
-				"getOriginalAccountGroupId", new Class<?>[0]));
+				existingAccountGroupAccountEntryRel, "getCacheModelAttribute",
+				new Class<?>[] {String.class}, accountGroupId));
 		Assert.assertEquals(
 			Long.valueOf(
 				existingAccountGroupAccountEntryRel.getAccountEntryId()),
 			ReflectionTestUtil.<Long>invoke(
-				existingAccountGroupAccountEntryRel,
-				"getOriginalAccountEntryId", new Class<?>[0]));
+				existingAccountGroupAccountEntryRel, "getCacheModelAttribute",
+				new Class<?>[] {String.class}, accountEntryId));
 	}
 
 	protected AccountGroupAccountEntryRel addAccountGroupAccountEntryRel()

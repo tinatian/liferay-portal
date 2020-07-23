@@ -109,6 +109,8 @@ public class ReleaseCacheModel
 	public Release toEntityModel() {
 		ReleaseImpl releaseImpl = new ReleaseImpl();
 
+		releaseImpl.setNew(true);
+
 		releaseImpl.setMvccVersion(mvccVersion);
 		releaseImpl.setReleaseId(releaseId);
 
@@ -160,6 +162,8 @@ public class ReleaseCacheModel
 		}
 
 		releaseImpl.resetOriginalValues();
+
+		releaseImpl.setNew(false);
 
 		return releaseImpl;
 	}

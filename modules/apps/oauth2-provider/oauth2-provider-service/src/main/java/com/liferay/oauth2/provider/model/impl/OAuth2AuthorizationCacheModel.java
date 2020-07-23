@@ -110,6 +110,8 @@ public class OAuth2AuthorizationCacheModel
 		OAuth2AuthorizationImpl oAuth2AuthorizationImpl =
 			new OAuth2AuthorizationImpl();
 
+		oAuth2AuthorizationImpl.setNew(true);
+
 		oAuth2AuthorizationImpl.setOAuth2AuthorizationId(oAuth2AuthorizationId);
 		oAuth2AuthorizationImpl.setCompanyId(companyId);
 		oAuth2AuthorizationImpl.setUserId(userId);
@@ -199,6 +201,8 @@ public class OAuth2AuthorizationCacheModel
 		}
 
 		oAuth2AuthorizationImpl.resetOriginalValues();
+
+		oAuth2AuthorizationImpl.setNew(false);
 
 		return oAuth2AuthorizationImpl;
 	}

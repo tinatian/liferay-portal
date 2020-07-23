@@ -231,25 +231,67 @@ public class LocalizedEntryModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<LocalizedEntry, Object> function =
+			_attributeGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((LocalizedEntry)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<LocalizedEntryCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_localizedEntryCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_localizedEntryCacheModel);
+	}
+
 	private static final Map<String, Function<LocalizedEntry, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<LocalizedEntry, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<LocalizedEntryCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<LocalizedEntry, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<LocalizedEntry, Object>>();
 		Map<String, BiConsumer<LocalizedEntry, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<LocalizedEntry, ?>>();
+		Map<String, Function<LocalizedEntryCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<LocalizedEntryCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"defaultLanguageId", LocalizedEntry::getDefaultLanguageId);
+
+		cacheModelGetterFunctions.put(
+			"defaultLanguageId",
+			localizedEntryCacheModel ->
+				localizedEntryCacheModel.defaultLanguageId);
 		attributeSetterBiConsumers.put(
 			"defaultLanguageId",
 			(BiConsumer<LocalizedEntry, String>)
 				LocalizedEntry::setDefaultLanguageId);
 		attributeGetterFunctions.put(
 			"localizedEntryId", LocalizedEntry::getLocalizedEntryId);
+
+		cacheModelGetterFunctions.put(
+			"localizedEntryId",
+			localizedEntryCacheModel ->
+				localizedEntryCacheModel.localizedEntryId);
 		attributeSetterBiConsumers.put(
 			"localizedEntryId",
 			(BiConsumer<LocalizedEntry, Long>)
@@ -259,6 +301,8 @@ public class LocalizedEntryModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -425,6 +469,11 @@ public class LocalizedEntryModelImpl
 
 	@Override
 	public void setDefaultLanguageId(String defaultLanguageId) {
+		if (!isNew() && (_localizedEntryCacheModel == null)) {
+			_localizedEntryCacheModel =
+				(LocalizedEntryCacheModel)toCacheModel();
+		}
+
 		_defaultLanguageId = defaultLanguageId;
 	}
 
@@ -435,6 +484,11 @@ public class LocalizedEntryModelImpl
 
 	@Override
 	public void setLocalizedEntryId(long localizedEntryId) {
+		if (!isNew() && (_localizedEntryCacheModel == null)) {
+			_localizedEntryCacheModel =
+				(LocalizedEntryCacheModel)toCacheModel();
+		}
+
 		_localizedEntryId = localizedEntryId;
 	}
 
@@ -470,10 +524,14 @@ public class LocalizedEntryModelImpl
 	public Object clone() {
 		LocalizedEntryImpl localizedEntryImpl = new LocalizedEntryImpl();
 
+		localizedEntryImpl.setNew(true);
+
 		localizedEntryImpl.setDefaultLanguageId(getDefaultLanguageId());
 		localizedEntryImpl.setLocalizedEntryId(getLocalizedEntryId());
 
 		localizedEntryImpl.resetOriginalValues();
+
+		localizedEntryImpl.setNew(false);
 
 		return localizedEntryImpl;
 	}
@@ -540,6 +598,7 @@ public class LocalizedEntryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
+		_localizedEntryCacheModel = null;
 	}
 
 	@Override
@@ -633,5 +692,6 @@ public class LocalizedEntryModelImpl
 	private String _defaultLanguageId;
 	private long _localizedEntryId;
 	private LocalizedEntry _escapedModel;
+	private LocalizedEntryCacheModel _localizedEntryCacheModel;
 
 }

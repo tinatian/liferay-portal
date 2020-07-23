@@ -111,6 +111,8 @@ public class MBBanCacheModel
 	public MBBan toEntityModel() {
 		MBBanImpl mbBanImpl = new MBBanImpl();
 
+		mbBanImpl.setNew(true);
+
 		mbBanImpl.setMvccVersion(mvccVersion);
 		mbBanImpl.setCtCollectionId(ctCollectionId);
 
@@ -157,6 +159,8 @@ public class MBBanCacheModel
 		}
 
 		mbBanImpl.resetOriginalValues();
+
+		mbBanImpl.setNew(false);
 
 		return mbBanImpl;
 	}

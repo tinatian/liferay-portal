@@ -120,6 +120,8 @@ public class AccountEntryCacheModel
 	public AccountEntry toEntityModel() {
 		AccountEntryImpl accountEntryImpl = new AccountEntryImpl();
 
+		accountEntryImpl.setNew(true);
+
 		accountEntryImpl.setMvccVersion(mvccVersion);
 
 		if (externalReferenceCode == null) {
@@ -196,6 +198,8 @@ public class AccountEntryCacheModel
 		accountEntryImpl.setStatus(status);
 
 		accountEntryImpl.resetOriginalValues();
+
+		accountEntryImpl.setNew(false);
 
 		return accountEntryImpl;
 	}

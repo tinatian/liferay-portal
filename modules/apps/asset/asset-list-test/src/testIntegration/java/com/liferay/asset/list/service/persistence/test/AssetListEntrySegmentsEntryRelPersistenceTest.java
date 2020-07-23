@@ -577,26 +577,30 @@ public class AssetListEntrySegmentsEntryRelPersistenceTest {
 			Objects.equals(
 				existingAssetListEntrySegmentsEntryRel.getUuid(),
 				ReflectionTestUtil.invoke(
-					existingAssetListEntrySegmentsEntryRel, "getOriginalUuid",
-					new Class<?>[0])));
+					existingAssetListEntrySegmentsEntryRel,
+					"getCacheModelAttribute", new Class<?>[] {String.class},
+					uuid)));
 		Assert.assertEquals(
 			Long.valueOf(existingAssetListEntrySegmentsEntryRel.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
-				existingAssetListEntrySegmentsEntryRel, "getOriginalGroupId",
-				new Class<?>[0]));
+				existingAssetListEntrySegmentsEntryRel,
+				"getCacheModelAttribute", new Class<?>[] {String.class},
+				groupId));
 
 		Assert.assertEquals(
 			Long.valueOf(
 				existingAssetListEntrySegmentsEntryRel.getAssetListEntryId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingAssetListEntrySegmentsEntryRel,
-				"getOriginalAssetListEntryId", new Class<?>[0]));
+				"getCacheModelAttribute", new Class<?>[] {String.class},
+				assetListEntryId));
 		Assert.assertEquals(
 			Long.valueOf(
 				existingAssetListEntrySegmentsEntryRel.getSegmentsEntryId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingAssetListEntrySegmentsEntryRel,
-				"getOriginalSegmentsEntryId", new Class<?>[0]));
+				"getCacheModelAttribute", new Class<?>[] {String.class},
+				segmentsEntryId));
 	}
 
 	protected AssetListEntrySegmentsEntryRel addAssetListEntrySegmentsEntryRel()

@@ -121,6 +121,8 @@ public class WikiNodeCacheModel
 	public WikiNode toEntityModel() {
 		WikiNodeImpl wikiNodeImpl = new WikiNodeImpl();
 
+		wikiNodeImpl.setNew(true);
+
 		wikiNodeImpl.setMvccVersion(mvccVersion);
 
 		if (uuid == null) {
@@ -202,6 +204,8 @@ public class WikiNodeCacheModel
 		}
 
 		wikiNodeImpl.resetOriginalValues();
+
+		wikiNodeImpl.setNew(false);
 
 		return wikiNodeImpl;
 	}

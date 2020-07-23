@@ -31,7 +31,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
@@ -125,13 +124,29 @@ public class LayoutSEOSiteModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 2L;
+	public static final long UUID_COLUMN_BITMASK = 2L;
 
-	public static final long UUID_COLUMN_BITMASK = 4L;
+	public static final long LAYOUTSEOSITEID_COLUMN_BITMASK = 4L;
 
-	public static final long LAYOUTSEOSITEID_COLUMN_BITMASK = 8L;
+	public static final long GROUPID_COLUMN_BITMASK = 8L;
+
+	public static final long COMPANYID_COLUMN_BITMASK = 16L;
+
+	public static final long USERID_COLUMN_BITMASK = 32L;
+
+	public static final long USERNAME_COLUMN_BITMASK = 64L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 128L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 256L;
+
+	public static final long OPENGRAPHENABLED_COLUMN_BITMASK = 512L;
+
+	public static final long OPENGRAPHIMAGEALT_COLUMN_BITMASK = 1024L;
+
+	public static final long OPENGRAPHIMAGEFILEENTRYID_COLUMN_BITMASK = 2048L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -311,64 +326,141 @@ public class LayoutSEOSiteModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<LayoutSEOSite, Object> function =
+			_attributeGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((LayoutSEOSite)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<LayoutSEOSiteCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_layoutSEOSiteCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_layoutSEOSiteCacheModel);
+	}
+
 	private static final Map<String, Function<LayoutSEOSite, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<LayoutSEOSite, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<LayoutSEOSiteCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<LayoutSEOSite, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<LayoutSEOSite, Object>>();
 		Map<String, BiConsumer<LayoutSEOSite, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<LayoutSEOSite, ?>>();
+		Map<String, Function<LayoutSEOSiteCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<LayoutSEOSiteCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", LayoutSEOSite::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			layoutSEOSiteCacheModel -> layoutSEOSiteCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<LayoutSEOSite, Long>)LayoutSEOSite::setMvccVersion);
 		attributeGetterFunctions.put("uuid", LayoutSEOSite::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid", layoutSEOSiteCacheModel -> layoutSEOSiteCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<LayoutSEOSite, String>)LayoutSEOSite::setUuid);
 		attributeGetterFunctions.put(
 			"layoutSEOSiteId", LayoutSEOSite::getLayoutSEOSiteId);
+
+		cacheModelGetterFunctions.put(
+			"layoutSEOSiteId",
+			layoutSEOSiteCacheModel -> layoutSEOSiteCacheModel.layoutSEOSiteId);
 		attributeSetterBiConsumers.put(
 			"layoutSEOSiteId",
 			(BiConsumer<LayoutSEOSite, Long>)LayoutSEOSite::setLayoutSEOSiteId);
 		attributeGetterFunctions.put("groupId", LayoutSEOSite::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			layoutSEOSiteCacheModel -> layoutSEOSiteCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<LayoutSEOSite, Long>)LayoutSEOSite::setGroupId);
 		attributeGetterFunctions.put("companyId", LayoutSEOSite::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			layoutSEOSiteCacheModel -> layoutSEOSiteCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<LayoutSEOSite, Long>)LayoutSEOSite::setCompanyId);
 		attributeGetterFunctions.put("userId", LayoutSEOSite::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			layoutSEOSiteCacheModel -> layoutSEOSiteCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<LayoutSEOSite, Long>)LayoutSEOSite::setUserId);
 		attributeGetterFunctions.put("userName", LayoutSEOSite::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			layoutSEOSiteCacheModel -> layoutSEOSiteCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<LayoutSEOSite, String>)LayoutSEOSite::setUserName);
 		attributeGetterFunctions.put(
 			"createDate", LayoutSEOSite::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			layoutSEOSiteCacheModel -> layoutSEOSiteCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<LayoutSEOSite, Date>)LayoutSEOSite::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", LayoutSEOSite::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			layoutSEOSiteCacheModel -> layoutSEOSiteCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<LayoutSEOSite, Date>)LayoutSEOSite::setModifiedDate);
 		attributeGetterFunctions.put(
 			"openGraphEnabled", LayoutSEOSite::getOpenGraphEnabled);
+
+		cacheModelGetterFunctions.put(
+			"openGraphEnabled",
+			layoutSEOSiteCacheModel ->
+				layoutSEOSiteCacheModel.openGraphEnabled);
 		attributeSetterBiConsumers.put(
 			"openGraphEnabled",
 			(BiConsumer<LayoutSEOSite, Boolean>)
 				LayoutSEOSite::setOpenGraphEnabled);
 		attributeGetterFunctions.put(
 			"openGraphImageAlt", LayoutSEOSite::getOpenGraphImageAlt);
+
+		cacheModelGetterFunctions.put(
+			"openGraphImageAlt",
+			layoutSEOSiteCacheModel ->
+				layoutSEOSiteCacheModel.openGraphImageAlt);
 		attributeSetterBiConsumers.put(
 			"openGraphImageAlt",
 			(BiConsumer<LayoutSEOSite, String>)
@@ -376,6 +468,11 @@ public class LayoutSEOSiteModelImpl
 		attributeGetterFunctions.put(
 			"openGraphImageFileEntryId",
 			LayoutSEOSite::getOpenGraphImageFileEntryId);
+
+		cacheModelGetterFunctions.put(
+			"openGraphImageFileEntryId",
+			layoutSEOSiteCacheModel ->
+				layoutSEOSiteCacheModel.openGraphImageFileEntryId);
 		attributeSetterBiConsumers.put(
 			"openGraphImageFileEntryId",
 			(BiConsumer<LayoutSEOSite, Long>)
@@ -385,6 +482,8 @@ public class LayoutSEOSiteModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -395,6 +494,12 @@ public class LayoutSEOSiteModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_layoutSEOSiteCacheModel == null)) {
+			_layoutSEOSiteCacheModel = (LayoutSEOSiteCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -413,15 +518,20 @@ public class LayoutSEOSiteModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (!isNew() && (_layoutSEOSiteCacheModel == null)) {
+			_layoutSEOSiteCacheModel = (LayoutSEOSiteCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getCacheModelAttribute("uuid");
 	}
 
 	@JSON
@@ -432,6 +542,12 @@ public class LayoutSEOSiteModelImpl
 
 	@Override
 	public void setLayoutSEOSiteId(long layoutSEOSiteId) {
+		_columnBitmask |= LAYOUTSEOSITEID_COLUMN_BITMASK;
+
+		if (!isNew() && (_layoutSEOSiteCacheModel == null)) {
+			_layoutSEOSiteCacheModel = (LayoutSEOSiteCacheModel)toCacheModel();
+		}
+
 		_layoutSEOSiteId = layoutSEOSiteId;
 	}
 
@@ -445,17 +561,20 @@ public class LayoutSEOSiteModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (!isNew() && (_layoutSEOSiteCacheModel == null)) {
+			_layoutSEOSiteCacheModel = (LayoutSEOSiteCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getCacheModelAttribute("groupId");
 	}
 
 	@JSON
@@ -468,17 +587,20 @@ public class LayoutSEOSiteModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (!isNew() && (_layoutSEOSiteCacheModel == null)) {
+			_layoutSEOSiteCacheModel = (LayoutSEOSiteCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getCacheModelAttribute("companyId");
 	}
 
 	@JSON
@@ -489,6 +611,12 @@ public class LayoutSEOSiteModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_layoutSEOSiteCacheModel == null)) {
+			_layoutSEOSiteCacheModel = (LayoutSEOSiteCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -521,6 +649,12 @@ public class LayoutSEOSiteModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_layoutSEOSiteCacheModel == null)) {
+			_layoutSEOSiteCacheModel = (LayoutSEOSiteCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -532,6 +666,12 @@ public class LayoutSEOSiteModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_layoutSEOSiteCacheModel == null)) {
+			_layoutSEOSiteCacheModel = (LayoutSEOSiteCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -548,6 +688,12 @@ public class LayoutSEOSiteModelImpl
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
+
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_layoutSEOSiteCacheModel == null)) {
+			_layoutSEOSiteCacheModel = (LayoutSEOSiteCacheModel)toCacheModel();
+		}
 
 		_modifiedDate = modifiedDate;
 	}
@@ -566,6 +712,12 @@ public class LayoutSEOSiteModelImpl
 
 	@Override
 	public void setOpenGraphEnabled(boolean openGraphEnabled) {
+		_columnBitmask |= OPENGRAPHENABLED_COLUMN_BITMASK;
+
+		if (!isNew() && (_layoutSEOSiteCacheModel == null)) {
+			_layoutSEOSiteCacheModel = (LayoutSEOSiteCacheModel)toCacheModel();
+		}
+
 		_openGraphEnabled = openGraphEnabled;
 	}
 
@@ -626,6 +778,12 @@ public class LayoutSEOSiteModelImpl
 
 	@Override
 	public void setOpenGraphImageAlt(String openGraphImageAlt) {
+		_columnBitmask |= OPENGRAPHIMAGEALT_COLUMN_BITMASK;
+
+		if (!isNew() && (_layoutSEOSiteCacheModel == null)) {
+			_layoutSEOSiteCacheModel = (LayoutSEOSiteCacheModel)toCacheModel();
+		}
+
 		_openGraphImageAlt = openGraphImageAlt;
 	}
 
@@ -690,6 +848,12 @@ public class LayoutSEOSiteModelImpl
 
 	@Override
 	public void setOpenGraphImageFileEntryId(long openGraphImageFileEntryId) {
+		_columnBitmask |= OPENGRAPHIMAGEFILEENTRYID_COLUMN_BITMASK;
+
+		if (!isNew() && (_layoutSEOSiteCacheModel == null)) {
+			_layoutSEOSiteCacheModel = (LayoutSEOSiteCacheModel)toCacheModel();
+		}
+
 		_openGraphImageFileEntryId = openGraphImageFileEntryId;
 	}
 
@@ -806,6 +970,8 @@ public class LayoutSEOSiteModelImpl
 	public Object clone() {
 		LayoutSEOSiteImpl layoutSEOSiteImpl = new LayoutSEOSiteImpl();
 
+		layoutSEOSiteImpl.setNew(true);
+
 		layoutSEOSiteImpl.setMvccVersion(getMvccVersion());
 		layoutSEOSiteImpl.setUuid(getUuid());
 		layoutSEOSiteImpl.setLayoutSEOSiteId(getLayoutSEOSiteId());
@@ -821,6 +987,8 @@ public class LayoutSEOSiteModelImpl
 			getOpenGraphImageFileEntryId());
 
 		layoutSEOSiteImpl.resetOriginalValues();
+
+		layoutSEOSiteImpl.setNew(false);
 
 		return layoutSEOSiteImpl;
 	}
@@ -887,23 +1055,11 @@ public class LayoutSEOSiteModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		LayoutSEOSiteModelImpl layoutSEOSiteModelImpl = this;
+		_setModifiedDate = false;
 
-		layoutSEOSiteModelImpl._originalUuid = layoutSEOSiteModelImpl._uuid;
+		_columnBitmask = 0;
 
-		layoutSEOSiteModelImpl._originalGroupId =
-			layoutSEOSiteModelImpl._groupId;
-
-		layoutSEOSiteModelImpl._setOriginalGroupId = false;
-
-		layoutSEOSiteModelImpl._originalCompanyId =
-			layoutSEOSiteModelImpl._companyId;
-
-		layoutSEOSiteModelImpl._setOriginalCompanyId = false;
-
-		layoutSEOSiteModelImpl._setModifiedDate = false;
-
-		layoutSEOSiteModelImpl._columnBitmask = 0;
+		_layoutSEOSiteCacheModel = null;
 	}
 
 	@Override
@@ -1043,14 +1199,9 @@ public class LayoutSEOSiteModelImpl
 
 	private long _mvccVersion;
 	private String _uuid;
-	private String _originalUuid;
 	private long _layoutSEOSiteId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
@@ -1062,5 +1213,6 @@ public class LayoutSEOSiteModelImpl
 	private long _openGraphImageFileEntryId;
 	private long _columnBitmask;
 	private LayoutSEOSite _escapedModel;
+	private LayoutSEOSiteCacheModel _layoutSEOSiteCacheModel;
 
 }

@@ -76,6 +76,8 @@ public class LazyBlobEntityCacheModel
 	public LazyBlobEntity toEntityModel() {
 		LazyBlobEntityImpl lazyBlobEntityImpl = new LazyBlobEntityImpl();
 
+		lazyBlobEntityImpl.setNew(true);
+
 		if (uuid == null) {
 			lazyBlobEntityImpl.setUuid("");
 		}
@@ -87,6 +89,8 @@ public class LazyBlobEntityCacheModel
 		lazyBlobEntityImpl.setGroupId(groupId);
 
 		lazyBlobEntityImpl.resetOriginalValues();
+
+		lazyBlobEntityImpl.setNew(false);
 
 		return lazyBlobEntityImpl;
 	}

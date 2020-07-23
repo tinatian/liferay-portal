@@ -4884,7 +4884,7 @@ public class AddressPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					addressModelImpl.getOriginalUuid()
+					addressModelImpl.getCacheModelAttribute("uuid")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid, args);
@@ -4903,8 +4903,8 @@ public class AddressPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					addressModelImpl.getOriginalUuid(),
-					addressModelImpl.getOriginalCompanyId()
+					addressModelImpl.getCacheModelAttribute("uuid"),
+					addressModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid_C, args);
@@ -4925,7 +4925,7 @@ public class AddressPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					addressModelImpl.getOriginalCompanyId()
+					addressModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
@@ -4944,7 +4944,7 @@ public class AddressPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					addressModelImpl.getOriginalUserId()
+					addressModelImpl.getCacheModelAttribute("userId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUserId, args);
@@ -4963,8 +4963,8 @@ public class AddressPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					addressModelImpl.getOriginalCompanyId(),
-					addressModelImpl.getOriginalClassNameId()
+					addressModelImpl.getCacheModelAttribute("companyId"),
+					addressModelImpl.getCacheModelAttribute("classNameId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_C, args);
@@ -4986,9 +4986,9 @@ public class AddressPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					addressModelImpl.getOriginalCompanyId(),
-					addressModelImpl.getOriginalClassNameId(),
-					addressModelImpl.getOriginalClassPK()
+					addressModelImpl.getCacheModelAttribute("companyId"),
+					addressModelImpl.getCacheModelAttribute("classNameId"),
+					addressModelImpl.getCacheModelAttribute("classPK")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_C_C, args);
@@ -5011,10 +5011,10 @@ public class AddressPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					addressModelImpl.getOriginalCompanyId(),
-					addressModelImpl.getOriginalClassNameId(),
-					addressModelImpl.getOriginalClassPK(),
-					addressModelImpl.getOriginalMailing()
+					addressModelImpl.getCacheModelAttribute("companyId"),
+					addressModelImpl.getCacheModelAttribute("classNameId"),
+					addressModelImpl.getCacheModelAttribute("classPK"),
+					addressModelImpl.getCacheModelAttribute("mailing")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_C_C_M, args);
@@ -5037,10 +5037,10 @@ public class AddressPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					addressModelImpl.getOriginalCompanyId(),
-					addressModelImpl.getOriginalClassNameId(),
-					addressModelImpl.getOriginalClassPK(),
-					addressModelImpl.getOriginalPrimary()
+					addressModelImpl.getCacheModelAttribute("companyId"),
+					addressModelImpl.getCacheModelAttribute("classNameId"),
+					addressModelImpl.getCacheModelAttribute("classPK"),
+					addressModelImpl.getCacheModelAttribute("primary")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_C_C_P, args);

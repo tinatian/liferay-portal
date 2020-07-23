@@ -96,6 +96,8 @@ public class SAPEntryCacheModel
 	public SAPEntry toEntityModel() {
 		SAPEntryImpl sapEntryImpl = new SAPEntryImpl();
 
+		sapEntryImpl.setNew(true);
+
 		if (uuid == null) {
 			sapEntryImpl.setUuid("");
 		}
@@ -153,6 +155,8 @@ public class SAPEntryCacheModel
 		}
 
 		sapEntryImpl.resetOriginalValues();
+
+		sapEntryImpl.setNew(false);
 
 		return sapEntryImpl;
 	}

@@ -2710,7 +2710,8 @@ public class KaleoNotificationPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoNotificationModelImpl.getOriginalCompanyId()
+					kaleoNotificationModelImpl.getCacheModelAttribute(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCompanyId, args);
@@ -2729,8 +2730,8 @@ public class KaleoNotificationPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoNotificationModelImpl.
-						getOriginalKaleoDefinitionVersionId()
+					kaleoNotificationModelImpl.getCacheModelAttribute(
+						"kaleoDefinitionVersionId")
 				};
 
 				finderCache.removeResult(
@@ -2755,8 +2756,10 @@ public class KaleoNotificationPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoNotificationModelImpl.getOriginalKaleoClassName(),
-					kaleoNotificationModelImpl.getOriginalKaleoClassPK()
+					kaleoNotificationModelImpl.getCacheModelAttribute(
+						"kaleoClassName"),
+					kaleoNotificationModelImpl.getCacheModelAttribute(
+						"kaleoClassPK")
 				};
 
 				finderCache.removeResult(_finderPathCountByKCN_KCPK, args);
@@ -2778,9 +2781,12 @@ public class KaleoNotificationPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoNotificationModelImpl.getOriginalKaleoClassName(),
-					kaleoNotificationModelImpl.getOriginalKaleoClassPK(),
-					kaleoNotificationModelImpl.getOriginalExecutionType()
+					kaleoNotificationModelImpl.getCacheModelAttribute(
+						"kaleoClassName"),
+					kaleoNotificationModelImpl.getCacheModelAttribute(
+						"kaleoClassPK"),
+					kaleoNotificationModelImpl.getCacheModelAttribute(
+						"executionType")
 				};
 
 				finderCache.removeResult(_finderPathCountByKCN_KCPK_ET, args);

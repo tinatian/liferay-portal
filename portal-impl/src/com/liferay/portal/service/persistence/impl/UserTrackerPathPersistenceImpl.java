@@ -859,7 +859,8 @@ public class UserTrackerPathPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					userTrackerPathModelImpl.getOriginalUserTrackerId()
+					userTrackerPathModelImpl.getCacheModelAttribute(
+						"userTrackerId")
 				};
 
 				FinderCacheUtil.removeResult(

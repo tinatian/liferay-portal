@@ -125,13 +125,27 @@ public class AssetLinkModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long ENTRYID1_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long ENTRYID2_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
-	public static final long TYPE_COLUMN_BITMASK = 4L;
+	public static final long LINKID_COLUMN_BITMASK = 4L;
 
-	public static final long WEIGHT_COLUMN_BITMASK = 8L;
+	public static final long COMPANYID_COLUMN_BITMASK = 8L;
+
+	public static final long USERID_COLUMN_BITMASK = 16L;
+
+	public static final long USERNAME_COLUMN_BITMASK = 32L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 64L;
+
+	public static final long ENTRYID1_COLUMN_BITMASK = 128L;
+
+	public static final long ENTRYID2_COLUMN_BITMASK = 256L;
+
+	public static final long TYPE_COLUMN_BITMASK = 512L;
+
+	public static final long WEIGHT_COLUMN_BITMASK = 1024L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		com.liferay.portal.util.PropsUtil.get(
@@ -249,52 +263,120 @@ public class AssetLinkModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<AssetLink, Object> function = _attributeGetterFunctions.get(
+			attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((AssetLink)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<AssetLinkCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_assetLinkCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_assetLinkCacheModel);
+	}
+
 	private static final Map<String, Function<AssetLink, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<AssetLink, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<AssetLinkCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<AssetLink, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<AssetLink, Object>>();
 		Map<String, BiConsumer<AssetLink, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<AssetLink, ?>>();
+		Map<String, Function<AssetLinkCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<AssetLinkCacheModel, Object>>();
 
 		attributeGetterFunctions.put("mvccVersion", AssetLink::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			assetLinkCacheModel -> assetLinkCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<AssetLink, Long>)AssetLink::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", AssetLink::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			assetLinkCacheModel -> assetLinkCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<AssetLink, Long>)AssetLink::setCtCollectionId);
 		attributeGetterFunctions.put("linkId", AssetLink::getLinkId);
+
+		cacheModelGetterFunctions.put(
+			"linkId", assetLinkCacheModel -> assetLinkCacheModel.linkId);
 		attributeSetterBiConsumers.put(
 			"linkId", (BiConsumer<AssetLink, Long>)AssetLink::setLinkId);
 		attributeGetterFunctions.put("companyId", AssetLink::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId", assetLinkCacheModel -> assetLinkCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId", (BiConsumer<AssetLink, Long>)AssetLink::setCompanyId);
 		attributeGetterFunctions.put("userId", AssetLink::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", assetLinkCacheModel -> assetLinkCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<AssetLink, Long>)AssetLink::setUserId);
 		attributeGetterFunctions.put("userName", AssetLink::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName", assetLinkCacheModel -> assetLinkCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName", (BiConsumer<AssetLink, String>)AssetLink::setUserName);
 		attributeGetterFunctions.put("createDate", AssetLink::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			assetLinkCacheModel -> assetLinkCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<AssetLink, Date>)AssetLink::setCreateDate);
 		attributeGetterFunctions.put("entryId1", AssetLink::getEntryId1);
+
+		cacheModelGetterFunctions.put(
+			"entryId1", assetLinkCacheModel -> assetLinkCacheModel.entryId1);
 		attributeSetterBiConsumers.put(
 			"entryId1", (BiConsumer<AssetLink, Long>)AssetLink::setEntryId1);
 		attributeGetterFunctions.put("entryId2", AssetLink::getEntryId2);
+
+		cacheModelGetterFunctions.put(
+			"entryId2", assetLinkCacheModel -> assetLinkCacheModel.entryId2);
 		attributeSetterBiConsumers.put(
 			"entryId2", (BiConsumer<AssetLink, Long>)AssetLink::setEntryId2);
 		attributeGetterFunctions.put("type", AssetLink::getType);
+
+		cacheModelGetterFunctions.put(
+			"type", assetLinkCacheModel -> assetLinkCacheModel.type);
 		attributeSetterBiConsumers.put(
 			"type", (BiConsumer<AssetLink, Integer>)AssetLink::setType);
 		attributeGetterFunctions.put("weight", AssetLink::getWeight);
+
+		cacheModelGetterFunctions.put(
+			"weight", assetLinkCacheModel -> assetLinkCacheModel.weight);
 		attributeSetterBiConsumers.put(
 			"weight", (BiConsumer<AssetLink, Integer>)AssetLink::setWeight);
 
@@ -302,6 +384,8 @@ public class AssetLinkModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -311,6 +395,12 @@ public class AssetLinkModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_assetLinkCacheModel == null)) {
+			_assetLinkCacheModel = (AssetLinkCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -321,6 +411,12 @@ public class AssetLinkModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (!isNew() && (_assetLinkCacheModel == null)) {
+			_assetLinkCacheModel = (AssetLinkCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -331,6 +427,12 @@ public class AssetLinkModelImpl
 
 	@Override
 	public void setLinkId(long linkId) {
+		_columnBitmask |= LINKID_COLUMN_BITMASK;
+
+		if (!isNew() && (_assetLinkCacheModel == null)) {
+			_assetLinkCacheModel = (AssetLinkCacheModel)toCacheModel();
+		}
+
 		_linkId = linkId;
 	}
 
@@ -341,6 +443,12 @@ public class AssetLinkModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (!isNew() && (_assetLinkCacheModel == null)) {
+			_assetLinkCacheModel = (AssetLinkCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -351,6 +459,12 @@ public class AssetLinkModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_assetLinkCacheModel == null)) {
+			_assetLinkCacheModel = (AssetLinkCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -382,6 +496,12 @@ public class AssetLinkModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_assetLinkCacheModel == null)) {
+			_assetLinkCacheModel = (AssetLinkCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -392,6 +512,12 @@ public class AssetLinkModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_assetLinkCacheModel == null)) {
+			_assetLinkCacheModel = (AssetLinkCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -404,17 +530,20 @@ public class AssetLinkModelImpl
 	public void setEntryId1(long entryId1) {
 		_columnBitmask |= ENTRYID1_COLUMN_BITMASK;
 
-		if (!_setOriginalEntryId1) {
-			_setOriginalEntryId1 = true;
-
-			_originalEntryId1 = _entryId1;
+		if (!isNew() && (_assetLinkCacheModel == null)) {
+			_assetLinkCacheModel = (AssetLinkCacheModel)toCacheModel();
 		}
 
 		_entryId1 = entryId1;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalEntryId1() {
-		return _originalEntryId1;
+		return getCacheModelAttribute("entryId1");
 	}
 
 	@Override
@@ -426,17 +555,20 @@ public class AssetLinkModelImpl
 	public void setEntryId2(long entryId2) {
 		_columnBitmask |= ENTRYID2_COLUMN_BITMASK;
 
-		if (!_setOriginalEntryId2) {
-			_setOriginalEntryId2 = true;
-
-			_originalEntryId2 = _entryId2;
+		if (!isNew() && (_assetLinkCacheModel == null)) {
+			_assetLinkCacheModel = (AssetLinkCacheModel)toCacheModel();
 		}
 
 		_entryId2 = entryId2;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalEntryId2() {
-		return _originalEntryId2;
+		return getCacheModelAttribute("entryId2");
 	}
 
 	@Override
@@ -448,17 +580,20 @@ public class AssetLinkModelImpl
 	public void setType(int type) {
 		_columnBitmask |= TYPE_COLUMN_BITMASK;
 
-		if (!_setOriginalType) {
-			_setOriginalType = true;
-
-			_originalType = _type;
+		if (!isNew() && (_assetLinkCacheModel == null)) {
+			_assetLinkCacheModel = (AssetLinkCacheModel)toCacheModel();
 		}
 
 		_type = type;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public int getOriginalType() {
-		return _originalType;
+		return getCacheModelAttribute("type");
 	}
 
 	@Override
@@ -468,7 +603,11 @@ public class AssetLinkModelImpl
 
 	@Override
 	public void setWeight(int weight) {
-		_columnBitmask = -1L;
+		_columnBitmask |= WEIGHT_COLUMN_BITMASK;
+
+		if (!isNew() && (_assetLinkCacheModel == null)) {
+			_assetLinkCacheModel = (AssetLinkCacheModel)toCacheModel();
+		}
 
 		_weight = weight;
 	}
@@ -509,6 +648,8 @@ public class AssetLinkModelImpl
 	public Object clone() {
 		AssetLinkImpl assetLinkImpl = new AssetLinkImpl();
 
+		assetLinkImpl.setNew(true);
+
 		assetLinkImpl.setMvccVersion(getMvccVersion());
 		assetLinkImpl.setCtCollectionId(getCtCollectionId());
 		assetLinkImpl.setLinkId(getLinkId());
@@ -522,6 +663,8 @@ public class AssetLinkModelImpl
 		assetLinkImpl.setWeight(getWeight());
 
 		assetLinkImpl.resetOriginalValues();
+
+		assetLinkImpl.setNew(false);
 
 		return assetLinkImpl;
 	}
@@ -594,21 +737,9 @@ public class AssetLinkModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		AssetLinkModelImpl assetLinkModelImpl = this;
+		_columnBitmask = 0;
 
-		assetLinkModelImpl._originalEntryId1 = assetLinkModelImpl._entryId1;
-
-		assetLinkModelImpl._setOriginalEntryId1 = false;
-
-		assetLinkModelImpl._originalEntryId2 = assetLinkModelImpl._entryId2;
-
-		assetLinkModelImpl._setOriginalEntryId2 = false;
-
-		assetLinkModelImpl._originalType = assetLinkModelImpl._type;
-
-		assetLinkModelImpl._setOriginalType = false;
-
-		assetLinkModelImpl._columnBitmask = 0;
+		_assetLinkCacheModel = null;
 	}
 
 	@Override
@@ -731,16 +862,11 @@ public class AssetLinkModelImpl
 	private String _userName;
 	private Date _createDate;
 	private long _entryId1;
-	private long _originalEntryId1;
-	private boolean _setOriginalEntryId1;
 	private long _entryId2;
-	private long _originalEntryId2;
-	private boolean _setOriginalEntryId2;
 	private int _type;
-	private int _originalType;
-	private boolean _setOriginalType;
 	private int _weight;
 	private long _columnBitmask;
 	private AssetLink _escapedModel;
+	private AssetLinkCacheModel _assetLinkCacheModel;
 
 }

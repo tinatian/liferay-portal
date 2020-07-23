@@ -114,11 +114,15 @@ public class PortalPreferencesModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long OWNERID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long OWNERTYPE_COLUMN_BITMASK = 2L;
+	public static final long PORTALPREFERENCESID_COLUMN_BITMASK = 2L;
 
-	public static final long PORTALPREFERENCESID_COLUMN_BITMASK = 4L;
+	public static final long OWNERID_COLUMN_BITMASK = 4L;
+
+	public static final long OWNERTYPE_COLUMN_BITMASK = 8L;
+
+	public static final long PREFERENCES_COLUMN_BITMASK = 16L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		com.liferay.portal.util.PropsUtil.get(
@@ -237,10 +241,39 @@ public class PortalPreferencesModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<PortalPreferences, Object> function =
+			_attributeGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((PortalPreferences)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<PortalPreferencesCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_portalPreferencesCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_portalPreferencesCacheModel);
+	}
+
 	private static final Map<String, Function<PortalPreferences, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<PortalPreferences, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<PortalPreferencesCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<PortalPreferences, Object>>
@@ -250,31 +283,59 @@ public class PortalPreferencesModelImpl
 		Map<String, BiConsumer<PortalPreferences, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<PortalPreferences, ?>>();
+		Map<String, Function<PortalPreferencesCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<PortalPreferencesCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", PortalPreferences::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			portalPreferencesCacheModel ->
+				portalPreferencesCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<PortalPreferences, Long>)
 				PortalPreferences::setMvccVersion);
 		attributeGetterFunctions.put(
 			"portalPreferencesId", PortalPreferences::getPortalPreferencesId);
+
+		cacheModelGetterFunctions.put(
+			"portalPreferencesId",
+			portalPreferencesCacheModel ->
+				portalPreferencesCacheModel.portalPreferencesId);
 		attributeSetterBiConsumers.put(
 			"portalPreferencesId",
 			(BiConsumer<PortalPreferences, Long>)
 				PortalPreferences::setPortalPreferencesId);
 		attributeGetterFunctions.put("ownerId", PortalPreferences::getOwnerId);
+
+		cacheModelGetterFunctions.put(
+			"ownerId",
+			portalPreferencesCacheModel -> portalPreferencesCacheModel.ownerId);
 		attributeSetterBiConsumers.put(
 			"ownerId",
 			(BiConsumer<PortalPreferences, Long>)PortalPreferences::setOwnerId);
 		attributeGetterFunctions.put(
 			"ownerType", PortalPreferences::getOwnerType);
+
+		cacheModelGetterFunctions.put(
+			"ownerType",
+			portalPreferencesCacheModel ->
+				portalPreferencesCacheModel.ownerType);
 		attributeSetterBiConsumers.put(
 			"ownerType",
 			(BiConsumer<PortalPreferences, Integer>)
 				PortalPreferences::setOwnerType);
 		attributeGetterFunctions.put(
 			"preferences", PortalPreferences::getPreferences);
+
+		cacheModelGetterFunctions.put(
+			"preferences",
+			portalPreferencesCacheModel ->
+				portalPreferencesCacheModel.preferences);
 		attributeSetterBiConsumers.put(
 			"preferences",
 			(BiConsumer<PortalPreferences, String>)
@@ -284,6 +345,8 @@ public class PortalPreferencesModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -293,6 +356,13 @@ public class PortalPreferencesModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_portalPreferencesCacheModel == null)) {
+			_portalPreferencesCacheModel =
+				(PortalPreferencesCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -303,6 +373,13 @@ public class PortalPreferencesModelImpl
 
 	@Override
 	public void setPortalPreferencesId(long portalPreferencesId) {
+		_columnBitmask |= PORTALPREFERENCESID_COLUMN_BITMASK;
+
+		if (!isNew() && (_portalPreferencesCacheModel == null)) {
+			_portalPreferencesCacheModel =
+				(PortalPreferencesCacheModel)toCacheModel();
+		}
+
 		_portalPreferencesId = portalPreferencesId;
 	}
 
@@ -315,17 +392,21 @@ public class PortalPreferencesModelImpl
 	public void setOwnerId(long ownerId) {
 		_columnBitmask |= OWNERID_COLUMN_BITMASK;
 
-		if (!_setOriginalOwnerId) {
-			_setOriginalOwnerId = true;
-
-			_originalOwnerId = _ownerId;
+		if (!isNew() && (_portalPreferencesCacheModel == null)) {
+			_portalPreferencesCacheModel =
+				(PortalPreferencesCacheModel)toCacheModel();
 		}
 
 		_ownerId = ownerId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalOwnerId() {
-		return _originalOwnerId;
+		return getCacheModelAttribute("ownerId");
 	}
 
 	@Override
@@ -337,17 +418,21 @@ public class PortalPreferencesModelImpl
 	public void setOwnerType(int ownerType) {
 		_columnBitmask |= OWNERTYPE_COLUMN_BITMASK;
 
-		if (!_setOriginalOwnerType) {
-			_setOriginalOwnerType = true;
-
-			_originalOwnerType = _ownerType;
+		if (!isNew() && (_portalPreferencesCacheModel == null)) {
+			_portalPreferencesCacheModel =
+				(PortalPreferencesCacheModel)toCacheModel();
 		}
 
 		_ownerType = ownerType;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public int getOriginalOwnerType() {
-		return _originalOwnerType;
+		return getCacheModelAttribute("ownerType");
 	}
 
 	@Override
@@ -362,6 +447,13 @@ public class PortalPreferencesModelImpl
 
 	@Override
 	public void setPreferences(String preferences) {
+		_columnBitmask |= PREFERENCES_COLUMN_BITMASK;
+
+		if (!isNew() && (_portalPreferencesCacheModel == null)) {
+			_portalPreferencesCacheModel =
+				(PortalPreferencesCacheModel)toCacheModel();
+		}
+
 		_preferences = preferences;
 	}
 
@@ -402,6 +494,8 @@ public class PortalPreferencesModelImpl
 		PortalPreferencesImpl portalPreferencesImpl =
 			new PortalPreferencesImpl();
 
+		portalPreferencesImpl.setNew(true);
+
 		portalPreferencesImpl.setMvccVersion(getMvccVersion());
 		portalPreferencesImpl.setPortalPreferencesId(getPortalPreferencesId());
 		portalPreferencesImpl.setOwnerId(getOwnerId());
@@ -409,6 +503,8 @@ public class PortalPreferencesModelImpl
 		portalPreferencesImpl.setPreferences(getPreferences());
 
 		portalPreferencesImpl.resetOriginalValues();
+
+		portalPreferencesImpl.setNew(false);
 
 		return portalPreferencesImpl;
 	}
@@ -475,19 +571,9 @@ public class PortalPreferencesModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		PortalPreferencesModelImpl portalPreferencesModelImpl = this;
+		_columnBitmask = 0;
 
-		portalPreferencesModelImpl._originalOwnerId =
-			portalPreferencesModelImpl._ownerId;
-
-		portalPreferencesModelImpl._setOriginalOwnerId = false;
-
-		portalPreferencesModelImpl._originalOwnerType =
-			portalPreferencesModelImpl._ownerType;
-
-		portalPreferencesModelImpl._setOriginalOwnerType = false;
-
-		portalPreferencesModelImpl._columnBitmask = 0;
+		_portalPreferencesCacheModel = null;
 	}
 
 	@Override
@@ -588,13 +674,10 @@ public class PortalPreferencesModelImpl
 	private long _mvccVersion;
 	private long _portalPreferencesId;
 	private long _ownerId;
-	private long _originalOwnerId;
-	private boolean _setOriginalOwnerId;
 	private int _ownerType;
-	private int _originalOwnerType;
-	private boolean _setOriginalOwnerType;
 	private String _preferences;
 	private long _columnBitmask;
 	private PortalPreferences _escapedModel;
+	private PortalPreferencesCacheModel _portalPreferencesCacheModel;
 
 }

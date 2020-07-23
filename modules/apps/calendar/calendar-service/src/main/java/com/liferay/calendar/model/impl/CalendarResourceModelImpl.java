@@ -31,7 +31,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
@@ -132,19 +131,39 @@ public class CalendarResourceModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long ACTIVE_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long CLASSNAMEID_COLUMN_BITMASK = 2L;
+	public static final long UUID_COLUMN_BITMASK = 2L;
 
-	public static final long CLASSPK_COLUMN_BITMASK = 4L;
+	public static final long CALENDARRESOURCEID_COLUMN_BITMASK = 4L;
 
-	public static final long CODE_COLUMN_BITMASK = 8L;
+	public static final long GROUPID_COLUMN_BITMASK = 8L;
 
 	public static final long COMPANYID_COLUMN_BITMASK = 16L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 32L;
+	public static final long USERID_COLUMN_BITMASK = 32L;
 
-	public static final long UUID_COLUMN_BITMASK = 64L;
+	public static final long USERNAME_COLUMN_BITMASK = 64L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 128L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 256L;
+
+	public static final long CLASSNAMEID_COLUMN_BITMASK = 512L;
+
+	public static final long CLASSPK_COLUMN_BITMASK = 1024L;
+
+	public static final long CLASSUUID_COLUMN_BITMASK = 2048L;
+
+	public static final long CODE_COLUMN_BITMASK = 4096L;
+
+	public static final long NAME_COLUMN_BITMASK = 8192L;
+
+	public static final long DESCRIPTION_COLUMN_BITMASK = 16384L;
+
+	public static final long ACTIVE_COLUMN_BITMASK = 32768L;
+
+	public static final long LASTPUBLISHDATE_COLUMN_BITMASK = 65536L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -330,10 +349,39 @@ public class CalendarResourceModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<CalendarResource, Object> function =
+			_attributeGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((CalendarResource)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<CalendarResourceCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_calendarResourceCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_calendarResourceCacheModel);
+	}
+
 	private static final Map<String, Function<CalendarResource, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<CalendarResource, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<CalendarResourceCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<CalendarResource, Object>>
@@ -342,89 +390,168 @@ public class CalendarResourceModelImpl
 		Map<String, BiConsumer<CalendarResource, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<CalendarResource, ?>>();
+		Map<String, Function<CalendarResourceCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<CalendarResourceCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", CalendarResource::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			calendarResourceCacheModel ->
+				calendarResourceCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<CalendarResource, Long>)
 				CalendarResource::setMvccVersion);
 		attributeGetterFunctions.put("uuid", CalendarResource::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid",
+			calendarResourceCacheModel -> calendarResourceCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid",
 			(BiConsumer<CalendarResource, String>)CalendarResource::setUuid);
 		attributeGetterFunctions.put(
 			"calendarResourceId", CalendarResource::getCalendarResourceId);
+
+		cacheModelGetterFunctions.put(
+			"calendarResourceId",
+			calendarResourceCacheModel ->
+				calendarResourceCacheModel.calendarResourceId);
 		attributeSetterBiConsumers.put(
 			"calendarResourceId",
 			(BiConsumer<CalendarResource, Long>)
 				CalendarResource::setCalendarResourceId);
 		attributeGetterFunctions.put("groupId", CalendarResource::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			calendarResourceCacheModel -> calendarResourceCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<CalendarResource, Long>)CalendarResource::setGroupId);
 		attributeGetterFunctions.put(
 			"companyId", CalendarResource::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			calendarResourceCacheModel -> calendarResourceCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<CalendarResource, Long>)CalendarResource::setCompanyId);
 		attributeGetterFunctions.put("userId", CalendarResource::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			calendarResourceCacheModel -> calendarResourceCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<CalendarResource, Long>)CalendarResource::setUserId);
 		attributeGetterFunctions.put("userName", CalendarResource::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			calendarResourceCacheModel -> calendarResourceCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<CalendarResource, String>)
 				CalendarResource::setUserName);
 		attributeGetterFunctions.put(
 			"createDate", CalendarResource::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			calendarResourceCacheModel ->
+				calendarResourceCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<CalendarResource, Date>)
 				CalendarResource::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", CalendarResource::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			calendarResourceCacheModel ->
+				calendarResourceCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<CalendarResource, Date>)
 				CalendarResource::setModifiedDate);
 		attributeGetterFunctions.put(
 			"classNameId", CalendarResource::getClassNameId);
+
+		cacheModelGetterFunctions.put(
+			"classNameId",
+			calendarResourceCacheModel ->
+				calendarResourceCacheModel.classNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<CalendarResource, Long>)
 				CalendarResource::setClassNameId);
 		attributeGetterFunctions.put("classPK", CalendarResource::getClassPK);
+
+		cacheModelGetterFunctions.put(
+			"classPK",
+			calendarResourceCacheModel -> calendarResourceCacheModel.classPK);
 		attributeSetterBiConsumers.put(
 			"classPK",
 			(BiConsumer<CalendarResource, Long>)CalendarResource::setClassPK);
 		attributeGetterFunctions.put(
 			"classUuid", CalendarResource::getClassUuid);
+
+		cacheModelGetterFunctions.put(
+			"classUuid",
+			calendarResourceCacheModel -> calendarResourceCacheModel.classUuid);
 		attributeSetterBiConsumers.put(
 			"classUuid",
 			(BiConsumer<CalendarResource, String>)
 				CalendarResource::setClassUuid);
 		attributeGetterFunctions.put("code", CalendarResource::getCode);
+
+		cacheModelGetterFunctions.put(
+			"code",
+			calendarResourceCacheModel -> calendarResourceCacheModel.code);
 		attributeSetterBiConsumers.put(
 			"code",
 			(BiConsumer<CalendarResource, String>)CalendarResource::setCode);
 		attributeGetterFunctions.put("name", CalendarResource::getName);
+
+		cacheModelGetterFunctions.put(
+			"name",
+			calendarResourceCacheModel -> calendarResourceCacheModel.name);
 		attributeSetterBiConsumers.put(
 			"name",
 			(BiConsumer<CalendarResource, String>)CalendarResource::setName);
 		attributeGetterFunctions.put(
 			"description", CalendarResource::getDescription);
+
+		cacheModelGetterFunctions.put(
+			"description",
+			calendarResourceCacheModel ->
+				calendarResourceCacheModel.description);
 		attributeSetterBiConsumers.put(
 			"description",
 			(BiConsumer<CalendarResource, String>)
 				CalendarResource::setDescription);
 		attributeGetterFunctions.put("active", CalendarResource::getActive);
+
+		cacheModelGetterFunctions.put(
+			"active",
+			calendarResourceCacheModel -> calendarResourceCacheModel.active);
 		attributeSetterBiConsumers.put(
 			"active",
 			(BiConsumer<CalendarResource, Boolean>)CalendarResource::setActive);
 		attributeGetterFunctions.put(
 			"lastPublishDate", CalendarResource::getLastPublishDate);
+
+		cacheModelGetterFunctions.put(
+			"lastPublishDate",
+			calendarResourceCacheModel ->
+				calendarResourceCacheModel.lastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<CalendarResource, Date>)
@@ -434,6 +561,8 @@ public class CalendarResourceModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -444,6 +573,13 @@ public class CalendarResourceModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_calendarResourceCacheModel == null)) {
+			_calendarResourceCacheModel =
+				(CalendarResourceCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -462,15 +598,21 @@ public class CalendarResourceModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (!isNew() && (_calendarResourceCacheModel == null)) {
+			_calendarResourceCacheModel =
+				(CalendarResourceCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getCacheModelAttribute("uuid");
 	}
 
 	@JSON
@@ -481,6 +623,13 @@ public class CalendarResourceModelImpl
 
 	@Override
 	public void setCalendarResourceId(long calendarResourceId) {
+		_columnBitmask |= CALENDARRESOURCEID_COLUMN_BITMASK;
+
+		if (!isNew() && (_calendarResourceCacheModel == null)) {
+			_calendarResourceCacheModel =
+				(CalendarResourceCacheModel)toCacheModel();
+		}
+
 		_calendarResourceId = calendarResourceId;
 	}
 
@@ -494,17 +643,21 @@ public class CalendarResourceModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (!isNew() && (_calendarResourceCacheModel == null)) {
+			_calendarResourceCacheModel =
+				(CalendarResourceCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getCacheModelAttribute("groupId");
 	}
 
 	@JSON
@@ -517,17 +670,21 @@ public class CalendarResourceModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (!isNew() && (_calendarResourceCacheModel == null)) {
+			_calendarResourceCacheModel =
+				(CalendarResourceCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getCacheModelAttribute("companyId");
 	}
 
 	@JSON
@@ -538,6 +695,13 @@ public class CalendarResourceModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_calendarResourceCacheModel == null)) {
+			_calendarResourceCacheModel =
+				(CalendarResourceCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -570,6 +734,13 @@ public class CalendarResourceModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_calendarResourceCacheModel == null)) {
+			_calendarResourceCacheModel =
+				(CalendarResourceCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -581,6 +752,13 @@ public class CalendarResourceModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_calendarResourceCacheModel == null)) {
+			_calendarResourceCacheModel =
+				(CalendarResourceCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -597,6 +775,13 @@ public class CalendarResourceModelImpl
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
+
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_calendarResourceCacheModel == null)) {
+			_calendarResourceCacheModel =
+				(CalendarResourceCacheModel)toCacheModel();
+		}
 
 		_modifiedDate = modifiedDate;
 	}
@@ -631,17 +816,21 @@ public class CalendarResourceModelImpl
 	public void setClassNameId(long classNameId) {
 		_columnBitmask |= CLASSNAMEID_COLUMN_BITMASK;
 
-		if (!_setOriginalClassNameId) {
-			_setOriginalClassNameId = true;
-
-			_originalClassNameId = _classNameId;
+		if (!isNew() && (_calendarResourceCacheModel == null)) {
+			_calendarResourceCacheModel =
+				(CalendarResourceCacheModel)toCacheModel();
 		}
 
 		_classNameId = classNameId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassNameId() {
-		return _originalClassNameId;
+		return getCacheModelAttribute("classNameId");
 	}
 
 	@JSON
@@ -654,17 +843,21 @@ public class CalendarResourceModelImpl
 	public void setClassPK(long classPK) {
 		_columnBitmask |= CLASSPK_COLUMN_BITMASK;
 
-		if (!_setOriginalClassPK) {
-			_setOriginalClassPK = true;
-
-			_originalClassPK = _classPK;
+		if (!isNew() && (_calendarResourceCacheModel == null)) {
+			_calendarResourceCacheModel =
+				(CalendarResourceCacheModel)toCacheModel();
 		}
 
 		_classPK = classPK;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassPK() {
-		return _originalClassPK;
+		return getCacheModelAttribute("classPK");
 	}
 
 	@JSON
@@ -680,6 +873,13 @@ public class CalendarResourceModelImpl
 
 	@Override
 	public void setClassUuid(String classUuid) {
+		_columnBitmask |= CLASSUUID_COLUMN_BITMASK;
+
+		if (!isNew() && (_calendarResourceCacheModel == null)) {
+			_calendarResourceCacheModel =
+				(CalendarResourceCacheModel)toCacheModel();
+		}
+
 		_classUuid = classUuid;
 	}
 
@@ -696,17 +896,23 @@ public class CalendarResourceModelImpl
 
 	@Override
 	public void setCode(String code) {
-		_columnBitmask = -1L;
+		_columnBitmask |= CODE_COLUMN_BITMASK;
 
-		if (_originalCode == null) {
-			_originalCode = _code;
+		if (!isNew() && (_calendarResourceCacheModel == null)) {
+			_calendarResourceCacheModel =
+				(CalendarResourceCacheModel)toCacheModel();
 		}
 
 		_code = code;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalCode() {
-		return GetterUtil.getString(_originalCode);
+		return getCacheModelAttribute("code");
 	}
 
 	@JSON
@@ -765,6 +971,13 @@ public class CalendarResourceModelImpl
 
 	@Override
 	public void setName(String name) {
+		_columnBitmask |= NAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_calendarResourceCacheModel == null)) {
+			_calendarResourceCacheModel =
+				(CalendarResourceCacheModel)toCacheModel();
+		}
+
 		_name = name;
 	}
 
@@ -868,6 +1081,13 @@ public class CalendarResourceModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		_columnBitmask |= DESCRIPTION_COLUMN_BITMASK;
+
+		if (!isNew() && (_calendarResourceCacheModel == null)) {
+			_calendarResourceCacheModel =
+				(CalendarResourceCacheModel)toCacheModel();
+		}
+
 		_description = description;
 	}
 
@@ -936,17 +1156,21 @@ public class CalendarResourceModelImpl
 	public void setActive(boolean active) {
 		_columnBitmask |= ACTIVE_COLUMN_BITMASK;
 
-		if (!_setOriginalActive) {
-			_setOriginalActive = true;
-
-			_originalActive = _active;
+		if (!isNew() && (_calendarResourceCacheModel == null)) {
+			_calendarResourceCacheModel =
+				(CalendarResourceCacheModel)toCacheModel();
 		}
 
 		_active = active;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public boolean getOriginalActive() {
-		return _originalActive;
+		return getCacheModelAttribute("active");
 	}
 
 	@JSON
@@ -957,6 +1181,13 @@ public class CalendarResourceModelImpl
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		_columnBitmask |= LASTPUBLISHDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_calendarResourceCacheModel == null)) {
+			_calendarResourceCacheModel =
+				(CalendarResourceCacheModel)toCacheModel();
+		}
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -1091,6 +1322,8 @@ public class CalendarResourceModelImpl
 	public Object clone() {
 		CalendarResourceImpl calendarResourceImpl = new CalendarResourceImpl();
 
+		calendarResourceImpl.setNew(true);
+
 		calendarResourceImpl.setMvccVersion(getMvccVersion());
 		calendarResourceImpl.setUuid(getUuid());
 		calendarResourceImpl.setCalendarResourceId(getCalendarResourceId());
@@ -1110,6 +1343,8 @@ public class CalendarResourceModelImpl
 		calendarResourceImpl.setLastPublishDate(getLastPublishDate());
 
 		calendarResourceImpl.resetOriginalValues();
+
+		calendarResourceImpl.setNew(false);
 
 		return calendarResourceImpl;
 	}
@@ -1174,42 +1409,11 @@ public class CalendarResourceModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		CalendarResourceModelImpl calendarResourceModelImpl = this;
+		_setModifiedDate = false;
 
-		calendarResourceModelImpl._originalUuid =
-			calendarResourceModelImpl._uuid;
+		_columnBitmask = 0;
 
-		calendarResourceModelImpl._originalGroupId =
-			calendarResourceModelImpl._groupId;
-
-		calendarResourceModelImpl._setOriginalGroupId = false;
-
-		calendarResourceModelImpl._originalCompanyId =
-			calendarResourceModelImpl._companyId;
-
-		calendarResourceModelImpl._setOriginalCompanyId = false;
-
-		calendarResourceModelImpl._setModifiedDate = false;
-
-		calendarResourceModelImpl._originalClassNameId =
-			calendarResourceModelImpl._classNameId;
-
-		calendarResourceModelImpl._setOriginalClassNameId = false;
-
-		calendarResourceModelImpl._originalClassPK =
-			calendarResourceModelImpl._classPK;
-
-		calendarResourceModelImpl._setOriginalClassPK = false;
-
-		calendarResourceModelImpl._originalCode =
-			calendarResourceModelImpl._code;
-
-		calendarResourceModelImpl._originalActive =
-			calendarResourceModelImpl._active;
-
-		calendarResourceModelImpl._setOriginalActive = false;
-
-		calendarResourceModelImpl._columnBitmask = 0;
+		_calendarResourceCacheModel = null;
 	}
 
 	@Override
@@ -1384,37 +1588,26 @@ public class CalendarResourceModelImpl
 
 	private long _mvccVersion;
 	private String _uuid;
-	private String _originalUuid;
 	private long _calendarResourceId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _classNameId;
-	private long _originalClassNameId;
-	private boolean _setOriginalClassNameId;
 	private long _classPK;
-	private long _originalClassPK;
-	private boolean _setOriginalClassPK;
 	private String _classUuid;
 	private String _code;
-	private String _originalCode;
 	private String _name;
 	private String _nameCurrentLanguageId;
 	private String _description;
 	private String _descriptionCurrentLanguageId;
 	private boolean _active;
-	private boolean _originalActive;
-	private boolean _setOriginalActive;
 	private Date _lastPublishDate;
 	private long _columnBitmask;
 	private CalendarResource _escapedModel;
+	private CalendarResourceCacheModel _calendarResourceCacheModel;
 
 }

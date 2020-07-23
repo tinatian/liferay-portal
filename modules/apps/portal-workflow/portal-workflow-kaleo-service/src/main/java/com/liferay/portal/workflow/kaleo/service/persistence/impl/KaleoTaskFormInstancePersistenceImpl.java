@@ -3034,7 +3034,8 @@ public class KaleoTaskFormInstancePersistenceImpl
 			 _finderPathFetchByKaleoTaskFormId.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				kaleoTaskFormInstanceModelImpl.getOriginalKaleoTaskFormId()
+				kaleoTaskFormInstanceModelImpl.getCacheModelAttribute(
+					"kaleoTaskFormId")
 			};
 
 			finderCache.removeResult(_finderPathCountByKaleoTaskFormId, args);
@@ -3282,7 +3283,8 @@ public class KaleoTaskFormInstancePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoTaskFormInstanceModelImpl.getOriginalCompanyId()
+					kaleoTaskFormInstanceModelImpl.getCacheModelAttribute(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCompanyId, args);
@@ -3303,8 +3305,8 @@ public class KaleoTaskFormInstancePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoTaskFormInstanceModelImpl.
-						getOriginalKaleoDefinitionVersionId()
+					kaleoTaskFormInstanceModelImpl.getCacheModelAttribute(
+						"kaleoDefinitionVersionId")
 				};
 
 				finderCache.removeResult(
@@ -3329,7 +3331,8 @@ public class KaleoTaskFormInstancePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoTaskFormInstanceModelImpl.getOriginalKaleoInstanceId()
+					kaleoTaskFormInstanceModelImpl.getCacheModelAttribute(
+						"kaleoInstanceId")
 				};
 
 				finderCache.removeResult(
@@ -3352,7 +3355,8 @@ public class KaleoTaskFormInstancePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoTaskFormInstanceModelImpl.getOriginalKaleoTaskId()
+					kaleoTaskFormInstanceModelImpl.getCacheModelAttribute(
+						"kaleoTaskId")
 				};
 
 				finderCache.removeResult(_finderPathCountByKaleoTaskId, args);
@@ -3373,8 +3377,8 @@ public class KaleoTaskFormInstancePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoTaskFormInstanceModelImpl.
-						getOriginalKaleoTaskInstanceTokenId()
+					kaleoTaskFormInstanceModelImpl.getCacheModelAttribute(
+						"kaleoTaskInstanceTokenId")
 				};
 
 				finderCache.removeResult(

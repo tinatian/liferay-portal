@@ -2095,8 +2095,8 @@ public class MDRActionPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				mdrActionModelImpl.getOriginalUuid(),
-				mdrActionModelImpl.getOriginalGroupId()
+				mdrActionModelImpl.getCacheModelAttribute("uuid"),
+				mdrActionModelImpl.getCacheModelAttribute("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -2315,7 +2315,7 @@ public class MDRActionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mdrActionModelImpl.getOriginalUuid()
+					mdrActionModelImpl.getCacheModelAttribute("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -2334,8 +2334,8 @@ public class MDRActionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mdrActionModelImpl.getOriginalUuid(),
-					mdrActionModelImpl.getOriginalCompanyId()
+					mdrActionModelImpl.getCacheModelAttribute("uuid"),
+					mdrActionModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -2357,7 +2357,8 @@ public class MDRActionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					mdrActionModelImpl.getOriginalRuleGroupInstanceId()
+					mdrActionModelImpl.getCacheModelAttribute(
+						"ruleGroupInstanceId")
 				};
 
 				finderCache.removeResult(

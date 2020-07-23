@@ -45,6 +45,7 @@ import java.lang.reflect.InvocationHandler;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -341,15 +342,17 @@ public class NestedSetsTreeEntryPersistenceImpl
 							nestedSetsTreeEntry.
 								getParentNestedSetsTreeEntryId()));
 				}
-				else if (nestedSetsTreeEntry.getParentNestedSetsTreeEntryId() !=
-							nestedSetsTreeEntryModelImpl.
-								getOriginalParentNestedSetsTreeEntryId()) {
+				else if (!Objects.equals(
+							nestedSetsTreeEntry.
+								getParentNestedSetsTreeEntryId(),
+							nestedSetsTreeEntryModelImpl.getCacheModelAttribute(
+								"parentNestedSetsTreeEntryId"))) {
 
 					nestedSetsTreeManager.move(
 						nestedSetsTreeEntry,
 						fetchByPrimaryKey(
-							nestedSetsTreeEntryModelImpl.
-								getOriginalParentNestedSetsTreeEntryId()),
+							nestedSetsTreeEntryModelImpl.getCacheModelAttribute(
+								"parentNestedSetsTreeEntryId")),
 						fetchByPrimaryKey(
 							nestedSetsTreeEntry.
 								getParentNestedSetsTreeEntryId()));

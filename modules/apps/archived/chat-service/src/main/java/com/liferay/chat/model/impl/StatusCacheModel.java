@@ -85,6 +85,8 @@ public class StatusCacheModel implements CacheModel<Status>, Externalizable {
 	public Status toEntityModel() {
 		StatusImpl statusImpl = new StatusImpl();
 
+		statusImpl.setNew(true);
+
 		statusImpl.setStatusId(statusId);
 		statusImpl.setUserId(userId);
 		statusImpl.setModifiedDate(modifiedDate);
@@ -108,6 +110,8 @@ public class StatusCacheModel implements CacheModel<Status>, Externalizable {
 		statusImpl.setPlaySound(playSound);
 
 		statusImpl.resetOriginalValues();
+
+		statusImpl.setNew(false);
 
 		return statusImpl;
 	}

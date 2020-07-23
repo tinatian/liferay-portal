@@ -128,6 +128,8 @@ public class KaleoTaskFormInstanceCacheModel
 		KaleoTaskFormInstanceImpl kaleoTaskFormInstanceImpl =
 			new KaleoTaskFormInstanceImpl();
 
+		kaleoTaskFormInstanceImpl.setNew(true);
+
 		kaleoTaskFormInstanceImpl.setMvccVersion(mvccVersion);
 		kaleoTaskFormInstanceImpl.setKaleoTaskFormInstanceId(
 			kaleoTaskFormInstanceId);
@@ -191,6 +193,8 @@ public class KaleoTaskFormInstanceCacheModel
 		}
 
 		kaleoTaskFormInstanceImpl.resetOriginalValues();
+
+		kaleoTaskFormInstanceImpl.setNew(false);
 
 		return kaleoTaskFormInstanceImpl;
 	}

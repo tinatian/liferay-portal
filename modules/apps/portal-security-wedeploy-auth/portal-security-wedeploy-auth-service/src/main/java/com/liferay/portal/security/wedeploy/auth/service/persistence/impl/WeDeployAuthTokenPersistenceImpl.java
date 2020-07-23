@@ -841,8 +841,8 @@ public class WeDeployAuthTokenPersistenceImpl
 			 _finderPathFetchByT_T.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				weDeployAuthTokenModelImpl.getOriginalToken(),
-				weDeployAuthTokenModelImpl.getOriginalType()
+				weDeployAuthTokenModelImpl.getCacheModelAttribute("token"),
+				weDeployAuthTokenModelImpl.getCacheModelAttribute("type")
 			};
 
 			finderCache.removeResult(_finderPathCountByT_T, args);
@@ -864,9 +864,9 @@ public class WeDeployAuthTokenPersistenceImpl
 			 _finderPathFetchByCI_T_T.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				weDeployAuthTokenModelImpl.getOriginalClientId(),
-				weDeployAuthTokenModelImpl.getOriginalToken(),
-				weDeployAuthTokenModelImpl.getOriginalType()
+				weDeployAuthTokenModelImpl.getCacheModelAttribute("clientId"),
+				weDeployAuthTokenModelImpl.getCacheModelAttribute("token"),
+				weDeployAuthTokenModelImpl.getCacheModelAttribute("type")
 			};
 
 			finderCache.removeResult(_finderPathCountByCI_T_T, args);

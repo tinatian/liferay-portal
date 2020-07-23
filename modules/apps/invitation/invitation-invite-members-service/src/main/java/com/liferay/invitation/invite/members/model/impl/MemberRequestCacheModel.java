@@ -97,6 +97,8 @@ public class MemberRequestCacheModel
 	public MemberRequest toEntityModel() {
 		MemberRequestImpl memberRequestImpl = new MemberRequestImpl();
 
+		memberRequestImpl.setNew(true);
+
 		memberRequestImpl.setMemberRequestId(memberRequestId);
 		memberRequestImpl.setGroupId(groupId);
 		memberRequestImpl.setCompanyId(companyId);
@@ -136,6 +138,8 @@ public class MemberRequestCacheModel
 		memberRequestImpl.setStatus(status);
 
 		memberRequestImpl.resetOriginalValues();
+
+		memberRequestImpl.setNew(false);
 
 		return memberRequestImpl;
 	}

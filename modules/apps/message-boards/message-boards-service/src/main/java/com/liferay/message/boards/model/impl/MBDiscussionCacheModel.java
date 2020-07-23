@@ -116,6 +116,8 @@ public class MBDiscussionCacheModel
 	public MBDiscussion toEntityModel() {
 		MBDiscussionImpl mbDiscussionImpl = new MBDiscussionImpl();
 
+		mbDiscussionImpl.setNew(true);
+
 		mbDiscussionImpl.setMvccVersion(mvccVersion);
 		mbDiscussionImpl.setCtCollectionId(ctCollectionId);
 
@@ -164,6 +166,8 @@ public class MBDiscussionCacheModel
 		}
 
 		mbDiscussionImpl.resetOriginalValues();
+
+		mbDiscussionImpl.setNew(false);
 
 		return mbDiscussionImpl;
 	}

@@ -559,13 +559,13 @@ public class DDMDataProviderInstancePersistenceTest {
 			Objects.equals(
 				existingDDMDataProviderInstance.getUuid(),
 				ReflectionTestUtil.invoke(
-					existingDDMDataProviderInstance, "getOriginalUuid",
-					new Class<?>[0])));
+					existingDDMDataProviderInstance, "getCacheModelAttribute",
+					new Class<?>[] {String.class}, uuid)));
 		Assert.assertEquals(
 			Long.valueOf(existingDDMDataProviderInstance.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
-				existingDDMDataProviderInstance, "getOriginalGroupId",
-				new Class<?>[0]));
+				existingDDMDataProviderInstance, "getCacheModelAttribute",
+				new Class<?>[] {String.class}, groupId));
 	}
 
 	protected DDMDataProviderInstance addDDMDataProviderInstance()

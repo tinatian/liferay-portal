@@ -112,6 +112,8 @@ public class FriendlyURLEntryLocalizationCacheModel
 		FriendlyURLEntryLocalizationImpl friendlyURLEntryLocalizationImpl =
 			new FriendlyURLEntryLocalizationImpl();
 
+		friendlyURLEntryLocalizationImpl.setNew(true);
+
 		friendlyURLEntryLocalizationImpl.setMvccVersion(mvccVersion);
 		friendlyURLEntryLocalizationImpl.setCtCollectionId(ctCollectionId);
 		friendlyURLEntryLocalizationImpl.setFriendlyURLEntryLocalizationId(
@@ -139,6 +141,8 @@ public class FriendlyURLEntryLocalizationCacheModel
 		friendlyURLEntryLocalizationImpl.setClassPK(classPK);
 
 		friendlyURLEntryLocalizationImpl.resetOriginalValues();
+
+		friendlyURLEntryLocalizationImpl.setNew(false);
 
 		return friendlyURLEntryLocalizationImpl;
 	}

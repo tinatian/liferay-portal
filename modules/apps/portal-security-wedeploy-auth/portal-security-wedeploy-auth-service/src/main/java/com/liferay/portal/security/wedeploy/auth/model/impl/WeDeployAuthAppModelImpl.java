@@ -26,7 +26,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.security.wedeploy.auth.model.WeDeployAuthApp;
 import com.liferay.portal.security.wedeploy.auth.model.WeDeployAuthAppModel;
@@ -113,13 +112,25 @@ public class WeDeployAuthAppModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long CLIENTID_COLUMN_BITMASK = 1L;
+	public static final long WEDEPLOYAUTHAPPID_COLUMN_BITMASK = 1L;
 
-	public static final long CLIENTSECRET_COLUMN_BITMASK = 2L;
+	public static final long COMPANYID_COLUMN_BITMASK = 2L;
 
-	public static final long REDIRECTURI_COLUMN_BITMASK = 4L;
+	public static final long USERID_COLUMN_BITMASK = 4L;
 
-	public static final long WEDEPLOYAUTHAPPID_COLUMN_BITMASK = 8L;
+	public static final long USERNAME_COLUMN_BITMASK = 8L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 16L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 32L;
+
+	public static final long NAME_COLUMN_BITMASK = 64L;
+
+	public static final long REDIRECTURI_COLUMN_BITMASK = 128L;
+
+	public static final long CLIENTID_COLUMN_BITMASK = 256L;
+
+	public static final long CLIENTSECRET_COLUMN_BITMASK = 512L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -298,10 +309,39 @@ public class WeDeployAuthAppModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<WeDeployAuthApp, Object> function =
+			_attributeGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((WeDeployAuthApp)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<WeDeployAuthAppCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_weDeployAuthAppCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_weDeployAuthAppCacheModel);
+	}
+
 	private static final Map<String, Function<WeDeployAuthApp, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<WeDeployAuthApp, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<WeDeployAuthAppCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<WeDeployAuthApp, Object>>
@@ -309,53 +349,100 @@ public class WeDeployAuthAppModelImpl
 				new LinkedHashMap<String, Function<WeDeployAuthApp, Object>>();
 		Map<String, BiConsumer<WeDeployAuthApp, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<WeDeployAuthApp, ?>>();
+		Map<String, Function<WeDeployAuthAppCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<WeDeployAuthAppCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"weDeployAuthAppId", WeDeployAuthApp::getWeDeployAuthAppId);
+
+		cacheModelGetterFunctions.put(
+			"weDeployAuthAppId",
+			weDeployAuthAppCacheModel ->
+				weDeployAuthAppCacheModel.weDeployAuthAppId);
 		attributeSetterBiConsumers.put(
 			"weDeployAuthAppId",
 			(BiConsumer<WeDeployAuthApp, Long>)
 				WeDeployAuthApp::setWeDeployAuthAppId);
 		attributeGetterFunctions.put(
 			"companyId", WeDeployAuthApp::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			weDeployAuthAppCacheModel -> weDeployAuthAppCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<WeDeployAuthApp, Long>)WeDeployAuthApp::setCompanyId);
 		attributeGetterFunctions.put("userId", WeDeployAuthApp::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			weDeployAuthAppCacheModel -> weDeployAuthAppCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<WeDeployAuthApp, Long>)WeDeployAuthApp::setUserId);
 		attributeGetterFunctions.put("userName", WeDeployAuthApp::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			weDeployAuthAppCacheModel -> weDeployAuthAppCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<WeDeployAuthApp, String>)WeDeployAuthApp::setUserName);
 		attributeGetterFunctions.put(
 			"createDate", WeDeployAuthApp::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			weDeployAuthAppCacheModel -> weDeployAuthAppCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<WeDeployAuthApp, Date>)WeDeployAuthApp::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", WeDeployAuthApp::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			weDeployAuthAppCacheModel ->
+				weDeployAuthAppCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<WeDeployAuthApp, Date>)
 				WeDeployAuthApp::setModifiedDate);
 		attributeGetterFunctions.put("name", WeDeployAuthApp::getName);
+
+		cacheModelGetterFunctions.put(
+			"name",
+			weDeployAuthAppCacheModel -> weDeployAuthAppCacheModel.name);
 		attributeSetterBiConsumers.put(
 			"name",
 			(BiConsumer<WeDeployAuthApp, String>)WeDeployAuthApp::setName);
 		attributeGetterFunctions.put(
 			"redirectURI", WeDeployAuthApp::getRedirectURI);
+
+		cacheModelGetterFunctions.put(
+			"redirectURI",
+			weDeployAuthAppCacheModel -> weDeployAuthAppCacheModel.redirectURI);
 		attributeSetterBiConsumers.put(
 			"redirectURI",
 			(BiConsumer<WeDeployAuthApp, String>)
 				WeDeployAuthApp::setRedirectURI);
 		attributeGetterFunctions.put("clientId", WeDeployAuthApp::getClientId);
+
+		cacheModelGetterFunctions.put(
+			"clientId",
+			weDeployAuthAppCacheModel -> weDeployAuthAppCacheModel.clientId);
 		attributeSetterBiConsumers.put(
 			"clientId",
 			(BiConsumer<WeDeployAuthApp, String>)WeDeployAuthApp::setClientId);
 		attributeGetterFunctions.put(
 			"clientSecret", WeDeployAuthApp::getClientSecret);
+
+		cacheModelGetterFunctions.put(
+			"clientSecret",
+			weDeployAuthAppCacheModel ->
+				weDeployAuthAppCacheModel.clientSecret);
 		attributeSetterBiConsumers.put(
 			"clientSecret",
 			(BiConsumer<WeDeployAuthApp, String>)
@@ -365,6 +452,8 @@ public class WeDeployAuthAppModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -375,6 +464,13 @@ public class WeDeployAuthAppModelImpl
 
 	@Override
 	public void setWeDeployAuthAppId(long weDeployAuthAppId) {
+		_columnBitmask |= WEDEPLOYAUTHAPPID_COLUMN_BITMASK;
+
+		if (!isNew() && (_weDeployAuthAppCacheModel == null)) {
+			_weDeployAuthAppCacheModel =
+				(WeDeployAuthAppCacheModel)toCacheModel();
+		}
+
 		_weDeployAuthAppId = weDeployAuthAppId;
 	}
 
@@ -386,6 +482,13 @@ public class WeDeployAuthAppModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (!isNew() && (_weDeployAuthAppCacheModel == null)) {
+			_weDeployAuthAppCacheModel =
+				(WeDeployAuthAppCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -397,6 +500,13 @@ public class WeDeployAuthAppModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_weDeployAuthAppCacheModel == null)) {
+			_weDeployAuthAppCacheModel =
+				(WeDeployAuthAppCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -429,6 +539,13 @@ public class WeDeployAuthAppModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_weDeployAuthAppCacheModel == null)) {
+			_weDeployAuthAppCacheModel =
+				(WeDeployAuthAppCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -440,6 +557,13 @@ public class WeDeployAuthAppModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_weDeployAuthAppCacheModel == null)) {
+			_weDeployAuthAppCacheModel =
+				(WeDeployAuthAppCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -457,6 +581,13 @@ public class WeDeployAuthAppModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_weDeployAuthAppCacheModel == null)) {
+			_weDeployAuthAppCacheModel =
+				(WeDeployAuthAppCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -473,6 +604,13 @@ public class WeDeployAuthAppModelImpl
 
 	@Override
 	public void setName(String name) {
+		_columnBitmask |= NAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_weDeployAuthAppCacheModel == null)) {
+			_weDeployAuthAppCacheModel =
+				(WeDeployAuthAppCacheModel)toCacheModel();
+		}
+
 		_name = name;
 	}
 
@@ -491,15 +629,21 @@ public class WeDeployAuthAppModelImpl
 	public void setRedirectURI(String redirectURI) {
 		_columnBitmask |= REDIRECTURI_COLUMN_BITMASK;
 
-		if (_originalRedirectURI == null) {
-			_originalRedirectURI = _redirectURI;
+		if (!isNew() && (_weDeployAuthAppCacheModel == null)) {
+			_weDeployAuthAppCacheModel =
+				(WeDeployAuthAppCacheModel)toCacheModel();
 		}
 
 		_redirectURI = redirectURI;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalRedirectURI() {
-		return GetterUtil.getString(_originalRedirectURI);
+		return getCacheModelAttribute("redirectURI");
 	}
 
 	@JSON
@@ -517,15 +661,21 @@ public class WeDeployAuthAppModelImpl
 	public void setClientId(String clientId) {
 		_columnBitmask |= CLIENTID_COLUMN_BITMASK;
 
-		if (_originalClientId == null) {
-			_originalClientId = _clientId;
+		if (!isNew() && (_weDeployAuthAppCacheModel == null)) {
+			_weDeployAuthAppCacheModel =
+				(WeDeployAuthAppCacheModel)toCacheModel();
 		}
 
 		_clientId = clientId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalClientId() {
-		return GetterUtil.getString(_originalClientId);
+		return getCacheModelAttribute("clientId");
 	}
 
 	@JSON
@@ -543,15 +693,21 @@ public class WeDeployAuthAppModelImpl
 	public void setClientSecret(String clientSecret) {
 		_columnBitmask |= CLIENTSECRET_COLUMN_BITMASK;
 
-		if (_originalClientSecret == null) {
-			_originalClientSecret = _clientSecret;
+		if (!isNew() && (_weDeployAuthAppCacheModel == null)) {
+			_weDeployAuthAppCacheModel =
+				(WeDeployAuthAppCacheModel)toCacheModel();
 		}
 
 		_clientSecret = clientSecret;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalClientSecret() {
-		return GetterUtil.getString(_originalClientSecret);
+		return getCacheModelAttribute("clientSecret");
 	}
 
 	public long getColumnBitmask() {
@@ -590,6 +746,8 @@ public class WeDeployAuthAppModelImpl
 	public Object clone() {
 		WeDeployAuthAppImpl weDeployAuthAppImpl = new WeDeployAuthAppImpl();
 
+		weDeployAuthAppImpl.setNew(true);
+
 		weDeployAuthAppImpl.setWeDeployAuthAppId(getWeDeployAuthAppId());
 		weDeployAuthAppImpl.setCompanyId(getCompanyId());
 		weDeployAuthAppImpl.setUserId(getUserId());
@@ -602,6 +760,8 @@ public class WeDeployAuthAppModelImpl
 		weDeployAuthAppImpl.setClientSecret(getClientSecret());
 
 		weDeployAuthAppImpl.resetOriginalValues();
+
+		weDeployAuthAppImpl.setNew(false);
 
 		return weDeployAuthAppImpl;
 	}
@@ -668,20 +828,11 @@ public class WeDeployAuthAppModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		WeDeployAuthAppModelImpl weDeployAuthAppModelImpl = this;
+		_setModifiedDate = false;
 
-		weDeployAuthAppModelImpl._setModifiedDate = false;
+		_columnBitmask = 0;
 
-		weDeployAuthAppModelImpl._originalRedirectURI =
-			weDeployAuthAppModelImpl._redirectURI;
-
-		weDeployAuthAppModelImpl._originalClientId =
-			weDeployAuthAppModelImpl._clientId;
-
-		weDeployAuthAppModelImpl._originalClientSecret =
-			weDeployAuthAppModelImpl._clientSecret;
-
-		weDeployAuthAppModelImpl._columnBitmask = 0;
+		_weDeployAuthAppCacheModel = null;
 	}
 
 	@Override
@@ -835,12 +986,10 @@ public class WeDeployAuthAppModelImpl
 	private boolean _setModifiedDate;
 	private String _name;
 	private String _redirectURI;
-	private String _originalRedirectURI;
 	private String _clientId;
-	private String _originalClientId;
 	private String _clientSecret;
-	private String _originalClientSecret;
 	private long _columnBitmask;
 	private WeDeployAuthApp _escapedModel;
+	private WeDeployAuthAppCacheModel _weDeployAuthAppCacheModel;
 
 }

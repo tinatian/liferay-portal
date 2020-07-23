@@ -235,10 +235,39 @@ public class NestedSetsTreeEntryModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<NestedSetsTreeEntry, Object> function =
+			_attributeGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((NestedSetsTreeEntry)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<NestedSetsTreeEntryCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_nestedSetsTreeEntryCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_nestedSetsTreeEntryCacheModel);
+	}
+
 	private static final Map<String, Function<NestedSetsTreeEntry, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<NestedSetsTreeEntry, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<NestedSetsTreeEntryCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<NestedSetsTreeEntry, Object>>
@@ -248,16 +277,30 @@ public class NestedSetsTreeEntryModelImpl
 		Map<String, BiConsumer<NestedSetsTreeEntry, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<NestedSetsTreeEntry, ?>>();
+		Map<String, Function<NestedSetsTreeEntryCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<NestedSetsTreeEntryCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"nestedSetsTreeEntryId",
 			NestedSetsTreeEntry::getNestedSetsTreeEntryId);
+
+		cacheModelGetterFunctions.put(
+			"nestedSetsTreeEntryId",
+			nestedSetsTreeEntryCacheModel ->
+				nestedSetsTreeEntryCacheModel.nestedSetsTreeEntryId);
 		attributeSetterBiConsumers.put(
 			"nestedSetsTreeEntryId",
 			(BiConsumer<NestedSetsTreeEntry, Long>)
 				NestedSetsTreeEntry::setNestedSetsTreeEntryId);
 		attributeGetterFunctions.put(
 			"groupId", NestedSetsTreeEntry::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			nestedSetsTreeEntryCacheModel ->
+				nestedSetsTreeEntryCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<NestedSetsTreeEntry, Long>)
@@ -265,6 +308,11 @@ public class NestedSetsTreeEntryModelImpl
 		attributeGetterFunctions.put(
 			"parentNestedSetsTreeEntryId",
 			NestedSetsTreeEntry::getParentNestedSetsTreeEntryId);
+
+		cacheModelGetterFunctions.put(
+			"parentNestedSetsTreeEntryId",
+			nestedSetsTreeEntryCacheModel ->
+				nestedSetsTreeEntryCacheModel.parentNestedSetsTreeEntryId);
 		attributeSetterBiConsumers.put(
 			"parentNestedSetsTreeEntryId",
 			(BiConsumer<NestedSetsTreeEntry, Long>)
@@ -272,6 +320,11 @@ public class NestedSetsTreeEntryModelImpl
 		attributeGetterFunctions.put(
 			"leftNestedSetsTreeEntryId",
 			NestedSetsTreeEntry::getLeftNestedSetsTreeEntryId);
+
+		cacheModelGetterFunctions.put(
+			"leftNestedSetsTreeEntryId",
+			nestedSetsTreeEntryCacheModel ->
+				nestedSetsTreeEntryCacheModel.leftNestedSetsTreeEntryId);
 		attributeSetterBiConsumers.put(
 			"leftNestedSetsTreeEntryId",
 			(BiConsumer<NestedSetsTreeEntry, Long>)
@@ -279,6 +332,11 @@ public class NestedSetsTreeEntryModelImpl
 		attributeGetterFunctions.put(
 			"rightNestedSetsTreeEntryId",
 			NestedSetsTreeEntry::getRightNestedSetsTreeEntryId);
+
+		cacheModelGetterFunctions.put(
+			"rightNestedSetsTreeEntryId",
+			nestedSetsTreeEntryCacheModel ->
+				nestedSetsTreeEntryCacheModel.rightNestedSetsTreeEntryId);
 		attributeSetterBiConsumers.put(
 			"rightNestedSetsTreeEntryId",
 			(BiConsumer<NestedSetsTreeEntry, Long>)
@@ -288,6 +346,8 @@ public class NestedSetsTreeEntryModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -297,6 +357,11 @@ public class NestedSetsTreeEntryModelImpl
 
 	@Override
 	public void setNestedSetsTreeEntryId(long nestedSetsTreeEntryId) {
+		if (!isNew() && (_nestedSetsTreeEntryCacheModel == null)) {
+			_nestedSetsTreeEntryCacheModel =
+				(NestedSetsTreeEntryCacheModel)toCacheModel();
+		}
+
 		_nestedSetsTreeEntryId = nestedSetsTreeEntryId;
 	}
 
@@ -307,6 +372,11 @@ public class NestedSetsTreeEntryModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
+		if (!isNew() && (_nestedSetsTreeEntryCacheModel == null)) {
+			_nestedSetsTreeEntryCacheModel =
+				(NestedSetsTreeEntryCacheModel)toCacheModel();
+		}
+
 		_groupId = groupId;
 	}
 
@@ -319,17 +389,21 @@ public class NestedSetsTreeEntryModelImpl
 	public void setParentNestedSetsTreeEntryId(
 		long parentNestedSetsTreeEntryId) {
 
-		if (!_setOriginalParentNestedSetsTreeEntryId) {
-			_setOriginalParentNestedSetsTreeEntryId = true;
-
-			_originalParentNestedSetsTreeEntryId = _parentNestedSetsTreeEntryId;
+		if (!isNew() && (_nestedSetsTreeEntryCacheModel == null)) {
+			_nestedSetsTreeEntryCacheModel =
+				(NestedSetsTreeEntryCacheModel)toCacheModel();
 		}
 
 		_parentNestedSetsTreeEntryId = parentNestedSetsTreeEntryId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalParentNestedSetsTreeEntryId() {
-		return _originalParentNestedSetsTreeEntryId;
+		return getCacheModelAttribute("parentNestedSetsTreeEntryId");
 	}
 
 	@Override
@@ -339,6 +413,11 @@ public class NestedSetsTreeEntryModelImpl
 
 	@Override
 	public void setLeftNestedSetsTreeEntryId(long leftNestedSetsTreeEntryId) {
+		if (!isNew() && (_nestedSetsTreeEntryCacheModel == null)) {
+			_nestedSetsTreeEntryCacheModel =
+				(NestedSetsTreeEntryCacheModel)toCacheModel();
+		}
+
 		_leftNestedSetsTreeEntryId = leftNestedSetsTreeEntryId;
 	}
 
@@ -349,6 +428,11 @@ public class NestedSetsTreeEntryModelImpl
 
 	@Override
 	public void setRightNestedSetsTreeEntryId(long rightNestedSetsTreeEntryId) {
+		if (!isNew() && (_nestedSetsTreeEntryCacheModel == null)) {
+			_nestedSetsTreeEntryCacheModel =
+				(NestedSetsTreeEntryCacheModel)toCacheModel();
+		}
+
 		_rightNestedSetsTreeEntryId = rightNestedSetsTreeEntryId;
 	}
 
@@ -405,6 +489,8 @@ public class NestedSetsTreeEntryModelImpl
 		NestedSetsTreeEntryImpl nestedSetsTreeEntryImpl =
 			new NestedSetsTreeEntryImpl();
 
+		nestedSetsTreeEntryImpl.setNew(true);
+
 		nestedSetsTreeEntryImpl.setNestedSetsTreeEntryId(
 			getNestedSetsTreeEntryId());
 		nestedSetsTreeEntryImpl.setGroupId(getGroupId());
@@ -416,6 +502,8 @@ public class NestedSetsTreeEntryModelImpl
 			getRightNestedSetsTreeEntryId());
 
 		nestedSetsTreeEntryImpl.resetOriginalValues();
+
+		nestedSetsTreeEntryImpl.setNew(false);
 
 		return nestedSetsTreeEntryImpl;
 	}
@@ -482,13 +570,7 @@ public class NestedSetsTreeEntryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		NestedSetsTreeEntryModelImpl nestedSetsTreeEntryModelImpl = this;
-
-		nestedSetsTreeEntryModelImpl._originalParentNestedSetsTreeEntryId =
-			nestedSetsTreeEntryModelImpl._parentNestedSetsTreeEntryId;
-
-		nestedSetsTreeEntryModelImpl._setOriginalParentNestedSetsTreeEntryId =
-			false;
+		_nestedSetsTreeEntryCacheModel = null;
 	}
 
 	@Override
@@ -586,10 +668,9 @@ public class NestedSetsTreeEntryModelImpl
 	private long _nestedSetsTreeEntryId;
 	private long _groupId;
 	private long _parentNestedSetsTreeEntryId;
-	private long _originalParentNestedSetsTreeEntryId;
-	private boolean _setOriginalParentNestedSetsTreeEntryId;
 	private long _leftNestedSetsTreeEntryId;
 	private long _rightNestedSetsTreeEntryId;
 	private NestedSetsTreeEntry _escapedModel;
+	private NestedSetsTreeEntryCacheModel _nestedSetsTreeEntryCacheModel;
 
 }

@@ -104,6 +104,8 @@ public class CTSContentCacheModel
 	public CTSContent toEntityModel() {
 		CTSContentImpl ctsContentImpl = new CTSContentImpl();
 
+		ctsContentImpl.setNew(true);
+
 		ctsContentImpl.setMvccVersion(mvccVersion);
 		ctsContentImpl.setCtCollectionId(ctCollectionId);
 		ctsContentImpl.setCtsContentId(ctsContentId);
@@ -134,6 +136,8 @@ public class CTSContentCacheModel
 		}
 
 		ctsContentImpl.resetOriginalValues();
+
+		ctsContentImpl.setNew(false);
 
 		return ctsContentImpl;
 	}

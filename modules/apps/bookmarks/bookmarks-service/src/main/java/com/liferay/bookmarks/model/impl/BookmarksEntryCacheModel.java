@@ -128,6 +128,8 @@ public class BookmarksEntryCacheModel
 	public BookmarksEntry toEntityModel() {
 		BookmarksEntryImpl bookmarksEntryImpl = new BookmarksEntryImpl();
 
+		bookmarksEntryImpl.setNew(true);
+
 		bookmarksEntryImpl.setMvccVersion(mvccVersion);
 
 		if (uuid == null) {
@@ -220,6 +222,8 @@ public class BookmarksEntryCacheModel
 		}
 
 		bookmarksEntryImpl.resetOriginalValues();
+
+		bookmarksEntryImpl.setNew(false);
 
 		return bookmarksEntryImpl;
 	}

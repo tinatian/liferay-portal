@@ -114,6 +114,8 @@ public class TrashEntryCacheModel
 	public TrashEntry toEntityModel() {
 		TrashEntryImpl trashEntryImpl = new TrashEntryImpl();
 
+		trashEntryImpl.setNew(true);
+
 		trashEntryImpl.setMvccVersion(mvccVersion);
 		trashEntryImpl.setCtCollectionId(ctCollectionId);
 		trashEntryImpl.setEntryId(entryId);
@@ -149,6 +151,8 @@ public class TrashEntryCacheModel
 		trashEntryImpl.setStatus(status);
 
 		trashEntryImpl.resetOriginalValues();
+
+		trashEntryImpl.setNew(false);
 
 		return trashEntryImpl;
 	}

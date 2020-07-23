@@ -79,6 +79,8 @@ public class UADPartialEntryCacheModel
 	public UADPartialEntry toEntityModel() {
 		UADPartialEntryImpl uadPartialEntryImpl = new UADPartialEntryImpl();
 
+		uadPartialEntryImpl.setNew(true);
+
 		uadPartialEntryImpl.setUadPartialEntryId(uadPartialEntryId);
 		uadPartialEntryImpl.setUserId(userId);
 
@@ -97,6 +99,8 @@ public class UADPartialEntryCacheModel
 		}
 
 		uadPartialEntryImpl.resetOriginalValues();
+
+		uadPartialEntryImpl.setNew(false);
 
 		return uadPartialEntryImpl;
 	}

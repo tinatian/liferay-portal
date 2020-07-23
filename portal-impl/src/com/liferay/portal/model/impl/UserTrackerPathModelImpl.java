@@ -116,9 +116,17 @@ public class UserTrackerPathModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long USERTRACKERID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
 	public static final long USERTRACKERPATHID_COLUMN_BITMASK = 2L;
+
+	public static final long COMPANYID_COLUMN_BITMASK = 4L;
+
+	public static final long USERTRACKERID_COLUMN_BITMASK = 8L;
+
+	public static final long PATH_COLUMN_BITMASK = 16L;
+
+	public static final long PATHDATE_COLUMN_BITMASK = 32L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		com.liferay.portal.util.PropsUtil.get(
@@ -237,10 +245,39 @@ public class UserTrackerPathModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<UserTrackerPath, Object> function =
+			_attributeGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((UserTrackerPath)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<UserTrackerPathCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_userTrackerPathCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_userTrackerPathCacheModel);
+	}
+
 	private static final Map<String, Function<UserTrackerPath, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<UserTrackerPath, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<UserTrackerPathCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<UserTrackerPath, Object>>
@@ -248,34 +285,64 @@ public class UserTrackerPathModelImpl
 				new LinkedHashMap<String, Function<UserTrackerPath, Object>>();
 		Map<String, BiConsumer<UserTrackerPath, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<UserTrackerPath, ?>>();
+		Map<String, Function<UserTrackerPathCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<UserTrackerPathCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", UserTrackerPath::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			userTrackerPathCacheModel -> userTrackerPathCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<UserTrackerPath, Long>)UserTrackerPath::setMvccVersion);
 		attributeGetterFunctions.put(
 			"userTrackerPathId", UserTrackerPath::getUserTrackerPathId);
+
+		cacheModelGetterFunctions.put(
+			"userTrackerPathId",
+			userTrackerPathCacheModel ->
+				userTrackerPathCacheModel.userTrackerPathId);
 		attributeSetterBiConsumers.put(
 			"userTrackerPathId",
 			(BiConsumer<UserTrackerPath, Long>)
 				UserTrackerPath::setUserTrackerPathId);
 		attributeGetterFunctions.put(
 			"companyId", UserTrackerPath::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			userTrackerPathCacheModel -> userTrackerPathCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<UserTrackerPath, Long>)UserTrackerPath::setCompanyId);
 		attributeGetterFunctions.put(
 			"userTrackerId", UserTrackerPath::getUserTrackerId);
+
+		cacheModelGetterFunctions.put(
+			"userTrackerId",
+			userTrackerPathCacheModel ->
+				userTrackerPathCacheModel.userTrackerId);
 		attributeSetterBiConsumers.put(
 			"userTrackerId",
 			(BiConsumer<UserTrackerPath, Long>)
 				UserTrackerPath::setUserTrackerId);
 		attributeGetterFunctions.put("path", UserTrackerPath::getPath);
+
+		cacheModelGetterFunctions.put(
+			"path",
+			userTrackerPathCacheModel -> userTrackerPathCacheModel.path);
 		attributeSetterBiConsumers.put(
 			"path",
 			(BiConsumer<UserTrackerPath, String>)UserTrackerPath::setPath);
 		attributeGetterFunctions.put("pathDate", UserTrackerPath::getPathDate);
+
+		cacheModelGetterFunctions.put(
+			"pathDate",
+			userTrackerPathCacheModel -> userTrackerPathCacheModel.pathDate);
 		attributeSetterBiConsumers.put(
 			"pathDate",
 			(BiConsumer<UserTrackerPath, Date>)UserTrackerPath::setPathDate);
@@ -284,6 +351,8 @@ public class UserTrackerPathModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -293,6 +362,13 @@ public class UserTrackerPathModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_userTrackerPathCacheModel == null)) {
+			_userTrackerPathCacheModel =
+				(UserTrackerPathCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -303,6 +379,13 @@ public class UserTrackerPathModelImpl
 
 	@Override
 	public void setUserTrackerPathId(long userTrackerPathId) {
+		_columnBitmask |= USERTRACKERPATHID_COLUMN_BITMASK;
+
+		if (!isNew() && (_userTrackerPathCacheModel == null)) {
+			_userTrackerPathCacheModel =
+				(UserTrackerPathCacheModel)toCacheModel();
+		}
+
 		_userTrackerPathId = userTrackerPathId;
 	}
 
@@ -313,6 +396,13 @@ public class UserTrackerPathModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (!isNew() && (_userTrackerPathCacheModel == null)) {
+			_userTrackerPathCacheModel =
+				(UserTrackerPathCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -325,17 +415,21 @@ public class UserTrackerPathModelImpl
 	public void setUserTrackerId(long userTrackerId) {
 		_columnBitmask |= USERTRACKERID_COLUMN_BITMASK;
 
-		if (!_setOriginalUserTrackerId) {
-			_setOriginalUserTrackerId = true;
-
-			_originalUserTrackerId = _userTrackerId;
+		if (!isNew() && (_userTrackerPathCacheModel == null)) {
+			_userTrackerPathCacheModel =
+				(UserTrackerPathCacheModel)toCacheModel();
 		}
 
 		_userTrackerId = userTrackerId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalUserTrackerId() {
-		return _originalUserTrackerId;
+		return getCacheModelAttribute("userTrackerId");
 	}
 
 	@Override
@@ -350,6 +444,13 @@ public class UserTrackerPathModelImpl
 
 	@Override
 	public void setPath(String path) {
+		_columnBitmask |= PATH_COLUMN_BITMASK;
+
+		if (!isNew() && (_userTrackerPathCacheModel == null)) {
+			_userTrackerPathCacheModel =
+				(UserTrackerPathCacheModel)toCacheModel();
+		}
+
 		_path = path;
 	}
 
@@ -360,6 +461,13 @@ public class UserTrackerPathModelImpl
 
 	@Override
 	public void setPathDate(Date pathDate) {
+		_columnBitmask |= PATHDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_userTrackerPathCacheModel == null)) {
+			_userTrackerPathCacheModel =
+				(UserTrackerPathCacheModel)toCacheModel();
+		}
+
 		_pathDate = pathDate;
 	}
 
@@ -399,6 +507,8 @@ public class UserTrackerPathModelImpl
 	public Object clone() {
 		UserTrackerPathImpl userTrackerPathImpl = new UserTrackerPathImpl();
 
+		userTrackerPathImpl.setNew(true);
+
 		userTrackerPathImpl.setMvccVersion(getMvccVersion());
 		userTrackerPathImpl.setUserTrackerPathId(getUserTrackerPathId());
 		userTrackerPathImpl.setCompanyId(getCompanyId());
@@ -407,6 +517,8 @@ public class UserTrackerPathModelImpl
 		userTrackerPathImpl.setPathDate(getPathDate());
 
 		userTrackerPathImpl.resetOriginalValues();
+
+		userTrackerPathImpl.setNew(false);
 
 		return userTrackerPathImpl;
 	}
@@ -473,14 +585,9 @@ public class UserTrackerPathModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		UserTrackerPathModelImpl userTrackerPathModelImpl = this;
+		_columnBitmask = 0;
 
-		userTrackerPathModelImpl._originalUserTrackerId =
-			userTrackerPathModelImpl._userTrackerId;
-
-		userTrackerPathModelImpl._setOriginalUserTrackerId = false;
-
-		userTrackerPathModelImpl._columnBitmask = 0;
+		_userTrackerPathCacheModel = null;
 	}
 
 	@Override
@@ -590,11 +697,10 @@ public class UserTrackerPathModelImpl
 	private long _userTrackerPathId;
 	private long _companyId;
 	private long _userTrackerId;
-	private long _originalUserTrackerId;
-	private boolean _setOriginalUserTrackerId;
 	private String _path;
 	private Date _pathDate;
 	private long _columnBitmask;
 	private UserTrackerPath _escapedModel;
+	private UserTrackerPathCacheModel _userTrackerPathCacheModel;
 
 }

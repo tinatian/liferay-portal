@@ -1482,8 +1482,8 @@ public class ExpandoRowPersistenceImpl
 			 _finderPathFetchByT_C.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				expandoRowModelImpl.getOriginalTableId(),
-				expandoRowModelImpl.getOriginalClassPK()
+				expandoRowModelImpl.getCacheModelAttribute("tableId"),
+				expandoRowModelImpl.getCacheModelAttribute("classPK")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByT_C, args);
@@ -1681,7 +1681,7 @@ public class ExpandoRowPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					expandoRowModelImpl.getOriginalTableId()
+					expandoRowModelImpl.getCacheModelAttribute("tableId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByTableId, args);
@@ -1700,7 +1700,7 @@ public class ExpandoRowPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					expandoRowModelImpl.getOriginalClassPK()
+					expandoRowModelImpl.getCacheModelAttribute("classPK")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByClassPK, args);

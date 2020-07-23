@@ -969,8 +969,8 @@ public class EntryPersistenceImpl
 			 _finderPathFetchByU_EA.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				entryModelImpl.getOriginalUserId(),
-				entryModelImpl.getOriginalEmailAddress()
+				entryModelImpl.getCacheModelAttribute("userId"),
+				entryModelImpl.getCacheModelAttribute("emailAddress")
 			};
 
 			finderCache.removeResult(_finderPathCountByU_EA, args);
@@ -1161,7 +1161,7 @@ public class EntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					entryModelImpl.getOriginalUserId()
+					entryModelImpl.getCacheModelAttribute("userId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUserId, args);

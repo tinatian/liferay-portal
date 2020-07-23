@@ -993,8 +993,10 @@ public class KaleoProcessLinkPersistenceImpl
 			 _finderPathFetchByKPI_WTN.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				kaleoProcessLinkModelImpl.getOriginalKaleoProcessId(),
-				kaleoProcessLinkModelImpl.getOriginalWorkflowTaskName()
+				kaleoProcessLinkModelImpl.getCacheModelAttribute(
+					"kaleoProcessId"),
+				kaleoProcessLinkModelImpl.getCacheModelAttribute(
+					"workflowTaskName")
 			};
 
 			finderCache.removeResult(_finderPathCountByKPI_WTN, args);
@@ -1173,7 +1175,8 @@ public class KaleoProcessLinkPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoProcessLinkModelImpl.getOriginalKaleoProcessId()
+					kaleoProcessLinkModelImpl.getCacheModelAttribute(
+						"kaleoProcessId")
 				};
 
 				finderCache.removeResult(

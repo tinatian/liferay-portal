@@ -26,7 +26,6 @@ import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -106,15 +105,25 @@ public class CTSContentModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long PATH_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
-	public static final long REPOSITORYID_COLUMN_BITMASK = 4L;
+	public static final long CTSCONTENTID_COLUMN_BITMASK = 4L;
 
-	public static final long STORETYPE_COLUMN_BITMASK = 8L;
+	public static final long COMPANYID_COLUMN_BITMASK = 8L;
 
-	public static final long VERSION_COLUMN_BITMASK = 16L;
+	public static final long REPOSITORYID_COLUMN_BITMASK = 16L;
+
+	public static final long PATH_COLUMN_BITMASK = 32L;
+
+	public static final long VERSION_COLUMN_BITMASK = 64L;
+
+	public static final long DATA_COLUMN_BITMASK = 128L;
+
+	public static final long SIZE_COLUMN_BITMASK = 256L;
+
+	public static final long STORETYPE_COLUMN_BITMASK = 512L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -242,53 +251,119 @@ public class CTSContentModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<CTSContent, Object> function = _attributeGetterFunctions.get(
+			attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((CTSContent)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<CTSContentCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_ctsContentCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_ctsContentCacheModel);
+	}
+
 	private static final Map<String, Function<CTSContent, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<CTSContent, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<CTSContentCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<CTSContent, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<CTSContent, Object>>();
 		Map<String, BiConsumer<CTSContent, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<CTSContent, ?>>();
+		Map<String, Function<CTSContentCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<CTSContentCacheModel, Object>>();
 
 		attributeGetterFunctions.put("mvccVersion", CTSContent::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			ctsContentCacheModel -> ctsContentCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<CTSContent, Long>)CTSContent::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", CTSContent::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			ctsContentCacheModel -> ctsContentCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<CTSContent, Long>)CTSContent::setCtCollectionId);
 		attributeGetterFunctions.put(
 			"ctsContentId", CTSContent::getCtsContentId);
+
+		cacheModelGetterFunctions.put(
+			"ctsContentId",
+			ctsContentCacheModel -> ctsContentCacheModel.ctsContentId);
 		attributeSetterBiConsumers.put(
 			"ctsContentId",
 			(BiConsumer<CTSContent, Long>)CTSContent::setCtsContentId);
 		attributeGetterFunctions.put("companyId", CTSContent::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			ctsContentCacheModel -> ctsContentCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<CTSContent, Long>)CTSContent::setCompanyId);
 		attributeGetterFunctions.put(
 			"repositoryId", CTSContent::getRepositoryId);
+
+		cacheModelGetterFunctions.put(
+			"repositoryId",
+			ctsContentCacheModel -> ctsContentCacheModel.repositoryId);
 		attributeSetterBiConsumers.put(
 			"repositoryId",
 			(BiConsumer<CTSContent, Long>)CTSContent::setRepositoryId);
 		attributeGetterFunctions.put("path", CTSContent::getPath);
+
+		cacheModelGetterFunctions.put(
+			"path", ctsContentCacheModel -> ctsContentCacheModel.path);
 		attributeSetterBiConsumers.put(
 			"path", (BiConsumer<CTSContent, String>)CTSContent::setPath);
 		attributeGetterFunctions.put("version", CTSContent::getVersion);
+
+		cacheModelGetterFunctions.put(
+			"version", ctsContentCacheModel -> ctsContentCacheModel.version);
 		attributeSetterBiConsumers.put(
 			"version", (BiConsumer<CTSContent, String>)CTSContent::setVersion);
 		attributeGetterFunctions.put("data", CTSContent::getData);
+
 		attributeSetterBiConsumers.put(
 			"data", (BiConsumer<CTSContent, Blob>)CTSContent::setData);
 		attributeGetterFunctions.put("size", CTSContent::getSize);
+
+		cacheModelGetterFunctions.put(
+			"size", ctsContentCacheModel -> ctsContentCacheModel.size);
 		attributeSetterBiConsumers.put(
 			"size", (BiConsumer<CTSContent, Long>)CTSContent::setSize);
 		attributeGetterFunctions.put("storeType", CTSContent::getStoreType);
+
+		cacheModelGetterFunctions.put(
+			"storeType",
+			ctsContentCacheModel -> ctsContentCacheModel.storeType);
 		attributeSetterBiConsumers.put(
 			"storeType",
 			(BiConsumer<CTSContent, String>)CTSContent::setStoreType);
@@ -297,6 +372,8 @@ public class CTSContentModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -306,6 +383,12 @@ public class CTSContentModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_ctsContentCacheModel == null)) {
+			_ctsContentCacheModel = (CTSContentCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -316,6 +399,12 @@ public class CTSContentModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (!isNew() && (_ctsContentCacheModel == null)) {
+			_ctsContentCacheModel = (CTSContentCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -326,6 +415,12 @@ public class CTSContentModelImpl
 
 	@Override
 	public void setCtsContentId(long ctsContentId) {
+		_columnBitmask |= CTSCONTENTID_COLUMN_BITMASK;
+
+		if (!isNew() && (_ctsContentCacheModel == null)) {
+			_ctsContentCacheModel = (CTSContentCacheModel)toCacheModel();
+		}
+
 		_ctsContentId = ctsContentId;
 	}
 
@@ -338,17 +433,20 @@ public class CTSContentModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (!isNew() && (_ctsContentCacheModel == null)) {
+			_ctsContentCacheModel = (CTSContentCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getCacheModelAttribute("companyId");
 	}
 
 	@Override
@@ -360,17 +458,20 @@ public class CTSContentModelImpl
 	public void setRepositoryId(long repositoryId) {
 		_columnBitmask |= REPOSITORYID_COLUMN_BITMASK;
 
-		if (!_setOriginalRepositoryId) {
-			_setOriginalRepositoryId = true;
-
-			_originalRepositoryId = _repositoryId;
+		if (!isNew() && (_ctsContentCacheModel == null)) {
+			_ctsContentCacheModel = (CTSContentCacheModel)toCacheModel();
 		}
 
 		_repositoryId = repositoryId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalRepositoryId() {
-		return _originalRepositoryId;
+		return getCacheModelAttribute("repositoryId");
 	}
 
 	@Override
@@ -387,15 +488,20 @@ public class CTSContentModelImpl
 	public void setPath(String path) {
 		_columnBitmask |= PATH_COLUMN_BITMASK;
 
-		if (_originalPath == null) {
-			_originalPath = _path;
+		if (!isNew() && (_ctsContentCacheModel == null)) {
+			_ctsContentCacheModel = (CTSContentCacheModel)toCacheModel();
 		}
 
 		_path = path;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalPath() {
-		return GetterUtil.getString(_originalPath);
+		return getCacheModelAttribute("path");
 	}
 
 	@Override
@@ -410,17 +516,22 @@ public class CTSContentModelImpl
 
 	@Override
 	public void setVersion(String version) {
-		_columnBitmask = -1L;
+		_columnBitmask |= VERSION_COLUMN_BITMASK;
 
-		if (_originalVersion == null) {
-			_originalVersion = _version;
+		if (!isNew() && (_ctsContentCacheModel == null)) {
+			_ctsContentCacheModel = (CTSContentCacheModel)toCacheModel();
 		}
 
 		_version = version;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalVersion() {
-		return GetterUtil.getString(_originalVersion);
+		return getCacheModelAttribute("version");
 	}
 
 	@Override
@@ -445,6 +556,12 @@ public class CTSContentModelImpl
 
 	@Override
 	public void setData(Blob data) {
+		_columnBitmask |= DATA_COLUMN_BITMASK;
+
+		if (!isNew() && (_ctsContentCacheModel == null)) {
+			_ctsContentCacheModel = (CTSContentCacheModel)toCacheModel();
+		}
+
 		if (_dataBlobModel == null) {
 			_dataBlobModel = new CTSContentDataBlobModel(getPrimaryKey(), data);
 		}
@@ -460,6 +577,12 @@ public class CTSContentModelImpl
 
 	@Override
 	public void setSize(long size) {
+		_columnBitmask |= SIZE_COLUMN_BITMASK;
+
+		if (!isNew() && (_ctsContentCacheModel == null)) {
+			_ctsContentCacheModel = (CTSContentCacheModel)toCacheModel();
+		}
+
 		_size = size;
 	}
 
@@ -477,15 +600,20 @@ public class CTSContentModelImpl
 	public void setStoreType(String storeType) {
 		_columnBitmask |= STORETYPE_COLUMN_BITMASK;
 
-		if (_originalStoreType == null) {
-			_originalStoreType = _storeType;
+		if (!isNew() && (_ctsContentCacheModel == null)) {
+			_ctsContentCacheModel = (CTSContentCacheModel)toCacheModel();
 		}
 
 		_storeType = storeType;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalStoreType() {
-		return GetterUtil.getString(_originalStoreType);
+		return getCacheModelAttribute("storeType");
 	}
 
 	public long getColumnBitmask() {
@@ -524,6 +652,8 @@ public class CTSContentModelImpl
 	public Object clone() {
 		CTSContentImpl ctsContentImpl = new CTSContentImpl();
 
+		ctsContentImpl.setNew(true);
+
 		ctsContentImpl.setMvccVersion(getMvccVersion());
 		ctsContentImpl.setCtCollectionId(getCtCollectionId());
 		ctsContentImpl.setCtsContentId(getCtsContentId());
@@ -535,6 +665,8 @@ public class CTSContentModelImpl
 		ctsContentImpl.setStoreType(getStoreType());
 
 		ctsContentImpl.resetOriginalValues();
+
+		ctsContentImpl.setNew(false);
 
 		return ctsContentImpl;
 	}
@@ -601,26 +733,11 @@ public class CTSContentModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		CTSContentModelImpl ctsContentModelImpl = this;
+		_dataBlobModel = null;
 
-		ctsContentModelImpl._originalCompanyId = ctsContentModelImpl._companyId;
+		_columnBitmask = 0;
 
-		ctsContentModelImpl._setOriginalCompanyId = false;
-
-		ctsContentModelImpl._originalRepositoryId =
-			ctsContentModelImpl._repositoryId;
-
-		ctsContentModelImpl._setOriginalRepositoryId = false;
-
-		ctsContentModelImpl._originalPath = ctsContentModelImpl._path;
-
-		ctsContentModelImpl._originalVersion = ctsContentModelImpl._version;
-
-		ctsContentModelImpl._dataBlobModel = null;
-
-		ctsContentModelImpl._originalStoreType = ctsContentModelImpl._storeType;
-
-		ctsContentModelImpl._columnBitmask = 0;
+		_ctsContentCacheModel = null;
 	}
 
 	@Override
@@ -754,20 +871,14 @@ public class CTSContentModelImpl
 	private long _ctCollectionId;
 	private long _ctsContentId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _repositoryId;
-	private long _originalRepositoryId;
-	private boolean _setOriginalRepositoryId;
 	private String _path;
-	private String _originalPath;
 	private String _version;
-	private String _originalVersion;
 	private CTSContentDataBlobModel _dataBlobModel;
 	private long _size;
 	private String _storeType;
-	private String _originalStoreType;
 	private long _columnBitmask;
 	private CTSContent _escapedModel;
+	private CTSContentCacheModel _ctsContentCacheModel;
 
 }

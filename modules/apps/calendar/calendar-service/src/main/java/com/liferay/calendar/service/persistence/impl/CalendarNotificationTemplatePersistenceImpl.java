@@ -2539,8 +2539,10 @@ public class CalendarNotificationTemplatePersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				calendarNotificationTemplateModelImpl.getOriginalUuid(),
-				calendarNotificationTemplateModelImpl.getOriginalGroupId()
+				calendarNotificationTemplateModelImpl.getCacheModelAttribute(
+					"uuid"),
+				calendarNotificationTemplateModelImpl.getCacheModelAttribute(
+					"groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -2563,11 +2565,12 @@ public class CalendarNotificationTemplatePersistenceImpl
 			 _finderPathFetchByC_NT_NTT.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				calendarNotificationTemplateModelImpl.getOriginalCalendarId(),
-				calendarNotificationTemplateModelImpl.
-					getOriginalNotificationType(),
-				calendarNotificationTemplateModelImpl.
-					getOriginalNotificationTemplateType()
+				calendarNotificationTemplateModelImpl.getCacheModelAttribute(
+					"calendarId"),
+				calendarNotificationTemplateModelImpl.getCacheModelAttribute(
+					"notificationType"),
+				calendarNotificationTemplateModelImpl.getCacheModelAttribute(
+					"notificationTemplateType")
 			};
 
 			finderCache.removeResult(_finderPathCountByC_NT_NTT, args);
@@ -2817,7 +2820,8 @@ public class CalendarNotificationTemplatePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					calendarNotificationTemplateModelImpl.getOriginalUuid()
+					calendarNotificationTemplateModelImpl.
+						getCacheModelAttribute("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -2838,8 +2842,10 @@ public class CalendarNotificationTemplatePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					calendarNotificationTemplateModelImpl.getOriginalUuid(),
-					calendarNotificationTemplateModelImpl.getOriginalCompanyId()
+					calendarNotificationTemplateModelImpl.
+						getCacheModelAttribute("uuid"),
+					calendarNotificationTemplateModelImpl.
+						getCacheModelAttribute("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -2862,7 +2868,7 @@ public class CalendarNotificationTemplatePersistenceImpl
 
 				Object[] args = new Object[] {
 					calendarNotificationTemplateModelImpl.
-						getOriginalCalendarId()
+						getCacheModelAttribute("calendarId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCalendarId, args);

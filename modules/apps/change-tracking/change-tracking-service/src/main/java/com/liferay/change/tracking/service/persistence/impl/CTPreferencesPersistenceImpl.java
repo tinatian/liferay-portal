@@ -1464,8 +1464,8 @@ public class CTPreferencesPersistenceImpl
 			 _finderPathFetchByC_U.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				ctPreferencesModelImpl.getOriginalCompanyId(),
-				ctPreferencesModelImpl.getOriginalUserId()
+				ctPreferencesModelImpl.getCacheModelAttribute("companyId"),
+				ctPreferencesModelImpl.getCacheModelAttribute("userId")
 			};
 
 			finderCache.removeResult(_finderPathCountByC_U, args);
@@ -1651,7 +1651,8 @@ public class CTPreferencesPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					ctPreferencesModelImpl.getOriginalCtCollectionId()
+					ctPreferencesModelImpl.getCacheModelAttribute(
+						"ctCollectionId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCollectionId, args);
@@ -1672,7 +1673,8 @@ public class CTPreferencesPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					ctPreferencesModelImpl.getOriginalPreviousCtCollectionId()
+					ctPreferencesModelImpl.getCacheModelAttribute(
+						"previousCtCollectionId")
 				};
 
 				finderCache.removeResult(

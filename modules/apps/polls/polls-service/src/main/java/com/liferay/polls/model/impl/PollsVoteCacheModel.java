@@ -113,6 +113,8 @@ public class PollsVoteCacheModel
 	public PollsVote toEntityModel() {
 		PollsVoteImpl pollsVoteImpl = new PollsVoteImpl();
 
+		pollsVoteImpl.setNew(true);
+
 		pollsVoteImpl.setMvccVersion(mvccVersion);
 
 		if (uuid == null) {
@@ -166,6 +168,8 @@ public class PollsVoteCacheModel
 		}
 
 		pollsVoteImpl.resetOriginalValues();
+
+		pollsVoteImpl.setNew(false);
 
 		return pollsVoteImpl;
 	}

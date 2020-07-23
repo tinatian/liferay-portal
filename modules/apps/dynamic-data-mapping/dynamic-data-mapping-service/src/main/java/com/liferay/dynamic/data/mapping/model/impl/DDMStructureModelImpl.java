@@ -31,7 +31,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
@@ -139,23 +138,49 @@ public class DDMStructureModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long CLASSNAMEID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
-	public static final long DESCRIPTION_COLUMN_BITMASK = 4L;
+	public static final long UUID_COLUMN_BITMASK = 4L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 8L;
+	public static final long STRUCTUREID_COLUMN_BITMASK = 8L;
 
-	public static final long NAME_COLUMN_BITMASK = 16L;
+	public static final long GROUPID_COLUMN_BITMASK = 16L;
 
-	public static final long PARENTSTRUCTUREID_COLUMN_BITMASK = 32L;
+	public static final long COMPANYID_COLUMN_BITMASK = 32L;
 
-	public static final long STRUCTUREKEY_COLUMN_BITMASK = 64L;
+	public static final long USERID_COLUMN_BITMASK = 64L;
 
-	public static final long UUID_COLUMN_BITMASK = 128L;
+	public static final long USERNAME_COLUMN_BITMASK = 128L;
 
-	public static final long STRUCTUREID_COLUMN_BITMASK = 256L;
+	public static final long VERSIONUSERID_COLUMN_BITMASK = 256L;
+
+	public static final long VERSIONUSERNAME_COLUMN_BITMASK = 512L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 1024L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 2048L;
+
+	public static final long PARENTSTRUCTUREID_COLUMN_BITMASK = 4096L;
+
+	public static final long CLASSNAMEID_COLUMN_BITMASK = 8192L;
+
+	public static final long STRUCTUREKEY_COLUMN_BITMASK = 16384L;
+
+	public static final long VERSION_COLUMN_BITMASK = 32768L;
+
+	public static final long NAME_COLUMN_BITMASK = 65536L;
+
+	public static final long DESCRIPTION_COLUMN_BITMASK = 131072L;
+
+	public static final long DEFINITION_COLUMN_BITMASK = 262144L;
+
+	public static final long STORAGETYPE_COLUMN_BITMASK = 524288L;
+
+	public static final long TYPE_COLUMN_BITMASK = 1048576L;
+
+	public static final long LASTPUBLISHDATE_COLUMN_BITMASK = 2097152L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -344,110 +369,226 @@ public class DDMStructureModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<DDMStructure, Object> function = _attributeGetterFunctions.get(
+			attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((DDMStructure)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<DDMStructureCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_ddmStructureCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_ddmStructureCacheModel);
+	}
+
 	private static final Map<String, Function<DDMStructure, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<DDMStructure, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<DDMStructureCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<DDMStructure, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<DDMStructure, Object>>();
 		Map<String, BiConsumer<DDMStructure, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<DDMStructure, ?>>();
+		Map<String, Function<DDMStructureCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<DDMStructureCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", DDMStructure::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			ddmStructureCacheModel -> ddmStructureCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<DDMStructure, Long>)DDMStructure::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", DDMStructure::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			ddmStructureCacheModel -> ddmStructureCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<DDMStructure, Long>)DDMStructure::setCtCollectionId);
 		attributeGetterFunctions.put("uuid", DDMStructure::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid", ddmStructureCacheModel -> ddmStructureCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<DDMStructure, String>)DDMStructure::setUuid);
 		attributeGetterFunctions.put(
 			"structureId", DDMStructure::getStructureId);
+
+		cacheModelGetterFunctions.put(
+			"structureId",
+			ddmStructureCacheModel -> ddmStructureCacheModel.structureId);
 		attributeSetterBiConsumers.put(
 			"structureId",
 			(BiConsumer<DDMStructure, Long>)DDMStructure::setStructureId);
 		attributeGetterFunctions.put("groupId", DDMStructure::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			ddmStructureCacheModel -> ddmStructureCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<DDMStructure, Long>)DDMStructure::setGroupId);
 		attributeGetterFunctions.put("companyId", DDMStructure::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			ddmStructureCacheModel -> ddmStructureCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<DDMStructure, Long>)DDMStructure::setCompanyId);
 		attributeGetterFunctions.put("userId", DDMStructure::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", ddmStructureCacheModel -> ddmStructureCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<DDMStructure, Long>)DDMStructure::setUserId);
 		attributeGetterFunctions.put("userName", DDMStructure::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			ddmStructureCacheModel -> ddmStructureCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<DDMStructure, String>)DDMStructure::setUserName);
 		attributeGetterFunctions.put(
 			"versionUserId", DDMStructure::getVersionUserId);
+
+		cacheModelGetterFunctions.put(
+			"versionUserId",
+			ddmStructureCacheModel -> ddmStructureCacheModel.versionUserId);
 		attributeSetterBiConsumers.put(
 			"versionUserId",
 			(BiConsumer<DDMStructure, Long>)DDMStructure::setVersionUserId);
 		attributeGetterFunctions.put(
 			"versionUserName", DDMStructure::getVersionUserName);
+
+		cacheModelGetterFunctions.put(
+			"versionUserName",
+			ddmStructureCacheModel -> ddmStructureCacheModel.versionUserName);
 		attributeSetterBiConsumers.put(
 			"versionUserName",
 			(BiConsumer<DDMStructure, String>)DDMStructure::setVersionUserName);
 		attributeGetterFunctions.put("createDate", DDMStructure::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			ddmStructureCacheModel -> ddmStructureCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<DDMStructure, Date>)DDMStructure::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", DDMStructure::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			ddmStructureCacheModel -> ddmStructureCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<DDMStructure, Date>)DDMStructure::setModifiedDate);
 		attributeGetterFunctions.put(
 			"parentStructureId", DDMStructure::getParentStructureId);
+
+		cacheModelGetterFunctions.put(
+			"parentStructureId",
+			ddmStructureCacheModel -> ddmStructureCacheModel.parentStructureId);
 		attributeSetterBiConsumers.put(
 			"parentStructureId",
 			(BiConsumer<DDMStructure, Long>)DDMStructure::setParentStructureId);
 		attributeGetterFunctions.put(
 			"classNameId", DDMStructure::getClassNameId);
+
+		cacheModelGetterFunctions.put(
+			"classNameId",
+			ddmStructureCacheModel -> ddmStructureCacheModel.classNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<DDMStructure, Long>)DDMStructure::setClassNameId);
 		attributeGetterFunctions.put(
 			"structureKey", DDMStructure::getStructureKey);
+
+		cacheModelGetterFunctions.put(
+			"structureKey",
+			ddmStructureCacheModel -> ddmStructureCacheModel.structureKey);
 		attributeSetterBiConsumers.put(
 			"structureKey",
 			(BiConsumer<DDMStructure, String>)DDMStructure::setStructureKey);
 		attributeGetterFunctions.put("version", DDMStructure::getVersion);
+
+		cacheModelGetterFunctions.put(
+			"version",
+			ddmStructureCacheModel -> ddmStructureCacheModel.version);
 		attributeSetterBiConsumers.put(
 			"version",
 			(BiConsumer<DDMStructure, String>)DDMStructure::setVersion);
 		attributeGetterFunctions.put("name", DDMStructure::getName);
+
+		cacheModelGetterFunctions.put(
+			"name", ddmStructureCacheModel -> ddmStructureCacheModel.name);
 		attributeSetterBiConsumers.put(
 			"name", (BiConsumer<DDMStructure, String>)DDMStructure::setName);
 		attributeGetterFunctions.put(
 			"description", DDMStructure::getDescription);
+
+		cacheModelGetterFunctions.put(
+			"description",
+			ddmStructureCacheModel -> ddmStructureCacheModel.description);
 		attributeSetterBiConsumers.put(
 			"description",
 			(BiConsumer<DDMStructure, String>)DDMStructure::setDescription);
 		attributeGetterFunctions.put("definition", DDMStructure::getDefinition);
+
+		cacheModelGetterFunctions.put(
+			"definition",
+			ddmStructureCacheModel -> ddmStructureCacheModel.definition);
 		attributeSetterBiConsumers.put(
 			"definition",
 			(BiConsumer<DDMStructure, String>)DDMStructure::setDefinition);
 		attributeGetterFunctions.put(
 			"storageType", DDMStructure::getStorageType);
+
+		cacheModelGetterFunctions.put(
+			"storageType",
+			ddmStructureCacheModel -> ddmStructureCacheModel.storageType);
 		attributeSetterBiConsumers.put(
 			"storageType",
 			(BiConsumer<DDMStructure, String>)DDMStructure::setStorageType);
 		attributeGetterFunctions.put("type", DDMStructure::getType);
+
+		cacheModelGetterFunctions.put(
+			"type", ddmStructureCacheModel -> ddmStructureCacheModel.type);
 		attributeSetterBiConsumers.put(
 			"type", (BiConsumer<DDMStructure, Integer>)DDMStructure::setType);
 		attributeGetterFunctions.put(
 			"lastPublishDate", DDMStructure::getLastPublishDate);
+
+		cacheModelGetterFunctions.put(
+			"lastPublishDate",
+			ddmStructureCacheModel -> ddmStructureCacheModel.lastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<DDMStructure, Date>)DDMStructure::setLastPublishDate);
@@ -456,6 +597,8 @@ public class DDMStructureModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -466,6 +609,12 @@ public class DDMStructureModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_ddmStructureCacheModel == null)) {
+			_ddmStructureCacheModel = (DDMStructureCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -477,6 +626,12 @@ public class DDMStructureModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (!isNew() && (_ddmStructureCacheModel == null)) {
+			_ddmStructureCacheModel = (DDMStructureCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -495,15 +650,20 @@ public class DDMStructureModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (!isNew() && (_ddmStructureCacheModel == null)) {
+			_ddmStructureCacheModel = (DDMStructureCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getCacheModelAttribute("uuid");
 	}
 
 	@JSON
@@ -514,6 +674,12 @@ public class DDMStructureModelImpl
 
 	@Override
 	public void setStructureId(long structureId) {
+		_columnBitmask |= STRUCTUREID_COLUMN_BITMASK;
+
+		if (!isNew() && (_ddmStructureCacheModel == null)) {
+			_ddmStructureCacheModel = (DDMStructureCacheModel)toCacheModel();
+		}
+
 		_structureId = structureId;
 	}
 
@@ -527,17 +693,20 @@ public class DDMStructureModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (!isNew() && (_ddmStructureCacheModel == null)) {
+			_ddmStructureCacheModel = (DDMStructureCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getCacheModelAttribute("groupId");
 	}
 
 	@JSON
@@ -550,17 +719,20 @@ public class DDMStructureModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (!isNew() && (_ddmStructureCacheModel == null)) {
+			_ddmStructureCacheModel = (DDMStructureCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getCacheModelAttribute("companyId");
 	}
 
 	@JSON
@@ -571,6 +743,12 @@ public class DDMStructureModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_ddmStructureCacheModel == null)) {
+			_ddmStructureCacheModel = (DDMStructureCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -603,6 +781,12 @@ public class DDMStructureModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_ddmStructureCacheModel == null)) {
+			_ddmStructureCacheModel = (DDMStructureCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -614,6 +798,12 @@ public class DDMStructureModelImpl
 
 	@Override
 	public void setVersionUserId(long versionUserId) {
+		_columnBitmask |= VERSIONUSERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_ddmStructureCacheModel == null)) {
+			_ddmStructureCacheModel = (DDMStructureCacheModel)toCacheModel();
+		}
+
 		_versionUserId = versionUserId;
 	}
 
@@ -646,6 +836,12 @@ public class DDMStructureModelImpl
 
 	@Override
 	public void setVersionUserName(String versionUserName) {
+		_columnBitmask |= VERSIONUSERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_ddmStructureCacheModel == null)) {
+			_ddmStructureCacheModel = (DDMStructureCacheModel)toCacheModel();
+		}
+
 		_versionUserName = versionUserName;
 	}
 
@@ -657,6 +853,12 @@ public class DDMStructureModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_ddmStructureCacheModel == null)) {
+			_ddmStructureCacheModel = (DDMStructureCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -674,6 +876,12 @@ public class DDMStructureModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_ddmStructureCacheModel == null)) {
+			_ddmStructureCacheModel = (DDMStructureCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -687,17 +895,20 @@ public class DDMStructureModelImpl
 	public void setParentStructureId(long parentStructureId) {
 		_columnBitmask |= PARENTSTRUCTUREID_COLUMN_BITMASK;
 
-		if (!_setOriginalParentStructureId) {
-			_setOriginalParentStructureId = true;
-
-			_originalParentStructureId = _parentStructureId;
+		if (!isNew() && (_ddmStructureCacheModel == null)) {
+			_ddmStructureCacheModel = (DDMStructureCacheModel)toCacheModel();
 		}
 
 		_parentStructureId = parentStructureId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalParentStructureId() {
-		return _originalParentStructureId;
+		return getCacheModelAttribute("parentStructureId");
 	}
 
 	@JSON
@@ -710,17 +921,20 @@ public class DDMStructureModelImpl
 	public void setClassNameId(long classNameId) {
 		_columnBitmask |= CLASSNAMEID_COLUMN_BITMASK;
 
-		if (!_setOriginalClassNameId) {
-			_setOriginalClassNameId = true;
-
-			_originalClassNameId = _classNameId;
+		if (!isNew() && (_ddmStructureCacheModel == null)) {
+			_ddmStructureCacheModel = (DDMStructureCacheModel)toCacheModel();
 		}
 
 		_classNameId = classNameId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassNameId() {
-		return _originalClassNameId;
+		return getCacheModelAttribute("classNameId");
 	}
 
 	@JSON
@@ -738,15 +952,20 @@ public class DDMStructureModelImpl
 	public void setStructureKey(String structureKey) {
 		_columnBitmask |= STRUCTUREKEY_COLUMN_BITMASK;
 
-		if (_originalStructureKey == null) {
-			_originalStructureKey = _structureKey;
+		if (!isNew() && (_ddmStructureCacheModel == null)) {
+			_ddmStructureCacheModel = (DDMStructureCacheModel)toCacheModel();
 		}
 
 		_structureKey = structureKey;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalStructureKey() {
-		return GetterUtil.getString(_originalStructureKey);
+		return getCacheModelAttribute("structureKey");
 	}
 
 	@JSON
@@ -762,6 +981,12 @@ public class DDMStructureModelImpl
 
 	@Override
 	public void setVersion(String version) {
+		_columnBitmask |= VERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_ddmStructureCacheModel == null)) {
+			_ddmStructureCacheModel = (DDMStructureCacheModel)toCacheModel();
+		}
+
 		_version = version;
 	}
 
@@ -823,8 +1048,8 @@ public class DDMStructureModelImpl
 	public void setName(String name) {
 		_columnBitmask |= NAME_COLUMN_BITMASK;
 
-		if (_originalName == null) {
-			_originalName = _name;
+		if (!isNew() && (_ddmStructureCacheModel == null)) {
+			_ddmStructureCacheModel = (DDMStructureCacheModel)toCacheModel();
 		}
 
 		_name = name;
@@ -874,8 +1099,13 @@ public class DDMStructureModelImpl
 				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalName() {
-		return GetterUtil.getString(_originalName);
+		return getCacheModelAttribute("name");
 	}
 
 	@JSON
@@ -936,8 +1166,8 @@ public class DDMStructureModelImpl
 	public void setDescription(String description) {
 		_columnBitmask |= DESCRIPTION_COLUMN_BITMASK;
 
-		if (_originalDescription == null) {
-			_originalDescription = _description;
+		if (!isNew() && (_ddmStructureCacheModel == null)) {
+			_ddmStructureCacheModel = (DDMStructureCacheModel)toCacheModel();
 		}
 
 		_description = description;
@@ -992,8 +1222,13 @@ public class DDMStructureModelImpl
 				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalDescription() {
-		return GetterUtil.getString(_originalDescription);
+		return getCacheModelAttribute("description");
 	}
 
 	@JSON
@@ -1009,6 +1244,12 @@ public class DDMStructureModelImpl
 
 	@Override
 	public void setDefinition(String definition) {
+		_columnBitmask |= DEFINITION_COLUMN_BITMASK;
+
+		if (!isNew() && (_ddmStructureCacheModel == null)) {
+			_ddmStructureCacheModel = (DDMStructureCacheModel)toCacheModel();
+		}
+
 		_definition = definition;
 	}
 
@@ -1025,6 +1266,12 @@ public class DDMStructureModelImpl
 
 	@Override
 	public void setStorageType(String storageType) {
+		_columnBitmask |= STORAGETYPE_COLUMN_BITMASK;
+
+		if (!isNew() && (_ddmStructureCacheModel == null)) {
+			_ddmStructureCacheModel = (DDMStructureCacheModel)toCacheModel();
+		}
+
 		_storageType = storageType;
 	}
 
@@ -1036,6 +1283,12 @@ public class DDMStructureModelImpl
 
 	@Override
 	public void setType(int type) {
+		_columnBitmask |= TYPE_COLUMN_BITMASK;
+
+		if (!isNew() && (_ddmStructureCacheModel == null)) {
+			_ddmStructureCacheModel = (DDMStructureCacheModel)toCacheModel();
+		}
+
 		_type = type;
 	}
 
@@ -1047,6 +1300,12 @@ public class DDMStructureModelImpl
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		_columnBitmask |= LASTPUBLISHDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_ddmStructureCacheModel == null)) {
+			_ddmStructureCacheModel = (DDMStructureCacheModel)toCacheModel();
+		}
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -1196,6 +1455,8 @@ public class DDMStructureModelImpl
 	public Object clone() {
 		DDMStructureImpl ddmStructureImpl = new DDMStructureImpl();
 
+		ddmStructureImpl.setNew(true);
+
 		ddmStructureImpl.setMvccVersion(getMvccVersion());
 		ddmStructureImpl.setCtCollectionId(getCtCollectionId());
 		ddmStructureImpl.setUuid(getUuid());
@@ -1220,6 +1481,8 @@ public class DDMStructureModelImpl
 		ddmStructureImpl.setLastPublishDate(getLastPublishDate());
 
 		ddmStructureImpl.resetOriginalValues();
+
+		ddmStructureImpl.setNew(false);
 
 		return ddmStructureImpl;
 	}
@@ -1286,44 +1549,15 @@ public class DDMStructureModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		DDMStructureModelImpl ddmStructureModelImpl = this;
-
-		ddmStructureModelImpl._originalUuid = ddmStructureModelImpl._uuid;
-
-		ddmStructureModelImpl._originalGroupId = ddmStructureModelImpl._groupId;
-
-		ddmStructureModelImpl._setOriginalGroupId = false;
-
-		ddmStructureModelImpl._originalCompanyId =
-			ddmStructureModelImpl._companyId;
-
-		ddmStructureModelImpl._setOriginalCompanyId = false;
-
-		ddmStructureModelImpl._setModifiedDate = false;
-
-		ddmStructureModelImpl._originalParentStructureId =
-			ddmStructureModelImpl._parentStructureId;
-
-		ddmStructureModelImpl._setOriginalParentStructureId = false;
-
-		ddmStructureModelImpl._originalClassNameId =
-			ddmStructureModelImpl._classNameId;
-
-		ddmStructureModelImpl._setOriginalClassNameId = false;
-
-		ddmStructureModelImpl._originalStructureKey =
-			ddmStructureModelImpl._structureKey;
-
-		ddmStructureModelImpl._originalName = ddmStructureModelImpl._name;
-
-		ddmStructureModelImpl._originalDescription =
-			ddmStructureModelImpl._description;
+		_setModifiedDate = false;
 
 		setClassName(null);
 
 		setDDMForm(null);
 
-		ddmStructureModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
+
+		_ddmStructureCacheModel = null;
 	}
 
 	@Override
@@ -1530,14 +1764,9 @@ public class DDMStructureModelImpl
 	private long _mvccVersion;
 	private long _ctCollectionId;
 	private String _uuid;
-	private String _originalUuid;
 	private long _structureId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private long _versionUserId;
@@ -1546,25 +1775,19 @@ public class DDMStructureModelImpl
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _parentStructureId;
-	private long _originalParentStructureId;
-	private boolean _setOriginalParentStructureId;
 	private long _classNameId;
-	private long _originalClassNameId;
-	private boolean _setOriginalClassNameId;
 	private String _structureKey;
-	private String _originalStructureKey;
 	private String _version;
 	private String _name;
 	private String _nameCurrentLanguageId;
-	private String _originalName;
 	private String _description;
 	private String _descriptionCurrentLanguageId;
-	private String _originalDescription;
 	private String _definition;
 	private String _storageType;
 	private int _type;
 	private Date _lastPublishDate;
 	private long _columnBitmask;
 	private DDMStructure _escapedModel;
+	private DDMStructureCacheModel _ddmStructureCacheModel;
 
 }

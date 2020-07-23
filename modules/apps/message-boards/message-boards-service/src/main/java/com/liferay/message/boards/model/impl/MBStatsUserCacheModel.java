@@ -104,6 +104,8 @@ public class MBStatsUserCacheModel
 	public MBStatsUser toEntityModel() {
 		MBStatsUserImpl mbStatsUserImpl = new MBStatsUserImpl();
 
+		mbStatsUserImpl.setNew(true);
+
 		mbStatsUserImpl.setMvccVersion(mvccVersion);
 		mbStatsUserImpl.setCtCollectionId(ctCollectionId);
 		mbStatsUserImpl.setStatsUserId(statsUserId);
@@ -120,6 +122,8 @@ public class MBStatsUserCacheModel
 		}
 
 		mbStatsUserImpl.resetOriginalValues();
+
+		mbStatsUserImpl.setNew(false);
 
 		return mbStatsUserImpl;
 	}

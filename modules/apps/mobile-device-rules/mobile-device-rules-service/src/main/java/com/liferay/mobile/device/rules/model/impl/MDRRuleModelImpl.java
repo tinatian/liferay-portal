@@ -32,7 +32,6 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.DateUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
@@ -130,15 +129,35 @@ public class MDRRuleModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 2L;
+	public static final long UUID_COLUMN_BITMASK = 2L;
 
-	public static final long RULEGROUPID_COLUMN_BITMASK = 4L;
+	public static final long RULEID_COLUMN_BITMASK = 4L;
 
-	public static final long UUID_COLUMN_BITMASK = 8L;
+	public static final long GROUPID_COLUMN_BITMASK = 8L;
 
-	public static final long CREATEDATE_COLUMN_BITMASK = 16L;
+	public static final long COMPANYID_COLUMN_BITMASK = 16L;
+
+	public static final long USERID_COLUMN_BITMASK = 32L;
+
+	public static final long USERNAME_COLUMN_BITMASK = 64L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 128L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 256L;
+
+	public static final long RULEGROUPID_COLUMN_BITMASK = 512L;
+
+	public static final long NAME_COLUMN_BITMASK = 1024L;
+
+	public static final long DESCRIPTION_COLUMN_BITMASK = 2048L;
+
+	public static final long TYPE_COLUMN_BITMASK = 4096L;
+
+	public static final long TYPESETTINGS_COLUMN_BITMASK = 8192L;
+
+	public static final long LASTPUBLISHDATE_COLUMN_BITMASK = 16384L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -317,64 +336,144 @@ public class MDRRuleModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<MDRRule, Object> function = _attributeGetterFunctions.get(
+			attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((MDRRule)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<MDRRuleCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_mdrRuleCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_mdrRuleCacheModel);
+	}
+
 	private static final Map<String, Function<MDRRule, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<MDRRule, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<MDRRuleCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<MDRRule, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<MDRRule, Object>>();
 		Map<String, BiConsumer<MDRRule, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<MDRRule, ?>>();
+		Map<String, Function<MDRRuleCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<MDRRuleCacheModel, Object>>();
 
 		attributeGetterFunctions.put("mvccVersion", MDRRule::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion", mdrRuleCacheModel -> mdrRuleCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion", (BiConsumer<MDRRule, Long>)MDRRule::setMvccVersion);
 		attributeGetterFunctions.put("uuid", MDRRule::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid", mdrRuleCacheModel -> mdrRuleCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<MDRRule, String>)MDRRule::setUuid);
 		attributeGetterFunctions.put("ruleId", MDRRule::getRuleId);
+
+		cacheModelGetterFunctions.put(
+			"ruleId", mdrRuleCacheModel -> mdrRuleCacheModel.ruleId);
 		attributeSetterBiConsumers.put(
 			"ruleId", (BiConsumer<MDRRule, Long>)MDRRule::setRuleId);
 		attributeGetterFunctions.put("groupId", MDRRule::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId", mdrRuleCacheModel -> mdrRuleCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId", (BiConsumer<MDRRule, Long>)MDRRule::setGroupId);
 		attributeGetterFunctions.put("companyId", MDRRule::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId", mdrRuleCacheModel -> mdrRuleCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId", (BiConsumer<MDRRule, Long>)MDRRule::setCompanyId);
 		attributeGetterFunctions.put("userId", MDRRule::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", mdrRuleCacheModel -> mdrRuleCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<MDRRule, Long>)MDRRule::setUserId);
 		attributeGetterFunctions.put("userName", MDRRule::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName", mdrRuleCacheModel -> mdrRuleCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName", (BiConsumer<MDRRule, String>)MDRRule::setUserName);
 		attributeGetterFunctions.put("createDate", MDRRule::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate", mdrRuleCacheModel -> mdrRuleCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate", (BiConsumer<MDRRule, Date>)MDRRule::setCreateDate);
 		attributeGetterFunctions.put("modifiedDate", MDRRule::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			mdrRuleCacheModel -> mdrRuleCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<MDRRule, Date>)MDRRule::setModifiedDate);
 		attributeGetterFunctions.put("ruleGroupId", MDRRule::getRuleGroupId);
+
+		cacheModelGetterFunctions.put(
+			"ruleGroupId", mdrRuleCacheModel -> mdrRuleCacheModel.ruleGroupId);
 		attributeSetterBiConsumers.put(
 			"ruleGroupId", (BiConsumer<MDRRule, Long>)MDRRule::setRuleGroupId);
 		attributeGetterFunctions.put("name", MDRRule::getName);
+
+		cacheModelGetterFunctions.put(
+			"name", mdrRuleCacheModel -> mdrRuleCacheModel.name);
 		attributeSetterBiConsumers.put(
 			"name", (BiConsumer<MDRRule, String>)MDRRule::setName);
 		attributeGetterFunctions.put("description", MDRRule::getDescription);
+
+		cacheModelGetterFunctions.put(
+			"description", mdrRuleCacheModel -> mdrRuleCacheModel.description);
 		attributeSetterBiConsumers.put(
 			"description",
 			(BiConsumer<MDRRule, String>)MDRRule::setDescription);
 		attributeGetterFunctions.put("type", MDRRule::getType);
+
+		cacheModelGetterFunctions.put(
+			"type", mdrRuleCacheModel -> mdrRuleCacheModel.type);
 		attributeSetterBiConsumers.put(
 			"type", (BiConsumer<MDRRule, String>)MDRRule::setType);
 		attributeGetterFunctions.put("typeSettings", MDRRule::getTypeSettings);
+
+		cacheModelGetterFunctions.put(
+			"typeSettings",
+			mdrRuleCacheModel -> mdrRuleCacheModel.typeSettings);
 		attributeSetterBiConsumers.put(
 			"typeSettings",
 			(BiConsumer<MDRRule, String>)MDRRule::setTypeSettings);
 		attributeGetterFunctions.put(
 			"lastPublishDate", MDRRule::getLastPublishDate);
+
+		cacheModelGetterFunctions.put(
+			"lastPublishDate",
+			mdrRuleCacheModel -> mdrRuleCacheModel.lastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<MDRRule, Date>)MDRRule::setLastPublishDate);
@@ -383,6 +482,8 @@ public class MDRRuleModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -393,6 +494,12 @@ public class MDRRuleModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_mdrRuleCacheModel == null)) {
+			_mdrRuleCacheModel = (MDRRuleCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -411,15 +518,20 @@ public class MDRRuleModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (!isNew() && (_mdrRuleCacheModel == null)) {
+			_mdrRuleCacheModel = (MDRRuleCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getCacheModelAttribute("uuid");
 	}
 
 	@JSON
@@ -430,6 +542,12 @@ public class MDRRuleModelImpl
 
 	@Override
 	public void setRuleId(long ruleId) {
+		_columnBitmask |= RULEID_COLUMN_BITMASK;
+
+		if (!isNew() && (_mdrRuleCacheModel == null)) {
+			_mdrRuleCacheModel = (MDRRuleCacheModel)toCacheModel();
+		}
+
 		_ruleId = ruleId;
 	}
 
@@ -443,17 +561,20 @@ public class MDRRuleModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (!isNew() && (_mdrRuleCacheModel == null)) {
+			_mdrRuleCacheModel = (MDRRuleCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getCacheModelAttribute("groupId");
 	}
 
 	@JSON
@@ -466,17 +587,20 @@ public class MDRRuleModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (!isNew() && (_mdrRuleCacheModel == null)) {
+			_mdrRuleCacheModel = (MDRRuleCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getCacheModelAttribute("companyId");
 	}
 
 	@JSON
@@ -487,6 +611,12 @@ public class MDRRuleModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_mdrRuleCacheModel == null)) {
+			_mdrRuleCacheModel = (MDRRuleCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -519,6 +649,12 @@ public class MDRRuleModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_mdrRuleCacheModel == null)) {
+			_mdrRuleCacheModel = (MDRRuleCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -530,7 +666,11 @@ public class MDRRuleModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
-		_columnBitmask = -1L;
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_mdrRuleCacheModel == null)) {
+			_mdrRuleCacheModel = (MDRRuleCacheModel)toCacheModel();
+		}
 
 		_createDate = createDate;
 	}
@@ -549,6 +689,12 @@ public class MDRRuleModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_mdrRuleCacheModel == null)) {
+			_mdrRuleCacheModel = (MDRRuleCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -562,17 +708,20 @@ public class MDRRuleModelImpl
 	public void setRuleGroupId(long ruleGroupId) {
 		_columnBitmask |= RULEGROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalRuleGroupId) {
-			_setOriginalRuleGroupId = true;
-
-			_originalRuleGroupId = _ruleGroupId;
+		if (!isNew() && (_mdrRuleCacheModel == null)) {
+			_mdrRuleCacheModel = (MDRRuleCacheModel)toCacheModel();
 		}
 
 		_ruleGroupId = ruleGroupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalRuleGroupId() {
-		return _originalRuleGroupId;
+		return getCacheModelAttribute("ruleGroupId");
 	}
 
 	@JSON
@@ -631,6 +780,12 @@ public class MDRRuleModelImpl
 
 	@Override
 	public void setName(String name) {
+		_columnBitmask |= NAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_mdrRuleCacheModel == null)) {
+			_mdrRuleCacheModel = (MDRRuleCacheModel)toCacheModel();
+		}
+
 		_name = name;
 	}
 
@@ -734,6 +889,12 @@ public class MDRRuleModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		_columnBitmask |= DESCRIPTION_COLUMN_BITMASK;
+
+		if (!isNew() && (_mdrRuleCacheModel == null)) {
+			_mdrRuleCacheModel = (MDRRuleCacheModel)toCacheModel();
+		}
+
 		_description = description;
 	}
 
@@ -799,6 +960,12 @@ public class MDRRuleModelImpl
 
 	@Override
 	public void setType(String type) {
+		_columnBitmask |= TYPE_COLUMN_BITMASK;
+
+		if (!isNew() && (_mdrRuleCacheModel == null)) {
+			_mdrRuleCacheModel = (MDRRuleCacheModel)toCacheModel();
+		}
+
 		_type = type;
 	}
 
@@ -815,6 +982,12 @@ public class MDRRuleModelImpl
 
 	@Override
 	public void setTypeSettings(String typeSettings) {
+		_columnBitmask |= TYPESETTINGS_COLUMN_BITMASK;
+
+		if (!isNew() && (_mdrRuleCacheModel == null)) {
+			_mdrRuleCacheModel = (MDRRuleCacheModel)toCacheModel();
+		}
+
 		_typeSettings = typeSettings;
 	}
 
@@ -826,6 +999,12 @@ public class MDRRuleModelImpl
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		_columnBitmask |= LASTPUBLISHDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_mdrRuleCacheModel == null)) {
+			_mdrRuleCacheModel = (MDRRuleCacheModel)toCacheModel();
+		}
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -959,6 +1138,8 @@ public class MDRRuleModelImpl
 	public Object clone() {
 		MDRRuleImpl mdrRuleImpl = new MDRRuleImpl();
 
+		mdrRuleImpl.setNew(true);
+
 		mdrRuleImpl.setMvccVersion(getMvccVersion());
 		mdrRuleImpl.setUuid(getUuid());
 		mdrRuleImpl.setRuleId(getRuleId());
@@ -976,6 +1157,8 @@ public class MDRRuleModelImpl
 		mdrRuleImpl.setLastPublishDate(getLastPublishDate());
 
 		mdrRuleImpl.resetOriginalValues();
+
+		mdrRuleImpl.setNew(false);
 
 		return mdrRuleImpl;
 	}
@@ -1040,25 +1223,11 @@ public class MDRRuleModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		MDRRuleModelImpl mdrRuleModelImpl = this;
+		_setModifiedDate = false;
 
-		mdrRuleModelImpl._originalUuid = mdrRuleModelImpl._uuid;
+		_columnBitmask = 0;
 
-		mdrRuleModelImpl._originalGroupId = mdrRuleModelImpl._groupId;
-
-		mdrRuleModelImpl._setOriginalGroupId = false;
-
-		mdrRuleModelImpl._originalCompanyId = mdrRuleModelImpl._companyId;
-
-		mdrRuleModelImpl._setOriginalCompanyId = false;
-
-		mdrRuleModelImpl._setModifiedDate = false;
-
-		mdrRuleModelImpl._originalRuleGroupId = mdrRuleModelImpl._ruleGroupId;
-
-		mdrRuleModelImpl._setOriginalRuleGroupId = false;
-
-		mdrRuleModelImpl._columnBitmask = 0;
+		_mdrRuleCacheModel = null;
 	}
 
 	@Override
@@ -1227,22 +1396,15 @@ public class MDRRuleModelImpl
 
 	private long _mvccVersion;
 	private String _uuid;
-	private String _originalUuid;
 	private long _ruleId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _ruleGroupId;
-	private long _originalRuleGroupId;
-	private boolean _setOriginalRuleGroupId;
 	private String _name;
 	private String _nameCurrentLanguageId;
 	private String _description;
@@ -1252,5 +1414,6 @@ public class MDRRuleModelImpl
 	private Date _lastPublishDate;
 	private long _columnBitmask;
 	private MDRRule _escapedModel;
+	private MDRRuleCacheModel _mdrRuleCacheModel;
 
 }

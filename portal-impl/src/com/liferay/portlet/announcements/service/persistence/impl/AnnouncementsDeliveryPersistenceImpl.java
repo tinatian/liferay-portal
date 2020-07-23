@@ -1498,8 +1498,8 @@ public class AnnouncementsDeliveryPersistenceImpl
 			 _finderPathFetchByU_T.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				announcementsDeliveryModelImpl.getOriginalUserId(),
-				announcementsDeliveryModelImpl.getOriginalType()
+				announcementsDeliveryModelImpl.getCacheModelAttribute("userId"),
+				announcementsDeliveryModelImpl.getCacheModelAttribute("type")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByU_T, args);
@@ -1693,7 +1693,8 @@ public class AnnouncementsDeliveryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					announcementsDeliveryModelImpl.getOriginalCompanyId()
+					announcementsDeliveryModelImpl.getCacheModelAttribute(
+						"companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
@@ -1714,7 +1715,8 @@ public class AnnouncementsDeliveryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					announcementsDeliveryModelImpl.getOriginalUserId()
+					announcementsDeliveryModelImpl.getCacheModelAttribute(
+						"userId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUserId, args);

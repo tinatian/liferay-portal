@@ -34,7 +34,6 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.DateUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -151,21 +150,65 @@ public class BlogsEntryModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long DISPLAYDATE_COLUMN_BITMASK = 2L;
+	public static final long UUID_COLUMN_BITMASK = 2L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 4L;
+	public static final long ENTRYID_COLUMN_BITMASK = 4L;
 
-	public static final long STATUS_COLUMN_BITMASK = 8L;
+	public static final long GROUPID_COLUMN_BITMASK = 8L;
 
-	public static final long URLTITLE_COLUMN_BITMASK = 16L;
+	public static final long COMPANYID_COLUMN_BITMASK = 16L;
 
 	public static final long USERID_COLUMN_BITMASK = 32L;
 
-	public static final long UUID_COLUMN_BITMASK = 64L;
+	public static final long USERNAME_COLUMN_BITMASK = 64L;
 
 	public static final long CREATEDATE_COLUMN_BITMASK = 128L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 256L;
+
+	public static final long TITLE_COLUMN_BITMASK = 512L;
+
+	public static final long SUBTITLE_COLUMN_BITMASK = 1024L;
+
+	public static final long URLTITLE_COLUMN_BITMASK = 2048L;
+
+	public static final long DESCRIPTION_COLUMN_BITMASK = 4096L;
+
+	public static final long CONTENT_COLUMN_BITMASK = 8192L;
+
+	public static final long DISPLAYDATE_COLUMN_BITMASK = 16384L;
+
+	public static final long ALLOWPINGBACKS_COLUMN_BITMASK = 32768L;
+
+	public static final long ALLOWTRACKBACKS_COLUMN_BITMASK = 65536L;
+
+	public static final long TRACKBACKS_COLUMN_BITMASK = 131072L;
+
+	public static final long COVERIMAGECAPTION_COLUMN_BITMASK = 262144L;
+
+	public static final long COVERIMAGEFILEENTRYID_COLUMN_BITMASK = 524288L;
+
+	public static final long COVERIMAGEURL_COLUMN_BITMASK = 1048576L;
+
+	public static final long SMALLIMAGE_COLUMN_BITMASK = 2097152L;
+
+	public static final long SMALLIMAGEFILEENTRYID_COLUMN_BITMASK = 4194304L;
+
+	public static final long SMALLIMAGEID_COLUMN_BITMASK = 8388608L;
+
+	public static final long SMALLIMAGEURL_COLUMN_BITMASK = 16777216L;
+
+	public static final long LASTPUBLISHDATE_COLUMN_BITMASK = 33554432L;
+
+	public static final long STATUS_COLUMN_BITMASK = 67108864L;
+
+	public static final long STATUSBYUSERID_COLUMN_BITMASK = 134217728L;
+
+	public static final long STATUSBYUSERNAME_COLUMN_BITMASK = 268435456L;
+
+	public static final long STATUSDATE_COLUMN_BITMASK = 536870912L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -360,139 +403,281 @@ public class BlogsEntryModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<BlogsEntry, Object> function = _attributeGetterFunctions.get(
+			attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((BlogsEntry)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<BlogsEntryCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_blogsEntryCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_blogsEntryCacheModel);
+	}
+
 	private static final Map<String, Function<BlogsEntry, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<BlogsEntry, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<BlogsEntryCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<BlogsEntry, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<BlogsEntry, Object>>();
 		Map<String, BiConsumer<BlogsEntry, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<BlogsEntry, ?>>();
+		Map<String, Function<BlogsEntryCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<BlogsEntryCacheModel, Object>>();
 
 		attributeGetterFunctions.put("mvccVersion", BlogsEntry::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			blogsEntryCacheModel -> blogsEntryCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<BlogsEntry, Long>)BlogsEntry::setMvccVersion);
 		attributeGetterFunctions.put("uuid", BlogsEntry::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid", blogsEntryCacheModel -> blogsEntryCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<BlogsEntry, String>)BlogsEntry::setUuid);
 		attributeGetterFunctions.put("entryId", BlogsEntry::getEntryId);
+
+		cacheModelGetterFunctions.put(
+			"entryId", blogsEntryCacheModel -> blogsEntryCacheModel.entryId);
 		attributeSetterBiConsumers.put(
 			"entryId", (BiConsumer<BlogsEntry, Long>)BlogsEntry::setEntryId);
 		attributeGetterFunctions.put("groupId", BlogsEntry::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId", blogsEntryCacheModel -> blogsEntryCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId", (BiConsumer<BlogsEntry, Long>)BlogsEntry::setGroupId);
 		attributeGetterFunctions.put("companyId", BlogsEntry::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			blogsEntryCacheModel -> blogsEntryCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<BlogsEntry, Long>)BlogsEntry::setCompanyId);
 		attributeGetterFunctions.put("userId", BlogsEntry::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", blogsEntryCacheModel -> blogsEntryCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<BlogsEntry, Long>)BlogsEntry::setUserId);
 		attributeGetterFunctions.put("userName", BlogsEntry::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName", blogsEntryCacheModel -> blogsEntryCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<BlogsEntry, String>)BlogsEntry::setUserName);
 		attributeGetterFunctions.put("createDate", BlogsEntry::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			blogsEntryCacheModel -> blogsEntryCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<BlogsEntry, Date>)BlogsEntry::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", BlogsEntry::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			blogsEntryCacheModel -> blogsEntryCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<BlogsEntry, Date>)BlogsEntry::setModifiedDate);
 		attributeGetterFunctions.put("title", BlogsEntry::getTitle);
+
+		cacheModelGetterFunctions.put(
+			"title", blogsEntryCacheModel -> blogsEntryCacheModel.title);
 		attributeSetterBiConsumers.put(
 			"title", (BiConsumer<BlogsEntry, String>)BlogsEntry::setTitle);
 		attributeGetterFunctions.put("subtitle", BlogsEntry::getSubtitle);
+
+		cacheModelGetterFunctions.put(
+			"subtitle", blogsEntryCacheModel -> blogsEntryCacheModel.subtitle);
 		attributeSetterBiConsumers.put(
 			"subtitle",
 			(BiConsumer<BlogsEntry, String>)BlogsEntry::setSubtitle);
 		attributeGetterFunctions.put("urlTitle", BlogsEntry::getUrlTitle);
+
+		cacheModelGetterFunctions.put(
+			"urlTitle", blogsEntryCacheModel -> blogsEntryCacheModel.urlTitle);
 		attributeSetterBiConsumers.put(
 			"urlTitle",
 			(BiConsumer<BlogsEntry, String>)BlogsEntry::setUrlTitle);
 		attributeGetterFunctions.put("description", BlogsEntry::getDescription);
+
+		cacheModelGetterFunctions.put(
+			"description",
+			blogsEntryCacheModel -> blogsEntryCacheModel.description);
 		attributeSetterBiConsumers.put(
 			"description",
 			(BiConsumer<BlogsEntry, String>)BlogsEntry::setDescription);
 		attributeGetterFunctions.put("content", BlogsEntry::getContent);
+
+		cacheModelGetterFunctions.put(
+			"content", blogsEntryCacheModel -> blogsEntryCacheModel.content);
 		attributeSetterBiConsumers.put(
 			"content", (BiConsumer<BlogsEntry, String>)BlogsEntry::setContent);
 		attributeGetterFunctions.put("displayDate", BlogsEntry::getDisplayDate);
+
+		cacheModelGetterFunctions.put(
+			"displayDate",
+			blogsEntryCacheModel -> blogsEntryCacheModel.displayDate);
 		attributeSetterBiConsumers.put(
 			"displayDate",
 			(BiConsumer<BlogsEntry, Date>)BlogsEntry::setDisplayDate);
 		attributeGetterFunctions.put(
 			"allowPingbacks", BlogsEntry::getAllowPingbacks);
+
+		cacheModelGetterFunctions.put(
+			"allowPingbacks",
+			blogsEntryCacheModel -> blogsEntryCacheModel.allowPingbacks);
 		attributeSetterBiConsumers.put(
 			"allowPingbacks",
 			(BiConsumer<BlogsEntry, Boolean>)BlogsEntry::setAllowPingbacks);
 		attributeGetterFunctions.put(
 			"allowTrackbacks", BlogsEntry::getAllowTrackbacks);
+
+		cacheModelGetterFunctions.put(
+			"allowTrackbacks",
+			blogsEntryCacheModel -> blogsEntryCacheModel.allowTrackbacks);
 		attributeSetterBiConsumers.put(
 			"allowTrackbacks",
 			(BiConsumer<BlogsEntry, Boolean>)BlogsEntry::setAllowTrackbacks);
 		attributeGetterFunctions.put("trackbacks", BlogsEntry::getTrackbacks);
+
+		cacheModelGetterFunctions.put(
+			"trackbacks",
+			blogsEntryCacheModel -> blogsEntryCacheModel.trackbacks);
 		attributeSetterBiConsumers.put(
 			"trackbacks",
 			(BiConsumer<BlogsEntry, String>)BlogsEntry::setTrackbacks);
 		attributeGetterFunctions.put(
 			"coverImageCaption", BlogsEntry::getCoverImageCaption);
+
+		cacheModelGetterFunctions.put(
+			"coverImageCaption",
+			blogsEntryCacheModel -> blogsEntryCacheModel.coverImageCaption);
 		attributeSetterBiConsumers.put(
 			"coverImageCaption",
 			(BiConsumer<BlogsEntry, String>)BlogsEntry::setCoverImageCaption);
 		attributeGetterFunctions.put(
 			"coverImageFileEntryId", BlogsEntry::getCoverImageFileEntryId);
+
+		cacheModelGetterFunctions.put(
+			"coverImageFileEntryId",
+			blogsEntryCacheModel -> blogsEntryCacheModel.coverImageFileEntryId);
 		attributeSetterBiConsumers.put(
 			"coverImageFileEntryId",
 			(BiConsumer<BlogsEntry, Long>)BlogsEntry::setCoverImageFileEntryId);
 		attributeGetterFunctions.put(
 			"coverImageURL", BlogsEntry::getCoverImageURL);
+
+		cacheModelGetterFunctions.put(
+			"coverImageURL",
+			blogsEntryCacheModel -> blogsEntryCacheModel.coverImageURL);
 		attributeSetterBiConsumers.put(
 			"coverImageURL",
 			(BiConsumer<BlogsEntry, String>)BlogsEntry::setCoverImageURL);
 		attributeGetterFunctions.put("smallImage", BlogsEntry::getSmallImage);
+
+		cacheModelGetterFunctions.put(
+			"smallImage",
+			blogsEntryCacheModel -> blogsEntryCacheModel.smallImage);
 		attributeSetterBiConsumers.put(
 			"smallImage",
 			(BiConsumer<BlogsEntry, Boolean>)BlogsEntry::setSmallImage);
 		attributeGetterFunctions.put(
 			"smallImageFileEntryId", BlogsEntry::getSmallImageFileEntryId);
+
+		cacheModelGetterFunctions.put(
+			"smallImageFileEntryId",
+			blogsEntryCacheModel -> blogsEntryCacheModel.smallImageFileEntryId);
 		attributeSetterBiConsumers.put(
 			"smallImageFileEntryId",
 			(BiConsumer<BlogsEntry, Long>)BlogsEntry::setSmallImageFileEntryId);
 		attributeGetterFunctions.put(
 			"smallImageId", BlogsEntry::getSmallImageId);
+
+		cacheModelGetterFunctions.put(
+			"smallImageId",
+			blogsEntryCacheModel -> blogsEntryCacheModel.smallImageId);
 		attributeSetterBiConsumers.put(
 			"smallImageId",
 			(BiConsumer<BlogsEntry, Long>)BlogsEntry::setSmallImageId);
 		attributeGetterFunctions.put(
 			"smallImageURL", BlogsEntry::getSmallImageURL);
+
+		cacheModelGetterFunctions.put(
+			"smallImageURL",
+			blogsEntryCacheModel -> blogsEntryCacheModel.smallImageURL);
 		attributeSetterBiConsumers.put(
 			"smallImageURL",
 			(BiConsumer<BlogsEntry, String>)BlogsEntry::setSmallImageURL);
 		attributeGetterFunctions.put(
 			"lastPublishDate", BlogsEntry::getLastPublishDate);
+
+		cacheModelGetterFunctions.put(
+			"lastPublishDate",
+			blogsEntryCacheModel -> blogsEntryCacheModel.lastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<BlogsEntry, Date>)BlogsEntry::setLastPublishDate);
 		attributeGetterFunctions.put("status", BlogsEntry::getStatus);
+
+		cacheModelGetterFunctions.put(
+			"status", blogsEntryCacheModel -> blogsEntryCacheModel.status);
 		attributeSetterBiConsumers.put(
 			"status", (BiConsumer<BlogsEntry, Integer>)BlogsEntry::setStatus);
 		attributeGetterFunctions.put(
 			"statusByUserId", BlogsEntry::getStatusByUserId);
+
+		cacheModelGetterFunctions.put(
+			"statusByUserId",
+			blogsEntryCacheModel -> blogsEntryCacheModel.statusByUserId);
 		attributeSetterBiConsumers.put(
 			"statusByUserId",
 			(BiConsumer<BlogsEntry, Long>)BlogsEntry::setStatusByUserId);
 		attributeGetterFunctions.put(
 			"statusByUserName", BlogsEntry::getStatusByUserName);
+
+		cacheModelGetterFunctions.put(
+			"statusByUserName",
+			blogsEntryCacheModel -> blogsEntryCacheModel.statusByUserName);
 		attributeSetterBiConsumers.put(
 			"statusByUserName",
 			(BiConsumer<BlogsEntry, String>)BlogsEntry::setStatusByUserName);
 		attributeGetterFunctions.put("statusDate", BlogsEntry::getStatusDate);
+
+		cacheModelGetterFunctions.put(
+			"statusDate",
+			blogsEntryCacheModel -> blogsEntryCacheModel.statusDate);
 		attributeSetterBiConsumers.put(
 			"statusDate",
 			(BiConsumer<BlogsEntry, Date>)BlogsEntry::setStatusDate);
@@ -501,6 +686,8 @@ public class BlogsEntryModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -511,6 +698,12 @@ public class BlogsEntryModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_blogsEntryCacheModel == null)) {
+			_blogsEntryCacheModel = (BlogsEntryCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -529,15 +722,20 @@ public class BlogsEntryModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (!isNew() && (_blogsEntryCacheModel == null)) {
+			_blogsEntryCacheModel = (BlogsEntryCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getCacheModelAttribute("uuid");
 	}
 
 	@JSON
@@ -548,6 +746,12 @@ public class BlogsEntryModelImpl
 
 	@Override
 	public void setEntryId(long entryId) {
+		_columnBitmask |= ENTRYID_COLUMN_BITMASK;
+
+		if (!isNew() && (_blogsEntryCacheModel == null)) {
+			_blogsEntryCacheModel = (BlogsEntryCacheModel)toCacheModel();
+		}
+
 		_entryId = entryId;
 	}
 
@@ -561,17 +765,20 @@ public class BlogsEntryModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (!isNew() && (_blogsEntryCacheModel == null)) {
+			_blogsEntryCacheModel = (BlogsEntryCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getCacheModelAttribute("groupId");
 	}
 
 	@JSON
@@ -584,17 +791,20 @@ public class BlogsEntryModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (!isNew() && (_blogsEntryCacheModel == null)) {
+			_blogsEntryCacheModel = (BlogsEntryCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getCacheModelAttribute("companyId");
 	}
 
 	@JSON
@@ -607,10 +817,8 @@ public class BlogsEntryModelImpl
 	public void setUserId(long userId) {
 		_columnBitmask |= USERID_COLUMN_BITMASK;
 
-		if (!_setOriginalUserId) {
-			_setOriginalUserId = true;
-
-			_originalUserId = _userId;
+		if (!isNew() && (_blogsEntryCacheModel == null)) {
+			_blogsEntryCacheModel = (BlogsEntryCacheModel)toCacheModel();
 		}
 
 		_userId = userId;
@@ -632,8 +840,13 @@ public class BlogsEntryModelImpl
 	public void setUserUuid(String userUuid) {
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalUserId() {
-		return _originalUserId;
+		return getCacheModelAttribute("userId");
 	}
 
 	@JSON
@@ -649,6 +862,12 @@ public class BlogsEntryModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_blogsEntryCacheModel == null)) {
+			_blogsEntryCacheModel = (BlogsEntryCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -660,7 +879,11 @@ public class BlogsEntryModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
-		_columnBitmask = -1L;
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_blogsEntryCacheModel == null)) {
+			_blogsEntryCacheModel = (BlogsEntryCacheModel)toCacheModel();
+		}
 
 		_createDate = createDate;
 	}
@@ -679,6 +902,12 @@ public class BlogsEntryModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_blogsEntryCacheModel == null)) {
+			_blogsEntryCacheModel = (BlogsEntryCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -695,6 +924,12 @@ public class BlogsEntryModelImpl
 
 	@Override
 	public void setTitle(String title) {
+		_columnBitmask |= TITLE_COLUMN_BITMASK;
+
+		if (!isNew() && (_blogsEntryCacheModel == null)) {
+			_blogsEntryCacheModel = (BlogsEntryCacheModel)toCacheModel();
+		}
+
 		_title = title;
 	}
 
@@ -711,6 +946,12 @@ public class BlogsEntryModelImpl
 
 	@Override
 	public void setSubtitle(String subtitle) {
+		_columnBitmask |= SUBTITLE_COLUMN_BITMASK;
+
+		if (!isNew() && (_blogsEntryCacheModel == null)) {
+			_blogsEntryCacheModel = (BlogsEntryCacheModel)toCacheModel();
+		}
+
 		_subtitle = subtitle;
 	}
 
@@ -729,15 +970,20 @@ public class BlogsEntryModelImpl
 	public void setUrlTitle(String urlTitle) {
 		_columnBitmask |= URLTITLE_COLUMN_BITMASK;
 
-		if (_originalUrlTitle == null) {
-			_originalUrlTitle = _urlTitle;
+		if (!isNew() && (_blogsEntryCacheModel == null)) {
+			_blogsEntryCacheModel = (BlogsEntryCacheModel)toCacheModel();
 		}
 
 		_urlTitle = urlTitle;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalUrlTitle() {
-		return GetterUtil.getString(_originalUrlTitle);
+		return getCacheModelAttribute("urlTitle");
 	}
 
 	@JSON
@@ -753,6 +999,12 @@ public class BlogsEntryModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		_columnBitmask |= DESCRIPTION_COLUMN_BITMASK;
+
+		if (!isNew() && (_blogsEntryCacheModel == null)) {
+			_blogsEntryCacheModel = (BlogsEntryCacheModel)toCacheModel();
+		}
+
 		_description = description;
 	}
 
@@ -769,6 +1021,12 @@ public class BlogsEntryModelImpl
 
 	@Override
 	public void setContent(String content) {
+		_columnBitmask |= CONTENT_COLUMN_BITMASK;
+
+		if (!isNew() && (_blogsEntryCacheModel == null)) {
+			_blogsEntryCacheModel = (BlogsEntryCacheModel)toCacheModel();
+		}
+
 		_content = content;
 	}
 
@@ -780,17 +1038,22 @@ public class BlogsEntryModelImpl
 
 	@Override
 	public void setDisplayDate(Date displayDate) {
-		_columnBitmask = -1L;
+		_columnBitmask |= DISPLAYDATE_COLUMN_BITMASK;
 
-		if (_originalDisplayDate == null) {
-			_originalDisplayDate = _displayDate;
+		if (!isNew() && (_blogsEntryCacheModel == null)) {
+			_blogsEntryCacheModel = (BlogsEntryCacheModel)toCacheModel();
 		}
 
 		_displayDate = displayDate;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public Date getOriginalDisplayDate() {
-		return _originalDisplayDate;
+		return getCacheModelAttribute("displayDate");
 	}
 
 	@JSON
@@ -807,6 +1070,12 @@ public class BlogsEntryModelImpl
 
 	@Override
 	public void setAllowPingbacks(boolean allowPingbacks) {
+		_columnBitmask |= ALLOWPINGBACKS_COLUMN_BITMASK;
+
+		if (!isNew() && (_blogsEntryCacheModel == null)) {
+			_blogsEntryCacheModel = (BlogsEntryCacheModel)toCacheModel();
+		}
+
 		_allowPingbacks = allowPingbacks;
 	}
 
@@ -824,6 +1093,12 @@ public class BlogsEntryModelImpl
 
 	@Override
 	public void setAllowTrackbacks(boolean allowTrackbacks) {
+		_columnBitmask |= ALLOWTRACKBACKS_COLUMN_BITMASK;
+
+		if (!isNew() && (_blogsEntryCacheModel == null)) {
+			_blogsEntryCacheModel = (BlogsEntryCacheModel)toCacheModel();
+		}
+
 		_allowTrackbacks = allowTrackbacks;
 	}
 
@@ -840,6 +1115,12 @@ public class BlogsEntryModelImpl
 
 	@Override
 	public void setTrackbacks(String trackbacks) {
+		_columnBitmask |= TRACKBACKS_COLUMN_BITMASK;
+
+		if (!isNew() && (_blogsEntryCacheModel == null)) {
+			_blogsEntryCacheModel = (BlogsEntryCacheModel)toCacheModel();
+		}
+
 		_trackbacks = trackbacks;
 	}
 
@@ -856,6 +1137,12 @@ public class BlogsEntryModelImpl
 
 	@Override
 	public void setCoverImageCaption(String coverImageCaption) {
+		_columnBitmask |= COVERIMAGECAPTION_COLUMN_BITMASK;
+
+		if (!isNew() && (_blogsEntryCacheModel == null)) {
+			_blogsEntryCacheModel = (BlogsEntryCacheModel)toCacheModel();
+		}
+
 		_coverImageCaption = coverImageCaption;
 	}
 
@@ -867,6 +1154,12 @@ public class BlogsEntryModelImpl
 
 	@Override
 	public void setCoverImageFileEntryId(long coverImageFileEntryId) {
+		_columnBitmask |= COVERIMAGEFILEENTRYID_COLUMN_BITMASK;
+
+		if (!isNew() && (_blogsEntryCacheModel == null)) {
+			_blogsEntryCacheModel = (BlogsEntryCacheModel)toCacheModel();
+		}
+
 		_coverImageFileEntryId = coverImageFileEntryId;
 	}
 
@@ -883,6 +1176,12 @@ public class BlogsEntryModelImpl
 
 	@Override
 	public void setCoverImageURL(String coverImageURL) {
+		_columnBitmask |= COVERIMAGEURL_COLUMN_BITMASK;
+
+		if (!isNew() && (_blogsEntryCacheModel == null)) {
+			_blogsEntryCacheModel = (BlogsEntryCacheModel)toCacheModel();
+		}
+
 		_coverImageURL = coverImageURL;
 	}
 
@@ -900,6 +1199,12 @@ public class BlogsEntryModelImpl
 
 	@Override
 	public void setSmallImage(boolean smallImage) {
+		_columnBitmask |= SMALLIMAGE_COLUMN_BITMASK;
+
+		if (!isNew() && (_blogsEntryCacheModel == null)) {
+			_blogsEntryCacheModel = (BlogsEntryCacheModel)toCacheModel();
+		}
+
 		_smallImage = smallImage;
 	}
 
@@ -911,6 +1216,12 @@ public class BlogsEntryModelImpl
 
 	@Override
 	public void setSmallImageFileEntryId(long smallImageFileEntryId) {
+		_columnBitmask |= SMALLIMAGEFILEENTRYID_COLUMN_BITMASK;
+
+		if (!isNew() && (_blogsEntryCacheModel == null)) {
+			_blogsEntryCacheModel = (BlogsEntryCacheModel)toCacheModel();
+		}
+
 		_smallImageFileEntryId = smallImageFileEntryId;
 	}
 
@@ -922,6 +1233,12 @@ public class BlogsEntryModelImpl
 
 	@Override
 	public void setSmallImageId(long smallImageId) {
+		_columnBitmask |= SMALLIMAGEID_COLUMN_BITMASK;
+
+		if (!isNew() && (_blogsEntryCacheModel == null)) {
+			_blogsEntryCacheModel = (BlogsEntryCacheModel)toCacheModel();
+		}
+
 		_smallImageId = smallImageId;
 	}
 
@@ -938,6 +1255,12 @@ public class BlogsEntryModelImpl
 
 	@Override
 	public void setSmallImageURL(String smallImageURL) {
+		_columnBitmask |= SMALLIMAGEURL_COLUMN_BITMASK;
+
+		if (!isNew() && (_blogsEntryCacheModel == null)) {
+			_blogsEntryCacheModel = (BlogsEntryCacheModel)toCacheModel();
+		}
+
 		_smallImageURL = smallImageURL;
 	}
 
@@ -949,6 +1272,12 @@ public class BlogsEntryModelImpl
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		_columnBitmask |= LASTPUBLISHDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_blogsEntryCacheModel == null)) {
+			_blogsEntryCacheModel = (BlogsEntryCacheModel)toCacheModel();
+		}
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -962,17 +1291,20 @@ public class BlogsEntryModelImpl
 	public void setStatus(int status) {
 		_columnBitmask |= STATUS_COLUMN_BITMASK;
 
-		if (!_setOriginalStatus) {
-			_setOriginalStatus = true;
-
-			_originalStatus = _status;
+		if (!isNew() && (_blogsEntryCacheModel == null)) {
+			_blogsEntryCacheModel = (BlogsEntryCacheModel)toCacheModel();
 		}
 
 		_status = status;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public int getOriginalStatus() {
-		return _originalStatus;
+		return getCacheModelAttribute("status");
 	}
 
 	@JSON
@@ -983,6 +1315,12 @@ public class BlogsEntryModelImpl
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		_columnBitmask |= STATUSBYUSERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_blogsEntryCacheModel == null)) {
+			_blogsEntryCacheModel = (BlogsEntryCacheModel)toCacheModel();
+		}
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -1015,6 +1353,12 @@ public class BlogsEntryModelImpl
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		_columnBitmask |= STATUSBYUSERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_blogsEntryCacheModel == null)) {
+			_blogsEntryCacheModel = (BlogsEntryCacheModel)toCacheModel();
+		}
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -1026,6 +1370,12 @@ public class BlogsEntryModelImpl
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		_columnBitmask |= STATUSDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_blogsEntryCacheModel == null)) {
+			_blogsEntryCacheModel = (BlogsEntryCacheModel)toCacheModel();
+		}
+
 		_statusDate = statusDate;
 	}
 
@@ -1296,6 +1646,8 @@ public class BlogsEntryModelImpl
 	public Object clone() {
 		BlogsEntryImpl blogsEntryImpl = new BlogsEntryImpl();
 
+		blogsEntryImpl.setNew(true);
+
 		blogsEntryImpl.setMvccVersion(getMvccVersion());
 		blogsEntryImpl.setUuid(getUuid());
 		blogsEntryImpl.setEntryId(getEntryId());
@@ -1328,6 +1680,8 @@ public class BlogsEntryModelImpl
 		blogsEntryImpl.setStatusDate(getStatusDate());
 
 		blogsEntryImpl.resetOriginalValues();
+
+		blogsEntryImpl.setNew(false);
 
 		return blogsEntryImpl;
 	}
@@ -1403,34 +1757,11 @@ public class BlogsEntryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		BlogsEntryModelImpl blogsEntryModelImpl = this;
+		_setModifiedDate = false;
 
-		blogsEntryModelImpl._originalUuid = blogsEntryModelImpl._uuid;
+		_columnBitmask = 0;
 
-		blogsEntryModelImpl._originalGroupId = blogsEntryModelImpl._groupId;
-
-		blogsEntryModelImpl._setOriginalGroupId = false;
-
-		blogsEntryModelImpl._originalCompanyId = blogsEntryModelImpl._companyId;
-
-		blogsEntryModelImpl._setOriginalCompanyId = false;
-
-		blogsEntryModelImpl._originalUserId = blogsEntryModelImpl._userId;
-
-		blogsEntryModelImpl._setOriginalUserId = false;
-
-		blogsEntryModelImpl._setModifiedDate = false;
-
-		blogsEntryModelImpl._originalUrlTitle = blogsEntryModelImpl._urlTitle;
-
-		blogsEntryModelImpl._originalDisplayDate =
-			blogsEntryModelImpl._displayDate;
-
-		blogsEntryModelImpl._originalStatus = blogsEntryModelImpl._status;
-
-		blogsEntryModelImpl._setOriginalStatus = false;
-
-		blogsEntryModelImpl._columnBitmask = 0;
+		_blogsEntryCacheModel = null;
 	}
 
 	@Override
@@ -1679,17 +2010,10 @@ public class BlogsEntryModelImpl
 
 	private long _mvccVersion;
 	private String _uuid;
-	private String _originalUuid;
 	private long _entryId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
-	private long _originalUserId;
-	private boolean _setOriginalUserId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
@@ -1697,11 +2021,9 @@ public class BlogsEntryModelImpl
 	private String _title;
 	private String _subtitle;
 	private String _urlTitle;
-	private String _originalUrlTitle;
 	private String _description;
 	private String _content;
 	private Date _displayDate;
-	private Date _originalDisplayDate;
 	private boolean _allowPingbacks;
 	private boolean _allowTrackbacks;
 	private String _trackbacks;
@@ -1714,12 +2036,11 @@ public class BlogsEntryModelImpl
 	private String _smallImageURL;
 	private Date _lastPublishDate;
 	private int _status;
-	private int _originalStatus;
-	private boolean _setOriginalStatus;
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
 	private long _columnBitmask;
 	private BlogsEntry _escapedModel;
+	private BlogsEntryCacheModel _blogsEntryCacheModel;
 
 }

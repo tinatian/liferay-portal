@@ -99,6 +99,8 @@ public class DEDataListViewCacheModel
 	public DEDataListView toEntityModel() {
 		DEDataListViewImpl deDataListViewImpl = new DEDataListViewImpl();
 
+		deDataListViewImpl.setNew(true);
+
 		if (uuid == null) {
 			deDataListViewImpl.setUuid("");
 		}
@@ -163,6 +165,8 @@ public class DEDataListViewCacheModel
 		}
 
 		deDataListViewImpl.resetOriginalValues();
+
+		deDataListViewImpl.setNew(false);
 
 		return deDataListViewImpl;
 	}

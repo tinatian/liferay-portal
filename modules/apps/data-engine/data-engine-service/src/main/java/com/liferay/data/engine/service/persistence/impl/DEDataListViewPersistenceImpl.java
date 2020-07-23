@@ -2692,8 +2692,8 @@ public class DEDataListViewPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				deDataListViewModelImpl.getOriginalUuid(),
-				deDataListViewModelImpl.getOriginalGroupId()
+				deDataListViewModelImpl.getCacheModelAttribute("uuid"),
+				deDataListViewModelImpl.getCacheModelAttribute("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -2928,7 +2928,7 @@ public class DEDataListViewPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					deDataListViewModelImpl.getOriginalUuid()
+					deDataListViewModelImpl.getCacheModelAttribute("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -2947,8 +2947,8 @@ public class DEDataListViewPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					deDataListViewModelImpl.getOriginalUuid(),
-					deDataListViewModelImpl.getOriginalCompanyId()
+					deDataListViewModelImpl.getCacheModelAttribute("uuid"),
+					deDataListViewModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -2970,7 +2970,8 @@ public class DEDataListViewPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					deDataListViewModelImpl.getOriginalDdmStructureId()
+					deDataListViewModelImpl.getCacheModelAttribute(
+						"ddmStructureId")
 				};
 
 				finderCache.removeResult(
@@ -2993,9 +2994,10 @@ public class DEDataListViewPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					deDataListViewModelImpl.getOriginalGroupId(),
-					deDataListViewModelImpl.getOriginalCompanyId(),
-					deDataListViewModelImpl.getOriginalDdmStructureId()
+					deDataListViewModelImpl.getCacheModelAttribute("groupId"),
+					deDataListViewModelImpl.getCacheModelAttribute("companyId"),
+					deDataListViewModelImpl.getCacheModelAttribute(
+						"ddmStructureId")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_C_DDMSI, args);

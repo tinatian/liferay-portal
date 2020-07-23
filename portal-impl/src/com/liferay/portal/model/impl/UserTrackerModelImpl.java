@@ -124,13 +124,23 @@ public class UserTrackerModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long SESSIONID_COLUMN_BITMASK = 2L;
+	public static final long USERTRACKERID_COLUMN_BITMASK = 2L;
 
-	public static final long USERID_COLUMN_BITMASK = 4L;
+	public static final long COMPANYID_COLUMN_BITMASK = 4L;
 
-	public static final long USERTRACKERID_COLUMN_BITMASK = 8L;
+	public static final long USERID_COLUMN_BITMASK = 8L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 16L;
+
+	public static final long SESSIONID_COLUMN_BITMASK = 32L;
+
+	public static final long REMOTEADDR_COLUMN_BITMASK = 64L;
+
+	public static final long REMOTEHOST_COLUMN_BITMASK = 128L;
+
+	public static final long USERAGENT_COLUMN_BITMASK = 256L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		com.liferay.portal.util.PropsUtil.get(
@@ -249,52 +259,119 @@ public class UserTrackerModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<UserTracker, Object> function = _attributeGetterFunctions.get(
+			attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((UserTracker)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<UserTrackerCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_userTrackerCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_userTrackerCacheModel);
+	}
+
 	private static final Map<String, Function<UserTracker, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<UserTracker, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<UserTrackerCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<UserTracker, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<UserTracker, Object>>();
 		Map<String, BiConsumer<UserTracker, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<UserTracker, ?>>();
+		Map<String, Function<UserTrackerCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<UserTrackerCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", UserTracker::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			userTrackerCacheModel -> userTrackerCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<UserTracker, Long>)UserTracker::setMvccVersion);
 		attributeGetterFunctions.put(
 			"userTrackerId", UserTracker::getUserTrackerId);
+
+		cacheModelGetterFunctions.put(
+			"userTrackerId",
+			userTrackerCacheModel -> userTrackerCacheModel.userTrackerId);
 		attributeSetterBiConsumers.put(
 			"userTrackerId",
 			(BiConsumer<UserTracker, Long>)UserTracker::setUserTrackerId);
 		attributeGetterFunctions.put("companyId", UserTracker::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			userTrackerCacheModel -> userTrackerCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<UserTracker, Long>)UserTracker::setCompanyId);
 		attributeGetterFunctions.put("userId", UserTracker::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", userTrackerCacheModel -> userTrackerCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<UserTracker, Long>)UserTracker::setUserId);
 		attributeGetterFunctions.put(
 			"modifiedDate", UserTracker::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			userTrackerCacheModel -> userTrackerCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<UserTracker, Date>)UserTracker::setModifiedDate);
 		attributeGetterFunctions.put("sessionId", UserTracker::getSessionId);
+
+		cacheModelGetterFunctions.put(
+			"sessionId",
+			userTrackerCacheModel -> userTrackerCacheModel.sessionId);
 		attributeSetterBiConsumers.put(
 			"sessionId",
 			(BiConsumer<UserTracker, String>)UserTracker::setSessionId);
 		attributeGetterFunctions.put("remoteAddr", UserTracker::getRemoteAddr);
+
+		cacheModelGetterFunctions.put(
+			"remoteAddr",
+			userTrackerCacheModel -> userTrackerCacheModel.remoteAddr);
 		attributeSetterBiConsumers.put(
 			"remoteAddr",
 			(BiConsumer<UserTracker, String>)UserTracker::setRemoteAddr);
 		attributeGetterFunctions.put("remoteHost", UserTracker::getRemoteHost);
+
+		cacheModelGetterFunctions.put(
+			"remoteHost",
+			userTrackerCacheModel -> userTrackerCacheModel.remoteHost);
 		attributeSetterBiConsumers.put(
 			"remoteHost",
 			(BiConsumer<UserTracker, String>)UserTracker::setRemoteHost);
 		attributeGetterFunctions.put("userAgent", UserTracker::getUserAgent);
+
+		cacheModelGetterFunctions.put(
+			"userAgent",
+			userTrackerCacheModel -> userTrackerCacheModel.userAgent);
 		attributeSetterBiConsumers.put(
 			"userAgent",
 			(BiConsumer<UserTracker, String>)UserTracker::setUserAgent);
@@ -303,6 +380,8 @@ public class UserTrackerModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -312,6 +391,12 @@ public class UserTrackerModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_userTrackerCacheModel == null)) {
+			_userTrackerCacheModel = (UserTrackerCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -322,6 +407,12 @@ public class UserTrackerModelImpl
 
 	@Override
 	public void setUserTrackerId(long userTrackerId) {
+		_columnBitmask |= USERTRACKERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_userTrackerCacheModel == null)) {
+			_userTrackerCacheModel = (UserTrackerCacheModel)toCacheModel();
+		}
+
 		_userTrackerId = userTrackerId;
 	}
 
@@ -334,17 +425,20 @@ public class UserTrackerModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (!isNew() && (_userTrackerCacheModel == null)) {
+			_userTrackerCacheModel = (UserTrackerCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getCacheModelAttribute("companyId");
 	}
 
 	@Override
@@ -356,10 +450,8 @@ public class UserTrackerModelImpl
 	public void setUserId(long userId) {
 		_columnBitmask |= USERID_COLUMN_BITMASK;
 
-		if (!_setOriginalUserId) {
-			_setOriginalUserId = true;
-
-			_originalUserId = _userId;
+		if (!isNew() && (_userTrackerCacheModel == null)) {
+			_userTrackerCacheModel = (UserTrackerCacheModel)toCacheModel();
 		}
 
 		_userId = userId;
@@ -381,8 +473,13 @@ public class UserTrackerModelImpl
 	public void setUserUuid(String userUuid) {
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalUserId() {
-		return _originalUserId;
+		return getCacheModelAttribute("userId");
 	}
 
 	@Override
@@ -392,6 +489,12 @@ public class UserTrackerModelImpl
 
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_userTrackerCacheModel == null)) {
+			_userTrackerCacheModel = (UserTrackerCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -409,15 +512,20 @@ public class UserTrackerModelImpl
 	public void setSessionId(String sessionId) {
 		_columnBitmask |= SESSIONID_COLUMN_BITMASK;
 
-		if (_originalSessionId == null) {
-			_originalSessionId = _sessionId;
+		if (!isNew() && (_userTrackerCacheModel == null)) {
+			_userTrackerCacheModel = (UserTrackerCacheModel)toCacheModel();
 		}
 
 		_sessionId = sessionId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalSessionId() {
-		return GetterUtil.getString(_originalSessionId);
+		return getCacheModelAttribute("sessionId");
 	}
 
 	@Override
@@ -432,6 +540,12 @@ public class UserTrackerModelImpl
 
 	@Override
 	public void setRemoteAddr(String remoteAddr) {
+		_columnBitmask |= REMOTEADDR_COLUMN_BITMASK;
+
+		if (!isNew() && (_userTrackerCacheModel == null)) {
+			_userTrackerCacheModel = (UserTrackerCacheModel)toCacheModel();
+		}
+
 		_remoteAddr = remoteAddr;
 	}
 
@@ -447,6 +561,12 @@ public class UserTrackerModelImpl
 
 	@Override
 	public void setRemoteHost(String remoteHost) {
+		_columnBitmask |= REMOTEHOST_COLUMN_BITMASK;
+
+		if (!isNew() && (_userTrackerCacheModel == null)) {
+			_userTrackerCacheModel = (UserTrackerCacheModel)toCacheModel();
+		}
+
 		_remoteHost = remoteHost;
 	}
 
@@ -462,6 +582,12 @@ public class UserTrackerModelImpl
 
 	@Override
 	public void setUserAgent(String userAgent) {
+		_columnBitmask |= USERAGENT_COLUMN_BITMASK;
+
+		if (!isNew() && (_userTrackerCacheModel == null)) {
+			_userTrackerCacheModel = (UserTrackerCacheModel)toCacheModel();
+		}
+
 		_userAgent = userAgent;
 	}
 
@@ -501,6 +627,8 @@ public class UserTrackerModelImpl
 	public Object clone() {
 		UserTrackerImpl userTrackerImpl = new UserTrackerImpl();
 
+		userTrackerImpl.setNew(true);
+
 		userTrackerImpl.setMvccVersion(getMvccVersion());
 		userTrackerImpl.setUserTrackerId(getUserTrackerId());
 		userTrackerImpl.setCompanyId(getCompanyId());
@@ -512,6 +640,8 @@ public class UserTrackerModelImpl
 		userTrackerImpl.setUserAgent(getUserAgent());
 
 		userTrackerImpl.resetOriginalValues();
+
+		userTrackerImpl.setNew(false);
 
 		return userTrackerImpl;
 	}
@@ -578,21 +708,9 @@ public class UserTrackerModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		UserTrackerModelImpl userTrackerModelImpl = this;
+		_columnBitmask = 0;
 
-		userTrackerModelImpl._originalCompanyId =
-			userTrackerModelImpl._companyId;
-
-		userTrackerModelImpl._setOriginalCompanyId = false;
-
-		userTrackerModelImpl._originalUserId = userTrackerModelImpl._userId;
-
-		userTrackerModelImpl._setOriginalUserId = false;
-
-		userTrackerModelImpl._originalSessionId =
-			userTrackerModelImpl._sessionId;
-
-		userTrackerModelImpl._columnBitmask = 0;
+		_userTrackerCacheModel = null;
 	}
 
 	@Override
@@ -725,18 +843,14 @@ public class UserTrackerModelImpl
 	private long _mvccVersion;
 	private long _userTrackerId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
-	private long _originalUserId;
-	private boolean _setOriginalUserId;
 	private Date _modifiedDate;
 	private String _sessionId;
-	private String _originalSessionId;
 	private String _remoteAddr;
 	private String _remoteHost;
 	private String _userAgent;
 	private long _columnBitmask;
 	private UserTracker _escapedModel;
+	private UserTrackerCacheModel _userTrackerCacheModel;
 
 }

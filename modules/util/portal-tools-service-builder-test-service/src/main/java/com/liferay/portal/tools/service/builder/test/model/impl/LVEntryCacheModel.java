@@ -101,6 +101,8 @@ public class LVEntryCacheModel
 	public LVEntry toEntityModel() {
 		LVEntryImpl lvEntryImpl = new LVEntryImpl();
 
+		lvEntryImpl.setNew(true);
+
 		lvEntryImpl.setMvccVersion(mvccVersion);
 
 		if (uuid == null) {
@@ -132,6 +134,8 @@ public class LVEntryCacheModel
 		}
 
 		lvEntryImpl.resetOriginalValues();
+
+		lvEntryImpl.setNew(false);
 
 		return lvEntryImpl;
 	}

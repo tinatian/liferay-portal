@@ -115,6 +115,8 @@ public class WebsiteCacheModel
 	public Website toEntityModel() {
 		WebsiteImpl websiteImpl = new WebsiteImpl();
 
+		websiteImpl.setNew(true);
+
 		websiteImpl.setMvccVersion(mvccVersion);
 
 		if (uuid == null) {
@@ -170,6 +172,8 @@ public class WebsiteCacheModel
 		}
 
 		websiteImpl.resetOriginalValues();
+
+		websiteImpl.setNew(false);
 
 		return websiteImpl;
 	}

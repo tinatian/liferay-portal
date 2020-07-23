@@ -110,6 +110,8 @@ public class CTCollectionCacheModel
 	public CTCollection toEntityModel() {
 		CTCollectionImpl ctCollectionImpl = new CTCollectionImpl();
 
+		ctCollectionImpl.setNew(true);
+
 		ctCollectionImpl.setMvccVersion(mvccVersion);
 		ctCollectionImpl.setCtCollectionId(ctCollectionId);
 		ctCollectionImpl.setCompanyId(companyId);
@@ -154,6 +156,8 @@ public class CTCollectionCacheModel
 		}
 
 		ctCollectionImpl.resetOriginalValues();
+
+		ctCollectionImpl.setNew(false);
 
 		return ctCollectionImpl;
 	}

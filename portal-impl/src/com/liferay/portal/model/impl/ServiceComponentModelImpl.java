@@ -115,9 +115,17 @@ public class ServiceComponentModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long BUILDNAMESPACE_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long BUILDNUMBER_COLUMN_BITMASK = 2L;
+	public static final long SERVICECOMPONENTID_COLUMN_BITMASK = 2L;
+
+	public static final long BUILDNAMESPACE_COLUMN_BITMASK = 4L;
+
+	public static final long BUILDNUMBER_COLUMN_BITMASK = 8L;
+
+	public static final long BUILDDATE_COLUMN_BITMASK = 16L;
+
+	public static final long DATA_COLUMN_BITMASK = 32L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		com.liferay.portal.util.PropsUtil.get(
@@ -236,10 +244,39 @@ public class ServiceComponentModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<ServiceComponent, Object> function =
+			_attributeGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((ServiceComponent)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<ServiceComponentCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_serviceComponentCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_serviceComponentCacheModel);
+	}
+
 	private static final Map<String, Function<ServiceComponent, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<ServiceComponent, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<ServiceComponentCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<ServiceComponent, Object>>
@@ -248,37 +285,69 @@ public class ServiceComponentModelImpl
 		Map<String, BiConsumer<ServiceComponent, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<ServiceComponent, ?>>();
+		Map<String, Function<ServiceComponentCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<ServiceComponentCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", ServiceComponent::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			serviceComponentCacheModel ->
+				serviceComponentCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<ServiceComponent, Long>)
 				ServiceComponent::setMvccVersion);
 		attributeGetterFunctions.put(
 			"serviceComponentId", ServiceComponent::getServiceComponentId);
+
+		cacheModelGetterFunctions.put(
+			"serviceComponentId",
+			serviceComponentCacheModel ->
+				serviceComponentCacheModel.serviceComponentId);
 		attributeSetterBiConsumers.put(
 			"serviceComponentId",
 			(BiConsumer<ServiceComponent, Long>)
 				ServiceComponent::setServiceComponentId);
 		attributeGetterFunctions.put(
 			"buildNamespace", ServiceComponent::getBuildNamespace);
+
+		cacheModelGetterFunctions.put(
+			"buildNamespace",
+			serviceComponentCacheModel ->
+				serviceComponentCacheModel.buildNamespace);
 		attributeSetterBiConsumers.put(
 			"buildNamespace",
 			(BiConsumer<ServiceComponent, String>)
 				ServiceComponent::setBuildNamespace);
 		attributeGetterFunctions.put(
 			"buildNumber", ServiceComponent::getBuildNumber);
+
+		cacheModelGetterFunctions.put(
+			"buildNumber",
+			serviceComponentCacheModel ->
+				serviceComponentCacheModel.buildNumber);
 		attributeSetterBiConsumers.put(
 			"buildNumber",
 			(BiConsumer<ServiceComponent, Long>)
 				ServiceComponent::setBuildNumber);
 		attributeGetterFunctions.put(
 			"buildDate", ServiceComponent::getBuildDate);
+
+		cacheModelGetterFunctions.put(
+			"buildDate",
+			serviceComponentCacheModel -> serviceComponentCacheModel.buildDate);
 		attributeSetterBiConsumers.put(
 			"buildDate",
 			(BiConsumer<ServiceComponent, Long>)ServiceComponent::setBuildDate);
 		attributeGetterFunctions.put("data", ServiceComponent::getData);
+
+		cacheModelGetterFunctions.put(
+			"data",
+			serviceComponentCacheModel -> serviceComponentCacheModel.data);
 		attributeSetterBiConsumers.put(
 			"data",
 			(BiConsumer<ServiceComponent, String>)ServiceComponent::setData);
@@ -287,6 +356,8 @@ public class ServiceComponentModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -296,6 +367,13 @@ public class ServiceComponentModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_serviceComponentCacheModel == null)) {
+			_serviceComponentCacheModel =
+				(ServiceComponentCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -306,6 +384,13 @@ public class ServiceComponentModelImpl
 
 	@Override
 	public void setServiceComponentId(long serviceComponentId) {
+		_columnBitmask |= SERVICECOMPONENTID_COLUMN_BITMASK;
+
+		if (!isNew() && (_serviceComponentCacheModel == null)) {
+			_serviceComponentCacheModel =
+				(ServiceComponentCacheModel)toCacheModel();
+		}
+
 		_serviceComponentId = serviceComponentId;
 	}
 
@@ -321,17 +406,23 @@ public class ServiceComponentModelImpl
 
 	@Override
 	public void setBuildNamespace(String buildNamespace) {
-		_columnBitmask = -1L;
+		_columnBitmask |= BUILDNAMESPACE_COLUMN_BITMASK;
 
-		if (_originalBuildNamespace == null) {
-			_originalBuildNamespace = _buildNamespace;
+		if (!isNew() && (_serviceComponentCacheModel == null)) {
+			_serviceComponentCacheModel =
+				(ServiceComponentCacheModel)toCacheModel();
 		}
 
 		_buildNamespace = buildNamespace;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalBuildNamespace() {
-		return GetterUtil.getString(_originalBuildNamespace);
+		return getCacheModelAttribute("buildNamespace");
 	}
 
 	@Override
@@ -341,19 +432,23 @@ public class ServiceComponentModelImpl
 
 	@Override
 	public void setBuildNumber(long buildNumber) {
-		_columnBitmask = -1L;
+		_columnBitmask |= BUILDNUMBER_COLUMN_BITMASK;
 
-		if (!_setOriginalBuildNumber) {
-			_setOriginalBuildNumber = true;
-
-			_originalBuildNumber = _buildNumber;
+		if (!isNew() && (_serviceComponentCacheModel == null)) {
+			_serviceComponentCacheModel =
+				(ServiceComponentCacheModel)toCacheModel();
 		}
 
 		_buildNumber = buildNumber;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalBuildNumber() {
-		return _originalBuildNumber;
+		return getCacheModelAttribute("buildNumber");
 	}
 
 	@Override
@@ -363,6 +458,13 @@ public class ServiceComponentModelImpl
 
 	@Override
 	public void setBuildDate(long buildDate) {
+		_columnBitmask |= BUILDDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_serviceComponentCacheModel == null)) {
+			_serviceComponentCacheModel =
+				(ServiceComponentCacheModel)toCacheModel();
+		}
+
 		_buildDate = buildDate;
 	}
 
@@ -378,6 +480,13 @@ public class ServiceComponentModelImpl
 
 	@Override
 	public void setData(String data) {
+		_columnBitmask |= DATA_COLUMN_BITMASK;
+
+		if (!isNew() && (_serviceComponentCacheModel == null)) {
+			_serviceComponentCacheModel =
+				(ServiceComponentCacheModel)toCacheModel();
+		}
+
 		_data = data;
 	}
 
@@ -417,6 +526,8 @@ public class ServiceComponentModelImpl
 	public Object clone() {
 		ServiceComponentImpl serviceComponentImpl = new ServiceComponentImpl();
 
+		serviceComponentImpl.setNew(true);
+
 		serviceComponentImpl.setMvccVersion(getMvccVersion());
 		serviceComponentImpl.setServiceComponentId(getServiceComponentId());
 		serviceComponentImpl.setBuildNamespace(getBuildNamespace());
@@ -425,6 +536,8 @@ public class ServiceComponentModelImpl
 		serviceComponentImpl.setData(getData());
 
 		serviceComponentImpl.resetOriginalValues();
+
+		serviceComponentImpl.setNew(false);
 
 		return serviceComponentImpl;
 	}
@@ -508,17 +621,9 @@ public class ServiceComponentModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		ServiceComponentModelImpl serviceComponentModelImpl = this;
+		_columnBitmask = 0;
 
-		serviceComponentModelImpl._originalBuildNamespace =
-			serviceComponentModelImpl._buildNamespace;
-
-		serviceComponentModelImpl._originalBuildNumber =
-			serviceComponentModelImpl._buildNumber;
-
-		serviceComponentModelImpl._setOriginalBuildNumber = false;
-
-		serviceComponentModelImpl._columnBitmask = 0;
+		_serviceComponentCacheModel = null;
 	}
 
 	@Override
@@ -626,13 +731,11 @@ public class ServiceComponentModelImpl
 	private long _mvccVersion;
 	private long _serviceComponentId;
 	private String _buildNamespace;
-	private String _originalBuildNamespace;
 	private long _buildNumber;
-	private long _originalBuildNumber;
-	private boolean _setOriginalBuildNumber;
 	private long _buildDate;
 	private String _data;
 	private long _columnBitmask;
 	private ServiceComponent _escapedModel;
+	private ServiceComponentCacheModel _serviceComponentCacheModel;
 
 }

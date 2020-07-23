@@ -108,6 +108,8 @@ public class AccountGroupCacheModel
 	public AccountGroup toEntityModel() {
 		AccountGroupImpl accountGroupImpl = new AccountGroupImpl();
 
+		accountGroupImpl.setNew(true);
+
 		accountGroupImpl.setMvccVersion(mvccVersion);
 
 		if (externalReferenceCode == null) {
@@ -157,6 +159,8 @@ public class AccountGroupCacheModel
 		}
 
 		accountGroupImpl.resetOriginalValues();
+
+		accountGroupImpl.setNew(false);
 
 		return accountGroupImpl;
 	}

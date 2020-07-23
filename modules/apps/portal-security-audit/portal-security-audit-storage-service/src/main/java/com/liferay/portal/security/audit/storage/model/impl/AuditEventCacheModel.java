@@ -103,6 +103,8 @@ public class AuditEventCacheModel
 	public AuditEvent toEntityModel() {
 		AuditEventImpl auditEventImpl = new AuditEventImpl();
 
+		auditEventImpl.setNew(true);
+
 		auditEventImpl.setAuditEventId(auditEventId);
 		auditEventImpl.setCompanyId(companyId);
 		auditEventImpl.setUserId(userId);
@@ -187,6 +189,8 @@ public class AuditEventCacheModel
 		}
 
 		auditEventImpl.resetOriginalValues();
+
+		auditEventImpl.setNew(false);
 
 		return auditEventImpl;
 	}

@@ -1555,9 +1555,12 @@ public class SyncDLFileVersionDiffPersistenceImpl
 			 _finderPathFetchByF_S_T.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				syncDLFileVersionDiffModelImpl.getOriginalFileEntryId(),
-				syncDLFileVersionDiffModelImpl.getOriginalSourceFileVersionId(),
-				syncDLFileVersionDiffModelImpl.getOriginalTargetFileVersionId()
+				syncDLFileVersionDiffModelImpl.getCacheModelAttribute(
+					"fileEntryId"),
+				syncDLFileVersionDiffModelImpl.getCacheModelAttribute(
+					"sourceFileVersionId"),
+				syncDLFileVersionDiffModelImpl.getCacheModelAttribute(
+					"targetFileVersionId")
 			};
 
 			finderCache.removeResult(_finderPathCountByF_S_T, args);
@@ -1744,7 +1747,8 @@ public class SyncDLFileVersionDiffPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					syncDLFileVersionDiffModelImpl.getOriginalFileEntryId()
+					syncDLFileVersionDiffModelImpl.getCacheModelAttribute(
+						"fileEntryId")
 				};
 
 				finderCache.removeResult(_finderPathCountByFileEntryId, args);

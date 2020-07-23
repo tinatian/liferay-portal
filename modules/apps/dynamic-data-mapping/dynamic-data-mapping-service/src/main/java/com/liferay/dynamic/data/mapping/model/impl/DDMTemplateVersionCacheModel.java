@@ -130,6 +130,8 @@ public class DDMTemplateVersionCacheModel
 		DDMTemplateVersionImpl ddmTemplateVersionImpl =
 			new DDMTemplateVersionImpl();
 
+		ddmTemplateVersionImpl.setNew(true);
+
 		ddmTemplateVersionImpl.setMvccVersion(mvccVersion);
 		ddmTemplateVersionImpl.setCtCollectionId(ctCollectionId);
 		ddmTemplateVersionImpl.setTemplateVersionId(templateVersionId);
@@ -208,6 +210,8 @@ public class DDMTemplateVersionCacheModel
 		}
 
 		ddmTemplateVersionImpl.resetOriginalValues();
+
+		ddmTemplateVersionImpl.setNew(false);
 
 		return ddmTemplateVersionImpl;
 	}

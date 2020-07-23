@@ -112,6 +112,8 @@ public class MBThreadFlagCacheModel
 	public MBThreadFlag toEntityModel() {
 		MBThreadFlagImpl mbThreadFlagImpl = new MBThreadFlagImpl();
 
+		mbThreadFlagImpl.setNew(true);
+
 		mbThreadFlagImpl.setMvccVersion(mvccVersion);
 		mbThreadFlagImpl.setCtCollectionId(ctCollectionId);
 
@@ -158,6 +160,8 @@ public class MBThreadFlagCacheModel
 		}
 
 		mbThreadFlagImpl.resetOriginalValues();
+
+		mbThreadFlagImpl.setNew(false);
 
 		return mbThreadFlagImpl;
 	}

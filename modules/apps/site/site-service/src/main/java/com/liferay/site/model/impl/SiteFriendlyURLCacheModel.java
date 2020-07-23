@@ -113,6 +113,8 @@ public class SiteFriendlyURLCacheModel
 	public SiteFriendlyURL toEntityModel() {
 		SiteFriendlyURLImpl siteFriendlyURLImpl = new SiteFriendlyURLImpl();
 
+		siteFriendlyURLImpl.setNew(true);
+
 		siteFriendlyURLImpl.setMvccVersion(mvccVersion);
 
 		if (uuid == null) {
@@ -171,6 +173,8 @@ public class SiteFriendlyURLCacheModel
 		}
 
 		siteFriendlyURLImpl.resetOriginalValues();
+
+		siteFriendlyURLImpl.setNew(false);
 
 		return siteFriendlyURLImpl;
 	}

@@ -99,6 +99,8 @@ public class ServiceComponentCacheModel
 	public ServiceComponent toEntityModel() {
 		ServiceComponentImpl serviceComponentImpl = new ServiceComponentImpl();
 
+		serviceComponentImpl.setNew(true);
+
 		serviceComponentImpl.setMvccVersion(mvccVersion);
 		serviceComponentImpl.setServiceComponentId(serviceComponentId);
 
@@ -120,6 +122,8 @@ public class ServiceComponentCacheModel
 		}
 
 		serviceComponentImpl.resetOriginalValues();
+
+		serviceComponentImpl.setNew(false);
 
 		return serviceComponentImpl;
 	}

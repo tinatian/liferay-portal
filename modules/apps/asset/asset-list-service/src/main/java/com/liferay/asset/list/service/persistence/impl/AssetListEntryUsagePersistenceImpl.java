@@ -3080,8 +3080,8 @@ public class AssetListEntryUsagePersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				assetListEntryUsageModelImpl.getOriginalUuid(),
-				assetListEntryUsageModelImpl.getOriginalGroupId()
+				assetListEntryUsageModelImpl.getCacheModelAttribute("uuid"),
+				assetListEntryUsageModelImpl.getCacheModelAttribute("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -3103,9 +3103,10 @@ public class AssetListEntryUsagePersistenceImpl
 			 _finderPathFetchByC_C_P.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				assetListEntryUsageModelImpl.getOriginalClassNameId(),
-				assetListEntryUsageModelImpl.getOriginalClassPK(),
-				assetListEntryUsageModelImpl.getOriginalPortletId()
+				assetListEntryUsageModelImpl.getCacheModelAttribute(
+					"classNameId"),
+				assetListEntryUsageModelImpl.getCacheModelAttribute("classPK"),
+				assetListEntryUsageModelImpl.getCacheModelAttribute("portletId")
 			};
 
 			finderCache.removeResult(_finderPathCountByC_C_P, args);
@@ -3371,7 +3372,7 @@ public class AssetListEntryUsagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					assetListEntryUsageModelImpl.getOriginalUuid()
+					assetListEntryUsageModelImpl.getCacheModelAttribute("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -3390,8 +3391,9 @@ public class AssetListEntryUsagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					assetListEntryUsageModelImpl.getOriginalUuid(),
-					assetListEntryUsageModelImpl.getOriginalCompanyId()
+					assetListEntryUsageModelImpl.getCacheModelAttribute("uuid"),
+					assetListEntryUsageModelImpl.getCacheModelAttribute(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -3413,7 +3415,8 @@ public class AssetListEntryUsagePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					assetListEntryUsageModelImpl.getOriginalAssetListEntryId()
+					assetListEntryUsageModelImpl.getCacheModelAttribute(
+						"assetListEntryId")
 				};
 
 				finderCache.removeResult(
@@ -3436,8 +3439,10 @@ public class AssetListEntryUsagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					assetListEntryUsageModelImpl.getOriginalAssetListEntryId(),
-					assetListEntryUsageModelImpl.getOriginalClassNameId()
+					assetListEntryUsageModelImpl.getCacheModelAttribute(
+						"assetListEntryId"),
+					assetListEntryUsageModelImpl.getCacheModelAttribute(
+						"classNameId")
 				};
 
 				finderCache.removeResult(_finderPathCountByA_C, args);

@@ -128,6 +128,8 @@ public class OrganizationCacheModel
 	public Organization toEntityModel() {
 		OrganizationImpl organizationImpl = new OrganizationImpl();
 
+		organizationImpl.setNew(true);
+
 		organizationImpl.setMvccVersion(mvccVersion);
 		organizationImpl.setCtCollectionId(ctCollectionId);
 
@@ -208,6 +210,8 @@ public class OrganizationCacheModel
 		organizationImpl.setLogoId(logoId);
 
 		organizationImpl.resetOriginalValues();
+
+		organizationImpl.setNew(false);
 
 		return organizationImpl;
 	}

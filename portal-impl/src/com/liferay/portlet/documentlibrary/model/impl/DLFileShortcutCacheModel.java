@@ -128,6 +128,8 @@ public class DLFileShortcutCacheModel
 	public DLFileShortcut toEntityModel() {
 		DLFileShortcutImpl dlFileShortcutImpl = new DLFileShortcutImpl();
 
+		dlFileShortcutImpl.setNew(true);
+
 		dlFileShortcutImpl.setMvccVersion(mvccVersion);
 		dlFileShortcutImpl.setCtCollectionId(ctCollectionId);
 
@@ -202,6 +204,8 @@ public class DLFileShortcutCacheModel
 		}
 
 		dlFileShortcutImpl.resetOriginalValues();
+
+		dlFileShortcutImpl.setNew(false);
 
 		return dlFileShortcutImpl;
 	}

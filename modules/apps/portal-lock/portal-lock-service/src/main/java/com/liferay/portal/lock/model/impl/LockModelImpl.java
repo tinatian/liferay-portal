@@ -25,7 +25,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.lock.model.Lock;
 import com.liferay.portal.lock.model.LockModel;
@@ -107,17 +106,29 @@ public class LockModelImpl extends BaseModelImpl<Lock> implements LockModel {
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long CLASSNAME_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 2L;
+	public static final long UUID_COLUMN_BITMASK = 2L;
 
-	public static final long EXPIRATIONDATE_COLUMN_BITMASK = 4L;
+	public static final long LOCKID_COLUMN_BITMASK = 4L;
 
-	public static final long KEY_COLUMN_BITMASK = 8L;
+	public static final long COMPANYID_COLUMN_BITMASK = 8L;
 
-	public static final long UUID_COLUMN_BITMASK = 16L;
+	public static final long USERID_COLUMN_BITMASK = 16L;
 
-	public static final long LOCKID_COLUMN_BITMASK = 32L;
+	public static final long USERNAME_COLUMN_BITMASK = 32L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 64L;
+
+	public static final long CLASSNAME_COLUMN_BITMASK = 128L;
+
+	public static final long KEY_COLUMN_BITMASK = 256L;
+
+	public static final long OWNER_COLUMN_BITMASK = 512L;
+
+	public static final long INHERITABLE_COLUMN_BITMASK = 1024L;
+
+	public static final long EXPIRATIONDATE_COLUMN_BITMASK = 2048L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -240,51 +251,118 @@ public class LockModelImpl extends BaseModelImpl<Lock> implements LockModel {
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<Lock, Object> function = _attributeGetterFunctions.get(
+			attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((Lock)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<LockCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_lockCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_lockCacheModel);
+	}
+
 	private static final Map<String, Function<Lock, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<Lock, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<LockCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<Lock, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<Lock, Object>>();
 		Map<String, BiConsumer<Lock, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Lock, ?>>();
+		Map<String, Function<LockCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap<String, Function<LockCacheModel, Object>>();
 
 		attributeGetterFunctions.put("mvccVersion", Lock::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion", lockCacheModel -> lockCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion", (BiConsumer<Lock, Long>)Lock::setMvccVersion);
 		attributeGetterFunctions.put("uuid", Lock::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid", lockCacheModel -> lockCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<Lock, String>)Lock::setUuid);
 		attributeGetterFunctions.put("lockId", Lock::getLockId);
+
+		cacheModelGetterFunctions.put(
+			"lockId", lockCacheModel -> lockCacheModel.lockId);
 		attributeSetterBiConsumers.put(
 			"lockId", (BiConsumer<Lock, Long>)Lock::setLockId);
 		attributeGetterFunctions.put("companyId", Lock::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId", lockCacheModel -> lockCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId", (BiConsumer<Lock, Long>)Lock::setCompanyId);
 		attributeGetterFunctions.put("userId", Lock::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", lockCacheModel -> lockCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<Lock, Long>)Lock::setUserId);
 		attributeGetterFunctions.put("userName", Lock::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName", lockCacheModel -> lockCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName", (BiConsumer<Lock, String>)Lock::setUserName);
 		attributeGetterFunctions.put("createDate", Lock::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate", lockCacheModel -> lockCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate", (BiConsumer<Lock, Date>)Lock::setCreateDate);
 		attributeGetterFunctions.put("className", Lock::getClassName);
+
+		cacheModelGetterFunctions.put(
+			"className", lockCacheModel -> lockCacheModel.className);
 		attributeSetterBiConsumers.put(
 			"className", (BiConsumer<Lock, String>)Lock::setClassName);
 		attributeGetterFunctions.put("key", Lock::getKey);
+
+		cacheModelGetterFunctions.put(
+			"key", lockCacheModel -> lockCacheModel.key);
 		attributeSetterBiConsumers.put(
 			"key", (BiConsumer<Lock, String>)Lock::setKey);
 		attributeGetterFunctions.put("owner", Lock::getOwner);
+
+		cacheModelGetterFunctions.put(
+			"owner", lockCacheModel -> lockCacheModel.owner);
 		attributeSetterBiConsumers.put(
 			"owner", (BiConsumer<Lock, String>)Lock::setOwner);
 		attributeGetterFunctions.put("inheritable", Lock::getInheritable);
+
+		cacheModelGetterFunctions.put(
+			"inheritable", lockCacheModel -> lockCacheModel.inheritable);
 		attributeSetterBiConsumers.put(
 			"inheritable", (BiConsumer<Lock, Boolean>)Lock::setInheritable);
 		attributeGetterFunctions.put("expirationDate", Lock::getExpirationDate);
+
+		cacheModelGetterFunctions.put(
+			"expirationDate", lockCacheModel -> lockCacheModel.expirationDate);
 		attributeSetterBiConsumers.put(
 			"expirationDate", (BiConsumer<Lock, Date>)Lock::setExpirationDate);
 
@@ -292,6 +370,8 @@ public class LockModelImpl extends BaseModelImpl<Lock> implements LockModel {
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -301,6 +381,12 @@ public class LockModelImpl extends BaseModelImpl<Lock> implements LockModel {
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_lockCacheModel == null)) {
+			_lockCacheModel = (LockCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -318,15 +404,20 @@ public class LockModelImpl extends BaseModelImpl<Lock> implements LockModel {
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (!isNew() && (_lockCacheModel == null)) {
+			_lockCacheModel = (LockCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getCacheModelAttribute("uuid");
 	}
 
 	@Override
@@ -336,6 +427,12 @@ public class LockModelImpl extends BaseModelImpl<Lock> implements LockModel {
 
 	@Override
 	public void setLockId(long lockId) {
+		_columnBitmask |= LOCKID_COLUMN_BITMASK;
+
+		if (!isNew() && (_lockCacheModel == null)) {
+			_lockCacheModel = (LockCacheModel)toCacheModel();
+		}
+
 		_lockId = lockId;
 	}
 
@@ -348,17 +445,20 @@ public class LockModelImpl extends BaseModelImpl<Lock> implements LockModel {
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (!isNew() && (_lockCacheModel == null)) {
+			_lockCacheModel = (LockCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getCacheModelAttribute("companyId");
 	}
 
 	@Override
@@ -368,6 +468,12 @@ public class LockModelImpl extends BaseModelImpl<Lock> implements LockModel {
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_lockCacheModel == null)) {
+			_lockCacheModel = (LockCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -399,6 +505,12 @@ public class LockModelImpl extends BaseModelImpl<Lock> implements LockModel {
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_lockCacheModel == null)) {
+			_lockCacheModel = (LockCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -409,6 +521,12 @@ public class LockModelImpl extends BaseModelImpl<Lock> implements LockModel {
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_lockCacheModel == null)) {
+			_lockCacheModel = (LockCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -426,15 +544,20 @@ public class LockModelImpl extends BaseModelImpl<Lock> implements LockModel {
 	public void setClassName(String className) {
 		_columnBitmask |= CLASSNAME_COLUMN_BITMASK;
 
-		if (_originalClassName == null) {
-			_originalClassName = _className;
+		if (!isNew() && (_lockCacheModel == null)) {
+			_lockCacheModel = (LockCacheModel)toCacheModel();
 		}
 
 		_className = className;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalClassName() {
-		return GetterUtil.getString(_originalClassName);
+		return getCacheModelAttribute("className");
 	}
 
 	@Override
@@ -451,15 +574,20 @@ public class LockModelImpl extends BaseModelImpl<Lock> implements LockModel {
 	public void setKey(String key) {
 		_columnBitmask |= KEY_COLUMN_BITMASK;
 
-		if (_originalKey == null) {
-			_originalKey = _key;
+		if (!isNew() && (_lockCacheModel == null)) {
+			_lockCacheModel = (LockCacheModel)toCacheModel();
 		}
 
 		_key = key;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalKey() {
-		return GetterUtil.getString(_originalKey);
+		return getCacheModelAttribute("key");
 	}
 
 	@Override
@@ -474,6 +602,12 @@ public class LockModelImpl extends BaseModelImpl<Lock> implements LockModel {
 
 	@Override
 	public void setOwner(String owner) {
+		_columnBitmask |= OWNER_COLUMN_BITMASK;
+
+		if (!isNew() && (_lockCacheModel == null)) {
+			_lockCacheModel = (LockCacheModel)toCacheModel();
+		}
+
 		_owner = owner;
 	}
 
@@ -489,6 +623,12 @@ public class LockModelImpl extends BaseModelImpl<Lock> implements LockModel {
 
 	@Override
 	public void setInheritable(boolean inheritable) {
+		_columnBitmask |= INHERITABLE_COLUMN_BITMASK;
+
+		if (!isNew() && (_lockCacheModel == null)) {
+			_lockCacheModel = (LockCacheModel)toCacheModel();
+		}
+
 		_inheritable = inheritable;
 	}
 
@@ -501,15 +641,20 @@ public class LockModelImpl extends BaseModelImpl<Lock> implements LockModel {
 	public void setExpirationDate(Date expirationDate) {
 		_columnBitmask |= EXPIRATIONDATE_COLUMN_BITMASK;
 
-		if (_originalExpirationDate == null) {
-			_originalExpirationDate = _expirationDate;
+		if (!isNew() && (_lockCacheModel == null)) {
+			_lockCacheModel = (LockCacheModel)toCacheModel();
 		}
 
 		_expirationDate = expirationDate;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public Date getOriginalExpirationDate() {
-		return _originalExpirationDate;
+		return getCacheModelAttribute("expirationDate");
 	}
 
 	public long getColumnBitmask() {
@@ -548,6 +693,8 @@ public class LockModelImpl extends BaseModelImpl<Lock> implements LockModel {
 	public Object clone() {
 		LockImpl lockImpl = new LockImpl();
 
+		lockImpl.setNew(true);
+
 		lockImpl.setMvccVersion(getMvccVersion());
 		lockImpl.setUuid(getUuid());
 		lockImpl.setLockId(getLockId());
@@ -562,6 +709,8 @@ public class LockModelImpl extends BaseModelImpl<Lock> implements LockModel {
 		lockImpl.setExpirationDate(getExpirationDate());
 
 		lockImpl.resetOriginalValues();
+
+		lockImpl.setNew(false);
 
 		return lockImpl;
 	}
@@ -628,21 +777,9 @@ public class LockModelImpl extends BaseModelImpl<Lock> implements LockModel {
 
 	@Override
 	public void resetOriginalValues() {
-		LockModelImpl lockModelImpl = this;
+		_columnBitmask = 0;
 
-		lockModelImpl._originalUuid = lockModelImpl._uuid;
-
-		lockModelImpl._originalCompanyId = lockModelImpl._companyId;
-
-		lockModelImpl._setOriginalCompanyId = false;
-
-		lockModelImpl._originalClassName = lockModelImpl._className;
-
-		lockModelImpl._originalKey = lockModelImpl._key;
-
-		lockModelImpl._originalExpirationDate = lockModelImpl._expirationDate;
-
-		lockModelImpl._columnBitmask = 0;
+		_lockCacheModel = null;
 	}
 
 	@Override
@@ -790,23 +927,18 @@ public class LockModelImpl extends BaseModelImpl<Lock> implements LockModel {
 
 	private long _mvccVersion;
 	private String _uuid;
-	private String _originalUuid;
 	private long _lockId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private String _className;
-	private String _originalClassName;
 	private String _key;
-	private String _originalKey;
 	private String _owner;
 	private boolean _inheritable;
 	private Date _expirationDate;
-	private Date _originalExpirationDate;
 	private long _columnBitmask;
 	private Lock _escapedModel;
+	private LockCacheModel _lockCacheModel;
 
 }

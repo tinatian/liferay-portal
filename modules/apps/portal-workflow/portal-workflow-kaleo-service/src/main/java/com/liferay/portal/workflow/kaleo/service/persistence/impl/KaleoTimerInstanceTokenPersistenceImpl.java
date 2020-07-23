@@ -2153,9 +2153,10 @@ public class KaleoTimerInstanceTokenPersistenceImpl
 			 _finderPathFetchByKITI_KTI.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				kaleoTimerInstanceTokenModelImpl.
-					getOriginalKaleoInstanceTokenId(),
-				kaleoTimerInstanceTokenModelImpl.getOriginalKaleoTimerId()
+				kaleoTimerInstanceTokenModelImpl.getCacheModelAttribute(
+					"kaleoInstanceTokenId"),
+				kaleoTimerInstanceTokenModelImpl.getCacheModelAttribute(
+					"kaleoTimerId")
 			};
 
 			finderCache.removeResult(_finderPathCountByKITI_KTI, args);
@@ -2387,8 +2388,8 @@ public class KaleoTimerInstanceTokenPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoTimerInstanceTokenModelImpl.
-						getOriginalKaleoInstanceId()
+					kaleoTimerInstanceTokenModelImpl.getCacheModelAttribute(
+						"kaleoInstanceId")
 				};
 
 				finderCache.removeResult(
@@ -2411,9 +2412,10 @@ public class KaleoTimerInstanceTokenPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					kaleoTimerInstanceTokenModelImpl.
-						getOriginalKaleoInstanceTokenId(),
-					kaleoTimerInstanceTokenModelImpl.getOriginalCompleted()
+					kaleoTimerInstanceTokenModelImpl.getCacheModelAttribute(
+						"kaleoInstanceTokenId"),
+					kaleoTimerInstanceTokenModelImpl.getCacheModelAttribute(
+						"completed")
 				};
 
 				finderCache.removeResult(_finderPathCountByKITI_C, args);
@@ -2435,10 +2437,12 @@ public class KaleoTimerInstanceTokenPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoTimerInstanceTokenModelImpl.
-						getOriginalKaleoInstanceTokenId(),
-					kaleoTimerInstanceTokenModelImpl.getOriginalBlocking(),
-					kaleoTimerInstanceTokenModelImpl.getOriginalCompleted()
+					kaleoTimerInstanceTokenModelImpl.getCacheModelAttribute(
+						"kaleoInstanceTokenId"),
+					kaleoTimerInstanceTokenModelImpl.getCacheModelAttribute(
+						"blocking"),
+					kaleoTimerInstanceTokenModelImpl.getCacheModelAttribute(
+						"completed")
 				};
 
 				finderCache.removeResult(_finderPathCountByKITI_B_C, args);

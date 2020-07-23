@@ -99,6 +99,8 @@ public class AppCacheModel implements CacheModel<App>, Externalizable {
 	public App toEntityModel() {
 		AppImpl appImpl = new AppImpl();
 
+		appImpl.setNew(true);
+
 		if (uuid == null) {
 			appImpl.setUuid("");
 		}
@@ -171,6 +173,8 @@ public class AppCacheModel implements CacheModel<App>, Externalizable {
 		appImpl.setRequired(required);
 
 		appImpl.resetOriginalValues();
+
+		appImpl.setNew(false);
 
 		return appImpl;
 	}

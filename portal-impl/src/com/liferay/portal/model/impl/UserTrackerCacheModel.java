@@ -106,6 +106,8 @@ public class UserTrackerCacheModel
 	public UserTracker toEntityModel() {
 		UserTrackerImpl userTrackerImpl = new UserTrackerImpl();
 
+		userTrackerImpl.setNew(true);
+
 		userTrackerImpl.setMvccVersion(mvccVersion);
 		userTrackerImpl.setUserTrackerId(userTrackerId);
 		userTrackerImpl.setCompanyId(companyId);
@@ -147,6 +149,8 @@ public class UserTrackerCacheModel
 		}
 
 		userTrackerImpl.resetOriginalValues();
+
+		userTrackerImpl.setNew(false);
 
 		return userTrackerImpl;
 	}

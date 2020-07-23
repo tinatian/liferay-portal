@@ -103,13 +103,23 @@ public class TrashVersionModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long CLASSNAMEID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long CLASSPK_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
-	public static final long ENTRYID_COLUMN_BITMASK = 4L;
+	public static final long VERSIONID_COLUMN_BITMASK = 4L;
 
-	public static final long VERSIONID_COLUMN_BITMASK = 8L;
+	public static final long COMPANYID_COLUMN_BITMASK = 8L;
+
+	public static final long ENTRYID_COLUMN_BITMASK = 16L;
+
+	public static final long CLASSNAMEID_COLUMN_BITMASK = 32L;
+
+	public static final long CLASSPK_COLUMN_BITMASK = 64L;
+
+	public static final long TYPESETTINGS_COLUMN_BITMASK = 128L;
+
+	public static final long STATUS_COLUMN_BITMASK = 256L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -238,54 +248,121 @@ public class TrashVersionModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<TrashVersion, Object> function = _attributeGetterFunctions.get(
+			attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((TrashVersion)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<TrashVersionCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_trashVersionCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_trashVersionCacheModel);
+	}
+
 	private static final Map<String, Function<TrashVersion, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<TrashVersion, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<TrashVersionCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<TrashVersion, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<TrashVersion, Object>>();
 		Map<String, BiConsumer<TrashVersion, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<TrashVersion, ?>>();
+		Map<String, Function<TrashVersionCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<TrashVersionCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", TrashVersion::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			trashVersionCacheModel -> trashVersionCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<TrashVersion, Long>)TrashVersion::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", TrashVersion::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			trashVersionCacheModel -> trashVersionCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<TrashVersion, Long>)TrashVersion::setCtCollectionId);
 		attributeGetterFunctions.put("versionId", TrashVersion::getVersionId);
+
+		cacheModelGetterFunctions.put(
+			"versionId",
+			trashVersionCacheModel -> trashVersionCacheModel.versionId);
 		attributeSetterBiConsumers.put(
 			"versionId",
 			(BiConsumer<TrashVersion, Long>)TrashVersion::setVersionId);
 		attributeGetterFunctions.put("companyId", TrashVersion::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			trashVersionCacheModel -> trashVersionCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<TrashVersion, Long>)TrashVersion::setCompanyId);
 		attributeGetterFunctions.put("entryId", TrashVersion::getEntryId);
+
+		cacheModelGetterFunctions.put(
+			"entryId",
+			trashVersionCacheModel -> trashVersionCacheModel.entryId);
 		attributeSetterBiConsumers.put(
 			"entryId",
 			(BiConsumer<TrashVersion, Long>)TrashVersion::setEntryId);
 		attributeGetterFunctions.put(
 			"classNameId", TrashVersion::getClassNameId);
+
+		cacheModelGetterFunctions.put(
+			"classNameId",
+			trashVersionCacheModel -> trashVersionCacheModel.classNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<TrashVersion, Long>)TrashVersion::setClassNameId);
 		attributeGetterFunctions.put("classPK", TrashVersion::getClassPK);
+
+		cacheModelGetterFunctions.put(
+			"classPK",
+			trashVersionCacheModel -> trashVersionCacheModel.classPK);
 		attributeSetterBiConsumers.put(
 			"classPK",
 			(BiConsumer<TrashVersion, Long>)TrashVersion::setClassPK);
 		attributeGetterFunctions.put(
 			"typeSettings", TrashVersion::getTypeSettings);
+
+		cacheModelGetterFunctions.put(
+			"typeSettings",
+			trashVersionCacheModel -> trashVersionCacheModel.typeSettings);
 		attributeSetterBiConsumers.put(
 			"typeSettings",
 			(BiConsumer<TrashVersion, String>)TrashVersion::setTypeSettings);
 		attributeGetterFunctions.put("status", TrashVersion::getStatus);
+
+		cacheModelGetterFunctions.put(
+			"status", trashVersionCacheModel -> trashVersionCacheModel.status);
 		attributeSetterBiConsumers.put(
 			"status",
 			(BiConsumer<TrashVersion, Integer>)TrashVersion::setStatus);
@@ -294,6 +371,8 @@ public class TrashVersionModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -303,6 +382,12 @@ public class TrashVersionModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_trashVersionCacheModel == null)) {
+			_trashVersionCacheModel = (TrashVersionCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -313,6 +398,12 @@ public class TrashVersionModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (!isNew() && (_trashVersionCacheModel == null)) {
+			_trashVersionCacheModel = (TrashVersionCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -323,6 +414,12 @@ public class TrashVersionModelImpl
 
 	@Override
 	public void setVersionId(long versionId) {
+		_columnBitmask |= VERSIONID_COLUMN_BITMASK;
+
+		if (!isNew() && (_trashVersionCacheModel == null)) {
+			_trashVersionCacheModel = (TrashVersionCacheModel)toCacheModel();
+		}
+
 		_versionId = versionId;
 	}
 
@@ -333,6 +430,12 @@ public class TrashVersionModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (!isNew() && (_trashVersionCacheModel == null)) {
+			_trashVersionCacheModel = (TrashVersionCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -345,17 +448,20 @@ public class TrashVersionModelImpl
 	public void setEntryId(long entryId) {
 		_columnBitmask |= ENTRYID_COLUMN_BITMASK;
 
-		if (!_setOriginalEntryId) {
-			_setOriginalEntryId = true;
-
-			_originalEntryId = _entryId;
+		if (!isNew() && (_trashVersionCacheModel == null)) {
+			_trashVersionCacheModel = (TrashVersionCacheModel)toCacheModel();
 		}
 
 		_entryId = entryId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalEntryId() {
-		return _originalEntryId;
+		return getCacheModelAttribute("entryId");
 	}
 
 	@Override
@@ -387,17 +493,20 @@ public class TrashVersionModelImpl
 	public void setClassNameId(long classNameId) {
 		_columnBitmask |= CLASSNAMEID_COLUMN_BITMASK;
 
-		if (!_setOriginalClassNameId) {
-			_setOriginalClassNameId = true;
-
-			_originalClassNameId = _classNameId;
+		if (!isNew() && (_trashVersionCacheModel == null)) {
+			_trashVersionCacheModel = (TrashVersionCacheModel)toCacheModel();
 		}
 
 		_classNameId = classNameId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassNameId() {
-		return _originalClassNameId;
+		return getCacheModelAttribute("classNameId");
 	}
 
 	@Override
@@ -409,17 +518,20 @@ public class TrashVersionModelImpl
 	public void setClassPK(long classPK) {
 		_columnBitmask |= CLASSPK_COLUMN_BITMASK;
 
-		if (!_setOriginalClassPK) {
-			_setOriginalClassPK = true;
-
-			_originalClassPK = _classPK;
+		if (!isNew() && (_trashVersionCacheModel == null)) {
+			_trashVersionCacheModel = (TrashVersionCacheModel)toCacheModel();
 		}
 
 		_classPK = classPK;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassPK() {
-		return _originalClassPK;
+		return getCacheModelAttribute("classPK");
 	}
 
 	@Override
@@ -434,6 +546,12 @@ public class TrashVersionModelImpl
 
 	@Override
 	public void setTypeSettings(String typeSettings) {
+		_columnBitmask |= TYPESETTINGS_COLUMN_BITMASK;
+
+		if (!isNew() && (_trashVersionCacheModel == null)) {
+			_trashVersionCacheModel = (TrashVersionCacheModel)toCacheModel();
+		}
+
 		_typeSettings = typeSettings;
 	}
 
@@ -444,6 +562,12 @@ public class TrashVersionModelImpl
 
 	@Override
 	public void setStatus(int status) {
+		_columnBitmask |= STATUS_COLUMN_BITMASK;
+
+		if (!isNew() && (_trashVersionCacheModel == null)) {
+			_trashVersionCacheModel = (TrashVersionCacheModel)toCacheModel();
+		}
+
 		_status = status;
 	}
 
@@ -483,6 +607,8 @@ public class TrashVersionModelImpl
 	public Object clone() {
 		TrashVersionImpl trashVersionImpl = new TrashVersionImpl();
 
+		trashVersionImpl.setNew(true);
+
 		trashVersionImpl.setMvccVersion(getMvccVersion());
 		trashVersionImpl.setCtCollectionId(getCtCollectionId());
 		trashVersionImpl.setVersionId(getVersionId());
@@ -494,6 +620,8 @@ public class TrashVersionModelImpl
 		trashVersionImpl.setStatus(getStatus());
 
 		trashVersionImpl.resetOriginalValues();
+
+		trashVersionImpl.setNew(false);
 
 		return trashVersionImpl;
 	}
@@ -560,22 +688,9 @@ public class TrashVersionModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		TrashVersionModelImpl trashVersionModelImpl = this;
+		_columnBitmask = 0;
 
-		trashVersionModelImpl._originalEntryId = trashVersionModelImpl._entryId;
-
-		trashVersionModelImpl._setOriginalEntryId = false;
-
-		trashVersionModelImpl._originalClassNameId =
-			trashVersionModelImpl._classNameId;
-
-		trashVersionModelImpl._setOriginalClassNameId = false;
-
-		trashVersionModelImpl._originalClassPK = trashVersionModelImpl._classPK;
-
-		trashVersionModelImpl._setOriginalClassPK = false;
-
-		trashVersionModelImpl._columnBitmask = 0;
+		_trashVersionCacheModel = null;
 	}
 
 	@Override
@@ -685,17 +800,12 @@ public class TrashVersionModelImpl
 	private long _versionId;
 	private long _companyId;
 	private long _entryId;
-	private long _originalEntryId;
-	private boolean _setOriginalEntryId;
 	private long _classNameId;
-	private long _originalClassNameId;
-	private boolean _setOriginalClassNameId;
 	private long _classPK;
-	private long _originalClassPK;
-	private boolean _setOriginalClassPK;
 	private String _typeSettings;
 	private int _status;
 	private long _columnBitmask;
 	private TrashVersion _escapedModel;
+	private TrashVersionCacheModel _trashVersionCacheModel;
 
 }

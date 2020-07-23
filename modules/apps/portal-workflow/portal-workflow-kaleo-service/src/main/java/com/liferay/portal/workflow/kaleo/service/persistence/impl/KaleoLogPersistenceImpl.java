@@ -3745,7 +3745,7 @@ public class KaleoLogPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoLogModelImpl.getOriginalCompanyId()
+					kaleoLogModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCompanyId, args);
@@ -3764,7 +3764,8 @@ public class KaleoLogPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoLogModelImpl.getOriginalKaleoDefinitionVersionId()
+					kaleoLogModelImpl.getCacheModelAttribute(
+						"kaleoDefinitionVersionId")
 				};
 
 				finderCache.removeResult(
@@ -3789,7 +3790,7 @@ public class KaleoLogPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoLogModelImpl.getOriginalKaleoInstanceId()
+					kaleoLogModelImpl.getCacheModelAttribute("kaleoInstanceId")
 				};
 
 				finderCache.removeResult(
@@ -3810,7 +3811,8 @@ public class KaleoLogPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoLogModelImpl.getOriginalKaleoTaskInstanceTokenId()
+					kaleoLogModelImpl.getCacheModelAttribute(
+						"kaleoTaskInstanceTokenId")
 				};
 
 				finderCache.removeResult(
@@ -3835,8 +3837,9 @@ public class KaleoLogPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					kaleoLogModelImpl.getOriginalKaleoInstanceTokenId(),
-					kaleoLogModelImpl.getOriginalType()
+					kaleoLogModelImpl.getCacheModelAttribute(
+						"kaleoInstanceTokenId"),
+					kaleoLogModelImpl.getCacheModelAttribute("type")
 				};
 
 				finderCache.removeResult(_finderPathCountByKITI_T, args);
@@ -3858,10 +3861,11 @@ public class KaleoLogPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoLogModelImpl.getOriginalKaleoClassName(),
-					kaleoLogModelImpl.getOriginalKaleoClassPK(),
-					kaleoLogModelImpl.getOriginalKaleoInstanceTokenId(),
-					kaleoLogModelImpl.getOriginalType()
+					kaleoLogModelImpl.getCacheModelAttribute("kaleoClassName"),
+					kaleoLogModelImpl.getCacheModelAttribute("kaleoClassPK"),
+					kaleoLogModelImpl.getCacheModelAttribute(
+						"kaleoInstanceTokenId"),
+					kaleoLogModelImpl.getCacheModelAttribute("type")
 				};
 
 				finderCache.removeResult(

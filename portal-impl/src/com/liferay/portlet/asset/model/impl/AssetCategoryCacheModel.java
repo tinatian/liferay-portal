@@ -124,6 +124,8 @@ public class AssetCategoryCacheModel
 	public AssetCategory toEntityModel() {
 		AssetCategoryImpl assetCategoryImpl = new AssetCategoryImpl();
 
+		assetCategoryImpl.setNew(true);
+
 		assetCategoryImpl.setMvccVersion(mvccVersion);
 		assetCategoryImpl.setCtCollectionId(ctCollectionId);
 
@@ -207,6 +209,8 @@ public class AssetCategoryCacheModel
 		}
 
 		assetCategoryImpl.resetOriginalValues();
+
+		assetCategoryImpl.setNew(false);
 
 		return assetCategoryImpl;
 	}

@@ -2174,8 +2174,9 @@ public class AssetCategoryPropertyPersistenceImpl
 			 _finderPathFetchByCA_K.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				assetCategoryPropertyModelImpl.getOriginalCategoryId(),
-				assetCategoryPropertyModelImpl.getOriginalKey()
+				assetCategoryPropertyModelImpl.getCacheModelAttribute(
+					"categoryId"),
+				assetCategoryPropertyModelImpl.getCacheModelAttribute("key")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByCA_K, args);
@@ -2426,7 +2427,8 @@ public class AssetCategoryPropertyPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					assetCategoryPropertyModelImpl.getOriginalCompanyId()
+					assetCategoryPropertyModelImpl.getCacheModelAttribute(
+						"companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
@@ -2447,7 +2449,8 @@ public class AssetCategoryPropertyPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					assetCategoryPropertyModelImpl.getOriginalCategoryId()
+					assetCategoryPropertyModelImpl.getCacheModelAttribute(
+						"categoryId")
 				};
 
 				FinderCacheUtil.removeResult(
@@ -2470,8 +2473,9 @@ public class AssetCategoryPropertyPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					assetCategoryPropertyModelImpl.getOriginalCompanyId(),
-					assetCategoryPropertyModelImpl.getOriginalKey()
+					assetCategoryPropertyModelImpl.getCacheModelAttribute(
+						"companyId"),
+					assetCategoryPropertyModelImpl.getCacheModelAttribute("key")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_K, args);

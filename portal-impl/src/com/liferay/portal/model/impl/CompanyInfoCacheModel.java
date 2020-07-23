@@ -94,6 +94,8 @@ public class CompanyInfoCacheModel
 	public CompanyInfo toEntityModel() {
 		CompanyInfoImpl companyInfoImpl = new CompanyInfoImpl();
 
+		companyInfoImpl.setNew(true);
+
 		companyInfoImpl.setMvccVersion(mvccVersion);
 		companyInfoImpl.setCompanyInfoId(companyInfoId);
 		companyInfoImpl.setCompanyId(companyId);
@@ -106,6 +108,8 @@ public class CompanyInfoCacheModel
 		}
 
 		companyInfoImpl.resetOriginalValues();
+
+		companyInfoImpl.setNew(false);
 
 		return companyInfoImpl;
 	}

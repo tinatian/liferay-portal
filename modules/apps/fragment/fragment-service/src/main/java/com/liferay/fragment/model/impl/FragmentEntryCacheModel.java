@@ -140,6 +140,8 @@ public class FragmentEntryCacheModel
 	public FragmentEntry toEntityModel() {
 		FragmentEntryImpl fragmentEntryImpl = new FragmentEntryImpl();
 
+		fragmentEntryImpl.setNew(true);
+
 		fragmentEntryImpl.setMvccVersion(mvccVersion);
 
 		if (uuid == null) {
@@ -252,6 +254,8 @@ public class FragmentEntryCacheModel
 		}
 
 		fragmentEntryImpl.resetOriginalValues();
+
+		fragmentEntryImpl.setNew(false);
 
 		return fragmentEntryImpl;
 	}

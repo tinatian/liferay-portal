@@ -132,17 +132,33 @@ public class OAuthTokenModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long GADGETKEY_COLUMN_BITMASK = 1L;
+	public static final long OAUTHTOKENID_COLUMN_BITMASK = 1L;
 
-	public static final long MODULEID_COLUMN_BITMASK = 2L;
+	public static final long COMPANYID_COLUMN_BITMASK = 2L;
 
-	public static final long SERVICENAME_COLUMN_BITMASK = 4L;
+	public static final long USERID_COLUMN_BITMASK = 4L;
 
-	public static final long TOKENNAME_COLUMN_BITMASK = 8L;
+	public static final long USERNAME_COLUMN_BITMASK = 8L;
 
-	public static final long USERID_COLUMN_BITMASK = 16L;
+	public static final long CREATEDATE_COLUMN_BITMASK = 16L;
 
-	public static final long OAUTHTOKENID_COLUMN_BITMASK = 32L;
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 32L;
+
+	public static final long GADGETKEY_COLUMN_BITMASK = 64L;
+
+	public static final long SERVICENAME_COLUMN_BITMASK = 128L;
+
+	public static final long MODULEID_COLUMN_BITMASK = 256L;
+
+	public static final long ACCESSTOKEN_COLUMN_BITMASK = 512L;
+
+	public static final long TOKENNAME_COLUMN_BITMASK = 1024L;
+
+	public static final long TOKENSECRET_COLUMN_BITMASK = 2048L;
+
+	public static final long SESSIONHANDLE_COLUMN_BITMASK = 4096L;
+
+	public static final long EXPIRATION_COLUMN_BITMASK = 8192L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		com.liferay.util.service.ServiceProps.get(
@@ -260,71 +276,156 @@ public class OAuthTokenModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<OAuthToken, Object> function = _attributeGetterFunctions.get(
+			attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((OAuthToken)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<OAuthTokenCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_oAuthTokenCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_oAuthTokenCacheModel);
+	}
+
 	private static final Map<String, Function<OAuthToken, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<OAuthToken, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<OAuthTokenCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<OAuthToken, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<OAuthToken, Object>>();
 		Map<String, BiConsumer<OAuthToken, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<OAuthToken, ?>>();
+		Map<String, Function<OAuthTokenCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<OAuthTokenCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"oAuthTokenId", OAuthToken::getOAuthTokenId);
+
+		cacheModelGetterFunctions.put(
+			"oAuthTokenId",
+			oAuthTokenCacheModel -> oAuthTokenCacheModel.oAuthTokenId);
 		attributeSetterBiConsumers.put(
 			"oAuthTokenId",
 			(BiConsumer<OAuthToken, Long>)OAuthToken::setOAuthTokenId);
 		attributeGetterFunctions.put("companyId", OAuthToken::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			oAuthTokenCacheModel -> oAuthTokenCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<OAuthToken, Long>)OAuthToken::setCompanyId);
 		attributeGetterFunctions.put("userId", OAuthToken::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", oAuthTokenCacheModel -> oAuthTokenCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<OAuthToken, Long>)OAuthToken::setUserId);
 		attributeGetterFunctions.put("userName", OAuthToken::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName", oAuthTokenCacheModel -> oAuthTokenCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<OAuthToken, String>)OAuthToken::setUserName);
 		attributeGetterFunctions.put("createDate", OAuthToken::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			oAuthTokenCacheModel -> oAuthTokenCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<OAuthToken, Date>)OAuthToken::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", OAuthToken::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			oAuthTokenCacheModel -> oAuthTokenCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<OAuthToken, Date>)OAuthToken::setModifiedDate);
 		attributeGetterFunctions.put("gadgetKey", OAuthToken::getGadgetKey);
+
+		cacheModelGetterFunctions.put(
+			"gadgetKey",
+			oAuthTokenCacheModel -> oAuthTokenCacheModel.gadgetKey);
 		attributeSetterBiConsumers.put(
 			"gadgetKey",
 			(BiConsumer<OAuthToken, String>)OAuthToken::setGadgetKey);
 		attributeGetterFunctions.put("serviceName", OAuthToken::getServiceName);
+
+		cacheModelGetterFunctions.put(
+			"serviceName",
+			oAuthTokenCacheModel -> oAuthTokenCacheModel.serviceName);
 		attributeSetterBiConsumers.put(
 			"serviceName",
 			(BiConsumer<OAuthToken, String>)OAuthToken::setServiceName);
 		attributeGetterFunctions.put("moduleId", OAuthToken::getModuleId);
+
+		cacheModelGetterFunctions.put(
+			"moduleId", oAuthTokenCacheModel -> oAuthTokenCacheModel.moduleId);
 		attributeSetterBiConsumers.put(
 			"moduleId", (BiConsumer<OAuthToken, Long>)OAuthToken::setModuleId);
 		attributeGetterFunctions.put("accessToken", OAuthToken::getAccessToken);
+
+		cacheModelGetterFunctions.put(
+			"accessToken",
+			oAuthTokenCacheModel -> oAuthTokenCacheModel.accessToken);
 		attributeSetterBiConsumers.put(
 			"accessToken",
 			(BiConsumer<OAuthToken, String>)OAuthToken::setAccessToken);
 		attributeGetterFunctions.put("tokenName", OAuthToken::getTokenName);
+
+		cacheModelGetterFunctions.put(
+			"tokenName",
+			oAuthTokenCacheModel -> oAuthTokenCacheModel.tokenName);
 		attributeSetterBiConsumers.put(
 			"tokenName",
 			(BiConsumer<OAuthToken, String>)OAuthToken::setTokenName);
 		attributeGetterFunctions.put("tokenSecret", OAuthToken::getTokenSecret);
+
+		cacheModelGetterFunctions.put(
+			"tokenSecret",
+			oAuthTokenCacheModel -> oAuthTokenCacheModel.tokenSecret);
 		attributeSetterBiConsumers.put(
 			"tokenSecret",
 			(BiConsumer<OAuthToken, String>)OAuthToken::setTokenSecret);
 		attributeGetterFunctions.put(
 			"sessionHandle", OAuthToken::getSessionHandle);
+
+		cacheModelGetterFunctions.put(
+			"sessionHandle",
+			oAuthTokenCacheModel -> oAuthTokenCacheModel.sessionHandle);
 		attributeSetterBiConsumers.put(
 			"sessionHandle",
 			(BiConsumer<OAuthToken, String>)OAuthToken::setSessionHandle);
 		attributeGetterFunctions.put("expiration", OAuthToken::getExpiration);
+
+		cacheModelGetterFunctions.put(
+			"expiration",
+			oAuthTokenCacheModel -> oAuthTokenCacheModel.expiration);
 		attributeSetterBiConsumers.put(
 			"expiration",
 			(BiConsumer<OAuthToken, Long>)OAuthToken::setExpiration);
@@ -333,6 +434,8 @@ public class OAuthTokenModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -342,6 +445,12 @@ public class OAuthTokenModelImpl
 
 	@Override
 	public void setOAuthTokenId(long oAuthTokenId) {
+		_columnBitmask |= OAUTHTOKENID_COLUMN_BITMASK;
+
+		if (!isNew() && (_oAuthTokenCacheModel == null)) {
+			_oAuthTokenCacheModel = (OAuthTokenCacheModel)toCacheModel();
+		}
+
 		_oAuthTokenId = oAuthTokenId;
 	}
 
@@ -352,6 +461,12 @@ public class OAuthTokenModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (!isNew() && (_oAuthTokenCacheModel == null)) {
+			_oAuthTokenCacheModel = (OAuthTokenCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -364,10 +479,8 @@ public class OAuthTokenModelImpl
 	public void setUserId(long userId) {
 		_columnBitmask |= USERID_COLUMN_BITMASK;
 
-		if (!_setOriginalUserId) {
-			_setOriginalUserId = true;
-
-			_originalUserId = _userId;
+		if (!isNew() && (_oAuthTokenCacheModel == null)) {
+			_oAuthTokenCacheModel = (OAuthTokenCacheModel)toCacheModel();
 		}
 
 		_userId = userId;
@@ -389,8 +502,13 @@ public class OAuthTokenModelImpl
 	public void setUserUuid(String userUuid) {
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalUserId() {
-		return _originalUserId;
+		return getCacheModelAttribute("userId");
 	}
 
 	@Override
@@ -405,6 +523,12 @@ public class OAuthTokenModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_oAuthTokenCacheModel == null)) {
+			_oAuthTokenCacheModel = (OAuthTokenCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -415,6 +539,12 @@ public class OAuthTokenModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_oAuthTokenCacheModel == null)) {
+			_oAuthTokenCacheModel = (OAuthTokenCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -430,6 +560,12 @@ public class OAuthTokenModelImpl
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
+
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_oAuthTokenCacheModel == null)) {
+			_oAuthTokenCacheModel = (OAuthTokenCacheModel)toCacheModel();
+		}
 
 		_modifiedDate = modifiedDate;
 	}
@@ -448,15 +584,20 @@ public class OAuthTokenModelImpl
 	public void setGadgetKey(String gadgetKey) {
 		_columnBitmask |= GADGETKEY_COLUMN_BITMASK;
 
-		if (_originalGadgetKey == null) {
-			_originalGadgetKey = _gadgetKey;
+		if (!isNew() && (_oAuthTokenCacheModel == null)) {
+			_oAuthTokenCacheModel = (OAuthTokenCacheModel)toCacheModel();
 		}
 
 		_gadgetKey = gadgetKey;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalGadgetKey() {
-		return GetterUtil.getString(_originalGadgetKey);
+		return getCacheModelAttribute("gadgetKey");
 	}
 
 	@Override
@@ -473,15 +614,20 @@ public class OAuthTokenModelImpl
 	public void setServiceName(String serviceName) {
 		_columnBitmask |= SERVICENAME_COLUMN_BITMASK;
 
-		if (_originalServiceName == null) {
-			_originalServiceName = _serviceName;
+		if (!isNew() && (_oAuthTokenCacheModel == null)) {
+			_oAuthTokenCacheModel = (OAuthTokenCacheModel)toCacheModel();
 		}
 
 		_serviceName = serviceName;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalServiceName() {
-		return GetterUtil.getString(_originalServiceName);
+		return getCacheModelAttribute("serviceName");
 	}
 
 	@Override
@@ -493,17 +639,20 @@ public class OAuthTokenModelImpl
 	public void setModuleId(long moduleId) {
 		_columnBitmask |= MODULEID_COLUMN_BITMASK;
 
-		if (!_setOriginalModuleId) {
-			_setOriginalModuleId = true;
-
-			_originalModuleId = _moduleId;
+		if (!isNew() && (_oAuthTokenCacheModel == null)) {
+			_oAuthTokenCacheModel = (OAuthTokenCacheModel)toCacheModel();
 		}
 
 		_moduleId = moduleId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalModuleId() {
-		return _originalModuleId;
+		return getCacheModelAttribute("moduleId");
 	}
 
 	@Override
@@ -518,6 +667,12 @@ public class OAuthTokenModelImpl
 
 	@Override
 	public void setAccessToken(String accessToken) {
+		_columnBitmask |= ACCESSTOKEN_COLUMN_BITMASK;
+
+		if (!isNew() && (_oAuthTokenCacheModel == null)) {
+			_oAuthTokenCacheModel = (OAuthTokenCacheModel)toCacheModel();
+		}
+
 		_accessToken = accessToken;
 	}
 
@@ -535,15 +690,20 @@ public class OAuthTokenModelImpl
 	public void setTokenName(String tokenName) {
 		_columnBitmask |= TOKENNAME_COLUMN_BITMASK;
 
-		if (_originalTokenName == null) {
-			_originalTokenName = _tokenName;
+		if (!isNew() && (_oAuthTokenCacheModel == null)) {
+			_oAuthTokenCacheModel = (OAuthTokenCacheModel)toCacheModel();
 		}
 
 		_tokenName = tokenName;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalTokenName() {
-		return GetterUtil.getString(_originalTokenName);
+		return getCacheModelAttribute("tokenName");
 	}
 
 	@Override
@@ -558,6 +718,12 @@ public class OAuthTokenModelImpl
 
 	@Override
 	public void setTokenSecret(String tokenSecret) {
+		_columnBitmask |= TOKENSECRET_COLUMN_BITMASK;
+
+		if (!isNew() && (_oAuthTokenCacheModel == null)) {
+			_oAuthTokenCacheModel = (OAuthTokenCacheModel)toCacheModel();
+		}
+
 		_tokenSecret = tokenSecret;
 	}
 
@@ -573,6 +739,12 @@ public class OAuthTokenModelImpl
 
 	@Override
 	public void setSessionHandle(String sessionHandle) {
+		_columnBitmask |= SESSIONHANDLE_COLUMN_BITMASK;
+
+		if (!isNew() && (_oAuthTokenCacheModel == null)) {
+			_oAuthTokenCacheModel = (OAuthTokenCacheModel)toCacheModel();
+		}
+
 		_sessionHandle = sessionHandle;
 	}
 
@@ -583,6 +755,12 @@ public class OAuthTokenModelImpl
 
 	@Override
 	public void setExpiration(long expiration) {
+		_columnBitmask |= EXPIRATION_COLUMN_BITMASK;
+
+		if (!isNew() && (_oAuthTokenCacheModel == null)) {
+			_oAuthTokenCacheModel = (OAuthTokenCacheModel)toCacheModel();
+		}
+
 		_expiration = expiration;
 	}
 
@@ -622,6 +800,8 @@ public class OAuthTokenModelImpl
 	public Object clone() {
 		OAuthTokenImpl oAuthTokenImpl = new OAuthTokenImpl();
 
+		oAuthTokenImpl.setNew(true);
+
 		oAuthTokenImpl.setOAuthTokenId(getOAuthTokenId());
 		oAuthTokenImpl.setCompanyId(getCompanyId());
 		oAuthTokenImpl.setUserId(getUserId());
@@ -638,6 +818,8 @@ public class OAuthTokenModelImpl
 		oAuthTokenImpl.setExpiration(getExpiration());
 
 		oAuthTokenImpl.resetOriginalValues();
+
+		oAuthTokenImpl.setNew(false);
 
 		return oAuthTokenImpl;
 	}
@@ -704,26 +886,11 @@ public class OAuthTokenModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		OAuthTokenModelImpl oAuthTokenModelImpl = this;
+		_setModifiedDate = false;
 
-		oAuthTokenModelImpl._originalUserId = oAuthTokenModelImpl._userId;
+		_columnBitmask = 0;
 
-		oAuthTokenModelImpl._setOriginalUserId = false;
-
-		oAuthTokenModelImpl._setModifiedDate = false;
-
-		oAuthTokenModelImpl._originalGadgetKey = oAuthTokenModelImpl._gadgetKey;
-
-		oAuthTokenModelImpl._originalServiceName =
-			oAuthTokenModelImpl._serviceName;
-
-		oAuthTokenModelImpl._originalModuleId = oAuthTokenModelImpl._moduleId;
-
-		oAuthTokenModelImpl._setOriginalModuleId = false;
-
-		oAuthTokenModelImpl._originalTokenName = oAuthTokenModelImpl._tokenName;
-
-		oAuthTokenModelImpl._columnBitmask = 0;
+		_oAuthTokenCacheModel = null;
 	}
 
 	@Override
@@ -890,26 +1057,20 @@ public class OAuthTokenModelImpl
 	private long _oAuthTokenId;
 	private long _companyId;
 	private long _userId;
-	private long _originalUserId;
-	private boolean _setOriginalUserId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private String _gadgetKey;
-	private String _originalGadgetKey;
 	private String _serviceName;
-	private String _originalServiceName;
 	private long _moduleId;
-	private long _originalModuleId;
-	private boolean _setOriginalModuleId;
 	private String _accessToken;
 	private String _tokenName;
-	private String _originalTokenName;
 	private String _tokenSecret;
 	private String _sessionHandle;
 	private long _expiration;
 	private long _columnBitmask;
 	private OAuthToken _escapedModel;
+	private OAuthTokenCacheModel _oAuthTokenCacheModel;
 
 }

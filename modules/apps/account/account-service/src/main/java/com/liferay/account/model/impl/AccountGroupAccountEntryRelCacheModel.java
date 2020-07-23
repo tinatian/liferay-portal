@@ -102,6 +102,8 @@ public class AccountGroupAccountEntryRelCacheModel
 		AccountGroupAccountEntryRelImpl accountGroupAccountEntryRelImpl =
 			new AccountGroupAccountEntryRelImpl();
 
+		accountGroupAccountEntryRelImpl.setNew(true);
+
 		accountGroupAccountEntryRelImpl.setMvccVersion(mvccVersion);
 		accountGroupAccountEntryRelImpl.setAccountGroupAccountEntryRelId(
 			AccountGroupAccountEntryRelId);
@@ -110,6 +112,8 @@ public class AccountGroupAccountEntryRelCacheModel
 		accountGroupAccountEntryRelImpl.setAccountEntryId(accountEntryId);
 
 		accountGroupAccountEntryRelImpl.resetOriginalValues();
+
+		accountGroupAccountEntryRelImpl.setNew(false);
 
 		return accountGroupAccountEntryRelImpl;
 	}

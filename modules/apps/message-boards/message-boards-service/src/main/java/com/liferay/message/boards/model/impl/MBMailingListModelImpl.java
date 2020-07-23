@@ -28,7 +28,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
@@ -136,17 +135,61 @@ public class MBMailingListModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long ACTIVE_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long CATEGORYID_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 4L;
+	public static final long UUID_COLUMN_BITMASK = 4L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 8L;
+	public static final long MAILINGLISTID_COLUMN_BITMASK = 8L;
 
-	public static final long UUID_COLUMN_BITMASK = 16L;
+	public static final long GROUPID_COLUMN_BITMASK = 16L;
 
-	public static final long MAILINGLISTID_COLUMN_BITMASK = 32L;
+	public static final long COMPANYID_COLUMN_BITMASK = 32L;
+
+	public static final long USERID_COLUMN_BITMASK = 64L;
+
+	public static final long USERNAME_COLUMN_BITMASK = 128L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 256L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 512L;
+
+	public static final long CATEGORYID_COLUMN_BITMASK = 1024L;
+
+	public static final long EMAILADDRESS_COLUMN_BITMASK = 2048L;
+
+	public static final long INPROTOCOL_COLUMN_BITMASK = 4096L;
+
+	public static final long INSERVERNAME_COLUMN_BITMASK = 8192L;
+
+	public static final long INSERVERPORT_COLUMN_BITMASK = 16384L;
+
+	public static final long INUSESSL_COLUMN_BITMASK = 32768L;
+
+	public static final long INUSERNAME_COLUMN_BITMASK = 65536L;
+
+	public static final long INPASSWORD_COLUMN_BITMASK = 131072L;
+
+	public static final long INREADINTERVAL_COLUMN_BITMASK = 262144L;
+
+	public static final long OUTEMAILADDRESS_COLUMN_BITMASK = 524288L;
+
+	public static final long OUTCUSTOM_COLUMN_BITMASK = 1048576L;
+
+	public static final long OUTSERVERNAME_COLUMN_BITMASK = 2097152L;
+
+	public static final long OUTSERVERPORT_COLUMN_BITMASK = 4194304L;
+
+	public static final long OUTUSESSL_COLUMN_BITMASK = 8388608L;
+
+	public static final long OUTUSERNAME_COLUMN_BITMASK = 16777216L;
+
+	public static final long OUTPASSWORD_COLUMN_BITMASK = 33554432L;
+
+	public static final long ALLOWANONYMOUS_COLUMN_BITMASK = 67108864L;
+
+	public static final long ACTIVE_COLUMN_BITMASK = 134217728L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -275,148 +318,291 @@ public class MBMailingListModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<MBMailingList, Object> function =
+			_attributeGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((MBMailingList)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<MBMailingListCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_mbMailingListCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_mbMailingListCacheModel);
+	}
+
 	private static final Map<String, Function<MBMailingList, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<MBMailingList, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<MBMailingListCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<MBMailingList, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<MBMailingList, Object>>();
 		Map<String, BiConsumer<MBMailingList, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<MBMailingList, ?>>();
+		Map<String, Function<MBMailingListCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<MBMailingListCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", MBMailingList::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			mbMailingListCacheModel -> mbMailingListCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<MBMailingList, Long>)MBMailingList::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", MBMailingList::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			mbMailingListCacheModel -> mbMailingListCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<MBMailingList, Long>)MBMailingList::setCtCollectionId);
 		attributeGetterFunctions.put("uuid", MBMailingList::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid", mbMailingListCacheModel -> mbMailingListCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<MBMailingList, String>)MBMailingList::setUuid);
 		attributeGetterFunctions.put(
 			"mailingListId", MBMailingList::getMailingListId);
+
+		cacheModelGetterFunctions.put(
+			"mailingListId",
+			mbMailingListCacheModel -> mbMailingListCacheModel.mailingListId);
 		attributeSetterBiConsumers.put(
 			"mailingListId",
 			(BiConsumer<MBMailingList, Long>)MBMailingList::setMailingListId);
 		attributeGetterFunctions.put("groupId", MBMailingList::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			mbMailingListCacheModel -> mbMailingListCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<MBMailingList, Long>)MBMailingList::setGroupId);
 		attributeGetterFunctions.put("companyId", MBMailingList::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			mbMailingListCacheModel -> mbMailingListCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<MBMailingList, Long>)MBMailingList::setCompanyId);
 		attributeGetterFunctions.put("userId", MBMailingList::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			mbMailingListCacheModel -> mbMailingListCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<MBMailingList, Long>)MBMailingList::setUserId);
 		attributeGetterFunctions.put("userName", MBMailingList::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			mbMailingListCacheModel -> mbMailingListCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<MBMailingList, String>)MBMailingList::setUserName);
 		attributeGetterFunctions.put(
 			"createDate", MBMailingList::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			mbMailingListCacheModel -> mbMailingListCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<MBMailingList, Date>)MBMailingList::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", MBMailingList::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			mbMailingListCacheModel -> mbMailingListCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<MBMailingList, Date>)MBMailingList::setModifiedDate);
 		attributeGetterFunctions.put(
 			"categoryId", MBMailingList::getCategoryId);
+
+		cacheModelGetterFunctions.put(
+			"categoryId",
+			mbMailingListCacheModel -> mbMailingListCacheModel.categoryId);
 		attributeSetterBiConsumers.put(
 			"categoryId",
 			(BiConsumer<MBMailingList, Long>)MBMailingList::setCategoryId);
 		attributeGetterFunctions.put(
 			"emailAddress", MBMailingList::getEmailAddress);
+
+		cacheModelGetterFunctions.put(
+			"emailAddress",
+			mbMailingListCacheModel -> mbMailingListCacheModel.emailAddress);
 		attributeSetterBiConsumers.put(
 			"emailAddress",
 			(BiConsumer<MBMailingList, String>)MBMailingList::setEmailAddress);
 		attributeGetterFunctions.put(
 			"inProtocol", MBMailingList::getInProtocol);
+
+		cacheModelGetterFunctions.put(
+			"inProtocol",
+			mbMailingListCacheModel -> mbMailingListCacheModel.inProtocol);
 		attributeSetterBiConsumers.put(
 			"inProtocol",
 			(BiConsumer<MBMailingList, String>)MBMailingList::setInProtocol);
 		attributeGetterFunctions.put(
 			"inServerName", MBMailingList::getInServerName);
+
+		cacheModelGetterFunctions.put(
+			"inServerName",
+			mbMailingListCacheModel -> mbMailingListCacheModel.inServerName);
 		attributeSetterBiConsumers.put(
 			"inServerName",
 			(BiConsumer<MBMailingList, String>)MBMailingList::setInServerName);
 		attributeGetterFunctions.put(
 			"inServerPort", MBMailingList::getInServerPort);
+
+		cacheModelGetterFunctions.put(
+			"inServerPort",
+			mbMailingListCacheModel -> mbMailingListCacheModel.inServerPort);
 		attributeSetterBiConsumers.put(
 			"inServerPort",
 			(BiConsumer<MBMailingList, Integer>)MBMailingList::setInServerPort);
 		attributeGetterFunctions.put("inUseSSL", MBMailingList::getInUseSSL);
+
+		cacheModelGetterFunctions.put(
+			"inUseSSL",
+			mbMailingListCacheModel -> mbMailingListCacheModel.inUseSSL);
 		attributeSetterBiConsumers.put(
 			"inUseSSL",
 			(BiConsumer<MBMailingList, Boolean>)MBMailingList::setInUseSSL);
 		attributeGetterFunctions.put(
 			"inUserName", MBMailingList::getInUserName);
+
+		cacheModelGetterFunctions.put(
+			"inUserName",
+			mbMailingListCacheModel -> mbMailingListCacheModel.inUserName);
 		attributeSetterBiConsumers.put(
 			"inUserName",
 			(BiConsumer<MBMailingList, String>)MBMailingList::setInUserName);
 		attributeGetterFunctions.put(
 			"inPassword", MBMailingList::getInPassword);
+
+		cacheModelGetterFunctions.put(
+			"inPassword",
+			mbMailingListCacheModel -> mbMailingListCacheModel.inPassword);
 		attributeSetterBiConsumers.put(
 			"inPassword",
 			(BiConsumer<MBMailingList, String>)MBMailingList::setInPassword);
 		attributeGetterFunctions.put(
 			"inReadInterval", MBMailingList::getInReadInterval);
+
+		cacheModelGetterFunctions.put(
+			"inReadInterval",
+			mbMailingListCacheModel -> mbMailingListCacheModel.inReadInterval);
 		attributeSetterBiConsumers.put(
 			"inReadInterval",
 			(BiConsumer<MBMailingList, Integer>)
 				MBMailingList::setInReadInterval);
 		attributeGetterFunctions.put(
 			"outEmailAddress", MBMailingList::getOutEmailAddress);
+
+		cacheModelGetterFunctions.put(
+			"outEmailAddress",
+			mbMailingListCacheModel -> mbMailingListCacheModel.outEmailAddress);
 		attributeSetterBiConsumers.put(
 			"outEmailAddress",
 			(BiConsumer<MBMailingList, String>)
 				MBMailingList::setOutEmailAddress);
 		attributeGetterFunctions.put("outCustom", MBMailingList::getOutCustom);
+
+		cacheModelGetterFunctions.put(
+			"outCustom",
+			mbMailingListCacheModel -> mbMailingListCacheModel.outCustom);
 		attributeSetterBiConsumers.put(
 			"outCustom",
 			(BiConsumer<MBMailingList, Boolean>)MBMailingList::setOutCustom);
 		attributeGetterFunctions.put(
 			"outServerName", MBMailingList::getOutServerName);
+
+		cacheModelGetterFunctions.put(
+			"outServerName",
+			mbMailingListCacheModel -> mbMailingListCacheModel.outServerName);
 		attributeSetterBiConsumers.put(
 			"outServerName",
 			(BiConsumer<MBMailingList, String>)MBMailingList::setOutServerName);
 		attributeGetterFunctions.put(
 			"outServerPort", MBMailingList::getOutServerPort);
+
+		cacheModelGetterFunctions.put(
+			"outServerPort",
+			mbMailingListCacheModel -> mbMailingListCacheModel.outServerPort);
 		attributeSetterBiConsumers.put(
 			"outServerPort",
 			(BiConsumer<MBMailingList, Integer>)
 				MBMailingList::setOutServerPort);
 		attributeGetterFunctions.put("outUseSSL", MBMailingList::getOutUseSSL);
+
+		cacheModelGetterFunctions.put(
+			"outUseSSL",
+			mbMailingListCacheModel -> mbMailingListCacheModel.outUseSSL);
 		attributeSetterBiConsumers.put(
 			"outUseSSL",
 			(BiConsumer<MBMailingList, Boolean>)MBMailingList::setOutUseSSL);
 		attributeGetterFunctions.put(
 			"outUserName", MBMailingList::getOutUserName);
+
+		cacheModelGetterFunctions.put(
+			"outUserName",
+			mbMailingListCacheModel -> mbMailingListCacheModel.outUserName);
 		attributeSetterBiConsumers.put(
 			"outUserName",
 			(BiConsumer<MBMailingList, String>)MBMailingList::setOutUserName);
 		attributeGetterFunctions.put(
 			"outPassword", MBMailingList::getOutPassword);
+
+		cacheModelGetterFunctions.put(
+			"outPassword",
+			mbMailingListCacheModel -> mbMailingListCacheModel.outPassword);
 		attributeSetterBiConsumers.put(
 			"outPassword",
 			(BiConsumer<MBMailingList, String>)MBMailingList::setOutPassword);
 		attributeGetterFunctions.put(
 			"allowAnonymous", MBMailingList::getAllowAnonymous);
+
+		cacheModelGetterFunctions.put(
+			"allowAnonymous",
+			mbMailingListCacheModel -> mbMailingListCacheModel.allowAnonymous);
 		attributeSetterBiConsumers.put(
 			"allowAnonymous",
 			(BiConsumer<MBMailingList, Boolean>)
 				MBMailingList::setAllowAnonymous);
 		attributeGetterFunctions.put("active", MBMailingList::getActive);
+
+		cacheModelGetterFunctions.put(
+			"active",
+			mbMailingListCacheModel -> mbMailingListCacheModel.active);
 		attributeSetterBiConsumers.put(
 			"active",
 			(BiConsumer<MBMailingList, Boolean>)MBMailingList::setActive);
@@ -425,6 +611,8 @@ public class MBMailingListModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -434,6 +622,12 @@ public class MBMailingListModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_mbMailingListCacheModel == null)) {
+			_mbMailingListCacheModel = (MBMailingListCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -444,6 +638,12 @@ public class MBMailingListModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (!isNew() && (_mbMailingListCacheModel == null)) {
+			_mbMailingListCacheModel = (MBMailingListCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -461,15 +661,20 @@ public class MBMailingListModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (!isNew() && (_mbMailingListCacheModel == null)) {
+			_mbMailingListCacheModel = (MBMailingListCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getCacheModelAttribute("uuid");
 	}
 
 	@Override
@@ -479,6 +684,12 @@ public class MBMailingListModelImpl
 
 	@Override
 	public void setMailingListId(long mailingListId) {
+		_columnBitmask |= MAILINGLISTID_COLUMN_BITMASK;
+
+		if (!isNew() && (_mbMailingListCacheModel == null)) {
+			_mbMailingListCacheModel = (MBMailingListCacheModel)toCacheModel();
+		}
+
 		_mailingListId = mailingListId;
 	}
 
@@ -491,17 +702,20 @@ public class MBMailingListModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (!isNew() && (_mbMailingListCacheModel == null)) {
+			_mbMailingListCacheModel = (MBMailingListCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getCacheModelAttribute("groupId");
 	}
 
 	@Override
@@ -513,17 +727,20 @@ public class MBMailingListModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (!isNew() && (_mbMailingListCacheModel == null)) {
+			_mbMailingListCacheModel = (MBMailingListCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getCacheModelAttribute("companyId");
 	}
 
 	@Override
@@ -533,6 +750,12 @@ public class MBMailingListModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_mbMailingListCacheModel == null)) {
+			_mbMailingListCacheModel = (MBMailingListCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -564,6 +787,12 @@ public class MBMailingListModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_mbMailingListCacheModel == null)) {
+			_mbMailingListCacheModel = (MBMailingListCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -574,6 +803,12 @@ public class MBMailingListModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_mbMailingListCacheModel == null)) {
+			_mbMailingListCacheModel = (MBMailingListCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -590,6 +825,12 @@ public class MBMailingListModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_mbMailingListCacheModel == null)) {
+			_mbMailingListCacheModel = (MBMailingListCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -602,17 +843,20 @@ public class MBMailingListModelImpl
 	public void setCategoryId(long categoryId) {
 		_columnBitmask |= CATEGORYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCategoryId) {
-			_setOriginalCategoryId = true;
-
-			_originalCategoryId = _categoryId;
+		if (!isNew() && (_mbMailingListCacheModel == null)) {
+			_mbMailingListCacheModel = (MBMailingListCacheModel)toCacheModel();
 		}
 
 		_categoryId = categoryId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCategoryId() {
-		return _originalCategoryId;
+		return getCacheModelAttribute("categoryId");
 	}
 
 	@Override
@@ -627,6 +871,12 @@ public class MBMailingListModelImpl
 
 	@Override
 	public void setEmailAddress(String emailAddress) {
+		_columnBitmask |= EMAILADDRESS_COLUMN_BITMASK;
+
+		if (!isNew() && (_mbMailingListCacheModel == null)) {
+			_mbMailingListCacheModel = (MBMailingListCacheModel)toCacheModel();
+		}
+
 		_emailAddress = emailAddress;
 	}
 
@@ -642,6 +892,12 @@ public class MBMailingListModelImpl
 
 	@Override
 	public void setInProtocol(String inProtocol) {
+		_columnBitmask |= INPROTOCOL_COLUMN_BITMASK;
+
+		if (!isNew() && (_mbMailingListCacheModel == null)) {
+			_mbMailingListCacheModel = (MBMailingListCacheModel)toCacheModel();
+		}
+
 		_inProtocol = inProtocol;
 	}
 
@@ -657,6 +913,12 @@ public class MBMailingListModelImpl
 
 	@Override
 	public void setInServerName(String inServerName) {
+		_columnBitmask |= INSERVERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_mbMailingListCacheModel == null)) {
+			_mbMailingListCacheModel = (MBMailingListCacheModel)toCacheModel();
+		}
+
 		_inServerName = inServerName;
 	}
 
@@ -667,6 +929,12 @@ public class MBMailingListModelImpl
 
 	@Override
 	public void setInServerPort(int inServerPort) {
+		_columnBitmask |= INSERVERPORT_COLUMN_BITMASK;
+
+		if (!isNew() && (_mbMailingListCacheModel == null)) {
+			_mbMailingListCacheModel = (MBMailingListCacheModel)toCacheModel();
+		}
+
 		_inServerPort = inServerPort;
 	}
 
@@ -682,6 +950,12 @@ public class MBMailingListModelImpl
 
 	@Override
 	public void setInUseSSL(boolean inUseSSL) {
+		_columnBitmask |= INUSESSL_COLUMN_BITMASK;
+
+		if (!isNew() && (_mbMailingListCacheModel == null)) {
+			_mbMailingListCacheModel = (MBMailingListCacheModel)toCacheModel();
+		}
+
 		_inUseSSL = inUseSSL;
 	}
 
@@ -697,6 +971,12 @@ public class MBMailingListModelImpl
 
 	@Override
 	public void setInUserName(String inUserName) {
+		_columnBitmask |= INUSERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_mbMailingListCacheModel == null)) {
+			_mbMailingListCacheModel = (MBMailingListCacheModel)toCacheModel();
+		}
+
 		_inUserName = inUserName;
 	}
 
@@ -712,6 +992,12 @@ public class MBMailingListModelImpl
 
 	@Override
 	public void setInPassword(String inPassword) {
+		_columnBitmask |= INPASSWORD_COLUMN_BITMASK;
+
+		if (!isNew() && (_mbMailingListCacheModel == null)) {
+			_mbMailingListCacheModel = (MBMailingListCacheModel)toCacheModel();
+		}
+
 		_inPassword = inPassword;
 	}
 
@@ -722,6 +1008,12 @@ public class MBMailingListModelImpl
 
 	@Override
 	public void setInReadInterval(int inReadInterval) {
+		_columnBitmask |= INREADINTERVAL_COLUMN_BITMASK;
+
+		if (!isNew() && (_mbMailingListCacheModel == null)) {
+			_mbMailingListCacheModel = (MBMailingListCacheModel)toCacheModel();
+		}
+
 		_inReadInterval = inReadInterval;
 	}
 
@@ -737,6 +1029,12 @@ public class MBMailingListModelImpl
 
 	@Override
 	public void setOutEmailAddress(String outEmailAddress) {
+		_columnBitmask |= OUTEMAILADDRESS_COLUMN_BITMASK;
+
+		if (!isNew() && (_mbMailingListCacheModel == null)) {
+			_mbMailingListCacheModel = (MBMailingListCacheModel)toCacheModel();
+		}
+
 		_outEmailAddress = outEmailAddress;
 	}
 
@@ -752,6 +1050,12 @@ public class MBMailingListModelImpl
 
 	@Override
 	public void setOutCustom(boolean outCustom) {
+		_columnBitmask |= OUTCUSTOM_COLUMN_BITMASK;
+
+		if (!isNew() && (_mbMailingListCacheModel == null)) {
+			_mbMailingListCacheModel = (MBMailingListCacheModel)toCacheModel();
+		}
+
 		_outCustom = outCustom;
 	}
 
@@ -767,6 +1071,12 @@ public class MBMailingListModelImpl
 
 	@Override
 	public void setOutServerName(String outServerName) {
+		_columnBitmask |= OUTSERVERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_mbMailingListCacheModel == null)) {
+			_mbMailingListCacheModel = (MBMailingListCacheModel)toCacheModel();
+		}
+
 		_outServerName = outServerName;
 	}
 
@@ -777,6 +1087,12 @@ public class MBMailingListModelImpl
 
 	@Override
 	public void setOutServerPort(int outServerPort) {
+		_columnBitmask |= OUTSERVERPORT_COLUMN_BITMASK;
+
+		if (!isNew() && (_mbMailingListCacheModel == null)) {
+			_mbMailingListCacheModel = (MBMailingListCacheModel)toCacheModel();
+		}
+
 		_outServerPort = outServerPort;
 	}
 
@@ -792,6 +1108,12 @@ public class MBMailingListModelImpl
 
 	@Override
 	public void setOutUseSSL(boolean outUseSSL) {
+		_columnBitmask |= OUTUSESSL_COLUMN_BITMASK;
+
+		if (!isNew() && (_mbMailingListCacheModel == null)) {
+			_mbMailingListCacheModel = (MBMailingListCacheModel)toCacheModel();
+		}
+
 		_outUseSSL = outUseSSL;
 	}
 
@@ -807,6 +1129,12 @@ public class MBMailingListModelImpl
 
 	@Override
 	public void setOutUserName(String outUserName) {
+		_columnBitmask |= OUTUSERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_mbMailingListCacheModel == null)) {
+			_mbMailingListCacheModel = (MBMailingListCacheModel)toCacheModel();
+		}
+
 		_outUserName = outUserName;
 	}
 
@@ -822,6 +1150,12 @@ public class MBMailingListModelImpl
 
 	@Override
 	public void setOutPassword(String outPassword) {
+		_columnBitmask |= OUTPASSWORD_COLUMN_BITMASK;
+
+		if (!isNew() && (_mbMailingListCacheModel == null)) {
+			_mbMailingListCacheModel = (MBMailingListCacheModel)toCacheModel();
+		}
+
 		_outPassword = outPassword;
 	}
 
@@ -837,6 +1171,12 @@ public class MBMailingListModelImpl
 
 	@Override
 	public void setAllowAnonymous(boolean allowAnonymous) {
+		_columnBitmask |= ALLOWANONYMOUS_COLUMN_BITMASK;
+
+		if (!isNew() && (_mbMailingListCacheModel == null)) {
+			_mbMailingListCacheModel = (MBMailingListCacheModel)toCacheModel();
+		}
+
 		_allowAnonymous = allowAnonymous;
 	}
 
@@ -854,17 +1194,20 @@ public class MBMailingListModelImpl
 	public void setActive(boolean active) {
 		_columnBitmask |= ACTIVE_COLUMN_BITMASK;
 
-		if (!_setOriginalActive) {
-			_setOriginalActive = true;
-
-			_originalActive = _active;
+		if (!isNew() && (_mbMailingListCacheModel == null)) {
+			_mbMailingListCacheModel = (MBMailingListCacheModel)toCacheModel();
 		}
 
 		_active = active;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public boolean getOriginalActive() {
-		return _originalActive;
+		return getCacheModelAttribute("active");
 	}
 
 	@Override
@@ -909,6 +1252,8 @@ public class MBMailingListModelImpl
 	public Object clone() {
 		MBMailingListImpl mbMailingListImpl = new MBMailingListImpl();
 
+		mbMailingListImpl.setNew(true);
+
 		mbMailingListImpl.setMvccVersion(getMvccVersion());
 		mbMailingListImpl.setCtCollectionId(getCtCollectionId());
 		mbMailingListImpl.setUuid(getUuid());
@@ -939,6 +1284,8 @@ public class MBMailingListModelImpl
 		mbMailingListImpl.setActive(isActive());
 
 		mbMailingListImpl.resetOriginalValues();
+
+		mbMailingListImpl.setNew(false);
 
 		return mbMailingListImpl;
 	}
@@ -1005,32 +1352,11 @@ public class MBMailingListModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		MBMailingListModelImpl mbMailingListModelImpl = this;
+		_setModifiedDate = false;
 
-		mbMailingListModelImpl._originalUuid = mbMailingListModelImpl._uuid;
+		_columnBitmask = 0;
 
-		mbMailingListModelImpl._originalGroupId =
-			mbMailingListModelImpl._groupId;
-
-		mbMailingListModelImpl._setOriginalGroupId = false;
-
-		mbMailingListModelImpl._originalCompanyId =
-			mbMailingListModelImpl._companyId;
-
-		mbMailingListModelImpl._setOriginalCompanyId = false;
-
-		mbMailingListModelImpl._setModifiedDate = false;
-
-		mbMailingListModelImpl._originalCategoryId =
-			mbMailingListModelImpl._categoryId;
-
-		mbMailingListModelImpl._setOriginalCategoryId = false;
-
-		mbMailingListModelImpl._originalActive = mbMailingListModelImpl._active;
-
-		mbMailingListModelImpl._setOriginalActive = false;
-
-		mbMailingListModelImpl._columnBitmask = 0;
+		_mbMailingListCacheModel = null;
 	}
 
 	@Override
@@ -1250,22 +1576,15 @@ public class MBMailingListModelImpl
 	private long _mvccVersion;
 	private long _ctCollectionId;
 	private String _uuid;
-	private String _originalUuid;
 	private long _mailingListId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _categoryId;
-	private long _originalCategoryId;
-	private boolean _setOriginalCategoryId;
 	private String _emailAddress;
 	private String _inProtocol;
 	private String _inServerName;
@@ -1283,9 +1602,8 @@ public class MBMailingListModelImpl
 	private String _outPassword;
 	private boolean _allowAnonymous;
 	private boolean _active;
-	private boolean _originalActive;
-	private boolean _setOriginalActive;
 	private long _columnBitmask;
 	private MBMailingList _escapedModel;
+	private MBMailingListCacheModel _mbMailingListCacheModel;
 
 }

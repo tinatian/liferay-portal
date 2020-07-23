@@ -33,7 +33,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -135,19 +134,45 @@ public class JournalFolderModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long FOLDERID_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 4L;
+	public static final long UUID_COLUMN_BITMASK = 4L;
 
-	public static final long NAME_COLUMN_BITMASK = 8L;
+	public static final long FOLDERID_COLUMN_BITMASK = 8L;
 
-	public static final long PARENTFOLDERID_COLUMN_BITMASK = 16L;
+	public static final long GROUPID_COLUMN_BITMASK = 16L;
 
-	public static final long STATUS_COLUMN_BITMASK = 32L;
+	public static final long COMPANYID_COLUMN_BITMASK = 32L;
 
-	public static final long UUID_COLUMN_BITMASK = 64L;
+	public static final long USERID_COLUMN_BITMASK = 64L;
+
+	public static final long USERNAME_COLUMN_BITMASK = 128L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 256L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 512L;
+
+	public static final long PARENTFOLDERID_COLUMN_BITMASK = 1024L;
+
+	public static final long TREEPATH_COLUMN_BITMASK = 2048L;
+
+	public static final long NAME_COLUMN_BITMASK = 4096L;
+
+	public static final long DESCRIPTION_COLUMN_BITMASK = 8192L;
+
+	public static final long RESTRICTIONTYPE_COLUMN_BITMASK = 16384L;
+
+	public static final long LASTPUBLISHDATE_COLUMN_BITMASK = 32768L;
+
+	public static final long STATUS_COLUMN_BITMASK = 65536L;
+
+	public static final long STATUSBYUSERID_COLUMN_BITMASK = 131072L;
+
+	public static final long STATUSBYUSERNAME_COLUMN_BITMASK = 262144L;
+
+	public static final long STATUSDATE_COLUMN_BITMASK = 524288L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -334,105 +359,216 @@ public class JournalFolderModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<JournalFolder, Object> function =
+			_attributeGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((JournalFolder)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<JournalFolderCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_journalFolderCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_journalFolderCacheModel);
+	}
+
 	private static final Map<String, Function<JournalFolder, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<JournalFolder, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<JournalFolderCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<JournalFolder, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<JournalFolder, Object>>();
 		Map<String, BiConsumer<JournalFolder, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<JournalFolder, ?>>();
+		Map<String, Function<JournalFolderCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<JournalFolderCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", JournalFolder::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			journalFolderCacheModel -> journalFolderCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<JournalFolder, Long>)JournalFolder::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", JournalFolder::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			journalFolderCacheModel -> journalFolderCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<JournalFolder, Long>)JournalFolder::setCtCollectionId);
 		attributeGetterFunctions.put("uuid", JournalFolder::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid", journalFolderCacheModel -> journalFolderCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<JournalFolder, String>)JournalFolder::setUuid);
 		attributeGetterFunctions.put("folderId", JournalFolder::getFolderId);
+
+		cacheModelGetterFunctions.put(
+			"folderId",
+			journalFolderCacheModel -> journalFolderCacheModel.folderId);
 		attributeSetterBiConsumers.put(
 			"folderId",
 			(BiConsumer<JournalFolder, Long>)JournalFolder::setFolderId);
 		attributeGetterFunctions.put("groupId", JournalFolder::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			journalFolderCacheModel -> journalFolderCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<JournalFolder, Long>)JournalFolder::setGroupId);
 		attributeGetterFunctions.put("companyId", JournalFolder::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			journalFolderCacheModel -> journalFolderCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<JournalFolder, Long>)JournalFolder::setCompanyId);
 		attributeGetterFunctions.put("userId", JournalFolder::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			journalFolderCacheModel -> journalFolderCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<JournalFolder, Long>)JournalFolder::setUserId);
 		attributeGetterFunctions.put("userName", JournalFolder::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			journalFolderCacheModel -> journalFolderCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<JournalFolder, String>)JournalFolder::setUserName);
 		attributeGetterFunctions.put(
 			"createDate", JournalFolder::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			journalFolderCacheModel -> journalFolderCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<JournalFolder, Date>)JournalFolder::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", JournalFolder::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			journalFolderCacheModel -> journalFolderCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<JournalFolder, Date>)JournalFolder::setModifiedDate);
 		attributeGetterFunctions.put(
 			"parentFolderId", JournalFolder::getParentFolderId);
+
+		cacheModelGetterFunctions.put(
+			"parentFolderId",
+			journalFolderCacheModel -> journalFolderCacheModel.parentFolderId);
 		attributeSetterBiConsumers.put(
 			"parentFolderId",
 			(BiConsumer<JournalFolder, Long>)JournalFolder::setParentFolderId);
 		attributeGetterFunctions.put("treePath", JournalFolder::getTreePath);
+
+		cacheModelGetterFunctions.put(
+			"treePath",
+			journalFolderCacheModel -> journalFolderCacheModel.treePath);
 		attributeSetterBiConsumers.put(
 			"treePath",
 			(BiConsumer<JournalFolder, String>)JournalFolder::setTreePath);
 		attributeGetterFunctions.put("name", JournalFolder::getName);
+
+		cacheModelGetterFunctions.put(
+			"name", journalFolderCacheModel -> journalFolderCacheModel.name);
 		attributeSetterBiConsumers.put(
 			"name", (BiConsumer<JournalFolder, String>)JournalFolder::setName);
 		attributeGetterFunctions.put(
 			"description", JournalFolder::getDescription);
+
+		cacheModelGetterFunctions.put(
+			"description",
+			journalFolderCacheModel -> journalFolderCacheModel.description);
 		attributeSetterBiConsumers.put(
 			"description",
 			(BiConsumer<JournalFolder, String>)JournalFolder::setDescription);
 		attributeGetterFunctions.put(
 			"restrictionType", JournalFolder::getRestrictionType);
+
+		cacheModelGetterFunctions.put(
+			"restrictionType",
+			journalFolderCacheModel -> journalFolderCacheModel.restrictionType);
 		attributeSetterBiConsumers.put(
 			"restrictionType",
 			(BiConsumer<JournalFolder, Integer>)
 				JournalFolder::setRestrictionType);
 		attributeGetterFunctions.put(
 			"lastPublishDate", JournalFolder::getLastPublishDate);
+
+		cacheModelGetterFunctions.put(
+			"lastPublishDate",
+			journalFolderCacheModel -> journalFolderCacheModel.lastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<JournalFolder, Date>)JournalFolder::setLastPublishDate);
 		attributeGetterFunctions.put("status", JournalFolder::getStatus);
+
+		cacheModelGetterFunctions.put(
+			"status",
+			journalFolderCacheModel -> journalFolderCacheModel.status);
 		attributeSetterBiConsumers.put(
 			"status",
 			(BiConsumer<JournalFolder, Integer>)JournalFolder::setStatus);
 		attributeGetterFunctions.put(
 			"statusByUserId", JournalFolder::getStatusByUserId);
+
+		cacheModelGetterFunctions.put(
+			"statusByUserId",
+			journalFolderCacheModel -> journalFolderCacheModel.statusByUserId);
 		attributeSetterBiConsumers.put(
 			"statusByUserId",
 			(BiConsumer<JournalFolder, Long>)JournalFolder::setStatusByUserId);
 		attributeGetterFunctions.put(
 			"statusByUserName", JournalFolder::getStatusByUserName);
+
+		cacheModelGetterFunctions.put(
+			"statusByUserName",
+			journalFolderCacheModel ->
+				journalFolderCacheModel.statusByUserName);
 		attributeSetterBiConsumers.put(
 			"statusByUserName",
 			(BiConsumer<JournalFolder, String>)
 				JournalFolder::setStatusByUserName);
 		attributeGetterFunctions.put(
 			"statusDate", JournalFolder::getStatusDate);
+
+		cacheModelGetterFunctions.put(
+			"statusDate",
+			journalFolderCacheModel -> journalFolderCacheModel.statusDate);
 		attributeSetterBiConsumers.put(
 			"statusDate",
 			(BiConsumer<JournalFolder, Date>)JournalFolder::setStatusDate);
@@ -441,6 +577,8 @@ public class JournalFolderModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -451,6 +589,12 @@ public class JournalFolderModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_journalFolderCacheModel == null)) {
+			_journalFolderCacheModel = (JournalFolderCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -462,6 +606,12 @@ public class JournalFolderModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (!isNew() && (_journalFolderCacheModel == null)) {
+			_journalFolderCacheModel = (JournalFolderCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -480,15 +630,20 @@ public class JournalFolderModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (!isNew() && (_journalFolderCacheModel == null)) {
+			_journalFolderCacheModel = (JournalFolderCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getCacheModelAttribute("uuid");
 	}
 
 	@JSON
@@ -501,17 +656,20 @@ public class JournalFolderModelImpl
 	public void setFolderId(long folderId) {
 		_columnBitmask |= FOLDERID_COLUMN_BITMASK;
 
-		if (!_setOriginalFolderId) {
-			_setOriginalFolderId = true;
-
-			_originalFolderId = _folderId;
+		if (!isNew() && (_journalFolderCacheModel == null)) {
+			_journalFolderCacheModel = (JournalFolderCacheModel)toCacheModel();
 		}
 
 		_folderId = folderId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalFolderId() {
-		return _originalFolderId;
+		return getCacheModelAttribute("folderId");
 	}
 
 	@JSON
@@ -524,17 +682,20 @@ public class JournalFolderModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (!isNew() && (_journalFolderCacheModel == null)) {
+			_journalFolderCacheModel = (JournalFolderCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getCacheModelAttribute("groupId");
 	}
 
 	@JSON
@@ -547,17 +708,20 @@ public class JournalFolderModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (!isNew() && (_journalFolderCacheModel == null)) {
+			_journalFolderCacheModel = (JournalFolderCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getCacheModelAttribute("companyId");
 	}
 
 	@JSON
@@ -568,6 +732,12 @@ public class JournalFolderModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_journalFolderCacheModel == null)) {
+			_journalFolderCacheModel = (JournalFolderCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -600,6 +770,12 @@ public class JournalFolderModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_journalFolderCacheModel == null)) {
+			_journalFolderCacheModel = (JournalFolderCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -611,6 +787,12 @@ public class JournalFolderModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_journalFolderCacheModel == null)) {
+			_journalFolderCacheModel = (JournalFolderCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -628,6 +810,12 @@ public class JournalFolderModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_journalFolderCacheModel == null)) {
+			_journalFolderCacheModel = (JournalFolderCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -639,19 +827,22 @@ public class JournalFolderModelImpl
 
 	@Override
 	public void setParentFolderId(long parentFolderId) {
-		_columnBitmask = -1L;
+		_columnBitmask |= PARENTFOLDERID_COLUMN_BITMASK;
 
-		if (!_setOriginalParentFolderId) {
-			_setOriginalParentFolderId = true;
-
-			_originalParentFolderId = _parentFolderId;
+		if (!isNew() && (_journalFolderCacheModel == null)) {
+			_journalFolderCacheModel = (JournalFolderCacheModel)toCacheModel();
 		}
 
 		_parentFolderId = parentFolderId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalParentFolderId() {
-		return _originalParentFolderId;
+		return getCacheModelAttribute("parentFolderId");
 	}
 
 	@JSON
@@ -667,6 +858,12 @@ public class JournalFolderModelImpl
 
 	@Override
 	public void setTreePath(String treePath) {
+		_columnBitmask |= TREEPATH_COLUMN_BITMASK;
+
+		if (!isNew() && (_journalFolderCacheModel == null)) {
+			_journalFolderCacheModel = (JournalFolderCacheModel)toCacheModel();
+		}
+
 		_treePath = treePath;
 	}
 
@@ -683,17 +880,22 @@ public class JournalFolderModelImpl
 
 	@Override
 	public void setName(String name) {
-		_columnBitmask = -1L;
+		_columnBitmask |= NAME_COLUMN_BITMASK;
 
-		if (_originalName == null) {
-			_originalName = _name;
+		if (!isNew() && (_journalFolderCacheModel == null)) {
+			_journalFolderCacheModel = (JournalFolderCacheModel)toCacheModel();
 		}
 
 		_name = name;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalName() {
-		return GetterUtil.getString(_originalName);
+		return getCacheModelAttribute("name");
 	}
 
 	@JSON
@@ -709,6 +911,12 @@ public class JournalFolderModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		_columnBitmask |= DESCRIPTION_COLUMN_BITMASK;
+
+		if (!isNew() && (_journalFolderCacheModel == null)) {
+			_journalFolderCacheModel = (JournalFolderCacheModel)toCacheModel();
+		}
+
 		_description = description;
 	}
 
@@ -720,6 +928,12 @@ public class JournalFolderModelImpl
 
 	@Override
 	public void setRestrictionType(int restrictionType) {
+		_columnBitmask |= RESTRICTIONTYPE_COLUMN_BITMASK;
+
+		if (!isNew() && (_journalFolderCacheModel == null)) {
+			_journalFolderCacheModel = (JournalFolderCacheModel)toCacheModel();
+		}
+
 		_restrictionType = restrictionType;
 	}
 
@@ -731,6 +945,12 @@ public class JournalFolderModelImpl
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		_columnBitmask |= LASTPUBLISHDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_journalFolderCacheModel == null)) {
+			_journalFolderCacheModel = (JournalFolderCacheModel)toCacheModel();
+		}
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -744,17 +964,20 @@ public class JournalFolderModelImpl
 	public void setStatus(int status) {
 		_columnBitmask |= STATUS_COLUMN_BITMASK;
 
-		if (!_setOriginalStatus) {
-			_setOriginalStatus = true;
-
-			_originalStatus = _status;
+		if (!isNew() && (_journalFolderCacheModel == null)) {
+			_journalFolderCacheModel = (JournalFolderCacheModel)toCacheModel();
 		}
 
 		_status = status;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public int getOriginalStatus() {
-		return _originalStatus;
+		return getCacheModelAttribute("status");
 	}
 
 	@JSON
@@ -765,6 +988,12 @@ public class JournalFolderModelImpl
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		_columnBitmask |= STATUSBYUSERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_journalFolderCacheModel == null)) {
+			_journalFolderCacheModel = (JournalFolderCacheModel)toCacheModel();
+		}
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -797,6 +1026,12 @@ public class JournalFolderModelImpl
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		_columnBitmask |= STATUSBYUSERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_journalFolderCacheModel == null)) {
+			_journalFolderCacheModel = (JournalFolderCacheModel)toCacheModel();
+		}
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -808,6 +1043,12 @@ public class JournalFolderModelImpl
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		_columnBitmask |= STATUSDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_journalFolderCacheModel == null)) {
+			_journalFolderCacheModel = (JournalFolderCacheModel)toCacheModel();
+		}
+
 		_statusDate = statusDate;
 	}
 
@@ -1103,6 +1344,8 @@ public class JournalFolderModelImpl
 	public Object clone() {
 		JournalFolderImpl journalFolderImpl = new JournalFolderImpl();
 
+		journalFolderImpl.setNew(true);
+
 		journalFolderImpl.setMvccVersion(getMvccVersion());
 		journalFolderImpl.setCtCollectionId(getCtCollectionId());
 		journalFolderImpl.setUuid(getUuid());
@@ -1125,6 +1368,8 @@ public class JournalFolderModelImpl
 		journalFolderImpl.setStatusDate(getStatusDate());
 
 		journalFolderImpl.resetOriginalValues();
+
+		journalFolderImpl.setNew(false);
 
 		return journalFolderImpl;
 	}
@@ -1203,39 +1448,11 @@ public class JournalFolderModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		JournalFolderModelImpl journalFolderModelImpl = this;
+		_setModifiedDate = false;
 
-		journalFolderModelImpl._originalUuid = journalFolderModelImpl._uuid;
+		_columnBitmask = 0;
 
-		journalFolderModelImpl._originalFolderId =
-			journalFolderModelImpl._folderId;
-
-		journalFolderModelImpl._setOriginalFolderId = false;
-
-		journalFolderModelImpl._originalGroupId =
-			journalFolderModelImpl._groupId;
-
-		journalFolderModelImpl._setOriginalGroupId = false;
-
-		journalFolderModelImpl._originalCompanyId =
-			journalFolderModelImpl._companyId;
-
-		journalFolderModelImpl._setOriginalCompanyId = false;
-
-		journalFolderModelImpl._setModifiedDate = false;
-
-		journalFolderModelImpl._originalParentFolderId =
-			journalFolderModelImpl._parentFolderId;
-
-		journalFolderModelImpl._setOriginalParentFolderId = false;
-
-		journalFolderModelImpl._originalName = journalFolderModelImpl._name;
-
-		journalFolderModelImpl._originalStatus = journalFolderModelImpl._status;
-
-		journalFolderModelImpl._setOriginalStatus = false;
-
-		journalFolderModelImpl._columnBitmask = 0;
+		_journalFolderCacheModel = null;
 	}
 
 	@Override
@@ -1423,37 +1640,26 @@ public class JournalFolderModelImpl
 	private long _mvccVersion;
 	private long _ctCollectionId;
 	private String _uuid;
-	private String _originalUuid;
 	private long _folderId;
-	private long _originalFolderId;
-	private boolean _setOriginalFolderId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _parentFolderId;
-	private long _originalParentFolderId;
-	private boolean _setOriginalParentFolderId;
 	private String _treePath;
 	private String _name;
-	private String _originalName;
 	private String _description;
 	private int _restrictionType;
 	private Date _lastPublishDate;
 	private int _status;
-	private int _originalStatus;
-	private boolean _setOriginalStatus;
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
 	private long _columnBitmask;
 	private JournalFolder _escapedModel;
+	private JournalFolderCacheModel _journalFolderCacheModel;
 
 }

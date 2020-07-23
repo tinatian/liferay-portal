@@ -85,6 +85,8 @@ public class SamlSpMessageCacheModel
 	public SamlSpMessage toEntityModel() {
 		SamlSpMessageImpl samlSpMessageImpl = new SamlSpMessageImpl();
 
+		samlSpMessageImpl.setNew(true);
+
 		samlSpMessageImpl.setSamlSpMessageId(samlSpMessageId);
 		samlSpMessageImpl.setCompanyId(companyId);
 
@@ -117,6 +119,8 @@ public class SamlSpMessageCacheModel
 		}
 
 		samlSpMessageImpl.resetOriginalValues();
+
+		samlSpMessageImpl.setNew(false);
 
 		return samlSpMessageImpl;
 	}

@@ -98,6 +98,8 @@ public class PortalPreferencesCacheModel
 		PortalPreferencesImpl portalPreferencesImpl =
 			new PortalPreferencesImpl();
 
+		portalPreferencesImpl.setNew(true);
+
 		portalPreferencesImpl.setMvccVersion(mvccVersion);
 		portalPreferencesImpl.setPortalPreferencesId(portalPreferencesId);
 		portalPreferencesImpl.setOwnerId(ownerId);
@@ -111,6 +113,8 @@ public class PortalPreferencesCacheModel
 		}
 
 		portalPreferencesImpl.resetOriginalValues();
+
+		portalPreferencesImpl.setNew(false);
 
 		return portalPreferencesImpl;
 	}

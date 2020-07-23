@@ -122,6 +122,8 @@ public class DDMStructureLayoutCacheModel
 		DDMStructureLayoutImpl ddmStructureLayoutImpl =
 			new DDMStructureLayoutImpl();
 
+		ddmStructureLayoutImpl.setNew(true);
+
 		ddmStructureLayoutImpl.setMvccVersion(mvccVersion);
 		ddmStructureLayoutImpl.setCtCollectionId(ctCollectionId);
 
@@ -193,6 +195,8 @@ public class DDMStructureLayoutCacheModel
 		ddmStructureLayoutImpl.resetOriginalValues();
 
 		ddmStructureLayoutImpl.setDDMFormLayout(_ddmFormLayout);
+
+		ddmStructureLayoutImpl.setNew(false);
 
 		return ddmStructureLayoutImpl;
 	}

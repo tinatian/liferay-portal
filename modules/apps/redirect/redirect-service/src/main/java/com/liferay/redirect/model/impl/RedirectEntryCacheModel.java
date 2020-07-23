@@ -116,6 +116,8 @@ public class RedirectEntryCacheModel
 	public RedirectEntry toEntityModel() {
 		RedirectEntryImpl redirectEntryImpl = new RedirectEntryImpl();
 
+		redirectEntryImpl.setNew(true);
+
 		redirectEntryImpl.setMvccVersion(mvccVersion);
 
 		if (uuid == null) {
@@ -183,6 +185,8 @@ public class RedirectEntryCacheModel
 		}
 
 		redirectEntryImpl.resetOriginalValues();
+
+		redirectEntryImpl.setNew(false);
 
 		return redirectEntryImpl;
 	}

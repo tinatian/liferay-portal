@@ -151,6 +151,8 @@ public class KaleoLogCacheModel
 	public KaleoLog toEntityModel() {
 		KaleoLogImpl kaleoLogImpl = new KaleoLogImpl();
 
+		kaleoLogImpl.setNew(true);
+
 		kaleoLogImpl.setMvccVersion(mvccVersion);
 		kaleoLogImpl.setKaleoLogId(kaleoLogId);
 		kaleoLogImpl.setGroupId(groupId);
@@ -282,6 +284,8 @@ public class KaleoLogCacheModel
 		}
 
 		kaleoLogImpl.resetOriginalValues();
+
+		kaleoLogImpl.setNew(false);
 
 		return kaleoLogImpl;
 	}

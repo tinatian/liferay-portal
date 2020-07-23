@@ -136,17 +136,33 @@ public class UserGroupModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long EXTERNALREFERENCECODE_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
-	public static final long NAME_COLUMN_BITMASK = 4L;
+	public static final long UUID_COLUMN_BITMASK = 4L;
 
-	public static final long PARENTUSERGROUPID_COLUMN_BITMASK = 8L;
+	public static final long EXTERNALREFERENCECODE_COLUMN_BITMASK = 8L;
 
 	public static final long USERGROUPID_COLUMN_BITMASK = 16L;
 
-	public static final long UUID_COLUMN_BITMASK = 32L;
+	public static final long COMPANYID_COLUMN_BITMASK = 32L;
+
+	public static final long USERID_COLUMN_BITMASK = 64L;
+
+	public static final long USERNAME_COLUMN_BITMASK = 128L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 256L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 512L;
+
+	public static final long PARENTUSERGROUPID_COLUMN_BITMASK = 1024L;
+
+	public static final long NAME_COLUMN_BITMASK = 2048L;
+
+	public static final long DESCRIPTION_COLUMN_BITMASK = 4096L;
+
+	public static final long ADDEDBYLDAPIMPORT_COLUMN_BITMASK = 8192L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -366,70 +382,153 @@ public class UserGroupModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<UserGroup, Object> function = _attributeGetterFunctions.get(
+			attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((UserGroup)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<UserGroupCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_userGroupCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_userGroupCacheModel);
+	}
+
 	private static final Map<String, Function<UserGroup, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<UserGroup, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<UserGroupCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<UserGroup, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<UserGroup, Object>>();
 		Map<String, BiConsumer<UserGroup, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<UserGroup, ?>>();
+		Map<String, Function<UserGroupCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<UserGroupCacheModel, Object>>();
 
 		attributeGetterFunctions.put("mvccVersion", UserGroup::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			userGroupCacheModel -> userGroupCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<UserGroup, Long>)UserGroup::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", UserGroup::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			userGroupCacheModel -> userGroupCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<UserGroup, Long>)UserGroup::setCtCollectionId);
 		attributeGetterFunctions.put("uuid", UserGroup::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid", userGroupCacheModel -> userGroupCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<UserGroup, String>)UserGroup::setUuid);
 		attributeGetterFunctions.put(
 			"externalReferenceCode", UserGroup::getExternalReferenceCode);
+
+		cacheModelGetterFunctions.put(
+			"externalReferenceCode",
+			userGroupCacheModel -> userGroupCacheModel.externalReferenceCode);
 		attributeSetterBiConsumers.put(
 			"externalReferenceCode",
 			(BiConsumer<UserGroup, String>)UserGroup::setExternalReferenceCode);
 		attributeGetterFunctions.put("userGroupId", UserGroup::getUserGroupId);
+
+		cacheModelGetterFunctions.put(
+			"userGroupId",
+			userGroupCacheModel -> userGroupCacheModel.userGroupId);
 		attributeSetterBiConsumers.put(
 			"userGroupId",
 			(BiConsumer<UserGroup, Long>)UserGroup::setUserGroupId);
 		attributeGetterFunctions.put("companyId", UserGroup::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId", userGroupCacheModel -> userGroupCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId", (BiConsumer<UserGroup, Long>)UserGroup::setCompanyId);
 		attributeGetterFunctions.put("userId", UserGroup::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", userGroupCacheModel -> userGroupCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<UserGroup, Long>)UserGroup::setUserId);
 		attributeGetterFunctions.put("userName", UserGroup::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName", userGroupCacheModel -> userGroupCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName", (BiConsumer<UserGroup, String>)UserGroup::setUserName);
 		attributeGetterFunctions.put("createDate", UserGroup::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			userGroupCacheModel -> userGroupCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<UserGroup, Date>)UserGroup::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", UserGroup::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			userGroupCacheModel -> userGroupCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<UserGroup, Date>)UserGroup::setModifiedDate);
 		attributeGetterFunctions.put(
 			"parentUserGroupId", UserGroup::getParentUserGroupId);
+
+		cacheModelGetterFunctions.put(
+			"parentUserGroupId",
+			userGroupCacheModel -> userGroupCacheModel.parentUserGroupId);
 		attributeSetterBiConsumers.put(
 			"parentUserGroupId",
 			(BiConsumer<UserGroup, Long>)UserGroup::setParentUserGroupId);
 		attributeGetterFunctions.put("name", UserGroup::getName);
+
+		cacheModelGetterFunctions.put(
+			"name", userGroupCacheModel -> userGroupCacheModel.name);
 		attributeSetterBiConsumers.put(
 			"name", (BiConsumer<UserGroup, String>)UserGroup::setName);
 		attributeGetterFunctions.put("description", UserGroup::getDescription);
+
+		cacheModelGetterFunctions.put(
+			"description",
+			userGroupCacheModel -> userGroupCacheModel.description);
 		attributeSetterBiConsumers.put(
 			"description",
 			(BiConsumer<UserGroup, String>)UserGroup::setDescription);
 		attributeGetterFunctions.put(
 			"addedByLDAPImport", UserGroup::getAddedByLDAPImport);
+
+		cacheModelGetterFunctions.put(
+			"addedByLDAPImport",
+			userGroupCacheModel -> userGroupCacheModel.addedByLDAPImport);
 		attributeSetterBiConsumers.put(
 			"addedByLDAPImport",
 			(BiConsumer<UserGroup, Boolean>)UserGroup::setAddedByLDAPImport);
@@ -438,6 +537,8 @@ public class UserGroupModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -448,6 +549,12 @@ public class UserGroupModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_userGroupCacheModel == null)) {
+			_userGroupCacheModel = (UserGroupCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -459,6 +566,12 @@ public class UserGroupModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (!isNew() && (_userGroupCacheModel == null)) {
+			_userGroupCacheModel = (UserGroupCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -477,15 +590,20 @@ public class UserGroupModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (!isNew() && (_userGroupCacheModel == null)) {
+			_userGroupCacheModel = (UserGroupCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getCacheModelAttribute("uuid");
 	}
 
 	@JSON
@@ -503,15 +621,20 @@ public class UserGroupModelImpl
 	public void setExternalReferenceCode(String externalReferenceCode) {
 		_columnBitmask |= EXTERNALREFERENCECODE_COLUMN_BITMASK;
 
-		if (_originalExternalReferenceCode == null) {
-			_originalExternalReferenceCode = _externalReferenceCode;
+		if (!isNew() && (_userGroupCacheModel == null)) {
+			_userGroupCacheModel = (UserGroupCacheModel)toCacheModel();
 		}
 
 		_externalReferenceCode = externalReferenceCode;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalExternalReferenceCode() {
-		return GetterUtil.getString(_originalExternalReferenceCode);
+		return getCacheModelAttribute("externalReferenceCode");
 	}
 
 	@JSON
@@ -524,17 +647,20 @@ public class UserGroupModelImpl
 	public void setUserGroupId(long userGroupId) {
 		_columnBitmask |= USERGROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalUserGroupId) {
-			_setOriginalUserGroupId = true;
-
-			_originalUserGroupId = _userGroupId;
+		if (!isNew() && (_userGroupCacheModel == null)) {
+			_userGroupCacheModel = (UserGroupCacheModel)toCacheModel();
 		}
 
 		_userGroupId = userGroupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalUserGroupId() {
-		return _originalUserGroupId;
+		return getCacheModelAttribute("userGroupId");
 	}
 
 	@JSON
@@ -547,17 +673,20 @@ public class UserGroupModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (!isNew() && (_userGroupCacheModel == null)) {
+			_userGroupCacheModel = (UserGroupCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getCacheModelAttribute("companyId");
 	}
 
 	@JSON
@@ -568,6 +697,12 @@ public class UserGroupModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_userGroupCacheModel == null)) {
+			_userGroupCacheModel = (UserGroupCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -600,6 +735,12 @@ public class UserGroupModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_userGroupCacheModel == null)) {
+			_userGroupCacheModel = (UserGroupCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -611,6 +752,12 @@ public class UserGroupModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_userGroupCacheModel == null)) {
+			_userGroupCacheModel = (UserGroupCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -628,6 +775,12 @@ public class UserGroupModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_userGroupCacheModel == null)) {
+			_userGroupCacheModel = (UserGroupCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -641,17 +794,20 @@ public class UserGroupModelImpl
 	public void setParentUserGroupId(long parentUserGroupId) {
 		_columnBitmask |= PARENTUSERGROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalParentUserGroupId) {
-			_setOriginalParentUserGroupId = true;
-
-			_originalParentUserGroupId = _parentUserGroupId;
+		if (!isNew() && (_userGroupCacheModel == null)) {
+			_userGroupCacheModel = (UserGroupCacheModel)toCacheModel();
 		}
 
 		_parentUserGroupId = parentUserGroupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalParentUserGroupId() {
-		return _originalParentUserGroupId;
+		return getCacheModelAttribute("parentUserGroupId");
 	}
 
 	@JSON
@@ -667,17 +823,22 @@ public class UserGroupModelImpl
 
 	@Override
 	public void setName(String name) {
-		_columnBitmask = -1L;
+		_columnBitmask |= NAME_COLUMN_BITMASK;
 
-		if (_originalName == null) {
-			_originalName = _name;
+		if (!isNew() && (_userGroupCacheModel == null)) {
+			_userGroupCacheModel = (UserGroupCacheModel)toCacheModel();
 		}
 
 		_name = name;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalName() {
-		return GetterUtil.getString(_originalName);
+		return getCacheModelAttribute("name");
 	}
 
 	@JSON
@@ -693,6 +854,12 @@ public class UserGroupModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		_columnBitmask |= DESCRIPTION_COLUMN_BITMASK;
+
+		if (!isNew() && (_userGroupCacheModel == null)) {
+			_userGroupCacheModel = (UserGroupCacheModel)toCacheModel();
+		}
+
 		_description = description;
 	}
 
@@ -710,6 +877,12 @@ public class UserGroupModelImpl
 
 	@Override
 	public void setAddedByLDAPImport(boolean addedByLDAPImport) {
+		_columnBitmask |= ADDEDBYLDAPIMPORT_COLUMN_BITMASK;
+
+		if (!isNew() && (_userGroupCacheModel == null)) {
+			_userGroupCacheModel = (UserGroupCacheModel)toCacheModel();
+		}
+
 		_addedByLDAPImport = addedByLDAPImport;
 	}
 
@@ -755,6 +928,8 @@ public class UserGroupModelImpl
 	public Object clone() {
 		UserGroupImpl userGroupImpl = new UserGroupImpl();
 
+		userGroupImpl.setNew(true);
+
 		userGroupImpl.setMvccVersion(getMvccVersion());
 		userGroupImpl.setCtCollectionId(getCtCollectionId());
 		userGroupImpl.setUuid(getUuid());
@@ -771,6 +946,8 @@ public class UserGroupModelImpl
 		userGroupImpl.setAddedByLDAPImport(isAddedByLDAPImport());
 
 		userGroupImpl.resetOriginalValues();
+
+		userGroupImpl.setNew(false);
 
 		return userGroupImpl;
 	}
@@ -835,32 +1012,11 @@ public class UserGroupModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		UserGroupModelImpl userGroupModelImpl = this;
+		_setModifiedDate = false;
 
-		userGroupModelImpl._originalUuid = userGroupModelImpl._uuid;
+		_columnBitmask = 0;
 
-		userGroupModelImpl._originalExternalReferenceCode =
-			userGroupModelImpl._externalReferenceCode;
-
-		userGroupModelImpl._originalUserGroupId =
-			userGroupModelImpl._userGroupId;
-
-		userGroupModelImpl._setOriginalUserGroupId = false;
-
-		userGroupModelImpl._originalCompanyId = userGroupModelImpl._companyId;
-
-		userGroupModelImpl._setOriginalCompanyId = false;
-
-		userGroupModelImpl._setModifiedDate = false;
-
-		userGroupModelImpl._originalParentUserGroupId =
-			userGroupModelImpl._parentUserGroupId;
-
-		userGroupModelImpl._setOriginalParentUserGroupId = false;
-
-		userGroupModelImpl._originalName = userGroupModelImpl._name;
-
-		userGroupModelImpl._columnBitmask = 0;
+		_userGroupCacheModel = null;
 	}
 
 	@Override
@@ -1018,28 +1174,20 @@ public class UserGroupModelImpl
 	private long _mvccVersion;
 	private long _ctCollectionId;
 	private String _uuid;
-	private String _originalUuid;
 	private String _externalReferenceCode;
-	private String _originalExternalReferenceCode;
 	private long _userGroupId;
-	private long _originalUserGroupId;
-	private boolean _setOriginalUserGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _parentUserGroupId;
-	private long _originalParentUserGroupId;
-	private boolean _setOriginalParentUserGroupId;
 	private String _name;
-	private String _originalName;
 	private String _description;
 	private boolean _addedByLDAPImport;
 	private long _columnBitmask;
 	private UserGroup _escapedModel;
+	private UserGroupCacheModel _userGroupCacheModel;
 
 }

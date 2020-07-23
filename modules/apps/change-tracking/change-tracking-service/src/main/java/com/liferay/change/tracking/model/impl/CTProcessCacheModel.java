@@ -101,6 +101,8 @@ public class CTProcessCacheModel
 	public CTProcess toEntityModel() {
 		CTProcessImpl ctProcessImpl = new CTProcessImpl();
 
+		ctProcessImpl.setNew(true);
+
 		ctProcessImpl.setMvccVersion(mvccVersion);
 		ctProcessImpl.setCtProcessId(ctProcessId);
 		ctProcessImpl.setCompanyId(companyId);
@@ -117,6 +119,8 @@ public class CTProcessCacheModel
 		ctProcessImpl.setBackgroundTaskId(backgroundTaskId);
 
 		ctProcessImpl.resetOriginalValues();
+
+		ctProcessImpl.setNew(false);
 
 		return ctProcessImpl;
 	}

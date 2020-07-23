@@ -116,6 +116,8 @@ public class OAuth2ApplicationCacheModel
 		OAuth2ApplicationImpl oAuth2ApplicationImpl =
 			new OAuth2ApplicationImpl();
 
+		oAuth2ApplicationImpl.setNew(true);
+
 		oAuth2ApplicationImpl.setOAuth2ApplicationId(oAuth2ApplicationId);
 		oAuth2ApplicationImpl.setCompanyId(companyId);
 		oAuth2ApplicationImpl.setUserId(userId);
@@ -222,6 +224,8 @@ public class OAuth2ApplicationCacheModel
 		}
 
 		oAuth2ApplicationImpl.resetOriginalValues();
+
+		oAuth2ApplicationImpl.setNew(false);
 
 		return oAuth2ApplicationImpl;
 	}

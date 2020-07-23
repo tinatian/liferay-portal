@@ -126,17 +126,23 @@ public class PortletPreferencesModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long OWNERID_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
-	public static final long OWNERTYPE_COLUMN_BITMASK = 4L;
+	public static final long PORTLETPREFERENCESID_COLUMN_BITMASK = 4L;
 
-	public static final long PLID_COLUMN_BITMASK = 8L;
+	public static final long COMPANYID_COLUMN_BITMASK = 8L;
 
-	public static final long PORTLETID_COLUMN_BITMASK = 16L;
+	public static final long OWNERID_COLUMN_BITMASK = 16L;
 
-	public static final long PORTLETPREFERENCESID_COLUMN_BITMASK = 32L;
+	public static final long OWNERTYPE_COLUMN_BITMASK = 32L;
+
+	public static final long PLID_COLUMN_BITMASK = 64L;
+
+	public static final long PORTLETID_COLUMN_BITMASK = 128L;
+
+	public static final long PREFERENCES_COLUMN_BITMASK = 256L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -304,10 +310,39 @@ public class PortletPreferencesModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<PortletPreferences, Object> function =
+			_attributeGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((PortletPreferences)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<PortletPreferencesCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_portletPreferencesCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_portletPreferencesCacheModel);
+	}
+
 	private static final Map<String, Function<PortletPreferences, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<PortletPreferences, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<PortletPreferencesCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<PortletPreferences, Object>>
@@ -317,15 +352,29 @@ public class PortletPreferencesModelImpl
 		Map<String, BiConsumer<PortletPreferences, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<PortletPreferences, ?>>();
+		Map<String, Function<PortletPreferencesCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<PortletPreferencesCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", PortletPreferences::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			portletPreferencesCacheModel ->
+				portletPreferencesCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<PortletPreferences, Long>)
 				PortletPreferences::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", PortletPreferences::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			portletPreferencesCacheModel ->
+				portletPreferencesCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<PortletPreferences, Long>)
@@ -333,39 +382,73 @@ public class PortletPreferencesModelImpl
 		attributeGetterFunctions.put(
 			"portletPreferencesId",
 			PortletPreferences::getPortletPreferencesId);
+
+		cacheModelGetterFunctions.put(
+			"portletPreferencesId",
+			portletPreferencesCacheModel ->
+				portletPreferencesCacheModel.portletPreferencesId);
 		attributeSetterBiConsumers.put(
 			"portletPreferencesId",
 			(BiConsumer<PortletPreferences, Long>)
 				PortletPreferences::setPortletPreferencesId);
 		attributeGetterFunctions.put(
 			"companyId", PortletPreferences::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			portletPreferencesCacheModel ->
+				portletPreferencesCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<PortletPreferences, Long>)
 				PortletPreferences::setCompanyId);
 		attributeGetterFunctions.put("ownerId", PortletPreferences::getOwnerId);
+
+		cacheModelGetterFunctions.put(
+			"ownerId",
+			portletPreferencesCacheModel ->
+				portletPreferencesCacheModel.ownerId);
 		attributeSetterBiConsumers.put(
 			"ownerId",
 			(BiConsumer<PortletPreferences, Long>)
 				PortletPreferences::setOwnerId);
 		attributeGetterFunctions.put(
 			"ownerType", PortletPreferences::getOwnerType);
+
+		cacheModelGetterFunctions.put(
+			"ownerType",
+			portletPreferencesCacheModel ->
+				portletPreferencesCacheModel.ownerType);
 		attributeSetterBiConsumers.put(
 			"ownerType",
 			(BiConsumer<PortletPreferences, Integer>)
 				PortletPreferences::setOwnerType);
 		attributeGetterFunctions.put("plid", PortletPreferences::getPlid);
+
+		cacheModelGetterFunctions.put(
+			"plid",
+			portletPreferencesCacheModel -> portletPreferencesCacheModel.plid);
 		attributeSetterBiConsumers.put(
 			"plid",
 			(BiConsumer<PortletPreferences, Long>)PortletPreferences::setPlid);
 		attributeGetterFunctions.put(
 			"portletId", PortletPreferences::getPortletId);
+
+		cacheModelGetterFunctions.put(
+			"portletId",
+			portletPreferencesCacheModel ->
+				portletPreferencesCacheModel.portletId);
 		attributeSetterBiConsumers.put(
 			"portletId",
 			(BiConsumer<PortletPreferences, String>)
 				PortletPreferences::setPortletId);
 		attributeGetterFunctions.put(
 			"preferences", PortletPreferences::getPreferences);
+
+		cacheModelGetterFunctions.put(
+			"preferences",
+			portletPreferencesCacheModel ->
+				portletPreferencesCacheModel.preferences);
 		attributeSetterBiConsumers.put(
 			"preferences",
 			(BiConsumer<PortletPreferences, String>)
@@ -375,6 +458,8 @@ public class PortletPreferencesModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -385,6 +470,13 @@ public class PortletPreferencesModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_portletPreferencesCacheModel == null)) {
+			_portletPreferencesCacheModel =
+				(PortletPreferencesCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -396,6 +488,13 @@ public class PortletPreferencesModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (!isNew() && (_portletPreferencesCacheModel == null)) {
+			_portletPreferencesCacheModel =
+				(PortletPreferencesCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -407,6 +506,13 @@ public class PortletPreferencesModelImpl
 
 	@Override
 	public void setPortletPreferencesId(long portletPreferencesId) {
+		_columnBitmask |= PORTLETPREFERENCESID_COLUMN_BITMASK;
+
+		if (!isNew() && (_portletPreferencesCacheModel == null)) {
+			_portletPreferencesCacheModel =
+				(PortletPreferencesCacheModel)toCacheModel();
+		}
+
 		_portletPreferencesId = portletPreferencesId;
 	}
 
@@ -420,17 +526,21 @@ public class PortletPreferencesModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (!isNew() && (_portletPreferencesCacheModel == null)) {
+			_portletPreferencesCacheModel =
+				(PortletPreferencesCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getCacheModelAttribute("companyId");
 	}
 
 	@JSON
@@ -443,17 +553,21 @@ public class PortletPreferencesModelImpl
 	public void setOwnerId(long ownerId) {
 		_columnBitmask |= OWNERID_COLUMN_BITMASK;
 
-		if (!_setOriginalOwnerId) {
-			_setOriginalOwnerId = true;
-
-			_originalOwnerId = _ownerId;
+		if (!isNew() && (_portletPreferencesCacheModel == null)) {
+			_portletPreferencesCacheModel =
+				(PortletPreferencesCacheModel)toCacheModel();
 		}
 
 		_ownerId = ownerId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalOwnerId() {
-		return _originalOwnerId;
+		return getCacheModelAttribute("ownerId");
 	}
 
 	@JSON
@@ -466,17 +580,21 @@ public class PortletPreferencesModelImpl
 	public void setOwnerType(int ownerType) {
 		_columnBitmask |= OWNERTYPE_COLUMN_BITMASK;
 
-		if (!_setOriginalOwnerType) {
-			_setOriginalOwnerType = true;
-
-			_originalOwnerType = _ownerType;
+		if (!isNew() && (_portletPreferencesCacheModel == null)) {
+			_portletPreferencesCacheModel =
+				(PortletPreferencesCacheModel)toCacheModel();
 		}
 
 		_ownerType = ownerType;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public int getOriginalOwnerType() {
-		return _originalOwnerType;
+		return getCacheModelAttribute("ownerType");
 	}
 
 	@JSON
@@ -489,17 +607,21 @@ public class PortletPreferencesModelImpl
 	public void setPlid(long plid) {
 		_columnBitmask |= PLID_COLUMN_BITMASK;
 
-		if (!_setOriginalPlid) {
-			_setOriginalPlid = true;
-
-			_originalPlid = _plid;
+		if (!isNew() && (_portletPreferencesCacheModel == null)) {
+			_portletPreferencesCacheModel =
+				(PortletPreferencesCacheModel)toCacheModel();
 		}
 
 		_plid = plid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalPlid() {
-		return _originalPlid;
+		return getCacheModelAttribute("plid");
 	}
 
 	@JSON
@@ -517,15 +639,21 @@ public class PortletPreferencesModelImpl
 	public void setPortletId(String portletId) {
 		_columnBitmask |= PORTLETID_COLUMN_BITMASK;
 
-		if (_originalPortletId == null) {
-			_originalPortletId = _portletId;
+		if (!isNew() && (_portletPreferencesCacheModel == null)) {
+			_portletPreferencesCacheModel =
+				(PortletPreferencesCacheModel)toCacheModel();
 		}
 
 		_portletId = portletId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalPortletId() {
-		return GetterUtil.getString(_originalPortletId);
+		return getCacheModelAttribute("portletId");
 	}
 
 	@JSON
@@ -541,6 +669,13 @@ public class PortletPreferencesModelImpl
 
 	@Override
 	public void setPreferences(String preferences) {
+		_columnBitmask |= PREFERENCES_COLUMN_BITMASK;
+
+		if (!isNew() && (_portletPreferencesCacheModel == null)) {
+			_portletPreferencesCacheModel =
+				(PortletPreferencesCacheModel)toCacheModel();
+		}
+
 		_preferences = preferences;
 	}
 
@@ -582,6 +717,8 @@ public class PortletPreferencesModelImpl
 		PortletPreferencesImpl portletPreferencesImpl =
 			new PortletPreferencesImpl();
 
+		portletPreferencesImpl.setNew(true);
+
 		portletPreferencesImpl.setMvccVersion(getMvccVersion());
 		portletPreferencesImpl.setCtCollectionId(getCtCollectionId());
 		portletPreferencesImpl.setPortletPreferencesId(
@@ -594,6 +731,8 @@ public class PortletPreferencesModelImpl
 		portletPreferencesImpl.setPreferences(getPreferences());
 
 		portletPreferencesImpl.resetOriginalValues();
+
+		portletPreferencesImpl.setNew(false);
 
 		return portletPreferencesImpl;
 	}
@@ -660,32 +799,9 @@ public class PortletPreferencesModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		PortletPreferencesModelImpl portletPreferencesModelImpl = this;
+		_columnBitmask = 0;
 
-		portletPreferencesModelImpl._originalCompanyId =
-			portletPreferencesModelImpl._companyId;
-
-		portletPreferencesModelImpl._setOriginalCompanyId = false;
-
-		portletPreferencesModelImpl._originalOwnerId =
-			portletPreferencesModelImpl._ownerId;
-
-		portletPreferencesModelImpl._setOriginalOwnerId = false;
-
-		portletPreferencesModelImpl._originalOwnerType =
-			portletPreferencesModelImpl._ownerType;
-
-		portletPreferencesModelImpl._setOriginalOwnerType = false;
-
-		portletPreferencesModelImpl._originalPlid =
-			portletPreferencesModelImpl._plid;
-
-		portletPreferencesModelImpl._setOriginalPlid = false;
-
-		portletPreferencesModelImpl._originalPortletId =
-			portletPreferencesModelImpl._portletId;
-
-		portletPreferencesModelImpl._columnBitmask = 0;
+		_portletPreferencesCacheModel = null;
 	}
 
 	@Override
@@ -801,21 +917,13 @@ public class PortletPreferencesModelImpl
 	private long _ctCollectionId;
 	private long _portletPreferencesId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _ownerId;
-	private long _originalOwnerId;
-	private boolean _setOriginalOwnerId;
 	private int _ownerType;
-	private int _originalOwnerType;
-	private boolean _setOriginalOwnerType;
 	private long _plid;
-	private long _originalPlid;
-	private boolean _setOriginalPlid;
 	private String _portletId;
-	private String _originalPortletId;
 	private String _preferences;
 	private long _columnBitmask;
 	private PortletPreferences _escapedModel;
+	private PortletPreferencesCacheModel _portletPreferencesCacheModel;
 
 }

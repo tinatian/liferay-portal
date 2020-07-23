@@ -110,6 +110,8 @@ public class RatingsStatsCacheModel
 	public RatingsStats toEntityModel() {
 		RatingsStatsImpl ratingsStatsImpl = new RatingsStatsImpl();
 
+		ratingsStatsImpl.setNew(true);
+
 		ratingsStatsImpl.setMvccVersion(mvccVersion);
 		ratingsStatsImpl.setCtCollectionId(ctCollectionId);
 		ratingsStatsImpl.setStatsId(statsId);
@@ -136,6 +138,8 @@ public class RatingsStatsCacheModel
 		ratingsStatsImpl.setAverageScore(averageScore);
 
 		ratingsStatsImpl.resetOriginalValues();
+
+		ratingsStatsImpl.setNew(false);
 
 		return ratingsStatsImpl;
 	}

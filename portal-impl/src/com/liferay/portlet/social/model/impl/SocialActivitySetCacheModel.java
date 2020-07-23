@@ -113,6 +113,8 @@ public class SocialActivitySetCacheModel
 		SocialActivitySetImpl socialActivitySetImpl =
 			new SocialActivitySetImpl();
 
+		socialActivitySetImpl.setNew(true);
+
 		socialActivitySetImpl.setMvccVersion(mvccVersion);
 		socialActivitySetImpl.setCtCollectionId(ctCollectionId);
 		socialActivitySetImpl.setActivitySetId(activitySetId);
@@ -135,6 +137,8 @@ public class SocialActivitySetCacheModel
 		socialActivitySetImpl.setActivityCount(activityCount);
 
 		socialActivitySetImpl.resetOriginalValues();
+
+		socialActivitySetImpl.setNew(false);
 
 		return socialActivitySetImpl;
 	}

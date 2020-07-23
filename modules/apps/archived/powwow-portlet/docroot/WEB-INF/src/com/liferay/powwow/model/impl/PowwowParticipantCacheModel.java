@@ -102,6 +102,8 @@ public class PowwowParticipantCacheModel
 		PowwowParticipantImpl powwowParticipantImpl =
 			new PowwowParticipantImpl();
 
+		powwowParticipantImpl.setNew(true);
+
 		powwowParticipantImpl.setPowwowParticipantId(powwowParticipantId);
 		powwowParticipantImpl.setGroupId(groupId);
 		powwowParticipantImpl.setCompanyId(companyId);
@@ -150,6 +152,8 @@ public class PowwowParticipantCacheModel
 		powwowParticipantImpl.setStatus(status);
 
 		powwowParticipantImpl.resetOriginalValues();
+
+		powwowParticipantImpl.setNew(false);
 
 		return powwowParticipantImpl;
 	}

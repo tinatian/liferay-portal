@@ -1393,8 +1393,8 @@ public class OAuth2ApplicationPersistenceImpl
 			 _finderPathFetchByC_C.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				oAuth2ApplicationModelImpl.getOriginalCompanyId(),
-				oAuth2ApplicationModelImpl.getOriginalClientId()
+				oAuth2ApplicationModelImpl.getCacheModelAttribute("companyId"),
+				oAuth2ApplicationModelImpl.getCacheModelAttribute("clientId")
 			};
 
 			finderCache.removeResult(_finderPathCountByC_C, args);
@@ -1599,7 +1599,8 @@ public class OAuth2ApplicationPersistenceImpl
 				 _finderPathWithoutPaginationFindByC.getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					oAuth2ApplicationModelImpl.getOriginalCompanyId()
+					oAuth2ApplicationModelImpl.getCacheModelAttribute(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByC, args);

@@ -27,7 +27,6 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.DateUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
@@ -136,18 +135,57 @@ public class WorkflowMetricsSLADefinitionVersionModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 2L;
+	public static final long UUID_COLUMN_BITMASK = 2L;
 
-	public static final long UUID_COLUMN_BITMASK = 4L;
+	public static final long
+		WORKFLOWMETRICSSLADEFINITIONVERSIONID_COLUMN_BITMASK = 4L;
 
-	public static final long VERSION_COLUMN_BITMASK = 8L;
+	public static final long GROUPID_COLUMN_BITMASK = 8L;
+
+	public static final long COMPANYID_COLUMN_BITMASK = 16L;
+
+	public static final long USERID_COLUMN_BITMASK = 32L;
+
+	public static final long USERNAME_COLUMN_BITMASK = 64L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 128L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 256L;
+
+	public static final long ACTIVE_COLUMN_BITMASK = 512L;
+
+	public static final long CALENDARKEY_COLUMN_BITMASK = 1024L;
+
+	public static final long DESCRIPTION_COLUMN_BITMASK = 2048L;
+
+	public static final long DURATION_COLUMN_BITMASK = 4096L;
+
+	public static final long NAME_COLUMN_BITMASK = 8192L;
+
+	public static final long PAUSENODEKEYS_COLUMN_BITMASK = 16384L;
+
+	public static final long PROCESSID_COLUMN_BITMASK = 32768L;
+
+	public static final long PROCESSVERSION_COLUMN_BITMASK = 65536L;
+
+	public static final long STARTNODEKEYS_COLUMN_BITMASK = 131072L;
+
+	public static final long STOPNODEKEYS_COLUMN_BITMASK = 262144L;
+
+	public static final long VERSION_COLUMN_BITMASK = 524288L;
 
 	public static final long WORKFLOWMETRICSSLADEFINITIONID_COLUMN_BITMASK =
-		16L;
+		1048576L;
 
-	public static final long MODIFIEDDATE_COLUMN_BITMASK = 32L;
+	public static final long STATUS_COLUMN_BITMASK = 2097152L;
+
+	public static final long STATUSBYUSERID_COLUMN_BITMASK = 4194304L;
+
+	public static final long STATUSBYUSERNAME_COLUMN_BITMASK = 8388608L;
+
+	public static final long STATUSDATE_COLUMN_BITMASK = 16777216L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -281,12 +319,43 @@ public class WorkflowMetricsSLADefinitionVersionModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<WorkflowMetricsSLADefinitionVersion, Object> function =
+			_attributeGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((WorkflowMetricsSLADefinitionVersion)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<WorkflowMetricsSLADefinitionVersionCacheModel, Object>
+			function = _cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_workflowMetricsSLADefinitionVersionCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(
+			_workflowMetricsSLADefinitionVersionCacheModel);
+	}
+
 	private static final Map
 		<String, Function<WorkflowMetricsSLADefinitionVersion, Object>>
 			_attributeGetterFunctions;
 	private static final Map
 		<String, BiConsumer<WorkflowMetricsSLADefinitionVersion, Object>>
 			_attributeSetterBiConsumers;
+	private static final Map
+		<String,
+		 Function<WorkflowMetricsSLADefinitionVersionCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<WorkflowMetricsSLADefinitionVersion, Object>>
@@ -299,15 +368,34 @@ public class WorkflowMetricsSLADefinitionVersionModelImpl
 				new LinkedHashMap
 					<String,
 					 BiConsumer<WorkflowMetricsSLADefinitionVersion, ?>>();
+		Map
+			<String,
+			 Function<WorkflowMetricsSLADefinitionVersionCacheModel, Object>>
+				cacheModelGetterFunctions =
+					new LinkedHashMap
+						<String,
+						 Function
+							 <WorkflowMetricsSLADefinitionVersionCacheModel,
+							  Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", WorkflowMetricsSLADefinitionVersion::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			workflowMetricsSLADefinitionVersionCacheModel ->
+				workflowMetricsSLADefinitionVersionCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<WorkflowMetricsSLADefinitionVersion, Long>)
 				WorkflowMetricsSLADefinitionVersion::setMvccVersion);
 		attributeGetterFunctions.put(
 			"uuid", WorkflowMetricsSLADefinitionVersion::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid",
+			workflowMetricsSLADefinitionVersionCacheModel ->
+				workflowMetricsSLADefinitionVersionCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid",
 			(BiConsumer<WorkflowMetricsSLADefinitionVersion, String>)
@@ -316,6 +404,12 @@ public class WorkflowMetricsSLADefinitionVersionModelImpl
 			"workflowMetricsSLADefinitionVersionId",
 			WorkflowMetricsSLADefinitionVersion::
 				getWorkflowMetricsSLADefinitionVersionId);
+
+		cacheModelGetterFunctions.put(
+			"workflowMetricsSLADefinitionVersionId",
+			workflowMetricsSLADefinitionVersionCacheModel ->
+				workflowMetricsSLADefinitionVersionCacheModel.
+					workflowMetricsSLADefinitionVersionId);
 		attributeSetterBiConsumers.put(
 			"workflowMetricsSLADefinitionVersionId",
 			(BiConsumer<WorkflowMetricsSLADefinitionVersion, Long>)
@@ -323,30 +417,55 @@ public class WorkflowMetricsSLADefinitionVersionModelImpl
 					setWorkflowMetricsSLADefinitionVersionId);
 		attributeGetterFunctions.put(
 			"groupId", WorkflowMetricsSLADefinitionVersion::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			workflowMetricsSLADefinitionVersionCacheModel ->
+				workflowMetricsSLADefinitionVersionCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<WorkflowMetricsSLADefinitionVersion, Long>)
 				WorkflowMetricsSLADefinitionVersion::setGroupId);
 		attributeGetterFunctions.put(
 			"companyId", WorkflowMetricsSLADefinitionVersion::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			workflowMetricsSLADefinitionVersionCacheModel ->
+				workflowMetricsSLADefinitionVersionCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<WorkflowMetricsSLADefinitionVersion, Long>)
 				WorkflowMetricsSLADefinitionVersion::setCompanyId);
 		attributeGetterFunctions.put(
 			"userId", WorkflowMetricsSLADefinitionVersion::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			workflowMetricsSLADefinitionVersionCacheModel ->
+				workflowMetricsSLADefinitionVersionCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<WorkflowMetricsSLADefinitionVersion, Long>)
 				WorkflowMetricsSLADefinitionVersion::setUserId);
 		attributeGetterFunctions.put(
 			"userName", WorkflowMetricsSLADefinitionVersion::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			workflowMetricsSLADefinitionVersionCacheModel ->
+				workflowMetricsSLADefinitionVersionCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<WorkflowMetricsSLADefinitionVersion, String>)
 				WorkflowMetricsSLADefinitionVersion::setUserName);
 		attributeGetterFunctions.put(
 			"createDate", WorkflowMetricsSLADefinitionVersion::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			workflowMetricsSLADefinitionVersionCacheModel ->
+				workflowMetricsSLADefinitionVersionCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<WorkflowMetricsSLADefinitionVersion, Date>)
@@ -354,36 +473,66 @@ public class WorkflowMetricsSLADefinitionVersionModelImpl
 		attributeGetterFunctions.put(
 			"modifiedDate",
 			WorkflowMetricsSLADefinitionVersion::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			workflowMetricsSLADefinitionVersionCacheModel ->
+				workflowMetricsSLADefinitionVersionCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<WorkflowMetricsSLADefinitionVersion, Date>)
 				WorkflowMetricsSLADefinitionVersion::setModifiedDate);
 		attributeGetterFunctions.put(
 			"active", WorkflowMetricsSLADefinitionVersion::getActive);
+
+		cacheModelGetterFunctions.put(
+			"active",
+			workflowMetricsSLADefinitionVersionCacheModel ->
+				workflowMetricsSLADefinitionVersionCacheModel.active);
 		attributeSetterBiConsumers.put(
 			"active",
 			(BiConsumer<WorkflowMetricsSLADefinitionVersion, Boolean>)
 				WorkflowMetricsSLADefinitionVersion::setActive);
 		attributeGetterFunctions.put(
 			"calendarKey", WorkflowMetricsSLADefinitionVersion::getCalendarKey);
+
+		cacheModelGetterFunctions.put(
+			"calendarKey",
+			workflowMetricsSLADefinitionVersionCacheModel ->
+				workflowMetricsSLADefinitionVersionCacheModel.calendarKey);
 		attributeSetterBiConsumers.put(
 			"calendarKey",
 			(BiConsumer<WorkflowMetricsSLADefinitionVersion, String>)
 				WorkflowMetricsSLADefinitionVersion::setCalendarKey);
 		attributeGetterFunctions.put(
 			"description", WorkflowMetricsSLADefinitionVersion::getDescription);
+
+		cacheModelGetterFunctions.put(
+			"description",
+			workflowMetricsSLADefinitionVersionCacheModel ->
+				workflowMetricsSLADefinitionVersionCacheModel.description);
 		attributeSetterBiConsumers.put(
 			"description",
 			(BiConsumer<WorkflowMetricsSLADefinitionVersion, String>)
 				WorkflowMetricsSLADefinitionVersion::setDescription);
 		attributeGetterFunctions.put(
 			"duration", WorkflowMetricsSLADefinitionVersion::getDuration);
+
+		cacheModelGetterFunctions.put(
+			"duration",
+			workflowMetricsSLADefinitionVersionCacheModel ->
+				workflowMetricsSLADefinitionVersionCacheModel.duration);
 		attributeSetterBiConsumers.put(
 			"duration",
 			(BiConsumer<WorkflowMetricsSLADefinitionVersion, Long>)
 				WorkflowMetricsSLADefinitionVersion::setDuration);
 		attributeGetterFunctions.put(
 			"name", WorkflowMetricsSLADefinitionVersion::getName);
+
+		cacheModelGetterFunctions.put(
+			"name",
+			workflowMetricsSLADefinitionVersionCacheModel ->
+				workflowMetricsSLADefinitionVersionCacheModel.name);
 		attributeSetterBiConsumers.put(
 			"name",
 			(BiConsumer<WorkflowMetricsSLADefinitionVersion, String>)
@@ -391,12 +540,22 @@ public class WorkflowMetricsSLADefinitionVersionModelImpl
 		attributeGetterFunctions.put(
 			"pauseNodeKeys",
 			WorkflowMetricsSLADefinitionVersion::getPauseNodeKeys);
+
+		cacheModelGetterFunctions.put(
+			"pauseNodeKeys",
+			workflowMetricsSLADefinitionVersionCacheModel ->
+				workflowMetricsSLADefinitionVersionCacheModel.pauseNodeKeys);
 		attributeSetterBiConsumers.put(
 			"pauseNodeKeys",
 			(BiConsumer<WorkflowMetricsSLADefinitionVersion, String>)
 				WorkflowMetricsSLADefinitionVersion::setPauseNodeKeys);
 		attributeGetterFunctions.put(
 			"processId", WorkflowMetricsSLADefinitionVersion::getProcessId);
+
+		cacheModelGetterFunctions.put(
+			"processId",
+			workflowMetricsSLADefinitionVersionCacheModel ->
+				workflowMetricsSLADefinitionVersionCacheModel.processId);
 		attributeSetterBiConsumers.put(
 			"processId",
 			(BiConsumer<WorkflowMetricsSLADefinitionVersion, Long>)
@@ -404,6 +563,11 @@ public class WorkflowMetricsSLADefinitionVersionModelImpl
 		attributeGetterFunctions.put(
 			"processVersion",
 			WorkflowMetricsSLADefinitionVersion::getProcessVersion);
+
+		cacheModelGetterFunctions.put(
+			"processVersion",
+			workflowMetricsSLADefinitionVersionCacheModel ->
+				workflowMetricsSLADefinitionVersionCacheModel.processVersion);
 		attributeSetterBiConsumers.put(
 			"processVersion",
 			(BiConsumer<WorkflowMetricsSLADefinitionVersion, String>)
@@ -411,6 +575,11 @@ public class WorkflowMetricsSLADefinitionVersionModelImpl
 		attributeGetterFunctions.put(
 			"startNodeKeys",
 			WorkflowMetricsSLADefinitionVersion::getStartNodeKeys);
+
+		cacheModelGetterFunctions.put(
+			"startNodeKeys",
+			workflowMetricsSLADefinitionVersionCacheModel ->
+				workflowMetricsSLADefinitionVersionCacheModel.startNodeKeys);
 		attributeSetterBiConsumers.put(
 			"startNodeKeys",
 			(BiConsumer<WorkflowMetricsSLADefinitionVersion, String>)
@@ -418,12 +587,22 @@ public class WorkflowMetricsSLADefinitionVersionModelImpl
 		attributeGetterFunctions.put(
 			"stopNodeKeys",
 			WorkflowMetricsSLADefinitionVersion::getStopNodeKeys);
+
+		cacheModelGetterFunctions.put(
+			"stopNodeKeys",
+			workflowMetricsSLADefinitionVersionCacheModel ->
+				workflowMetricsSLADefinitionVersionCacheModel.stopNodeKeys);
 		attributeSetterBiConsumers.put(
 			"stopNodeKeys",
 			(BiConsumer<WorkflowMetricsSLADefinitionVersion, String>)
 				WorkflowMetricsSLADefinitionVersion::setStopNodeKeys);
 		attributeGetterFunctions.put(
 			"version", WorkflowMetricsSLADefinitionVersion::getVersion);
+
+		cacheModelGetterFunctions.put(
+			"version",
+			workflowMetricsSLADefinitionVersionCacheModel ->
+				workflowMetricsSLADefinitionVersionCacheModel.version);
 		attributeSetterBiConsumers.put(
 			"version",
 			(BiConsumer<WorkflowMetricsSLADefinitionVersion, String>)
@@ -432,6 +611,12 @@ public class WorkflowMetricsSLADefinitionVersionModelImpl
 			"workflowMetricsSLADefinitionId",
 			WorkflowMetricsSLADefinitionVersion::
 				getWorkflowMetricsSLADefinitionId);
+
+		cacheModelGetterFunctions.put(
+			"workflowMetricsSLADefinitionId",
+			workflowMetricsSLADefinitionVersionCacheModel ->
+				workflowMetricsSLADefinitionVersionCacheModel.
+					workflowMetricsSLADefinitionId);
 		attributeSetterBiConsumers.put(
 			"workflowMetricsSLADefinitionId",
 			(BiConsumer<WorkflowMetricsSLADefinitionVersion, Long>)
@@ -439,6 +624,11 @@ public class WorkflowMetricsSLADefinitionVersionModelImpl
 					setWorkflowMetricsSLADefinitionId);
 		attributeGetterFunctions.put(
 			"status", WorkflowMetricsSLADefinitionVersion::getStatus);
+
+		cacheModelGetterFunctions.put(
+			"status",
+			workflowMetricsSLADefinitionVersionCacheModel ->
+				workflowMetricsSLADefinitionVersionCacheModel.status);
 		attributeSetterBiConsumers.put(
 			"status",
 			(BiConsumer<WorkflowMetricsSLADefinitionVersion, Integer>)
@@ -446,6 +636,11 @@ public class WorkflowMetricsSLADefinitionVersionModelImpl
 		attributeGetterFunctions.put(
 			"statusByUserId",
 			WorkflowMetricsSLADefinitionVersion::getStatusByUserId);
+
+		cacheModelGetterFunctions.put(
+			"statusByUserId",
+			workflowMetricsSLADefinitionVersionCacheModel ->
+				workflowMetricsSLADefinitionVersionCacheModel.statusByUserId);
 		attributeSetterBiConsumers.put(
 			"statusByUserId",
 			(BiConsumer<WorkflowMetricsSLADefinitionVersion, Long>)
@@ -453,12 +648,22 @@ public class WorkflowMetricsSLADefinitionVersionModelImpl
 		attributeGetterFunctions.put(
 			"statusByUserName",
 			WorkflowMetricsSLADefinitionVersion::getStatusByUserName);
+
+		cacheModelGetterFunctions.put(
+			"statusByUserName",
+			workflowMetricsSLADefinitionVersionCacheModel ->
+				workflowMetricsSLADefinitionVersionCacheModel.statusByUserName);
 		attributeSetterBiConsumers.put(
 			"statusByUserName",
 			(BiConsumer<WorkflowMetricsSLADefinitionVersion, String>)
 				WorkflowMetricsSLADefinitionVersion::setStatusByUserName);
 		attributeGetterFunctions.put(
 			"statusDate", WorkflowMetricsSLADefinitionVersion::getStatusDate);
+
+		cacheModelGetterFunctions.put(
+			"statusDate",
+			workflowMetricsSLADefinitionVersionCacheModel ->
+				workflowMetricsSLADefinitionVersionCacheModel.statusDate);
 		attributeSetterBiConsumers.put(
 			"statusDate",
 			(BiConsumer<WorkflowMetricsSLADefinitionVersion, Date>)
@@ -468,6 +673,8 @@ public class WorkflowMetricsSLADefinitionVersionModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -477,6 +684,15 @@ public class WorkflowMetricsSLADefinitionVersionModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() &&
+			(_workflowMetricsSLADefinitionVersionCacheModel == null)) {
+
+			_workflowMetricsSLADefinitionVersionCacheModel =
+				(WorkflowMetricsSLADefinitionVersionCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -494,15 +710,23 @@ public class WorkflowMetricsSLADefinitionVersionModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (!isNew() &&
+			(_workflowMetricsSLADefinitionVersionCacheModel == null)) {
+
+			_workflowMetricsSLADefinitionVersionCacheModel =
+				(WorkflowMetricsSLADefinitionVersionCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getCacheModelAttribute("uuid");
 	}
 
 	@Override
@@ -513,6 +737,15 @@ public class WorkflowMetricsSLADefinitionVersionModelImpl
 	@Override
 	public void setWorkflowMetricsSLADefinitionVersionId(
 		long workflowMetricsSLADefinitionVersionId) {
+
+		_columnBitmask |= WORKFLOWMETRICSSLADEFINITIONVERSIONID_COLUMN_BITMASK;
+
+		if (!isNew() &&
+			(_workflowMetricsSLADefinitionVersionCacheModel == null)) {
+
+			_workflowMetricsSLADefinitionVersionCacheModel =
+				(WorkflowMetricsSLADefinitionVersionCacheModel)toCacheModel();
+		}
 
 		_workflowMetricsSLADefinitionVersionId =
 			workflowMetricsSLADefinitionVersionId;
@@ -527,17 +760,23 @@ public class WorkflowMetricsSLADefinitionVersionModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
+		if (!isNew() &&
+			(_workflowMetricsSLADefinitionVersionCacheModel == null)) {
 
-			_originalGroupId = _groupId;
+			_workflowMetricsSLADefinitionVersionCacheModel =
+				(WorkflowMetricsSLADefinitionVersionCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getCacheModelAttribute("groupId");
 	}
 
 	@Override
@@ -549,17 +788,23 @@ public class WorkflowMetricsSLADefinitionVersionModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
+		if (!isNew() &&
+			(_workflowMetricsSLADefinitionVersionCacheModel == null)) {
 
-			_originalCompanyId = _companyId;
+			_workflowMetricsSLADefinitionVersionCacheModel =
+				(WorkflowMetricsSLADefinitionVersionCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getCacheModelAttribute("companyId");
 	}
 
 	@Override
@@ -569,6 +814,15 @@ public class WorkflowMetricsSLADefinitionVersionModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (!isNew() &&
+			(_workflowMetricsSLADefinitionVersionCacheModel == null)) {
+
+			_workflowMetricsSLADefinitionVersionCacheModel =
+				(WorkflowMetricsSLADefinitionVersionCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -600,6 +854,15 @@ public class WorkflowMetricsSLADefinitionVersionModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (!isNew() &&
+			(_workflowMetricsSLADefinitionVersionCacheModel == null)) {
+
+			_workflowMetricsSLADefinitionVersionCacheModel =
+				(WorkflowMetricsSLADefinitionVersionCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -610,6 +873,15 @@ public class WorkflowMetricsSLADefinitionVersionModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() &&
+			(_workflowMetricsSLADefinitionVersionCacheModel == null)) {
+
+			_workflowMetricsSLADefinitionVersionCacheModel =
+				(WorkflowMetricsSLADefinitionVersionCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -626,7 +898,14 @@ public class WorkflowMetricsSLADefinitionVersionModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
-		_columnBitmask = -1L;
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (!isNew() &&
+			(_workflowMetricsSLADefinitionVersionCacheModel == null)) {
+
+			_workflowMetricsSLADefinitionVersionCacheModel =
+				(WorkflowMetricsSLADefinitionVersionCacheModel)toCacheModel();
+		}
 
 		_modifiedDate = modifiedDate;
 	}
@@ -643,6 +922,15 @@ public class WorkflowMetricsSLADefinitionVersionModelImpl
 
 	@Override
 	public void setActive(boolean active) {
+		_columnBitmask |= ACTIVE_COLUMN_BITMASK;
+
+		if (!isNew() &&
+			(_workflowMetricsSLADefinitionVersionCacheModel == null)) {
+
+			_workflowMetricsSLADefinitionVersionCacheModel =
+				(WorkflowMetricsSLADefinitionVersionCacheModel)toCacheModel();
+		}
+
 		_active = active;
 	}
 
@@ -658,6 +946,15 @@ public class WorkflowMetricsSLADefinitionVersionModelImpl
 
 	@Override
 	public void setCalendarKey(String calendarKey) {
+		_columnBitmask |= CALENDARKEY_COLUMN_BITMASK;
+
+		if (!isNew() &&
+			(_workflowMetricsSLADefinitionVersionCacheModel == null)) {
+
+			_workflowMetricsSLADefinitionVersionCacheModel =
+				(WorkflowMetricsSLADefinitionVersionCacheModel)toCacheModel();
+		}
+
 		_calendarKey = calendarKey;
 	}
 
@@ -673,6 +970,15 @@ public class WorkflowMetricsSLADefinitionVersionModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		_columnBitmask |= DESCRIPTION_COLUMN_BITMASK;
+
+		if (!isNew() &&
+			(_workflowMetricsSLADefinitionVersionCacheModel == null)) {
+
+			_workflowMetricsSLADefinitionVersionCacheModel =
+				(WorkflowMetricsSLADefinitionVersionCacheModel)toCacheModel();
+		}
+
 		_description = description;
 	}
 
@@ -683,6 +989,15 @@ public class WorkflowMetricsSLADefinitionVersionModelImpl
 
 	@Override
 	public void setDuration(long duration) {
+		_columnBitmask |= DURATION_COLUMN_BITMASK;
+
+		if (!isNew() &&
+			(_workflowMetricsSLADefinitionVersionCacheModel == null)) {
+
+			_workflowMetricsSLADefinitionVersionCacheModel =
+				(WorkflowMetricsSLADefinitionVersionCacheModel)toCacheModel();
+		}
+
 		_duration = duration;
 	}
 
@@ -698,6 +1013,15 @@ public class WorkflowMetricsSLADefinitionVersionModelImpl
 
 	@Override
 	public void setName(String name) {
+		_columnBitmask |= NAME_COLUMN_BITMASK;
+
+		if (!isNew() &&
+			(_workflowMetricsSLADefinitionVersionCacheModel == null)) {
+
+			_workflowMetricsSLADefinitionVersionCacheModel =
+				(WorkflowMetricsSLADefinitionVersionCacheModel)toCacheModel();
+		}
+
 		_name = name;
 	}
 
@@ -713,6 +1037,15 @@ public class WorkflowMetricsSLADefinitionVersionModelImpl
 
 	@Override
 	public void setPauseNodeKeys(String pauseNodeKeys) {
+		_columnBitmask |= PAUSENODEKEYS_COLUMN_BITMASK;
+
+		if (!isNew() &&
+			(_workflowMetricsSLADefinitionVersionCacheModel == null)) {
+
+			_workflowMetricsSLADefinitionVersionCacheModel =
+				(WorkflowMetricsSLADefinitionVersionCacheModel)toCacheModel();
+		}
+
 		_pauseNodeKeys = pauseNodeKeys;
 	}
 
@@ -723,6 +1056,15 @@ public class WorkflowMetricsSLADefinitionVersionModelImpl
 
 	@Override
 	public void setProcessId(long processId) {
+		_columnBitmask |= PROCESSID_COLUMN_BITMASK;
+
+		if (!isNew() &&
+			(_workflowMetricsSLADefinitionVersionCacheModel == null)) {
+
+			_workflowMetricsSLADefinitionVersionCacheModel =
+				(WorkflowMetricsSLADefinitionVersionCacheModel)toCacheModel();
+		}
+
 		_processId = processId;
 	}
 
@@ -738,6 +1080,15 @@ public class WorkflowMetricsSLADefinitionVersionModelImpl
 
 	@Override
 	public void setProcessVersion(String processVersion) {
+		_columnBitmask |= PROCESSVERSION_COLUMN_BITMASK;
+
+		if (!isNew() &&
+			(_workflowMetricsSLADefinitionVersionCacheModel == null)) {
+
+			_workflowMetricsSLADefinitionVersionCacheModel =
+				(WorkflowMetricsSLADefinitionVersionCacheModel)toCacheModel();
+		}
+
 		_processVersion = processVersion;
 	}
 
@@ -753,6 +1104,15 @@ public class WorkflowMetricsSLADefinitionVersionModelImpl
 
 	@Override
 	public void setStartNodeKeys(String startNodeKeys) {
+		_columnBitmask |= STARTNODEKEYS_COLUMN_BITMASK;
+
+		if (!isNew() &&
+			(_workflowMetricsSLADefinitionVersionCacheModel == null)) {
+
+			_workflowMetricsSLADefinitionVersionCacheModel =
+				(WorkflowMetricsSLADefinitionVersionCacheModel)toCacheModel();
+		}
+
 		_startNodeKeys = startNodeKeys;
 	}
 
@@ -768,6 +1128,15 @@ public class WorkflowMetricsSLADefinitionVersionModelImpl
 
 	@Override
 	public void setStopNodeKeys(String stopNodeKeys) {
+		_columnBitmask |= STOPNODEKEYS_COLUMN_BITMASK;
+
+		if (!isNew() &&
+			(_workflowMetricsSLADefinitionVersionCacheModel == null)) {
+
+			_workflowMetricsSLADefinitionVersionCacheModel =
+				(WorkflowMetricsSLADefinitionVersionCacheModel)toCacheModel();
+		}
+
 		_stopNodeKeys = stopNodeKeys;
 	}
 
@@ -785,15 +1154,23 @@ public class WorkflowMetricsSLADefinitionVersionModelImpl
 	public void setVersion(String version) {
 		_columnBitmask |= VERSION_COLUMN_BITMASK;
 
-		if (_originalVersion == null) {
-			_originalVersion = _version;
+		if (!isNew() &&
+			(_workflowMetricsSLADefinitionVersionCacheModel == null)) {
+
+			_workflowMetricsSLADefinitionVersionCacheModel =
+				(WorkflowMetricsSLADefinitionVersionCacheModel)toCacheModel();
 		}
 
 		_version = version;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalVersion() {
-		return GetterUtil.getString(_originalVersion);
+		return getCacheModelAttribute("version");
 	}
 
 	@Override
@@ -807,18 +1184,23 @@ public class WorkflowMetricsSLADefinitionVersionModelImpl
 
 		_columnBitmask |= WORKFLOWMETRICSSLADEFINITIONID_COLUMN_BITMASK;
 
-		if (!_setOriginalWorkflowMetricsSLADefinitionId) {
-			_setOriginalWorkflowMetricsSLADefinitionId = true;
+		if (!isNew() &&
+			(_workflowMetricsSLADefinitionVersionCacheModel == null)) {
 
-			_originalWorkflowMetricsSLADefinitionId =
-				_workflowMetricsSLADefinitionId;
+			_workflowMetricsSLADefinitionVersionCacheModel =
+				(WorkflowMetricsSLADefinitionVersionCacheModel)toCacheModel();
 		}
 
 		_workflowMetricsSLADefinitionId = workflowMetricsSLADefinitionId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalWorkflowMetricsSLADefinitionId() {
-		return _originalWorkflowMetricsSLADefinitionId;
+		return getCacheModelAttribute("workflowMetricsSLADefinitionId");
 	}
 
 	@Override
@@ -828,6 +1210,15 @@ public class WorkflowMetricsSLADefinitionVersionModelImpl
 
 	@Override
 	public void setStatus(int status) {
+		_columnBitmask |= STATUS_COLUMN_BITMASK;
+
+		if (!isNew() &&
+			(_workflowMetricsSLADefinitionVersionCacheModel == null)) {
+
+			_workflowMetricsSLADefinitionVersionCacheModel =
+				(WorkflowMetricsSLADefinitionVersionCacheModel)toCacheModel();
+		}
+
 		_status = status;
 	}
 
@@ -838,6 +1229,15 @@ public class WorkflowMetricsSLADefinitionVersionModelImpl
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		_columnBitmask |= STATUSBYUSERID_COLUMN_BITMASK;
+
+		if (!isNew() &&
+			(_workflowMetricsSLADefinitionVersionCacheModel == null)) {
+
+			_workflowMetricsSLADefinitionVersionCacheModel =
+				(WorkflowMetricsSLADefinitionVersionCacheModel)toCacheModel();
+		}
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -869,6 +1269,15 @@ public class WorkflowMetricsSLADefinitionVersionModelImpl
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		_columnBitmask |= STATUSBYUSERNAME_COLUMN_BITMASK;
+
+		if (!isNew() &&
+			(_workflowMetricsSLADefinitionVersionCacheModel == null)) {
+
+			_workflowMetricsSLADefinitionVersionCacheModel =
+				(WorkflowMetricsSLADefinitionVersionCacheModel)toCacheModel();
+		}
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -879,6 +1288,15 @@ public class WorkflowMetricsSLADefinitionVersionModelImpl
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		_columnBitmask |= STATUSDATE_COLUMN_BITMASK;
+
+		if (!isNew() &&
+			(_workflowMetricsSLADefinitionVersionCacheModel == null)) {
+
+			_workflowMetricsSLADefinitionVersionCacheModel =
+				(WorkflowMetricsSLADefinitionVersionCacheModel)toCacheModel();
+		}
+
 		_statusDate = statusDate;
 	}
 
@@ -1008,6 +1426,8 @@ public class WorkflowMetricsSLADefinitionVersionModelImpl
 			workflowMetricsSLADefinitionVersionImpl =
 				new WorkflowMetricsSLADefinitionVersionImpl();
 
+		workflowMetricsSLADefinitionVersionImpl.setNew(true);
+
 		workflowMetricsSLADefinitionVersionImpl.setMvccVersion(
 			getMvccVersion());
 		workflowMetricsSLADefinitionVersionImpl.setUuid(getUuid());
@@ -1049,6 +1469,8 @@ public class WorkflowMetricsSLADefinitionVersionModelImpl
 		workflowMetricsSLADefinitionVersionImpl.setStatusDate(getStatusDate());
 
 		workflowMetricsSLADefinitionVersionImpl.resetOriginalValues();
+
+		workflowMetricsSLADefinitionVersionImpl.setNew(false);
 
 		return workflowMetricsSLADefinitionVersionImpl;
 	}
@@ -1122,38 +1544,11 @@ public class WorkflowMetricsSLADefinitionVersionModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		WorkflowMetricsSLADefinitionVersionModelImpl
-			workflowMetricsSLADefinitionVersionModelImpl = this;
+		_setModifiedDate = false;
 
-		workflowMetricsSLADefinitionVersionModelImpl._originalUuid =
-			workflowMetricsSLADefinitionVersionModelImpl._uuid;
+		_columnBitmask = 0;
 
-		workflowMetricsSLADefinitionVersionModelImpl._originalGroupId =
-			workflowMetricsSLADefinitionVersionModelImpl._groupId;
-
-		workflowMetricsSLADefinitionVersionModelImpl._setOriginalGroupId =
-			false;
-
-		workflowMetricsSLADefinitionVersionModelImpl._originalCompanyId =
-			workflowMetricsSLADefinitionVersionModelImpl._companyId;
-
-		workflowMetricsSLADefinitionVersionModelImpl._setOriginalCompanyId =
-			false;
-
-		workflowMetricsSLADefinitionVersionModelImpl._setModifiedDate = false;
-
-		workflowMetricsSLADefinitionVersionModelImpl._originalVersion =
-			workflowMetricsSLADefinitionVersionModelImpl._version;
-
-		workflowMetricsSLADefinitionVersionModelImpl.
-			_originalWorkflowMetricsSLADefinitionId =
-				workflowMetricsSLADefinitionVersionModelImpl.
-					_workflowMetricsSLADefinitionId;
-
-		workflowMetricsSLADefinitionVersionModelImpl.
-			_setOriginalWorkflowMetricsSLADefinitionId = false;
-
-		workflowMetricsSLADefinitionVersionModelImpl._columnBitmask = 0;
+		_workflowMetricsSLADefinitionVersionCacheModel = null;
 	}
 
 	@Override
@@ -1412,14 +1807,9 @@ public class WorkflowMetricsSLADefinitionVersionModelImpl
 
 	private long _mvccVersion;
 	private String _uuid;
-	private String _originalUuid;
 	private long _workflowMetricsSLADefinitionVersionId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
@@ -1436,15 +1826,14 @@ public class WorkflowMetricsSLADefinitionVersionModelImpl
 	private String _startNodeKeys;
 	private String _stopNodeKeys;
 	private String _version;
-	private String _originalVersion;
 	private long _workflowMetricsSLADefinitionId;
-	private long _originalWorkflowMetricsSLADefinitionId;
-	private boolean _setOriginalWorkflowMetricsSLADefinitionId;
 	private int _status;
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
 	private long _columnBitmask;
 	private WorkflowMetricsSLADefinitionVersion _escapedModel;
+	private WorkflowMetricsSLADefinitionVersionCacheModel
+		_workflowMetricsSLADefinitionVersionCacheModel;
 
 }

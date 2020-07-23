@@ -4243,7 +4243,9 @@ public class PhonePersistenceImpl
 				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
 					 0) {
 
-				Object[] args = new Object[] {phoneModelImpl.getOriginalUuid()};
+				Object[] args = new Object[] {
+					phoneModelImpl.getCacheModelAttribute("uuid")
+				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid, args);
 				FinderCacheUtil.removeResult(
@@ -4261,8 +4263,8 @@ public class PhonePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					phoneModelImpl.getOriginalUuid(),
-					phoneModelImpl.getOriginalCompanyId()
+					phoneModelImpl.getCacheModelAttribute("uuid"),
+					phoneModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid_C, args);
@@ -4283,7 +4285,7 @@ public class PhonePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					phoneModelImpl.getOriginalCompanyId()
+					phoneModelImpl.getCacheModelAttribute("companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
@@ -4302,7 +4304,7 @@ public class PhonePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					phoneModelImpl.getOriginalUserId()
+					phoneModelImpl.getCacheModelAttribute("userId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUserId, args);
@@ -4321,8 +4323,8 @@ public class PhonePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					phoneModelImpl.getOriginalCompanyId(),
-					phoneModelImpl.getOriginalClassNameId()
+					phoneModelImpl.getCacheModelAttribute("companyId"),
+					phoneModelImpl.getCacheModelAttribute("classNameId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_C, args);
@@ -4344,9 +4346,9 @@ public class PhonePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					phoneModelImpl.getOriginalCompanyId(),
-					phoneModelImpl.getOriginalClassNameId(),
-					phoneModelImpl.getOriginalClassPK()
+					phoneModelImpl.getCacheModelAttribute("companyId"),
+					phoneModelImpl.getCacheModelAttribute("classNameId"),
+					phoneModelImpl.getCacheModelAttribute("classPK")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_C_C, args);
@@ -4368,10 +4370,10 @@ public class PhonePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					phoneModelImpl.getOriginalCompanyId(),
-					phoneModelImpl.getOriginalClassNameId(),
-					phoneModelImpl.getOriginalClassPK(),
-					phoneModelImpl.getOriginalPrimary()
+					phoneModelImpl.getCacheModelAttribute("companyId"),
+					phoneModelImpl.getCacheModelAttribute("classNameId"),
+					phoneModelImpl.getCacheModelAttribute("classPK"),
+					phoneModelImpl.getCacheModelAttribute("primary")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_C_C_P, args);

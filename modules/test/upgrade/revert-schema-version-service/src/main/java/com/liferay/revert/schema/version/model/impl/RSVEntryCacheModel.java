@@ -91,11 +91,15 @@ public class RSVEntryCacheModel
 	public RSVEntry toEntityModel() {
 		RSVEntryImpl rsvEntryImpl = new RSVEntryImpl();
 
+		rsvEntryImpl.setNew(true);
+
 		rsvEntryImpl.setMvccVersion(mvccVersion);
 		rsvEntryImpl.setRsvEntryId(rsvEntryId);
 		rsvEntryImpl.setCompanyId(companyId);
 
 		rsvEntryImpl.resetOriginalValues();
+
+		rsvEntryImpl.setNew(false);
 
 		return rsvEntryImpl;
 	}

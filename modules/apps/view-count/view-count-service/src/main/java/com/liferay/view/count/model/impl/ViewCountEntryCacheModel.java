@@ -82,12 +82,16 @@ public class ViewCountEntryCacheModel
 	public ViewCountEntry toEntityModel() {
 		ViewCountEntryImpl viewCountEntryImpl = new ViewCountEntryImpl();
 
+		viewCountEntryImpl.setNew(true);
+
 		viewCountEntryImpl.setCompanyId(companyId);
 		viewCountEntryImpl.setClassNameId(classNameId);
 		viewCountEntryImpl.setClassPK(classPK);
 		viewCountEntryImpl.setViewCount(viewCount);
 
 		viewCountEntryImpl.resetOriginalValues();
+
+		viewCountEntryImpl.setNew(false);
 
 		return viewCountEntryImpl;
 	}

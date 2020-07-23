@@ -2110,9 +2110,10 @@ public class FriendlyURLEntryLocalizationPersistenceImpl
 				 getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				friendlyURLEntryLocalizationModelImpl.
-					getOriginalFriendlyURLEntryId(),
-				friendlyURLEntryLocalizationModelImpl.getOriginalLanguageId()
+				friendlyURLEntryLocalizationModelImpl.getCacheModelAttribute(
+					"friendlyURLEntryId"),
+				friendlyURLEntryLocalizationModelImpl.getCacheModelAttribute(
+					"languageId")
 			};
 
 			finderCache.removeResult(
@@ -2136,9 +2137,12 @@ public class FriendlyURLEntryLocalizationPersistenceImpl
 			 _finderPathFetchByG_C_U.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				friendlyURLEntryLocalizationModelImpl.getOriginalGroupId(),
-				friendlyURLEntryLocalizationModelImpl.getOriginalClassNameId(),
-				friendlyURLEntryLocalizationModelImpl.getOriginalUrlTitle()
+				friendlyURLEntryLocalizationModelImpl.getCacheModelAttribute(
+					"groupId"),
+				friendlyURLEntryLocalizationModelImpl.getCacheModelAttribute(
+					"classNameId"),
+				friendlyURLEntryLocalizationModelImpl.getCacheModelAttribute(
+					"urlTitle")
 			};
 
 			finderCache.removeResult(_finderPathCountByG_C_U, args);
@@ -2374,7 +2378,7 @@ public class FriendlyURLEntryLocalizationPersistenceImpl
 
 				Object[] args = new Object[] {
 					friendlyURLEntryLocalizationModelImpl.
-						getOriginalFriendlyURLEntryId()
+						getCacheModelAttribute("friendlyURLEntryId")
 				};
 
 				finderCache.removeResult(
@@ -2398,12 +2402,14 @@ public class FriendlyURLEntryLocalizationPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					friendlyURLEntryLocalizationModelImpl.getOriginalGroupId(),
 					friendlyURLEntryLocalizationModelImpl.
-						getOriginalClassNameId(),
-					friendlyURLEntryLocalizationModelImpl.getOriginalClassPK(),
+						getCacheModelAttribute("groupId"),
 					friendlyURLEntryLocalizationModelImpl.
-						getOriginalLanguageId()
+						getCacheModelAttribute("classNameId"),
+					friendlyURLEntryLocalizationModelImpl.
+						getCacheModelAttribute("classPK"),
+					friendlyURLEntryLocalizationModelImpl.
+						getCacheModelAttribute("languageId")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_C_C_L, args);

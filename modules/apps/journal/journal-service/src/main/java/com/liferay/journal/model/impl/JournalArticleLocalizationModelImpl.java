@@ -24,7 +24,6 @@ import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -102,15 +101,21 @@ public class JournalArticleLocalizationModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long ARTICLEPK_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
-	public static final long LANGUAGEID_COLUMN_BITMASK = 4L;
+	public static final long ARTICLELOCALIZATIONID_COLUMN_BITMASK = 4L;
 
-	public static final long TITLE_COLUMN_BITMASK = 8L;
+	public static final long COMPANYID_COLUMN_BITMASK = 8L;
 
-	public static final long ARTICLELOCALIZATIONID_COLUMN_BITMASK = 16L;
+	public static final long ARTICLEPK_COLUMN_BITMASK = 16L;
+
+	public static final long TITLE_COLUMN_BITMASK = 32L;
+
+	public static final long DESCRIPTION_COLUMN_BITMASK = 64L;
+
+	public static final long LANGUAGEID_COLUMN_BITMASK = 128L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -241,12 +246,41 @@ public class JournalArticleLocalizationModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<JournalArticleLocalization, Object> function =
+			_attributeGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((JournalArticleLocalization)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<JournalArticleLocalizationCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_journalArticleLocalizationCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_journalArticleLocalizationCacheModel);
+	}
+
 	private static final Map
 		<String, Function<JournalArticleLocalization, Object>>
 			_attributeGetterFunctions;
 	private static final Map
 		<String, BiConsumer<JournalArticleLocalization, Object>>
 			_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<JournalArticleLocalizationCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<JournalArticleLocalization, Object>>
@@ -257,15 +291,30 @@ public class JournalArticleLocalizationModelImpl
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<JournalArticleLocalization, ?>>();
+		Map<String, Function<JournalArticleLocalizationCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String,
+					 Function<JournalArticleLocalizationCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", JournalArticleLocalization::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			journalArticleLocalizationCacheModel ->
+				journalArticleLocalizationCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<JournalArticleLocalization, Long>)
 				JournalArticleLocalization::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", JournalArticleLocalization::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			journalArticleLocalizationCacheModel ->
+				journalArticleLocalizationCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<JournalArticleLocalization, Long>)
@@ -273,36 +322,66 @@ public class JournalArticleLocalizationModelImpl
 		attributeGetterFunctions.put(
 			"articleLocalizationId",
 			JournalArticleLocalization::getArticleLocalizationId);
+
+		cacheModelGetterFunctions.put(
+			"articleLocalizationId",
+			journalArticleLocalizationCacheModel ->
+				journalArticleLocalizationCacheModel.articleLocalizationId);
 		attributeSetterBiConsumers.put(
 			"articleLocalizationId",
 			(BiConsumer<JournalArticleLocalization, Long>)
 				JournalArticleLocalization::setArticleLocalizationId);
 		attributeGetterFunctions.put(
 			"companyId", JournalArticleLocalization::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			journalArticleLocalizationCacheModel ->
+				journalArticleLocalizationCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<JournalArticleLocalization, Long>)
 				JournalArticleLocalization::setCompanyId);
 		attributeGetterFunctions.put(
 			"articlePK", JournalArticleLocalization::getArticlePK);
+
+		cacheModelGetterFunctions.put(
+			"articlePK",
+			journalArticleLocalizationCacheModel ->
+				journalArticleLocalizationCacheModel.articlePK);
 		attributeSetterBiConsumers.put(
 			"articlePK",
 			(BiConsumer<JournalArticleLocalization, Long>)
 				JournalArticleLocalization::setArticlePK);
 		attributeGetterFunctions.put(
 			"title", JournalArticleLocalization::getTitle);
+
+		cacheModelGetterFunctions.put(
+			"title",
+			journalArticleLocalizationCacheModel ->
+				journalArticleLocalizationCacheModel.title);
 		attributeSetterBiConsumers.put(
 			"title",
 			(BiConsumer<JournalArticleLocalization, String>)
 				JournalArticleLocalization::setTitle);
 		attributeGetterFunctions.put(
 			"description", JournalArticleLocalization::getDescription);
+
+		cacheModelGetterFunctions.put(
+			"description",
+			journalArticleLocalizationCacheModel ->
+				journalArticleLocalizationCacheModel.description);
 		attributeSetterBiConsumers.put(
 			"description",
 			(BiConsumer<JournalArticleLocalization, String>)
 				JournalArticleLocalization::setDescription);
 		attributeGetterFunctions.put(
 			"languageId", JournalArticleLocalization::getLanguageId);
+
+		cacheModelGetterFunctions.put(
+			"languageId",
+			journalArticleLocalizationCacheModel ->
+				journalArticleLocalizationCacheModel.languageId);
 		attributeSetterBiConsumers.put(
 			"languageId",
 			(BiConsumer<JournalArticleLocalization, String>)
@@ -312,6 +391,8 @@ public class JournalArticleLocalizationModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -321,6 +402,13 @@ public class JournalArticleLocalizationModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (!isNew() && (_journalArticleLocalizationCacheModel == null)) {
+			_journalArticleLocalizationCacheModel =
+				(JournalArticleLocalizationCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -331,6 +419,13 @@ public class JournalArticleLocalizationModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (!isNew() && (_journalArticleLocalizationCacheModel == null)) {
+			_journalArticleLocalizationCacheModel =
+				(JournalArticleLocalizationCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -341,6 +436,13 @@ public class JournalArticleLocalizationModelImpl
 
 	@Override
 	public void setArticleLocalizationId(long articleLocalizationId) {
+		_columnBitmask |= ARTICLELOCALIZATIONID_COLUMN_BITMASK;
+
+		if (!isNew() && (_journalArticleLocalizationCacheModel == null)) {
+			_journalArticleLocalizationCacheModel =
+				(JournalArticleLocalizationCacheModel)toCacheModel();
+		}
+
 		_articleLocalizationId = articleLocalizationId;
 	}
 
@@ -353,17 +455,21 @@ public class JournalArticleLocalizationModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (!isNew() && (_journalArticleLocalizationCacheModel == null)) {
+			_journalArticleLocalizationCacheModel =
+				(JournalArticleLocalizationCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getCacheModelAttribute("companyId");
 	}
 
 	@Override
@@ -375,17 +481,21 @@ public class JournalArticleLocalizationModelImpl
 	public void setArticlePK(long articlePK) {
 		_columnBitmask |= ARTICLEPK_COLUMN_BITMASK;
 
-		if (!_setOriginalArticlePK) {
-			_setOriginalArticlePK = true;
-
-			_originalArticlePK = _articlePK;
+		if (!isNew() && (_journalArticleLocalizationCacheModel == null)) {
+			_journalArticleLocalizationCacheModel =
+				(JournalArticleLocalizationCacheModel)toCacheModel();
 		}
 
 		_articlePK = articlePK;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalArticlePK() {
-		return _originalArticlePK;
+		return getCacheModelAttribute("articlePK");
 	}
 
 	@Override
@@ -402,15 +512,21 @@ public class JournalArticleLocalizationModelImpl
 	public void setTitle(String title) {
 		_columnBitmask |= TITLE_COLUMN_BITMASK;
 
-		if (_originalTitle == null) {
-			_originalTitle = _title;
+		if (!isNew() && (_journalArticleLocalizationCacheModel == null)) {
+			_journalArticleLocalizationCacheModel =
+				(JournalArticleLocalizationCacheModel)toCacheModel();
 		}
 
 		_title = title;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalTitle() {
-		return GetterUtil.getString(_originalTitle);
+		return getCacheModelAttribute("title");
 	}
 
 	@Override
@@ -425,6 +541,13 @@ public class JournalArticleLocalizationModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		_columnBitmask |= DESCRIPTION_COLUMN_BITMASK;
+
+		if (!isNew() && (_journalArticleLocalizationCacheModel == null)) {
+			_journalArticleLocalizationCacheModel =
+				(JournalArticleLocalizationCacheModel)toCacheModel();
+		}
+
 		_description = description;
 	}
 
@@ -442,15 +565,21 @@ public class JournalArticleLocalizationModelImpl
 	public void setLanguageId(String languageId) {
 		_columnBitmask |= LANGUAGEID_COLUMN_BITMASK;
 
-		if (_originalLanguageId == null) {
-			_originalLanguageId = _languageId;
+		if (!isNew() && (_journalArticleLocalizationCacheModel == null)) {
+			_journalArticleLocalizationCacheModel =
+				(JournalArticleLocalizationCacheModel)toCacheModel();
 		}
 
 		_languageId = languageId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public String getOriginalLanguageId() {
-		return GetterUtil.getString(_originalLanguageId);
+		return getCacheModelAttribute("languageId");
 	}
 
 	public long getColumnBitmask() {
@@ -491,6 +620,8 @@ public class JournalArticleLocalizationModelImpl
 		JournalArticleLocalizationImpl journalArticleLocalizationImpl =
 			new JournalArticleLocalizationImpl();
 
+		journalArticleLocalizationImpl.setNew(true);
+
 		journalArticleLocalizationImpl.setMvccVersion(getMvccVersion());
 		journalArticleLocalizationImpl.setCtCollectionId(getCtCollectionId());
 		journalArticleLocalizationImpl.setArticleLocalizationId(
@@ -502,6 +633,8 @@ public class JournalArticleLocalizationModelImpl
 		journalArticleLocalizationImpl.setLanguageId(getLanguageId());
 
 		journalArticleLocalizationImpl.resetOriginalValues();
+
+		journalArticleLocalizationImpl.setNew(false);
 
 		return journalArticleLocalizationImpl;
 	}
@@ -571,26 +704,9 @@ public class JournalArticleLocalizationModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		JournalArticleLocalizationModelImpl
-			journalArticleLocalizationModelImpl = this;
+		_columnBitmask = 0;
 
-		journalArticleLocalizationModelImpl._originalCompanyId =
-			journalArticleLocalizationModelImpl._companyId;
-
-		journalArticleLocalizationModelImpl._setOriginalCompanyId = false;
-
-		journalArticleLocalizationModelImpl._originalArticlePK =
-			journalArticleLocalizationModelImpl._articlePK;
-
-		journalArticleLocalizationModelImpl._setOriginalArticlePK = false;
-
-		journalArticleLocalizationModelImpl._originalTitle =
-			journalArticleLocalizationModelImpl._title;
-
-		journalArticleLocalizationModelImpl._originalLanguageId =
-			journalArticleLocalizationModelImpl._languageId;
-
-		journalArticleLocalizationModelImpl._columnBitmask = 0;
+		_journalArticleLocalizationCacheModel = null;
 	}
 
 	@Override
@@ -718,17 +834,13 @@ public class JournalArticleLocalizationModelImpl
 	private long _ctCollectionId;
 	private long _articleLocalizationId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _articlePK;
-	private long _originalArticlePK;
-	private boolean _setOriginalArticlePK;
 	private String _title;
-	private String _originalTitle;
 	private String _description;
 	private String _languageId;
-	private String _originalLanguageId;
 	private long _columnBitmask;
 	private JournalArticleLocalization _escapedModel;
+	private JournalArticleLocalizationCacheModel
+		_journalArticleLocalizationCacheModel;
 
 }

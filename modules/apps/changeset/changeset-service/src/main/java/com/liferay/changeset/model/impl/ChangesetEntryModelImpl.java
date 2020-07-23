@@ -109,17 +109,25 @@ public class ChangesetEntryModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long CHANGESETCOLLECTIONID_COLUMN_BITMASK = 1L;
+	public static final long CHANGESETENTRYID_COLUMN_BITMASK = 1L;
 
-	public static final long CLASSNAMEID_COLUMN_BITMASK = 2L;
+	public static final long GROUPID_COLUMN_BITMASK = 2L;
 
-	public static final long CLASSPK_COLUMN_BITMASK = 4L;
+	public static final long COMPANYID_COLUMN_BITMASK = 4L;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 8L;
+	public static final long USERID_COLUMN_BITMASK = 8L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 16L;
+	public static final long USERNAME_COLUMN_BITMASK = 16L;
 
-	public static final long CHANGESETENTRYID_COLUMN_BITMASK = 32L;
+	public static final long CREATEDATE_COLUMN_BITMASK = 32L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 64L;
+
+	public static final long CHANGESETCOLLECTIONID_COLUMN_BITMASK = 128L;
+
+	public static final long CLASSNAMEID_COLUMN_BITMASK = 256L;
+
+	public static final long CLASSPK_COLUMN_BITMASK = 512L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -248,61 +256,135 @@ public class ChangesetEntryModelImpl
 		}
 	}
 
+	public <T> T getAttribute(String attribute) {
+		Function<ChangesetEntry, Object> function =
+			_attributeGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((ChangesetEntry)this);
+	}
+
+	public <T> T getCacheModelAttribute(String attribute) {
+		Function<ChangesetEntryCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attribute);
+
+		if (function == null) {
+			return null;
+		}
+
+		if (_changesetEntryCacheModel == null) {
+			return null;
+		}
+
+		return (T)function.apply(_changesetEntryCacheModel);
+	}
+
 	private static final Map<String, Function<ChangesetEntry, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<ChangesetEntry, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<ChangesetEntryCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<ChangesetEntry, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<ChangesetEntry, Object>>();
 		Map<String, BiConsumer<ChangesetEntry, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<ChangesetEntry, ?>>();
+		Map<String, Function<ChangesetEntryCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<ChangesetEntryCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"changesetEntryId", ChangesetEntry::getChangesetEntryId);
+
+		cacheModelGetterFunctions.put(
+			"changesetEntryId",
+			changesetEntryCacheModel ->
+				changesetEntryCacheModel.changesetEntryId);
 		attributeSetterBiConsumers.put(
 			"changesetEntryId",
 			(BiConsumer<ChangesetEntry, Long>)
 				ChangesetEntry::setChangesetEntryId);
 		attributeGetterFunctions.put("groupId", ChangesetEntry::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			changesetEntryCacheModel -> changesetEntryCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<ChangesetEntry, Long>)ChangesetEntry::setGroupId);
 		attributeGetterFunctions.put("companyId", ChangesetEntry::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			changesetEntryCacheModel -> changesetEntryCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<ChangesetEntry, Long>)ChangesetEntry::setCompanyId);
 		attributeGetterFunctions.put("userId", ChangesetEntry::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			changesetEntryCacheModel -> changesetEntryCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<ChangesetEntry, Long>)ChangesetEntry::setUserId);
 		attributeGetterFunctions.put("userName", ChangesetEntry::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			changesetEntryCacheModel -> changesetEntryCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<ChangesetEntry, String>)ChangesetEntry::setUserName);
 		attributeGetterFunctions.put(
 			"createDate", ChangesetEntry::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			changesetEntryCacheModel -> changesetEntryCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<ChangesetEntry, Date>)ChangesetEntry::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", ChangesetEntry::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			changesetEntryCacheModel -> changesetEntryCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<ChangesetEntry, Date>)ChangesetEntry::setModifiedDate);
 		attributeGetterFunctions.put(
 			"changesetCollectionId", ChangesetEntry::getChangesetCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"changesetCollectionId",
+			changesetEntryCacheModel ->
+				changesetEntryCacheModel.changesetCollectionId);
 		attributeSetterBiConsumers.put(
 			"changesetCollectionId",
 			(BiConsumer<ChangesetEntry, Long>)
 				ChangesetEntry::setChangesetCollectionId);
 		attributeGetterFunctions.put(
 			"classNameId", ChangesetEntry::getClassNameId);
+
+		cacheModelGetterFunctions.put(
+			"classNameId",
+			changesetEntryCacheModel -> changesetEntryCacheModel.classNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<ChangesetEntry, Long>)ChangesetEntry::setClassNameId);
 		attributeGetterFunctions.put("classPK", ChangesetEntry::getClassPK);
+
+		cacheModelGetterFunctions.put(
+			"classPK",
+			changesetEntryCacheModel -> changesetEntryCacheModel.classPK);
 		attributeSetterBiConsumers.put(
 			"classPK",
 			(BiConsumer<ChangesetEntry, Long>)ChangesetEntry::setClassPK);
@@ -311,6 +393,8 @@ public class ChangesetEntryModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -320,6 +404,13 @@ public class ChangesetEntryModelImpl
 
 	@Override
 	public void setChangesetEntryId(long changesetEntryId) {
+		_columnBitmask |= CHANGESETENTRYID_COLUMN_BITMASK;
+
+		if (!isNew() && (_changesetEntryCacheModel == null)) {
+			_changesetEntryCacheModel =
+				(ChangesetEntryCacheModel)toCacheModel();
+		}
+
 		_changesetEntryId = changesetEntryId;
 	}
 
@@ -332,17 +423,21 @@ public class ChangesetEntryModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (!isNew() && (_changesetEntryCacheModel == null)) {
+			_changesetEntryCacheModel =
+				(ChangesetEntryCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getCacheModelAttribute("groupId");
 	}
 
 	@Override
@@ -354,17 +449,21 @@ public class ChangesetEntryModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (!isNew() && (_changesetEntryCacheModel == null)) {
+			_changesetEntryCacheModel =
+				(ChangesetEntryCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getCacheModelAttribute("companyId");
 	}
 
 	@Override
@@ -374,6 +473,13 @@ public class ChangesetEntryModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (!isNew() && (_changesetEntryCacheModel == null)) {
+			_changesetEntryCacheModel =
+				(ChangesetEntryCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -405,6 +511,13 @@ public class ChangesetEntryModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (!isNew() && (_changesetEntryCacheModel == null)) {
+			_changesetEntryCacheModel =
+				(ChangesetEntryCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -415,6 +528,13 @@ public class ChangesetEntryModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_changesetEntryCacheModel == null)) {
+			_changesetEntryCacheModel =
+				(ChangesetEntryCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -431,6 +551,13 @@ public class ChangesetEntryModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (!isNew() && (_changesetEntryCacheModel == null)) {
+			_changesetEntryCacheModel =
+				(ChangesetEntryCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -443,17 +570,21 @@ public class ChangesetEntryModelImpl
 	public void setChangesetCollectionId(long changesetCollectionId) {
 		_columnBitmask |= CHANGESETCOLLECTIONID_COLUMN_BITMASK;
 
-		if (!_setOriginalChangesetCollectionId) {
-			_setOriginalChangesetCollectionId = true;
-
-			_originalChangesetCollectionId = _changesetCollectionId;
+		if (!isNew() && (_changesetEntryCacheModel == null)) {
+			_changesetEntryCacheModel =
+				(ChangesetEntryCacheModel)toCacheModel();
 		}
 
 		_changesetCollectionId = changesetCollectionId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalChangesetCollectionId() {
-		return _originalChangesetCollectionId;
+		return getCacheModelAttribute("changesetCollectionId");
 	}
 
 	@Override
@@ -485,17 +616,21 @@ public class ChangesetEntryModelImpl
 	public void setClassNameId(long classNameId) {
 		_columnBitmask |= CLASSNAMEID_COLUMN_BITMASK;
 
-		if (!_setOriginalClassNameId) {
-			_setOriginalClassNameId = true;
-
-			_originalClassNameId = _classNameId;
+		if (!isNew() && (_changesetEntryCacheModel == null)) {
+			_changesetEntryCacheModel =
+				(ChangesetEntryCacheModel)toCacheModel();
 		}
 
 		_classNameId = classNameId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassNameId() {
-		return _originalClassNameId;
+		return getCacheModelAttribute("classNameId");
 	}
 
 	@Override
@@ -507,17 +642,21 @@ public class ChangesetEntryModelImpl
 	public void setClassPK(long classPK) {
 		_columnBitmask |= CLASSPK_COLUMN_BITMASK;
 
-		if (!_setOriginalClassPK) {
-			_setOriginalClassPK = true;
-
-			_originalClassPK = _classPK;
+		if (!isNew() && (_changesetEntryCacheModel == null)) {
+			_changesetEntryCacheModel =
+				(ChangesetEntryCacheModel)toCacheModel();
 		}
 
 		_classPK = classPK;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getCacheModelAttribute(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassPK() {
-		return _originalClassPK;
+		return getCacheModelAttribute("classPK");
 	}
 
 	public long getColumnBitmask() {
@@ -556,6 +695,8 @@ public class ChangesetEntryModelImpl
 	public Object clone() {
 		ChangesetEntryImpl changesetEntryImpl = new ChangesetEntryImpl();
 
+		changesetEntryImpl.setNew(true);
+
 		changesetEntryImpl.setChangesetEntryId(getChangesetEntryId());
 		changesetEntryImpl.setGroupId(getGroupId());
 		changesetEntryImpl.setCompanyId(getCompanyId());
@@ -568,6 +709,8 @@ public class ChangesetEntryModelImpl
 		changesetEntryImpl.setClassPK(getClassPK());
 
 		changesetEntryImpl.resetOriginalValues();
+
+		changesetEntryImpl.setNew(false);
 
 		return changesetEntryImpl;
 	}
@@ -634,36 +777,11 @@ public class ChangesetEntryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		ChangesetEntryModelImpl changesetEntryModelImpl = this;
+		_setModifiedDate = false;
 
-		changesetEntryModelImpl._originalGroupId =
-			changesetEntryModelImpl._groupId;
+		_columnBitmask = 0;
 
-		changesetEntryModelImpl._setOriginalGroupId = false;
-
-		changesetEntryModelImpl._originalCompanyId =
-			changesetEntryModelImpl._companyId;
-
-		changesetEntryModelImpl._setOriginalCompanyId = false;
-
-		changesetEntryModelImpl._setModifiedDate = false;
-
-		changesetEntryModelImpl._originalChangesetCollectionId =
-			changesetEntryModelImpl._changesetCollectionId;
-
-		changesetEntryModelImpl._setOriginalChangesetCollectionId = false;
-
-		changesetEntryModelImpl._originalClassNameId =
-			changesetEntryModelImpl._classNameId;
-
-		changesetEntryModelImpl._setOriginalClassNameId = false;
-
-		changesetEntryModelImpl._originalClassPK =
-			changesetEntryModelImpl._classPK;
-
-		changesetEntryModelImpl._setOriginalClassPK = false;
-
-		changesetEntryModelImpl._columnBitmask = 0;
+		_changesetEntryCacheModel = null;
 	}
 
 	@Override
@@ -787,26 +905,17 @@ public class ChangesetEntryModelImpl
 
 	private long _changesetEntryId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _changesetCollectionId;
-	private long _originalChangesetCollectionId;
-	private boolean _setOriginalChangesetCollectionId;
 	private long _classNameId;
-	private long _originalClassNameId;
-	private boolean _setOriginalClassNameId;
 	private long _classPK;
-	private long _originalClassPK;
-	private boolean _setOriginalClassPK;
 	private long _columnBitmask;
 	private ChangesetEntry _escapedModel;
+	private ChangesetEntryCacheModel _changesetEntryCacheModel;
 
 }

@@ -844,7 +844,7 @@ public class PasswordTrackerPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					passwordTrackerModelImpl.getOriginalUserId()
+					passwordTrackerModelImpl.getCacheModelAttribute("userId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUserId, args);
