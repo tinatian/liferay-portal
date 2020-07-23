@@ -288,12 +288,14 @@ public class NestableFlushEventListenerTest {
 
 		@Override
 		public CacheModel<ClassName> toCacheModel() {
-			Query query = _session.createQuery(
-				"SELECT release FROM Release release");
+			if (_session != null) {
+				Query query = _session.createQuery(
+					"SELECT release FROM Release release");
 
-			List<?> results = query.list();
+				List<?> results = query.list();
 
-			Assert.assertFalse(results.toString(), results.isEmpty());
+				Assert.assertFalse(results.toString(), results.isEmpty());
+			}
 
 			return super.toCacheModel();
 		}
