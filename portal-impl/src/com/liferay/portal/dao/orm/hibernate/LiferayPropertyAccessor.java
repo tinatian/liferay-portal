@@ -20,18 +20,16 @@ import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.util.TextFormatter;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
-
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
-
 import org.hibernate.PropertyAccessException;
 import org.hibernate.PropertyNotFoundException;
 import org.hibernate.engine.SessionFactoryImplementor;
@@ -302,7 +300,19 @@ public class LiferayPropertyAccessor extends BasicPropertyAccessor {
 		public void set(
 			Object target, Object value, SessionFactoryImplementor factory) {
 
+			BaseModel<?> baseModel = (BaseModel<?>)target;
+
+			boolean isNew = baseModel.isNew();
+
+			if (!isNew) {
+				baseModel.setNew(true);
+			}
+
 			_setterBiConsumer.accept(target, value);
+
+			if (!isNew) {
+				baseModel.setNew(false);
+			}
 		}
 
 		private LiferayPropertyMutator(
