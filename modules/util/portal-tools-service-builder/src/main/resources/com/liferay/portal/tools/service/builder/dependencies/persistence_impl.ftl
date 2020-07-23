@@ -471,15 +471,7 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 						(${entity.varName}ModelImpl.getColumnBitmask() & _finderPathFetchBy${uniqueEntityFinder.name}.getColumnBitmask()) != 0
 					<#else>
 						<#list entityColumns as entityColumn>
-							<#if entityColumn.isPrimitiveType()>
-								<#if stringUtil.equals(entityColumn.type, "boolean")>
-									(${entity.varName}ModelImpl.is${entityColumn.methodName}() != ${entity.varName}ModelImpl.getOriginal${entityColumn.methodName}())
-								<#else>
-									(${entity.varName}ModelImpl.get${entityColumn.methodName}() != ${entity.varName}ModelImpl.getOriginal${entityColumn.methodName}())
-								</#if>
-							<#else>
-								!Objects.equals(${entity.varName}ModelImpl.get${entityColumn.methodName}(), ${entity.varName}ModelImpl.getOriginal${entityColumn.methodName}())
-							</#if>
+							!Objects.equals(${entity.varName}ModelImpl.get${entityColumn.methodName}(), ${entity.varName}ModelImpl.getCacheModelAttribute("${entityColumn.name}"))
 
 							<#if entityColumn_has_next>
 								||
@@ -491,9 +483,9 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 					Object[] args = new Object[] {
 						<#list entityColumns as entityColumn>
 							<#if stringUtil.equals(entityColumn.type, "Date")>
-								_getTime(${entity.varName}ModelImpl.getOriginal${entityColumn.methodName}())
+								_getTime(${entity.varName}ModelImpl.getCacheModelAttribute("${entityColumn.name}"))
 							<#else>
-								${entity.varName}ModelImpl.getOriginal${entityColumn.methodName}()
+								${entity.varName}ModelImpl.getCacheModelAttribute("${entityColumn.name}")
 							</#if>
 
 							<#if entityColumn_has_next>
@@ -768,8 +760,8 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 					if (isNew) {
 						nestedSetsTreeManager.insert(${entity.varName}, fetchByPrimaryKey(${entity.varName}.getParent${pkEntityColumn.methodName}()));
 					}
-					else if (${entity.varName}.getParent${pkEntityColumn.methodName}() != ${entity.varName}ModelImpl.getOriginalParent${pkEntityColumn.methodName}()){
-						nestedSetsTreeManager.move(${entity.varName}, fetchByPrimaryKey(${entity.varName}ModelImpl.getOriginalParent${pkEntityColumn.methodName}()), fetchByPrimaryKey(${entity.varName}.getParent${pkEntityColumn.methodName}()));
+					else if (!Objects.equals(${entity.varName}.getParent${pkEntityColumn.methodName}(), ${entity.varName}ModelImpl.getCacheModelAttribute("parent${pkEntityColumn.methodName}"))){
+						nestedSetsTreeManager.move(${entity.varName}, fetchByPrimaryKey(${entity.varName}ModelImpl.getCacheModelAttribute("parent${pkEntityColumn.methodName}")), fetchByPrimaryKey(${entity.varName}.getParent${pkEntityColumn.methodName}()));
 					}
 
 					clearCache();
@@ -880,15 +872,7 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 							(${entity.varName}ModelImpl.getColumnBitmask() & _finderPathWithoutPaginationFindBy${entityFinder.name}.getColumnBitmask()) != 0
 						<#else>
 							<#list entityColumns as entityColumn>
-								<#if entityColumn.isPrimitiveType()>
-									<#if stringUtil.equals(entityColumn.type, "boolean")>
-										(${entity.varName}.is${entityColumn.methodName}() != ${entity.varName}ModelImpl.getOriginal${entityColumn.methodName}())
-									<#else>
-										(${entity.varName}.get${entityColumn.methodName}() != ${entity.varName}ModelImpl.getOriginal${entityColumn.methodName}())
-									</#if>
-								<#else>
-									!Objects.equals(${entity.varName}.get${entityColumn.methodName}(), ${entity.varName}ModelImpl.getOriginal${entityColumn.methodName}())
-								</#if>
+								!Objects.equals(${entity.varName}.get${entityColumn.methodName}(), ${entity.varName}ModelImpl.getCacheModelAttribute("${entityColumn.name}"))
 
 								<#if entityColumn_has_next>
 									||
@@ -899,7 +883,7 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 
 						Object[] args = new Object[] {
 							<#list entityColumns as entityColumn>
-								${entity.varName}ModelImpl.getOriginal${entityColumn.methodName}()
+								${entity.varName}ModelImpl.getCacheModelAttribute("${entityColumn.name}")
 
 								<#if entityColumn_has_next>
 									,
