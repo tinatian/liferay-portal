@@ -34,7 +34,6 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.DateUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -140,21 +139,51 @@ public class MBThreadModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long CATEGORYID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 4L;
+	public static final long UUID_COLUMN_BITMASK = 4L;
 
-	public static final long LASTPOSTDATE_COLUMN_BITMASK = 8L;
+	public static final long THREADID_COLUMN_BITMASK = 8L;
 
-	public static final long PRIORITY_COLUMN_BITMASK = 16L;
+	public static final long GROUPID_COLUMN_BITMASK = 16L;
 
-	public static final long ROOTMESSAGEID_COLUMN_BITMASK = 32L;
+	public static final long COMPANYID_COLUMN_BITMASK = 32L;
 
-	public static final long STATUS_COLUMN_BITMASK = 64L;
+	public static final long USERID_COLUMN_BITMASK = 64L;
 
-	public static final long UUID_COLUMN_BITMASK = 128L;
+	public static final long USERNAME_COLUMN_BITMASK = 128L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 256L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 512L;
+
+	public static final long CATEGORYID_COLUMN_BITMASK = 1024L;
+
+	public static final long ROOTMESSAGEID_COLUMN_BITMASK = 2048L;
+
+	public static final long ROOTMESSAGEUSERID_COLUMN_BITMASK = 4096L;
+
+	public static final long TITLE_COLUMN_BITMASK = 8192L;
+
+	public static final long LASTPOSTBYUSERID_COLUMN_BITMASK = 16384L;
+
+	public static final long LASTPOSTDATE_COLUMN_BITMASK = 32768L;
+
+	public static final long PRIORITY_COLUMN_BITMASK = 65536L;
+
+	public static final long QUESTION_COLUMN_BITMASK = 131072L;
+
+	public static final long LASTPUBLISHDATE_COLUMN_BITMASK = 262144L;
+
+	public static final long STATUS_COLUMN_BITMASK = 524288L;
+
+	public static final long STATUSBYUSERID_COLUMN_BITMASK = 1048576L;
+
+	public static final long STATUSBYUSERNAME_COLUMN_BITMASK = 2097152L;
+
+	public static final long STATUSDATE_COLUMN_BITMASK = 4194304L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -342,101 +371,203 @@ public class MBThreadModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_mbThreadCacheModel == null) ||
+			(_mbThreadCacheModel == _dummyMBThreadCacheModel)) {
+
+			return null;
+		}
+
+		Function<MBThreadCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_mbThreadCacheModel);
+	}
+
 	private static final Map<String, Function<MBThread, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<MBThread, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<MBThreadCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<MBThread, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<MBThread, Object>>();
 		Map<String, BiConsumer<MBThread, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<MBThread, ?>>();
+		Map<String, Function<MBThreadCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<MBThreadCacheModel, Object>>();
 
 		attributeGetterFunctions.put("mvccVersion", MBThread::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			mbThreadCacheModel -> mbThreadCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<MBThread, Long>)MBThread::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", MBThread::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			mbThreadCacheModel -> mbThreadCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<MBThread, Long>)MBThread::setCtCollectionId);
 		attributeGetterFunctions.put("uuid", MBThread::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid", mbThreadCacheModel -> mbThreadCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<MBThread, String>)MBThread::setUuid);
 		attributeGetterFunctions.put("threadId", MBThread::getThreadId);
+
+		cacheModelGetterFunctions.put(
+			"threadId", mbThreadCacheModel -> mbThreadCacheModel.threadId);
 		attributeSetterBiConsumers.put(
 			"threadId", (BiConsumer<MBThread, Long>)MBThread::setThreadId);
 		attributeGetterFunctions.put("groupId", MBThread::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId", mbThreadCacheModel -> mbThreadCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId", (BiConsumer<MBThread, Long>)MBThread::setGroupId);
 		attributeGetterFunctions.put("companyId", MBThread::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId", mbThreadCacheModel -> mbThreadCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId", (BiConsumer<MBThread, Long>)MBThread::setCompanyId);
 		attributeGetterFunctions.put("userId", MBThread::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", mbThreadCacheModel -> mbThreadCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<MBThread, Long>)MBThread::setUserId);
 		attributeGetterFunctions.put("userName", MBThread::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName", mbThreadCacheModel -> mbThreadCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName", (BiConsumer<MBThread, String>)MBThread::setUserName);
 		attributeGetterFunctions.put("createDate", MBThread::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate", mbThreadCacheModel -> mbThreadCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate", (BiConsumer<MBThread, Date>)MBThread::setCreateDate);
 		attributeGetterFunctions.put("modifiedDate", MBThread::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			mbThreadCacheModel -> mbThreadCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<MBThread, Date>)MBThread::setModifiedDate);
 		attributeGetterFunctions.put("categoryId", MBThread::getCategoryId);
+
+		cacheModelGetterFunctions.put(
+			"categoryId", mbThreadCacheModel -> mbThreadCacheModel.categoryId);
 		attributeSetterBiConsumers.put(
 			"categoryId", (BiConsumer<MBThread, Long>)MBThread::setCategoryId);
 		attributeGetterFunctions.put(
 			"rootMessageId", MBThread::getRootMessageId);
+
+		cacheModelGetterFunctions.put(
+			"rootMessageId",
+			mbThreadCacheModel -> mbThreadCacheModel.rootMessageId);
 		attributeSetterBiConsumers.put(
 			"rootMessageId",
 			(BiConsumer<MBThread, Long>)MBThread::setRootMessageId);
 		attributeGetterFunctions.put(
 			"rootMessageUserId", MBThread::getRootMessageUserId);
+
+		cacheModelGetterFunctions.put(
+			"rootMessageUserId",
+			mbThreadCacheModel -> mbThreadCacheModel.rootMessageUserId);
 		attributeSetterBiConsumers.put(
 			"rootMessageUserId",
 			(BiConsumer<MBThread, Long>)MBThread::setRootMessageUserId);
 		attributeGetterFunctions.put("title", MBThread::getTitle);
+
+		cacheModelGetterFunctions.put(
+			"title", mbThreadCacheModel -> mbThreadCacheModel.title);
 		attributeSetterBiConsumers.put(
 			"title", (BiConsumer<MBThread, String>)MBThread::setTitle);
 		attributeGetterFunctions.put(
 			"lastPostByUserId", MBThread::getLastPostByUserId);
+
+		cacheModelGetterFunctions.put(
+			"lastPostByUserId",
+			mbThreadCacheModel -> mbThreadCacheModel.lastPostByUserId);
 		attributeSetterBiConsumers.put(
 			"lastPostByUserId",
 			(BiConsumer<MBThread, Long>)MBThread::setLastPostByUserId);
 		attributeGetterFunctions.put("lastPostDate", MBThread::getLastPostDate);
+
+		cacheModelGetterFunctions.put(
+			"lastPostDate",
+			mbThreadCacheModel -> mbThreadCacheModel.lastPostDate);
 		attributeSetterBiConsumers.put(
 			"lastPostDate",
 			(BiConsumer<MBThread, Date>)MBThread::setLastPostDate);
 		attributeGetterFunctions.put("priority", MBThread::getPriority);
+
+		cacheModelGetterFunctions.put(
+			"priority", mbThreadCacheModel -> mbThreadCacheModel.priority);
 		attributeSetterBiConsumers.put(
 			"priority", (BiConsumer<MBThread, Double>)MBThread::setPriority);
 		attributeGetterFunctions.put("question", MBThread::getQuestion);
+
+		cacheModelGetterFunctions.put(
+			"question", mbThreadCacheModel -> mbThreadCacheModel.question);
 		attributeSetterBiConsumers.put(
 			"question", (BiConsumer<MBThread, Boolean>)MBThread::setQuestion);
 		attributeGetterFunctions.put(
 			"lastPublishDate", MBThread::getLastPublishDate);
+
+		cacheModelGetterFunctions.put(
+			"lastPublishDate",
+			mbThreadCacheModel -> mbThreadCacheModel.lastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<MBThread, Date>)MBThread::setLastPublishDate);
 		attributeGetterFunctions.put("status", MBThread::getStatus);
+
+		cacheModelGetterFunctions.put(
+			"status", mbThreadCacheModel -> mbThreadCacheModel.status);
 		attributeSetterBiConsumers.put(
 			"status", (BiConsumer<MBThread, Integer>)MBThread::setStatus);
 		attributeGetterFunctions.put(
 			"statusByUserId", MBThread::getStatusByUserId);
+
+		cacheModelGetterFunctions.put(
+			"statusByUserId",
+			mbThreadCacheModel -> mbThreadCacheModel.statusByUserId);
 		attributeSetterBiConsumers.put(
 			"statusByUserId",
 			(BiConsumer<MBThread, Long>)MBThread::setStatusByUserId);
 		attributeGetterFunctions.put(
 			"statusByUserName", MBThread::getStatusByUserName);
+
+		cacheModelGetterFunctions.put(
+			"statusByUserName",
+			mbThreadCacheModel -> mbThreadCacheModel.statusByUserName);
 		attributeSetterBiConsumers.put(
 			"statusByUserName",
 			(BiConsumer<MBThread, String>)MBThread::setStatusByUserName);
 		attributeGetterFunctions.put("statusDate", MBThread::getStatusDate);
+
+		cacheModelGetterFunctions.put(
+			"statusDate", mbThreadCacheModel -> mbThreadCacheModel.statusDate);
 		attributeSetterBiConsumers.put(
 			"statusDate", (BiConsumer<MBThread, Date>)MBThread::setStatusDate);
 
@@ -444,6 +575,8 @@ public class MBThreadModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -454,6 +587,12 @@ public class MBThreadModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_mbThreadCacheModel == _dummyMBThreadCacheModel) {
+			_mbThreadCacheModel = (MBThreadCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -465,6 +604,12 @@ public class MBThreadModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (_mbThreadCacheModel == _dummyMBThreadCacheModel) {
+			_mbThreadCacheModel = (MBThreadCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -483,15 +628,20 @@ public class MBThreadModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_mbThreadCacheModel == _dummyMBThreadCacheModel) {
+			_mbThreadCacheModel = (MBThreadCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getOriginalAttributeValue("uuid");
 	}
 
 	@JSON
@@ -502,6 +652,12 @@ public class MBThreadModelImpl
 
 	@Override
 	public void setThreadId(long threadId) {
+		_columnBitmask |= THREADID_COLUMN_BITMASK;
+
+		if (_mbThreadCacheModel == _dummyMBThreadCacheModel) {
+			_mbThreadCacheModel = (MBThreadCacheModel)toCacheModel();
+		}
+
 		_threadId = threadId;
 	}
 
@@ -515,17 +671,20 @@ public class MBThreadModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_mbThreadCacheModel == _dummyMBThreadCacheModel) {
+			_mbThreadCacheModel = (MBThreadCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getOriginalAttributeValue("groupId");
 	}
 
 	@JSON
@@ -538,17 +697,20 @@ public class MBThreadModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_mbThreadCacheModel == _dummyMBThreadCacheModel) {
+			_mbThreadCacheModel = (MBThreadCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@JSON
@@ -559,6 +721,12 @@ public class MBThreadModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (_mbThreadCacheModel == _dummyMBThreadCacheModel) {
+			_mbThreadCacheModel = (MBThreadCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -591,6 +759,12 @@ public class MBThreadModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (_mbThreadCacheModel == _dummyMBThreadCacheModel) {
+			_mbThreadCacheModel = (MBThreadCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -602,6 +776,12 @@ public class MBThreadModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (_mbThreadCacheModel == _dummyMBThreadCacheModel) {
+			_mbThreadCacheModel = (MBThreadCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -619,6 +799,12 @@ public class MBThreadModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (_mbThreadCacheModel == _dummyMBThreadCacheModel) {
+			_mbThreadCacheModel = (MBThreadCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -632,17 +818,20 @@ public class MBThreadModelImpl
 	public void setCategoryId(long categoryId) {
 		_columnBitmask |= CATEGORYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCategoryId) {
-			_setOriginalCategoryId = true;
-
-			_originalCategoryId = _categoryId;
+		if (_mbThreadCacheModel == _dummyMBThreadCacheModel) {
+			_mbThreadCacheModel = (MBThreadCacheModel)toCacheModel();
 		}
 
 		_categoryId = categoryId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCategoryId() {
-		return _originalCategoryId;
+		return getOriginalAttributeValue("categoryId");
 	}
 
 	@JSON
@@ -655,17 +844,20 @@ public class MBThreadModelImpl
 	public void setRootMessageId(long rootMessageId) {
 		_columnBitmask |= ROOTMESSAGEID_COLUMN_BITMASK;
 
-		if (!_setOriginalRootMessageId) {
-			_setOriginalRootMessageId = true;
-
-			_originalRootMessageId = _rootMessageId;
+		if (_mbThreadCacheModel == _dummyMBThreadCacheModel) {
+			_mbThreadCacheModel = (MBThreadCacheModel)toCacheModel();
 		}
 
 		_rootMessageId = rootMessageId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalRootMessageId() {
-		return _originalRootMessageId;
+		return getOriginalAttributeValue("rootMessageId");
 	}
 
 	@JSON
@@ -676,6 +868,12 @@ public class MBThreadModelImpl
 
 	@Override
 	public void setRootMessageUserId(long rootMessageUserId) {
+		_columnBitmask |= ROOTMESSAGEUSERID_COLUMN_BITMASK;
+
+		if (_mbThreadCacheModel == _dummyMBThreadCacheModel) {
+			_mbThreadCacheModel = (MBThreadCacheModel)toCacheModel();
+		}
+
 		_rootMessageUserId = rootMessageUserId;
 	}
 
@@ -709,6 +907,12 @@ public class MBThreadModelImpl
 
 	@Override
 	public void setTitle(String title) {
+		_columnBitmask |= TITLE_COLUMN_BITMASK;
+
+		if (_mbThreadCacheModel == _dummyMBThreadCacheModel) {
+			_mbThreadCacheModel = (MBThreadCacheModel)toCacheModel();
+		}
+
 		_title = title;
 	}
 
@@ -720,6 +924,12 @@ public class MBThreadModelImpl
 
 	@Override
 	public void setLastPostByUserId(long lastPostByUserId) {
+		_columnBitmask |= LASTPOSTBYUSERID_COLUMN_BITMASK;
+
+		if (_mbThreadCacheModel == _dummyMBThreadCacheModel) {
+			_mbThreadCacheModel = (MBThreadCacheModel)toCacheModel();
+		}
+
 		_lastPostByUserId = lastPostByUserId;
 	}
 
@@ -747,17 +957,22 @@ public class MBThreadModelImpl
 
 	@Override
 	public void setLastPostDate(Date lastPostDate) {
-		_columnBitmask = -1L;
+		_columnBitmask |= LASTPOSTDATE_COLUMN_BITMASK;
 
-		if (_originalLastPostDate == null) {
-			_originalLastPostDate = _lastPostDate;
+		if (_mbThreadCacheModel == _dummyMBThreadCacheModel) {
+			_mbThreadCacheModel = (MBThreadCacheModel)toCacheModel();
 		}
 
 		_lastPostDate = lastPostDate;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public Date getOriginalLastPostDate() {
-		return _originalLastPostDate;
+		return getOriginalAttributeValue("lastPostDate");
 	}
 
 	@JSON
@@ -768,19 +983,22 @@ public class MBThreadModelImpl
 
 	@Override
 	public void setPriority(double priority) {
-		_columnBitmask = -1L;
+		_columnBitmask |= PRIORITY_COLUMN_BITMASK;
 
-		if (!_setOriginalPriority) {
-			_setOriginalPriority = true;
-
-			_originalPriority = _priority;
+		if (_mbThreadCacheModel == _dummyMBThreadCacheModel) {
+			_mbThreadCacheModel = (MBThreadCacheModel)toCacheModel();
 		}
 
 		_priority = priority;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public double getOriginalPriority() {
-		return _originalPriority;
+		return getOriginalAttributeValue("priority");
 	}
 
 	@JSON
@@ -797,6 +1015,12 @@ public class MBThreadModelImpl
 
 	@Override
 	public void setQuestion(boolean question) {
+		_columnBitmask |= QUESTION_COLUMN_BITMASK;
+
+		if (_mbThreadCacheModel == _dummyMBThreadCacheModel) {
+			_mbThreadCacheModel = (MBThreadCacheModel)toCacheModel();
+		}
+
 		_question = question;
 	}
 
@@ -808,6 +1032,12 @@ public class MBThreadModelImpl
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		_columnBitmask |= LASTPUBLISHDATE_COLUMN_BITMASK;
+
+		if (_mbThreadCacheModel == _dummyMBThreadCacheModel) {
+			_mbThreadCacheModel = (MBThreadCacheModel)toCacheModel();
+		}
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -821,17 +1051,20 @@ public class MBThreadModelImpl
 	public void setStatus(int status) {
 		_columnBitmask |= STATUS_COLUMN_BITMASK;
 
-		if (!_setOriginalStatus) {
-			_setOriginalStatus = true;
-
-			_originalStatus = _status;
+		if (_mbThreadCacheModel == _dummyMBThreadCacheModel) {
+			_mbThreadCacheModel = (MBThreadCacheModel)toCacheModel();
 		}
 
 		_status = status;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalStatus() {
-		return _originalStatus;
+		return getOriginalAttributeValue("status");
 	}
 
 	@JSON
@@ -842,6 +1075,12 @@ public class MBThreadModelImpl
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		_columnBitmask |= STATUSBYUSERID_COLUMN_BITMASK;
+
+		if (_mbThreadCacheModel == _dummyMBThreadCacheModel) {
+			_mbThreadCacheModel = (MBThreadCacheModel)toCacheModel();
+		}
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -874,6 +1113,12 @@ public class MBThreadModelImpl
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		_columnBitmask |= STATUSBYUSERNAME_COLUMN_BITMASK;
+
+		if (_mbThreadCacheModel == _dummyMBThreadCacheModel) {
+			_mbThreadCacheModel = (MBThreadCacheModel)toCacheModel();
+		}
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -885,6 +1130,12 @@ public class MBThreadModelImpl
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		_columnBitmask |= STATUSDATE_COLUMN_BITMASK;
+
+		if (_mbThreadCacheModel == _dummyMBThreadCacheModel) {
+			_mbThreadCacheModel = (MBThreadCacheModel)toCacheModel();
+		}
+
 		_statusDate = statusDate;
 	}
 
@@ -1288,41 +1539,11 @@ public class MBThreadModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		MBThreadModelImpl mbThreadModelImpl = this;
+		_setModifiedDate = false;
 
-		mbThreadModelImpl._originalUuid = mbThreadModelImpl._uuid;
+		_columnBitmask = 0;
 
-		mbThreadModelImpl._originalGroupId = mbThreadModelImpl._groupId;
-
-		mbThreadModelImpl._setOriginalGroupId = false;
-
-		mbThreadModelImpl._originalCompanyId = mbThreadModelImpl._companyId;
-
-		mbThreadModelImpl._setOriginalCompanyId = false;
-
-		mbThreadModelImpl._setModifiedDate = false;
-
-		mbThreadModelImpl._originalCategoryId = mbThreadModelImpl._categoryId;
-
-		mbThreadModelImpl._setOriginalCategoryId = false;
-
-		mbThreadModelImpl._originalRootMessageId =
-			mbThreadModelImpl._rootMessageId;
-
-		mbThreadModelImpl._setOriginalRootMessageId = false;
-
-		mbThreadModelImpl._originalLastPostDate =
-			mbThreadModelImpl._lastPostDate;
-
-		mbThreadModelImpl._originalPriority = mbThreadModelImpl._priority;
-
-		mbThreadModelImpl._setOriginalPriority = false;
-
-		mbThreadModelImpl._originalStatus = mbThreadModelImpl._status;
-
-		mbThreadModelImpl._setOriginalStatus = false;
-
-		mbThreadModelImpl._columnBitmask = 0;
+		_mbThreadCacheModel = _dummyMBThreadCacheModel;
 	}
 
 	@Override
@@ -1510,42 +1731,33 @@ public class MBThreadModelImpl
 	private long _mvccVersion;
 	private long _ctCollectionId;
 	private String _uuid;
-	private String _originalUuid;
 	private long _threadId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _categoryId;
-	private long _originalCategoryId;
-	private boolean _setOriginalCategoryId;
 	private long _rootMessageId;
-	private long _originalRootMessageId;
-	private boolean _setOriginalRootMessageId;
 	private long _rootMessageUserId;
 	private String _title;
 	private long _lastPostByUserId;
 	private Date _lastPostDate;
-	private Date _originalLastPostDate;
 	private double _priority;
-	private double _originalPriority;
-	private boolean _setOriginalPriority;
 	private boolean _question;
 	private Date _lastPublishDate;
 	private int _status;
-	private int _originalStatus;
-	private boolean _setOriginalStatus;
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
 	private long _columnBitmask;
+
+	private static final MBThreadCacheModel _dummyMBThreadCacheModel =
+		new MBThreadCacheModel();
+
 	private MBThread _escapedModel;
+	private MBThreadCacheModel _mbThreadCacheModel;
 
 }

@@ -5268,8 +5268,8 @@ public class AssetEntryPersistenceImpl
 			 _finderPathFetchByG_CU.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				assetEntryModelImpl.getOriginalGroupId(),
-				assetEntryModelImpl.getOriginalClassUuid()
+				assetEntryModelImpl.getOriginalAttributeValue("groupId"),
+				assetEntryModelImpl.getOriginalAttributeValue("classUuid")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByG_CU, args);
@@ -5290,8 +5290,8 @@ public class AssetEntryPersistenceImpl
 			 _finderPathFetchByC_C.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				assetEntryModelImpl.getOriginalClassNameId(),
-				assetEntryModelImpl.getOriginalClassPK()
+				assetEntryModelImpl.getOriginalAttributeValue("classNameId"),
+				assetEntryModelImpl.getOriginalAttributeValue("classPK")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByC_C, args);
@@ -5564,7 +5564,7 @@ public class AssetEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					assetEntryModelImpl.getOriginalGroupId()
+					assetEntryModelImpl.getOriginalAttributeValue("groupId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByGroupId, args);
@@ -5583,7 +5583,7 @@ public class AssetEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					assetEntryModelImpl.getOriginalCompanyId()
+					assetEntryModelImpl.getOriginalAttributeValue("companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
@@ -5602,7 +5602,7 @@ public class AssetEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					assetEntryModelImpl.getOriginalVisible()
+					assetEntryModelImpl.getOriginalAttributeValue("visible")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByVisible, args);
@@ -5621,7 +5621,7 @@ public class AssetEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					assetEntryModelImpl.getOriginalPublishDate()
+					assetEntryModelImpl.getOriginalAttributeValue("publishDate")
 				};
 
 				FinderCacheUtil.removeResult(
@@ -5642,7 +5642,8 @@ public class AssetEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					assetEntryModelImpl.getOriginalExpirationDate()
+					assetEntryModelImpl.getOriginalAttributeValue(
+						"expirationDate")
 				};
 
 				FinderCacheUtil.removeResult(
@@ -5663,7 +5664,7 @@ public class AssetEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					assetEntryModelImpl.getOriginalLayoutUuid()
+					assetEntryModelImpl.getOriginalAttributeValue("layoutUuid")
 				};
 
 				FinderCacheUtil.removeResult(
@@ -5684,9 +5685,10 @@ public class AssetEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					assetEntryModelImpl.getOriginalGroupId(),
-					assetEntryModelImpl.getOriginalClassNameId(),
-					assetEntryModelImpl.getOriginalVisible()
+					assetEntryModelImpl.getOriginalAttributeValue("groupId"),
+					assetEntryModelImpl.getOriginalAttributeValue(
+						"classNameId"),
+					assetEntryModelImpl.getOriginalAttributeValue("visible")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByG_C_V, args);
@@ -5709,10 +5711,13 @@ public class AssetEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					assetEntryModelImpl.getOriginalGroupId(),
-					assetEntryModelImpl.getOriginalClassNameId(),
-					assetEntryModelImpl.getOriginalPublishDate(),
-					assetEntryModelImpl.getOriginalExpirationDate()
+					assetEntryModelImpl.getOriginalAttributeValue("groupId"),
+					assetEntryModelImpl.getOriginalAttributeValue(
+						"classNameId"),
+					assetEntryModelImpl.getOriginalAttributeValue(
+						"publishDate"),
+					assetEntryModelImpl.getOriginalAttributeValue(
+						"expirationDate")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByG_C_P_E, args);

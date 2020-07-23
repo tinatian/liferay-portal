@@ -3313,8 +3313,8 @@ public class DLFileEntryTypePersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				dlFileEntryTypeModelImpl.getOriginalUuid(),
-				dlFileEntryTypeModelImpl.getOriginalGroupId()
+				dlFileEntryTypeModelImpl.getOriginalAttributeValue("uuid"),
+				dlFileEntryTypeModelImpl.getOriginalAttributeValue("groupId")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByUUID_G, args);
@@ -3335,8 +3335,9 @@ public class DLFileEntryTypePersistenceImpl
 			 _finderPathFetchByG_F.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				dlFileEntryTypeModelImpl.getOriginalGroupId(),
-				dlFileEntryTypeModelImpl.getOriginalFileEntryTypeKey()
+				dlFileEntryTypeModelImpl.getOriginalAttributeValue("groupId"),
+				dlFileEntryTypeModelImpl.getOriginalAttributeValue(
+					"fileEntryTypeKey")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByG_F, args);
@@ -3588,7 +3589,7 @@ public class DLFileEntryTypePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					dlFileEntryTypeModelImpl.getOriginalUuid()
+					dlFileEntryTypeModelImpl.getOriginalAttributeValue("uuid")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid, args);
@@ -3607,8 +3608,9 @@ public class DLFileEntryTypePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					dlFileEntryTypeModelImpl.getOriginalUuid(),
-					dlFileEntryTypeModelImpl.getOriginalCompanyId()
+					dlFileEntryTypeModelImpl.getOriginalAttributeValue("uuid"),
+					dlFileEntryTypeModelImpl.getOriginalAttributeValue(
+						"companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid_C, args);
@@ -3630,7 +3632,8 @@ public class DLFileEntryTypePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					dlFileEntryTypeModelImpl.getOriginalGroupId()
+					dlFileEntryTypeModelImpl.getOriginalAttributeValue(
+						"groupId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByGroupId, args);

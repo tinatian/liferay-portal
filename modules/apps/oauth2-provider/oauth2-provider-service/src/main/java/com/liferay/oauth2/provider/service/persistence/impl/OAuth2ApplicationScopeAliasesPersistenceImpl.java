@@ -1442,7 +1442,7 @@ public class OAuth2ApplicationScopeAliasesPersistenceImpl
 
 				Object[] args = new Object[] {
 					oAuth2ApplicationScopeAliasesModelImpl.
-						getOriginalCompanyId()
+						getOriginalAttributeValue("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByC, args);
@@ -1464,7 +1464,7 @@ public class OAuth2ApplicationScopeAliasesPersistenceImpl
 
 				Object[] args = new Object[] {
 					oAuth2ApplicationScopeAliasesModelImpl.
-						getOriginalOAuth2ApplicationId()
+						getOriginalAttributeValue("oAuth2ApplicationId")
 				};
 
 				finderCache.removeResult(

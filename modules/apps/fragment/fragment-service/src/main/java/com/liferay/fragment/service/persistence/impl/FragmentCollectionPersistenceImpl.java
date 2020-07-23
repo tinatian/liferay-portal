@@ -3512,8 +3512,8 @@ public class FragmentCollectionPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				fragmentCollectionModelImpl.getOriginalUuid(),
-				fragmentCollectionModelImpl.getOriginalGroupId()
+				fragmentCollectionModelImpl.getOriginalAttributeValue("uuid"),
+				fragmentCollectionModelImpl.getOriginalAttributeValue("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -3534,8 +3534,10 @@ public class FragmentCollectionPersistenceImpl
 			 _finderPathFetchByG_FCK.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				fragmentCollectionModelImpl.getOriginalGroupId(),
-				fragmentCollectionModelImpl.getOriginalFragmentCollectionKey()
+				fragmentCollectionModelImpl.getOriginalAttributeValue(
+					"groupId"),
+				fragmentCollectionModelImpl.getOriginalAttributeValue(
+					"fragmentCollectionKey")
 			};
 
 			finderCache.removeResult(_finderPathCountByG_FCK, args);
@@ -3769,7 +3771,8 @@ public class FragmentCollectionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					fragmentCollectionModelImpl.getOriginalUuid()
+					fragmentCollectionModelImpl.getOriginalAttributeValue(
+						"uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -3788,8 +3791,10 @@ public class FragmentCollectionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					fragmentCollectionModelImpl.getOriginalUuid(),
-					fragmentCollectionModelImpl.getOriginalCompanyId()
+					fragmentCollectionModelImpl.getOriginalAttributeValue(
+						"uuid"),
+					fragmentCollectionModelImpl.getOriginalAttributeValue(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -3811,7 +3816,8 @@ public class FragmentCollectionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					fragmentCollectionModelImpl.getOriginalGroupId()
+					fragmentCollectionModelImpl.getOriginalAttributeValue(
+						"groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId, args);

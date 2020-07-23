@@ -2457,8 +2457,8 @@ public class KBTemplatePersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				kbTemplateModelImpl.getOriginalUuid(),
-				kbTemplateModelImpl.getOriginalGroupId()
+				kbTemplateModelImpl.getOriginalAttributeValue("uuid"),
+				kbTemplateModelImpl.getOriginalAttributeValue("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -2703,7 +2703,7 @@ public class KBTemplatePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					kbTemplateModelImpl.getOriginalUuid()
+					kbTemplateModelImpl.getOriginalAttributeValue("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -2722,8 +2722,8 @@ public class KBTemplatePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					kbTemplateModelImpl.getOriginalUuid(),
-					kbTemplateModelImpl.getOriginalCompanyId()
+					kbTemplateModelImpl.getOriginalAttributeValue("uuid"),
+					kbTemplateModelImpl.getOriginalAttributeValue("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -2745,7 +2745,7 @@ public class KBTemplatePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kbTemplateModelImpl.getOriginalGroupId()
+					kbTemplateModelImpl.getOriginalAttributeValue("groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId, args);

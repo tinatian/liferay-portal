@@ -4269,7 +4269,8 @@ public class LayoutSetPrototypePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					layoutSetPrototypeModelImpl.getOriginalUuid()
+					layoutSetPrototypeModelImpl.getOriginalAttributeValue(
+						"uuid")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid, args);
@@ -4288,8 +4289,10 @@ public class LayoutSetPrototypePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					layoutSetPrototypeModelImpl.getOriginalUuid(),
-					layoutSetPrototypeModelImpl.getOriginalCompanyId()
+					layoutSetPrototypeModelImpl.getOriginalAttributeValue(
+						"uuid"),
+					layoutSetPrototypeModelImpl.getOriginalAttributeValue(
+						"companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid_C, args);
@@ -4311,7 +4314,8 @@ public class LayoutSetPrototypePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					layoutSetPrototypeModelImpl.getOriginalCompanyId()
+					layoutSetPrototypeModelImpl.getOriginalAttributeValue(
+						"companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
@@ -4332,8 +4336,10 @@ public class LayoutSetPrototypePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					layoutSetPrototypeModelImpl.getOriginalCompanyId(),
-					layoutSetPrototypeModelImpl.getOriginalActive()
+					layoutSetPrototypeModelImpl.getOriginalAttributeValue(
+						"companyId"),
+					layoutSetPrototypeModelImpl.getOriginalAttributeValue(
+						"active")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_A, args);

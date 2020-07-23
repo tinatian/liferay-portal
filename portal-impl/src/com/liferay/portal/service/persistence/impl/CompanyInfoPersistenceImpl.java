@@ -410,7 +410,7 @@ public class CompanyInfoPersistenceImpl
 			 _finderPathFetchByCompanyId.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				companyInfoModelImpl.getOriginalCompanyId()
+				companyInfoModelImpl.getOriginalAttributeValue("companyId")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);

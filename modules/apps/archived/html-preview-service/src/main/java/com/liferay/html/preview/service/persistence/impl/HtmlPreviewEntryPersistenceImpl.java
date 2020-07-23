@@ -497,9 +497,10 @@ public class HtmlPreviewEntryPersistenceImpl
 			 _finderPathFetchByG_C_C.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				htmlPreviewEntryModelImpl.getOriginalGroupId(),
-				htmlPreviewEntryModelImpl.getOriginalClassNameId(),
-				htmlPreviewEntryModelImpl.getOriginalClassPK()
+				htmlPreviewEntryModelImpl.getOriginalAttributeValue("groupId"),
+				htmlPreviewEntryModelImpl.getOriginalAttributeValue(
+					"classNameId"),
+				htmlPreviewEntryModelImpl.getOriginalAttributeValue("classPK")
 			};
 
 			finderCache.removeResult(_finderPathCountByG_C_C, args);

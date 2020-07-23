@@ -1541,8 +1541,10 @@ public class AssetAutoTaggerEntryPersistenceImpl
 			 _finderPathFetchByA_A.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				assetAutoTaggerEntryModelImpl.getOriginalAssetEntryId(),
-				assetAutoTaggerEntryModelImpl.getOriginalAssetTagId()
+				assetAutoTaggerEntryModelImpl.getOriginalAttributeValue(
+					"assetEntryId"),
+				assetAutoTaggerEntryModelImpl.getOriginalAttributeValue(
+					"assetTagId")
 			};
 
 			finderCache.removeResult(_finderPathCountByA_A, args);
@@ -1779,7 +1781,8 @@ public class AssetAutoTaggerEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					assetAutoTaggerEntryModelImpl.getOriginalAssetEntryId()
+					assetAutoTaggerEntryModelImpl.getOriginalAttributeValue(
+						"assetEntryId")
 				};
 
 				finderCache.removeResult(_finderPathCountByAssetEntryId, args);
@@ -1800,7 +1803,8 @@ public class AssetAutoTaggerEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					assetAutoTaggerEntryModelImpl.getOriginalAssetTagId()
+					assetAutoTaggerEntryModelImpl.getOriginalAttributeValue(
+						"assetTagId")
 				};
 
 				finderCache.removeResult(_finderPathCountByAssetTagId, args);

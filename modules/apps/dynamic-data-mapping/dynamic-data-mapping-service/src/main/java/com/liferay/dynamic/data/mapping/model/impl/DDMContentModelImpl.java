@@ -30,7 +30,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
@@ -122,13 +121,31 @@ public class DDMContentModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
 	public static final long UUID_COLUMN_BITMASK = 4L;
 
 	public static final long CONTENTID_COLUMN_BITMASK = 8L;
+
+	public static final long GROUPID_COLUMN_BITMASK = 16L;
+
+	public static final long COMPANYID_COLUMN_BITMASK = 32L;
+
+	public static final long USERID_COLUMN_BITMASK = 64L;
+
+	public static final long USERNAME_COLUMN_BITMASK = 128L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 256L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 512L;
+
+	public static final long NAME_COLUMN_BITMASK = 1024L;
+
+	public static final long DESCRIPTION_COLUMN_BITMASK = 2048L;
+
+	public static final long DATA_COLUMN_BITMASK = 4096L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -256,64 +273,133 @@ public class DDMContentModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_ddmContentCacheModel == null) ||
+			(_ddmContentCacheModel == _dummyDDMContentCacheModel)) {
+
+			return null;
+		}
+
+		Function<DDMContentCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_ddmContentCacheModel);
+	}
+
 	private static final Map<String, Function<DDMContent, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<DDMContent, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<DDMContentCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<DDMContent, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<DDMContent, Object>>();
 		Map<String, BiConsumer<DDMContent, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<DDMContent, ?>>();
+		Map<String, Function<DDMContentCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<DDMContentCacheModel, Object>>();
 
 		attributeGetterFunctions.put("mvccVersion", DDMContent::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			ddmContentCacheModel -> ddmContentCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<DDMContent, Long>)DDMContent::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", DDMContent::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			ddmContentCacheModel -> ddmContentCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<DDMContent, Long>)DDMContent::setCtCollectionId);
 		attributeGetterFunctions.put("uuid", DDMContent::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid", ddmContentCacheModel -> ddmContentCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<DDMContent, String>)DDMContent::setUuid);
 		attributeGetterFunctions.put("contentId", DDMContent::getContentId);
+
+		cacheModelGetterFunctions.put(
+			"contentId",
+			ddmContentCacheModel -> ddmContentCacheModel.contentId);
 		attributeSetterBiConsumers.put(
 			"contentId",
 			(BiConsumer<DDMContent, Long>)DDMContent::setContentId);
 		attributeGetterFunctions.put("groupId", DDMContent::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId", ddmContentCacheModel -> ddmContentCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId", (BiConsumer<DDMContent, Long>)DDMContent::setGroupId);
 		attributeGetterFunctions.put("companyId", DDMContent::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			ddmContentCacheModel -> ddmContentCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<DDMContent, Long>)DDMContent::setCompanyId);
 		attributeGetterFunctions.put("userId", DDMContent::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", ddmContentCacheModel -> ddmContentCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<DDMContent, Long>)DDMContent::setUserId);
 		attributeGetterFunctions.put("userName", DDMContent::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName", ddmContentCacheModel -> ddmContentCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<DDMContent, String>)DDMContent::setUserName);
 		attributeGetterFunctions.put("createDate", DDMContent::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			ddmContentCacheModel -> ddmContentCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<DDMContent, Date>)DDMContent::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", DDMContent::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			ddmContentCacheModel -> ddmContentCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<DDMContent, Date>)DDMContent::setModifiedDate);
 		attributeGetterFunctions.put("name", DDMContent::getName);
+
+		cacheModelGetterFunctions.put(
+			"name", ddmContentCacheModel -> ddmContentCacheModel.name);
 		attributeSetterBiConsumers.put(
 			"name", (BiConsumer<DDMContent, String>)DDMContent::setName);
 		attributeGetterFunctions.put("description", DDMContent::getDescription);
+
+		cacheModelGetterFunctions.put(
+			"description",
+			ddmContentCacheModel -> ddmContentCacheModel.description);
 		attributeSetterBiConsumers.put(
 			"description",
 			(BiConsumer<DDMContent, String>)DDMContent::setDescription);
 		attributeGetterFunctions.put("data", DDMContent::getData);
+
+		cacheModelGetterFunctions.put(
+			"data", ddmContentCacheModel -> ddmContentCacheModel.data);
 		attributeSetterBiConsumers.put(
 			"data", (BiConsumer<DDMContent, String>)DDMContent::setData);
 
@@ -321,6 +407,8 @@ public class DDMContentModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -330,6 +418,12 @@ public class DDMContentModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_ddmContentCacheModel == _dummyDDMContentCacheModel) {
+			_ddmContentCacheModel = (DDMContentCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -340,6 +434,12 @@ public class DDMContentModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (_ddmContentCacheModel == _dummyDDMContentCacheModel) {
+			_ddmContentCacheModel = (DDMContentCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -357,15 +457,20 @@ public class DDMContentModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_ddmContentCacheModel == _dummyDDMContentCacheModel) {
+			_ddmContentCacheModel = (DDMContentCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getOriginalAttributeValue("uuid");
 	}
 
 	@Override
@@ -375,6 +480,12 @@ public class DDMContentModelImpl
 
 	@Override
 	public void setContentId(long contentId) {
+		_columnBitmask |= CONTENTID_COLUMN_BITMASK;
+
+		if (_ddmContentCacheModel == _dummyDDMContentCacheModel) {
+			_ddmContentCacheModel = (DDMContentCacheModel)toCacheModel();
+		}
+
 		_contentId = contentId;
 	}
 
@@ -387,17 +498,20 @@ public class DDMContentModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_ddmContentCacheModel == _dummyDDMContentCacheModel) {
+			_ddmContentCacheModel = (DDMContentCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getOriginalAttributeValue("groupId");
 	}
 
 	@Override
@@ -409,17 +523,20 @@ public class DDMContentModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_ddmContentCacheModel == _dummyDDMContentCacheModel) {
+			_ddmContentCacheModel = (DDMContentCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@Override
@@ -429,6 +546,12 @@ public class DDMContentModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (_ddmContentCacheModel == _dummyDDMContentCacheModel) {
+			_ddmContentCacheModel = (DDMContentCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -460,6 +583,12 @@ public class DDMContentModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (_ddmContentCacheModel == _dummyDDMContentCacheModel) {
+			_ddmContentCacheModel = (DDMContentCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -470,6 +599,12 @@ public class DDMContentModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (_ddmContentCacheModel == _dummyDDMContentCacheModel) {
+			_ddmContentCacheModel = (DDMContentCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -485,6 +620,12 @@ public class DDMContentModelImpl
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
+
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (_ddmContentCacheModel == _dummyDDMContentCacheModel) {
+			_ddmContentCacheModel = (DDMContentCacheModel)toCacheModel();
+		}
 
 		_modifiedDate = modifiedDate;
 	}
@@ -544,6 +685,12 @@ public class DDMContentModelImpl
 
 	@Override
 	public void setName(String name) {
+		_columnBitmask |= NAME_COLUMN_BITMASK;
+
+		if (_ddmContentCacheModel == _dummyDDMContentCacheModel) {
+			_ddmContentCacheModel = (DDMContentCacheModel)toCacheModel();
+		}
+
 		_name = name;
 	}
 
@@ -603,6 +750,12 @@ public class DDMContentModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		_columnBitmask |= DESCRIPTION_COLUMN_BITMASK;
+
+		if (_ddmContentCacheModel == _dummyDDMContentCacheModel) {
+			_ddmContentCacheModel = (DDMContentCacheModel)toCacheModel();
+		}
+
 		_description = description;
 	}
 
@@ -618,6 +771,12 @@ public class DDMContentModelImpl
 
 	@Override
 	public void setData(String data) {
+		_columnBitmask |= DATA_COLUMN_BITMASK;
+
+		if (_ddmContentCacheModel == _dummyDDMContentCacheModel) {
+			_ddmContentCacheModel = (DDMContentCacheModel)toCacheModel();
+		}
+
 		_data = data;
 	}
 
@@ -810,21 +969,11 @@ public class DDMContentModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		DDMContentModelImpl ddmContentModelImpl = this;
+		_setModifiedDate = false;
 
-		ddmContentModelImpl._originalUuid = ddmContentModelImpl._uuid;
+		_columnBitmask = 0;
 
-		ddmContentModelImpl._originalGroupId = ddmContentModelImpl._groupId;
-
-		ddmContentModelImpl._setOriginalGroupId = false;
-
-		ddmContentModelImpl._originalCompanyId = ddmContentModelImpl._companyId;
-
-		ddmContentModelImpl._setOriginalCompanyId = false;
-
-		ddmContentModelImpl._setModifiedDate = false;
-
-		ddmContentModelImpl._columnBitmask = 0;
+		_ddmContentCacheModel = _dummyDDMContentCacheModel;
 	}
 
 	@Override
@@ -977,14 +1126,9 @@ public class DDMContentModelImpl
 	private long _mvccVersion;
 	private long _ctCollectionId;
 	private String _uuid;
-	private String _originalUuid;
 	private long _contentId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
@@ -995,6 +1139,11 @@ public class DDMContentModelImpl
 	private String _description;
 	private String _data;
 	private long _columnBitmask;
+
+	private static final DDMContentCacheModel _dummyDDMContentCacheModel =
+		new DDMContentCacheModel();
+
 	private DDMContent _escapedModel;
+	private DDMContentCacheModel _ddmContentCacheModel;
 
 }

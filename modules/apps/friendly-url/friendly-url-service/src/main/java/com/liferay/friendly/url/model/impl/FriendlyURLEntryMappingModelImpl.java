@@ -102,11 +102,19 @@ public class FriendlyURLEntryMappingModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long CLASSNAMEID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long CLASSPK_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
 	public static final long FRIENDLYURLENTRYMAPPINGID_COLUMN_BITMASK = 4L;
+
+	public static final long COMPANYID_COLUMN_BITMASK = 8L;
+
+	public static final long CLASSNAMEID_COLUMN_BITMASK = 16L;
+
+	public static final long CLASSPK_COLUMN_BITMASK = 32L;
+
+	public static final long FRIENDLYURLENTRYID_COLUMN_BITMASK = 64L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -236,11 +244,32 @@ public class FriendlyURLEntryMappingModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_friendlyURLEntryMappingCacheModel == null) ||
+			(_friendlyURLEntryMappingCacheModel ==
+				_dummyFriendlyURLEntryMappingCacheModel)) {
+
+			return null;
+		}
+
+		Function<FriendlyURLEntryMappingCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_friendlyURLEntryMappingCacheModel);
+	}
+
 	private static final Map<String, Function<FriendlyURLEntryMapping, Object>>
 		_attributeGetterFunctions;
 	private static final Map
 		<String, BiConsumer<FriendlyURLEntryMapping, Object>>
 			_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<FriendlyURLEntryMappingCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<FriendlyURLEntryMapping, Object>>
@@ -251,15 +280,30 @@ public class FriendlyURLEntryMappingModelImpl
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<FriendlyURLEntryMapping, ?>>();
+		Map<String, Function<FriendlyURLEntryMappingCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String,
+					 Function<FriendlyURLEntryMappingCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", FriendlyURLEntryMapping::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			friendlyURLEntryMappingCacheModel ->
+				friendlyURLEntryMappingCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<FriendlyURLEntryMapping, Long>)
 				FriendlyURLEntryMapping::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", FriendlyURLEntryMapping::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			friendlyURLEntryMappingCacheModel ->
+				friendlyURLEntryMappingCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<FriendlyURLEntryMapping, Long>)
@@ -267,24 +311,44 @@ public class FriendlyURLEntryMappingModelImpl
 		attributeGetterFunctions.put(
 			"friendlyURLEntryMappingId",
 			FriendlyURLEntryMapping::getFriendlyURLEntryMappingId);
+
+		cacheModelGetterFunctions.put(
+			"friendlyURLEntryMappingId",
+			friendlyURLEntryMappingCacheModel ->
+				friendlyURLEntryMappingCacheModel.friendlyURLEntryMappingId);
 		attributeSetterBiConsumers.put(
 			"friendlyURLEntryMappingId",
 			(BiConsumer<FriendlyURLEntryMapping, Long>)
 				FriendlyURLEntryMapping::setFriendlyURLEntryMappingId);
 		attributeGetterFunctions.put(
 			"companyId", FriendlyURLEntryMapping::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			friendlyURLEntryMappingCacheModel ->
+				friendlyURLEntryMappingCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<FriendlyURLEntryMapping, Long>)
 				FriendlyURLEntryMapping::setCompanyId);
 		attributeGetterFunctions.put(
 			"classNameId", FriendlyURLEntryMapping::getClassNameId);
+
+		cacheModelGetterFunctions.put(
+			"classNameId",
+			friendlyURLEntryMappingCacheModel ->
+				friendlyURLEntryMappingCacheModel.classNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<FriendlyURLEntryMapping, Long>)
 				FriendlyURLEntryMapping::setClassNameId);
 		attributeGetterFunctions.put(
 			"classPK", FriendlyURLEntryMapping::getClassPK);
+
+		cacheModelGetterFunctions.put(
+			"classPK",
+			friendlyURLEntryMappingCacheModel ->
+				friendlyURLEntryMappingCacheModel.classPK);
 		attributeSetterBiConsumers.put(
 			"classPK",
 			(BiConsumer<FriendlyURLEntryMapping, Long>)
@@ -292,6 +356,11 @@ public class FriendlyURLEntryMappingModelImpl
 		attributeGetterFunctions.put(
 			"friendlyURLEntryId",
 			FriendlyURLEntryMapping::getFriendlyURLEntryId);
+
+		cacheModelGetterFunctions.put(
+			"friendlyURLEntryId",
+			friendlyURLEntryMappingCacheModel ->
+				friendlyURLEntryMappingCacheModel.friendlyURLEntryId);
 		attributeSetterBiConsumers.put(
 			"friendlyURLEntryId",
 			(BiConsumer<FriendlyURLEntryMapping, Long>)
@@ -301,6 +370,8 @@ public class FriendlyURLEntryMappingModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -310,6 +381,15 @@ public class FriendlyURLEntryMappingModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_friendlyURLEntryMappingCacheModel ==
+				_dummyFriendlyURLEntryMappingCacheModel) {
+
+			_friendlyURLEntryMappingCacheModel =
+				(FriendlyURLEntryMappingCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -320,6 +400,15 @@ public class FriendlyURLEntryMappingModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (_friendlyURLEntryMappingCacheModel ==
+				_dummyFriendlyURLEntryMappingCacheModel) {
+
+			_friendlyURLEntryMappingCacheModel =
+				(FriendlyURLEntryMappingCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -330,6 +419,15 @@ public class FriendlyURLEntryMappingModelImpl
 
 	@Override
 	public void setFriendlyURLEntryMappingId(long friendlyURLEntryMappingId) {
+		_columnBitmask |= FRIENDLYURLENTRYMAPPINGID_COLUMN_BITMASK;
+
+		if (_friendlyURLEntryMappingCacheModel ==
+				_dummyFriendlyURLEntryMappingCacheModel) {
+
+			_friendlyURLEntryMappingCacheModel =
+				(FriendlyURLEntryMappingCacheModel)toCacheModel();
+		}
+
 		_friendlyURLEntryMappingId = friendlyURLEntryMappingId;
 	}
 
@@ -340,6 +438,15 @@ public class FriendlyURLEntryMappingModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (_friendlyURLEntryMappingCacheModel ==
+				_dummyFriendlyURLEntryMappingCacheModel) {
+
+			_friendlyURLEntryMappingCacheModel =
+				(FriendlyURLEntryMappingCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -372,17 +479,23 @@ public class FriendlyURLEntryMappingModelImpl
 	public void setClassNameId(long classNameId) {
 		_columnBitmask |= CLASSNAMEID_COLUMN_BITMASK;
 
-		if (!_setOriginalClassNameId) {
-			_setOriginalClassNameId = true;
+		if (_friendlyURLEntryMappingCacheModel ==
+				_dummyFriendlyURLEntryMappingCacheModel) {
 
-			_originalClassNameId = _classNameId;
+			_friendlyURLEntryMappingCacheModel =
+				(FriendlyURLEntryMappingCacheModel)toCacheModel();
 		}
 
 		_classNameId = classNameId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassNameId() {
-		return _originalClassNameId;
+		return getOriginalAttributeValue("classNameId");
 	}
 
 	@Override
@@ -394,17 +507,23 @@ public class FriendlyURLEntryMappingModelImpl
 	public void setClassPK(long classPK) {
 		_columnBitmask |= CLASSPK_COLUMN_BITMASK;
 
-		if (!_setOriginalClassPK) {
-			_setOriginalClassPK = true;
+		if (_friendlyURLEntryMappingCacheModel ==
+				_dummyFriendlyURLEntryMappingCacheModel) {
 
-			_originalClassPK = _classPK;
+			_friendlyURLEntryMappingCacheModel =
+				(FriendlyURLEntryMappingCacheModel)toCacheModel();
 		}
 
 		_classPK = classPK;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassPK() {
-		return _originalClassPK;
+		return getOriginalAttributeValue("classPK");
 	}
 
 	@Override
@@ -414,6 +533,15 @@ public class FriendlyURLEntryMappingModelImpl
 
 	@Override
 	public void setFriendlyURLEntryId(long friendlyURLEntryId) {
+		_columnBitmask |= FRIENDLYURLENTRYID_COLUMN_BITMASK;
+
+		if (_friendlyURLEntryMappingCacheModel ==
+				_dummyFriendlyURLEntryMappingCacheModel) {
+
+			_friendlyURLEntryMappingCacheModel =
+				(FriendlyURLEntryMappingCacheModel)toCacheModel();
+		}
+
 		_friendlyURLEntryId = friendlyURLEntryId;
 	}
 
@@ -533,20 +661,10 @@ public class FriendlyURLEntryMappingModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		FriendlyURLEntryMappingModelImpl friendlyURLEntryMappingModelImpl =
-			this;
+		_columnBitmask = 0;
 
-		friendlyURLEntryMappingModelImpl._originalClassNameId =
-			friendlyURLEntryMappingModelImpl._classNameId;
-
-		friendlyURLEntryMappingModelImpl._setOriginalClassNameId = false;
-
-		friendlyURLEntryMappingModelImpl._originalClassPK =
-			friendlyURLEntryMappingModelImpl._classPK;
-
-		friendlyURLEntryMappingModelImpl._setOriginalClassPK = false;
-
-		friendlyURLEntryMappingModelImpl._columnBitmask = 0;
+		_friendlyURLEntryMappingCacheModel =
+			_dummyFriendlyURLEntryMappingCacheModel;
 	}
 
 	@Override
@@ -652,13 +770,16 @@ public class FriendlyURLEntryMappingModelImpl
 	private long _friendlyURLEntryMappingId;
 	private long _companyId;
 	private long _classNameId;
-	private long _originalClassNameId;
-	private boolean _setOriginalClassNameId;
 	private long _classPK;
-	private long _originalClassPK;
-	private boolean _setOriginalClassPK;
 	private long _friendlyURLEntryId;
 	private long _columnBitmask;
+
+	private static final FriendlyURLEntryMappingCacheModel
+		_dummyFriendlyURLEntryMappingCacheModel =
+			new FriendlyURLEntryMappingCacheModel();
+
 	private FriendlyURLEntryMapping _escapedModel;
+	private FriendlyURLEntryMappingCacheModel
+		_friendlyURLEntryMappingCacheModel;
 
 }

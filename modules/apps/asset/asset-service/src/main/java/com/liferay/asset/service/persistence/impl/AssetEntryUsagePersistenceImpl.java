@@ -4236,8 +4236,8 @@ public class AssetEntryUsagePersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				assetEntryUsageModelImpl.getOriginalUuid(),
-				assetEntryUsageModelImpl.getOriginalGroupId()
+				assetEntryUsageModelImpl.getOriginalAttributeValue("uuid"),
+				assetEntryUsageModelImpl.getOriginalAttributeValue("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -4260,10 +4260,13 @@ public class AssetEntryUsagePersistenceImpl
 			 _finderPathFetchByA_C_C_P.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				assetEntryUsageModelImpl.getOriginalAssetEntryId(),
-				assetEntryUsageModelImpl.getOriginalContainerType(),
-				assetEntryUsageModelImpl.getOriginalContainerKey(),
-				assetEntryUsageModelImpl.getOriginalPlid()
+				assetEntryUsageModelImpl.getOriginalAttributeValue(
+					"assetEntryId"),
+				assetEntryUsageModelImpl.getOriginalAttributeValue(
+					"containerType"),
+				assetEntryUsageModelImpl.getOriginalAttributeValue(
+					"containerKey"),
+				assetEntryUsageModelImpl.getOriginalAttributeValue("plid")
 			};
 
 			finderCache.removeResult(_finderPathCountByA_C_C_P, args);
@@ -4536,7 +4539,7 @@ public class AssetEntryUsagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					assetEntryUsageModelImpl.getOriginalUuid()
+					assetEntryUsageModelImpl.getOriginalAttributeValue("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -4555,8 +4558,9 @@ public class AssetEntryUsagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					assetEntryUsageModelImpl.getOriginalUuid(),
-					assetEntryUsageModelImpl.getOriginalCompanyId()
+					assetEntryUsageModelImpl.getOriginalAttributeValue("uuid"),
+					assetEntryUsageModelImpl.getOriginalAttributeValue(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -4578,7 +4582,8 @@ public class AssetEntryUsagePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					assetEntryUsageModelImpl.getOriginalAssetEntryId()
+					assetEntryUsageModelImpl.getOriginalAttributeValue(
+						"assetEntryId")
 				};
 
 				finderCache.removeResult(_finderPathCountByAssetEntryId, args);
@@ -4599,7 +4604,7 @@ public class AssetEntryUsagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					assetEntryUsageModelImpl.getOriginalPlid()
+					assetEntryUsageModelImpl.getOriginalAttributeValue("plid")
 				};
 
 				finderCache.removeResult(_finderPathCountByPlid, args);
@@ -4618,8 +4623,9 @@ public class AssetEntryUsagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					assetEntryUsageModelImpl.getOriginalAssetEntryId(),
-					assetEntryUsageModelImpl.getOriginalType()
+					assetEntryUsageModelImpl.getOriginalAttributeValue(
+						"assetEntryId"),
+					assetEntryUsageModelImpl.getOriginalAttributeValue("type")
 				};
 
 				finderCache.removeResult(_finderPathCountByA_T, args);
@@ -4641,9 +4647,11 @@ public class AssetEntryUsagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					assetEntryUsageModelImpl.getOriginalContainerType(),
-					assetEntryUsageModelImpl.getOriginalContainerKey(),
-					assetEntryUsageModelImpl.getOriginalPlid()
+					assetEntryUsageModelImpl.getOriginalAttributeValue(
+						"containerType"),
+					assetEntryUsageModelImpl.getOriginalAttributeValue(
+						"containerKey"),
+					assetEntryUsageModelImpl.getOriginalAttributeValue("plid")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_C_P, args);

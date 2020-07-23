@@ -2946,8 +2946,8 @@ public class DefinitionPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				definitionModelImpl.getOriginalUuid(),
-				definitionModelImpl.getOriginalGroupId()
+				definitionModelImpl.getOriginalAttributeValue("uuid"),
+				definitionModelImpl.getOriginalAttributeValue("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -3175,7 +3175,7 @@ public class DefinitionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					definitionModelImpl.getOriginalUuid()
+					definitionModelImpl.getOriginalAttributeValue("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -3194,8 +3194,8 @@ public class DefinitionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					definitionModelImpl.getOriginalUuid(),
-					definitionModelImpl.getOriginalCompanyId()
+					definitionModelImpl.getOriginalAttributeValue("uuid"),
+					definitionModelImpl.getOriginalAttributeValue("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -3217,7 +3217,7 @@ public class DefinitionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					definitionModelImpl.getOriginalGroupId()
+					definitionModelImpl.getOriginalAttributeValue("groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId, args);
@@ -3236,7 +3236,7 @@ public class DefinitionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					definitionModelImpl.getOriginalCompanyId()
+					definitionModelImpl.getOriginalAttributeValue("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCompanyId, args);

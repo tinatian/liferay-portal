@@ -26,7 +26,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.site.model.SiteFriendlyURL;
@@ -112,17 +111,29 @@ public class SiteFriendlyURLModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long FRIENDLYURL_COLUMN_BITMASK = 2L;
+	public static final long UUID_COLUMN_BITMASK = 2L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 4L;
+	public static final long SITEFRIENDLYURLID_COLUMN_BITMASK = 4L;
 
-	public static final long LANGUAGEID_COLUMN_BITMASK = 8L;
+	public static final long COMPANYID_COLUMN_BITMASK = 8L;
 
-	public static final long UUID_COLUMN_BITMASK = 16L;
+	public static final long USERID_COLUMN_BITMASK = 16L;
 
-	public static final long SITEFRIENDLYURLID_COLUMN_BITMASK = 32L;
+	public static final long USERNAME_COLUMN_BITMASK = 32L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 64L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 128L;
+
+	public static final long GROUPID_COLUMN_BITMASK = 256L;
+
+	public static final long FRIENDLYURL_COLUMN_BITMASK = 512L;
+
+	public static final long LANGUAGEID_COLUMN_BITMASK = 1024L;
+
+	public static final long LASTPUBLISHDATE_COLUMN_BITMASK = 2048L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -251,10 +262,30 @@ public class SiteFriendlyURLModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_siteFriendlyURLCacheModel == null) ||
+			(_siteFriendlyURLCacheModel == _dummySiteFriendlyURLCacheModel)) {
+
+			return null;
+		}
+
+		Function<SiteFriendlyURLCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_siteFriendlyURLCacheModel);
+	}
+
 	private static final Map<String, Function<SiteFriendlyURL, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<SiteFriendlyURL, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<SiteFriendlyURLCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<SiteFriendlyURL, Object>>
@@ -262,64 +293,119 @@ public class SiteFriendlyURLModelImpl
 				new LinkedHashMap<String, Function<SiteFriendlyURL, Object>>();
 		Map<String, BiConsumer<SiteFriendlyURL, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<SiteFriendlyURL, ?>>();
+		Map<String, Function<SiteFriendlyURLCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<SiteFriendlyURLCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", SiteFriendlyURL::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			siteFriendlyURLCacheModel -> siteFriendlyURLCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<SiteFriendlyURL, Long>)SiteFriendlyURL::setMvccVersion);
 		attributeGetterFunctions.put("uuid", SiteFriendlyURL::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid",
+			siteFriendlyURLCacheModel -> siteFriendlyURLCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid",
 			(BiConsumer<SiteFriendlyURL, String>)SiteFriendlyURL::setUuid);
 		attributeGetterFunctions.put(
 			"siteFriendlyURLId", SiteFriendlyURL::getSiteFriendlyURLId);
+
+		cacheModelGetterFunctions.put(
+			"siteFriendlyURLId",
+			siteFriendlyURLCacheModel ->
+				siteFriendlyURLCacheModel.siteFriendlyURLId);
 		attributeSetterBiConsumers.put(
 			"siteFriendlyURLId",
 			(BiConsumer<SiteFriendlyURL, Long>)
 				SiteFriendlyURL::setSiteFriendlyURLId);
 		attributeGetterFunctions.put(
 			"companyId", SiteFriendlyURL::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			siteFriendlyURLCacheModel -> siteFriendlyURLCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<SiteFriendlyURL, Long>)SiteFriendlyURL::setCompanyId);
 		attributeGetterFunctions.put("userId", SiteFriendlyURL::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			siteFriendlyURLCacheModel -> siteFriendlyURLCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<SiteFriendlyURL, Long>)SiteFriendlyURL::setUserId);
 		attributeGetterFunctions.put("userName", SiteFriendlyURL::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			siteFriendlyURLCacheModel -> siteFriendlyURLCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<SiteFriendlyURL, String>)SiteFriendlyURL::setUserName);
 		attributeGetterFunctions.put(
 			"createDate", SiteFriendlyURL::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			siteFriendlyURLCacheModel -> siteFriendlyURLCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<SiteFriendlyURL, Date>)SiteFriendlyURL::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", SiteFriendlyURL::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			siteFriendlyURLCacheModel ->
+				siteFriendlyURLCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<SiteFriendlyURL, Date>)
 				SiteFriendlyURL::setModifiedDate);
 		attributeGetterFunctions.put("groupId", SiteFriendlyURL::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			siteFriendlyURLCacheModel -> siteFriendlyURLCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<SiteFriendlyURL, Long>)SiteFriendlyURL::setGroupId);
 		attributeGetterFunctions.put(
 			"friendlyURL", SiteFriendlyURL::getFriendlyURL);
+
+		cacheModelGetterFunctions.put(
+			"friendlyURL",
+			siteFriendlyURLCacheModel -> siteFriendlyURLCacheModel.friendlyURL);
 		attributeSetterBiConsumers.put(
 			"friendlyURL",
 			(BiConsumer<SiteFriendlyURL, String>)
 				SiteFriendlyURL::setFriendlyURL);
 		attributeGetterFunctions.put(
 			"languageId", SiteFriendlyURL::getLanguageId);
+
+		cacheModelGetterFunctions.put(
+			"languageId",
+			siteFriendlyURLCacheModel -> siteFriendlyURLCacheModel.languageId);
 		attributeSetterBiConsumers.put(
 			"languageId",
 			(BiConsumer<SiteFriendlyURL, String>)
 				SiteFriendlyURL::setLanguageId);
 		attributeGetterFunctions.put(
 			"lastPublishDate", SiteFriendlyURL::getLastPublishDate);
+
+		cacheModelGetterFunctions.put(
+			"lastPublishDate",
+			siteFriendlyURLCacheModel ->
+				siteFriendlyURLCacheModel.lastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<SiteFriendlyURL, Date>)
@@ -329,6 +415,8 @@ public class SiteFriendlyURLModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -338,6 +426,13 @@ public class SiteFriendlyURLModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_siteFriendlyURLCacheModel == _dummySiteFriendlyURLCacheModel) {
+			_siteFriendlyURLCacheModel =
+				(SiteFriendlyURLCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -355,15 +450,21 @@ public class SiteFriendlyURLModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_siteFriendlyURLCacheModel == _dummySiteFriendlyURLCacheModel) {
+			_siteFriendlyURLCacheModel =
+				(SiteFriendlyURLCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getOriginalAttributeValue("uuid");
 	}
 
 	@Override
@@ -373,6 +474,13 @@ public class SiteFriendlyURLModelImpl
 
 	@Override
 	public void setSiteFriendlyURLId(long siteFriendlyURLId) {
+		_columnBitmask |= SITEFRIENDLYURLID_COLUMN_BITMASK;
+
+		if (_siteFriendlyURLCacheModel == _dummySiteFriendlyURLCacheModel) {
+			_siteFriendlyURLCacheModel =
+				(SiteFriendlyURLCacheModel)toCacheModel();
+		}
+
 		_siteFriendlyURLId = siteFriendlyURLId;
 	}
 
@@ -385,17 +493,21 @@ public class SiteFriendlyURLModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_siteFriendlyURLCacheModel == _dummySiteFriendlyURLCacheModel) {
+			_siteFriendlyURLCacheModel =
+				(SiteFriendlyURLCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@Override
@@ -405,6 +517,13 @@ public class SiteFriendlyURLModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (_siteFriendlyURLCacheModel == _dummySiteFriendlyURLCacheModel) {
+			_siteFriendlyURLCacheModel =
+				(SiteFriendlyURLCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -436,6 +555,13 @@ public class SiteFriendlyURLModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (_siteFriendlyURLCacheModel == _dummySiteFriendlyURLCacheModel) {
+			_siteFriendlyURLCacheModel =
+				(SiteFriendlyURLCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -446,6 +572,13 @@ public class SiteFriendlyURLModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (_siteFriendlyURLCacheModel == _dummySiteFriendlyURLCacheModel) {
+			_siteFriendlyURLCacheModel =
+				(SiteFriendlyURLCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -462,6 +595,13 @@ public class SiteFriendlyURLModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (_siteFriendlyURLCacheModel == _dummySiteFriendlyURLCacheModel) {
+			_siteFriendlyURLCacheModel =
+				(SiteFriendlyURLCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -474,17 +614,21 @@ public class SiteFriendlyURLModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_siteFriendlyURLCacheModel == _dummySiteFriendlyURLCacheModel) {
+			_siteFriendlyURLCacheModel =
+				(SiteFriendlyURLCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getOriginalAttributeValue("groupId");
 	}
 
 	@Override
@@ -501,15 +645,21 @@ public class SiteFriendlyURLModelImpl
 	public void setFriendlyURL(String friendlyURL) {
 		_columnBitmask |= FRIENDLYURL_COLUMN_BITMASK;
 
-		if (_originalFriendlyURL == null) {
-			_originalFriendlyURL = _friendlyURL;
+		if (_siteFriendlyURLCacheModel == _dummySiteFriendlyURLCacheModel) {
+			_siteFriendlyURLCacheModel =
+				(SiteFriendlyURLCacheModel)toCacheModel();
 		}
 
 		_friendlyURL = friendlyURL;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalFriendlyURL() {
-		return GetterUtil.getString(_originalFriendlyURL);
+		return getOriginalAttributeValue("friendlyURL");
 	}
 
 	@Override
@@ -526,15 +676,21 @@ public class SiteFriendlyURLModelImpl
 	public void setLanguageId(String languageId) {
 		_columnBitmask |= LANGUAGEID_COLUMN_BITMASK;
 
-		if (_originalLanguageId == null) {
-			_originalLanguageId = _languageId;
+		if (_siteFriendlyURLCacheModel == _dummySiteFriendlyURLCacheModel) {
+			_siteFriendlyURLCacheModel =
+				(SiteFriendlyURLCacheModel)toCacheModel();
 		}
 
 		_languageId = languageId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalLanguageId() {
-		return GetterUtil.getString(_originalLanguageId);
+		return getOriginalAttributeValue("languageId");
 	}
 
 	@Override
@@ -544,6 +700,13 @@ public class SiteFriendlyURLModelImpl
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		_columnBitmask |= LASTPUBLISHDATE_COLUMN_BITMASK;
+
+		if (_siteFriendlyURLCacheModel == _dummySiteFriendlyURLCacheModel) {
+			_siteFriendlyURLCacheModel =
+				(SiteFriendlyURLCacheModel)toCacheModel();
+		}
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -669,29 +832,11 @@ public class SiteFriendlyURLModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		SiteFriendlyURLModelImpl siteFriendlyURLModelImpl = this;
+		_setModifiedDate = false;
 
-		siteFriendlyURLModelImpl._originalUuid = siteFriendlyURLModelImpl._uuid;
+		_columnBitmask = 0;
 
-		siteFriendlyURLModelImpl._originalCompanyId =
-			siteFriendlyURLModelImpl._companyId;
-
-		siteFriendlyURLModelImpl._setOriginalCompanyId = false;
-
-		siteFriendlyURLModelImpl._setModifiedDate = false;
-
-		siteFriendlyURLModelImpl._originalGroupId =
-			siteFriendlyURLModelImpl._groupId;
-
-		siteFriendlyURLModelImpl._setOriginalGroupId = false;
-
-		siteFriendlyURLModelImpl._originalFriendlyURL =
-			siteFriendlyURLModelImpl._friendlyURL;
-
-		siteFriendlyURLModelImpl._originalLanguageId =
-			siteFriendlyURLModelImpl._languageId;
-
-		siteFriendlyURLModelImpl._columnBitmask = 0;
+		_siteFriendlyURLCacheModel = _dummySiteFriendlyURLCacheModel;
 	}
 
 	@Override
@@ -844,25 +989,23 @@ public class SiteFriendlyURLModelImpl
 
 	private long _mvccVersion;
 	private String _uuid;
-	private String _originalUuid;
 	private long _siteFriendlyURLId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private String _friendlyURL;
-	private String _originalFriendlyURL;
 	private String _languageId;
-	private String _originalLanguageId;
 	private Date _lastPublishDate;
 	private long _columnBitmask;
+
+	private static final SiteFriendlyURLCacheModel
+		_dummySiteFriendlyURLCacheModel = new SiteFriendlyURLCacheModel();
+
 	private SiteFriendlyURL _escapedModel;
+	private SiteFriendlyURLCacheModel _siteFriendlyURLCacheModel;
 
 }

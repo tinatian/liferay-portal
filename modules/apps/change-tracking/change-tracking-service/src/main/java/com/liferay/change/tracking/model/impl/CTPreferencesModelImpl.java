@@ -102,15 +102,19 @@ public class CTPreferencesModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
+	public static final long CTPREFERENCESID_COLUMN_BITMASK = 2L;
 
-	public static final long PREVIOUSCTCOLLECTIONID_COLUMN_BITMASK = 4L;
+	public static final long COMPANYID_COLUMN_BITMASK = 4L;
 
 	public static final long USERID_COLUMN_BITMASK = 8L;
 
-	public static final long CTPREFERENCESID_COLUMN_BITMASK = 16L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 16L;
+
+	public static final long PREVIOUSCTCOLLECTIONID_COLUMN_BITMASK = 32L;
+
+	public static final long CONFIRMATIONENABLED_COLUMN_BITMASK = 64L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -239,48 +243,101 @@ public class CTPreferencesModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_ctPreferencesCacheModel == null) ||
+			(_ctPreferencesCacheModel == _dummyCTPreferencesCacheModel)) {
+
+			return null;
+		}
+
+		Function<CTPreferencesCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_ctPreferencesCacheModel);
+	}
+
 	private static final Map<String, Function<CTPreferences, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<CTPreferences, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<CTPreferencesCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<CTPreferences, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<CTPreferences, Object>>();
 		Map<String, BiConsumer<CTPreferences, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<CTPreferences, ?>>();
+		Map<String, Function<CTPreferencesCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<CTPreferencesCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", CTPreferences::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			ctPreferencesCacheModel -> ctPreferencesCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<CTPreferences, Long>)CTPreferences::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctPreferencesId", CTPreferences::getCtPreferencesId);
+
+		cacheModelGetterFunctions.put(
+			"ctPreferencesId",
+			ctPreferencesCacheModel -> ctPreferencesCacheModel.ctPreferencesId);
 		attributeSetterBiConsumers.put(
 			"ctPreferencesId",
 			(BiConsumer<CTPreferences, Long>)CTPreferences::setCtPreferencesId);
 		attributeGetterFunctions.put("companyId", CTPreferences::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			ctPreferencesCacheModel -> ctPreferencesCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<CTPreferences, Long>)CTPreferences::setCompanyId);
 		attributeGetterFunctions.put("userId", CTPreferences::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			ctPreferencesCacheModel -> ctPreferencesCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<CTPreferences, Long>)CTPreferences::setUserId);
 		attributeGetterFunctions.put(
 			"ctCollectionId", CTPreferences::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			ctPreferencesCacheModel -> ctPreferencesCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<CTPreferences, Long>)CTPreferences::setCtCollectionId);
 		attributeGetterFunctions.put(
 			"previousCtCollectionId", CTPreferences::getPreviousCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"previousCtCollectionId",
+			ctPreferencesCacheModel ->
+				ctPreferencesCacheModel.previousCtCollectionId);
 		attributeSetterBiConsumers.put(
 			"previousCtCollectionId",
 			(BiConsumer<CTPreferences, Long>)
 				CTPreferences::setPreviousCtCollectionId);
 		attributeGetterFunctions.put(
 			"confirmationEnabled", CTPreferences::getConfirmationEnabled);
+
+		cacheModelGetterFunctions.put(
+			"confirmationEnabled",
+			ctPreferencesCacheModel ->
+				ctPreferencesCacheModel.confirmationEnabled);
 		attributeSetterBiConsumers.put(
 			"confirmationEnabled",
 			(BiConsumer<CTPreferences, Boolean>)
@@ -290,6 +347,8 @@ public class CTPreferencesModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -299,6 +358,12 @@ public class CTPreferencesModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_ctPreferencesCacheModel == _dummyCTPreferencesCacheModel) {
+			_ctPreferencesCacheModel = (CTPreferencesCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -309,6 +374,12 @@ public class CTPreferencesModelImpl
 
 	@Override
 	public void setCtPreferencesId(long ctPreferencesId) {
+		_columnBitmask |= CTPREFERENCESID_COLUMN_BITMASK;
+
+		if (_ctPreferencesCacheModel == _dummyCTPreferencesCacheModel) {
+			_ctPreferencesCacheModel = (CTPreferencesCacheModel)toCacheModel();
+		}
+
 		_ctPreferencesId = ctPreferencesId;
 	}
 
@@ -321,17 +392,20 @@ public class CTPreferencesModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_ctPreferencesCacheModel == _dummyCTPreferencesCacheModel) {
+			_ctPreferencesCacheModel = (CTPreferencesCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@Override
@@ -343,10 +417,8 @@ public class CTPreferencesModelImpl
 	public void setUserId(long userId) {
 		_columnBitmask |= USERID_COLUMN_BITMASK;
 
-		if (!_setOriginalUserId) {
-			_setOriginalUserId = true;
-
-			_originalUserId = _userId;
+		if (_ctPreferencesCacheModel == _dummyCTPreferencesCacheModel) {
+			_ctPreferencesCacheModel = (CTPreferencesCacheModel)toCacheModel();
 		}
 
 		_userId = userId;
@@ -368,8 +440,13 @@ public class CTPreferencesModelImpl
 	public void setUserUuid(String userUuid) {
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalUserId() {
-		return _originalUserId;
+		return getOriginalAttributeValue("userId");
 	}
 
 	@Override
@@ -381,17 +458,20 @@ public class CTPreferencesModelImpl
 	public void setCtCollectionId(long ctCollectionId) {
 		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
 
-		if (!_setOriginalCtCollectionId) {
-			_setOriginalCtCollectionId = true;
-
-			_originalCtCollectionId = _ctCollectionId;
+		if (_ctPreferencesCacheModel == _dummyCTPreferencesCacheModel) {
+			_ctPreferencesCacheModel = (CTPreferencesCacheModel)toCacheModel();
 		}
 
 		_ctCollectionId = ctCollectionId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCtCollectionId() {
-		return _originalCtCollectionId;
+		return getOriginalAttributeValue("ctCollectionId");
 	}
 
 	@Override
@@ -403,17 +483,20 @@ public class CTPreferencesModelImpl
 	public void setPreviousCtCollectionId(long previousCtCollectionId) {
 		_columnBitmask |= PREVIOUSCTCOLLECTIONID_COLUMN_BITMASK;
 
-		if (!_setOriginalPreviousCtCollectionId) {
-			_setOriginalPreviousCtCollectionId = true;
-
-			_originalPreviousCtCollectionId = _previousCtCollectionId;
+		if (_ctPreferencesCacheModel == _dummyCTPreferencesCacheModel) {
+			_ctPreferencesCacheModel = (CTPreferencesCacheModel)toCacheModel();
 		}
 
 		_previousCtCollectionId = previousCtCollectionId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalPreviousCtCollectionId() {
-		return _originalPreviousCtCollectionId;
+		return getOriginalAttributeValue("previousCtCollectionId");
 	}
 
 	@Override
@@ -428,6 +511,12 @@ public class CTPreferencesModelImpl
 
 	@Override
 	public void setConfirmationEnabled(boolean confirmationEnabled) {
+		_columnBitmask |= CONFIRMATIONENABLED_COLUMN_BITMASK;
+
+		if (_ctPreferencesCacheModel == _dummyCTPreferencesCacheModel) {
+			_ctPreferencesCacheModel = (CTPreferencesCacheModel)toCacheModel();
+		}
+
 		_confirmationEnabled = confirmationEnabled;
 	}
 
@@ -543,28 +632,9 @@ public class CTPreferencesModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		CTPreferencesModelImpl ctPreferencesModelImpl = this;
+		_columnBitmask = 0;
 
-		ctPreferencesModelImpl._originalCompanyId =
-			ctPreferencesModelImpl._companyId;
-
-		ctPreferencesModelImpl._setOriginalCompanyId = false;
-
-		ctPreferencesModelImpl._originalUserId = ctPreferencesModelImpl._userId;
-
-		ctPreferencesModelImpl._setOriginalUserId = false;
-
-		ctPreferencesModelImpl._originalCtCollectionId =
-			ctPreferencesModelImpl._ctCollectionId;
-
-		ctPreferencesModelImpl._setOriginalCtCollectionId = false;
-
-		ctPreferencesModelImpl._originalPreviousCtCollectionId =
-			ctPreferencesModelImpl._previousCtCollectionId;
-
-		ctPreferencesModelImpl._setOriginalPreviousCtCollectionId = false;
-
-		ctPreferencesModelImpl._columnBitmask = 0;
+		_ctPreferencesCacheModel = _dummyCTPreferencesCacheModel;
 	}
 
 	@Override
@@ -663,19 +733,16 @@ public class CTPreferencesModelImpl
 	private long _mvccVersion;
 	private long _ctPreferencesId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
-	private long _originalUserId;
-	private boolean _setOriginalUserId;
 	private long _ctCollectionId;
-	private long _originalCtCollectionId;
-	private boolean _setOriginalCtCollectionId;
 	private long _previousCtCollectionId;
-	private long _originalPreviousCtCollectionId;
-	private boolean _setOriginalPreviousCtCollectionId;
 	private boolean _confirmationEnabled;
 	private long _columnBitmask;
+
+	private static final CTPreferencesCacheModel _dummyCTPreferencesCacheModel =
+		new CTPreferencesCacheModel();
+
 	private CTPreferences _escapedModel;
+	private CTPreferencesCacheModel _ctPreferencesCacheModel;
 
 }

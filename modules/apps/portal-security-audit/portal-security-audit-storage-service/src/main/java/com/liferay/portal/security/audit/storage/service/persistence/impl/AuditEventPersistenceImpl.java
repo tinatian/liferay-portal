@@ -839,7 +839,7 @@ public class AuditEventPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					auditEventModelImpl.getOriginalCompanyId()
+					auditEventModelImpl.getOriginalAttributeValue("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCompanyId, args);

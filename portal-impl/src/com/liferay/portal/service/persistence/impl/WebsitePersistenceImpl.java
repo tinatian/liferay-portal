@@ -4252,7 +4252,7 @@ public class WebsitePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					websiteModelImpl.getOriginalUuid()
+					websiteModelImpl.getOriginalAttributeValue("uuid")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid, args);
@@ -4271,8 +4271,8 @@ public class WebsitePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					websiteModelImpl.getOriginalUuid(),
-					websiteModelImpl.getOriginalCompanyId()
+					websiteModelImpl.getOriginalAttributeValue("uuid"),
+					websiteModelImpl.getOriginalAttributeValue("companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid_C, args);
@@ -4293,7 +4293,7 @@ public class WebsitePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					websiteModelImpl.getOriginalCompanyId()
+					websiteModelImpl.getOriginalAttributeValue("companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
@@ -4312,7 +4312,7 @@ public class WebsitePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					websiteModelImpl.getOriginalUserId()
+					websiteModelImpl.getOriginalAttributeValue("userId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUserId, args);
@@ -4331,8 +4331,8 @@ public class WebsitePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					websiteModelImpl.getOriginalCompanyId(),
-					websiteModelImpl.getOriginalClassNameId()
+					websiteModelImpl.getOriginalAttributeValue("companyId"),
+					websiteModelImpl.getOriginalAttributeValue("classNameId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_C, args);
@@ -4354,9 +4354,9 @@ public class WebsitePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					websiteModelImpl.getOriginalCompanyId(),
-					websiteModelImpl.getOriginalClassNameId(),
-					websiteModelImpl.getOriginalClassPK()
+					websiteModelImpl.getOriginalAttributeValue("companyId"),
+					websiteModelImpl.getOriginalAttributeValue("classNameId"),
+					websiteModelImpl.getOriginalAttributeValue("classPK")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_C_C, args);
@@ -4379,10 +4379,10 @@ public class WebsitePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					websiteModelImpl.getOriginalCompanyId(),
-					websiteModelImpl.getOriginalClassNameId(),
-					websiteModelImpl.getOriginalClassPK(),
-					websiteModelImpl.getOriginalPrimary()
+					websiteModelImpl.getOriginalAttributeValue("companyId"),
+					websiteModelImpl.getOriginalAttributeValue("classNameId"),
+					websiteModelImpl.getOriginalAttributeValue("classPK"),
+					websiteModelImpl.getOriginalAttributeValue("primary")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_C_C_P, args);

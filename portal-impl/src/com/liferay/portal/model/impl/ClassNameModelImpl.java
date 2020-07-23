@@ -118,9 +118,11 @@ public class ClassNameModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long VALUE_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
 	public static final long CLASSNAMEID_COLUMN_BITMASK = 2L;
+
+	public static final long VALUE_COLUMN_BITMASK = 4L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -278,26 +280,60 @@ public class ClassNameModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_classNameCacheModel == null) ||
+			(_classNameCacheModel == _dummyClassNameCacheModel)) {
+
+			return null;
+		}
+
+		Function<ClassNameCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_classNameCacheModel);
+	}
+
 	private static final Map<String, Function<ClassName, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<ClassName, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<ClassNameCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<ClassName, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<ClassName, Object>>();
 		Map<String, BiConsumer<ClassName, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<ClassName, ?>>();
+		Map<String, Function<ClassNameCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<ClassNameCacheModel, Object>>();
 
 		attributeGetterFunctions.put("mvccVersion", ClassName::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			classNameCacheModel -> classNameCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<ClassName, Long>)ClassName::setMvccVersion);
 		attributeGetterFunctions.put("classNameId", ClassName::getClassNameId);
+
+		cacheModelGetterFunctions.put(
+			"classNameId",
+			classNameCacheModel -> classNameCacheModel.classNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<ClassName, Long>)ClassName::setClassNameId);
 		attributeGetterFunctions.put("value", ClassName::getValue);
+
+		cacheModelGetterFunctions.put(
+			"value", classNameCacheModel -> classNameCacheModel.value);
 		attributeSetterBiConsumers.put(
 			"value", (BiConsumer<ClassName, String>)ClassName::setValue);
 
@@ -305,6 +341,8 @@ public class ClassNameModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -315,6 +353,12 @@ public class ClassNameModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_classNameCacheModel == _dummyClassNameCacheModel) {
+			_classNameCacheModel = (ClassNameCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -346,6 +390,12 @@ public class ClassNameModelImpl
 
 	@Override
 	public void setClassNameId(long classNameId) {
+		_columnBitmask |= CLASSNAMEID_COLUMN_BITMASK;
+
+		if (_classNameCacheModel == _dummyClassNameCacheModel) {
+			_classNameCacheModel = (ClassNameCacheModel)toCacheModel();
+		}
+
 		_classNameId = classNameId;
 	}
 
@@ -364,15 +414,20 @@ public class ClassNameModelImpl
 	public void setValue(String value) {
 		_columnBitmask |= VALUE_COLUMN_BITMASK;
 
-		if (_originalValue == null) {
-			_originalValue = _value;
+		if (_classNameCacheModel == _dummyClassNameCacheModel) {
+			_classNameCacheModel = (ClassNameCacheModel)toCacheModel();
 		}
 
 		_value = value;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalValue() {
-		return GetterUtil.getString(_originalValue);
+		return getOriginalAttributeValue("value");
 	}
 
 	public long getColumnBitmask() {
@@ -482,11 +537,9 @@ public class ClassNameModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		ClassNameModelImpl classNameModelImpl = this;
+		_columnBitmask = 0;
 
-		classNameModelImpl._originalValue = classNameModelImpl._value;
-
-		classNameModelImpl._columnBitmask = 0;
+		_classNameCacheModel = _dummyClassNameCacheModel;
 	}
 
 	@Override
@@ -581,8 +634,12 @@ public class ClassNameModelImpl
 	private long _mvccVersion;
 	private long _classNameId;
 	private String _value;
-	private String _originalValue;
 	private long _columnBitmask;
+
+	private static final ClassNameCacheModel _dummyClassNameCacheModel =
+		new ClassNameCacheModel();
+
 	private ClassName _escapedModel;
+	private ClassNameCacheModel _classNameCacheModel;
 
 }

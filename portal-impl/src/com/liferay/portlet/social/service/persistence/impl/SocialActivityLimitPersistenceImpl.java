@@ -2216,12 +2216,18 @@ public class SocialActivityLimitPersistenceImpl
 			 _finderPathFetchByG_U_C_C_A_A.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				socialActivityLimitModelImpl.getOriginalGroupId(),
-				socialActivityLimitModelImpl.getOriginalUserId(),
-				socialActivityLimitModelImpl.getOriginalClassNameId(),
-				socialActivityLimitModelImpl.getOriginalClassPK(),
-				socialActivityLimitModelImpl.getOriginalActivityType(),
-				socialActivityLimitModelImpl.getOriginalActivityCounterName()
+				socialActivityLimitModelImpl.getOriginalAttributeValue(
+					"groupId"),
+				socialActivityLimitModelImpl.getOriginalAttributeValue(
+					"userId"),
+				socialActivityLimitModelImpl.getOriginalAttributeValue(
+					"classNameId"),
+				socialActivityLimitModelImpl.getOriginalAttributeValue(
+					"classPK"),
+				socialActivityLimitModelImpl.getOriginalAttributeValue(
+					"activityType"),
+				socialActivityLimitModelImpl.getOriginalAttributeValue(
+					"activityCounterName")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByG_U_C_C_A_A, args);
@@ -2442,7 +2448,8 @@ public class SocialActivityLimitPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					socialActivityLimitModelImpl.getOriginalGroupId()
+					socialActivityLimitModelImpl.getOriginalAttributeValue(
+						"groupId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByGroupId, args);
@@ -2461,7 +2468,8 @@ public class SocialActivityLimitPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					socialActivityLimitModelImpl.getOriginalUserId()
+					socialActivityLimitModelImpl.getOriginalAttributeValue(
+						"userId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUserId, args);
@@ -2480,8 +2488,10 @@ public class SocialActivityLimitPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					socialActivityLimitModelImpl.getOriginalClassNameId(),
-					socialActivityLimitModelImpl.getOriginalClassPK()
+					socialActivityLimitModelImpl.getOriginalAttributeValue(
+						"classNameId"),
+					socialActivityLimitModelImpl.getOriginalAttributeValue(
+						"classPK")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_C, args);

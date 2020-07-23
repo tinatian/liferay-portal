@@ -3605,8 +3605,10 @@ public class DDMDataProviderInstancePersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				ddmDataProviderInstanceModelImpl.getOriginalUuid(),
-				ddmDataProviderInstanceModelImpl.getOriginalGroupId()
+				ddmDataProviderInstanceModelImpl.getOriginalAttributeValue(
+					"uuid"),
+				ddmDataProviderInstanceModelImpl.getOriginalAttributeValue(
+					"groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -3873,7 +3875,8 @@ public class DDMDataProviderInstancePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					ddmDataProviderInstanceModelImpl.getOriginalUuid()
+					ddmDataProviderInstanceModelImpl.getOriginalAttributeValue(
+						"uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -3894,8 +3897,10 @@ public class DDMDataProviderInstancePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					ddmDataProviderInstanceModelImpl.getOriginalUuid(),
-					ddmDataProviderInstanceModelImpl.getOriginalCompanyId()
+					ddmDataProviderInstanceModelImpl.getOriginalAttributeValue(
+						"uuid"),
+					ddmDataProviderInstanceModelImpl.getOriginalAttributeValue(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -3917,7 +3922,8 @@ public class DDMDataProviderInstancePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					ddmDataProviderInstanceModelImpl.getOriginalGroupId()
+					ddmDataProviderInstanceModelImpl.getOriginalAttributeValue(
+						"groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId, args);
@@ -3938,7 +3944,8 @@ public class DDMDataProviderInstancePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					ddmDataProviderInstanceModelImpl.getOriginalCompanyId()
+					ddmDataProviderInstanceModelImpl.getOriginalAttributeValue(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCompanyId, args);

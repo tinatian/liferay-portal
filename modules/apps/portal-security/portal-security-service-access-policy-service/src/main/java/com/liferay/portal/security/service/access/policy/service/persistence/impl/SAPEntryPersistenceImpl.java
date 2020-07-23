@@ -4249,8 +4249,8 @@ public class SAPEntryPersistenceImpl
 			 _finderPathFetchByC_N.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				sapEntryModelImpl.getOriginalCompanyId(),
-				sapEntryModelImpl.getOriginalName()
+				sapEntryModelImpl.getOriginalAttributeValue("companyId"),
+				sapEntryModelImpl.getOriginalAttributeValue("name")
 			};
 
 			finderCache.removeResult(_finderPathCountByC_N, args);
@@ -4477,7 +4477,7 @@ public class SAPEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					sapEntryModelImpl.getOriginalUuid()
+					sapEntryModelImpl.getOriginalAttributeValue("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -4496,8 +4496,8 @@ public class SAPEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					sapEntryModelImpl.getOriginalUuid(),
-					sapEntryModelImpl.getOriginalCompanyId()
+					sapEntryModelImpl.getOriginalAttributeValue("uuid"),
+					sapEntryModelImpl.getOriginalAttributeValue("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -4519,7 +4519,7 @@ public class SAPEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					sapEntryModelImpl.getOriginalCompanyId()
+					sapEntryModelImpl.getOriginalAttributeValue("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCompanyId, args);
@@ -4538,8 +4538,9 @@ public class SAPEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					sapEntryModelImpl.getOriginalCompanyId(),
-					sapEntryModelImpl.getOriginalDefaultSAPEntry()
+					sapEntryModelImpl.getOriginalAttributeValue("companyId"),
+					sapEntryModelImpl.getOriginalAttributeValue(
+						"defaultSAPEntry")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_D, args);

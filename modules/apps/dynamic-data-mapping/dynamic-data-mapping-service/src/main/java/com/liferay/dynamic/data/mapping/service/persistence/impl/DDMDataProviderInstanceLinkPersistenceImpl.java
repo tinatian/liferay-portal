@@ -1587,9 +1587,10 @@ public class DDMDataProviderInstanceLinkPersistenceImpl
 			 _finderPathFetchByD_S.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				ddmDataProviderInstanceLinkModelImpl.
-					getOriginalDataProviderInstanceId(),
-				ddmDataProviderInstanceLinkModelImpl.getOriginalStructureId()
+				ddmDataProviderInstanceLinkModelImpl.getOriginalAttributeValue(
+					"dataProviderInstanceId"),
+				ddmDataProviderInstanceLinkModelImpl.getOriginalAttributeValue(
+					"structureId")
 			};
 
 			finderCache.removeResult(_finderPathCountByD_S, args);
@@ -1814,7 +1815,7 @@ public class DDMDataProviderInstanceLinkPersistenceImpl
 
 				Object[] args = new Object[] {
 					ddmDataProviderInstanceLinkModelImpl.
-						getOriginalDataProviderInstanceId()
+						getOriginalAttributeValue("dataProviderInstanceId")
 				};
 
 				finderCache.removeResult(
@@ -1841,7 +1842,7 @@ public class DDMDataProviderInstanceLinkPersistenceImpl
 
 				Object[] args = new Object[] {
 					ddmDataProviderInstanceLinkModelImpl.
-						getOriginalStructureId()
+						getOriginalAttributeValue("structureId")
 				};
 
 				finderCache.removeResult(_finderPathCountByStructureId, args);

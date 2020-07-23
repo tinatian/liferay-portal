@@ -122,9 +122,23 @@ public class OAuthConsumerModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long GADGETKEY_COLUMN_BITMASK = 1L;
+	public static final long OAUTHCONSUMERID_COLUMN_BITMASK = 1L;
 
-	public static final long SERVICENAME_COLUMN_BITMASK = 2L;
+	public static final long COMPANYID_COLUMN_BITMASK = 2L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 4L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 8L;
+
+	public static final long GADGETKEY_COLUMN_BITMASK = 16L;
+
+	public static final long SERVICENAME_COLUMN_BITMASK = 32L;
+
+	public static final long CONSUMERKEY_COLUMN_BITMASK = 64L;
+
+	public static final long CONSUMERSECRET_COLUMN_BITMASK = 128L;
+
+	public static final long KEYTYPE_COLUMN_BITMASK = 256L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		com.liferay.util.service.ServiceProps.get(
@@ -243,57 +257,116 @@ public class OAuthConsumerModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_oAuthConsumerCacheModel == null) ||
+			(_oAuthConsumerCacheModel == _dummyOAuthConsumerCacheModel)) {
+
+			return null;
+		}
+
+		Function<OAuthConsumerCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_oAuthConsumerCacheModel);
+	}
+
 	private static final Map<String, Function<OAuthConsumer, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<OAuthConsumer, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<OAuthConsumerCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<OAuthConsumer, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<OAuthConsumer, Object>>();
 		Map<String, BiConsumer<OAuthConsumer, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<OAuthConsumer, ?>>();
+		Map<String, Function<OAuthConsumerCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<OAuthConsumerCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"oAuthConsumerId", OAuthConsumer::getOAuthConsumerId);
+
+		cacheModelGetterFunctions.put(
+			"oAuthConsumerId",
+			oAuthConsumerCacheModel -> oAuthConsumerCacheModel.oAuthConsumerId);
 		attributeSetterBiConsumers.put(
 			"oAuthConsumerId",
 			(BiConsumer<OAuthConsumer, Long>)OAuthConsumer::setOAuthConsumerId);
 		attributeGetterFunctions.put("companyId", OAuthConsumer::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			oAuthConsumerCacheModel -> oAuthConsumerCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<OAuthConsumer, Long>)OAuthConsumer::setCompanyId);
 		attributeGetterFunctions.put(
 			"createDate", OAuthConsumer::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			oAuthConsumerCacheModel -> oAuthConsumerCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<OAuthConsumer, Date>)OAuthConsumer::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", OAuthConsumer::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			oAuthConsumerCacheModel -> oAuthConsumerCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<OAuthConsumer, Date>)OAuthConsumer::setModifiedDate);
 		attributeGetterFunctions.put("gadgetKey", OAuthConsumer::getGadgetKey);
+
+		cacheModelGetterFunctions.put(
+			"gadgetKey",
+			oAuthConsumerCacheModel -> oAuthConsumerCacheModel.gadgetKey);
 		attributeSetterBiConsumers.put(
 			"gadgetKey",
 			(BiConsumer<OAuthConsumer, String>)OAuthConsumer::setGadgetKey);
 		attributeGetterFunctions.put(
 			"serviceName", OAuthConsumer::getServiceName);
+
+		cacheModelGetterFunctions.put(
+			"serviceName",
+			oAuthConsumerCacheModel -> oAuthConsumerCacheModel.serviceName);
 		attributeSetterBiConsumers.put(
 			"serviceName",
 			(BiConsumer<OAuthConsumer, String>)OAuthConsumer::setServiceName);
 		attributeGetterFunctions.put(
 			"consumerKey", OAuthConsumer::getConsumerKey);
+
+		cacheModelGetterFunctions.put(
+			"consumerKey",
+			oAuthConsumerCacheModel -> oAuthConsumerCacheModel.consumerKey);
 		attributeSetterBiConsumers.put(
 			"consumerKey",
 			(BiConsumer<OAuthConsumer, String>)OAuthConsumer::setConsumerKey);
 		attributeGetterFunctions.put(
 			"consumerSecret", OAuthConsumer::getConsumerSecret);
+
+		cacheModelGetterFunctions.put(
+			"consumerSecret",
+			oAuthConsumerCacheModel -> oAuthConsumerCacheModel.consumerSecret);
 		attributeSetterBiConsumers.put(
 			"consumerSecret",
 			(BiConsumer<OAuthConsumer, String>)
 				OAuthConsumer::setConsumerSecret);
 		attributeGetterFunctions.put("keyType", OAuthConsumer::getKeyType);
+
+		cacheModelGetterFunctions.put(
+			"keyType",
+			oAuthConsumerCacheModel -> oAuthConsumerCacheModel.keyType);
 		attributeSetterBiConsumers.put(
 			"keyType",
 			(BiConsumer<OAuthConsumer, String>)OAuthConsumer::setKeyType);
@@ -302,6 +375,8 @@ public class OAuthConsumerModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -311,6 +386,12 @@ public class OAuthConsumerModelImpl
 
 	@Override
 	public void setOAuthConsumerId(long oAuthConsumerId) {
+		_columnBitmask |= OAUTHCONSUMERID_COLUMN_BITMASK;
+
+		if (_oAuthConsumerCacheModel == _dummyOAuthConsumerCacheModel) {
+			_oAuthConsumerCacheModel = (OAuthConsumerCacheModel)toCacheModel();
+		}
+
 		_oAuthConsumerId = oAuthConsumerId;
 	}
 
@@ -321,6 +402,12 @@ public class OAuthConsumerModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (_oAuthConsumerCacheModel == _dummyOAuthConsumerCacheModel) {
+			_oAuthConsumerCacheModel = (OAuthConsumerCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -331,6 +418,12 @@ public class OAuthConsumerModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (_oAuthConsumerCacheModel == _dummyOAuthConsumerCacheModel) {
+			_oAuthConsumerCacheModel = (OAuthConsumerCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -346,6 +439,12 @@ public class OAuthConsumerModelImpl
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
+
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (_oAuthConsumerCacheModel == _dummyOAuthConsumerCacheModel) {
+			_oAuthConsumerCacheModel = (OAuthConsumerCacheModel)toCacheModel();
+		}
 
 		_modifiedDate = modifiedDate;
 	}
@@ -364,15 +463,20 @@ public class OAuthConsumerModelImpl
 	public void setGadgetKey(String gadgetKey) {
 		_columnBitmask |= GADGETKEY_COLUMN_BITMASK;
 
-		if (_originalGadgetKey == null) {
-			_originalGadgetKey = _gadgetKey;
+		if (_oAuthConsumerCacheModel == _dummyOAuthConsumerCacheModel) {
+			_oAuthConsumerCacheModel = (OAuthConsumerCacheModel)toCacheModel();
 		}
 
 		_gadgetKey = gadgetKey;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalGadgetKey() {
-		return GetterUtil.getString(_originalGadgetKey);
+		return getOriginalAttributeValue("gadgetKey");
 	}
 
 	@Override
@@ -387,17 +491,22 @@ public class OAuthConsumerModelImpl
 
 	@Override
 	public void setServiceName(String serviceName) {
-		_columnBitmask = -1L;
+		_columnBitmask |= SERVICENAME_COLUMN_BITMASK;
 
-		if (_originalServiceName == null) {
-			_originalServiceName = _serviceName;
+		if (_oAuthConsumerCacheModel == _dummyOAuthConsumerCacheModel) {
+			_oAuthConsumerCacheModel = (OAuthConsumerCacheModel)toCacheModel();
 		}
 
 		_serviceName = serviceName;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalServiceName() {
-		return GetterUtil.getString(_originalServiceName);
+		return getOriginalAttributeValue("serviceName");
 	}
 
 	@Override
@@ -412,6 +521,12 @@ public class OAuthConsumerModelImpl
 
 	@Override
 	public void setConsumerKey(String consumerKey) {
+		_columnBitmask |= CONSUMERKEY_COLUMN_BITMASK;
+
+		if (_oAuthConsumerCacheModel == _dummyOAuthConsumerCacheModel) {
+			_oAuthConsumerCacheModel = (OAuthConsumerCacheModel)toCacheModel();
+		}
+
 		_consumerKey = consumerKey;
 	}
 
@@ -427,6 +542,12 @@ public class OAuthConsumerModelImpl
 
 	@Override
 	public void setConsumerSecret(String consumerSecret) {
+		_columnBitmask |= CONSUMERSECRET_COLUMN_BITMASK;
+
+		if (_oAuthConsumerCacheModel == _dummyOAuthConsumerCacheModel) {
+			_oAuthConsumerCacheModel = (OAuthConsumerCacheModel)toCacheModel();
+		}
+
 		_consumerSecret = consumerSecret;
 	}
 
@@ -442,6 +563,12 @@ public class OAuthConsumerModelImpl
 
 	@Override
 	public void setKeyType(String keyType) {
+		_columnBitmask |= KEYTYPE_COLUMN_BITMASK;
+
+		if (_oAuthConsumerCacheModel == _dummyOAuthConsumerCacheModel) {
+			_oAuthConsumerCacheModel = (OAuthConsumerCacheModel)toCacheModel();
+		}
+
 		_keyType = keyType;
 	}
 
@@ -556,17 +683,11 @@ public class OAuthConsumerModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		OAuthConsumerModelImpl oAuthConsumerModelImpl = this;
+		_setModifiedDate = false;
 
-		oAuthConsumerModelImpl._setModifiedDate = false;
+		_columnBitmask = 0;
 
-		oAuthConsumerModelImpl._originalGadgetKey =
-			oAuthConsumerModelImpl._gadgetKey;
-
-		oAuthConsumerModelImpl._originalServiceName =
-			oAuthConsumerModelImpl._serviceName;
-
-		oAuthConsumerModelImpl._columnBitmask = 0;
+		_oAuthConsumerCacheModel = _dummyOAuthConsumerCacheModel;
 	}
 
 	@Override
@@ -715,13 +836,16 @@ public class OAuthConsumerModelImpl
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private String _gadgetKey;
-	private String _originalGadgetKey;
 	private String _serviceName;
-	private String _originalServiceName;
 	private String _consumerKey;
 	private String _consumerSecret;
 	private String _keyType;
 	private long _columnBitmask;
+
+	private static final OAuthConsumerCacheModel _dummyOAuthConsumerCacheModel =
+		new OAuthConsumerCacheModel();
+
 	private OAuthConsumer _escapedModel;
+	private OAuthConsumerCacheModel _oAuthConsumerCacheModel;
 
 }

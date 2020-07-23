@@ -100,13 +100,19 @@ public class DDMTemplateLinkModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long CLASSNAMEID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long CLASSPK_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
-	public static final long TEMPLATEID_COLUMN_BITMASK = 4L;
+	public static final long TEMPLATELINKID_COLUMN_BITMASK = 4L;
 
-	public static final long TEMPLATELINKID_COLUMN_BITMASK = 8L;
+	public static final long COMPANYID_COLUMN_BITMASK = 8L;
+
+	public static final long CLASSNAMEID_COLUMN_BITMASK = 16L;
+
+	public static final long CLASSPK_COLUMN_BITMASK = 32L;
+
+	public static final long TEMPLATEID_COLUMN_BITMASK = 64L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -235,10 +241,30 @@ public class DDMTemplateLinkModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_ddmTemplateLinkCacheModel == null) ||
+			(_ddmTemplateLinkCacheModel == _dummyDDMTemplateLinkCacheModel)) {
+
+			return null;
+		}
+
+		Function<DDMTemplateLinkCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_ddmTemplateLinkCacheModel);
+	}
+
 	private static final Map<String, Function<DDMTemplateLink, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<DDMTemplateLink, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<DDMTemplateLinkCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<DDMTemplateLink, Object>>
@@ -246,40 +272,74 @@ public class DDMTemplateLinkModelImpl
 				new LinkedHashMap<String, Function<DDMTemplateLink, Object>>();
 		Map<String, BiConsumer<DDMTemplateLink, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<DDMTemplateLink, ?>>();
+		Map<String, Function<DDMTemplateLinkCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<DDMTemplateLinkCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", DDMTemplateLink::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			ddmTemplateLinkCacheModel -> ddmTemplateLinkCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<DDMTemplateLink, Long>)DDMTemplateLink::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", DDMTemplateLink::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			ddmTemplateLinkCacheModel ->
+				ddmTemplateLinkCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<DDMTemplateLink, Long>)
 				DDMTemplateLink::setCtCollectionId);
 		attributeGetterFunctions.put(
 			"templateLinkId", DDMTemplateLink::getTemplateLinkId);
+
+		cacheModelGetterFunctions.put(
+			"templateLinkId",
+			ddmTemplateLinkCacheModel ->
+				ddmTemplateLinkCacheModel.templateLinkId);
 		attributeSetterBiConsumers.put(
 			"templateLinkId",
 			(BiConsumer<DDMTemplateLink, Long>)
 				DDMTemplateLink::setTemplateLinkId);
 		attributeGetterFunctions.put(
 			"companyId", DDMTemplateLink::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			ddmTemplateLinkCacheModel -> ddmTemplateLinkCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<DDMTemplateLink, Long>)DDMTemplateLink::setCompanyId);
 		attributeGetterFunctions.put(
 			"classNameId", DDMTemplateLink::getClassNameId);
+
+		cacheModelGetterFunctions.put(
+			"classNameId",
+			ddmTemplateLinkCacheModel -> ddmTemplateLinkCacheModel.classNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<DDMTemplateLink, Long>)DDMTemplateLink::setClassNameId);
 		attributeGetterFunctions.put("classPK", DDMTemplateLink::getClassPK);
+
+		cacheModelGetterFunctions.put(
+			"classPK",
+			ddmTemplateLinkCacheModel -> ddmTemplateLinkCacheModel.classPK);
 		attributeSetterBiConsumers.put(
 			"classPK",
 			(BiConsumer<DDMTemplateLink, Long>)DDMTemplateLink::setClassPK);
 		attributeGetterFunctions.put(
 			"templateId", DDMTemplateLink::getTemplateId);
+
+		cacheModelGetterFunctions.put(
+			"templateId",
+			ddmTemplateLinkCacheModel -> ddmTemplateLinkCacheModel.templateId);
 		attributeSetterBiConsumers.put(
 			"templateId",
 			(BiConsumer<DDMTemplateLink, Long>)DDMTemplateLink::setTemplateId);
@@ -288,6 +348,8 @@ public class DDMTemplateLinkModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -297,6 +359,13 @@ public class DDMTemplateLinkModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_ddmTemplateLinkCacheModel == _dummyDDMTemplateLinkCacheModel) {
+			_ddmTemplateLinkCacheModel =
+				(DDMTemplateLinkCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -307,6 +376,13 @@ public class DDMTemplateLinkModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (_ddmTemplateLinkCacheModel == _dummyDDMTemplateLinkCacheModel) {
+			_ddmTemplateLinkCacheModel =
+				(DDMTemplateLinkCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -317,6 +393,13 @@ public class DDMTemplateLinkModelImpl
 
 	@Override
 	public void setTemplateLinkId(long templateLinkId) {
+		_columnBitmask |= TEMPLATELINKID_COLUMN_BITMASK;
+
+		if (_ddmTemplateLinkCacheModel == _dummyDDMTemplateLinkCacheModel) {
+			_ddmTemplateLinkCacheModel =
+				(DDMTemplateLinkCacheModel)toCacheModel();
+		}
+
 		_templateLinkId = templateLinkId;
 	}
 
@@ -327,6 +410,13 @@ public class DDMTemplateLinkModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (_ddmTemplateLinkCacheModel == _dummyDDMTemplateLinkCacheModel) {
+			_ddmTemplateLinkCacheModel =
+				(DDMTemplateLinkCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -359,17 +449,21 @@ public class DDMTemplateLinkModelImpl
 	public void setClassNameId(long classNameId) {
 		_columnBitmask |= CLASSNAMEID_COLUMN_BITMASK;
 
-		if (!_setOriginalClassNameId) {
-			_setOriginalClassNameId = true;
-
-			_originalClassNameId = _classNameId;
+		if (_ddmTemplateLinkCacheModel == _dummyDDMTemplateLinkCacheModel) {
+			_ddmTemplateLinkCacheModel =
+				(DDMTemplateLinkCacheModel)toCacheModel();
 		}
 
 		_classNameId = classNameId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassNameId() {
-		return _originalClassNameId;
+		return getOriginalAttributeValue("classNameId");
 	}
 
 	@Override
@@ -381,17 +475,21 @@ public class DDMTemplateLinkModelImpl
 	public void setClassPK(long classPK) {
 		_columnBitmask |= CLASSPK_COLUMN_BITMASK;
 
-		if (!_setOriginalClassPK) {
-			_setOriginalClassPK = true;
-
-			_originalClassPK = _classPK;
+		if (_ddmTemplateLinkCacheModel == _dummyDDMTemplateLinkCacheModel) {
+			_ddmTemplateLinkCacheModel =
+				(DDMTemplateLinkCacheModel)toCacheModel();
 		}
 
 		_classPK = classPK;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassPK() {
-		return _originalClassPK;
+		return getOriginalAttributeValue("classPK");
 	}
 
 	@Override
@@ -403,17 +501,21 @@ public class DDMTemplateLinkModelImpl
 	public void setTemplateId(long templateId) {
 		_columnBitmask |= TEMPLATEID_COLUMN_BITMASK;
 
-		if (!_setOriginalTemplateId) {
-			_setOriginalTemplateId = true;
-
-			_originalTemplateId = _templateId;
+		if (_ddmTemplateLinkCacheModel == _dummyDDMTemplateLinkCacheModel) {
+			_ddmTemplateLinkCacheModel =
+				(DDMTemplateLinkCacheModel)toCacheModel();
 		}
 
 		_templateId = templateId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalTemplateId() {
-		return _originalTemplateId;
+		return getOriginalAttributeValue("templateId");
 	}
 
 	public long getColumnBitmask() {
@@ -527,24 +629,9 @@ public class DDMTemplateLinkModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		DDMTemplateLinkModelImpl ddmTemplateLinkModelImpl = this;
+		_columnBitmask = 0;
 
-		ddmTemplateLinkModelImpl._originalClassNameId =
-			ddmTemplateLinkModelImpl._classNameId;
-
-		ddmTemplateLinkModelImpl._setOriginalClassNameId = false;
-
-		ddmTemplateLinkModelImpl._originalClassPK =
-			ddmTemplateLinkModelImpl._classPK;
-
-		ddmTemplateLinkModelImpl._setOriginalClassPK = false;
-
-		ddmTemplateLinkModelImpl._originalTemplateId =
-			ddmTemplateLinkModelImpl._templateId;
-
-		ddmTemplateLinkModelImpl._setOriginalTemplateId = false;
-
-		ddmTemplateLinkModelImpl._columnBitmask = 0;
+		_ddmTemplateLinkCacheModel = _dummyDDMTemplateLinkCacheModel;
 	}
 
 	@Override
@@ -644,15 +731,14 @@ public class DDMTemplateLinkModelImpl
 	private long _templateLinkId;
 	private long _companyId;
 	private long _classNameId;
-	private long _originalClassNameId;
-	private boolean _setOriginalClassNameId;
 	private long _classPK;
-	private long _originalClassPK;
-	private boolean _setOriginalClassPK;
 	private long _templateId;
-	private long _originalTemplateId;
-	private boolean _setOriginalTemplateId;
 	private long _columnBitmask;
+
+	private static final DDMTemplateLinkCacheModel
+		_dummyDDMTemplateLinkCacheModel = new DDMTemplateLinkCacheModel();
+
 	private DDMTemplateLink _escapedModel;
+	private DDMTemplateLinkCacheModel _ddmTemplateLinkCacheModel;
 
 }

@@ -1379,7 +1379,9 @@ public class CountryPersistenceImpl
 		if ((countryModelImpl.getColumnBitmask() &
 			 _finderPathFetchByName.getColumnBitmask()) != 0) {
 
-			Object[] args = new Object[] {countryModelImpl.getOriginalName()};
+			Object[] args = new Object[] {
+				countryModelImpl.getOriginalAttributeValue("name")
+			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByName, args);
 			FinderCacheUtil.removeResult(_finderPathFetchByName, args);
@@ -1395,7 +1397,9 @@ public class CountryPersistenceImpl
 		if ((countryModelImpl.getColumnBitmask() &
 			 _finderPathFetchByA2.getColumnBitmask()) != 0) {
 
-			Object[] args = new Object[] {countryModelImpl.getOriginalA2()};
+			Object[] args = new Object[] {
+				countryModelImpl.getOriginalAttributeValue("a2")
+			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByA2, args);
 			FinderCacheUtil.removeResult(_finderPathFetchByA2, args);
@@ -1411,7 +1415,9 @@ public class CountryPersistenceImpl
 		if ((countryModelImpl.getColumnBitmask() &
 			 _finderPathFetchByA3.getColumnBitmask()) != 0) {
 
-			Object[] args = new Object[] {countryModelImpl.getOriginalA3()};
+			Object[] args = new Object[] {
+				countryModelImpl.getOriginalAttributeValue("a3")
+			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByA3, args);
 			FinderCacheUtil.removeResult(_finderPathFetchByA3, args);
@@ -1580,7 +1586,7 @@ public class CountryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					countryModelImpl.getOriginalActive()
+					countryModelImpl.getOriginalAttributeValue("active")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByActive, args);

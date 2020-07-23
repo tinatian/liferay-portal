@@ -4655,9 +4655,10 @@ public class StyleBookEntryPersistenceImpl
 			 _finderPathFetchByG_SBEK_Head.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				styleBookEntryModelImpl.getOriginalGroupId(),
-				styleBookEntryModelImpl.getOriginalStyleBookEntryKey(),
-				styleBookEntryModelImpl.getOriginalHead()
+				styleBookEntryModelImpl.getOriginalAttributeValue("groupId"),
+				styleBookEntryModelImpl.getOriginalAttributeValue(
+					"styleBookEntryKey"),
+				styleBookEntryModelImpl.getOriginalAttributeValue("head")
 			};
 
 			finderCache.removeResult(_finderPathCountByG_SBEK_Head, args);
@@ -4675,7 +4676,7 @@ public class StyleBookEntryPersistenceImpl
 			 _finderPathFetchByHeadId.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				styleBookEntryModelImpl.getOriginalHeadId()
+				styleBookEntryModelImpl.getOriginalAttributeValue("headId")
 			};
 
 			finderCache.removeResult(_finderPathCountByHeadId, args);
@@ -4888,7 +4889,7 @@ public class StyleBookEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					styleBookEntryModelImpl.getOriginalGroupId()
+					styleBookEntryModelImpl.getOriginalAttributeValue("groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId, args);
@@ -4907,8 +4908,9 @@ public class StyleBookEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					styleBookEntryModelImpl.getOriginalGroupId(),
-					styleBookEntryModelImpl.getOriginalHead()
+					styleBookEntryModelImpl.getOriginalAttributeValue(
+						"groupId"),
+					styleBookEntryModelImpl.getOriginalAttributeValue("head")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId_Head, args);
@@ -4930,8 +4932,10 @@ public class StyleBookEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					styleBookEntryModelImpl.getOriginalGroupId(),
-					styleBookEntryModelImpl.getOriginalDefaultStyleBookEntry()
+					styleBookEntryModelImpl.getOriginalAttributeValue(
+						"groupId"),
+					styleBookEntryModelImpl.getOriginalAttributeValue(
+						"defaultStyleBookEntry")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_D, args);
@@ -4953,9 +4957,11 @@ public class StyleBookEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					styleBookEntryModelImpl.getOriginalGroupId(),
-					styleBookEntryModelImpl.getOriginalDefaultStyleBookEntry(),
-					styleBookEntryModelImpl.getOriginalHead()
+					styleBookEntryModelImpl.getOriginalAttributeValue(
+						"groupId"),
+					styleBookEntryModelImpl.getOriginalAttributeValue(
+						"defaultStyleBookEntry"),
+					styleBookEntryModelImpl.getOriginalAttributeValue("head")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_D_Head, args);
@@ -4978,8 +4984,10 @@ public class StyleBookEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					styleBookEntryModelImpl.getOriginalGroupId(),
-					styleBookEntryModelImpl.getOriginalStyleBookEntryKey()
+					styleBookEntryModelImpl.getOriginalAttributeValue(
+						"groupId"),
+					styleBookEntryModelImpl.getOriginalAttributeValue(
+						"styleBookEntryKey")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_SBEK, args);

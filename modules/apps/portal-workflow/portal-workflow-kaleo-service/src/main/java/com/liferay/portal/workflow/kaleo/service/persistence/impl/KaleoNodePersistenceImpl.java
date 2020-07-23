@@ -1959,7 +1959,7 @@ public class KaleoNodePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoNodeModelImpl.getOriginalCompanyId()
+					kaleoNodeModelImpl.getOriginalAttributeValue("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCompanyId, args);
@@ -1978,7 +1978,8 @@ public class KaleoNodePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoNodeModelImpl.getOriginalKaleoDefinitionVersionId()
+					kaleoNodeModelImpl.getOriginalAttributeValue(
+						"kaleoDefinitionVersionId")
 				};
 
 				finderCache.removeResult(
@@ -2003,8 +2004,9 @@ public class KaleoNodePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					kaleoNodeModelImpl.getOriginalCompanyId(),
-					kaleoNodeModelImpl.getOriginalKaleoDefinitionVersionId()
+					kaleoNodeModelImpl.getOriginalAttributeValue("companyId"),
+					kaleoNodeModelImpl.getOriginalAttributeValue(
+						"kaleoDefinitionVersionId")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_KDVI, args);

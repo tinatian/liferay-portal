@@ -1751,8 +1751,10 @@ public class DLFileVersionPreviewPersistenceImpl
 			 _finderPathFetchByF_F.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				dlFileVersionPreviewModelImpl.getOriginalFileEntryId(),
-				dlFileVersionPreviewModelImpl.getOriginalFileVersionId()
+				dlFileVersionPreviewModelImpl.getOriginalAttributeValue(
+					"fileEntryId"),
+				dlFileVersionPreviewModelImpl.getOriginalAttributeValue(
+					"fileVersionId")
 			};
 
 			finderCache.removeResult(_finderPathCountByF_F, args);
@@ -1774,9 +1776,12 @@ public class DLFileVersionPreviewPersistenceImpl
 			 _finderPathFetchByF_F_P.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				dlFileVersionPreviewModelImpl.getOriginalFileEntryId(),
-				dlFileVersionPreviewModelImpl.getOriginalFileVersionId(),
-				dlFileVersionPreviewModelImpl.getOriginalPreviewStatus()
+				dlFileVersionPreviewModelImpl.getOriginalAttributeValue(
+					"fileEntryId"),
+				dlFileVersionPreviewModelImpl.getOriginalAttributeValue(
+					"fileVersionId"),
+				dlFileVersionPreviewModelImpl.getOriginalAttributeValue(
+					"previewStatus")
 			};
 
 			finderCache.removeResult(_finderPathCountByF_F_P, args);
@@ -1969,7 +1974,8 @@ public class DLFileVersionPreviewPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					dlFileVersionPreviewModelImpl.getOriginalFileEntryId()
+					dlFileVersionPreviewModelImpl.getOriginalAttributeValue(
+						"fileEntryId")
 				};
 
 				finderCache.removeResult(_finderPathCountByFileEntryId, args);
@@ -1990,7 +1996,8 @@ public class DLFileVersionPreviewPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					dlFileVersionPreviewModelImpl.getOriginalFileVersionId()
+					dlFileVersionPreviewModelImpl.getOriginalAttributeValue(
+						"fileVersionId")
 				};
 
 				finderCache.removeResult(_finderPathCountByFileVersionId, args);

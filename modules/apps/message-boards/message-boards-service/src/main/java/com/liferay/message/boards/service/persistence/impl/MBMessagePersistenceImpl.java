@@ -21287,8 +21287,8 @@ public class MBMessagePersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				mbMessageModelImpl.getOriginalUuid(),
-				mbMessageModelImpl.getOriginalGroupId()
+				mbMessageModelImpl.getOriginalAttributeValue("uuid"),
+				mbMessageModelImpl.getOriginalAttributeValue("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -21309,8 +21309,8 @@ public class MBMessagePersistenceImpl
 			 _finderPathFetchByG_US.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				mbMessageModelImpl.getOriginalGroupId(),
-				mbMessageModelImpl.getOriginalUrlSubject()
+				mbMessageModelImpl.getOriginalAttributeValue("groupId"),
+				mbMessageModelImpl.getOriginalAttributeValue("urlSubject")
 			};
 
 			finderCache.removeResult(_finderPathCountByG_US, args);
@@ -21784,7 +21784,7 @@ public class MBMessagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mbMessageModelImpl.getOriginalUuid()
+					mbMessageModelImpl.getOriginalAttributeValue("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -21803,8 +21803,8 @@ public class MBMessagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mbMessageModelImpl.getOriginalUuid(),
-					mbMessageModelImpl.getOriginalCompanyId()
+					mbMessageModelImpl.getOriginalAttributeValue("uuid"),
+					mbMessageModelImpl.getOriginalAttributeValue("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -21826,7 +21826,7 @@ public class MBMessagePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					mbMessageModelImpl.getOriginalGroupId()
+					mbMessageModelImpl.getOriginalAttributeValue("groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId, args);
@@ -21845,7 +21845,7 @@ public class MBMessagePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					mbMessageModelImpl.getOriginalCompanyId()
+					mbMessageModelImpl.getOriginalAttributeValue("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCompanyId, args);
@@ -21864,7 +21864,7 @@ public class MBMessagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mbMessageModelImpl.getOriginalUserId()
+					mbMessageModelImpl.getOriginalAttributeValue("userId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUserId, args);
@@ -21883,7 +21883,7 @@ public class MBMessagePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					mbMessageModelImpl.getOriginalThreadId()
+					mbMessageModelImpl.getOriginalAttributeValue("threadId")
 				};
 
 				finderCache.removeResult(_finderPathCountByThreadId, args);
@@ -21902,7 +21902,7 @@ public class MBMessagePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					mbMessageModelImpl.getOriginalThreadId()
+					mbMessageModelImpl.getOriginalAttributeValue("threadId")
 				};
 
 				finderCache.removeResult(_finderPathCountByThreadReplies, args);
@@ -21921,7 +21921,8 @@ public class MBMessagePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					mbMessageModelImpl.getOriginalParentMessageId()
+					mbMessageModelImpl.getOriginalAttributeValue(
+						"parentMessageId")
 				};
 
 				finderCache.removeResult(
@@ -21942,8 +21943,8 @@ public class MBMessagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mbMessageModelImpl.getOriginalGroupId(),
-					mbMessageModelImpl.getOriginalUserId()
+					mbMessageModelImpl.getOriginalAttributeValue("groupId"),
+					mbMessageModelImpl.getOriginalAttributeValue("userId")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_U, args);
@@ -21965,8 +21966,8 @@ public class MBMessagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mbMessageModelImpl.getOriginalGroupId(),
-					mbMessageModelImpl.getOriginalCategoryId()
+					mbMessageModelImpl.getOriginalAttributeValue("groupId"),
+					mbMessageModelImpl.getOriginalAttributeValue("categoryId")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_C, args);
@@ -21988,8 +21989,8 @@ public class MBMessagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mbMessageModelImpl.getOriginalGroupId(),
-					mbMessageModelImpl.getOriginalStatus()
+					mbMessageModelImpl.getOriginalAttributeValue("groupId"),
+					mbMessageModelImpl.getOriginalAttributeValue("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_S, args);
@@ -22011,8 +22012,8 @@ public class MBMessagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mbMessageModelImpl.getOriginalCompanyId(),
-					mbMessageModelImpl.getOriginalStatus()
+					mbMessageModelImpl.getOriginalAttributeValue("companyId"),
+					mbMessageModelImpl.getOriginalAttributeValue("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_S, args);
@@ -22034,8 +22035,8 @@ public class MBMessagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mbMessageModelImpl.getOriginalUserId(),
-					mbMessageModelImpl.getOriginalClassNameId()
+					mbMessageModelImpl.getOriginalAttributeValue("userId"),
+					mbMessageModelImpl.getOriginalAttributeValue("classNameId")
 				};
 
 				finderCache.removeResult(_finderPathCountByU_C, args);
@@ -22057,8 +22058,8 @@ public class MBMessagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mbMessageModelImpl.getOriginalClassNameId(),
-					mbMessageModelImpl.getOriginalClassPK()
+					mbMessageModelImpl.getOriginalAttributeValue("classNameId"),
+					mbMessageModelImpl.getOriginalAttributeValue("classPK")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_C, args);
@@ -22080,8 +22081,9 @@ public class MBMessagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mbMessageModelImpl.getOriginalThreadId(),
-					mbMessageModelImpl.getOriginalParentMessageId()
+					mbMessageModelImpl.getOriginalAttributeValue("threadId"),
+					mbMessageModelImpl.getOriginalAttributeValue(
+						"parentMessageId")
 				};
 
 				finderCache.removeResult(_finderPathCountByT_P, args);
@@ -22103,8 +22105,8 @@ public class MBMessagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mbMessageModelImpl.getOriginalThreadId(),
-					mbMessageModelImpl.getOriginalAnswer()
+					mbMessageModelImpl.getOriginalAttributeValue("threadId"),
+					mbMessageModelImpl.getOriginalAttributeValue("answer")
 				};
 
 				finderCache.removeResult(_finderPathCountByT_A, args);
@@ -22126,8 +22128,8 @@ public class MBMessagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mbMessageModelImpl.getOriginalThreadId(),
-					mbMessageModelImpl.getOriginalStatus()
+					mbMessageModelImpl.getOriginalAttributeValue("threadId"),
+					mbMessageModelImpl.getOriginalAttributeValue("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByT_S, args);
@@ -22149,8 +22151,8 @@ public class MBMessagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mbMessageModelImpl.getOriginalThreadId(),
-					mbMessageModelImpl.getOriginalStatus()
+					mbMessageModelImpl.getOriginalAttributeValue("threadId"),
+					mbMessageModelImpl.getOriginalAttributeValue("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByTR_S, args);
@@ -22172,8 +22174,9 @@ public class MBMessagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mbMessageModelImpl.getOriginalParentMessageId(),
-					mbMessageModelImpl.getOriginalStatus()
+					mbMessageModelImpl.getOriginalAttributeValue(
+						"parentMessageId"),
+					mbMessageModelImpl.getOriginalAttributeValue("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByP_S, args);
@@ -22195,9 +22198,9 @@ public class MBMessagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mbMessageModelImpl.getOriginalGroupId(),
-					mbMessageModelImpl.getOriginalUserId(),
-					mbMessageModelImpl.getOriginalStatus()
+					mbMessageModelImpl.getOriginalAttributeValue("groupId"),
+					mbMessageModelImpl.getOriginalAttributeValue("userId"),
+					mbMessageModelImpl.getOriginalAttributeValue("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_U_S, args);
@@ -22220,9 +22223,9 @@ public class MBMessagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mbMessageModelImpl.getOriginalGroupId(),
-					mbMessageModelImpl.getOriginalCategoryId(),
-					mbMessageModelImpl.getOriginalThreadId()
+					mbMessageModelImpl.getOriginalAttributeValue("groupId"),
+					mbMessageModelImpl.getOriginalAttributeValue("categoryId"),
+					mbMessageModelImpl.getOriginalAttributeValue("threadId")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_C_T, args);
@@ -22245,9 +22248,9 @@ public class MBMessagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mbMessageModelImpl.getOriginalGroupId(),
-					mbMessageModelImpl.getOriginalCategoryId(),
-					mbMessageModelImpl.getOriginalStatus()
+					mbMessageModelImpl.getOriginalAttributeValue("groupId"),
+					mbMessageModelImpl.getOriginalAttributeValue("categoryId"),
+					mbMessageModelImpl.getOriginalAttributeValue("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_C_S, args);
@@ -22270,9 +22273,9 @@ public class MBMessagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mbMessageModelImpl.getOriginalUserId(),
-					mbMessageModelImpl.getOriginalClassNameId(),
-					mbMessageModelImpl.getOriginalClassPK()
+					mbMessageModelImpl.getOriginalAttributeValue("userId"),
+					mbMessageModelImpl.getOriginalAttributeValue("classNameId"),
+					mbMessageModelImpl.getOriginalAttributeValue("classPK")
 				};
 
 				finderCache.removeResult(_finderPathCountByU_C_C, args);
@@ -22295,9 +22298,9 @@ public class MBMessagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mbMessageModelImpl.getOriginalUserId(),
-					mbMessageModelImpl.getOriginalClassNameId(),
-					mbMessageModelImpl.getOriginalStatus()
+					mbMessageModelImpl.getOriginalAttributeValue("userId"),
+					mbMessageModelImpl.getOriginalAttributeValue("classNameId"),
+					mbMessageModelImpl.getOriginalAttributeValue("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByU_C_S, args);
@@ -22320,9 +22323,9 @@ public class MBMessagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mbMessageModelImpl.getOriginalClassNameId(),
-					mbMessageModelImpl.getOriginalClassPK(),
-					mbMessageModelImpl.getOriginalStatus()
+					mbMessageModelImpl.getOriginalAttributeValue("classNameId"),
+					mbMessageModelImpl.getOriginalAttributeValue("classPK"),
+					mbMessageModelImpl.getOriginalAttributeValue("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_C_S, args);
@@ -22345,10 +22348,10 @@ public class MBMessagePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					mbMessageModelImpl.getOriginalGroupId(),
-					mbMessageModelImpl.getOriginalCategoryId(),
-					mbMessageModelImpl.getOriginalThreadId(),
-					mbMessageModelImpl.getOriginalAnswer()
+					mbMessageModelImpl.getOriginalAttributeValue("groupId"),
+					mbMessageModelImpl.getOriginalAttributeValue("categoryId"),
+					mbMessageModelImpl.getOriginalAttributeValue("threadId"),
+					mbMessageModelImpl.getOriginalAttributeValue("answer")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_C_T_A, args);
@@ -22372,10 +22375,10 @@ public class MBMessagePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					mbMessageModelImpl.getOriginalGroupId(),
-					mbMessageModelImpl.getOriginalCategoryId(),
-					mbMessageModelImpl.getOriginalThreadId(),
-					mbMessageModelImpl.getOriginalStatus()
+					mbMessageModelImpl.getOriginalAttributeValue("groupId"),
+					mbMessageModelImpl.getOriginalAttributeValue("categoryId"),
+					mbMessageModelImpl.getOriginalAttributeValue("threadId"),
+					mbMessageModelImpl.getOriginalAttributeValue("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_C_T_S, args);
@@ -22399,10 +22402,10 @@ public class MBMessagePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					mbMessageModelImpl.getOriginalUserId(),
-					mbMessageModelImpl.getOriginalClassNameId(),
-					mbMessageModelImpl.getOriginalClassPK(),
-					mbMessageModelImpl.getOriginalStatus()
+					mbMessageModelImpl.getOriginalAttributeValue("userId"),
+					mbMessageModelImpl.getOriginalAttributeValue("classNameId"),
+					mbMessageModelImpl.getOriginalAttributeValue("classPK"),
+					mbMessageModelImpl.getOriginalAttributeValue("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByU_C_C_S, args);

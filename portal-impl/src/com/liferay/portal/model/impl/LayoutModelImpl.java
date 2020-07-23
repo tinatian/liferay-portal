@@ -188,39 +188,89 @@ public class LayoutModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long CLASSNAMEID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long CLASSPK_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 4L;
+	public static final long UUID_COLUMN_BITMASK = 4L;
 
-	public static final long FRIENDLYURL_COLUMN_BITMASK = 8L;
+	public static final long PLID_COLUMN_BITMASK = 8L;
 
 	public static final long GROUPID_COLUMN_BITMASK = 16L;
 
-	public static final long HIDDEN_COLUMN_BITMASK = 32L;
+	public static final long COMPANYID_COLUMN_BITMASK = 32L;
 
-	public static final long ICONIMAGEID_COLUMN_BITMASK = 64L;
+	public static final long USERID_COLUMN_BITMASK = 64L;
 
-	public static final long LAYOUTID_COLUMN_BITMASK = 128L;
+	public static final long USERNAME_COLUMN_BITMASK = 128L;
 
-	public static final long LAYOUTPROTOTYPEUUID_COLUMN_BITMASK = 256L;
+	public static final long CREATEDATE_COLUMN_BITMASK = 256L;
 
-	public static final long MASTERLAYOUTPLID_COLUMN_BITMASK = 512L;
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 512L;
 
-	public static final long PARENTLAYOUTID_COLUMN_BITMASK = 1024L;
+	public static final long PARENTPLID_COLUMN_BITMASK = 1024L;
 
-	public static final long PARENTPLID_COLUMN_BITMASK = 2048L;
+	public static final long PRIVATELAYOUT_COLUMN_BITMASK = 2048L;
 
-	public static final long PRIORITY_COLUMN_BITMASK = 4096L;
+	public static final long LAYOUTID_COLUMN_BITMASK = 4096L;
 
-	public static final long PRIVATELAYOUT_COLUMN_BITMASK = 8192L;
+	public static final long PARENTLAYOUTID_COLUMN_BITMASK = 8192L;
 
-	public static final long SOURCEPROTOTYPELAYOUTUUID_COLUMN_BITMASK = 16384L;
+	public static final long CLASSNAMEID_COLUMN_BITMASK = 16384L;
 
-	public static final long TYPE_COLUMN_BITMASK = 32768L;
+	public static final long CLASSPK_COLUMN_BITMASK = 32768L;
 
-	public static final long UUID_COLUMN_BITMASK = 65536L;
+	public static final long NAME_COLUMN_BITMASK = 65536L;
+
+	public static final long TITLE_COLUMN_BITMASK = 131072L;
+
+	public static final long DESCRIPTION_COLUMN_BITMASK = 262144L;
+
+	public static final long KEYWORDS_COLUMN_BITMASK = 524288L;
+
+	public static final long ROBOTS_COLUMN_BITMASK = 1048576L;
+
+	public static final long TYPE_COLUMN_BITMASK = 2097152L;
+
+	public static final long TYPESETTINGS_COLUMN_BITMASK = 4194304L;
+
+	public static final long HIDDEN_COLUMN_BITMASK = 8388608L;
+
+	public static final long SYSTEM_COLUMN_BITMASK = 16777216L;
+
+	public static final long FRIENDLYURL_COLUMN_BITMASK = 33554432L;
+
+	public static final long ICONIMAGEID_COLUMN_BITMASK = 67108864L;
+
+	public static final long THEMEID_COLUMN_BITMASK = 134217728L;
+
+	public static final long COLORSCHEMEID_COLUMN_BITMASK = 268435456L;
+
+	public static final long CSS_COLUMN_BITMASK = 536870912L;
+
+	public static final long PRIORITY_COLUMN_BITMASK = 1073741824L;
+
+	public static final long MASTERLAYOUTPLID_COLUMN_BITMASK = 2147483648L;
+
+	public static final long LAYOUTPROTOTYPEUUID_COLUMN_BITMASK = 4294967296L;
+
+	public static final long LAYOUTPROTOTYPELINKENABLED_COLUMN_BITMASK =
+		8589934592L;
+
+	public static final long SOURCEPROTOTYPELAYOUTUUID_COLUMN_BITMASK =
+		17179869184L;
+
+	public static final long PUBLISHDATE_COLUMN_BITMASK = 34359738368L;
+
+	public static final long LASTPUBLISHDATE_COLUMN_BITMASK = 68719476736L;
+
+	public static final long STATUS_COLUMN_BITMASK = 137438953472L;
+
+	public static final long STATUSBYUSERID_COLUMN_BITMASK = 274877906944L;
+
+	public static final long STATUSBYUSERNAME_COLUMN_BITMASK = 549755813888L;
+
+	public static final long STATUSDATE_COLUMN_BITMASK = 1099511627776L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -414,160 +464,316 @@ public class LayoutModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_layoutCacheModel == null) ||
+			(_layoutCacheModel == _dummyLayoutCacheModel)) {
+
+			return null;
+		}
+
+		Function<LayoutCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_layoutCacheModel);
+	}
+
 	private static final Map<String, Function<Layout, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<Layout, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<LayoutCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<Layout, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<Layout, Object>>();
 		Map<String, BiConsumer<Layout, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Layout, ?>>();
+		Map<String, Function<LayoutCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap<String, Function<LayoutCacheModel, Object>>();
 
 		attributeGetterFunctions.put("mvccVersion", Layout::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion", layoutCacheModel -> layoutCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion", (BiConsumer<Layout, Long>)Layout::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", Layout::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			layoutCacheModel -> layoutCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<Layout, Long>)Layout::setCtCollectionId);
 		attributeGetterFunctions.put("uuid", Layout::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid", layoutCacheModel -> layoutCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<Layout, String>)Layout::setUuid);
 		attributeGetterFunctions.put("plid", Layout::getPlid);
+
+		cacheModelGetterFunctions.put(
+			"plid", layoutCacheModel -> layoutCacheModel.plid);
 		attributeSetterBiConsumers.put(
 			"plid", (BiConsumer<Layout, Long>)Layout::setPlid);
 		attributeGetterFunctions.put("groupId", Layout::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId", layoutCacheModel -> layoutCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId", (BiConsumer<Layout, Long>)Layout::setGroupId);
 		attributeGetterFunctions.put("companyId", Layout::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId", layoutCacheModel -> layoutCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId", (BiConsumer<Layout, Long>)Layout::setCompanyId);
 		attributeGetterFunctions.put("userId", Layout::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", layoutCacheModel -> layoutCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<Layout, Long>)Layout::setUserId);
 		attributeGetterFunctions.put("userName", Layout::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName", layoutCacheModel -> layoutCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName", (BiConsumer<Layout, String>)Layout::setUserName);
 		attributeGetterFunctions.put("createDate", Layout::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate", layoutCacheModel -> layoutCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate", (BiConsumer<Layout, Date>)Layout::setCreateDate);
 		attributeGetterFunctions.put("modifiedDate", Layout::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate", layoutCacheModel -> layoutCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate", (BiConsumer<Layout, Date>)Layout::setModifiedDate);
 		attributeGetterFunctions.put("parentPlid", Layout::getParentPlid);
+
+		cacheModelGetterFunctions.put(
+			"parentPlid", layoutCacheModel -> layoutCacheModel.parentPlid);
 		attributeSetterBiConsumers.put(
 			"parentPlid", (BiConsumer<Layout, Long>)Layout::setParentPlid);
 		attributeGetterFunctions.put("privateLayout", Layout::getPrivateLayout);
+
+		cacheModelGetterFunctions.put(
+			"privateLayout",
+			layoutCacheModel -> layoutCacheModel.privateLayout);
 		attributeSetterBiConsumers.put(
 			"privateLayout",
 			(BiConsumer<Layout, Boolean>)Layout::setPrivateLayout);
 		attributeGetterFunctions.put("layoutId", Layout::getLayoutId);
+
+		cacheModelGetterFunctions.put(
+			"layoutId", layoutCacheModel -> layoutCacheModel.layoutId);
 		attributeSetterBiConsumers.put(
 			"layoutId", (BiConsumer<Layout, Long>)Layout::setLayoutId);
 		attributeGetterFunctions.put(
 			"parentLayoutId", Layout::getParentLayoutId);
+
+		cacheModelGetterFunctions.put(
+			"parentLayoutId",
+			layoutCacheModel -> layoutCacheModel.parentLayoutId);
 		attributeSetterBiConsumers.put(
 			"parentLayoutId",
 			(BiConsumer<Layout, Long>)Layout::setParentLayoutId);
 		attributeGetterFunctions.put("classNameId", Layout::getClassNameId);
+
+		cacheModelGetterFunctions.put(
+			"classNameId", layoutCacheModel -> layoutCacheModel.classNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId", (BiConsumer<Layout, Long>)Layout::setClassNameId);
 		attributeGetterFunctions.put("classPK", Layout::getClassPK);
+
+		cacheModelGetterFunctions.put(
+			"classPK", layoutCacheModel -> layoutCacheModel.classPK);
 		attributeSetterBiConsumers.put(
 			"classPK", (BiConsumer<Layout, Long>)Layout::setClassPK);
 		attributeGetterFunctions.put("name", Layout::getName);
+
+		cacheModelGetterFunctions.put(
+			"name", layoutCacheModel -> layoutCacheModel.name);
 		attributeSetterBiConsumers.put(
 			"name", (BiConsumer<Layout, String>)Layout::setName);
 		attributeGetterFunctions.put("title", Layout::getTitle);
+
+		cacheModelGetterFunctions.put(
+			"title", layoutCacheModel -> layoutCacheModel.title);
 		attributeSetterBiConsumers.put(
 			"title", (BiConsumer<Layout, String>)Layout::setTitle);
 		attributeGetterFunctions.put("description", Layout::getDescription);
+
+		cacheModelGetterFunctions.put(
+			"description", layoutCacheModel -> layoutCacheModel.description);
 		attributeSetterBiConsumers.put(
 			"description", (BiConsumer<Layout, String>)Layout::setDescription);
 		attributeGetterFunctions.put("keywords", Layout::getKeywords);
+
+		cacheModelGetterFunctions.put(
+			"keywords", layoutCacheModel -> layoutCacheModel.keywords);
 		attributeSetterBiConsumers.put(
 			"keywords", (BiConsumer<Layout, String>)Layout::setKeywords);
 		attributeGetterFunctions.put("robots", Layout::getRobots);
+
+		cacheModelGetterFunctions.put(
+			"robots", layoutCacheModel -> layoutCacheModel.robots);
 		attributeSetterBiConsumers.put(
 			"robots", (BiConsumer<Layout, String>)Layout::setRobots);
 		attributeGetterFunctions.put("type", Layout::getType);
+
+		cacheModelGetterFunctions.put(
+			"type", layoutCacheModel -> layoutCacheModel.type);
 		attributeSetterBiConsumers.put(
 			"type", (BiConsumer<Layout, String>)Layout::setType);
 		attributeGetterFunctions.put("typeSettings", Layout::getTypeSettings);
+
+		cacheModelGetterFunctions.put(
+			"typeSettings", layoutCacheModel -> layoutCacheModel.typeSettings);
 		attributeSetterBiConsumers.put(
 			"typeSettings",
 			(BiConsumer<Layout, String>)Layout::setTypeSettings);
 		attributeGetterFunctions.put("hidden", Layout::getHidden);
+
+		cacheModelGetterFunctions.put(
+			"hidden", layoutCacheModel -> layoutCacheModel.hidden);
 		attributeSetterBiConsumers.put(
 			"hidden", (BiConsumer<Layout, Boolean>)Layout::setHidden);
 		attributeGetterFunctions.put("system", Layout::getSystem);
+
+		cacheModelGetterFunctions.put(
+			"system", layoutCacheModel -> layoutCacheModel.system);
 		attributeSetterBiConsumers.put(
 			"system", (BiConsumer<Layout, Boolean>)Layout::setSystem);
 		attributeGetterFunctions.put("friendlyURL", Layout::getFriendlyURL);
+
+		cacheModelGetterFunctions.put(
+			"friendlyURL", layoutCacheModel -> layoutCacheModel.friendlyURL);
 		attributeSetterBiConsumers.put(
 			"friendlyURL", (BiConsumer<Layout, String>)Layout::setFriendlyURL);
 		attributeGetterFunctions.put("iconImageId", Layout::getIconImageId);
+
+		cacheModelGetterFunctions.put(
+			"iconImageId", layoutCacheModel -> layoutCacheModel.iconImageId);
 		attributeSetterBiConsumers.put(
 			"iconImageId", (BiConsumer<Layout, Long>)Layout::setIconImageId);
 		attributeGetterFunctions.put("themeId", Layout::getThemeId);
+
+		cacheModelGetterFunctions.put(
+			"themeId", layoutCacheModel -> layoutCacheModel.themeId);
 		attributeSetterBiConsumers.put(
 			"themeId", (BiConsumer<Layout, String>)Layout::setThemeId);
 		attributeGetterFunctions.put("colorSchemeId", Layout::getColorSchemeId);
+
+		cacheModelGetterFunctions.put(
+			"colorSchemeId",
+			layoutCacheModel -> layoutCacheModel.colorSchemeId);
 		attributeSetterBiConsumers.put(
 			"colorSchemeId",
 			(BiConsumer<Layout, String>)Layout::setColorSchemeId);
 		attributeGetterFunctions.put("css", Layout::getCss);
+
+		cacheModelGetterFunctions.put(
+			"css", layoutCacheModel -> layoutCacheModel.css);
 		attributeSetterBiConsumers.put(
 			"css", (BiConsumer<Layout, String>)Layout::setCss);
 		attributeGetterFunctions.put("priority", Layout::getPriority);
+
+		cacheModelGetterFunctions.put(
+			"priority", layoutCacheModel -> layoutCacheModel.priority);
 		attributeSetterBiConsumers.put(
 			"priority", (BiConsumer<Layout, Integer>)Layout::setPriority);
 		attributeGetterFunctions.put(
 			"masterLayoutPlid", Layout::getMasterLayoutPlid);
+
+		cacheModelGetterFunctions.put(
+			"masterLayoutPlid",
+			layoutCacheModel -> layoutCacheModel.masterLayoutPlid);
 		attributeSetterBiConsumers.put(
 			"masterLayoutPlid",
 			(BiConsumer<Layout, Long>)Layout::setMasterLayoutPlid);
 		attributeGetterFunctions.put(
 			"layoutPrototypeUuid", Layout::getLayoutPrototypeUuid);
+
+		cacheModelGetterFunctions.put(
+			"layoutPrototypeUuid",
+			layoutCacheModel -> layoutCacheModel.layoutPrototypeUuid);
 		attributeSetterBiConsumers.put(
 			"layoutPrototypeUuid",
 			(BiConsumer<Layout, String>)Layout::setLayoutPrototypeUuid);
 		attributeGetterFunctions.put(
 			"layoutPrototypeLinkEnabled",
 			Layout::getLayoutPrototypeLinkEnabled);
+
+		cacheModelGetterFunctions.put(
+			"layoutPrototypeLinkEnabled",
+			layoutCacheModel -> layoutCacheModel.layoutPrototypeLinkEnabled);
 		attributeSetterBiConsumers.put(
 			"layoutPrototypeLinkEnabled",
 			(BiConsumer<Layout, Boolean>)Layout::setLayoutPrototypeLinkEnabled);
 		attributeGetterFunctions.put(
 			"sourcePrototypeLayoutUuid", Layout::getSourcePrototypeLayoutUuid);
+
+		cacheModelGetterFunctions.put(
+			"sourcePrototypeLayoutUuid",
+			layoutCacheModel -> layoutCacheModel.sourcePrototypeLayoutUuid);
 		attributeSetterBiConsumers.put(
 			"sourcePrototypeLayoutUuid",
 			(BiConsumer<Layout, String>)Layout::setSourcePrototypeLayoutUuid);
 		attributeGetterFunctions.put("publishDate", Layout::getPublishDate);
+
+		cacheModelGetterFunctions.put(
+			"publishDate", layoutCacheModel -> layoutCacheModel.publishDate);
 		attributeSetterBiConsumers.put(
 			"publishDate", (BiConsumer<Layout, Date>)Layout::setPublishDate);
 		attributeGetterFunctions.put(
 			"lastPublishDate", Layout::getLastPublishDate);
+
+		cacheModelGetterFunctions.put(
+			"lastPublishDate",
+			layoutCacheModel -> layoutCacheModel.lastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<Layout, Date>)Layout::setLastPublishDate);
 		attributeGetterFunctions.put("status", Layout::getStatus);
+
+		cacheModelGetterFunctions.put(
+			"status", layoutCacheModel -> layoutCacheModel.status);
 		attributeSetterBiConsumers.put(
 			"status", (BiConsumer<Layout, Integer>)Layout::setStatus);
 		attributeGetterFunctions.put(
 			"statusByUserId", Layout::getStatusByUserId);
+
+		cacheModelGetterFunctions.put(
+			"statusByUserId",
+			layoutCacheModel -> layoutCacheModel.statusByUserId);
 		attributeSetterBiConsumers.put(
 			"statusByUserId",
 			(BiConsumer<Layout, Long>)Layout::setStatusByUserId);
 		attributeGetterFunctions.put(
 			"statusByUserName", Layout::getStatusByUserName);
+
+		cacheModelGetterFunctions.put(
+			"statusByUserName",
+			layoutCacheModel -> layoutCacheModel.statusByUserName);
 		attributeSetterBiConsumers.put(
 			"statusByUserName",
 			(BiConsumer<Layout, String>)Layout::setStatusByUserName);
 		attributeGetterFunctions.put("statusDate", Layout::getStatusDate);
+
+		cacheModelGetterFunctions.put(
+			"statusDate", layoutCacheModel -> layoutCacheModel.statusDate);
 		attributeSetterBiConsumers.put(
 			"statusDate", (BiConsumer<Layout, Date>)Layout::setStatusDate);
 
@@ -575,6 +781,8 @@ public class LayoutModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -585,6 +793,12 @@ public class LayoutModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_layoutCacheModel == _dummyLayoutCacheModel) {
+			_layoutCacheModel = (LayoutCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -596,6 +810,12 @@ public class LayoutModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (_layoutCacheModel == _dummyLayoutCacheModel) {
+			_layoutCacheModel = (LayoutCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -614,15 +834,20 @@ public class LayoutModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_layoutCacheModel == _dummyLayoutCacheModel) {
+			_layoutCacheModel = (LayoutCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getOriginalAttributeValue("uuid");
 	}
 
 	@JSON
@@ -633,6 +858,12 @@ public class LayoutModelImpl
 
 	@Override
 	public void setPlid(long plid) {
+		_columnBitmask |= PLID_COLUMN_BITMASK;
+
+		if (_layoutCacheModel == _dummyLayoutCacheModel) {
+			_layoutCacheModel = (LayoutCacheModel)toCacheModel();
+		}
+
 		_plid = plid;
 	}
 
@@ -646,17 +877,20 @@ public class LayoutModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_layoutCacheModel == _dummyLayoutCacheModel) {
+			_layoutCacheModel = (LayoutCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getOriginalAttributeValue("groupId");
 	}
 
 	@JSON
@@ -669,17 +903,20 @@ public class LayoutModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_layoutCacheModel == _dummyLayoutCacheModel) {
+			_layoutCacheModel = (LayoutCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@JSON
@@ -690,6 +927,12 @@ public class LayoutModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (_layoutCacheModel == _dummyLayoutCacheModel) {
+			_layoutCacheModel = (LayoutCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -722,6 +965,12 @@ public class LayoutModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (_layoutCacheModel == _dummyLayoutCacheModel) {
+			_layoutCacheModel = (LayoutCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -733,6 +982,12 @@ public class LayoutModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (_layoutCacheModel == _dummyLayoutCacheModel) {
+			_layoutCacheModel = (LayoutCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -750,6 +1005,12 @@ public class LayoutModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (_layoutCacheModel == _dummyLayoutCacheModel) {
+			_layoutCacheModel = (LayoutCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -763,17 +1024,20 @@ public class LayoutModelImpl
 	public void setParentPlid(long parentPlid) {
 		_columnBitmask |= PARENTPLID_COLUMN_BITMASK;
 
-		if (!_setOriginalParentPlid) {
-			_setOriginalParentPlid = true;
-
-			_originalParentPlid = _parentPlid;
+		if (_layoutCacheModel == _dummyLayoutCacheModel) {
+			_layoutCacheModel = (LayoutCacheModel)toCacheModel();
 		}
 
 		_parentPlid = parentPlid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalParentPlid() {
-		return _originalParentPlid;
+		return getOriginalAttributeValue("parentPlid");
 	}
 
 	@JSON
@@ -792,17 +1056,20 @@ public class LayoutModelImpl
 	public void setPrivateLayout(boolean privateLayout) {
 		_columnBitmask |= PRIVATELAYOUT_COLUMN_BITMASK;
 
-		if (!_setOriginalPrivateLayout) {
-			_setOriginalPrivateLayout = true;
-
-			_originalPrivateLayout = _privateLayout;
+		if (_layoutCacheModel == _dummyLayoutCacheModel) {
+			_layoutCacheModel = (LayoutCacheModel)toCacheModel();
 		}
 
 		_privateLayout = privateLayout;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public boolean getOriginalPrivateLayout() {
-		return _originalPrivateLayout;
+		return getOriginalAttributeValue("privateLayout");
 	}
 
 	@JSON
@@ -815,17 +1082,20 @@ public class LayoutModelImpl
 	public void setLayoutId(long layoutId) {
 		_columnBitmask |= LAYOUTID_COLUMN_BITMASK;
 
-		if (!_setOriginalLayoutId) {
-			_setOriginalLayoutId = true;
-
-			_originalLayoutId = _layoutId;
+		if (_layoutCacheModel == _dummyLayoutCacheModel) {
+			_layoutCacheModel = (LayoutCacheModel)toCacheModel();
 		}
 
 		_layoutId = layoutId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalLayoutId() {
-		return _originalLayoutId;
+		return getOriginalAttributeValue("layoutId");
 	}
 
 	@JSON
@@ -836,19 +1106,22 @@ public class LayoutModelImpl
 
 	@Override
 	public void setParentLayoutId(long parentLayoutId) {
-		_columnBitmask = -1L;
+		_columnBitmask |= PARENTLAYOUTID_COLUMN_BITMASK;
 
-		if (!_setOriginalParentLayoutId) {
-			_setOriginalParentLayoutId = true;
-
-			_originalParentLayoutId = _parentLayoutId;
+		if (_layoutCacheModel == _dummyLayoutCacheModel) {
+			_layoutCacheModel = (LayoutCacheModel)toCacheModel();
 		}
 
 		_parentLayoutId = parentLayoutId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalParentLayoutId() {
-		return _originalParentLayoutId;
+		return getOriginalAttributeValue("parentLayoutId");
 	}
 
 	@Override
@@ -881,17 +1154,20 @@ public class LayoutModelImpl
 	public void setClassNameId(long classNameId) {
 		_columnBitmask |= CLASSNAMEID_COLUMN_BITMASK;
 
-		if (!_setOriginalClassNameId) {
-			_setOriginalClassNameId = true;
-
-			_originalClassNameId = _classNameId;
+		if (_layoutCacheModel == _dummyLayoutCacheModel) {
+			_layoutCacheModel = (LayoutCacheModel)toCacheModel();
 		}
 
 		_classNameId = classNameId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassNameId() {
-		return _originalClassNameId;
+		return getOriginalAttributeValue("classNameId");
 	}
 
 	@JSON
@@ -904,17 +1180,20 @@ public class LayoutModelImpl
 	public void setClassPK(long classPK) {
 		_columnBitmask |= CLASSPK_COLUMN_BITMASK;
 
-		if (!_setOriginalClassPK) {
-			_setOriginalClassPK = true;
-
-			_originalClassPK = _classPK;
+		if (_layoutCacheModel == _dummyLayoutCacheModel) {
+			_layoutCacheModel = (LayoutCacheModel)toCacheModel();
 		}
 
 		_classPK = classPK;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassPK() {
-		return _originalClassPK;
+		return getOriginalAttributeValue("classPK");
 	}
 
 	@JSON
@@ -973,6 +1252,12 @@ public class LayoutModelImpl
 
 	@Override
 	public void setName(String name) {
+		_columnBitmask |= NAME_COLUMN_BITMASK;
+
+		if (_layoutCacheModel == _dummyLayoutCacheModel) {
+			_layoutCacheModel = (LayoutCacheModel)toCacheModel();
+		}
+
 		_name = name;
 	}
 
@@ -1076,6 +1361,12 @@ public class LayoutModelImpl
 
 	@Override
 	public void setTitle(String title) {
+		_columnBitmask |= TITLE_COLUMN_BITMASK;
+
+		if (_layoutCacheModel == _dummyLayoutCacheModel) {
+			_layoutCacheModel = (LayoutCacheModel)toCacheModel();
+		}
+
 		_title = title;
 	}
 
@@ -1181,6 +1472,12 @@ public class LayoutModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		_columnBitmask |= DESCRIPTION_COLUMN_BITMASK;
+
+		if (_layoutCacheModel == _dummyLayoutCacheModel) {
+			_layoutCacheModel = (LayoutCacheModel)toCacheModel();
+		}
+
 		_description = description;
 	}
 
@@ -1289,6 +1586,12 @@ public class LayoutModelImpl
 
 	@Override
 	public void setKeywords(String keywords) {
+		_columnBitmask |= KEYWORDS_COLUMN_BITMASK;
+
+		if (_layoutCacheModel == _dummyLayoutCacheModel) {
+			_layoutCacheModel = (LayoutCacheModel)toCacheModel();
+		}
+
 		_keywords = keywords;
 	}
 
@@ -1397,6 +1700,12 @@ public class LayoutModelImpl
 
 	@Override
 	public void setRobots(String robots) {
+		_columnBitmask |= ROBOTS_COLUMN_BITMASK;
+
+		if (_layoutCacheModel == _dummyLayoutCacheModel) {
+			_layoutCacheModel = (LayoutCacheModel)toCacheModel();
+		}
+
 		_robots = robots;
 	}
 
@@ -1462,15 +1771,20 @@ public class LayoutModelImpl
 	public void setType(String type) {
 		_columnBitmask |= TYPE_COLUMN_BITMASK;
 
-		if (_originalType == null) {
-			_originalType = _type;
+		if (_layoutCacheModel == _dummyLayoutCacheModel) {
+			_layoutCacheModel = (LayoutCacheModel)toCacheModel();
 		}
 
 		_type = type;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalType() {
-		return GetterUtil.getString(_originalType);
+		return getOriginalAttributeValue("type");
 	}
 
 	@JSON
@@ -1486,6 +1800,12 @@ public class LayoutModelImpl
 
 	@Override
 	public void setTypeSettings(String typeSettings) {
+		_columnBitmask |= TYPESETTINGS_COLUMN_BITMASK;
+
+		if (_layoutCacheModel == _dummyLayoutCacheModel) {
+			_layoutCacheModel = (LayoutCacheModel)toCacheModel();
+		}
+
 		_typeSettings = typeSettings;
 	}
 
@@ -1505,17 +1825,20 @@ public class LayoutModelImpl
 	public void setHidden(boolean hidden) {
 		_columnBitmask |= HIDDEN_COLUMN_BITMASK;
 
-		if (!_setOriginalHidden) {
-			_setOriginalHidden = true;
-
-			_originalHidden = _hidden;
+		if (_layoutCacheModel == _dummyLayoutCacheModel) {
+			_layoutCacheModel = (LayoutCacheModel)toCacheModel();
 		}
 
 		_hidden = hidden;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public boolean getOriginalHidden() {
-		return _originalHidden;
+		return getOriginalAttributeValue("hidden");
 	}
 
 	@JSON
@@ -1532,6 +1855,12 @@ public class LayoutModelImpl
 
 	@Override
 	public void setSystem(boolean system) {
+		_columnBitmask |= SYSTEM_COLUMN_BITMASK;
+
+		if (_layoutCacheModel == _dummyLayoutCacheModel) {
+			_layoutCacheModel = (LayoutCacheModel)toCacheModel();
+		}
+
 		_system = system;
 	}
 
@@ -1550,15 +1879,20 @@ public class LayoutModelImpl
 	public void setFriendlyURL(String friendlyURL) {
 		_columnBitmask |= FRIENDLYURL_COLUMN_BITMASK;
 
-		if (_originalFriendlyURL == null) {
-			_originalFriendlyURL = _friendlyURL;
+		if (_layoutCacheModel == _dummyLayoutCacheModel) {
+			_layoutCacheModel = (LayoutCacheModel)toCacheModel();
 		}
 
 		_friendlyURL = friendlyURL;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalFriendlyURL() {
-		return GetterUtil.getString(_originalFriendlyURL);
+		return getOriginalAttributeValue("friendlyURL");
 	}
 
 	@JSON
@@ -1571,17 +1905,20 @@ public class LayoutModelImpl
 	public void setIconImageId(long iconImageId) {
 		_columnBitmask |= ICONIMAGEID_COLUMN_BITMASK;
 
-		if (!_setOriginalIconImageId) {
-			_setOriginalIconImageId = true;
-
-			_originalIconImageId = _iconImageId;
+		if (_layoutCacheModel == _dummyLayoutCacheModel) {
+			_layoutCacheModel = (LayoutCacheModel)toCacheModel();
 		}
 
 		_iconImageId = iconImageId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalIconImageId() {
-		return _originalIconImageId;
+		return getOriginalAttributeValue("iconImageId");
 	}
 
 	@JSON
@@ -1597,6 +1934,12 @@ public class LayoutModelImpl
 
 	@Override
 	public void setThemeId(String themeId) {
+		_columnBitmask |= THEMEID_COLUMN_BITMASK;
+
+		if (_layoutCacheModel == _dummyLayoutCacheModel) {
+			_layoutCacheModel = (LayoutCacheModel)toCacheModel();
+		}
+
 		_themeId = themeId;
 	}
 
@@ -1613,6 +1956,12 @@ public class LayoutModelImpl
 
 	@Override
 	public void setColorSchemeId(String colorSchemeId) {
+		_columnBitmask |= COLORSCHEMEID_COLUMN_BITMASK;
+
+		if (_layoutCacheModel == _dummyLayoutCacheModel) {
+			_layoutCacheModel = (LayoutCacheModel)toCacheModel();
+		}
+
 		_colorSchemeId = colorSchemeId;
 	}
 
@@ -1629,6 +1978,12 @@ public class LayoutModelImpl
 
 	@Override
 	public void setCss(String css) {
+		_columnBitmask |= CSS_COLUMN_BITMASK;
+
+		if (_layoutCacheModel == _dummyLayoutCacheModel) {
+			_layoutCacheModel = (LayoutCacheModel)toCacheModel();
+		}
+
 		_css = css;
 	}
 
@@ -1640,19 +1995,22 @@ public class LayoutModelImpl
 
 	@Override
 	public void setPriority(int priority) {
-		_columnBitmask = -1L;
+		_columnBitmask |= PRIORITY_COLUMN_BITMASK;
 
-		if (!_setOriginalPriority) {
-			_setOriginalPriority = true;
-
-			_originalPriority = _priority;
+		if (_layoutCacheModel == _dummyLayoutCacheModel) {
+			_layoutCacheModel = (LayoutCacheModel)toCacheModel();
 		}
 
 		_priority = priority;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalPriority() {
-		return _originalPriority;
+		return getOriginalAttributeValue("priority");
 	}
 
 	@JSON
@@ -1665,17 +2023,20 @@ public class LayoutModelImpl
 	public void setMasterLayoutPlid(long masterLayoutPlid) {
 		_columnBitmask |= MASTERLAYOUTPLID_COLUMN_BITMASK;
 
-		if (!_setOriginalMasterLayoutPlid) {
-			_setOriginalMasterLayoutPlid = true;
-
-			_originalMasterLayoutPlid = _masterLayoutPlid;
+		if (_layoutCacheModel == _dummyLayoutCacheModel) {
+			_layoutCacheModel = (LayoutCacheModel)toCacheModel();
 		}
 
 		_masterLayoutPlid = masterLayoutPlid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalMasterLayoutPlid() {
-		return _originalMasterLayoutPlid;
+		return getOriginalAttributeValue("masterLayoutPlid");
 	}
 
 	@JSON
@@ -1693,15 +2054,20 @@ public class LayoutModelImpl
 	public void setLayoutPrototypeUuid(String layoutPrototypeUuid) {
 		_columnBitmask |= LAYOUTPROTOTYPEUUID_COLUMN_BITMASK;
 
-		if (_originalLayoutPrototypeUuid == null) {
-			_originalLayoutPrototypeUuid = _layoutPrototypeUuid;
+		if (_layoutCacheModel == _dummyLayoutCacheModel) {
+			_layoutCacheModel = (LayoutCacheModel)toCacheModel();
 		}
 
 		_layoutPrototypeUuid = layoutPrototypeUuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalLayoutPrototypeUuid() {
-		return GetterUtil.getString(_originalLayoutPrototypeUuid);
+		return getOriginalAttributeValue("layoutPrototypeUuid");
 	}
 
 	@JSON
@@ -1719,6 +2085,12 @@ public class LayoutModelImpl
 	@Override
 	public void setLayoutPrototypeLinkEnabled(
 		boolean layoutPrototypeLinkEnabled) {
+
+		_columnBitmask |= LAYOUTPROTOTYPELINKENABLED_COLUMN_BITMASK;
+
+		if (_layoutCacheModel == _dummyLayoutCacheModel) {
+			_layoutCacheModel = (LayoutCacheModel)toCacheModel();
+		}
 
 		_layoutPrototypeLinkEnabled = layoutPrototypeLinkEnabled;
 	}
@@ -1738,15 +2110,20 @@ public class LayoutModelImpl
 	public void setSourcePrototypeLayoutUuid(String sourcePrototypeLayoutUuid) {
 		_columnBitmask |= SOURCEPROTOTYPELAYOUTUUID_COLUMN_BITMASK;
 
-		if (_originalSourcePrototypeLayoutUuid == null) {
-			_originalSourcePrototypeLayoutUuid = _sourcePrototypeLayoutUuid;
+		if (_layoutCacheModel == _dummyLayoutCacheModel) {
+			_layoutCacheModel = (LayoutCacheModel)toCacheModel();
 		}
 
 		_sourcePrototypeLayoutUuid = sourcePrototypeLayoutUuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalSourcePrototypeLayoutUuid() {
-		return GetterUtil.getString(_originalSourcePrototypeLayoutUuid);
+		return getOriginalAttributeValue("sourcePrototypeLayoutUuid");
 	}
 
 	@JSON
@@ -1757,6 +2134,12 @@ public class LayoutModelImpl
 
 	@Override
 	public void setPublishDate(Date publishDate) {
+		_columnBitmask |= PUBLISHDATE_COLUMN_BITMASK;
+
+		if (_layoutCacheModel == _dummyLayoutCacheModel) {
+			_layoutCacheModel = (LayoutCacheModel)toCacheModel();
+		}
+
 		_publishDate = publishDate;
 	}
 
@@ -1768,6 +2151,12 @@ public class LayoutModelImpl
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		_columnBitmask |= LASTPUBLISHDATE_COLUMN_BITMASK;
+
+		if (_layoutCacheModel == _dummyLayoutCacheModel) {
+			_layoutCacheModel = (LayoutCacheModel)toCacheModel();
+		}
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -1779,6 +2168,12 @@ public class LayoutModelImpl
 
 	@Override
 	public void setStatus(int status) {
+		_columnBitmask |= STATUS_COLUMN_BITMASK;
+
+		if (_layoutCacheModel == _dummyLayoutCacheModel) {
+			_layoutCacheModel = (LayoutCacheModel)toCacheModel();
+		}
+
 		_status = status;
 	}
 
@@ -1790,6 +2185,12 @@ public class LayoutModelImpl
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		_columnBitmask |= STATUSBYUSERID_COLUMN_BITMASK;
+
+		if (_layoutCacheModel == _dummyLayoutCacheModel) {
+			_layoutCacheModel = (LayoutCacheModel)toCacheModel();
+		}
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -1822,6 +2223,12 @@ public class LayoutModelImpl
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		_columnBitmask |= STATUSBYUSERNAME_COLUMN_BITMASK;
+
+		if (_layoutCacheModel == _dummyLayoutCacheModel) {
+			_layoutCacheModel = (LayoutCacheModel)toCacheModel();
+		}
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -1833,6 +2240,12 @@ public class LayoutModelImpl
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		_columnBitmask |= STATUSDATE_COLUMN_BITMASK;
+
+		if (_layoutCacheModel == _dummyLayoutCacheModel) {
+			_layoutCacheModel = (LayoutCacheModel)toCacheModel();
+		}
+
 		_statusDate = statusDate;
 	}
 
@@ -2238,73 +2651,11 @@ public class LayoutModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		LayoutModelImpl layoutModelImpl = this;
+		_setModifiedDate = false;
 
-		layoutModelImpl._originalUuid = layoutModelImpl._uuid;
+		_columnBitmask = 0;
 
-		layoutModelImpl._originalGroupId = layoutModelImpl._groupId;
-
-		layoutModelImpl._setOriginalGroupId = false;
-
-		layoutModelImpl._originalCompanyId = layoutModelImpl._companyId;
-
-		layoutModelImpl._setOriginalCompanyId = false;
-
-		layoutModelImpl._setModifiedDate = false;
-
-		layoutModelImpl._originalParentPlid = layoutModelImpl._parentPlid;
-
-		layoutModelImpl._setOriginalParentPlid = false;
-
-		layoutModelImpl._originalPrivateLayout = layoutModelImpl._privateLayout;
-
-		layoutModelImpl._setOriginalPrivateLayout = false;
-
-		layoutModelImpl._originalLayoutId = layoutModelImpl._layoutId;
-
-		layoutModelImpl._setOriginalLayoutId = false;
-
-		layoutModelImpl._originalParentLayoutId =
-			layoutModelImpl._parentLayoutId;
-
-		layoutModelImpl._setOriginalParentLayoutId = false;
-
-		layoutModelImpl._originalClassNameId = layoutModelImpl._classNameId;
-
-		layoutModelImpl._setOriginalClassNameId = false;
-
-		layoutModelImpl._originalClassPK = layoutModelImpl._classPK;
-
-		layoutModelImpl._setOriginalClassPK = false;
-
-		layoutModelImpl._originalType = layoutModelImpl._type;
-
-		layoutModelImpl._originalHidden = layoutModelImpl._hidden;
-
-		layoutModelImpl._setOriginalHidden = false;
-
-		layoutModelImpl._originalFriendlyURL = layoutModelImpl._friendlyURL;
-
-		layoutModelImpl._originalIconImageId = layoutModelImpl._iconImageId;
-
-		layoutModelImpl._setOriginalIconImageId = false;
-
-		layoutModelImpl._originalPriority = layoutModelImpl._priority;
-
-		layoutModelImpl._setOriginalPriority = false;
-
-		layoutModelImpl._originalMasterLayoutPlid =
-			layoutModelImpl._masterLayoutPlid;
-
-		layoutModelImpl._setOriginalMasterLayoutPlid = false;
-
-		layoutModelImpl._originalLayoutPrototypeUuid =
-			layoutModelImpl._layoutPrototypeUuid;
-
-		layoutModelImpl._originalSourcePrototypeLayoutUuid =
-			layoutModelImpl._sourcePrototypeLayoutUuid;
-
-		layoutModelImpl._columnBitmask = 0;
+		_layoutCacheModel = _dummyLayoutCacheModel;
 	}
 
 	@Override
@@ -2605,37 +2956,20 @@ public class LayoutModelImpl
 	private long _mvccVersion;
 	private long _ctCollectionId;
 	private String _uuid;
-	private String _originalUuid;
 	private long _plid;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _parentPlid;
-	private long _originalParentPlid;
-	private boolean _setOriginalParentPlid;
 	private boolean _privateLayout;
-	private boolean _originalPrivateLayout;
-	private boolean _setOriginalPrivateLayout;
 	private long _layoutId;
-	private long _originalLayoutId;
-	private boolean _setOriginalLayoutId;
 	private long _parentLayoutId;
-	private long _originalParentLayoutId;
-	private boolean _setOriginalParentLayoutId;
 	private long _classNameId;
-	private long _originalClassNameId;
-	private boolean _setOriginalClassNameId;
 	private long _classPK;
-	private long _originalClassPK;
-	private boolean _setOriginalClassPK;
 	private String _name;
 	private String _nameCurrentLanguageId;
 	private String _title;
@@ -2647,31 +2981,19 @@ public class LayoutModelImpl
 	private String _robots;
 	private String _robotsCurrentLanguageId;
 	private String _type;
-	private String _originalType;
 	private String _typeSettings;
 	private boolean _hidden;
-	private boolean _originalHidden;
-	private boolean _setOriginalHidden;
 	private boolean _system;
 	private String _friendlyURL;
-	private String _originalFriendlyURL;
 	private long _iconImageId;
-	private long _originalIconImageId;
-	private boolean _setOriginalIconImageId;
 	private String _themeId;
 	private String _colorSchemeId;
 	private String _css;
 	private int _priority;
-	private int _originalPriority;
-	private boolean _setOriginalPriority;
 	private long _masterLayoutPlid;
-	private long _originalMasterLayoutPlid;
-	private boolean _setOriginalMasterLayoutPlid;
 	private String _layoutPrototypeUuid;
-	private String _originalLayoutPrototypeUuid;
 	private boolean _layoutPrototypeLinkEnabled;
 	private String _sourcePrototypeLayoutUuid;
-	private String _originalSourcePrototypeLayoutUuid;
 	private Date _publishDate;
 	private Date _lastPublishDate;
 	private int _status;
@@ -2679,6 +3001,11 @@ public class LayoutModelImpl
 	private String _statusByUserName;
 	private Date _statusDate;
 	private long _columnBitmask;
+
+	private static final LayoutCacheModel _dummyLayoutCacheModel =
+		new LayoutCacheModel();
+
 	private Layout _escapedModel;
+	private LayoutCacheModel _layoutCacheModel;
 
 }

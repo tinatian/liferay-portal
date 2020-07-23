@@ -2120,7 +2120,8 @@ public class BatchEngineImportTaskPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					batchEngineImportTaskModelImpl.getOriginalUuid()
+					batchEngineImportTaskModelImpl.getOriginalAttributeValue(
+						"uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -2139,8 +2140,10 @@ public class BatchEngineImportTaskPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					batchEngineImportTaskModelImpl.getOriginalUuid(),
-					batchEngineImportTaskModelImpl.getOriginalCompanyId()
+					batchEngineImportTaskModelImpl.getOriginalAttributeValue(
+						"uuid"),
+					batchEngineImportTaskModelImpl.getOriginalAttributeValue(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -2162,7 +2165,8 @@ public class BatchEngineImportTaskPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					batchEngineImportTaskModelImpl.getOriginalExecuteStatus()
+					batchEngineImportTaskModelImpl.getOriginalAttributeValue(
+						"executeStatus")
 				};
 
 				finderCache.removeResult(_finderPathCountByExecuteStatus, args);

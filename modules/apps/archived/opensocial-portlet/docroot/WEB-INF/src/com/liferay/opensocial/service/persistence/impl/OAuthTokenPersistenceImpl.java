@@ -1241,11 +1241,11 @@ public class OAuthTokenPersistenceImpl
 			 _finderPathFetchByU_G_S_M_T.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				oAuthTokenModelImpl.getOriginalUserId(),
-				oAuthTokenModelImpl.getOriginalGadgetKey(),
-				oAuthTokenModelImpl.getOriginalServiceName(),
-				oAuthTokenModelImpl.getOriginalModuleId(),
-				oAuthTokenModelImpl.getOriginalTokenName()
+				oAuthTokenModelImpl.getOriginalAttributeValue("userId"),
+				oAuthTokenModelImpl.getOriginalAttributeValue("gadgetKey"),
+				oAuthTokenModelImpl.getOriginalAttributeValue("serviceName"),
+				oAuthTokenModelImpl.getOriginalAttributeValue("moduleId"),
+				oAuthTokenModelImpl.getOriginalAttributeValue("tokenName")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByU_G_S_M_T, args);
@@ -1446,8 +1446,8 @@ public class OAuthTokenPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					oAuthTokenModelImpl.getOriginalGadgetKey(),
-					oAuthTokenModelImpl.getOriginalServiceName()
+					oAuthTokenModelImpl.getOriginalAttributeValue("gadgetKey"),
+					oAuthTokenModelImpl.getOriginalAttributeValue("serviceName")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByG_S, args);

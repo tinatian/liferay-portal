@@ -22,7 +22,6 @@ import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.wiki.model.WikiPageResource;
 import com.liferay.wiki.model.WikiPageResourceModel;
@@ -99,17 +98,19 @@ public class WikiPageResourceModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 2L;
+	public static final long UUID_COLUMN_BITMASK = 2L;
 
-	public static final long NODEID_COLUMN_BITMASK = 4L;
+	public static final long RESOURCEPRIMKEY_COLUMN_BITMASK = 4L;
 
-	public static final long TITLE_COLUMN_BITMASK = 8L;
+	public static final long GROUPID_COLUMN_BITMASK = 8L;
 
-	public static final long UUID_COLUMN_BITMASK = 16L;
+	public static final long COMPANYID_COLUMN_BITMASK = 16L;
 
-	public static final long RESOURCEPRIMKEY_COLUMN_BITMASK = 32L;
+	public static final long NODEID_COLUMN_BITMASK = 32L;
+
+	public static final long TITLE_COLUMN_BITMASK = 64L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -238,10 +239,30 @@ public class WikiPageResourceModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_wikiPageResourceCacheModel == null) ||
+			(_wikiPageResourceCacheModel == _dummyWikiPageResourceCacheModel)) {
+
+			return null;
+		}
+
+		Function<WikiPageResourceCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_wikiPageResourceCacheModel);
+	}
+
 	private static final Map<String, Function<WikiPageResource, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<WikiPageResource, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<WikiPageResourceCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<WikiPageResource, Object>>
@@ -250,37 +271,71 @@ public class WikiPageResourceModelImpl
 		Map<String, BiConsumer<WikiPageResource, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<WikiPageResource, ?>>();
+		Map<String, Function<WikiPageResourceCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<WikiPageResourceCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", WikiPageResource::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			wikiPageResourceCacheModel ->
+				wikiPageResourceCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<WikiPageResource, Long>)
 				WikiPageResource::setMvccVersion);
 		attributeGetterFunctions.put("uuid", WikiPageResource::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid",
+			wikiPageResourceCacheModel -> wikiPageResourceCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid",
 			(BiConsumer<WikiPageResource, String>)WikiPageResource::setUuid);
 		attributeGetterFunctions.put(
 			"resourcePrimKey", WikiPageResource::getResourcePrimKey);
+
+		cacheModelGetterFunctions.put(
+			"resourcePrimKey",
+			wikiPageResourceCacheModel ->
+				wikiPageResourceCacheModel.resourcePrimKey);
 		attributeSetterBiConsumers.put(
 			"resourcePrimKey",
 			(BiConsumer<WikiPageResource, Long>)
 				WikiPageResource::setResourcePrimKey);
 		attributeGetterFunctions.put("groupId", WikiPageResource::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			wikiPageResourceCacheModel -> wikiPageResourceCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<WikiPageResource, Long>)WikiPageResource::setGroupId);
 		attributeGetterFunctions.put(
 			"companyId", WikiPageResource::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			wikiPageResourceCacheModel -> wikiPageResourceCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<WikiPageResource, Long>)WikiPageResource::setCompanyId);
 		attributeGetterFunctions.put("nodeId", WikiPageResource::getNodeId);
+
+		cacheModelGetterFunctions.put(
+			"nodeId",
+			wikiPageResourceCacheModel -> wikiPageResourceCacheModel.nodeId);
 		attributeSetterBiConsumers.put(
 			"nodeId",
 			(BiConsumer<WikiPageResource, Long>)WikiPageResource::setNodeId);
 		attributeGetterFunctions.put("title", WikiPageResource::getTitle);
+
+		cacheModelGetterFunctions.put(
+			"title",
+			wikiPageResourceCacheModel -> wikiPageResourceCacheModel.title);
 		attributeSetterBiConsumers.put(
 			"title",
 			(BiConsumer<WikiPageResource, String>)WikiPageResource::setTitle);
@@ -289,6 +344,8 @@ public class WikiPageResourceModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -298,6 +355,13 @@ public class WikiPageResourceModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_wikiPageResourceCacheModel == _dummyWikiPageResourceCacheModel) {
+			_wikiPageResourceCacheModel =
+				(WikiPageResourceCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -315,15 +379,21 @@ public class WikiPageResourceModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_wikiPageResourceCacheModel == _dummyWikiPageResourceCacheModel) {
+			_wikiPageResourceCacheModel =
+				(WikiPageResourceCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getOriginalAttributeValue("uuid");
 	}
 
 	@Override
@@ -333,6 +403,13 @@ public class WikiPageResourceModelImpl
 
 	@Override
 	public void setResourcePrimKey(long resourcePrimKey) {
+		_columnBitmask |= RESOURCEPRIMKEY_COLUMN_BITMASK;
+
+		if (_wikiPageResourceCacheModel == _dummyWikiPageResourceCacheModel) {
+			_wikiPageResourceCacheModel =
+				(WikiPageResourceCacheModel)toCacheModel();
+		}
+
 		_resourcePrimKey = resourcePrimKey;
 	}
 
@@ -345,17 +422,21 @@ public class WikiPageResourceModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_wikiPageResourceCacheModel == _dummyWikiPageResourceCacheModel) {
+			_wikiPageResourceCacheModel =
+				(WikiPageResourceCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getOriginalAttributeValue("groupId");
 	}
 
 	@Override
@@ -367,17 +448,21 @@ public class WikiPageResourceModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_wikiPageResourceCacheModel == _dummyWikiPageResourceCacheModel) {
+			_wikiPageResourceCacheModel =
+				(WikiPageResourceCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@Override
@@ -389,17 +474,21 @@ public class WikiPageResourceModelImpl
 	public void setNodeId(long nodeId) {
 		_columnBitmask |= NODEID_COLUMN_BITMASK;
 
-		if (!_setOriginalNodeId) {
-			_setOriginalNodeId = true;
-
-			_originalNodeId = _nodeId;
+		if (_wikiPageResourceCacheModel == _dummyWikiPageResourceCacheModel) {
+			_wikiPageResourceCacheModel =
+				(WikiPageResourceCacheModel)toCacheModel();
 		}
 
 		_nodeId = nodeId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalNodeId() {
-		return _originalNodeId;
+		return getOriginalAttributeValue("nodeId");
 	}
 
 	@Override
@@ -416,15 +505,21 @@ public class WikiPageResourceModelImpl
 	public void setTitle(String title) {
 		_columnBitmask |= TITLE_COLUMN_BITMASK;
 
-		if (_originalTitle == null) {
-			_originalTitle = _title;
+		if (_wikiPageResourceCacheModel == _dummyWikiPageResourceCacheModel) {
+			_wikiPageResourceCacheModel =
+				(WikiPageResourceCacheModel)toCacheModel();
 		}
 
 		_title = title;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalTitle() {
-		return GetterUtil.getString(_originalTitle);
+		return getOriginalAttributeValue("title");
 	}
 
 	public long getColumnBitmask() {
@@ -538,30 +633,9 @@ public class WikiPageResourceModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		WikiPageResourceModelImpl wikiPageResourceModelImpl = this;
+		_columnBitmask = 0;
 
-		wikiPageResourceModelImpl._originalUuid =
-			wikiPageResourceModelImpl._uuid;
-
-		wikiPageResourceModelImpl._originalGroupId =
-			wikiPageResourceModelImpl._groupId;
-
-		wikiPageResourceModelImpl._setOriginalGroupId = false;
-
-		wikiPageResourceModelImpl._originalCompanyId =
-			wikiPageResourceModelImpl._companyId;
-
-		wikiPageResourceModelImpl._setOriginalCompanyId = false;
-
-		wikiPageResourceModelImpl._originalNodeId =
-			wikiPageResourceModelImpl._nodeId;
-
-		wikiPageResourceModelImpl._setOriginalNodeId = false;
-
-		wikiPageResourceModelImpl._originalTitle =
-			wikiPageResourceModelImpl._title;
-
-		wikiPageResourceModelImpl._columnBitmask = 0;
+		_wikiPageResourceCacheModel = _dummyWikiPageResourceCacheModel;
 	}
 
 	@Override
@@ -670,20 +744,17 @@ public class WikiPageResourceModelImpl
 
 	private long _mvccVersion;
 	private String _uuid;
-	private String _originalUuid;
 	private long _resourcePrimKey;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _nodeId;
-	private long _originalNodeId;
-	private boolean _setOriginalNodeId;
 	private String _title;
-	private String _originalTitle;
 	private long _columnBitmask;
+
+	private static final WikiPageResourceCacheModel
+		_dummyWikiPageResourceCacheModel = new WikiPageResourceCacheModel();
+
 	private WikiPageResource _escapedModel;
+	private WikiPageResourceCacheModel _wikiPageResourceCacheModel;
 
 }

@@ -133,21 +133,35 @@ public class SocialActivityCounterModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long CLASSNAMEID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long CLASSPK_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
-	public static final long ENDPERIOD_COLUMN_BITMASK = 4L;
+	public static final long ACTIVITYCOUNTERID_COLUMN_BITMASK = 4L;
 
 	public static final long GROUPID_COLUMN_BITMASK = 8L;
 
-	public static final long NAME_COLUMN_BITMASK = 16L;
+	public static final long COMPANYID_COLUMN_BITMASK = 16L;
 
-	public static final long OWNERTYPE_COLUMN_BITMASK = 32L;
+	public static final long CLASSNAMEID_COLUMN_BITMASK = 32L;
 
-	public static final long STARTPERIOD_COLUMN_BITMASK = 64L;
+	public static final long CLASSPK_COLUMN_BITMASK = 64L;
 
-	public static final long ACTIVITYCOUNTERID_COLUMN_BITMASK = 128L;
+	public static final long NAME_COLUMN_BITMASK = 128L;
+
+	public static final long OWNERTYPE_COLUMN_BITMASK = 256L;
+
+	public static final long CURRENTVALUE_COLUMN_BITMASK = 512L;
+
+	public static final long TOTALVALUE_COLUMN_BITMASK = 1024L;
+
+	public static final long GRACEVALUE_COLUMN_BITMASK = 2048L;
+
+	public static final long STARTPERIOD_COLUMN_BITMASK = 4096L;
+
+	public static final long ENDPERIOD_COLUMN_BITMASK = 8192L;
+
+	public static final long ACTIVE_COLUMN_BITMASK = 16384L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		com.liferay.portal.util.PropsUtil.get(
@@ -267,10 +281,31 @@ public class SocialActivityCounterModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_socialActivityCounterCacheModel == null) ||
+			(_socialActivityCounterCacheModel ==
+				_dummySocialActivityCounterCacheModel)) {
+
+			return null;
+		}
+
+		Function<SocialActivityCounterCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_socialActivityCounterCacheModel);
+	}
+
 	private static final Map<String, Function<SocialActivityCounter, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<SocialActivityCounter, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<SocialActivityCounterCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<SocialActivityCounter, Object>>
@@ -281,92 +316,172 @@ public class SocialActivityCounterModelImpl
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<SocialActivityCounter, ?>>();
+		Map<String, Function<SocialActivityCounterCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String,
+					 Function<SocialActivityCounterCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", SocialActivityCounter::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			socialActivityCounterCacheModel ->
+				socialActivityCounterCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<SocialActivityCounter, Long>)
 				SocialActivityCounter::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", SocialActivityCounter::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			socialActivityCounterCacheModel ->
+				socialActivityCounterCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<SocialActivityCounter, Long>)
 				SocialActivityCounter::setCtCollectionId);
 		attributeGetterFunctions.put(
 			"activityCounterId", SocialActivityCounter::getActivityCounterId);
+
+		cacheModelGetterFunctions.put(
+			"activityCounterId",
+			socialActivityCounterCacheModel ->
+				socialActivityCounterCacheModel.activityCounterId);
 		attributeSetterBiConsumers.put(
 			"activityCounterId",
 			(BiConsumer<SocialActivityCounter, Long>)
 				SocialActivityCounter::setActivityCounterId);
 		attributeGetterFunctions.put(
 			"groupId", SocialActivityCounter::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			socialActivityCounterCacheModel ->
+				socialActivityCounterCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<SocialActivityCounter, Long>)
 				SocialActivityCounter::setGroupId);
 		attributeGetterFunctions.put(
 			"companyId", SocialActivityCounter::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			socialActivityCounterCacheModel ->
+				socialActivityCounterCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<SocialActivityCounter, Long>)
 				SocialActivityCounter::setCompanyId);
 		attributeGetterFunctions.put(
 			"classNameId", SocialActivityCounter::getClassNameId);
+
+		cacheModelGetterFunctions.put(
+			"classNameId",
+			socialActivityCounterCacheModel ->
+				socialActivityCounterCacheModel.classNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<SocialActivityCounter, Long>)
 				SocialActivityCounter::setClassNameId);
 		attributeGetterFunctions.put(
 			"classPK", SocialActivityCounter::getClassPK);
+
+		cacheModelGetterFunctions.put(
+			"classPK",
+			socialActivityCounterCacheModel ->
+				socialActivityCounterCacheModel.classPK);
 		attributeSetterBiConsumers.put(
 			"classPK",
 			(BiConsumer<SocialActivityCounter, Long>)
 				SocialActivityCounter::setClassPK);
 		attributeGetterFunctions.put("name", SocialActivityCounter::getName);
+
+		cacheModelGetterFunctions.put(
+			"name",
+			socialActivityCounterCacheModel ->
+				socialActivityCounterCacheModel.name);
 		attributeSetterBiConsumers.put(
 			"name",
 			(BiConsumer<SocialActivityCounter, String>)
 				SocialActivityCounter::setName);
 		attributeGetterFunctions.put(
 			"ownerType", SocialActivityCounter::getOwnerType);
+
+		cacheModelGetterFunctions.put(
+			"ownerType",
+			socialActivityCounterCacheModel ->
+				socialActivityCounterCacheModel.ownerType);
 		attributeSetterBiConsumers.put(
 			"ownerType",
 			(BiConsumer<SocialActivityCounter, Integer>)
 				SocialActivityCounter::setOwnerType);
 		attributeGetterFunctions.put(
 			"currentValue", SocialActivityCounter::getCurrentValue);
+
+		cacheModelGetterFunctions.put(
+			"currentValue",
+			socialActivityCounterCacheModel ->
+				socialActivityCounterCacheModel.currentValue);
 		attributeSetterBiConsumers.put(
 			"currentValue",
 			(BiConsumer<SocialActivityCounter, Integer>)
 				SocialActivityCounter::setCurrentValue);
 		attributeGetterFunctions.put(
 			"totalValue", SocialActivityCounter::getTotalValue);
+
+		cacheModelGetterFunctions.put(
+			"totalValue",
+			socialActivityCounterCacheModel ->
+				socialActivityCounterCacheModel.totalValue);
 		attributeSetterBiConsumers.put(
 			"totalValue",
 			(BiConsumer<SocialActivityCounter, Integer>)
 				SocialActivityCounter::setTotalValue);
 		attributeGetterFunctions.put(
 			"graceValue", SocialActivityCounter::getGraceValue);
+
+		cacheModelGetterFunctions.put(
+			"graceValue",
+			socialActivityCounterCacheModel ->
+				socialActivityCounterCacheModel.graceValue);
 		attributeSetterBiConsumers.put(
 			"graceValue",
 			(BiConsumer<SocialActivityCounter, Integer>)
 				SocialActivityCounter::setGraceValue);
 		attributeGetterFunctions.put(
 			"startPeriod", SocialActivityCounter::getStartPeriod);
+
+		cacheModelGetterFunctions.put(
+			"startPeriod",
+			socialActivityCounterCacheModel ->
+				socialActivityCounterCacheModel.startPeriod);
 		attributeSetterBiConsumers.put(
 			"startPeriod",
 			(BiConsumer<SocialActivityCounter, Integer>)
 				SocialActivityCounter::setStartPeriod);
 		attributeGetterFunctions.put(
 			"endPeriod", SocialActivityCounter::getEndPeriod);
+
+		cacheModelGetterFunctions.put(
+			"endPeriod",
+			socialActivityCounterCacheModel ->
+				socialActivityCounterCacheModel.endPeriod);
 		attributeSetterBiConsumers.put(
 			"endPeriod",
 			(BiConsumer<SocialActivityCounter, Integer>)
 				SocialActivityCounter::setEndPeriod);
 		attributeGetterFunctions.put(
 			"active", SocialActivityCounter::getActive);
+
+		cacheModelGetterFunctions.put(
+			"active",
+			socialActivityCounterCacheModel ->
+				socialActivityCounterCacheModel.active);
 		attributeSetterBiConsumers.put(
 			"active",
 			(BiConsumer<SocialActivityCounter, Boolean>)
@@ -376,6 +491,8 @@ public class SocialActivityCounterModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -385,6 +502,15 @@ public class SocialActivityCounterModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_socialActivityCounterCacheModel ==
+				_dummySocialActivityCounterCacheModel) {
+
+			_socialActivityCounterCacheModel =
+				(SocialActivityCounterCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -395,6 +521,15 @@ public class SocialActivityCounterModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (_socialActivityCounterCacheModel ==
+				_dummySocialActivityCounterCacheModel) {
+
+			_socialActivityCounterCacheModel =
+				(SocialActivityCounterCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -405,6 +540,15 @@ public class SocialActivityCounterModelImpl
 
 	@Override
 	public void setActivityCounterId(long activityCounterId) {
+		_columnBitmask |= ACTIVITYCOUNTERID_COLUMN_BITMASK;
+
+		if (_socialActivityCounterCacheModel ==
+				_dummySocialActivityCounterCacheModel) {
+
+			_socialActivityCounterCacheModel =
+				(SocialActivityCounterCacheModel)toCacheModel();
+		}
+
 		_activityCounterId = activityCounterId;
 	}
 
@@ -417,17 +561,23 @@ public class SocialActivityCounterModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
+		if (_socialActivityCounterCacheModel ==
+				_dummySocialActivityCounterCacheModel) {
 
-			_originalGroupId = _groupId;
+			_socialActivityCounterCacheModel =
+				(SocialActivityCounterCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getOriginalAttributeValue("groupId");
 	}
 
 	@Override
@@ -437,6 +587,15 @@ public class SocialActivityCounterModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (_socialActivityCounterCacheModel ==
+				_dummySocialActivityCounterCacheModel) {
+
+			_socialActivityCounterCacheModel =
+				(SocialActivityCounterCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -469,17 +628,23 @@ public class SocialActivityCounterModelImpl
 	public void setClassNameId(long classNameId) {
 		_columnBitmask |= CLASSNAMEID_COLUMN_BITMASK;
 
-		if (!_setOriginalClassNameId) {
-			_setOriginalClassNameId = true;
+		if (_socialActivityCounterCacheModel ==
+				_dummySocialActivityCounterCacheModel) {
 
-			_originalClassNameId = _classNameId;
+			_socialActivityCounterCacheModel =
+				(SocialActivityCounterCacheModel)toCacheModel();
 		}
 
 		_classNameId = classNameId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassNameId() {
-		return _originalClassNameId;
+		return getOriginalAttributeValue("classNameId");
 	}
 
 	@Override
@@ -491,17 +656,23 @@ public class SocialActivityCounterModelImpl
 	public void setClassPK(long classPK) {
 		_columnBitmask |= CLASSPK_COLUMN_BITMASK;
 
-		if (!_setOriginalClassPK) {
-			_setOriginalClassPK = true;
+		if (_socialActivityCounterCacheModel ==
+				_dummySocialActivityCounterCacheModel) {
 
-			_originalClassPK = _classPK;
+			_socialActivityCounterCacheModel =
+				(SocialActivityCounterCacheModel)toCacheModel();
 		}
 
 		_classPK = classPK;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassPK() {
-		return _originalClassPK;
+		return getOriginalAttributeValue("classPK");
 	}
 
 	@Override
@@ -518,15 +689,23 @@ public class SocialActivityCounterModelImpl
 	public void setName(String name) {
 		_columnBitmask |= NAME_COLUMN_BITMASK;
 
-		if (_originalName == null) {
-			_originalName = _name;
+		if (_socialActivityCounterCacheModel ==
+				_dummySocialActivityCounterCacheModel) {
+
+			_socialActivityCounterCacheModel =
+				(SocialActivityCounterCacheModel)toCacheModel();
 		}
 
 		_name = name;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalName() {
-		return GetterUtil.getString(_originalName);
+		return getOriginalAttributeValue("name");
 	}
 
 	@Override
@@ -538,17 +717,23 @@ public class SocialActivityCounterModelImpl
 	public void setOwnerType(int ownerType) {
 		_columnBitmask |= OWNERTYPE_COLUMN_BITMASK;
 
-		if (!_setOriginalOwnerType) {
-			_setOriginalOwnerType = true;
+		if (_socialActivityCounterCacheModel ==
+				_dummySocialActivityCounterCacheModel) {
 
-			_originalOwnerType = _ownerType;
+			_socialActivityCounterCacheModel =
+				(SocialActivityCounterCacheModel)toCacheModel();
 		}
 
 		_ownerType = ownerType;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalOwnerType() {
-		return _originalOwnerType;
+		return getOriginalAttributeValue("ownerType");
 	}
 
 	@Override
@@ -558,6 +743,15 @@ public class SocialActivityCounterModelImpl
 
 	@Override
 	public void setCurrentValue(int currentValue) {
+		_columnBitmask |= CURRENTVALUE_COLUMN_BITMASK;
+
+		if (_socialActivityCounterCacheModel ==
+				_dummySocialActivityCounterCacheModel) {
+
+			_socialActivityCounterCacheModel =
+				(SocialActivityCounterCacheModel)toCacheModel();
+		}
+
 		_currentValue = currentValue;
 	}
 
@@ -568,6 +762,15 @@ public class SocialActivityCounterModelImpl
 
 	@Override
 	public void setTotalValue(int totalValue) {
+		_columnBitmask |= TOTALVALUE_COLUMN_BITMASK;
+
+		if (_socialActivityCounterCacheModel ==
+				_dummySocialActivityCounterCacheModel) {
+
+			_socialActivityCounterCacheModel =
+				(SocialActivityCounterCacheModel)toCacheModel();
+		}
+
 		_totalValue = totalValue;
 	}
 
@@ -578,6 +781,15 @@ public class SocialActivityCounterModelImpl
 
 	@Override
 	public void setGraceValue(int graceValue) {
+		_columnBitmask |= GRACEVALUE_COLUMN_BITMASK;
+
+		if (_socialActivityCounterCacheModel ==
+				_dummySocialActivityCounterCacheModel) {
+
+			_socialActivityCounterCacheModel =
+				(SocialActivityCounterCacheModel)toCacheModel();
+		}
+
 		_graceValue = graceValue;
 	}
 
@@ -590,17 +802,23 @@ public class SocialActivityCounterModelImpl
 	public void setStartPeriod(int startPeriod) {
 		_columnBitmask |= STARTPERIOD_COLUMN_BITMASK;
 
-		if (!_setOriginalStartPeriod) {
-			_setOriginalStartPeriod = true;
+		if (_socialActivityCounterCacheModel ==
+				_dummySocialActivityCounterCacheModel) {
 
-			_originalStartPeriod = _startPeriod;
+			_socialActivityCounterCacheModel =
+				(SocialActivityCounterCacheModel)toCacheModel();
 		}
 
 		_startPeriod = startPeriod;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalStartPeriod() {
-		return _originalStartPeriod;
+		return getOriginalAttributeValue("startPeriod");
 	}
 
 	@Override
@@ -612,17 +830,23 @@ public class SocialActivityCounterModelImpl
 	public void setEndPeriod(int endPeriod) {
 		_columnBitmask |= ENDPERIOD_COLUMN_BITMASK;
 
-		if (!_setOriginalEndPeriod) {
-			_setOriginalEndPeriod = true;
+		if (_socialActivityCounterCacheModel ==
+				_dummySocialActivityCounterCacheModel) {
 
-			_originalEndPeriod = _endPeriod;
+			_socialActivityCounterCacheModel =
+				(SocialActivityCounterCacheModel)toCacheModel();
 		}
 
 		_endPeriod = endPeriod;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalEndPeriod() {
-		return _originalEndPeriod;
+		return getOriginalAttributeValue("endPeriod");
 	}
 
 	@Override
@@ -637,6 +861,15 @@ public class SocialActivityCounterModelImpl
 
 	@Override
 	public void setActive(boolean active) {
+		_columnBitmask |= ACTIVE_COLUMN_BITMASK;
+
+		if (_socialActivityCounterCacheModel ==
+				_dummySocialActivityCounterCacheModel) {
+
+			_socialActivityCounterCacheModel =
+				(SocialActivityCounterCacheModel)toCacheModel();
+		}
+
 		_active = active;
 	}
 
@@ -762,42 +995,10 @@ public class SocialActivityCounterModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		SocialActivityCounterModelImpl socialActivityCounterModelImpl = this;
+		_columnBitmask = 0;
 
-		socialActivityCounterModelImpl._originalGroupId =
-			socialActivityCounterModelImpl._groupId;
-
-		socialActivityCounterModelImpl._setOriginalGroupId = false;
-
-		socialActivityCounterModelImpl._originalClassNameId =
-			socialActivityCounterModelImpl._classNameId;
-
-		socialActivityCounterModelImpl._setOriginalClassNameId = false;
-
-		socialActivityCounterModelImpl._originalClassPK =
-			socialActivityCounterModelImpl._classPK;
-
-		socialActivityCounterModelImpl._setOriginalClassPK = false;
-
-		socialActivityCounterModelImpl._originalName =
-			socialActivityCounterModelImpl._name;
-
-		socialActivityCounterModelImpl._originalOwnerType =
-			socialActivityCounterModelImpl._ownerType;
-
-		socialActivityCounterModelImpl._setOriginalOwnerType = false;
-
-		socialActivityCounterModelImpl._originalStartPeriod =
-			socialActivityCounterModelImpl._startPeriod;
-
-		socialActivityCounterModelImpl._setOriginalStartPeriod = false;
-
-		socialActivityCounterModelImpl._originalEndPeriod =
-			socialActivityCounterModelImpl._endPeriod;
-
-		socialActivityCounterModelImpl._setOriginalEndPeriod = false;
-
-		socialActivityCounterModelImpl._columnBitmask = 0;
+		_socialActivityCounterCacheModel =
+			_dummySocialActivityCounterCacheModel;
 	}
 
 	@Override
@@ -921,31 +1122,24 @@ public class SocialActivityCounterModelImpl
 	private long _ctCollectionId;
 	private long _activityCounterId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
 	private long _classNameId;
-	private long _originalClassNameId;
-	private boolean _setOriginalClassNameId;
 	private long _classPK;
-	private long _originalClassPK;
-	private boolean _setOriginalClassPK;
 	private String _name;
-	private String _originalName;
 	private int _ownerType;
-	private int _originalOwnerType;
-	private boolean _setOriginalOwnerType;
 	private int _currentValue;
 	private int _totalValue;
 	private int _graceValue;
 	private int _startPeriod;
-	private int _originalStartPeriod;
-	private boolean _setOriginalStartPeriod;
 	private int _endPeriod;
-	private int _originalEndPeriod;
-	private boolean _setOriginalEndPeriod;
 	private boolean _active;
 	private long _columnBitmask;
+
+	private static final SocialActivityCounterCacheModel
+		_dummySocialActivityCounterCacheModel =
+			new SocialActivityCounterCacheModel();
+
 	private SocialActivityCounter _escapedModel;
+	private SocialActivityCounterCacheModel _socialActivityCounterCacheModel;
 
 }

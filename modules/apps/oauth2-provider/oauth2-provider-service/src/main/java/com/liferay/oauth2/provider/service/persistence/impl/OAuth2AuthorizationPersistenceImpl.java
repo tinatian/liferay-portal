@@ -2550,7 +2550,8 @@ public class OAuth2AuthorizationPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					oAuth2AuthorizationModelImpl.getOriginalUserId()
+					oAuth2AuthorizationModelImpl.getOriginalAttributeValue(
+						"userId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUserId, args);
@@ -2569,8 +2570,8 @@ public class OAuth2AuthorizationPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					oAuth2AuthorizationModelImpl.
-						getOriginalOAuth2ApplicationId()
+					oAuth2AuthorizationModelImpl.getOriginalAttributeValue(
+						"oAuth2ApplicationId")
 				};
 
 				finderCache.removeResult(
@@ -2595,9 +2596,10 @@ public class OAuth2AuthorizationPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					oAuth2AuthorizationModelImpl.getOriginalCompanyId(),
-					oAuth2AuthorizationModelImpl.
-						getOriginalAccessTokenContentHash()
+					oAuth2AuthorizationModelImpl.getOriginalAttributeValue(
+						"companyId"),
+					oAuth2AuthorizationModelImpl.getOriginalAttributeValue(
+						"accessTokenContentHash")
 				};
 
 				finderCache.removeResult(
@@ -2623,9 +2625,10 @@ public class OAuth2AuthorizationPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					oAuth2AuthorizationModelImpl.getOriginalCompanyId(),
-					oAuth2AuthorizationModelImpl.
-						getOriginalRefreshTokenContentHash()
+					oAuth2AuthorizationModelImpl.getOriginalAttributeValue(
+						"companyId"),
+					oAuth2AuthorizationModelImpl.getOriginalAttributeValue(
+						"refreshTokenContentHash")
 				};
 
 				finderCache.removeResult(

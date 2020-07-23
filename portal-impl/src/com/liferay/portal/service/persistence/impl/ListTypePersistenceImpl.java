@@ -1035,8 +1035,8 @@ public class ListTypePersistenceImpl
 			 _finderPathFetchByN_T.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				listTypeModelImpl.getOriginalName(),
-				listTypeModelImpl.getOriginalType()
+				listTypeModelImpl.getOriginalAttributeValue("name"),
+				listTypeModelImpl.getOriginalAttributeValue("type")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByN_T, args);
@@ -1206,7 +1206,7 @@ public class ListTypePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					listTypeModelImpl.getOriginalType()
+					listTypeModelImpl.getOriginalAttributeValue("type")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByType, args);

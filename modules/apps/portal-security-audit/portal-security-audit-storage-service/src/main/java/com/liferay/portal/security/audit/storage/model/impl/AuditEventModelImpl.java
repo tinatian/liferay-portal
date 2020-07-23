@@ -120,9 +120,35 @@ public class AuditEventModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long AUDITEVENTID_COLUMN_BITMASK = 1L;
 
-	public static final long CREATEDATE_COLUMN_BITMASK = 2L;
+	public static final long COMPANYID_COLUMN_BITMASK = 2L;
+
+	public static final long USERID_COLUMN_BITMASK = 4L;
+
+	public static final long USERNAME_COLUMN_BITMASK = 8L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 16L;
+
+	public static final long EVENTTYPE_COLUMN_BITMASK = 32L;
+
+	public static final long CLASSNAME_COLUMN_BITMASK = 64L;
+
+	public static final long CLASSPK_COLUMN_BITMASK = 128L;
+
+	public static final long MESSAGE_COLUMN_BITMASK = 256L;
+
+	public static final long CLIENTHOST_COLUMN_BITMASK = 512L;
+
+	public static final long CLIENTIP_COLUMN_BITMASK = 1024L;
+
+	public static final long SERVERNAME_COLUMN_BITMASK = 2048L;
+
+	public static final long SERVERPORT_COLUMN_BITMASK = 4096L;
+
+	public static final long SESSIONID_COLUMN_BITMASK = 8192L;
+
+	public static final long ADDITIONALINFO_COLUMN_BITMASK = 16384L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -302,73 +328,151 @@ public class AuditEventModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_auditEventCacheModel == null) ||
+			(_auditEventCacheModel == _dummyAuditEventCacheModel)) {
+
+			return null;
+		}
+
+		Function<AuditEventCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_auditEventCacheModel);
+	}
+
 	private static final Map<String, Function<AuditEvent, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<AuditEvent, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<AuditEventCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<AuditEvent, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<AuditEvent, Object>>();
 		Map<String, BiConsumer<AuditEvent, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<AuditEvent, ?>>();
+		Map<String, Function<AuditEventCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<AuditEventCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"auditEventId", AuditEvent::getAuditEventId);
+
+		cacheModelGetterFunctions.put(
+			"auditEventId",
+			auditEventCacheModel -> auditEventCacheModel.auditEventId);
 		attributeSetterBiConsumers.put(
 			"auditEventId",
 			(BiConsumer<AuditEvent, Long>)AuditEvent::setAuditEventId);
 		attributeGetterFunctions.put("companyId", AuditEvent::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			auditEventCacheModel -> auditEventCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<AuditEvent, Long>)AuditEvent::setCompanyId);
 		attributeGetterFunctions.put("userId", AuditEvent::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", auditEventCacheModel -> auditEventCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<AuditEvent, Long>)AuditEvent::setUserId);
 		attributeGetterFunctions.put("userName", AuditEvent::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName", auditEventCacheModel -> auditEventCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<AuditEvent, String>)AuditEvent::setUserName);
 		attributeGetterFunctions.put("createDate", AuditEvent::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			auditEventCacheModel -> auditEventCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<AuditEvent, Date>)AuditEvent::setCreateDate);
 		attributeGetterFunctions.put("eventType", AuditEvent::getEventType);
+
+		cacheModelGetterFunctions.put(
+			"eventType",
+			auditEventCacheModel -> auditEventCacheModel.eventType);
 		attributeSetterBiConsumers.put(
 			"eventType",
 			(BiConsumer<AuditEvent, String>)AuditEvent::setEventType);
 		attributeGetterFunctions.put("className", AuditEvent::getClassName);
+
+		cacheModelGetterFunctions.put(
+			"className",
+			auditEventCacheModel -> auditEventCacheModel.className);
 		attributeSetterBiConsumers.put(
 			"className",
 			(BiConsumer<AuditEvent, String>)AuditEvent::setClassName);
 		attributeGetterFunctions.put("classPK", AuditEvent::getClassPK);
+
+		cacheModelGetterFunctions.put(
+			"classPK", auditEventCacheModel -> auditEventCacheModel.classPK);
 		attributeSetterBiConsumers.put(
 			"classPK", (BiConsumer<AuditEvent, String>)AuditEvent::setClassPK);
 		attributeGetterFunctions.put("message", AuditEvent::getMessage);
+
+		cacheModelGetterFunctions.put(
+			"message", auditEventCacheModel -> auditEventCacheModel.message);
 		attributeSetterBiConsumers.put(
 			"message", (BiConsumer<AuditEvent, String>)AuditEvent::setMessage);
 		attributeGetterFunctions.put("clientHost", AuditEvent::getClientHost);
+
+		cacheModelGetterFunctions.put(
+			"clientHost",
+			auditEventCacheModel -> auditEventCacheModel.clientHost);
 		attributeSetterBiConsumers.put(
 			"clientHost",
 			(BiConsumer<AuditEvent, String>)AuditEvent::setClientHost);
 		attributeGetterFunctions.put("clientIP", AuditEvent::getClientIP);
+
+		cacheModelGetterFunctions.put(
+			"clientIP", auditEventCacheModel -> auditEventCacheModel.clientIP);
 		attributeSetterBiConsumers.put(
 			"clientIP",
 			(BiConsumer<AuditEvent, String>)AuditEvent::setClientIP);
 		attributeGetterFunctions.put("serverName", AuditEvent::getServerName);
+
+		cacheModelGetterFunctions.put(
+			"serverName",
+			auditEventCacheModel -> auditEventCacheModel.serverName);
 		attributeSetterBiConsumers.put(
 			"serverName",
 			(BiConsumer<AuditEvent, String>)AuditEvent::setServerName);
 		attributeGetterFunctions.put("serverPort", AuditEvent::getServerPort);
+
+		cacheModelGetterFunctions.put(
+			"serverPort",
+			auditEventCacheModel -> auditEventCacheModel.serverPort);
 		attributeSetterBiConsumers.put(
 			"serverPort",
 			(BiConsumer<AuditEvent, Integer>)AuditEvent::setServerPort);
 		attributeGetterFunctions.put("sessionID", AuditEvent::getSessionID);
+
+		cacheModelGetterFunctions.put(
+			"sessionID",
+			auditEventCacheModel -> auditEventCacheModel.sessionID);
 		attributeSetterBiConsumers.put(
 			"sessionID",
 			(BiConsumer<AuditEvent, String>)AuditEvent::setSessionID);
 		attributeGetterFunctions.put(
 			"additionalInfo", AuditEvent::getAdditionalInfo);
+
+		cacheModelGetterFunctions.put(
+			"additionalInfo",
+			auditEventCacheModel -> auditEventCacheModel.additionalInfo);
 		attributeSetterBiConsumers.put(
 			"additionalInfo",
 			(BiConsumer<AuditEvent, String>)AuditEvent::setAdditionalInfo);
@@ -377,6 +481,8 @@ public class AuditEventModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -387,6 +493,12 @@ public class AuditEventModelImpl
 
 	@Override
 	public void setAuditEventId(long auditEventId) {
+		_columnBitmask |= AUDITEVENTID_COLUMN_BITMASK;
+
+		if (_auditEventCacheModel == _dummyAuditEventCacheModel) {
+			_auditEventCacheModel = (AuditEventCacheModel)toCacheModel();
+		}
+
 		_auditEventId = auditEventId;
 	}
 
@@ -400,17 +512,20 @@ public class AuditEventModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_auditEventCacheModel == _dummyAuditEventCacheModel) {
+			_auditEventCacheModel = (AuditEventCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@JSON
@@ -421,6 +536,12 @@ public class AuditEventModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (_auditEventCacheModel == _dummyAuditEventCacheModel) {
+			_auditEventCacheModel = (AuditEventCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -453,6 +574,12 @@ public class AuditEventModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (_auditEventCacheModel == _dummyAuditEventCacheModel) {
+			_auditEventCacheModel = (AuditEventCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -464,7 +591,11 @@ public class AuditEventModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
-		_columnBitmask = -1L;
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (_auditEventCacheModel == _dummyAuditEventCacheModel) {
+			_auditEventCacheModel = (AuditEventCacheModel)toCacheModel();
+		}
 
 		_createDate = createDate;
 	}
@@ -482,6 +613,12 @@ public class AuditEventModelImpl
 
 	@Override
 	public void setEventType(String eventType) {
+		_columnBitmask |= EVENTTYPE_COLUMN_BITMASK;
+
+		if (_auditEventCacheModel == _dummyAuditEventCacheModel) {
+			_auditEventCacheModel = (AuditEventCacheModel)toCacheModel();
+		}
+
 		_eventType = eventType;
 	}
 
@@ -498,6 +635,12 @@ public class AuditEventModelImpl
 
 	@Override
 	public void setClassName(String className) {
+		_columnBitmask |= CLASSNAME_COLUMN_BITMASK;
+
+		if (_auditEventCacheModel == _dummyAuditEventCacheModel) {
+			_auditEventCacheModel = (AuditEventCacheModel)toCacheModel();
+		}
+
 		_className = className;
 	}
 
@@ -514,6 +657,12 @@ public class AuditEventModelImpl
 
 	@Override
 	public void setClassPK(String classPK) {
+		_columnBitmask |= CLASSPK_COLUMN_BITMASK;
+
+		if (_auditEventCacheModel == _dummyAuditEventCacheModel) {
+			_auditEventCacheModel = (AuditEventCacheModel)toCacheModel();
+		}
+
 		_classPK = classPK;
 	}
 
@@ -530,6 +679,12 @@ public class AuditEventModelImpl
 
 	@Override
 	public void setMessage(String message) {
+		_columnBitmask |= MESSAGE_COLUMN_BITMASK;
+
+		if (_auditEventCacheModel == _dummyAuditEventCacheModel) {
+			_auditEventCacheModel = (AuditEventCacheModel)toCacheModel();
+		}
+
 		_message = message;
 	}
 
@@ -546,6 +701,12 @@ public class AuditEventModelImpl
 
 	@Override
 	public void setClientHost(String clientHost) {
+		_columnBitmask |= CLIENTHOST_COLUMN_BITMASK;
+
+		if (_auditEventCacheModel == _dummyAuditEventCacheModel) {
+			_auditEventCacheModel = (AuditEventCacheModel)toCacheModel();
+		}
+
 		_clientHost = clientHost;
 	}
 
@@ -562,6 +723,12 @@ public class AuditEventModelImpl
 
 	@Override
 	public void setClientIP(String clientIP) {
+		_columnBitmask |= CLIENTIP_COLUMN_BITMASK;
+
+		if (_auditEventCacheModel == _dummyAuditEventCacheModel) {
+			_auditEventCacheModel = (AuditEventCacheModel)toCacheModel();
+		}
+
 		_clientIP = clientIP;
 	}
 
@@ -578,6 +745,12 @@ public class AuditEventModelImpl
 
 	@Override
 	public void setServerName(String serverName) {
+		_columnBitmask |= SERVERNAME_COLUMN_BITMASK;
+
+		if (_auditEventCacheModel == _dummyAuditEventCacheModel) {
+			_auditEventCacheModel = (AuditEventCacheModel)toCacheModel();
+		}
+
 		_serverName = serverName;
 	}
 
@@ -589,6 +762,12 @@ public class AuditEventModelImpl
 
 	@Override
 	public void setServerPort(int serverPort) {
+		_columnBitmask |= SERVERPORT_COLUMN_BITMASK;
+
+		if (_auditEventCacheModel == _dummyAuditEventCacheModel) {
+			_auditEventCacheModel = (AuditEventCacheModel)toCacheModel();
+		}
+
 		_serverPort = serverPort;
 	}
 
@@ -605,6 +784,12 @@ public class AuditEventModelImpl
 
 	@Override
 	public void setSessionID(String sessionID) {
+		_columnBitmask |= SESSIONID_COLUMN_BITMASK;
+
+		if (_auditEventCacheModel == _dummyAuditEventCacheModel) {
+			_auditEventCacheModel = (AuditEventCacheModel)toCacheModel();
+		}
+
 		_sessionID = sessionID;
 	}
 
@@ -621,6 +806,12 @@ public class AuditEventModelImpl
 
 	@Override
 	public void setAdditionalInfo(String additionalInfo) {
+		_columnBitmask |= ADDITIONALINFO_COLUMN_BITMASK;
+
+		if (_auditEventCacheModel == _dummyAuditEventCacheModel) {
+			_auditEventCacheModel = (AuditEventCacheModel)toCacheModel();
+		}
+
 		_additionalInfo = additionalInfo;
 	}
 
@@ -743,13 +934,9 @@ public class AuditEventModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		AuditEventModelImpl auditEventModelImpl = this;
+		_columnBitmask = 0;
 
-		auditEventModelImpl._originalCompanyId = auditEventModelImpl._companyId;
-
-		auditEventModelImpl._setOriginalCompanyId = false;
-
-		auditEventModelImpl._columnBitmask = 0;
+		_auditEventCacheModel = _dummyAuditEventCacheModel;
 	}
 
 	@Override
@@ -928,8 +1115,6 @@ public class AuditEventModelImpl
 
 	private long _auditEventId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
@@ -944,6 +1129,11 @@ public class AuditEventModelImpl
 	private String _sessionID;
 	private String _additionalInfo;
 	private long _columnBitmask;
+
+	private static final AuditEventCacheModel _dummyAuditEventCacheModel =
+		new AuditEventCacheModel();
+
 	private AuditEvent _escapedModel;
+	private AuditEventCacheModel _auditEventCacheModel;
 
 }

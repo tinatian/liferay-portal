@@ -1455,7 +1455,7 @@ public class KaleoConditionPersistenceImpl
 			 _finderPathFetchByKaleoNodeId.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				kaleoConditionModelImpl.getOriginalKaleoNodeId()
+				kaleoConditionModelImpl.getOriginalAttributeValue("kaleoNodeId")
 			};
 
 			finderCache.removeResult(_finderPathCountByKaleoNodeId, args);
@@ -1667,7 +1667,8 @@ public class KaleoConditionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoConditionModelImpl.getOriginalCompanyId()
+					kaleoConditionModelImpl.getOriginalAttributeValue(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCompanyId, args);
@@ -1686,8 +1687,8 @@ public class KaleoConditionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoConditionModelImpl.
-						getOriginalKaleoDefinitionVersionId()
+					kaleoConditionModelImpl.getOriginalAttributeValue(
+						"kaleoDefinitionVersionId")
 				};
 
 				finderCache.removeResult(

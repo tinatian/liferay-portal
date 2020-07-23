@@ -1520,7 +1520,8 @@ public class SamlSpSessionPersistenceImpl
 			 _finderPathFetchBySamlSpSessionKey.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				samlSpSessionModelImpl.getOriginalSamlSpSessionKey()
+				samlSpSessionModelImpl.getOriginalAttributeValue(
+					"samlSpSessionKey")
 			};
 
 			finderCache.removeResult(_finderPathCountBySamlSpSessionKey, args);
@@ -1540,7 +1541,7 @@ public class SamlSpSessionPersistenceImpl
 			 _finderPathFetchByJSessionId.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				samlSpSessionModelImpl.getOriginalJSessionId()
+				samlSpSessionModelImpl.getOriginalAttributeValue("jSessionId")
 			};
 
 			finderCache.removeResult(_finderPathCountByJSessionId, args);
@@ -1560,7 +1561,7 @@ public class SamlSpSessionPersistenceImpl
 			 _finderPathFetchBySessionIndex.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				samlSpSessionModelImpl.getOriginalSessionIndex()
+				samlSpSessionModelImpl.getOriginalAttributeValue("sessionIndex")
 			};
 
 			finderCache.removeResult(_finderPathCountBySessionIndex, args);
@@ -1761,7 +1762,8 @@ public class SamlSpSessionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					samlSpSessionModelImpl.getOriginalNameIdValue()
+					samlSpSessionModelImpl.getOriginalAttributeValue(
+						"nameIdValue")
 				};
 
 				finderCache.removeResult(_finderPathCountByNameIdValue, args);

@@ -22,7 +22,6 @@ import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.workflow.kaleo.forms.model.KaleoProcessLink;
 import com.liferay.portal.workflow.kaleo.forms.model.KaleoProcessLinkModel;
@@ -96,11 +95,15 @@ public class KaleoProcessLinkModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long KALEOPROCESSID_COLUMN_BITMASK = 1L;
+	public static final long KALEOPROCESSLINKID_COLUMN_BITMASK = 1L;
 
-	public static final long WORKFLOWTASKNAME_COLUMN_BITMASK = 2L;
+	public static final long COMPANYID_COLUMN_BITMASK = 2L;
 
-	public static final long KALEOPROCESSLINKID_COLUMN_BITMASK = 4L;
+	public static final long KALEOPROCESSID_COLUMN_BITMASK = 4L;
+
+	public static final long WORKFLOWTASKNAME_COLUMN_BITMASK = 8L;
+
+	public static final long DDMTEMPLATEID_COLUMN_BITMASK = 16L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -229,10 +232,30 @@ public class KaleoProcessLinkModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_kaleoProcessLinkCacheModel == null) ||
+			(_kaleoProcessLinkCacheModel == _dummyKaleoProcessLinkCacheModel)) {
+
+			return null;
+		}
+
+		Function<KaleoProcessLinkCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_kaleoProcessLinkCacheModel);
+	}
+
 	private static final Map<String, Function<KaleoProcessLink, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<KaleoProcessLink, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<KaleoProcessLinkCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<KaleoProcessLink, Object>>
@@ -241,32 +264,60 @@ public class KaleoProcessLinkModelImpl
 		Map<String, BiConsumer<KaleoProcessLink, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<KaleoProcessLink, ?>>();
+		Map<String, Function<KaleoProcessLinkCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<KaleoProcessLinkCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"kaleoProcessLinkId", KaleoProcessLink::getKaleoProcessLinkId);
+
+		cacheModelGetterFunctions.put(
+			"kaleoProcessLinkId",
+			kaleoProcessLinkCacheModel ->
+				kaleoProcessLinkCacheModel.kaleoProcessLinkId);
 		attributeSetterBiConsumers.put(
 			"kaleoProcessLinkId",
 			(BiConsumer<KaleoProcessLink, Long>)
 				KaleoProcessLink::setKaleoProcessLinkId);
 		attributeGetterFunctions.put(
 			"companyId", KaleoProcessLink::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			kaleoProcessLinkCacheModel -> kaleoProcessLinkCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<KaleoProcessLink, Long>)KaleoProcessLink::setCompanyId);
 		attributeGetterFunctions.put(
 			"kaleoProcessId", KaleoProcessLink::getKaleoProcessId);
+
+		cacheModelGetterFunctions.put(
+			"kaleoProcessId",
+			kaleoProcessLinkCacheModel ->
+				kaleoProcessLinkCacheModel.kaleoProcessId);
 		attributeSetterBiConsumers.put(
 			"kaleoProcessId",
 			(BiConsumer<KaleoProcessLink, Long>)
 				KaleoProcessLink::setKaleoProcessId);
 		attributeGetterFunctions.put(
 			"workflowTaskName", KaleoProcessLink::getWorkflowTaskName);
+
+		cacheModelGetterFunctions.put(
+			"workflowTaskName",
+			kaleoProcessLinkCacheModel ->
+				kaleoProcessLinkCacheModel.workflowTaskName);
 		attributeSetterBiConsumers.put(
 			"workflowTaskName",
 			(BiConsumer<KaleoProcessLink, String>)
 				KaleoProcessLink::setWorkflowTaskName);
 		attributeGetterFunctions.put(
 			"DDMTemplateId", KaleoProcessLink::getDDMTemplateId);
+
+		cacheModelGetterFunctions.put(
+			"DDMTemplateId",
+			kaleoProcessLinkCacheModel ->
+				kaleoProcessLinkCacheModel.DDMTemplateId);
 		attributeSetterBiConsumers.put(
 			"DDMTemplateId",
 			(BiConsumer<KaleoProcessLink, Long>)
@@ -276,6 +327,8 @@ public class KaleoProcessLinkModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -285,6 +338,13 @@ public class KaleoProcessLinkModelImpl
 
 	@Override
 	public void setKaleoProcessLinkId(long kaleoProcessLinkId) {
+		_columnBitmask |= KALEOPROCESSLINKID_COLUMN_BITMASK;
+
+		if (_kaleoProcessLinkCacheModel == _dummyKaleoProcessLinkCacheModel) {
+			_kaleoProcessLinkCacheModel =
+				(KaleoProcessLinkCacheModel)toCacheModel();
+		}
+
 		_kaleoProcessLinkId = kaleoProcessLinkId;
 	}
 
@@ -295,6 +355,13 @@ public class KaleoProcessLinkModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (_kaleoProcessLinkCacheModel == _dummyKaleoProcessLinkCacheModel) {
+			_kaleoProcessLinkCacheModel =
+				(KaleoProcessLinkCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -307,17 +374,21 @@ public class KaleoProcessLinkModelImpl
 	public void setKaleoProcessId(long kaleoProcessId) {
 		_columnBitmask |= KALEOPROCESSID_COLUMN_BITMASK;
 
-		if (!_setOriginalKaleoProcessId) {
-			_setOriginalKaleoProcessId = true;
-
-			_originalKaleoProcessId = _kaleoProcessId;
+		if (_kaleoProcessLinkCacheModel == _dummyKaleoProcessLinkCacheModel) {
+			_kaleoProcessLinkCacheModel =
+				(KaleoProcessLinkCacheModel)toCacheModel();
 		}
 
 		_kaleoProcessId = kaleoProcessId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalKaleoProcessId() {
-		return _originalKaleoProcessId;
+		return getOriginalAttributeValue("kaleoProcessId");
 	}
 
 	@Override
@@ -334,15 +405,21 @@ public class KaleoProcessLinkModelImpl
 	public void setWorkflowTaskName(String workflowTaskName) {
 		_columnBitmask |= WORKFLOWTASKNAME_COLUMN_BITMASK;
 
-		if (_originalWorkflowTaskName == null) {
-			_originalWorkflowTaskName = _workflowTaskName;
+		if (_kaleoProcessLinkCacheModel == _dummyKaleoProcessLinkCacheModel) {
+			_kaleoProcessLinkCacheModel =
+				(KaleoProcessLinkCacheModel)toCacheModel();
 		}
 
 		_workflowTaskName = workflowTaskName;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalWorkflowTaskName() {
-		return GetterUtil.getString(_originalWorkflowTaskName);
+		return getOriginalAttributeValue("workflowTaskName");
 	}
 
 	@Override
@@ -352,6 +429,13 @@ public class KaleoProcessLinkModelImpl
 
 	@Override
 	public void setDDMTemplateId(long DDMTemplateId) {
+		_columnBitmask |= DDMTEMPLATEID_COLUMN_BITMASK;
+
+		if (_kaleoProcessLinkCacheModel == _dummyKaleoProcessLinkCacheModel) {
+			_kaleoProcessLinkCacheModel =
+				(KaleoProcessLinkCacheModel)toCacheModel();
+		}
+
 		_DDMTemplateId = DDMTemplateId;
 	}
 
@@ -464,17 +548,9 @@ public class KaleoProcessLinkModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		KaleoProcessLinkModelImpl kaleoProcessLinkModelImpl = this;
+		_columnBitmask = 0;
 
-		kaleoProcessLinkModelImpl._originalKaleoProcessId =
-			kaleoProcessLinkModelImpl._kaleoProcessId;
-
-		kaleoProcessLinkModelImpl._setOriginalKaleoProcessId = false;
-
-		kaleoProcessLinkModelImpl._originalWorkflowTaskName =
-			kaleoProcessLinkModelImpl._workflowTaskName;
-
-		kaleoProcessLinkModelImpl._columnBitmask = 0;
+		_kaleoProcessLinkCacheModel = _dummyKaleoProcessLinkCacheModel;
 	}
 
 	@Override
@@ -574,12 +650,14 @@ public class KaleoProcessLinkModelImpl
 	private long _kaleoProcessLinkId;
 	private long _companyId;
 	private long _kaleoProcessId;
-	private long _originalKaleoProcessId;
-	private boolean _setOriginalKaleoProcessId;
 	private String _workflowTaskName;
-	private String _originalWorkflowTaskName;
 	private long _DDMTemplateId;
 	private long _columnBitmask;
+
+	private static final KaleoProcessLinkCacheModel
+		_dummyKaleoProcessLinkCacheModel = new KaleoProcessLinkCacheModel();
+
 	private KaleoProcessLink _escapedModel;
+	private KaleoProcessLinkCacheModel _kaleoProcessLinkCacheModel;
 
 }

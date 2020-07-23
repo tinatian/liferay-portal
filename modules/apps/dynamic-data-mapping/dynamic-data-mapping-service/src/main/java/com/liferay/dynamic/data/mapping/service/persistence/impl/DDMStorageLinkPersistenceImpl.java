@@ -2921,7 +2921,7 @@ public class DDMStorageLinkPersistenceImpl
 			 _finderPathFetchByClassPK.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				ddmStorageLinkModelImpl.getOriginalClassPK()
+				ddmStorageLinkModelImpl.getOriginalAttributeValue("classPK")
 			};
 
 			finderCache.removeResult(_finderPathCountByClassPK, args);
@@ -3152,7 +3152,7 @@ public class DDMStorageLinkPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					ddmStorageLinkModelImpl.getOriginalUuid()
+					ddmStorageLinkModelImpl.getOriginalAttributeValue("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -3171,8 +3171,9 @@ public class DDMStorageLinkPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					ddmStorageLinkModelImpl.getOriginalUuid(),
-					ddmStorageLinkModelImpl.getOriginalCompanyId()
+					ddmStorageLinkModelImpl.getOriginalAttributeValue("uuid"),
+					ddmStorageLinkModelImpl.getOriginalAttributeValue(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -3194,7 +3195,8 @@ public class DDMStorageLinkPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					ddmStorageLinkModelImpl.getOriginalStructureId()
+					ddmStorageLinkModelImpl.getOriginalAttributeValue(
+						"structureId")
 				};
 
 				finderCache.removeResult(_finderPathCountByStructureId, args);
@@ -3213,7 +3215,8 @@ public class DDMStorageLinkPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					ddmStorageLinkModelImpl.getOriginalStructureVersionId()
+					ddmStorageLinkModelImpl.getOriginalAttributeValue(
+						"structureVersionId")
 				};
 
 				finderCache.removeResult(

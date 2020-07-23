@@ -29,7 +29,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -129,11 +128,46 @@ public class OAuth2ApplicationModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long CLIENTID_COLUMN_BITMASK = 1L;
+	public static final long OAUTH2APPLICATIONID_COLUMN_BITMASK = 1L;
 
 	public static final long COMPANYID_COLUMN_BITMASK = 2L;
 
-	public static final long OAUTH2APPLICATIONID_COLUMN_BITMASK = 4L;
+	public static final long USERID_COLUMN_BITMASK = 4L;
+
+	public static final long USERNAME_COLUMN_BITMASK = 8L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 16L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 32L;
+
+	public static final long OAUTH2APPLICATIONSCOPEALIASESID_COLUMN_BITMASK =
+		64L;
+
+	public static final long ALLOWEDGRANTTYPES_COLUMN_BITMASK = 128L;
+
+	public static final long CLIENTCREDENTIALUSERID_COLUMN_BITMASK = 256L;
+
+	public static final long CLIENTCREDENTIALUSERNAME_COLUMN_BITMASK = 512L;
+
+	public static final long CLIENTID_COLUMN_BITMASK = 1024L;
+
+	public static final long CLIENTPROFILE_COLUMN_BITMASK = 2048L;
+
+	public static final long CLIENTSECRET_COLUMN_BITMASK = 4096L;
+
+	public static final long DESCRIPTION_COLUMN_BITMASK = 8192L;
+
+	public static final long FEATURES_COLUMN_BITMASK = 16384L;
+
+	public static final long HOMEPAGEURL_COLUMN_BITMASK = 32768L;
+
+	public static final long ICONFILEENTRYID_COLUMN_BITMASK = 65536L;
+
+	public static final long NAME_COLUMN_BITMASK = 131072L;
+
+	public static final long PRIVACYPOLICYURL_COLUMN_BITMASK = 262144L;
+
+	public static final long REDIRECTURIS_COLUMN_BITMASK = 524288L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -324,10 +358,31 @@ public class OAuth2ApplicationModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_oAuth2ApplicationCacheModel == null) ||
+			(_oAuth2ApplicationCacheModel ==
+				_dummyOAuth2ApplicationCacheModel)) {
+
+			return null;
+		}
+
+		Function<OAuth2ApplicationCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_oAuth2ApplicationCacheModel);
+	}
+
 	private static final Map<String, Function<OAuth2Application, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<OAuth2Application, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<OAuth2ApplicationCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<OAuth2Application, Object>>
@@ -337,37 +392,70 @@ public class OAuth2ApplicationModelImpl
 		Map<String, BiConsumer<OAuth2Application, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<OAuth2Application, ?>>();
+		Map<String, Function<OAuth2ApplicationCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<OAuth2ApplicationCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"oAuth2ApplicationId", OAuth2Application::getOAuth2ApplicationId);
+
+		cacheModelGetterFunctions.put(
+			"oAuth2ApplicationId",
+			oAuth2ApplicationCacheModel ->
+				oAuth2ApplicationCacheModel.oAuth2ApplicationId);
 		attributeSetterBiConsumers.put(
 			"oAuth2ApplicationId",
 			(BiConsumer<OAuth2Application, Long>)
 				OAuth2Application::setOAuth2ApplicationId);
 		attributeGetterFunctions.put(
 			"companyId", OAuth2Application::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			oAuth2ApplicationCacheModel ->
+				oAuth2ApplicationCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<OAuth2Application, Long>)
 				OAuth2Application::setCompanyId);
 		attributeGetterFunctions.put("userId", OAuth2Application::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			oAuth2ApplicationCacheModel -> oAuth2ApplicationCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<OAuth2Application, Long>)OAuth2Application::setUserId);
 		attributeGetterFunctions.put(
 			"userName", OAuth2Application::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			oAuth2ApplicationCacheModel ->
+				oAuth2ApplicationCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<OAuth2Application, String>)
 				OAuth2Application::setUserName);
 		attributeGetterFunctions.put(
 			"createDate", OAuth2Application::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			oAuth2ApplicationCacheModel ->
+				oAuth2ApplicationCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<OAuth2Application, Date>)
 				OAuth2Application::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", OAuth2Application::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			oAuth2ApplicationCacheModel ->
+				oAuth2ApplicationCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<OAuth2Application, Date>)
@@ -375,12 +463,22 @@ public class OAuth2ApplicationModelImpl
 		attributeGetterFunctions.put(
 			"oAuth2ApplicationScopeAliasesId",
 			OAuth2Application::getOAuth2ApplicationScopeAliasesId);
+
+		cacheModelGetterFunctions.put(
+			"oAuth2ApplicationScopeAliasesId",
+			oAuth2ApplicationCacheModel ->
+				oAuth2ApplicationCacheModel.oAuth2ApplicationScopeAliasesId);
 		attributeSetterBiConsumers.put(
 			"oAuth2ApplicationScopeAliasesId",
 			(BiConsumer<OAuth2Application, Long>)
 				OAuth2Application::setOAuth2ApplicationScopeAliasesId);
 		attributeGetterFunctions.put(
 			"allowedGrantTypes", OAuth2Application::getAllowedGrantTypes);
+
+		cacheModelGetterFunctions.put(
+			"allowedGrantTypes",
+			oAuth2ApplicationCacheModel ->
+				oAuth2ApplicationCacheModel.allowedGrantTypes);
 		attributeSetterBiConsumers.put(
 			"allowedGrantTypes",
 			(BiConsumer<OAuth2Application, String>)
@@ -388,6 +486,11 @@ public class OAuth2ApplicationModelImpl
 		attributeGetterFunctions.put(
 			"clientCredentialUserId",
 			OAuth2Application::getClientCredentialUserId);
+
+		cacheModelGetterFunctions.put(
+			"clientCredentialUserId",
+			oAuth2ApplicationCacheModel ->
+				oAuth2ApplicationCacheModel.clientCredentialUserId);
 		attributeSetterBiConsumers.put(
 			"clientCredentialUserId",
 			(BiConsumer<OAuth2Application, Long>)
@@ -395,64 +498,118 @@ public class OAuth2ApplicationModelImpl
 		attributeGetterFunctions.put(
 			"clientCredentialUserName",
 			OAuth2Application::getClientCredentialUserName);
+
+		cacheModelGetterFunctions.put(
+			"clientCredentialUserName",
+			oAuth2ApplicationCacheModel ->
+				oAuth2ApplicationCacheModel.clientCredentialUserName);
 		attributeSetterBiConsumers.put(
 			"clientCredentialUserName",
 			(BiConsumer<OAuth2Application, String>)
 				OAuth2Application::setClientCredentialUserName);
 		attributeGetterFunctions.put(
 			"clientId", OAuth2Application::getClientId);
+
+		cacheModelGetterFunctions.put(
+			"clientId",
+			oAuth2ApplicationCacheModel ->
+				oAuth2ApplicationCacheModel.clientId);
 		attributeSetterBiConsumers.put(
 			"clientId",
 			(BiConsumer<OAuth2Application, String>)
 				OAuth2Application::setClientId);
 		attributeGetterFunctions.put(
 			"clientProfile", OAuth2Application::getClientProfile);
+
+		cacheModelGetterFunctions.put(
+			"clientProfile",
+			oAuth2ApplicationCacheModel ->
+				oAuth2ApplicationCacheModel.clientProfile);
 		attributeSetterBiConsumers.put(
 			"clientProfile",
 			(BiConsumer<OAuth2Application, Integer>)
 				OAuth2Application::setClientProfile);
 		attributeGetterFunctions.put(
 			"clientSecret", OAuth2Application::getClientSecret);
+
+		cacheModelGetterFunctions.put(
+			"clientSecret",
+			oAuth2ApplicationCacheModel ->
+				oAuth2ApplicationCacheModel.clientSecret);
 		attributeSetterBiConsumers.put(
 			"clientSecret",
 			(BiConsumer<OAuth2Application, String>)
 				OAuth2Application::setClientSecret);
 		attributeGetterFunctions.put(
 			"description", OAuth2Application::getDescription);
+
+		cacheModelGetterFunctions.put(
+			"description",
+			oAuth2ApplicationCacheModel ->
+				oAuth2ApplicationCacheModel.description);
 		attributeSetterBiConsumers.put(
 			"description",
 			(BiConsumer<OAuth2Application, String>)
 				OAuth2Application::setDescription);
 		attributeGetterFunctions.put(
 			"features", OAuth2Application::getFeatures);
+
+		cacheModelGetterFunctions.put(
+			"features",
+			oAuth2ApplicationCacheModel ->
+				oAuth2ApplicationCacheModel.features);
 		attributeSetterBiConsumers.put(
 			"features",
 			(BiConsumer<OAuth2Application, String>)
 				OAuth2Application::setFeatures);
 		attributeGetterFunctions.put(
 			"homePageURL", OAuth2Application::getHomePageURL);
+
+		cacheModelGetterFunctions.put(
+			"homePageURL",
+			oAuth2ApplicationCacheModel ->
+				oAuth2ApplicationCacheModel.homePageURL);
 		attributeSetterBiConsumers.put(
 			"homePageURL",
 			(BiConsumer<OAuth2Application, String>)
 				OAuth2Application::setHomePageURL);
 		attributeGetterFunctions.put(
 			"iconFileEntryId", OAuth2Application::getIconFileEntryId);
+
+		cacheModelGetterFunctions.put(
+			"iconFileEntryId",
+			oAuth2ApplicationCacheModel ->
+				oAuth2ApplicationCacheModel.iconFileEntryId);
 		attributeSetterBiConsumers.put(
 			"iconFileEntryId",
 			(BiConsumer<OAuth2Application, Long>)
 				OAuth2Application::setIconFileEntryId);
 		attributeGetterFunctions.put("name", OAuth2Application::getName);
+
+		cacheModelGetterFunctions.put(
+			"name",
+			oAuth2ApplicationCacheModel -> oAuth2ApplicationCacheModel.name);
 		attributeSetterBiConsumers.put(
 			"name",
 			(BiConsumer<OAuth2Application, String>)OAuth2Application::setName);
 		attributeGetterFunctions.put(
 			"privacyPolicyURL", OAuth2Application::getPrivacyPolicyURL);
+
+		cacheModelGetterFunctions.put(
+			"privacyPolicyURL",
+			oAuth2ApplicationCacheModel ->
+				oAuth2ApplicationCacheModel.privacyPolicyURL);
 		attributeSetterBiConsumers.put(
 			"privacyPolicyURL",
 			(BiConsumer<OAuth2Application, String>)
 				OAuth2Application::setPrivacyPolicyURL);
 		attributeGetterFunctions.put(
 			"redirectURIs", OAuth2Application::getRedirectURIs);
+
+		cacheModelGetterFunctions.put(
+			"redirectURIs",
+			oAuth2ApplicationCacheModel ->
+				oAuth2ApplicationCacheModel.redirectURIs);
 		attributeSetterBiConsumers.put(
 			"redirectURIs",
 			(BiConsumer<OAuth2Application, String>)
@@ -462,6 +619,8 @@ public class OAuth2ApplicationModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -472,6 +631,13 @@ public class OAuth2ApplicationModelImpl
 
 	@Override
 	public void setOAuth2ApplicationId(long oAuth2ApplicationId) {
+		_columnBitmask |= OAUTH2APPLICATIONID_COLUMN_BITMASK;
+
+		if (_oAuth2ApplicationCacheModel == _dummyOAuth2ApplicationCacheModel) {
+			_oAuth2ApplicationCacheModel =
+				(OAuth2ApplicationCacheModel)toCacheModel();
+		}
+
 		_oAuth2ApplicationId = oAuth2ApplicationId;
 	}
 
@@ -485,17 +651,21 @@ public class OAuth2ApplicationModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_oAuth2ApplicationCacheModel == _dummyOAuth2ApplicationCacheModel) {
+			_oAuth2ApplicationCacheModel =
+				(OAuth2ApplicationCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@JSON
@@ -506,6 +676,13 @@ public class OAuth2ApplicationModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (_oAuth2ApplicationCacheModel == _dummyOAuth2ApplicationCacheModel) {
+			_oAuth2ApplicationCacheModel =
+				(OAuth2ApplicationCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -538,6 +715,13 @@ public class OAuth2ApplicationModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (_oAuth2ApplicationCacheModel == _dummyOAuth2ApplicationCacheModel) {
+			_oAuth2ApplicationCacheModel =
+				(OAuth2ApplicationCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -549,6 +733,13 @@ public class OAuth2ApplicationModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (_oAuth2ApplicationCacheModel == _dummyOAuth2ApplicationCacheModel) {
+			_oAuth2ApplicationCacheModel =
+				(OAuth2ApplicationCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -566,6 +757,13 @@ public class OAuth2ApplicationModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (_oAuth2ApplicationCacheModel == _dummyOAuth2ApplicationCacheModel) {
+			_oAuth2ApplicationCacheModel =
+				(OAuth2ApplicationCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -578,6 +776,13 @@ public class OAuth2ApplicationModelImpl
 	@Override
 	public void setOAuth2ApplicationScopeAliasesId(
 		long oAuth2ApplicationScopeAliasesId) {
+
+		_columnBitmask |= OAUTH2APPLICATIONSCOPEALIASESID_COLUMN_BITMASK;
+
+		if (_oAuth2ApplicationCacheModel == _dummyOAuth2ApplicationCacheModel) {
+			_oAuth2ApplicationCacheModel =
+				(OAuth2ApplicationCacheModel)toCacheModel();
+		}
 
 		_oAuth2ApplicationScopeAliasesId = oAuth2ApplicationScopeAliasesId;
 	}
@@ -595,6 +800,13 @@ public class OAuth2ApplicationModelImpl
 
 	@Override
 	public void setAllowedGrantTypes(String allowedGrantTypes) {
+		_columnBitmask |= ALLOWEDGRANTTYPES_COLUMN_BITMASK;
+
+		if (_oAuth2ApplicationCacheModel == _dummyOAuth2ApplicationCacheModel) {
+			_oAuth2ApplicationCacheModel =
+				(OAuth2ApplicationCacheModel)toCacheModel();
+		}
+
 		_allowedGrantTypes = allowedGrantTypes;
 	}
 
@@ -606,6 +818,13 @@ public class OAuth2ApplicationModelImpl
 
 	@Override
 	public void setClientCredentialUserId(long clientCredentialUserId) {
+		_columnBitmask |= CLIENTCREDENTIALUSERID_COLUMN_BITMASK;
+
+		if (_oAuth2ApplicationCacheModel == _dummyOAuth2ApplicationCacheModel) {
+			_oAuth2ApplicationCacheModel =
+				(OAuth2ApplicationCacheModel)toCacheModel();
+		}
+
 		_clientCredentialUserId = clientCredentialUserId;
 	}
 
@@ -639,6 +858,13 @@ public class OAuth2ApplicationModelImpl
 
 	@Override
 	public void setClientCredentialUserName(String clientCredentialUserName) {
+		_columnBitmask |= CLIENTCREDENTIALUSERNAME_COLUMN_BITMASK;
+
+		if (_oAuth2ApplicationCacheModel == _dummyOAuth2ApplicationCacheModel) {
+			_oAuth2ApplicationCacheModel =
+				(OAuth2ApplicationCacheModel)toCacheModel();
+		}
+
 		_clientCredentialUserName = clientCredentialUserName;
 	}
 
@@ -657,15 +883,21 @@ public class OAuth2ApplicationModelImpl
 	public void setClientId(String clientId) {
 		_columnBitmask |= CLIENTID_COLUMN_BITMASK;
 
-		if (_originalClientId == null) {
-			_originalClientId = _clientId;
+		if (_oAuth2ApplicationCacheModel == _dummyOAuth2ApplicationCacheModel) {
+			_oAuth2ApplicationCacheModel =
+				(OAuth2ApplicationCacheModel)toCacheModel();
 		}
 
 		_clientId = clientId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalClientId() {
-		return GetterUtil.getString(_originalClientId);
+		return getOriginalAttributeValue("clientId");
 	}
 
 	@JSON
@@ -676,6 +908,13 @@ public class OAuth2ApplicationModelImpl
 
 	@Override
 	public void setClientProfile(int clientProfile) {
+		_columnBitmask |= CLIENTPROFILE_COLUMN_BITMASK;
+
+		if (_oAuth2ApplicationCacheModel == _dummyOAuth2ApplicationCacheModel) {
+			_oAuth2ApplicationCacheModel =
+				(OAuth2ApplicationCacheModel)toCacheModel();
+		}
+
 		_clientProfile = clientProfile;
 	}
 
@@ -692,6 +931,13 @@ public class OAuth2ApplicationModelImpl
 
 	@Override
 	public void setClientSecret(String clientSecret) {
+		_columnBitmask |= CLIENTSECRET_COLUMN_BITMASK;
+
+		if (_oAuth2ApplicationCacheModel == _dummyOAuth2ApplicationCacheModel) {
+			_oAuth2ApplicationCacheModel =
+				(OAuth2ApplicationCacheModel)toCacheModel();
+		}
+
 		_clientSecret = clientSecret;
 	}
 
@@ -708,6 +954,13 @@ public class OAuth2ApplicationModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		_columnBitmask |= DESCRIPTION_COLUMN_BITMASK;
+
+		if (_oAuth2ApplicationCacheModel == _dummyOAuth2ApplicationCacheModel) {
+			_oAuth2ApplicationCacheModel =
+				(OAuth2ApplicationCacheModel)toCacheModel();
+		}
+
 		_description = description;
 	}
 
@@ -724,6 +977,13 @@ public class OAuth2ApplicationModelImpl
 
 	@Override
 	public void setFeatures(String features) {
+		_columnBitmask |= FEATURES_COLUMN_BITMASK;
+
+		if (_oAuth2ApplicationCacheModel == _dummyOAuth2ApplicationCacheModel) {
+			_oAuth2ApplicationCacheModel =
+				(OAuth2ApplicationCacheModel)toCacheModel();
+		}
+
 		_features = features;
 	}
 
@@ -740,6 +1000,13 @@ public class OAuth2ApplicationModelImpl
 
 	@Override
 	public void setHomePageURL(String homePageURL) {
+		_columnBitmask |= HOMEPAGEURL_COLUMN_BITMASK;
+
+		if (_oAuth2ApplicationCacheModel == _dummyOAuth2ApplicationCacheModel) {
+			_oAuth2ApplicationCacheModel =
+				(OAuth2ApplicationCacheModel)toCacheModel();
+		}
+
 		_homePageURL = homePageURL;
 	}
 
@@ -751,6 +1018,13 @@ public class OAuth2ApplicationModelImpl
 
 	@Override
 	public void setIconFileEntryId(long iconFileEntryId) {
+		_columnBitmask |= ICONFILEENTRYID_COLUMN_BITMASK;
+
+		if (_oAuth2ApplicationCacheModel == _dummyOAuth2ApplicationCacheModel) {
+			_oAuth2ApplicationCacheModel =
+				(OAuth2ApplicationCacheModel)toCacheModel();
+		}
+
 		_iconFileEntryId = iconFileEntryId;
 	}
 
@@ -767,6 +1041,13 @@ public class OAuth2ApplicationModelImpl
 
 	@Override
 	public void setName(String name) {
+		_columnBitmask |= NAME_COLUMN_BITMASK;
+
+		if (_oAuth2ApplicationCacheModel == _dummyOAuth2ApplicationCacheModel) {
+			_oAuth2ApplicationCacheModel =
+				(OAuth2ApplicationCacheModel)toCacheModel();
+		}
+
 		_name = name;
 	}
 
@@ -783,6 +1064,13 @@ public class OAuth2ApplicationModelImpl
 
 	@Override
 	public void setPrivacyPolicyURL(String privacyPolicyURL) {
+		_columnBitmask |= PRIVACYPOLICYURL_COLUMN_BITMASK;
+
+		if (_oAuth2ApplicationCacheModel == _dummyOAuth2ApplicationCacheModel) {
+			_oAuth2ApplicationCacheModel =
+				(OAuth2ApplicationCacheModel)toCacheModel();
+		}
+
 		_privacyPolicyURL = privacyPolicyURL;
 	}
 
@@ -799,6 +1087,13 @@ public class OAuth2ApplicationModelImpl
 
 	@Override
 	public void setRedirectURIs(String redirectURIs) {
+		_columnBitmask |= REDIRECTURIS_COLUMN_BITMASK;
+
+		if (_oAuth2ApplicationCacheModel == _dummyOAuth2ApplicationCacheModel) {
+			_oAuth2ApplicationCacheModel =
+				(OAuth2ApplicationCacheModel)toCacheModel();
+		}
+
 		_redirectURIs = redirectURIs;
 	}
 
@@ -930,19 +1225,11 @@ public class OAuth2ApplicationModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		OAuth2ApplicationModelImpl oAuth2ApplicationModelImpl = this;
+		_setModifiedDate = false;
 
-		oAuth2ApplicationModelImpl._originalCompanyId =
-			oAuth2ApplicationModelImpl._companyId;
+		_columnBitmask = 0;
 
-		oAuth2ApplicationModelImpl._setOriginalCompanyId = false;
-
-		oAuth2ApplicationModelImpl._setModifiedDate = false;
-
-		oAuth2ApplicationModelImpl._originalClientId =
-			oAuth2ApplicationModelImpl._clientId;
-
-		oAuth2ApplicationModelImpl._columnBitmask = 0;
+		_oAuth2ApplicationCacheModel = _dummyOAuth2ApplicationCacheModel;
 	}
 
 	@Override
@@ -1153,8 +1440,6 @@ public class OAuth2ApplicationModelImpl
 
 	private long _oAuth2ApplicationId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
@@ -1165,7 +1450,6 @@ public class OAuth2ApplicationModelImpl
 	private long _clientCredentialUserId;
 	private String _clientCredentialUserName;
 	private String _clientId;
-	private String _originalClientId;
 	private int _clientProfile;
 	private String _clientSecret;
 	private String _description;
@@ -1176,6 +1460,11 @@ public class OAuth2ApplicationModelImpl
 	private String _privacyPolicyURL;
 	private String _redirectURIs;
 	private long _columnBitmask;
+
+	private static final OAuth2ApplicationCacheModel
+		_dummyOAuth2ApplicationCacheModel = new OAuth2ApplicationCacheModel();
+
 	private OAuth2Application _escapedModel;
+	private OAuth2ApplicationCacheModel _oAuth2ApplicationCacheModel;
 
 }

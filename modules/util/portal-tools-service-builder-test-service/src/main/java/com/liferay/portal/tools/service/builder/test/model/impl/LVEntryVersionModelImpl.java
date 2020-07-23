@@ -119,17 +119,21 @@ public class LVEntryVersionModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long LVENTRYVERSIONID_COLUMN_BITMASK = 1L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 2L;
+	public static final long VERSION_COLUMN_BITMASK = 2L;
 
-	public static final long LVENTRYID_COLUMN_BITMASK = 4L;
+	public static final long UUID_COLUMN_BITMASK = 4L;
 
-	public static final long UNIQUEGROUPKEY_COLUMN_BITMASK = 8L;
+	public static final long DEFAULTLANGUAGEID_COLUMN_BITMASK = 8L;
 
-	public static final long UUID_COLUMN_BITMASK = 16L;
+	public static final long LVENTRYID_COLUMN_BITMASK = 16L;
 
-	public static final long VERSION_COLUMN_BITMASK = 32L;
+	public static final long COMPANYID_COLUMN_BITMASK = 32L;
+
+	public static final long GROUPID_COLUMN_BITMASK = 64L;
+
+	public static final long UNIQUEGROUPKEY_COLUMN_BITMASK = 128L;
 
 	public static final String MAPPING_TABLE_BIGDECIMALENTRIES_LVENTRIES_NAME =
 		"BigDecimalEntries_LVEntries";
@@ -269,51 +273,108 @@ public class LVEntryVersionModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_lvEntryVersionCacheModel == null) ||
+			(_lvEntryVersionCacheModel == _dummyLVEntryVersionCacheModel)) {
+
+			return null;
+		}
+
+		Function<LVEntryVersionCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_lvEntryVersionCacheModel);
+	}
+
 	private static final Map<String, Function<LVEntryVersion, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<LVEntryVersion, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<LVEntryVersionCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<LVEntryVersion, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<LVEntryVersion, Object>>();
 		Map<String, BiConsumer<LVEntryVersion, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<LVEntryVersion, ?>>();
+		Map<String, Function<LVEntryVersionCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<LVEntryVersionCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"lvEntryVersionId", LVEntryVersion::getLvEntryVersionId);
+
+		cacheModelGetterFunctions.put(
+			"lvEntryVersionId",
+			lvEntryVersionCacheModel ->
+				lvEntryVersionCacheModel.lvEntryVersionId);
 		attributeSetterBiConsumers.put(
 			"lvEntryVersionId",
 			(BiConsumer<LVEntryVersion, Long>)
 				LVEntryVersion::setLvEntryVersionId);
 		attributeGetterFunctions.put("version", LVEntryVersion::getVersion);
+
+		cacheModelGetterFunctions.put(
+			"version",
+			lvEntryVersionCacheModel -> lvEntryVersionCacheModel.version);
 		attributeSetterBiConsumers.put(
 			"version",
 			(BiConsumer<LVEntryVersion, Integer>)LVEntryVersion::setVersion);
 		attributeGetterFunctions.put("uuid", LVEntryVersion::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid", lvEntryVersionCacheModel -> lvEntryVersionCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid",
 			(BiConsumer<LVEntryVersion, String>)LVEntryVersion::setUuid);
 		attributeGetterFunctions.put(
 			"defaultLanguageId", LVEntryVersion::getDefaultLanguageId);
+
+		cacheModelGetterFunctions.put(
+			"defaultLanguageId",
+			lvEntryVersionCacheModel ->
+				lvEntryVersionCacheModel.defaultLanguageId);
 		attributeSetterBiConsumers.put(
 			"defaultLanguageId",
 			(BiConsumer<LVEntryVersion, String>)
 				LVEntryVersion::setDefaultLanguageId);
 		attributeGetterFunctions.put("lvEntryId", LVEntryVersion::getLvEntryId);
+
+		cacheModelGetterFunctions.put(
+			"lvEntryId",
+			lvEntryVersionCacheModel -> lvEntryVersionCacheModel.lvEntryId);
 		attributeSetterBiConsumers.put(
 			"lvEntryId",
 			(BiConsumer<LVEntryVersion, Long>)LVEntryVersion::setLvEntryId);
 		attributeGetterFunctions.put("companyId", LVEntryVersion::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			lvEntryVersionCacheModel -> lvEntryVersionCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<LVEntryVersion, Long>)LVEntryVersion::setCompanyId);
 		attributeGetterFunctions.put("groupId", LVEntryVersion::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			lvEntryVersionCacheModel -> lvEntryVersionCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<LVEntryVersion, Long>)LVEntryVersion::setGroupId);
 		attributeGetterFunctions.put(
 			"uniqueGroupKey", LVEntryVersion::getUniqueGroupKey);
+
+		cacheModelGetterFunctions.put(
+			"uniqueGroupKey",
+			lvEntryVersionCacheModel ->
+				lvEntryVersionCacheModel.uniqueGroupKey);
 		attributeSetterBiConsumers.put(
 			"uniqueGroupKey",
 			(BiConsumer<LVEntryVersion, String>)
@@ -323,6 +384,8 @@ public class LVEntryVersionModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -363,6 +426,13 @@ public class LVEntryVersionModelImpl
 
 	@Override
 	public void setLvEntryVersionId(long lvEntryVersionId) {
+		_columnBitmask |= LVENTRYVERSIONID_COLUMN_BITMASK;
+
+		if (_lvEntryVersionCacheModel == _dummyLVEntryVersionCacheModel) {
+			_lvEntryVersionCacheModel =
+				(LVEntryVersionCacheModel)toCacheModel();
+		}
+
 		_lvEntryVersionId = lvEntryVersionId;
 	}
 
@@ -373,19 +443,23 @@ public class LVEntryVersionModelImpl
 
 	@Override
 	public void setVersion(int version) {
-		_columnBitmask = -1L;
+		_columnBitmask |= VERSION_COLUMN_BITMASK;
 
-		if (!_setOriginalVersion) {
-			_setOriginalVersion = true;
-
-			_originalVersion = _version;
+		if (_lvEntryVersionCacheModel == _dummyLVEntryVersionCacheModel) {
+			_lvEntryVersionCacheModel =
+				(LVEntryVersionCacheModel)toCacheModel();
 		}
 
 		_version = version;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalVersion() {
-		return _originalVersion;
+		return getOriginalAttributeValue("version");
 	}
 
 	@Override
@@ -402,15 +476,21 @@ public class LVEntryVersionModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_lvEntryVersionCacheModel == _dummyLVEntryVersionCacheModel) {
+			_lvEntryVersionCacheModel =
+				(LVEntryVersionCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getOriginalAttributeValue("uuid");
 	}
 
 	@Override
@@ -425,6 +505,13 @@ public class LVEntryVersionModelImpl
 
 	@Override
 	public void setDefaultLanguageId(String defaultLanguageId) {
+		_columnBitmask |= DEFAULTLANGUAGEID_COLUMN_BITMASK;
+
+		if (_lvEntryVersionCacheModel == _dummyLVEntryVersionCacheModel) {
+			_lvEntryVersionCacheModel =
+				(LVEntryVersionCacheModel)toCacheModel();
+		}
+
 		_defaultLanguageId = defaultLanguageId;
 	}
 
@@ -437,17 +524,21 @@ public class LVEntryVersionModelImpl
 	public void setLvEntryId(long lvEntryId) {
 		_columnBitmask |= LVENTRYID_COLUMN_BITMASK;
 
-		if (!_setOriginalLvEntryId) {
-			_setOriginalLvEntryId = true;
-
-			_originalLvEntryId = _lvEntryId;
+		if (_lvEntryVersionCacheModel == _dummyLVEntryVersionCacheModel) {
+			_lvEntryVersionCacheModel =
+				(LVEntryVersionCacheModel)toCacheModel();
 		}
 
 		_lvEntryId = lvEntryId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalLvEntryId() {
-		return _originalLvEntryId;
+		return getOriginalAttributeValue("lvEntryId");
 	}
 
 	@Override
@@ -459,17 +550,21 @@ public class LVEntryVersionModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_lvEntryVersionCacheModel == _dummyLVEntryVersionCacheModel) {
+			_lvEntryVersionCacheModel =
+				(LVEntryVersionCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@Override
@@ -481,17 +576,21 @@ public class LVEntryVersionModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_lvEntryVersionCacheModel == _dummyLVEntryVersionCacheModel) {
+			_lvEntryVersionCacheModel =
+				(LVEntryVersionCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getOriginalAttributeValue("groupId");
 	}
 
 	@Override
@@ -508,15 +607,21 @@ public class LVEntryVersionModelImpl
 	public void setUniqueGroupKey(String uniqueGroupKey) {
 		_columnBitmask |= UNIQUEGROUPKEY_COLUMN_BITMASK;
 
-		if (_originalUniqueGroupKey == null) {
-			_originalUniqueGroupKey = _uniqueGroupKey;
+		if (_lvEntryVersionCacheModel == _dummyLVEntryVersionCacheModel) {
+			_lvEntryVersionCacheModel =
+				(LVEntryVersionCacheModel)toCacheModel();
 		}
 
 		_uniqueGroupKey = uniqueGroupKey;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUniqueGroupKey() {
-		return GetterUtil.getString(_originalUniqueGroupKey);
+		return getOriginalAttributeValue("uniqueGroupKey");
 	}
 
 	public long getColumnBitmask() {
@@ -639,34 +744,9 @@ public class LVEntryVersionModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		LVEntryVersionModelImpl lvEntryVersionModelImpl = this;
+		_columnBitmask = 0;
 
-		lvEntryVersionModelImpl._originalVersion =
-			lvEntryVersionModelImpl._version;
-
-		lvEntryVersionModelImpl._setOriginalVersion = false;
-
-		lvEntryVersionModelImpl._originalUuid = lvEntryVersionModelImpl._uuid;
-
-		lvEntryVersionModelImpl._originalLvEntryId =
-			lvEntryVersionModelImpl._lvEntryId;
-
-		lvEntryVersionModelImpl._setOriginalLvEntryId = false;
-
-		lvEntryVersionModelImpl._originalCompanyId =
-			lvEntryVersionModelImpl._companyId;
-
-		lvEntryVersionModelImpl._setOriginalCompanyId = false;
-
-		lvEntryVersionModelImpl._originalGroupId =
-			lvEntryVersionModelImpl._groupId;
-
-		lvEntryVersionModelImpl._setOriginalGroupId = false;
-
-		lvEntryVersionModelImpl._originalUniqueGroupKey =
-			lvEntryVersionModelImpl._uniqueGroupKey;
-
-		lvEntryVersionModelImpl._columnBitmask = 0;
+		_lvEntryVersionCacheModel = _dummyLVEntryVersionCacheModel;
 	}
 
 	@Override
@@ -783,23 +863,18 @@ public class LVEntryVersionModelImpl
 
 	private long _lvEntryVersionId;
 	private int _version;
-	private int _originalVersion;
-	private boolean _setOriginalVersion;
 	private String _uuid;
-	private String _originalUuid;
 	private String _defaultLanguageId;
 	private long _lvEntryId;
-	private long _originalLvEntryId;
-	private boolean _setOriginalLvEntryId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private String _uniqueGroupKey;
-	private String _originalUniqueGroupKey;
 	private long _columnBitmask;
+
+	private static final LVEntryVersionCacheModel
+		_dummyLVEntryVersionCacheModel = new LVEntryVersionCacheModel();
+
 	private LVEntryVersion _escapedModel;
+	private LVEntryVersionCacheModel _lvEntryVersionCacheModel;
 
 }

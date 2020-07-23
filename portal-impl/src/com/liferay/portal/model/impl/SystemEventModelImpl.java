@@ -138,17 +138,37 @@ public class SystemEventModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long CLASSNAMEID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long CLASSPK_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 4L;
+	public static final long SYSTEMEVENTID_COLUMN_BITMASK = 4L;
 
-	public static final long SYSTEMEVENTSETKEY_COLUMN_BITMASK = 8L;
+	public static final long GROUPID_COLUMN_BITMASK = 8L;
 
-	public static final long TYPE_COLUMN_BITMASK = 16L;
+	public static final long COMPANYID_COLUMN_BITMASK = 16L;
 
-	public static final long CREATEDATE_COLUMN_BITMASK = 32L;
+	public static final long USERID_COLUMN_BITMASK = 32L;
+
+	public static final long USERNAME_COLUMN_BITMASK = 64L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 128L;
+
+	public static final long CLASSNAMEID_COLUMN_BITMASK = 256L;
+
+	public static final long CLASSPK_COLUMN_BITMASK = 512L;
+
+	public static final long CLASSUUID_COLUMN_BITMASK = 1024L;
+
+	public static final long REFERRERCLASSNAMEID_COLUMN_BITMASK = 2048L;
+
+	public static final long PARENTSYSTEMEVENTID_COLUMN_BITMASK = 4096L;
+
+	public static final long SYSTEMEVENTSETKEY_COLUMN_BITMASK = 8192L;
+
+	public static final long TYPE_COLUMN_BITMASK = 16384L;
+
+	public static final long EXTRADATA_COLUMN_BITMASK = 32768L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		com.liferay.portal.util.PropsUtil.get(
@@ -267,81 +287,164 @@ public class SystemEventModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_systemEventCacheModel == null) ||
+			(_systemEventCacheModel == _dummySystemEventCacheModel)) {
+
+			return null;
+		}
+
+		Function<SystemEventCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_systemEventCacheModel);
+	}
+
 	private static final Map<String, Function<SystemEvent, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<SystemEvent, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<SystemEventCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<SystemEvent, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<SystemEvent, Object>>();
 		Map<String, BiConsumer<SystemEvent, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<SystemEvent, ?>>();
+		Map<String, Function<SystemEventCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<SystemEventCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", SystemEvent::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			systemEventCacheModel -> systemEventCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<SystemEvent, Long>)SystemEvent::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", SystemEvent::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			systemEventCacheModel -> systemEventCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<SystemEvent, Long>)SystemEvent::setCtCollectionId);
 		attributeGetterFunctions.put(
 			"systemEventId", SystemEvent::getSystemEventId);
+
+		cacheModelGetterFunctions.put(
+			"systemEventId",
+			systemEventCacheModel -> systemEventCacheModel.systemEventId);
 		attributeSetterBiConsumers.put(
 			"systemEventId",
 			(BiConsumer<SystemEvent, Long>)SystemEvent::setSystemEventId);
 		attributeGetterFunctions.put("groupId", SystemEvent::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId", systemEventCacheModel -> systemEventCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId", (BiConsumer<SystemEvent, Long>)SystemEvent::setGroupId);
 		attributeGetterFunctions.put("companyId", SystemEvent::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			systemEventCacheModel -> systemEventCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<SystemEvent, Long>)SystemEvent::setCompanyId);
 		attributeGetterFunctions.put("userId", SystemEvent::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", systemEventCacheModel -> systemEventCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<SystemEvent, Long>)SystemEvent::setUserId);
 		attributeGetterFunctions.put("userName", SystemEvent::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			systemEventCacheModel -> systemEventCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<SystemEvent, String>)SystemEvent::setUserName);
 		attributeGetterFunctions.put("createDate", SystemEvent::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			systemEventCacheModel -> systemEventCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<SystemEvent, Date>)SystemEvent::setCreateDate);
 		attributeGetterFunctions.put(
 			"classNameId", SystemEvent::getClassNameId);
+
+		cacheModelGetterFunctions.put(
+			"classNameId",
+			systemEventCacheModel -> systemEventCacheModel.classNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<SystemEvent, Long>)SystemEvent::setClassNameId);
 		attributeGetterFunctions.put("classPK", SystemEvent::getClassPK);
+
+		cacheModelGetterFunctions.put(
+			"classPK", systemEventCacheModel -> systemEventCacheModel.classPK);
 		attributeSetterBiConsumers.put(
 			"classPK", (BiConsumer<SystemEvent, Long>)SystemEvent::setClassPK);
 		attributeGetterFunctions.put("classUuid", SystemEvent::getClassUuid);
+
+		cacheModelGetterFunctions.put(
+			"classUuid",
+			systemEventCacheModel -> systemEventCacheModel.classUuid);
 		attributeSetterBiConsumers.put(
 			"classUuid",
 			(BiConsumer<SystemEvent, String>)SystemEvent::setClassUuid);
 		attributeGetterFunctions.put(
 			"referrerClassNameId", SystemEvent::getReferrerClassNameId);
+
+		cacheModelGetterFunctions.put(
+			"referrerClassNameId",
+			systemEventCacheModel -> systemEventCacheModel.referrerClassNameId);
 		attributeSetterBiConsumers.put(
 			"referrerClassNameId",
 			(BiConsumer<SystemEvent, Long>)SystemEvent::setReferrerClassNameId);
 		attributeGetterFunctions.put(
 			"parentSystemEventId", SystemEvent::getParentSystemEventId);
+
+		cacheModelGetterFunctions.put(
+			"parentSystemEventId",
+			systemEventCacheModel -> systemEventCacheModel.parentSystemEventId);
 		attributeSetterBiConsumers.put(
 			"parentSystemEventId",
 			(BiConsumer<SystemEvent, Long>)SystemEvent::setParentSystemEventId);
 		attributeGetterFunctions.put(
 			"systemEventSetKey", SystemEvent::getSystemEventSetKey);
+
+		cacheModelGetterFunctions.put(
+			"systemEventSetKey",
+			systemEventCacheModel -> systemEventCacheModel.systemEventSetKey);
 		attributeSetterBiConsumers.put(
 			"systemEventSetKey",
 			(BiConsumer<SystemEvent, Long>)SystemEvent::setSystemEventSetKey);
 		attributeGetterFunctions.put("type", SystemEvent::getType);
+
+		cacheModelGetterFunctions.put(
+			"type", systemEventCacheModel -> systemEventCacheModel.type);
 		attributeSetterBiConsumers.put(
 			"type", (BiConsumer<SystemEvent, Integer>)SystemEvent::setType);
 		attributeGetterFunctions.put("extraData", SystemEvent::getExtraData);
+
+		cacheModelGetterFunctions.put(
+			"extraData",
+			systemEventCacheModel -> systemEventCacheModel.extraData);
 		attributeSetterBiConsumers.put(
 			"extraData",
 			(BiConsumer<SystemEvent, String>)SystemEvent::setExtraData);
@@ -350,6 +453,8 @@ public class SystemEventModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -359,6 +464,12 @@ public class SystemEventModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_systemEventCacheModel == _dummySystemEventCacheModel) {
+			_systemEventCacheModel = (SystemEventCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -369,6 +480,12 @@ public class SystemEventModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (_systemEventCacheModel == _dummySystemEventCacheModel) {
+			_systemEventCacheModel = (SystemEventCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -379,6 +496,12 @@ public class SystemEventModelImpl
 
 	@Override
 	public void setSystemEventId(long systemEventId) {
+		_columnBitmask |= SYSTEMEVENTID_COLUMN_BITMASK;
+
+		if (_systemEventCacheModel == _dummySystemEventCacheModel) {
+			_systemEventCacheModel = (SystemEventCacheModel)toCacheModel();
+		}
+
 		_systemEventId = systemEventId;
 	}
 
@@ -391,17 +514,20 @@ public class SystemEventModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_systemEventCacheModel == _dummySystemEventCacheModel) {
+			_systemEventCacheModel = (SystemEventCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getOriginalAttributeValue("groupId");
 	}
 
 	@Override
@@ -411,6 +537,12 @@ public class SystemEventModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (_systemEventCacheModel == _dummySystemEventCacheModel) {
+			_systemEventCacheModel = (SystemEventCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -421,6 +553,12 @@ public class SystemEventModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (_systemEventCacheModel == _dummySystemEventCacheModel) {
+			_systemEventCacheModel = (SystemEventCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -452,6 +590,12 @@ public class SystemEventModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (_systemEventCacheModel == _dummySystemEventCacheModel) {
+			_systemEventCacheModel = (SystemEventCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -462,7 +606,11 @@ public class SystemEventModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
-		_columnBitmask = -1L;
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (_systemEventCacheModel == _dummySystemEventCacheModel) {
+			_systemEventCacheModel = (SystemEventCacheModel)toCacheModel();
+		}
 
 		_createDate = createDate;
 	}
@@ -496,17 +644,20 @@ public class SystemEventModelImpl
 	public void setClassNameId(long classNameId) {
 		_columnBitmask |= CLASSNAMEID_COLUMN_BITMASK;
 
-		if (!_setOriginalClassNameId) {
-			_setOriginalClassNameId = true;
-
-			_originalClassNameId = _classNameId;
+		if (_systemEventCacheModel == _dummySystemEventCacheModel) {
+			_systemEventCacheModel = (SystemEventCacheModel)toCacheModel();
 		}
 
 		_classNameId = classNameId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassNameId() {
-		return _originalClassNameId;
+		return getOriginalAttributeValue("classNameId");
 	}
 
 	@Override
@@ -518,17 +669,20 @@ public class SystemEventModelImpl
 	public void setClassPK(long classPK) {
 		_columnBitmask |= CLASSPK_COLUMN_BITMASK;
 
-		if (!_setOriginalClassPK) {
-			_setOriginalClassPK = true;
-
-			_originalClassPK = _classPK;
+		if (_systemEventCacheModel == _dummySystemEventCacheModel) {
+			_systemEventCacheModel = (SystemEventCacheModel)toCacheModel();
 		}
 
 		_classPK = classPK;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassPK() {
-		return _originalClassPK;
+		return getOriginalAttributeValue("classPK");
 	}
 
 	@Override
@@ -543,6 +697,12 @@ public class SystemEventModelImpl
 
 	@Override
 	public void setClassUuid(String classUuid) {
+		_columnBitmask |= CLASSUUID_COLUMN_BITMASK;
+
+		if (_systemEventCacheModel == _dummySystemEventCacheModel) {
+			_systemEventCacheModel = (SystemEventCacheModel)toCacheModel();
+		}
+
 		_classUuid = classUuid;
 	}
 
@@ -553,6 +713,12 @@ public class SystemEventModelImpl
 
 	@Override
 	public void setReferrerClassNameId(long referrerClassNameId) {
+		_columnBitmask |= REFERRERCLASSNAMEID_COLUMN_BITMASK;
+
+		if (_systemEventCacheModel == _dummySystemEventCacheModel) {
+			_systemEventCacheModel = (SystemEventCacheModel)toCacheModel();
+		}
+
 		_referrerClassNameId = referrerClassNameId;
 	}
 
@@ -563,6 +729,12 @@ public class SystemEventModelImpl
 
 	@Override
 	public void setParentSystemEventId(long parentSystemEventId) {
+		_columnBitmask |= PARENTSYSTEMEVENTID_COLUMN_BITMASK;
+
+		if (_systemEventCacheModel == _dummySystemEventCacheModel) {
+			_systemEventCacheModel = (SystemEventCacheModel)toCacheModel();
+		}
+
 		_parentSystemEventId = parentSystemEventId;
 	}
 
@@ -575,17 +747,20 @@ public class SystemEventModelImpl
 	public void setSystemEventSetKey(long systemEventSetKey) {
 		_columnBitmask |= SYSTEMEVENTSETKEY_COLUMN_BITMASK;
 
-		if (!_setOriginalSystemEventSetKey) {
-			_setOriginalSystemEventSetKey = true;
-
-			_originalSystemEventSetKey = _systemEventSetKey;
+		if (_systemEventCacheModel == _dummySystemEventCacheModel) {
+			_systemEventCacheModel = (SystemEventCacheModel)toCacheModel();
 		}
 
 		_systemEventSetKey = systemEventSetKey;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalSystemEventSetKey() {
-		return _originalSystemEventSetKey;
+		return getOriginalAttributeValue("systemEventSetKey");
 	}
 
 	@Override
@@ -597,17 +772,20 @@ public class SystemEventModelImpl
 	public void setType(int type) {
 		_columnBitmask |= TYPE_COLUMN_BITMASK;
 
-		if (!_setOriginalType) {
-			_setOriginalType = true;
-
-			_originalType = _type;
+		if (_systemEventCacheModel == _dummySystemEventCacheModel) {
+			_systemEventCacheModel = (SystemEventCacheModel)toCacheModel();
 		}
 
 		_type = type;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalType() {
-		return _originalType;
+		return getOriginalAttributeValue("type");
 	}
 
 	@Override
@@ -622,6 +800,12 @@ public class SystemEventModelImpl
 
 	@Override
 	public void setExtraData(String extraData) {
+		_columnBitmask |= EXTRADATA_COLUMN_BITMASK;
+
+		if (_systemEventCacheModel == _dummySystemEventCacheModel) {
+			_systemEventCacheModel = (SystemEventCacheModel)toCacheModel();
+		}
+
 		_extraData = extraData;
 	}
 
@@ -746,31 +930,9 @@ public class SystemEventModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		SystemEventModelImpl systemEventModelImpl = this;
+		_columnBitmask = 0;
 
-		systemEventModelImpl._originalGroupId = systemEventModelImpl._groupId;
-
-		systemEventModelImpl._setOriginalGroupId = false;
-
-		systemEventModelImpl._originalClassNameId =
-			systemEventModelImpl._classNameId;
-
-		systemEventModelImpl._setOriginalClassNameId = false;
-
-		systemEventModelImpl._originalClassPK = systemEventModelImpl._classPK;
-
-		systemEventModelImpl._setOriginalClassPK = false;
-
-		systemEventModelImpl._originalSystemEventSetKey =
-			systemEventModelImpl._systemEventSetKey;
-
-		systemEventModelImpl._setOriginalSystemEventSetKey = false;
-
-		systemEventModelImpl._originalType = systemEventModelImpl._type;
-
-		systemEventModelImpl._setOriginalType = false;
-
-		systemEventModelImpl._columnBitmask = 0;
+		_systemEventCacheModel = _dummySystemEventCacheModel;
 	}
 
 	@Override
@@ -912,29 +1074,24 @@ public class SystemEventModelImpl
 	private long _ctCollectionId;
 	private long _systemEventId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private long _classNameId;
-	private long _originalClassNameId;
-	private boolean _setOriginalClassNameId;
 	private long _classPK;
-	private long _originalClassPK;
-	private boolean _setOriginalClassPK;
 	private String _classUuid;
 	private long _referrerClassNameId;
 	private long _parentSystemEventId;
 	private long _systemEventSetKey;
-	private long _originalSystemEventSetKey;
-	private boolean _setOriginalSystemEventSetKey;
 	private int _type;
-	private int _originalType;
-	private boolean _setOriginalType;
 	private String _extraData;
 	private long _columnBitmask;
+
+	private static final SystemEventCacheModel _dummySystemEventCacheModel =
+		new SystemEventCacheModel();
+
 	private SystemEvent _escapedModel;
+	private SystemEventCacheModel _systemEventCacheModel;
 
 }

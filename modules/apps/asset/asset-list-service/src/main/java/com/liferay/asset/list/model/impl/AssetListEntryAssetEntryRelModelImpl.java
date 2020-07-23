@@ -28,7 +28,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
@@ -120,17 +119,35 @@ public class AssetListEntryAssetEntryRelModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long ASSETLISTENTRYID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 4L;
+	public static final long UUID_COLUMN_BITMASK = 4L;
 
-	public static final long POSITION_COLUMN_BITMASK = 8L;
+	public static final long ASSETLISTENTRYASSETENTRYRELID_COLUMN_BITMASK = 8L;
 
-	public static final long SEGMENTSENTRYID_COLUMN_BITMASK = 16L;
+	public static final long GROUPID_COLUMN_BITMASK = 16L;
 
-	public static final long UUID_COLUMN_BITMASK = 32L;
+	public static final long COMPANYID_COLUMN_BITMASK = 32L;
+
+	public static final long USERID_COLUMN_BITMASK = 64L;
+
+	public static final long USERNAME_COLUMN_BITMASK = 128L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 256L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 512L;
+
+	public static final long ASSETLISTENTRYID_COLUMN_BITMASK = 1024L;
+
+	public static final long ASSETENTRYID_COLUMN_BITMASK = 2048L;
+
+	public static final long SEGMENTSENTRYID_COLUMN_BITMASK = 4096L;
+
+	public static final long POSITION_COLUMN_BITMASK = 8192L;
+
+	public static final long LASTPUBLISHDATE_COLUMN_BITMASK = 16384L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -261,12 +278,33 @@ public class AssetListEntryAssetEntryRelModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_assetListEntryAssetEntryRelCacheModel == null) ||
+			(_assetListEntryAssetEntryRelCacheModel ==
+				_dummyAssetListEntryAssetEntryRelCacheModel)) {
+
+			return null;
+		}
+
+		Function<AssetListEntryAssetEntryRelCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_assetListEntryAssetEntryRelCacheModel);
+	}
+
 	private static final Map
 		<String, Function<AssetListEntryAssetEntryRel, Object>>
 			_attributeGetterFunctions;
 	private static final Map
 		<String, BiConsumer<AssetListEntryAssetEntryRel, Object>>
 			_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<AssetListEntryAssetEntryRelCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<AssetListEntryAssetEntryRel, Object>>
@@ -277,21 +315,41 @@ public class AssetListEntryAssetEntryRelModelImpl
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<AssetListEntryAssetEntryRel, ?>>();
+		Map<String, Function<AssetListEntryAssetEntryRelCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String,
+					 Function<AssetListEntryAssetEntryRelCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", AssetListEntryAssetEntryRel::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			assetListEntryAssetEntryRelCacheModel ->
+				assetListEntryAssetEntryRelCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<AssetListEntryAssetEntryRel, Long>)
 				AssetListEntryAssetEntryRel::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", AssetListEntryAssetEntryRel::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			assetListEntryAssetEntryRelCacheModel ->
+				assetListEntryAssetEntryRelCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<AssetListEntryAssetEntryRel, Long>)
 				AssetListEntryAssetEntryRel::setCtCollectionId);
 		attributeGetterFunctions.put(
 			"uuid", AssetListEntryAssetEntryRel::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid",
+			assetListEntryAssetEntryRelCacheModel ->
+				assetListEntryAssetEntryRelCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid",
 			(BiConsumer<AssetListEntryAssetEntryRel, String>)
@@ -299,42 +357,78 @@ public class AssetListEntryAssetEntryRelModelImpl
 		attributeGetterFunctions.put(
 			"assetListEntryAssetEntryRelId",
 			AssetListEntryAssetEntryRel::getAssetListEntryAssetEntryRelId);
+
+		cacheModelGetterFunctions.put(
+			"assetListEntryAssetEntryRelId",
+			assetListEntryAssetEntryRelCacheModel ->
+				assetListEntryAssetEntryRelCacheModel.
+					assetListEntryAssetEntryRelId);
 		attributeSetterBiConsumers.put(
 			"assetListEntryAssetEntryRelId",
 			(BiConsumer<AssetListEntryAssetEntryRel, Long>)
 				AssetListEntryAssetEntryRel::setAssetListEntryAssetEntryRelId);
 		attributeGetterFunctions.put(
 			"groupId", AssetListEntryAssetEntryRel::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			assetListEntryAssetEntryRelCacheModel ->
+				assetListEntryAssetEntryRelCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<AssetListEntryAssetEntryRel, Long>)
 				AssetListEntryAssetEntryRel::setGroupId);
 		attributeGetterFunctions.put(
 			"companyId", AssetListEntryAssetEntryRel::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			assetListEntryAssetEntryRelCacheModel ->
+				assetListEntryAssetEntryRelCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<AssetListEntryAssetEntryRel, Long>)
 				AssetListEntryAssetEntryRel::setCompanyId);
 		attributeGetterFunctions.put(
 			"userId", AssetListEntryAssetEntryRel::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			assetListEntryAssetEntryRelCacheModel ->
+				assetListEntryAssetEntryRelCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<AssetListEntryAssetEntryRel, Long>)
 				AssetListEntryAssetEntryRel::setUserId);
 		attributeGetterFunctions.put(
 			"userName", AssetListEntryAssetEntryRel::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			assetListEntryAssetEntryRelCacheModel ->
+				assetListEntryAssetEntryRelCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<AssetListEntryAssetEntryRel, String>)
 				AssetListEntryAssetEntryRel::setUserName);
 		attributeGetterFunctions.put(
 			"createDate", AssetListEntryAssetEntryRel::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			assetListEntryAssetEntryRelCacheModel ->
+				assetListEntryAssetEntryRelCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<AssetListEntryAssetEntryRel, Date>)
 				AssetListEntryAssetEntryRel::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", AssetListEntryAssetEntryRel::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			assetListEntryAssetEntryRelCacheModel ->
+				assetListEntryAssetEntryRelCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<AssetListEntryAssetEntryRel, Date>)
@@ -342,30 +436,55 @@ public class AssetListEntryAssetEntryRelModelImpl
 		attributeGetterFunctions.put(
 			"assetListEntryId",
 			AssetListEntryAssetEntryRel::getAssetListEntryId);
+
+		cacheModelGetterFunctions.put(
+			"assetListEntryId",
+			assetListEntryAssetEntryRelCacheModel ->
+				assetListEntryAssetEntryRelCacheModel.assetListEntryId);
 		attributeSetterBiConsumers.put(
 			"assetListEntryId",
 			(BiConsumer<AssetListEntryAssetEntryRel, Long>)
 				AssetListEntryAssetEntryRel::setAssetListEntryId);
 		attributeGetterFunctions.put(
 			"assetEntryId", AssetListEntryAssetEntryRel::getAssetEntryId);
+
+		cacheModelGetterFunctions.put(
+			"assetEntryId",
+			assetListEntryAssetEntryRelCacheModel ->
+				assetListEntryAssetEntryRelCacheModel.assetEntryId);
 		attributeSetterBiConsumers.put(
 			"assetEntryId",
 			(BiConsumer<AssetListEntryAssetEntryRel, Long>)
 				AssetListEntryAssetEntryRel::setAssetEntryId);
 		attributeGetterFunctions.put(
 			"segmentsEntryId", AssetListEntryAssetEntryRel::getSegmentsEntryId);
+
+		cacheModelGetterFunctions.put(
+			"segmentsEntryId",
+			assetListEntryAssetEntryRelCacheModel ->
+				assetListEntryAssetEntryRelCacheModel.segmentsEntryId);
 		attributeSetterBiConsumers.put(
 			"segmentsEntryId",
 			(BiConsumer<AssetListEntryAssetEntryRel, Long>)
 				AssetListEntryAssetEntryRel::setSegmentsEntryId);
 		attributeGetterFunctions.put(
 			"position", AssetListEntryAssetEntryRel::getPosition);
+
+		cacheModelGetterFunctions.put(
+			"position",
+			assetListEntryAssetEntryRelCacheModel ->
+				assetListEntryAssetEntryRelCacheModel.position);
 		attributeSetterBiConsumers.put(
 			"position",
 			(BiConsumer<AssetListEntryAssetEntryRel, Integer>)
 				AssetListEntryAssetEntryRel::setPosition);
 		attributeGetterFunctions.put(
 			"lastPublishDate", AssetListEntryAssetEntryRel::getLastPublishDate);
+
+		cacheModelGetterFunctions.put(
+			"lastPublishDate",
+			assetListEntryAssetEntryRelCacheModel ->
+				assetListEntryAssetEntryRelCacheModel.lastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<AssetListEntryAssetEntryRel, Date>)
@@ -375,6 +494,8 @@ public class AssetListEntryAssetEntryRelModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -384,6 +505,15 @@ public class AssetListEntryAssetEntryRelModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_assetListEntryAssetEntryRelCacheModel ==
+				_dummyAssetListEntryAssetEntryRelCacheModel) {
+
+			_assetListEntryAssetEntryRelCacheModel =
+				(AssetListEntryAssetEntryRelCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -394,6 +524,15 @@ public class AssetListEntryAssetEntryRelModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (_assetListEntryAssetEntryRelCacheModel ==
+				_dummyAssetListEntryAssetEntryRelCacheModel) {
+
+			_assetListEntryAssetEntryRelCacheModel =
+				(AssetListEntryAssetEntryRelCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -411,15 +550,23 @@ public class AssetListEntryAssetEntryRelModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_assetListEntryAssetEntryRelCacheModel ==
+				_dummyAssetListEntryAssetEntryRelCacheModel) {
+
+			_assetListEntryAssetEntryRelCacheModel =
+				(AssetListEntryAssetEntryRelCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getOriginalAttributeValue("uuid");
 	}
 
 	@Override
@@ -430,6 +577,15 @@ public class AssetListEntryAssetEntryRelModelImpl
 	@Override
 	public void setAssetListEntryAssetEntryRelId(
 		long assetListEntryAssetEntryRelId) {
+
+		_columnBitmask |= ASSETLISTENTRYASSETENTRYRELID_COLUMN_BITMASK;
+
+		if (_assetListEntryAssetEntryRelCacheModel ==
+				_dummyAssetListEntryAssetEntryRelCacheModel) {
+
+			_assetListEntryAssetEntryRelCacheModel =
+				(AssetListEntryAssetEntryRelCacheModel)toCacheModel();
+		}
 
 		_assetListEntryAssetEntryRelId = assetListEntryAssetEntryRelId;
 	}
@@ -443,17 +599,23 @@ public class AssetListEntryAssetEntryRelModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
+		if (_assetListEntryAssetEntryRelCacheModel ==
+				_dummyAssetListEntryAssetEntryRelCacheModel) {
 
-			_originalGroupId = _groupId;
+			_assetListEntryAssetEntryRelCacheModel =
+				(AssetListEntryAssetEntryRelCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getOriginalAttributeValue("groupId");
 	}
 
 	@Override
@@ -465,17 +627,23 @@ public class AssetListEntryAssetEntryRelModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
+		if (_assetListEntryAssetEntryRelCacheModel ==
+				_dummyAssetListEntryAssetEntryRelCacheModel) {
 
-			_originalCompanyId = _companyId;
+			_assetListEntryAssetEntryRelCacheModel =
+				(AssetListEntryAssetEntryRelCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@Override
@@ -485,6 +653,15 @@ public class AssetListEntryAssetEntryRelModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (_assetListEntryAssetEntryRelCacheModel ==
+				_dummyAssetListEntryAssetEntryRelCacheModel) {
+
+			_assetListEntryAssetEntryRelCacheModel =
+				(AssetListEntryAssetEntryRelCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -516,6 +693,15 @@ public class AssetListEntryAssetEntryRelModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (_assetListEntryAssetEntryRelCacheModel ==
+				_dummyAssetListEntryAssetEntryRelCacheModel) {
+
+			_assetListEntryAssetEntryRelCacheModel =
+				(AssetListEntryAssetEntryRelCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -526,6 +712,15 @@ public class AssetListEntryAssetEntryRelModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (_assetListEntryAssetEntryRelCacheModel ==
+				_dummyAssetListEntryAssetEntryRelCacheModel) {
+
+			_assetListEntryAssetEntryRelCacheModel =
+				(AssetListEntryAssetEntryRelCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -542,6 +737,15 @@ public class AssetListEntryAssetEntryRelModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (_assetListEntryAssetEntryRelCacheModel ==
+				_dummyAssetListEntryAssetEntryRelCacheModel) {
+
+			_assetListEntryAssetEntryRelCacheModel =
+				(AssetListEntryAssetEntryRelCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -554,17 +758,23 @@ public class AssetListEntryAssetEntryRelModelImpl
 	public void setAssetListEntryId(long assetListEntryId) {
 		_columnBitmask |= ASSETLISTENTRYID_COLUMN_BITMASK;
 
-		if (!_setOriginalAssetListEntryId) {
-			_setOriginalAssetListEntryId = true;
+		if (_assetListEntryAssetEntryRelCacheModel ==
+				_dummyAssetListEntryAssetEntryRelCacheModel) {
 
-			_originalAssetListEntryId = _assetListEntryId;
+			_assetListEntryAssetEntryRelCacheModel =
+				(AssetListEntryAssetEntryRelCacheModel)toCacheModel();
 		}
 
 		_assetListEntryId = assetListEntryId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalAssetListEntryId() {
-		return _originalAssetListEntryId;
+		return getOriginalAttributeValue("assetListEntryId");
 	}
 
 	@Override
@@ -574,6 +784,15 @@ public class AssetListEntryAssetEntryRelModelImpl
 
 	@Override
 	public void setAssetEntryId(long assetEntryId) {
+		_columnBitmask |= ASSETENTRYID_COLUMN_BITMASK;
+
+		if (_assetListEntryAssetEntryRelCacheModel ==
+				_dummyAssetListEntryAssetEntryRelCacheModel) {
+
+			_assetListEntryAssetEntryRelCacheModel =
+				(AssetListEntryAssetEntryRelCacheModel)toCacheModel();
+		}
+
 		_assetEntryId = assetEntryId;
 	}
 
@@ -586,17 +805,23 @@ public class AssetListEntryAssetEntryRelModelImpl
 	public void setSegmentsEntryId(long segmentsEntryId) {
 		_columnBitmask |= SEGMENTSENTRYID_COLUMN_BITMASK;
 
-		if (!_setOriginalSegmentsEntryId) {
-			_setOriginalSegmentsEntryId = true;
+		if (_assetListEntryAssetEntryRelCacheModel ==
+				_dummyAssetListEntryAssetEntryRelCacheModel) {
 
-			_originalSegmentsEntryId = _segmentsEntryId;
+			_assetListEntryAssetEntryRelCacheModel =
+				(AssetListEntryAssetEntryRelCacheModel)toCacheModel();
 		}
 
 		_segmentsEntryId = segmentsEntryId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalSegmentsEntryId() {
-		return _originalSegmentsEntryId;
+		return getOriginalAttributeValue("segmentsEntryId");
 	}
 
 	@Override
@@ -606,19 +831,25 @@ public class AssetListEntryAssetEntryRelModelImpl
 
 	@Override
 	public void setPosition(int position) {
-		_columnBitmask = -1L;
+		_columnBitmask |= POSITION_COLUMN_BITMASK;
 
-		if (!_setOriginalPosition) {
-			_setOriginalPosition = true;
+		if (_assetListEntryAssetEntryRelCacheModel ==
+				_dummyAssetListEntryAssetEntryRelCacheModel) {
 
-			_originalPosition = _position;
+			_assetListEntryAssetEntryRelCacheModel =
+				(AssetListEntryAssetEntryRelCacheModel)toCacheModel();
 		}
 
 		_position = position;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalPosition() {
-		return _originalPosition;
+		return getOriginalAttributeValue("position");
 	}
 
 	@Override
@@ -628,6 +859,15 @@ public class AssetListEntryAssetEntryRelModelImpl
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		_columnBitmask |= LASTPUBLISHDATE_COLUMN_BITMASK;
+
+		if (_assetListEntryAssetEntryRelCacheModel ==
+				_dummyAssetListEntryAssetEntryRelCacheModel) {
+
+			_assetListEntryAssetEntryRelCacheModel =
+				(AssetListEntryAssetEntryRelCacheModel)toCacheModel();
+		}
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -772,42 +1012,12 @@ public class AssetListEntryAssetEntryRelModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		AssetListEntryAssetEntryRelModelImpl
-			assetListEntryAssetEntryRelModelImpl = this;
+		_setModifiedDate = false;
 
-		assetListEntryAssetEntryRelModelImpl._originalUuid =
-			assetListEntryAssetEntryRelModelImpl._uuid;
+		_columnBitmask = 0;
 
-		assetListEntryAssetEntryRelModelImpl._originalGroupId =
-			assetListEntryAssetEntryRelModelImpl._groupId;
-
-		assetListEntryAssetEntryRelModelImpl._setOriginalGroupId = false;
-
-		assetListEntryAssetEntryRelModelImpl._originalCompanyId =
-			assetListEntryAssetEntryRelModelImpl._companyId;
-
-		assetListEntryAssetEntryRelModelImpl._setOriginalCompanyId = false;
-
-		assetListEntryAssetEntryRelModelImpl._setModifiedDate = false;
-
-		assetListEntryAssetEntryRelModelImpl._originalAssetListEntryId =
-			assetListEntryAssetEntryRelModelImpl._assetListEntryId;
-
-		assetListEntryAssetEntryRelModelImpl._setOriginalAssetListEntryId =
-			false;
-
-		assetListEntryAssetEntryRelModelImpl._originalSegmentsEntryId =
-			assetListEntryAssetEntryRelModelImpl._segmentsEntryId;
-
-		assetListEntryAssetEntryRelModelImpl._setOriginalSegmentsEntryId =
-			false;
-
-		assetListEntryAssetEntryRelModelImpl._originalPosition =
-			assetListEntryAssetEntryRelModelImpl._position;
-
-		assetListEntryAssetEntryRelModelImpl._setOriginalPosition = false;
-
-		assetListEntryAssetEntryRelModelImpl._columnBitmask = 0;
+		_assetListEntryAssetEntryRelCacheModel =
+			_dummyAssetListEntryAssetEntryRelCacheModel;
 	}
 
 	@Override
@@ -969,31 +1179,27 @@ public class AssetListEntryAssetEntryRelModelImpl
 	private long _mvccVersion;
 	private long _ctCollectionId;
 	private String _uuid;
-	private String _originalUuid;
 	private long _assetListEntryAssetEntryRelId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _assetListEntryId;
-	private long _originalAssetListEntryId;
-	private boolean _setOriginalAssetListEntryId;
 	private long _assetEntryId;
 	private long _segmentsEntryId;
-	private long _originalSegmentsEntryId;
-	private boolean _setOriginalSegmentsEntryId;
 	private int _position;
-	private int _originalPosition;
-	private boolean _setOriginalPosition;
 	private Date _lastPublishDate;
 	private long _columnBitmask;
+
+	private static final AssetListEntryAssetEntryRelCacheModel
+		_dummyAssetListEntryAssetEntryRelCacheModel =
+			new AssetListEntryAssetEntryRelCacheModel();
+
 	private AssetListEntryAssetEntryRel _escapedModel;
+	private AssetListEntryAssetEntryRelCacheModel
+		_assetListEntryAssetEntryRelCacheModel;
 
 }

@@ -34,7 +34,6 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.DateUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -150,33 +149,65 @@ public class MBMessageModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long ANSWER_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long CATEGORYID_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
-	public static final long CLASSNAMEID_COLUMN_BITMASK = 4L;
+	public static final long UUID_COLUMN_BITMASK = 4L;
 
-	public static final long CLASSPK_COLUMN_BITMASK = 8L;
+	public static final long MESSAGEID_COLUMN_BITMASK = 8L;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 16L;
+	public static final long GROUPID_COLUMN_BITMASK = 16L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 32L;
+	public static final long COMPANYID_COLUMN_BITMASK = 32L;
 
-	public static final long PARENTMESSAGEID_COLUMN_BITMASK = 64L;
+	public static final long USERID_COLUMN_BITMASK = 64L;
 
-	public static final long STATUS_COLUMN_BITMASK = 128L;
+	public static final long USERNAME_COLUMN_BITMASK = 128L;
 
-	public static final long THREADID_COLUMN_BITMASK = 256L;
+	public static final long CREATEDATE_COLUMN_BITMASK = 256L;
 
-	public static final long URLSUBJECT_COLUMN_BITMASK = 512L;
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 512L;
 
-	public static final long USERID_COLUMN_BITMASK = 1024L;
+	public static final long CLASSNAMEID_COLUMN_BITMASK = 1024L;
 
-	public static final long UUID_COLUMN_BITMASK = 2048L;
+	public static final long CLASSPK_COLUMN_BITMASK = 2048L;
 
-	public static final long CREATEDATE_COLUMN_BITMASK = 4096L;
+	public static final long CATEGORYID_COLUMN_BITMASK = 4096L;
 
-	public static final long MESSAGEID_COLUMN_BITMASK = 8192L;
+	public static final long THREADID_COLUMN_BITMASK = 8192L;
+
+	public static final long ROOTMESSAGEID_COLUMN_BITMASK = 16384L;
+
+	public static final long PARENTMESSAGEID_COLUMN_BITMASK = 32768L;
+
+	public static final long TREEPATH_COLUMN_BITMASK = 65536L;
+
+	public static final long SUBJECT_COLUMN_BITMASK = 131072L;
+
+	public static final long URLSUBJECT_COLUMN_BITMASK = 262144L;
+
+	public static final long BODY_COLUMN_BITMASK = 524288L;
+
+	public static final long FORMAT_COLUMN_BITMASK = 1048576L;
+
+	public static final long ANONYMOUS_COLUMN_BITMASK = 2097152L;
+
+	public static final long PRIORITY_COLUMN_BITMASK = 4194304L;
+
+	public static final long ALLOWPINGBACKS_COLUMN_BITMASK = 8388608L;
+
+	public static final long ANSWER_COLUMN_BITMASK = 16777216L;
+
+	public static final long LASTPUBLISHDATE_COLUMN_BITMASK = 33554432L;
+
+	public static final long STATUS_COLUMN_BITMASK = 67108864L;
+
+	public static final long STATUSBYUSERID_COLUMN_BITMASK = 134217728L;
+
+	public static final long STATUSBYUSERNAME_COLUMN_BITMASK = 268435456L;
+
+	public static final long STATUSDATE_COLUMN_BITMASK = 536870912L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -371,127 +402,254 @@ public class MBMessageModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_mbMessageCacheModel == null) ||
+			(_mbMessageCacheModel == _dummyMBMessageCacheModel)) {
+
+			return null;
+		}
+
+		Function<MBMessageCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_mbMessageCacheModel);
+	}
+
 	private static final Map<String, Function<MBMessage, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<MBMessage, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<MBMessageCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<MBMessage, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<MBMessage, Object>>();
 		Map<String, BiConsumer<MBMessage, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<MBMessage, ?>>();
+		Map<String, Function<MBMessageCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<MBMessageCacheModel, Object>>();
 
 		attributeGetterFunctions.put("mvccVersion", MBMessage::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			mbMessageCacheModel -> mbMessageCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<MBMessage, Long>)MBMessage::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", MBMessage::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			mbMessageCacheModel -> mbMessageCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<MBMessage, Long>)MBMessage::setCtCollectionId);
 		attributeGetterFunctions.put("uuid", MBMessage::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid", mbMessageCacheModel -> mbMessageCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<MBMessage, String>)MBMessage::setUuid);
 		attributeGetterFunctions.put("messageId", MBMessage::getMessageId);
+
+		cacheModelGetterFunctions.put(
+			"messageId", mbMessageCacheModel -> mbMessageCacheModel.messageId);
 		attributeSetterBiConsumers.put(
 			"messageId", (BiConsumer<MBMessage, Long>)MBMessage::setMessageId);
 		attributeGetterFunctions.put("groupId", MBMessage::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId", mbMessageCacheModel -> mbMessageCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId", (BiConsumer<MBMessage, Long>)MBMessage::setGroupId);
 		attributeGetterFunctions.put("companyId", MBMessage::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId", mbMessageCacheModel -> mbMessageCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId", (BiConsumer<MBMessage, Long>)MBMessage::setCompanyId);
 		attributeGetterFunctions.put("userId", MBMessage::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", mbMessageCacheModel -> mbMessageCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<MBMessage, Long>)MBMessage::setUserId);
 		attributeGetterFunctions.put("userName", MBMessage::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName", mbMessageCacheModel -> mbMessageCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName", (BiConsumer<MBMessage, String>)MBMessage::setUserName);
 		attributeGetterFunctions.put("createDate", MBMessage::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			mbMessageCacheModel -> mbMessageCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<MBMessage, Date>)MBMessage::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", MBMessage::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			mbMessageCacheModel -> mbMessageCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<MBMessage, Date>)MBMessage::setModifiedDate);
 		attributeGetterFunctions.put("classNameId", MBMessage::getClassNameId);
+
+		cacheModelGetterFunctions.put(
+			"classNameId",
+			mbMessageCacheModel -> mbMessageCacheModel.classNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<MBMessage, Long>)MBMessage::setClassNameId);
 		attributeGetterFunctions.put("classPK", MBMessage::getClassPK);
+
+		cacheModelGetterFunctions.put(
+			"classPK", mbMessageCacheModel -> mbMessageCacheModel.classPK);
 		attributeSetterBiConsumers.put(
 			"classPK", (BiConsumer<MBMessage, Long>)MBMessage::setClassPK);
 		attributeGetterFunctions.put("categoryId", MBMessage::getCategoryId);
+
+		cacheModelGetterFunctions.put(
+			"categoryId",
+			mbMessageCacheModel -> mbMessageCacheModel.categoryId);
 		attributeSetterBiConsumers.put(
 			"categoryId",
 			(BiConsumer<MBMessage, Long>)MBMessage::setCategoryId);
 		attributeGetterFunctions.put("threadId", MBMessage::getThreadId);
+
+		cacheModelGetterFunctions.put(
+			"threadId", mbMessageCacheModel -> mbMessageCacheModel.threadId);
 		attributeSetterBiConsumers.put(
 			"threadId", (BiConsumer<MBMessage, Long>)MBMessage::setThreadId);
 		attributeGetterFunctions.put(
 			"rootMessageId", MBMessage::getRootMessageId);
+
+		cacheModelGetterFunctions.put(
+			"rootMessageId",
+			mbMessageCacheModel -> mbMessageCacheModel.rootMessageId);
 		attributeSetterBiConsumers.put(
 			"rootMessageId",
 			(BiConsumer<MBMessage, Long>)MBMessage::setRootMessageId);
 		attributeGetterFunctions.put(
 			"parentMessageId", MBMessage::getParentMessageId);
+
+		cacheModelGetterFunctions.put(
+			"parentMessageId",
+			mbMessageCacheModel -> mbMessageCacheModel.parentMessageId);
 		attributeSetterBiConsumers.put(
 			"parentMessageId",
 			(BiConsumer<MBMessage, Long>)MBMessage::setParentMessageId);
 		attributeGetterFunctions.put("treePath", MBMessage::getTreePath);
+
+		cacheModelGetterFunctions.put(
+			"treePath", mbMessageCacheModel -> mbMessageCacheModel.treePath);
 		attributeSetterBiConsumers.put(
 			"treePath", (BiConsumer<MBMessage, String>)MBMessage::setTreePath);
 		attributeGetterFunctions.put("subject", MBMessage::getSubject);
+
+		cacheModelGetterFunctions.put(
+			"subject", mbMessageCacheModel -> mbMessageCacheModel.subject);
 		attributeSetterBiConsumers.put(
 			"subject", (BiConsumer<MBMessage, String>)MBMessage::setSubject);
 		attributeGetterFunctions.put("urlSubject", MBMessage::getUrlSubject);
+
+		cacheModelGetterFunctions.put(
+			"urlSubject",
+			mbMessageCacheModel -> mbMessageCacheModel.urlSubject);
 		attributeSetterBiConsumers.put(
 			"urlSubject",
 			(BiConsumer<MBMessage, String>)MBMessage::setUrlSubject);
 		attributeGetterFunctions.put("body", MBMessage::getBody);
+
+		cacheModelGetterFunctions.put(
+			"body", mbMessageCacheModel -> mbMessageCacheModel.body);
 		attributeSetterBiConsumers.put(
 			"body", (BiConsumer<MBMessage, String>)MBMessage::setBody);
 		attributeGetterFunctions.put("format", MBMessage::getFormat);
+
+		cacheModelGetterFunctions.put(
+			"format", mbMessageCacheModel -> mbMessageCacheModel.format);
 		attributeSetterBiConsumers.put(
 			"format", (BiConsumer<MBMessage, String>)MBMessage::setFormat);
 		attributeGetterFunctions.put("anonymous", MBMessage::getAnonymous);
+
+		cacheModelGetterFunctions.put(
+			"anonymous", mbMessageCacheModel -> mbMessageCacheModel.anonymous);
 		attributeSetterBiConsumers.put(
 			"anonymous",
 			(BiConsumer<MBMessage, Boolean>)MBMessage::setAnonymous);
 		attributeGetterFunctions.put("priority", MBMessage::getPriority);
+
+		cacheModelGetterFunctions.put(
+			"priority", mbMessageCacheModel -> mbMessageCacheModel.priority);
 		attributeSetterBiConsumers.put(
 			"priority", (BiConsumer<MBMessage, Double>)MBMessage::setPriority);
 		attributeGetterFunctions.put(
 			"allowPingbacks", MBMessage::getAllowPingbacks);
+
+		cacheModelGetterFunctions.put(
+			"allowPingbacks",
+			mbMessageCacheModel -> mbMessageCacheModel.allowPingbacks);
 		attributeSetterBiConsumers.put(
 			"allowPingbacks",
 			(BiConsumer<MBMessage, Boolean>)MBMessage::setAllowPingbacks);
 		attributeGetterFunctions.put("answer", MBMessage::getAnswer);
+
+		cacheModelGetterFunctions.put(
+			"answer", mbMessageCacheModel -> mbMessageCacheModel.answer);
 		attributeSetterBiConsumers.put(
 			"answer", (BiConsumer<MBMessage, Boolean>)MBMessage::setAnswer);
 		attributeGetterFunctions.put(
 			"lastPublishDate", MBMessage::getLastPublishDate);
+
+		cacheModelGetterFunctions.put(
+			"lastPublishDate",
+			mbMessageCacheModel -> mbMessageCacheModel.lastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<MBMessage, Date>)MBMessage::setLastPublishDate);
 		attributeGetterFunctions.put("status", MBMessage::getStatus);
+
+		cacheModelGetterFunctions.put(
+			"status", mbMessageCacheModel -> mbMessageCacheModel.status);
 		attributeSetterBiConsumers.put(
 			"status", (BiConsumer<MBMessage, Integer>)MBMessage::setStatus);
 		attributeGetterFunctions.put(
 			"statusByUserId", MBMessage::getStatusByUserId);
+
+		cacheModelGetterFunctions.put(
+			"statusByUserId",
+			mbMessageCacheModel -> mbMessageCacheModel.statusByUserId);
 		attributeSetterBiConsumers.put(
 			"statusByUserId",
 			(BiConsumer<MBMessage, Long>)MBMessage::setStatusByUserId);
 		attributeGetterFunctions.put(
 			"statusByUserName", MBMessage::getStatusByUserName);
+
+		cacheModelGetterFunctions.put(
+			"statusByUserName",
+			mbMessageCacheModel -> mbMessageCacheModel.statusByUserName);
 		attributeSetterBiConsumers.put(
 			"statusByUserName",
 			(BiConsumer<MBMessage, String>)MBMessage::setStatusByUserName);
 		attributeGetterFunctions.put("statusDate", MBMessage::getStatusDate);
+
+		cacheModelGetterFunctions.put(
+			"statusDate",
+			mbMessageCacheModel -> mbMessageCacheModel.statusDate);
 		attributeSetterBiConsumers.put(
 			"statusDate",
 			(BiConsumer<MBMessage, Date>)MBMessage::setStatusDate);
@@ -500,6 +658,8 @@ public class MBMessageModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -510,6 +670,12 @@ public class MBMessageModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_mbMessageCacheModel == _dummyMBMessageCacheModel) {
+			_mbMessageCacheModel = (MBMessageCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -521,6 +687,12 @@ public class MBMessageModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (_mbMessageCacheModel == _dummyMBMessageCacheModel) {
+			_mbMessageCacheModel = (MBMessageCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -539,15 +711,20 @@ public class MBMessageModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_mbMessageCacheModel == _dummyMBMessageCacheModel) {
+			_mbMessageCacheModel = (MBMessageCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getOriginalAttributeValue("uuid");
 	}
 
 	@JSON
@@ -558,7 +735,11 @@ public class MBMessageModelImpl
 
 	@Override
 	public void setMessageId(long messageId) {
-		_columnBitmask = -1L;
+		_columnBitmask |= MESSAGEID_COLUMN_BITMASK;
+
+		if (_mbMessageCacheModel == _dummyMBMessageCacheModel) {
+			_mbMessageCacheModel = (MBMessageCacheModel)toCacheModel();
+		}
 
 		_messageId = messageId;
 	}
@@ -573,17 +754,20 @@ public class MBMessageModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_mbMessageCacheModel == _dummyMBMessageCacheModel) {
+			_mbMessageCacheModel = (MBMessageCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getOriginalAttributeValue("groupId");
 	}
 
 	@JSON
@@ -596,17 +780,20 @@ public class MBMessageModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_mbMessageCacheModel == _dummyMBMessageCacheModel) {
+			_mbMessageCacheModel = (MBMessageCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@JSON
@@ -619,10 +806,8 @@ public class MBMessageModelImpl
 	public void setUserId(long userId) {
 		_columnBitmask |= USERID_COLUMN_BITMASK;
 
-		if (!_setOriginalUserId) {
-			_setOriginalUserId = true;
-
-			_originalUserId = _userId;
+		if (_mbMessageCacheModel == _dummyMBMessageCacheModel) {
+			_mbMessageCacheModel = (MBMessageCacheModel)toCacheModel();
 		}
 
 		_userId = userId;
@@ -644,8 +829,13 @@ public class MBMessageModelImpl
 	public void setUserUuid(String userUuid) {
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalUserId() {
-		return _originalUserId;
+		return getOriginalAttributeValue("userId");
 	}
 
 	@JSON
@@ -661,6 +851,12 @@ public class MBMessageModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (_mbMessageCacheModel == _dummyMBMessageCacheModel) {
+			_mbMessageCacheModel = (MBMessageCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -672,7 +868,11 @@ public class MBMessageModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
-		_columnBitmask = -1L;
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (_mbMessageCacheModel == _dummyMBMessageCacheModel) {
+			_mbMessageCacheModel = (MBMessageCacheModel)toCacheModel();
+		}
 
 		_createDate = createDate;
 	}
@@ -690,6 +890,12 @@ public class MBMessageModelImpl
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
+
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (_mbMessageCacheModel == _dummyMBMessageCacheModel) {
+			_mbMessageCacheModel = (MBMessageCacheModel)toCacheModel();
+		}
 
 		_modifiedDate = modifiedDate;
 	}
@@ -724,17 +930,20 @@ public class MBMessageModelImpl
 	public void setClassNameId(long classNameId) {
 		_columnBitmask |= CLASSNAMEID_COLUMN_BITMASK;
 
-		if (!_setOriginalClassNameId) {
-			_setOriginalClassNameId = true;
-
-			_originalClassNameId = _classNameId;
+		if (_mbMessageCacheModel == _dummyMBMessageCacheModel) {
+			_mbMessageCacheModel = (MBMessageCacheModel)toCacheModel();
 		}
 
 		_classNameId = classNameId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassNameId() {
-		return _originalClassNameId;
+		return getOriginalAttributeValue("classNameId");
 	}
 
 	@JSON
@@ -747,17 +956,20 @@ public class MBMessageModelImpl
 	public void setClassPK(long classPK) {
 		_columnBitmask |= CLASSPK_COLUMN_BITMASK;
 
-		if (!_setOriginalClassPK) {
-			_setOriginalClassPK = true;
-
-			_originalClassPK = _classPK;
+		if (_mbMessageCacheModel == _dummyMBMessageCacheModel) {
+			_mbMessageCacheModel = (MBMessageCacheModel)toCacheModel();
 		}
 
 		_classPK = classPK;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassPK() {
-		return _originalClassPK;
+		return getOriginalAttributeValue("classPK");
 	}
 
 	@JSON
@@ -770,17 +982,20 @@ public class MBMessageModelImpl
 	public void setCategoryId(long categoryId) {
 		_columnBitmask |= CATEGORYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCategoryId) {
-			_setOriginalCategoryId = true;
-
-			_originalCategoryId = _categoryId;
+		if (_mbMessageCacheModel == _dummyMBMessageCacheModel) {
+			_mbMessageCacheModel = (MBMessageCacheModel)toCacheModel();
 		}
 
 		_categoryId = categoryId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCategoryId() {
-		return _originalCategoryId;
+		return getOriginalAttributeValue("categoryId");
 	}
 
 	@JSON
@@ -793,17 +1008,20 @@ public class MBMessageModelImpl
 	public void setThreadId(long threadId) {
 		_columnBitmask |= THREADID_COLUMN_BITMASK;
 
-		if (!_setOriginalThreadId) {
-			_setOriginalThreadId = true;
-
-			_originalThreadId = _threadId;
+		if (_mbMessageCacheModel == _dummyMBMessageCacheModel) {
+			_mbMessageCacheModel = (MBMessageCacheModel)toCacheModel();
 		}
 
 		_threadId = threadId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalThreadId() {
-		return _originalThreadId;
+		return getOriginalAttributeValue("threadId");
 	}
 
 	@JSON
@@ -814,6 +1032,12 @@ public class MBMessageModelImpl
 
 	@Override
 	public void setRootMessageId(long rootMessageId) {
+		_columnBitmask |= ROOTMESSAGEID_COLUMN_BITMASK;
+
+		if (_mbMessageCacheModel == _dummyMBMessageCacheModel) {
+			_mbMessageCacheModel = (MBMessageCacheModel)toCacheModel();
+		}
+
 		_rootMessageId = rootMessageId;
 	}
 
@@ -827,17 +1051,20 @@ public class MBMessageModelImpl
 	public void setParentMessageId(long parentMessageId) {
 		_columnBitmask |= PARENTMESSAGEID_COLUMN_BITMASK;
 
-		if (!_setOriginalParentMessageId) {
-			_setOriginalParentMessageId = true;
-
-			_originalParentMessageId = _parentMessageId;
+		if (_mbMessageCacheModel == _dummyMBMessageCacheModel) {
+			_mbMessageCacheModel = (MBMessageCacheModel)toCacheModel();
 		}
 
 		_parentMessageId = parentMessageId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalParentMessageId() {
-		return _originalParentMessageId;
+		return getOriginalAttributeValue("parentMessageId");
 	}
 
 	@JSON
@@ -853,6 +1080,12 @@ public class MBMessageModelImpl
 
 	@Override
 	public void setTreePath(String treePath) {
+		_columnBitmask |= TREEPATH_COLUMN_BITMASK;
+
+		if (_mbMessageCacheModel == _dummyMBMessageCacheModel) {
+			_mbMessageCacheModel = (MBMessageCacheModel)toCacheModel();
+		}
+
 		_treePath = treePath;
 	}
 
@@ -869,6 +1102,12 @@ public class MBMessageModelImpl
 
 	@Override
 	public void setSubject(String subject) {
+		_columnBitmask |= SUBJECT_COLUMN_BITMASK;
+
+		if (_mbMessageCacheModel == _dummyMBMessageCacheModel) {
+			_mbMessageCacheModel = (MBMessageCacheModel)toCacheModel();
+		}
+
 		_subject = subject;
 	}
 
@@ -887,15 +1126,20 @@ public class MBMessageModelImpl
 	public void setUrlSubject(String urlSubject) {
 		_columnBitmask |= URLSUBJECT_COLUMN_BITMASK;
 
-		if (_originalUrlSubject == null) {
-			_originalUrlSubject = _urlSubject;
+		if (_mbMessageCacheModel == _dummyMBMessageCacheModel) {
+			_mbMessageCacheModel = (MBMessageCacheModel)toCacheModel();
 		}
 
 		_urlSubject = urlSubject;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUrlSubject() {
-		return GetterUtil.getString(_originalUrlSubject);
+		return getOriginalAttributeValue("urlSubject");
 	}
 
 	@JSON
@@ -911,6 +1155,12 @@ public class MBMessageModelImpl
 
 	@Override
 	public void setBody(String body) {
+		_columnBitmask |= BODY_COLUMN_BITMASK;
+
+		if (_mbMessageCacheModel == _dummyMBMessageCacheModel) {
+			_mbMessageCacheModel = (MBMessageCacheModel)toCacheModel();
+		}
+
 		_body = body;
 	}
 
@@ -927,6 +1177,12 @@ public class MBMessageModelImpl
 
 	@Override
 	public void setFormat(String format) {
+		_columnBitmask |= FORMAT_COLUMN_BITMASK;
+
+		if (_mbMessageCacheModel == _dummyMBMessageCacheModel) {
+			_mbMessageCacheModel = (MBMessageCacheModel)toCacheModel();
+		}
+
 		_format = format;
 	}
 
@@ -944,6 +1200,12 @@ public class MBMessageModelImpl
 
 	@Override
 	public void setAnonymous(boolean anonymous) {
+		_columnBitmask |= ANONYMOUS_COLUMN_BITMASK;
+
+		if (_mbMessageCacheModel == _dummyMBMessageCacheModel) {
+			_mbMessageCacheModel = (MBMessageCacheModel)toCacheModel();
+		}
+
 		_anonymous = anonymous;
 	}
 
@@ -955,6 +1217,12 @@ public class MBMessageModelImpl
 
 	@Override
 	public void setPriority(double priority) {
+		_columnBitmask |= PRIORITY_COLUMN_BITMASK;
+
+		if (_mbMessageCacheModel == _dummyMBMessageCacheModel) {
+			_mbMessageCacheModel = (MBMessageCacheModel)toCacheModel();
+		}
+
 		_priority = priority;
 	}
 
@@ -972,6 +1240,12 @@ public class MBMessageModelImpl
 
 	@Override
 	public void setAllowPingbacks(boolean allowPingbacks) {
+		_columnBitmask |= ALLOWPINGBACKS_COLUMN_BITMASK;
+
+		if (_mbMessageCacheModel == _dummyMBMessageCacheModel) {
+			_mbMessageCacheModel = (MBMessageCacheModel)toCacheModel();
+		}
+
 		_allowPingbacks = allowPingbacks;
 	}
 
@@ -991,17 +1265,20 @@ public class MBMessageModelImpl
 	public void setAnswer(boolean answer) {
 		_columnBitmask |= ANSWER_COLUMN_BITMASK;
 
-		if (!_setOriginalAnswer) {
-			_setOriginalAnswer = true;
-
-			_originalAnswer = _answer;
+		if (_mbMessageCacheModel == _dummyMBMessageCacheModel) {
+			_mbMessageCacheModel = (MBMessageCacheModel)toCacheModel();
 		}
 
 		_answer = answer;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public boolean getOriginalAnswer() {
-		return _originalAnswer;
+		return getOriginalAttributeValue("answer");
 	}
 
 	@JSON
@@ -1012,6 +1289,12 @@ public class MBMessageModelImpl
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		_columnBitmask |= LASTPUBLISHDATE_COLUMN_BITMASK;
+
+		if (_mbMessageCacheModel == _dummyMBMessageCacheModel) {
+			_mbMessageCacheModel = (MBMessageCacheModel)toCacheModel();
+		}
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -1025,17 +1308,20 @@ public class MBMessageModelImpl
 	public void setStatus(int status) {
 		_columnBitmask |= STATUS_COLUMN_BITMASK;
 
-		if (!_setOriginalStatus) {
-			_setOriginalStatus = true;
-
-			_originalStatus = _status;
+		if (_mbMessageCacheModel == _dummyMBMessageCacheModel) {
+			_mbMessageCacheModel = (MBMessageCacheModel)toCacheModel();
 		}
 
 		_status = status;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalStatus() {
-		return _originalStatus;
+		return getOriginalAttributeValue("status");
 	}
 
 	@JSON
@@ -1046,6 +1332,12 @@ public class MBMessageModelImpl
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		_columnBitmask |= STATUSBYUSERID_COLUMN_BITMASK;
+
+		if (_mbMessageCacheModel == _dummyMBMessageCacheModel) {
+			_mbMessageCacheModel = (MBMessageCacheModel)toCacheModel();
+		}
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -1078,6 +1370,12 @@ public class MBMessageModelImpl
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		_columnBitmask |= STATUSBYUSERNAME_COLUMN_BITMASK;
+
+		if (_mbMessageCacheModel == _dummyMBMessageCacheModel) {
+			_mbMessageCacheModel = (MBMessageCacheModel)toCacheModel();
+		}
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -1089,6 +1387,12 @@ public class MBMessageModelImpl
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		_columnBitmask |= STATUSDATE_COLUMN_BITMASK;
+
+		if (_mbMessageCacheModel == _dummyMBMessageCacheModel) {
+			_mbMessageCacheModel = (MBMessageCacheModel)toCacheModel();
+		}
+
 		_statusDate = statusDate;
 	}
 
@@ -1470,57 +1774,11 @@ public class MBMessageModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		MBMessageModelImpl mbMessageModelImpl = this;
+		_setModifiedDate = false;
 
-		mbMessageModelImpl._originalUuid = mbMessageModelImpl._uuid;
+		_columnBitmask = 0;
 
-		mbMessageModelImpl._originalGroupId = mbMessageModelImpl._groupId;
-
-		mbMessageModelImpl._setOriginalGroupId = false;
-
-		mbMessageModelImpl._originalCompanyId = mbMessageModelImpl._companyId;
-
-		mbMessageModelImpl._setOriginalCompanyId = false;
-
-		mbMessageModelImpl._originalUserId = mbMessageModelImpl._userId;
-
-		mbMessageModelImpl._setOriginalUserId = false;
-
-		mbMessageModelImpl._setModifiedDate = false;
-
-		mbMessageModelImpl._originalClassNameId =
-			mbMessageModelImpl._classNameId;
-
-		mbMessageModelImpl._setOriginalClassNameId = false;
-
-		mbMessageModelImpl._originalClassPK = mbMessageModelImpl._classPK;
-
-		mbMessageModelImpl._setOriginalClassPK = false;
-
-		mbMessageModelImpl._originalCategoryId = mbMessageModelImpl._categoryId;
-
-		mbMessageModelImpl._setOriginalCategoryId = false;
-
-		mbMessageModelImpl._originalThreadId = mbMessageModelImpl._threadId;
-
-		mbMessageModelImpl._setOriginalThreadId = false;
-
-		mbMessageModelImpl._originalParentMessageId =
-			mbMessageModelImpl._parentMessageId;
-
-		mbMessageModelImpl._setOriginalParentMessageId = false;
-
-		mbMessageModelImpl._originalUrlSubject = mbMessageModelImpl._urlSubject;
-
-		mbMessageModelImpl._originalAnswer = mbMessageModelImpl._answer;
-
-		mbMessageModelImpl._setOriginalAnswer = false;
-
-		mbMessageModelImpl._originalStatus = mbMessageModelImpl._status;
-
-		mbMessageModelImpl._setOriginalStatus = false;
-
-		mbMessageModelImpl._columnBitmask = 0;
+		_mbMessageCacheModel = _dummyMBMessageCacheModel;
 	}
 
 	@Override
@@ -1739,57 +1997,40 @@ public class MBMessageModelImpl
 	private long _mvccVersion;
 	private long _ctCollectionId;
 	private String _uuid;
-	private String _originalUuid;
 	private long _messageId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
-	private long _originalUserId;
-	private boolean _setOriginalUserId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _classNameId;
-	private long _originalClassNameId;
-	private boolean _setOriginalClassNameId;
 	private long _classPK;
-	private long _originalClassPK;
-	private boolean _setOriginalClassPK;
 	private long _categoryId;
-	private long _originalCategoryId;
-	private boolean _setOriginalCategoryId;
 	private long _threadId;
-	private long _originalThreadId;
-	private boolean _setOriginalThreadId;
 	private long _rootMessageId;
 	private long _parentMessageId;
-	private long _originalParentMessageId;
-	private boolean _setOriginalParentMessageId;
 	private String _treePath;
 	private String _subject;
 	private String _urlSubject;
-	private String _originalUrlSubject;
 	private String _body;
 	private String _format;
 	private boolean _anonymous;
 	private double _priority;
 	private boolean _allowPingbacks;
 	private boolean _answer;
-	private boolean _originalAnswer;
-	private boolean _setOriginalAnswer;
 	private Date _lastPublishDate;
 	private int _status;
-	private int _originalStatus;
-	private boolean _setOriginalStatus;
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
 	private long _columnBitmask;
+
+	private static final MBMessageCacheModel _dummyMBMessageCacheModel =
+		new MBMessageCacheModel();
+
 	private MBMessage _escapedModel;
+	private MBMessageCacheModel _mbMessageCacheModel;
 
 }

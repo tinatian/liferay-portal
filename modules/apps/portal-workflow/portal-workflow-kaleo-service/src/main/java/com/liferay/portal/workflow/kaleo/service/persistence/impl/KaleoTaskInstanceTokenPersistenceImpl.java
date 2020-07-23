@@ -2622,8 +2622,10 @@ public class KaleoTaskInstanceTokenPersistenceImpl
 			 _finderPathFetchByKII_KTI.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				kaleoTaskInstanceTokenModelImpl.getOriginalKaleoInstanceId(),
-				kaleoTaskInstanceTokenModelImpl.getOriginalKaleoTaskId()
+				kaleoTaskInstanceTokenModelImpl.getOriginalAttributeValue(
+					"kaleoInstanceId"),
+				kaleoTaskInstanceTokenModelImpl.getOriginalAttributeValue(
+					"kaleoTaskId")
 			};
 
 			finderCache.removeResult(_finderPathCountByKII_KTI, args);
@@ -2862,7 +2864,8 @@ public class KaleoTaskInstanceTokenPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoTaskInstanceTokenModelImpl.getOriginalCompanyId()
+					kaleoTaskInstanceTokenModelImpl.getOriginalAttributeValue(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCompanyId, args);
@@ -2883,8 +2886,8 @@ public class KaleoTaskInstanceTokenPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoTaskInstanceTokenModelImpl.
-						getOriginalKaleoDefinitionVersionId()
+					kaleoTaskInstanceTokenModelImpl.getOriginalAttributeValue(
+						"kaleoDefinitionVersionId")
 				};
 
 				finderCache.removeResult(
@@ -2910,7 +2913,8 @@ public class KaleoTaskInstanceTokenPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoTaskInstanceTokenModelImpl.getOriginalKaleoInstanceId()
+					kaleoTaskInstanceTokenModelImpl.getOriginalAttributeValue(
+						"kaleoInstanceId")
 				};
 
 				finderCache.removeResult(
@@ -2933,8 +2937,10 @@ public class KaleoTaskInstanceTokenPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					kaleoTaskInstanceTokenModelImpl.getOriginalClassName(),
-					kaleoTaskInstanceTokenModelImpl.getOriginalClassPK()
+					kaleoTaskInstanceTokenModelImpl.getOriginalAttributeValue(
+						"className"),
+					kaleoTaskInstanceTokenModelImpl.getOriginalAttributeValue(
+						"classPK")
 				};
 
 				finderCache.removeResult(_finderPathCountByCN_CPK, args);

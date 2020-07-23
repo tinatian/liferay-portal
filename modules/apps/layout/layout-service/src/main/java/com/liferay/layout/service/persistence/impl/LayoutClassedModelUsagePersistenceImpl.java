@@ -4394,8 +4394,10 @@ public class LayoutClassedModelUsagePersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				layoutClassedModelUsageModelImpl.getOriginalUuid(),
-				layoutClassedModelUsageModelImpl.getOriginalGroupId()
+				layoutClassedModelUsageModelImpl.getOriginalAttributeValue(
+					"uuid"),
+				layoutClassedModelUsageModelImpl.getOriginalAttributeValue(
+					"groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -4419,11 +4421,16 @@ public class LayoutClassedModelUsagePersistenceImpl
 			 _finderPathFetchByC_C_CK_CT_P.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				layoutClassedModelUsageModelImpl.getOriginalClassNameId(),
-				layoutClassedModelUsageModelImpl.getOriginalClassPK(),
-				layoutClassedModelUsageModelImpl.getOriginalContainerKey(),
-				layoutClassedModelUsageModelImpl.getOriginalContainerType(),
-				layoutClassedModelUsageModelImpl.getOriginalPlid()
+				layoutClassedModelUsageModelImpl.getOriginalAttributeValue(
+					"classNameId"),
+				layoutClassedModelUsageModelImpl.getOriginalAttributeValue(
+					"classPK"),
+				layoutClassedModelUsageModelImpl.getOriginalAttributeValue(
+					"containerKey"),
+				layoutClassedModelUsageModelImpl.getOriginalAttributeValue(
+					"containerType"),
+				layoutClassedModelUsageModelImpl.getOriginalAttributeValue(
+					"plid")
 			};
 
 			finderCache.removeResult(_finderPathCountByC_C_CK_CT_P, args);
@@ -4711,7 +4718,8 @@ public class LayoutClassedModelUsagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					layoutClassedModelUsageModelImpl.getOriginalUuid()
+					layoutClassedModelUsageModelImpl.getOriginalAttributeValue(
+						"uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -4732,8 +4740,10 @@ public class LayoutClassedModelUsagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					layoutClassedModelUsageModelImpl.getOriginalUuid(),
-					layoutClassedModelUsageModelImpl.getOriginalCompanyId()
+					layoutClassedModelUsageModelImpl.getOriginalAttributeValue(
+						"uuid"),
+					layoutClassedModelUsageModelImpl.getOriginalAttributeValue(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -4755,7 +4765,8 @@ public class LayoutClassedModelUsagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					layoutClassedModelUsageModelImpl.getOriginalPlid()
+					layoutClassedModelUsageModelImpl.getOriginalAttributeValue(
+						"plid")
 				};
 
 				finderCache.removeResult(_finderPathCountByPlid, args);
@@ -4776,8 +4787,10 @@ public class LayoutClassedModelUsagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					layoutClassedModelUsageModelImpl.getOriginalClassNameId(),
-					layoutClassedModelUsageModelImpl.getOriginalClassPK()
+					layoutClassedModelUsageModelImpl.getOriginalAttributeValue(
+						"classNameId"),
+					layoutClassedModelUsageModelImpl.getOriginalAttributeValue(
+						"classPK")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_C, args);
@@ -4799,9 +4812,12 @@ public class LayoutClassedModelUsagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					layoutClassedModelUsageModelImpl.getOriginalClassNameId(),
-					layoutClassedModelUsageModelImpl.getOriginalClassPK(),
-					layoutClassedModelUsageModelImpl.getOriginalType()
+					layoutClassedModelUsageModelImpl.getOriginalAttributeValue(
+						"classNameId"),
+					layoutClassedModelUsageModelImpl.getOriginalAttributeValue(
+						"classPK"),
+					layoutClassedModelUsageModelImpl.getOriginalAttributeValue(
+						"type")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_C_T, args);
@@ -4824,9 +4840,12 @@ public class LayoutClassedModelUsagePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					layoutClassedModelUsageModelImpl.getOriginalContainerKey(),
-					layoutClassedModelUsageModelImpl.getOriginalContainerType(),
-					layoutClassedModelUsageModelImpl.getOriginalPlid()
+					layoutClassedModelUsageModelImpl.getOriginalAttributeValue(
+						"containerKey"),
+					layoutClassedModelUsageModelImpl.getOriginalAttributeValue(
+						"containerType"),
+					layoutClassedModelUsageModelImpl.getOriginalAttributeValue(
+						"plid")
 				};
 
 				finderCache.removeResult(_finderPathCountByCK_CT_P, args);

@@ -112,9 +112,13 @@ public class CompanyInfoModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
 	public static final long COMPANYINFOID_COLUMN_BITMASK = 2L;
+
+	public static final long COMPANYID_COLUMN_BITMASK = 4L;
+
+	public static final long KEY_COLUMN_BITMASK = 8L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		com.liferay.portal.util.PropsUtil.get(
@@ -233,32 +237,70 @@ public class CompanyInfoModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_companyInfoCacheModel == null) ||
+			(_companyInfoCacheModel == _dummyCompanyInfoCacheModel)) {
+
+			return null;
+		}
+
+		Function<CompanyInfoCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_companyInfoCacheModel);
+	}
+
 	private static final Map<String, Function<CompanyInfo, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<CompanyInfo, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<CompanyInfoCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<CompanyInfo, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<CompanyInfo, Object>>();
 		Map<String, BiConsumer<CompanyInfo, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<CompanyInfo, ?>>();
+		Map<String, Function<CompanyInfoCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<CompanyInfoCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", CompanyInfo::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			companyInfoCacheModel -> companyInfoCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<CompanyInfo, Long>)CompanyInfo::setMvccVersion);
 		attributeGetterFunctions.put(
 			"companyInfoId", CompanyInfo::getCompanyInfoId);
+
+		cacheModelGetterFunctions.put(
+			"companyInfoId",
+			companyInfoCacheModel -> companyInfoCacheModel.companyInfoId);
 		attributeSetterBiConsumers.put(
 			"companyInfoId",
 			(BiConsumer<CompanyInfo, Long>)CompanyInfo::setCompanyInfoId);
 		attributeGetterFunctions.put("companyId", CompanyInfo::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			companyInfoCacheModel -> companyInfoCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<CompanyInfo, Long>)CompanyInfo::setCompanyId);
 		attributeGetterFunctions.put("key", CompanyInfo::getKey);
+
+		cacheModelGetterFunctions.put(
+			"key", companyInfoCacheModel -> companyInfoCacheModel.key);
 		attributeSetterBiConsumers.put(
 			"key", (BiConsumer<CompanyInfo, String>)CompanyInfo::setKey);
 
@@ -266,6 +308,8 @@ public class CompanyInfoModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -275,6 +319,12 @@ public class CompanyInfoModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_companyInfoCacheModel == _dummyCompanyInfoCacheModel) {
+			_companyInfoCacheModel = (CompanyInfoCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -285,6 +335,12 @@ public class CompanyInfoModelImpl
 
 	@Override
 	public void setCompanyInfoId(long companyInfoId) {
+		_columnBitmask |= COMPANYINFOID_COLUMN_BITMASK;
+
+		if (_companyInfoCacheModel == _dummyCompanyInfoCacheModel) {
+			_companyInfoCacheModel = (CompanyInfoCacheModel)toCacheModel();
+		}
+
 		_companyInfoId = companyInfoId;
 	}
 
@@ -297,17 +353,20 @@ public class CompanyInfoModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_companyInfoCacheModel == _dummyCompanyInfoCacheModel) {
+			_companyInfoCacheModel = (CompanyInfoCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@Override
@@ -322,6 +381,12 @@ public class CompanyInfoModelImpl
 
 	@Override
 	public void setKey(String key) {
+		_columnBitmask |= KEY_COLUMN_BITMASK;
+
+		if (_companyInfoCacheModel == _dummyCompanyInfoCacheModel) {
+			_companyInfoCacheModel = (CompanyInfoCacheModel)toCacheModel();
+		}
+
 		_key = key;
 	}
 
@@ -433,14 +498,9 @@ public class CompanyInfoModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		CompanyInfoModelImpl companyInfoModelImpl = this;
+		_columnBitmask = 0;
 
-		companyInfoModelImpl._originalCompanyId =
-			companyInfoModelImpl._companyId;
-
-		companyInfoModelImpl._setOriginalCompanyId = false;
-
-		companyInfoModelImpl._columnBitmask = 0;
+		_companyInfoCacheModel = _dummyCompanyInfoCacheModel;
 	}
 
 	@Override
@@ -538,10 +598,13 @@ public class CompanyInfoModelImpl
 	private long _mvccVersion;
 	private long _companyInfoId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private String _key;
 	private long _columnBitmask;
+
+	private static final CompanyInfoCacheModel _dummyCompanyInfoCacheModel =
+		new CompanyInfoCacheModel();
+
 	private CompanyInfo _escapedModel;
+	private CompanyInfoCacheModel _companyInfoCacheModel;
 
 }

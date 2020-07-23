@@ -127,11 +127,29 @@ public class PowwowServerModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long ACTIVE_COLUMN_BITMASK = 1L;
+	public static final long POWWOWSERVERID_COLUMN_BITMASK = 1L;
 
-	public static final long PROVIDERTYPE_COLUMN_BITMASK = 2L;
+	public static final long COMPANYID_COLUMN_BITMASK = 2L;
 
-	public static final long NAME_COLUMN_BITMASK = 4L;
+	public static final long USERID_COLUMN_BITMASK = 4L;
+
+	public static final long USERNAME_COLUMN_BITMASK = 8L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 16L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 32L;
+
+	public static final long NAME_COLUMN_BITMASK = 64L;
+
+	public static final long PROVIDERTYPE_COLUMN_BITMASK = 128L;
+
+	public static final long URL_COLUMN_BITMASK = 256L;
+
+	public static final long APIKEY_COLUMN_BITMASK = 512L;
+
+	public static final long SECRET_COLUMN_BITMASK = 1024L;
+
+	public static final long ACTIVE_COLUMN_BITMASK = 2048L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		com.liferay.util.service.ServiceProps.get(
@@ -250,62 +268,127 @@ public class PowwowServerModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_powwowServerCacheModel == null) ||
+			(_powwowServerCacheModel == _dummyPowwowServerCacheModel)) {
+
+			return null;
+		}
+
+		Function<PowwowServerCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_powwowServerCacheModel);
+	}
+
 	private static final Map<String, Function<PowwowServer, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<PowwowServer, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<PowwowServerCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<PowwowServer, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<PowwowServer, Object>>();
 		Map<String, BiConsumer<PowwowServer, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<PowwowServer, ?>>();
+		Map<String, Function<PowwowServerCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<PowwowServerCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"powwowServerId", PowwowServer::getPowwowServerId);
+
+		cacheModelGetterFunctions.put(
+			"powwowServerId",
+			powwowServerCacheModel -> powwowServerCacheModel.powwowServerId);
 		attributeSetterBiConsumers.put(
 			"powwowServerId",
 			(BiConsumer<PowwowServer, Long>)PowwowServer::setPowwowServerId);
 		attributeGetterFunctions.put("companyId", PowwowServer::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			powwowServerCacheModel -> powwowServerCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<PowwowServer, Long>)PowwowServer::setCompanyId);
 		attributeGetterFunctions.put("userId", PowwowServer::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", powwowServerCacheModel -> powwowServerCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<PowwowServer, Long>)PowwowServer::setUserId);
 		attributeGetterFunctions.put("userName", PowwowServer::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			powwowServerCacheModel -> powwowServerCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<PowwowServer, String>)PowwowServer::setUserName);
 		attributeGetterFunctions.put("createDate", PowwowServer::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			powwowServerCacheModel -> powwowServerCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<PowwowServer, Date>)PowwowServer::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", PowwowServer::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			powwowServerCacheModel -> powwowServerCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<PowwowServer, Date>)PowwowServer::setModifiedDate);
 		attributeGetterFunctions.put("name", PowwowServer::getName);
+
+		cacheModelGetterFunctions.put(
+			"name", powwowServerCacheModel -> powwowServerCacheModel.name);
 		attributeSetterBiConsumers.put(
 			"name", (BiConsumer<PowwowServer, String>)PowwowServer::setName);
 		attributeGetterFunctions.put(
 			"providerType", PowwowServer::getProviderType);
+
+		cacheModelGetterFunctions.put(
+			"providerType",
+			powwowServerCacheModel -> powwowServerCacheModel.providerType);
 		attributeSetterBiConsumers.put(
 			"providerType",
 			(BiConsumer<PowwowServer, String>)PowwowServer::setProviderType);
 		attributeGetterFunctions.put("url", PowwowServer::getUrl);
+
+		cacheModelGetterFunctions.put(
+			"url", powwowServerCacheModel -> powwowServerCacheModel.url);
 		attributeSetterBiConsumers.put(
 			"url", (BiConsumer<PowwowServer, String>)PowwowServer::setUrl);
 		attributeGetterFunctions.put("apiKey", PowwowServer::getApiKey);
+
+		cacheModelGetterFunctions.put(
+			"apiKey", powwowServerCacheModel -> powwowServerCacheModel.apiKey);
 		attributeSetterBiConsumers.put(
 			"apiKey",
 			(BiConsumer<PowwowServer, String>)PowwowServer::setApiKey);
 		attributeGetterFunctions.put("secret", PowwowServer::getSecret);
+
+		cacheModelGetterFunctions.put(
+			"secret", powwowServerCacheModel -> powwowServerCacheModel.secret);
 		attributeSetterBiConsumers.put(
 			"secret",
 			(BiConsumer<PowwowServer, String>)PowwowServer::setSecret);
 		attributeGetterFunctions.put("active", PowwowServer::getActive);
+
+		cacheModelGetterFunctions.put(
+			"active", powwowServerCacheModel -> powwowServerCacheModel.active);
 		attributeSetterBiConsumers.put(
 			"active",
 			(BiConsumer<PowwowServer, Boolean>)PowwowServer::setActive);
@@ -314,6 +397,8 @@ public class PowwowServerModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -323,6 +408,12 @@ public class PowwowServerModelImpl
 
 	@Override
 	public void setPowwowServerId(long powwowServerId) {
+		_columnBitmask |= POWWOWSERVERID_COLUMN_BITMASK;
+
+		if (_powwowServerCacheModel == _dummyPowwowServerCacheModel) {
+			_powwowServerCacheModel = (PowwowServerCacheModel)toCacheModel();
+		}
+
 		_powwowServerId = powwowServerId;
 	}
 
@@ -333,6 +424,12 @@ public class PowwowServerModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (_powwowServerCacheModel == _dummyPowwowServerCacheModel) {
+			_powwowServerCacheModel = (PowwowServerCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -343,6 +440,12 @@ public class PowwowServerModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (_powwowServerCacheModel == _dummyPowwowServerCacheModel) {
+			_powwowServerCacheModel = (PowwowServerCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -374,6 +477,12 @@ public class PowwowServerModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (_powwowServerCacheModel == _dummyPowwowServerCacheModel) {
+			_powwowServerCacheModel = (PowwowServerCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -384,6 +493,12 @@ public class PowwowServerModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (_powwowServerCacheModel == _dummyPowwowServerCacheModel) {
+			_powwowServerCacheModel = (PowwowServerCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -400,6 +515,12 @@ public class PowwowServerModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (_powwowServerCacheModel == _dummyPowwowServerCacheModel) {
+			_powwowServerCacheModel = (PowwowServerCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -415,7 +536,11 @@ public class PowwowServerModelImpl
 
 	@Override
 	public void setName(String name) {
-		_columnBitmask = -1L;
+		_columnBitmask |= NAME_COLUMN_BITMASK;
+
+		if (_powwowServerCacheModel == _dummyPowwowServerCacheModel) {
+			_powwowServerCacheModel = (PowwowServerCacheModel)toCacheModel();
+		}
 
 		_name = name;
 	}
@@ -434,15 +559,20 @@ public class PowwowServerModelImpl
 	public void setProviderType(String providerType) {
 		_columnBitmask |= PROVIDERTYPE_COLUMN_BITMASK;
 
-		if (_originalProviderType == null) {
-			_originalProviderType = _providerType;
+		if (_powwowServerCacheModel == _dummyPowwowServerCacheModel) {
+			_powwowServerCacheModel = (PowwowServerCacheModel)toCacheModel();
 		}
 
 		_providerType = providerType;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalProviderType() {
-		return GetterUtil.getString(_originalProviderType);
+		return getOriginalAttributeValue("providerType");
 	}
 
 	@Override
@@ -457,6 +587,12 @@ public class PowwowServerModelImpl
 
 	@Override
 	public void setUrl(String url) {
+		_columnBitmask |= URL_COLUMN_BITMASK;
+
+		if (_powwowServerCacheModel == _dummyPowwowServerCacheModel) {
+			_powwowServerCacheModel = (PowwowServerCacheModel)toCacheModel();
+		}
+
 		_url = url;
 	}
 
@@ -472,6 +608,12 @@ public class PowwowServerModelImpl
 
 	@Override
 	public void setApiKey(String apiKey) {
+		_columnBitmask |= APIKEY_COLUMN_BITMASK;
+
+		if (_powwowServerCacheModel == _dummyPowwowServerCacheModel) {
+			_powwowServerCacheModel = (PowwowServerCacheModel)toCacheModel();
+		}
+
 		_apiKey = apiKey;
 	}
 
@@ -487,6 +629,12 @@ public class PowwowServerModelImpl
 
 	@Override
 	public void setSecret(String secret) {
+		_columnBitmask |= SECRET_COLUMN_BITMASK;
+
+		if (_powwowServerCacheModel == _dummyPowwowServerCacheModel) {
+			_powwowServerCacheModel = (PowwowServerCacheModel)toCacheModel();
+		}
+
 		_secret = secret;
 	}
 
@@ -504,17 +652,20 @@ public class PowwowServerModelImpl
 	public void setActive(boolean active) {
 		_columnBitmask |= ACTIVE_COLUMN_BITMASK;
 
-		if (!_setOriginalActive) {
-			_setOriginalActive = true;
-
-			_originalActive = _active;
+		if (_powwowServerCacheModel == _dummyPowwowServerCacheModel) {
+			_powwowServerCacheModel = (PowwowServerCacheModel)toCacheModel();
 		}
 
 		_active = active;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public boolean getOriginalActive() {
-		return _originalActive;
+		return getOriginalAttributeValue("active");
 	}
 
 	public long getColumnBitmask() {
@@ -631,18 +782,11 @@ public class PowwowServerModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		PowwowServerModelImpl powwowServerModelImpl = this;
+		_setModifiedDate = false;
 
-		powwowServerModelImpl._setModifiedDate = false;
+		_columnBitmask = 0;
 
-		powwowServerModelImpl._originalProviderType =
-			powwowServerModelImpl._providerType;
-
-		powwowServerModelImpl._originalActive = powwowServerModelImpl._active;
-
-		powwowServerModelImpl._setOriginalActive = false;
-
-		powwowServerModelImpl._columnBitmask = 0;
+		_powwowServerCacheModel = _dummyPowwowServerCacheModel;
 	}
 
 	@Override
@@ -806,14 +950,16 @@ public class PowwowServerModelImpl
 	private boolean _setModifiedDate;
 	private String _name;
 	private String _providerType;
-	private String _originalProviderType;
 	private String _url;
 	private String _apiKey;
 	private String _secret;
 	private boolean _active;
-	private boolean _originalActive;
-	private boolean _setOriginalActive;
 	private long _columnBitmask;
+
+	private static final PowwowServerCacheModel _dummyPowwowServerCacheModel =
+		new PowwowServerCacheModel();
+
 	private PowwowServer _escapedModel;
+	private PowwowServerCacheModel _powwowServerCacheModel;
 
 }

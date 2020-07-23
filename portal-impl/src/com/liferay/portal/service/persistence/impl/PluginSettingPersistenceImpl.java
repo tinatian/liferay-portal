@@ -1030,9 +1030,9 @@ public class PluginSettingPersistenceImpl
 			 _finderPathFetchByC_I_T.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				pluginSettingModelImpl.getOriginalCompanyId(),
-				pluginSettingModelImpl.getOriginalPluginId(),
-				pluginSettingModelImpl.getOriginalPluginType()
+				pluginSettingModelImpl.getOriginalAttributeValue("companyId"),
+				pluginSettingModelImpl.getOriginalAttributeValue("pluginId"),
+				pluginSettingModelImpl.getOriginalAttributeValue("pluginType")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByC_I_T, args);
@@ -1210,7 +1210,8 @@ public class PluginSettingPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					pluginSettingModelImpl.getOriginalCompanyId()
+					pluginSettingModelImpl.getOriginalAttributeValue(
+						"companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);

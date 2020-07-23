@@ -4278,7 +4278,7 @@ public class EmailAddressPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					emailAddressModelImpl.getOriginalUuid()
+					emailAddressModelImpl.getOriginalAttributeValue("uuid")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid, args);
@@ -4297,8 +4297,8 @@ public class EmailAddressPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					emailAddressModelImpl.getOriginalUuid(),
-					emailAddressModelImpl.getOriginalCompanyId()
+					emailAddressModelImpl.getOriginalAttributeValue("uuid"),
+					emailAddressModelImpl.getOriginalAttributeValue("companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid_C, args);
@@ -4320,7 +4320,7 @@ public class EmailAddressPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					emailAddressModelImpl.getOriginalCompanyId()
+					emailAddressModelImpl.getOriginalAttributeValue("companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
@@ -4339,7 +4339,7 @@ public class EmailAddressPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					emailAddressModelImpl.getOriginalUserId()
+					emailAddressModelImpl.getOriginalAttributeValue("userId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUserId, args);
@@ -4358,8 +4358,10 @@ public class EmailAddressPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					emailAddressModelImpl.getOriginalCompanyId(),
-					emailAddressModelImpl.getOriginalClassNameId()
+					emailAddressModelImpl.getOriginalAttributeValue(
+						"companyId"),
+					emailAddressModelImpl.getOriginalAttributeValue(
+						"classNameId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_C, args);
@@ -4381,9 +4383,11 @@ public class EmailAddressPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					emailAddressModelImpl.getOriginalCompanyId(),
-					emailAddressModelImpl.getOriginalClassNameId(),
-					emailAddressModelImpl.getOriginalClassPK()
+					emailAddressModelImpl.getOriginalAttributeValue(
+						"companyId"),
+					emailAddressModelImpl.getOriginalAttributeValue(
+						"classNameId"),
+					emailAddressModelImpl.getOriginalAttributeValue("classPK")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_C_C, args);
@@ -4406,10 +4410,12 @@ public class EmailAddressPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					emailAddressModelImpl.getOriginalCompanyId(),
-					emailAddressModelImpl.getOriginalClassNameId(),
-					emailAddressModelImpl.getOriginalClassPK(),
-					emailAddressModelImpl.getOriginalPrimary()
+					emailAddressModelImpl.getOriginalAttributeValue(
+						"companyId"),
+					emailAddressModelImpl.getOriginalAttributeValue(
+						"classNameId"),
+					emailAddressModelImpl.getOriginalAttributeValue("classPK"),
+					emailAddressModelImpl.getOriginalAttributeValue("primary")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_C_C_P, args);

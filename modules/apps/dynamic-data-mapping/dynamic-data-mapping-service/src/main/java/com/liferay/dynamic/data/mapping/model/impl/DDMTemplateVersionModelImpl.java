@@ -30,7 +30,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
@@ -137,13 +136,45 @@ public class DDMTemplateVersionModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long STATUS_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long TEMPLATEID_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
-	public static final long VERSION_COLUMN_BITMASK = 4L;
+	public static final long TEMPLATEVERSIONID_COLUMN_BITMASK = 4L;
 
-	public static final long TEMPLATEVERSIONID_COLUMN_BITMASK = 8L;
+	public static final long GROUPID_COLUMN_BITMASK = 8L;
+
+	public static final long COMPANYID_COLUMN_BITMASK = 16L;
+
+	public static final long USERID_COLUMN_BITMASK = 32L;
+
+	public static final long USERNAME_COLUMN_BITMASK = 64L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 128L;
+
+	public static final long CLASSNAMEID_COLUMN_BITMASK = 256L;
+
+	public static final long CLASSPK_COLUMN_BITMASK = 512L;
+
+	public static final long TEMPLATEID_COLUMN_BITMASK = 1024L;
+
+	public static final long VERSION_COLUMN_BITMASK = 2048L;
+
+	public static final long NAME_COLUMN_BITMASK = 4096L;
+
+	public static final long DESCRIPTION_COLUMN_BITMASK = 8192L;
+
+	public static final long LANGUAGE_COLUMN_BITMASK = 16384L;
+
+	public static final long SCRIPT_COLUMN_BITMASK = 32768L;
+
+	public static final long STATUS_COLUMN_BITMASK = 65536L;
+
+	public static final long STATUSBYUSERID_COLUMN_BITMASK = 131072L;
+
+	public static final long STATUSBYUSERNAME_COLUMN_BITMASK = 262144L;
+
+	public static final long STATUSDATE_COLUMN_BITMASK = 524288L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -332,10 +363,31 @@ public class DDMTemplateVersionModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_ddmTemplateVersionCacheModel == null) ||
+			(_ddmTemplateVersionCacheModel ==
+				_dummyDDMTemplateVersionCacheModel)) {
+
+			return null;
+		}
+
+		Function<DDMTemplateVersionCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_ddmTemplateVersionCacheModel);
+	}
+
 	private static final Map<String, Function<DDMTemplateVersion, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<DDMTemplateVersion, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<DDMTemplateVersionCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<DDMTemplateVersion, Object>>
@@ -345,116 +397,219 @@ public class DDMTemplateVersionModelImpl
 		Map<String, BiConsumer<DDMTemplateVersion, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<DDMTemplateVersion, ?>>();
+		Map<String, Function<DDMTemplateVersionCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<DDMTemplateVersionCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", DDMTemplateVersion::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			ddmTemplateVersionCacheModel ->
+				ddmTemplateVersionCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<DDMTemplateVersion, Long>)
 				DDMTemplateVersion::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", DDMTemplateVersion::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			ddmTemplateVersionCacheModel ->
+				ddmTemplateVersionCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<DDMTemplateVersion, Long>)
 				DDMTemplateVersion::setCtCollectionId);
 		attributeGetterFunctions.put(
 			"templateVersionId", DDMTemplateVersion::getTemplateVersionId);
+
+		cacheModelGetterFunctions.put(
+			"templateVersionId",
+			ddmTemplateVersionCacheModel ->
+				ddmTemplateVersionCacheModel.templateVersionId);
 		attributeSetterBiConsumers.put(
 			"templateVersionId",
 			(BiConsumer<DDMTemplateVersion, Long>)
 				DDMTemplateVersion::setTemplateVersionId);
 		attributeGetterFunctions.put("groupId", DDMTemplateVersion::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			ddmTemplateVersionCacheModel ->
+				ddmTemplateVersionCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<DDMTemplateVersion, Long>)
 				DDMTemplateVersion::setGroupId);
 		attributeGetterFunctions.put(
 			"companyId", DDMTemplateVersion::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			ddmTemplateVersionCacheModel ->
+				ddmTemplateVersionCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<DDMTemplateVersion, Long>)
 				DDMTemplateVersion::setCompanyId);
 		attributeGetterFunctions.put("userId", DDMTemplateVersion::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			ddmTemplateVersionCacheModel ->
+				ddmTemplateVersionCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<DDMTemplateVersion, Long>)
 				DDMTemplateVersion::setUserId);
 		attributeGetterFunctions.put(
 			"userName", DDMTemplateVersion::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			ddmTemplateVersionCacheModel ->
+				ddmTemplateVersionCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<DDMTemplateVersion, String>)
 				DDMTemplateVersion::setUserName);
 		attributeGetterFunctions.put(
 			"createDate", DDMTemplateVersion::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			ddmTemplateVersionCacheModel ->
+				ddmTemplateVersionCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<DDMTemplateVersion, Date>)
 				DDMTemplateVersion::setCreateDate);
 		attributeGetterFunctions.put(
 			"classNameId", DDMTemplateVersion::getClassNameId);
+
+		cacheModelGetterFunctions.put(
+			"classNameId",
+			ddmTemplateVersionCacheModel ->
+				ddmTemplateVersionCacheModel.classNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<DDMTemplateVersion, Long>)
 				DDMTemplateVersion::setClassNameId);
 		attributeGetterFunctions.put("classPK", DDMTemplateVersion::getClassPK);
+
+		cacheModelGetterFunctions.put(
+			"classPK",
+			ddmTemplateVersionCacheModel ->
+				ddmTemplateVersionCacheModel.classPK);
 		attributeSetterBiConsumers.put(
 			"classPK",
 			(BiConsumer<DDMTemplateVersion, Long>)
 				DDMTemplateVersion::setClassPK);
 		attributeGetterFunctions.put(
 			"templateId", DDMTemplateVersion::getTemplateId);
+
+		cacheModelGetterFunctions.put(
+			"templateId",
+			ddmTemplateVersionCacheModel ->
+				ddmTemplateVersionCacheModel.templateId);
 		attributeSetterBiConsumers.put(
 			"templateId",
 			(BiConsumer<DDMTemplateVersion, Long>)
 				DDMTemplateVersion::setTemplateId);
 		attributeGetterFunctions.put("version", DDMTemplateVersion::getVersion);
+
+		cacheModelGetterFunctions.put(
+			"version",
+			ddmTemplateVersionCacheModel ->
+				ddmTemplateVersionCacheModel.version);
 		attributeSetterBiConsumers.put(
 			"version",
 			(BiConsumer<DDMTemplateVersion, String>)
 				DDMTemplateVersion::setVersion);
 		attributeGetterFunctions.put("name", DDMTemplateVersion::getName);
+
+		cacheModelGetterFunctions.put(
+			"name",
+			ddmTemplateVersionCacheModel -> ddmTemplateVersionCacheModel.name);
 		attributeSetterBiConsumers.put(
 			"name",
 			(BiConsumer<DDMTemplateVersion, String>)
 				DDMTemplateVersion::setName);
 		attributeGetterFunctions.put(
 			"description", DDMTemplateVersion::getDescription);
+
+		cacheModelGetterFunctions.put(
+			"description",
+			ddmTemplateVersionCacheModel ->
+				ddmTemplateVersionCacheModel.description);
 		attributeSetterBiConsumers.put(
 			"description",
 			(BiConsumer<DDMTemplateVersion, String>)
 				DDMTemplateVersion::setDescription);
 		attributeGetterFunctions.put(
 			"language", DDMTemplateVersion::getLanguage);
+
+		cacheModelGetterFunctions.put(
+			"language",
+			ddmTemplateVersionCacheModel ->
+				ddmTemplateVersionCacheModel.language);
 		attributeSetterBiConsumers.put(
 			"language",
 			(BiConsumer<DDMTemplateVersion, String>)
 				DDMTemplateVersion::setLanguage);
 		attributeGetterFunctions.put("script", DDMTemplateVersion::getScript);
+
+		cacheModelGetterFunctions.put(
+			"script",
+			ddmTemplateVersionCacheModel ->
+				ddmTemplateVersionCacheModel.script);
 		attributeSetterBiConsumers.put(
 			"script",
 			(BiConsumer<DDMTemplateVersion, String>)
 				DDMTemplateVersion::setScript);
 		attributeGetterFunctions.put("status", DDMTemplateVersion::getStatus);
+
+		cacheModelGetterFunctions.put(
+			"status",
+			ddmTemplateVersionCacheModel ->
+				ddmTemplateVersionCacheModel.status);
 		attributeSetterBiConsumers.put(
 			"status",
 			(BiConsumer<DDMTemplateVersion, Integer>)
 				DDMTemplateVersion::setStatus);
 		attributeGetterFunctions.put(
 			"statusByUserId", DDMTemplateVersion::getStatusByUserId);
+
+		cacheModelGetterFunctions.put(
+			"statusByUserId",
+			ddmTemplateVersionCacheModel ->
+				ddmTemplateVersionCacheModel.statusByUserId);
 		attributeSetterBiConsumers.put(
 			"statusByUserId",
 			(BiConsumer<DDMTemplateVersion, Long>)
 				DDMTemplateVersion::setStatusByUserId);
 		attributeGetterFunctions.put(
 			"statusByUserName", DDMTemplateVersion::getStatusByUserName);
+
+		cacheModelGetterFunctions.put(
+			"statusByUserName",
+			ddmTemplateVersionCacheModel ->
+				ddmTemplateVersionCacheModel.statusByUserName);
 		attributeSetterBiConsumers.put(
 			"statusByUserName",
 			(BiConsumer<DDMTemplateVersion, String>)
 				DDMTemplateVersion::setStatusByUserName);
 		attributeGetterFunctions.put(
 			"statusDate", DDMTemplateVersion::getStatusDate);
+
+		cacheModelGetterFunctions.put(
+			"statusDate",
+			ddmTemplateVersionCacheModel ->
+				ddmTemplateVersionCacheModel.statusDate);
 		attributeSetterBiConsumers.put(
 			"statusDate",
 			(BiConsumer<DDMTemplateVersion, Date>)
@@ -464,6 +619,8 @@ public class DDMTemplateVersionModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -474,6 +631,15 @@ public class DDMTemplateVersionModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_ddmTemplateVersionCacheModel ==
+				_dummyDDMTemplateVersionCacheModel) {
+
+			_ddmTemplateVersionCacheModel =
+				(DDMTemplateVersionCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -485,6 +651,15 @@ public class DDMTemplateVersionModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (_ddmTemplateVersionCacheModel ==
+				_dummyDDMTemplateVersionCacheModel) {
+
+			_ddmTemplateVersionCacheModel =
+				(DDMTemplateVersionCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -496,6 +671,15 @@ public class DDMTemplateVersionModelImpl
 
 	@Override
 	public void setTemplateVersionId(long templateVersionId) {
+		_columnBitmask |= TEMPLATEVERSIONID_COLUMN_BITMASK;
+
+		if (_ddmTemplateVersionCacheModel ==
+				_dummyDDMTemplateVersionCacheModel) {
+
+			_ddmTemplateVersionCacheModel =
+				(DDMTemplateVersionCacheModel)toCacheModel();
+		}
+
 		_templateVersionId = templateVersionId;
 	}
 
@@ -507,6 +691,15 @@ public class DDMTemplateVersionModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
+		_columnBitmask |= GROUPID_COLUMN_BITMASK;
+
+		if (_ddmTemplateVersionCacheModel ==
+				_dummyDDMTemplateVersionCacheModel) {
+
+			_ddmTemplateVersionCacheModel =
+				(DDMTemplateVersionCacheModel)toCacheModel();
+		}
+
 		_groupId = groupId;
 	}
 
@@ -518,6 +711,15 @@ public class DDMTemplateVersionModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (_ddmTemplateVersionCacheModel ==
+				_dummyDDMTemplateVersionCacheModel) {
+
+			_ddmTemplateVersionCacheModel =
+				(DDMTemplateVersionCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -529,6 +731,15 @@ public class DDMTemplateVersionModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (_ddmTemplateVersionCacheModel ==
+				_dummyDDMTemplateVersionCacheModel) {
+
+			_ddmTemplateVersionCacheModel =
+				(DDMTemplateVersionCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -561,6 +772,15 @@ public class DDMTemplateVersionModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (_ddmTemplateVersionCacheModel ==
+				_dummyDDMTemplateVersionCacheModel) {
+
+			_ddmTemplateVersionCacheModel =
+				(DDMTemplateVersionCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -572,6 +792,15 @@ public class DDMTemplateVersionModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (_ddmTemplateVersionCacheModel ==
+				_dummyDDMTemplateVersionCacheModel) {
+
+			_ddmTemplateVersionCacheModel =
+				(DDMTemplateVersionCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -603,6 +832,15 @@ public class DDMTemplateVersionModelImpl
 
 	@Override
 	public void setClassNameId(long classNameId) {
+		_columnBitmask |= CLASSNAMEID_COLUMN_BITMASK;
+
+		if (_ddmTemplateVersionCacheModel ==
+				_dummyDDMTemplateVersionCacheModel) {
+
+			_ddmTemplateVersionCacheModel =
+				(DDMTemplateVersionCacheModel)toCacheModel();
+		}
+
 		_classNameId = classNameId;
 	}
 
@@ -614,6 +852,15 @@ public class DDMTemplateVersionModelImpl
 
 	@Override
 	public void setClassPK(long classPK) {
+		_columnBitmask |= CLASSPK_COLUMN_BITMASK;
+
+		if (_ddmTemplateVersionCacheModel ==
+				_dummyDDMTemplateVersionCacheModel) {
+
+			_ddmTemplateVersionCacheModel =
+				(DDMTemplateVersionCacheModel)toCacheModel();
+		}
+
 		_classPK = classPK;
 	}
 
@@ -627,17 +874,23 @@ public class DDMTemplateVersionModelImpl
 	public void setTemplateId(long templateId) {
 		_columnBitmask |= TEMPLATEID_COLUMN_BITMASK;
 
-		if (!_setOriginalTemplateId) {
-			_setOriginalTemplateId = true;
+		if (_ddmTemplateVersionCacheModel ==
+				_dummyDDMTemplateVersionCacheModel) {
 
-			_originalTemplateId = _templateId;
+			_ddmTemplateVersionCacheModel =
+				(DDMTemplateVersionCacheModel)toCacheModel();
 		}
 
 		_templateId = templateId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalTemplateId() {
-		return _originalTemplateId;
+		return getOriginalAttributeValue("templateId");
 	}
 
 	@JSON
@@ -655,15 +908,23 @@ public class DDMTemplateVersionModelImpl
 	public void setVersion(String version) {
 		_columnBitmask |= VERSION_COLUMN_BITMASK;
 
-		if (_originalVersion == null) {
-			_originalVersion = _version;
+		if (_ddmTemplateVersionCacheModel ==
+				_dummyDDMTemplateVersionCacheModel) {
+
+			_ddmTemplateVersionCacheModel =
+				(DDMTemplateVersionCacheModel)toCacheModel();
 		}
 
 		_version = version;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalVersion() {
-		return GetterUtil.getString(_originalVersion);
+		return getOriginalAttributeValue("version");
 	}
 
 	@JSON
@@ -722,6 +983,15 @@ public class DDMTemplateVersionModelImpl
 
 	@Override
 	public void setName(String name) {
+		_columnBitmask |= NAME_COLUMN_BITMASK;
+
+		if (_ddmTemplateVersionCacheModel ==
+				_dummyDDMTemplateVersionCacheModel) {
+
+			_ddmTemplateVersionCacheModel =
+				(DDMTemplateVersionCacheModel)toCacheModel();
+		}
+
 		_name = name;
 	}
 
@@ -825,6 +1095,15 @@ public class DDMTemplateVersionModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		_columnBitmask |= DESCRIPTION_COLUMN_BITMASK;
+
+		if (_ddmTemplateVersionCacheModel ==
+				_dummyDDMTemplateVersionCacheModel) {
+
+			_ddmTemplateVersionCacheModel =
+				(DDMTemplateVersionCacheModel)toCacheModel();
+		}
+
 		_description = description;
 	}
 
@@ -890,6 +1169,15 @@ public class DDMTemplateVersionModelImpl
 
 	@Override
 	public void setLanguage(String language) {
+		_columnBitmask |= LANGUAGE_COLUMN_BITMASK;
+
+		if (_ddmTemplateVersionCacheModel ==
+				_dummyDDMTemplateVersionCacheModel) {
+
+			_ddmTemplateVersionCacheModel =
+				(DDMTemplateVersionCacheModel)toCacheModel();
+		}
+
 		_language = language;
 	}
 
@@ -906,6 +1194,15 @@ public class DDMTemplateVersionModelImpl
 
 	@Override
 	public void setScript(String script) {
+		_columnBitmask |= SCRIPT_COLUMN_BITMASK;
+
+		if (_ddmTemplateVersionCacheModel ==
+				_dummyDDMTemplateVersionCacheModel) {
+
+			_ddmTemplateVersionCacheModel =
+				(DDMTemplateVersionCacheModel)toCacheModel();
+		}
+
 		_script = script;
 	}
 
@@ -919,17 +1216,23 @@ public class DDMTemplateVersionModelImpl
 	public void setStatus(int status) {
 		_columnBitmask |= STATUS_COLUMN_BITMASK;
 
-		if (!_setOriginalStatus) {
-			_setOriginalStatus = true;
+		if (_ddmTemplateVersionCacheModel ==
+				_dummyDDMTemplateVersionCacheModel) {
 
-			_originalStatus = _status;
+			_ddmTemplateVersionCacheModel =
+				(DDMTemplateVersionCacheModel)toCacheModel();
 		}
 
 		_status = status;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalStatus() {
-		return _originalStatus;
+		return getOriginalAttributeValue("status");
 	}
 
 	@JSON
@@ -940,6 +1243,15 @@ public class DDMTemplateVersionModelImpl
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		_columnBitmask |= STATUSBYUSERID_COLUMN_BITMASK;
+
+		if (_ddmTemplateVersionCacheModel ==
+				_dummyDDMTemplateVersionCacheModel) {
+
+			_ddmTemplateVersionCacheModel =
+				(DDMTemplateVersionCacheModel)toCacheModel();
+		}
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -972,6 +1284,15 @@ public class DDMTemplateVersionModelImpl
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		_columnBitmask |= STATUSBYUSERNAME_COLUMN_BITMASK;
+
+		if (_ddmTemplateVersionCacheModel ==
+				_dummyDDMTemplateVersionCacheModel) {
+
+			_ddmTemplateVersionCacheModel =
+				(DDMTemplateVersionCacheModel)toCacheModel();
+		}
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -983,6 +1304,15 @@ public class DDMTemplateVersionModelImpl
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		_columnBitmask |= STATUSDATE_COLUMN_BITMASK;
+
+		if (_ddmTemplateVersionCacheModel ==
+				_dummyDDMTemplateVersionCacheModel) {
+
+			_ddmTemplateVersionCacheModel =
+				(DDMTemplateVersionCacheModel)toCacheModel();
+		}
+
 		_statusDate = statusDate;
 	}
 
@@ -1280,22 +1610,9 @@ public class DDMTemplateVersionModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		DDMTemplateVersionModelImpl ddmTemplateVersionModelImpl = this;
+		_columnBitmask = 0;
 
-		ddmTemplateVersionModelImpl._originalTemplateId =
-			ddmTemplateVersionModelImpl._templateId;
-
-		ddmTemplateVersionModelImpl._setOriginalTemplateId = false;
-
-		ddmTemplateVersionModelImpl._originalVersion =
-			ddmTemplateVersionModelImpl._version;
-
-		ddmTemplateVersionModelImpl._originalStatus =
-			ddmTemplateVersionModelImpl._status;
-
-		ddmTemplateVersionModelImpl._setOriginalStatus = false;
-
-		ddmTemplateVersionModelImpl._columnBitmask = 0;
+		_ddmTemplateVersionCacheModel = _dummyDDMTemplateVersionCacheModel;
 	}
 
 	@Override
@@ -1483,10 +1800,7 @@ public class DDMTemplateVersionModelImpl
 	private long _classNameId;
 	private long _classPK;
 	private long _templateId;
-	private long _originalTemplateId;
-	private boolean _setOriginalTemplateId;
 	private String _version;
-	private String _originalVersion;
 	private String _name;
 	private String _nameCurrentLanguageId;
 	private String _description;
@@ -1494,12 +1808,15 @@ public class DDMTemplateVersionModelImpl
 	private String _language;
 	private String _script;
 	private int _status;
-	private int _originalStatus;
-	private boolean _setOriginalStatus;
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
 	private long _columnBitmask;
+
+	private static final DDMTemplateVersionCacheModel
+		_dummyDDMTemplateVersionCacheModel = new DDMTemplateVersionCacheModel();
+
 	private DDMTemplateVersion _escapedModel;
+	private DDMTemplateVersionCacheModel _ddmTemplateVersionCacheModel;
 
 }

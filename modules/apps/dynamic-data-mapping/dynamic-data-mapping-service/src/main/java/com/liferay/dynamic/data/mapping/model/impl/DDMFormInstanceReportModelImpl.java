@@ -104,9 +104,23 @@ public class DDMFormInstanceReportModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long FORMINSTANCEID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long FORMINSTANCEREPORTID_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
+
+	public static final long FORMINSTANCEREPORTID_COLUMN_BITMASK = 4L;
+
+	public static final long GROUPID_COLUMN_BITMASK = 8L;
+
+	public static final long COMPANYID_COLUMN_BITMASK = 16L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 32L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 64L;
+
+	public static final long FORMINSTANCEID_COLUMN_BITMASK = 128L;
+
+	public static final long DATA_COLUMN_BITMASK = 256L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -236,10 +250,31 @@ public class DDMFormInstanceReportModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_ddmFormInstanceReportCacheModel == null) ||
+			(_ddmFormInstanceReportCacheModel ==
+				_dummyDDMFormInstanceReportCacheModel)) {
+
+			return null;
+		}
+
+		Function<DDMFormInstanceReportCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_ddmFormInstanceReportCacheModel);
+	}
+
 	private static final Map<String, Function<DDMFormInstanceReport, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<DDMFormInstanceReport, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<DDMFormInstanceReportCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<DDMFormInstanceReport, Object>>
@@ -250,15 +285,30 @@ public class DDMFormInstanceReportModelImpl
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<DDMFormInstanceReport, ?>>();
+		Map<String, Function<DDMFormInstanceReportCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String,
+					 Function<DDMFormInstanceReportCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", DDMFormInstanceReport::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			ddmFormInstanceReportCacheModel ->
+				ddmFormInstanceReportCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<DDMFormInstanceReport, Long>)
 				DDMFormInstanceReport::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", DDMFormInstanceReport::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			ddmFormInstanceReportCacheModel ->
+				ddmFormInstanceReportCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<DDMFormInstanceReport, Long>)
@@ -266,41 +316,76 @@ public class DDMFormInstanceReportModelImpl
 		attributeGetterFunctions.put(
 			"formInstanceReportId",
 			DDMFormInstanceReport::getFormInstanceReportId);
+
+		cacheModelGetterFunctions.put(
+			"formInstanceReportId",
+			ddmFormInstanceReportCacheModel ->
+				ddmFormInstanceReportCacheModel.formInstanceReportId);
 		attributeSetterBiConsumers.put(
 			"formInstanceReportId",
 			(BiConsumer<DDMFormInstanceReport, Long>)
 				DDMFormInstanceReport::setFormInstanceReportId);
 		attributeGetterFunctions.put(
 			"groupId", DDMFormInstanceReport::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			ddmFormInstanceReportCacheModel ->
+				ddmFormInstanceReportCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<DDMFormInstanceReport, Long>)
 				DDMFormInstanceReport::setGroupId);
 		attributeGetterFunctions.put(
 			"companyId", DDMFormInstanceReport::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			ddmFormInstanceReportCacheModel ->
+				ddmFormInstanceReportCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<DDMFormInstanceReport, Long>)
 				DDMFormInstanceReport::setCompanyId);
 		attributeGetterFunctions.put(
 			"createDate", DDMFormInstanceReport::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			ddmFormInstanceReportCacheModel ->
+				ddmFormInstanceReportCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<DDMFormInstanceReport, Date>)
 				DDMFormInstanceReport::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", DDMFormInstanceReport::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			ddmFormInstanceReportCacheModel ->
+				ddmFormInstanceReportCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<DDMFormInstanceReport, Date>)
 				DDMFormInstanceReport::setModifiedDate);
 		attributeGetterFunctions.put(
 			"formInstanceId", DDMFormInstanceReport::getFormInstanceId);
+
+		cacheModelGetterFunctions.put(
+			"formInstanceId",
+			ddmFormInstanceReportCacheModel ->
+				ddmFormInstanceReportCacheModel.formInstanceId);
 		attributeSetterBiConsumers.put(
 			"formInstanceId",
 			(BiConsumer<DDMFormInstanceReport, Long>)
 				DDMFormInstanceReport::setFormInstanceId);
 		attributeGetterFunctions.put("data", DDMFormInstanceReport::getData);
+
+		cacheModelGetterFunctions.put(
+			"data",
+			ddmFormInstanceReportCacheModel ->
+				ddmFormInstanceReportCacheModel.data);
 		attributeSetterBiConsumers.put(
 			"data",
 			(BiConsumer<DDMFormInstanceReport, String>)
@@ -310,6 +395,8 @@ public class DDMFormInstanceReportModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -319,6 +406,15 @@ public class DDMFormInstanceReportModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_ddmFormInstanceReportCacheModel ==
+				_dummyDDMFormInstanceReportCacheModel) {
+
+			_ddmFormInstanceReportCacheModel =
+				(DDMFormInstanceReportCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -329,6 +425,15 @@ public class DDMFormInstanceReportModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (_ddmFormInstanceReportCacheModel ==
+				_dummyDDMFormInstanceReportCacheModel) {
+
+			_ddmFormInstanceReportCacheModel =
+				(DDMFormInstanceReportCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -339,6 +444,15 @@ public class DDMFormInstanceReportModelImpl
 
 	@Override
 	public void setFormInstanceReportId(long formInstanceReportId) {
+		_columnBitmask |= FORMINSTANCEREPORTID_COLUMN_BITMASK;
+
+		if (_ddmFormInstanceReportCacheModel ==
+				_dummyDDMFormInstanceReportCacheModel) {
+
+			_ddmFormInstanceReportCacheModel =
+				(DDMFormInstanceReportCacheModel)toCacheModel();
+		}
+
 		_formInstanceReportId = formInstanceReportId;
 	}
 
@@ -349,6 +463,15 @@ public class DDMFormInstanceReportModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
+		_columnBitmask |= GROUPID_COLUMN_BITMASK;
+
+		if (_ddmFormInstanceReportCacheModel ==
+				_dummyDDMFormInstanceReportCacheModel) {
+
+			_ddmFormInstanceReportCacheModel =
+				(DDMFormInstanceReportCacheModel)toCacheModel();
+		}
+
 		_groupId = groupId;
 	}
 
@@ -359,6 +482,15 @@ public class DDMFormInstanceReportModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (_ddmFormInstanceReportCacheModel ==
+				_dummyDDMFormInstanceReportCacheModel) {
+
+			_ddmFormInstanceReportCacheModel =
+				(DDMFormInstanceReportCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -369,6 +501,15 @@ public class DDMFormInstanceReportModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (_ddmFormInstanceReportCacheModel ==
+				_dummyDDMFormInstanceReportCacheModel) {
+
+			_ddmFormInstanceReportCacheModel =
+				(DDMFormInstanceReportCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -385,6 +526,15 @@ public class DDMFormInstanceReportModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (_ddmFormInstanceReportCacheModel ==
+				_dummyDDMFormInstanceReportCacheModel) {
+
+			_ddmFormInstanceReportCacheModel =
+				(DDMFormInstanceReportCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -397,17 +547,23 @@ public class DDMFormInstanceReportModelImpl
 	public void setFormInstanceId(long formInstanceId) {
 		_columnBitmask |= FORMINSTANCEID_COLUMN_BITMASK;
 
-		if (!_setOriginalFormInstanceId) {
-			_setOriginalFormInstanceId = true;
+		if (_ddmFormInstanceReportCacheModel ==
+				_dummyDDMFormInstanceReportCacheModel) {
 
-			_originalFormInstanceId = _formInstanceId;
+			_ddmFormInstanceReportCacheModel =
+				(DDMFormInstanceReportCacheModel)toCacheModel();
 		}
 
 		_formInstanceId = formInstanceId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalFormInstanceId() {
-		return _originalFormInstanceId;
+		return getOriginalAttributeValue("formInstanceId");
 	}
 
 	@Override
@@ -422,6 +578,15 @@ public class DDMFormInstanceReportModelImpl
 
 	@Override
 	public void setData(String data) {
+		_columnBitmask |= DATA_COLUMN_BITMASK;
+
+		if (_ddmFormInstanceReportCacheModel ==
+				_dummyDDMFormInstanceReportCacheModel) {
+
+			_ddmFormInstanceReportCacheModel =
+				(DDMFormInstanceReportCacheModel)toCacheModel();
+		}
+
 		_data = data;
 	}
 
@@ -542,16 +707,12 @@ public class DDMFormInstanceReportModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		DDMFormInstanceReportModelImpl ddmFormInstanceReportModelImpl = this;
+		_setModifiedDate = false;
 
-		ddmFormInstanceReportModelImpl._setModifiedDate = false;
+		_columnBitmask = 0;
 
-		ddmFormInstanceReportModelImpl._originalFormInstanceId =
-			ddmFormInstanceReportModelImpl._formInstanceId;
-
-		ddmFormInstanceReportModelImpl._setOriginalFormInstanceId = false;
-
-		ddmFormInstanceReportModelImpl._columnBitmask = 0;
+		_ddmFormInstanceReportCacheModel =
+			_dummyDDMFormInstanceReportCacheModel;
 	}
 
 	@Override
@@ -683,10 +844,14 @@ public class DDMFormInstanceReportModelImpl
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _formInstanceId;
-	private long _originalFormInstanceId;
-	private boolean _setOriginalFormInstanceId;
 	private String _data;
 	private long _columnBitmask;
+
+	private static final DDMFormInstanceReportCacheModel
+		_dummyDDMFormInstanceReportCacheModel =
+			new DDMFormInstanceReportCacheModel();
+
 	private DDMFormInstanceReport _escapedModel;
+	private DDMFormInstanceReportCacheModel _ddmFormInstanceReportCacheModel;
 
 }

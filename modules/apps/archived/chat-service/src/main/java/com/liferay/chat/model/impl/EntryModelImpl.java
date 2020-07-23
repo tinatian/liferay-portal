@@ -27,7 +27,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -99,13 +98,17 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long CONTENT_COLUMN_BITMASK = 1L;
+	public static final long ENTRYID_COLUMN_BITMASK = 1L;
 
 	public static final long CREATEDATE_COLUMN_BITMASK = 2L;
 
 	public static final long FROMUSERID_COLUMN_BITMASK = 4L;
 
 	public static final long TOUSERID_COLUMN_BITMASK = 8L;
+
+	public static final long CONTENT_COLUMN_BITMASK = 16L;
+
+	public static final long FLAG_COLUMN_BITMASK = 32L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -228,33 +231,73 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_entryCacheModel == null) ||
+			(_entryCacheModel == _dummyEntryCacheModel)) {
+
+			return null;
+		}
+
+		Function<EntryCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_entryCacheModel);
+	}
+
 	private static final Map<String, Function<Entry, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<Entry, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<EntryCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<Entry, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<Entry, Object>>();
 		Map<String, BiConsumer<Entry, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Entry, ?>>();
+		Map<String, Function<EntryCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap<String, Function<EntryCacheModel, Object>>();
 
 		attributeGetterFunctions.put("entryId", Entry::getEntryId);
+
+		cacheModelGetterFunctions.put(
+			"entryId", entryCacheModel -> entryCacheModel.entryId);
 		attributeSetterBiConsumers.put(
 			"entryId", (BiConsumer<Entry, Long>)Entry::setEntryId);
 		attributeGetterFunctions.put("createDate", Entry::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate", entryCacheModel -> entryCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate", (BiConsumer<Entry, Long>)Entry::setCreateDate);
 		attributeGetterFunctions.put("fromUserId", Entry::getFromUserId);
+
+		cacheModelGetterFunctions.put(
+			"fromUserId", entryCacheModel -> entryCacheModel.fromUserId);
 		attributeSetterBiConsumers.put(
 			"fromUserId", (BiConsumer<Entry, Long>)Entry::setFromUserId);
 		attributeGetterFunctions.put("toUserId", Entry::getToUserId);
+
+		cacheModelGetterFunctions.put(
+			"toUserId", entryCacheModel -> entryCacheModel.toUserId);
 		attributeSetterBiConsumers.put(
 			"toUserId", (BiConsumer<Entry, Long>)Entry::setToUserId);
 		attributeGetterFunctions.put("content", Entry::getContent);
+
+		cacheModelGetterFunctions.put(
+			"content", entryCacheModel -> entryCacheModel.content);
 		attributeSetterBiConsumers.put(
 			"content", (BiConsumer<Entry, String>)Entry::setContent);
 		attributeGetterFunctions.put("flag", Entry::getFlag);
+
+		cacheModelGetterFunctions.put(
+			"flag", entryCacheModel -> entryCacheModel.flag);
 		attributeSetterBiConsumers.put(
 			"flag", (BiConsumer<Entry, Integer>)Entry::setFlag);
 
@@ -262,6 +305,8 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -271,6 +316,12 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setEntryId(long entryId) {
+		_columnBitmask |= ENTRYID_COLUMN_BITMASK;
+
+		if (_entryCacheModel == _dummyEntryCacheModel) {
+			_entryCacheModel = (EntryCacheModel)toCacheModel();
+		}
+
 		_entryId = entryId;
 	}
 
@@ -281,19 +332,22 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setCreateDate(long createDate) {
-		_columnBitmask = -1L;
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
 
-		if (!_setOriginalCreateDate) {
-			_setOriginalCreateDate = true;
-
-			_originalCreateDate = _createDate;
+		if (_entryCacheModel == _dummyEntryCacheModel) {
+			_entryCacheModel = (EntryCacheModel)toCacheModel();
 		}
 
 		_createDate = createDate;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCreateDate() {
-		return _originalCreateDate;
+		return getOriginalAttributeValue("createDate");
 	}
 
 	@Override
@@ -305,10 +359,8 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 	public void setFromUserId(long fromUserId) {
 		_columnBitmask |= FROMUSERID_COLUMN_BITMASK;
 
-		if (!_setOriginalFromUserId) {
-			_setOriginalFromUserId = true;
-
-			_originalFromUserId = _fromUserId;
+		if (_entryCacheModel == _dummyEntryCacheModel) {
+			_entryCacheModel = (EntryCacheModel)toCacheModel();
 		}
 
 		_fromUserId = fromUserId;
@@ -330,8 +382,13 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 	public void setFromUserUuid(String fromUserUuid) {
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalFromUserId() {
-		return _originalFromUserId;
+		return getOriginalAttributeValue("fromUserId");
 	}
 
 	@Override
@@ -343,10 +400,8 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 	public void setToUserId(long toUserId) {
 		_columnBitmask |= TOUSERID_COLUMN_BITMASK;
 
-		if (!_setOriginalToUserId) {
-			_setOriginalToUserId = true;
-
-			_originalToUserId = _toUserId;
+		if (_entryCacheModel == _dummyEntryCacheModel) {
+			_entryCacheModel = (EntryCacheModel)toCacheModel();
 		}
 
 		_toUserId = toUserId;
@@ -368,8 +423,13 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 	public void setToUserUuid(String toUserUuid) {
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalToUserId() {
-		return _originalToUserId;
+		return getOriginalAttributeValue("toUserId");
 	}
 
 	@Override
@@ -386,15 +446,20 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 	public void setContent(String content) {
 		_columnBitmask |= CONTENT_COLUMN_BITMASK;
 
-		if (_originalContent == null) {
-			_originalContent = _content;
+		if (_entryCacheModel == _dummyEntryCacheModel) {
+			_entryCacheModel = (EntryCacheModel)toCacheModel();
 		}
 
 		_content = content;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalContent() {
-		return GetterUtil.getString(_originalContent);
+		return getOriginalAttributeValue("content");
 	}
 
 	@Override
@@ -404,6 +469,12 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setFlag(int flag) {
+		_columnBitmask |= FLAG_COLUMN_BITMASK;
+
+		if (_entryCacheModel == _dummyEntryCacheModel) {
+			_entryCacheModel = (EntryCacheModel)toCacheModel();
+		}
+
 		_flag = flag;
 	}
 
@@ -525,23 +596,9 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void resetOriginalValues() {
-		EntryModelImpl entryModelImpl = this;
+		_columnBitmask = 0;
 
-		entryModelImpl._originalCreateDate = entryModelImpl._createDate;
-
-		entryModelImpl._setOriginalCreateDate = false;
-
-		entryModelImpl._originalFromUserId = entryModelImpl._fromUserId;
-
-		entryModelImpl._setOriginalFromUserId = false;
-
-		entryModelImpl._originalToUserId = entryModelImpl._toUserId;
-
-		entryModelImpl._setOriginalToUserId = false;
-
-		entryModelImpl._originalContent = entryModelImpl._content;
-
-		entryModelImpl._columnBitmask = 0;
+		_entryCacheModel = _dummyEntryCacheModel;
 	}
 
 	@Override
@@ -639,18 +696,16 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	private long _entryId;
 	private long _createDate;
-	private long _originalCreateDate;
-	private boolean _setOriginalCreateDate;
 	private long _fromUserId;
-	private long _originalFromUserId;
-	private boolean _setOriginalFromUserId;
 	private long _toUserId;
-	private long _originalToUserId;
-	private boolean _setOriginalToUserId;
 	private String _content;
-	private String _originalContent;
 	private int _flag;
 	private long _columnBitmask;
+
+	private static final EntryCacheModel _dummyEntryCacheModel =
+		new EntryCacheModel();
+
 	private Entry _escapedModel;
+	private EntryCacheModel _entryCacheModel;
 
 }

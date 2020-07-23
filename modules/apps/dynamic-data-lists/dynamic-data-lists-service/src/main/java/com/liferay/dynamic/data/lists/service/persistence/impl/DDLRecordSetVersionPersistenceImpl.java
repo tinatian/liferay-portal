@@ -1538,8 +1538,10 @@ public class DDLRecordSetVersionPersistenceImpl
 			 _finderPathFetchByRS_V.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				ddlRecordSetVersionModelImpl.getOriginalRecordSetId(),
-				ddlRecordSetVersionModelImpl.getOriginalVersion()
+				ddlRecordSetVersionModelImpl.getOriginalAttributeValue(
+					"recordSetId"),
+				ddlRecordSetVersionModelImpl.getOriginalAttributeValue(
+					"version")
 			};
 
 			finderCache.removeResult(_finderPathCountByRS_V, args);
@@ -1732,7 +1734,8 @@ public class DDLRecordSetVersionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					ddlRecordSetVersionModelImpl.getOriginalRecordSetId()
+					ddlRecordSetVersionModelImpl.getOriginalAttributeValue(
+						"recordSetId")
 				};
 
 				finderCache.removeResult(_finderPathCountByRecordSetId, args);
@@ -1753,8 +1756,10 @@ public class DDLRecordSetVersionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					ddlRecordSetVersionModelImpl.getOriginalRecordSetId(),
-					ddlRecordSetVersionModelImpl.getOriginalStatus()
+					ddlRecordSetVersionModelImpl.getOriginalAttributeValue(
+						"recordSetId"),
+					ddlRecordSetVersionModelImpl.getOriginalAttributeValue(
+						"status")
 				};
 
 				finderCache.removeResult(_finderPathCountByRS_S, args);

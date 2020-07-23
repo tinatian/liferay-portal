@@ -124,9 +124,27 @@ public class ReleaseModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long SERVLETCONTEXTNAME_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
 	public static final long RELEASEID_COLUMN_BITMASK = 2L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 4L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 8L;
+
+	public static final long SERVLETCONTEXTNAME_COLUMN_BITMASK = 16L;
+
+	public static final long SCHEMAVERSION_COLUMN_BITMASK = 32L;
+
+	public static final long BUILDNUMBER_COLUMN_BITMASK = 64L;
+
+	public static final long BUILDDATE_COLUMN_BITMASK = 128L;
+
+	public static final long VERIFIED_COLUMN_BITMASK = 256L;
+
+	public static final long STATE_COLUMN_BITMASK = 512L;
+
+	public static final long TESTSTRING_COLUMN_BITMASK = 1024L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		com.liferay.portal.util.PropsUtil.get(
@@ -243,54 +261,113 @@ public class ReleaseModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_releaseCacheModel == null) ||
+			(_releaseCacheModel == _dummyReleaseCacheModel)) {
+
+			return null;
+		}
+
+		Function<ReleaseCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_releaseCacheModel);
+	}
+
 	private static final Map<String, Function<Release, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<Release, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<ReleaseCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<Release, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<Release, Object>>();
 		Map<String, BiConsumer<Release, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Release, ?>>();
+		Map<String, Function<ReleaseCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<ReleaseCacheModel, Object>>();
 
 		attributeGetterFunctions.put("mvccVersion", Release::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion", releaseCacheModel -> releaseCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion", (BiConsumer<Release, Long>)Release::setMvccVersion);
 		attributeGetterFunctions.put("releaseId", Release::getReleaseId);
+
+		cacheModelGetterFunctions.put(
+			"releaseId", releaseCacheModel -> releaseCacheModel.releaseId);
 		attributeSetterBiConsumers.put(
 			"releaseId", (BiConsumer<Release, Long>)Release::setReleaseId);
 		attributeGetterFunctions.put("createDate", Release::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate", releaseCacheModel -> releaseCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate", (BiConsumer<Release, Date>)Release::setCreateDate);
 		attributeGetterFunctions.put("modifiedDate", Release::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			releaseCacheModel -> releaseCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<Release, Date>)Release::setModifiedDate);
 		attributeGetterFunctions.put(
 			"servletContextName", Release::getServletContextName);
+
+		cacheModelGetterFunctions.put(
+			"servletContextName",
+			releaseCacheModel -> releaseCacheModel.servletContextName);
 		attributeSetterBiConsumers.put(
 			"servletContextName",
 			(BiConsumer<Release, String>)Release::setServletContextName);
 		attributeGetterFunctions.put(
 			"schemaVersion", Release::getSchemaVersion);
+
+		cacheModelGetterFunctions.put(
+			"schemaVersion",
+			releaseCacheModel -> releaseCacheModel.schemaVersion);
 		attributeSetterBiConsumers.put(
 			"schemaVersion",
 			(BiConsumer<Release, String>)Release::setSchemaVersion);
 		attributeGetterFunctions.put("buildNumber", Release::getBuildNumber);
+
+		cacheModelGetterFunctions.put(
+			"buildNumber", releaseCacheModel -> releaseCacheModel.buildNumber);
 		attributeSetterBiConsumers.put(
 			"buildNumber",
 			(BiConsumer<Release, Integer>)Release::setBuildNumber);
 		attributeGetterFunctions.put("buildDate", Release::getBuildDate);
+
+		cacheModelGetterFunctions.put(
+			"buildDate", releaseCacheModel -> releaseCacheModel.buildDate);
 		attributeSetterBiConsumers.put(
 			"buildDate", (BiConsumer<Release, Date>)Release::setBuildDate);
 		attributeGetterFunctions.put("verified", Release::getVerified);
+
+		cacheModelGetterFunctions.put(
+			"verified", releaseCacheModel -> releaseCacheModel.verified);
 		attributeSetterBiConsumers.put(
 			"verified", (BiConsumer<Release, Boolean>)Release::setVerified);
 		attributeGetterFunctions.put("state", Release::getState);
+
+		cacheModelGetterFunctions.put(
+			"state", releaseCacheModel -> releaseCacheModel.state);
 		attributeSetterBiConsumers.put(
 			"state", (BiConsumer<Release, Integer>)Release::setState);
 		attributeGetterFunctions.put("testString", Release::getTestString);
+
+		cacheModelGetterFunctions.put(
+			"testString", releaseCacheModel -> releaseCacheModel.testString);
 		attributeSetterBiConsumers.put(
 			"testString", (BiConsumer<Release, String>)Release::setTestString);
 
@@ -298,6 +375,8 @@ public class ReleaseModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -307,6 +386,12 @@ public class ReleaseModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_releaseCacheModel == _dummyReleaseCacheModel) {
+			_releaseCacheModel = (ReleaseCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -317,6 +402,12 @@ public class ReleaseModelImpl
 
 	@Override
 	public void setReleaseId(long releaseId) {
+		_columnBitmask |= RELEASEID_COLUMN_BITMASK;
+
+		if (_releaseCacheModel == _dummyReleaseCacheModel) {
+			_releaseCacheModel = (ReleaseCacheModel)toCacheModel();
+		}
+
 		_releaseId = releaseId;
 	}
 
@@ -327,6 +418,12 @@ public class ReleaseModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (_releaseCacheModel == _dummyReleaseCacheModel) {
+			_releaseCacheModel = (ReleaseCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -342,6 +439,12 @@ public class ReleaseModelImpl
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
+
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (_releaseCacheModel == _dummyReleaseCacheModel) {
+			_releaseCacheModel = (ReleaseCacheModel)toCacheModel();
+		}
 
 		_modifiedDate = modifiedDate;
 	}
@@ -360,15 +463,20 @@ public class ReleaseModelImpl
 	public void setServletContextName(String servletContextName) {
 		_columnBitmask |= SERVLETCONTEXTNAME_COLUMN_BITMASK;
 
-		if (_originalServletContextName == null) {
-			_originalServletContextName = _servletContextName;
+		if (_releaseCacheModel == _dummyReleaseCacheModel) {
+			_releaseCacheModel = (ReleaseCacheModel)toCacheModel();
 		}
 
 		_servletContextName = servletContextName;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalServletContextName() {
-		return GetterUtil.getString(_originalServletContextName);
+		return getOriginalAttributeValue("servletContextName");
 	}
 
 	@Override
@@ -383,6 +491,12 @@ public class ReleaseModelImpl
 
 	@Override
 	public void setSchemaVersion(String schemaVersion) {
+		_columnBitmask |= SCHEMAVERSION_COLUMN_BITMASK;
+
+		if (_releaseCacheModel == _dummyReleaseCacheModel) {
+			_releaseCacheModel = (ReleaseCacheModel)toCacheModel();
+		}
+
 		_schemaVersion = schemaVersion;
 	}
 
@@ -393,6 +507,12 @@ public class ReleaseModelImpl
 
 	@Override
 	public void setBuildNumber(int buildNumber) {
+		_columnBitmask |= BUILDNUMBER_COLUMN_BITMASK;
+
+		if (_releaseCacheModel == _dummyReleaseCacheModel) {
+			_releaseCacheModel = (ReleaseCacheModel)toCacheModel();
+		}
+
 		_buildNumber = buildNumber;
 	}
 
@@ -403,6 +523,12 @@ public class ReleaseModelImpl
 
 	@Override
 	public void setBuildDate(Date buildDate) {
+		_columnBitmask |= BUILDDATE_COLUMN_BITMASK;
+
+		if (_releaseCacheModel == _dummyReleaseCacheModel) {
+			_releaseCacheModel = (ReleaseCacheModel)toCacheModel();
+		}
+
 		_buildDate = buildDate;
 	}
 
@@ -418,6 +544,12 @@ public class ReleaseModelImpl
 
 	@Override
 	public void setVerified(boolean verified) {
+		_columnBitmask |= VERIFIED_COLUMN_BITMASK;
+
+		if (_releaseCacheModel == _dummyReleaseCacheModel) {
+			_releaseCacheModel = (ReleaseCacheModel)toCacheModel();
+		}
+
 		_verified = verified;
 	}
 
@@ -428,6 +560,12 @@ public class ReleaseModelImpl
 
 	@Override
 	public void setState(int state) {
+		_columnBitmask |= STATE_COLUMN_BITMASK;
+
+		if (_releaseCacheModel == _dummyReleaseCacheModel) {
+			_releaseCacheModel = (ReleaseCacheModel)toCacheModel();
+		}
+
 		_state = state;
 	}
 
@@ -443,6 +581,12 @@ public class ReleaseModelImpl
 
 	@Override
 	public void setTestString(String testString) {
+		_columnBitmask |= TESTSTRING_COLUMN_BITMASK;
+
+		if (_releaseCacheModel == _dummyReleaseCacheModel) {
+			_releaseCacheModel = (ReleaseCacheModel)toCacheModel();
+		}
+
 		_testString = testString;
 	}
 
@@ -561,14 +705,11 @@ public class ReleaseModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		ReleaseModelImpl releaseModelImpl = this;
+		_setModifiedDate = false;
 
-		releaseModelImpl._setModifiedDate = false;
+		_columnBitmask = 0;
 
-		releaseModelImpl._originalServletContextName =
-			releaseModelImpl._servletContextName;
-
-		releaseModelImpl._columnBitmask = 0;
+		_releaseCacheModel = _dummyReleaseCacheModel;
 	}
 
 	@Override
@@ -717,7 +858,6 @@ public class ReleaseModelImpl
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private String _servletContextName;
-	private String _originalServletContextName;
 	private String _schemaVersion;
 	private int _buildNumber;
 	private Date _buildDate;
@@ -725,6 +865,11 @@ public class ReleaseModelImpl
 	private int _state;
 	private String _testString;
 	private long _columnBitmask;
+
+	private static final ReleaseCacheModel _dummyReleaseCacheModel =
+		new ReleaseCacheModel();
+
 	private Release _escapedModel;
+	private ReleaseCacheModel _releaseCacheModel;
 
 }

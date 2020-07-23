@@ -12214,8 +12214,8 @@ public class AssetCategoryPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				assetCategoryModelImpl.getOriginalUuid(),
-				assetCategoryModelImpl.getOriginalGroupId()
+				assetCategoryModelImpl.getOriginalAttributeValue("uuid"),
+				assetCategoryModelImpl.getOriginalAttributeValue("groupId")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByUUID_G, args);
@@ -12237,9 +12237,10 @@ public class AssetCategoryPersistenceImpl
 			 _finderPathFetchByP_N_V.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				assetCategoryModelImpl.getOriginalParentCategoryId(),
-				assetCategoryModelImpl.getOriginalName(),
-				assetCategoryModelImpl.getOriginalVocabularyId()
+				assetCategoryModelImpl.getOriginalAttributeValue(
+					"parentCategoryId"),
+				assetCategoryModelImpl.getOriginalAttributeValue("name"),
+				assetCategoryModelImpl.getOriginalAttributeValue("vocabularyId")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByP_N_V, args);
@@ -12260,8 +12261,9 @@ public class AssetCategoryPersistenceImpl
 			 _finderPathFetchByC_ERC.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				assetCategoryModelImpl.getOriginalCompanyId(),
-				assetCategoryModelImpl.getOriginalExternalReferenceCode()
+				assetCategoryModelImpl.getOriginalAttributeValue("companyId"),
+				assetCategoryModelImpl.getOriginalAttributeValue(
+					"externalReferenceCode")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByC_ERC, args);
@@ -12577,7 +12579,7 @@ public class AssetCategoryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					assetCategoryModelImpl.getOriginalUuid()
+					assetCategoryModelImpl.getOriginalAttributeValue("uuid")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid, args);
@@ -12596,8 +12598,9 @@ public class AssetCategoryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					assetCategoryModelImpl.getOriginalUuid(),
-					assetCategoryModelImpl.getOriginalCompanyId()
+					assetCategoryModelImpl.getOriginalAttributeValue("uuid"),
+					assetCategoryModelImpl.getOriginalAttributeValue(
+						"companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid_C, args);
@@ -12619,7 +12622,7 @@ public class AssetCategoryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					assetCategoryModelImpl.getOriginalGroupId()
+					assetCategoryModelImpl.getOriginalAttributeValue("groupId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByGroupId, args);
@@ -12638,7 +12641,8 @@ public class AssetCategoryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					assetCategoryModelImpl.getOriginalParentCategoryId()
+					assetCategoryModelImpl.getOriginalAttributeValue(
+						"parentCategoryId")
 				};
 
 				FinderCacheUtil.removeResult(
@@ -12661,7 +12665,8 @@ public class AssetCategoryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					assetCategoryModelImpl.getOriginalVocabularyId()
+					assetCategoryModelImpl.getOriginalAttributeValue(
+						"vocabularyId")
 				};
 
 				FinderCacheUtil.removeResult(
@@ -12682,8 +12687,9 @@ public class AssetCategoryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					assetCategoryModelImpl.getOriginalGroupId(),
-					assetCategoryModelImpl.getOriginalParentCategoryId()
+					assetCategoryModelImpl.getOriginalAttributeValue("groupId"),
+					assetCategoryModelImpl.getOriginalAttributeValue(
+						"parentCategoryId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByG_P, args);
@@ -12705,8 +12711,9 @@ public class AssetCategoryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					assetCategoryModelImpl.getOriginalGroupId(),
-					assetCategoryModelImpl.getOriginalVocabularyId()
+					assetCategoryModelImpl.getOriginalAttributeValue("groupId"),
+					assetCategoryModelImpl.getOriginalAttributeValue(
+						"vocabularyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByG_V, args);
@@ -12728,8 +12735,9 @@ public class AssetCategoryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					assetCategoryModelImpl.getOriginalParentCategoryId(),
-					assetCategoryModelImpl.getOriginalName()
+					assetCategoryModelImpl.getOriginalAttributeValue(
+						"parentCategoryId"),
+					assetCategoryModelImpl.getOriginalAttributeValue("name")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByP_N, args);
@@ -12751,8 +12759,10 @@ public class AssetCategoryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					assetCategoryModelImpl.getOriginalParentCategoryId(),
-					assetCategoryModelImpl.getOriginalVocabularyId()
+					assetCategoryModelImpl.getOriginalAttributeValue(
+						"parentCategoryId"),
+					assetCategoryModelImpl.getOriginalAttributeValue(
+						"vocabularyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByP_V, args);
@@ -12774,8 +12784,9 @@ public class AssetCategoryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					assetCategoryModelImpl.getOriginalName(),
-					assetCategoryModelImpl.getOriginalVocabularyId()
+					assetCategoryModelImpl.getOriginalAttributeValue("name"),
+					assetCategoryModelImpl.getOriginalAttributeValue(
+						"vocabularyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByN_V, args);
@@ -12797,9 +12808,11 @@ public class AssetCategoryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					assetCategoryModelImpl.getOriginalGroupId(),
-					assetCategoryModelImpl.getOriginalParentCategoryId(),
-					assetCategoryModelImpl.getOriginalVocabularyId()
+					assetCategoryModelImpl.getOriginalAttributeValue("groupId"),
+					assetCategoryModelImpl.getOriginalAttributeValue(
+						"parentCategoryId"),
+					assetCategoryModelImpl.getOriginalAttributeValue(
+						"vocabularyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByG_P_V, args);

@@ -123,13 +123,19 @@ public class UserGroupGroupRoleModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long GROUPID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long ROLEID_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
-	public static final long USERGROUPID_COLUMN_BITMASK = 4L;
+	public static final long USERGROUPGROUPROLEID_COLUMN_BITMASK = 4L;
 
-	public static final long USERGROUPGROUPROLEID_COLUMN_BITMASK = 8L;
+	public static final long COMPANYID_COLUMN_BITMASK = 8L;
+
+	public static final long USERGROUPID_COLUMN_BITMASK = 16L;
+
+	public static final long GROUPID_COLUMN_BITMASK = 32L;
+
+	public static final long ROLEID_COLUMN_BITMASK = 64L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -295,10 +301,31 @@ public class UserGroupGroupRoleModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_userGroupGroupRoleCacheModel == null) ||
+			(_userGroupGroupRoleCacheModel ==
+				_dummyUserGroupGroupRoleCacheModel)) {
+
+			return null;
+		}
+
+		Function<UserGroupGroupRoleCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_userGroupGroupRoleCacheModel);
+	}
+
 	private static final Map<String, Function<UserGroupGroupRole, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<UserGroupGroupRole, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<UserGroupGroupRoleCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<UserGroupGroupRole, Object>>
@@ -308,15 +335,29 @@ public class UserGroupGroupRoleModelImpl
 		Map<String, BiConsumer<UserGroupGroupRole, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<UserGroupGroupRole, ?>>();
+		Map<String, Function<UserGroupGroupRoleCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<UserGroupGroupRoleCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", UserGroupGroupRole::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			userGroupGroupRoleCacheModel ->
+				userGroupGroupRoleCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<UserGroupGroupRole, Long>)
 				UserGroupGroupRole::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", UserGroupGroupRole::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			userGroupGroupRoleCacheModel ->
+				userGroupGroupRoleCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<UserGroupGroupRole, Long>)
@@ -324,28 +365,53 @@ public class UserGroupGroupRoleModelImpl
 		attributeGetterFunctions.put(
 			"userGroupGroupRoleId",
 			UserGroupGroupRole::getUserGroupGroupRoleId);
+
+		cacheModelGetterFunctions.put(
+			"userGroupGroupRoleId",
+			userGroupGroupRoleCacheModel ->
+				userGroupGroupRoleCacheModel.userGroupGroupRoleId);
 		attributeSetterBiConsumers.put(
 			"userGroupGroupRoleId",
 			(BiConsumer<UserGroupGroupRole, Long>)
 				UserGroupGroupRole::setUserGroupGroupRoleId);
 		attributeGetterFunctions.put(
 			"companyId", UserGroupGroupRole::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			userGroupGroupRoleCacheModel ->
+				userGroupGroupRoleCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<UserGroupGroupRole, Long>)
 				UserGroupGroupRole::setCompanyId);
 		attributeGetterFunctions.put(
 			"userGroupId", UserGroupGroupRole::getUserGroupId);
+
+		cacheModelGetterFunctions.put(
+			"userGroupId",
+			userGroupGroupRoleCacheModel ->
+				userGroupGroupRoleCacheModel.userGroupId);
 		attributeSetterBiConsumers.put(
 			"userGroupId",
 			(BiConsumer<UserGroupGroupRole, Long>)
 				UserGroupGroupRole::setUserGroupId);
 		attributeGetterFunctions.put("groupId", UserGroupGroupRole::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			userGroupGroupRoleCacheModel ->
+				userGroupGroupRoleCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<UserGroupGroupRole, Long>)
 				UserGroupGroupRole::setGroupId);
 		attributeGetterFunctions.put("roleId", UserGroupGroupRole::getRoleId);
+
+		cacheModelGetterFunctions.put(
+			"roleId",
+			userGroupGroupRoleCacheModel ->
+				userGroupGroupRoleCacheModel.roleId);
 		attributeSetterBiConsumers.put(
 			"roleId",
 			(BiConsumer<UserGroupGroupRole, Long>)
@@ -355,6 +421,8 @@ public class UserGroupGroupRoleModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -365,6 +433,15 @@ public class UserGroupGroupRoleModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_userGroupGroupRoleCacheModel ==
+				_dummyUserGroupGroupRoleCacheModel) {
+
+			_userGroupGroupRoleCacheModel =
+				(UserGroupGroupRoleCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -376,6 +453,15 @@ public class UserGroupGroupRoleModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (_userGroupGroupRoleCacheModel ==
+				_dummyUserGroupGroupRoleCacheModel) {
+
+			_userGroupGroupRoleCacheModel =
+				(UserGroupGroupRoleCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -387,6 +473,15 @@ public class UserGroupGroupRoleModelImpl
 
 	@Override
 	public void setUserGroupGroupRoleId(long userGroupGroupRoleId) {
+		_columnBitmask |= USERGROUPGROUPROLEID_COLUMN_BITMASK;
+
+		if (_userGroupGroupRoleCacheModel ==
+				_dummyUserGroupGroupRoleCacheModel) {
+
+			_userGroupGroupRoleCacheModel =
+				(UserGroupGroupRoleCacheModel)toCacheModel();
+		}
+
 		_userGroupGroupRoleId = userGroupGroupRoleId;
 	}
 
@@ -398,6 +493,15 @@ public class UserGroupGroupRoleModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (_userGroupGroupRoleCacheModel ==
+				_dummyUserGroupGroupRoleCacheModel) {
+
+			_userGroupGroupRoleCacheModel =
+				(UserGroupGroupRoleCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -411,17 +515,23 @@ public class UserGroupGroupRoleModelImpl
 	public void setUserGroupId(long userGroupId) {
 		_columnBitmask |= USERGROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalUserGroupId) {
-			_setOriginalUserGroupId = true;
+		if (_userGroupGroupRoleCacheModel ==
+				_dummyUserGroupGroupRoleCacheModel) {
 
-			_originalUserGroupId = _userGroupId;
+			_userGroupGroupRoleCacheModel =
+				(UserGroupGroupRoleCacheModel)toCacheModel();
 		}
 
 		_userGroupId = userGroupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalUserGroupId() {
-		return _originalUserGroupId;
+		return getOriginalAttributeValue("userGroupId");
 	}
 
 	@JSON
@@ -434,17 +544,23 @@ public class UserGroupGroupRoleModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
+		if (_userGroupGroupRoleCacheModel ==
+				_dummyUserGroupGroupRoleCacheModel) {
 
-			_originalGroupId = _groupId;
+			_userGroupGroupRoleCacheModel =
+				(UserGroupGroupRoleCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getOriginalAttributeValue("groupId");
 	}
 
 	@JSON
@@ -457,17 +573,23 @@ public class UserGroupGroupRoleModelImpl
 	public void setRoleId(long roleId) {
 		_columnBitmask |= ROLEID_COLUMN_BITMASK;
 
-		if (!_setOriginalRoleId) {
-			_setOriginalRoleId = true;
+		if (_userGroupGroupRoleCacheModel ==
+				_dummyUserGroupGroupRoleCacheModel) {
 
-			_originalRoleId = _roleId;
+			_userGroupGroupRoleCacheModel =
+				(UserGroupGroupRoleCacheModel)toCacheModel();
 		}
 
 		_roleId = roleId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalRoleId() {
-		return _originalRoleId;
+		return getOriginalAttributeValue("roleId");
 	}
 
 	public long getColumnBitmask() {
@@ -584,24 +706,9 @@ public class UserGroupGroupRoleModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		UserGroupGroupRoleModelImpl userGroupGroupRoleModelImpl = this;
+		_columnBitmask = 0;
 
-		userGroupGroupRoleModelImpl._originalUserGroupId =
-			userGroupGroupRoleModelImpl._userGroupId;
-
-		userGroupGroupRoleModelImpl._setOriginalUserGroupId = false;
-
-		userGroupGroupRoleModelImpl._originalGroupId =
-			userGroupGroupRoleModelImpl._groupId;
-
-		userGroupGroupRoleModelImpl._setOriginalGroupId = false;
-
-		userGroupGroupRoleModelImpl._originalRoleId =
-			userGroupGroupRoleModelImpl._roleId;
-
-		userGroupGroupRoleModelImpl._setOriginalRoleId = false;
-
-		userGroupGroupRoleModelImpl._columnBitmask = 0;
+		_userGroupGroupRoleCacheModel = _dummyUserGroupGroupRoleCacheModel;
 	}
 
 	@Override
@@ -702,15 +809,14 @@ public class UserGroupGroupRoleModelImpl
 	private long _userGroupGroupRoleId;
 	private long _companyId;
 	private long _userGroupId;
-	private long _originalUserGroupId;
-	private boolean _setOriginalUserGroupId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _roleId;
-	private long _originalRoleId;
-	private boolean _setOriginalRoleId;
 	private long _columnBitmask;
+
+	private static final UserGroupGroupRoleCacheModel
+		_dummyUserGroupGroupRoleCacheModel = new UserGroupGroupRoleCacheModel();
+
 	private UserGroupGroupRole _escapedModel;
+	private UserGroupGroupRoleCacheModel _userGroupGroupRoleCacheModel;
 
 }

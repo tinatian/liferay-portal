@@ -970,8 +970,8 @@ public class FolderPersistenceImpl
 			 _finderPathFetchByA_F.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				folderModelImpl.getOriginalAccountId(),
-				folderModelImpl.getOriginalFullName()
+				folderModelImpl.getOriginalAttributeValue("accountId"),
+				folderModelImpl.getOriginalAttributeValue("fullName")
 			};
 
 			finderCache.removeResult(_finderPathCountByA_F, args);
@@ -1162,7 +1162,7 @@ public class FolderPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					folderModelImpl.getOriginalAccountId()
+					folderModelImpl.getOriginalAttributeValue("accountId")
 				};
 
 				finderCache.removeResult(_finderPathCountByAccountId, args);

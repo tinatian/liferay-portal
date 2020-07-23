@@ -30,7 +30,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
@@ -122,15 +121,31 @@ public class DEDataListViewModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long UUID_COLUMN_BITMASK = 1L;
 
-	public static final long DDMSTRUCTUREID_COLUMN_BITMASK = 2L;
+	public static final long DEDATALISTVIEWID_COLUMN_BITMASK = 2L;
 
 	public static final long GROUPID_COLUMN_BITMASK = 4L;
 
-	public static final long UUID_COLUMN_BITMASK = 8L;
+	public static final long COMPANYID_COLUMN_BITMASK = 8L;
 
-	public static final long DEDATALISTVIEWID_COLUMN_BITMASK = 16L;
+	public static final long USERID_COLUMN_BITMASK = 16L;
+
+	public static final long USERNAME_COLUMN_BITMASK = 32L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 64L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 128L;
+
+	public static final long APPLIEDFILTERS_COLUMN_BITMASK = 256L;
+
+	public static final long DDMSTRUCTUREID_COLUMN_BITMASK = 512L;
+
+	public static final long FIELDNAMES_COLUMN_BITMASK = 1024L;
+
+	public static final long NAME_COLUMN_BITMASK = 2048L;
+
+	public static final long SORTFIELD_COLUMN_BITMASK = 4096L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -259,75 +274,151 @@ public class DEDataListViewModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_deDataListViewCacheModel == null) ||
+			(_deDataListViewCacheModel == _dummyDEDataListViewCacheModel)) {
+
+			return null;
+		}
+
+		Function<DEDataListViewCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_deDataListViewCacheModel);
+	}
+
 	private static final Map<String, Function<DEDataListView, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<DEDataListView, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<DEDataListViewCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<DEDataListView, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<DEDataListView, Object>>();
 		Map<String, BiConsumer<DEDataListView, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<DEDataListView, ?>>();
+		Map<String, Function<DEDataListViewCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<DEDataListViewCacheModel, Object>>();
 
 		attributeGetterFunctions.put("uuid", DEDataListView::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid", deDataListViewCacheModel -> deDataListViewCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid",
 			(BiConsumer<DEDataListView, String>)DEDataListView::setUuid);
 		attributeGetterFunctions.put(
 			"deDataListViewId", DEDataListView::getDeDataListViewId);
+
+		cacheModelGetterFunctions.put(
+			"deDataListViewId",
+			deDataListViewCacheModel ->
+				deDataListViewCacheModel.deDataListViewId);
 		attributeSetterBiConsumers.put(
 			"deDataListViewId",
 			(BiConsumer<DEDataListView, Long>)
 				DEDataListView::setDeDataListViewId);
 		attributeGetterFunctions.put("groupId", DEDataListView::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			deDataListViewCacheModel -> deDataListViewCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<DEDataListView, Long>)DEDataListView::setGroupId);
 		attributeGetterFunctions.put("companyId", DEDataListView::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			deDataListViewCacheModel -> deDataListViewCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<DEDataListView, Long>)DEDataListView::setCompanyId);
 		attributeGetterFunctions.put("userId", DEDataListView::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			deDataListViewCacheModel -> deDataListViewCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<DEDataListView, Long>)DEDataListView::setUserId);
 		attributeGetterFunctions.put("userName", DEDataListView::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			deDataListViewCacheModel -> deDataListViewCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<DEDataListView, String>)DEDataListView::setUserName);
 		attributeGetterFunctions.put(
 			"createDate", DEDataListView::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			deDataListViewCacheModel -> deDataListViewCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<DEDataListView, Date>)DEDataListView::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", DEDataListView::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			deDataListViewCacheModel -> deDataListViewCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<DEDataListView, Date>)DEDataListView::setModifiedDate);
 		attributeGetterFunctions.put(
 			"appliedFilters", DEDataListView::getAppliedFilters);
+
+		cacheModelGetterFunctions.put(
+			"appliedFilters",
+			deDataListViewCacheModel ->
+				deDataListViewCacheModel.appliedFilters);
 		attributeSetterBiConsumers.put(
 			"appliedFilters",
 			(BiConsumer<DEDataListView, String>)
 				DEDataListView::setAppliedFilters);
 		attributeGetterFunctions.put(
 			"ddmStructureId", DEDataListView::getDdmStructureId);
+
+		cacheModelGetterFunctions.put(
+			"ddmStructureId",
+			deDataListViewCacheModel ->
+				deDataListViewCacheModel.ddmStructureId);
 		attributeSetterBiConsumers.put(
 			"ddmStructureId",
 			(BiConsumer<DEDataListView, Long>)
 				DEDataListView::setDdmStructureId);
 		attributeGetterFunctions.put(
 			"fieldNames", DEDataListView::getFieldNames);
+
+		cacheModelGetterFunctions.put(
+			"fieldNames",
+			deDataListViewCacheModel -> deDataListViewCacheModel.fieldNames);
 		attributeSetterBiConsumers.put(
 			"fieldNames",
 			(BiConsumer<DEDataListView, String>)DEDataListView::setFieldNames);
 		attributeGetterFunctions.put("name", DEDataListView::getName);
+
+		cacheModelGetterFunctions.put(
+			"name", deDataListViewCacheModel -> deDataListViewCacheModel.name);
 		attributeSetterBiConsumers.put(
 			"name",
 			(BiConsumer<DEDataListView, String>)DEDataListView::setName);
 		attributeGetterFunctions.put("sortField", DEDataListView::getSortField);
+
+		cacheModelGetterFunctions.put(
+			"sortField",
+			deDataListViewCacheModel -> deDataListViewCacheModel.sortField);
 		attributeSetterBiConsumers.put(
 			"sortField",
 			(BiConsumer<DEDataListView, String>)DEDataListView::setSortField);
@@ -336,6 +427,8 @@ public class DEDataListViewModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -352,15 +445,21 @@ public class DEDataListViewModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_deDataListViewCacheModel == _dummyDEDataListViewCacheModel) {
+			_deDataListViewCacheModel =
+				(DEDataListViewCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getOriginalAttributeValue("uuid");
 	}
 
 	@Override
@@ -370,6 +469,13 @@ public class DEDataListViewModelImpl
 
 	@Override
 	public void setDeDataListViewId(long deDataListViewId) {
+		_columnBitmask |= DEDATALISTVIEWID_COLUMN_BITMASK;
+
+		if (_deDataListViewCacheModel == _dummyDEDataListViewCacheModel) {
+			_deDataListViewCacheModel =
+				(DEDataListViewCacheModel)toCacheModel();
+		}
+
 		_deDataListViewId = deDataListViewId;
 	}
 
@@ -382,17 +488,21 @@ public class DEDataListViewModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_deDataListViewCacheModel == _dummyDEDataListViewCacheModel) {
+			_deDataListViewCacheModel =
+				(DEDataListViewCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getOriginalAttributeValue("groupId");
 	}
 
 	@Override
@@ -404,17 +514,21 @@ public class DEDataListViewModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_deDataListViewCacheModel == _dummyDEDataListViewCacheModel) {
+			_deDataListViewCacheModel =
+				(DEDataListViewCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@Override
@@ -424,6 +538,13 @@ public class DEDataListViewModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (_deDataListViewCacheModel == _dummyDEDataListViewCacheModel) {
+			_deDataListViewCacheModel =
+				(DEDataListViewCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -455,6 +576,13 @@ public class DEDataListViewModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (_deDataListViewCacheModel == _dummyDEDataListViewCacheModel) {
+			_deDataListViewCacheModel =
+				(DEDataListViewCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -465,6 +593,13 @@ public class DEDataListViewModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (_deDataListViewCacheModel == _dummyDEDataListViewCacheModel) {
+			_deDataListViewCacheModel =
+				(DEDataListViewCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -481,6 +616,13 @@ public class DEDataListViewModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (_deDataListViewCacheModel == _dummyDEDataListViewCacheModel) {
+			_deDataListViewCacheModel =
+				(DEDataListViewCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -496,6 +638,13 @@ public class DEDataListViewModelImpl
 
 	@Override
 	public void setAppliedFilters(String appliedFilters) {
+		_columnBitmask |= APPLIEDFILTERS_COLUMN_BITMASK;
+
+		if (_deDataListViewCacheModel == _dummyDEDataListViewCacheModel) {
+			_deDataListViewCacheModel =
+				(DEDataListViewCacheModel)toCacheModel();
+		}
+
 		_appliedFilters = appliedFilters;
 	}
 
@@ -508,17 +657,21 @@ public class DEDataListViewModelImpl
 	public void setDdmStructureId(long ddmStructureId) {
 		_columnBitmask |= DDMSTRUCTUREID_COLUMN_BITMASK;
 
-		if (!_setOriginalDdmStructureId) {
-			_setOriginalDdmStructureId = true;
-
-			_originalDdmStructureId = _ddmStructureId;
+		if (_deDataListViewCacheModel == _dummyDEDataListViewCacheModel) {
+			_deDataListViewCacheModel =
+				(DEDataListViewCacheModel)toCacheModel();
 		}
 
 		_ddmStructureId = ddmStructureId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalDdmStructureId() {
-		return _originalDdmStructureId;
+		return getOriginalAttributeValue("ddmStructureId");
 	}
 
 	@Override
@@ -533,6 +686,13 @@ public class DEDataListViewModelImpl
 
 	@Override
 	public void setFieldNames(String fieldNames) {
+		_columnBitmask |= FIELDNAMES_COLUMN_BITMASK;
+
+		if (_deDataListViewCacheModel == _dummyDEDataListViewCacheModel) {
+			_deDataListViewCacheModel =
+				(DEDataListViewCacheModel)toCacheModel();
+		}
+
 		_fieldNames = fieldNames;
 	}
 
@@ -591,6 +751,13 @@ public class DEDataListViewModelImpl
 
 	@Override
 	public void setName(String name) {
+		_columnBitmask |= NAME_COLUMN_BITMASK;
+
+		if (_deDataListViewCacheModel == _dummyDEDataListViewCacheModel) {
+			_deDataListViewCacheModel =
+				(DEDataListViewCacheModel)toCacheModel();
+		}
+
 		_name = name;
 	}
 
@@ -650,6 +817,13 @@ public class DEDataListViewModelImpl
 
 	@Override
 	public void setSortField(String sortField) {
+		_columnBitmask |= SORTFIELD_COLUMN_BITMASK;
+
+		if (_deDataListViewCacheModel == _dummyDEDataListViewCacheModel) {
+			_deDataListViewCacheModel =
+				(DEDataListViewCacheModel)toCacheModel();
+		}
+
 		_sortField = sortField;
 	}
 
@@ -842,28 +1016,11 @@ public class DEDataListViewModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		DEDataListViewModelImpl deDataListViewModelImpl = this;
+		_setModifiedDate = false;
 
-		deDataListViewModelImpl._originalUuid = deDataListViewModelImpl._uuid;
+		_columnBitmask = 0;
 
-		deDataListViewModelImpl._originalGroupId =
-			deDataListViewModelImpl._groupId;
-
-		deDataListViewModelImpl._setOriginalGroupId = false;
-
-		deDataListViewModelImpl._originalCompanyId =
-			deDataListViewModelImpl._companyId;
-
-		deDataListViewModelImpl._setOriginalCompanyId = false;
-
-		deDataListViewModelImpl._setModifiedDate = false;
-
-		deDataListViewModelImpl._originalDdmStructureId =
-			deDataListViewModelImpl._ddmStructureId;
-
-		deDataListViewModelImpl._setOriginalDdmStructureId = false;
-
-		deDataListViewModelImpl._columnBitmask = 0;
+		_deDataListViewCacheModel = _dummyDEDataListViewCacheModel;
 	}
 
 	@Override
@@ -1021,14 +1178,9 @@ public class DEDataListViewModelImpl
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _deDataListViewId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
@@ -1036,13 +1188,16 @@ public class DEDataListViewModelImpl
 	private boolean _setModifiedDate;
 	private String _appliedFilters;
 	private long _ddmStructureId;
-	private long _originalDdmStructureId;
-	private boolean _setOriginalDdmStructureId;
 	private String _fieldNames;
 	private String _name;
 	private String _nameCurrentLanguageId;
 	private String _sortField;
 	private long _columnBitmask;
+
+	private static final DEDataListViewCacheModel
+		_dummyDEDataListViewCacheModel = new DEDataListViewCacheModel();
+
 	private DEDataListView _escapedModel;
+	private DEDataListViewCacheModel _deDataListViewCacheModel;
 
 }

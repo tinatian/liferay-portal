@@ -1030,9 +1030,10 @@ public class LocalizedEntryLocalizationPersistenceImpl
 				 getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				localizedEntryLocalizationModelImpl.
-					getOriginalLocalizedEntryId(),
-				localizedEntryLocalizationModelImpl.getOriginalLanguageId()
+				localizedEntryLocalizationModelImpl.getOriginalAttributeValue(
+					"localizedEntryId"),
+				localizedEntryLocalizationModelImpl.getOriginalAttributeValue(
+					"languageId")
 			};
 
 			finderCache.removeResult(
@@ -1227,7 +1228,7 @@ public class LocalizedEntryLocalizationPersistenceImpl
 
 				Object[] args = new Object[] {
 					localizedEntryLocalizationModelImpl.
-						getOriginalLocalizedEntryId()
+						getOriginalAttributeValue("localizedEntryId")
 				};
 
 				finderCache.removeResult(

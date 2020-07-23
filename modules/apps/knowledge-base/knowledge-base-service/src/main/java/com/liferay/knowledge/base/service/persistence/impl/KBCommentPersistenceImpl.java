@@ -5129,8 +5129,8 @@ public class KBCommentPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				kbCommentModelImpl.getOriginalUuid(),
-				kbCommentModelImpl.getOriginalGroupId()
+				kbCommentModelImpl.getOriginalAttributeValue("uuid"),
+				kbCommentModelImpl.getOriginalAttributeValue("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -5393,7 +5393,7 @@ public class KBCommentPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					kbCommentModelImpl.getOriginalUuid()
+					kbCommentModelImpl.getOriginalAttributeValue("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -5412,8 +5412,8 @@ public class KBCommentPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					kbCommentModelImpl.getOriginalUuid(),
-					kbCommentModelImpl.getOriginalCompanyId()
+					kbCommentModelImpl.getOriginalAttributeValue("uuid"),
+					kbCommentModelImpl.getOriginalAttributeValue("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -5435,7 +5435,7 @@ public class KBCommentPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kbCommentModelImpl.getOriginalGroupId()
+					kbCommentModelImpl.getOriginalAttributeValue("groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId, args);
@@ -5454,8 +5454,8 @@ public class KBCommentPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					kbCommentModelImpl.getOriginalGroupId(),
-					kbCommentModelImpl.getOriginalClassNameId()
+					kbCommentModelImpl.getOriginalAttributeValue("groupId"),
+					kbCommentModelImpl.getOriginalAttributeValue("classNameId")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_C, args);
@@ -5477,8 +5477,8 @@ public class KBCommentPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					kbCommentModelImpl.getOriginalGroupId(),
-					kbCommentModelImpl.getOriginalStatus()
+					kbCommentModelImpl.getOriginalAttributeValue("groupId"),
+					kbCommentModelImpl.getOriginalAttributeValue("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_S, args);
@@ -5500,8 +5500,8 @@ public class KBCommentPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					kbCommentModelImpl.getOriginalClassNameId(),
-					kbCommentModelImpl.getOriginalClassPK()
+					kbCommentModelImpl.getOriginalAttributeValue("classNameId"),
+					kbCommentModelImpl.getOriginalAttributeValue("classPK")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_C, args);
@@ -5523,9 +5523,9 @@ public class KBCommentPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					kbCommentModelImpl.getOriginalUserId(),
-					kbCommentModelImpl.getOriginalClassNameId(),
-					kbCommentModelImpl.getOriginalClassPK()
+					kbCommentModelImpl.getOriginalAttributeValue("userId"),
+					kbCommentModelImpl.getOriginalAttributeValue("classNameId"),
+					kbCommentModelImpl.getOriginalAttributeValue("classPK")
 				};
 
 				finderCache.removeResult(_finderPathCountByU_C_C, args);
@@ -5548,9 +5548,9 @@ public class KBCommentPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					kbCommentModelImpl.getOriginalClassNameId(),
-					kbCommentModelImpl.getOriginalClassPK(),
-					kbCommentModelImpl.getOriginalStatus()
+					kbCommentModelImpl.getOriginalAttributeValue("classNameId"),
+					kbCommentModelImpl.getOriginalAttributeValue("classPK"),
+					kbCommentModelImpl.getOriginalAttributeValue("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_C_S, args);

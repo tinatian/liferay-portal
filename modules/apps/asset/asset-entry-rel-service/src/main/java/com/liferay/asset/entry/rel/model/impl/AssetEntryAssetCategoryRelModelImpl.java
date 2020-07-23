@@ -100,11 +100,19 @@ public class AssetEntryAssetCategoryRelModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long ASSETCATEGORYID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long ASSETENTRYID_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
 	public static final long ASSETENTRYASSETCATEGORYRELID_COLUMN_BITMASK = 4L;
+
+	public static final long COMPANYID_COLUMN_BITMASK = 8L;
+
+	public static final long ASSETENTRYID_COLUMN_BITMASK = 16L;
+
+	public static final long ASSETCATEGORYID_COLUMN_BITMASK = 32L;
+
+	public static final long PRIORITY_COLUMN_BITMASK = 64L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -235,12 +243,33 @@ public class AssetEntryAssetCategoryRelModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_assetEntryAssetCategoryRelCacheModel == null) ||
+			(_assetEntryAssetCategoryRelCacheModel ==
+				_dummyAssetEntryAssetCategoryRelCacheModel)) {
+
+			return null;
+		}
+
+		Function<AssetEntryAssetCategoryRelCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_assetEntryAssetCategoryRelCacheModel);
+	}
+
 	private static final Map
 		<String, Function<AssetEntryAssetCategoryRel, Object>>
 			_attributeGetterFunctions;
 	private static final Map
 		<String, BiConsumer<AssetEntryAssetCategoryRel, Object>>
 			_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<AssetEntryAssetCategoryRelCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<AssetEntryAssetCategoryRel, Object>>
@@ -251,15 +280,30 @@ public class AssetEntryAssetCategoryRelModelImpl
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<AssetEntryAssetCategoryRel, ?>>();
+		Map<String, Function<AssetEntryAssetCategoryRelCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String,
+					 Function<AssetEntryAssetCategoryRelCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", AssetEntryAssetCategoryRel::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			assetEntryAssetCategoryRelCacheModel ->
+				assetEntryAssetCategoryRelCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<AssetEntryAssetCategoryRel, Long>)
 				AssetEntryAssetCategoryRel::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", AssetEntryAssetCategoryRel::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			assetEntryAssetCategoryRelCacheModel ->
+				assetEntryAssetCategoryRelCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<AssetEntryAssetCategoryRel, Long>)
@@ -267,30 +311,56 @@ public class AssetEntryAssetCategoryRelModelImpl
 		attributeGetterFunctions.put(
 			"assetEntryAssetCategoryRelId",
 			AssetEntryAssetCategoryRel::getAssetEntryAssetCategoryRelId);
+
+		cacheModelGetterFunctions.put(
+			"assetEntryAssetCategoryRelId",
+			assetEntryAssetCategoryRelCacheModel ->
+				assetEntryAssetCategoryRelCacheModel.
+					assetEntryAssetCategoryRelId);
 		attributeSetterBiConsumers.put(
 			"assetEntryAssetCategoryRelId",
 			(BiConsumer<AssetEntryAssetCategoryRel, Long>)
 				AssetEntryAssetCategoryRel::setAssetEntryAssetCategoryRelId);
 		attributeGetterFunctions.put(
 			"companyId", AssetEntryAssetCategoryRel::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			assetEntryAssetCategoryRelCacheModel ->
+				assetEntryAssetCategoryRelCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<AssetEntryAssetCategoryRel, Long>)
 				AssetEntryAssetCategoryRel::setCompanyId);
 		attributeGetterFunctions.put(
 			"assetEntryId", AssetEntryAssetCategoryRel::getAssetEntryId);
+
+		cacheModelGetterFunctions.put(
+			"assetEntryId",
+			assetEntryAssetCategoryRelCacheModel ->
+				assetEntryAssetCategoryRelCacheModel.assetEntryId);
 		attributeSetterBiConsumers.put(
 			"assetEntryId",
 			(BiConsumer<AssetEntryAssetCategoryRel, Long>)
 				AssetEntryAssetCategoryRel::setAssetEntryId);
 		attributeGetterFunctions.put(
 			"assetCategoryId", AssetEntryAssetCategoryRel::getAssetCategoryId);
+
+		cacheModelGetterFunctions.put(
+			"assetCategoryId",
+			assetEntryAssetCategoryRelCacheModel ->
+				assetEntryAssetCategoryRelCacheModel.assetCategoryId);
 		attributeSetterBiConsumers.put(
 			"assetCategoryId",
 			(BiConsumer<AssetEntryAssetCategoryRel, Long>)
 				AssetEntryAssetCategoryRel::setAssetCategoryId);
 		attributeGetterFunctions.put(
 			"priority", AssetEntryAssetCategoryRel::getPriority);
+
+		cacheModelGetterFunctions.put(
+			"priority",
+			assetEntryAssetCategoryRelCacheModel ->
+				assetEntryAssetCategoryRelCacheModel.priority);
 		attributeSetterBiConsumers.put(
 			"priority",
 			(BiConsumer<AssetEntryAssetCategoryRel, Integer>)
@@ -300,6 +370,8 @@ public class AssetEntryAssetCategoryRelModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -309,6 +381,15 @@ public class AssetEntryAssetCategoryRelModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_assetEntryAssetCategoryRelCacheModel ==
+				_dummyAssetEntryAssetCategoryRelCacheModel) {
+
+			_assetEntryAssetCategoryRelCacheModel =
+				(AssetEntryAssetCategoryRelCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -319,6 +400,15 @@ public class AssetEntryAssetCategoryRelModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (_assetEntryAssetCategoryRelCacheModel ==
+				_dummyAssetEntryAssetCategoryRelCacheModel) {
+
+			_assetEntryAssetCategoryRelCacheModel =
+				(AssetEntryAssetCategoryRelCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -331,6 +421,15 @@ public class AssetEntryAssetCategoryRelModelImpl
 	public void setAssetEntryAssetCategoryRelId(
 		long assetEntryAssetCategoryRelId) {
 
+		_columnBitmask |= ASSETENTRYASSETCATEGORYRELID_COLUMN_BITMASK;
+
+		if (_assetEntryAssetCategoryRelCacheModel ==
+				_dummyAssetEntryAssetCategoryRelCacheModel) {
+
+			_assetEntryAssetCategoryRelCacheModel =
+				(AssetEntryAssetCategoryRelCacheModel)toCacheModel();
+		}
+
 		_assetEntryAssetCategoryRelId = assetEntryAssetCategoryRelId;
 	}
 
@@ -341,6 +440,15 @@ public class AssetEntryAssetCategoryRelModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (_assetEntryAssetCategoryRelCacheModel ==
+				_dummyAssetEntryAssetCategoryRelCacheModel) {
+
+			_assetEntryAssetCategoryRelCacheModel =
+				(AssetEntryAssetCategoryRelCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -353,17 +461,23 @@ public class AssetEntryAssetCategoryRelModelImpl
 	public void setAssetEntryId(long assetEntryId) {
 		_columnBitmask |= ASSETENTRYID_COLUMN_BITMASK;
 
-		if (!_setOriginalAssetEntryId) {
-			_setOriginalAssetEntryId = true;
+		if (_assetEntryAssetCategoryRelCacheModel ==
+				_dummyAssetEntryAssetCategoryRelCacheModel) {
 
-			_originalAssetEntryId = _assetEntryId;
+			_assetEntryAssetCategoryRelCacheModel =
+				(AssetEntryAssetCategoryRelCacheModel)toCacheModel();
 		}
 
 		_assetEntryId = assetEntryId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalAssetEntryId() {
-		return _originalAssetEntryId;
+		return getOriginalAttributeValue("assetEntryId");
 	}
 
 	@Override
@@ -375,17 +489,23 @@ public class AssetEntryAssetCategoryRelModelImpl
 	public void setAssetCategoryId(long assetCategoryId) {
 		_columnBitmask |= ASSETCATEGORYID_COLUMN_BITMASK;
 
-		if (!_setOriginalAssetCategoryId) {
-			_setOriginalAssetCategoryId = true;
+		if (_assetEntryAssetCategoryRelCacheModel ==
+				_dummyAssetEntryAssetCategoryRelCacheModel) {
 
-			_originalAssetCategoryId = _assetCategoryId;
+			_assetEntryAssetCategoryRelCacheModel =
+				(AssetEntryAssetCategoryRelCacheModel)toCacheModel();
 		}
 
 		_assetCategoryId = assetCategoryId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalAssetCategoryId() {
-		return _originalAssetCategoryId;
+		return getOriginalAttributeValue("assetCategoryId");
 	}
 
 	@Override
@@ -395,6 +515,15 @@ public class AssetEntryAssetCategoryRelModelImpl
 
 	@Override
 	public void setPriority(int priority) {
+		_columnBitmask |= PRIORITY_COLUMN_BITMASK;
+
+		if (_assetEntryAssetCategoryRelCacheModel ==
+				_dummyAssetEntryAssetCategoryRelCacheModel) {
+
+			_assetEntryAssetCategoryRelCacheModel =
+				(AssetEntryAssetCategoryRelCacheModel)toCacheModel();
+		}
+
 		_priority = priority;
 	}
 
@@ -515,20 +644,10 @@ public class AssetEntryAssetCategoryRelModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		AssetEntryAssetCategoryRelModelImpl
-			assetEntryAssetCategoryRelModelImpl = this;
+		_columnBitmask = 0;
 
-		assetEntryAssetCategoryRelModelImpl._originalAssetEntryId =
-			assetEntryAssetCategoryRelModelImpl._assetEntryId;
-
-		assetEntryAssetCategoryRelModelImpl._setOriginalAssetEntryId = false;
-
-		assetEntryAssetCategoryRelModelImpl._originalAssetCategoryId =
-			assetEntryAssetCategoryRelModelImpl._assetCategoryId;
-
-		assetEntryAssetCategoryRelModelImpl._setOriginalAssetCategoryId = false;
-
-		assetEntryAssetCategoryRelModelImpl._columnBitmask = 0;
+		_assetEntryAssetCategoryRelCacheModel =
+			_dummyAssetEntryAssetCategoryRelCacheModel;
 	}
 
 	@Override
@@ -638,13 +757,16 @@ public class AssetEntryAssetCategoryRelModelImpl
 	private long _assetEntryAssetCategoryRelId;
 	private long _companyId;
 	private long _assetEntryId;
-	private long _originalAssetEntryId;
-	private boolean _setOriginalAssetEntryId;
 	private long _assetCategoryId;
-	private long _originalAssetCategoryId;
-	private boolean _setOriginalAssetCategoryId;
 	private int _priority;
 	private long _columnBitmask;
+
+	private static final AssetEntryAssetCategoryRelCacheModel
+		_dummyAssetEntryAssetCategoryRelCacheModel =
+			new AssetEntryAssetCategoryRelCacheModel();
+
 	private AssetEntryAssetCategoryRel _escapedModel;
+	private AssetEntryAssetCategoryRelCacheModel
+		_assetEntryAssetCategoryRelCacheModel;
 
 }

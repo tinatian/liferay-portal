@@ -1070,8 +1070,10 @@ public class SamlSpMessagePersistenceImpl
 			 _finderPathFetchBySIEI_SIRK.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				samlSpMessageModelImpl.getOriginalSamlIdpEntityId(),
-				samlSpMessageModelImpl.getOriginalSamlIdpResponseKey()
+				samlSpMessageModelImpl.getOriginalAttributeValue(
+					"samlIdpEntityId"),
+				samlSpMessageModelImpl.getOriginalAttributeValue(
+					"samlIdpResponseKey")
 			};
 
 			finderCache.removeResult(_finderPathCountBySIEI_SIRK, args);

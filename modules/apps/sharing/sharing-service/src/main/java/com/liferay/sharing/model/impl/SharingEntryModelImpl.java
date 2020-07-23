@@ -27,7 +27,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -121,23 +120,33 @@ public class SharingEntryModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long CLASSNAMEID_COLUMN_BITMASK = 1L;
+	public static final long UUID_COLUMN_BITMASK = 1L;
 
-	public static final long CLASSPK_COLUMN_BITMASK = 2L;
+	public static final long SHARINGENTRYID_COLUMN_BITMASK = 2L;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 4L;
+	public static final long GROUPID_COLUMN_BITMASK = 4L;
 
-	public static final long EXPIRATIONDATE_COLUMN_BITMASK = 8L;
+	public static final long COMPANYID_COLUMN_BITMASK = 8L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 16L;
+	public static final long USERID_COLUMN_BITMASK = 16L;
 
-	public static final long TOUSERID_COLUMN_BITMASK = 32L;
+	public static final long USERNAME_COLUMN_BITMASK = 32L;
 
-	public static final long USERID_COLUMN_BITMASK = 64L;
+	public static final long CREATEDATE_COLUMN_BITMASK = 64L;
 
-	public static final long UUID_COLUMN_BITMASK = 128L;
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 128L;
 
-	public static final long SHARINGENTRYID_COLUMN_BITMASK = 256L;
+	public static final long TOUSERID_COLUMN_BITMASK = 256L;
+
+	public static final long CLASSNAMEID_COLUMN_BITMASK = 512L;
+
+	public static final long CLASSPK_COLUMN_BITMASK = 1024L;
+
+	public static final long SHAREABLE_COLUMN_BITMASK = 2048L;
+
+	public static final long ACTIONIDS_COLUMN_BITMASK = 4096L;
+
+	public static final long EXPIRATIONDATE_COLUMN_BITMASK = 8192L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -318,72 +327,149 @@ public class SharingEntryModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_sharingEntryCacheModel == null) ||
+			(_sharingEntryCacheModel == _dummySharingEntryCacheModel)) {
+
+			return null;
+		}
+
+		Function<SharingEntryCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_sharingEntryCacheModel);
+	}
+
 	private static final Map<String, Function<SharingEntry, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<SharingEntry, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<SharingEntryCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<SharingEntry, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<SharingEntry, Object>>();
 		Map<String, BiConsumer<SharingEntry, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<SharingEntry, ?>>();
+		Map<String, Function<SharingEntryCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<SharingEntryCacheModel, Object>>();
 
 		attributeGetterFunctions.put("uuid", SharingEntry::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid", sharingEntryCacheModel -> sharingEntryCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<SharingEntry, String>)SharingEntry::setUuid);
 		attributeGetterFunctions.put(
 			"sharingEntryId", SharingEntry::getSharingEntryId);
+
+		cacheModelGetterFunctions.put(
+			"sharingEntryId",
+			sharingEntryCacheModel -> sharingEntryCacheModel.sharingEntryId);
 		attributeSetterBiConsumers.put(
 			"sharingEntryId",
 			(BiConsumer<SharingEntry, Long>)SharingEntry::setSharingEntryId);
 		attributeGetterFunctions.put("groupId", SharingEntry::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			sharingEntryCacheModel -> sharingEntryCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<SharingEntry, Long>)SharingEntry::setGroupId);
 		attributeGetterFunctions.put("companyId", SharingEntry::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			sharingEntryCacheModel -> sharingEntryCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<SharingEntry, Long>)SharingEntry::setCompanyId);
 		attributeGetterFunctions.put("userId", SharingEntry::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", sharingEntryCacheModel -> sharingEntryCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<SharingEntry, Long>)SharingEntry::setUserId);
 		attributeGetterFunctions.put("userName", SharingEntry::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			sharingEntryCacheModel -> sharingEntryCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<SharingEntry, String>)SharingEntry::setUserName);
 		attributeGetterFunctions.put("createDate", SharingEntry::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			sharingEntryCacheModel -> sharingEntryCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<SharingEntry, Date>)SharingEntry::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", SharingEntry::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			sharingEntryCacheModel -> sharingEntryCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<SharingEntry, Date>)SharingEntry::setModifiedDate);
 		attributeGetterFunctions.put("toUserId", SharingEntry::getToUserId);
+
+		cacheModelGetterFunctions.put(
+			"toUserId",
+			sharingEntryCacheModel -> sharingEntryCacheModel.toUserId);
 		attributeSetterBiConsumers.put(
 			"toUserId",
 			(BiConsumer<SharingEntry, Long>)SharingEntry::setToUserId);
 		attributeGetterFunctions.put(
 			"classNameId", SharingEntry::getClassNameId);
+
+		cacheModelGetterFunctions.put(
+			"classNameId",
+			sharingEntryCacheModel -> sharingEntryCacheModel.classNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<SharingEntry, Long>)SharingEntry::setClassNameId);
 		attributeGetterFunctions.put("classPK", SharingEntry::getClassPK);
+
+		cacheModelGetterFunctions.put(
+			"classPK",
+			sharingEntryCacheModel -> sharingEntryCacheModel.classPK);
 		attributeSetterBiConsumers.put(
 			"classPK",
 			(BiConsumer<SharingEntry, Long>)SharingEntry::setClassPK);
 		attributeGetterFunctions.put("shareable", SharingEntry::getShareable);
+
+		cacheModelGetterFunctions.put(
+			"shareable",
+			sharingEntryCacheModel -> sharingEntryCacheModel.shareable);
 		attributeSetterBiConsumers.put(
 			"shareable",
 			(BiConsumer<SharingEntry, Boolean>)SharingEntry::setShareable);
 		attributeGetterFunctions.put("actionIds", SharingEntry::getActionIds);
+
+		cacheModelGetterFunctions.put(
+			"actionIds",
+			sharingEntryCacheModel -> sharingEntryCacheModel.actionIds);
 		attributeSetterBiConsumers.put(
 			"actionIds",
 			(BiConsumer<SharingEntry, Long>)SharingEntry::setActionIds);
 		attributeGetterFunctions.put(
 			"expirationDate", SharingEntry::getExpirationDate);
+
+		cacheModelGetterFunctions.put(
+			"expirationDate",
+			sharingEntryCacheModel -> sharingEntryCacheModel.expirationDate);
 		attributeSetterBiConsumers.put(
 			"expirationDate",
 			(BiConsumer<SharingEntry, Date>)SharingEntry::setExpirationDate);
@@ -392,6 +478,8 @@ public class SharingEntryModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -409,15 +497,20 @@ public class SharingEntryModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_sharingEntryCacheModel == _dummySharingEntryCacheModel) {
+			_sharingEntryCacheModel = (SharingEntryCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getOriginalAttributeValue("uuid");
 	}
 
 	@JSON
@@ -428,6 +521,12 @@ public class SharingEntryModelImpl
 
 	@Override
 	public void setSharingEntryId(long sharingEntryId) {
+		_columnBitmask |= SHARINGENTRYID_COLUMN_BITMASK;
+
+		if (_sharingEntryCacheModel == _dummySharingEntryCacheModel) {
+			_sharingEntryCacheModel = (SharingEntryCacheModel)toCacheModel();
+		}
+
 		_sharingEntryId = sharingEntryId;
 	}
 
@@ -441,17 +540,20 @@ public class SharingEntryModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_sharingEntryCacheModel == _dummySharingEntryCacheModel) {
+			_sharingEntryCacheModel = (SharingEntryCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getOriginalAttributeValue("groupId");
 	}
 
 	@JSON
@@ -464,17 +566,20 @@ public class SharingEntryModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_sharingEntryCacheModel == _dummySharingEntryCacheModel) {
+			_sharingEntryCacheModel = (SharingEntryCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@JSON
@@ -487,10 +592,8 @@ public class SharingEntryModelImpl
 	public void setUserId(long userId) {
 		_columnBitmask |= USERID_COLUMN_BITMASK;
 
-		if (!_setOriginalUserId) {
-			_setOriginalUserId = true;
-
-			_originalUserId = _userId;
+		if (_sharingEntryCacheModel == _dummySharingEntryCacheModel) {
+			_sharingEntryCacheModel = (SharingEntryCacheModel)toCacheModel();
 		}
 
 		_userId = userId;
@@ -512,8 +615,13 @@ public class SharingEntryModelImpl
 	public void setUserUuid(String userUuid) {
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalUserId() {
-		return _originalUserId;
+		return getOriginalAttributeValue("userId");
 	}
 
 	@JSON
@@ -529,6 +637,12 @@ public class SharingEntryModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (_sharingEntryCacheModel == _dummySharingEntryCacheModel) {
+			_sharingEntryCacheModel = (SharingEntryCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -540,6 +654,12 @@ public class SharingEntryModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (_sharingEntryCacheModel == _dummySharingEntryCacheModel) {
+			_sharingEntryCacheModel = (SharingEntryCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -557,6 +677,12 @@ public class SharingEntryModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (_sharingEntryCacheModel == _dummySharingEntryCacheModel) {
+			_sharingEntryCacheModel = (SharingEntryCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -570,10 +696,8 @@ public class SharingEntryModelImpl
 	public void setToUserId(long toUserId) {
 		_columnBitmask |= TOUSERID_COLUMN_BITMASK;
 
-		if (!_setOriginalToUserId) {
-			_setOriginalToUserId = true;
-
-			_originalToUserId = _toUserId;
+		if (_sharingEntryCacheModel == _dummySharingEntryCacheModel) {
+			_sharingEntryCacheModel = (SharingEntryCacheModel)toCacheModel();
 		}
 
 		_toUserId = toUserId;
@@ -595,8 +719,13 @@ public class SharingEntryModelImpl
 	public void setToUserUuid(String toUserUuid) {
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalToUserId() {
-		return _originalToUserId;
+		return getOriginalAttributeValue("toUserId");
 	}
 
 	@Override
@@ -629,17 +758,20 @@ public class SharingEntryModelImpl
 	public void setClassNameId(long classNameId) {
 		_columnBitmask |= CLASSNAMEID_COLUMN_BITMASK;
 
-		if (!_setOriginalClassNameId) {
-			_setOriginalClassNameId = true;
-
-			_originalClassNameId = _classNameId;
+		if (_sharingEntryCacheModel == _dummySharingEntryCacheModel) {
+			_sharingEntryCacheModel = (SharingEntryCacheModel)toCacheModel();
 		}
 
 		_classNameId = classNameId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassNameId() {
-		return _originalClassNameId;
+		return getOriginalAttributeValue("classNameId");
 	}
 
 	@JSON
@@ -652,17 +784,20 @@ public class SharingEntryModelImpl
 	public void setClassPK(long classPK) {
 		_columnBitmask |= CLASSPK_COLUMN_BITMASK;
 
-		if (!_setOriginalClassPK) {
-			_setOriginalClassPK = true;
-
-			_originalClassPK = _classPK;
+		if (_sharingEntryCacheModel == _dummySharingEntryCacheModel) {
+			_sharingEntryCacheModel = (SharingEntryCacheModel)toCacheModel();
 		}
 
 		_classPK = classPK;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassPK() {
-		return _originalClassPK;
+		return getOriginalAttributeValue("classPK");
 	}
 
 	@JSON
@@ -679,6 +814,12 @@ public class SharingEntryModelImpl
 
 	@Override
 	public void setShareable(boolean shareable) {
+		_columnBitmask |= SHAREABLE_COLUMN_BITMASK;
+
+		if (_sharingEntryCacheModel == _dummySharingEntryCacheModel) {
+			_sharingEntryCacheModel = (SharingEntryCacheModel)toCacheModel();
+		}
+
 		_shareable = shareable;
 	}
 
@@ -690,6 +831,12 @@ public class SharingEntryModelImpl
 
 	@Override
 	public void setActionIds(long actionIds) {
+		_columnBitmask |= ACTIONIDS_COLUMN_BITMASK;
+
+		if (_sharingEntryCacheModel == _dummySharingEntryCacheModel) {
+			_sharingEntryCacheModel = (SharingEntryCacheModel)toCacheModel();
+		}
+
 		_actionIds = actionIds;
 	}
 
@@ -703,15 +850,20 @@ public class SharingEntryModelImpl
 	public void setExpirationDate(Date expirationDate) {
 		_columnBitmask |= EXPIRATIONDATE_COLUMN_BITMASK;
 
-		if (_originalExpirationDate == null) {
-			_originalExpirationDate = _expirationDate;
+		if (_sharingEntryCacheModel == _dummySharingEntryCacheModel) {
+			_sharingEntryCacheModel = (SharingEntryCacheModel)toCacheModel();
 		}
 
 		_expirationDate = expirationDate;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public Date getOriginalExpirationDate() {
-		return _originalExpirationDate;
+		return getOriginalAttributeValue("expirationDate");
 	}
 
 	@Override
@@ -839,43 +991,11 @@ public class SharingEntryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		SharingEntryModelImpl sharingEntryModelImpl = this;
+		_setModifiedDate = false;
 
-		sharingEntryModelImpl._originalUuid = sharingEntryModelImpl._uuid;
+		_columnBitmask = 0;
 
-		sharingEntryModelImpl._originalGroupId = sharingEntryModelImpl._groupId;
-
-		sharingEntryModelImpl._setOriginalGroupId = false;
-
-		sharingEntryModelImpl._originalCompanyId =
-			sharingEntryModelImpl._companyId;
-
-		sharingEntryModelImpl._setOriginalCompanyId = false;
-
-		sharingEntryModelImpl._originalUserId = sharingEntryModelImpl._userId;
-
-		sharingEntryModelImpl._setOriginalUserId = false;
-
-		sharingEntryModelImpl._setModifiedDate = false;
-
-		sharingEntryModelImpl._originalToUserId =
-			sharingEntryModelImpl._toUserId;
-
-		sharingEntryModelImpl._setOriginalToUserId = false;
-
-		sharingEntryModelImpl._originalClassNameId =
-			sharingEntryModelImpl._classNameId;
-
-		sharingEntryModelImpl._setOriginalClassNameId = false;
-
-		sharingEntryModelImpl._originalClassPK = sharingEntryModelImpl._classPK;
-
-		sharingEntryModelImpl._setOriginalClassPK = false;
-
-		sharingEntryModelImpl._originalExpirationDate =
-			sharingEntryModelImpl._expirationDate;
-
-		sharingEntryModelImpl._columnBitmask = 0;
+		_sharingEntryCacheModel = _dummySharingEntryCacheModel;
 	}
 
 	@Override
@@ -1018,35 +1138,26 @@ public class SharingEntryModelImpl
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _sharingEntryId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
-	private long _originalUserId;
-	private boolean _setOriginalUserId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _toUserId;
-	private long _originalToUserId;
-	private boolean _setOriginalToUserId;
 	private long _classNameId;
-	private long _originalClassNameId;
-	private boolean _setOriginalClassNameId;
 	private long _classPK;
-	private long _originalClassPK;
-	private boolean _setOriginalClassPK;
 	private boolean _shareable;
 	private long _actionIds;
 	private Date _expirationDate;
-	private Date _originalExpirationDate;
 	private long _columnBitmask;
+
+	private static final SharingEntryCacheModel _dummySharingEntryCacheModel =
+		new SharingEntryCacheModel();
+
 	private SharingEntry _escapedModel;
+	private SharingEntryCacheModel _sharingEntryCacheModel;
 
 }

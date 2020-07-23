@@ -2815,8 +2815,8 @@ public class JournalFeedPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				journalFeedModelImpl.getOriginalUuid(),
-				journalFeedModelImpl.getOriginalGroupId()
+				journalFeedModelImpl.getOriginalAttributeValue("uuid"),
+				journalFeedModelImpl.getOriginalAttributeValue("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -2837,8 +2837,8 @@ public class JournalFeedPersistenceImpl
 			 _finderPathFetchByG_F.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				journalFeedModelImpl.getOriginalGroupId(),
-				journalFeedModelImpl.getOriginalFeedId()
+				journalFeedModelImpl.getOriginalAttributeValue("groupId"),
+				journalFeedModelImpl.getOriginalAttributeValue("feedId")
 			};
 
 			finderCache.removeResult(_finderPathCountByG_F, args);
@@ -3078,7 +3078,7 @@ public class JournalFeedPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					journalFeedModelImpl.getOriginalUuid()
+					journalFeedModelImpl.getOriginalAttributeValue("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -3097,8 +3097,8 @@ public class JournalFeedPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					journalFeedModelImpl.getOriginalUuid(),
-					journalFeedModelImpl.getOriginalCompanyId()
+					journalFeedModelImpl.getOriginalAttributeValue("uuid"),
+					journalFeedModelImpl.getOriginalAttributeValue("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -3120,7 +3120,7 @@ public class JournalFeedPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					journalFeedModelImpl.getOriginalGroupId()
+					journalFeedModelImpl.getOriginalAttributeValue("groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId, args);

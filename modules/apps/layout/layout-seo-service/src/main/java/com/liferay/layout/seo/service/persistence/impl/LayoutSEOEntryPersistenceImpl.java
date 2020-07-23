@@ -1868,8 +1868,8 @@ public class LayoutSEOEntryPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				layoutSEOEntryModelImpl.getOriginalUuid(),
-				layoutSEOEntryModelImpl.getOriginalGroupId()
+				layoutSEOEntryModelImpl.getOriginalAttributeValue("uuid"),
+				layoutSEOEntryModelImpl.getOriginalAttributeValue("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -1891,9 +1891,10 @@ public class LayoutSEOEntryPersistenceImpl
 			 _finderPathFetchByG_P_L.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				layoutSEOEntryModelImpl.getOriginalGroupId(),
-				layoutSEOEntryModelImpl.getOriginalPrivateLayout(),
-				layoutSEOEntryModelImpl.getOriginalLayoutId()
+				layoutSEOEntryModelImpl.getOriginalAttributeValue("groupId"),
+				layoutSEOEntryModelImpl.getOriginalAttributeValue(
+					"privateLayout"),
+				layoutSEOEntryModelImpl.getOriginalAttributeValue("layoutId")
 			};
 
 			finderCache.removeResult(_finderPathCountByG_P_L, args);
@@ -2112,7 +2113,7 @@ public class LayoutSEOEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					layoutSEOEntryModelImpl.getOriginalUuid()
+					layoutSEOEntryModelImpl.getOriginalAttributeValue("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -2131,8 +2132,9 @@ public class LayoutSEOEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					layoutSEOEntryModelImpl.getOriginalUuid(),
-					layoutSEOEntryModelImpl.getOriginalCompanyId()
+					layoutSEOEntryModelImpl.getOriginalAttributeValue("uuid"),
+					layoutSEOEntryModelImpl.getOriginalAttributeValue(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);

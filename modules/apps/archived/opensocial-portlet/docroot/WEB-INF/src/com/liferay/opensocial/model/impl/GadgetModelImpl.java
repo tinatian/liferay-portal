@@ -127,13 +127,23 @@ public class GadgetModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long UUID_COLUMN_BITMASK = 1L;
 
-	public static final long URL_COLUMN_BITMASK = 2L;
+	public static final long GADGETID_COLUMN_BITMASK = 2L;
 
-	public static final long UUID_COLUMN_BITMASK = 4L;
+	public static final long COMPANYID_COLUMN_BITMASK = 4L;
 
-	public static final long NAME_COLUMN_BITMASK = 8L;
+	public static final long CREATEDATE_COLUMN_BITMASK = 8L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 16L;
+
+	public static final long NAME_COLUMN_BITMASK = 32L;
+
+	public static final long URL_COLUMN_BITMASK = 64L;
+
+	public static final long PORTLETCATEGORYNAMES_COLUMN_BITMASK = 128L;
+
+	public static final long LASTPUBLISHDATE_COLUMN_BITMASK = 256L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -293,45 +303,96 @@ public class GadgetModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_gadgetCacheModel == null) ||
+			(_gadgetCacheModel == _dummyGadgetCacheModel)) {
+
+			return null;
+		}
+
+		Function<GadgetCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_gadgetCacheModel);
+	}
+
 	private static final Map<String, Function<Gadget, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<Gadget, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<GadgetCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<Gadget, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<Gadget, Object>>();
 		Map<String, BiConsumer<Gadget, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Gadget, ?>>();
+		Map<String, Function<GadgetCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap<String, Function<GadgetCacheModel, Object>>();
 
 		attributeGetterFunctions.put("uuid", Gadget::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid", gadgetCacheModel -> gadgetCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<Gadget, String>)Gadget::setUuid);
 		attributeGetterFunctions.put("gadgetId", Gadget::getGadgetId);
+
+		cacheModelGetterFunctions.put(
+			"gadgetId", gadgetCacheModel -> gadgetCacheModel.gadgetId);
 		attributeSetterBiConsumers.put(
 			"gadgetId", (BiConsumer<Gadget, Long>)Gadget::setGadgetId);
 		attributeGetterFunctions.put("companyId", Gadget::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId", gadgetCacheModel -> gadgetCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId", (BiConsumer<Gadget, Long>)Gadget::setCompanyId);
 		attributeGetterFunctions.put("createDate", Gadget::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate", gadgetCacheModel -> gadgetCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate", (BiConsumer<Gadget, Date>)Gadget::setCreateDate);
 		attributeGetterFunctions.put("modifiedDate", Gadget::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate", gadgetCacheModel -> gadgetCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate", (BiConsumer<Gadget, Date>)Gadget::setModifiedDate);
 		attributeGetterFunctions.put("name", Gadget::getName);
+
+		cacheModelGetterFunctions.put(
+			"name", gadgetCacheModel -> gadgetCacheModel.name);
 		attributeSetterBiConsumers.put(
 			"name", (BiConsumer<Gadget, String>)Gadget::setName);
 		attributeGetterFunctions.put("url", Gadget::getUrl);
+
+		cacheModelGetterFunctions.put(
+			"url", gadgetCacheModel -> gadgetCacheModel.url);
 		attributeSetterBiConsumers.put(
 			"url", (BiConsumer<Gadget, String>)Gadget::setUrl);
 		attributeGetterFunctions.put(
 			"portletCategoryNames", Gadget::getPortletCategoryNames);
+
+		cacheModelGetterFunctions.put(
+			"portletCategoryNames",
+			gadgetCacheModel -> gadgetCacheModel.portletCategoryNames);
 		attributeSetterBiConsumers.put(
 			"portletCategoryNames",
 			(BiConsumer<Gadget, String>)Gadget::setPortletCategoryNames);
 		attributeGetterFunctions.put(
 			"lastPublishDate", Gadget::getLastPublishDate);
+
+		cacheModelGetterFunctions.put(
+			"lastPublishDate",
+			gadgetCacheModel -> gadgetCacheModel.lastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<Gadget, Date>)Gadget::setLastPublishDate);
@@ -340,6 +401,8 @@ public class GadgetModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -357,15 +420,20 @@ public class GadgetModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_gadgetCacheModel == _dummyGadgetCacheModel) {
+			_gadgetCacheModel = (GadgetCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getOriginalAttributeValue("uuid");
 	}
 
 	@JSON
@@ -376,6 +444,12 @@ public class GadgetModelImpl
 
 	@Override
 	public void setGadgetId(long gadgetId) {
+		_columnBitmask |= GADGETID_COLUMN_BITMASK;
+
+		if (_gadgetCacheModel == _dummyGadgetCacheModel) {
+			_gadgetCacheModel = (GadgetCacheModel)toCacheModel();
+		}
+
 		_gadgetId = gadgetId;
 	}
 
@@ -389,17 +463,20 @@ public class GadgetModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_gadgetCacheModel == _dummyGadgetCacheModel) {
+			_gadgetCacheModel = (GadgetCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@JSON
@@ -410,6 +487,12 @@ public class GadgetModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (_gadgetCacheModel == _dummyGadgetCacheModel) {
+			_gadgetCacheModel = (GadgetCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -427,6 +510,12 @@ public class GadgetModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (_gadgetCacheModel == _dummyGadgetCacheModel) {
+			_gadgetCacheModel = (GadgetCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -443,7 +532,11 @@ public class GadgetModelImpl
 
 	@Override
 	public void setName(String name) {
-		_columnBitmask = -1L;
+		_columnBitmask |= NAME_COLUMN_BITMASK;
+
+		if (_gadgetCacheModel == _dummyGadgetCacheModel) {
+			_gadgetCacheModel = (GadgetCacheModel)toCacheModel();
+		}
 
 		_name = name;
 	}
@@ -463,15 +556,20 @@ public class GadgetModelImpl
 	public void setUrl(String url) {
 		_columnBitmask |= URL_COLUMN_BITMASK;
 
-		if (_originalUrl == null) {
-			_originalUrl = _url;
+		if (_gadgetCacheModel == _dummyGadgetCacheModel) {
+			_gadgetCacheModel = (GadgetCacheModel)toCacheModel();
 		}
 
 		_url = url;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUrl() {
-		return GetterUtil.getString(_originalUrl);
+		return getOriginalAttributeValue("url");
 	}
 
 	@JSON
@@ -487,6 +585,12 @@ public class GadgetModelImpl
 
 	@Override
 	public void setPortletCategoryNames(String portletCategoryNames) {
+		_columnBitmask |= PORTLETCATEGORYNAMES_COLUMN_BITMASK;
+
+		if (_gadgetCacheModel == _dummyGadgetCacheModel) {
+			_gadgetCacheModel = (GadgetCacheModel)toCacheModel();
+		}
+
 		_portletCategoryNames = portletCategoryNames;
 	}
 
@@ -498,6 +602,12 @@ public class GadgetModelImpl
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		_columnBitmask |= LASTPUBLISHDATE_COLUMN_BITMASK;
+
+		if (_gadgetCacheModel == _dummyGadgetCacheModel) {
+			_gadgetCacheModel = (GadgetCacheModel)toCacheModel();
+		}
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -618,19 +728,11 @@ public class GadgetModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		GadgetModelImpl gadgetModelImpl = this;
+		_setModifiedDate = false;
 
-		gadgetModelImpl._originalUuid = gadgetModelImpl._uuid;
+		_columnBitmask = 0;
 
-		gadgetModelImpl._originalCompanyId = gadgetModelImpl._companyId;
-
-		gadgetModelImpl._setOriginalCompanyId = false;
-
-		gadgetModelImpl._setModifiedDate = false;
-
-		gadgetModelImpl._originalUrl = gadgetModelImpl._url;
-
-		gadgetModelImpl._columnBitmask = 0;
+		_gadgetCacheModel = _dummyGadgetCacheModel;
 	}
 
 	@Override
@@ -774,20 +876,21 @@ public class GadgetModelImpl
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _gadgetId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private String _name;
 	private String _url;
-	private String _originalUrl;
 	private String _portletCategoryNames;
 	private Date _lastPublishDate;
 	private long _columnBitmask;
+
+	private static final GadgetCacheModel _dummyGadgetCacheModel =
+		new GadgetCacheModel();
+
 	private Gadget _escapedModel;
+	private GadgetCacheModel _gadgetCacheModel;
 
 }

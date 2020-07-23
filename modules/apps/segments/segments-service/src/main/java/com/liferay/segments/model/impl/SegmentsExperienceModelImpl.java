@@ -28,7 +28,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
@@ -135,23 +134,41 @@ public class SegmentsExperienceModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long ACTIVE_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long CLASSNAMEID_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
-	public static final long CLASSPK_COLUMN_BITMASK = 4L;
+	public static final long UUID_COLUMN_BITMASK = 4L;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 8L;
+	public static final long SEGMENTSEXPERIENCEID_COLUMN_BITMASK = 8L;
 
 	public static final long GROUPID_COLUMN_BITMASK = 16L;
 
-	public static final long PRIORITY_COLUMN_BITMASK = 32L;
+	public static final long COMPANYID_COLUMN_BITMASK = 32L;
 
-	public static final long SEGMENTSENTRYID_COLUMN_BITMASK = 64L;
+	public static final long USERID_COLUMN_BITMASK = 64L;
 
-	public static final long SEGMENTSEXPERIENCEKEY_COLUMN_BITMASK = 128L;
+	public static final long USERNAME_COLUMN_BITMASK = 128L;
 
-	public static final long UUID_COLUMN_BITMASK = 256L;
+	public static final long CREATEDATE_COLUMN_BITMASK = 256L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 512L;
+
+	public static final long SEGMENTSENTRYID_COLUMN_BITMASK = 1024L;
+
+	public static final long SEGMENTSEXPERIENCEKEY_COLUMN_BITMASK = 2048L;
+
+	public static final long CLASSNAMEID_COLUMN_BITMASK = 4096L;
+
+	public static final long CLASSPK_COLUMN_BITMASK = 8192L;
+
+	public static final long NAME_COLUMN_BITMASK = 16384L;
+
+	public static final long PRIORITY_COLUMN_BITMASK = 32768L;
+
+	public static final long ACTIVE_COLUMN_BITMASK = 65536L;
+
+	public static final long LASTPUBLISHDATE_COLUMN_BITMASK = 131072L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -338,10 +355,31 @@ public class SegmentsExperienceModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_segmentsExperienceCacheModel == null) ||
+			(_segmentsExperienceCacheModel ==
+				_dummySegmentsExperienceCacheModel)) {
+
+			return null;
+		}
+
+		Function<SegmentsExperienceCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_segmentsExperienceCacheModel);
+	}
+
 	private static final Map<String, Function<SegmentsExperience, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<SegmentsExperience, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<SegmentsExperienceCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<SegmentsExperience, Object>>
@@ -351,20 +389,38 @@ public class SegmentsExperienceModelImpl
 		Map<String, BiConsumer<SegmentsExperience, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<SegmentsExperience, ?>>();
+		Map<String, Function<SegmentsExperienceCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<SegmentsExperienceCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", SegmentsExperience::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			segmentsExperienceCacheModel ->
+				segmentsExperienceCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<SegmentsExperience, Long>)
 				SegmentsExperience::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", SegmentsExperience::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			segmentsExperienceCacheModel ->
+				segmentsExperienceCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<SegmentsExperience, Long>)
 				SegmentsExperience::setCtCollectionId);
 		attributeGetterFunctions.put("uuid", SegmentsExperience::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid",
+			segmentsExperienceCacheModel -> segmentsExperienceCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid",
 			(BiConsumer<SegmentsExperience, String>)
@@ -372,46 +428,86 @@ public class SegmentsExperienceModelImpl
 		attributeGetterFunctions.put(
 			"segmentsExperienceId",
 			SegmentsExperience::getSegmentsExperienceId);
+
+		cacheModelGetterFunctions.put(
+			"segmentsExperienceId",
+			segmentsExperienceCacheModel ->
+				segmentsExperienceCacheModel.segmentsExperienceId);
 		attributeSetterBiConsumers.put(
 			"segmentsExperienceId",
 			(BiConsumer<SegmentsExperience, Long>)
 				SegmentsExperience::setSegmentsExperienceId);
 		attributeGetterFunctions.put("groupId", SegmentsExperience::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			segmentsExperienceCacheModel ->
+				segmentsExperienceCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<SegmentsExperience, Long>)
 				SegmentsExperience::setGroupId);
 		attributeGetterFunctions.put(
 			"companyId", SegmentsExperience::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			segmentsExperienceCacheModel ->
+				segmentsExperienceCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<SegmentsExperience, Long>)
 				SegmentsExperience::setCompanyId);
 		attributeGetterFunctions.put("userId", SegmentsExperience::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			segmentsExperienceCacheModel ->
+				segmentsExperienceCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<SegmentsExperience, Long>)
 				SegmentsExperience::setUserId);
 		attributeGetterFunctions.put(
 			"userName", SegmentsExperience::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			segmentsExperienceCacheModel ->
+				segmentsExperienceCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<SegmentsExperience, String>)
 				SegmentsExperience::setUserName);
 		attributeGetterFunctions.put(
 			"createDate", SegmentsExperience::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			segmentsExperienceCacheModel ->
+				segmentsExperienceCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<SegmentsExperience, Date>)
 				SegmentsExperience::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", SegmentsExperience::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			segmentsExperienceCacheModel ->
+				segmentsExperienceCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<SegmentsExperience, Date>)
 				SegmentsExperience::setModifiedDate);
 		attributeGetterFunctions.put(
 			"segmentsEntryId", SegmentsExperience::getSegmentsEntryId);
+
+		cacheModelGetterFunctions.put(
+			"segmentsEntryId",
+			segmentsExperienceCacheModel ->
+				segmentsExperienceCacheModel.segmentsEntryId);
 		attributeSetterBiConsumers.put(
 			"segmentsEntryId",
 			(BiConsumer<SegmentsExperience, Long>)
@@ -419,39 +515,73 @@ public class SegmentsExperienceModelImpl
 		attributeGetterFunctions.put(
 			"segmentsExperienceKey",
 			SegmentsExperience::getSegmentsExperienceKey);
+
+		cacheModelGetterFunctions.put(
+			"segmentsExperienceKey",
+			segmentsExperienceCacheModel ->
+				segmentsExperienceCacheModel.segmentsExperienceKey);
 		attributeSetterBiConsumers.put(
 			"segmentsExperienceKey",
 			(BiConsumer<SegmentsExperience, String>)
 				SegmentsExperience::setSegmentsExperienceKey);
 		attributeGetterFunctions.put(
 			"classNameId", SegmentsExperience::getClassNameId);
+
+		cacheModelGetterFunctions.put(
+			"classNameId",
+			segmentsExperienceCacheModel ->
+				segmentsExperienceCacheModel.classNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<SegmentsExperience, Long>)
 				SegmentsExperience::setClassNameId);
 		attributeGetterFunctions.put("classPK", SegmentsExperience::getClassPK);
+
+		cacheModelGetterFunctions.put(
+			"classPK",
+			segmentsExperienceCacheModel ->
+				segmentsExperienceCacheModel.classPK);
 		attributeSetterBiConsumers.put(
 			"classPK",
 			(BiConsumer<SegmentsExperience, Long>)
 				SegmentsExperience::setClassPK);
 		attributeGetterFunctions.put("name", SegmentsExperience::getName);
+
+		cacheModelGetterFunctions.put(
+			"name",
+			segmentsExperienceCacheModel -> segmentsExperienceCacheModel.name);
 		attributeSetterBiConsumers.put(
 			"name",
 			(BiConsumer<SegmentsExperience, String>)
 				SegmentsExperience::setName);
 		attributeGetterFunctions.put(
 			"priority", SegmentsExperience::getPriority);
+
+		cacheModelGetterFunctions.put(
+			"priority",
+			segmentsExperienceCacheModel ->
+				segmentsExperienceCacheModel.priority);
 		attributeSetterBiConsumers.put(
 			"priority",
 			(BiConsumer<SegmentsExperience, Integer>)
 				SegmentsExperience::setPriority);
 		attributeGetterFunctions.put("active", SegmentsExperience::getActive);
+
+		cacheModelGetterFunctions.put(
+			"active",
+			segmentsExperienceCacheModel ->
+				segmentsExperienceCacheModel.active);
 		attributeSetterBiConsumers.put(
 			"active",
 			(BiConsumer<SegmentsExperience, Boolean>)
 				SegmentsExperience::setActive);
 		attributeGetterFunctions.put(
 			"lastPublishDate", SegmentsExperience::getLastPublishDate);
+
+		cacheModelGetterFunctions.put(
+			"lastPublishDate",
+			segmentsExperienceCacheModel ->
+				segmentsExperienceCacheModel.lastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<SegmentsExperience, Date>)
@@ -461,6 +591,8 @@ public class SegmentsExperienceModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -471,6 +603,15 @@ public class SegmentsExperienceModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_segmentsExperienceCacheModel ==
+				_dummySegmentsExperienceCacheModel) {
+
+			_segmentsExperienceCacheModel =
+				(SegmentsExperienceCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -482,6 +623,15 @@ public class SegmentsExperienceModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (_segmentsExperienceCacheModel ==
+				_dummySegmentsExperienceCacheModel) {
+
+			_segmentsExperienceCacheModel =
+				(SegmentsExperienceCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -500,15 +650,23 @@ public class SegmentsExperienceModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_segmentsExperienceCacheModel ==
+				_dummySegmentsExperienceCacheModel) {
+
+			_segmentsExperienceCacheModel =
+				(SegmentsExperienceCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getOriginalAttributeValue("uuid");
 	}
 
 	@JSON
@@ -519,6 +677,15 @@ public class SegmentsExperienceModelImpl
 
 	@Override
 	public void setSegmentsExperienceId(long segmentsExperienceId) {
+		_columnBitmask |= SEGMENTSEXPERIENCEID_COLUMN_BITMASK;
+
+		if (_segmentsExperienceCacheModel ==
+				_dummySegmentsExperienceCacheModel) {
+
+			_segmentsExperienceCacheModel =
+				(SegmentsExperienceCacheModel)toCacheModel();
+		}
+
 		_segmentsExperienceId = segmentsExperienceId;
 	}
 
@@ -532,17 +699,23 @@ public class SegmentsExperienceModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
+		if (_segmentsExperienceCacheModel ==
+				_dummySegmentsExperienceCacheModel) {
 
-			_originalGroupId = _groupId;
+			_segmentsExperienceCacheModel =
+				(SegmentsExperienceCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getOriginalAttributeValue("groupId");
 	}
 
 	@JSON
@@ -555,17 +728,23 @@ public class SegmentsExperienceModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
+		if (_segmentsExperienceCacheModel ==
+				_dummySegmentsExperienceCacheModel) {
 
-			_originalCompanyId = _companyId;
+			_segmentsExperienceCacheModel =
+				(SegmentsExperienceCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@JSON
@@ -576,6 +755,15 @@ public class SegmentsExperienceModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (_segmentsExperienceCacheModel ==
+				_dummySegmentsExperienceCacheModel) {
+
+			_segmentsExperienceCacheModel =
+				(SegmentsExperienceCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -608,6 +796,15 @@ public class SegmentsExperienceModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (_segmentsExperienceCacheModel ==
+				_dummySegmentsExperienceCacheModel) {
+
+			_segmentsExperienceCacheModel =
+				(SegmentsExperienceCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -619,6 +816,15 @@ public class SegmentsExperienceModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (_segmentsExperienceCacheModel ==
+				_dummySegmentsExperienceCacheModel) {
+
+			_segmentsExperienceCacheModel =
+				(SegmentsExperienceCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -636,6 +842,15 @@ public class SegmentsExperienceModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (_segmentsExperienceCacheModel ==
+				_dummySegmentsExperienceCacheModel) {
+
+			_segmentsExperienceCacheModel =
+				(SegmentsExperienceCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -649,17 +864,23 @@ public class SegmentsExperienceModelImpl
 	public void setSegmentsEntryId(long segmentsEntryId) {
 		_columnBitmask |= SEGMENTSENTRYID_COLUMN_BITMASK;
 
-		if (!_setOriginalSegmentsEntryId) {
-			_setOriginalSegmentsEntryId = true;
+		if (_segmentsExperienceCacheModel ==
+				_dummySegmentsExperienceCacheModel) {
 
-			_originalSegmentsEntryId = _segmentsEntryId;
+			_segmentsExperienceCacheModel =
+				(SegmentsExperienceCacheModel)toCacheModel();
 		}
 
 		_segmentsEntryId = segmentsEntryId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalSegmentsEntryId() {
-		return _originalSegmentsEntryId;
+		return getOriginalAttributeValue("segmentsEntryId");
 	}
 
 	@JSON
@@ -677,15 +898,23 @@ public class SegmentsExperienceModelImpl
 	public void setSegmentsExperienceKey(String segmentsExperienceKey) {
 		_columnBitmask |= SEGMENTSEXPERIENCEKEY_COLUMN_BITMASK;
 
-		if (_originalSegmentsExperienceKey == null) {
-			_originalSegmentsExperienceKey = _segmentsExperienceKey;
+		if (_segmentsExperienceCacheModel ==
+				_dummySegmentsExperienceCacheModel) {
+
+			_segmentsExperienceCacheModel =
+				(SegmentsExperienceCacheModel)toCacheModel();
 		}
 
 		_segmentsExperienceKey = segmentsExperienceKey;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalSegmentsExperienceKey() {
-		return GetterUtil.getString(_originalSegmentsExperienceKey);
+		return getOriginalAttributeValue("segmentsExperienceKey");
 	}
 
 	@Override
@@ -718,17 +947,23 @@ public class SegmentsExperienceModelImpl
 	public void setClassNameId(long classNameId) {
 		_columnBitmask |= CLASSNAMEID_COLUMN_BITMASK;
 
-		if (!_setOriginalClassNameId) {
-			_setOriginalClassNameId = true;
+		if (_segmentsExperienceCacheModel ==
+				_dummySegmentsExperienceCacheModel) {
 
-			_originalClassNameId = _classNameId;
+			_segmentsExperienceCacheModel =
+				(SegmentsExperienceCacheModel)toCacheModel();
 		}
 
 		_classNameId = classNameId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassNameId() {
-		return _originalClassNameId;
+		return getOriginalAttributeValue("classNameId");
 	}
 
 	@JSON
@@ -741,17 +976,23 @@ public class SegmentsExperienceModelImpl
 	public void setClassPK(long classPK) {
 		_columnBitmask |= CLASSPK_COLUMN_BITMASK;
 
-		if (!_setOriginalClassPK) {
-			_setOriginalClassPK = true;
+		if (_segmentsExperienceCacheModel ==
+				_dummySegmentsExperienceCacheModel) {
 
-			_originalClassPK = _classPK;
+			_segmentsExperienceCacheModel =
+				(SegmentsExperienceCacheModel)toCacheModel();
 		}
 
 		_classPK = classPK;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassPK() {
-		return _originalClassPK;
+		return getOriginalAttributeValue("classPK");
 	}
 
 	@JSON
@@ -810,6 +1051,15 @@ public class SegmentsExperienceModelImpl
 
 	@Override
 	public void setName(String name) {
+		_columnBitmask |= NAME_COLUMN_BITMASK;
+
+		if (_segmentsExperienceCacheModel ==
+				_dummySegmentsExperienceCacheModel) {
+
+			_segmentsExperienceCacheModel =
+				(SegmentsExperienceCacheModel)toCacheModel();
+		}
+
 		_name = name;
 	}
 
@@ -865,19 +1115,25 @@ public class SegmentsExperienceModelImpl
 
 	@Override
 	public void setPriority(int priority) {
-		_columnBitmask = -1L;
+		_columnBitmask |= PRIORITY_COLUMN_BITMASK;
 
-		if (!_setOriginalPriority) {
-			_setOriginalPriority = true;
+		if (_segmentsExperienceCacheModel ==
+				_dummySegmentsExperienceCacheModel) {
 
-			_originalPriority = _priority;
+			_segmentsExperienceCacheModel =
+				(SegmentsExperienceCacheModel)toCacheModel();
 		}
 
 		_priority = priority;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalPriority() {
-		return _originalPriority;
+		return getOriginalAttributeValue("priority");
 	}
 
 	@JSON
@@ -896,17 +1152,23 @@ public class SegmentsExperienceModelImpl
 	public void setActive(boolean active) {
 		_columnBitmask |= ACTIVE_COLUMN_BITMASK;
 
-		if (!_setOriginalActive) {
-			_setOriginalActive = true;
+		if (_segmentsExperienceCacheModel ==
+				_dummySegmentsExperienceCacheModel) {
 
-			_originalActive = _active;
+			_segmentsExperienceCacheModel =
+				(SegmentsExperienceCacheModel)toCacheModel();
 		}
 
 		_active = active;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public boolean getOriginalActive() {
-		return _originalActive;
+		return getOriginalAttributeValue("active");
 	}
 
 	@JSON
@@ -917,6 +1179,15 @@ public class SegmentsExperienceModelImpl
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		_columnBitmask |= LASTPUBLISHDATE_COLUMN_BITMASK;
+
+		if (_segmentsExperienceCacheModel ==
+				_dummySegmentsExperienceCacheModel) {
+
+			_segmentsExperienceCacheModel =
+				(SegmentsExperienceCacheModel)toCacheModel();
+		}
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -1127,52 +1398,11 @@ public class SegmentsExperienceModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		SegmentsExperienceModelImpl segmentsExperienceModelImpl = this;
+		_setModifiedDate = false;
 
-		segmentsExperienceModelImpl._originalUuid =
-			segmentsExperienceModelImpl._uuid;
+		_columnBitmask = 0;
 
-		segmentsExperienceModelImpl._originalGroupId =
-			segmentsExperienceModelImpl._groupId;
-
-		segmentsExperienceModelImpl._setOriginalGroupId = false;
-
-		segmentsExperienceModelImpl._originalCompanyId =
-			segmentsExperienceModelImpl._companyId;
-
-		segmentsExperienceModelImpl._setOriginalCompanyId = false;
-
-		segmentsExperienceModelImpl._setModifiedDate = false;
-
-		segmentsExperienceModelImpl._originalSegmentsEntryId =
-			segmentsExperienceModelImpl._segmentsEntryId;
-
-		segmentsExperienceModelImpl._setOriginalSegmentsEntryId = false;
-
-		segmentsExperienceModelImpl._originalSegmentsExperienceKey =
-			segmentsExperienceModelImpl._segmentsExperienceKey;
-
-		segmentsExperienceModelImpl._originalClassNameId =
-			segmentsExperienceModelImpl._classNameId;
-
-		segmentsExperienceModelImpl._setOriginalClassNameId = false;
-
-		segmentsExperienceModelImpl._originalClassPK =
-			segmentsExperienceModelImpl._classPK;
-
-		segmentsExperienceModelImpl._setOriginalClassPK = false;
-
-		segmentsExperienceModelImpl._originalPriority =
-			segmentsExperienceModelImpl._priority;
-
-		segmentsExperienceModelImpl._setOriginalPriority = false;
-
-		segmentsExperienceModelImpl._originalActive =
-			segmentsExperienceModelImpl._active;
-
-		segmentsExperienceModelImpl._setOriginalActive = false;
-
-		segmentsExperienceModelImpl._columnBitmask = 0;
+		_segmentsExperienceCacheModel = _dummySegmentsExperienceCacheModel;
 	}
 
 	@Override
@@ -1343,40 +1573,29 @@ public class SegmentsExperienceModelImpl
 	private long _mvccVersion;
 	private long _ctCollectionId;
 	private String _uuid;
-	private String _originalUuid;
 	private long _segmentsExperienceId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _segmentsEntryId;
-	private long _originalSegmentsEntryId;
-	private boolean _setOriginalSegmentsEntryId;
 	private String _segmentsExperienceKey;
-	private String _originalSegmentsExperienceKey;
 	private long _classNameId;
-	private long _originalClassNameId;
-	private boolean _setOriginalClassNameId;
 	private long _classPK;
-	private long _originalClassPK;
-	private boolean _setOriginalClassPK;
 	private String _name;
 	private String _nameCurrentLanguageId;
 	private int _priority;
-	private int _originalPriority;
-	private boolean _setOriginalPriority;
 	private boolean _active;
-	private boolean _originalActive;
-	private boolean _setOriginalActive;
 	private Date _lastPublishDate;
 	private long _columnBitmask;
+
+	private static final SegmentsExperienceCacheModel
+		_dummySegmentsExperienceCacheModel = new SegmentsExperienceCacheModel();
+
 	private SegmentsExperience _escapedModel;
+	private SegmentsExperienceCacheModel _segmentsExperienceCacheModel;
 
 }

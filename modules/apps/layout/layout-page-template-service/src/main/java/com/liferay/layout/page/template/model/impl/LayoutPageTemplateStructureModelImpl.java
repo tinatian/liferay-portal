@@ -30,7 +30,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -119,17 +118,27 @@ public class LayoutPageTemplateStructureModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long CLASSNAMEID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long CLASSPK_COLUMN_BITMASK = 2L;
+	public static final long UUID_COLUMN_BITMASK = 2L;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 4L;
+	public static final long LAYOUTPAGETEMPLATESTRUCTUREID_COLUMN_BITMASK = 4L;
 
 	public static final long GROUPID_COLUMN_BITMASK = 8L;
 
-	public static final long UUID_COLUMN_BITMASK = 16L;
+	public static final long COMPANYID_COLUMN_BITMASK = 16L;
 
-	public static final long LAYOUTPAGETEMPLATESTRUCTUREID_COLUMN_BITMASK = 32L;
+	public static final long USERID_COLUMN_BITMASK = 32L;
+
+	public static final long USERNAME_COLUMN_BITMASK = 64L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 128L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 256L;
+
+	public static final long CLASSNAMEID_COLUMN_BITMASK = 512L;
+
+	public static final long CLASSPK_COLUMN_BITMASK = 1024L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -315,12 +324,33 @@ public class LayoutPageTemplateStructureModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_layoutPageTemplateStructureCacheModel == null) ||
+			(_layoutPageTemplateStructureCacheModel ==
+				_dummyLayoutPageTemplateStructureCacheModel)) {
+
+			return null;
+		}
+
+		Function<LayoutPageTemplateStructureCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_layoutPageTemplateStructureCacheModel);
+	}
+
 	private static final Map
 		<String, Function<LayoutPageTemplateStructure, Object>>
 			_attributeGetterFunctions;
 	private static final Map
 		<String, BiConsumer<LayoutPageTemplateStructure, Object>>
 			_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<LayoutPageTemplateStructureCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<LayoutPageTemplateStructure, Object>>
@@ -331,15 +361,30 @@ public class LayoutPageTemplateStructureModelImpl
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<LayoutPageTemplateStructure, ?>>();
+		Map<String, Function<LayoutPageTemplateStructureCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String,
+					 Function<LayoutPageTemplateStructureCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", LayoutPageTemplateStructure::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			layoutPageTemplateStructureCacheModel ->
+				layoutPageTemplateStructureCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<LayoutPageTemplateStructure, Long>)
 				LayoutPageTemplateStructure::setMvccVersion);
 		attributeGetterFunctions.put(
 			"uuid", LayoutPageTemplateStructure::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid",
+			layoutPageTemplateStructureCacheModel ->
+				layoutPageTemplateStructureCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid",
 			(BiConsumer<LayoutPageTemplateStructure, String>)
@@ -347,54 +392,100 @@ public class LayoutPageTemplateStructureModelImpl
 		attributeGetterFunctions.put(
 			"layoutPageTemplateStructureId",
 			LayoutPageTemplateStructure::getLayoutPageTemplateStructureId);
+
+		cacheModelGetterFunctions.put(
+			"layoutPageTemplateStructureId",
+			layoutPageTemplateStructureCacheModel ->
+				layoutPageTemplateStructureCacheModel.
+					layoutPageTemplateStructureId);
 		attributeSetterBiConsumers.put(
 			"layoutPageTemplateStructureId",
 			(BiConsumer<LayoutPageTemplateStructure, Long>)
 				LayoutPageTemplateStructure::setLayoutPageTemplateStructureId);
 		attributeGetterFunctions.put(
 			"groupId", LayoutPageTemplateStructure::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			layoutPageTemplateStructureCacheModel ->
+				layoutPageTemplateStructureCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<LayoutPageTemplateStructure, Long>)
 				LayoutPageTemplateStructure::setGroupId);
 		attributeGetterFunctions.put(
 			"companyId", LayoutPageTemplateStructure::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			layoutPageTemplateStructureCacheModel ->
+				layoutPageTemplateStructureCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<LayoutPageTemplateStructure, Long>)
 				LayoutPageTemplateStructure::setCompanyId);
 		attributeGetterFunctions.put(
 			"userId", LayoutPageTemplateStructure::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			layoutPageTemplateStructureCacheModel ->
+				layoutPageTemplateStructureCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<LayoutPageTemplateStructure, Long>)
 				LayoutPageTemplateStructure::setUserId);
 		attributeGetterFunctions.put(
 			"userName", LayoutPageTemplateStructure::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			layoutPageTemplateStructureCacheModel ->
+				layoutPageTemplateStructureCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<LayoutPageTemplateStructure, String>)
 				LayoutPageTemplateStructure::setUserName);
 		attributeGetterFunctions.put(
 			"createDate", LayoutPageTemplateStructure::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			layoutPageTemplateStructureCacheModel ->
+				layoutPageTemplateStructureCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<LayoutPageTemplateStructure, Date>)
 				LayoutPageTemplateStructure::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", LayoutPageTemplateStructure::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			layoutPageTemplateStructureCacheModel ->
+				layoutPageTemplateStructureCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<LayoutPageTemplateStructure, Date>)
 				LayoutPageTemplateStructure::setModifiedDate);
 		attributeGetterFunctions.put(
 			"classNameId", LayoutPageTemplateStructure::getClassNameId);
+
+		cacheModelGetterFunctions.put(
+			"classNameId",
+			layoutPageTemplateStructureCacheModel ->
+				layoutPageTemplateStructureCacheModel.classNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<LayoutPageTemplateStructure, Long>)
 				LayoutPageTemplateStructure::setClassNameId);
 		attributeGetterFunctions.put(
 			"classPK", LayoutPageTemplateStructure::getClassPK);
+
+		cacheModelGetterFunctions.put(
+			"classPK",
+			layoutPageTemplateStructureCacheModel ->
+				layoutPageTemplateStructureCacheModel.classPK);
 		attributeSetterBiConsumers.put(
 			"classPK",
 			(BiConsumer<LayoutPageTemplateStructure, Long>)
@@ -404,6 +495,8 @@ public class LayoutPageTemplateStructureModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -414,6 +507,15 @@ public class LayoutPageTemplateStructureModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_layoutPageTemplateStructureCacheModel ==
+				_dummyLayoutPageTemplateStructureCacheModel) {
+
+			_layoutPageTemplateStructureCacheModel =
+				(LayoutPageTemplateStructureCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -432,15 +534,23 @@ public class LayoutPageTemplateStructureModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_layoutPageTemplateStructureCacheModel ==
+				_dummyLayoutPageTemplateStructureCacheModel) {
+
+			_layoutPageTemplateStructureCacheModel =
+				(LayoutPageTemplateStructureCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getOriginalAttributeValue("uuid");
 	}
 
 	@JSON
@@ -452,6 +562,15 @@ public class LayoutPageTemplateStructureModelImpl
 	@Override
 	public void setLayoutPageTemplateStructureId(
 		long layoutPageTemplateStructureId) {
+
+		_columnBitmask |= LAYOUTPAGETEMPLATESTRUCTUREID_COLUMN_BITMASK;
+
+		if (_layoutPageTemplateStructureCacheModel ==
+				_dummyLayoutPageTemplateStructureCacheModel) {
+
+			_layoutPageTemplateStructureCacheModel =
+				(LayoutPageTemplateStructureCacheModel)toCacheModel();
+		}
 
 		_layoutPageTemplateStructureId = layoutPageTemplateStructureId;
 	}
@@ -466,17 +585,23 @@ public class LayoutPageTemplateStructureModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
+		if (_layoutPageTemplateStructureCacheModel ==
+				_dummyLayoutPageTemplateStructureCacheModel) {
 
-			_originalGroupId = _groupId;
+			_layoutPageTemplateStructureCacheModel =
+				(LayoutPageTemplateStructureCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getOriginalAttributeValue("groupId");
 	}
 
 	@JSON
@@ -489,17 +614,23 @@ public class LayoutPageTemplateStructureModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
+		if (_layoutPageTemplateStructureCacheModel ==
+				_dummyLayoutPageTemplateStructureCacheModel) {
 
-			_originalCompanyId = _companyId;
+			_layoutPageTemplateStructureCacheModel =
+				(LayoutPageTemplateStructureCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@JSON
@@ -510,6 +641,15 @@ public class LayoutPageTemplateStructureModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (_layoutPageTemplateStructureCacheModel ==
+				_dummyLayoutPageTemplateStructureCacheModel) {
+
+			_layoutPageTemplateStructureCacheModel =
+				(LayoutPageTemplateStructureCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -542,6 +682,15 @@ public class LayoutPageTemplateStructureModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (_layoutPageTemplateStructureCacheModel ==
+				_dummyLayoutPageTemplateStructureCacheModel) {
+
+			_layoutPageTemplateStructureCacheModel =
+				(LayoutPageTemplateStructureCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -553,6 +702,15 @@ public class LayoutPageTemplateStructureModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (_layoutPageTemplateStructureCacheModel ==
+				_dummyLayoutPageTemplateStructureCacheModel) {
+
+			_layoutPageTemplateStructureCacheModel =
+				(LayoutPageTemplateStructureCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -569,6 +727,15 @@ public class LayoutPageTemplateStructureModelImpl
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
+
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (_layoutPageTemplateStructureCacheModel ==
+				_dummyLayoutPageTemplateStructureCacheModel) {
+
+			_layoutPageTemplateStructureCacheModel =
+				(LayoutPageTemplateStructureCacheModel)toCacheModel();
+		}
 
 		_modifiedDate = modifiedDate;
 	}
@@ -603,17 +770,23 @@ public class LayoutPageTemplateStructureModelImpl
 	public void setClassNameId(long classNameId) {
 		_columnBitmask |= CLASSNAMEID_COLUMN_BITMASK;
 
-		if (!_setOriginalClassNameId) {
-			_setOriginalClassNameId = true;
+		if (_layoutPageTemplateStructureCacheModel ==
+				_dummyLayoutPageTemplateStructureCacheModel) {
 
-			_originalClassNameId = _classNameId;
+			_layoutPageTemplateStructureCacheModel =
+				(LayoutPageTemplateStructureCacheModel)toCacheModel();
 		}
 
 		_classNameId = classNameId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassNameId() {
-		return _originalClassNameId;
+		return getOriginalAttributeValue("classNameId");
 	}
 
 	@JSON
@@ -626,17 +799,23 @@ public class LayoutPageTemplateStructureModelImpl
 	public void setClassPK(long classPK) {
 		_columnBitmask |= CLASSPK_COLUMN_BITMASK;
 
-		if (!_setOriginalClassPK) {
-			_setOriginalClassPK = true;
+		if (_layoutPageTemplateStructureCacheModel ==
+				_dummyLayoutPageTemplateStructureCacheModel) {
 
-			_originalClassPK = _classPK;
+			_layoutPageTemplateStructureCacheModel =
+				(LayoutPageTemplateStructureCacheModel)toCacheModel();
 		}
 
 		_classPK = classPK;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassPK() {
-		return _originalClassPK;
+		return getOriginalAttributeValue("classPK");
 	}
 
 	@Override
@@ -768,35 +947,12 @@ public class LayoutPageTemplateStructureModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		LayoutPageTemplateStructureModelImpl
-			layoutPageTemplateStructureModelImpl = this;
+		_setModifiedDate = false;
 
-		layoutPageTemplateStructureModelImpl._originalUuid =
-			layoutPageTemplateStructureModelImpl._uuid;
+		_columnBitmask = 0;
 
-		layoutPageTemplateStructureModelImpl._originalGroupId =
-			layoutPageTemplateStructureModelImpl._groupId;
-
-		layoutPageTemplateStructureModelImpl._setOriginalGroupId = false;
-
-		layoutPageTemplateStructureModelImpl._originalCompanyId =
-			layoutPageTemplateStructureModelImpl._companyId;
-
-		layoutPageTemplateStructureModelImpl._setOriginalCompanyId = false;
-
-		layoutPageTemplateStructureModelImpl._setModifiedDate = false;
-
-		layoutPageTemplateStructureModelImpl._originalClassNameId =
-			layoutPageTemplateStructureModelImpl._classNameId;
-
-		layoutPageTemplateStructureModelImpl._setOriginalClassNameId = false;
-
-		layoutPageTemplateStructureModelImpl._originalClassPK =
-			layoutPageTemplateStructureModelImpl._classPK;
-
-		layoutPageTemplateStructureModelImpl._setOriginalClassPK = false;
-
-		layoutPageTemplateStructureModelImpl._columnBitmask = 0;
+		_layoutPageTemplateStructureCacheModel =
+			_dummyLayoutPageTemplateStructureCacheModel;
 	}
 
 	@Override
@@ -937,26 +1093,24 @@ public class LayoutPageTemplateStructureModelImpl
 
 	private long _mvccVersion;
 	private String _uuid;
-	private String _originalUuid;
 	private long _layoutPageTemplateStructureId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _classNameId;
-	private long _originalClassNameId;
-	private boolean _setOriginalClassNameId;
 	private long _classPK;
-	private long _originalClassPK;
-	private boolean _setOriginalClassPK;
 	private long _columnBitmask;
+
+	private static final LayoutPageTemplateStructureCacheModel
+		_dummyLayoutPageTemplateStructureCacheModel =
+			new LayoutPageTemplateStructureCacheModel();
+
 	private LayoutPageTemplateStructure _escapedModel;
+	private LayoutPageTemplateStructureCacheModel
+		_layoutPageTemplateStructureCacheModel;
 
 }

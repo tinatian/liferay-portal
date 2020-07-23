@@ -1974,8 +1974,10 @@ public class RecentLayoutSetBranchPersistenceImpl
 			 _finderPathFetchByU_L.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				recentLayoutSetBranchModelImpl.getOriginalUserId(),
-				recentLayoutSetBranchModelImpl.getOriginalLayoutSetId()
+				recentLayoutSetBranchModelImpl.getOriginalAttributeValue(
+					"userId"),
+				recentLayoutSetBranchModelImpl.getOriginalAttributeValue(
+					"layoutSetId")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByU_L, args);
@@ -2178,7 +2180,8 @@ public class RecentLayoutSetBranchPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					recentLayoutSetBranchModelImpl.getOriginalGroupId()
+					recentLayoutSetBranchModelImpl.getOriginalAttributeValue(
+						"groupId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByGroupId, args);
@@ -2199,7 +2202,8 @@ public class RecentLayoutSetBranchPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					recentLayoutSetBranchModelImpl.getOriginalUserId()
+					recentLayoutSetBranchModelImpl.getOriginalAttributeValue(
+						"userId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUserId, args);
@@ -2220,8 +2224,8 @@ public class RecentLayoutSetBranchPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					recentLayoutSetBranchModelImpl.
-						getOriginalLayoutSetBranchId()
+					recentLayoutSetBranchModelImpl.getOriginalAttributeValue(
+						"layoutSetBranchId")
 				};
 
 				FinderCacheUtil.removeResult(

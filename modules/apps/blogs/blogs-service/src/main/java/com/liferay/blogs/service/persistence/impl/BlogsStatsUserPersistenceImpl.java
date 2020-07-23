@@ -3070,8 +3070,8 @@ public class BlogsStatsUserPersistenceImpl
 			 _finderPathFetchByG_U.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				blogsStatsUserModelImpl.getOriginalGroupId(),
-				blogsStatsUserModelImpl.getOriginalUserId()
+				blogsStatsUserModelImpl.getOriginalAttributeValue("groupId"),
+				blogsStatsUserModelImpl.getOriginalAttributeValue("userId")
 			};
 
 			finderCache.removeResult(_finderPathCountByG_U, args);
@@ -3262,7 +3262,7 @@ public class BlogsStatsUserPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					blogsStatsUserModelImpl.getOriginalGroupId()
+					blogsStatsUserModelImpl.getOriginalAttributeValue("groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId, args);
@@ -3281,7 +3281,7 @@ public class BlogsStatsUserPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					blogsStatsUserModelImpl.getOriginalUserId()
+					blogsStatsUserModelImpl.getOriginalAttributeValue("userId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUserId, args);
@@ -3300,8 +3300,9 @@ public class BlogsStatsUserPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					blogsStatsUserModelImpl.getOriginalUserId(),
-					blogsStatsUserModelImpl.getOriginalLastPostDate()
+					blogsStatsUserModelImpl.getOriginalAttributeValue("userId"),
+					blogsStatsUserModelImpl.getOriginalAttributeValue(
+						"lastPostDate")
 				};
 
 				finderCache.removeResult(_finderPathCountByU_L, args);

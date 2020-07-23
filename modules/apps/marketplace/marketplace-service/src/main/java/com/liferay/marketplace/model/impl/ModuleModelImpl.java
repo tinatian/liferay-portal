@@ -24,7 +24,6 @@ import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -98,19 +97,19 @@ public class ModuleModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long APPID_COLUMN_BITMASK = 1L;
+	public static final long UUID_COLUMN_BITMASK = 1L;
 
-	public static final long BUNDLESYMBOLICNAME_COLUMN_BITMASK = 2L;
+	public static final long MODULEID_COLUMN_BITMASK = 2L;
 
-	public static final long BUNDLEVERSION_COLUMN_BITMASK = 4L;
+	public static final long COMPANYID_COLUMN_BITMASK = 4L;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 8L;
+	public static final long APPID_COLUMN_BITMASK = 8L;
 
-	public static final long CONTEXTNAME_COLUMN_BITMASK = 16L;
+	public static final long BUNDLESYMBOLICNAME_COLUMN_BITMASK = 16L;
 
-	public static final long UUID_COLUMN_BITMASK = 32L;
+	public static final long BUNDLEVERSION_COLUMN_BITMASK = 32L;
 
-	public static final long MODULEID_COLUMN_BITMASK = 64L;
+	public static final long CONTEXTNAME_COLUMN_BITMASK = 64L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -234,39 +233,84 @@ public class ModuleModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_moduleCacheModel == null) ||
+			(_moduleCacheModel == _dummyModuleCacheModel)) {
+
+			return null;
+		}
+
+		Function<ModuleCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_moduleCacheModel);
+	}
+
 	private static final Map<String, Function<Module, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<Module, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<ModuleCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<Module, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<Module, Object>>();
 		Map<String, BiConsumer<Module, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Module, ?>>();
+		Map<String, Function<ModuleCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap<String, Function<ModuleCacheModel, Object>>();
 
 		attributeGetterFunctions.put("uuid", Module::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid", moduleCacheModel -> moduleCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<Module, String>)Module::setUuid);
 		attributeGetterFunctions.put("moduleId", Module::getModuleId);
+
+		cacheModelGetterFunctions.put(
+			"moduleId", moduleCacheModel -> moduleCacheModel.moduleId);
 		attributeSetterBiConsumers.put(
 			"moduleId", (BiConsumer<Module, Long>)Module::setModuleId);
 		attributeGetterFunctions.put("companyId", Module::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId", moduleCacheModel -> moduleCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId", (BiConsumer<Module, Long>)Module::setCompanyId);
 		attributeGetterFunctions.put("appId", Module::getAppId);
+
+		cacheModelGetterFunctions.put(
+			"appId", moduleCacheModel -> moduleCacheModel.appId);
 		attributeSetterBiConsumers.put(
 			"appId", (BiConsumer<Module, Long>)Module::setAppId);
 		attributeGetterFunctions.put(
 			"bundleSymbolicName", Module::getBundleSymbolicName);
+
+		cacheModelGetterFunctions.put(
+			"bundleSymbolicName",
+			moduleCacheModel -> moduleCacheModel.bundleSymbolicName);
 		attributeSetterBiConsumers.put(
 			"bundleSymbolicName",
 			(BiConsumer<Module, String>)Module::setBundleSymbolicName);
 		attributeGetterFunctions.put("bundleVersion", Module::getBundleVersion);
+
+		cacheModelGetterFunctions.put(
+			"bundleVersion",
+			moduleCacheModel -> moduleCacheModel.bundleVersion);
 		attributeSetterBiConsumers.put(
 			"bundleVersion",
 			(BiConsumer<Module, String>)Module::setBundleVersion);
 		attributeGetterFunctions.put("contextName", Module::getContextName);
+
+		cacheModelGetterFunctions.put(
+			"contextName", moduleCacheModel -> moduleCacheModel.contextName);
 		attributeSetterBiConsumers.put(
 			"contextName", (BiConsumer<Module, String>)Module::setContextName);
 
@@ -274,6 +318,8 @@ public class ModuleModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -290,15 +336,20 @@ public class ModuleModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_moduleCacheModel == _dummyModuleCacheModel) {
+			_moduleCacheModel = (ModuleCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getOriginalAttributeValue("uuid");
 	}
 
 	@Override
@@ -308,6 +359,12 @@ public class ModuleModelImpl
 
 	@Override
 	public void setModuleId(long moduleId) {
+		_columnBitmask |= MODULEID_COLUMN_BITMASK;
+
+		if (_moduleCacheModel == _dummyModuleCacheModel) {
+			_moduleCacheModel = (ModuleCacheModel)toCacheModel();
+		}
+
 		_moduleId = moduleId;
 	}
 
@@ -320,17 +377,20 @@ public class ModuleModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_moduleCacheModel == _dummyModuleCacheModel) {
+			_moduleCacheModel = (ModuleCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@Override
@@ -342,17 +402,20 @@ public class ModuleModelImpl
 	public void setAppId(long appId) {
 		_columnBitmask |= APPID_COLUMN_BITMASK;
 
-		if (!_setOriginalAppId) {
-			_setOriginalAppId = true;
-
-			_originalAppId = _appId;
+		if (_moduleCacheModel == _dummyModuleCacheModel) {
+			_moduleCacheModel = (ModuleCacheModel)toCacheModel();
 		}
 
 		_appId = appId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalAppId() {
-		return _originalAppId;
+		return getOriginalAttributeValue("appId");
 	}
 
 	@Override
@@ -369,15 +432,20 @@ public class ModuleModelImpl
 	public void setBundleSymbolicName(String bundleSymbolicName) {
 		_columnBitmask |= BUNDLESYMBOLICNAME_COLUMN_BITMASK;
 
-		if (_originalBundleSymbolicName == null) {
-			_originalBundleSymbolicName = _bundleSymbolicName;
+		if (_moduleCacheModel == _dummyModuleCacheModel) {
+			_moduleCacheModel = (ModuleCacheModel)toCacheModel();
 		}
 
 		_bundleSymbolicName = bundleSymbolicName;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalBundleSymbolicName() {
-		return GetterUtil.getString(_originalBundleSymbolicName);
+		return getOriginalAttributeValue("bundleSymbolicName");
 	}
 
 	@Override
@@ -394,15 +462,20 @@ public class ModuleModelImpl
 	public void setBundleVersion(String bundleVersion) {
 		_columnBitmask |= BUNDLEVERSION_COLUMN_BITMASK;
 
-		if (_originalBundleVersion == null) {
-			_originalBundleVersion = _bundleVersion;
+		if (_moduleCacheModel == _dummyModuleCacheModel) {
+			_moduleCacheModel = (ModuleCacheModel)toCacheModel();
 		}
 
 		_bundleVersion = bundleVersion;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalBundleVersion() {
-		return GetterUtil.getString(_originalBundleVersion);
+		return getOriginalAttributeValue("bundleVersion");
 	}
 
 	@Override
@@ -419,15 +492,20 @@ public class ModuleModelImpl
 	public void setContextName(String contextName) {
 		_columnBitmask |= CONTEXTNAME_COLUMN_BITMASK;
 
-		if (_originalContextName == null) {
-			_originalContextName = _contextName;
+		if (_moduleCacheModel == _dummyModuleCacheModel) {
+			_moduleCacheModel = (ModuleCacheModel)toCacheModel();
 		}
 
 		_contextName = contextName;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalContextName() {
-		return GetterUtil.getString(_originalContextName);
+		return getOriginalAttributeValue("contextName");
 	}
 
 	public long getColumnBitmask() {
@@ -541,26 +619,9 @@ public class ModuleModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		ModuleModelImpl moduleModelImpl = this;
+		_columnBitmask = 0;
 
-		moduleModelImpl._originalUuid = moduleModelImpl._uuid;
-
-		moduleModelImpl._originalCompanyId = moduleModelImpl._companyId;
-
-		moduleModelImpl._setOriginalCompanyId = false;
-
-		moduleModelImpl._originalAppId = moduleModelImpl._appId;
-
-		moduleModelImpl._setOriginalAppId = false;
-
-		moduleModelImpl._originalBundleSymbolicName =
-			moduleModelImpl._bundleSymbolicName;
-
-		moduleModelImpl._originalBundleVersion = moduleModelImpl._bundleVersion;
-
-		moduleModelImpl._originalContextName = moduleModelImpl._contextName;
-
-		moduleModelImpl._columnBitmask = 0;
+		_moduleCacheModel = _dummyModuleCacheModel;
 	}
 
 	@Override
@@ -679,21 +740,18 @@ public class ModuleModelImpl
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _moduleId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _appId;
-	private long _originalAppId;
-	private boolean _setOriginalAppId;
 	private String _bundleSymbolicName;
-	private String _originalBundleSymbolicName;
 	private String _bundleVersion;
-	private String _originalBundleVersion;
 	private String _contextName;
-	private String _originalContextName;
 	private long _columnBitmask;
+
+	private static final ModuleCacheModel _dummyModuleCacheModel =
+		new ModuleCacheModel();
+
 	private Module _escapedModel;
+	private ModuleCacheModel _moduleCacheModel;
 
 }

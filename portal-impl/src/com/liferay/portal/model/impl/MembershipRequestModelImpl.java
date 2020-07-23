@@ -133,13 +133,27 @@ public class MembershipRequestModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long GROUPID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long STATUSID_COLUMN_BITMASK = 2L;
+	public static final long MEMBERSHIPREQUESTID_COLUMN_BITMASK = 2L;
 
-	public static final long USERID_COLUMN_BITMASK = 4L;
+	public static final long GROUPID_COLUMN_BITMASK = 4L;
 
-	public static final long CREATEDATE_COLUMN_BITMASK = 8L;
+	public static final long COMPANYID_COLUMN_BITMASK = 8L;
+
+	public static final long USERID_COLUMN_BITMASK = 16L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 32L;
+
+	public static final long COMMENTS_COLUMN_BITMASK = 64L;
+
+	public static final long REPLYCOMMENTS_COLUMN_BITMASK = 128L;
+
+	public static final long REPLYDATE_COLUMN_BITMASK = 256L;
+
+	public static final long REPLIERUSERID_COLUMN_BITMASK = 512L;
+
+	public static final long STATUSID_COLUMN_BITMASK = 1024L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -309,10 +323,31 @@ public class MembershipRequestModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_membershipRequestCacheModel == null) ||
+			(_membershipRequestCacheModel ==
+				_dummyMembershipRequestCacheModel)) {
+
+			return null;
+		}
+
+		Function<MembershipRequestCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_membershipRequestCacheModel);
+	}
+
 	private static final Map<String, Function<MembershipRequest, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<MembershipRequest, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<MembershipRequestCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<MembershipRequest, Object>>
@@ -322,65 +357,122 @@ public class MembershipRequestModelImpl
 		Map<String, BiConsumer<MembershipRequest, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<MembershipRequest, ?>>();
+		Map<String, Function<MembershipRequestCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<MembershipRequestCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", MembershipRequest::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			membershipRequestCacheModel ->
+				membershipRequestCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<MembershipRequest, Long>)
 				MembershipRequest::setMvccVersion);
 		attributeGetterFunctions.put(
 			"membershipRequestId", MembershipRequest::getMembershipRequestId);
+
+		cacheModelGetterFunctions.put(
+			"membershipRequestId",
+			membershipRequestCacheModel ->
+				membershipRequestCacheModel.membershipRequestId);
 		attributeSetterBiConsumers.put(
 			"membershipRequestId",
 			(BiConsumer<MembershipRequest, Long>)
 				MembershipRequest::setMembershipRequestId);
 		attributeGetterFunctions.put("groupId", MembershipRequest::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			membershipRequestCacheModel -> membershipRequestCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<MembershipRequest, Long>)MembershipRequest::setGroupId);
 		attributeGetterFunctions.put(
 			"companyId", MembershipRequest::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			membershipRequestCacheModel ->
+				membershipRequestCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<MembershipRequest, Long>)
 				MembershipRequest::setCompanyId);
 		attributeGetterFunctions.put("userId", MembershipRequest::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			membershipRequestCacheModel -> membershipRequestCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<MembershipRequest, Long>)MembershipRequest::setUserId);
 		attributeGetterFunctions.put(
 			"createDate", MembershipRequest::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			membershipRequestCacheModel ->
+				membershipRequestCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<MembershipRequest, Date>)
 				MembershipRequest::setCreateDate);
 		attributeGetterFunctions.put(
 			"comments", MembershipRequest::getComments);
+
+		cacheModelGetterFunctions.put(
+			"comments",
+			membershipRequestCacheModel ->
+				membershipRequestCacheModel.comments);
 		attributeSetterBiConsumers.put(
 			"comments",
 			(BiConsumer<MembershipRequest, String>)
 				MembershipRequest::setComments);
 		attributeGetterFunctions.put(
 			"replyComments", MembershipRequest::getReplyComments);
+
+		cacheModelGetterFunctions.put(
+			"replyComments",
+			membershipRequestCacheModel ->
+				membershipRequestCacheModel.replyComments);
 		attributeSetterBiConsumers.put(
 			"replyComments",
 			(BiConsumer<MembershipRequest, String>)
 				MembershipRequest::setReplyComments);
 		attributeGetterFunctions.put(
 			"replyDate", MembershipRequest::getReplyDate);
+
+		cacheModelGetterFunctions.put(
+			"replyDate",
+			membershipRequestCacheModel ->
+				membershipRequestCacheModel.replyDate);
 		attributeSetterBiConsumers.put(
 			"replyDate",
 			(BiConsumer<MembershipRequest, Date>)
 				MembershipRequest::setReplyDate);
 		attributeGetterFunctions.put(
 			"replierUserId", MembershipRequest::getReplierUserId);
+
+		cacheModelGetterFunctions.put(
+			"replierUserId",
+			membershipRequestCacheModel ->
+				membershipRequestCacheModel.replierUserId);
 		attributeSetterBiConsumers.put(
 			"replierUserId",
 			(BiConsumer<MembershipRequest, Long>)
 				MembershipRequest::setReplierUserId);
 		attributeGetterFunctions.put(
 			"statusId", MembershipRequest::getStatusId);
+
+		cacheModelGetterFunctions.put(
+			"statusId",
+			membershipRequestCacheModel ->
+				membershipRequestCacheModel.statusId);
 		attributeSetterBiConsumers.put(
 			"statusId",
 			(BiConsumer<MembershipRequest, Long>)
@@ -390,6 +482,8 @@ public class MembershipRequestModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -400,6 +494,13 @@ public class MembershipRequestModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_membershipRequestCacheModel == _dummyMembershipRequestCacheModel) {
+			_membershipRequestCacheModel =
+				(MembershipRequestCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -411,6 +512,13 @@ public class MembershipRequestModelImpl
 
 	@Override
 	public void setMembershipRequestId(long membershipRequestId) {
+		_columnBitmask |= MEMBERSHIPREQUESTID_COLUMN_BITMASK;
+
+		if (_membershipRequestCacheModel == _dummyMembershipRequestCacheModel) {
+			_membershipRequestCacheModel =
+				(MembershipRequestCacheModel)toCacheModel();
+		}
+
 		_membershipRequestId = membershipRequestId;
 	}
 
@@ -424,17 +532,21 @@ public class MembershipRequestModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_membershipRequestCacheModel == _dummyMembershipRequestCacheModel) {
+			_membershipRequestCacheModel =
+				(MembershipRequestCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getOriginalAttributeValue("groupId");
 	}
 
 	@JSON
@@ -445,6 +557,13 @@ public class MembershipRequestModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (_membershipRequestCacheModel == _dummyMembershipRequestCacheModel) {
+			_membershipRequestCacheModel =
+				(MembershipRequestCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -458,10 +577,9 @@ public class MembershipRequestModelImpl
 	public void setUserId(long userId) {
 		_columnBitmask |= USERID_COLUMN_BITMASK;
 
-		if (!_setOriginalUserId) {
-			_setOriginalUserId = true;
-
-			_originalUserId = _userId;
+		if (_membershipRequestCacheModel == _dummyMembershipRequestCacheModel) {
+			_membershipRequestCacheModel =
+				(MembershipRequestCacheModel)toCacheModel();
 		}
 
 		_userId = userId;
@@ -483,8 +601,13 @@ public class MembershipRequestModelImpl
 	public void setUserUuid(String userUuid) {
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalUserId() {
-		return _originalUserId;
+		return getOriginalAttributeValue("userId");
 	}
 
 	@JSON
@@ -495,7 +618,12 @@ public class MembershipRequestModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
-		_columnBitmask = -1L;
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (_membershipRequestCacheModel == _dummyMembershipRequestCacheModel) {
+			_membershipRequestCacheModel =
+				(MembershipRequestCacheModel)toCacheModel();
+		}
 
 		_createDate = createDate;
 	}
@@ -513,6 +641,13 @@ public class MembershipRequestModelImpl
 
 	@Override
 	public void setComments(String comments) {
+		_columnBitmask |= COMMENTS_COLUMN_BITMASK;
+
+		if (_membershipRequestCacheModel == _dummyMembershipRequestCacheModel) {
+			_membershipRequestCacheModel =
+				(MembershipRequestCacheModel)toCacheModel();
+		}
+
 		_comments = comments;
 	}
 
@@ -529,6 +664,13 @@ public class MembershipRequestModelImpl
 
 	@Override
 	public void setReplyComments(String replyComments) {
+		_columnBitmask |= REPLYCOMMENTS_COLUMN_BITMASK;
+
+		if (_membershipRequestCacheModel == _dummyMembershipRequestCacheModel) {
+			_membershipRequestCacheModel =
+				(MembershipRequestCacheModel)toCacheModel();
+		}
+
 		_replyComments = replyComments;
 	}
 
@@ -540,6 +682,13 @@ public class MembershipRequestModelImpl
 
 	@Override
 	public void setReplyDate(Date replyDate) {
+		_columnBitmask |= REPLYDATE_COLUMN_BITMASK;
+
+		if (_membershipRequestCacheModel == _dummyMembershipRequestCacheModel) {
+			_membershipRequestCacheModel =
+				(MembershipRequestCacheModel)toCacheModel();
+		}
+
 		_replyDate = replyDate;
 	}
 
@@ -551,6 +700,13 @@ public class MembershipRequestModelImpl
 
 	@Override
 	public void setReplierUserId(long replierUserId) {
+		_columnBitmask |= REPLIERUSERID_COLUMN_BITMASK;
+
+		if (_membershipRequestCacheModel == _dummyMembershipRequestCacheModel) {
+			_membershipRequestCacheModel =
+				(MembershipRequestCacheModel)toCacheModel();
+		}
+
 		_replierUserId = replierUserId;
 	}
 
@@ -580,17 +736,21 @@ public class MembershipRequestModelImpl
 	public void setStatusId(long statusId) {
 		_columnBitmask |= STATUSID_COLUMN_BITMASK;
 
-		if (!_setOriginalStatusId) {
-			_setOriginalStatusId = true;
-
-			_originalStatusId = _statusId;
+		if (_membershipRequestCacheModel == _dummyMembershipRequestCacheModel) {
+			_membershipRequestCacheModel =
+				(MembershipRequestCacheModel)toCacheModel();
 		}
 
 		_statusId = statusId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalStatusId() {
-		return _originalStatusId;
+		return getOriginalAttributeValue("statusId");
 	}
 
 	public long getColumnBitmask() {
@@ -710,24 +870,9 @@ public class MembershipRequestModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		MembershipRequestModelImpl membershipRequestModelImpl = this;
+		_columnBitmask = 0;
 
-		membershipRequestModelImpl._originalGroupId =
-			membershipRequestModelImpl._groupId;
-
-		membershipRequestModelImpl._setOriginalGroupId = false;
-
-		membershipRequestModelImpl._originalUserId =
-			membershipRequestModelImpl._userId;
-
-		membershipRequestModelImpl._setOriginalUserId = false;
-
-		membershipRequestModelImpl._originalStatusId =
-			membershipRequestModelImpl._statusId;
-
-		membershipRequestModelImpl._setOriginalStatusId = false;
-
-		membershipRequestModelImpl._columnBitmask = 0;
+		_membershipRequestCacheModel = _dummyMembershipRequestCacheModel;
 	}
 
 	@Override
@@ -860,21 +1005,20 @@ public class MembershipRequestModelImpl
 	private long _mvccVersion;
 	private long _membershipRequestId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
 	private long _userId;
-	private long _originalUserId;
-	private boolean _setOriginalUserId;
 	private Date _createDate;
 	private String _comments;
 	private String _replyComments;
 	private Date _replyDate;
 	private long _replierUserId;
 	private long _statusId;
-	private long _originalStatusId;
-	private boolean _setOriginalStatusId;
 	private long _columnBitmask;
+
+	private static final MembershipRequestCacheModel
+		_dummyMembershipRequestCacheModel = new MembershipRequestCacheModel();
+
 	private MembershipRequest _escapedModel;
+	private MembershipRequestCacheModel _membershipRequestCacheModel;
 
 }

@@ -274,10 +274,30 @@ public class EagerBlobEntityModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_eagerBlobEntityCacheModel == null) ||
+			(_eagerBlobEntityCacheModel == _dummyEagerBlobEntityCacheModel)) {
+
+			return null;
+		}
+
+		Function<EagerBlobEntityCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_eagerBlobEntityCacheModel);
+	}
+
 	private static final Map<String, Function<EagerBlobEntity, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<EagerBlobEntity, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<EagerBlobEntityCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<EagerBlobEntity, Object>>
@@ -285,22 +305,40 @@ public class EagerBlobEntityModelImpl
 				new LinkedHashMap<String, Function<EagerBlobEntity, Object>>();
 		Map<String, BiConsumer<EagerBlobEntity, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<EagerBlobEntity, ?>>();
+		Map<String, Function<EagerBlobEntityCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<EagerBlobEntityCacheModel, Object>>();
 
 		attributeGetterFunctions.put("uuid", EagerBlobEntity::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid",
+			eagerBlobEntityCacheModel -> eagerBlobEntityCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid",
 			(BiConsumer<EagerBlobEntity, String>)EagerBlobEntity::setUuid);
 		attributeGetterFunctions.put(
 			"eagerBlobEntityId", EagerBlobEntity::getEagerBlobEntityId);
+
+		cacheModelGetterFunctions.put(
+			"eagerBlobEntityId",
+			eagerBlobEntityCacheModel ->
+				eagerBlobEntityCacheModel.eagerBlobEntityId);
 		attributeSetterBiConsumers.put(
 			"eagerBlobEntityId",
 			(BiConsumer<EagerBlobEntity, Long>)
 				EagerBlobEntity::setEagerBlobEntityId);
 		attributeGetterFunctions.put("groupId", EagerBlobEntity::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			eagerBlobEntityCacheModel -> eagerBlobEntityCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<EagerBlobEntity, Long>)EagerBlobEntity::setGroupId);
 		attributeGetterFunctions.put("blob", EagerBlobEntity::getBlob);
+
 		attributeSetterBiConsumers.put(
 			"blob",
 			(BiConsumer<EagerBlobEntity, Blob>)EagerBlobEntity::setBlob);
@@ -309,6 +347,8 @@ public class EagerBlobEntityModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -324,15 +364,21 @@ public class EagerBlobEntityModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_eagerBlobEntityCacheModel == _dummyEagerBlobEntityCacheModel) {
+			_eagerBlobEntityCacheModel =
+				(EagerBlobEntityCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getOriginalAttributeValue("uuid");
 	}
 
 	@JSON
@@ -343,6 +389,11 @@ public class EagerBlobEntityModelImpl
 
 	@Override
 	public void setEagerBlobEntityId(long eagerBlobEntityId) {
+		if (_eagerBlobEntityCacheModel == _dummyEagerBlobEntityCacheModel) {
+			_eagerBlobEntityCacheModel =
+				(EagerBlobEntityCacheModel)toCacheModel();
+		}
+
 		_eagerBlobEntityId = eagerBlobEntityId;
 	}
 
@@ -354,17 +405,21 @@ public class EagerBlobEntityModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_eagerBlobEntityCacheModel == _dummyEagerBlobEntityCacheModel) {
+			_eagerBlobEntityCacheModel =
+				(EagerBlobEntityCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getOriginalAttributeValue("groupId");
 	}
 
 	@JSON
@@ -375,6 +430,11 @@ public class EagerBlobEntityModelImpl
 
 	@Override
 	public void setBlob(Blob blob) {
+		if (_eagerBlobEntityCacheModel == _dummyEagerBlobEntityCacheModel) {
+			_eagerBlobEntityCacheModel =
+				(EagerBlobEntityCacheModel)toCacheModel();
+		}
+
 		_blob = blob;
 	}
 
@@ -481,14 +541,7 @@ public class EagerBlobEntityModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		EagerBlobEntityModelImpl eagerBlobEntityModelImpl = this;
-
-		eagerBlobEntityModelImpl._originalUuid = eagerBlobEntityModelImpl._uuid;
-
-		eagerBlobEntityModelImpl._originalGroupId =
-			eagerBlobEntityModelImpl._groupId;
-
-		eagerBlobEntityModelImpl._setOriginalGroupId = false;
+		_eagerBlobEntityCacheModel = _dummyEagerBlobEntityCacheModel;
 	}
 
 	@Override
@@ -582,12 +635,14 @@ public class EagerBlobEntityModelImpl
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _eagerBlobEntityId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private Blob _blob;
+
+	private static final EagerBlobEntityCacheModel
+		_dummyEagerBlobEntityCacheModel = new EagerBlobEntityCacheModel();
+
 	private EagerBlobEntity _escapedModel;
+	private EagerBlobEntityCacheModel _eagerBlobEntityCacheModel;
 
 }

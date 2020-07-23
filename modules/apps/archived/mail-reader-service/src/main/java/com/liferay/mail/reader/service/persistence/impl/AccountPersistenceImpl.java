@@ -977,8 +977,8 @@ public class AccountPersistenceImpl
 			 _finderPathFetchByU_A.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				accountModelImpl.getOriginalUserId(),
-				accountModelImpl.getOriginalAddress()
+				accountModelImpl.getOriginalAttributeValue("userId"),
+				accountModelImpl.getOriginalAttributeValue("address")
 			};
 
 			finderCache.removeResult(_finderPathCountByU_A, args);
@@ -1172,7 +1172,7 @@ public class AccountPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					accountModelImpl.getOriginalUserId()
+					accountModelImpl.getOriginalAttributeValue("userId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUserId, args);

@@ -31,7 +31,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
@@ -133,13 +132,41 @@ public class DDMFormInstanceModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
 	public static final long UUID_COLUMN_BITMASK = 4L;
 
 	public static final long FORMINSTANCEID_COLUMN_BITMASK = 8L;
+
+	public static final long GROUPID_COLUMN_BITMASK = 16L;
+
+	public static final long COMPANYID_COLUMN_BITMASK = 32L;
+
+	public static final long USERID_COLUMN_BITMASK = 64L;
+
+	public static final long USERNAME_COLUMN_BITMASK = 128L;
+
+	public static final long VERSIONUSERID_COLUMN_BITMASK = 256L;
+
+	public static final long VERSIONUSERNAME_COLUMN_BITMASK = 512L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 1024L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 2048L;
+
+	public static final long STRUCTUREID_COLUMN_BITMASK = 4096L;
+
+	public static final long VERSION_COLUMN_BITMASK = 8192L;
+
+	public static final long NAME_COLUMN_BITMASK = 16384L;
+
+	public static final long DESCRIPTION_COLUMN_BITMASK = 32768L;
+
+	public static final long SETTINGS_COLUMN_BITMASK = 65536L;
+
+	public static final long LASTPUBLISHDATE_COLUMN_BITMASK = 131072L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -326,10 +353,30 @@ public class DDMFormInstanceModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_ddmFormInstanceCacheModel == null) ||
+			(_ddmFormInstanceCacheModel == _dummyDDMFormInstanceCacheModel)) {
+
+			return null;
+		}
+
+		Function<DDMFormInstanceCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_ddmFormInstanceCacheModel);
+	}
+
 	private static final Map<String, Function<DDMFormInstance, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<DDMFormInstance, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<DDMFormInstanceCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<DDMFormInstance, Object>>
@@ -337,93 +384,175 @@ public class DDMFormInstanceModelImpl
 				new LinkedHashMap<String, Function<DDMFormInstance, Object>>();
 		Map<String, BiConsumer<DDMFormInstance, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<DDMFormInstance, ?>>();
+		Map<String, Function<DDMFormInstanceCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<DDMFormInstanceCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", DDMFormInstance::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			ddmFormInstanceCacheModel -> ddmFormInstanceCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<DDMFormInstance, Long>)DDMFormInstance::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", DDMFormInstance::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			ddmFormInstanceCacheModel ->
+				ddmFormInstanceCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<DDMFormInstance, Long>)
 				DDMFormInstance::setCtCollectionId);
 		attributeGetterFunctions.put("uuid", DDMFormInstance::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid",
+			ddmFormInstanceCacheModel -> ddmFormInstanceCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid",
 			(BiConsumer<DDMFormInstance, String>)DDMFormInstance::setUuid);
 		attributeGetterFunctions.put(
 			"formInstanceId", DDMFormInstance::getFormInstanceId);
+
+		cacheModelGetterFunctions.put(
+			"formInstanceId",
+			ddmFormInstanceCacheModel ->
+				ddmFormInstanceCacheModel.formInstanceId);
 		attributeSetterBiConsumers.put(
 			"formInstanceId",
 			(BiConsumer<DDMFormInstance, Long>)
 				DDMFormInstance::setFormInstanceId);
 		attributeGetterFunctions.put("groupId", DDMFormInstance::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			ddmFormInstanceCacheModel -> ddmFormInstanceCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<DDMFormInstance, Long>)DDMFormInstance::setGroupId);
 		attributeGetterFunctions.put(
 			"companyId", DDMFormInstance::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			ddmFormInstanceCacheModel -> ddmFormInstanceCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<DDMFormInstance, Long>)DDMFormInstance::setCompanyId);
 		attributeGetterFunctions.put("userId", DDMFormInstance::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			ddmFormInstanceCacheModel -> ddmFormInstanceCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<DDMFormInstance, Long>)DDMFormInstance::setUserId);
 		attributeGetterFunctions.put("userName", DDMFormInstance::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			ddmFormInstanceCacheModel -> ddmFormInstanceCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<DDMFormInstance, String>)DDMFormInstance::setUserName);
 		attributeGetterFunctions.put(
 			"versionUserId", DDMFormInstance::getVersionUserId);
+
+		cacheModelGetterFunctions.put(
+			"versionUserId",
+			ddmFormInstanceCacheModel ->
+				ddmFormInstanceCacheModel.versionUserId);
 		attributeSetterBiConsumers.put(
 			"versionUserId",
 			(BiConsumer<DDMFormInstance, Long>)
 				DDMFormInstance::setVersionUserId);
 		attributeGetterFunctions.put(
 			"versionUserName", DDMFormInstance::getVersionUserName);
+
+		cacheModelGetterFunctions.put(
+			"versionUserName",
+			ddmFormInstanceCacheModel ->
+				ddmFormInstanceCacheModel.versionUserName);
 		attributeSetterBiConsumers.put(
 			"versionUserName",
 			(BiConsumer<DDMFormInstance, String>)
 				DDMFormInstance::setVersionUserName);
 		attributeGetterFunctions.put(
 			"createDate", DDMFormInstance::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			ddmFormInstanceCacheModel -> ddmFormInstanceCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<DDMFormInstance, Date>)DDMFormInstance::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", DDMFormInstance::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			ddmFormInstanceCacheModel ->
+				ddmFormInstanceCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<DDMFormInstance, Date>)
 				DDMFormInstance::setModifiedDate);
 		attributeGetterFunctions.put(
 			"structureId", DDMFormInstance::getStructureId);
+
+		cacheModelGetterFunctions.put(
+			"structureId",
+			ddmFormInstanceCacheModel -> ddmFormInstanceCacheModel.structureId);
 		attributeSetterBiConsumers.put(
 			"structureId",
 			(BiConsumer<DDMFormInstance, Long>)DDMFormInstance::setStructureId);
 		attributeGetterFunctions.put("version", DDMFormInstance::getVersion);
+
+		cacheModelGetterFunctions.put(
+			"version",
+			ddmFormInstanceCacheModel -> ddmFormInstanceCacheModel.version);
 		attributeSetterBiConsumers.put(
 			"version",
 			(BiConsumer<DDMFormInstance, String>)DDMFormInstance::setVersion);
 		attributeGetterFunctions.put("name", DDMFormInstance::getName);
+
+		cacheModelGetterFunctions.put(
+			"name",
+			ddmFormInstanceCacheModel -> ddmFormInstanceCacheModel.name);
 		attributeSetterBiConsumers.put(
 			"name",
 			(BiConsumer<DDMFormInstance, String>)DDMFormInstance::setName);
 		attributeGetterFunctions.put(
 			"description", DDMFormInstance::getDescription);
+
+		cacheModelGetterFunctions.put(
+			"description",
+			ddmFormInstanceCacheModel -> ddmFormInstanceCacheModel.description);
 		attributeSetterBiConsumers.put(
 			"description",
 			(BiConsumer<DDMFormInstance, String>)
 				DDMFormInstance::setDescription);
 		attributeGetterFunctions.put("settings", DDMFormInstance::getSettings);
+
+		cacheModelGetterFunctions.put(
+			"settings",
+			ddmFormInstanceCacheModel -> ddmFormInstanceCacheModel.settings);
 		attributeSetterBiConsumers.put(
 			"settings",
 			(BiConsumer<DDMFormInstance, String>)DDMFormInstance::setSettings);
 		attributeGetterFunctions.put(
 			"lastPublishDate", DDMFormInstance::getLastPublishDate);
+
+		cacheModelGetterFunctions.put(
+			"lastPublishDate",
+			ddmFormInstanceCacheModel ->
+				ddmFormInstanceCacheModel.lastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<DDMFormInstance, Date>)
@@ -433,6 +562,8 @@ public class DDMFormInstanceModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -443,6 +574,13 @@ public class DDMFormInstanceModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_ddmFormInstanceCacheModel == _dummyDDMFormInstanceCacheModel) {
+			_ddmFormInstanceCacheModel =
+				(DDMFormInstanceCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -454,6 +592,13 @@ public class DDMFormInstanceModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (_ddmFormInstanceCacheModel == _dummyDDMFormInstanceCacheModel) {
+			_ddmFormInstanceCacheModel =
+				(DDMFormInstanceCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -472,15 +617,21 @@ public class DDMFormInstanceModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_ddmFormInstanceCacheModel == _dummyDDMFormInstanceCacheModel) {
+			_ddmFormInstanceCacheModel =
+				(DDMFormInstanceCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getOriginalAttributeValue("uuid");
 	}
 
 	@JSON
@@ -491,6 +642,13 @@ public class DDMFormInstanceModelImpl
 
 	@Override
 	public void setFormInstanceId(long formInstanceId) {
+		_columnBitmask |= FORMINSTANCEID_COLUMN_BITMASK;
+
+		if (_ddmFormInstanceCacheModel == _dummyDDMFormInstanceCacheModel) {
+			_ddmFormInstanceCacheModel =
+				(DDMFormInstanceCacheModel)toCacheModel();
+		}
+
 		_formInstanceId = formInstanceId;
 	}
 
@@ -504,17 +662,21 @@ public class DDMFormInstanceModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_ddmFormInstanceCacheModel == _dummyDDMFormInstanceCacheModel) {
+			_ddmFormInstanceCacheModel =
+				(DDMFormInstanceCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getOriginalAttributeValue("groupId");
 	}
 
 	@JSON
@@ -527,17 +689,21 @@ public class DDMFormInstanceModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_ddmFormInstanceCacheModel == _dummyDDMFormInstanceCacheModel) {
+			_ddmFormInstanceCacheModel =
+				(DDMFormInstanceCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@JSON
@@ -548,6 +714,13 @@ public class DDMFormInstanceModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (_ddmFormInstanceCacheModel == _dummyDDMFormInstanceCacheModel) {
+			_ddmFormInstanceCacheModel =
+				(DDMFormInstanceCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -580,6 +753,13 @@ public class DDMFormInstanceModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (_ddmFormInstanceCacheModel == _dummyDDMFormInstanceCacheModel) {
+			_ddmFormInstanceCacheModel =
+				(DDMFormInstanceCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -591,6 +771,13 @@ public class DDMFormInstanceModelImpl
 
 	@Override
 	public void setVersionUserId(long versionUserId) {
+		_columnBitmask |= VERSIONUSERID_COLUMN_BITMASK;
+
+		if (_ddmFormInstanceCacheModel == _dummyDDMFormInstanceCacheModel) {
+			_ddmFormInstanceCacheModel =
+				(DDMFormInstanceCacheModel)toCacheModel();
+		}
+
 		_versionUserId = versionUserId;
 	}
 
@@ -623,6 +810,13 @@ public class DDMFormInstanceModelImpl
 
 	@Override
 	public void setVersionUserName(String versionUserName) {
+		_columnBitmask |= VERSIONUSERNAME_COLUMN_BITMASK;
+
+		if (_ddmFormInstanceCacheModel == _dummyDDMFormInstanceCacheModel) {
+			_ddmFormInstanceCacheModel =
+				(DDMFormInstanceCacheModel)toCacheModel();
+		}
+
 		_versionUserName = versionUserName;
 	}
 
@@ -634,6 +828,13 @@ public class DDMFormInstanceModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (_ddmFormInstanceCacheModel == _dummyDDMFormInstanceCacheModel) {
+			_ddmFormInstanceCacheModel =
+				(DDMFormInstanceCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -651,6 +852,13 @@ public class DDMFormInstanceModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (_ddmFormInstanceCacheModel == _dummyDDMFormInstanceCacheModel) {
+			_ddmFormInstanceCacheModel =
+				(DDMFormInstanceCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -662,6 +870,13 @@ public class DDMFormInstanceModelImpl
 
 	@Override
 	public void setStructureId(long structureId) {
+		_columnBitmask |= STRUCTUREID_COLUMN_BITMASK;
+
+		if (_ddmFormInstanceCacheModel == _dummyDDMFormInstanceCacheModel) {
+			_ddmFormInstanceCacheModel =
+				(DDMFormInstanceCacheModel)toCacheModel();
+		}
+
 		_structureId = structureId;
 	}
 
@@ -678,6 +893,13 @@ public class DDMFormInstanceModelImpl
 
 	@Override
 	public void setVersion(String version) {
+		_columnBitmask |= VERSION_COLUMN_BITMASK;
+
+		if (_ddmFormInstanceCacheModel == _dummyDDMFormInstanceCacheModel) {
+			_ddmFormInstanceCacheModel =
+				(DDMFormInstanceCacheModel)toCacheModel();
+		}
+
 		_version = version;
 	}
 
@@ -737,6 +959,13 @@ public class DDMFormInstanceModelImpl
 
 	@Override
 	public void setName(String name) {
+		_columnBitmask |= NAME_COLUMN_BITMASK;
+
+		if (_ddmFormInstanceCacheModel == _dummyDDMFormInstanceCacheModel) {
+			_ddmFormInstanceCacheModel =
+				(DDMFormInstanceCacheModel)toCacheModel();
+		}
+
 		_name = name;
 	}
 
@@ -840,6 +1069,13 @@ public class DDMFormInstanceModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		_columnBitmask |= DESCRIPTION_COLUMN_BITMASK;
+
+		if (_ddmFormInstanceCacheModel == _dummyDDMFormInstanceCacheModel) {
+			_ddmFormInstanceCacheModel =
+				(DDMFormInstanceCacheModel)toCacheModel();
+		}
+
 		_description = description;
 	}
 
@@ -905,6 +1141,13 @@ public class DDMFormInstanceModelImpl
 
 	@Override
 	public void setSettings(String settings) {
+		_columnBitmask |= SETTINGS_COLUMN_BITMASK;
+
+		if (_ddmFormInstanceCacheModel == _dummyDDMFormInstanceCacheModel) {
+			_ddmFormInstanceCacheModel =
+				(DDMFormInstanceCacheModel)toCacheModel();
+		}
+
 		_settings = settings;
 	}
 
@@ -916,6 +1159,13 @@ public class DDMFormInstanceModelImpl
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		_columnBitmask |= LASTPUBLISHDATE_COLUMN_BITMASK;
+
+		if (_ddmFormInstanceCacheModel == _dummyDDMFormInstanceCacheModel) {
+			_ddmFormInstanceCacheModel =
+				(DDMFormInstanceCacheModel)toCacheModel();
+		}
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -1145,25 +1395,13 @@ public class DDMFormInstanceModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		DDMFormInstanceModelImpl ddmFormInstanceModelImpl = this;
-
-		ddmFormInstanceModelImpl._originalUuid = ddmFormInstanceModelImpl._uuid;
-
-		ddmFormInstanceModelImpl._originalGroupId =
-			ddmFormInstanceModelImpl._groupId;
-
-		ddmFormInstanceModelImpl._setOriginalGroupId = false;
-
-		ddmFormInstanceModelImpl._originalCompanyId =
-			ddmFormInstanceModelImpl._companyId;
-
-		ddmFormInstanceModelImpl._setOriginalCompanyId = false;
-
-		ddmFormInstanceModelImpl._setModifiedDate = false;
+		_setModifiedDate = false;
 
 		setDDMFormValues(null);
 
-		ddmFormInstanceModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
+
+		_ddmFormInstanceCacheModel = _dummyDDMFormInstanceCacheModel;
 	}
 
 	@Override
@@ -1349,14 +1587,9 @@ public class DDMFormInstanceModelImpl
 	private long _mvccVersion;
 	private long _ctCollectionId;
 	private String _uuid;
-	private String _originalUuid;
 	private long _formInstanceId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private long _versionUserId;
@@ -1373,6 +1606,11 @@ public class DDMFormInstanceModelImpl
 	private String _settings;
 	private Date _lastPublishDate;
 	private long _columnBitmask;
+
+	private static final DDMFormInstanceCacheModel
+		_dummyDDMFormInstanceCacheModel = new DDMFormInstanceCacheModel();
+
 	private DDMFormInstance _escapedModel;
+	private DDMFormInstanceCacheModel _ddmFormInstanceCacheModel;
 
 }

@@ -6681,8 +6681,8 @@ public class SiteNavigationMenuPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				siteNavigationMenuModelImpl.getOriginalUuid(),
-				siteNavigationMenuModelImpl.getOriginalGroupId()
+				siteNavigationMenuModelImpl.getOriginalAttributeValue("uuid"),
+				siteNavigationMenuModelImpl.getOriginalAttributeValue("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -6703,8 +6703,9 @@ public class SiteNavigationMenuPersistenceImpl
 			 _finderPathFetchByG_N.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				siteNavigationMenuModelImpl.getOriginalGroupId(),
-				siteNavigationMenuModelImpl.getOriginalName()
+				siteNavigationMenuModelImpl.getOriginalAttributeValue(
+					"groupId"),
+				siteNavigationMenuModelImpl.getOriginalAttributeValue("name")
 			};
 
 			finderCache.removeResult(_finderPathCountByG_N, args);
@@ -6956,7 +6957,8 @@ public class SiteNavigationMenuPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					siteNavigationMenuModelImpl.getOriginalUuid()
+					siteNavigationMenuModelImpl.getOriginalAttributeValue(
+						"uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -6975,8 +6977,10 @@ public class SiteNavigationMenuPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					siteNavigationMenuModelImpl.getOriginalUuid(),
-					siteNavigationMenuModelImpl.getOriginalCompanyId()
+					siteNavigationMenuModelImpl.getOriginalAttributeValue(
+						"uuid"),
+					siteNavigationMenuModelImpl.getOriginalAttributeValue(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -6998,7 +7002,8 @@ public class SiteNavigationMenuPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					siteNavigationMenuModelImpl.getOriginalGroupId()
+					siteNavigationMenuModelImpl.getOriginalAttributeValue(
+						"groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId, args);
@@ -7017,8 +7022,10 @@ public class SiteNavigationMenuPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					siteNavigationMenuModelImpl.getOriginalGroupId(),
-					siteNavigationMenuModelImpl.getOriginalType()
+					siteNavigationMenuModelImpl.getOriginalAttributeValue(
+						"groupId"),
+					siteNavigationMenuModelImpl.getOriginalAttributeValue(
+						"type")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_T, args);
@@ -7040,8 +7047,10 @@ public class SiteNavigationMenuPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					siteNavigationMenuModelImpl.getOriginalGroupId(),
-					siteNavigationMenuModelImpl.getOriginalAuto()
+					siteNavigationMenuModelImpl.getOriginalAttributeValue(
+						"groupId"),
+					siteNavigationMenuModelImpl.getOriginalAttributeValue(
+						"auto")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_A, args);

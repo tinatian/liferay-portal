@@ -28,7 +28,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -116,19 +115,33 @@ public class MBDiscussionModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long CLASSNAMEID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long CLASSPK_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 4L;
+	public static final long UUID_COLUMN_BITMASK = 4L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 8L;
+	public static final long DISCUSSIONID_COLUMN_BITMASK = 8L;
 
-	public static final long THREADID_COLUMN_BITMASK = 16L;
+	public static final long GROUPID_COLUMN_BITMASK = 16L;
 
-	public static final long UUID_COLUMN_BITMASK = 32L;
+	public static final long COMPANYID_COLUMN_BITMASK = 32L;
 
-	public static final long DISCUSSIONID_COLUMN_BITMASK = 64L;
+	public static final long USERID_COLUMN_BITMASK = 64L;
+
+	public static final long USERNAME_COLUMN_BITMASK = 128L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 256L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 512L;
+
+	public static final long CLASSNAMEID_COLUMN_BITMASK = 1024L;
+
+	public static final long CLASSPK_COLUMN_BITMASK = 2048L;
+
+	public static final long THREADID_COLUMN_BITMASK = 4096L;
+
+	public static final long LASTPUBLISHDATE_COLUMN_BITMASK = 8192L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -257,74 +270,151 @@ public class MBDiscussionModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_mbDiscussionCacheModel == null) ||
+			(_mbDiscussionCacheModel == _dummyMBDiscussionCacheModel)) {
+
+			return null;
+		}
+
+		Function<MBDiscussionCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_mbDiscussionCacheModel);
+	}
+
 	private static final Map<String, Function<MBDiscussion, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<MBDiscussion, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<MBDiscussionCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<MBDiscussion, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<MBDiscussion, Object>>();
 		Map<String, BiConsumer<MBDiscussion, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<MBDiscussion, ?>>();
+		Map<String, Function<MBDiscussionCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<MBDiscussionCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", MBDiscussion::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			mbDiscussionCacheModel -> mbDiscussionCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<MBDiscussion, Long>)MBDiscussion::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", MBDiscussion::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			mbDiscussionCacheModel -> mbDiscussionCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<MBDiscussion, Long>)MBDiscussion::setCtCollectionId);
 		attributeGetterFunctions.put("uuid", MBDiscussion::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid", mbDiscussionCacheModel -> mbDiscussionCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<MBDiscussion, String>)MBDiscussion::setUuid);
 		attributeGetterFunctions.put(
 			"discussionId", MBDiscussion::getDiscussionId);
+
+		cacheModelGetterFunctions.put(
+			"discussionId",
+			mbDiscussionCacheModel -> mbDiscussionCacheModel.discussionId);
 		attributeSetterBiConsumers.put(
 			"discussionId",
 			(BiConsumer<MBDiscussion, Long>)MBDiscussion::setDiscussionId);
 		attributeGetterFunctions.put("groupId", MBDiscussion::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			mbDiscussionCacheModel -> mbDiscussionCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<MBDiscussion, Long>)MBDiscussion::setGroupId);
 		attributeGetterFunctions.put("companyId", MBDiscussion::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			mbDiscussionCacheModel -> mbDiscussionCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<MBDiscussion, Long>)MBDiscussion::setCompanyId);
 		attributeGetterFunctions.put("userId", MBDiscussion::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", mbDiscussionCacheModel -> mbDiscussionCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<MBDiscussion, Long>)MBDiscussion::setUserId);
 		attributeGetterFunctions.put("userName", MBDiscussion::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			mbDiscussionCacheModel -> mbDiscussionCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<MBDiscussion, String>)MBDiscussion::setUserName);
 		attributeGetterFunctions.put("createDate", MBDiscussion::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			mbDiscussionCacheModel -> mbDiscussionCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<MBDiscussion, Date>)MBDiscussion::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", MBDiscussion::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			mbDiscussionCacheModel -> mbDiscussionCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<MBDiscussion, Date>)MBDiscussion::setModifiedDate);
 		attributeGetterFunctions.put(
 			"classNameId", MBDiscussion::getClassNameId);
+
+		cacheModelGetterFunctions.put(
+			"classNameId",
+			mbDiscussionCacheModel -> mbDiscussionCacheModel.classNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<MBDiscussion, Long>)MBDiscussion::setClassNameId);
 		attributeGetterFunctions.put("classPK", MBDiscussion::getClassPK);
+
+		cacheModelGetterFunctions.put(
+			"classPK",
+			mbDiscussionCacheModel -> mbDiscussionCacheModel.classPK);
 		attributeSetterBiConsumers.put(
 			"classPK",
 			(BiConsumer<MBDiscussion, Long>)MBDiscussion::setClassPK);
 		attributeGetterFunctions.put("threadId", MBDiscussion::getThreadId);
+
+		cacheModelGetterFunctions.put(
+			"threadId",
+			mbDiscussionCacheModel -> mbDiscussionCacheModel.threadId);
 		attributeSetterBiConsumers.put(
 			"threadId",
 			(BiConsumer<MBDiscussion, Long>)MBDiscussion::setThreadId);
 		attributeGetterFunctions.put(
 			"lastPublishDate", MBDiscussion::getLastPublishDate);
+
+		cacheModelGetterFunctions.put(
+			"lastPublishDate",
+			mbDiscussionCacheModel -> mbDiscussionCacheModel.lastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<MBDiscussion, Date>)MBDiscussion::setLastPublishDate);
@@ -333,6 +423,8 @@ public class MBDiscussionModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -342,6 +434,12 @@ public class MBDiscussionModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_mbDiscussionCacheModel == _dummyMBDiscussionCacheModel) {
+			_mbDiscussionCacheModel = (MBDiscussionCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -352,6 +450,12 @@ public class MBDiscussionModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (_mbDiscussionCacheModel == _dummyMBDiscussionCacheModel) {
+			_mbDiscussionCacheModel = (MBDiscussionCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -369,15 +473,20 @@ public class MBDiscussionModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_mbDiscussionCacheModel == _dummyMBDiscussionCacheModel) {
+			_mbDiscussionCacheModel = (MBDiscussionCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getOriginalAttributeValue("uuid");
 	}
 
 	@Override
@@ -387,6 +496,12 @@ public class MBDiscussionModelImpl
 
 	@Override
 	public void setDiscussionId(long discussionId) {
+		_columnBitmask |= DISCUSSIONID_COLUMN_BITMASK;
+
+		if (_mbDiscussionCacheModel == _dummyMBDiscussionCacheModel) {
+			_mbDiscussionCacheModel = (MBDiscussionCacheModel)toCacheModel();
+		}
+
 		_discussionId = discussionId;
 	}
 
@@ -399,17 +514,20 @@ public class MBDiscussionModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_mbDiscussionCacheModel == _dummyMBDiscussionCacheModel) {
+			_mbDiscussionCacheModel = (MBDiscussionCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getOriginalAttributeValue("groupId");
 	}
 
 	@Override
@@ -421,17 +539,20 @@ public class MBDiscussionModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_mbDiscussionCacheModel == _dummyMBDiscussionCacheModel) {
+			_mbDiscussionCacheModel = (MBDiscussionCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@Override
@@ -441,6 +562,12 @@ public class MBDiscussionModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (_mbDiscussionCacheModel == _dummyMBDiscussionCacheModel) {
+			_mbDiscussionCacheModel = (MBDiscussionCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -472,6 +599,12 @@ public class MBDiscussionModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (_mbDiscussionCacheModel == _dummyMBDiscussionCacheModel) {
+			_mbDiscussionCacheModel = (MBDiscussionCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -482,6 +615,12 @@ public class MBDiscussionModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (_mbDiscussionCacheModel == _dummyMBDiscussionCacheModel) {
+			_mbDiscussionCacheModel = (MBDiscussionCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -497,6 +636,12 @@ public class MBDiscussionModelImpl
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
+
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (_mbDiscussionCacheModel == _dummyMBDiscussionCacheModel) {
+			_mbDiscussionCacheModel = (MBDiscussionCacheModel)toCacheModel();
+		}
 
 		_modifiedDate = modifiedDate;
 	}
@@ -530,17 +675,20 @@ public class MBDiscussionModelImpl
 	public void setClassNameId(long classNameId) {
 		_columnBitmask |= CLASSNAMEID_COLUMN_BITMASK;
 
-		if (!_setOriginalClassNameId) {
-			_setOriginalClassNameId = true;
-
-			_originalClassNameId = _classNameId;
+		if (_mbDiscussionCacheModel == _dummyMBDiscussionCacheModel) {
+			_mbDiscussionCacheModel = (MBDiscussionCacheModel)toCacheModel();
 		}
 
 		_classNameId = classNameId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassNameId() {
-		return _originalClassNameId;
+		return getOriginalAttributeValue("classNameId");
 	}
 
 	@Override
@@ -552,17 +700,20 @@ public class MBDiscussionModelImpl
 	public void setClassPK(long classPK) {
 		_columnBitmask |= CLASSPK_COLUMN_BITMASK;
 
-		if (!_setOriginalClassPK) {
-			_setOriginalClassPK = true;
-
-			_originalClassPK = _classPK;
+		if (_mbDiscussionCacheModel == _dummyMBDiscussionCacheModel) {
+			_mbDiscussionCacheModel = (MBDiscussionCacheModel)toCacheModel();
 		}
 
 		_classPK = classPK;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassPK() {
-		return _originalClassPK;
+		return getOriginalAttributeValue("classPK");
 	}
 
 	@Override
@@ -574,17 +725,20 @@ public class MBDiscussionModelImpl
 	public void setThreadId(long threadId) {
 		_columnBitmask |= THREADID_COLUMN_BITMASK;
 
-		if (!_setOriginalThreadId) {
-			_setOriginalThreadId = true;
-
-			_originalThreadId = _threadId;
+		if (_mbDiscussionCacheModel == _dummyMBDiscussionCacheModel) {
+			_mbDiscussionCacheModel = (MBDiscussionCacheModel)toCacheModel();
 		}
 
 		_threadId = threadId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalThreadId() {
-		return _originalThreadId;
+		return getOriginalAttributeValue("threadId");
 	}
 
 	@Override
@@ -594,6 +748,12 @@ public class MBDiscussionModelImpl
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		_columnBitmask |= LASTPUBLISHDATE_COLUMN_BITMASK;
+
+		if (_mbDiscussionCacheModel == _dummyMBDiscussionCacheModel) {
+			_mbDiscussionCacheModel = (MBDiscussionCacheModel)toCacheModel();
+		}
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -722,36 +882,11 @@ public class MBDiscussionModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		MBDiscussionModelImpl mbDiscussionModelImpl = this;
+		_setModifiedDate = false;
 
-		mbDiscussionModelImpl._originalUuid = mbDiscussionModelImpl._uuid;
+		_columnBitmask = 0;
 
-		mbDiscussionModelImpl._originalGroupId = mbDiscussionModelImpl._groupId;
-
-		mbDiscussionModelImpl._setOriginalGroupId = false;
-
-		mbDiscussionModelImpl._originalCompanyId =
-			mbDiscussionModelImpl._companyId;
-
-		mbDiscussionModelImpl._setOriginalCompanyId = false;
-
-		mbDiscussionModelImpl._setModifiedDate = false;
-
-		mbDiscussionModelImpl._originalClassNameId =
-			mbDiscussionModelImpl._classNameId;
-
-		mbDiscussionModelImpl._setOriginalClassNameId = false;
-
-		mbDiscussionModelImpl._originalClassPK = mbDiscussionModelImpl._classPK;
-
-		mbDiscussionModelImpl._setOriginalClassPK = false;
-
-		mbDiscussionModelImpl._originalThreadId =
-			mbDiscussionModelImpl._threadId;
-
-		mbDiscussionModelImpl._setOriginalThreadId = false;
-
-		mbDiscussionModelImpl._columnBitmask = 0;
+		_mbDiscussionCacheModel = _dummyMBDiscussionCacheModel;
 	}
 
 	@Override
@@ -896,30 +1031,24 @@ public class MBDiscussionModelImpl
 	private long _mvccVersion;
 	private long _ctCollectionId;
 	private String _uuid;
-	private String _originalUuid;
 	private long _discussionId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _classNameId;
-	private long _originalClassNameId;
-	private boolean _setOriginalClassNameId;
 	private long _classPK;
-	private long _originalClassPK;
-	private boolean _setOriginalClassPK;
 	private long _threadId;
-	private long _originalThreadId;
-	private boolean _setOriginalThreadId;
 	private Date _lastPublishDate;
 	private long _columnBitmask;
+
+	private static final MBDiscussionCacheModel _dummyMBDiscussionCacheModel =
+		new MBDiscussionCacheModel();
+
 	private MBDiscussion _escapedModel;
+	private MBDiscussionCacheModel _mbDiscussionCacheModel;
 
 }

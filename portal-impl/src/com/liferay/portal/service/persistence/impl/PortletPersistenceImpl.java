@@ -956,8 +956,8 @@ public class PortletPersistenceImpl
 			 _finderPathFetchByC_P.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				portletModelImpl.getOriginalCompanyId(),
-				portletModelImpl.getOriginalPortletId()
+				portletModelImpl.getOriginalAttributeValue("companyId"),
+				portletModelImpl.getOriginalAttributeValue("portletId")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByC_P, args);
@@ -1129,7 +1129,7 @@ public class PortletPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					portletModelImpl.getOriginalCompanyId()
+					portletModelImpl.getOriginalAttributeValue("companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);

@@ -3349,7 +3349,7 @@ public class PowwowMeetingPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					powwowMeetingModelImpl.getOriginalGroupId()
+					powwowMeetingModelImpl.getOriginalAttributeValue("groupId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByGroupId, args);
@@ -3368,7 +3368,8 @@ public class PowwowMeetingPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					powwowMeetingModelImpl.getOriginalPowwowServerId()
+					powwowMeetingModelImpl.getOriginalAttributeValue(
+						"powwowServerId")
 				};
 
 				FinderCacheUtil.removeResult(
@@ -3391,7 +3392,7 @@ public class PowwowMeetingPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					powwowMeetingModelImpl.getOriginalStatus()
+					powwowMeetingModelImpl.getOriginalAttributeValue("status")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByStatus, args);
@@ -3410,8 +3411,8 @@ public class PowwowMeetingPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					powwowMeetingModelImpl.getOriginalUserId(),
-					powwowMeetingModelImpl.getOriginalStatus()
+					powwowMeetingModelImpl.getOriginalAttributeValue("userId"),
+					powwowMeetingModelImpl.getOriginalAttributeValue("status")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByU_S, args);
@@ -3433,8 +3434,9 @@ public class PowwowMeetingPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					powwowMeetingModelImpl.getOriginalPowwowServerId(),
-					powwowMeetingModelImpl.getOriginalStatus()
+					powwowMeetingModelImpl.getOriginalAttributeValue(
+						"powwowServerId"),
+					powwowMeetingModelImpl.getOriginalAttributeValue("status")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByPSI_S, args);

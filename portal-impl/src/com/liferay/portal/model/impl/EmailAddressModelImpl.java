@@ -139,19 +139,31 @@ public class EmailAddressModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long CLASSNAMEID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long CLASSPK_COLUMN_BITMASK = 2L;
+	public static final long UUID_COLUMN_BITMASK = 2L;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 4L;
+	public static final long EMAILADDRESSID_COLUMN_BITMASK = 4L;
 
-	public static final long PRIMARY_COLUMN_BITMASK = 8L;
+	public static final long COMPANYID_COLUMN_BITMASK = 8L;
 
 	public static final long USERID_COLUMN_BITMASK = 16L;
 
-	public static final long UUID_COLUMN_BITMASK = 32L;
+	public static final long USERNAME_COLUMN_BITMASK = 32L;
 
 	public static final long CREATEDATE_COLUMN_BITMASK = 64L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 128L;
+
+	public static final long CLASSNAMEID_COLUMN_BITMASK = 256L;
+
+	public static final long CLASSPK_COLUMN_BITMASK = 512L;
+
+	public static final long ADDRESS_COLUMN_BITMASK = 1024L;
+
+	public static final long TYPEID_COLUMN_BITMASK = 2048L;
+
+	public static final long PRIMARY_COLUMN_BITMASK = 4096L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -321,67 +333,139 @@ public class EmailAddressModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_emailAddressCacheModel == null) ||
+			(_emailAddressCacheModel == _dummyEmailAddressCacheModel)) {
+
+			return null;
+		}
+
+		Function<EmailAddressCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_emailAddressCacheModel);
+	}
+
 	private static final Map<String, Function<EmailAddress, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<EmailAddress, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<EmailAddressCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<EmailAddress, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<EmailAddress, Object>>();
 		Map<String, BiConsumer<EmailAddress, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<EmailAddress, ?>>();
+		Map<String, Function<EmailAddressCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<EmailAddressCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", EmailAddress::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			emailAddressCacheModel -> emailAddressCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<EmailAddress, Long>)EmailAddress::setMvccVersion);
 		attributeGetterFunctions.put("uuid", EmailAddress::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid", emailAddressCacheModel -> emailAddressCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<EmailAddress, String>)EmailAddress::setUuid);
 		attributeGetterFunctions.put(
 			"emailAddressId", EmailAddress::getEmailAddressId);
+
+		cacheModelGetterFunctions.put(
+			"emailAddressId",
+			emailAddressCacheModel -> emailAddressCacheModel.emailAddressId);
 		attributeSetterBiConsumers.put(
 			"emailAddressId",
 			(BiConsumer<EmailAddress, Long>)EmailAddress::setEmailAddressId);
 		attributeGetterFunctions.put("companyId", EmailAddress::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			emailAddressCacheModel -> emailAddressCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<EmailAddress, Long>)EmailAddress::setCompanyId);
 		attributeGetterFunctions.put("userId", EmailAddress::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", emailAddressCacheModel -> emailAddressCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<EmailAddress, Long>)EmailAddress::setUserId);
 		attributeGetterFunctions.put("userName", EmailAddress::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			emailAddressCacheModel -> emailAddressCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<EmailAddress, String>)EmailAddress::setUserName);
 		attributeGetterFunctions.put("createDate", EmailAddress::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			emailAddressCacheModel -> emailAddressCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<EmailAddress, Date>)EmailAddress::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", EmailAddress::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			emailAddressCacheModel -> emailAddressCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<EmailAddress, Date>)EmailAddress::setModifiedDate);
 		attributeGetterFunctions.put(
 			"classNameId", EmailAddress::getClassNameId);
+
+		cacheModelGetterFunctions.put(
+			"classNameId",
+			emailAddressCacheModel -> emailAddressCacheModel.classNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<EmailAddress, Long>)EmailAddress::setClassNameId);
 		attributeGetterFunctions.put("classPK", EmailAddress::getClassPK);
+
+		cacheModelGetterFunctions.put(
+			"classPK",
+			emailAddressCacheModel -> emailAddressCacheModel.classPK);
 		attributeSetterBiConsumers.put(
 			"classPK",
 			(BiConsumer<EmailAddress, Long>)EmailAddress::setClassPK);
 		attributeGetterFunctions.put("address", EmailAddress::getAddress);
+
+		cacheModelGetterFunctions.put(
+			"address",
+			emailAddressCacheModel -> emailAddressCacheModel.address);
 		attributeSetterBiConsumers.put(
 			"address",
 			(BiConsumer<EmailAddress, String>)EmailAddress::setAddress);
 		attributeGetterFunctions.put("typeId", EmailAddress::getTypeId);
+
+		cacheModelGetterFunctions.put(
+			"typeId", emailAddressCacheModel -> emailAddressCacheModel.typeId);
 		attributeSetterBiConsumers.put(
 			"typeId", (BiConsumer<EmailAddress, Long>)EmailAddress::setTypeId);
 		attributeGetterFunctions.put("primary", EmailAddress::getPrimary);
+
+		cacheModelGetterFunctions.put(
+			"primary",
+			emailAddressCacheModel -> emailAddressCacheModel.primary);
 		attributeSetterBiConsumers.put(
 			"primary",
 			(BiConsumer<EmailAddress, Boolean>)EmailAddress::setPrimary);
@@ -390,6 +474,8 @@ public class EmailAddressModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -400,6 +486,12 @@ public class EmailAddressModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_emailAddressCacheModel == _dummyEmailAddressCacheModel) {
+			_emailAddressCacheModel = (EmailAddressCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -418,15 +510,20 @@ public class EmailAddressModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_emailAddressCacheModel == _dummyEmailAddressCacheModel) {
+			_emailAddressCacheModel = (EmailAddressCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getOriginalAttributeValue("uuid");
 	}
 
 	@JSON
@@ -437,6 +534,12 @@ public class EmailAddressModelImpl
 
 	@Override
 	public void setEmailAddressId(long emailAddressId) {
+		_columnBitmask |= EMAILADDRESSID_COLUMN_BITMASK;
+
+		if (_emailAddressCacheModel == _dummyEmailAddressCacheModel) {
+			_emailAddressCacheModel = (EmailAddressCacheModel)toCacheModel();
+		}
+
 		_emailAddressId = emailAddressId;
 	}
 
@@ -450,17 +553,20 @@ public class EmailAddressModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_emailAddressCacheModel == _dummyEmailAddressCacheModel) {
+			_emailAddressCacheModel = (EmailAddressCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@JSON
@@ -473,10 +579,8 @@ public class EmailAddressModelImpl
 	public void setUserId(long userId) {
 		_columnBitmask |= USERID_COLUMN_BITMASK;
 
-		if (!_setOriginalUserId) {
-			_setOriginalUserId = true;
-
-			_originalUserId = _userId;
+		if (_emailAddressCacheModel == _dummyEmailAddressCacheModel) {
+			_emailAddressCacheModel = (EmailAddressCacheModel)toCacheModel();
 		}
 
 		_userId = userId;
@@ -498,8 +602,13 @@ public class EmailAddressModelImpl
 	public void setUserUuid(String userUuid) {
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalUserId() {
-		return _originalUserId;
+		return getOriginalAttributeValue("userId");
 	}
 
 	@JSON
@@ -515,6 +624,12 @@ public class EmailAddressModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (_emailAddressCacheModel == _dummyEmailAddressCacheModel) {
+			_emailAddressCacheModel = (EmailAddressCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -526,7 +641,11 @@ public class EmailAddressModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
-		_columnBitmask = -1L;
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (_emailAddressCacheModel == _dummyEmailAddressCacheModel) {
+			_emailAddressCacheModel = (EmailAddressCacheModel)toCacheModel();
+		}
 
 		_createDate = createDate;
 	}
@@ -544,6 +663,12 @@ public class EmailAddressModelImpl
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
+
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (_emailAddressCacheModel == _dummyEmailAddressCacheModel) {
+			_emailAddressCacheModel = (EmailAddressCacheModel)toCacheModel();
+		}
 
 		_modifiedDate = modifiedDate;
 	}
@@ -578,17 +703,20 @@ public class EmailAddressModelImpl
 	public void setClassNameId(long classNameId) {
 		_columnBitmask |= CLASSNAMEID_COLUMN_BITMASK;
 
-		if (!_setOriginalClassNameId) {
-			_setOriginalClassNameId = true;
-
-			_originalClassNameId = _classNameId;
+		if (_emailAddressCacheModel == _dummyEmailAddressCacheModel) {
+			_emailAddressCacheModel = (EmailAddressCacheModel)toCacheModel();
 		}
 
 		_classNameId = classNameId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassNameId() {
-		return _originalClassNameId;
+		return getOriginalAttributeValue("classNameId");
 	}
 
 	@JSON
@@ -601,17 +729,20 @@ public class EmailAddressModelImpl
 	public void setClassPK(long classPK) {
 		_columnBitmask |= CLASSPK_COLUMN_BITMASK;
 
-		if (!_setOriginalClassPK) {
-			_setOriginalClassPK = true;
-
-			_originalClassPK = _classPK;
+		if (_emailAddressCacheModel == _dummyEmailAddressCacheModel) {
+			_emailAddressCacheModel = (EmailAddressCacheModel)toCacheModel();
 		}
 
 		_classPK = classPK;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassPK() {
-		return _originalClassPK;
+		return getOriginalAttributeValue("classPK");
 	}
 
 	@JSON
@@ -627,6 +758,12 @@ public class EmailAddressModelImpl
 
 	@Override
 	public void setAddress(String address) {
+		_columnBitmask |= ADDRESS_COLUMN_BITMASK;
+
+		if (_emailAddressCacheModel == _dummyEmailAddressCacheModel) {
+			_emailAddressCacheModel = (EmailAddressCacheModel)toCacheModel();
+		}
+
 		_address = address;
 	}
 
@@ -638,6 +775,12 @@ public class EmailAddressModelImpl
 
 	@Override
 	public void setTypeId(long typeId) {
+		_columnBitmask |= TYPEID_COLUMN_BITMASK;
+
+		if (_emailAddressCacheModel == _dummyEmailAddressCacheModel) {
+			_emailAddressCacheModel = (EmailAddressCacheModel)toCacheModel();
+		}
+
 		_typeId = typeId;
 	}
 
@@ -657,17 +800,20 @@ public class EmailAddressModelImpl
 	public void setPrimary(boolean primary) {
 		_columnBitmask |= PRIMARY_COLUMN_BITMASK;
 
-		if (!_setOriginalPrimary) {
-			_setOriginalPrimary = true;
-
-			_originalPrimary = _primary;
+		if (_emailAddressCacheModel == _dummyEmailAddressCacheModel) {
+			_emailAddressCacheModel = (EmailAddressCacheModel)toCacheModel();
 		}
 
 		_primary = primary;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public boolean getOriginalPrimary() {
-		return _originalPrimary;
+		return getOriginalAttributeValue("primary");
 	}
 
 	@Override
@@ -793,35 +939,11 @@ public class EmailAddressModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		EmailAddressModelImpl emailAddressModelImpl = this;
+		_setModifiedDate = false;
 
-		emailAddressModelImpl._originalUuid = emailAddressModelImpl._uuid;
+		_columnBitmask = 0;
 
-		emailAddressModelImpl._originalCompanyId =
-			emailAddressModelImpl._companyId;
-
-		emailAddressModelImpl._setOriginalCompanyId = false;
-
-		emailAddressModelImpl._originalUserId = emailAddressModelImpl._userId;
-
-		emailAddressModelImpl._setOriginalUserId = false;
-
-		emailAddressModelImpl._setModifiedDate = false;
-
-		emailAddressModelImpl._originalClassNameId =
-			emailAddressModelImpl._classNameId;
-
-		emailAddressModelImpl._setOriginalClassNameId = false;
-
-		emailAddressModelImpl._originalClassPK = emailAddressModelImpl._classPK;
-
-		emailAddressModelImpl._setOriginalClassPK = false;
-
-		emailAddressModelImpl._originalPrimary = emailAddressModelImpl._primary;
-
-		emailAddressModelImpl._setOriginalPrimary = false;
-
-		emailAddressModelImpl._columnBitmask = 0;
+		_emailAddressCacheModel = _dummyEmailAddressCacheModel;
 	}
 
 	@Override
@@ -962,30 +1084,24 @@ public class EmailAddressModelImpl
 
 	private long _mvccVersion;
 	private String _uuid;
-	private String _originalUuid;
 	private long _emailAddressId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
-	private long _originalUserId;
-	private boolean _setOriginalUserId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _classNameId;
-	private long _originalClassNameId;
-	private boolean _setOriginalClassNameId;
 	private long _classPK;
-	private long _originalClassPK;
-	private boolean _setOriginalClassPK;
 	private String _address;
 	private long _typeId;
 	private boolean _primary;
-	private boolean _originalPrimary;
-	private boolean _setOriginalPrimary;
 	private long _columnBitmask;
+
+	private static final EmailAddressCacheModel _dummyEmailAddressCacheModel =
+		new EmailAddressCacheModel();
+
 	private EmailAddress _escapedModel;
+	private EmailAddressCacheModel _emailAddressCacheModel;
 
 }

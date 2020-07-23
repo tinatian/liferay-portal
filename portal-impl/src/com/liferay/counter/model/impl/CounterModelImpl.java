@@ -219,21 +219,50 @@ public class CounterModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_counterCacheModel == null) ||
+			(_counterCacheModel == _dummyCounterCacheModel)) {
+
+			return null;
+		}
+
+		Function<CounterCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_counterCacheModel);
+	}
+
 	private static final Map<String, Function<Counter, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<Counter, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<CounterCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<Counter, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<Counter, Object>>();
 		Map<String, BiConsumer<Counter, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Counter, ?>>();
+		Map<String, Function<CounterCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<CounterCacheModel, Object>>();
 
 		attributeGetterFunctions.put("name", Counter::getName);
+
+		cacheModelGetterFunctions.put(
+			"name", counterCacheModel -> counterCacheModel.name);
 		attributeSetterBiConsumers.put(
 			"name", (BiConsumer<Counter, String>)Counter::setName);
 		attributeGetterFunctions.put("currentId", Counter::getCurrentId);
+
+		cacheModelGetterFunctions.put(
+			"currentId", counterCacheModel -> counterCacheModel.currentId);
 		attributeSetterBiConsumers.put(
 			"currentId", (BiConsumer<Counter, Long>)Counter::setCurrentId);
 
@@ -241,6 +270,8 @@ public class CounterModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -255,6 +286,10 @@ public class CounterModelImpl
 
 	@Override
 	public void setName(String name) {
+		if (_counterCacheModel == _dummyCounterCacheModel) {
+			_counterCacheModel = (CounterCacheModel)toCacheModel();
+		}
+
 		_name = name;
 	}
 
@@ -265,6 +300,10 @@ public class CounterModelImpl
 
 	@Override
 	public void setCurrentId(long currentId) {
+		if (_counterCacheModel == _dummyCounterCacheModel) {
+			_counterCacheModel = (CounterCacheModel)toCacheModel();
+		}
+
 		_currentId = currentId;
 	}
 
@@ -349,6 +388,7 @@ public class CounterModelImpl
 
 	@Override
 	public void resetOriginalValues() {
+		_counterCacheModel = _dummyCounterCacheModel;
 	}
 
 	@Override
@@ -440,6 +480,11 @@ public class CounterModelImpl
 
 	private String _name;
 	private long _currentId;
+
+	private static final CounterCacheModel _dummyCounterCacheModel =
+		new CounterCacheModel();
+
 	private Counter _escapedModel;
+	private CounterCacheModel _counterCacheModel;
 
 }

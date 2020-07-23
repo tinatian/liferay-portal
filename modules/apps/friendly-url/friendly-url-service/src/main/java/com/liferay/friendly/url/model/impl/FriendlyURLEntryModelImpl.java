@@ -27,7 +27,6 @@ import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
@@ -113,17 +112,27 @@ public class FriendlyURLEntryModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long CLASSNAMEID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long CLASSPK_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 4L;
+	public static final long UUID_COLUMN_BITMASK = 4L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 8L;
+	public static final long DEFAULTLANGUAGEID_COLUMN_BITMASK = 8L;
 
-	public static final long UUID_COLUMN_BITMASK = 16L;
+	public static final long FRIENDLYURLENTRYID_COLUMN_BITMASK = 16L;
 
-	public static final long FRIENDLYURLENTRYID_COLUMN_BITMASK = 32L;
+	public static final long GROUPID_COLUMN_BITMASK = 32L;
+
+	public static final long COMPANYID_COLUMN_BITMASK = 64L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 128L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 256L;
+
+	public static final long CLASSNAMEID_COLUMN_BITMASK = 512L;
+
+	public static final long CLASSPK_COLUMN_BITMASK = 1024L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -252,10 +261,30 @@ public class FriendlyURLEntryModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_friendlyURLEntryCacheModel == null) ||
+			(_friendlyURLEntryCacheModel == _dummyFriendlyURLEntryCacheModel)) {
+
+			return null;
+		}
+
+		Function<FriendlyURLEntryCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_friendlyURLEntryCacheModel);
+	}
+
 	private static final Map<String, Function<FriendlyURLEntry, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<FriendlyURLEntry, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<FriendlyURLEntryCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<FriendlyURLEntry, Object>>
@@ -264,63 +293,118 @@ public class FriendlyURLEntryModelImpl
 		Map<String, BiConsumer<FriendlyURLEntry, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<FriendlyURLEntry, ?>>();
+		Map<String, Function<FriendlyURLEntryCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<FriendlyURLEntryCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", FriendlyURLEntry::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			friendlyURLEntryCacheModel ->
+				friendlyURLEntryCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<FriendlyURLEntry, Long>)
 				FriendlyURLEntry::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", FriendlyURLEntry::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			friendlyURLEntryCacheModel ->
+				friendlyURLEntryCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<FriendlyURLEntry, Long>)
 				FriendlyURLEntry::setCtCollectionId);
 		attributeGetterFunctions.put("uuid", FriendlyURLEntry::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid",
+			friendlyURLEntryCacheModel -> friendlyURLEntryCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid",
 			(BiConsumer<FriendlyURLEntry, String>)FriendlyURLEntry::setUuid);
 		attributeGetterFunctions.put(
 			"defaultLanguageId", FriendlyURLEntry::getDefaultLanguageId);
+
+		cacheModelGetterFunctions.put(
+			"defaultLanguageId",
+			friendlyURLEntryCacheModel ->
+				friendlyURLEntryCacheModel.defaultLanguageId);
 		attributeSetterBiConsumers.put(
 			"defaultLanguageId",
 			(BiConsumer<FriendlyURLEntry, String>)
 				FriendlyURLEntry::setDefaultLanguageId);
 		attributeGetterFunctions.put(
 			"friendlyURLEntryId", FriendlyURLEntry::getFriendlyURLEntryId);
+
+		cacheModelGetterFunctions.put(
+			"friendlyURLEntryId",
+			friendlyURLEntryCacheModel ->
+				friendlyURLEntryCacheModel.friendlyURLEntryId);
 		attributeSetterBiConsumers.put(
 			"friendlyURLEntryId",
 			(BiConsumer<FriendlyURLEntry, Long>)
 				FriendlyURLEntry::setFriendlyURLEntryId);
 		attributeGetterFunctions.put("groupId", FriendlyURLEntry::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			friendlyURLEntryCacheModel -> friendlyURLEntryCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<FriendlyURLEntry, Long>)FriendlyURLEntry::setGroupId);
 		attributeGetterFunctions.put(
 			"companyId", FriendlyURLEntry::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			friendlyURLEntryCacheModel -> friendlyURLEntryCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<FriendlyURLEntry, Long>)FriendlyURLEntry::setCompanyId);
 		attributeGetterFunctions.put(
 			"createDate", FriendlyURLEntry::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			friendlyURLEntryCacheModel ->
+				friendlyURLEntryCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<FriendlyURLEntry, Date>)
 				FriendlyURLEntry::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", FriendlyURLEntry::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			friendlyURLEntryCacheModel ->
+				friendlyURLEntryCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<FriendlyURLEntry, Date>)
 				FriendlyURLEntry::setModifiedDate);
 		attributeGetterFunctions.put(
 			"classNameId", FriendlyURLEntry::getClassNameId);
+
+		cacheModelGetterFunctions.put(
+			"classNameId",
+			friendlyURLEntryCacheModel ->
+				friendlyURLEntryCacheModel.classNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<FriendlyURLEntry, Long>)
 				FriendlyURLEntry::setClassNameId);
 		attributeGetterFunctions.put("classPK", FriendlyURLEntry::getClassPK);
+
+		cacheModelGetterFunctions.put(
+			"classPK",
+			friendlyURLEntryCacheModel -> friendlyURLEntryCacheModel.classPK);
 		attributeSetterBiConsumers.put(
 			"classPK",
 			(BiConsumer<FriendlyURLEntry, Long>)FriendlyURLEntry::setClassPK);
@@ -329,6 +413,8 @@ public class FriendlyURLEntryModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -424,6 +510,13 @@ public class FriendlyURLEntryModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_friendlyURLEntryCacheModel == _dummyFriendlyURLEntryCacheModel) {
+			_friendlyURLEntryCacheModel =
+				(FriendlyURLEntryCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -434,6 +527,13 @@ public class FriendlyURLEntryModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (_friendlyURLEntryCacheModel == _dummyFriendlyURLEntryCacheModel) {
+			_friendlyURLEntryCacheModel =
+				(FriendlyURLEntryCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -451,15 +551,21 @@ public class FriendlyURLEntryModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_friendlyURLEntryCacheModel == _dummyFriendlyURLEntryCacheModel) {
+			_friendlyURLEntryCacheModel =
+				(FriendlyURLEntryCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getOriginalAttributeValue("uuid");
 	}
 
 	@Override
@@ -474,6 +580,13 @@ public class FriendlyURLEntryModelImpl
 
 	@Override
 	public void setDefaultLanguageId(String defaultLanguageId) {
+		_columnBitmask |= DEFAULTLANGUAGEID_COLUMN_BITMASK;
+
+		if (_friendlyURLEntryCacheModel == _dummyFriendlyURLEntryCacheModel) {
+			_friendlyURLEntryCacheModel =
+				(FriendlyURLEntryCacheModel)toCacheModel();
+		}
+
 		_defaultLanguageId = defaultLanguageId;
 	}
 
@@ -484,6 +597,13 @@ public class FriendlyURLEntryModelImpl
 
 	@Override
 	public void setFriendlyURLEntryId(long friendlyURLEntryId) {
+		_columnBitmask |= FRIENDLYURLENTRYID_COLUMN_BITMASK;
+
+		if (_friendlyURLEntryCacheModel == _dummyFriendlyURLEntryCacheModel) {
+			_friendlyURLEntryCacheModel =
+				(FriendlyURLEntryCacheModel)toCacheModel();
+		}
+
 		_friendlyURLEntryId = friendlyURLEntryId;
 	}
 
@@ -496,17 +616,21 @@ public class FriendlyURLEntryModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_friendlyURLEntryCacheModel == _dummyFriendlyURLEntryCacheModel) {
+			_friendlyURLEntryCacheModel =
+				(FriendlyURLEntryCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getOriginalAttributeValue("groupId");
 	}
 
 	@Override
@@ -518,17 +642,21 @@ public class FriendlyURLEntryModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_friendlyURLEntryCacheModel == _dummyFriendlyURLEntryCacheModel) {
+			_friendlyURLEntryCacheModel =
+				(FriendlyURLEntryCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@Override
@@ -538,6 +666,13 @@ public class FriendlyURLEntryModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (_friendlyURLEntryCacheModel == _dummyFriendlyURLEntryCacheModel) {
+			_friendlyURLEntryCacheModel =
+				(FriendlyURLEntryCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -553,6 +688,13 @@ public class FriendlyURLEntryModelImpl
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
+
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (_friendlyURLEntryCacheModel == _dummyFriendlyURLEntryCacheModel) {
+			_friendlyURLEntryCacheModel =
+				(FriendlyURLEntryCacheModel)toCacheModel();
+		}
 
 		_modifiedDate = modifiedDate;
 	}
@@ -586,17 +728,21 @@ public class FriendlyURLEntryModelImpl
 	public void setClassNameId(long classNameId) {
 		_columnBitmask |= CLASSNAMEID_COLUMN_BITMASK;
 
-		if (!_setOriginalClassNameId) {
-			_setOriginalClassNameId = true;
-
-			_originalClassNameId = _classNameId;
+		if (_friendlyURLEntryCacheModel == _dummyFriendlyURLEntryCacheModel) {
+			_friendlyURLEntryCacheModel =
+				(FriendlyURLEntryCacheModel)toCacheModel();
 		}
 
 		_classNameId = classNameId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassNameId() {
-		return _originalClassNameId;
+		return getOriginalAttributeValue("classNameId");
 	}
 
 	@Override
@@ -608,17 +754,21 @@ public class FriendlyURLEntryModelImpl
 	public void setClassPK(long classPK) {
 		_columnBitmask |= CLASSPK_COLUMN_BITMASK;
 
-		if (!_setOriginalClassPK) {
-			_setOriginalClassPK = true;
-
-			_originalClassPK = _classPK;
+		if (_friendlyURLEntryCacheModel == _dummyFriendlyURLEntryCacheModel) {
+			_friendlyURLEntryCacheModel =
+				(FriendlyURLEntryCacheModel)toCacheModel();
 		}
 
 		_classPK = classPK;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassPK() {
-		return _originalClassPK;
+		return getOriginalAttributeValue("classPK");
 	}
 
 	@Override
@@ -743,34 +893,11 @@ public class FriendlyURLEntryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		FriendlyURLEntryModelImpl friendlyURLEntryModelImpl = this;
+		_setModifiedDate = false;
 
-		friendlyURLEntryModelImpl._originalUuid =
-			friendlyURLEntryModelImpl._uuid;
+		_columnBitmask = 0;
 
-		friendlyURLEntryModelImpl._originalGroupId =
-			friendlyURLEntryModelImpl._groupId;
-
-		friendlyURLEntryModelImpl._setOriginalGroupId = false;
-
-		friendlyURLEntryModelImpl._originalCompanyId =
-			friendlyURLEntryModelImpl._companyId;
-
-		friendlyURLEntryModelImpl._setOriginalCompanyId = false;
-
-		friendlyURLEntryModelImpl._setModifiedDate = false;
-
-		friendlyURLEntryModelImpl._originalClassNameId =
-			friendlyURLEntryModelImpl._classNameId;
-
-		friendlyURLEntryModelImpl._setOriginalClassNameId = false;
-
-		friendlyURLEntryModelImpl._originalClassPK =
-			friendlyURLEntryModelImpl._classPK;
-
-		friendlyURLEntryModelImpl._setOriginalClassPK = false;
-
-		friendlyURLEntryModelImpl._columnBitmask = 0;
+		_friendlyURLEntryCacheModel = _dummyFriendlyURLEntryCacheModel;
 	}
 
 	@Override
@@ -902,25 +1029,21 @@ public class FriendlyURLEntryModelImpl
 	private long _mvccVersion;
 	private long _ctCollectionId;
 	private String _uuid;
-	private String _originalUuid;
 	private String _defaultLanguageId;
 	private long _friendlyURLEntryId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _classNameId;
-	private long _originalClassNameId;
-	private boolean _setOriginalClassNameId;
 	private long _classPK;
-	private long _originalClassPK;
-	private boolean _setOriginalClassPK;
 	private long _columnBitmask;
+
+	private static final FriendlyURLEntryCacheModel
+		_dummyFriendlyURLEntryCacheModel = new FriendlyURLEntryCacheModel();
+
 	private FriendlyURLEntry _escapedModel;
+	private FriendlyURLEntryCacheModel _friendlyURLEntryCacheModel;
 
 }

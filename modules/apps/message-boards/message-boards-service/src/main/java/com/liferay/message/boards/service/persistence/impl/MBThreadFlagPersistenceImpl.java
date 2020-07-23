@@ -2918,8 +2918,8 @@ public class MBThreadFlagPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				mbThreadFlagModelImpl.getOriginalUuid(),
-				mbThreadFlagModelImpl.getOriginalGroupId()
+				mbThreadFlagModelImpl.getOriginalAttributeValue("uuid"),
+				mbThreadFlagModelImpl.getOriginalAttributeValue("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -2940,8 +2940,8 @@ public class MBThreadFlagPersistenceImpl
 			 _finderPathFetchByU_T.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				mbThreadFlagModelImpl.getOriginalUserId(),
-				mbThreadFlagModelImpl.getOriginalThreadId()
+				mbThreadFlagModelImpl.getOriginalAttributeValue("userId"),
+				mbThreadFlagModelImpl.getOriginalAttributeValue("threadId")
 			};
 
 			finderCache.removeResult(_finderPathCountByU_T, args);
@@ -3191,7 +3191,7 @@ public class MBThreadFlagPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mbThreadFlagModelImpl.getOriginalUuid()
+					mbThreadFlagModelImpl.getOriginalAttributeValue("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -3210,8 +3210,8 @@ public class MBThreadFlagPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mbThreadFlagModelImpl.getOriginalUuid(),
-					mbThreadFlagModelImpl.getOriginalCompanyId()
+					mbThreadFlagModelImpl.getOriginalAttributeValue("uuid"),
+					mbThreadFlagModelImpl.getOriginalAttributeValue("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -3233,7 +3233,7 @@ public class MBThreadFlagPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mbThreadFlagModelImpl.getOriginalUserId()
+					mbThreadFlagModelImpl.getOriginalAttributeValue("userId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUserId, args);
@@ -3252,7 +3252,7 @@ public class MBThreadFlagPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					mbThreadFlagModelImpl.getOriginalThreadId()
+					mbThreadFlagModelImpl.getOriginalAttributeValue("threadId")
 				};
 
 				finderCache.removeResult(_finderPathCountByThreadId, args);

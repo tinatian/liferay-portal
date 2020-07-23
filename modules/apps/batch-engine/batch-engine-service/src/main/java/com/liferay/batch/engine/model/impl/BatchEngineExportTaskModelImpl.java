@@ -30,7 +30,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
@@ -126,13 +125,41 @@ public class BatchEngineExportTaskModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long EXECUTESTATUS_COLUMN_BITMASK = 2L;
+	public static final long UUID_COLUMN_BITMASK = 2L;
 
-	public static final long UUID_COLUMN_BITMASK = 4L;
+	public static final long BATCHENGINEEXPORTTASKID_COLUMN_BITMASK = 4L;
 
-	public static final long BATCHENGINEEXPORTTASKID_COLUMN_BITMASK = 8L;
+	public static final long COMPANYID_COLUMN_BITMASK = 8L;
+
+	public static final long USERID_COLUMN_BITMASK = 16L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 32L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 64L;
+
+	public static final long CALLBACKURL_COLUMN_BITMASK = 128L;
+
+	public static final long CLASSNAME_COLUMN_BITMASK = 256L;
+
+	public static final long CONTENT_COLUMN_BITMASK = 512L;
+
+	public static final long CONTENTTYPE_COLUMN_BITMASK = 1024L;
+
+	public static final long ENDTIME_COLUMN_BITMASK = 2048L;
+
+	public static final long ERRORMESSAGE_COLUMN_BITMASK = 4096L;
+
+	public static final long FIELDNAMES_COLUMN_BITMASK = 8192L;
+
+	public static final long EXECUTESTATUS_COLUMN_BITMASK = 16384L;
+
+	public static final long PARAMETERS_COLUMN_BITMASK = 32768L;
+
+	public static final long STARTTIME_COLUMN_BITMASK = 65536L;
+
+	public static final long TASKITEMDELEGATENAME_COLUMN_BITMASK = 131072L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -262,10 +289,31 @@ public class BatchEngineExportTaskModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_batchEngineExportTaskCacheModel == null) ||
+			(_batchEngineExportTaskCacheModel ==
+				_dummyBatchEngineExportTaskCacheModel)) {
+
+			return null;
+		}
+
+		Function<BatchEngineExportTaskCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_batchEngineExportTaskCacheModel);
+	}
+
 	private static final Map<String, Function<BatchEngineExportTask, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<BatchEngineExportTask, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<BatchEngineExportTaskCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<BatchEngineExportTask, Object>>
@@ -276,14 +324,29 @@ public class BatchEngineExportTaskModelImpl
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<BatchEngineExportTask, ?>>();
+		Map<String, Function<BatchEngineExportTaskCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String,
+					 Function<BatchEngineExportTaskCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", BatchEngineExportTask::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			batchEngineExportTaskCacheModel ->
+				batchEngineExportTaskCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<BatchEngineExportTask, Long>)
 				BatchEngineExportTask::setMvccVersion);
 		attributeGetterFunctions.put("uuid", BatchEngineExportTask::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid",
+			batchEngineExportTaskCacheModel ->
+				batchEngineExportTaskCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid",
 			(BiConsumer<BatchEngineExportTask, String>)
@@ -291,90 +354,161 @@ public class BatchEngineExportTaskModelImpl
 		attributeGetterFunctions.put(
 			"batchEngineExportTaskId",
 			BatchEngineExportTask::getBatchEngineExportTaskId);
+
+		cacheModelGetterFunctions.put(
+			"batchEngineExportTaskId",
+			batchEngineExportTaskCacheModel ->
+				batchEngineExportTaskCacheModel.batchEngineExportTaskId);
 		attributeSetterBiConsumers.put(
 			"batchEngineExportTaskId",
 			(BiConsumer<BatchEngineExportTask, Long>)
 				BatchEngineExportTask::setBatchEngineExportTaskId);
 		attributeGetterFunctions.put(
 			"companyId", BatchEngineExportTask::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			batchEngineExportTaskCacheModel ->
+				batchEngineExportTaskCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<BatchEngineExportTask, Long>)
 				BatchEngineExportTask::setCompanyId);
 		attributeGetterFunctions.put(
 			"userId", BatchEngineExportTask::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			batchEngineExportTaskCacheModel ->
+				batchEngineExportTaskCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<BatchEngineExportTask, Long>)
 				BatchEngineExportTask::setUserId);
 		attributeGetterFunctions.put(
 			"createDate", BatchEngineExportTask::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			batchEngineExportTaskCacheModel ->
+				batchEngineExportTaskCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<BatchEngineExportTask, Date>)
 				BatchEngineExportTask::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", BatchEngineExportTask::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			batchEngineExportTaskCacheModel ->
+				batchEngineExportTaskCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<BatchEngineExportTask, Date>)
 				BatchEngineExportTask::setModifiedDate);
 		attributeGetterFunctions.put(
 			"callbackURL", BatchEngineExportTask::getCallbackURL);
+
+		cacheModelGetterFunctions.put(
+			"callbackURL",
+			batchEngineExportTaskCacheModel ->
+				batchEngineExportTaskCacheModel.callbackURL);
 		attributeSetterBiConsumers.put(
 			"callbackURL",
 			(BiConsumer<BatchEngineExportTask, String>)
 				BatchEngineExportTask::setCallbackURL);
 		attributeGetterFunctions.put(
 			"className", BatchEngineExportTask::getClassName);
+
+		cacheModelGetterFunctions.put(
+			"className",
+			batchEngineExportTaskCacheModel ->
+				batchEngineExportTaskCacheModel.className);
 		attributeSetterBiConsumers.put(
 			"className",
 			(BiConsumer<BatchEngineExportTask, String>)
 				BatchEngineExportTask::setClassName);
 		attributeGetterFunctions.put(
 			"content", BatchEngineExportTask::getContent);
+
 		attributeSetterBiConsumers.put(
 			"content",
 			(BiConsumer<BatchEngineExportTask, Blob>)
 				BatchEngineExportTask::setContent);
 		attributeGetterFunctions.put(
 			"contentType", BatchEngineExportTask::getContentType);
+
+		cacheModelGetterFunctions.put(
+			"contentType",
+			batchEngineExportTaskCacheModel ->
+				batchEngineExportTaskCacheModel.contentType);
 		attributeSetterBiConsumers.put(
 			"contentType",
 			(BiConsumer<BatchEngineExportTask, String>)
 				BatchEngineExportTask::setContentType);
 		attributeGetterFunctions.put(
 			"endTime", BatchEngineExportTask::getEndTime);
+
+		cacheModelGetterFunctions.put(
+			"endTime",
+			batchEngineExportTaskCacheModel ->
+				batchEngineExportTaskCacheModel.endTime);
 		attributeSetterBiConsumers.put(
 			"endTime",
 			(BiConsumer<BatchEngineExportTask, Date>)
 				BatchEngineExportTask::setEndTime);
 		attributeGetterFunctions.put(
 			"errorMessage", BatchEngineExportTask::getErrorMessage);
+
+		cacheModelGetterFunctions.put(
+			"errorMessage",
+			batchEngineExportTaskCacheModel ->
+				batchEngineExportTaskCacheModel.errorMessage);
 		attributeSetterBiConsumers.put(
 			"errorMessage",
 			(BiConsumer<BatchEngineExportTask, String>)
 				BatchEngineExportTask::setErrorMessage);
 		attributeGetterFunctions.put(
 			"fieldNames", BatchEngineExportTask::getFieldNames);
+
+		cacheModelGetterFunctions.put(
+			"fieldNames",
+			batchEngineExportTaskCacheModel ->
+				batchEngineExportTaskCacheModel.fieldNames);
 		attributeSetterBiConsumers.put(
 			"fieldNames",
 			(BiConsumer<BatchEngineExportTask, String>)
 				BatchEngineExportTask::setFieldNames);
 		attributeGetterFunctions.put(
 			"executeStatus", BatchEngineExportTask::getExecuteStatus);
+
+		cacheModelGetterFunctions.put(
+			"executeStatus",
+			batchEngineExportTaskCacheModel ->
+				batchEngineExportTaskCacheModel.executeStatus);
 		attributeSetterBiConsumers.put(
 			"executeStatus",
 			(BiConsumer<BatchEngineExportTask, String>)
 				BatchEngineExportTask::setExecuteStatus);
 		attributeGetterFunctions.put(
 			"parameters", BatchEngineExportTask::getParameters);
+
+		cacheModelGetterFunctions.put(
+			"parameters",
+			batchEngineExportTaskCacheModel ->
+				batchEngineExportTaskCacheModel.parameters);
 		attributeSetterBiConsumers.put(
 			"parameters",
 			(BiConsumer<BatchEngineExportTask, Map<String, Serializable>>)
 				BatchEngineExportTask::setParameters);
 		attributeGetterFunctions.put(
 			"startTime", BatchEngineExportTask::getStartTime);
+
+		cacheModelGetterFunctions.put(
+			"startTime",
+			batchEngineExportTaskCacheModel ->
+				batchEngineExportTaskCacheModel.startTime);
 		attributeSetterBiConsumers.put(
 			"startTime",
 			(BiConsumer<BatchEngineExportTask, Date>)
@@ -382,6 +516,11 @@ public class BatchEngineExportTaskModelImpl
 		attributeGetterFunctions.put(
 			"taskItemDelegateName",
 			BatchEngineExportTask::getTaskItemDelegateName);
+
+		cacheModelGetterFunctions.put(
+			"taskItemDelegateName",
+			batchEngineExportTaskCacheModel ->
+				batchEngineExportTaskCacheModel.taskItemDelegateName);
 		attributeSetterBiConsumers.put(
 			"taskItemDelegateName",
 			(BiConsumer<BatchEngineExportTask, String>)
@@ -391,6 +530,8 @@ public class BatchEngineExportTaskModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -400,6 +541,15 @@ public class BatchEngineExportTaskModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_batchEngineExportTaskCacheModel ==
+				_dummyBatchEngineExportTaskCacheModel) {
+
+			_batchEngineExportTaskCacheModel =
+				(BatchEngineExportTaskCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -417,15 +567,23 @@ public class BatchEngineExportTaskModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_batchEngineExportTaskCacheModel ==
+				_dummyBatchEngineExportTaskCacheModel) {
+
+			_batchEngineExportTaskCacheModel =
+				(BatchEngineExportTaskCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getOriginalAttributeValue("uuid");
 	}
 
 	@Override
@@ -435,6 +593,15 @@ public class BatchEngineExportTaskModelImpl
 
 	@Override
 	public void setBatchEngineExportTaskId(long batchEngineExportTaskId) {
+		_columnBitmask |= BATCHENGINEEXPORTTASKID_COLUMN_BITMASK;
+
+		if (_batchEngineExportTaskCacheModel ==
+				_dummyBatchEngineExportTaskCacheModel) {
+
+			_batchEngineExportTaskCacheModel =
+				(BatchEngineExportTaskCacheModel)toCacheModel();
+		}
+
 		_batchEngineExportTaskId = batchEngineExportTaskId;
 	}
 
@@ -447,17 +614,23 @@ public class BatchEngineExportTaskModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
+		if (_batchEngineExportTaskCacheModel ==
+				_dummyBatchEngineExportTaskCacheModel) {
 
-			_originalCompanyId = _companyId;
+			_batchEngineExportTaskCacheModel =
+				(BatchEngineExportTaskCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@Override
@@ -467,6 +640,15 @@ public class BatchEngineExportTaskModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (_batchEngineExportTaskCacheModel ==
+				_dummyBatchEngineExportTaskCacheModel) {
+
+			_batchEngineExportTaskCacheModel =
+				(BatchEngineExportTaskCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -493,6 +675,15 @@ public class BatchEngineExportTaskModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (_batchEngineExportTaskCacheModel ==
+				_dummyBatchEngineExportTaskCacheModel) {
+
+			_batchEngineExportTaskCacheModel =
+				(BatchEngineExportTaskCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -509,6 +700,15 @@ public class BatchEngineExportTaskModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (_batchEngineExportTaskCacheModel ==
+				_dummyBatchEngineExportTaskCacheModel) {
+
+			_batchEngineExportTaskCacheModel =
+				(BatchEngineExportTaskCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -524,6 +724,15 @@ public class BatchEngineExportTaskModelImpl
 
 	@Override
 	public void setCallbackURL(String callbackURL) {
+		_columnBitmask |= CALLBACKURL_COLUMN_BITMASK;
+
+		if (_batchEngineExportTaskCacheModel ==
+				_dummyBatchEngineExportTaskCacheModel) {
+
+			_batchEngineExportTaskCacheModel =
+				(BatchEngineExportTaskCacheModel)toCacheModel();
+		}
+
 		_callbackURL = callbackURL;
 	}
 
@@ -539,6 +748,15 @@ public class BatchEngineExportTaskModelImpl
 
 	@Override
 	public void setClassName(String className) {
+		_columnBitmask |= CLASSNAME_COLUMN_BITMASK;
+
+		if (_batchEngineExportTaskCacheModel ==
+				_dummyBatchEngineExportTaskCacheModel) {
+
+			_batchEngineExportTaskCacheModel =
+				(BatchEngineExportTaskCacheModel)toCacheModel();
+		}
+
 		_className = className;
 	}
 
@@ -565,6 +783,15 @@ public class BatchEngineExportTaskModelImpl
 
 	@Override
 	public void setContent(Blob content) {
+		_columnBitmask |= CONTENT_COLUMN_BITMASK;
+
+		if (_batchEngineExportTaskCacheModel ==
+				_dummyBatchEngineExportTaskCacheModel) {
+
+			_batchEngineExportTaskCacheModel =
+				(BatchEngineExportTaskCacheModel)toCacheModel();
+		}
+
 		if (_contentBlobModel == null) {
 			_contentBlobModel = new BatchEngineExportTaskContentBlobModel(
 				getPrimaryKey(), content);
@@ -586,6 +813,15 @@ public class BatchEngineExportTaskModelImpl
 
 	@Override
 	public void setContentType(String contentType) {
+		_columnBitmask |= CONTENTTYPE_COLUMN_BITMASK;
+
+		if (_batchEngineExportTaskCacheModel ==
+				_dummyBatchEngineExportTaskCacheModel) {
+
+			_batchEngineExportTaskCacheModel =
+				(BatchEngineExportTaskCacheModel)toCacheModel();
+		}
+
 		_contentType = contentType;
 	}
 
@@ -596,6 +832,15 @@ public class BatchEngineExportTaskModelImpl
 
 	@Override
 	public void setEndTime(Date endTime) {
+		_columnBitmask |= ENDTIME_COLUMN_BITMASK;
+
+		if (_batchEngineExportTaskCacheModel ==
+				_dummyBatchEngineExportTaskCacheModel) {
+
+			_batchEngineExportTaskCacheModel =
+				(BatchEngineExportTaskCacheModel)toCacheModel();
+		}
+
 		_endTime = endTime;
 	}
 
@@ -611,6 +856,15 @@ public class BatchEngineExportTaskModelImpl
 
 	@Override
 	public void setErrorMessage(String errorMessage) {
+		_columnBitmask |= ERRORMESSAGE_COLUMN_BITMASK;
+
+		if (_batchEngineExportTaskCacheModel ==
+				_dummyBatchEngineExportTaskCacheModel) {
+
+			_batchEngineExportTaskCacheModel =
+				(BatchEngineExportTaskCacheModel)toCacheModel();
+		}
+
 		_errorMessage = errorMessage;
 	}
 
@@ -626,6 +880,15 @@ public class BatchEngineExportTaskModelImpl
 
 	@Override
 	public void setFieldNames(String fieldNames) {
+		_columnBitmask |= FIELDNAMES_COLUMN_BITMASK;
+
+		if (_batchEngineExportTaskCacheModel ==
+				_dummyBatchEngineExportTaskCacheModel) {
+
+			_batchEngineExportTaskCacheModel =
+				(BatchEngineExportTaskCacheModel)toCacheModel();
+		}
+
 		_fieldNames = fieldNames;
 	}
 
@@ -643,15 +906,23 @@ public class BatchEngineExportTaskModelImpl
 	public void setExecuteStatus(String executeStatus) {
 		_columnBitmask |= EXECUTESTATUS_COLUMN_BITMASK;
 
-		if (_originalExecuteStatus == null) {
-			_originalExecuteStatus = _executeStatus;
+		if (_batchEngineExportTaskCacheModel ==
+				_dummyBatchEngineExportTaskCacheModel) {
+
+			_batchEngineExportTaskCacheModel =
+				(BatchEngineExportTaskCacheModel)toCacheModel();
 		}
 
 		_executeStatus = executeStatus;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalExecuteStatus() {
-		return GetterUtil.getString(_originalExecuteStatus);
+		return getOriginalAttributeValue("executeStatus");
 	}
 
 	@Override
@@ -661,6 +932,15 @@ public class BatchEngineExportTaskModelImpl
 
 	@Override
 	public void setParameters(Map<String, Serializable> parameters) {
+		_columnBitmask |= PARAMETERS_COLUMN_BITMASK;
+
+		if (_batchEngineExportTaskCacheModel ==
+				_dummyBatchEngineExportTaskCacheModel) {
+
+			_batchEngineExportTaskCacheModel =
+				(BatchEngineExportTaskCacheModel)toCacheModel();
+		}
+
 		_parameters = parameters;
 	}
 
@@ -671,6 +951,15 @@ public class BatchEngineExportTaskModelImpl
 
 	@Override
 	public void setStartTime(Date startTime) {
+		_columnBitmask |= STARTTIME_COLUMN_BITMASK;
+
+		if (_batchEngineExportTaskCacheModel ==
+				_dummyBatchEngineExportTaskCacheModel) {
+
+			_batchEngineExportTaskCacheModel =
+				(BatchEngineExportTaskCacheModel)toCacheModel();
+		}
+
 		_startTime = startTime;
 	}
 
@@ -686,6 +975,15 @@ public class BatchEngineExportTaskModelImpl
 
 	@Override
 	public void setTaskItemDelegateName(String taskItemDelegateName) {
+		_columnBitmask |= TASKITEMDELEGATENAME_COLUMN_BITMASK;
+
+		if (_batchEngineExportTaskCacheModel ==
+				_dummyBatchEngineExportTaskCacheModel) {
+
+			_batchEngineExportTaskCacheModel =
+				(BatchEngineExportTaskCacheModel)toCacheModel();
+		}
+
 		_taskItemDelegateName = taskItemDelegateName;
 	}
 
@@ -821,24 +1119,14 @@ public class BatchEngineExportTaskModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		BatchEngineExportTaskModelImpl batchEngineExportTaskModelImpl = this;
+		_setModifiedDate = false;
 
-		batchEngineExportTaskModelImpl._originalUuid =
-			batchEngineExportTaskModelImpl._uuid;
+		_contentBlobModel = null;
 
-		batchEngineExportTaskModelImpl._originalCompanyId =
-			batchEngineExportTaskModelImpl._companyId;
+		_columnBitmask = 0;
 
-		batchEngineExportTaskModelImpl._setOriginalCompanyId = false;
-
-		batchEngineExportTaskModelImpl._setModifiedDate = false;
-
-		batchEngineExportTaskModelImpl._contentBlobModel = null;
-
-		batchEngineExportTaskModelImpl._originalExecuteStatus =
-			batchEngineExportTaskModelImpl._executeStatus;
-
-		batchEngineExportTaskModelImpl._columnBitmask = 0;
+		_batchEngineExportTaskCacheModel =
+			_dummyBatchEngineExportTaskCacheModel;
 	}
 
 	@Override
@@ -1099,11 +1387,8 @@ public class BatchEngineExportTaskModelImpl
 
 	private long _mvccVersion;
 	private String _uuid;
-	private String _originalUuid;
 	private long _batchEngineExportTaskId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private Date _createDate;
 	private Date _modifiedDate;
@@ -1116,11 +1401,16 @@ public class BatchEngineExportTaskModelImpl
 	private String _errorMessage;
 	private String _fieldNames;
 	private String _executeStatus;
-	private String _originalExecuteStatus;
 	private Map<String, Serializable> _parameters;
 	private Date _startTime;
 	private String _taskItemDelegateName;
 	private long _columnBitmask;
+
+	private static final BatchEngineExportTaskCacheModel
+		_dummyBatchEngineExportTaskCacheModel =
+			new BatchEngineExportTaskCacheModel();
+
 	private BatchEngineExportTask _escapedModel;
+	private BatchEngineExportTaskCacheModel _batchEngineExportTaskCacheModel;
 
 }

@@ -2066,8 +2066,8 @@ public class MBStatsUserPersistenceImpl
 			 _finderPathFetchByG_U.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				mbStatsUserModelImpl.getOriginalGroupId(),
-				mbStatsUserModelImpl.getOriginalUserId()
+				mbStatsUserModelImpl.getOriginalAttributeValue("groupId"),
+				mbStatsUserModelImpl.getOriginalAttributeValue("userId")
 			};
 
 			finderCache.removeResult(_finderPathCountByG_U, args);
@@ -2266,7 +2266,7 @@ public class MBStatsUserPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					mbStatsUserModelImpl.getOriginalGroupId()
+					mbStatsUserModelImpl.getOriginalAttributeValue("groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId, args);
@@ -2285,7 +2285,7 @@ public class MBStatsUserPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mbStatsUserModelImpl.getOriginalUserId()
+					mbStatsUserModelImpl.getOriginalAttributeValue("userId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUserId, args);

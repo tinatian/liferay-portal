@@ -100,13 +100,19 @@ public class DDMStructureLinkModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long CLASSNAMEID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long CLASSPK_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
-	public static final long STRUCTUREID_COLUMN_BITMASK = 4L;
+	public static final long STRUCTURELINKID_COLUMN_BITMASK = 4L;
 
-	public static final long STRUCTURELINKID_COLUMN_BITMASK = 8L;
+	public static final long COMPANYID_COLUMN_BITMASK = 8L;
+
+	public static final long CLASSNAMEID_COLUMN_BITMASK = 16L;
+
+	public static final long CLASSPK_COLUMN_BITMASK = 32L;
+
+	public static final long STRUCTUREID_COLUMN_BITMASK = 64L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -235,10 +241,30 @@ public class DDMStructureLinkModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_ddmStructureLinkCacheModel == null) ||
+			(_ddmStructureLinkCacheModel == _dummyDDMStructureLinkCacheModel)) {
+
+			return null;
+		}
+
+		Function<DDMStructureLinkCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_ddmStructureLinkCacheModel);
+	}
+
 	private static final Map<String, Function<DDMStructureLink, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<DDMStructureLink, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<DDMStructureLinkCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<DDMStructureLink, Object>>
@@ -247,42 +273,79 @@ public class DDMStructureLinkModelImpl
 		Map<String, BiConsumer<DDMStructureLink, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<DDMStructureLink, ?>>();
+		Map<String, Function<DDMStructureLinkCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<DDMStructureLinkCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", DDMStructureLink::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			ddmStructureLinkCacheModel ->
+				ddmStructureLinkCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<DDMStructureLink, Long>)
 				DDMStructureLink::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", DDMStructureLink::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			ddmStructureLinkCacheModel ->
+				ddmStructureLinkCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<DDMStructureLink, Long>)
 				DDMStructureLink::setCtCollectionId);
 		attributeGetterFunctions.put(
 			"structureLinkId", DDMStructureLink::getStructureLinkId);
+
+		cacheModelGetterFunctions.put(
+			"structureLinkId",
+			ddmStructureLinkCacheModel ->
+				ddmStructureLinkCacheModel.structureLinkId);
 		attributeSetterBiConsumers.put(
 			"structureLinkId",
 			(BiConsumer<DDMStructureLink, Long>)
 				DDMStructureLink::setStructureLinkId);
 		attributeGetterFunctions.put(
 			"companyId", DDMStructureLink::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			ddmStructureLinkCacheModel -> ddmStructureLinkCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<DDMStructureLink, Long>)DDMStructureLink::setCompanyId);
 		attributeGetterFunctions.put(
 			"classNameId", DDMStructureLink::getClassNameId);
+
+		cacheModelGetterFunctions.put(
+			"classNameId",
+			ddmStructureLinkCacheModel ->
+				ddmStructureLinkCacheModel.classNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<DDMStructureLink, Long>)
 				DDMStructureLink::setClassNameId);
 		attributeGetterFunctions.put("classPK", DDMStructureLink::getClassPK);
+
+		cacheModelGetterFunctions.put(
+			"classPK",
+			ddmStructureLinkCacheModel -> ddmStructureLinkCacheModel.classPK);
 		attributeSetterBiConsumers.put(
 			"classPK",
 			(BiConsumer<DDMStructureLink, Long>)DDMStructureLink::setClassPK);
 		attributeGetterFunctions.put(
 			"structureId", DDMStructureLink::getStructureId);
+
+		cacheModelGetterFunctions.put(
+			"structureId",
+			ddmStructureLinkCacheModel ->
+				ddmStructureLinkCacheModel.structureId);
 		attributeSetterBiConsumers.put(
 			"structureId",
 			(BiConsumer<DDMStructureLink, Long>)
@@ -292,6 +355,8 @@ public class DDMStructureLinkModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -301,6 +366,13 @@ public class DDMStructureLinkModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_ddmStructureLinkCacheModel == _dummyDDMStructureLinkCacheModel) {
+			_ddmStructureLinkCacheModel =
+				(DDMStructureLinkCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -311,6 +383,13 @@ public class DDMStructureLinkModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (_ddmStructureLinkCacheModel == _dummyDDMStructureLinkCacheModel) {
+			_ddmStructureLinkCacheModel =
+				(DDMStructureLinkCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -321,6 +400,13 @@ public class DDMStructureLinkModelImpl
 
 	@Override
 	public void setStructureLinkId(long structureLinkId) {
+		_columnBitmask |= STRUCTURELINKID_COLUMN_BITMASK;
+
+		if (_ddmStructureLinkCacheModel == _dummyDDMStructureLinkCacheModel) {
+			_ddmStructureLinkCacheModel =
+				(DDMStructureLinkCacheModel)toCacheModel();
+		}
+
 		_structureLinkId = structureLinkId;
 	}
 
@@ -331,6 +417,13 @@ public class DDMStructureLinkModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (_ddmStructureLinkCacheModel == _dummyDDMStructureLinkCacheModel) {
+			_ddmStructureLinkCacheModel =
+				(DDMStructureLinkCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -363,17 +456,21 @@ public class DDMStructureLinkModelImpl
 	public void setClassNameId(long classNameId) {
 		_columnBitmask |= CLASSNAMEID_COLUMN_BITMASK;
 
-		if (!_setOriginalClassNameId) {
-			_setOriginalClassNameId = true;
-
-			_originalClassNameId = _classNameId;
+		if (_ddmStructureLinkCacheModel == _dummyDDMStructureLinkCacheModel) {
+			_ddmStructureLinkCacheModel =
+				(DDMStructureLinkCacheModel)toCacheModel();
 		}
 
 		_classNameId = classNameId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassNameId() {
-		return _originalClassNameId;
+		return getOriginalAttributeValue("classNameId");
 	}
 
 	@Override
@@ -385,17 +482,21 @@ public class DDMStructureLinkModelImpl
 	public void setClassPK(long classPK) {
 		_columnBitmask |= CLASSPK_COLUMN_BITMASK;
 
-		if (!_setOriginalClassPK) {
-			_setOriginalClassPK = true;
-
-			_originalClassPK = _classPK;
+		if (_ddmStructureLinkCacheModel == _dummyDDMStructureLinkCacheModel) {
+			_ddmStructureLinkCacheModel =
+				(DDMStructureLinkCacheModel)toCacheModel();
 		}
 
 		_classPK = classPK;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassPK() {
-		return _originalClassPK;
+		return getOriginalAttributeValue("classPK");
 	}
 
 	@Override
@@ -407,17 +508,21 @@ public class DDMStructureLinkModelImpl
 	public void setStructureId(long structureId) {
 		_columnBitmask |= STRUCTUREID_COLUMN_BITMASK;
 
-		if (!_setOriginalStructureId) {
-			_setOriginalStructureId = true;
-
-			_originalStructureId = _structureId;
+		if (_ddmStructureLinkCacheModel == _dummyDDMStructureLinkCacheModel) {
+			_ddmStructureLinkCacheModel =
+				(DDMStructureLinkCacheModel)toCacheModel();
 		}
 
 		_structureId = structureId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalStructureId() {
-		return _originalStructureId;
+		return getOriginalAttributeValue("structureId");
 	}
 
 	public long getColumnBitmask() {
@@ -531,24 +636,9 @@ public class DDMStructureLinkModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		DDMStructureLinkModelImpl ddmStructureLinkModelImpl = this;
+		_columnBitmask = 0;
 
-		ddmStructureLinkModelImpl._originalClassNameId =
-			ddmStructureLinkModelImpl._classNameId;
-
-		ddmStructureLinkModelImpl._setOriginalClassNameId = false;
-
-		ddmStructureLinkModelImpl._originalClassPK =
-			ddmStructureLinkModelImpl._classPK;
-
-		ddmStructureLinkModelImpl._setOriginalClassPK = false;
-
-		ddmStructureLinkModelImpl._originalStructureId =
-			ddmStructureLinkModelImpl._structureId;
-
-		ddmStructureLinkModelImpl._setOriginalStructureId = false;
-
-		ddmStructureLinkModelImpl._columnBitmask = 0;
+		_ddmStructureLinkCacheModel = _dummyDDMStructureLinkCacheModel;
 	}
 
 	@Override
@@ -648,15 +738,14 @@ public class DDMStructureLinkModelImpl
 	private long _structureLinkId;
 	private long _companyId;
 	private long _classNameId;
-	private long _originalClassNameId;
-	private boolean _setOriginalClassNameId;
 	private long _classPK;
-	private long _originalClassPK;
-	private boolean _setOriginalClassPK;
 	private long _structureId;
-	private long _originalStructureId;
-	private boolean _setOriginalStructureId;
 	private long _columnBitmask;
+
+	private static final DDMStructureLinkCacheModel
+		_dummyDDMStructureLinkCacheModel = new DDMStructureLinkCacheModel();
+
 	private DDMStructureLink _escapedModel;
+	private DDMStructureLinkCacheModel _ddmStructureLinkCacheModel;
 
 }

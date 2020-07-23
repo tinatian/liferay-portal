@@ -4486,8 +4486,8 @@ public class AMImageEntryPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				amImageEntryModelImpl.getOriginalUuid(),
-				amImageEntryModelImpl.getOriginalGroupId()
+				amImageEntryModelImpl.getOriginalAttributeValue("uuid"),
+				amImageEntryModelImpl.getOriginalAttributeValue("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -4508,8 +4508,9 @@ public class AMImageEntryPersistenceImpl
 			 _finderPathFetchByC_F.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				amImageEntryModelImpl.getOriginalConfigurationUuid(),
-				amImageEntryModelImpl.getOriginalFileVersionId()
+				amImageEntryModelImpl.getOriginalAttributeValue(
+					"configurationUuid"),
+				amImageEntryModelImpl.getOriginalAttributeValue("fileVersionId")
 			};
 
 			finderCache.removeResult(_finderPathCountByC_F, args);
@@ -4736,7 +4737,7 @@ public class AMImageEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					amImageEntryModelImpl.getOriginalUuid()
+					amImageEntryModelImpl.getOriginalAttributeValue("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -4755,8 +4756,8 @@ public class AMImageEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					amImageEntryModelImpl.getOriginalUuid(),
-					amImageEntryModelImpl.getOriginalCompanyId()
+					amImageEntryModelImpl.getOriginalAttributeValue("uuid"),
+					amImageEntryModelImpl.getOriginalAttributeValue("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -4778,7 +4779,7 @@ public class AMImageEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					amImageEntryModelImpl.getOriginalGroupId()
+					amImageEntryModelImpl.getOriginalAttributeValue("groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId, args);
@@ -4797,7 +4798,7 @@ public class AMImageEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					amImageEntryModelImpl.getOriginalCompanyId()
+					amImageEntryModelImpl.getOriginalAttributeValue("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCompanyId, args);
@@ -4816,7 +4817,8 @@ public class AMImageEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					amImageEntryModelImpl.getOriginalConfigurationUuid()
+					amImageEntryModelImpl.getOriginalAttributeValue(
+						"configurationUuid")
 				};
 
 				finderCache.removeResult(
@@ -4839,7 +4841,8 @@ public class AMImageEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					amImageEntryModelImpl.getOriginalFileVersionId()
+					amImageEntryModelImpl.getOriginalAttributeValue(
+						"fileVersionId")
 				};
 
 				finderCache.removeResult(_finderPathCountByFileVersionId, args);
@@ -4858,8 +4861,10 @@ public class AMImageEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					amImageEntryModelImpl.getOriginalCompanyId(),
-					amImageEntryModelImpl.getOriginalConfigurationUuid()
+					amImageEntryModelImpl.getOriginalAttributeValue(
+						"companyId"),
+					amImageEntryModelImpl.getOriginalAttributeValue(
+						"configurationUuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_C, args);

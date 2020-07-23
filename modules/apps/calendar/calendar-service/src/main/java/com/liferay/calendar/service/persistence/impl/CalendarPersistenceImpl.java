@@ -3531,8 +3531,8 @@ public class CalendarPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				calendarModelImpl.getOriginalUuid(),
-				calendarModelImpl.getOriginalGroupId()
+				calendarModelImpl.getOriginalAttributeValue("uuid"),
+				calendarModelImpl.getOriginalAttributeValue("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -3763,7 +3763,7 @@ public class CalendarPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					calendarModelImpl.getOriginalUuid()
+					calendarModelImpl.getOriginalAttributeValue("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -3782,8 +3782,8 @@ public class CalendarPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					calendarModelImpl.getOriginalUuid(),
-					calendarModelImpl.getOriginalCompanyId()
+					calendarModelImpl.getOriginalAttributeValue("uuid"),
+					calendarModelImpl.getOriginalAttributeValue("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -3805,8 +3805,9 @@ public class CalendarPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					calendarModelImpl.getOriginalGroupId(),
-					calendarModelImpl.getOriginalCalendarResourceId()
+					calendarModelImpl.getOriginalAttributeValue("groupId"),
+					calendarModelImpl.getOriginalAttributeValue(
+						"calendarResourceId")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_C, args);
@@ -3828,9 +3829,11 @@ public class CalendarPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					calendarModelImpl.getOriginalGroupId(),
-					calendarModelImpl.getOriginalCalendarResourceId(),
-					calendarModelImpl.getOriginalDefaultCalendar()
+					calendarModelImpl.getOriginalAttributeValue("groupId"),
+					calendarModelImpl.getOriginalAttributeValue(
+						"calendarResourceId"),
+					calendarModelImpl.getOriginalAttributeValue(
+						"defaultCalendar")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_C_D, args);

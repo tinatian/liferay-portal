@@ -122,17 +122,25 @@ public class TicketModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long CLASSNAMEID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long CLASSPK_COLUMN_BITMASK = 2L;
+	public static final long TICKETID_COLUMN_BITMASK = 2L;
 
 	public static final long COMPANYID_COLUMN_BITMASK = 4L;
 
-	public static final long KEY_COLUMN_BITMASK = 8L;
+	public static final long CREATEDATE_COLUMN_BITMASK = 8L;
 
-	public static final long TYPE_COLUMN_BITMASK = 16L;
+	public static final long CLASSNAMEID_COLUMN_BITMASK = 16L;
 
-	public static final long TICKETID_COLUMN_BITMASK = 32L;
+	public static final long CLASSPK_COLUMN_BITMASK = 32L;
+
+	public static final long KEY_COLUMN_BITMASK = 64L;
+
+	public static final long TYPE_COLUMN_BITMASK = 128L;
+
+	public static final long EXTRAINFO_COLUMN_BITMASK = 256L;
+
+	public static final long EXPIRATIONDATE_COLUMN_BITMASK = 512L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		com.liferay.portal.util.PropsUtil.get(
@@ -246,46 +254,99 @@ public class TicketModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_ticketCacheModel == null) ||
+			(_ticketCacheModel == _dummyTicketCacheModel)) {
+
+			return null;
+		}
+
+		Function<TicketCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_ticketCacheModel);
+	}
+
 	private static final Map<String, Function<Ticket, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<Ticket, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<TicketCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<Ticket, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<Ticket, Object>>();
 		Map<String, BiConsumer<Ticket, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Ticket, ?>>();
+		Map<String, Function<TicketCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap<String, Function<TicketCacheModel, Object>>();
 
 		attributeGetterFunctions.put("mvccVersion", Ticket::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion", ticketCacheModel -> ticketCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion", (BiConsumer<Ticket, Long>)Ticket::setMvccVersion);
 		attributeGetterFunctions.put("ticketId", Ticket::getTicketId);
+
+		cacheModelGetterFunctions.put(
+			"ticketId", ticketCacheModel -> ticketCacheModel.ticketId);
 		attributeSetterBiConsumers.put(
 			"ticketId", (BiConsumer<Ticket, Long>)Ticket::setTicketId);
 		attributeGetterFunctions.put("companyId", Ticket::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId", ticketCacheModel -> ticketCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId", (BiConsumer<Ticket, Long>)Ticket::setCompanyId);
 		attributeGetterFunctions.put("createDate", Ticket::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate", ticketCacheModel -> ticketCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate", (BiConsumer<Ticket, Date>)Ticket::setCreateDate);
 		attributeGetterFunctions.put("classNameId", Ticket::getClassNameId);
+
+		cacheModelGetterFunctions.put(
+			"classNameId", ticketCacheModel -> ticketCacheModel.classNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId", (BiConsumer<Ticket, Long>)Ticket::setClassNameId);
 		attributeGetterFunctions.put("classPK", Ticket::getClassPK);
+
+		cacheModelGetterFunctions.put(
+			"classPK", ticketCacheModel -> ticketCacheModel.classPK);
 		attributeSetterBiConsumers.put(
 			"classPK", (BiConsumer<Ticket, Long>)Ticket::setClassPK);
 		attributeGetterFunctions.put("key", Ticket::getKey);
+
+		cacheModelGetterFunctions.put(
+			"key", ticketCacheModel -> ticketCacheModel.key);
 		attributeSetterBiConsumers.put(
 			"key", (BiConsumer<Ticket, String>)Ticket::setKey);
 		attributeGetterFunctions.put("type", Ticket::getType);
+
+		cacheModelGetterFunctions.put(
+			"type", ticketCacheModel -> ticketCacheModel.type);
 		attributeSetterBiConsumers.put(
 			"type", (BiConsumer<Ticket, Integer>)Ticket::setType);
 		attributeGetterFunctions.put("extraInfo", Ticket::getExtraInfo);
+
+		cacheModelGetterFunctions.put(
+			"extraInfo", ticketCacheModel -> ticketCacheModel.extraInfo);
 		attributeSetterBiConsumers.put(
 			"extraInfo", (BiConsumer<Ticket, String>)Ticket::setExtraInfo);
 		attributeGetterFunctions.put(
 			"expirationDate", Ticket::getExpirationDate);
+
+		cacheModelGetterFunctions.put(
+			"expirationDate",
+			ticketCacheModel -> ticketCacheModel.expirationDate);
 		attributeSetterBiConsumers.put(
 			"expirationDate",
 			(BiConsumer<Ticket, Date>)Ticket::setExpirationDate);
@@ -294,6 +355,8 @@ public class TicketModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -303,6 +366,12 @@ public class TicketModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_ticketCacheModel == _dummyTicketCacheModel) {
+			_ticketCacheModel = (TicketCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -313,7 +382,11 @@ public class TicketModelImpl
 
 	@Override
 	public void setTicketId(long ticketId) {
-		_columnBitmask = -1L;
+		_columnBitmask |= TICKETID_COLUMN_BITMASK;
+
+		if (_ticketCacheModel == _dummyTicketCacheModel) {
+			_ticketCacheModel = (TicketCacheModel)toCacheModel();
+		}
 
 		_ticketId = ticketId;
 	}
@@ -327,17 +400,20 @@ public class TicketModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_ticketCacheModel == _dummyTicketCacheModel) {
+			_ticketCacheModel = (TicketCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@Override
@@ -347,6 +423,12 @@ public class TicketModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (_ticketCacheModel == _dummyTicketCacheModel) {
+			_ticketCacheModel = (TicketCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -379,17 +461,20 @@ public class TicketModelImpl
 	public void setClassNameId(long classNameId) {
 		_columnBitmask |= CLASSNAMEID_COLUMN_BITMASK;
 
-		if (!_setOriginalClassNameId) {
-			_setOriginalClassNameId = true;
-
-			_originalClassNameId = _classNameId;
+		if (_ticketCacheModel == _dummyTicketCacheModel) {
+			_ticketCacheModel = (TicketCacheModel)toCacheModel();
 		}
 
 		_classNameId = classNameId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassNameId() {
-		return _originalClassNameId;
+		return getOriginalAttributeValue("classNameId");
 	}
 
 	@Override
@@ -401,17 +486,20 @@ public class TicketModelImpl
 	public void setClassPK(long classPK) {
 		_columnBitmask |= CLASSPK_COLUMN_BITMASK;
 
-		if (!_setOriginalClassPK) {
-			_setOriginalClassPK = true;
-
-			_originalClassPK = _classPK;
+		if (_ticketCacheModel == _dummyTicketCacheModel) {
+			_ticketCacheModel = (TicketCacheModel)toCacheModel();
 		}
 
 		_classPK = classPK;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassPK() {
-		return _originalClassPK;
+		return getOriginalAttributeValue("classPK");
 	}
 
 	@Override
@@ -428,15 +516,20 @@ public class TicketModelImpl
 	public void setKey(String key) {
 		_columnBitmask |= KEY_COLUMN_BITMASK;
 
-		if (_originalKey == null) {
-			_originalKey = _key;
+		if (_ticketCacheModel == _dummyTicketCacheModel) {
+			_ticketCacheModel = (TicketCacheModel)toCacheModel();
 		}
 
 		_key = key;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalKey() {
-		return GetterUtil.getString(_originalKey);
+		return getOriginalAttributeValue("key");
 	}
 
 	@Override
@@ -448,17 +541,20 @@ public class TicketModelImpl
 	public void setType(int type) {
 		_columnBitmask |= TYPE_COLUMN_BITMASK;
 
-		if (!_setOriginalType) {
-			_setOriginalType = true;
-
-			_originalType = _type;
+		if (_ticketCacheModel == _dummyTicketCacheModel) {
+			_ticketCacheModel = (TicketCacheModel)toCacheModel();
 		}
 
 		_type = type;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalType() {
-		return _originalType;
+		return getOriginalAttributeValue("type");
 	}
 
 	@Override
@@ -473,6 +569,12 @@ public class TicketModelImpl
 
 	@Override
 	public void setExtraInfo(String extraInfo) {
+		_columnBitmask |= EXTRAINFO_COLUMN_BITMASK;
+
+		if (_ticketCacheModel == _dummyTicketCacheModel) {
+			_ticketCacheModel = (TicketCacheModel)toCacheModel();
+		}
+
 		_extraInfo = extraInfo;
 	}
 
@@ -483,6 +585,12 @@ public class TicketModelImpl
 
 	@Override
 	public void setExpirationDate(Date expirationDate) {
+		_columnBitmask |= EXPIRATIONDATE_COLUMN_BITMASK;
+
+		if (_ticketCacheModel == _dummyTicketCacheModel) {
+			_ticketCacheModel = (TicketCacheModel)toCacheModel();
+		}
+
 		_expirationDate = expirationDate;
 	}
 
@@ -606,27 +714,9 @@ public class TicketModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		TicketModelImpl ticketModelImpl = this;
+		_columnBitmask = 0;
 
-		ticketModelImpl._originalCompanyId = ticketModelImpl._companyId;
-
-		ticketModelImpl._setOriginalCompanyId = false;
-
-		ticketModelImpl._originalClassNameId = ticketModelImpl._classNameId;
-
-		ticketModelImpl._setOriginalClassNameId = false;
-
-		ticketModelImpl._originalClassPK = ticketModelImpl._classPK;
-
-		ticketModelImpl._setOriginalClassPK = false;
-
-		ticketModelImpl._originalKey = ticketModelImpl._key;
-
-		ticketModelImpl._originalType = ticketModelImpl._type;
-
-		ticketModelImpl._setOriginalType = false;
-
-		ticketModelImpl._columnBitmask = 0;
+		_ticketCacheModel = _dummyTicketCacheModel;
 	}
 
 	@Override
@@ -753,23 +843,19 @@ public class TicketModelImpl
 	private long _mvccVersion;
 	private long _ticketId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private Date _createDate;
 	private long _classNameId;
-	private long _originalClassNameId;
-	private boolean _setOriginalClassNameId;
 	private long _classPK;
-	private long _originalClassPK;
-	private boolean _setOriginalClassPK;
 	private String _key;
-	private String _originalKey;
 	private int _type;
-	private int _originalType;
-	private boolean _setOriginalType;
 	private String _extraInfo;
 	private Date _expirationDate;
 	private long _columnBitmask;
+
+	private static final TicketCacheModel _dummyTicketCacheModel =
+		new TicketCacheModel();
+
 	private Ticket _escapedModel;
+	private TicketCacheModel _ticketCacheModel;
 
 }

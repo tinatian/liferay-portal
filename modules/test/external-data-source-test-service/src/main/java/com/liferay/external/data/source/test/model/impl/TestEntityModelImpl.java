@@ -223,21 +223,50 @@ public class TestEntityModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_testEntityCacheModel == null) ||
+			(_testEntityCacheModel == _dummyTestEntityCacheModel)) {
+
+			return null;
+		}
+
+		Function<TestEntityCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_testEntityCacheModel);
+	}
+
 	private static final Map<String, Function<TestEntity, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<TestEntity, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<TestEntityCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<TestEntity, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<TestEntity, Object>>();
 		Map<String, BiConsumer<TestEntity, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<TestEntity, ?>>();
+		Map<String, Function<TestEntityCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<TestEntityCacheModel, Object>>();
 
 		attributeGetterFunctions.put("id", TestEntity::getId);
+
+		cacheModelGetterFunctions.put(
+			"id", testEntityCacheModel -> testEntityCacheModel.id);
 		attributeSetterBiConsumers.put(
 			"id", (BiConsumer<TestEntity, Long>)TestEntity::setId);
 		attributeGetterFunctions.put("data", TestEntity::getData);
+
+		cacheModelGetterFunctions.put(
+			"data", testEntityCacheModel -> testEntityCacheModel.data);
 		attributeSetterBiConsumers.put(
 			"data", (BiConsumer<TestEntity, String>)TestEntity::setData);
 
@@ -245,6 +274,8 @@ public class TestEntityModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -254,6 +285,10 @@ public class TestEntityModelImpl
 
 	@Override
 	public void setId(long id) {
+		if (_testEntityCacheModel == _dummyTestEntityCacheModel) {
+			_testEntityCacheModel = (TestEntityCacheModel)toCacheModel();
+		}
+
 		_id = id;
 	}
 
@@ -269,6 +304,10 @@ public class TestEntityModelImpl
 
 	@Override
 	public void setData(String data) {
+		if (_testEntityCacheModel == _dummyTestEntityCacheModel) {
+			_testEntityCacheModel = (TestEntityCacheModel)toCacheModel();
+		}
+
 		_data = data;
 	}
 
@@ -374,6 +413,7 @@ public class TestEntityModelImpl
 
 	@Override
 	public void resetOriginalValues() {
+		_testEntityCacheModel = _dummyTestEntityCacheModel;
 	}
 
 	@Override
@@ -465,6 +505,11 @@ public class TestEntityModelImpl
 
 	private long _id;
 	private String _data;
+
+	private static final TestEntityCacheModel _dummyTestEntityCacheModel =
+		new TestEntityCacheModel();
+
 	private TestEntity _escapedModel;
+	private TestEntityCacheModel _testEntityCacheModel;
 
 }

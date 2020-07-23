@@ -2771,8 +2771,8 @@ public class DDLRecordVersionPersistenceImpl
 			 _finderPathFetchByR_V.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				ddlRecordVersionModelImpl.getOriginalRecordId(),
-				ddlRecordVersionModelImpl.getOriginalVersion()
+				ddlRecordVersionModelImpl.getOriginalAttributeValue("recordId"),
+				ddlRecordVersionModelImpl.getOriginalAttributeValue("version")
 			};
 
 			finderCache.removeResult(_finderPathCountByR_V, args);
@@ -2980,7 +2980,8 @@ public class DDLRecordVersionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					ddlRecordVersionModelImpl.getOriginalRecordId()
+					ddlRecordVersionModelImpl.getOriginalAttributeValue(
+						"recordId")
 				};
 
 				finderCache.removeResult(_finderPathCountByRecordId, args);
@@ -2999,8 +3000,10 @@ public class DDLRecordVersionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					ddlRecordVersionModelImpl.getOriginalRecordSetId(),
-					ddlRecordVersionModelImpl.getOriginalRecordSetVersion()
+					ddlRecordVersionModelImpl.getOriginalAttributeValue(
+						"recordSetId"),
+					ddlRecordVersionModelImpl.getOriginalAttributeValue(
+						"recordSetVersion")
 				};
 
 				finderCache.removeResult(_finderPathCountByR_R, args);
@@ -3022,8 +3025,10 @@ public class DDLRecordVersionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					ddlRecordVersionModelImpl.getOriginalRecordId(),
-					ddlRecordVersionModelImpl.getOriginalStatus()
+					ddlRecordVersionModelImpl.getOriginalAttributeValue(
+						"recordId"),
+					ddlRecordVersionModelImpl.getOriginalAttributeValue(
+						"status")
 				};
 
 				finderCache.removeResult(_finderPathCountByR_S, args);
@@ -3045,10 +3050,14 @@ public class DDLRecordVersionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					ddlRecordVersionModelImpl.getOriginalUserId(),
-					ddlRecordVersionModelImpl.getOriginalRecordSetId(),
-					ddlRecordVersionModelImpl.getOriginalRecordSetVersion(),
-					ddlRecordVersionModelImpl.getOriginalStatus()
+					ddlRecordVersionModelImpl.getOriginalAttributeValue(
+						"userId"),
+					ddlRecordVersionModelImpl.getOriginalAttributeValue(
+						"recordSetId"),
+					ddlRecordVersionModelImpl.getOriginalAttributeValue(
+						"recordSetVersion"),
+					ddlRecordVersionModelImpl.getOriginalAttributeValue(
+						"status")
 				};
 
 				finderCache.removeResult(_finderPathCountByU_R_R_S, args);

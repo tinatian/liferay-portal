@@ -23506,8 +23506,10 @@ public class LayoutPageTemplateEntryPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				layoutPageTemplateEntryModelImpl.getOriginalUuid(),
-				layoutPageTemplateEntryModelImpl.getOriginalGroupId()
+				layoutPageTemplateEntryModelImpl.getOriginalAttributeValue(
+					"uuid"),
+				layoutPageTemplateEntryModelImpl.getOriginalAttributeValue(
+					"groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -23527,7 +23529,8 @@ public class LayoutPageTemplateEntryPersistenceImpl
 			 _finderPathFetchByPlid.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				layoutPageTemplateEntryModelImpl.getOriginalPlid()
+				layoutPageTemplateEntryModelImpl.getOriginalAttributeValue(
+					"plid")
 			};
 
 			finderCache.removeResult(_finderPathCountByPlid, args);
@@ -23548,9 +23551,10 @@ public class LayoutPageTemplateEntryPersistenceImpl
 			 _finderPathFetchByG_LPTEK.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				layoutPageTemplateEntryModelImpl.getOriginalGroupId(),
-				layoutPageTemplateEntryModelImpl.
-					getOriginalLayoutPageTemplateEntryKey()
+				layoutPageTemplateEntryModelImpl.getOriginalAttributeValue(
+					"groupId"),
+				layoutPageTemplateEntryModelImpl.getOriginalAttributeValue(
+					"layoutPageTemplateEntryKey")
 			};
 
 			finderCache.removeResult(_finderPathCountByG_LPTEK, args);
@@ -23572,9 +23576,12 @@ public class LayoutPageTemplateEntryPersistenceImpl
 			 _finderPathFetchByG_N_T.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				layoutPageTemplateEntryModelImpl.getOriginalGroupId(),
-				layoutPageTemplateEntryModelImpl.getOriginalName(),
-				layoutPageTemplateEntryModelImpl.getOriginalType()
+				layoutPageTemplateEntryModelImpl.getOriginalAttributeValue(
+					"groupId"),
+				layoutPageTemplateEntryModelImpl.getOriginalAttributeValue(
+					"name"),
+				layoutPageTemplateEntryModelImpl.getOriginalAttributeValue(
+					"type")
 			};
 
 			finderCache.removeResult(_finderPathCountByG_N_T, args);
@@ -23948,7 +23955,8 @@ public class LayoutPageTemplateEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					layoutPageTemplateEntryModelImpl.getOriginalUuid()
+					layoutPageTemplateEntryModelImpl.getOriginalAttributeValue(
+						"uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -23969,8 +23977,10 @@ public class LayoutPageTemplateEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					layoutPageTemplateEntryModelImpl.getOriginalUuid(),
-					layoutPageTemplateEntryModelImpl.getOriginalCompanyId()
+					layoutPageTemplateEntryModelImpl.getOriginalAttributeValue(
+						"uuid"),
+					layoutPageTemplateEntryModelImpl.getOriginalAttributeValue(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -23992,7 +24002,8 @@ public class LayoutPageTemplateEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					layoutPageTemplateEntryModelImpl.getOriginalGroupId()
+					layoutPageTemplateEntryModelImpl.getOriginalAttributeValue(
+						"groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId, args);
@@ -24013,8 +24024,8 @@ public class LayoutPageTemplateEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					layoutPageTemplateEntryModelImpl.
-						getOriginalLayoutPrototypeId()
+					layoutPageTemplateEntryModelImpl.getOriginalAttributeValue(
+						"layoutPrototypeId")
 				};
 
 				finderCache.removeResult(
@@ -24037,9 +24048,10 @@ public class LayoutPageTemplateEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					layoutPageTemplateEntryModelImpl.getOriginalGroupId(),
-					layoutPageTemplateEntryModelImpl.
-						getOriginalLayoutPageTemplateCollectionId()
+					layoutPageTemplateEntryModelImpl.getOriginalAttributeValue(
+						"groupId"),
+					layoutPageTemplateEntryModelImpl.getOriginalAttributeValue(
+						"layoutPageTemplateCollectionId")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_L, args);
@@ -24062,8 +24074,10 @@ public class LayoutPageTemplateEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					layoutPageTemplateEntryModelImpl.getOriginalGroupId(),
-					layoutPageTemplateEntryModelImpl.getOriginalName()
+					layoutPageTemplateEntryModelImpl.getOriginalAttributeValue(
+						"groupId"),
+					layoutPageTemplateEntryModelImpl.getOriginalAttributeValue(
+						"name")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_N, args);
@@ -24085,8 +24099,10 @@ public class LayoutPageTemplateEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					layoutPageTemplateEntryModelImpl.getOriginalGroupId(),
-					layoutPageTemplateEntryModelImpl.getOriginalType()
+					layoutPageTemplateEntryModelImpl.getOriginalAttributeValue(
+						"groupId"),
+					layoutPageTemplateEntryModelImpl.getOriginalAttributeValue(
+						"type")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_T, args);
@@ -24108,10 +24124,12 @@ public class LayoutPageTemplateEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					layoutPageTemplateEntryModelImpl.getOriginalGroupId(),
-					layoutPageTemplateEntryModelImpl.
-						getOriginalLayoutPageTemplateCollectionId(),
-					layoutPageTemplateEntryModelImpl.getOriginalType()
+					layoutPageTemplateEntryModelImpl.getOriginalAttributeValue(
+						"groupId"),
+					layoutPageTemplateEntryModelImpl.getOriginalAttributeValue(
+						"layoutPageTemplateCollectionId"),
+					layoutPageTemplateEntryModelImpl.getOriginalAttributeValue(
+						"type")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_L_T, args);
@@ -24135,10 +24153,12 @@ public class LayoutPageTemplateEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					layoutPageTemplateEntryModelImpl.getOriginalGroupId(),
-					layoutPageTemplateEntryModelImpl.
-						getOriginalLayoutPageTemplateCollectionId(),
-					layoutPageTemplateEntryModelImpl.getOriginalStatus()
+					layoutPageTemplateEntryModelImpl.getOriginalAttributeValue(
+						"groupId"),
+					layoutPageTemplateEntryModelImpl.getOriginalAttributeValue(
+						"layoutPageTemplateCollectionId"),
+					layoutPageTemplateEntryModelImpl.getOriginalAttributeValue(
+						"status")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_L_S, args);
@@ -24162,9 +24182,12 @@ public class LayoutPageTemplateEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					layoutPageTemplateEntryModelImpl.getOriginalGroupId(),
-					layoutPageTemplateEntryModelImpl.getOriginalType(),
-					layoutPageTemplateEntryModelImpl.getOriginalStatus()
+					layoutPageTemplateEntryModelImpl.getOriginalAttributeValue(
+						"groupId"),
+					layoutPageTemplateEntryModelImpl.getOriginalAttributeValue(
+						"type"),
+					layoutPageTemplateEntryModelImpl.getOriginalAttributeValue(
+						"status")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_T_S, args);
@@ -24187,10 +24210,14 @@ public class LayoutPageTemplateEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					layoutPageTemplateEntryModelImpl.getOriginalGroupId(),
-					layoutPageTemplateEntryModelImpl.getOriginalClassNameId(),
-					layoutPageTemplateEntryModelImpl.getOriginalClassTypeId(),
-					layoutPageTemplateEntryModelImpl.getOriginalType()
+					layoutPageTemplateEntryModelImpl.getOriginalAttributeValue(
+						"groupId"),
+					layoutPageTemplateEntryModelImpl.getOriginalAttributeValue(
+						"classNameId"),
+					layoutPageTemplateEntryModelImpl.getOriginalAttributeValue(
+						"classTypeId"),
+					layoutPageTemplateEntryModelImpl.getOriginalAttributeValue(
+						"type")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_C_C_T, args);
@@ -24214,11 +24241,14 @@ public class LayoutPageTemplateEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					layoutPageTemplateEntryModelImpl.getOriginalGroupId(),
-					layoutPageTemplateEntryModelImpl.getOriginalClassNameId(),
-					layoutPageTemplateEntryModelImpl.getOriginalClassTypeId(),
-					layoutPageTemplateEntryModelImpl.
-						getOriginalDefaultTemplate()
+					layoutPageTemplateEntryModelImpl.getOriginalAttributeValue(
+						"groupId"),
+					layoutPageTemplateEntryModelImpl.getOriginalAttributeValue(
+						"classNameId"),
+					layoutPageTemplateEntryModelImpl.getOriginalAttributeValue(
+						"classTypeId"),
+					layoutPageTemplateEntryModelImpl.getOriginalAttributeValue(
+						"defaultTemplate")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_C_C_D, args);
@@ -24242,11 +24272,14 @@ public class LayoutPageTemplateEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					layoutPageTemplateEntryModelImpl.getOriginalGroupId(),
-					layoutPageTemplateEntryModelImpl.getOriginalClassNameId(),
-					layoutPageTemplateEntryModelImpl.getOriginalType(),
-					layoutPageTemplateEntryModelImpl.
-						getOriginalDefaultTemplate()
+					layoutPageTemplateEntryModelImpl.getOriginalAttributeValue(
+						"groupId"),
+					layoutPageTemplateEntryModelImpl.getOriginalAttributeValue(
+						"classNameId"),
+					layoutPageTemplateEntryModelImpl.getOriginalAttributeValue(
+						"type"),
+					layoutPageTemplateEntryModelImpl.getOriginalAttributeValue(
+						"defaultTemplate")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_C_T_D, args);
@@ -24270,11 +24303,14 @@ public class LayoutPageTemplateEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					layoutPageTemplateEntryModelImpl.getOriginalGroupId(),
-					layoutPageTemplateEntryModelImpl.getOriginalType(),
-					layoutPageTemplateEntryModelImpl.
-						getOriginalDefaultTemplate(),
-					layoutPageTemplateEntryModelImpl.getOriginalStatus()
+					layoutPageTemplateEntryModelImpl.getOriginalAttributeValue(
+						"groupId"),
+					layoutPageTemplateEntryModelImpl.getOriginalAttributeValue(
+						"type"),
+					layoutPageTemplateEntryModelImpl.getOriginalAttributeValue(
+						"defaultTemplate"),
+					layoutPageTemplateEntryModelImpl.getOriginalAttributeValue(
+						"status")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_T_D_S, args);
@@ -24298,11 +24334,16 @@ public class LayoutPageTemplateEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					layoutPageTemplateEntryModelImpl.getOriginalGroupId(),
-					layoutPageTemplateEntryModelImpl.getOriginalClassNameId(),
-					layoutPageTemplateEntryModelImpl.getOriginalClassTypeId(),
-					layoutPageTemplateEntryModelImpl.getOriginalType(),
-					layoutPageTemplateEntryModelImpl.getOriginalStatus()
+					layoutPageTemplateEntryModelImpl.getOriginalAttributeValue(
+						"groupId"),
+					layoutPageTemplateEntryModelImpl.getOriginalAttributeValue(
+						"classNameId"),
+					layoutPageTemplateEntryModelImpl.getOriginalAttributeValue(
+						"classTypeId"),
+					layoutPageTemplateEntryModelImpl.getOriginalAttributeValue(
+						"type"),
+					layoutPageTemplateEntryModelImpl.getOriginalAttributeValue(
+						"status")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_C_C_T_S, args);
@@ -24327,12 +24368,16 @@ public class LayoutPageTemplateEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					layoutPageTemplateEntryModelImpl.getOriginalGroupId(),
-					layoutPageTemplateEntryModelImpl.getOriginalClassNameId(),
-					layoutPageTemplateEntryModelImpl.getOriginalClassTypeId(),
-					layoutPageTemplateEntryModelImpl.
-						getOriginalDefaultTemplate(),
-					layoutPageTemplateEntryModelImpl.getOriginalStatus()
+					layoutPageTemplateEntryModelImpl.getOriginalAttributeValue(
+						"groupId"),
+					layoutPageTemplateEntryModelImpl.getOriginalAttributeValue(
+						"classNameId"),
+					layoutPageTemplateEntryModelImpl.getOriginalAttributeValue(
+						"classTypeId"),
+					layoutPageTemplateEntryModelImpl.getOriginalAttributeValue(
+						"defaultTemplate"),
+					layoutPageTemplateEntryModelImpl.getOriginalAttributeValue(
+						"status")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_C_C_D_S, args);

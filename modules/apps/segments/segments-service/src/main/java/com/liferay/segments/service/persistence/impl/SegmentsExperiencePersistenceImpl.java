@@ -9768,8 +9768,8 @@ public class SegmentsExperiencePersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				segmentsExperienceModelImpl.getOriginalUuid(),
-				segmentsExperienceModelImpl.getOriginalGroupId()
+				segmentsExperienceModelImpl.getOriginalAttributeValue("uuid"),
+				segmentsExperienceModelImpl.getOriginalAttributeValue("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -9790,8 +9790,10 @@ public class SegmentsExperiencePersistenceImpl
 			 _finderPathFetchByG_S.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				segmentsExperienceModelImpl.getOriginalGroupId(),
-				segmentsExperienceModelImpl.getOriginalSegmentsExperienceKey()
+				segmentsExperienceModelImpl.getOriginalAttributeValue(
+					"groupId"),
+				segmentsExperienceModelImpl.getOriginalAttributeValue(
+					"segmentsExperienceKey")
 			};
 
 			finderCache.removeResult(_finderPathCountByG_S, args);
@@ -9814,10 +9816,14 @@ public class SegmentsExperiencePersistenceImpl
 			 _finderPathFetchByG_C_C_P.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				segmentsExperienceModelImpl.getOriginalGroupId(),
-				segmentsExperienceModelImpl.getOriginalClassNameId(),
-				segmentsExperienceModelImpl.getOriginalClassPK(),
-				segmentsExperienceModelImpl.getOriginalPriority()
+				segmentsExperienceModelImpl.getOriginalAttributeValue(
+					"groupId"),
+				segmentsExperienceModelImpl.getOriginalAttributeValue(
+					"classNameId"),
+				segmentsExperienceModelImpl.getOriginalAttributeValue(
+					"classPK"),
+				segmentsExperienceModelImpl.getOriginalAttributeValue(
+					"priority")
 			};
 
 			finderCache.removeResult(_finderPathCountByG_C_C_P, args);
@@ -10124,7 +10130,8 @@ public class SegmentsExperiencePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					segmentsExperienceModelImpl.getOriginalUuid()
+					segmentsExperienceModelImpl.getOriginalAttributeValue(
+						"uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -10143,8 +10150,10 @@ public class SegmentsExperiencePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					segmentsExperienceModelImpl.getOriginalUuid(),
-					segmentsExperienceModelImpl.getOriginalCompanyId()
+					segmentsExperienceModelImpl.getOriginalAttributeValue(
+						"uuid"),
+					segmentsExperienceModelImpl.getOriginalAttributeValue(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -10166,7 +10175,8 @@ public class SegmentsExperiencePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					segmentsExperienceModelImpl.getOriginalGroupId()
+					segmentsExperienceModelImpl.getOriginalAttributeValue(
+						"groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId, args);
@@ -10185,7 +10195,8 @@ public class SegmentsExperiencePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					segmentsExperienceModelImpl.getOriginalSegmentsEntryId()
+					segmentsExperienceModelImpl.getOriginalAttributeValue(
+						"segmentsEntryId")
 				};
 
 				finderCache.removeResult(
@@ -10208,9 +10219,12 @@ public class SegmentsExperiencePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					segmentsExperienceModelImpl.getOriginalGroupId(),
-					segmentsExperienceModelImpl.getOriginalClassNameId(),
-					segmentsExperienceModelImpl.getOriginalClassPK()
+					segmentsExperienceModelImpl.getOriginalAttributeValue(
+						"groupId"),
+					segmentsExperienceModelImpl.getOriginalAttributeValue(
+						"classNameId"),
+					segmentsExperienceModelImpl.getOriginalAttributeValue(
+						"classPK")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_C_C, args);
@@ -10233,10 +10247,14 @@ public class SegmentsExperiencePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					segmentsExperienceModelImpl.getOriginalGroupId(),
-					segmentsExperienceModelImpl.getOriginalSegmentsEntryId(),
-					segmentsExperienceModelImpl.getOriginalClassNameId(),
-					segmentsExperienceModelImpl.getOriginalClassPK()
+					segmentsExperienceModelImpl.getOriginalAttributeValue(
+						"groupId"),
+					segmentsExperienceModelImpl.getOriginalAttributeValue(
+						"segmentsEntryId"),
+					segmentsExperienceModelImpl.getOriginalAttributeValue(
+						"classNameId"),
+					segmentsExperienceModelImpl.getOriginalAttributeValue(
+						"classPK")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_S_C_C, args);
@@ -10260,10 +10278,14 @@ public class SegmentsExperiencePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					segmentsExperienceModelImpl.getOriginalGroupId(),
-					segmentsExperienceModelImpl.getOriginalClassNameId(),
-					segmentsExperienceModelImpl.getOriginalClassPK(),
-					segmentsExperienceModelImpl.getOriginalActive()
+					segmentsExperienceModelImpl.getOriginalAttributeValue(
+						"groupId"),
+					segmentsExperienceModelImpl.getOriginalAttributeValue(
+						"classNameId"),
+					segmentsExperienceModelImpl.getOriginalAttributeValue(
+						"classPK"),
+					segmentsExperienceModelImpl.getOriginalAttributeValue(
+						"active")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_C_C_A, args);
@@ -10287,11 +10309,16 @@ public class SegmentsExperiencePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					segmentsExperienceModelImpl.getOriginalGroupId(),
-					segmentsExperienceModelImpl.getOriginalSegmentsEntryId(),
-					segmentsExperienceModelImpl.getOriginalClassNameId(),
-					segmentsExperienceModelImpl.getOriginalClassPK(),
-					segmentsExperienceModelImpl.getOriginalActive()
+					segmentsExperienceModelImpl.getOriginalAttributeValue(
+						"groupId"),
+					segmentsExperienceModelImpl.getOriginalAttributeValue(
+						"segmentsEntryId"),
+					segmentsExperienceModelImpl.getOriginalAttributeValue(
+						"classNameId"),
+					segmentsExperienceModelImpl.getOriginalAttributeValue(
+						"classPK"),
+					segmentsExperienceModelImpl.getOriginalAttributeValue(
+						"active")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_S_C_C_A, args);

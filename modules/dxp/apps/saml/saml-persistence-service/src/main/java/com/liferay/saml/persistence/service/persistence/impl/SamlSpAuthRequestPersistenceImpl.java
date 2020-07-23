@@ -1076,8 +1076,10 @@ public class SamlSpAuthRequestPersistenceImpl
 			 _finderPathFetchBySIEI_SSARK.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				samlSpAuthRequestModelImpl.getOriginalSamlIdpEntityId(),
-				samlSpAuthRequestModelImpl.getOriginalSamlSpAuthRequestKey()
+				samlSpAuthRequestModelImpl.getOriginalAttributeValue(
+					"samlIdpEntityId"),
+				samlSpAuthRequestModelImpl.getOriginalAttributeValue(
+					"samlSpAuthRequestKey")
 			};
 
 			finderCache.removeResult(_finderPathCountBySIEI_SSARK, args);

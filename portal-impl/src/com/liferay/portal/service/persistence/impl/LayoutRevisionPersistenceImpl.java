@@ -7921,9 +7921,10 @@ public class LayoutRevisionPersistenceImpl
 			 _finderPathFetchByL_H_P.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				layoutRevisionModelImpl.getOriginalLayoutSetBranchId(),
-				layoutRevisionModelImpl.getOriginalHead(),
-				layoutRevisionModelImpl.getOriginalPlid()
+				layoutRevisionModelImpl.getOriginalAttributeValue(
+					"layoutSetBranchId"),
+				layoutRevisionModelImpl.getOriginalAttributeValue("head"),
+				layoutRevisionModelImpl.getOriginalAttributeValue("plid")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByL_H_P, args);
@@ -7946,10 +7947,12 @@ public class LayoutRevisionPersistenceImpl
 			 _finderPathFetchByL_L_H_P.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				layoutRevisionModelImpl.getOriginalLayoutSetBranchId(),
-				layoutRevisionModelImpl.getOriginalLayoutBranchId(),
-				layoutRevisionModelImpl.getOriginalHead(),
-				layoutRevisionModelImpl.getOriginalPlid()
+				layoutRevisionModelImpl.getOriginalAttributeValue(
+					"layoutSetBranchId"),
+				layoutRevisionModelImpl.getOriginalAttributeValue(
+					"layoutBranchId"),
+				layoutRevisionModelImpl.getOriginalAttributeValue("head"),
+				layoutRevisionModelImpl.getOriginalAttributeValue("plid")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByL_L_H_P, args);
@@ -8252,7 +8255,8 @@ public class LayoutRevisionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					layoutRevisionModelImpl.getOriginalLayoutSetBranchId()
+					layoutRevisionModelImpl.getOriginalAttributeValue(
+						"layoutSetBranchId")
 				};
 
 				FinderCacheUtil.removeResult(
@@ -8275,7 +8279,7 @@ public class LayoutRevisionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					layoutRevisionModelImpl.getOriginalPlid()
+					layoutRevisionModelImpl.getOriginalAttributeValue("plid")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByPlid, args);
@@ -8294,7 +8298,7 @@ public class LayoutRevisionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					layoutRevisionModelImpl.getOriginalStatus()
+					layoutRevisionModelImpl.getOriginalAttributeValue("status")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByStatus, args);
@@ -8313,8 +8317,9 @@ public class LayoutRevisionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					layoutRevisionModelImpl.getOriginalLayoutSetBranchId(),
-					layoutRevisionModelImpl.getOriginalHead()
+					layoutRevisionModelImpl.getOriginalAttributeValue(
+						"layoutSetBranchId"),
+					layoutRevisionModelImpl.getOriginalAttributeValue("head")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByL_H, args);
@@ -8336,8 +8341,9 @@ public class LayoutRevisionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					layoutRevisionModelImpl.getOriginalLayoutSetBranchId(),
-					layoutRevisionModelImpl.getOriginalPlid()
+					layoutRevisionModelImpl.getOriginalAttributeValue(
+						"layoutSetBranchId"),
+					layoutRevisionModelImpl.getOriginalAttributeValue("plid")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByL_P, args);
@@ -8359,8 +8365,9 @@ public class LayoutRevisionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					layoutRevisionModelImpl.getOriginalLayoutSetBranchId(),
-					layoutRevisionModelImpl.getOriginalStatus()
+					layoutRevisionModelImpl.getOriginalAttributeValue(
+						"layoutSetBranchId"),
+					layoutRevisionModelImpl.getOriginalAttributeValue("status")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByL_S, args);
@@ -8382,8 +8389,8 @@ public class LayoutRevisionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					layoutRevisionModelImpl.getOriginalHead(),
-					layoutRevisionModelImpl.getOriginalPlid()
+					layoutRevisionModelImpl.getOriginalAttributeValue("head"),
+					layoutRevisionModelImpl.getOriginalAttributeValue("plid")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByH_P, args);
@@ -8405,9 +8412,11 @@ public class LayoutRevisionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					layoutRevisionModelImpl.getOriginalLayoutSetBranchId(),
-					layoutRevisionModelImpl.getOriginalLayoutBranchId(),
-					layoutRevisionModelImpl.getOriginalPlid()
+					layoutRevisionModelImpl.getOriginalAttributeValue(
+						"layoutSetBranchId"),
+					layoutRevisionModelImpl.getOriginalAttributeValue(
+						"layoutBranchId"),
+					layoutRevisionModelImpl.getOriginalAttributeValue("plid")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByL_L_P, args);
@@ -8430,9 +8439,11 @@ public class LayoutRevisionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					layoutRevisionModelImpl.getOriginalLayoutSetBranchId(),
-					layoutRevisionModelImpl.getOriginalParentLayoutRevisionId(),
-					layoutRevisionModelImpl.getOriginalPlid()
+					layoutRevisionModelImpl.getOriginalAttributeValue(
+						"layoutSetBranchId"),
+					layoutRevisionModelImpl.getOriginalAttributeValue(
+						"parentLayoutRevisionId"),
+					layoutRevisionModelImpl.getOriginalAttributeValue("plid")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByL_P_P, args);
@@ -8455,9 +8466,10 @@ public class LayoutRevisionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					layoutRevisionModelImpl.getOriginalLayoutSetBranchId(),
-					layoutRevisionModelImpl.getOriginalHead(),
-					layoutRevisionModelImpl.getOriginalPlid()
+					layoutRevisionModelImpl.getOriginalAttributeValue(
+						"layoutSetBranchId"),
+					layoutRevisionModelImpl.getOriginalAttributeValue("head"),
+					layoutRevisionModelImpl.getOriginalAttributeValue("plid")
 				};
 
 				FinderCacheUtil.removeResult(
@@ -8482,9 +8494,10 @@ public class LayoutRevisionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					layoutRevisionModelImpl.getOriginalLayoutSetBranchId(),
-					layoutRevisionModelImpl.getOriginalHead(),
-					layoutRevisionModelImpl.getOriginalStatus()
+					layoutRevisionModelImpl.getOriginalAttributeValue(
+						"layoutSetBranchId"),
+					layoutRevisionModelImpl.getOriginalAttributeValue("head"),
+					layoutRevisionModelImpl.getOriginalAttributeValue("status")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByL_H_S, args);
@@ -8507,9 +8520,10 @@ public class LayoutRevisionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					layoutRevisionModelImpl.getOriginalLayoutSetBranchId(),
-					layoutRevisionModelImpl.getOriginalPlid(),
-					layoutRevisionModelImpl.getOriginalStatus()
+					layoutRevisionModelImpl.getOriginalAttributeValue(
+						"layoutSetBranchId"),
+					layoutRevisionModelImpl.getOriginalAttributeValue("plid"),
+					layoutRevisionModelImpl.getOriginalAttributeValue("status")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByL_P_S, args);

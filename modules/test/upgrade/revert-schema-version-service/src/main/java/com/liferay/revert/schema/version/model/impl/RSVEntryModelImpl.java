@@ -218,25 +218,58 @@ public class RSVEntryModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_rsvEntryCacheModel == null) ||
+			(_rsvEntryCacheModel == _dummyRSVEntryCacheModel)) {
+
+			return null;
+		}
+
+		Function<RSVEntryCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_rsvEntryCacheModel);
+	}
+
 	private static final Map<String, Function<RSVEntry, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<RSVEntry, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<RSVEntryCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<RSVEntry, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<RSVEntry, Object>>();
 		Map<String, BiConsumer<RSVEntry, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<RSVEntry, ?>>();
+		Map<String, Function<RSVEntryCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<RSVEntryCacheModel, Object>>();
 
 		attributeGetterFunctions.put("mvccVersion", RSVEntry::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			rsvEntryCacheModel -> rsvEntryCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<RSVEntry, Long>)RSVEntry::setMvccVersion);
 		attributeGetterFunctions.put("rsvEntryId", RSVEntry::getRsvEntryId);
+
+		cacheModelGetterFunctions.put(
+			"rsvEntryId", rsvEntryCacheModel -> rsvEntryCacheModel.rsvEntryId);
 		attributeSetterBiConsumers.put(
 			"rsvEntryId", (BiConsumer<RSVEntry, Long>)RSVEntry::setRsvEntryId);
 		attributeGetterFunctions.put("companyId", RSVEntry::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId", rsvEntryCacheModel -> rsvEntryCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId", (BiConsumer<RSVEntry, Long>)RSVEntry::setCompanyId);
 
@@ -244,6 +277,8 @@ public class RSVEntryModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -253,6 +288,10 @@ public class RSVEntryModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		if (_rsvEntryCacheModel == _dummyRSVEntryCacheModel) {
+			_rsvEntryCacheModel = (RSVEntryCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -263,6 +302,10 @@ public class RSVEntryModelImpl
 
 	@Override
 	public void setRsvEntryId(long rsvEntryId) {
+		if (_rsvEntryCacheModel == _dummyRSVEntryCacheModel) {
+			_rsvEntryCacheModel = (RSVEntryCacheModel)toCacheModel();
+		}
+
 		_rsvEntryId = rsvEntryId;
 	}
 
@@ -273,6 +316,10 @@ public class RSVEntryModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		if (_rsvEntryCacheModel == _dummyRSVEntryCacheModel) {
+			_rsvEntryCacheModel = (RSVEntryCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -379,6 +426,7 @@ public class RSVEntryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
+		_rsvEntryCacheModel = _dummyRSVEntryCacheModel;
 	}
 
 	@Override
@@ -467,6 +515,11 @@ public class RSVEntryModelImpl
 	private long _mvccVersion;
 	private long _rsvEntryId;
 	private long _companyId;
+
+	private static final RSVEntryCacheModel _dummyRSVEntryCacheModel =
+		new RSVEntryCacheModel();
+
 	private RSVEntry _escapedModel;
+	private RSVEntryCacheModel _rsvEntryCacheModel;
 
 }

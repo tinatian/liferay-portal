@@ -2561,8 +2561,10 @@ public class DepotEntryGroupRelPersistenceImpl
 			 _finderPathFetchByD_TGI.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				depotEntryGroupRelModelImpl.getOriginalDepotEntryId(),
-				depotEntryGroupRelModelImpl.getOriginalToGroupId()
+				depotEntryGroupRelModelImpl.getOriginalAttributeValue(
+					"depotEntryId"),
+				depotEntryGroupRelModelImpl.getOriginalAttributeValue(
+					"toGroupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByD_TGI, args);
@@ -2770,7 +2772,8 @@ public class DepotEntryGroupRelPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					depotEntryGroupRelModelImpl.getOriginalDepotEntryId()
+					depotEntryGroupRelModelImpl.getOriginalAttributeValue(
+						"depotEntryId")
 				};
 
 				finderCache.removeResult(_finderPathCountByDepotEntryId, args);
@@ -2791,7 +2794,8 @@ public class DepotEntryGroupRelPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					depotEntryGroupRelModelImpl.getOriginalToGroupId()
+					depotEntryGroupRelModelImpl.getOriginalAttributeValue(
+						"toGroupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByToGroupId, args);
@@ -2812,9 +2816,10 @@ public class DepotEntryGroupRelPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					depotEntryGroupRelModelImpl.
-						getOriginalDdmStructuresAvailable(),
-					depotEntryGroupRelModelImpl.getOriginalToGroupId()
+					depotEntryGroupRelModelImpl.getOriginalAttributeValue(
+						"ddmStructuresAvailable"),
+					depotEntryGroupRelModelImpl.getOriginalAttributeValue(
+						"toGroupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByDDMSA_TGI, args);
@@ -2836,8 +2841,10 @@ public class DepotEntryGroupRelPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					depotEntryGroupRelModelImpl.getOriginalSearchable(),
-					depotEntryGroupRelModelImpl.getOriginalToGroupId()
+					depotEntryGroupRelModelImpl.getOriginalAttributeValue(
+						"searchable"),
+					depotEntryGroupRelModelImpl.getOriginalAttributeValue(
+						"toGroupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByS_TGI, args);

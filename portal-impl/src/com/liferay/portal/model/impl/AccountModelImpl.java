@@ -310,70 +310,147 @@ public class AccountModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_accountCacheModel == null) ||
+			(_accountCacheModel == _dummyAccountCacheModel)) {
+
+			return null;
+		}
+
+		Function<AccountCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_accountCacheModel);
+	}
+
 	private static final Map<String, Function<Account, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<Account, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<AccountCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<Account, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<Account, Object>>();
 		Map<String, BiConsumer<Account, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Account, ?>>();
+		Map<String, Function<AccountCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<AccountCacheModel, Object>>();
 
 		attributeGetterFunctions.put("mvccVersion", Account::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion", accountCacheModel -> accountCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion", (BiConsumer<Account, Long>)Account::setMvccVersion);
 		attributeGetterFunctions.put("accountId", Account::getAccountId);
+
+		cacheModelGetterFunctions.put(
+			"accountId", accountCacheModel -> accountCacheModel.accountId);
 		attributeSetterBiConsumers.put(
 			"accountId", (BiConsumer<Account, Long>)Account::setAccountId);
 		attributeGetterFunctions.put("companyId", Account::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId", accountCacheModel -> accountCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId", (BiConsumer<Account, Long>)Account::setCompanyId);
 		attributeGetterFunctions.put("userId", Account::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", accountCacheModel -> accountCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<Account, Long>)Account::setUserId);
 		attributeGetterFunctions.put("userName", Account::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName", accountCacheModel -> accountCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName", (BiConsumer<Account, String>)Account::setUserName);
 		attributeGetterFunctions.put("createDate", Account::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate", accountCacheModel -> accountCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate", (BiConsumer<Account, Date>)Account::setCreateDate);
 		attributeGetterFunctions.put("modifiedDate", Account::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			accountCacheModel -> accountCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<Account, Date>)Account::setModifiedDate);
 		attributeGetterFunctions.put(
 			"parentAccountId", Account::getParentAccountId);
+
+		cacheModelGetterFunctions.put(
+			"parentAccountId",
+			accountCacheModel -> accountCacheModel.parentAccountId);
 		attributeSetterBiConsumers.put(
 			"parentAccountId",
 			(BiConsumer<Account, Long>)Account::setParentAccountId);
 		attributeGetterFunctions.put("name", Account::getName);
+
+		cacheModelGetterFunctions.put(
+			"name", accountCacheModel -> accountCacheModel.name);
 		attributeSetterBiConsumers.put(
 			"name", (BiConsumer<Account, String>)Account::setName);
 		attributeGetterFunctions.put("legalName", Account::getLegalName);
+
+		cacheModelGetterFunctions.put(
+			"legalName", accountCacheModel -> accountCacheModel.legalName);
 		attributeSetterBiConsumers.put(
 			"legalName", (BiConsumer<Account, String>)Account::setLegalName);
 		attributeGetterFunctions.put("legalId", Account::getLegalId);
+
+		cacheModelGetterFunctions.put(
+			"legalId", accountCacheModel -> accountCacheModel.legalId);
 		attributeSetterBiConsumers.put(
 			"legalId", (BiConsumer<Account, String>)Account::setLegalId);
 		attributeGetterFunctions.put("legalType", Account::getLegalType);
+
+		cacheModelGetterFunctions.put(
+			"legalType", accountCacheModel -> accountCacheModel.legalType);
 		attributeSetterBiConsumers.put(
 			"legalType", (BiConsumer<Account, String>)Account::setLegalType);
 		attributeGetterFunctions.put("sicCode", Account::getSicCode);
+
+		cacheModelGetterFunctions.put(
+			"sicCode", accountCacheModel -> accountCacheModel.sicCode);
 		attributeSetterBiConsumers.put(
 			"sicCode", (BiConsumer<Account, String>)Account::setSicCode);
 		attributeGetterFunctions.put("tickerSymbol", Account::getTickerSymbol);
+
+		cacheModelGetterFunctions.put(
+			"tickerSymbol",
+			accountCacheModel -> accountCacheModel.tickerSymbol);
 		attributeSetterBiConsumers.put(
 			"tickerSymbol",
 			(BiConsumer<Account, String>)Account::setTickerSymbol);
 		attributeGetterFunctions.put("industry", Account::getIndustry);
+
+		cacheModelGetterFunctions.put(
+			"industry", accountCacheModel -> accountCacheModel.industry);
 		attributeSetterBiConsumers.put(
 			"industry", (BiConsumer<Account, String>)Account::setIndustry);
 		attributeGetterFunctions.put("type", Account::getType);
+
+		cacheModelGetterFunctions.put(
+			"type", accountCacheModel -> accountCacheModel.type);
 		attributeSetterBiConsumers.put(
 			"type", (BiConsumer<Account, String>)Account::setType);
 		attributeGetterFunctions.put("size", Account::getSize);
+
+		cacheModelGetterFunctions.put(
+			"size", accountCacheModel -> accountCacheModel.size);
 		attributeSetterBiConsumers.put(
 			"size", (BiConsumer<Account, String>)Account::setSize);
 
@@ -381,6 +458,8 @@ public class AccountModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -391,6 +470,10 @@ public class AccountModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		if (_accountCacheModel == _dummyAccountCacheModel) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -402,6 +485,10 @@ public class AccountModelImpl
 
 	@Override
 	public void setAccountId(long accountId) {
+		if (_accountCacheModel == _dummyAccountCacheModel) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_accountId = accountId;
 	}
 
@@ -413,6 +500,10 @@ public class AccountModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		if (_accountCacheModel == _dummyAccountCacheModel) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -424,6 +515,10 @@ public class AccountModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		if (_accountCacheModel == _dummyAccountCacheModel) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -456,6 +551,10 @@ public class AccountModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		if (_accountCacheModel == _dummyAccountCacheModel) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -467,6 +566,10 @@ public class AccountModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		if (_accountCacheModel == _dummyAccountCacheModel) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -484,6 +587,10 @@ public class AccountModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		if (_accountCacheModel == _dummyAccountCacheModel) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -495,6 +602,10 @@ public class AccountModelImpl
 
 	@Override
 	public void setParentAccountId(long parentAccountId) {
+		if (_accountCacheModel == _dummyAccountCacheModel) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_parentAccountId = parentAccountId;
 	}
 
@@ -511,6 +622,10 @@ public class AccountModelImpl
 
 	@Override
 	public void setName(String name) {
+		if (_accountCacheModel == _dummyAccountCacheModel) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_name = name;
 	}
 
@@ -527,6 +642,10 @@ public class AccountModelImpl
 
 	@Override
 	public void setLegalName(String legalName) {
+		if (_accountCacheModel == _dummyAccountCacheModel) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_legalName = legalName;
 	}
 
@@ -543,6 +662,10 @@ public class AccountModelImpl
 
 	@Override
 	public void setLegalId(String legalId) {
+		if (_accountCacheModel == _dummyAccountCacheModel) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_legalId = legalId;
 	}
 
@@ -559,6 +682,10 @@ public class AccountModelImpl
 
 	@Override
 	public void setLegalType(String legalType) {
+		if (_accountCacheModel == _dummyAccountCacheModel) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_legalType = legalType;
 	}
 
@@ -575,6 +702,10 @@ public class AccountModelImpl
 
 	@Override
 	public void setSicCode(String sicCode) {
+		if (_accountCacheModel == _dummyAccountCacheModel) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_sicCode = sicCode;
 	}
 
@@ -591,6 +722,10 @@ public class AccountModelImpl
 
 	@Override
 	public void setTickerSymbol(String tickerSymbol) {
+		if (_accountCacheModel == _dummyAccountCacheModel) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_tickerSymbol = tickerSymbol;
 	}
 
@@ -607,6 +742,10 @@ public class AccountModelImpl
 
 	@Override
 	public void setIndustry(String industry) {
+		if (_accountCacheModel == _dummyAccountCacheModel) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_industry = industry;
 	}
 
@@ -623,6 +762,10 @@ public class AccountModelImpl
 
 	@Override
 	public void setType(String type) {
+		if (_accountCacheModel == _dummyAccountCacheModel) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_type = type;
 	}
 
@@ -639,6 +782,10 @@ public class AccountModelImpl
 
 	@Override
 	public void setSize(String size) {
+		if (_accountCacheModel == _dummyAccountCacheModel) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_size = size;
 	}
 
@@ -759,9 +906,9 @@ public class AccountModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		AccountModelImpl accountModelImpl = this;
+		_setModifiedDate = false;
 
-		accountModelImpl._setModifiedDate = false;
+		_accountCacheModel = _dummyAccountCacheModel;
 	}
 
 	@Override
@@ -967,6 +1114,11 @@ public class AccountModelImpl
 	private String _industry;
 	private String _type;
 	private String _size;
+
+	private static final AccountCacheModel _dummyAccountCacheModel =
+		new AccountCacheModel();
+
 	private Account _escapedModel;
+	private AccountCacheModel _accountCacheModel;
 
 }

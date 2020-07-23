@@ -126,17 +126,40 @@ public class OAuth2AuthorizationModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long ACCESSTOKENCONTENTHASH_COLUMN_BITMASK = 1L;
+	public static final long OAUTH2AUTHORIZATIONID_COLUMN_BITMASK = 1L;
 
 	public static final long COMPANYID_COLUMN_BITMASK = 2L;
 
-	public static final long OAUTH2APPLICATIONID_COLUMN_BITMASK = 4L;
+	public static final long USERID_COLUMN_BITMASK = 4L;
 
-	public static final long REFRESHTOKENCONTENTHASH_COLUMN_BITMASK = 8L;
+	public static final long USERNAME_COLUMN_BITMASK = 8L;
 
-	public static final long USERID_COLUMN_BITMASK = 16L;
+	public static final long CREATEDATE_COLUMN_BITMASK = 16L;
 
-	public static final long OAUTH2AUTHORIZATIONID_COLUMN_BITMASK = 32L;
+	public static final long OAUTH2APPLICATIONID_COLUMN_BITMASK = 32L;
+
+	public static final long OAUTH2APPLICATIONSCOPEALIASESID_COLUMN_BITMASK =
+		64L;
+
+	public static final long ACCESSTOKENCONTENT_COLUMN_BITMASK = 128L;
+
+	public static final long ACCESSTOKENCONTENTHASH_COLUMN_BITMASK = 256L;
+
+	public static final long ACCESSTOKENCREATEDATE_COLUMN_BITMASK = 512L;
+
+	public static final long ACCESSTOKENEXPIRATIONDATE_COLUMN_BITMASK = 1024L;
+
+	public static final long REMOTEHOSTINFO_COLUMN_BITMASK = 2048L;
+
+	public static final long REMOTEIPINFO_COLUMN_BITMASK = 4096L;
+
+	public static final long REFRESHTOKENCONTENT_COLUMN_BITMASK = 8192L;
+
+	public static final long REFRESHTOKENCONTENTHASH_COLUMN_BITMASK = 16384L;
+
+	public static final long REFRESHTOKENCREATEDATE_COLUMN_BITMASK = 32768L;
+
+	public static final long REFRESHTOKENEXPIRATIONDATE_COLUMN_BITMASK = 65536L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -342,10 +365,31 @@ public class OAuth2AuthorizationModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_oAuth2AuthorizationCacheModel == null) ||
+			(_oAuth2AuthorizationCacheModel ==
+				_dummyOAuth2AuthorizationCacheModel)) {
+
+			return null;
+		}
+
+		Function<OAuth2AuthorizationCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_oAuth2AuthorizationCacheModel);
+	}
+
 	private static final Map<String, Function<OAuth2Authorization, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<OAuth2Authorization, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<OAuth2AuthorizationCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<OAuth2Authorization, Object>>
@@ -355,39 +399,73 @@ public class OAuth2AuthorizationModelImpl
 		Map<String, BiConsumer<OAuth2Authorization, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<OAuth2Authorization, ?>>();
+		Map<String, Function<OAuth2AuthorizationCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<OAuth2AuthorizationCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"oAuth2AuthorizationId",
 			OAuth2Authorization::getOAuth2AuthorizationId);
+
+		cacheModelGetterFunctions.put(
+			"oAuth2AuthorizationId",
+			oAuth2AuthorizationCacheModel ->
+				oAuth2AuthorizationCacheModel.oAuth2AuthorizationId);
 		attributeSetterBiConsumers.put(
 			"oAuth2AuthorizationId",
 			(BiConsumer<OAuth2Authorization, Long>)
 				OAuth2Authorization::setOAuth2AuthorizationId);
 		attributeGetterFunctions.put(
 			"companyId", OAuth2Authorization::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			oAuth2AuthorizationCacheModel ->
+				oAuth2AuthorizationCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<OAuth2Authorization, Long>)
 				OAuth2Authorization::setCompanyId);
 		attributeGetterFunctions.put("userId", OAuth2Authorization::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			oAuth2AuthorizationCacheModel ->
+				oAuth2AuthorizationCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<OAuth2Authorization, Long>)
 				OAuth2Authorization::setUserId);
 		attributeGetterFunctions.put(
 			"userName", OAuth2Authorization::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			oAuth2AuthorizationCacheModel ->
+				oAuth2AuthorizationCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<OAuth2Authorization, String>)
 				OAuth2Authorization::setUserName);
 		attributeGetterFunctions.put(
 			"createDate", OAuth2Authorization::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			oAuth2AuthorizationCacheModel ->
+				oAuth2AuthorizationCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<OAuth2Authorization, Date>)
 				OAuth2Authorization::setCreateDate);
 		attributeGetterFunctions.put(
 			"oAuth2ApplicationId", OAuth2Authorization::getOAuth2ApplicationId);
+
+		cacheModelGetterFunctions.put(
+			"oAuth2ApplicationId",
+			oAuth2AuthorizationCacheModel ->
+				oAuth2AuthorizationCacheModel.oAuth2ApplicationId);
 		attributeSetterBiConsumers.put(
 			"oAuth2ApplicationId",
 			(BiConsumer<OAuth2Authorization, Long>)
@@ -395,12 +473,22 @@ public class OAuth2AuthorizationModelImpl
 		attributeGetterFunctions.put(
 			"oAuth2ApplicationScopeAliasesId",
 			OAuth2Authorization::getOAuth2ApplicationScopeAliasesId);
+
+		cacheModelGetterFunctions.put(
+			"oAuth2ApplicationScopeAliasesId",
+			oAuth2AuthorizationCacheModel ->
+				oAuth2AuthorizationCacheModel.oAuth2ApplicationScopeAliasesId);
 		attributeSetterBiConsumers.put(
 			"oAuth2ApplicationScopeAliasesId",
 			(BiConsumer<OAuth2Authorization, Long>)
 				OAuth2Authorization::setOAuth2ApplicationScopeAliasesId);
 		attributeGetterFunctions.put(
 			"accessTokenContent", OAuth2Authorization::getAccessTokenContent);
+
+		cacheModelGetterFunctions.put(
+			"accessTokenContent",
+			oAuth2AuthorizationCacheModel ->
+				oAuth2AuthorizationCacheModel.accessTokenContent);
 		attributeSetterBiConsumers.put(
 			"accessTokenContent",
 			(BiConsumer<OAuth2Authorization, String>)
@@ -408,6 +496,11 @@ public class OAuth2AuthorizationModelImpl
 		attributeGetterFunctions.put(
 			"accessTokenContentHash",
 			OAuth2Authorization::getAccessTokenContentHash);
+
+		cacheModelGetterFunctions.put(
+			"accessTokenContentHash",
+			oAuth2AuthorizationCacheModel ->
+				oAuth2AuthorizationCacheModel.accessTokenContentHash);
 		attributeSetterBiConsumers.put(
 			"accessTokenContentHash",
 			(BiConsumer<OAuth2Authorization, Long>)
@@ -415,6 +508,11 @@ public class OAuth2AuthorizationModelImpl
 		attributeGetterFunctions.put(
 			"accessTokenCreateDate",
 			OAuth2Authorization::getAccessTokenCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"accessTokenCreateDate",
+			oAuth2AuthorizationCacheModel ->
+				oAuth2AuthorizationCacheModel.accessTokenCreateDate);
 		attributeSetterBiConsumers.put(
 			"accessTokenCreateDate",
 			(BiConsumer<OAuth2Authorization, Date>)
@@ -422,24 +520,44 @@ public class OAuth2AuthorizationModelImpl
 		attributeGetterFunctions.put(
 			"accessTokenExpirationDate",
 			OAuth2Authorization::getAccessTokenExpirationDate);
+
+		cacheModelGetterFunctions.put(
+			"accessTokenExpirationDate",
+			oAuth2AuthorizationCacheModel ->
+				oAuth2AuthorizationCacheModel.accessTokenExpirationDate);
 		attributeSetterBiConsumers.put(
 			"accessTokenExpirationDate",
 			(BiConsumer<OAuth2Authorization, Date>)
 				OAuth2Authorization::setAccessTokenExpirationDate);
 		attributeGetterFunctions.put(
 			"remoteHostInfo", OAuth2Authorization::getRemoteHostInfo);
+
+		cacheModelGetterFunctions.put(
+			"remoteHostInfo",
+			oAuth2AuthorizationCacheModel ->
+				oAuth2AuthorizationCacheModel.remoteHostInfo);
 		attributeSetterBiConsumers.put(
 			"remoteHostInfo",
 			(BiConsumer<OAuth2Authorization, String>)
 				OAuth2Authorization::setRemoteHostInfo);
 		attributeGetterFunctions.put(
 			"remoteIPInfo", OAuth2Authorization::getRemoteIPInfo);
+
+		cacheModelGetterFunctions.put(
+			"remoteIPInfo",
+			oAuth2AuthorizationCacheModel ->
+				oAuth2AuthorizationCacheModel.remoteIPInfo);
 		attributeSetterBiConsumers.put(
 			"remoteIPInfo",
 			(BiConsumer<OAuth2Authorization, String>)
 				OAuth2Authorization::setRemoteIPInfo);
 		attributeGetterFunctions.put(
 			"refreshTokenContent", OAuth2Authorization::getRefreshTokenContent);
+
+		cacheModelGetterFunctions.put(
+			"refreshTokenContent",
+			oAuth2AuthorizationCacheModel ->
+				oAuth2AuthorizationCacheModel.refreshTokenContent);
 		attributeSetterBiConsumers.put(
 			"refreshTokenContent",
 			(BiConsumer<OAuth2Authorization, String>)
@@ -447,6 +565,11 @@ public class OAuth2AuthorizationModelImpl
 		attributeGetterFunctions.put(
 			"refreshTokenContentHash",
 			OAuth2Authorization::getRefreshTokenContentHash);
+
+		cacheModelGetterFunctions.put(
+			"refreshTokenContentHash",
+			oAuth2AuthorizationCacheModel ->
+				oAuth2AuthorizationCacheModel.refreshTokenContentHash);
 		attributeSetterBiConsumers.put(
 			"refreshTokenContentHash",
 			(BiConsumer<OAuth2Authorization, Long>)
@@ -454,6 +577,11 @@ public class OAuth2AuthorizationModelImpl
 		attributeGetterFunctions.put(
 			"refreshTokenCreateDate",
 			OAuth2Authorization::getRefreshTokenCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"refreshTokenCreateDate",
+			oAuth2AuthorizationCacheModel ->
+				oAuth2AuthorizationCacheModel.refreshTokenCreateDate);
 		attributeSetterBiConsumers.put(
 			"refreshTokenCreateDate",
 			(BiConsumer<OAuth2Authorization, Date>)
@@ -461,6 +589,11 @@ public class OAuth2AuthorizationModelImpl
 		attributeGetterFunctions.put(
 			"refreshTokenExpirationDate",
 			OAuth2Authorization::getRefreshTokenExpirationDate);
+
+		cacheModelGetterFunctions.put(
+			"refreshTokenExpirationDate",
+			oAuth2AuthorizationCacheModel ->
+				oAuth2AuthorizationCacheModel.refreshTokenExpirationDate);
 		attributeSetterBiConsumers.put(
 			"refreshTokenExpirationDate",
 			(BiConsumer<OAuth2Authorization, Date>)
@@ -470,6 +603,8 @@ public class OAuth2AuthorizationModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -479,6 +614,15 @@ public class OAuth2AuthorizationModelImpl
 
 	@Override
 	public void setOAuth2AuthorizationId(long oAuth2AuthorizationId) {
+		_columnBitmask |= OAUTH2AUTHORIZATIONID_COLUMN_BITMASK;
+
+		if (_oAuth2AuthorizationCacheModel ==
+				_dummyOAuth2AuthorizationCacheModel) {
+
+			_oAuth2AuthorizationCacheModel =
+				(OAuth2AuthorizationCacheModel)toCacheModel();
+		}
+
 		_oAuth2AuthorizationId = oAuth2AuthorizationId;
 	}
 
@@ -491,17 +635,23 @@ public class OAuth2AuthorizationModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
+		if (_oAuth2AuthorizationCacheModel ==
+				_dummyOAuth2AuthorizationCacheModel) {
 
-			_originalCompanyId = _companyId;
+			_oAuth2AuthorizationCacheModel =
+				(OAuth2AuthorizationCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@Override
@@ -513,10 +663,11 @@ public class OAuth2AuthorizationModelImpl
 	public void setUserId(long userId) {
 		_columnBitmask |= USERID_COLUMN_BITMASK;
 
-		if (!_setOriginalUserId) {
-			_setOriginalUserId = true;
+		if (_oAuth2AuthorizationCacheModel ==
+				_dummyOAuth2AuthorizationCacheModel) {
 
-			_originalUserId = _userId;
+			_oAuth2AuthorizationCacheModel =
+				(OAuth2AuthorizationCacheModel)toCacheModel();
 		}
 
 		_userId = userId;
@@ -538,8 +689,13 @@ public class OAuth2AuthorizationModelImpl
 	public void setUserUuid(String userUuid) {
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalUserId() {
-		return _originalUserId;
+		return getOriginalAttributeValue("userId");
 	}
 
 	@Override
@@ -554,6 +710,15 @@ public class OAuth2AuthorizationModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (_oAuth2AuthorizationCacheModel ==
+				_dummyOAuth2AuthorizationCacheModel) {
+
+			_oAuth2AuthorizationCacheModel =
+				(OAuth2AuthorizationCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -564,6 +729,15 @@ public class OAuth2AuthorizationModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (_oAuth2AuthorizationCacheModel ==
+				_dummyOAuth2AuthorizationCacheModel) {
+
+			_oAuth2AuthorizationCacheModel =
+				(OAuth2AuthorizationCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -576,17 +750,23 @@ public class OAuth2AuthorizationModelImpl
 	public void setOAuth2ApplicationId(long oAuth2ApplicationId) {
 		_columnBitmask |= OAUTH2APPLICATIONID_COLUMN_BITMASK;
 
-		if (!_setOriginalOAuth2ApplicationId) {
-			_setOriginalOAuth2ApplicationId = true;
+		if (_oAuth2AuthorizationCacheModel ==
+				_dummyOAuth2AuthorizationCacheModel) {
 
-			_originalOAuth2ApplicationId = _oAuth2ApplicationId;
+			_oAuth2AuthorizationCacheModel =
+				(OAuth2AuthorizationCacheModel)toCacheModel();
 		}
 
 		_oAuth2ApplicationId = oAuth2ApplicationId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalOAuth2ApplicationId() {
-		return _originalOAuth2ApplicationId;
+		return getOriginalAttributeValue("oAuth2ApplicationId");
 	}
 
 	@Override
@@ -597,6 +777,15 @@ public class OAuth2AuthorizationModelImpl
 	@Override
 	public void setOAuth2ApplicationScopeAliasesId(
 		long oAuth2ApplicationScopeAliasesId) {
+
+		_columnBitmask |= OAUTH2APPLICATIONSCOPEALIASESID_COLUMN_BITMASK;
+
+		if (_oAuth2AuthorizationCacheModel ==
+				_dummyOAuth2AuthorizationCacheModel) {
+
+			_oAuth2AuthorizationCacheModel =
+				(OAuth2AuthorizationCacheModel)toCacheModel();
+		}
 
 		_oAuth2ApplicationScopeAliasesId = oAuth2ApplicationScopeAliasesId;
 	}
@@ -613,6 +802,15 @@ public class OAuth2AuthorizationModelImpl
 
 	@Override
 	public void setAccessTokenContent(String accessTokenContent) {
+		_columnBitmask |= ACCESSTOKENCONTENT_COLUMN_BITMASK;
+
+		if (_oAuth2AuthorizationCacheModel ==
+				_dummyOAuth2AuthorizationCacheModel) {
+
+			_oAuth2AuthorizationCacheModel =
+				(OAuth2AuthorizationCacheModel)toCacheModel();
+		}
+
 		_accessTokenContent = accessTokenContent;
 	}
 
@@ -625,17 +823,23 @@ public class OAuth2AuthorizationModelImpl
 	public void setAccessTokenContentHash(long accessTokenContentHash) {
 		_columnBitmask |= ACCESSTOKENCONTENTHASH_COLUMN_BITMASK;
 
-		if (!_setOriginalAccessTokenContentHash) {
-			_setOriginalAccessTokenContentHash = true;
+		if (_oAuth2AuthorizationCacheModel ==
+				_dummyOAuth2AuthorizationCacheModel) {
 
-			_originalAccessTokenContentHash = _accessTokenContentHash;
+			_oAuth2AuthorizationCacheModel =
+				(OAuth2AuthorizationCacheModel)toCacheModel();
 		}
 
 		_accessTokenContentHash = accessTokenContentHash;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalAccessTokenContentHash() {
-		return _originalAccessTokenContentHash;
+		return getOriginalAttributeValue("accessTokenContentHash");
 	}
 
 	@Override
@@ -645,6 +849,15 @@ public class OAuth2AuthorizationModelImpl
 
 	@Override
 	public void setAccessTokenCreateDate(Date accessTokenCreateDate) {
+		_columnBitmask |= ACCESSTOKENCREATEDATE_COLUMN_BITMASK;
+
+		if (_oAuth2AuthorizationCacheModel ==
+				_dummyOAuth2AuthorizationCacheModel) {
+
+			_oAuth2AuthorizationCacheModel =
+				(OAuth2AuthorizationCacheModel)toCacheModel();
+		}
+
 		_accessTokenCreateDate = accessTokenCreateDate;
 	}
 
@@ -655,6 +868,15 @@ public class OAuth2AuthorizationModelImpl
 
 	@Override
 	public void setAccessTokenExpirationDate(Date accessTokenExpirationDate) {
+		_columnBitmask |= ACCESSTOKENEXPIRATIONDATE_COLUMN_BITMASK;
+
+		if (_oAuth2AuthorizationCacheModel ==
+				_dummyOAuth2AuthorizationCacheModel) {
+
+			_oAuth2AuthorizationCacheModel =
+				(OAuth2AuthorizationCacheModel)toCacheModel();
+		}
+
 		_accessTokenExpirationDate = accessTokenExpirationDate;
 	}
 
@@ -670,6 +892,15 @@ public class OAuth2AuthorizationModelImpl
 
 	@Override
 	public void setRemoteHostInfo(String remoteHostInfo) {
+		_columnBitmask |= REMOTEHOSTINFO_COLUMN_BITMASK;
+
+		if (_oAuth2AuthorizationCacheModel ==
+				_dummyOAuth2AuthorizationCacheModel) {
+
+			_oAuth2AuthorizationCacheModel =
+				(OAuth2AuthorizationCacheModel)toCacheModel();
+		}
+
 		_remoteHostInfo = remoteHostInfo;
 	}
 
@@ -685,6 +916,15 @@ public class OAuth2AuthorizationModelImpl
 
 	@Override
 	public void setRemoteIPInfo(String remoteIPInfo) {
+		_columnBitmask |= REMOTEIPINFO_COLUMN_BITMASK;
+
+		if (_oAuth2AuthorizationCacheModel ==
+				_dummyOAuth2AuthorizationCacheModel) {
+
+			_oAuth2AuthorizationCacheModel =
+				(OAuth2AuthorizationCacheModel)toCacheModel();
+		}
+
 		_remoteIPInfo = remoteIPInfo;
 	}
 
@@ -700,6 +940,15 @@ public class OAuth2AuthorizationModelImpl
 
 	@Override
 	public void setRefreshTokenContent(String refreshTokenContent) {
+		_columnBitmask |= REFRESHTOKENCONTENT_COLUMN_BITMASK;
+
+		if (_oAuth2AuthorizationCacheModel ==
+				_dummyOAuth2AuthorizationCacheModel) {
+
+			_oAuth2AuthorizationCacheModel =
+				(OAuth2AuthorizationCacheModel)toCacheModel();
+		}
+
 		_refreshTokenContent = refreshTokenContent;
 	}
 
@@ -712,17 +961,23 @@ public class OAuth2AuthorizationModelImpl
 	public void setRefreshTokenContentHash(long refreshTokenContentHash) {
 		_columnBitmask |= REFRESHTOKENCONTENTHASH_COLUMN_BITMASK;
 
-		if (!_setOriginalRefreshTokenContentHash) {
-			_setOriginalRefreshTokenContentHash = true;
+		if (_oAuth2AuthorizationCacheModel ==
+				_dummyOAuth2AuthorizationCacheModel) {
 
-			_originalRefreshTokenContentHash = _refreshTokenContentHash;
+			_oAuth2AuthorizationCacheModel =
+				(OAuth2AuthorizationCacheModel)toCacheModel();
 		}
 
 		_refreshTokenContentHash = refreshTokenContentHash;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalRefreshTokenContentHash() {
-		return _originalRefreshTokenContentHash;
+		return getOriginalAttributeValue("refreshTokenContentHash");
 	}
 
 	@Override
@@ -732,6 +987,15 @@ public class OAuth2AuthorizationModelImpl
 
 	@Override
 	public void setRefreshTokenCreateDate(Date refreshTokenCreateDate) {
+		_columnBitmask |= REFRESHTOKENCREATEDATE_COLUMN_BITMASK;
+
+		if (_oAuth2AuthorizationCacheModel ==
+				_dummyOAuth2AuthorizationCacheModel) {
+
+			_oAuth2AuthorizationCacheModel =
+				(OAuth2AuthorizationCacheModel)toCacheModel();
+		}
+
 		_refreshTokenCreateDate = refreshTokenCreateDate;
 	}
 
@@ -742,6 +1006,15 @@ public class OAuth2AuthorizationModelImpl
 
 	@Override
 	public void setRefreshTokenExpirationDate(Date refreshTokenExpirationDate) {
+		_columnBitmask |= REFRESHTOKENEXPIRATIONDATE_COLUMN_BITMASK;
+
+		if (_oAuth2AuthorizationCacheModel ==
+				_dummyOAuth2AuthorizationCacheModel) {
+
+			_oAuth2AuthorizationCacheModel =
+				(OAuth2AuthorizationCacheModel)toCacheModel();
+		}
+
 		_refreshTokenExpirationDate = refreshTokenExpirationDate;
 	}
 
@@ -878,35 +1151,9 @@ public class OAuth2AuthorizationModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		OAuth2AuthorizationModelImpl oAuth2AuthorizationModelImpl = this;
+		_columnBitmask = 0;
 
-		oAuth2AuthorizationModelImpl._originalCompanyId =
-			oAuth2AuthorizationModelImpl._companyId;
-
-		oAuth2AuthorizationModelImpl._setOriginalCompanyId = false;
-
-		oAuth2AuthorizationModelImpl._originalUserId =
-			oAuth2AuthorizationModelImpl._userId;
-
-		oAuth2AuthorizationModelImpl._setOriginalUserId = false;
-
-		oAuth2AuthorizationModelImpl._originalOAuth2ApplicationId =
-			oAuth2AuthorizationModelImpl._oAuth2ApplicationId;
-
-		oAuth2AuthorizationModelImpl._setOriginalOAuth2ApplicationId = false;
-
-		oAuth2AuthorizationModelImpl._originalAccessTokenContentHash =
-			oAuth2AuthorizationModelImpl._accessTokenContentHash;
-
-		oAuth2AuthorizationModelImpl._setOriginalAccessTokenContentHash = false;
-
-		oAuth2AuthorizationModelImpl._originalRefreshTokenContentHash =
-			oAuth2AuthorizationModelImpl._refreshTokenContentHash;
-
-		oAuth2AuthorizationModelImpl._setOriginalRefreshTokenContentHash =
-			false;
-
-		oAuth2AuthorizationModelImpl._columnBitmask = 0;
+		_oAuth2AuthorizationCacheModel = _dummyOAuth2AuthorizationCacheModel;
 	}
 
 	@Override
@@ -1109,32 +1356,28 @@ public class OAuth2AuthorizationModelImpl
 
 	private long _oAuth2AuthorizationId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
-	private long _originalUserId;
-	private boolean _setOriginalUserId;
 	private String _userName;
 	private Date _createDate;
 	private long _oAuth2ApplicationId;
-	private long _originalOAuth2ApplicationId;
-	private boolean _setOriginalOAuth2ApplicationId;
 	private long _oAuth2ApplicationScopeAliasesId;
 	private String _accessTokenContent;
 	private long _accessTokenContentHash;
-	private long _originalAccessTokenContentHash;
-	private boolean _setOriginalAccessTokenContentHash;
 	private Date _accessTokenCreateDate;
 	private Date _accessTokenExpirationDate;
 	private String _remoteHostInfo;
 	private String _remoteIPInfo;
 	private String _refreshTokenContent;
 	private long _refreshTokenContentHash;
-	private long _originalRefreshTokenContentHash;
-	private boolean _setOriginalRefreshTokenContentHash;
 	private Date _refreshTokenCreateDate;
 	private Date _refreshTokenExpirationDate;
 	private long _columnBitmask;
+
+	private static final OAuth2AuthorizationCacheModel
+		_dummyOAuth2AuthorizationCacheModel =
+			new OAuth2AuthorizationCacheModel();
+
 	private OAuth2Authorization _escapedModel;
+	private OAuth2AuthorizationCacheModel _oAuth2AuthorizationCacheModel;
 
 }

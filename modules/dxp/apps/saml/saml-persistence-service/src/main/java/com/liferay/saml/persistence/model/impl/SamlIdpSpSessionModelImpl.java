@@ -25,7 +25,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.saml.persistence.model.SamlIdpSpSession;
 import com.liferay.saml.persistence.model.SamlIdpSpSessionModel;
@@ -108,13 +107,25 @@ public class SamlIdpSpSessionModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long CREATEDATE_COLUMN_BITMASK = 1L;
+	public static final long SAMLIDPSPSESSIONID_COLUMN_BITMASK = 1L;
 
-	public static final long SAMLIDPSSOSESSIONID_COLUMN_BITMASK = 2L;
+	public static final long COMPANYID_COLUMN_BITMASK = 2L;
 
-	public static final long SAMLSPENTITYID_COLUMN_BITMASK = 4L;
+	public static final long USERID_COLUMN_BITMASK = 4L;
 
-	public static final long SAMLIDPSPSESSIONID_COLUMN_BITMASK = 8L;
+	public static final long USERNAME_COLUMN_BITMASK = 8L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 16L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 32L;
+
+	public static final long SAMLIDPSSOSESSIONID_COLUMN_BITMASK = 64L;
+
+	public static final long SAMLSPENTITYID_COLUMN_BITMASK = 128L;
+
+	public static final long NAMEIDFORMAT_COLUMN_BITMASK = 256L;
+
+	public static final long NAMEIDVALUE_COLUMN_BITMASK = 512L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -243,10 +254,30 @@ public class SamlIdpSpSessionModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_samlIdpSpSessionCacheModel == null) ||
+			(_samlIdpSpSessionCacheModel == _dummySamlIdpSpSessionCacheModel)) {
+
+			return null;
+		}
+
+		Function<SamlIdpSpSessionCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_samlIdpSpSessionCacheModel);
+	}
+
 	private static final Map<String, Function<SamlIdpSpSession, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<SamlIdpSpSession, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<SamlIdpSpSessionCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<SamlIdpSpSession, Object>>
@@ -255,59 +286,110 @@ public class SamlIdpSpSessionModelImpl
 		Map<String, BiConsumer<SamlIdpSpSession, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<SamlIdpSpSession, ?>>();
+		Map<String, Function<SamlIdpSpSessionCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<SamlIdpSpSessionCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"samlIdpSpSessionId", SamlIdpSpSession::getSamlIdpSpSessionId);
+
+		cacheModelGetterFunctions.put(
+			"samlIdpSpSessionId",
+			samlIdpSpSessionCacheModel ->
+				samlIdpSpSessionCacheModel.samlIdpSpSessionId);
 		attributeSetterBiConsumers.put(
 			"samlIdpSpSessionId",
 			(BiConsumer<SamlIdpSpSession, Long>)
 				SamlIdpSpSession::setSamlIdpSpSessionId);
 		attributeGetterFunctions.put(
 			"companyId", SamlIdpSpSession::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			samlIdpSpSessionCacheModel -> samlIdpSpSessionCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<SamlIdpSpSession, Long>)SamlIdpSpSession::setCompanyId);
 		attributeGetterFunctions.put("userId", SamlIdpSpSession::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			samlIdpSpSessionCacheModel -> samlIdpSpSessionCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<SamlIdpSpSession, Long>)SamlIdpSpSession::setUserId);
 		attributeGetterFunctions.put("userName", SamlIdpSpSession::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			samlIdpSpSessionCacheModel -> samlIdpSpSessionCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<SamlIdpSpSession, String>)
 				SamlIdpSpSession::setUserName);
 		attributeGetterFunctions.put(
 			"createDate", SamlIdpSpSession::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			samlIdpSpSessionCacheModel ->
+				samlIdpSpSessionCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<SamlIdpSpSession, Date>)
 				SamlIdpSpSession::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", SamlIdpSpSession::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			samlIdpSpSessionCacheModel ->
+				samlIdpSpSessionCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<SamlIdpSpSession, Date>)
 				SamlIdpSpSession::setModifiedDate);
 		attributeGetterFunctions.put(
 			"samlIdpSsoSessionId", SamlIdpSpSession::getSamlIdpSsoSessionId);
+
+		cacheModelGetterFunctions.put(
+			"samlIdpSsoSessionId",
+			samlIdpSpSessionCacheModel ->
+				samlIdpSpSessionCacheModel.samlIdpSsoSessionId);
 		attributeSetterBiConsumers.put(
 			"samlIdpSsoSessionId",
 			(BiConsumer<SamlIdpSpSession, Long>)
 				SamlIdpSpSession::setSamlIdpSsoSessionId);
 		attributeGetterFunctions.put(
 			"samlSpEntityId", SamlIdpSpSession::getSamlSpEntityId);
+
+		cacheModelGetterFunctions.put(
+			"samlSpEntityId",
+			samlIdpSpSessionCacheModel ->
+				samlIdpSpSessionCacheModel.samlSpEntityId);
 		attributeSetterBiConsumers.put(
 			"samlSpEntityId",
 			(BiConsumer<SamlIdpSpSession, String>)
 				SamlIdpSpSession::setSamlSpEntityId);
 		attributeGetterFunctions.put(
 			"nameIdFormat", SamlIdpSpSession::getNameIdFormat);
+
+		cacheModelGetterFunctions.put(
+			"nameIdFormat",
+			samlIdpSpSessionCacheModel ->
+				samlIdpSpSessionCacheModel.nameIdFormat);
 		attributeSetterBiConsumers.put(
 			"nameIdFormat",
 			(BiConsumer<SamlIdpSpSession, String>)
 				SamlIdpSpSession::setNameIdFormat);
 		attributeGetterFunctions.put(
 			"nameIdValue", SamlIdpSpSession::getNameIdValue);
+
+		cacheModelGetterFunctions.put(
+			"nameIdValue",
+			samlIdpSpSessionCacheModel ->
+				samlIdpSpSessionCacheModel.nameIdValue);
 		attributeSetterBiConsumers.put(
 			"nameIdValue",
 			(BiConsumer<SamlIdpSpSession, String>)
@@ -317,6 +399,8 @@ public class SamlIdpSpSessionModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -326,6 +410,13 @@ public class SamlIdpSpSessionModelImpl
 
 	@Override
 	public void setSamlIdpSpSessionId(long samlIdpSpSessionId) {
+		_columnBitmask |= SAMLIDPSPSESSIONID_COLUMN_BITMASK;
+
+		if (_samlIdpSpSessionCacheModel == _dummySamlIdpSpSessionCacheModel) {
+			_samlIdpSpSessionCacheModel =
+				(SamlIdpSpSessionCacheModel)toCacheModel();
+		}
+
 		_samlIdpSpSessionId = samlIdpSpSessionId;
 	}
 
@@ -336,6 +427,13 @@ public class SamlIdpSpSessionModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (_samlIdpSpSessionCacheModel == _dummySamlIdpSpSessionCacheModel) {
+			_samlIdpSpSessionCacheModel =
+				(SamlIdpSpSessionCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -346,6 +444,13 @@ public class SamlIdpSpSessionModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (_samlIdpSpSessionCacheModel == _dummySamlIdpSpSessionCacheModel) {
+			_samlIdpSpSessionCacheModel =
+				(SamlIdpSpSessionCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -377,6 +482,13 @@ public class SamlIdpSpSessionModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (_samlIdpSpSessionCacheModel == _dummySamlIdpSpSessionCacheModel) {
+			_samlIdpSpSessionCacheModel =
+				(SamlIdpSpSessionCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -389,15 +501,21 @@ public class SamlIdpSpSessionModelImpl
 	public void setCreateDate(Date createDate) {
 		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
 
-		if (_originalCreateDate == null) {
-			_originalCreateDate = _createDate;
+		if (_samlIdpSpSessionCacheModel == _dummySamlIdpSpSessionCacheModel) {
+			_samlIdpSpSessionCacheModel =
+				(SamlIdpSpSessionCacheModel)toCacheModel();
 		}
 
 		_createDate = createDate;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public Date getOriginalCreateDate() {
-		return _originalCreateDate;
+		return getOriginalAttributeValue("createDate");
 	}
 
 	@Override
@@ -413,6 +531,13 @@ public class SamlIdpSpSessionModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (_samlIdpSpSessionCacheModel == _dummySamlIdpSpSessionCacheModel) {
+			_samlIdpSpSessionCacheModel =
+				(SamlIdpSpSessionCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -425,17 +550,21 @@ public class SamlIdpSpSessionModelImpl
 	public void setSamlIdpSsoSessionId(long samlIdpSsoSessionId) {
 		_columnBitmask |= SAMLIDPSSOSESSIONID_COLUMN_BITMASK;
 
-		if (!_setOriginalSamlIdpSsoSessionId) {
-			_setOriginalSamlIdpSsoSessionId = true;
-
-			_originalSamlIdpSsoSessionId = _samlIdpSsoSessionId;
+		if (_samlIdpSpSessionCacheModel == _dummySamlIdpSpSessionCacheModel) {
+			_samlIdpSpSessionCacheModel =
+				(SamlIdpSpSessionCacheModel)toCacheModel();
 		}
 
 		_samlIdpSsoSessionId = samlIdpSsoSessionId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalSamlIdpSsoSessionId() {
-		return _originalSamlIdpSsoSessionId;
+		return getOriginalAttributeValue("samlIdpSsoSessionId");
 	}
 
 	@Override
@@ -452,15 +581,21 @@ public class SamlIdpSpSessionModelImpl
 	public void setSamlSpEntityId(String samlSpEntityId) {
 		_columnBitmask |= SAMLSPENTITYID_COLUMN_BITMASK;
 
-		if (_originalSamlSpEntityId == null) {
-			_originalSamlSpEntityId = _samlSpEntityId;
+		if (_samlIdpSpSessionCacheModel == _dummySamlIdpSpSessionCacheModel) {
+			_samlIdpSpSessionCacheModel =
+				(SamlIdpSpSessionCacheModel)toCacheModel();
 		}
 
 		_samlSpEntityId = samlSpEntityId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalSamlSpEntityId() {
-		return GetterUtil.getString(_originalSamlSpEntityId);
+		return getOriginalAttributeValue("samlSpEntityId");
 	}
 
 	@Override
@@ -475,6 +610,13 @@ public class SamlIdpSpSessionModelImpl
 
 	@Override
 	public void setNameIdFormat(String nameIdFormat) {
+		_columnBitmask |= NAMEIDFORMAT_COLUMN_BITMASK;
+
+		if (_samlIdpSpSessionCacheModel == _dummySamlIdpSpSessionCacheModel) {
+			_samlIdpSpSessionCacheModel =
+				(SamlIdpSpSessionCacheModel)toCacheModel();
+		}
+
 		_nameIdFormat = nameIdFormat;
 	}
 
@@ -490,6 +632,13 @@ public class SamlIdpSpSessionModelImpl
 
 	@Override
 	public void setNameIdValue(String nameIdValue) {
+		_columnBitmask |= NAMEIDVALUE_COLUMN_BITMASK;
+
+		if (_samlIdpSpSessionCacheModel == _dummySamlIdpSpSessionCacheModel) {
+			_samlIdpSpSessionCacheModel =
+				(SamlIdpSpSessionCacheModel)toCacheModel();
+		}
+
 		_nameIdValue = nameIdValue;
 	}
 
@@ -607,22 +756,11 @@ public class SamlIdpSpSessionModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		SamlIdpSpSessionModelImpl samlIdpSpSessionModelImpl = this;
+		_setModifiedDate = false;
 
-		samlIdpSpSessionModelImpl._originalCreateDate =
-			samlIdpSpSessionModelImpl._createDate;
+		_columnBitmask = 0;
 
-		samlIdpSpSessionModelImpl._setModifiedDate = false;
-
-		samlIdpSpSessionModelImpl._originalSamlIdpSsoSessionId =
-			samlIdpSpSessionModelImpl._samlIdpSsoSessionId;
-
-		samlIdpSpSessionModelImpl._setOriginalSamlIdpSsoSessionId = false;
-
-		samlIdpSpSessionModelImpl._originalSamlSpEntityId =
-			samlIdpSpSessionModelImpl._samlSpEntityId;
-
-		samlIdpSpSessionModelImpl._columnBitmask = 0;
+		_samlIdpSpSessionCacheModel = _dummySamlIdpSpSessionCacheModel;
 	}
 
 	@Override
@@ -767,17 +905,18 @@ public class SamlIdpSpSessionModelImpl
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
-	private Date _originalCreateDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _samlIdpSsoSessionId;
-	private long _originalSamlIdpSsoSessionId;
-	private boolean _setOriginalSamlIdpSsoSessionId;
 	private String _samlSpEntityId;
-	private String _originalSamlSpEntityId;
 	private String _nameIdFormat;
 	private String _nameIdValue;
 	private long _columnBitmask;
+
+	private static final SamlIdpSpSessionCacheModel
+		_dummySamlIdpSpSessionCacheModel = new SamlIdpSpSessionCacheModel();
+
 	private SamlIdpSpSession _escapedModel;
+	private SamlIdpSpSessionCacheModel _samlIdpSpSessionCacheModel;
 
 }

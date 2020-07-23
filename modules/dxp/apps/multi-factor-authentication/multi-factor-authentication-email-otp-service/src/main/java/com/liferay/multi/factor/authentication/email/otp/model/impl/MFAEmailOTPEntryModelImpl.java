@@ -109,9 +109,29 @@ public class MFAEmailOTPEntryModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long USERID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
 	public static final long MFAEMAILOTPENTRYID_COLUMN_BITMASK = 2L;
+
+	public static final long COMPANYID_COLUMN_BITMASK = 4L;
+
+	public static final long USERID_COLUMN_BITMASK = 8L;
+
+	public static final long USERNAME_COLUMN_BITMASK = 16L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 32L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 64L;
+
+	public static final long FAILEDATTEMPTS_COLUMN_BITMASK = 128L;
+
+	public static final long LASTFAILDATE_COLUMN_BITMASK = 256L;
+
+	public static final long LASTFAILIP_COLUMN_BITMASK = 512L;
+
+	public static final long LASTSUCCESSDATE_COLUMN_BITMASK = 1024L;
+
+	public static final long LASTSUCCESSIP_COLUMN_BITMASK = 2048L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -240,10 +260,30 @@ public class MFAEmailOTPEntryModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_mfaEmailOTPEntryCacheModel == null) ||
+			(_mfaEmailOTPEntryCacheModel == _dummyMFAEmailOTPEntryCacheModel)) {
+
+			return null;
+		}
+
+		Function<MFAEmailOTPEntryCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_mfaEmailOTPEntryCacheModel);
+	}
+
 	private static final Map<String, Function<MFAEmailOTPEntry, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<MFAEmailOTPEntry, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map
+		<String, Function<MFAEmailOTPEntryCacheModel, Object>>
+			_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<MFAEmailOTPEntry, Object>>
@@ -252,71 +292,132 @@ public class MFAEmailOTPEntryModelImpl
 		Map<String, BiConsumer<MFAEmailOTPEntry, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<MFAEmailOTPEntry, ?>>();
+		Map<String, Function<MFAEmailOTPEntryCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<MFAEmailOTPEntryCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", MFAEmailOTPEntry::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			mfaEmailOTPEntryCacheModel ->
+				mfaEmailOTPEntryCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<MFAEmailOTPEntry, Long>)
 				MFAEmailOTPEntry::setMvccVersion);
 		attributeGetterFunctions.put(
 			"mfaEmailOTPEntryId", MFAEmailOTPEntry::getMfaEmailOTPEntryId);
+
+		cacheModelGetterFunctions.put(
+			"mfaEmailOTPEntryId",
+			mfaEmailOTPEntryCacheModel ->
+				mfaEmailOTPEntryCacheModel.mfaEmailOTPEntryId);
 		attributeSetterBiConsumers.put(
 			"mfaEmailOTPEntryId",
 			(BiConsumer<MFAEmailOTPEntry, Long>)
 				MFAEmailOTPEntry::setMfaEmailOTPEntryId);
 		attributeGetterFunctions.put(
 			"companyId", MFAEmailOTPEntry::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			mfaEmailOTPEntryCacheModel -> mfaEmailOTPEntryCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<MFAEmailOTPEntry, Long>)MFAEmailOTPEntry::setCompanyId);
 		attributeGetterFunctions.put("userId", MFAEmailOTPEntry::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			mfaEmailOTPEntryCacheModel -> mfaEmailOTPEntryCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<MFAEmailOTPEntry, Long>)MFAEmailOTPEntry::setUserId);
 		attributeGetterFunctions.put("userName", MFAEmailOTPEntry::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			mfaEmailOTPEntryCacheModel -> mfaEmailOTPEntryCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<MFAEmailOTPEntry, String>)
 				MFAEmailOTPEntry::setUserName);
 		attributeGetterFunctions.put(
 			"createDate", MFAEmailOTPEntry::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			mfaEmailOTPEntryCacheModel ->
+				mfaEmailOTPEntryCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<MFAEmailOTPEntry, Date>)
 				MFAEmailOTPEntry::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", MFAEmailOTPEntry::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			mfaEmailOTPEntryCacheModel ->
+				mfaEmailOTPEntryCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<MFAEmailOTPEntry, Date>)
 				MFAEmailOTPEntry::setModifiedDate);
 		attributeGetterFunctions.put(
 			"failedAttempts", MFAEmailOTPEntry::getFailedAttempts);
+
+		cacheModelGetterFunctions.put(
+			"failedAttempts",
+			mfaEmailOTPEntryCacheModel ->
+				mfaEmailOTPEntryCacheModel.failedAttempts);
 		attributeSetterBiConsumers.put(
 			"failedAttempts",
 			(BiConsumer<MFAEmailOTPEntry, Integer>)
 				MFAEmailOTPEntry::setFailedAttempts);
 		attributeGetterFunctions.put(
 			"lastFailDate", MFAEmailOTPEntry::getLastFailDate);
+
+		cacheModelGetterFunctions.put(
+			"lastFailDate",
+			mfaEmailOTPEntryCacheModel ->
+				mfaEmailOTPEntryCacheModel.lastFailDate);
 		attributeSetterBiConsumers.put(
 			"lastFailDate",
 			(BiConsumer<MFAEmailOTPEntry, Date>)
 				MFAEmailOTPEntry::setLastFailDate);
 		attributeGetterFunctions.put(
 			"lastFailIP", MFAEmailOTPEntry::getLastFailIP);
+
+		cacheModelGetterFunctions.put(
+			"lastFailIP",
+			mfaEmailOTPEntryCacheModel ->
+				mfaEmailOTPEntryCacheModel.lastFailIP);
 		attributeSetterBiConsumers.put(
 			"lastFailIP",
 			(BiConsumer<MFAEmailOTPEntry, String>)
 				MFAEmailOTPEntry::setLastFailIP);
 		attributeGetterFunctions.put(
 			"lastSuccessDate", MFAEmailOTPEntry::getLastSuccessDate);
+
+		cacheModelGetterFunctions.put(
+			"lastSuccessDate",
+			mfaEmailOTPEntryCacheModel ->
+				mfaEmailOTPEntryCacheModel.lastSuccessDate);
 		attributeSetterBiConsumers.put(
 			"lastSuccessDate",
 			(BiConsumer<MFAEmailOTPEntry, Date>)
 				MFAEmailOTPEntry::setLastSuccessDate);
 		attributeGetterFunctions.put(
 			"lastSuccessIP", MFAEmailOTPEntry::getLastSuccessIP);
+
+		cacheModelGetterFunctions.put(
+			"lastSuccessIP",
+			mfaEmailOTPEntryCacheModel ->
+				mfaEmailOTPEntryCacheModel.lastSuccessIP);
 		attributeSetterBiConsumers.put(
 			"lastSuccessIP",
 			(BiConsumer<MFAEmailOTPEntry, String>)
@@ -326,6 +427,8 @@ public class MFAEmailOTPEntryModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -335,6 +438,13 @@ public class MFAEmailOTPEntryModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_mfaEmailOTPEntryCacheModel == _dummyMFAEmailOTPEntryCacheModel) {
+			_mfaEmailOTPEntryCacheModel =
+				(MFAEmailOTPEntryCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -345,6 +455,13 @@ public class MFAEmailOTPEntryModelImpl
 
 	@Override
 	public void setMfaEmailOTPEntryId(long mfaEmailOTPEntryId) {
+		_columnBitmask |= MFAEMAILOTPENTRYID_COLUMN_BITMASK;
+
+		if (_mfaEmailOTPEntryCacheModel == _dummyMFAEmailOTPEntryCacheModel) {
+			_mfaEmailOTPEntryCacheModel =
+				(MFAEmailOTPEntryCacheModel)toCacheModel();
+		}
+
 		_mfaEmailOTPEntryId = mfaEmailOTPEntryId;
 	}
 
@@ -355,6 +472,13 @@ public class MFAEmailOTPEntryModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (_mfaEmailOTPEntryCacheModel == _dummyMFAEmailOTPEntryCacheModel) {
+			_mfaEmailOTPEntryCacheModel =
+				(MFAEmailOTPEntryCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -367,10 +491,9 @@ public class MFAEmailOTPEntryModelImpl
 	public void setUserId(long userId) {
 		_columnBitmask |= USERID_COLUMN_BITMASK;
 
-		if (!_setOriginalUserId) {
-			_setOriginalUserId = true;
-
-			_originalUserId = _userId;
+		if (_mfaEmailOTPEntryCacheModel == _dummyMFAEmailOTPEntryCacheModel) {
+			_mfaEmailOTPEntryCacheModel =
+				(MFAEmailOTPEntryCacheModel)toCacheModel();
 		}
 
 		_userId = userId;
@@ -392,8 +515,13 @@ public class MFAEmailOTPEntryModelImpl
 	public void setUserUuid(String userUuid) {
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalUserId() {
-		return _originalUserId;
+		return getOriginalAttributeValue("userId");
 	}
 
 	@Override
@@ -408,6 +536,13 @@ public class MFAEmailOTPEntryModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (_mfaEmailOTPEntryCacheModel == _dummyMFAEmailOTPEntryCacheModel) {
+			_mfaEmailOTPEntryCacheModel =
+				(MFAEmailOTPEntryCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -418,6 +553,13 @@ public class MFAEmailOTPEntryModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (_mfaEmailOTPEntryCacheModel == _dummyMFAEmailOTPEntryCacheModel) {
+			_mfaEmailOTPEntryCacheModel =
+				(MFAEmailOTPEntryCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -434,6 +576,13 @@ public class MFAEmailOTPEntryModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (_mfaEmailOTPEntryCacheModel == _dummyMFAEmailOTPEntryCacheModel) {
+			_mfaEmailOTPEntryCacheModel =
+				(MFAEmailOTPEntryCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -444,6 +593,13 @@ public class MFAEmailOTPEntryModelImpl
 
 	@Override
 	public void setFailedAttempts(int failedAttempts) {
+		_columnBitmask |= FAILEDATTEMPTS_COLUMN_BITMASK;
+
+		if (_mfaEmailOTPEntryCacheModel == _dummyMFAEmailOTPEntryCacheModel) {
+			_mfaEmailOTPEntryCacheModel =
+				(MFAEmailOTPEntryCacheModel)toCacheModel();
+		}
+
 		_failedAttempts = failedAttempts;
 	}
 
@@ -454,6 +610,13 @@ public class MFAEmailOTPEntryModelImpl
 
 	@Override
 	public void setLastFailDate(Date lastFailDate) {
+		_columnBitmask |= LASTFAILDATE_COLUMN_BITMASK;
+
+		if (_mfaEmailOTPEntryCacheModel == _dummyMFAEmailOTPEntryCacheModel) {
+			_mfaEmailOTPEntryCacheModel =
+				(MFAEmailOTPEntryCacheModel)toCacheModel();
+		}
+
 		_lastFailDate = lastFailDate;
 	}
 
@@ -469,6 +632,13 @@ public class MFAEmailOTPEntryModelImpl
 
 	@Override
 	public void setLastFailIP(String lastFailIP) {
+		_columnBitmask |= LASTFAILIP_COLUMN_BITMASK;
+
+		if (_mfaEmailOTPEntryCacheModel == _dummyMFAEmailOTPEntryCacheModel) {
+			_mfaEmailOTPEntryCacheModel =
+				(MFAEmailOTPEntryCacheModel)toCacheModel();
+		}
+
 		_lastFailIP = lastFailIP;
 	}
 
@@ -479,6 +649,13 @@ public class MFAEmailOTPEntryModelImpl
 
 	@Override
 	public void setLastSuccessDate(Date lastSuccessDate) {
+		_columnBitmask |= LASTSUCCESSDATE_COLUMN_BITMASK;
+
+		if (_mfaEmailOTPEntryCacheModel == _dummyMFAEmailOTPEntryCacheModel) {
+			_mfaEmailOTPEntryCacheModel =
+				(MFAEmailOTPEntryCacheModel)toCacheModel();
+		}
+
 		_lastSuccessDate = lastSuccessDate;
 	}
 
@@ -494,6 +671,13 @@ public class MFAEmailOTPEntryModelImpl
 
 	@Override
 	public void setLastSuccessIP(String lastSuccessIP) {
+		_columnBitmask |= LASTSUCCESSIP_COLUMN_BITMASK;
+
+		if (_mfaEmailOTPEntryCacheModel == _dummyMFAEmailOTPEntryCacheModel) {
+			_mfaEmailOTPEntryCacheModel =
+				(MFAEmailOTPEntryCacheModel)toCacheModel();
+		}
+
 		_lastSuccessIP = lastSuccessIP;
 	}
 
@@ -613,16 +797,11 @@ public class MFAEmailOTPEntryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		MFAEmailOTPEntryModelImpl mfaEmailOTPEntryModelImpl = this;
+		_setModifiedDate = false;
 
-		mfaEmailOTPEntryModelImpl._originalUserId =
-			mfaEmailOTPEntryModelImpl._userId;
+		_columnBitmask = 0;
 
-		mfaEmailOTPEntryModelImpl._setOriginalUserId = false;
-
-		mfaEmailOTPEntryModelImpl._setModifiedDate = false;
-
-		mfaEmailOTPEntryModelImpl._columnBitmask = 0;
+		_mfaEmailOTPEntryCacheModel = _dummyMFAEmailOTPEntryCacheModel;
 	}
 
 	@Override
@@ -778,8 +957,6 @@ public class MFAEmailOTPEntryModelImpl
 	private long _mfaEmailOTPEntryId;
 	private long _companyId;
 	private long _userId;
-	private long _originalUserId;
-	private boolean _setOriginalUserId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
@@ -790,6 +967,11 @@ public class MFAEmailOTPEntryModelImpl
 	private Date _lastSuccessDate;
 	private String _lastSuccessIP;
 	private long _columnBitmask;
+
+	private static final MFAEmailOTPEntryCacheModel
+		_dummyMFAEmailOTPEntryCacheModel = new MFAEmailOTPEntryCacheModel();
+
 	private MFAEmailOTPEntry _escapedModel;
+	private MFAEmailOTPEntryCacheModel _mfaEmailOTPEntryCacheModel;
 
 }

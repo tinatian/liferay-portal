@@ -2702,7 +2702,7 @@ public class SystemEventPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					systemEventModelImpl.getOriginalGroupId()
+					systemEventModelImpl.getOriginalAttributeValue("groupId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByGroupId, args);
@@ -2721,8 +2721,9 @@ public class SystemEventPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					systemEventModelImpl.getOriginalGroupId(),
-					systemEventModelImpl.getOriginalSystemEventSetKey()
+					systemEventModelImpl.getOriginalAttributeValue("groupId"),
+					systemEventModelImpl.getOriginalAttributeValue(
+						"systemEventSetKey")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByG_S, args);
@@ -2744,9 +2745,10 @@ public class SystemEventPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					systemEventModelImpl.getOriginalGroupId(),
-					systemEventModelImpl.getOriginalClassNameId(),
-					systemEventModelImpl.getOriginalClassPK()
+					systemEventModelImpl.getOriginalAttributeValue("groupId"),
+					systemEventModelImpl.getOriginalAttributeValue(
+						"classNameId"),
+					systemEventModelImpl.getOriginalAttributeValue("classPK")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByG_C_C, args);
@@ -2769,10 +2771,11 @@ public class SystemEventPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					systemEventModelImpl.getOriginalGroupId(),
-					systemEventModelImpl.getOriginalClassNameId(),
-					systemEventModelImpl.getOriginalClassPK(),
-					systemEventModelImpl.getOriginalType()
+					systemEventModelImpl.getOriginalAttributeValue("groupId"),
+					systemEventModelImpl.getOriginalAttributeValue(
+						"classNameId"),
+					systemEventModelImpl.getOriginalAttributeValue("classPK"),
+					systemEventModelImpl.getOriginalAttributeValue("type")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByG_C_C_T, args);

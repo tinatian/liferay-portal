@@ -4502,8 +4502,8 @@ public class DDMStructureLayoutPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				ddmStructureLayoutModelImpl.getOriginalUuid(),
-				ddmStructureLayoutModelImpl.getOriginalGroupId()
+				ddmStructureLayoutModelImpl.getOriginalAttributeValue("uuid"),
+				ddmStructureLayoutModelImpl.getOriginalAttributeValue("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -4525,7 +4525,8 @@ public class DDMStructureLayoutPersistenceImpl
 			 _finderPathFetchByStructureVersionId.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				ddmStructureLayoutModelImpl.getOriginalStructureVersionId()
+				ddmStructureLayoutModelImpl.getOriginalAttributeValue(
+					"structureVersionId")
 			};
 
 			finderCache.removeResult(
@@ -4549,9 +4550,12 @@ public class DDMStructureLayoutPersistenceImpl
 			 _finderPathFetchByG_C_S.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				ddmStructureLayoutModelImpl.getOriginalGroupId(),
-				ddmStructureLayoutModelImpl.getOriginalClassNameId(),
-				ddmStructureLayoutModelImpl.getOriginalStructureLayoutKey()
+				ddmStructureLayoutModelImpl.getOriginalAttributeValue(
+					"groupId"),
+				ddmStructureLayoutModelImpl.getOriginalAttributeValue(
+					"classNameId"),
+				ddmStructureLayoutModelImpl.getOriginalAttributeValue(
+					"structureLayoutKey")
 			};
 
 			finderCache.removeResult(_finderPathCountByG_C_S, args);
@@ -4834,7 +4838,8 @@ public class DDMStructureLayoutPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					ddmStructureLayoutModelImpl.getOriginalUuid()
+					ddmStructureLayoutModelImpl.getOriginalAttributeValue(
+						"uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -4853,8 +4858,10 @@ public class DDMStructureLayoutPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					ddmStructureLayoutModelImpl.getOriginalUuid(),
-					ddmStructureLayoutModelImpl.getOriginalCompanyId()
+					ddmStructureLayoutModelImpl.getOriginalAttributeValue(
+						"uuid"),
+					ddmStructureLayoutModelImpl.getOriginalAttributeValue(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -4876,7 +4883,8 @@ public class DDMStructureLayoutPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					ddmStructureLayoutModelImpl.getOriginalGroupId()
+					ddmStructureLayoutModelImpl.getOriginalAttributeValue(
+						"groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId, args);
@@ -4895,7 +4903,8 @@ public class DDMStructureLayoutPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					ddmStructureLayoutModelImpl.getOriginalStructureLayoutKey()
+					ddmStructureLayoutModelImpl.getOriginalAttributeValue(
+						"structureLayoutKey")
 				};
 
 				finderCache.removeResult(
@@ -4918,8 +4927,10 @@ public class DDMStructureLayoutPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					ddmStructureLayoutModelImpl.getOriginalGroupId(),
-					ddmStructureLayoutModelImpl.getOriginalClassNameId()
+					ddmStructureLayoutModelImpl.getOriginalAttributeValue(
+						"groupId"),
+					ddmStructureLayoutModelImpl.getOriginalAttributeValue(
+						"classNameId")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_C, args);
@@ -4941,9 +4952,12 @@ public class DDMStructureLayoutPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					ddmStructureLayoutModelImpl.getOriginalGroupId(),
-					ddmStructureLayoutModelImpl.getOriginalClassNameId(),
-					ddmStructureLayoutModelImpl.getOriginalStructureVersionId()
+					ddmStructureLayoutModelImpl.getOriginalAttributeValue(
+						"groupId"),
+					ddmStructureLayoutModelImpl.getOriginalAttributeValue(
+						"classNameId"),
+					ddmStructureLayoutModelImpl.getOriginalAttributeValue(
+						"structureVersionId")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_C_SV, args);

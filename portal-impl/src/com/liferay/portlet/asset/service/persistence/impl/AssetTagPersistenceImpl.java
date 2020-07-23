@@ -4421,8 +4421,8 @@ public class AssetTagPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				assetTagModelImpl.getOriginalUuid(),
-				assetTagModelImpl.getOriginalGroupId()
+				assetTagModelImpl.getOriginalAttributeValue("uuid"),
+				assetTagModelImpl.getOriginalAttributeValue("groupId")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByUUID_G, args);
@@ -4442,8 +4442,8 @@ public class AssetTagPersistenceImpl
 			 _finderPathFetchByG_N.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				assetTagModelImpl.getOriginalGroupId(),
-				assetTagModelImpl.getOriginalName()
+				assetTagModelImpl.getOriginalAttributeValue("groupId"),
+				assetTagModelImpl.getOriginalAttributeValue("name")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByG_N, args);
@@ -4688,7 +4688,7 @@ public class AssetTagPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					assetTagModelImpl.getOriginalUuid()
+					assetTagModelImpl.getOriginalAttributeValue("uuid")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid, args);
@@ -4707,8 +4707,8 @@ public class AssetTagPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					assetTagModelImpl.getOriginalUuid(),
-					assetTagModelImpl.getOriginalCompanyId()
+					assetTagModelImpl.getOriginalAttributeValue("uuid"),
+					assetTagModelImpl.getOriginalAttributeValue("companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid_C, args);
@@ -4730,7 +4730,7 @@ public class AssetTagPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					assetTagModelImpl.getOriginalGroupId()
+					assetTagModelImpl.getOriginalAttributeValue("groupId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByGroupId, args);
@@ -4749,7 +4749,7 @@ public class AssetTagPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					assetTagModelImpl.getOriginalName()
+					assetTagModelImpl.getOriginalAttributeValue("name")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByName, args);

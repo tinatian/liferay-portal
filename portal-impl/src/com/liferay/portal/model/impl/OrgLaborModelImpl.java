@@ -140,9 +140,43 @@ public class OrgLaborModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long ORGANIZATIONID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long TYPEID_COLUMN_BITMASK = 2L;
+	public static final long ORGLABORID_COLUMN_BITMASK = 2L;
+
+	public static final long COMPANYID_COLUMN_BITMASK = 4L;
+
+	public static final long ORGANIZATIONID_COLUMN_BITMASK = 8L;
+
+	public static final long TYPEID_COLUMN_BITMASK = 16L;
+
+	public static final long SUNOPEN_COLUMN_BITMASK = 32L;
+
+	public static final long SUNCLOSE_COLUMN_BITMASK = 64L;
+
+	public static final long MONOPEN_COLUMN_BITMASK = 128L;
+
+	public static final long MONCLOSE_COLUMN_BITMASK = 256L;
+
+	public static final long TUEOPEN_COLUMN_BITMASK = 512L;
+
+	public static final long TUECLOSE_COLUMN_BITMASK = 1024L;
+
+	public static final long WEDOPEN_COLUMN_BITMASK = 2048L;
+
+	public static final long WEDCLOSE_COLUMN_BITMASK = 4096L;
+
+	public static final long THUOPEN_COLUMN_BITMASK = 8192L;
+
+	public static final long THUCLOSE_COLUMN_BITMASK = 16384L;
+
+	public static final long FRIOPEN_COLUMN_BITMASK = 32768L;
+
+	public static final long FRICLOSE_COLUMN_BITMASK = 65536L;
+
+	public static final long SATOPEN_COLUMN_BITMASK = 131072L;
+
+	public static final long SATCLOSE_COLUMN_BITMASK = 262144L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -316,75 +350,157 @@ public class OrgLaborModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_orgLaborCacheModel == null) ||
+			(_orgLaborCacheModel == _dummyOrgLaborCacheModel)) {
+
+			return null;
+		}
+
+		Function<OrgLaborCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_orgLaborCacheModel);
+	}
+
 	private static final Map<String, Function<OrgLabor, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<OrgLabor, Object>>
 		_attributeSetterBiConsumers;
+	private static final Map<String, Function<OrgLaborCacheModel, Object>>
+		_cacheModelGetterFunctions;
 
 	static {
 		Map<String, Function<OrgLabor, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<OrgLabor, Object>>();
 		Map<String, BiConsumer<OrgLabor, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<OrgLabor, ?>>();
+		Map<String, Function<OrgLaborCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<OrgLaborCacheModel, Object>>();
 
 		attributeGetterFunctions.put("mvccVersion", OrgLabor::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			orgLaborCacheModel -> orgLaborCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<OrgLabor, Long>)OrgLabor::setMvccVersion);
 		attributeGetterFunctions.put("orgLaborId", OrgLabor::getOrgLaborId);
+
+		cacheModelGetterFunctions.put(
+			"orgLaborId", orgLaborCacheModel -> orgLaborCacheModel.orgLaborId);
 		attributeSetterBiConsumers.put(
 			"orgLaborId", (BiConsumer<OrgLabor, Long>)OrgLabor::setOrgLaborId);
 		attributeGetterFunctions.put("companyId", OrgLabor::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId", orgLaborCacheModel -> orgLaborCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId", (BiConsumer<OrgLabor, Long>)OrgLabor::setCompanyId);
 		attributeGetterFunctions.put(
 			"organizationId", OrgLabor::getOrganizationId);
+
+		cacheModelGetterFunctions.put(
+			"organizationId",
+			orgLaborCacheModel -> orgLaborCacheModel.organizationId);
 		attributeSetterBiConsumers.put(
 			"organizationId",
 			(BiConsumer<OrgLabor, Long>)OrgLabor::setOrganizationId);
 		attributeGetterFunctions.put("typeId", OrgLabor::getTypeId);
+
+		cacheModelGetterFunctions.put(
+			"typeId", orgLaborCacheModel -> orgLaborCacheModel.typeId);
 		attributeSetterBiConsumers.put(
 			"typeId", (BiConsumer<OrgLabor, Long>)OrgLabor::setTypeId);
 		attributeGetterFunctions.put("sunOpen", OrgLabor::getSunOpen);
+
+		cacheModelGetterFunctions.put(
+			"sunOpen", orgLaborCacheModel -> orgLaborCacheModel.sunOpen);
 		attributeSetterBiConsumers.put(
 			"sunOpen", (BiConsumer<OrgLabor, Integer>)OrgLabor::setSunOpen);
 		attributeGetterFunctions.put("sunClose", OrgLabor::getSunClose);
+
+		cacheModelGetterFunctions.put(
+			"sunClose", orgLaborCacheModel -> orgLaborCacheModel.sunClose);
 		attributeSetterBiConsumers.put(
 			"sunClose", (BiConsumer<OrgLabor, Integer>)OrgLabor::setSunClose);
 		attributeGetterFunctions.put("monOpen", OrgLabor::getMonOpen);
+
+		cacheModelGetterFunctions.put(
+			"monOpen", orgLaborCacheModel -> orgLaborCacheModel.monOpen);
 		attributeSetterBiConsumers.put(
 			"monOpen", (BiConsumer<OrgLabor, Integer>)OrgLabor::setMonOpen);
 		attributeGetterFunctions.put("monClose", OrgLabor::getMonClose);
+
+		cacheModelGetterFunctions.put(
+			"monClose", orgLaborCacheModel -> orgLaborCacheModel.monClose);
 		attributeSetterBiConsumers.put(
 			"monClose", (BiConsumer<OrgLabor, Integer>)OrgLabor::setMonClose);
 		attributeGetterFunctions.put("tueOpen", OrgLabor::getTueOpen);
+
+		cacheModelGetterFunctions.put(
+			"tueOpen", orgLaborCacheModel -> orgLaborCacheModel.tueOpen);
 		attributeSetterBiConsumers.put(
 			"tueOpen", (BiConsumer<OrgLabor, Integer>)OrgLabor::setTueOpen);
 		attributeGetterFunctions.put("tueClose", OrgLabor::getTueClose);
+
+		cacheModelGetterFunctions.put(
+			"tueClose", orgLaborCacheModel -> orgLaborCacheModel.tueClose);
 		attributeSetterBiConsumers.put(
 			"tueClose", (BiConsumer<OrgLabor, Integer>)OrgLabor::setTueClose);
 		attributeGetterFunctions.put("wedOpen", OrgLabor::getWedOpen);
+
+		cacheModelGetterFunctions.put(
+			"wedOpen", orgLaborCacheModel -> orgLaborCacheModel.wedOpen);
 		attributeSetterBiConsumers.put(
 			"wedOpen", (BiConsumer<OrgLabor, Integer>)OrgLabor::setWedOpen);
 		attributeGetterFunctions.put("wedClose", OrgLabor::getWedClose);
+
+		cacheModelGetterFunctions.put(
+			"wedClose", orgLaborCacheModel -> orgLaborCacheModel.wedClose);
 		attributeSetterBiConsumers.put(
 			"wedClose", (BiConsumer<OrgLabor, Integer>)OrgLabor::setWedClose);
 		attributeGetterFunctions.put("thuOpen", OrgLabor::getThuOpen);
+
+		cacheModelGetterFunctions.put(
+			"thuOpen", orgLaborCacheModel -> orgLaborCacheModel.thuOpen);
 		attributeSetterBiConsumers.put(
 			"thuOpen", (BiConsumer<OrgLabor, Integer>)OrgLabor::setThuOpen);
 		attributeGetterFunctions.put("thuClose", OrgLabor::getThuClose);
+
+		cacheModelGetterFunctions.put(
+			"thuClose", orgLaborCacheModel -> orgLaborCacheModel.thuClose);
 		attributeSetterBiConsumers.put(
 			"thuClose", (BiConsumer<OrgLabor, Integer>)OrgLabor::setThuClose);
 		attributeGetterFunctions.put("friOpen", OrgLabor::getFriOpen);
+
+		cacheModelGetterFunctions.put(
+			"friOpen", orgLaborCacheModel -> orgLaborCacheModel.friOpen);
 		attributeSetterBiConsumers.put(
 			"friOpen", (BiConsumer<OrgLabor, Integer>)OrgLabor::setFriOpen);
 		attributeGetterFunctions.put("friClose", OrgLabor::getFriClose);
+
+		cacheModelGetterFunctions.put(
+			"friClose", orgLaborCacheModel -> orgLaborCacheModel.friClose);
 		attributeSetterBiConsumers.put(
 			"friClose", (BiConsumer<OrgLabor, Integer>)OrgLabor::setFriClose);
 		attributeGetterFunctions.put("satOpen", OrgLabor::getSatOpen);
+
+		cacheModelGetterFunctions.put(
+			"satOpen", orgLaborCacheModel -> orgLaborCacheModel.satOpen);
 		attributeSetterBiConsumers.put(
 			"satOpen", (BiConsumer<OrgLabor, Integer>)OrgLabor::setSatOpen);
 		attributeGetterFunctions.put("satClose", OrgLabor::getSatClose);
+
+		cacheModelGetterFunctions.put(
+			"satClose", orgLaborCacheModel -> orgLaborCacheModel.satClose);
 		attributeSetterBiConsumers.put(
 			"satClose", (BiConsumer<OrgLabor, Integer>)OrgLabor::setSatClose);
 
@@ -392,6 +508,8 @@ public class OrgLaborModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -402,6 +520,12 @@ public class OrgLaborModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_orgLaborCacheModel == _dummyOrgLaborCacheModel) {
+			_orgLaborCacheModel = (OrgLaborCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -413,6 +537,12 @@ public class OrgLaborModelImpl
 
 	@Override
 	public void setOrgLaborId(long orgLaborId) {
+		_columnBitmask |= ORGLABORID_COLUMN_BITMASK;
+
+		if (_orgLaborCacheModel == _dummyOrgLaborCacheModel) {
+			_orgLaborCacheModel = (OrgLaborCacheModel)toCacheModel();
+		}
+
 		_orgLaborId = orgLaborId;
 	}
 
@@ -424,6 +554,12 @@ public class OrgLaborModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (_orgLaborCacheModel == _dummyOrgLaborCacheModel) {
+			_orgLaborCacheModel = (OrgLaborCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -435,19 +571,22 @@ public class OrgLaborModelImpl
 
 	@Override
 	public void setOrganizationId(long organizationId) {
-		_columnBitmask = -1L;
+		_columnBitmask |= ORGANIZATIONID_COLUMN_BITMASK;
 
-		if (!_setOriginalOrganizationId) {
-			_setOriginalOrganizationId = true;
-
-			_originalOrganizationId = _organizationId;
+		if (_orgLaborCacheModel == _dummyOrgLaborCacheModel) {
+			_orgLaborCacheModel = (OrgLaborCacheModel)toCacheModel();
 		}
 
 		_organizationId = organizationId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalOrganizationId() {
-		return _originalOrganizationId;
+		return getOriginalAttributeValue("organizationId");
 	}
 
 	@JSON
@@ -458,7 +597,11 @@ public class OrgLaborModelImpl
 
 	@Override
 	public void setTypeId(long typeId) {
-		_columnBitmask = -1L;
+		_columnBitmask |= TYPEID_COLUMN_BITMASK;
+
+		if (_orgLaborCacheModel == _dummyOrgLaborCacheModel) {
+			_orgLaborCacheModel = (OrgLaborCacheModel)toCacheModel();
+		}
 
 		_typeId = typeId;
 	}
@@ -471,6 +614,12 @@ public class OrgLaborModelImpl
 
 	@Override
 	public void setSunOpen(int sunOpen) {
+		_columnBitmask |= SUNOPEN_COLUMN_BITMASK;
+
+		if (_orgLaborCacheModel == _dummyOrgLaborCacheModel) {
+			_orgLaborCacheModel = (OrgLaborCacheModel)toCacheModel();
+		}
+
 		_sunOpen = sunOpen;
 	}
 
@@ -482,6 +631,12 @@ public class OrgLaborModelImpl
 
 	@Override
 	public void setSunClose(int sunClose) {
+		_columnBitmask |= SUNCLOSE_COLUMN_BITMASK;
+
+		if (_orgLaborCacheModel == _dummyOrgLaborCacheModel) {
+			_orgLaborCacheModel = (OrgLaborCacheModel)toCacheModel();
+		}
+
 		_sunClose = sunClose;
 	}
 
@@ -493,6 +648,12 @@ public class OrgLaborModelImpl
 
 	@Override
 	public void setMonOpen(int monOpen) {
+		_columnBitmask |= MONOPEN_COLUMN_BITMASK;
+
+		if (_orgLaborCacheModel == _dummyOrgLaborCacheModel) {
+			_orgLaborCacheModel = (OrgLaborCacheModel)toCacheModel();
+		}
+
 		_monOpen = monOpen;
 	}
 
@@ -504,6 +665,12 @@ public class OrgLaborModelImpl
 
 	@Override
 	public void setMonClose(int monClose) {
+		_columnBitmask |= MONCLOSE_COLUMN_BITMASK;
+
+		if (_orgLaborCacheModel == _dummyOrgLaborCacheModel) {
+			_orgLaborCacheModel = (OrgLaborCacheModel)toCacheModel();
+		}
+
 		_monClose = monClose;
 	}
 
@@ -515,6 +682,12 @@ public class OrgLaborModelImpl
 
 	@Override
 	public void setTueOpen(int tueOpen) {
+		_columnBitmask |= TUEOPEN_COLUMN_BITMASK;
+
+		if (_orgLaborCacheModel == _dummyOrgLaborCacheModel) {
+			_orgLaborCacheModel = (OrgLaborCacheModel)toCacheModel();
+		}
+
 		_tueOpen = tueOpen;
 	}
 
@@ -526,6 +699,12 @@ public class OrgLaborModelImpl
 
 	@Override
 	public void setTueClose(int tueClose) {
+		_columnBitmask |= TUECLOSE_COLUMN_BITMASK;
+
+		if (_orgLaborCacheModel == _dummyOrgLaborCacheModel) {
+			_orgLaborCacheModel = (OrgLaborCacheModel)toCacheModel();
+		}
+
 		_tueClose = tueClose;
 	}
 
@@ -537,6 +716,12 @@ public class OrgLaborModelImpl
 
 	@Override
 	public void setWedOpen(int wedOpen) {
+		_columnBitmask |= WEDOPEN_COLUMN_BITMASK;
+
+		if (_orgLaborCacheModel == _dummyOrgLaborCacheModel) {
+			_orgLaborCacheModel = (OrgLaborCacheModel)toCacheModel();
+		}
+
 		_wedOpen = wedOpen;
 	}
 
@@ -548,6 +733,12 @@ public class OrgLaborModelImpl
 
 	@Override
 	public void setWedClose(int wedClose) {
+		_columnBitmask |= WEDCLOSE_COLUMN_BITMASK;
+
+		if (_orgLaborCacheModel == _dummyOrgLaborCacheModel) {
+			_orgLaborCacheModel = (OrgLaborCacheModel)toCacheModel();
+		}
+
 		_wedClose = wedClose;
 	}
 
@@ -559,6 +750,12 @@ public class OrgLaborModelImpl
 
 	@Override
 	public void setThuOpen(int thuOpen) {
+		_columnBitmask |= THUOPEN_COLUMN_BITMASK;
+
+		if (_orgLaborCacheModel == _dummyOrgLaborCacheModel) {
+			_orgLaborCacheModel = (OrgLaborCacheModel)toCacheModel();
+		}
+
 		_thuOpen = thuOpen;
 	}
 
@@ -570,6 +767,12 @@ public class OrgLaborModelImpl
 
 	@Override
 	public void setThuClose(int thuClose) {
+		_columnBitmask |= THUCLOSE_COLUMN_BITMASK;
+
+		if (_orgLaborCacheModel == _dummyOrgLaborCacheModel) {
+			_orgLaborCacheModel = (OrgLaborCacheModel)toCacheModel();
+		}
+
 		_thuClose = thuClose;
 	}
 
@@ -581,6 +784,12 @@ public class OrgLaborModelImpl
 
 	@Override
 	public void setFriOpen(int friOpen) {
+		_columnBitmask |= FRIOPEN_COLUMN_BITMASK;
+
+		if (_orgLaborCacheModel == _dummyOrgLaborCacheModel) {
+			_orgLaborCacheModel = (OrgLaborCacheModel)toCacheModel();
+		}
+
 		_friOpen = friOpen;
 	}
 
@@ -592,6 +801,12 @@ public class OrgLaborModelImpl
 
 	@Override
 	public void setFriClose(int friClose) {
+		_columnBitmask |= FRICLOSE_COLUMN_BITMASK;
+
+		if (_orgLaborCacheModel == _dummyOrgLaborCacheModel) {
+			_orgLaborCacheModel = (OrgLaborCacheModel)toCacheModel();
+		}
+
 		_friClose = friClose;
 	}
 
@@ -603,6 +818,12 @@ public class OrgLaborModelImpl
 
 	@Override
 	public void setSatOpen(int satOpen) {
+		_columnBitmask |= SATOPEN_COLUMN_BITMASK;
+
+		if (_orgLaborCacheModel == _dummyOrgLaborCacheModel) {
+			_orgLaborCacheModel = (OrgLaborCacheModel)toCacheModel();
+		}
+
 		_satOpen = satOpen;
 	}
 
@@ -614,6 +835,12 @@ public class OrgLaborModelImpl
 
 	@Override
 	public void setSatClose(int satClose) {
+		_columnBitmask |= SATCLOSE_COLUMN_BITMASK;
+
+		if (_orgLaborCacheModel == _dummyOrgLaborCacheModel) {
+			_orgLaborCacheModel = (OrgLaborCacheModel)toCacheModel();
+		}
+
 		_satClose = satClose;
 	}
 
@@ -760,14 +987,9 @@ public class OrgLaborModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		OrgLaborModelImpl orgLaborModelImpl = this;
+		_columnBitmask = 0;
 
-		orgLaborModelImpl._originalOrganizationId =
-			orgLaborModelImpl._organizationId;
-
-		orgLaborModelImpl._setOriginalOrganizationId = false;
-
-		orgLaborModelImpl._columnBitmask = 0;
+		_orgLaborCacheModel = _dummyOrgLaborCacheModel;
 	}
 
 	@Override
@@ -889,8 +1111,6 @@ public class OrgLaborModelImpl
 	private long _orgLaborId;
 	private long _companyId;
 	private long _organizationId;
-	private long _originalOrganizationId;
-	private boolean _setOriginalOrganizationId;
 	private long _typeId;
 	private int _sunOpen;
 	private int _sunClose;
@@ -907,6 +1127,11 @@ public class OrgLaborModelImpl
 	private int _satOpen;
 	private int _satClose;
 	private long _columnBitmask;
+
+	private static final OrgLaborCacheModel _dummyOrgLaborCacheModel =
+		new OrgLaborCacheModel();
+
 	private OrgLabor _escapedModel;
+	private OrgLaborCacheModel _orgLaborCacheModel;
 
 }

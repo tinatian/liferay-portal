@@ -10104,8 +10104,8 @@ public class RolePersistenceImpl
 			 _finderPathFetchByC_N.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				roleModelImpl.getOriginalCompanyId(),
-				roleModelImpl.getOriginalName()
+				roleModelImpl.getOriginalAttributeValue("companyId"),
+				roleModelImpl.getOriginalAttributeValue("name")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByC_N, args);
@@ -10126,9 +10126,9 @@ public class RolePersistenceImpl
 			 _finderPathFetchByC_C_C.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				roleModelImpl.getOriginalCompanyId(),
-				roleModelImpl.getOriginalClassNameId(),
-				roleModelImpl.getOriginalClassPK()
+				roleModelImpl.getOriginalAttributeValue("companyId"),
+				roleModelImpl.getOriginalAttributeValue("classNameId"),
+				roleModelImpl.getOriginalAttributeValue("classPK")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByC_C_C, args);
@@ -10149,10 +10149,10 @@ public class RolePersistenceImpl
 			 _finderPathFetchByC_C_C_T.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				roleModelImpl.getOriginalCompanyId(),
-				roleModelImpl.getOriginalClassNameId(),
-				roleModelImpl.getOriginalClassPK(),
-				roleModelImpl.getOriginalType()
+				roleModelImpl.getOriginalAttributeValue("companyId"),
+				roleModelImpl.getOriginalAttributeValue("classNameId"),
+				roleModelImpl.getOriginalAttributeValue("classPK"),
+				roleModelImpl.getOriginalAttributeValue("type")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByC_C_C_T, args);
@@ -10444,7 +10444,9 @@ public class RolePersistenceImpl
 				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
 					 0) {
 
-				Object[] args = new Object[] {roleModelImpl.getOriginalUuid()};
+				Object[] args = new Object[] {
+					roleModelImpl.getOriginalAttributeValue("uuid")
+				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid, args);
 				FinderCacheUtil.removeResult(
@@ -10462,8 +10464,8 @@ public class RolePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					roleModelImpl.getOriginalUuid(),
-					roleModelImpl.getOriginalCompanyId()
+					roleModelImpl.getOriginalAttributeValue("uuid"),
+					roleModelImpl.getOriginalAttributeValue("companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid_C, args);
@@ -10484,7 +10486,7 @@ public class RolePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					roleModelImpl.getOriginalCompanyId()
+					roleModelImpl.getOriginalAttributeValue("companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
@@ -10502,7 +10504,9 @@ public class RolePersistenceImpl
 				 _finderPathWithoutPaginationFindByName.getColumnBitmask()) !=
 					 0) {
 
-				Object[] args = new Object[] {roleModelImpl.getOriginalName()};
+				Object[] args = new Object[] {
+					roleModelImpl.getOriginalAttributeValue("name")
+				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByName, args);
 				FinderCacheUtil.removeResult(
@@ -10519,7 +10523,9 @@ public class RolePersistenceImpl
 				 _finderPathWithoutPaginationFindByType.getColumnBitmask()) !=
 					 0) {
 
-				Object[] args = new Object[] {roleModelImpl.getOriginalType()};
+				Object[] args = new Object[] {
+					roleModelImpl.getOriginalAttributeValue("type")
+				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByType, args);
 				FinderCacheUtil.removeResult(
@@ -10537,7 +10543,7 @@ public class RolePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					roleModelImpl.getOriginalSubtype()
+					roleModelImpl.getOriginalAttributeValue("subtype")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountBySubtype, args);
@@ -10556,8 +10562,8 @@ public class RolePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					roleModelImpl.getOriginalCompanyId(),
-					roleModelImpl.getOriginalType()
+					roleModelImpl.getOriginalAttributeValue("companyId"),
+					roleModelImpl.getOriginalAttributeValue("type")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_T, args);
@@ -10578,8 +10584,8 @@ public class RolePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					roleModelImpl.getOriginalType(),
-					roleModelImpl.getOriginalSubtype()
+					roleModelImpl.getOriginalAttributeValue("type"),
+					roleModelImpl.getOriginalAttributeValue("subtype")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByT_S, args);
@@ -10600,9 +10606,9 @@ public class RolePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					roleModelImpl.getOriginalCompanyId(),
-					roleModelImpl.getOriginalClassNameId(),
-					roleModelImpl.getOriginalClassPK()
+					roleModelImpl.getOriginalAttributeValue("companyId"),
+					roleModelImpl.getOriginalAttributeValue("classNameId"),
+					roleModelImpl.getOriginalAttributeValue("classPK")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_C_C, args);
@@ -10624,10 +10630,10 @@ public class RolePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					roleModelImpl.getOriginalCompanyId(),
-					roleModelImpl.getOriginalClassNameId(),
-					roleModelImpl.getOriginalClassPK(),
-					roleModelImpl.getOriginalType()
+					roleModelImpl.getOriginalAttributeValue("companyId"),
+					roleModelImpl.getOriginalAttributeValue("classNameId"),
+					roleModelImpl.getOriginalAttributeValue("classPK"),
+					roleModelImpl.getOriginalAttributeValue("type")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_C_C_T, args);

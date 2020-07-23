@@ -957,8 +957,9 @@ public class PowwowServerPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					powwowServerModelImpl.getOriginalProviderType(),
-					powwowServerModelImpl.getOriginalActive()
+					powwowServerModelImpl.getOriginalAttributeValue(
+						"providerType"),
+					powwowServerModelImpl.getOriginalAttributeValue("active")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByPT_A, args);

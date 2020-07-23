@@ -834,7 +834,8 @@ public class OrgLaborPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					orgLaborModelImpl.getOriginalOrganizationId()
+					orgLaborModelImpl.getOriginalAttributeValue(
+						"organizationId")
 				};
 
 				FinderCacheUtil.removeResult(
