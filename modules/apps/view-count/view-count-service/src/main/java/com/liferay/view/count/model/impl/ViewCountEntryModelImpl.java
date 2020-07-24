@@ -264,6 +264,11 @@ public class ViewCountEntryModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		if (_viewCountEntryCacheModel == _dummyViewCountEntryCacheModel) {
+			_viewCountEntryCacheModel =
+				(ViewCountEntryCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -294,6 +299,11 @@ public class ViewCountEntryModelImpl
 
 	@Override
 	public void setClassNameId(long classNameId) {
+		if (_viewCountEntryCacheModel == _dummyViewCountEntryCacheModel) {
+			_viewCountEntryCacheModel =
+				(ViewCountEntryCacheModel)toCacheModel();
+		}
+
 		_classNameId = classNameId;
 	}
 
@@ -304,6 +314,11 @@ public class ViewCountEntryModelImpl
 
 	@Override
 	public void setClassPK(long classPK) {
+		if (_viewCountEntryCacheModel == _dummyViewCountEntryCacheModel) {
+			_viewCountEntryCacheModel =
+				(ViewCountEntryCacheModel)toCacheModel();
+		}
+
 		_classPK = classPK;
 	}
 
@@ -314,6 +329,11 @@ public class ViewCountEntryModelImpl
 
 	@Override
 	public void setViewCount(long viewCount) {
+		if (_viewCountEntryCacheModel == _dummyViewCountEntryCacheModel) {
+			_viewCountEntryCacheModel =
+				(ViewCountEntryCacheModel)toCacheModel();
+		}
+
 		_viewCount = viewCount;
 	}
 
@@ -400,6 +420,7 @@ public class ViewCountEntryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
+		_viewCountEntryCacheModel = _dummyViewCountEntryCacheModel;
 	}
 
 	@Override
@@ -490,6 +511,71 @@ public class ViewCountEntryModelImpl
 
 	}
 
+	public static long getColumnBitmask(String attributeName) {
+		return _columnBitmasks.get(attributeName);
+	}
+
+	private static final Map<String, Function<ViewCountEntryCacheModel, Object>>
+		_cacheModelGetterFunctions;
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Function<ViewCountEntryCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<ViewCountEntryCacheModel, Object>>();
+		Map<String, Long> columnBitmasks = new LinkedHashMap<String, Long>();
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			viewCountEntryCacheModel -> viewCountEntryCacheModel.companyId);
+
+		columnBitmasks.put("companyId", 1L);
+
+		cacheModelGetterFunctions.put(
+			"classNameId",
+			viewCountEntryCacheModel -> viewCountEntryCacheModel.classNameId);
+
+		columnBitmasks.put("classNameId", 2L);
+
+		cacheModelGetterFunctions.put(
+			"classPK",
+			viewCountEntryCacheModel -> viewCountEntryCacheModel.classPK);
+
+		columnBitmasks.put("classPK", 4L);
+
+		cacheModelGetterFunctions.put(
+			"viewCount",
+			viewCountEntryCacheModel -> viewCountEntryCacheModel.viewCount);
+
+		columnBitmasks.put("viewCount", 8L);
+
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_viewCountEntryCacheModel == null) ||
+			(_viewCountEntryCacheModel == _dummyViewCountEntryCacheModel)) {
+
+			return null;
+		}
+
+		Function<ViewCountEntryCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_viewCountEntryCacheModel);
+	}
+
+	private static final ViewCountEntryCacheModel
+		_dummyViewCountEntryCacheModel = new ViewCountEntryCacheModel();
+
+	private ViewCountEntryCacheModel _viewCountEntryCacheModel;
 	private long _companyId;
 	private long _classNameId;
 	private long _classPK;

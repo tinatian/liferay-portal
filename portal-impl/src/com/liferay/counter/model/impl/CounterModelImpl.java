@@ -255,6 +255,10 @@ public class CounterModelImpl
 
 	@Override
 	public void setName(String name) {
+		if (_counterCacheModel == _dummyCounterCacheModel) {
+			_counterCacheModel = (CounterCacheModel)toCacheModel();
+		}
+
 		_name = name;
 	}
 
@@ -265,6 +269,10 @@ public class CounterModelImpl
 
 	@Override
 	public void setCurrentId(long currentId) {
+		if (_counterCacheModel == _dummyCounterCacheModel) {
+			_counterCacheModel = (CounterCacheModel)toCacheModel();
+		}
+
 		_currentId = currentId;
 	}
 
@@ -349,6 +357,7 @@ public class CounterModelImpl
 
 	@Override
 	public void resetOriginalValues() {
+		_counterCacheModel = _dummyCounterCacheModel;
 	}
 
 	@Override
@@ -438,6 +447,57 @@ public class CounterModelImpl
 
 	}
 
+	public static long getColumnBitmask(String attributeName) {
+		return _columnBitmasks.get(attributeName);
+	}
+
+	private static final Map<String, Function<CounterCacheModel, Object>>
+		_cacheModelGetterFunctions;
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Function<CounterCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<CounterCacheModel, Object>>();
+		Map<String, Long> columnBitmasks = new LinkedHashMap<String, Long>();
+
+		cacheModelGetterFunctions.put(
+			"name", counterCacheModel -> counterCacheModel.name);
+
+		columnBitmasks.put("name", 1L);
+
+		cacheModelGetterFunctions.put(
+			"currentId", counterCacheModel -> counterCacheModel.currentId);
+
+		columnBitmasks.put("currentId", 2L);
+
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_counterCacheModel == null) ||
+			(_counterCacheModel == _dummyCounterCacheModel)) {
+
+			return null;
+		}
+
+		Function<CounterCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_counterCacheModel);
+	}
+
+	private static final CounterCacheModel _dummyCounterCacheModel =
+		new CounterCacheModel();
+
+	private CounterCacheModel _counterCacheModel;
 	private String _name;
 	private long _currentId;
 	private Counter _escapedModel;

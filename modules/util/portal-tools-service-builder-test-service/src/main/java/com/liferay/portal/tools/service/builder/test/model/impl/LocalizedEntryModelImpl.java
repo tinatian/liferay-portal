@@ -425,6 +425,11 @@ public class LocalizedEntryModelImpl
 
 	@Override
 	public void setDefaultLanguageId(String defaultLanguageId) {
+		if (_localizedEntryCacheModel == _dummyLocalizedEntryCacheModel) {
+			_localizedEntryCacheModel =
+				(LocalizedEntryCacheModel)toCacheModel();
+		}
+
 		_defaultLanguageId = defaultLanguageId;
 	}
 
@@ -435,6 +440,11 @@ public class LocalizedEntryModelImpl
 
 	@Override
 	public void setLocalizedEntryId(long localizedEntryId) {
+		if (_localizedEntryCacheModel == _dummyLocalizedEntryCacheModel) {
+			_localizedEntryCacheModel =
+				(LocalizedEntryCacheModel)toCacheModel();
+		}
+
 		_localizedEntryId = localizedEntryId;
 	}
 
@@ -540,6 +550,7 @@ public class LocalizedEntryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
+		_localizedEntryCacheModel = _dummyLocalizedEntryCacheModel;
 	}
 
 	@Override
@@ -630,6 +641,61 @@ public class LocalizedEntryModelImpl
 
 	}
 
+	public static long getColumnBitmask(String attributeName) {
+		return _columnBitmasks.get(attributeName);
+	}
+
+	private static final Map<String, Function<LocalizedEntryCacheModel, Object>>
+		_cacheModelGetterFunctions;
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Function<LocalizedEntryCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<LocalizedEntryCacheModel, Object>>();
+		Map<String, Long> columnBitmasks = new LinkedHashMap<String, Long>();
+
+		cacheModelGetterFunctions.put(
+			"defaultLanguageId",
+			localizedEntryCacheModel ->
+				localizedEntryCacheModel.defaultLanguageId);
+
+		columnBitmasks.put("defaultLanguageId", 1L);
+
+		cacheModelGetterFunctions.put(
+			"localizedEntryId",
+			localizedEntryCacheModel ->
+				localizedEntryCacheModel.localizedEntryId);
+
+		columnBitmasks.put("localizedEntryId", 2L);
+
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_localizedEntryCacheModel == null) ||
+			(_localizedEntryCacheModel == _dummyLocalizedEntryCacheModel)) {
+
+			return null;
+		}
+
+		Function<LocalizedEntryCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_localizedEntryCacheModel);
+	}
+
+	private static final LocalizedEntryCacheModel
+		_dummyLocalizedEntryCacheModel = new LocalizedEntryCacheModel();
+
+	private LocalizedEntryCacheModel _localizedEntryCacheModel;
 	private String _defaultLanguageId;
 	private long _localizedEntryId;
 	private LocalizedEntry _escapedModel;

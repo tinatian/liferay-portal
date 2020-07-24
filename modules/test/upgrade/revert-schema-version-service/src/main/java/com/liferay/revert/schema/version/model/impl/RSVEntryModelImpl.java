@@ -253,6 +253,10 @@ public class RSVEntryModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		if (_rsvEntryCacheModel == _dummyRSVEntryCacheModel) {
+			_rsvEntryCacheModel = (RSVEntryCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -263,6 +267,10 @@ public class RSVEntryModelImpl
 
 	@Override
 	public void setRsvEntryId(long rsvEntryId) {
+		if (_rsvEntryCacheModel == _dummyRSVEntryCacheModel) {
+			_rsvEntryCacheModel = (RSVEntryCacheModel)toCacheModel();
+		}
+
 		_rsvEntryId = rsvEntryId;
 	}
 
@@ -273,6 +281,10 @@ public class RSVEntryModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		if (_rsvEntryCacheModel == _dummyRSVEntryCacheModel) {
+			_rsvEntryCacheModel = (RSVEntryCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -379,6 +391,7 @@ public class RSVEntryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
+		_rsvEntryCacheModel = _dummyRSVEntryCacheModel;
 	}
 
 	@Override
@@ -464,6 +477,63 @@ public class RSVEntryModelImpl
 
 	}
 
+	public static long getColumnBitmask(String attributeName) {
+		return _columnBitmasks.get(attributeName);
+	}
+
+	private static final Map<String, Function<RSVEntryCacheModel, Object>>
+		_cacheModelGetterFunctions;
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Function<RSVEntryCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<RSVEntryCacheModel, Object>>();
+		Map<String, Long> columnBitmasks = new LinkedHashMap<String, Long>();
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			rsvEntryCacheModel -> rsvEntryCacheModel.mvccVersion);
+
+		columnBitmasks.put("mvccVersion", 1L);
+
+		cacheModelGetterFunctions.put(
+			"rsvEntryId", rsvEntryCacheModel -> rsvEntryCacheModel.rsvEntryId);
+
+		columnBitmasks.put("rsvEntryId", 2L);
+
+		cacheModelGetterFunctions.put(
+			"companyId", rsvEntryCacheModel -> rsvEntryCacheModel.companyId);
+
+		columnBitmasks.put("companyId", 4L);
+
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_rsvEntryCacheModel == null) ||
+			(_rsvEntryCacheModel == _dummyRSVEntryCacheModel)) {
+
+			return null;
+		}
+
+		Function<RSVEntryCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_rsvEntryCacheModel);
+	}
+
+	private static final RSVEntryCacheModel _dummyRSVEntryCacheModel =
+		new RSVEntryCacheModel();
+
+	private RSVEntryCacheModel _rsvEntryCacheModel;
 	private long _mvccVersion;
 	private long _rsvEntryId;
 	private long _companyId;

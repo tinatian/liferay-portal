@@ -327,6 +327,11 @@ public class UADPartialEntryModelImpl
 
 	@Override
 	public void setUadPartialEntryId(long uadPartialEntryId) {
+		if (_uadPartialEntryCacheModel == _dummyUADPartialEntryCacheModel) {
+			_uadPartialEntryCacheModel =
+				(UADPartialEntryCacheModel)toCacheModel();
+		}
+
 		_uadPartialEntryId = uadPartialEntryId;
 	}
 
@@ -338,6 +343,11 @@ public class UADPartialEntryModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		if (_uadPartialEntryCacheModel == _dummyUADPartialEntryCacheModel) {
+			_uadPartialEntryCacheModel =
+				(UADPartialEntryCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -370,6 +380,11 @@ public class UADPartialEntryModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		if (_uadPartialEntryCacheModel == _dummyUADPartialEntryCacheModel) {
+			_uadPartialEntryCacheModel =
+				(UADPartialEntryCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -386,6 +401,11 @@ public class UADPartialEntryModelImpl
 
 	@Override
 	public void setMessage(String message) {
+		if (_uadPartialEntryCacheModel == _dummyUADPartialEntryCacheModel) {
+			_uadPartialEntryCacheModel =
+				(UADPartialEntryCacheModel)toCacheModel();
+		}
+
 		_message = message;
 	}
 
@@ -493,6 +513,7 @@ public class UADPartialEntryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
+		_uadPartialEntryCacheModel = _dummyUADPartialEntryCacheModel;
 	}
 
 	@Override
@@ -593,6 +614,73 @@ public class UADPartialEntryModelImpl
 
 	}
 
+	public static long getColumnBitmask(String attributeName) {
+		return _columnBitmasks.get(attributeName);
+	}
+
+	private static final Map
+		<String, Function<UADPartialEntryCacheModel, Object>>
+			_cacheModelGetterFunctions;
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Function<UADPartialEntryCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<UADPartialEntryCacheModel, Object>>();
+		Map<String, Long> columnBitmasks = new LinkedHashMap<String, Long>();
+
+		cacheModelGetterFunctions.put(
+			"uadPartialEntryId",
+			uadPartialEntryCacheModel ->
+				uadPartialEntryCacheModel.uadPartialEntryId);
+
+		columnBitmasks.put("uadPartialEntryId", 1L);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			uadPartialEntryCacheModel -> uadPartialEntryCacheModel.userId);
+
+		columnBitmasks.put("userId", 2L);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			uadPartialEntryCacheModel -> uadPartialEntryCacheModel.userName);
+
+		columnBitmasks.put("userName", 4L);
+
+		cacheModelGetterFunctions.put(
+			"message",
+			uadPartialEntryCacheModel -> uadPartialEntryCacheModel.message);
+
+		columnBitmasks.put("message", 8L);
+
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_uadPartialEntryCacheModel == null) ||
+			(_uadPartialEntryCacheModel == _dummyUADPartialEntryCacheModel)) {
+
+			return null;
+		}
+
+		Function<UADPartialEntryCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_uadPartialEntryCacheModel);
+	}
+
+	private static final UADPartialEntryCacheModel
+		_dummyUADPartialEntryCacheModel = new UADPartialEntryCacheModel();
+
+	private UADPartialEntryCacheModel _uadPartialEntryCacheModel;
 	private long _uadPartialEntryId;
 	private long _userId;
 	private String _userName;

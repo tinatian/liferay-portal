@@ -254,6 +254,10 @@ public class TestEntityModelImpl
 
 	@Override
 	public void setId(long id) {
+		if (_testEntityCacheModel == _dummyTestEntityCacheModel) {
+			_testEntityCacheModel = (TestEntityCacheModel)toCacheModel();
+		}
+
 		_id = id;
 	}
 
@@ -269,6 +273,10 @@ public class TestEntityModelImpl
 
 	@Override
 	public void setData(String data) {
+		if (_testEntityCacheModel == _dummyTestEntityCacheModel) {
+			_testEntityCacheModel = (TestEntityCacheModel)toCacheModel();
+		}
+
 		_data = data;
 	}
 
@@ -374,6 +382,7 @@ public class TestEntityModelImpl
 
 	@Override
 	public void resetOriginalValues() {
+		_testEntityCacheModel = _dummyTestEntityCacheModel;
 	}
 
 	@Override
@@ -463,6 +472,57 @@ public class TestEntityModelImpl
 
 	}
 
+	public static long getColumnBitmask(String attributeName) {
+		return _columnBitmasks.get(attributeName);
+	}
+
+	private static final Map<String, Function<TestEntityCacheModel, Object>>
+		_cacheModelGetterFunctions;
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Function<TestEntityCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<TestEntityCacheModel, Object>>();
+		Map<String, Long> columnBitmasks = new LinkedHashMap<String, Long>();
+
+		cacheModelGetterFunctions.put(
+			"id", testEntityCacheModel -> testEntityCacheModel.id);
+
+		columnBitmasks.put("id", 1L);
+
+		cacheModelGetterFunctions.put(
+			"data", testEntityCacheModel -> testEntityCacheModel.data);
+
+		columnBitmasks.put("data", 2L);
+
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_testEntityCacheModel == null) ||
+			(_testEntityCacheModel == _dummyTestEntityCacheModel)) {
+
+			return null;
+		}
+
+		Function<TestEntityCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_testEntityCacheModel);
+	}
+
+	private static final TestEntityCacheModel _dummyTestEntityCacheModel =
+		new TestEntityCacheModel();
+
+	private TestEntityCacheModel _testEntityCacheModel;
 	private long _id;
 	private String _data;
 	private TestEntity _escapedModel;

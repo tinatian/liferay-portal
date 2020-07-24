@@ -391,6 +391,10 @@ public class AccountModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		if (_accountCacheModel == _dummyAccountCacheModel) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -402,6 +406,10 @@ public class AccountModelImpl
 
 	@Override
 	public void setAccountId(long accountId) {
+		if (_accountCacheModel == _dummyAccountCacheModel) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_accountId = accountId;
 	}
 
@@ -413,6 +421,10 @@ public class AccountModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		if (_accountCacheModel == _dummyAccountCacheModel) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -424,6 +436,10 @@ public class AccountModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		if (_accountCacheModel == _dummyAccountCacheModel) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -456,6 +472,10 @@ public class AccountModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		if (_accountCacheModel == _dummyAccountCacheModel) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -467,6 +487,10 @@ public class AccountModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		if (_accountCacheModel == _dummyAccountCacheModel) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -484,6 +508,10 @@ public class AccountModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		if (_accountCacheModel == _dummyAccountCacheModel) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -495,6 +523,10 @@ public class AccountModelImpl
 
 	@Override
 	public void setParentAccountId(long parentAccountId) {
+		if (_accountCacheModel == _dummyAccountCacheModel) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_parentAccountId = parentAccountId;
 	}
 
@@ -511,6 +543,10 @@ public class AccountModelImpl
 
 	@Override
 	public void setName(String name) {
+		if (_accountCacheModel == _dummyAccountCacheModel) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_name = name;
 	}
 
@@ -527,6 +563,10 @@ public class AccountModelImpl
 
 	@Override
 	public void setLegalName(String legalName) {
+		if (_accountCacheModel == _dummyAccountCacheModel) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_legalName = legalName;
 	}
 
@@ -543,6 +583,10 @@ public class AccountModelImpl
 
 	@Override
 	public void setLegalId(String legalId) {
+		if (_accountCacheModel == _dummyAccountCacheModel) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_legalId = legalId;
 	}
 
@@ -559,6 +603,10 @@ public class AccountModelImpl
 
 	@Override
 	public void setLegalType(String legalType) {
+		if (_accountCacheModel == _dummyAccountCacheModel) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_legalType = legalType;
 	}
 
@@ -575,6 +623,10 @@ public class AccountModelImpl
 
 	@Override
 	public void setSicCode(String sicCode) {
+		if (_accountCacheModel == _dummyAccountCacheModel) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_sicCode = sicCode;
 	}
 
@@ -591,6 +643,10 @@ public class AccountModelImpl
 
 	@Override
 	public void setTickerSymbol(String tickerSymbol) {
+		if (_accountCacheModel == _dummyAccountCacheModel) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_tickerSymbol = tickerSymbol;
 	}
 
@@ -607,6 +663,10 @@ public class AccountModelImpl
 
 	@Override
 	public void setIndustry(String industry) {
+		if (_accountCacheModel == _dummyAccountCacheModel) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_industry = industry;
 	}
 
@@ -623,6 +683,10 @@ public class AccountModelImpl
 
 	@Override
 	public void setType(String type) {
+		if (_accountCacheModel == _dummyAccountCacheModel) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_type = type;
 	}
 
@@ -639,6 +703,10 @@ public class AccountModelImpl
 
 	@Override
 	public void setSize(String size) {
+		if (_accountCacheModel == _dummyAccountCacheModel) {
+			_accountCacheModel = (AccountCacheModel)toCacheModel();
+		}
+
 		_size = size;
 	}
 
@@ -759,9 +827,9 @@ public class AccountModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		AccountModelImpl accountModelImpl = this;
+		_setModifiedDate = false;
 
-		accountModelImpl._setModifiedDate = false;
+		_accountCacheModel = _dummyAccountCacheModel;
 	}
 
 	@Override
@@ -949,6 +1017,135 @@ public class AccountModelImpl
 
 	}
 
+	public static long getColumnBitmask(String attributeName) {
+		return _columnBitmasks.get(attributeName);
+	}
+
+	private static final Map<String, Function<AccountCacheModel, Object>>
+		_cacheModelGetterFunctions;
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Function<AccountCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<AccountCacheModel, Object>>();
+		Map<String, Long> columnBitmasks = new LinkedHashMap<String, Long>();
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion", accountCacheModel -> accountCacheModel.mvccVersion);
+
+		columnBitmasks.put("mvccVersion", 1L);
+
+		cacheModelGetterFunctions.put(
+			"accountId", accountCacheModel -> accountCacheModel.accountId);
+
+		columnBitmasks.put("accountId", 2L);
+
+		cacheModelGetterFunctions.put(
+			"companyId", accountCacheModel -> accountCacheModel.companyId);
+
+		columnBitmasks.put("companyId", 4L);
+
+		cacheModelGetterFunctions.put(
+			"userId", accountCacheModel -> accountCacheModel.userId);
+
+		columnBitmasks.put("userId", 8L);
+
+		cacheModelGetterFunctions.put(
+			"userName", accountCacheModel -> accountCacheModel.userName);
+
+		columnBitmasks.put("userName", 16L);
+
+		cacheModelGetterFunctions.put(
+			"createDate", accountCacheModel -> accountCacheModel.createDate);
+
+		columnBitmasks.put("createDate", 32L);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			accountCacheModel -> accountCacheModel.modifiedDate);
+
+		columnBitmasks.put("modifiedDate", 64L);
+
+		cacheModelGetterFunctions.put(
+			"parentAccountId",
+			accountCacheModel -> accountCacheModel.parentAccountId);
+
+		columnBitmasks.put("parentAccountId", 128L);
+
+		cacheModelGetterFunctions.put(
+			"name", accountCacheModel -> accountCacheModel.name);
+
+		columnBitmasks.put("name", 256L);
+
+		cacheModelGetterFunctions.put(
+			"legalName", accountCacheModel -> accountCacheModel.legalName);
+
+		columnBitmasks.put("legalName", 512L);
+
+		cacheModelGetterFunctions.put(
+			"legalId", accountCacheModel -> accountCacheModel.legalId);
+
+		columnBitmasks.put("legalId", 1024L);
+
+		cacheModelGetterFunctions.put(
+			"legalType", accountCacheModel -> accountCacheModel.legalType);
+
+		columnBitmasks.put("legalType", 2048L);
+
+		cacheModelGetterFunctions.put(
+			"sicCode", accountCacheModel -> accountCacheModel.sicCode);
+
+		columnBitmasks.put("sicCode", 4096L);
+
+		cacheModelGetterFunctions.put(
+			"tickerSymbol",
+			accountCacheModel -> accountCacheModel.tickerSymbol);
+
+		columnBitmasks.put("tickerSymbol", 8192L);
+
+		cacheModelGetterFunctions.put(
+			"industry", accountCacheModel -> accountCacheModel.industry);
+
+		columnBitmasks.put("industry", 16384L);
+
+		cacheModelGetterFunctions.put(
+			"type", accountCacheModel -> accountCacheModel.type);
+
+		columnBitmasks.put("type", 32768L);
+
+		cacheModelGetterFunctions.put(
+			"size", accountCacheModel -> accountCacheModel.size);
+
+		columnBitmasks.put("size", 65536L);
+
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_accountCacheModel == null) ||
+			(_accountCacheModel == _dummyAccountCacheModel)) {
+
+			return null;
+		}
+
+		Function<AccountCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_accountCacheModel);
+	}
+
+	private static final AccountCacheModel _dummyAccountCacheModel =
+		new AccountCacheModel();
+
+	private AccountCacheModel _accountCacheModel;
 	private long _mvccVersion;
 	private long _accountId;
 	private long _companyId;
