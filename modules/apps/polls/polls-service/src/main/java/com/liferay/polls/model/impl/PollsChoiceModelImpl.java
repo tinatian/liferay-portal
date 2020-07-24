@@ -31,7 +31,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
@@ -126,15 +125,31 @@ public class PollsChoiceModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 2L;
+	public static final long UUID_COLUMN_BITMASK = 2L;
 
-	public static final long NAME_COLUMN_BITMASK = 4L;
+	public static final long CHOICEID_COLUMN_BITMASK = 4L;
 
-	public static final long QUESTIONID_COLUMN_BITMASK = 8L;
+	public static final long GROUPID_COLUMN_BITMASK = 8L;
 
-	public static final long UUID_COLUMN_BITMASK = 16L;
+	public static final long COMPANYID_COLUMN_BITMASK = 16L;
+
+	public static final long USERID_COLUMN_BITMASK = 32L;
+
+	public static final long USERNAME_COLUMN_BITMASK = 64L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 128L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 256L;
+
+	public static final long QUESTIONID_COLUMN_BITMASK = 512L;
+
+	public static final long NAME_COLUMN_BITMASK = 1024L;
+
+	public static final long DESCRIPTION_COLUMN_BITMASK = 2048L;
+
+	public static final long LASTPUBLISHDATE_COLUMN_BITMASK = 4096L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -314,6 +329,25 @@ public class PollsChoiceModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_pollsChoiceCacheModel == null) ||
+			(_pollsChoiceCacheModel == _dummyPollsChoiceCacheModel)) {
+
+			return null;
+		}
+
+		Function<PollsChoiceCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_pollsChoiceCacheModel);
+	}
+
+	private static final Map<String, Function<PollsChoiceCacheModel, Object>>
+		_cacheModelGetterFunctions;
 	private static final Map<String, Function<PollsChoice, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<PollsChoice, Object>>
@@ -324,56 +358,108 @@ public class PollsChoiceModelImpl
 			new LinkedHashMap<String, Function<PollsChoice, Object>>();
 		Map<String, BiConsumer<PollsChoice, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<PollsChoice, ?>>();
+		Map<String, Function<PollsChoiceCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<PollsChoiceCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", PollsChoice::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			pollsChoiceCacheModel -> pollsChoiceCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<PollsChoice, Long>)PollsChoice::setMvccVersion);
 		attributeGetterFunctions.put("uuid", PollsChoice::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid", pollsChoiceCacheModel -> pollsChoiceCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<PollsChoice, String>)PollsChoice::setUuid);
 		attributeGetterFunctions.put("choiceId", PollsChoice::getChoiceId);
+
+		cacheModelGetterFunctions.put(
+			"choiceId",
+			pollsChoiceCacheModel -> pollsChoiceCacheModel.choiceId);
 		attributeSetterBiConsumers.put(
 			"choiceId",
 			(BiConsumer<PollsChoice, Long>)PollsChoice::setChoiceId);
 		attributeGetterFunctions.put("groupId", PollsChoice::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId", pollsChoiceCacheModel -> pollsChoiceCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId", (BiConsumer<PollsChoice, Long>)PollsChoice::setGroupId);
 		attributeGetterFunctions.put("companyId", PollsChoice::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			pollsChoiceCacheModel -> pollsChoiceCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<PollsChoice, Long>)PollsChoice::setCompanyId);
 		attributeGetterFunctions.put("userId", PollsChoice::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", pollsChoiceCacheModel -> pollsChoiceCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<PollsChoice, Long>)PollsChoice::setUserId);
 		attributeGetterFunctions.put("userName", PollsChoice::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			pollsChoiceCacheModel -> pollsChoiceCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<PollsChoice, String>)PollsChoice::setUserName);
 		attributeGetterFunctions.put("createDate", PollsChoice::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			pollsChoiceCacheModel -> pollsChoiceCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<PollsChoice, Date>)PollsChoice::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", PollsChoice::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			pollsChoiceCacheModel -> pollsChoiceCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<PollsChoice, Date>)PollsChoice::setModifiedDate);
 		attributeGetterFunctions.put("questionId", PollsChoice::getQuestionId);
+
+		cacheModelGetterFunctions.put(
+			"questionId",
+			pollsChoiceCacheModel -> pollsChoiceCacheModel.questionId);
 		attributeSetterBiConsumers.put(
 			"questionId",
 			(BiConsumer<PollsChoice, Long>)PollsChoice::setQuestionId);
 		attributeGetterFunctions.put("name", PollsChoice::getName);
+
+		cacheModelGetterFunctions.put(
+			"name", pollsChoiceCacheModel -> pollsChoiceCacheModel.name);
 		attributeSetterBiConsumers.put(
 			"name", (BiConsumer<PollsChoice, String>)PollsChoice::setName);
 		attributeGetterFunctions.put(
 			"description", PollsChoice::getDescription);
+
+		cacheModelGetterFunctions.put(
+			"description",
+			pollsChoiceCacheModel -> pollsChoiceCacheModel.description);
 		attributeSetterBiConsumers.put(
 			"description",
 			(BiConsumer<PollsChoice, String>)PollsChoice::setDescription);
 		attributeGetterFunctions.put(
 			"lastPublishDate", PollsChoice::getLastPublishDate);
+
+		cacheModelGetterFunctions.put(
+			"lastPublishDate",
+			pollsChoiceCacheModel -> pollsChoiceCacheModel.lastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<PollsChoice, Date>)PollsChoice::setLastPublishDate);
@@ -382,6 +468,8 @@ public class PollsChoiceModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -392,6 +480,12 @@ public class PollsChoiceModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_pollsChoiceCacheModel == _dummyPollsChoiceCacheModel) {
+			_pollsChoiceCacheModel = (PollsChoiceCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -410,15 +504,20 @@ public class PollsChoiceModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_pollsChoiceCacheModel == _dummyPollsChoiceCacheModel) {
+			_pollsChoiceCacheModel = (PollsChoiceCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getOriginalAttributeValue("uuid");
 	}
 
 	@JSON
@@ -429,6 +528,12 @@ public class PollsChoiceModelImpl
 
 	@Override
 	public void setChoiceId(long choiceId) {
+		_columnBitmask |= CHOICEID_COLUMN_BITMASK;
+
+		if (_pollsChoiceCacheModel == _dummyPollsChoiceCacheModel) {
+			_pollsChoiceCacheModel = (PollsChoiceCacheModel)toCacheModel();
+		}
+
 		_choiceId = choiceId;
 	}
 
@@ -442,17 +547,20 @@ public class PollsChoiceModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_pollsChoiceCacheModel == _dummyPollsChoiceCacheModel) {
+			_pollsChoiceCacheModel = (PollsChoiceCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getOriginalAttributeValue("groupId");
 	}
 
 	@JSON
@@ -465,17 +573,20 @@ public class PollsChoiceModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_pollsChoiceCacheModel == _dummyPollsChoiceCacheModel) {
+			_pollsChoiceCacheModel = (PollsChoiceCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@JSON
@@ -486,6 +597,12 @@ public class PollsChoiceModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (_pollsChoiceCacheModel == _dummyPollsChoiceCacheModel) {
+			_pollsChoiceCacheModel = (PollsChoiceCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -518,6 +635,12 @@ public class PollsChoiceModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (_pollsChoiceCacheModel == _dummyPollsChoiceCacheModel) {
+			_pollsChoiceCacheModel = (PollsChoiceCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -529,6 +652,12 @@ public class PollsChoiceModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (_pollsChoiceCacheModel == _dummyPollsChoiceCacheModel) {
+			_pollsChoiceCacheModel = (PollsChoiceCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -546,6 +675,12 @@ public class PollsChoiceModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (_pollsChoiceCacheModel == _dummyPollsChoiceCacheModel) {
+			_pollsChoiceCacheModel = (PollsChoiceCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -557,19 +692,22 @@ public class PollsChoiceModelImpl
 
 	@Override
 	public void setQuestionId(long questionId) {
-		_columnBitmask = -1L;
+		_columnBitmask |= QUESTIONID_COLUMN_BITMASK;
 
-		if (!_setOriginalQuestionId) {
-			_setOriginalQuestionId = true;
-
-			_originalQuestionId = _questionId;
+		if (_pollsChoiceCacheModel == _dummyPollsChoiceCacheModel) {
+			_pollsChoiceCacheModel = (PollsChoiceCacheModel)toCacheModel();
 		}
 
 		_questionId = questionId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalQuestionId() {
-		return _originalQuestionId;
+		return getOriginalAttributeValue("questionId");
 	}
 
 	@JSON
@@ -585,17 +723,22 @@ public class PollsChoiceModelImpl
 
 	@Override
 	public void setName(String name) {
-		_columnBitmask = -1L;
+		_columnBitmask |= NAME_COLUMN_BITMASK;
 
-		if (_originalName == null) {
-			_originalName = _name;
+		if (_pollsChoiceCacheModel == _dummyPollsChoiceCacheModel) {
+			_pollsChoiceCacheModel = (PollsChoiceCacheModel)toCacheModel();
 		}
 
 		_name = name;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalName() {
-		return GetterUtil.getString(_originalName);
+		return getOriginalAttributeValue("name");
 	}
 
 	@JSON
@@ -654,6 +797,12 @@ public class PollsChoiceModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		_columnBitmask |= DESCRIPTION_COLUMN_BITMASK;
+
+		if (_pollsChoiceCacheModel == _dummyPollsChoiceCacheModel) {
+			_pollsChoiceCacheModel = (PollsChoiceCacheModel)toCacheModel();
+		}
+
 		_description = description;
 	}
 
@@ -714,6 +863,12 @@ public class PollsChoiceModelImpl
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		_columnBitmask |= LASTPUBLISHDATE_COLUMN_BITMASK;
+
+		if (_pollsChoiceCacheModel == _dummyPollsChoiceCacheModel) {
+			_pollsChoiceCacheModel = (PollsChoiceCacheModel)toCacheModel();
+		}
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -920,29 +1075,11 @@ public class PollsChoiceModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		PollsChoiceModelImpl pollsChoiceModelImpl = this;
+		_setModifiedDate = false;
 
-		pollsChoiceModelImpl._originalUuid = pollsChoiceModelImpl._uuid;
+		_columnBitmask = 0;
 
-		pollsChoiceModelImpl._originalGroupId = pollsChoiceModelImpl._groupId;
-
-		pollsChoiceModelImpl._setOriginalGroupId = false;
-
-		pollsChoiceModelImpl._originalCompanyId =
-			pollsChoiceModelImpl._companyId;
-
-		pollsChoiceModelImpl._setOriginalCompanyId = false;
-
-		pollsChoiceModelImpl._setModifiedDate = false;
-
-		pollsChoiceModelImpl._originalQuestionId =
-			pollsChoiceModelImpl._questionId;
-
-		pollsChoiceModelImpl._setOriginalQuestionId = false;
-
-		pollsChoiceModelImpl._originalName = pollsChoiceModelImpl._name;
-
-		pollsChoiceModelImpl._columnBitmask = 0;
+		_pollsChoiceCacheModel = _dummyPollsChoiceCacheModel;
 	}
 
 	@Override
@@ -1096,28 +1233,25 @@ public class PollsChoiceModelImpl
 
 	private long _mvccVersion;
 	private String _uuid;
-	private String _originalUuid;
 	private long _choiceId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _questionId;
-	private long _originalQuestionId;
-	private boolean _setOriginalQuestionId;
 	private String _name;
-	private String _originalName;
 	private String _description;
 	private String _descriptionCurrentLanguageId;
 	private Date _lastPublishDate;
 	private long _columnBitmask;
 	private PollsChoice _escapedModel;
+
+	private static final PollsChoiceCacheModel _dummyPollsChoiceCacheModel =
+		new PollsChoiceCacheModel();
+
+	private PollsChoiceCacheModel _pollsChoiceCacheModel;
 
 }

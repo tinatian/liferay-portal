@@ -3771,8 +3771,8 @@ public class RedirectEntryPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				redirectEntryModelImpl.getOriginalUuid(),
-				redirectEntryModelImpl.getOriginalGroupId()
+				redirectEntryModelImpl.getOriginalAttributeValue("uuid"),
+				redirectEntryModelImpl.getOriginalAttributeValue("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -3793,8 +3793,8 @@ public class RedirectEntryPersistenceImpl
 			 _finderPathFetchByG_S.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				redirectEntryModelImpl.getOriginalGroupId(),
-				redirectEntryModelImpl.getOriginalSourceURL()
+				redirectEntryModelImpl.getOriginalAttributeValue("groupId"),
+				redirectEntryModelImpl.getOriginalAttributeValue("sourceURL")
 			};
 
 			finderCache.removeResult(_finderPathCountByG_S, args);
@@ -4060,7 +4060,7 @@ public class RedirectEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					redirectEntryModelImpl.getOriginalUuid()
+					redirectEntryModelImpl.getOriginalAttributeValue("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -4079,8 +4079,9 @@ public class RedirectEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					redirectEntryModelImpl.getOriginalUuid(),
-					redirectEntryModelImpl.getOriginalCompanyId()
+					redirectEntryModelImpl.getOriginalAttributeValue("uuid"),
+					redirectEntryModelImpl.getOriginalAttributeValue(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -4102,7 +4103,7 @@ public class RedirectEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					redirectEntryModelImpl.getOriginalGroupId()
+					redirectEntryModelImpl.getOriginalAttributeValue("groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId, args);
@@ -4121,8 +4122,9 @@ public class RedirectEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					redirectEntryModelImpl.getOriginalGroupId(),
-					redirectEntryModelImpl.getOriginalDestinationURL()
+					redirectEntryModelImpl.getOriginalAttributeValue("groupId"),
+					redirectEntryModelImpl.getOriginalAttributeValue(
+						"destinationURL")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_D, args);

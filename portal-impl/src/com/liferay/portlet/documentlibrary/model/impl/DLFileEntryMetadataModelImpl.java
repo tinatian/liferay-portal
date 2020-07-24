@@ -122,17 +122,23 @@ public class DLFileEntryMetadataModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long DDMSTRUCTUREID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
-	public static final long FILEENTRYID_COLUMN_BITMASK = 4L;
+	public static final long UUID_COLUMN_BITMASK = 4L;
 
-	public static final long FILEVERSIONID_COLUMN_BITMASK = 8L;
+	public static final long FILEENTRYMETADATAID_COLUMN_BITMASK = 8L;
 
-	public static final long UUID_COLUMN_BITMASK = 16L;
+	public static final long COMPANYID_COLUMN_BITMASK = 16L;
 
-	public static final long FILEENTRYMETADATAID_COLUMN_BITMASK = 32L;
+	public static final long DDMSTORAGEID_COLUMN_BITMASK = 32L;
+
+	public static final long DDMSTRUCTUREID_COLUMN_BITMASK = 64L;
+
+	public static final long FILEENTRYID_COLUMN_BITMASK = 128L;
+
+	public static final long FILEVERSIONID_COLUMN_BITMASK = 256L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		com.liferay.portal.util.PropsUtil.get(
@@ -251,6 +257,27 @@ public class DLFileEntryMetadataModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_dlFileEntryMetadataCacheModel == null) ||
+			(_dlFileEntryMetadataCacheModel ==
+				_dummyDLFileEntryMetadataCacheModel)) {
+
+			return null;
+		}
+
+		Function<DLFileEntryMetadataCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_dlFileEntryMetadataCacheModel);
+	}
+
+	private static final Map
+		<String, Function<DLFileEntryMetadataCacheModel, Object>>
+			_cacheModelGetterFunctions;
 	private static final Map<String, Function<DLFileEntryMetadata, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<DLFileEntryMetadata, Object>>
@@ -264,56 +291,105 @@ public class DLFileEntryMetadataModelImpl
 		Map<String, BiConsumer<DLFileEntryMetadata, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<DLFileEntryMetadata, ?>>();
+		Map<String, Function<DLFileEntryMetadataCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<DLFileEntryMetadataCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", DLFileEntryMetadata::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			dlFileEntryMetadataCacheModel ->
+				dlFileEntryMetadataCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<DLFileEntryMetadata, Long>)
 				DLFileEntryMetadata::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", DLFileEntryMetadata::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			dlFileEntryMetadataCacheModel ->
+				dlFileEntryMetadataCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<DLFileEntryMetadata, Long>)
 				DLFileEntryMetadata::setCtCollectionId);
 		attributeGetterFunctions.put("uuid", DLFileEntryMetadata::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid",
+			dlFileEntryMetadataCacheModel ->
+				dlFileEntryMetadataCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid",
 			(BiConsumer<DLFileEntryMetadata, String>)
 				DLFileEntryMetadata::setUuid);
 		attributeGetterFunctions.put(
 			"fileEntryMetadataId", DLFileEntryMetadata::getFileEntryMetadataId);
+
+		cacheModelGetterFunctions.put(
+			"fileEntryMetadataId",
+			dlFileEntryMetadataCacheModel ->
+				dlFileEntryMetadataCacheModel.fileEntryMetadataId);
 		attributeSetterBiConsumers.put(
 			"fileEntryMetadataId",
 			(BiConsumer<DLFileEntryMetadata, Long>)
 				DLFileEntryMetadata::setFileEntryMetadataId);
 		attributeGetterFunctions.put(
 			"companyId", DLFileEntryMetadata::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			dlFileEntryMetadataCacheModel ->
+				dlFileEntryMetadataCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<DLFileEntryMetadata, Long>)
 				DLFileEntryMetadata::setCompanyId);
 		attributeGetterFunctions.put(
 			"DDMStorageId", DLFileEntryMetadata::getDDMStorageId);
+
+		cacheModelGetterFunctions.put(
+			"DDMStorageId",
+			dlFileEntryMetadataCacheModel ->
+				dlFileEntryMetadataCacheModel.DDMStorageId);
 		attributeSetterBiConsumers.put(
 			"DDMStorageId",
 			(BiConsumer<DLFileEntryMetadata, Long>)
 				DLFileEntryMetadata::setDDMStorageId);
 		attributeGetterFunctions.put(
 			"DDMStructureId", DLFileEntryMetadata::getDDMStructureId);
+
+		cacheModelGetterFunctions.put(
+			"DDMStructureId",
+			dlFileEntryMetadataCacheModel ->
+				dlFileEntryMetadataCacheModel.DDMStructureId);
 		attributeSetterBiConsumers.put(
 			"DDMStructureId",
 			(BiConsumer<DLFileEntryMetadata, Long>)
 				DLFileEntryMetadata::setDDMStructureId);
 		attributeGetterFunctions.put(
 			"fileEntryId", DLFileEntryMetadata::getFileEntryId);
+
+		cacheModelGetterFunctions.put(
+			"fileEntryId",
+			dlFileEntryMetadataCacheModel ->
+				dlFileEntryMetadataCacheModel.fileEntryId);
 		attributeSetterBiConsumers.put(
 			"fileEntryId",
 			(BiConsumer<DLFileEntryMetadata, Long>)
 				DLFileEntryMetadata::setFileEntryId);
 		attributeGetterFunctions.put(
 			"fileVersionId", DLFileEntryMetadata::getFileVersionId);
+
+		cacheModelGetterFunctions.put(
+			"fileVersionId",
+			dlFileEntryMetadataCacheModel ->
+				dlFileEntryMetadataCacheModel.fileVersionId);
 		attributeSetterBiConsumers.put(
 			"fileVersionId",
 			(BiConsumer<DLFileEntryMetadata, Long>)
@@ -323,6 +399,8 @@ public class DLFileEntryMetadataModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -332,6 +410,15 @@ public class DLFileEntryMetadataModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_dlFileEntryMetadataCacheModel ==
+				_dummyDLFileEntryMetadataCacheModel) {
+
+			_dlFileEntryMetadataCacheModel =
+				(DLFileEntryMetadataCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -342,6 +429,15 @@ public class DLFileEntryMetadataModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (_dlFileEntryMetadataCacheModel ==
+				_dummyDLFileEntryMetadataCacheModel) {
+
+			_dlFileEntryMetadataCacheModel =
+				(DLFileEntryMetadataCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -359,15 +455,23 @@ public class DLFileEntryMetadataModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_dlFileEntryMetadataCacheModel ==
+				_dummyDLFileEntryMetadataCacheModel) {
+
+			_dlFileEntryMetadataCacheModel =
+				(DLFileEntryMetadataCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getOriginalAttributeValue("uuid");
 	}
 
 	@Override
@@ -377,6 +481,15 @@ public class DLFileEntryMetadataModelImpl
 
 	@Override
 	public void setFileEntryMetadataId(long fileEntryMetadataId) {
+		_columnBitmask |= FILEENTRYMETADATAID_COLUMN_BITMASK;
+
+		if (_dlFileEntryMetadataCacheModel ==
+				_dummyDLFileEntryMetadataCacheModel) {
+
+			_dlFileEntryMetadataCacheModel =
+				(DLFileEntryMetadataCacheModel)toCacheModel();
+		}
+
 		_fileEntryMetadataId = fileEntryMetadataId;
 	}
 
@@ -389,17 +502,23 @@ public class DLFileEntryMetadataModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
+		if (_dlFileEntryMetadataCacheModel ==
+				_dummyDLFileEntryMetadataCacheModel) {
 
-			_originalCompanyId = _companyId;
+			_dlFileEntryMetadataCacheModel =
+				(DLFileEntryMetadataCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@Override
@@ -409,6 +528,15 @@ public class DLFileEntryMetadataModelImpl
 
 	@Override
 	public void setDDMStorageId(long DDMStorageId) {
+		_columnBitmask |= DDMSTORAGEID_COLUMN_BITMASK;
+
+		if (_dlFileEntryMetadataCacheModel ==
+				_dummyDLFileEntryMetadataCacheModel) {
+
+			_dlFileEntryMetadataCacheModel =
+				(DLFileEntryMetadataCacheModel)toCacheModel();
+		}
+
 		_DDMStorageId = DDMStorageId;
 	}
 
@@ -421,17 +549,23 @@ public class DLFileEntryMetadataModelImpl
 	public void setDDMStructureId(long DDMStructureId) {
 		_columnBitmask |= DDMSTRUCTUREID_COLUMN_BITMASK;
 
-		if (!_setOriginalDDMStructureId) {
-			_setOriginalDDMStructureId = true;
+		if (_dlFileEntryMetadataCacheModel ==
+				_dummyDLFileEntryMetadataCacheModel) {
 
-			_originalDDMStructureId = _DDMStructureId;
+			_dlFileEntryMetadataCacheModel =
+				(DLFileEntryMetadataCacheModel)toCacheModel();
 		}
 
 		_DDMStructureId = DDMStructureId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalDDMStructureId() {
-		return _originalDDMStructureId;
+		return getOriginalAttributeValue("DDMStructureId");
 	}
 
 	@Override
@@ -443,17 +577,23 @@ public class DLFileEntryMetadataModelImpl
 	public void setFileEntryId(long fileEntryId) {
 		_columnBitmask |= FILEENTRYID_COLUMN_BITMASK;
 
-		if (!_setOriginalFileEntryId) {
-			_setOriginalFileEntryId = true;
+		if (_dlFileEntryMetadataCacheModel ==
+				_dummyDLFileEntryMetadataCacheModel) {
 
-			_originalFileEntryId = _fileEntryId;
+			_dlFileEntryMetadataCacheModel =
+				(DLFileEntryMetadataCacheModel)toCacheModel();
 		}
 
 		_fileEntryId = fileEntryId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalFileEntryId() {
-		return _originalFileEntryId;
+		return getOriginalAttributeValue("fileEntryId");
 	}
 
 	@Override
@@ -465,17 +605,23 @@ public class DLFileEntryMetadataModelImpl
 	public void setFileVersionId(long fileVersionId) {
 		_columnBitmask |= FILEVERSIONID_COLUMN_BITMASK;
 
-		if (!_setOriginalFileVersionId) {
-			_setOriginalFileVersionId = true;
+		if (_dlFileEntryMetadataCacheModel ==
+				_dummyDLFileEntryMetadataCacheModel) {
 
-			_originalFileVersionId = _fileVersionId;
+			_dlFileEntryMetadataCacheModel =
+				(DLFileEntryMetadataCacheModel)toCacheModel();
 		}
 
 		_fileVersionId = fileVersionId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalFileVersionId() {
-		return _originalFileVersionId;
+		return getOriginalAttributeValue("fileVersionId");
 	}
 
 	public long getColumnBitmask() {
@@ -594,32 +740,9 @@ public class DLFileEntryMetadataModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		DLFileEntryMetadataModelImpl dlFileEntryMetadataModelImpl = this;
+		_columnBitmask = 0;
 
-		dlFileEntryMetadataModelImpl._originalUuid =
-			dlFileEntryMetadataModelImpl._uuid;
-
-		dlFileEntryMetadataModelImpl._originalCompanyId =
-			dlFileEntryMetadataModelImpl._companyId;
-
-		dlFileEntryMetadataModelImpl._setOriginalCompanyId = false;
-
-		dlFileEntryMetadataModelImpl._originalDDMStructureId =
-			dlFileEntryMetadataModelImpl._DDMStructureId;
-
-		dlFileEntryMetadataModelImpl._setOriginalDDMStructureId = false;
-
-		dlFileEntryMetadataModelImpl._originalFileEntryId =
-			dlFileEntryMetadataModelImpl._fileEntryId;
-
-		dlFileEntryMetadataModelImpl._setOriginalFileEntryId = false;
-
-		dlFileEntryMetadataModelImpl._originalFileVersionId =
-			dlFileEntryMetadataModelImpl._fileVersionId;
-
-		dlFileEntryMetadataModelImpl._setOriginalFileVersionId = false;
-
-		dlFileEntryMetadataModelImpl._columnBitmask = 0;
+		_dlFileEntryMetadataCacheModel = _dummyDLFileEntryMetadataCacheModel;
 	}
 
 	@Override
@@ -728,22 +851,19 @@ public class DLFileEntryMetadataModelImpl
 	private long _mvccVersion;
 	private long _ctCollectionId;
 	private String _uuid;
-	private String _originalUuid;
 	private long _fileEntryMetadataId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _DDMStorageId;
 	private long _DDMStructureId;
-	private long _originalDDMStructureId;
-	private boolean _setOriginalDDMStructureId;
 	private long _fileEntryId;
-	private long _originalFileEntryId;
-	private boolean _setOriginalFileEntryId;
 	private long _fileVersionId;
-	private long _originalFileVersionId;
-	private boolean _setOriginalFileVersionId;
 	private long _columnBitmask;
 	private DLFileEntryMetadata _escapedModel;
+
+	private static final DLFileEntryMetadataCacheModel
+		_dummyDLFileEntryMetadataCacheModel =
+			new DLFileEntryMetadataCacheModel();
+
+	private DLFileEntryMetadataCacheModel _dlFileEntryMetadataCacheModel;
 
 }

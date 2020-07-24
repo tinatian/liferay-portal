@@ -2425,7 +2425,7 @@ public class OAuthUserPersistenceImpl
 			 _finderPathFetchByAccessToken.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				oAuthUserModelImpl.getOriginalAccessToken()
+				oAuthUserModelImpl.getOriginalAttributeValue("accessToken")
 			};
 
 			finderCache.removeResult(_finderPathCountByAccessToken, args);
@@ -2446,8 +2446,9 @@ public class OAuthUserPersistenceImpl
 			 _finderPathFetchByU_OAI.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				oAuthUserModelImpl.getOriginalUserId(),
-				oAuthUserModelImpl.getOriginalOAuthApplicationId()
+				oAuthUserModelImpl.getOriginalAttributeValue("userId"),
+				oAuthUserModelImpl.getOriginalAttributeValue(
+					"oAuthApplicationId")
 			};
 
 			finderCache.removeResult(_finderPathCountByU_OAI, args);
@@ -2648,7 +2649,7 @@ public class OAuthUserPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					oAuthUserModelImpl.getOriginalUserId()
+					oAuthUserModelImpl.getOriginalAttributeValue("userId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUserId, args);
@@ -2667,7 +2668,8 @@ public class OAuthUserPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					oAuthUserModelImpl.getOriginalOAuthApplicationId()
+					oAuthUserModelImpl.getOriginalAttributeValue(
+						"oAuthApplicationId")
 				};
 
 				finderCache.removeResult(

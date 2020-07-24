@@ -118,11 +118,17 @@ public class PortletModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long PORTLETID_COLUMN_BITMASK = 2L;
+	public static final long ID_COLUMN_BITMASK = 2L;
 
-	public static final long ID_COLUMN_BITMASK = 4L;
+	public static final long COMPANYID_COLUMN_BITMASK = 4L;
+
+	public static final long PORTLETID_COLUMN_BITMASK = 8L;
+
+	public static final long ROLES_COLUMN_BITMASK = 16L;
+
+	public static final long ACTIVE_COLUMN_BITMASK = 32L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -282,6 +288,25 @@ public class PortletModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_portletCacheModel == null) ||
+			(_portletCacheModel == _dummyPortletCacheModel)) {
+
+			return null;
+		}
+
+		Function<PortletCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_portletCacheModel);
+	}
+
+	private static final Map<String, Function<PortletCacheModel, Object>>
+		_cacheModelGetterFunctions;
 	private static final Map<String, Function<Portlet, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<Portlet, Object>>
@@ -292,23 +317,45 @@ public class PortletModelImpl
 			new LinkedHashMap<String, Function<Portlet, Object>>();
 		Map<String, BiConsumer<Portlet, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Portlet, ?>>();
+		Map<String, Function<PortletCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<PortletCacheModel, Object>>();
 
 		attributeGetterFunctions.put("mvccVersion", Portlet::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion", portletCacheModel -> portletCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion", (BiConsumer<Portlet, Long>)Portlet::setMvccVersion);
 		attributeGetterFunctions.put("id", Portlet::getId);
+
+		cacheModelGetterFunctions.put(
+			"id", portletCacheModel -> portletCacheModel.id);
 		attributeSetterBiConsumers.put(
 			"id", (BiConsumer<Portlet, Long>)Portlet::setId);
 		attributeGetterFunctions.put("companyId", Portlet::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId", portletCacheModel -> portletCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId", (BiConsumer<Portlet, Long>)Portlet::setCompanyId);
 		attributeGetterFunctions.put("portletId", Portlet::getPortletId);
+
+		cacheModelGetterFunctions.put(
+			"portletId", portletCacheModel -> portletCacheModel.portletId);
 		attributeSetterBiConsumers.put(
 			"portletId", (BiConsumer<Portlet, String>)Portlet::setPortletId);
 		attributeGetterFunctions.put("roles", Portlet::getRoles);
+
+		cacheModelGetterFunctions.put(
+			"roles", portletCacheModel -> portletCacheModel.roles);
 		attributeSetterBiConsumers.put(
 			"roles", (BiConsumer<Portlet, String>)Portlet::setRoles);
 		attributeGetterFunctions.put("active", Portlet::getActive);
+
+		cacheModelGetterFunctions.put(
+			"active", portletCacheModel -> portletCacheModel.active);
 		attributeSetterBiConsumers.put(
 			"active", (BiConsumer<Portlet, Boolean>)Portlet::setActive);
 
@@ -316,6 +363,8 @@ public class PortletModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -326,6 +375,12 @@ public class PortletModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_portletCacheModel == _dummyPortletCacheModel) {
+			_portletCacheModel = (PortletCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -337,6 +392,12 @@ public class PortletModelImpl
 
 	@Override
 	public void setId(long id) {
+		_columnBitmask |= ID_COLUMN_BITMASK;
+
+		if (_portletCacheModel == _dummyPortletCacheModel) {
+			_portletCacheModel = (PortletCacheModel)toCacheModel();
+		}
+
 		_id = id;
 	}
 
@@ -350,17 +411,20 @@ public class PortletModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_portletCacheModel == _dummyPortletCacheModel) {
+			_portletCacheModel = (PortletCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@JSON
@@ -378,15 +442,20 @@ public class PortletModelImpl
 	public void setPortletId(String portletId) {
 		_columnBitmask |= PORTLETID_COLUMN_BITMASK;
 
-		if (_originalPortletId == null) {
-			_originalPortletId = _portletId;
+		if (_portletCacheModel == _dummyPortletCacheModel) {
+			_portletCacheModel = (PortletCacheModel)toCacheModel();
 		}
 
 		_portletId = portletId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalPortletId() {
-		return GetterUtil.getString(_originalPortletId);
+		return getOriginalAttributeValue("portletId");
 	}
 
 	@JSON
@@ -402,6 +471,12 @@ public class PortletModelImpl
 
 	@Override
 	public void setRoles(String roles) {
+		_columnBitmask |= ROLES_COLUMN_BITMASK;
+
+		if (_portletCacheModel == _dummyPortletCacheModel) {
+			_portletCacheModel = (PortletCacheModel)toCacheModel();
+		}
+
 		_roles = roles;
 	}
 
@@ -419,6 +494,12 @@ public class PortletModelImpl
 
 	@Override
 	public void setActive(boolean active) {
+		_columnBitmask |= ACTIVE_COLUMN_BITMASK;
+
+		if (_portletCacheModel == _dummyPortletCacheModel) {
+			_portletCacheModel = (PortletCacheModel)toCacheModel();
+		}
+
 		_active = active;
 	}
 
@@ -532,15 +613,9 @@ public class PortletModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		PortletModelImpl portletModelImpl = this;
+		_columnBitmask = 0;
 
-		portletModelImpl._originalCompanyId = portletModelImpl._companyId;
-
-		portletModelImpl._setOriginalCompanyId = false;
-
-		portletModelImpl._originalPortletId = portletModelImpl._portletId;
-
-		portletModelImpl._columnBitmask = 0;
+		_portletCacheModel = _dummyPortletCacheModel;
 	}
 
 	@Override
@@ -647,13 +722,15 @@ public class PortletModelImpl
 	private long _mvccVersion;
 	private long _id;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private String _portletId;
-	private String _originalPortletId;
 	private String _roles;
 	private boolean _active;
 	private long _columnBitmask;
 	private Portlet _escapedModel;
+
+	private static final PortletCacheModel _dummyPortletCacheModel =
+		new PortletCacheModel();
+
+	private PortletCacheModel _portletCacheModel;
 
 }

@@ -1995,7 +1995,8 @@ public class KaleoNotificationRecipientPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoNotificationRecipientModelImpl.getOriginalCompanyId()
+					kaleoNotificationRecipientModelImpl.
+						getOriginalAttributeValue("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCompanyId, args);
@@ -2017,7 +2018,7 @@ public class KaleoNotificationRecipientPersistenceImpl
 
 				Object[] args = new Object[] {
 					kaleoNotificationRecipientModelImpl.
-						getOriginalKaleoDefinitionVersionId()
+						getOriginalAttributeValue("kaleoDefinitionVersionId")
 				};
 
 				finderCache.removeResult(
@@ -2044,7 +2045,7 @@ public class KaleoNotificationRecipientPersistenceImpl
 
 				Object[] args = new Object[] {
 					kaleoNotificationRecipientModelImpl.
-						getOriginalKaleoNotificationId()
+						getOriginalAttributeValue("kaleoNotificationId")
 				};
 
 				finderCache.removeResult(

@@ -22,7 +22,6 @@ import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.saml.persistence.model.SamlSpMessage;
 import com.liferay.saml.persistence.model.SamlSpMessageModel;
@@ -99,13 +98,17 @@ public class SamlSpMessageModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long EXPIRATIONDATE_COLUMN_BITMASK = 1L;
+	public static final long SAMLSPMESSAGEID_COLUMN_BITMASK = 1L;
 
-	public static final long SAMLIDPENTITYID_COLUMN_BITMASK = 2L;
+	public static final long COMPANYID_COLUMN_BITMASK = 2L;
 
-	public static final long SAMLIDPRESPONSEKEY_COLUMN_BITMASK = 4L;
+	public static final long CREATEDATE_COLUMN_BITMASK = 4L;
 
-	public static final long SAMLSPMESSAGEID_COLUMN_BITMASK = 8L;
+	public static final long SAMLIDPENTITYID_COLUMN_BITMASK = 8L;
+
+	public static final long SAMLIDPRESPONSEKEY_COLUMN_BITMASK = 16L;
+
+	public static final long EXPIRATIONDATE_COLUMN_BITMASK = 32L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -234,6 +237,25 @@ public class SamlSpMessageModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_samlSpMessageCacheModel == null) ||
+			(_samlSpMessageCacheModel == _dummySamlSpMessageCacheModel)) {
+
+			return null;
+		}
+
+		Function<SamlSpMessageCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_samlSpMessageCacheModel);
+	}
+
+	private static final Map<String, Function<SamlSpMessageCacheModel, Object>>
+		_cacheModelGetterFunctions;
 	private static final Map<String, Function<SamlSpMessage, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<SamlSpMessage, Object>>
@@ -244,35 +266,64 @@ public class SamlSpMessageModelImpl
 			new LinkedHashMap<String, Function<SamlSpMessage, Object>>();
 		Map<String, BiConsumer<SamlSpMessage, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<SamlSpMessage, ?>>();
+		Map<String, Function<SamlSpMessageCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<SamlSpMessageCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"samlSpMessageId", SamlSpMessage::getSamlSpMessageId);
+
+		cacheModelGetterFunctions.put(
+			"samlSpMessageId",
+			samlSpMessageCacheModel -> samlSpMessageCacheModel.samlSpMessageId);
 		attributeSetterBiConsumers.put(
 			"samlSpMessageId",
 			(BiConsumer<SamlSpMessage, Long>)SamlSpMessage::setSamlSpMessageId);
 		attributeGetterFunctions.put("companyId", SamlSpMessage::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			samlSpMessageCacheModel -> samlSpMessageCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<SamlSpMessage, Long>)SamlSpMessage::setCompanyId);
 		attributeGetterFunctions.put(
 			"createDate", SamlSpMessage::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			samlSpMessageCacheModel -> samlSpMessageCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<SamlSpMessage, Date>)SamlSpMessage::setCreateDate);
 		attributeGetterFunctions.put(
 			"samlIdpEntityId", SamlSpMessage::getSamlIdpEntityId);
+
+		cacheModelGetterFunctions.put(
+			"samlIdpEntityId",
+			samlSpMessageCacheModel -> samlSpMessageCacheModel.samlIdpEntityId);
 		attributeSetterBiConsumers.put(
 			"samlIdpEntityId",
 			(BiConsumer<SamlSpMessage, String>)
 				SamlSpMessage::setSamlIdpEntityId);
 		attributeGetterFunctions.put(
 			"samlIdpResponseKey", SamlSpMessage::getSamlIdpResponseKey);
+
+		cacheModelGetterFunctions.put(
+			"samlIdpResponseKey",
+			samlSpMessageCacheModel ->
+				samlSpMessageCacheModel.samlIdpResponseKey);
 		attributeSetterBiConsumers.put(
 			"samlIdpResponseKey",
 			(BiConsumer<SamlSpMessage, String>)
 				SamlSpMessage::setSamlIdpResponseKey);
 		attributeGetterFunctions.put(
 			"expirationDate", SamlSpMessage::getExpirationDate);
+
+		cacheModelGetterFunctions.put(
+			"expirationDate",
+			samlSpMessageCacheModel -> samlSpMessageCacheModel.expirationDate);
 		attributeSetterBiConsumers.put(
 			"expirationDate",
 			(BiConsumer<SamlSpMessage, Date>)SamlSpMessage::setExpirationDate);
@@ -281,6 +332,8 @@ public class SamlSpMessageModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -290,6 +343,12 @@ public class SamlSpMessageModelImpl
 
 	@Override
 	public void setSamlSpMessageId(long samlSpMessageId) {
+		_columnBitmask |= SAMLSPMESSAGEID_COLUMN_BITMASK;
+
+		if (_samlSpMessageCacheModel == _dummySamlSpMessageCacheModel) {
+			_samlSpMessageCacheModel = (SamlSpMessageCacheModel)toCacheModel();
+		}
+
 		_samlSpMessageId = samlSpMessageId;
 	}
 
@@ -300,6 +359,12 @@ public class SamlSpMessageModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (_samlSpMessageCacheModel == _dummySamlSpMessageCacheModel) {
+			_samlSpMessageCacheModel = (SamlSpMessageCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -310,6 +375,12 @@ public class SamlSpMessageModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (_samlSpMessageCacheModel == _dummySamlSpMessageCacheModel) {
+			_samlSpMessageCacheModel = (SamlSpMessageCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -327,15 +398,20 @@ public class SamlSpMessageModelImpl
 	public void setSamlIdpEntityId(String samlIdpEntityId) {
 		_columnBitmask |= SAMLIDPENTITYID_COLUMN_BITMASK;
 
-		if (_originalSamlIdpEntityId == null) {
-			_originalSamlIdpEntityId = _samlIdpEntityId;
+		if (_samlSpMessageCacheModel == _dummySamlSpMessageCacheModel) {
+			_samlSpMessageCacheModel = (SamlSpMessageCacheModel)toCacheModel();
 		}
 
 		_samlIdpEntityId = samlIdpEntityId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalSamlIdpEntityId() {
-		return GetterUtil.getString(_originalSamlIdpEntityId);
+		return getOriginalAttributeValue("samlIdpEntityId");
 	}
 
 	@Override
@@ -352,15 +428,20 @@ public class SamlSpMessageModelImpl
 	public void setSamlIdpResponseKey(String samlIdpResponseKey) {
 		_columnBitmask |= SAMLIDPRESPONSEKEY_COLUMN_BITMASK;
 
-		if (_originalSamlIdpResponseKey == null) {
-			_originalSamlIdpResponseKey = _samlIdpResponseKey;
+		if (_samlSpMessageCacheModel == _dummySamlSpMessageCacheModel) {
+			_samlSpMessageCacheModel = (SamlSpMessageCacheModel)toCacheModel();
 		}
 
 		_samlIdpResponseKey = samlIdpResponseKey;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalSamlIdpResponseKey() {
-		return GetterUtil.getString(_originalSamlIdpResponseKey);
+		return getOriginalAttributeValue("samlIdpResponseKey");
 	}
 
 	@Override
@@ -372,15 +453,20 @@ public class SamlSpMessageModelImpl
 	public void setExpirationDate(Date expirationDate) {
 		_columnBitmask |= EXPIRATIONDATE_COLUMN_BITMASK;
 
-		if (_originalExpirationDate == null) {
-			_originalExpirationDate = _expirationDate;
+		if (_samlSpMessageCacheModel == _dummySamlSpMessageCacheModel) {
+			_samlSpMessageCacheModel = (SamlSpMessageCacheModel)toCacheModel();
 		}
 
 		_expirationDate = expirationDate;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public Date getOriginalExpirationDate() {
-		return _originalExpirationDate;
+		return getOriginalAttributeValue("expirationDate");
 	}
 
 	public long getColumnBitmask() {
@@ -493,18 +579,9 @@ public class SamlSpMessageModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		SamlSpMessageModelImpl samlSpMessageModelImpl = this;
+		_columnBitmask = 0;
 
-		samlSpMessageModelImpl._originalSamlIdpEntityId =
-			samlSpMessageModelImpl._samlIdpEntityId;
-
-		samlSpMessageModelImpl._originalSamlIdpResponseKey =
-			samlSpMessageModelImpl._samlIdpResponseKey;
-
-		samlSpMessageModelImpl._originalExpirationDate =
-			samlSpMessageModelImpl._expirationDate;
-
-		samlSpMessageModelImpl._columnBitmask = 0;
+		_samlSpMessageCacheModel = _dummySamlSpMessageCacheModel;
 	}
 
 	@Override
@@ -629,12 +706,14 @@ public class SamlSpMessageModelImpl
 	private long _companyId;
 	private Date _createDate;
 	private String _samlIdpEntityId;
-	private String _originalSamlIdpEntityId;
 	private String _samlIdpResponseKey;
-	private String _originalSamlIdpResponseKey;
 	private Date _expirationDate;
-	private Date _originalExpirationDate;
 	private long _columnBitmask;
 	private SamlSpMessage _escapedModel;
+
+	private static final SamlSpMessageCacheModel _dummySamlSpMessageCacheModel =
+		new SamlSpMessageCacheModel();
+
+	private SamlSpMessageCacheModel _samlSpMessageCacheModel;
 
 }

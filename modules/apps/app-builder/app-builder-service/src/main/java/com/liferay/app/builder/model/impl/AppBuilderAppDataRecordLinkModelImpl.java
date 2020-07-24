@@ -96,11 +96,13 @@ public class AppBuilderAppDataRecordLinkModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long APPBUILDERAPPID_COLUMN_BITMASK = 1L;
+	public static final long APPBUILDERAPPDATARECORDLINKID_COLUMN_BITMASK = 1L;
 
-	public static final long DDLRECORDID_COLUMN_BITMASK = 2L;
+	public static final long COMPANYID_COLUMN_BITMASK = 2L;
 
-	public static final long APPBUILDERAPPDATARECORDLINKID_COLUMN_BITMASK = 4L;
+	public static final long APPBUILDERAPPID_COLUMN_BITMASK = 4L;
+
+	public static final long DDLRECORDID_COLUMN_BITMASK = 8L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -231,6 +233,27 @@ public class AppBuilderAppDataRecordLinkModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_appBuilderAppDataRecordLinkCacheModel == null) ||
+			(_appBuilderAppDataRecordLinkCacheModel ==
+				_dummyAppBuilderAppDataRecordLinkCacheModel)) {
+
+			return null;
+		}
+
+		Function<AppBuilderAppDataRecordLinkCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_appBuilderAppDataRecordLinkCacheModel);
+	}
+
+	private static final Map
+		<String, Function<AppBuilderAppDataRecordLinkCacheModel, Object>>
+			_cacheModelGetterFunctions;
 	private static final Map
 		<String, Function<AppBuilderAppDataRecordLink, Object>>
 			_attributeGetterFunctions;
@@ -247,28 +270,54 @@ public class AppBuilderAppDataRecordLinkModelImpl
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<AppBuilderAppDataRecordLink, ?>>();
+		Map<String, Function<AppBuilderAppDataRecordLinkCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String,
+					 Function<AppBuilderAppDataRecordLinkCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"appBuilderAppDataRecordLinkId",
 			AppBuilderAppDataRecordLink::getAppBuilderAppDataRecordLinkId);
+
+		cacheModelGetterFunctions.put(
+			"appBuilderAppDataRecordLinkId",
+			appBuilderAppDataRecordLinkCacheModel ->
+				appBuilderAppDataRecordLinkCacheModel.
+					appBuilderAppDataRecordLinkId);
 		attributeSetterBiConsumers.put(
 			"appBuilderAppDataRecordLinkId",
 			(BiConsumer<AppBuilderAppDataRecordLink, Long>)
 				AppBuilderAppDataRecordLink::setAppBuilderAppDataRecordLinkId);
 		attributeGetterFunctions.put(
 			"companyId", AppBuilderAppDataRecordLink::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			appBuilderAppDataRecordLinkCacheModel ->
+				appBuilderAppDataRecordLinkCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<AppBuilderAppDataRecordLink, Long>)
 				AppBuilderAppDataRecordLink::setCompanyId);
 		attributeGetterFunctions.put(
 			"appBuilderAppId", AppBuilderAppDataRecordLink::getAppBuilderAppId);
+
+		cacheModelGetterFunctions.put(
+			"appBuilderAppId",
+			appBuilderAppDataRecordLinkCacheModel ->
+				appBuilderAppDataRecordLinkCacheModel.appBuilderAppId);
 		attributeSetterBiConsumers.put(
 			"appBuilderAppId",
 			(BiConsumer<AppBuilderAppDataRecordLink, Long>)
 				AppBuilderAppDataRecordLink::setAppBuilderAppId);
 		attributeGetterFunctions.put(
 			"ddlRecordId", AppBuilderAppDataRecordLink::getDdlRecordId);
+
+		cacheModelGetterFunctions.put(
+			"ddlRecordId",
+			appBuilderAppDataRecordLinkCacheModel ->
+				appBuilderAppDataRecordLinkCacheModel.ddlRecordId);
 		attributeSetterBiConsumers.put(
 			"ddlRecordId",
 			(BiConsumer<AppBuilderAppDataRecordLink, Long>)
@@ -278,6 +327,8 @@ public class AppBuilderAppDataRecordLinkModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -289,6 +340,15 @@ public class AppBuilderAppDataRecordLinkModelImpl
 	public void setAppBuilderAppDataRecordLinkId(
 		long appBuilderAppDataRecordLinkId) {
 
+		_columnBitmask |= APPBUILDERAPPDATARECORDLINKID_COLUMN_BITMASK;
+
+		if (_appBuilderAppDataRecordLinkCacheModel ==
+				_dummyAppBuilderAppDataRecordLinkCacheModel) {
+
+			_appBuilderAppDataRecordLinkCacheModel =
+				(AppBuilderAppDataRecordLinkCacheModel)toCacheModel();
+		}
+
 		_appBuilderAppDataRecordLinkId = appBuilderAppDataRecordLinkId;
 	}
 
@@ -299,6 +359,15 @@ public class AppBuilderAppDataRecordLinkModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (_appBuilderAppDataRecordLinkCacheModel ==
+				_dummyAppBuilderAppDataRecordLinkCacheModel) {
+
+			_appBuilderAppDataRecordLinkCacheModel =
+				(AppBuilderAppDataRecordLinkCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -311,17 +380,23 @@ public class AppBuilderAppDataRecordLinkModelImpl
 	public void setAppBuilderAppId(long appBuilderAppId) {
 		_columnBitmask |= APPBUILDERAPPID_COLUMN_BITMASK;
 
-		if (!_setOriginalAppBuilderAppId) {
-			_setOriginalAppBuilderAppId = true;
+		if (_appBuilderAppDataRecordLinkCacheModel ==
+				_dummyAppBuilderAppDataRecordLinkCacheModel) {
 
-			_originalAppBuilderAppId = _appBuilderAppId;
+			_appBuilderAppDataRecordLinkCacheModel =
+				(AppBuilderAppDataRecordLinkCacheModel)toCacheModel();
 		}
 
 		_appBuilderAppId = appBuilderAppId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalAppBuilderAppId() {
-		return _originalAppBuilderAppId;
+		return getOriginalAttributeValue("appBuilderAppId");
 	}
 
 	@Override
@@ -333,17 +408,23 @@ public class AppBuilderAppDataRecordLinkModelImpl
 	public void setDdlRecordId(long ddlRecordId) {
 		_columnBitmask |= DDLRECORDID_COLUMN_BITMASK;
 
-		if (!_setOriginalDdlRecordId) {
-			_setOriginalDdlRecordId = true;
+		if (_appBuilderAppDataRecordLinkCacheModel ==
+				_dummyAppBuilderAppDataRecordLinkCacheModel) {
 
-			_originalDdlRecordId = _ddlRecordId;
+			_appBuilderAppDataRecordLinkCacheModel =
+				(AppBuilderAppDataRecordLinkCacheModel)toCacheModel();
 		}
 
 		_ddlRecordId = ddlRecordId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalDdlRecordId() {
-		return _originalDdlRecordId;
+		return getOriginalAttributeValue("ddlRecordId");
 	}
 
 	public long getColumnBitmask() {
@@ -461,21 +542,10 @@ public class AppBuilderAppDataRecordLinkModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		AppBuilderAppDataRecordLinkModelImpl
-			appBuilderAppDataRecordLinkModelImpl = this;
+		_columnBitmask = 0;
 
-		appBuilderAppDataRecordLinkModelImpl._originalAppBuilderAppId =
-			appBuilderAppDataRecordLinkModelImpl._appBuilderAppId;
-
-		appBuilderAppDataRecordLinkModelImpl._setOriginalAppBuilderAppId =
-			false;
-
-		appBuilderAppDataRecordLinkModelImpl._originalDdlRecordId =
-			appBuilderAppDataRecordLinkModelImpl._ddlRecordId;
-
-		appBuilderAppDataRecordLinkModelImpl._setOriginalDdlRecordId = false;
-
-		appBuilderAppDataRecordLinkModelImpl._columnBitmask = 0;
+		_appBuilderAppDataRecordLinkCacheModel =
+			_dummyAppBuilderAppDataRecordLinkCacheModel;
 	}
 
 	@Override
@@ -576,12 +646,15 @@ public class AppBuilderAppDataRecordLinkModelImpl
 	private long _appBuilderAppDataRecordLinkId;
 	private long _companyId;
 	private long _appBuilderAppId;
-	private long _originalAppBuilderAppId;
-	private boolean _setOriginalAppBuilderAppId;
 	private long _ddlRecordId;
-	private long _originalDdlRecordId;
-	private boolean _setOriginalDdlRecordId;
 	private long _columnBitmask;
 	private AppBuilderAppDataRecordLink _escapedModel;
+
+	private static final AppBuilderAppDataRecordLinkCacheModel
+		_dummyAppBuilderAppDataRecordLinkCacheModel =
+			new AppBuilderAppDataRecordLinkCacheModel();
+
+	private AppBuilderAppDataRecordLinkCacheModel
+		_appBuilderAppDataRecordLinkCacheModel;
 
 }

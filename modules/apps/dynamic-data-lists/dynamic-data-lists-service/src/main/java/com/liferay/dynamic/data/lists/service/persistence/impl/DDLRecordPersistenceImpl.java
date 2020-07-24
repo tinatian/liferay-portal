@@ -4280,8 +4280,8 @@ public class DDLRecordPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				ddlRecordModelImpl.getOriginalUuid(),
-				ddlRecordModelImpl.getOriginalGroupId()
+				ddlRecordModelImpl.getOriginalAttributeValue("uuid"),
+				ddlRecordModelImpl.getOriginalAttributeValue("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -4532,7 +4532,7 @@ public class DDLRecordPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					ddlRecordModelImpl.getOriginalUuid()
+					ddlRecordModelImpl.getOriginalAttributeValue("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -4551,8 +4551,8 @@ public class DDLRecordPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					ddlRecordModelImpl.getOriginalUuid(),
-					ddlRecordModelImpl.getOriginalCompanyId()
+					ddlRecordModelImpl.getOriginalAttributeValue("uuid"),
+					ddlRecordModelImpl.getOriginalAttributeValue("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -4574,7 +4574,7 @@ public class DDLRecordPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					ddlRecordModelImpl.getOriginalCompanyId()
+					ddlRecordModelImpl.getOriginalAttributeValue("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCompanyId, args);
@@ -4593,7 +4593,7 @@ public class DDLRecordPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					ddlRecordModelImpl.getOriginalRecordSetId()
+					ddlRecordModelImpl.getOriginalAttributeValue("recordSetId")
 				};
 
 				finderCache.removeResult(_finderPathCountByRecordSetId, args);
@@ -4612,8 +4612,8 @@ public class DDLRecordPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					ddlRecordModelImpl.getOriginalRecordSetId(),
-					ddlRecordModelImpl.getOriginalUserId()
+					ddlRecordModelImpl.getOriginalAttributeValue("recordSetId"),
+					ddlRecordModelImpl.getOriginalAttributeValue("userId")
 				};
 
 				finderCache.removeResult(_finderPathCountByR_U, args);
@@ -4635,8 +4635,9 @@ public class DDLRecordPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					ddlRecordModelImpl.getOriginalRecordSetId(),
-					ddlRecordModelImpl.getOriginalRecordSetVersion()
+					ddlRecordModelImpl.getOriginalAttributeValue("recordSetId"),
+					ddlRecordModelImpl.getOriginalAttributeValue(
+						"recordSetVersion")
 				};
 
 				finderCache.removeResult(_finderPathCountByR_R, args);
@@ -4658,8 +4659,8 @@ public class DDLRecordPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					ddlRecordModelImpl.getOriginalClassName(),
-					ddlRecordModelImpl.getOriginalClassPK()
+					ddlRecordModelImpl.getOriginalAttributeValue("className"),
+					ddlRecordModelImpl.getOriginalAttributeValue("classPK")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_C, args);

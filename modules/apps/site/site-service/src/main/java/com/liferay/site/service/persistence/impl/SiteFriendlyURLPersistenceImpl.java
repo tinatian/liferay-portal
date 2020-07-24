@@ -3029,8 +3029,8 @@ public class SiteFriendlyURLPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				siteFriendlyURLModelImpl.getOriginalUuid(),
-				siteFriendlyURLModelImpl.getOriginalGroupId()
+				siteFriendlyURLModelImpl.getOriginalAttributeValue("uuid"),
+				siteFriendlyURLModelImpl.getOriginalAttributeValue("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -3051,8 +3051,9 @@ public class SiteFriendlyURLPersistenceImpl
 			 _finderPathFetchByC_F.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				siteFriendlyURLModelImpl.getOriginalCompanyId(),
-				siteFriendlyURLModelImpl.getOriginalFriendlyURL()
+				siteFriendlyURLModelImpl.getOriginalAttributeValue("companyId"),
+				siteFriendlyURLModelImpl.getOriginalAttributeValue(
+					"friendlyURL")
 			};
 
 			finderCache.removeResult(_finderPathCountByC_F, args);
@@ -3074,9 +3075,9 @@ public class SiteFriendlyURLPersistenceImpl
 			 _finderPathFetchByC_G_L.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				siteFriendlyURLModelImpl.getOriginalCompanyId(),
-				siteFriendlyURLModelImpl.getOriginalGroupId(),
-				siteFriendlyURLModelImpl.getOriginalLanguageId()
+				siteFriendlyURLModelImpl.getOriginalAttributeValue("companyId"),
+				siteFriendlyURLModelImpl.getOriginalAttributeValue("groupId"),
+				siteFriendlyURLModelImpl.getOriginalAttributeValue("languageId")
 			};
 
 			finderCache.removeResult(_finderPathCountByC_G_L, args);
@@ -3098,9 +3099,10 @@ public class SiteFriendlyURLPersistenceImpl
 			 _finderPathFetchByC_F_L.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				siteFriendlyURLModelImpl.getOriginalCompanyId(),
-				siteFriendlyURLModelImpl.getOriginalFriendlyURL(),
-				siteFriendlyURLModelImpl.getOriginalLanguageId()
+				siteFriendlyURLModelImpl.getOriginalAttributeValue("companyId"),
+				siteFriendlyURLModelImpl.getOriginalAttributeValue(
+					"friendlyURL"),
+				siteFriendlyURLModelImpl.getOriginalAttributeValue("languageId")
 			};
 
 			finderCache.removeResult(_finderPathCountByC_F_L, args);
@@ -3330,7 +3332,7 @@ public class SiteFriendlyURLPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					siteFriendlyURLModelImpl.getOriginalUuid()
+					siteFriendlyURLModelImpl.getOriginalAttributeValue("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -3349,8 +3351,9 @@ public class SiteFriendlyURLPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					siteFriendlyURLModelImpl.getOriginalUuid(),
-					siteFriendlyURLModelImpl.getOriginalCompanyId()
+					siteFriendlyURLModelImpl.getOriginalAttributeValue("uuid"),
+					siteFriendlyURLModelImpl.getOriginalAttributeValue(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -3372,8 +3375,10 @@ public class SiteFriendlyURLPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					siteFriendlyURLModelImpl.getOriginalCompanyId(),
-					siteFriendlyURLModelImpl.getOriginalGroupId()
+					siteFriendlyURLModelImpl.getOriginalAttributeValue(
+						"companyId"),
+					siteFriendlyURLModelImpl.getOriginalAttributeValue(
+						"groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_G, args);

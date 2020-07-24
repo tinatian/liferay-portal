@@ -3134,7 +3134,8 @@ public class ExportImportConfigurationPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					exportImportConfigurationModelImpl.getOriginalGroupId()
+					exportImportConfigurationModelImpl.
+						getOriginalAttributeValue("groupId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByGroupId, args);
@@ -3155,7 +3156,8 @@ public class ExportImportConfigurationPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					exportImportConfigurationModelImpl.getOriginalCompanyId()
+					exportImportConfigurationModelImpl.
+						getOriginalAttributeValue("companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
@@ -3176,8 +3178,10 @@ public class ExportImportConfigurationPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					exportImportConfigurationModelImpl.getOriginalGroupId(),
-					exportImportConfigurationModelImpl.getOriginalType()
+					exportImportConfigurationModelImpl.
+						getOriginalAttributeValue("groupId"),
+					exportImportConfigurationModelImpl.
+						getOriginalAttributeValue("type")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByG_T, args);
@@ -3199,8 +3203,10 @@ public class ExportImportConfigurationPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					exportImportConfigurationModelImpl.getOriginalGroupId(),
-					exportImportConfigurationModelImpl.getOriginalStatus()
+					exportImportConfigurationModelImpl.
+						getOriginalAttributeValue("groupId"),
+					exportImportConfigurationModelImpl.
+						getOriginalAttributeValue("status")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByG_S, args);
@@ -3222,9 +3228,12 @@ public class ExportImportConfigurationPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					exportImportConfigurationModelImpl.getOriginalGroupId(),
-					exportImportConfigurationModelImpl.getOriginalType(),
-					exportImportConfigurationModelImpl.getOriginalStatus()
+					exportImportConfigurationModelImpl.
+						getOriginalAttributeValue("groupId"),
+					exportImportConfigurationModelImpl.
+						getOriginalAttributeValue("type"),
+					exportImportConfigurationModelImpl.
+						getOriginalAttributeValue("status")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByG_T_S, args);

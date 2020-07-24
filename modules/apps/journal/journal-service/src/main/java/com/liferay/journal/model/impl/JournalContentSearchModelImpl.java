@@ -24,7 +24,6 @@ import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -104,19 +103,23 @@ public class JournalContentSearchModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long ARTICLEID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 4L;
+	public static final long CONTENTSEARCHID_COLUMN_BITMASK = 4L;
 
-	public static final long LAYOUTID_COLUMN_BITMASK = 8L;
+	public static final long GROUPID_COLUMN_BITMASK = 8L;
 
-	public static final long PORTLETID_COLUMN_BITMASK = 16L;
+	public static final long COMPANYID_COLUMN_BITMASK = 16L;
 
 	public static final long PRIVATELAYOUT_COLUMN_BITMASK = 32L;
 
-	public static final long CONTENTSEARCHID_COLUMN_BITMASK = 64L;
+	public static final long LAYOUTID_COLUMN_BITMASK = 64L;
+
+	public static final long PORTLETID_COLUMN_BITMASK = 128L;
+
+	public static final long ARTICLEID_COLUMN_BITMASK = 256L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -245,6 +248,27 @@ public class JournalContentSearchModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_journalContentSearchCacheModel == null) ||
+			(_journalContentSearchCacheModel ==
+				_dummyJournalContentSearchCacheModel)) {
+
+			return null;
+		}
+
+		Function<JournalContentSearchCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_journalContentSearchCacheModel);
+	}
+
+	private static final Map
+		<String, Function<JournalContentSearchCacheModel, Object>>
+			_cacheModelGetterFunctions;
 	private static final Map<String, Function<JournalContentSearch, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<JournalContentSearch, Object>>
@@ -259,57 +283,107 @@ public class JournalContentSearchModelImpl
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<JournalContentSearch, ?>>();
+		Map<String, Function<JournalContentSearchCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String,
+					 Function<JournalContentSearchCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", JournalContentSearch::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			journalContentSearchCacheModel ->
+				journalContentSearchCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<JournalContentSearch, Long>)
 				JournalContentSearch::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", JournalContentSearch::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			journalContentSearchCacheModel ->
+				journalContentSearchCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<JournalContentSearch, Long>)
 				JournalContentSearch::setCtCollectionId);
 		attributeGetterFunctions.put(
 			"contentSearchId", JournalContentSearch::getContentSearchId);
+
+		cacheModelGetterFunctions.put(
+			"contentSearchId",
+			journalContentSearchCacheModel ->
+				journalContentSearchCacheModel.contentSearchId);
 		attributeSetterBiConsumers.put(
 			"contentSearchId",
 			(BiConsumer<JournalContentSearch, Long>)
 				JournalContentSearch::setContentSearchId);
 		attributeGetterFunctions.put(
 			"groupId", JournalContentSearch::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			journalContentSearchCacheModel ->
+				journalContentSearchCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<JournalContentSearch, Long>)
 				JournalContentSearch::setGroupId);
 		attributeGetterFunctions.put(
 			"companyId", JournalContentSearch::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			journalContentSearchCacheModel ->
+				journalContentSearchCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<JournalContentSearch, Long>)
 				JournalContentSearch::setCompanyId);
 		attributeGetterFunctions.put(
 			"privateLayout", JournalContentSearch::getPrivateLayout);
+
+		cacheModelGetterFunctions.put(
+			"privateLayout",
+			journalContentSearchCacheModel ->
+				journalContentSearchCacheModel.privateLayout);
 		attributeSetterBiConsumers.put(
 			"privateLayout",
 			(BiConsumer<JournalContentSearch, Boolean>)
 				JournalContentSearch::setPrivateLayout);
 		attributeGetterFunctions.put(
 			"layoutId", JournalContentSearch::getLayoutId);
+
+		cacheModelGetterFunctions.put(
+			"layoutId",
+			journalContentSearchCacheModel ->
+				journalContentSearchCacheModel.layoutId);
 		attributeSetterBiConsumers.put(
 			"layoutId",
 			(BiConsumer<JournalContentSearch, Long>)
 				JournalContentSearch::setLayoutId);
 		attributeGetterFunctions.put(
 			"portletId", JournalContentSearch::getPortletId);
+
+		cacheModelGetterFunctions.put(
+			"portletId",
+			journalContentSearchCacheModel ->
+				journalContentSearchCacheModel.portletId);
 		attributeSetterBiConsumers.put(
 			"portletId",
 			(BiConsumer<JournalContentSearch, String>)
 				JournalContentSearch::setPortletId);
 		attributeGetterFunctions.put(
 			"articleId", JournalContentSearch::getArticleId);
+
+		cacheModelGetterFunctions.put(
+			"articleId",
+			journalContentSearchCacheModel ->
+				journalContentSearchCacheModel.articleId);
 		attributeSetterBiConsumers.put(
 			"articleId",
 			(BiConsumer<JournalContentSearch, String>)
@@ -319,6 +393,8 @@ public class JournalContentSearchModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -328,6 +404,15 @@ public class JournalContentSearchModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_journalContentSearchCacheModel ==
+				_dummyJournalContentSearchCacheModel) {
+
+			_journalContentSearchCacheModel =
+				(JournalContentSearchCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -338,6 +423,15 @@ public class JournalContentSearchModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (_journalContentSearchCacheModel ==
+				_dummyJournalContentSearchCacheModel) {
+
+			_journalContentSearchCacheModel =
+				(JournalContentSearchCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -348,6 +442,15 @@ public class JournalContentSearchModelImpl
 
 	@Override
 	public void setContentSearchId(long contentSearchId) {
+		_columnBitmask |= CONTENTSEARCHID_COLUMN_BITMASK;
+
+		if (_journalContentSearchCacheModel ==
+				_dummyJournalContentSearchCacheModel) {
+
+			_journalContentSearchCacheModel =
+				(JournalContentSearchCacheModel)toCacheModel();
+		}
+
 		_contentSearchId = contentSearchId;
 	}
 
@@ -360,17 +463,23 @@ public class JournalContentSearchModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
+		if (_journalContentSearchCacheModel ==
+				_dummyJournalContentSearchCacheModel) {
 
-			_originalGroupId = _groupId;
+			_journalContentSearchCacheModel =
+				(JournalContentSearchCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getOriginalAttributeValue("groupId");
 	}
 
 	@Override
@@ -382,17 +491,23 @@ public class JournalContentSearchModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
+		if (_journalContentSearchCacheModel ==
+				_dummyJournalContentSearchCacheModel) {
 
-			_originalCompanyId = _companyId;
+			_journalContentSearchCacheModel =
+				(JournalContentSearchCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@Override
@@ -409,17 +524,23 @@ public class JournalContentSearchModelImpl
 	public void setPrivateLayout(boolean privateLayout) {
 		_columnBitmask |= PRIVATELAYOUT_COLUMN_BITMASK;
 
-		if (!_setOriginalPrivateLayout) {
-			_setOriginalPrivateLayout = true;
+		if (_journalContentSearchCacheModel ==
+				_dummyJournalContentSearchCacheModel) {
 
-			_originalPrivateLayout = _privateLayout;
+			_journalContentSearchCacheModel =
+				(JournalContentSearchCacheModel)toCacheModel();
 		}
 
 		_privateLayout = privateLayout;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public boolean getOriginalPrivateLayout() {
-		return _originalPrivateLayout;
+		return getOriginalAttributeValue("privateLayout");
 	}
 
 	@Override
@@ -431,17 +552,23 @@ public class JournalContentSearchModelImpl
 	public void setLayoutId(long layoutId) {
 		_columnBitmask |= LAYOUTID_COLUMN_BITMASK;
 
-		if (!_setOriginalLayoutId) {
-			_setOriginalLayoutId = true;
+		if (_journalContentSearchCacheModel ==
+				_dummyJournalContentSearchCacheModel) {
 
-			_originalLayoutId = _layoutId;
+			_journalContentSearchCacheModel =
+				(JournalContentSearchCacheModel)toCacheModel();
 		}
 
 		_layoutId = layoutId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalLayoutId() {
-		return _originalLayoutId;
+		return getOriginalAttributeValue("layoutId");
 	}
 
 	@Override
@@ -458,15 +585,23 @@ public class JournalContentSearchModelImpl
 	public void setPortletId(String portletId) {
 		_columnBitmask |= PORTLETID_COLUMN_BITMASK;
 
-		if (_originalPortletId == null) {
-			_originalPortletId = _portletId;
+		if (_journalContentSearchCacheModel ==
+				_dummyJournalContentSearchCacheModel) {
+
+			_journalContentSearchCacheModel =
+				(JournalContentSearchCacheModel)toCacheModel();
 		}
 
 		_portletId = portletId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalPortletId() {
-		return GetterUtil.getString(_originalPortletId);
+		return getOriginalAttributeValue("portletId");
 	}
 
 	@Override
@@ -483,15 +618,23 @@ public class JournalContentSearchModelImpl
 	public void setArticleId(String articleId) {
 		_columnBitmask |= ARTICLEID_COLUMN_BITMASK;
 
-		if (_originalArticleId == null) {
-			_originalArticleId = _articleId;
+		if (_journalContentSearchCacheModel ==
+				_dummyJournalContentSearchCacheModel) {
+
+			_journalContentSearchCacheModel =
+				(JournalContentSearchCacheModel)toCacheModel();
 		}
 
 		_articleId = articleId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalArticleId() {
-		return GetterUtil.getString(_originalArticleId);
+		return getOriginalAttributeValue("articleId");
 	}
 
 	public long getColumnBitmask() {
@@ -610,35 +753,9 @@ public class JournalContentSearchModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		JournalContentSearchModelImpl journalContentSearchModelImpl = this;
+		_columnBitmask = 0;
 
-		journalContentSearchModelImpl._originalGroupId =
-			journalContentSearchModelImpl._groupId;
-
-		journalContentSearchModelImpl._setOriginalGroupId = false;
-
-		journalContentSearchModelImpl._originalCompanyId =
-			journalContentSearchModelImpl._companyId;
-
-		journalContentSearchModelImpl._setOriginalCompanyId = false;
-
-		journalContentSearchModelImpl._originalPrivateLayout =
-			journalContentSearchModelImpl._privateLayout;
-
-		journalContentSearchModelImpl._setOriginalPrivateLayout = false;
-
-		journalContentSearchModelImpl._originalLayoutId =
-			journalContentSearchModelImpl._layoutId;
-
-		journalContentSearchModelImpl._setOriginalLayoutId = false;
-
-		journalContentSearchModelImpl._originalPortletId =
-			journalContentSearchModelImpl._portletId;
-
-		journalContentSearchModelImpl._originalArticleId =
-			journalContentSearchModelImpl._articleId;
-
-		journalContentSearchModelImpl._columnBitmask = 0;
+		_journalContentSearchCacheModel = _dummyJournalContentSearchCacheModel;
 	}
 
 	@Override
@@ -755,22 +872,18 @@ public class JournalContentSearchModelImpl
 	private long _ctCollectionId;
 	private long _contentSearchId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private boolean _privateLayout;
-	private boolean _originalPrivateLayout;
-	private boolean _setOriginalPrivateLayout;
 	private long _layoutId;
-	private long _originalLayoutId;
-	private boolean _setOriginalLayoutId;
 	private String _portletId;
-	private String _originalPortletId;
 	private String _articleId;
-	private String _originalArticleId;
 	private long _columnBitmask;
 	private JournalContentSearch _escapedModel;
+
+	private static final JournalContentSearchCacheModel
+		_dummyJournalContentSearchCacheModel =
+			new JournalContentSearchCacheModel();
+
+	private JournalContentSearchCacheModel _journalContentSearchCacheModel;
 
 }

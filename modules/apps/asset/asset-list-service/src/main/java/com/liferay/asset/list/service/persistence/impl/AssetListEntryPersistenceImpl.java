@@ -13714,8 +13714,8 @@ public class AssetListEntryPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				assetListEntryModelImpl.getOriginalUuid(),
-				assetListEntryModelImpl.getOriginalGroupId()
+				assetListEntryModelImpl.getOriginalAttributeValue("uuid"),
+				assetListEntryModelImpl.getOriginalAttributeValue("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -13736,8 +13736,9 @@ public class AssetListEntryPersistenceImpl
 			 _finderPathFetchByG_ALEK.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				assetListEntryModelImpl.getOriginalGroupId(),
-				assetListEntryModelImpl.getOriginalAssetListEntryKey()
+				assetListEntryModelImpl.getOriginalAttributeValue("groupId"),
+				assetListEntryModelImpl.getOriginalAttributeValue(
+					"assetListEntryKey")
 			};
 
 			finderCache.removeResult(_finderPathCountByG_ALEK, args);
@@ -13758,8 +13759,8 @@ public class AssetListEntryPersistenceImpl
 			 _finderPathFetchByG_T.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				assetListEntryModelImpl.getOriginalGroupId(),
-				assetListEntryModelImpl.getOriginalTitle()
+				assetListEntryModelImpl.getOriginalAttributeValue("groupId"),
+				assetListEntryModelImpl.getOriginalAttributeValue("title")
 			};
 
 			finderCache.removeResult(_finderPathCountByG_T, args);
@@ -14033,7 +14034,7 @@ public class AssetListEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					assetListEntryModelImpl.getOriginalUuid()
+					assetListEntryModelImpl.getOriginalAttributeValue("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -14052,8 +14053,9 @@ public class AssetListEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					assetListEntryModelImpl.getOriginalUuid(),
-					assetListEntryModelImpl.getOriginalCompanyId()
+					assetListEntryModelImpl.getOriginalAttributeValue("uuid"),
+					assetListEntryModelImpl.getOriginalAttributeValue(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -14075,7 +14077,7 @@ public class AssetListEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					assetListEntryModelImpl.getOriginalGroupId()
+					assetListEntryModelImpl.getOriginalAttributeValue("groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId, args);
@@ -14094,8 +14096,9 @@ public class AssetListEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					assetListEntryModelImpl.getOriginalGroupId(),
-					assetListEntryModelImpl.getOriginalType()
+					assetListEntryModelImpl.getOriginalAttributeValue(
+						"groupId"),
+					assetListEntryModelImpl.getOriginalAttributeValue("type")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_TY, args);
@@ -14117,8 +14120,10 @@ public class AssetListEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					assetListEntryModelImpl.getOriginalGroupId(),
-					assetListEntryModelImpl.getOriginalAssetEntryType()
+					assetListEntryModelImpl.getOriginalAttributeValue(
+						"groupId"),
+					assetListEntryModelImpl.getOriginalAttributeValue(
+						"assetEntryType")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_AET, args);
@@ -14140,9 +14145,12 @@ public class AssetListEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					assetListEntryModelImpl.getOriginalGroupId(),
-					assetListEntryModelImpl.getOriginalAssetEntrySubtype(),
-					assetListEntryModelImpl.getOriginalAssetEntryType()
+					assetListEntryModelImpl.getOriginalAttributeValue(
+						"groupId"),
+					assetListEntryModelImpl.getOriginalAttributeValue(
+						"assetEntrySubtype"),
+					assetListEntryModelImpl.getOriginalAttributeValue(
+						"assetEntryType")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_AES_AET, args);

@@ -2925,8 +2925,8 @@ public class SourcePersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				sourceModelImpl.getOriginalUuid(),
-				sourceModelImpl.getOriginalGroupId()
+				sourceModelImpl.getOriginalAttributeValue("uuid"),
+				sourceModelImpl.getOriginalAttributeValue("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -3147,7 +3147,7 @@ public class SourcePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					sourceModelImpl.getOriginalUuid()
+					sourceModelImpl.getOriginalAttributeValue("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -3166,8 +3166,8 @@ public class SourcePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					sourceModelImpl.getOriginalUuid(),
-					sourceModelImpl.getOriginalCompanyId()
+					sourceModelImpl.getOriginalAttributeValue("uuid"),
+					sourceModelImpl.getOriginalAttributeValue("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -3188,7 +3188,7 @@ public class SourcePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					sourceModelImpl.getOriginalGroupId()
+					sourceModelImpl.getOriginalAttributeValue("groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId, args);
@@ -3207,7 +3207,7 @@ public class SourcePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					sourceModelImpl.getOriginalCompanyId()
+					sourceModelImpl.getOriginalAttributeValue("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCompanyId, args);

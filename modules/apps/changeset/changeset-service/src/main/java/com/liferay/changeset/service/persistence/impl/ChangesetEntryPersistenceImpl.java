@@ -3078,9 +3078,11 @@ public class ChangesetEntryPersistenceImpl
 			 _finderPathFetchByC_C_C.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				changesetEntryModelImpl.getOriginalChangesetCollectionId(),
-				changesetEntryModelImpl.getOriginalClassNameId(),
-				changesetEntryModelImpl.getOriginalClassPK()
+				changesetEntryModelImpl.getOriginalAttributeValue(
+					"changesetCollectionId"),
+				changesetEntryModelImpl.getOriginalAttributeValue(
+					"classNameId"),
+				changesetEntryModelImpl.getOriginalAttributeValue("classPK")
 			};
 
 			finderCache.removeResult(_finderPathCountByC_C_C, args);
@@ -3313,7 +3315,7 @@ public class ChangesetEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					changesetEntryModelImpl.getOriginalGroupId()
+					changesetEntryModelImpl.getOriginalAttributeValue("groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId, args);
@@ -3332,7 +3334,8 @@ public class ChangesetEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					changesetEntryModelImpl.getOriginalCompanyId()
+					changesetEntryModelImpl.getOriginalAttributeValue(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCompanyId, args);
@@ -3351,7 +3354,8 @@ public class ChangesetEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					changesetEntryModelImpl.getOriginalChangesetCollectionId()
+					changesetEntryModelImpl.getOriginalAttributeValue(
+						"changesetCollectionId")
 				};
 
 				finderCache.removeResult(
@@ -3376,8 +3380,10 @@ public class ChangesetEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					changesetEntryModelImpl.getOriginalGroupId(),
-					changesetEntryModelImpl.getOriginalClassNameId()
+					changesetEntryModelImpl.getOriginalAttributeValue(
+						"groupId"),
+					changesetEntryModelImpl.getOriginalAttributeValue(
+						"classNameId")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_C, args);
@@ -3399,8 +3405,10 @@ public class ChangesetEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					changesetEntryModelImpl.getOriginalChangesetCollectionId(),
-					changesetEntryModelImpl.getOriginalClassNameId()
+					changesetEntryModelImpl.getOriginalAttributeValue(
+						"changesetCollectionId"),
+					changesetEntryModelImpl.getOriginalAttributeValue(
+						"classNameId")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_C, args);

@@ -24,7 +24,6 @@ import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -106,17 +105,27 @@ public class AMImageEntryModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long UUID_COLUMN_BITMASK = 1L;
 
-	public static final long CONFIGURATIONUUID_COLUMN_BITMASK = 2L;
+	public static final long AMIMAGEENTRYID_COLUMN_BITMASK = 2L;
 
-	public static final long FILEVERSIONID_COLUMN_BITMASK = 4L;
+	public static final long GROUPID_COLUMN_BITMASK = 4L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 8L;
+	public static final long COMPANYID_COLUMN_BITMASK = 8L;
 
-	public static final long UUID_COLUMN_BITMASK = 16L;
+	public static final long CREATEDATE_COLUMN_BITMASK = 16L;
 
-	public static final long AMIMAGEENTRYID_COLUMN_BITMASK = 32L;
+	public static final long CONFIGURATIONUUID_COLUMN_BITMASK = 32L;
+
+	public static final long FILEVERSIONID_COLUMN_BITMASK = 64L;
+
+	public static final long MIMETYPE_COLUMN_BITMASK = 128L;
+
+	public static final long HEIGHT_COLUMN_BITMASK = 256L;
+
+	public static final long WIDTH_COLUMN_BITMASK = 512L;
+
+	public static final long SIZE_COLUMN_BITMASK = 1024L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -245,6 +254,25 @@ public class AMImageEntryModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_amImageEntryCacheModel == null) ||
+			(_amImageEntryCacheModel == _dummyAMImageEntryCacheModel)) {
+
+			return null;
+		}
+
+		Function<AMImageEntryCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_amImageEntryCacheModel);
+	}
+
+	private static final Map<String, Function<AMImageEntryCacheModel, Object>>
+		_cacheModelGetterFunctions;
 	private static final Map<String, Function<AMImageEntry, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<AMImageEntry, Object>>
@@ -255,50 +283,94 @@ public class AMImageEntryModelImpl
 			new LinkedHashMap<String, Function<AMImageEntry, Object>>();
 		Map<String, BiConsumer<AMImageEntry, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<AMImageEntry, ?>>();
+		Map<String, Function<AMImageEntryCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<AMImageEntryCacheModel, Object>>();
 
 		attributeGetterFunctions.put("uuid", AMImageEntry::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid", amImageEntryCacheModel -> amImageEntryCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<AMImageEntry, String>)AMImageEntry::setUuid);
 		attributeGetterFunctions.put(
 			"amImageEntryId", AMImageEntry::getAmImageEntryId);
+
+		cacheModelGetterFunctions.put(
+			"amImageEntryId",
+			amImageEntryCacheModel -> amImageEntryCacheModel.amImageEntryId);
 		attributeSetterBiConsumers.put(
 			"amImageEntryId",
 			(BiConsumer<AMImageEntry, Long>)AMImageEntry::setAmImageEntryId);
 		attributeGetterFunctions.put("groupId", AMImageEntry::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			amImageEntryCacheModel -> amImageEntryCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<AMImageEntry, Long>)AMImageEntry::setGroupId);
 		attributeGetterFunctions.put("companyId", AMImageEntry::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			amImageEntryCacheModel -> amImageEntryCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<AMImageEntry, Long>)AMImageEntry::setCompanyId);
 		attributeGetterFunctions.put("createDate", AMImageEntry::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			amImageEntryCacheModel -> amImageEntryCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<AMImageEntry, Date>)AMImageEntry::setCreateDate);
 		attributeGetterFunctions.put(
 			"configurationUuid", AMImageEntry::getConfigurationUuid);
+
+		cacheModelGetterFunctions.put(
+			"configurationUuid",
+			amImageEntryCacheModel -> amImageEntryCacheModel.configurationUuid);
 		attributeSetterBiConsumers.put(
 			"configurationUuid",
 			(BiConsumer<AMImageEntry, String>)
 				AMImageEntry::setConfigurationUuid);
 		attributeGetterFunctions.put(
 			"fileVersionId", AMImageEntry::getFileVersionId);
+
+		cacheModelGetterFunctions.put(
+			"fileVersionId",
+			amImageEntryCacheModel -> amImageEntryCacheModel.fileVersionId);
 		attributeSetterBiConsumers.put(
 			"fileVersionId",
 			(BiConsumer<AMImageEntry, Long>)AMImageEntry::setFileVersionId);
 		attributeGetterFunctions.put("mimeType", AMImageEntry::getMimeType);
+
+		cacheModelGetterFunctions.put(
+			"mimeType",
+			amImageEntryCacheModel -> amImageEntryCacheModel.mimeType);
 		attributeSetterBiConsumers.put(
 			"mimeType",
 			(BiConsumer<AMImageEntry, String>)AMImageEntry::setMimeType);
 		attributeGetterFunctions.put("height", AMImageEntry::getHeight);
+
+		cacheModelGetterFunctions.put(
+			"height", amImageEntryCacheModel -> amImageEntryCacheModel.height);
 		attributeSetterBiConsumers.put(
 			"height",
 			(BiConsumer<AMImageEntry, Integer>)AMImageEntry::setHeight);
 		attributeGetterFunctions.put("width", AMImageEntry::getWidth);
+
+		cacheModelGetterFunctions.put(
+			"width", amImageEntryCacheModel -> amImageEntryCacheModel.width);
 		attributeSetterBiConsumers.put(
 			"width", (BiConsumer<AMImageEntry, Integer>)AMImageEntry::setWidth);
 		attributeGetterFunctions.put("size", AMImageEntry::getSize);
+
+		cacheModelGetterFunctions.put(
+			"size", amImageEntryCacheModel -> amImageEntryCacheModel.size);
 		attributeSetterBiConsumers.put(
 			"size", (BiConsumer<AMImageEntry, Long>)AMImageEntry::setSize);
 
@@ -306,6 +378,8 @@ public class AMImageEntryModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -322,15 +396,20 @@ public class AMImageEntryModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_amImageEntryCacheModel == _dummyAMImageEntryCacheModel) {
+			_amImageEntryCacheModel = (AMImageEntryCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getOriginalAttributeValue("uuid");
 	}
 
 	@Override
@@ -340,6 +419,12 @@ public class AMImageEntryModelImpl
 
 	@Override
 	public void setAmImageEntryId(long amImageEntryId) {
+		_columnBitmask |= AMIMAGEENTRYID_COLUMN_BITMASK;
+
+		if (_amImageEntryCacheModel == _dummyAMImageEntryCacheModel) {
+			_amImageEntryCacheModel = (AMImageEntryCacheModel)toCacheModel();
+		}
+
 		_amImageEntryId = amImageEntryId;
 	}
 
@@ -352,17 +437,20 @@ public class AMImageEntryModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_amImageEntryCacheModel == _dummyAMImageEntryCacheModel) {
+			_amImageEntryCacheModel = (AMImageEntryCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getOriginalAttributeValue("groupId");
 	}
 
 	@Override
@@ -374,17 +462,20 @@ public class AMImageEntryModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_amImageEntryCacheModel == _dummyAMImageEntryCacheModel) {
+			_amImageEntryCacheModel = (AMImageEntryCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@Override
@@ -394,6 +485,12 @@ public class AMImageEntryModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (_amImageEntryCacheModel == _dummyAMImageEntryCacheModel) {
+			_amImageEntryCacheModel = (AMImageEntryCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -411,15 +508,20 @@ public class AMImageEntryModelImpl
 	public void setConfigurationUuid(String configurationUuid) {
 		_columnBitmask |= CONFIGURATIONUUID_COLUMN_BITMASK;
 
-		if (_originalConfigurationUuid == null) {
-			_originalConfigurationUuid = _configurationUuid;
+		if (_amImageEntryCacheModel == _dummyAMImageEntryCacheModel) {
+			_amImageEntryCacheModel = (AMImageEntryCacheModel)toCacheModel();
 		}
 
 		_configurationUuid = configurationUuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalConfigurationUuid() {
-		return GetterUtil.getString(_originalConfigurationUuid);
+		return getOriginalAttributeValue("configurationUuid");
 	}
 
 	@Override
@@ -431,17 +533,20 @@ public class AMImageEntryModelImpl
 	public void setFileVersionId(long fileVersionId) {
 		_columnBitmask |= FILEVERSIONID_COLUMN_BITMASK;
 
-		if (!_setOriginalFileVersionId) {
-			_setOriginalFileVersionId = true;
-
-			_originalFileVersionId = _fileVersionId;
+		if (_amImageEntryCacheModel == _dummyAMImageEntryCacheModel) {
+			_amImageEntryCacheModel = (AMImageEntryCacheModel)toCacheModel();
 		}
 
 		_fileVersionId = fileVersionId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalFileVersionId() {
-		return _originalFileVersionId;
+		return getOriginalAttributeValue("fileVersionId");
 	}
 
 	@Override
@@ -456,6 +561,12 @@ public class AMImageEntryModelImpl
 
 	@Override
 	public void setMimeType(String mimeType) {
+		_columnBitmask |= MIMETYPE_COLUMN_BITMASK;
+
+		if (_amImageEntryCacheModel == _dummyAMImageEntryCacheModel) {
+			_amImageEntryCacheModel = (AMImageEntryCacheModel)toCacheModel();
+		}
+
 		_mimeType = mimeType;
 	}
 
@@ -466,6 +577,12 @@ public class AMImageEntryModelImpl
 
 	@Override
 	public void setHeight(int height) {
+		_columnBitmask |= HEIGHT_COLUMN_BITMASK;
+
+		if (_amImageEntryCacheModel == _dummyAMImageEntryCacheModel) {
+			_amImageEntryCacheModel = (AMImageEntryCacheModel)toCacheModel();
+		}
+
 		_height = height;
 	}
 
@@ -476,6 +593,12 @@ public class AMImageEntryModelImpl
 
 	@Override
 	public void setWidth(int width) {
+		_columnBitmask |= WIDTH_COLUMN_BITMASK;
+
+		if (_amImageEntryCacheModel == _dummyAMImageEntryCacheModel) {
+			_amImageEntryCacheModel = (AMImageEntryCacheModel)toCacheModel();
+		}
+
 		_width = width;
 	}
 
@@ -486,6 +609,12 @@ public class AMImageEntryModelImpl
 
 	@Override
 	public void setSize(long size) {
+		_columnBitmask |= SIZE_COLUMN_BITMASK;
+
+		if (_amImageEntryCacheModel == _dummyAMImageEntryCacheModel) {
+			_amImageEntryCacheModel = (AMImageEntryCacheModel)toCacheModel();
+		}
+
 		_size = size;
 	}
 
@@ -604,28 +733,9 @@ public class AMImageEntryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		AMImageEntryModelImpl amImageEntryModelImpl = this;
+		_columnBitmask = 0;
 
-		amImageEntryModelImpl._originalUuid = amImageEntryModelImpl._uuid;
-
-		amImageEntryModelImpl._originalGroupId = amImageEntryModelImpl._groupId;
-
-		amImageEntryModelImpl._setOriginalGroupId = false;
-
-		amImageEntryModelImpl._originalCompanyId =
-			amImageEntryModelImpl._companyId;
-
-		amImageEntryModelImpl._setOriginalCompanyId = false;
-
-		amImageEntryModelImpl._originalConfigurationUuid =
-			amImageEntryModelImpl._configurationUuid;
-
-		amImageEntryModelImpl._originalFileVersionId =
-			amImageEntryModelImpl._fileVersionId;
-
-		amImageEntryModelImpl._setOriginalFileVersionId = false;
-
-		amImageEntryModelImpl._columnBitmask = 0;
+		_amImageEntryCacheModel = _dummyAMImageEntryCacheModel;
 	}
 
 	@Override
@@ -754,25 +864,22 @@ public class AMImageEntryModelImpl
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _amImageEntryId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private Date _createDate;
 	private String _configurationUuid;
-	private String _originalConfigurationUuid;
 	private long _fileVersionId;
-	private long _originalFileVersionId;
-	private boolean _setOriginalFileVersionId;
 	private String _mimeType;
 	private int _height;
 	private int _width;
 	private long _size;
 	private long _columnBitmask;
 	private AMImageEntry _escapedModel;
+
+	private static final AMImageEntryCacheModel _dummyAMImageEntryCacheModel =
+		new AMImageEntryCacheModel();
+
+	private AMImageEntryCacheModel _amImageEntryCacheModel;
 
 }

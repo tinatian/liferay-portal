@@ -499,8 +499,10 @@ public class FriendlyURLEntryMappingPersistenceImpl
 			 _finderPathFetchByC_C.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				friendlyURLEntryMappingModelImpl.getOriginalClassNameId(),
-				friendlyURLEntryMappingModelImpl.getOriginalClassPK()
+				friendlyURLEntryMappingModelImpl.getOriginalAttributeValue(
+					"classNameId"),
+				friendlyURLEntryMappingModelImpl.getOriginalAttributeValue(
+					"classPK")
 			};
 
 			finderCache.removeResult(_finderPathCountByC_C, args);

@@ -5285,8 +5285,10 @@ public class StyleBookEntryVersionPersistenceImpl
 				 0) {
 
 			Object[] args = new Object[] {
-				styleBookEntryVersionModelImpl.getOriginalStyleBookEntryId(),
-				styleBookEntryVersionModelImpl.getOriginalVersion()
+				styleBookEntryVersionModelImpl.getOriginalAttributeValue(
+					"styleBookEntryId"),
+				styleBookEntryVersionModelImpl.getOriginalAttributeValue(
+					"version")
 			};
 
 			finderCache.removeResult(
@@ -5310,9 +5312,12 @@ public class StyleBookEntryVersionPersistenceImpl
 			 _finderPathFetchByG_SBEK_Version.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				styleBookEntryVersionModelImpl.getOriginalGroupId(),
-				styleBookEntryVersionModelImpl.getOriginalStyleBookEntryKey(),
-				styleBookEntryVersionModelImpl.getOriginalVersion()
+				styleBookEntryVersionModelImpl.getOriginalAttributeValue(
+					"groupId"),
+				styleBookEntryVersionModelImpl.getOriginalAttributeValue(
+					"styleBookEntryKey"),
+				styleBookEntryVersionModelImpl.getOriginalAttributeValue(
+					"version")
 			};
 
 			finderCache.removeResult(_finderPathCountByG_SBEK_Version, args);
@@ -5561,7 +5566,8 @@ public class StyleBookEntryVersionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					styleBookEntryVersionModelImpl.getOriginalStyleBookEntryId()
+					styleBookEntryVersionModelImpl.getOriginalAttributeValue(
+						"styleBookEntryId")
 				};
 
 				finderCache.removeResult(
@@ -5584,7 +5590,8 @@ public class StyleBookEntryVersionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					styleBookEntryVersionModelImpl.getOriginalGroupId()
+					styleBookEntryVersionModelImpl.getOriginalAttributeValue(
+						"groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId, args);
@@ -5605,8 +5612,10 @@ public class StyleBookEntryVersionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					styleBookEntryVersionModelImpl.getOriginalGroupId(),
-					styleBookEntryVersionModelImpl.getOriginalVersion()
+					styleBookEntryVersionModelImpl.getOriginalAttributeValue(
+						"groupId"),
+					styleBookEntryVersionModelImpl.getOriginalAttributeValue(
+						"version")
 				};
 
 				finderCache.removeResult(
@@ -5630,9 +5639,10 @@ public class StyleBookEntryVersionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					styleBookEntryVersionModelImpl.getOriginalGroupId(),
-					styleBookEntryVersionModelImpl.
-						getOriginalDefaultStyleBookEntry()
+					styleBookEntryVersionModelImpl.getOriginalAttributeValue(
+						"groupId"),
+					styleBookEntryVersionModelImpl.getOriginalAttributeValue(
+						"defaultStyleBookEntry")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_D, args);
@@ -5654,10 +5664,12 @@ public class StyleBookEntryVersionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					styleBookEntryVersionModelImpl.getOriginalGroupId(),
-					styleBookEntryVersionModelImpl.
-						getOriginalDefaultStyleBookEntry(),
-					styleBookEntryVersionModelImpl.getOriginalVersion()
+					styleBookEntryVersionModelImpl.getOriginalAttributeValue(
+						"groupId"),
+					styleBookEntryVersionModelImpl.getOriginalAttributeValue(
+						"defaultStyleBookEntry"),
+					styleBookEntryVersionModelImpl.getOriginalAttributeValue(
+						"version")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_D_Version, args);
@@ -5680,8 +5692,10 @@ public class StyleBookEntryVersionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					styleBookEntryVersionModelImpl.getOriginalGroupId(),
-					styleBookEntryVersionModelImpl.getOriginalName()
+					styleBookEntryVersionModelImpl.getOriginalAttributeValue(
+						"groupId"),
+					styleBookEntryVersionModelImpl.getOriginalAttributeValue(
+						"name")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_LikeN, args);
@@ -5703,9 +5717,12 @@ public class StyleBookEntryVersionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					styleBookEntryVersionModelImpl.getOriginalGroupId(),
-					styleBookEntryVersionModelImpl.getOriginalName(),
-					styleBookEntryVersionModelImpl.getOriginalVersion()
+					styleBookEntryVersionModelImpl.getOriginalAttributeValue(
+						"groupId"),
+					styleBookEntryVersionModelImpl.getOriginalAttributeValue(
+						"name"),
+					styleBookEntryVersionModelImpl.getOriginalAttributeValue(
+						"version")
 				};
 
 				finderCache.removeResult(
@@ -5730,9 +5747,10 @@ public class StyleBookEntryVersionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					styleBookEntryVersionModelImpl.getOriginalGroupId(),
-					styleBookEntryVersionModelImpl.
-						getOriginalStyleBookEntryKey()
+					styleBookEntryVersionModelImpl.getOriginalAttributeValue(
+						"groupId"),
+					styleBookEntryVersionModelImpl.getOriginalAttributeValue(
+						"styleBookEntryKey")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_SBEK, args);

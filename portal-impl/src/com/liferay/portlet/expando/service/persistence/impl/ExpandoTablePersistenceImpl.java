@@ -1080,9 +1080,9 @@ public class ExpandoTablePersistenceImpl
 			 _finderPathFetchByC_C_N.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				expandoTableModelImpl.getOriginalCompanyId(),
-				expandoTableModelImpl.getOriginalClassNameId(),
-				expandoTableModelImpl.getOriginalName()
+				expandoTableModelImpl.getOriginalAttributeValue("companyId"),
+				expandoTableModelImpl.getOriginalAttributeValue("classNameId"),
+				expandoTableModelImpl.getOriginalAttributeValue("name")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByC_C_N, args);
@@ -1279,8 +1279,10 @@ public class ExpandoTablePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					expandoTableModelImpl.getOriginalCompanyId(),
-					expandoTableModelImpl.getOriginalClassNameId()
+					expandoTableModelImpl.getOriginalAttributeValue(
+						"companyId"),
+					expandoTableModelImpl.getOriginalAttributeValue(
+						"classNameId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_C, args);

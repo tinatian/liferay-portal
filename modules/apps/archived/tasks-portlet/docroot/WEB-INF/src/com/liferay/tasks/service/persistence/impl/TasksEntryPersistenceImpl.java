@@ -10240,7 +10240,7 @@ public class TasksEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					tasksEntryModelImpl.getOriginalGroupId()
+					tasksEntryModelImpl.getOriginalAttributeValue("groupId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByGroupId, args);
@@ -10259,7 +10259,7 @@ public class TasksEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					tasksEntryModelImpl.getOriginalUserId()
+					tasksEntryModelImpl.getOriginalAttributeValue("userId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUserId, args);
@@ -10278,7 +10278,8 @@ public class TasksEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					tasksEntryModelImpl.getOriginalAssigneeUserId()
+					tasksEntryModelImpl.getOriginalAttributeValue(
+						"assigneeUserId")
 				};
 
 				FinderCacheUtil.removeResult(
@@ -10299,7 +10300,8 @@ public class TasksEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					tasksEntryModelImpl.getOriginalResolverUserId()
+					tasksEntryModelImpl.getOriginalAttributeValue(
+						"resolverUserId")
 				};
 
 				FinderCacheUtil.removeResult(
@@ -10320,8 +10322,8 @@ public class TasksEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					tasksEntryModelImpl.getOriginalGroupId(),
-					tasksEntryModelImpl.getOriginalUserId()
+					tasksEntryModelImpl.getOriginalAttributeValue("groupId"),
+					tasksEntryModelImpl.getOriginalAttributeValue("userId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByG_U, args);
@@ -10343,8 +10345,9 @@ public class TasksEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					tasksEntryModelImpl.getOriginalGroupId(),
-					tasksEntryModelImpl.getOriginalAssigneeUserId()
+					tasksEntryModelImpl.getOriginalAttributeValue("groupId"),
+					tasksEntryModelImpl.getOriginalAttributeValue(
+						"assigneeUserId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByG_A, args);
@@ -10366,8 +10369,9 @@ public class TasksEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					tasksEntryModelImpl.getOriginalGroupId(),
-					tasksEntryModelImpl.getOriginalResolverUserId()
+					tasksEntryModelImpl.getOriginalAttributeValue("groupId"),
+					tasksEntryModelImpl.getOriginalAttributeValue(
+						"resolverUserId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByG_R, args);
@@ -10389,8 +10393,8 @@ public class TasksEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					tasksEntryModelImpl.getOriginalUserId(),
-					tasksEntryModelImpl.getOriginalStatus()
+					tasksEntryModelImpl.getOriginalAttributeValue("userId"),
+					tasksEntryModelImpl.getOriginalAttributeValue("status")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByU_S, args);
@@ -10412,8 +10416,9 @@ public class TasksEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					tasksEntryModelImpl.getOriginalAssigneeUserId(),
-					tasksEntryModelImpl.getOriginalStatus()
+					tasksEntryModelImpl.getOriginalAttributeValue(
+						"assigneeUserId"),
+					tasksEntryModelImpl.getOriginalAttributeValue("status")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByA_S, args);
@@ -10435,9 +10440,9 @@ public class TasksEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					tasksEntryModelImpl.getOriginalGroupId(),
-					tasksEntryModelImpl.getOriginalUserId(),
-					tasksEntryModelImpl.getOriginalStatus()
+					tasksEntryModelImpl.getOriginalAttributeValue("groupId"),
+					tasksEntryModelImpl.getOriginalAttributeValue("userId"),
+					tasksEntryModelImpl.getOriginalAttributeValue("status")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByG_U_S, args);
@@ -10460,9 +10465,10 @@ public class TasksEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					tasksEntryModelImpl.getOriginalGroupId(),
-					tasksEntryModelImpl.getOriginalAssigneeUserId(),
-					tasksEntryModelImpl.getOriginalStatus()
+					tasksEntryModelImpl.getOriginalAttributeValue("groupId"),
+					tasksEntryModelImpl.getOriginalAttributeValue(
+						"assigneeUserId"),
+					tasksEntryModelImpl.getOriginalAttributeValue("status")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByG_A_S, args);

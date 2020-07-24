@@ -30,7 +30,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
@@ -134,19 +133,45 @@ public class FragmentCompositionModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long FRAGMENTCOLLECTIONID_COLUMN_BITMASK = 2L;
+	public static final long UUID_COLUMN_BITMASK = 2L;
 
-	public static final long FRAGMENTCOMPOSITIONKEY_COLUMN_BITMASK = 4L;
+	public static final long FRAGMENTCOMPOSITIONID_COLUMN_BITMASK = 4L;
 
 	public static final long GROUPID_COLUMN_BITMASK = 8L;
 
-	public static final long NAME_COLUMN_BITMASK = 16L;
+	public static final long COMPANYID_COLUMN_BITMASK = 16L;
 
-	public static final long STATUS_COLUMN_BITMASK = 32L;
+	public static final long USERID_COLUMN_BITMASK = 32L;
 
-	public static final long UUID_COLUMN_BITMASK = 64L;
+	public static final long USERNAME_COLUMN_BITMASK = 64L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 128L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 256L;
+
+	public static final long FRAGMENTCOLLECTIONID_COLUMN_BITMASK = 512L;
+
+	public static final long FRAGMENTCOMPOSITIONKEY_COLUMN_BITMASK = 1024L;
+
+	public static final long NAME_COLUMN_BITMASK = 2048L;
+
+	public static final long DESCRIPTION_COLUMN_BITMASK = 4096L;
+
+	public static final long DATA_COLUMN_BITMASK = 8192L;
+
+	public static final long PREVIEWFILEENTRYID_COLUMN_BITMASK = 16384L;
+
+	public static final long LASTPUBLISHDATE_COLUMN_BITMASK = 32768L;
+
+	public static final long STATUS_COLUMN_BITMASK = 65536L;
+
+	public static final long STATUSBYUSERID_COLUMN_BITMASK = 131072L;
+
+	public static final long STATUSBYUSERNAME_COLUMN_BITMASK = 262144L;
+
+	public static final long STATUSDATE_COLUMN_BITMASK = 524288L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -337,6 +362,27 @@ public class FragmentCompositionModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_fragmentCompositionCacheModel == null) ||
+			(_fragmentCompositionCacheModel ==
+				_dummyFragmentCompositionCacheModel)) {
+
+			return null;
+		}
+
+		Function<FragmentCompositionCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_fragmentCompositionCacheModel);
+	}
+
+	private static final Map
+		<String, Function<FragmentCompositionCacheModel, Object>>
+			_cacheModelGetterFunctions;
 	private static final Map<String, Function<FragmentComposition, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<FragmentComposition, Object>>
@@ -350,14 +396,28 @@ public class FragmentCompositionModelImpl
 		Map<String, BiConsumer<FragmentComposition, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<FragmentComposition, ?>>();
+		Map<String, Function<FragmentCompositionCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<FragmentCompositionCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", FragmentComposition::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			fragmentCompositionCacheModel ->
+				fragmentCompositionCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<FragmentComposition, Long>)
 				FragmentComposition::setMvccVersion);
 		attributeGetterFunctions.put("uuid", FragmentComposition::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid",
+			fragmentCompositionCacheModel ->
+				fragmentCompositionCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid",
 			(BiConsumer<FragmentComposition, String>)
@@ -365,41 +425,76 @@ public class FragmentCompositionModelImpl
 		attributeGetterFunctions.put(
 			"fragmentCompositionId",
 			FragmentComposition::getFragmentCompositionId);
+
+		cacheModelGetterFunctions.put(
+			"fragmentCompositionId",
+			fragmentCompositionCacheModel ->
+				fragmentCompositionCacheModel.fragmentCompositionId);
 		attributeSetterBiConsumers.put(
 			"fragmentCompositionId",
 			(BiConsumer<FragmentComposition, Long>)
 				FragmentComposition::setFragmentCompositionId);
 		attributeGetterFunctions.put(
 			"groupId", FragmentComposition::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			fragmentCompositionCacheModel ->
+				fragmentCompositionCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<FragmentComposition, Long>)
 				FragmentComposition::setGroupId);
 		attributeGetterFunctions.put(
 			"companyId", FragmentComposition::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			fragmentCompositionCacheModel ->
+				fragmentCompositionCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<FragmentComposition, Long>)
 				FragmentComposition::setCompanyId);
 		attributeGetterFunctions.put("userId", FragmentComposition::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			fragmentCompositionCacheModel ->
+				fragmentCompositionCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<FragmentComposition, Long>)
 				FragmentComposition::setUserId);
 		attributeGetterFunctions.put(
 			"userName", FragmentComposition::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			fragmentCompositionCacheModel ->
+				fragmentCompositionCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<FragmentComposition, String>)
 				FragmentComposition::setUserName);
 		attributeGetterFunctions.put(
 			"createDate", FragmentComposition::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			fragmentCompositionCacheModel ->
+				fragmentCompositionCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<FragmentComposition, Date>)
 				FragmentComposition::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", FragmentComposition::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			fragmentCompositionCacheModel ->
+				fragmentCompositionCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<FragmentComposition, Date>)
@@ -407,6 +502,11 @@ public class FragmentCompositionModelImpl
 		attributeGetterFunctions.put(
 			"fragmentCollectionId",
 			FragmentComposition::getFragmentCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"fragmentCollectionId",
+			fragmentCompositionCacheModel ->
+				fragmentCompositionCacheModel.fragmentCollectionId);
 		attributeSetterBiConsumers.put(
 			"fragmentCollectionId",
 			(BiConsumer<FragmentComposition, Long>)
@@ -414,57 +514,107 @@ public class FragmentCompositionModelImpl
 		attributeGetterFunctions.put(
 			"fragmentCompositionKey",
 			FragmentComposition::getFragmentCompositionKey);
+
+		cacheModelGetterFunctions.put(
+			"fragmentCompositionKey",
+			fragmentCompositionCacheModel ->
+				fragmentCompositionCacheModel.fragmentCompositionKey);
 		attributeSetterBiConsumers.put(
 			"fragmentCompositionKey",
 			(BiConsumer<FragmentComposition, String>)
 				FragmentComposition::setFragmentCompositionKey);
 		attributeGetterFunctions.put("name", FragmentComposition::getName);
+
+		cacheModelGetterFunctions.put(
+			"name",
+			fragmentCompositionCacheModel ->
+				fragmentCompositionCacheModel.name);
 		attributeSetterBiConsumers.put(
 			"name",
 			(BiConsumer<FragmentComposition, String>)
 				FragmentComposition::setName);
 		attributeGetterFunctions.put(
 			"description", FragmentComposition::getDescription);
+
+		cacheModelGetterFunctions.put(
+			"description",
+			fragmentCompositionCacheModel ->
+				fragmentCompositionCacheModel.description);
 		attributeSetterBiConsumers.put(
 			"description",
 			(BiConsumer<FragmentComposition, String>)
 				FragmentComposition::setDescription);
 		attributeGetterFunctions.put("data", FragmentComposition::getData);
+
+		cacheModelGetterFunctions.put(
+			"data",
+			fragmentCompositionCacheModel ->
+				fragmentCompositionCacheModel.data);
 		attributeSetterBiConsumers.put(
 			"data",
 			(BiConsumer<FragmentComposition, String>)
 				FragmentComposition::setData);
 		attributeGetterFunctions.put(
 			"previewFileEntryId", FragmentComposition::getPreviewFileEntryId);
+
+		cacheModelGetterFunctions.put(
+			"previewFileEntryId",
+			fragmentCompositionCacheModel ->
+				fragmentCompositionCacheModel.previewFileEntryId);
 		attributeSetterBiConsumers.put(
 			"previewFileEntryId",
 			(BiConsumer<FragmentComposition, Long>)
 				FragmentComposition::setPreviewFileEntryId);
 		attributeGetterFunctions.put(
 			"lastPublishDate", FragmentComposition::getLastPublishDate);
+
+		cacheModelGetterFunctions.put(
+			"lastPublishDate",
+			fragmentCompositionCacheModel ->
+				fragmentCompositionCacheModel.lastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<FragmentComposition, Date>)
 				FragmentComposition::setLastPublishDate);
 		attributeGetterFunctions.put("status", FragmentComposition::getStatus);
+
+		cacheModelGetterFunctions.put(
+			"status",
+			fragmentCompositionCacheModel ->
+				fragmentCompositionCacheModel.status);
 		attributeSetterBiConsumers.put(
 			"status",
 			(BiConsumer<FragmentComposition, Integer>)
 				FragmentComposition::setStatus);
 		attributeGetterFunctions.put(
 			"statusByUserId", FragmentComposition::getStatusByUserId);
+
+		cacheModelGetterFunctions.put(
+			"statusByUserId",
+			fragmentCompositionCacheModel ->
+				fragmentCompositionCacheModel.statusByUserId);
 		attributeSetterBiConsumers.put(
 			"statusByUserId",
 			(BiConsumer<FragmentComposition, Long>)
 				FragmentComposition::setStatusByUserId);
 		attributeGetterFunctions.put(
 			"statusByUserName", FragmentComposition::getStatusByUserName);
+
+		cacheModelGetterFunctions.put(
+			"statusByUserName",
+			fragmentCompositionCacheModel ->
+				fragmentCompositionCacheModel.statusByUserName);
 		attributeSetterBiConsumers.put(
 			"statusByUserName",
 			(BiConsumer<FragmentComposition, String>)
 				FragmentComposition::setStatusByUserName);
 		attributeGetterFunctions.put(
 			"statusDate", FragmentComposition::getStatusDate);
+
+		cacheModelGetterFunctions.put(
+			"statusDate",
+			fragmentCompositionCacheModel ->
+				fragmentCompositionCacheModel.statusDate);
 		attributeSetterBiConsumers.put(
 			"statusDate",
 			(BiConsumer<FragmentComposition, Date>)
@@ -474,6 +624,8 @@ public class FragmentCompositionModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -484,6 +636,15 @@ public class FragmentCompositionModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_fragmentCompositionCacheModel ==
+				_dummyFragmentCompositionCacheModel) {
+
+			_fragmentCompositionCacheModel =
+				(FragmentCompositionCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -502,15 +663,23 @@ public class FragmentCompositionModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_fragmentCompositionCacheModel ==
+				_dummyFragmentCompositionCacheModel) {
+
+			_fragmentCompositionCacheModel =
+				(FragmentCompositionCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getOriginalAttributeValue("uuid");
 	}
 
 	@JSON
@@ -521,6 +690,15 @@ public class FragmentCompositionModelImpl
 
 	@Override
 	public void setFragmentCompositionId(long fragmentCompositionId) {
+		_columnBitmask |= FRAGMENTCOMPOSITIONID_COLUMN_BITMASK;
+
+		if (_fragmentCompositionCacheModel ==
+				_dummyFragmentCompositionCacheModel) {
+
+			_fragmentCompositionCacheModel =
+				(FragmentCompositionCacheModel)toCacheModel();
+		}
+
 		_fragmentCompositionId = fragmentCompositionId;
 	}
 
@@ -534,17 +712,23 @@ public class FragmentCompositionModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
+		if (_fragmentCompositionCacheModel ==
+				_dummyFragmentCompositionCacheModel) {
 
-			_originalGroupId = _groupId;
+			_fragmentCompositionCacheModel =
+				(FragmentCompositionCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getOriginalAttributeValue("groupId");
 	}
 
 	@JSON
@@ -557,17 +741,23 @@ public class FragmentCompositionModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
+		if (_fragmentCompositionCacheModel ==
+				_dummyFragmentCompositionCacheModel) {
 
-			_originalCompanyId = _companyId;
+			_fragmentCompositionCacheModel =
+				(FragmentCompositionCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@JSON
@@ -578,6 +768,15 @@ public class FragmentCompositionModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (_fragmentCompositionCacheModel ==
+				_dummyFragmentCompositionCacheModel) {
+
+			_fragmentCompositionCacheModel =
+				(FragmentCompositionCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -610,6 +809,15 @@ public class FragmentCompositionModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (_fragmentCompositionCacheModel ==
+				_dummyFragmentCompositionCacheModel) {
+
+			_fragmentCompositionCacheModel =
+				(FragmentCompositionCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -621,6 +829,15 @@ public class FragmentCompositionModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (_fragmentCompositionCacheModel ==
+				_dummyFragmentCompositionCacheModel) {
+
+			_fragmentCompositionCacheModel =
+				(FragmentCompositionCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -638,6 +855,15 @@ public class FragmentCompositionModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (_fragmentCompositionCacheModel ==
+				_dummyFragmentCompositionCacheModel) {
+
+			_fragmentCompositionCacheModel =
+				(FragmentCompositionCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -651,17 +877,23 @@ public class FragmentCompositionModelImpl
 	public void setFragmentCollectionId(long fragmentCollectionId) {
 		_columnBitmask |= FRAGMENTCOLLECTIONID_COLUMN_BITMASK;
 
-		if (!_setOriginalFragmentCollectionId) {
-			_setOriginalFragmentCollectionId = true;
+		if (_fragmentCompositionCacheModel ==
+				_dummyFragmentCompositionCacheModel) {
 
-			_originalFragmentCollectionId = _fragmentCollectionId;
+			_fragmentCompositionCacheModel =
+				(FragmentCompositionCacheModel)toCacheModel();
 		}
 
 		_fragmentCollectionId = fragmentCollectionId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalFragmentCollectionId() {
-		return _originalFragmentCollectionId;
+		return getOriginalAttributeValue("fragmentCollectionId");
 	}
 
 	@JSON
@@ -679,15 +911,23 @@ public class FragmentCompositionModelImpl
 	public void setFragmentCompositionKey(String fragmentCompositionKey) {
 		_columnBitmask |= FRAGMENTCOMPOSITIONKEY_COLUMN_BITMASK;
 
-		if (_originalFragmentCompositionKey == null) {
-			_originalFragmentCompositionKey = _fragmentCompositionKey;
+		if (_fragmentCompositionCacheModel ==
+				_dummyFragmentCompositionCacheModel) {
+
+			_fragmentCompositionCacheModel =
+				(FragmentCompositionCacheModel)toCacheModel();
 		}
 
 		_fragmentCompositionKey = fragmentCompositionKey;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalFragmentCompositionKey() {
-		return GetterUtil.getString(_originalFragmentCompositionKey);
+		return getOriginalAttributeValue("fragmentCompositionKey");
 	}
 
 	@JSON
@@ -703,17 +943,25 @@ public class FragmentCompositionModelImpl
 
 	@Override
 	public void setName(String name) {
-		_columnBitmask = -1L;
+		_columnBitmask |= NAME_COLUMN_BITMASK;
 
-		if (_originalName == null) {
-			_originalName = _name;
+		if (_fragmentCompositionCacheModel ==
+				_dummyFragmentCompositionCacheModel) {
+
+			_fragmentCompositionCacheModel =
+				(FragmentCompositionCacheModel)toCacheModel();
 		}
 
 		_name = name;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalName() {
-		return GetterUtil.getString(_originalName);
+		return getOriginalAttributeValue("name");
 	}
 
 	@JSON
@@ -729,6 +977,15 @@ public class FragmentCompositionModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		_columnBitmask |= DESCRIPTION_COLUMN_BITMASK;
+
+		if (_fragmentCompositionCacheModel ==
+				_dummyFragmentCompositionCacheModel) {
+
+			_fragmentCompositionCacheModel =
+				(FragmentCompositionCacheModel)toCacheModel();
+		}
+
 		_description = description;
 	}
 
@@ -745,6 +1002,15 @@ public class FragmentCompositionModelImpl
 
 	@Override
 	public void setData(String data) {
+		_columnBitmask |= DATA_COLUMN_BITMASK;
+
+		if (_fragmentCompositionCacheModel ==
+				_dummyFragmentCompositionCacheModel) {
+
+			_fragmentCompositionCacheModel =
+				(FragmentCompositionCacheModel)toCacheModel();
+		}
+
 		_data = data;
 	}
 
@@ -756,6 +1022,15 @@ public class FragmentCompositionModelImpl
 
 	@Override
 	public void setPreviewFileEntryId(long previewFileEntryId) {
+		_columnBitmask |= PREVIEWFILEENTRYID_COLUMN_BITMASK;
+
+		if (_fragmentCompositionCacheModel ==
+				_dummyFragmentCompositionCacheModel) {
+
+			_fragmentCompositionCacheModel =
+				(FragmentCompositionCacheModel)toCacheModel();
+		}
+
 		_previewFileEntryId = previewFileEntryId;
 	}
 
@@ -767,6 +1042,15 @@ public class FragmentCompositionModelImpl
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		_columnBitmask |= LASTPUBLISHDATE_COLUMN_BITMASK;
+
+		if (_fragmentCompositionCacheModel ==
+				_dummyFragmentCompositionCacheModel) {
+
+			_fragmentCompositionCacheModel =
+				(FragmentCompositionCacheModel)toCacheModel();
+		}
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -780,17 +1064,23 @@ public class FragmentCompositionModelImpl
 	public void setStatus(int status) {
 		_columnBitmask |= STATUS_COLUMN_BITMASK;
 
-		if (!_setOriginalStatus) {
-			_setOriginalStatus = true;
+		if (_fragmentCompositionCacheModel ==
+				_dummyFragmentCompositionCacheModel) {
 
-			_originalStatus = _status;
+			_fragmentCompositionCacheModel =
+				(FragmentCompositionCacheModel)toCacheModel();
 		}
 
 		_status = status;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalStatus() {
-		return _originalStatus;
+		return getOriginalAttributeValue("status");
 	}
 
 	@JSON
@@ -801,6 +1091,15 @@ public class FragmentCompositionModelImpl
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		_columnBitmask |= STATUSBYUSERID_COLUMN_BITMASK;
+
+		if (_fragmentCompositionCacheModel ==
+				_dummyFragmentCompositionCacheModel) {
+
+			_fragmentCompositionCacheModel =
+				(FragmentCompositionCacheModel)toCacheModel();
+		}
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -833,6 +1132,15 @@ public class FragmentCompositionModelImpl
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		_columnBitmask |= STATUSBYUSERNAME_COLUMN_BITMASK;
+
+		if (_fragmentCompositionCacheModel ==
+				_dummyFragmentCompositionCacheModel) {
+
+			_fragmentCompositionCacheModel =
+				(FragmentCompositionCacheModel)toCacheModel();
+		}
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -844,6 +1152,15 @@ public class FragmentCompositionModelImpl
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		_columnBitmask |= STATUSDATE_COLUMN_BITMASK;
+
+		if (_fragmentCompositionCacheModel ==
+				_dummyFragmentCompositionCacheModel) {
+
+			_fragmentCompositionCacheModel =
+				(FragmentCompositionCacheModel)toCacheModel();
+		}
+
 		_statusDate = statusDate;
 	}
 
@@ -1060,40 +1377,11 @@ public class FragmentCompositionModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		FragmentCompositionModelImpl fragmentCompositionModelImpl = this;
+		_setModifiedDate = false;
 
-		fragmentCompositionModelImpl._originalUuid =
-			fragmentCompositionModelImpl._uuid;
+		_columnBitmask = 0;
 
-		fragmentCompositionModelImpl._originalGroupId =
-			fragmentCompositionModelImpl._groupId;
-
-		fragmentCompositionModelImpl._setOriginalGroupId = false;
-
-		fragmentCompositionModelImpl._originalCompanyId =
-			fragmentCompositionModelImpl._companyId;
-
-		fragmentCompositionModelImpl._setOriginalCompanyId = false;
-
-		fragmentCompositionModelImpl._setModifiedDate = false;
-
-		fragmentCompositionModelImpl._originalFragmentCollectionId =
-			fragmentCompositionModelImpl._fragmentCollectionId;
-
-		fragmentCompositionModelImpl._setOriginalFragmentCollectionId = false;
-
-		fragmentCompositionModelImpl._originalFragmentCompositionKey =
-			fragmentCompositionModelImpl._fragmentCompositionKey;
-
-		fragmentCompositionModelImpl._originalName =
-			fragmentCompositionModelImpl._name;
-
-		fragmentCompositionModelImpl._originalStatus =
-			fragmentCompositionModelImpl._status;
-
-		fragmentCompositionModelImpl._setOriginalStatus = false;
-
-		fragmentCompositionModelImpl._columnBitmask = 0;
+		_fragmentCompositionCacheModel = _dummyFragmentCompositionCacheModel;
 	}
 
 	@Override
@@ -1295,37 +1583,32 @@ public class FragmentCompositionModelImpl
 
 	private long _mvccVersion;
 	private String _uuid;
-	private String _originalUuid;
 	private long _fragmentCompositionId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _fragmentCollectionId;
-	private long _originalFragmentCollectionId;
-	private boolean _setOriginalFragmentCollectionId;
 	private String _fragmentCompositionKey;
-	private String _originalFragmentCompositionKey;
 	private String _name;
-	private String _originalName;
 	private String _description;
 	private String _data;
 	private long _previewFileEntryId;
 	private Date _lastPublishDate;
 	private int _status;
-	private int _originalStatus;
-	private boolean _setOriginalStatus;
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
 	private long _columnBitmask;
 	private FragmentComposition _escapedModel;
+
+	private static final FragmentCompositionCacheModel
+		_dummyFragmentCompositionCacheModel =
+			new FragmentCompositionCacheModel();
+
+	private FragmentCompositionCacheModel _fragmentCompositionCacheModel;
 
 }

@@ -30,7 +30,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -128,15 +127,39 @@ public class WikiNodeModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 2L;
+	public static final long UUID_COLUMN_BITMASK = 2L;
 
-	public static final long NAME_COLUMN_BITMASK = 4L;
+	public static final long NODEID_COLUMN_BITMASK = 4L;
 
-	public static final long STATUS_COLUMN_BITMASK = 8L;
+	public static final long GROUPID_COLUMN_BITMASK = 8L;
 
-	public static final long UUID_COLUMN_BITMASK = 16L;
+	public static final long COMPANYID_COLUMN_BITMASK = 16L;
+
+	public static final long USERID_COLUMN_BITMASK = 32L;
+
+	public static final long USERNAME_COLUMN_BITMASK = 64L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 128L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 256L;
+
+	public static final long NAME_COLUMN_BITMASK = 512L;
+
+	public static final long DESCRIPTION_COLUMN_BITMASK = 1024L;
+
+	public static final long LASTPOSTDATE_COLUMN_BITMASK = 2048L;
+
+	public static final long LASTPUBLISHDATE_COLUMN_BITMASK = 4096L;
+
+	public static final long STATUS_COLUMN_BITMASK = 8192L;
+
+	public static final long STATUSBYUSERID_COLUMN_BITMASK = 16384L;
+
+	public static final long STATUSBYUSERNAME_COLUMN_BITMASK = 32768L;
+
+	public static final long STATUSDATE_COLUMN_BITMASK = 65536L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -318,6 +341,25 @@ public class WikiNodeModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_wikiNodeCacheModel == null) ||
+			(_wikiNodeCacheModel == _dummyWikiNodeCacheModel)) {
+
+			return null;
+		}
+
+		Function<WikiNodeCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_wikiNodeCacheModel);
+	}
+
+	private static final Map<String, Function<WikiNodeCacheModel, Object>>
+		_cacheModelGetterFunctions;
 	private static final Map<String, Function<WikiNode, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<WikiNode, Object>>
@@ -328,66 +370,128 @@ public class WikiNodeModelImpl
 			new LinkedHashMap<String, Function<WikiNode, Object>>();
 		Map<String, BiConsumer<WikiNode, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<WikiNode, ?>>();
+		Map<String, Function<WikiNodeCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<WikiNodeCacheModel, Object>>();
 
 		attributeGetterFunctions.put("mvccVersion", WikiNode::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			wikiNodeCacheModel -> wikiNodeCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<WikiNode, Long>)WikiNode::setMvccVersion);
 		attributeGetterFunctions.put("uuid", WikiNode::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid", wikiNodeCacheModel -> wikiNodeCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<WikiNode, String>)WikiNode::setUuid);
 		attributeGetterFunctions.put("nodeId", WikiNode::getNodeId);
+
+		cacheModelGetterFunctions.put(
+			"nodeId", wikiNodeCacheModel -> wikiNodeCacheModel.nodeId);
 		attributeSetterBiConsumers.put(
 			"nodeId", (BiConsumer<WikiNode, Long>)WikiNode::setNodeId);
 		attributeGetterFunctions.put("groupId", WikiNode::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId", wikiNodeCacheModel -> wikiNodeCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId", (BiConsumer<WikiNode, Long>)WikiNode::setGroupId);
 		attributeGetterFunctions.put("companyId", WikiNode::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId", wikiNodeCacheModel -> wikiNodeCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId", (BiConsumer<WikiNode, Long>)WikiNode::setCompanyId);
 		attributeGetterFunctions.put("userId", WikiNode::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", wikiNodeCacheModel -> wikiNodeCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<WikiNode, Long>)WikiNode::setUserId);
 		attributeGetterFunctions.put("userName", WikiNode::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName", wikiNodeCacheModel -> wikiNodeCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName", (BiConsumer<WikiNode, String>)WikiNode::setUserName);
 		attributeGetterFunctions.put("createDate", WikiNode::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate", wikiNodeCacheModel -> wikiNodeCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate", (BiConsumer<WikiNode, Date>)WikiNode::setCreateDate);
 		attributeGetterFunctions.put("modifiedDate", WikiNode::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			wikiNodeCacheModel -> wikiNodeCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<WikiNode, Date>)WikiNode::setModifiedDate);
 		attributeGetterFunctions.put("name", WikiNode::getName);
+
+		cacheModelGetterFunctions.put(
+			"name", wikiNodeCacheModel -> wikiNodeCacheModel.name);
 		attributeSetterBiConsumers.put(
 			"name", (BiConsumer<WikiNode, String>)WikiNode::setName);
 		attributeGetterFunctions.put("description", WikiNode::getDescription);
+
+		cacheModelGetterFunctions.put(
+			"description",
+			wikiNodeCacheModel -> wikiNodeCacheModel.description);
 		attributeSetterBiConsumers.put(
 			"description",
 			(BiConsumer<WikiNode, String>)WikiNode::setDescription);
 		attributeGetterFunctions.put("lastPostDate", WikiNode::getLastPostDate);
+
+		cacheModelGetterFunctions.put(
+			"lastPostDate",
+			wikiNodeCacheModel -> wikiNodeCacheModel.lastPostDate);
 		attributeSetterBiConsumers.put(
 			"lastPostDate",
 			(BiConsumer<WikiNode, Date>)WikiNode::setLastPostDate);
 		attributeGetterFunctions.put(
 			"lastPublishDate", WikiNode::getLastPublishDate);
+
+		cacheModelGetterFunctions.put(
+			"lastPublishDate",
+			wikiNodeCacheModel -> wikiNodeCacheModel.lastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<WikiNode, Date>)WikiNode::setLastPublishDate);
 		attributeGetterFunctions.put("status", WikiNode::getStatus);
+
+		cacheModelGetterFunctions.put(
+			"status", wikiNodeCacheModel -> wikiNodeCacheModel.status);
 		attributeSetterBiConsumers.put(
 			"status", (BiConsumer<WikiNode, Integer>)WikiNode::setStatus);
 		attributeGetterFunctions.put(
 			"statusByUserId", WikiNode::getStatusByUserId);
+
+		cacheModelGetterFunctions.put(
+			"statusByUserId",
+			wikiNodeCacheModel -> wikiNodeCacheModel.statusByUserId);
 		attributeSetterBiConsumers.put(
 			"statusByUserId",
 			(BiConsumer<WikiNode, Long>)WikiNode::setStatusByUserId);
 		attributeGetterFunctions.put(
 			"statusByUserName", WikiNode::getStatusByUserName);
+
+		cacheModelGetterFunctions.put(
+			"statusByUserName",
+			wikiNodeCacheModel -> wikiNodeCacheModel.statusByUserName);
 		attributeSetterBiConsumers.put(
 			"statusByUserName",
 			(BiConsumer<WikiNode, String>)WikiNode::setStatusByUserName);
 		attributeGetterFunctions.put("statusDate", WikiNode::getStatusDate);
+
+		cacheModelGetterFunctions.put(
+			"statusDate", wikiNodeCacheModel -> wikiNodeCacheModel.statusDate);
 		attributeSetterBiConsumers.put(
 			"statusDate", (BiConsumer<WikiNode, Date>)WikiNode::setStatusDate);
 
@@ -395,6 +499,8 @@ public class WikiNodeModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -405,6 +511,12 @@ public class WikiNodeModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_wikiNodeCacheModel == _dummyWikiNodeCacheModel) {
+			_wikiNodeCacheModel = (WikiNodeCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -423,15 +535,20 @@ public class WikiNodeModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_wikiNodeCacheModel == _dummyWikiNodeCacheModel) {
+			_wikiNodeCacheModel = (WikiNodeCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getOriginalAttributeValue("uuid");
 	}
 
 	@JSON
@@ -442,6 +559,12 @@ public class WikiNodeModelImpl
 
 	@Override
 	public void setNodeId(long nodeId) {
+		_columnBitmask |= NODEID_COLUMN_BITMASK;
+
+		if (_wikiNodeCacheModel == _dummyWikiNodeCacheModel) {
+			_wikiNodeCacheModel = (WikiNodeCacheModel)toCacheModel();
+		}
+
 		_nodeId = nodeId;
 	}
 
@@ -455,17 +578,20 @@ public class WikiNodeModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_wikiNodeCacheModel == _dummyWikiNodeCacheModel) {
+			_wikiNodeCacheModel = (WikiNodeCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getOriginalAttributeValue("groupId");
 	}
 
 	@JSON
@@ -478,17 +604,20 @@ public class WikiNodeModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_wikiNodeCacheModel == _dummyWikiNodeCacheModel) {
+			_wikiNodeCacheModel = (WikiNodeCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@JSON
@@ -499,6 +628,12 @@ public class WikiNodeModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (_wikiNodeCacheModel == _dummyWikiNodeCacheModel) {
+			_wikiNodeCacheModel = (WikiNodeCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -531,6 +666,12 @@ public class WikiNodeModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (_wikiNodeCacheModel == _dummyWikiNodeCacheModel) {
+			_wikiNodeCacheModel = (WikiNodeCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -542,6 +683,12 @@ public class WikiNodeModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (_wikiNodeCacheModel == _dummyWikiNodeCacheModel) {
+			_wikiNodeCacheModel = (WikiNodeCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -559,6 +706,12 @@ public class WikiNodeModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (_wikiNodeCacheModel == _dummyWikiNodeCacheModel) {
+			_wikiNodeCacheModel = (WikiNodeCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -575,17 +728,22 @@ public class WikiNodeModelImpl
 
 	@Override
 	public void setName(String name) {
-		_columnBitmask = -1L;
+		_columnBitmask |= NAME_COLUMN_BITMASK;
 
-		if (_originalName == null) {
-			_originalName = _name;
+		if (_wikiNodeCacheModel == _dummyWikiNodeCacheModel) {
+			_wikiNodeCacheModel = (WikiNodeCacheModel)toCacheModel();
 		}
 
 		_name = name;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalName() {
-		return GetterUtil.getString(_originalName);
+		return getOriginalAttributeValue("name");
 	}
 
 	@JSON
@@ -601,6 +759,12 @@ public class WikiNodeModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		_columnBitmask |= DESCRIPTION_COLUMN_BITMASK;
+
+		if (_wikiNodeCacheModel == _dummyWikiNodeCacheModel) {
+			_wikiNodeCacheModel = (WikiNodeCacheModel)toCacheModel();
+		}
+
 		_description = description;
 	}
 
@@ -612,6 +776,12 @@ public class WikiNodeModelImpl
 
 	@Override
 	public void setLastPostDate(Date lastPostDate) {
+		_columnBitmask |= LASTPOSTDATE_COLUMN_BITMASK;
+
+		if (_wikiNodeCacheModel == _dummyWikiNodeCacheModel) {
+			_wikiNodeCacheModel = (WikiNodeCacheModel)toCacheModel();
+		}
+
 		_lastPostDate = lastPostDate;
 	}
 
@@ -623,6 +793,12 @@ public class WikiNodeModelImpl
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		_columnBitmask |= LASTPUBLISHDATE_COLUMN_BITMASK;
+
+		if (_wikiNodeCacheModel == _dummyWikiNodeCacheModel) {
+			_wikiNodeCacheModel = (WikiNodeCacheModel)toCacheModel();
+		}
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -636,17 +812,20 @@ public class WikiNodeModelImpl
 	public void setStatus(int status) {
 		_columnBitmask |= STATUS_COLUMN_BITMASK;
 
-		if (!_setOriginalStatus) {
-			_setOriginalStatus = true;
-
-			_originalStatus = _status;
+		if (_wikiNodeCacheModel == _dummyWikiNodeCacheModel) {
+			_wikiNodeCacheModel = (WikiNodeCacheModel)toCacheModel();
 		}
 
 		_status = status;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalStatus() {
-		return _originalStatus;
+		return getOriginalAttributeValue("status");
 	}
 
 	@JSON
@@ -657,6 +836,12 @@ public class WikiNodeModelImpl
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		_columnBitmask |= STATUSBYUSERID_COLUMN_BITMASK;
+
+		if (_wikiNodeCacheModel == _dummyWikiNodeCacheModel) {
+			_wikiNodeCacheModel = (WikiNodeCacheModel)toCacheModel();
+		}
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -689,6 +874,12 @@ public class WikiNodeModelImpl
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		_columnBitmask |= STATUSBYUSERNAME_COLUMN_BITMASK;
+
+		if (_wikiNodeCacheModel == _dummyWikiNodeCacheModel) {
+			_wikiNodeCacheModel = (WikiNodeCacheModel)toCacheModel();
+		}
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -700,6 +891,12 @@ public class WikiNodeModelImpl
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		_columnBitmask |= STATUSDATE_COLUMN_BITMASK;
+
+		if (_wikiNodeCacheModel == _dummyWikiNodeCacheModel) {
+			_wikiNodeCacheModel = (WikiNodeCacheModel)toCacheModel();
+		}
+
 		_statusDate = statusDate;
 	}
 
@@ -1077,27 +1274,11 @@ public class WikiNodeModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		WikiNodeModelImpl wikiNodeModelImpl = this;
+		_setModifiedDate = false;
 
-		wikiNodeModelImpl._originalUuid = wikiNodeModelImpl._uuid;
+		_columnBitmask = 0;
 
-		wikiNodeModelImpl._originalGroupId = wikiNodeModelImpl._groupId;
-
-		wikiNodeModelImpl._setOriginalGroupId = false;
-
-		wikiNodeModelImpl._originalCompanyId = wikiNodeModelImpl._companyId;
-
-		wikiNodeModelImpl._setOriginalCompanyId = false;
-
-		wikiNodeModelImpl._setModifiedDate = false;
-
-		wikiNodeModelImpl._originalName = wikiNodeModelImpl._name;
-
-		wikiNodeModelImpl._originalStatus = wikiNodeModelImpl._status;
-
-		wikiNodeModelImpl._setOriginalStatus = false;
-
-		wikiNodeModelImpl._columnBitmask = 0;
+		_wikiNodeCacheModel = _dummyWikiNodeCacheModel;
 	}
 
 	@Override
@@ -1278,31 +1459,28 @@ public class WikiNodeModelImpl
 
 	private long _mvccVersion;
 	private String _uuid;
-	private String _originalUuid;
 	private long _nodeId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private String _name;
-	private String _originalName;
 	private String _description;
 	private Date _lastPostDate;
 	private Date _lastPublishDate;
 	private int _status;
-	private int _originalStatus;
-	private boolean _setOriginalStatus;
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
 	private long _columnBitmask;
 	private WikiNode _escapedModel;
+
+	private static final WikiNodeCacheModel _dummyWikiNodeCacheModel =
+		new WikiNodeCacheModel();
+
+	private WikiNodeCacheModel _wikiNodeCacheModel;
 
 }

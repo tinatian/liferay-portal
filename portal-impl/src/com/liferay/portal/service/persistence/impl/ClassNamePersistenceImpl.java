@@ -426,7 +426,7 @@ public class ClassNamePersistenceImpl
 			 _finderPathFetchByValue.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				classNameModelImpl.getOriginalValue()
+				classNameModelImpl.getOriginalAttributeValue("value")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByValue, args);

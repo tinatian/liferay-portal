@@ -29,7 +29,6 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.DateUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
@@ -128,13 +127,33 @@ public class DefinitionModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long UUID_COLUMN_BITMASK = 1L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 2L;
+	public static final long DEFINITIONID_COLUMN_BITMASK = 2L;
 
-	public static final long UUID_COLUMN_BITMASK = 4L;
+	public static final long GROUPID_COLUMN_BITMASK = 4L;
 
-	public static final long MODIFIEDDATE_COLUMN_BITMASK = 8L;
+	public static final long COMPANYID_COLUMN_BITMASK = 8L;
+
+	public static final long USERID_COLUMN_BITMASK = 16L;
+
+	public static final long USERNAME_COLUMN_BITMASK = 32L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 64L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 128L;
+
+	public static final long NAME_COLUMN_BITMASK = 256L;
+
+	public static final long DESCRIPTION_COLUMN_BITMASK = 512L;
+
+	public static final long SOURCEID_COLUMN_BITMASK = 1024L;
+
+	public static final long REPORTNAME_COLUMN_BITMASK = 2048L;
+
+	public static final long REPORTPARAMETERS_COLUMN_BITMASK = 4096L;
+
+	public static final long LASTPUBLISHDATE_COLUMN_BITMASK = 8192L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -313,6 +332,25 @@ public class DefinitionModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_definitionCacheModel == null) ||
+			(_definitionCacheModel == _dummyDefinitionCacheModel)) {
+
+			return null;
+		}
+
+		Function<DefinitionCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_definitionCacheModel);
+	}
+
+	private static final Map<String, Function<DefinitionCacheModel, Object>>
+		_cacheModelGetterFunctions;
 	private static final Map<String, Function<Definition, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<Definition, Object>>
@@ -323,59 +361,113 @@ public class DefinitionModelImpl
 			new LinkedHashMap<String, Function<Definition, Object>>();
 		Map<String, BiConsumer<Definition, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Definition, ?>>();
+		Map<String, Function<DefinitionCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<DefinitionCacheModel, Object>>();
 
 		attributeGetterFunctions.put("uuid", Definition::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid", definitionCacheModel -> definitionCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<Definition, String>)Definition::setUuid);
 		attributeGetterFunctions.put(
 			"definitionId", Definition::getDefinitionId);
+
+		cacheModelGetterFunctions.put(
+			"definitionId",
+			definitionCacheModel -> definitionCacheModel.definitionId);
 		attributeSetterBiConsumers.put(
 			"definitionId",
 			(BiConsumer<Definition, Long>)Definition::setDefinitionId);
 		attributeGetterFunctions.put("groupId", Definition::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId", definitionCacheModel -> definitionCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId", (BiConsumer<Definition, Long>)Definition::setGroupId);
 		attributeGetterFunctions.put("companyId", Definition::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			definitionCacheModel -> definitionCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<Definition, Long>)Definition::setCompanyId);
 		attributeGetterFunctions.put("userId", Definition::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", definitionCacheModel -> definitionCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<Definition, Long>)Definition::setUserId);
 		attributeGetterFunctions.put("userName", Definition::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName", definitionCacheModel -> definitionCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<Definition, String>)Definition::setUserName);
 		attributeGetterFunctions.put("createDate", Definition::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			definitionCacheModel -> definitionCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<Definition, Date>)Definition::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", Definition::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			definitionCacheModel -> definitionCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<Definition, Date>)Definition::setModifiedDate);
 		attributeGetterFunctions.put("name", Definition::getName);
+
+		cacheModelGetterFunctions.put(
+			"name", definitionCacheModel -> definitionCacheModel.name);
 		attributeSetterBiConsumers.put(
 			"name", (BiConsumer<Definition, String>)Definition::setName);
 		attributeGetterFunctions.put("description", Definition::getDescription);
+
+		cacheModelGetterFunctions.put(
+			"description",
+			definitionCacheModel -> definitionCacheModel.description);
 		attributeSetterBiConsumers.put(
 			"description",
 			(BiConsumer<Definition, String>)Definition::setDescription);
 		attributeGetterFunctions.put("sourceId", Definition::getSourceId);
+
+		cacheModelGetterFunctions.put(
+			"sourceId", definitionCacheModel -> definitionCacheModel.sourceId);
 		attributeSetterBiConsumers.put(
 			"sourceId", (BiConsumer<Definition, Long>)Definition::setSourceId);
 		attributeGetterFunctions.put("reportName", Definition::getReportName);
+
+		cacheModelGetterFunctions.put(
+			"reportName",
+			definitionCacheModel -> definitionCacheModel.reportName);
 		attributeSetterBiConsumers.put(
 			"reportName",
 			(BiConsumer<Definition, String>)Definition::setReportName);
 		attributeGetterFunctions.put(
 			"reportParameters", Definition::getReportParameters);
+
+		cacheModelGetterFunctions.put(
+			"reportParameters",
+			definitionCacheModel -> definitionCacheModel.reportParameters);
 		attributeSetterBiConsumers.put(
 			"reportParameters",
 			(BiConsumer<Definition, String>)Definition::setReportParameters);
 		attributeGetterFunctions.put(
 			"lastPublishDate", Definition::getLastPublishDate);
+
+		cacheModelGetterFunctions.put(
+			"lastPublishDate",
+			definitionCacheModel -> definitionCacheModel.lastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<Definition, Date>)Definition::setLastPublishDate);
@@ -384,6 +476,8 @@ public class DefinitionModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -401,15 +495,20 @@ public class DefinitionModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_definitionCacheModel == _dummyDefinitionCacheModel) {
+			_definitionCacheModel = (DefinitionCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getOriginalAttributeValue("uuid");
 	}
 
 	@JSON
@@ -420,6 +519,12 @@ public class DefinitionModelImpl
 
 	@Override
 	public void setDefinitionId(long definitionId) {
+		_columnBitmask |= DEFINITIONID_COLUMN_BITMASK;
+
+		if (_definitionCacheModel == _dummyDefinitionCacheModel) {
+			_definitionCacheModel = (DefinitionCacheModel)toCacheModel();
+		}
+
 		_definitionId = definitionId;
 	}
 
@@ -433,17 +538,20 @@ public class DefinitionModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_definitionCacheModel == _dummyDefinitionCacheModel) {
+			_definitionCacheModel = (DefinitionCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getOriginalAttributeValue("groupId");
 	}
 
 	@JSON
@@ -456,17 +564,20 @@ public class DefinitionModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_definitionCacheModel == _dummyDefinitionCacheModel) {
+			_definitionCacheModel = (DefinitionCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@JSON
@@ -477,6 +588,12 @@ public class DefinitionModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (_definitionCacheModel == _dummyDefinitionCacheModel) {
+			_definitionCacheModel = (DefinitionCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -509,6 +626,12 @@ public class DefinitionModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (_definitionCacheModel == _dummyDefinitionCacheModel) {
+			_definitionCacheModel = (DefinitionCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -520,6 +643,12 @@ public class DefinitionModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (_definitionCacheModel == _dummyDefinitionCacheModel) {
+			_definitionCacheModel = (DefinitionCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -537,7 +666,11 @@ public class DefinitionModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
-		_columnBitmask = -1L;
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (_definitionCacheModel == _dummyDefinitionCacheModel) {
+			_definitionCacheModel = (DefinitionCacheModel)toCacheModel();
+		}
 
 		_modifiedDate = modifiedDate;
 	}
@@ -598,6 +731,12 @@ public class DefinitionModelImpl
 
 	@Override
 	public void setName(String name) {
+		_columnBitmask |= NAME_COLUMN_BITMASK;
+
+		if (_definitionCacheModel == _dummyDefinitionCacheModel) {
+			_definitionCacheModel = (DefinitionCacheModel)toCacheModel();
+		}
+
 		_name = name;
 	}
 
@@ -701,6 +840,12 @@ public class DefinitionModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		_columnBitmask |= DESCRIPTION_COLUMN_BITMASK;
+
+		if (_definitionCacheModel == _dummyDefinitionCacheModel) {
+			_definitionCacheModel = (DefinitionCacheModel)toCacheModel();
+		}
+
 		_description = description;
 	}
 
@@ -761,6 +906,12 @@ public class DefinitionModelImpl
 
 	@Override
 	public void setSourceId(long sourceId) {
+		_columnBitmask |= SOURCEID_COLUMN_BITMASK;
+
+		if (_definitionCacheModel == _dummyDefinitionCacheModel) {
+			_definitionCacheModel = (DefinitionCacheModel)toCacheModel();
+		}
+
 		_sourceId = sourceId;
 	}
 
@@ -777,6 +928,12 @@ public class DefinitionModelImpl
 
 	@Override
 	public void setReportName(String reportName) {
+		_columnBitmask |= REPORTNAME_COLUMN_BITMASK;
+
+		if (_definitionCacheModel == _dummyDefinitionCacheModel) {
+			_definitionCacheModel = (DefinitionCacheModel)toCacheModel();
+		}
+
 		_reportName = reportName;
 	}
 
@@ -793,6 +950,12 @@ public class DefinitionModelImpl
 
 	@Override
 	public void setReportParameters(String reportParameters) {
+		_columnBitmask |= REPORTPARAMETERS_COLUMN_BITMASK;
+
+		if (_definitionCacheModel == _dummyDefinitionCacheModel) {
+			_definitionCacheModel = (DefinitionCacheModel)toCacheModel();
+		}
+
 		_reportParameters = reportParameters;
 	}
 
@@ -804,6 +967,12 @@ public class DefinitionModelImpl
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		_columnBitmask |= LASTPUBLISHDATE_COLUMN_BITMASK;
+
+		if (_definitionCacheModel == _dummyDefinitionCacheModel) {
+			_definitionCacheModel = (DefinitionCacheModel)toCacheModel();
+		}
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -1018,21 +1187,11 @@ public class DefinitionModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		DefinitionModelImpl definitionModelImpl = this;
+		_setModifiedDate = false;
 
-		definitionModelImpl._originalUuid = definitionModelImpl._uuid;
+		_columnBitmask = 0;
 
-		definitionModelImpl._originalGroupId = definitionModelImpl._groupId;
-
-		definitionModelImpl._setOriginalGroupId = false;
-
-		definitionModelImpl._originalCompanyId = definitionModelImpl._companyId;
-
-		definitionModelImpl._setOriginalCompanyId = false;
-
-		definitionModelImpl._setModifiedDate = false;
-
-		definitionModelImpl._columnBitmask = 0;
+		_definitionCacheModel = _dummyDefinitionCacheModel;
 	}
 
 	@Override
@@ -1198,14 +1357,9 @@ public class DefinitionModelImpl
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _definitionId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
@@ -1221,5 +1375,10 @@ public class DefinitionModelImpl
 	private Date _lastPublishDate;
 	private long _columnBitmask;
 	private Definition _escapedModel;
+
+	private static final DefinitionCacheModel _dummyDefinitionCacheModel =
+		new DefinitionCacheModel();
+
+	private DefinitionCacheModel _definitionCacheModel;
 
 }

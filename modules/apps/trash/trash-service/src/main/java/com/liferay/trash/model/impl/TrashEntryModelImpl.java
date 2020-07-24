@@ -119,15 +119,31 @@ public class TrashEntryModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long CLASSNAMEID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long CLASSPK_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 4L;
+	public static final long ENTRYID_COLUMN_BITMASK = 4L;
 
-	public static final long CREATEDATE_COLUMN_BITMASK = 8L;
+	public static final long GROUPID_COLUMN_BITMASK = 8L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 16L;
+	public static final long COMPANYID_COLUMN_BITMASK = 16L;
+
+	public static final long USERID_COLUMN_BITMASK = 32L;
+
+	public static final long USERNAME_COLUMN_BITMASK = 64L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 128L;
+
+	public static final long CLASSNAMEID_COLUMN_BITMASK = 256L;
+
+	public static final long CLASSPK_COLUMN_BITMASK = 512L;
+
+	public static final long SYSTEMEVENTSETKEY_COLUMN_BITMASK = 1024L;
+
+	public static final long TYPESETTINGS_COLUMN_BITMASK = 2048L;
+
+	public static final long STATUS_COLUMN_BITMASK = 4096L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -305,6 +321,25 @@ public class TrashEntryModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_trashEntryCacheModel == null) ||
+			(_trashEntryCacheModel == _dummyTrashEntryCacheModel)) {
+
+			return null;
+		}
+
+		Function<TrashEntryCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_trashEntryCacheModel);
+	}
+
+	private static final Map<String, Function<TrashEntryCacheModel, Object>>
+		_cacheModelGetterFunctions;
 	private static final Map<String, Function<TrashEntry, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<TrashEntry, Object>>
@@ -315,55 +350,105 @@ public class TrashEntryModelImpl
 			new LinkedHashMap<String, Function<TrashEntry, Object>>();
 		Map<String, BiConsumer<TrashEntry, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<TrashEntry, ?>>();
+		Map<String, Function<TrashEntryCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<TrashEntryCacheModel, Object>>();
 
 		attributeGetterFunctions.put("mvccVersion", TrashEntry::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			trashEntryCacheModel -> trashEntryCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<TrashEntry, Long>)TrashEntry::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", TrashEntry::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			trashEntryCacheModel -> trashEntryCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<TrashEntry, Long>)TrashEntry::setCtCollectionId);
 		attributeGetterFunctions.put("entryId", TrashEntry::getEntryId);
+
+		cacheModelGetterFunctions.put(
+			"entryId", trashEntryCacheModel -> trashEntryCacheModel.entryId);
 		attributeSetterBiConsumers.put(
 			"entryId", (BiConsumer<TrashEntry, Long>)TrashEntry::setEntryId);
 		attributeGetterFunctions.put("groupId", TrashEntry::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId", trashEntryCacheModel -> trashEntryCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId", (BiConsumer<TrashEntry, Long>)TrashEntry::setGroupId);
 		attributeGetterFunctions.put("companyId", TrashEntry::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			trashEntryCacheModel -> trashEntryCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<TrashEntry, Long>)TrashEntry::setCompanyId);
 		attributeGetterFunctions.put("userId", TrashEntry::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", trashEntryCacheModel -> trashEntryCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<TrashEntry, Long>)TrashEntry::setUserId);
 		attributeGetterFunctions.put("userName", TrashEntry::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName", trashEntryCacheModel -> trashEntryCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<TrashEntry, String>)TrashEntry::setUserName);
 		attributeGetterFunctions.put("createDate", TrashEntry::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			trashEntryCacheModel -> trashEntryCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<TrashEntry, Date>)TrashEntry::setCreateDate);
 		attributeGetterFunctions.put("classNameId", TrashEntry::getClassNameId);
+
+		cacheModelGetterFunctions.put(
+			"classNameId",
+			trashEntryCacheModel -> trashEntryCacheModel.classNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<TrashEntry, Long>)TrashEntry::setClassNameId);
 		attributeGetterFunctions.put("classPK", TrashEntry::getClassPK);
+
+		cacheModelGetterFunctions.put(
+			"classPK", trashEntryCacheModel -> trashEntryCacheModel.classPK);
 		attributeSetterBiConsumers.put(
 			"classPK", (BiConsumer<TrashEntry, Long>)TrashEntry::setClassPK);
 		attributeGetterFunctions.put(
 			"systemEventSetKey", TrashEntry::getSystemEventSetKey);
+
+		cacheModelGetterFunctions.put(
+			"systemEventSetKey",
+			trashEntryCacheModel -> trashEntryCacheModel.systemEventSetKey);
 		attributeSetterBiConsumers.put(
 			"systemEventSetKey",
 			(BiConsumer<TrashEntry, Long>)TrashEntry::setSystemEventSetKey);
 		attributeGetterFunctions.put(
 			"typeSettings", TrashEntry::getTypeSettings);
+
+		cacheModelGetterFunctions.put(
+			"typeSettings",
+			trashEntryCacheModel -> trashEntryCacheModel.typeSettings);
 		attributeSetterBiConsumers.put(
 			"typeSettings",
 			(BiConsumer<TrashEntry, String>)TrashEntry::setTypeSettings);
 		attributeGetterFunctions.put("status", TrashEntry::getStatus);
+
+		cacheModelGetterFunctions.put(
+			"status", trashEntryCacheModel -> trashEntryCacheModel.status);
 		attributeSetterBiConsumers.put(
 			"status", (BiConsumer<TrashEntry, Integer>)TrashEntry::setStatus);
 
@@ -371,6 +456,8 @@ public class TrashEntryModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -381,6 +468,12 @@ public class TrashEntryModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_trashEntryCacheModel == _dummyTrashEntryCacheModel) {
+			_trashEntryCacheModel = (TrashEntryCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -392,6 +485,12 @@ public class TrashEntryModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (_trashEntryCacheModel == _dummyTrashEntryCacheModel) {
+			_trashEntryCacheModel = (TrashEntryCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -403,6 +502,12 @@ public class TrashEntryModelImpl
 
 	@Override
 	public void setEntryId(long entryId) {
+		_columnBitmask |= ENTRYID_COLUMN_BITMASK;
+
+		if (_trashEntryCacheModel == _dummyTrashEntryCacheModel) {
+			_trashEntryCacheModel = (TrashEntryCacheModel)toCacheModel();
+		}
+
 		_entryId = entryId;
 	}
 
@@ -416,17 +521,20 @@ public class TrashEntryModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_trashEntryCacheModel == _dummyTrashEntryCacheModel) {
+			_trashEntryCacheModel = (TrashEntryCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getOriginalAttributeValue("groupId");
 	}
 
 	@JSON
@@ -439,17 +547,20 @@ public class TrashEntryModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_trashEntryCacheModel == _dummyTrashEntryCacheModel) {
+			_trashEntryCacheModel = (TrashEntryCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@JSON
@@ -460,6 +571,12 @@ public class TrashEntryModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (_trashEntryCacheModel == _dummyTrashEntryCacheModel) {
+			_trashEntryCacheModel = (TrashEntryCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -492,6 +609,12 @@ public class TrashEntryModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (_trashEntryCacheModel == _dummyTrashEntryCacheModel) {
+			_trashEntryCacheModel = (TrashEntryCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -503,17 +626,22 @@ public class TrashEntryModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
-		_columnBitmask = -1L;
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
 
-		if (_originalCreateDate == null) {
-			_originalCreateDate = _createDate;
+		if (_trashEntryCacheModel == _dummyTrashEntryCacheModel) {
+			_trashEntryCacheModel = (TrashEntryCacheModel)toCacheModel();
 		}
 
 		_createDate = createDate;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public Date getOriginalCreateDate() {
-		return _originalCreateDate;
+		return getOriginalAttributeValue("createDate");
 	}
 
 	@Override
@@ -546,17 +674,20 @@ public class TrashEntryModelImpl
 	public void setClassNameId(long classNameId) {
 		_columnBitmask |= CLASSNAMEID_COLUMN_BITMASK;
 
-		if (!_setOriginalClassNameId) {
-			_setOriginalClassNameId = true;
-
-			_originalClassNameId = _classNameId;
+		if (_trashEntryCacheModel == _dummyTrashEntryCacheModel) {
+			_trashEntryCacheModel = (TrashEntryCacheModel)toCacheModel();
 		}
 
 		_classNameId = classNameId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassNameId() {
-		return _originalClassNameId;
+		return getOriginalAttributeValue("classNameId");
 	}
 
 	@JSON
@@ -569,17 +700,20 @@ public class TrashEntryModelImpl
 	public void setClassPK(long classPK) {
 		_columnBitmask |= CLASSPK_COLUMN_BITMASK;
 
-		if (!_setOriginalClassPK) {
-			_setOriginalClassPK = true;
-
-			_originalClassPK = _classPK;
+		if (_trashEntryCacheModel == _dummyTrashEntryCacheModel) {
+			_trashEntryCacheModel = (TrashEntryCacheModel)toCacheModel();
 		}
 
 		_classPK = classPK;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassPK() {
-		return _originalClassPK;
+		return getOriginalAttributeValue("classPK");
 	}
 
 	@JSON
@@ -590,6 +724,12 @@ public class TrashEntryModelImpl
 
 	@Override
 	public void setSystemEventSetKey(long systemEventSetKey) {
+		_columnBitmask |= SYSTEMEVENTSETKEY_COLUMN_BITMASK;
+
+		if (_trashEntryCacheModel == _dummyTrashEntryCacheModel) {
+			_trashEntryCacheModel = (TrashEntryCacheModel)toCacheModel();
+		}
+
 		_systemEventSetKey = systemEventSetKey;
 	}
 
@@ -606,6 +746,12 @@ public class TrashEntryModelImpl
 
 	@Override
 	public void setTypeSettings(String typeSettings) {
+		_columnBitmask |= TYPESETTINGS_COLUMN_BITMASK;
+
+		if (_trashEntryCacheModel == _dummyTrashEntryCacheModel) {
+			_trashEntryCacheModel = (TrashEntryCacheModel)toCacheModel();
+		}
+
 		_typeSettings = typeSettings;
 	}
 
@@ -617,6 +763,12 @@ public class TrashEntryModelImpl
 
 	@Override
 	public void setStatus(int status) {
+		_columnBitmask |= STATUS_COLUMN_BITMASK;
+
+		if (_trashEntryCacheModel == _dummyTrashEntryCacheModel) {
+			_trashEntryCacheModel = (TrashEntryCacheModel)toCacheModel();
+		}
+
 		_status = status;
 	}
 
@@ -737,29 +889,9 @@ public class TrashEntryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		TrashEntryModelImpl trashEntryModelImpl = this;
+		_columnBitmask = 0;
 
-		trashEntryModelImpl._originalGroupId = trashEntryModelImpl._groupId;
-
-		trashEntryModelImpl._setOriginalGroupId = false;
-
-		trashEntryModelImpl._originalCompanyId = trashEntryModelImpl._companyId;
-
-		trashEntryModelImpl._setOriginalCompanyId = false;
-
-		trashEntryModelImpl._originalCreateDate =
-			trashEntryModelImpl._createDate;
-
-		trashEntryModelImpl._originalClassNameId =
-			trashEntryModelImpl._classNameId;
-
-		trashEntryModelImpl._setOriginalClassNameId = false;
-
-		trashEntryModelImpl._originalClassPK = trashEntryModelImpl._classPK;
-
-		trashEntryModelImpl._setOriginalClassPK = false;
-
-		trashEntryModelImpl._columnBitmask = 0;
+		_trashEntryCacheModel = _dummyTrashEntryCacheModel;
 	}
 
 	@Override
@@ -888,25 +1020,21 @@ public class TrashEntryModelImpl
 	private long _ctCollectionId;
 	private long _entryId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
-	private Date _originalCreateDate;
 	private long _classNameId;
-	private long _originalClassNameId;
-	private boolean _setOriginalClassNameId;
 	private long _classPK;
-	private long _originalClassPK;
-	private boolean _setOriginalClassPK;
 	private long _systemEventSetKey;
 	private String _typeSettings;
 	private int _status;
 	private long _columnBitmask;
 	private TrashEntry _escapedModel;
+
+	private static final TrashEntryCacheModel _dummyTrashEntryCacheModel =
+		new TrashEntryCacheModel();
+
+	private TrashEntryCacheModel _trashEntryCacheModel;
 
 }

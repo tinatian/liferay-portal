@@ -3112,8 +3112,8 @@ public class PollsVotePersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				pollsVoteModelImpl.getOriginalUuid(),
-				pollsVoteModelImpl.getOriginalGroupId()
+				pollsVoteModelImpl.getOriginalAttributeValue("uuid"),
+				pollsVoteModelImpl.getOriginalAttributeValue("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -3346,7 +3346,7 @@ public class PollsVotePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					pollsVoteModelImpl.getOriginalUuid()
+					pollsVoteModelImpl.getOriginalAttributeValue("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -3365,8 +3365,8 @@ public class PollsVotePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					pollsVoteModelImpl.getOriginalUuid(),
-					pollsVoteModelImpl.getOriginalCompanyId()
+					pollsVoteModelImpl.getOriginalAttributeValue("uuid"),
+					pollsVoteModelImpl.getOriginalAttributeValue("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -3388,7 +3388,7 @@ public class PollsVotePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					pollsVoteModelImpl.getOriginalQuestionId()
+					pollsVoteModelImpl.getOriginalAttributeValue("questionId")
 				};
 
 				finderCache.removeResult(_finderPathCountByQuestionId, args);
@@ -3407,7 +3407,7 @@ public class PollsVotePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					pollsVoteModelImpl.getOriginalChoiceId()
+					pollsVoteModelImpl.getOriginalAttributeValue("choiceId")
 				};
 
 				finderCache.removeResult(_finderPathCountByChoiceId, args);
@@ -3426,8 +3426,8 @@ public class PollsVotePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					pollsVoteModelImpl.getOriginalQuestionId(),
-					pollsVoteModelImpl.getOriginalUserId()
+					pollsVoteModelImpl.getOriginalAttributeValue("questionId"),
+					pollsVoteModelImpl.getOriginalAttributeValue("userId")
 				};
 
 				finderCache.removeResult(_finderPathCountByQ_U, args);

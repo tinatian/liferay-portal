@@ -2968,10 +2968,10 @@ public class SubscriptionPersistenceImpl
 			 _finderPathFetchByC_U_C_C.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				subscriptionModelImpl.getOriginalCompanyId(),
-				subscriptionModelImpl.getOriginalUserId(),
-				subscriptionModelImpl.getOriginalClassNameId(),
-				subscriptionModelImpl.getOriginalClassPK()
+				subscriptionModelImpl.getOriginalAttributeValue("companyId"),
+				subscriptionModelImpl.getOriginalAttributeValue("userId"),
+				subscriptionModelImpl.getOriginalAttributeValue("classNameId"),
+				subscriptionModelImpl.getOriginalAttributeValue("classPK")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByC_U_C_C, args);
@@ -3210,7 +3210,7 @@ public class SubscriptionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					subscriptionModelImpl.getOriginalUserId()
+					subscriptionModelImpl.getOriginalAttributeValue("userId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUserId, args);
@@ -3229,8 +3229,8 @@ public class SubscriptionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					subscriptionModelImpl.getOriginalGroupId(),
-					subscriptionModelImpl.getOriginalUserId()
+					subscriptionModelImpl.getOriginalAttributeValue("groupId"),
+					subscriptionModelImpl.getOriginalAttributeValue("userId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByG_U, args);
@@ -3252,8 +3252,9 @@ public class SubscriptionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					subscriptionModelImpl.getOriginalUserId(),
-					subscriptionModelImpl.getOriginalClassNameId()
+					subscriptionModelImpl.getOriginalAttributeValue("userId"),
+					subscriptionModelImpl.getOriginalAttributeValue(
+						"classNameId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByU_C, args);
@@ -3275,9 +3276,11 @@ public class SubscriptionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					subscriptionModelImpl.getOriginalCompanyId(),
-					subscriptionModelImpl.getOriginalClassNameId(),
-					subscriptionModelImpl.getOriginalClassPK()
+					subscriptionModelImpl.getOriginalAttributeValue(
+						"companyId"),
+					subscriptionModelImpl.getOriginalAttributeValue(
+						"classNameId"),
+					subscriptionModelImpl.getOriginalAttributeValue("classPK")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_C_C, args);
@@ -3300,10 +3303,12 @@ public class SubscriptionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					subscriptionModelImpl.getOriginalCompanyId(),
-					subscriptionModelImpl.getOriginalUserId(),
-					subscriptionModelImpl.getOriginalClassNameId(),
-					subscriptionModelImpl.getOriginalClassPK()
+					subscriptionModelImpl.getOriginalAttributeValue(
+						"companyId"),
+					subscriptionModelImpl.getOriginalAttributeValue("userId"),
+					subscriptionModelImpl.getOriginalAttributeValue(
+						"classNameId"),
+					subscriptionModelImpl.getOriginalAttributeValue("classPK")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_U_C_C, args);

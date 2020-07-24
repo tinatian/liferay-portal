@@ -120,17 +120,23 @@ public class SocialRelationModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long TYPE_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
-	public static final long USERID1_COLUMN_BITMASK = 4L;
+	public static final long UUID_COLUMN_BITMASK = 4L;
 
-	public static final long USERID2_COLUMN_BITMASK = 8L;
+	public static final long RELATIONID_COLUMN_BITMASK = 8L;
 
-	public static final long UUID_COLUMN_BITMASK = 16L;
+	public static final long COMPANYID_COLUMN_BITMASK = 16L;
 
-	public static final long RELATIONID_COLUMN_BITMASK = 32L;
+	public static final long CREATEDATE_COLUMN_BITMASK = 32L;
+
+	public static final long USERID1_COLUMN_BITMASK = 64L;
+
+	public static final long USERID2_COLUMN_BITMASK = 128L;
+
+	public static final long TYPE_COLUMN_BITMASK = 256L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		com.liferay.portal.util.PropsUtil.get(
@@ -249,6 +255,25 @@ public class SocialRelationModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_socialRelationCacheModel == null) ||
+			(_socialRelationCacheModel == _dummySocialRelationCacheModel)) {
+
+			return null;
+		}
+
+		Function<SocialRelationCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_socialRelationCacheModel);
+	}
+
+	private static final Map<String, Function<SocialRelationCacheModel, Object>>
+		_cacheModelGetterFunctions;
 	private static final Map<String, Function<SocialRelation, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<SocialRelation, Object>>
@@ -259,45 +284,84 @@ public class SocialRelationModelImpl
 			new LinkedHashMap<String, Function<SocialRelation, Object>>();
 		Map<String, BiConsumer<SocialRelation, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<SocialRelation, ?>>();
+		Map<String, Function<SocialRelationCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<SocialRelationCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", SocialRelation::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			socialRelationCacheModel -> socialRelationCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<SocialRelation, Long>)SocialRelation::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", SocialRelation::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			socialRelationCacheModel ->
+				socialRelationCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<SocialRelation, Long>)
 				SocialRelation::setCtCollectionId);
 		attributeGetterFunctions.put("uuid", SocialRelation::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid", socialRelationCacheModel -> socialRelationCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid",
 			(BiConsumer<SocialRelation, String>)SocialRelation::setUuid);
 		attributeGetterFunctions.put(
 			"relationId", SocialRelation::getRelationId);
+
+		cacheModelGetterFunctions.put(
+			"relationId",
+			socialRelationCacheModel -> socialRelationCacheModel.relationId);
 		attributeSetterBiConsumers.put(
 			"relationId",
 			(BiConsumer<SocialRelation, Long>)SocialRelation::setRelationId);
 		attributeGetterFunctions.put("companyId", SocialRelation::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			socialRelationCacheModel -> socialRelationCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<SocialRelation, Long>)SocialRelation::setCompanyId);
 		attributeGetterFunctions.put(
 			"createDate", SocialRelation::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			socialRelationCacheModel -> socialRelationCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<SocialRelation, Long>)SocialRelation::setCreateDate);
 		attributeGetterFunctions.put("userId1", SocialRelation::getUserId1);
+
+		cacheModelGetterFunctions.put(
+			"userId1",
+			socialRelationCacheModel -> socialRelationCacheModel.userId1);
 		attributeSetterBiConsumers.put(
 			"userId1",
 			(BiConsumer<SocialRelation, Long>)SocialRelation::setUserId1);
 		attributeGetterFunctions.put("userId2", SocialRelation::getUserId2);
+
+		cacheModelGetterFunctions.put(
+			"userId2",
+			socialRelationCacheModel -> socialRelationCacheModel.userId2);
 		attributeSetterBiConsumers.put(
 			"userId2",
 			(BiConsumer<SocialRelation, Long>)SocialRelation::setUserId2);
 		attributeGetterFunctions.put("type", SocialRelation::getType);
+
+		cacheModelGetterFunctions.put(
+			"type", socialRelationCacheModel -> socialRelationCacheModel.type);
 		attributeSetterBiConsumers.put(
 			"type",
 			(BiConsumer<SocialRelation, Integer>)SocialRelation::setType);
@@ -306,6 +370,8 @@ public class SocialRelationModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -315,6 +381,13 @@ public class SocialRelationModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_socialRelationCacheModel == _dummySocialRelationCacheModel) {
+			_socialRelationCacheModel =
+				(SocialRelationCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -325,6 +398,13 @@ public class SocialRelationModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (_socialRelationCacheModel == _dummySocialRelationCacheModel) {
+			_socialRelationCacheModel =
+				(SocialRelationCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -342,15 +422,21 @@ public class SocialRelationModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_socialRelationCacheModel == _dummySocialRelationCacheModel) {
+			_socialRelationCacheModel =
+				(SocialRelationCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getOriginalAttributeValue("uuid");
 	}
 
 	@Override
@@ -360,6 +446,13 @@ public class SocialRelationModelImpl
 
 	@Override
 	public void setRelationId(long relationId) {
+		_columnBitmask |= RELATIONID_COLUMN_BITMASK;
+
+		if (_socialRelationCacheModel == _dummySocialRelationCacheModel) {
+			_socialRelationCacheModel =
+				(SocialRelationCacheModel)toCacheModel();
+		}
+
 		_relationId = relationId;
 	}
 
@@ -372,17 +465,21 @@ public class SocialRelationModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_socialRelationCacheModel == _dummySocialRelationCacheModel) {
+			_socialRelationCacheModel =
+				(SocialRelationCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@Override
@@ -392,6 +489,13 @@ public class SocialRelationModelImpl
 
 	@Override
 	public void setCreateDate(long createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (_socialRelationCacheModel == _dummySocialRelationCacheModel) {
+			_socialRelationCacheModel =
+				(SocialRelationCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -404,17 +508,21 @@ public class SocialRelationModelImpl
 	public void setUserId1(long userId1) {
 		_columnBitmask |= USERID1_COLUMN_BITMASK;
 
-		if (!_setOriginalUserId1) {
-			_setOriginalUserId1 = true;
-
-			_originalUserId1 = _userId1;
+		if (_socialRelationCacheModel == _dummySocialRelationCacheModel) {
+			_socialRelationCacheModel =
+				(SocialRelationCacheModel)toCacheModel();
 		}
 
 		_userId1 = userId1;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalUserId1() {
-		return _originalUserId1;
+		return getOriginalAttributeValue("userId1");
 	}
 
 	@Override
@@ -426,17 +534,21 @@ public class SocialRelationModelImpl
 	public void setUserId2(long userId2) {
 		_columnBitmask |= USERID2_COLUMN_BITMASK;
 
-		if (!_setOriginalUserId2) {
-			_setOriginalUserId2 = true;
-
-			_originalUserId2 = _userId2;
+		if (_socialRelationCacheModel == _dummySocialRelationCacheModel) {
+			_socialRelationCacheModel =
+				(SocialRelationCacheModel)toCacheModel();
 		}
 
 		_userId2 = userId2;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalUserId2() {
-		return _originalUserId2;
+		return getOriginalAttributeValue("userId2");
 	}
 
 	@Override
@@ -448,17 +560,21 @@ public class SocialRelationModelImpl
 	public void setType(int type) {
 		_columnBitmask |= TYPE_COLUMN_BITMASK;
 
-		if (!_setOriginalType) {
-			_setOriginalType = true;
-
-			_originalType = _type;
+		if (_socialRelationCacheModel == _dummySocialRelationCacheModel) {
+			_socialRelationCacheModel =
+				(SocialRelationCacheModel)toCacheModel();
 		}
 
 		_type = type;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalType() {
-		return _originalType;
+		return getOriginalAttributeValue("type");
 	}
 
 	public long getColumnBitmask() {
@@ -574,30 +690,9 @@ public class SocialRelationModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		SocialRelationModelImpl socialRelationModelImpl = this;
+		_columnBitmask = 0;
 
-		socialRelationModelImpl._originalUuid = socialRelationModelImpl._uuid;
-
-		socialRelationModelImpl._originalCompanyId =
-			socialRelationModelImpl._companyId;
-
-		socialRelationModelImpl._setOriginalCompanyId = false;
-
-		socialRelationModelImpl._originalUserId1 =
-			socialRelationModelImpl._userId1;
-
-		socialRelationModelImpl._setOriginalUserId1 = false;
-
-		socialRelationModelImpl._originalUserId2 =
-			socialRelationModelImpl._userId2;
-
-		socialRelationModelImpl._setOriginalUserId2 = false;
-
-		socialRelationModelImpl._originalType = socialRelationModelImpl._type;
-
-		socialRelationModelImpl._setOriginalType = false;
-
-		socialRelationModelImpl._columnBitmask = 0;
+		_socialRelationCacheModel = _dummySocialRelationCacheModel;
 	}
 
 	@Override
@@ -705,22 +800,18 @@ public class SocialRelationModelImpl
 	private long _mvccVersion;
 	private long _ctCollectionId;
 	private String _uuid;
-	private String _originalUuid;
 	private long _relationId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _createDate;
 	private long _userId1;
-	private long _originalUserId1;
-	private boolean _setOriginalUserId1;
 	private long _userId2;
-	private long _originalUserId2;
-	private boolean _setOriginalUserId2;
 	private int _type;
-	private int _originalType;
-	private boolean _setOriginalType;
 	private long _columnBitmask;
 	private SocialRelation _escapedModel;
+
+	private static final SocialRelationCacheModel
+		_dummySocialRelationCacheModel = new SocialRelationCacheModel();
+
+	private SocialRelationCacheModel _socialRelationCacheModel;
 
 }

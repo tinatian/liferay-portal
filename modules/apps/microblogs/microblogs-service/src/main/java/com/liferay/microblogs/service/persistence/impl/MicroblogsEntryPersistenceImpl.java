@@ -13554,7 +13554,8 @@ public class MicroblogsEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					microblogsEntryModelImpl.getOriginalCompanyId()
+					microblogsEntryModelImpl.getOriginalAttributeValue(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCompanyId, args);
@@ -13573,7 +13574,7 @@ public class MicroblogsEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					microblogsEntryModelImpl.getOriginalUserId()
+					microblogsEntryModelImpl.getOriginalAttributeValue("userId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUserId, args);
@@ -13592,8 +13593,9 @@ public class MicroblogsEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					microblogsEntryModelImpl.getOriginalUserId(),
-					microblogsEntryModelImpl.getOriginalType()
+					microblogsEntryModelImpl.getOriginalAttributeValue(
+						"userId"),
+					microblogsEntryModelImpl.getOriginalAttributeValue("type")
 				};
 
 				finderCache.removeResult(_finderPathCountByU_T, args);
@@ -13615,8 +13617,10 @@ public class MicroblogsEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					microblogsEntryModelImpl.getOriginalCreatorClassNameId(),
-					microblogsEntryModelImpl.getOriginalCreatorClassPK()
+					microblogsEntryModelImpl.getOriginalAttributeValue(
+						"creatorClassNameId"),
+					microblogsEntryModelImpl.getOriginalAttributeValue(
+						"creatorClassPK")
 				};
 
 				finderCache.removeResult(_finderPathCountByCCNI_CCPK, args);
@@ -13638,8 +13642,9 @@ public class MicroblogsEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					microblogsEntryModelImpl.getOriginalCreatorClassNameId(),
-					microblogsEntryModelImpl.getOriginalType()
+					microblogsEntryModelImpl.getOriginalAttributeValue(
+						"creatorClassNameId"),
+					microblogsEntryModelImpl.getOriginalAttributeValue("type")
 				};
 
 				finderCache.removeResult(_finderPathCountByCCNI_T, args);
@@ -13661,9 +13666,9 @@ public class MicroblogsEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					microblogsEntryModelImpl.getOriginalType(),
-					microblogsEntryModelImpl.
-						getOriginalParentMicroblogsEntryId()
+					microblogsEntryModelImpl.getOriginalAttributeValue("type"),
+					microblogsEntryModelImpl.getOriginalAttributeValue(
+						"parentMicroblogsEntryId")
 				};
 
 				finderCache.removeResult(_finderPathCountByT_P, args);
@@ -13685,9 +13690,12 @@ public class MicroblogsEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					microblogsEntryModelImpl.getOriginalCompanyId(),
-					microblogsEntryModelImpl.getOriginalCreatorClassNameId(),
-					microblogsEntryModelImpl.getOriginalCreatorClassPK()
+					microblogsEntryModelImpl.getOriginalAttributeValue(
+						"companyId"),
+					microblogsEntryModelImpl.getOriginalAttributeValue(
+						"creatorClassNameId"),
+					microblogsEntryModelImpl.getOriginalAttributeValue(
+						"creatorClassPK")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_CCNI_CCPK, args);
@@ -13710,9 +13718,11 @@ public class MicroblogsEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					microblogsEntryModelImpl.getOriginalCompanyId(),
-					microblogsEntryModelImpl.getOriginalCreatorClassNameId(),
-					microblogsEntryModelImpl.getOriginalType()
+					microblogsEntryModelImpl.getOriginalAttributeValue(
+						"companyId"),
+					microblogsEntryModelImpl.getOriginalAttributeValue(
+						"creatorClassNameId"),
+					microblogsEntryModelImpl.getOriginalAttributeValue("type")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_CCNI_T, args);
@@ -13735,9 +13745,11 @@ public class MicroblogsEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					microblogsEntryModelImpl.getOriginalCreatorClassNameId(),
-					microblogsEntryModelImpl.getOriginalCreatorClassPK(),
-					microblogsEntryModelImpl.getOriginalType()
+					microblogsEntryModelImpl.getOriginalAttributeValue(
+						"creatorClassNameId"),
+					microblogsEntryModelImpl.getOriginalAttributeValue(
+						"creatorClassPK"),
+					microblogsEntryModelImpl.getOriginalAttributeValue("type")
 				};
 
 				finderCache.removeResult(_finderPathCountByCCNI_CCPK_T, args);
@@ -13760,10 +13772,13 @@ public class MicroblogsEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					microblogsEntryModelImpl.getOriginalCompanyId(),
-					microblogsEntryModelImpl.getOriginalCreatorClassNameId(),
-					microblogsEntryModelImpl.getOriginalCreatorClassPK(),
-					microblogsEntryModelImpl.getOriginalType()
+					microblogsEntryModelImpl.getOriginalAttributeValue(
+						"companyId"),
+					microblogsEntryModelImpl.getOriginalAttributeValue(
+						"creatorClassNameId"),
+					microblogsEntryModelImpl.getOriginalAttributeValue(
+						"creatorClassPK"),
+					microblogsEntryModelImpl.getOriginalAttributeValue("type")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_CCNI_CCPK_T, args);
@@ -13787,10 +13802,13 @@ public class MicroblogsEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					microblogsEntryModelImpl.getOriginalUserId(),
-					microblogsEntryModelImpl.getOriginalCreateDate(),
-					microblogsEntryModelImpl.getOriginalType(),
-					microblogsEntryModelImpl.getOriginalSocialRelationType()
+					microblogsEntryModelImpl.getOriginalAttributeValue(
+						"userId"),
+					microblogsEntryModelImpl.getOriginalAttributeValue(
+						"createDate"),
+					microblogsEntryModelImpl.getOriginalAttributeValue("type"),
+					microblogsEntryModelImpl.getOriginalAttributeValue(
+						"socialRelationType")
 				};
 
 				finderCache.removeResult(_finderPathCountByU_C_T_S, args);

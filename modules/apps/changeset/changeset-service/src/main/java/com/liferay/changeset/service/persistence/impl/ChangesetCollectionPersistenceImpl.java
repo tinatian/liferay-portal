@@ -2612,8 +2612,9 @@ public class ChangesetCollectionPersistenceImpl
 			 _finderPathFetchByG_N.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				changesetCollectionModelImpl.getOriginalGroupId(),
-				changesetCollectionModelImpl.getOriginalName()
+				changesetCollectionModelImpl.getOriginalAttributeValue(
+					"groupId"),
+				changesetCollectionModelImpl.getOriginalAttributeValue("name")
 			};
 
 			finderCache.removeResult(_finderPathCountByG_N, args);
@@ -2846,7 +2847,8 @@ public class ChangesetCollectionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					changesetCollectionModelImpl.getOriginalGroupId()
+					changesetCollectionModelImpl.getOriginalAttributeValue(
+						"groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId, args);
@@ -2865,7 +2867,8 @@ public class ChangesetCollectionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					changesetCollectionModelImpl.getOriginalCompanyId()
+					changesetCollectionModelImpl.getOriginalAttributeValue(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCompanyId, args);
@@ -2886,8 +2889,10 @@ public class ChangesetCollectionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					changesetCollectionModelImpl.getOriginalGroupId(),
-					changesetCollectionModelImpl.getOriginalUserId()
+					changesetCollectionModelImpl.getOriginalAttributeValue(
+						"groupId"),
+					changesetCollectionModelImpl.getOriginalAttributeValue(
+						"userId")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_U, args);
@@ -2909,8 +2914,10 @@ public class ChangesetCollectionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					changesetCollectionModelImpl.getOriginalCompanyId(),
-					changesetCollectionModelImpl.getOriginalName()
+					changesetCollectionModelImpl.getOriginalAttributeValue(
+						"companyId"),
+					changesetCollectionModelImpl.getOriginalAttributeValue(
+						"name")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_N, args);

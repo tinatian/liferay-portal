@@ -25,7 +25,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.saml.persistence.model.SamlIdpSpConnection;
 import com.liferay.saml.persistence.model.SamlIdpSpConnectionModel;
@@ -123,11 +122,43 @@ public class SamlIdpSpConnectionModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long SAMLIDPSPCONNECTIONID_COLUMN_BITMASK = 1L;
 
-	public static final long SAMLSPENTITYID_COLUMN_BITMASK = 2L;
+	public static final long COMPANYID_COLUMN_BITMASK = 2L;
 
-	public static final long SAMLIDPSPCONNECTIONID_COLUMN_BITMASK = 4L;
+	public static final long USERID_COLUMN_BITMASK = 4L;
+
+	public static final long USERNAME_COLUMN_BITMASK = 8L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 16L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 32L;
+
+	public static final long SAMLSPENTITYID_COLUMN_BITMASK = 64L;
+
+	public static final long ASSERTIONLIFETIME_COLUMN_BITMASK = 128L;
+
+	public static final long ATTRIBUTENAMES_COLUMN_BITMASK = 256L;
+
+	public static final long ATTRIBUTESENABLED_COLUMN_BITMASK = 512L;
+
+	public static final long ATTRIBUTESNAMESPACEENABLED_COLUMN_BITMASK = 1024L;
+
+	public static final long ENABLED_COLUMN_BITMASK = 2048L;
+
+	public static final long ENCRYPTIONFORCED_COLUMN_BITMASK = 4096L;
+
+	public static final long METADATAURL_COLUMN_BITMASK = 8192L;
+
+	public static final long METADATAXML_COLUMN_BITMASK = 16384L;
+
+	public static final long METADATAUPDATEDDATE_COLUMN_BITMASK = 32768L;
+
+	public static final long NAME_COLUMN_BITMASK = 65536L;
+
+	public static final long NAMEIDATTRIBUTE_COLUMN_BITMASK = 131072L;
+
+	public static final long NAMEIDFORMAT_COLUMN_BITMASK = 262144L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -256,6 +287,27 @@ public class SamlIdpSpConnectionModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_samlIdpSpConnectionCacheModel == null) ||
+			(_samlIdpSpConnectionCacheModel ==
+				_dummySamlIdpSpConnectionCacheModel)) {
+
+			return null;
+		}
+
+		Function<SamlIdpSpConnectionCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_samlIdpSpConnectionCacheModel);
+	}
+
+	private static final Map
+		<String, Function<SamlIdpSpConnectionCacheModel, Object>>
+			_cacheModelGetterFunctions;
 	private static final Map<String, Function<SamlIdpSpConnection, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<SamlIdpSpConnection, Object>>
@@ -269,63 +321,117 @@ public class SamlIdpSpConnectionModelImpl
 		Map<String, BiConsumer<SamlIdpSpConnection, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<SamlIdpSpConnection, ?>>();
+		Map<String, Function<SamlIdpSpConnectionCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<SamlIdpSpConnectionCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"samlIdpSpConnectionId",
 			SamlIdpSpConnection::getSamlIdpSpConnectionId);
+
+		cacheModelGetterFunctions.put(
+			"samlIdpSpConnectionId",
+			samlIdpSpConnectionCacheModel ->
+				samlIdpSpConnectionCacheModel.samlIdpSpConnectionId);
 		attributeSetterBiConsumers.put(
 			"samlIdpSpConnectionId",
 			(BiConsumer<SamlIdpSpConnection, Long>)
 				SamlIdpSpConnection::setSamlIdpSpConnectionId);
 		attributeGetterFunctions.put(
 			"companyId", SamlIdpSpConnection::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			samlIdpSpConnectionCacheModel ->
+				samlIdpSpConnectionCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<SamlIdpSpConnection, Long>)
 				SamlIdpSpConnection::setCompanyId);
 		attributeGetterFunctions.put("userId", SamlIdpSpConnection::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			samlIdpSpConnectionCacheModel ->
+				samlIdpSpConnectionCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<SamlIdpSpConnection, Long>)
 				SamlIdpSpConnection::setUserId);
 		attributeGetterFunctions.put(
 			"userName", SamlIdpSpConnection::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			samlIdpSpConnectionCacheModel ->
+				samlIdpSpConnectionCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<SamlIdpSpConnection, String>)
 				SamlIdpSpConnection::setUserName);
 		attributeGetterFunctions.put(
 			"createDate", SamlIdpSpConnection::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			samlIdpSpConnectionCacheModel ->
+				samlIdpSpConnectionCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<SamlIdpSpConnection, Date>)
 				SamlIdpSpConnection::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", SamlIdpSpConnection::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			samlIdpSpConnectionCacheModel ->
+				samlIdpSpConnectionCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<SamlIdpSpConnection, Date>)
 				SamlIdpSpConnection::setModifiedDate);
 		attributeGetterFunctions.put(
 			"samlSpEntityId", SamlIdpSpConnection::getSamlSpEntityId);
+
+		cacheModelGetterFunctions.put(
+			"samlSpEntityId",
+			samlIdpSpConnectionCacheModel ->
+				samlIdpSpConnectionCacheModel.samlSpEntityId);
 		attributeSetterBiConsumers.put(
 			"samlSpEntityId",
 			(BiConsumer<SamlIdpSpConnection, String>)
 				SamlIdpSpConnection::setSamlSpEntityId);
 		attributeGetterFunctions.put(
 			"assertionLifetime", SamlIdpSpConnection::getAssertionLifetime);
+
+		cacheModelGetterFunctions.put(
+			"assertionLifetime",
+			samlIdpSpConnectionCacheModel ->
+				samlIdpSpConnectionCacheModel.assertionLifetime);
 		attributeSetterBiConsumers.put(
 			"assertionLifetime",
 			(BiConsumer<SamlIdpSpConnection, Integer>)
 				SamlIdpSpConnection::setAssertionLifetime);
 		attributeGetterFunctions.put(
 			"attributeNames", SamlIdpSpConnection::getAttributeNames);
+
+		cacheModelGetterFunctions.put(
+			"attributeNames",
+			samlIdpSpConnectionCacheModel ->
+				samlIdpSpConnectionCacheModel.attributeNames);
 		attributeSetterBiConsumers.put(
 			"attributeNames",
 			(BiConsumer<SamlIdpSpConnection, String>)
 				SamlIdpSpConnection::setAttributeNames);
 		attributeGetterFunctions.put(
 			"attributesEnabled", SamlIdpSpConnection::getAttributesEnabled);
+
+		cacheModelGetterFunctions.put(
+			"attributesEnabled",
+			samlIdpSpConnectionCacheModel ->
+				samlIdpSpConnectionCacheModel.attributesEnabled);
 		attributeSetterBiConsumers.put(
 			"attributesEnabled",
 			(BiConsumer<SamlIdpSpConnection, Boolean>)
@@ -333,53 +439,98 @@ public class SamlIdpSpConnectionModelImpl
 		attributeGetterFunctions.put(
 			"attributesNamespaceEnabled",
 			SamlIdpSpConnection::getAttributesNamespaceEnabled);
+
+		cacheModelGetterFunctions.put(
+			"attributesNamespaceEnabled",
+			samlIdpSpConnectionCacheModel ->
+				samlIdpSpConnectionCacheModel.attributesNamespaceEnabled);
 		attributeSetterBiConsumers.put(
 			"attributesNamespaceEnabled",
 			(BiConsumer<SamlIdpSpConnection, Boolean>)
 				SamlIdpSpConnection::setAttributesNamespaceEnabled);
 		attributeGetterFunctions.put(
 			"enabled", SamlIdpSpConnection::getEnabled);
+
+		cacheModelGetterFunctions.put(
+			"enabled",
+			samlIdpSpConnectionCacheModel ->
+				samlIdpSpConnectionCacheModel.enabled);
 		attributeSetterBiConsumers.put(
 			"enabled",
 			(BiConsumer<SamlIdpSpConnection, Boolean>)
 				SamlIdpSpConnection::setEnabled);
 		attributeGetterFunctions.put(
 			"encryptionForced", SamlIdpSpConnection::getEncryptionForced);
+
+		cacheModelGetterFunctions.put(
+			"encryptionForced",
+			samlIdpSpConnectionCacheModel ->
+				samlIdpSpConnectionCacheModel.encryptionForced);
 		attributeSetterBiConsumers.put(
 			"encryptionForced",
 			(BiConsumer<SamlIdpSpConnection, Boolean>)
 				SamlIdpSpConnection::setEncryptionForced);
 		attributeGetterFunctions.put(
 			"metadataUrl", SamlIdpSpConnection::getMetadataUrl);
+
+		cacheModelGetterFunctions.put(
+			"metadataUrl",
+			samlIdpSpConnectionCacheModel ->
+				samlIdpSpConnectionCacheModel.metadataUrl);
 		attributeSetterBiConsumers.put(
 			"metadataUrl",
 			(BiConsumer<SamlIdpSpConnection, String>)
 				SamlIdpSpConnection::setMetadataUrl);
 		attributeGetterFunctions.put(
 			"metadataXml", SamlIdpSpConnection::getMetadataXml);
+
+		cacheModelGetterFunctions.put(
+			"metadataXml",
+			samlIdpSpConnectionCacheModel ->
+				samlIdpSpConnectionCacheModel.metadataXml);
 		attributeSetterBiConsumers.put(
 			"metadataXml",
 			(BiConsumer<SamlIdpSpConnection, String>)
 				SamlIdpSpConnection::setMetadataXml);
 		attributeGetterFunctions.put(
 			"metadataUpdatedDate", SamlIdpSpConnection::getMetadataUpdatedDate);
+
+		cacheModelGetterFunctions.put(
+			"metadataUpdatedDate",
+			samlIdpSpConnectionCacheModel ->
+				samlIdpSpConnectionCacheModel.metadataUpdatedDate);
 		attributeSetterBiConsumers.put(
 			"metadataUpdatedDate",
 			(BiConsumer<SamlIdpSpConnection, Date>)
 				SamlIdpSpConnection::setMetadataUpdatedDate);
 		attributeGetterFunctions.put("name", SamlIdpSpConnection::getName);
+
+		cacheModelGetterFunctions.put(
+			"name",
+			samlIdpSpConnectionCacheModel ->
+				samlIdpSpConnectionCacheModel.name);
 		attributeSetterBiConsumers.put(
 			"name",
 			(BiConsumer<SamlIdpSpConnection, String>)
 				SamlIdpSpConnection::setName);
 		attributeGetterFunctions.put(
 			"nameIdAttribute", SamlIdpSpConnection::getNameIdAttribute);
+
+		cacheModelGetterFunctions.put(
+			"nameIdAttribute",
+			samlIdpSpConnectionCacheModel ->
+				samlIdpSpConnectionCacheModel.nameIdAttribute);
 		attributeSetterBiConsumers.put(
 			"nameIdAttribute",
 			(BiConsumer<SamlIdpSpConnection, String>)
 				SamlIdpSpConnection::setNameIdAttribute);
 		attributeGetterFunctions.put(
 			"nameIdFormat", SamlIdpSpConnection::getNameIdFormat);
+
+		cacheModelGetterFunctions.put(
+			"nameIdFormat",
+			samlIdpSpConnectionCacheModel ->
+				samlIdpSpConnectionCacheModel.nameIdFormat);
 		attributeSetterBiConsumers.put(
 			"nameIdFormat",
 			(BiConsumer<SamlIdpSpConnection, String>)
@@ -389,6 +540,8 @@ public class SamlIdpSpConnectionModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -398,6 +551,15 @@ public class SamlIdpSpConnectionModelImpl
 
 	@Override
 	public void setSamlIdpSpConnectionId(long samlIdpSpConnectionId) {
+		_columnBitmask |= SAMLIDPSPCONNECTIONID_COLUMN_BITMASK;
+
+		if (_samlIdpSpConnectionCacheModel ==
+				_dummySamlIdpSpConnectionCacheModel) {
+
+			_samlIdpSpConnectionCacheModel =
+				(SamlIdpSpConnectionCacheModel)toCacheModel();
+		}
+
 		_samlIdpSpConnectionId = samlIdpSpConnectionId;
 	}
 
@@ -410,17 +572,23 @@ public class SamlIdpSpConnectionModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
+		if (_samlIdpSpConnectionCacheModel ==
+				_dummySamlIdpSpConnectionCacheModel) {
 
-			_originalCompanyId = _companyId;
+			_samlIdpSpConnectionCacheModel =
+				(SamlIdpSpConnectionCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@Override
@@ -430,6 +598,15 @@ public class SamlIdpSpConnectionModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (_samlIdpSpConnectionCacheModel ==
+				_dummySamlIdpSpConnectionCacheModel) {
+
+			_samlIdpSpConnectionCacheModel =
+				(SamlIdpSpConnectionCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -461,6 +638,15 @@ public class SamlIdpSpConnectionModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (_samlIdpSpConnectionCacheModel ==
+				_dummySamlIdpSpConnectionCacheModel) {
+
+			_samlIdpSpConnectionCacheModel =
+				(SamlIdpSpConnectionCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -471,6 +657,15 @@ public class SamlIdpSpConnectionModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (_samlIdpSpConnectionCacheModel ==
+				_dummySamlIdpSpConnectionCacheModel) {
+
+			_samlIdpSpConnectionCacheModel =
+				(SamlIdpSpConnectionCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -486,6 +681,15 @@ public class SamlIdpSpConnectionModelImpl
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
+
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (_samlIdpSpConnectionCacheModel ==
+				_dummySamlIdpSpConnectionCacheModel) {
+
+			_samlIdpSpConnectionCacheModel =
+				(SamlIdpSpConnectionCacheModel)toCacheModel();
+		}
 
 		_modifiedDate = modifiedDate;
 	}
@@ -504,15 +708,23 @@ public class SamlIdpSpConnectionModelImpl
 	public void setSamlSpEntityId(String samlSpEntityId) {
 		_columnBitmask |= SAMLSPENTITYID_COLUMN_BITMASK;
 
-		if (_originalSamlSpEntityId == null) {
-			_originalSamlSpEntityId = _samlSpEntityId;
+		if (_samlIdpSpConnectionCacheModel ==
+				_dummySamlIdpSpConnectionCacheModel) {
+
+			_samlIdpSpConnectionCacheModel =
+				(SamlIdpSpConnectionCacheModel)toCacheModel();
 		}
 
 		_samlSpEntityId = samlSpEntityId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalSamlSpEntityId() {
-		return GetterUtil.getString(_originalSamlSpEntityId);
+		return getOriginalAttributeValue("samlSpEntityId");
 	}
 
 	@Override
@@ -522,6 +734,15 @@ public class SamlIdpSpConnectionModelImpl
 
 	@Override
 	public void setAssertionLifetime(int assertionLifetime) {
+		_columnBitmask |= ASSERTIONLIFETIME_COLUMN_BITMASK;
+
+		if (_samlIdpSpConnectionCacheModel ==
+				_dummySamlIdpSpConnectionCacheModel) {
+
+			_samlIdpSpConnectionCacheModel =
+				(SamlIdpSpConnectionCacheModel)toCacheModel();
+		}
+
 		_assertionLifetime = assertionLifetime;
 	}
 
@@ -537,6 +758,15 @@ public class SamlIdpSpConnectionModelImpl
 
 	@Override
 	public void setAttributeNames(String attributeNames) {
+		_columnBitmask |= ATTRIBUTENAMES_COLUMN_BITMASK;
+
+		if (_samlIdpSpConnectionCacheModel ==
+				_dummySamlIdpSpConnectionCacheModel) {
+
+			_samlIdpSpConnectionCacheModel =
+				(SamlIdpSpConnectionCacheModel)toCacheModel();
+		}
+
 		_attributeNames = attributeNames;
 	}
 
@@ -552,6 +782,15 @@ public class SamlIdpSpConnectionModelImpl
 
 	@Override
 	public void setAttributesEnabled(boolean attributesEnabled) {
+		_columnBitmask |= ATTRIBUTESENABLED_COLUMN_BITMASK;
+
+		if (_samlIdpSpConnectionCacheModel ==
+				_dummySamlIdpSpConnectionCacheModel) {
+
+			_samlIdpSpConnectionCacheModel =
+				(SamlIdpSpConnectionCacheModel)toCacheModel();
+		}
+
 		_attributesEnabled = attributesEnabled;
 	}
 
@@ -569,6 +808,15 @@ public class SamlIdpSpConnectionModelImpl
 	public void setAttributesNamespaceEnabled(
 		boolean attributesNamespaceEnabled) {
 
+		_columnBitmask |= ATTRIBUTESNAMESPACEENABLED_COLUMN_BITMASK;
+
+		if (_samlIdpSpConnectionCacheModel ==
+				_dummySamlIdpSpConnectionCacheModel) {
+
+			_samlIdpSpConnectionCacheModel =
+				(SamlIdpSpConnectionCacheModel)toCacheModel();
+		}
+
 		_attributesNamespaceEnabled = attributesNamespaceEnabled;
 	}
 
@@ -584,6 +832,15 @@ public class SamlIdpSpConnectionModelImpl
 
 	@Override
 	public void setEnabled(boolean enabled) {
+		_columnBitmask |= ENABLED_COLUMN_BITMASK;
+
+		if (_samlIdpSpConnectionCacheModel ==
+				_dummySamlIdpSpConnectionCacheModel) {
+
+			_samlIdpSpConnectionCacheModel =
+				(SamlIdpSpConnectionCacheModel)toCacheModel();
+		}
+
 		_enabled = enabled;
 	}
 
@@ -599,6 +856,15 @@ public class SamlIdpSpConnectionModelImpl
 
 	@Override
 	public void setEncryptionForced(boolean encryptionForced) {
+		_columnBitmask |= ENCRYPTIONFORCED_COLUMN_BITMASK;
+
+		if (_samlIdpSpConnectionCacheModel ==
+				_dummySamlIdpSpConnectionCacheModel) {
+
+			_samlIdpSpConnectionCacheModel =
+				(SamlIdpSpConnectionCacheModel)toCacheModel();
+		}
+
 		_encryptionForced = encryptionForced;
 	}
 
@@ -614,6 +880,15 @@ public class SamlIdpSpConnectionModelImpl
 
 	@Override
 	public void setMetadataUrl(String metadataUrl) {
+		_columnBitmask |= METADATAURL_COLUMN_BITMASK;
+
+		if (_samlIdpSpConnectionCacheModel ==
+				_dummySamlIdpSpConnectionCacheModel) {
+
+			_samlIdpSpConnectionCacheModel =
+				(SamlIdpSpConnectionCacheModel)toCacheModel();
+		}
+
 		_metadataUrl = metadataUrl;
 	}
 
@@ -629,6 +904,15 @@ public class SamlIdpSpConnectionModelImpl
 
 	@Override
 	public void setMetadataXml(String metadataXml) {
+		_columnBitmask |= METADATAXML_COLUMN_BITMASK;
+
+		if (_samlIdpSpConnectionCacheModel ==
+				_dummySamlIdpSpConnectionCacheModel) {
+
+			_samlIdpSpConnectionCacheModel =
+				(SamlIdpSpConnectionCacheModel)toCacheModel();
+		}
+
 		_metadataXml = metadataXml;
 	}
 
@@ -639,6 +923,15 @@ public class SamlIdpSpConnectionModelImpl
 
 	@Override
 	public void setMetadataUpdatedDate(Date metadataUpdatedDate) {
+		_columnBitmask |= METADATAUPDATEDDATE_COLUMN_BITMASK;
+
+		if (_samlIdpSpConnectionCacheModel ==
+				_dummySamlIdpSpConnectionCacheModel) {
+
+			_samlIdpSpConnectionCacheModel =
+				(SamlIdpSpConnectionCacheModel)toCacheModel();
+		}
+
 		_metadataUpdatedDate = metadataUpdatedDate;
 	}
 
@@ -654,6 +947,15 @@ public class SamlIdpSpConnectionModelImpl
 
 	@Override
 	public void setName(String name) {
+		_columnBitmask |= NAME_COLUMN_BITMASK;
+
+		if (_samlIdpSpConnectionCacheModel ==
+				_dummySamlIdpSpConnectionCacheModel) {
+
+			_samlIdpSpConnectionCacheModel =
+				(SamlIdpSpConnectionCacheModel)toCacheModel();
+		}
+
 		_name = name;
 	}
 
@@ -669,6 +971,15 @@ public class SamlIdpSpConnectionModelImpl
 
 	@Override
 	public void setNameIdAttribute(String nameIdAttribute) {
+		_columnBitmask |= NAMEIDATTRIBUTE_COLUMN_BITMASK;
+
+		if (_samlIdpSpConnectionCacheModel ==
+				_dummySamlIdpSpConnectionCacheModel) {
+
+			_samlIdpSpConnectionCacheModel =
+				(SamlIdpSpConnectionCacheModel)toCacheModel();
+		}
+
 		_nameIdAttribute = nameIdAttribute;
 	}
 
@@ -684,6 +995,15 @@ public class SamlIdpSpConnectionModelImpl
 
 	@Override
 	public void setNameIdFormat(String nameIdFormat) {
+		_columnBitmask |= NAMEIDFORMAT_COLUMN_BITMASK;
+
+		if (_samlIdpSpConnectionCacheModel ==
+				_dummySamlIdpSpConnectionCacheModel) {
+
+			_samlIdpSpConnectionCacheModel =
+				(SamlIdpSpConnectionCacheModel)toCacheModel();
+		}
+
 		_nameIdFormat = nameIdFormat;
 	}
 
@@ -815,19 +1135,11 @@ public class SamlIdpSpConnectionModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		SamlIdpSpConnectionModelImpl samlIdpSpConnectionModelImpl = this;
+		_setModifiedDate = false;
 
-		samlIdpSpConnectionModelImpl._originalCompanyId =
-			samlIdpSpConnectionModelImpl._companyId;
+		_columnBitmask = 0;
 
-		samlIdpSpConnectionModelImpl._setOriginalCompanyId = false;
-
-		samlIdpSpConnectionModelImpl._setModifiedDate = false;
-
-		samlIdpSpConnectionModelImpl._originalSamlSpEntityId =
-			samlIdpSpConnectionModelImpl._samlSpEntityId;
-
-		samlIdpSpConnectionModelImpl._columnBitmask = 0;
+		_samlIdpSpConnectionCacheModel = _dummySamlIdpSpConnectionCacheModel;
 	}
 
 	@Override
@@ -1021,15 +1333,12 @@ public class SamlIdpSpConnectionModelImpl
 
 	private long _samlIdpSpConnectionId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private String _samlSpEntityId;
-	private String _originalSamlSpEntityId;
 	private int _assertionLifetime;
 	private String _attributeNames;
 	private boolean _attributesEnabled;
@@ -1044,5 +1353,11 @@ public class SamlIdpSpConnectionModelImpl
 	private String _nameIdFormat;
 	private long _columnBitmask;
 	private SamlIdpSpConnection _escapedModel;
+
+	private static final SamlIdpSpConnectionCacheModel
+		_dummySamlIdpSpConnectionCacheModel =
+			new SamlIdpSpConnectionCacheModel();
+
+	private SamlIdpSpConnectionCacheModel _samlIdpSpConnectionCacheModel;
 
 }

@@ -2720,7 +2720,8 @@ public class KaleoTaskAssignmentPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoTaskAssignmentModelImpl.getOriginalCompanyId()
+					kaleoTaskAssignmentModelImpl.getOriginalAttributeValue(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCompanyId, args);
@@ -2741,8 +2742,8 @@ public class KaleoTaskAssignmentPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoTaskAssignmentModelImpl.
-						getOriginalKaleoDefinitionVersionId()
+					kaleoTaskAssignmentModelImpl.getOriginalAttributeValue(
+						"kaleoDefinitionVersionId")
 				};
 
 				finderCache.removeResult(
@@ -2767,8 +2768,10 @@ public class KaleoTaskAssignmentPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoTaskAssignmentModelImpl.getOriginalKaleoClassName(),
-					kaleoTaskAssignmentModelImpl.getOriginalKaleoClassPK()
+					kaleoTaskAssignmentModelImpl.getOriginalAttributeValue(
+						"kaleoClassName"),
+					kaleoTaskAssignmentModelImpl.getOriginalAttributeValue(
+						"kaleoClassPK")
 				};
 
 				finderCache.removeResult(_finderPathCountByKCN_KCPK, args);
@@ -2790,9 +2793,12 @@ public class KaleoTaskAssignmentPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoTaskAssignmentModelImpl.getOriginalKaleoClassName(),
-					kaleoTaskAssignmentModelImpl.getOriginalKaleoClassPK(),
-					kaleoTaskAssignmentModelImpl.getOriginalAssigneeClassName()
+					kaleoTaskAssignmentModelImpl.getOriginalAttributeValue(
+						"kaleoClassName"),
+					kaleoTaskAssignmentModelImpl.getOriginalAttributeValue(
+						"kaleoClassPK"),
+					kaleoTaskAssignmentModelImpl.getOriginalAttributeValue(
+						"assigneeClassName")
 				};
 
 				finderCache.removeResult(_finderPathCountByKCN_KCPK_ACN, args);

@@ -2587,9 +2587,9 @@ public class DLFileRankPersistenceImpl
 			 _finderPathFetchByC_U_F.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				dlFileRankModelImpl.getOriginalCompanyId(),
-				dlFileRankModelImpl.getOriginalUserId(),
-				dlFileRankModelImpl.getOriginalFileEntryId()
+				dlFileRankModelImpl.getOriginalAttributeValue("companyId"),
+				dlFileRankModelImpl.getOriginalAttributeValue("userId"),
+				dlFileRankModelImpl.getOriginalAttributeValue("fileEntryId")
 			};
 
 			finderCache.removeResult(_finderPathCountByC_U_F, args);
@@ -2785,7 +2785,7 @@ public class DLFileRankPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					dlFileRankModelImpl.getOriginalUserId()
+					dlFileRankModelImpl.getOriginalAttributeValue("userId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUserId, args);
@@ -2804,7 +2804,7 @@ public class DLFileRankPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					dlFileRankModelImpl.getOriginalFileEntryId()
+					dlFileRankModelImpl.getOriginalAttributeValue("fileEntryId")
 				};
 
 				finderCache.removeResult(_finderPathCountByFileEntryId, args);
@@ -2823,8 +2823,8 @@ public class DLFileRankPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					dlFileRankModelImpl.getOriginalGroupId(),
-					dlFileRankModelImpl.getOriginalUserId()
+					dlFileRankModelImpl.getOriginalAttributeValue("groupId"),
+					dlFileRankModelImpl.getOriginalAttributeValue("userId")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_U, args);
@@ -2846,9 +2846,9 @@ public class DLFileRankPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					dlFileRankModelImpl.getOriginalGroupId(),
-					dlFileRankModelImpl.getOriginalUserId(),
-					dlFileRankModelImpl.getOriginalActive()
+					dlFileRankModelImpl.getOriginalAttributeValue("groupId"),
+					dlFileRankModelImpl.getOriginalAttributeValue("userId"),
+					dlFileRankModelImpl.getOriginalAttributeValue("active")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_U_A, args);

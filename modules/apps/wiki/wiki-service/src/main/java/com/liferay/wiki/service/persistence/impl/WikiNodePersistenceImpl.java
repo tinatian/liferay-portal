@@ -4653,8 +4653,8 @@ public class WikiNodePersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				wikiNodeModelImpl.getOriginalUuid(),
-				wikiNodeModelImpl.getOriginalGroupId()
+				wikiNodeModelImpl.getOriginalAttributeValue("uuid"),
+				wikiNodeModelImpl.getOriginalAttributeValue("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -4674,8 +4674,8 @@ public class WikiNodePersistenceImpl
 			 _finderPathFetchByG_N.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				wikiNodeModelImpl.getOriginalGroupId(),
-				wikiNodeModelImpl.getOriginalName()
+				wikiNodeModelImpl.getOriginalAttributeValue("groupId"),
+				wikiNodeModelImpl.getOriginalAttributeValue("name")
 			};
 
 			finderCache.removeResult(_finderPathCountByG_N, args);
@@ -4913,7 +4913,7 @@ public class WikiNodePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					wikiNodeModelImpl.getOriginalUuid()
+					wikiNodeModelImpl.getOriginalAttributeValue("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -4932,8 +4932,8 @@ public class WikiNodePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					wikiNodeModelImpl.getOriginalUuid(),
-					wikiNodeModelImpl.getOriginalCompanyId()
+					wikiNodeModelImpl.getOriginalAttributeValue("uuid"),
+					wikiNodeModelImpl.getOriginalAttributeValue("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -4955,7 +4955,7 @@ public class WikiNodePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					wikiNodeModelImpl.getOriginalGroupId()
+					wikiNodeModelImpl.getOriginalAttributeValue("groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId, args);
@@ -4974,7 +4974,7 @@ public class WikiNodePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					wikiNodeModelImpl.getOriginalCompanyId()
+					wikiNodeModelImpl.getOriginalAttributeValue("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCompanyId, args);
@@ -4993,8 +4993,8 @@ public class WikiNodePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					wikiNodeModelImpl.getOriginalGroupId(),
-					wikiNodeModelImpl.getOriginalStatus()
+					wikiNodeModelImpl.getOriginalAttributeValue("groupId"),
+					wikiNodeModelImpl.getOriginalAttributeValue("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_S, args);
@@ -5016,8 +5016,8 @@ public class WikiNodePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					wikiNodeModelImpl.getOriginalCompanyId(),
-					wikiNodeModelImpl.getOriginalStatus()
+					wikiNodeModelImpl.getOriginalAttributeValue("companyId"),
+					wikiNodeModelImpl.getOriginalAttributeValue("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_S, args);

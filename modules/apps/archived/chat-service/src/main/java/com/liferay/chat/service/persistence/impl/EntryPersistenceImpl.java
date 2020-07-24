@@ -4655,7 +4655,7 @@ public class EntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					entryModelImpl.getOriginalCreateDate()
+					entryModelImpl.getOriginalAttributeValue("createDate")
 				};
 
 				finderCache.removeResult(_finderPathCountByCreateDate, args);
@@ -4674,7 +4674,7 @@ public class EntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					entryModelImpl.getOriginalFromUserId()
+					entryModelImpl.getOriginalAttributeValue("fromUserId")
 				};
 
 				finderCache.removeResult(_finderPathCountByFromUserId, args);
@@ -4693,7 +4693,7 @@ public class EntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					entryModelImpl.getOriginalToUserId()
+					entryModelImpl.getOriginalAttributeValue("toUserId")
 				};
 
 				finderCache.removeResult(_finderPathCountByToUserId, args);
@@ -4712,8 +4712,8 @@ public class EntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					entryModelImpl.getOriginalCreateDate(),
-					entryModelImpl.getOriginalFromUserId()
+					entryModelImpl.getOriginalAttributeValue("createDate"),
+					entryModelImpl.getOriginalAttributeValue("fromUserId")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_F, args);
@@ -4735,8 +4735,8 @@ public class EntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					entryModelImpl.getOriginalCreateDate(),
-					entryModelImpl.getOriginalToUserId()
+					entryModelImpl.getOriginalAttributeValue("createDate"),
+					entryModelImpl.getOriginalAttributeValue("toUserId")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_T, args);
@@ -4757,8 +4757,8 @@ public class EntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					entryModelImpl.getOriginalFromUserId(),
-					entryModelImpl.getOriginalToUserId()
+					entryModelImpl.getOriginalAttributeValue("fromUserId"),
+					entryModelImpl.getOriginalAttributeValue("toUserId")
 				};
 
 				finderCache.removeResult(_finderPathCountByF_T, args);
@@ -4779,9 +4779,9 @@ public class EntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					entryModelImpl.getOriginalCreateDate(),
-					entryModelImpl.getOriginalFromUserId(),
-					entryModelImpl.getOriginalToUserId()
+					entryModelImpl.getOriginalAttributeValue("createDate"),
+					entryModelImpl.getOriginalAttributeValue("fromUserId"),
+					entryModelImpl.getOriginalAttributeValue("toUserId")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_F_T, args);
@@ -4803,9 +4803,9 @@ public class EntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					entryModelImpl.getOriginalFromUserId(),
-					entryModelImpl.getOriginalToUserId(),
-					entryModelImpl.getOriginalContent()
+					entryModelImpl.getOriginalAttributeValue("fromUserId"),
+					entryModelImpl.getOriginalAttributeValue("toUserId"),
+					entryModelImpl.getOriginalAttributeValue("content")
 				};
 
 				finderCache.removeResult(_finderPathCountByF_T_C, args);

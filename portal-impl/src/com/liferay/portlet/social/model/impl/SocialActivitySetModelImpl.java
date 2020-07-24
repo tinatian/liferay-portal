@@ -131,17 +131,31 @@ public class SocialActivitySetModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long CLASSNAMEID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long CLASSPK_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 4L;
+	public static final long ACTIVITYSETID_COLUMN_BITMASK = 4L;
 
-	public static final long TYPE_COLUMN_BITMASK = 8L;
+	public static final long GROUPID_COLUMN_BITMASK = 8L;
 
-	public static final long USERID_COLUMN_BITMASK = 16L;
+	public static final long COMPANYID_COLUMN_BITMASK = 16L;
 
-	public static final long MODIFIEDDATE_COLUMN_BITMASK = 32L;
+	public static final long USERID_COLUMN_BITMASK = 32L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 64L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 128L;
+
+	public static final long CLASSNAMEID_COLUMN_BITMASK = 256L;
+
+	public static final long CLASSPK_COLUMN_BITMASK = 512L;
+
+	public static final long TYPE_COLUMN_BITMASK = 1024L;
+
+	public static final long EXTRADATA_COLUMN_BITMASK = 2048L;
+
+	public static final long ACTIVITYCOUNT_COLUMN_BITMASK = 4096L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		com.liferay.portal.util.PropsUtil.get(
@@ -260,6 +274,27 @@ public class SocialActivitySetModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_socialActivitySetCacheModel == null) ||
+			(_socialActivitySetCacheModel ==
+				_dummySocialActivitySetCacheModel)) {
+
+			return null;
+		}
+
+		Function<SocialActivitySetCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_socialActivitySetCacheModel);
+	}
+
+	private static final Map
+		<String, Function<SocialActivitySetCacheModel, Object>>
+			_cacheModelGetterFunctions;
 	private static final Map<String, Function<SocialActivitySet, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<SocialActivitySet, Object>>
@@ -273,73 +308,138 @@ public class SocialActivitySetModelImpl
 		Map<String, BiConsumer<SocialActivitySet, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<SocialActivitySet, ?>>();
+		Map<String, Function<SocialActivitySetCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<SocialActivitySetCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", SocialActivitySet::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			socialActivitySetCacheModel ->
+				socialActivitySetCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<SocialActivitySet, Long>)
 				SocialActivitySet::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", SocialActivitySet::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			socialActivitySetCacheModel ->
+				socialActivitySetCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<SocialActivitySet, Long>)
 				SocialActivitySet::setCtCollectionId);
 		attributeGetterFunctions.put(
 			"activitySetId", SocialActivitySet::getActivitySetId);
+
+		cacheModelGetterFunctions.put(
+			"activitySetId",
+			socialActivitySetCacheModel ->
+				socialActivitySetCacheModel.activitySetId);
 		attributeSetterBiConsumers.put(
 			"activitySetId",
 			(BiConsumer<SocialActivitySet, Long>)
 				SocialActivitySet::setActivitySetId);
 		attributeGetterFunctions.put("groupId", SocialActivitySet::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			socialActivitySetCacheModel -> socialActivitySetCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<SocialActivitySet, Long>)SocialActivitySet::setGroupId);
 		attributeGetterFunctions.put(
 			"companyId", SocialActivitySet::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			socialActivitySetCacheModel ->
+				socialActivitySetCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<SocialActivitySet, Long>)
 				SocialActivitySet::setCompanyId);
 		attributeGetterFunctions.put("userId", SocialActivitySet::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			socialActivitySetCacheModel -> socialActivitySetCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<SocialActivitySet, Long>)SocialActivitySet::setUserId);
 		attributeGetterFunctions.put(
 			"createDate", SocialActivitySet::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			socialActivitySetCacheModel ->
+				socialActivitySetCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<SocialActivitySet, Long>)
 				SocialActivitySet::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", SocialActivitySet::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			socialActivitySetCacheModel ->
+				socialActivitySetCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<SocialActivitySet, Long>)
 				SocialActivitySet::setModifiedDate);
 		attributeGetterFunctions.put(
 			"classNameId", SocialActivitySet::getClassNameId);
+
+		cacheModelGetterFunctions.put(
+			"classNameId",
+			socialActivitySetCacheModel ->
+				socialActivitySetCacheModel.classNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<SocialActivitySet, Long>)
 				SocialActivitySet::setClassNameId);
 		attributeGetterFunctions.put("classPK", SocialActivitySet::getClassPK);
+
+		cacheModelGetterFunctions.put(
+			"classPK",
+			socialActivitySetCacheModel -> socialActivitySetCacheModel.classPK);
 		attributeSetterBiConsumers.put(
 			"classPK",
 			(BiConsumer<SocialActivitySet, Long>)SocialActivitySet::setClassPK);
 		attributeGetterFunctions.put("type", SocialActivitySet::getType);
+
+		cacheModelGetterFunctions.put(
+			"type",
+			socialActivitySetCacheModel -> socialActivitySetCacheModel.type);
 		attributeSetterBiConsumers.put(
 			"type",
 			(BiConsumer<SocialActivitySet, Integer>)SocialActivitySet::setType);
 		attributeGetterFunctions.put(
 			"extraData", SocialActivitySet::getExtraData);
+
+		cacheModelGetterFunctions.put(
+			"extraData",
+			socialActivitySetCacheModel ->
+				socialActivitySetCacheModel.extraData);
 		attributeSetterBiConsumers.put(
 			"extraData",
 			(BiConsumer<SocialActivitySet, String>)
 				SocialActivitySet::setExtraData);
 		attributeGetterFunctions.put(
 			"activityCount", SocialActivitySet::getActivityCount);
+
+		cacheModelGetterFunctions.put(
+			"activityCount",
+			socialActivitySetCacheModel ->
+				socialActivitySetCacheModel.activityCount);
 		attributeSetterBiConsumers.put(
 			"activityCount",
 			(BiConsumer<SocialActivitySet, Integer>)
@@ -349,6 +449,8 @@ public class SocialActivitySetModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -358,6 +460,13 @@ public class SocialActivitySetModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_socialActivitySetCacheModel == _dummySocialActivitySetCacheModel) {
+			_socialActivitySetCacheModel =
+				(SocialActivitySetCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -368,6 +477,13 @@ public class SocialActivitySetModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (_socialActivitySetCacheModel == _dummySocialActivitySetCacheModel) {
+			_socialActivitySetCacheModel =
+				(SocialActivitySetCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -378,6 +494,13 @@ public class SocialActivitySetModelImpl
 
 	@Override
 	public void setActivitySetId(long activitySetId) {
+		_columnBitmask |= ACTIVITYSETID_COLUMN_BITMASK;
+
+		if (_socialActivitySetCacheModel == _dummySocialActivitySetCacheModel) {
+			_socialActivitySetCacheModel =
+				(SocialActivitySetCacheModel)toCacheModel();
+		}
+
 		_activitySetId = activitySetId;
 	}
 
@@ -390,17 +513,21 @@ public class SocialActivitySetModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_socialActivitySetCacheModel == _dummySocialActivitySetCacheModel) {
+			_socialActivitySetCacheModel =
+				(SocialActivitySetCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getOriginalAttributeValue("groupId");
 	}
 
 	@Override
@@ -410,6 +537,13 @@ public class SocialActivitySetModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (_socialActivitySetCacheModel == _dummySocialActivitySetCacheModel) {
+			_socialActivitySetCacheModel =
+				(SocialActivitySetCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -422,10 +556,9 @@ public class SocialActivitySetModelImpl
 	public void setUserId(long userId) {
 		_columnBitmask |= USERID_COLUMN_BITMASK;
 
-		if (!_setOriginalUserId) {
-			_setOriginalUserId = true;
-
-			_originalUserId = _userId;
+		if (_socialActivitySetCacheModel == _dummySocialActivitySetCacheModel) {
+			_socialActivitySetCacheModel =
+				(SocialActivitySetCacheModel)toCacheModel();
 		}
 
 		_userId = userId;
@@ -447,8 +580,13 @@ public class SocialActivitySetModelImpl
 	public void setUserUuid(String userUuid) {
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalUserId() {
-		return _originalUserId;
+		return getOriginalAttributeValue("userId");
 	}
 
 	@Override
@@ -458,6 +596,13 @@ public class SocialActivitySetModelImpl
 
 	@Override
 	public void setCreateDate(long createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (_socialActivitySetCacheModel == _dummySocialActivitySetCacheModel) {
+			_socialActivitySetCacheModel =
+				(SocialActivitySetCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -468,7 +613,12 @@ public class SocialActivitySetModelImpl
 
 	@Override
 	public void setModifiedDate(long modifiedDate) {
-		_columnBitmask = -1L;
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (_socialActivitySetCacheModel == _dummySocialActivitySetCacheModel) {
+			_socialActivitySetCacheModel =
+				(SocialActivitySetCacheModel)toCacheModel();
+		}
 
 		_modifiedDate = modifiedDate;
 	}
@@ -502,17 +652,21 @@ public class SocialActivitySetModelImpl
 	public void setClassNameId(long classNameId) {
 		_columnBitmask |= CLASSNAMEID_COLUMN_BITMASK;
 
-		if (!_setOriginalClassNameId) {
-			_setOriginalClassNameId = true;
-
-			_originalClassNameId = _classNameId;
+		if (_socialActivitySetCacheModel == _dummySocialActivitySetCacheModel) {
+			_socialActivitySetCacheModel =
+				(SocialActivitySetCacheModel)toCacheModel();
 		}
 
 		_classNameId = classNameId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassNameId() {
-		return _originalClassNameId;
+		return getOriginalAttributeValue("classNameId");
 	}
 
 	@Override
@@ -524,17 +678,21 @@ public class SocialActivitySetModelImpl
 	public void setClassPK(long classPK) {
 		_columnBitmask |= CLASSPK_COLUMN_BITMASK;
 
-		if (!_setOriginalClassPK) {
-			_setOriginalClassPK = true;
-
-			_originalClassPK = _classPK;
+		if (_socialActivitySetCacheModel == _dummySocialActivitySetCacheModel) {
+			_socialActivitySetCacheModel =
+				(SocialActivitySetCacheModel)toCacheModel();
 		}
 
 		_classPK = classPK;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassPK() {
-		return _originalClassPK;
+		return getOriginalAttributeValue("classPK");
 	}
 
 	@Override
@@ -546,17 +704,21 @@ public class SocialActivitySetModelImpl
 	public void setType(int type) {
 		_columnBitmask |= TYPE_COLUMN_BITMASK;
 
-		if (!_setOriginalType) {
-			_setOriginalType = true;
-
-			_originalType = _type;
+		if (_socialActivitySetCacheModel == _dummySocialActivitySetCacheModel) {
+			_socialActivitySetCacheModel =
+				(SocialActivitySetCacheModel)toCacheModel();
 		}
 
 		_type = type;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalType() {
-		return _originalType;
+		return getOriginalAttributeValue("type");
 	}
 
 	@Override
@@ -571,6 +733,13 @@ public class SocialActivitySetModelImpl
 
 	@Override
 	public void setExtraData(String extraData) {
+		_columnBitmask |= EXTRADATA_COLUMN_BITMASK;
+
+		if (_socialActivitySetCacheModel == _dummySocialActivitySetCacheModel) {
+			_socialActivitySetCacheModel =
+				(SocialActivitySetCacheModel)toCacheModel();
+		}
+
 		_extraData = extraData;
 	}
 
@@ -581,6 +750,13 @@ public class SocialActivitySetModelImpl
 
 	@Override
 	public void setActivityCount(int activityCount) {
+		_columnBitmask |= ACTIVITYCOUNT_COLUMN_BITMASK;
+
+		if (_socialActivitySetCacheModel == _dummySocialActivitySetCacheModel) {
+			_socialActivitySetCacheModel =
+				(SocialActivitySetCacheModel)toCacheModel();
+		}
+
 		_activityCount = activityCount;
 	}
 
@@ -710,34 +886,9 @@ public class SocialActivitySetModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		SocialActivitySetModelImpl socialActivitySetModelImpl = this;
+		_columnBitmask = 0;
 
-		socialActivitySetModelImpl._originalGroupId =
-			socialActivitySetModelImpl._groupId;
-
-		socialActivitySetModelImpl._setOriginalGroupId = false;
-
-		socialActivitySetModelImpl._originalUserId =
-			socialActivitySetModelImpl._userId;
-
-		socialActivitySetModelImpl._setOriginalUserId = false;
-
-		socialActivitySetModelImpl._originalClassNameId =
-			socialActivitySetModelImpl._classNameId;
-
-		socialActivitySetModelImpl._setOriginalClassNameId = false;
-
-		socialActivitySetModelImpl._originalClassPK =
-			socialActivitySetModelImpl._classPK;
-
-		socialActivitySetModelImpl._setOriginalClassPK = false;
-
-		socialActivitySetModelImpl._originalType =
-			socialActivitySetModelImpl._type;
-
-		socialActivitySetModelImpl._setOriginalType = false;
-
-		socialActivitySetModelImpl._columnBitmask = 0;
+		_socialActivitySetCacheModel = _dummySocialActivitySetCacheModel;
 	}
 
 	@Override
@@ -854,26 +1005,21 @@ public class SocialActivitySetModelImpl
 	private long _ctCollectionId;
 	private long _activitySetId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
 	private long _userId;
-	private long _originalUserId;
-	private boolean _setOriginalUserId;
 	private long _createDate;
 	private long _modifiedDate;
 	private long _classNameId;
-	private long _originalClassNameId;
-	private boolean _setOriginalClassNameId;
 	private long _classPK;
-	private long _originalClassPK;
-	private boolean _setOriginalClassPK;
 	private int _type;
-	private int _originalType;
-	private boolean _setOriginalType;
 	private String _extraData;
 	private int _activityCount;
 	private long _columnBitmask;
 	private SocialActivitySet _escapedModel;
+
+	private static final SocialActivitySetCacheModel
+		_dummySocialActivitySetCacheModel = new SocialActivitySetCacheModel();
+
+	private SocialActivitySetCacheModel _socialActivitySetCacheModel;
 
 }

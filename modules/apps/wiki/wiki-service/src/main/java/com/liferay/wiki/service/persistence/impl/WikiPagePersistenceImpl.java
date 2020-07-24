@@ -21835,8 +21835,8 @@ public class WikiPagePersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				wikiPageModelImpl.getOriginalUuid(),
-				wikiPageModelImpl.getOriginalGroupId()
+				wikiPageModelImpl.getOriginalAttributeValue("uuid"),
+				wikiPageModelImpl.getOriginalAttributeValue("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -21857,9 +21857,9 @@ public class WikiPagePersistenceImpl
 			 _finderPathFetchByR_N_V.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				wikiPageModelImpl.getOriginalResourcePrimKey(),
-				wikiPageModelImpl.getOriginalNodeId(),
-				wikiPageModelImpl.getOriginalVersion()
+				wikiPageModelImpl.getOriginalAttributeValue("resourcePrimKey"),
+				wikiPageModelImpl.getOriginalAttributeValue("nodeId"),
+				wikiPageModelImpl.getOriginalAttributeValue("version")
 			};
 
 			finderCache.removeResult(_finderPathCountByR_N_V, args);
@@ -21880,9 +21880,9 @@ public class WikiPagePersistenceImpl
 			 _finderPathFetchByN_T_V.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				wikiPageModelImpl.getOriginalNodeId(),
-				wikiPageModelImpl.getOriginalTitle(),
-				wikiPageModelImpl.getOriginalVersion()
+				wikiPageModelImpl.getOriginalAttributeValue("nodeId"),
+				wikiPageModelImpl.getOriginalAttributeValue("title"),
+				wikiPageModelImpl.getOriginalAttributeValue("version")
 			};
 
 			finderCache.removeResult(_finderPathCountByN_T_V, args);
@@ -22344,7 +22344,8 @@ public class WikiPagePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					wikiPageModelImpl.getOriginalResourcePrimKey()
+					wikiPageModelImpl.getOriginalAttributeValue(
+						"resourcePrimKey")
 				};
 
 				finderCache.removeResult(
@@ -22365,7 +22366,7 @@ public class WikiPagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					wikiPageModelImpl.getOriginalUuid()
+					wikiPageModelImpl.getOriginalAttributeValue("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -22384,8 +22385,8 @@ public class WikiPagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					wikiPageModelImpl.getOriginalUuid(),
-					wikiPageModelImpl.getOriginalCompanyId()
+					wikiPageModelImpl.getOriginalAttributeValue("uuid"),
+					wikiPageModelImpl.getOriginalAttributeValue("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -22407,7 +22408,7 @@ public class WikiPagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					wikiPageModelImpl.getOriginalNodeId()
+					wikiPageModelImpl.getOriginalAttributeValue("nodeId")
 				};
 
 				finderCache.removeResult(_finderPathCountByNodeId, args);
@@ -22426,7 +22427,7 @@ public class WikiPagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					wikiPageModelImpl.getOriginalFormat()
+					wikiPageModelImpl.getOriginalAttributeValue("format")
 				};
 
 				finderCache.removeResult(_finderPathCountByFormat, args);
@@ -22445,8 +22446,9 @@ public class WikiPagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					wikiPageModelImpl.getOriginalResourcePrimKey(),
-					wikiPageModelImpl.getOriginalNodeId()
+					wikiPageModelImpl.getOriginalAttributeValue(
+						"resourcePrimKey"),
+					wikiPageModelImpl.getOriginalAttributeValue("nodeId")
 				};
 
 				finderCache.removeResult(_finderPathCountByR_N, args);
@@ -22468,8 +22470,9 @@ public class WikiPagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					wikiPageModelImpl.getOriginalResourcePrimKey(),
-					wikiPageModelImpl.getOriginalStatus()
+					wikiPageModelImpl.getOriginalAttributeValue(
+						"resourcePrimKey"),
+					wikiPageModelImpl.getOriginalAttributeValue("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByR_S, args);
@@ -22491,8 +22494,8 @@ public class WikiPagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					wikiPageModelImpl.getOriginalNodeId(),
-					wikiPageModelImpl.getOriginalTitle()
+					wikiPageModelImpl.getOriginalAttributeValue("nodeId"),
+					wikiPageModelImpl.getOriginalAttributeValue("title")
 				};
 
 				finderCache.removeResult(_finderPathCountByN_T, args);
@@ -22513,8 +22516,8 @@ public class WikiPagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					wikiPageModelImpl.getOriginalNodeId(),
-					wikiPageModelImpl.getOriginalHead()
+					wikiPageModelImpl.getOriginalAttributeValue("nodeId"),
+					wikiPageModelImpl.getOriginalAttributeValue("head")
 				};
 
 				finderCache.removeResult(_finderPathCountByN_H, args);
@@ -22535,8 +22538,8 @@ public class WikiPagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					wikiPageModelImpl.getOriginalNodeId(),
-					wikiPageModelImpl.getOriginalParentTitle()
+					wikiPageModelImpl.getOriginalAttributeValue("nodeId"),
+					wikiPageModelImpl.getOriginalAttributeValue("parentTitle")
 				};
 
 				finderCache.removeResult(_finderPathCountByN_P, args);
@@ -22558,8 +22561,8 @@ public class WikiPagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					wikiPageModelImpl.getOriginalNodeId(),
-					wikiPageModelImpl.getOriginalRedirectTitle()
+					wikiPageModelImpl.getOriginalAttributeValue("nodeId"),
+					wikiPageModelImpl.getOriginalAttributeValue("redirectTitle")
 				};
 
 				finderCache.removeResult(_finderPathCountByN_R, args);
@@ -22581,8 +22584,8 @@ public class WikiPagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					wikiPageModelImpl.getOriginalNodeId(),
-					wikiPageModelImpl.getOriginalStatus()
+					wikiPageModelImpl.getOriginalAttributeValue("nodeId"),
+					wikiPageModelImpl.getOriginalAttributeValue("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByN_S, args);
@@ -22603,9 +22606,10 @@ public class WikiPagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					wikiPageModelImpl.getOriginalResourcePrimKey(),
-					wikiPageModelImpl.getOriginalNodeId(),
-					wikiPageModelImpl.getOriginalHead()
+					wikiPageModelImpl.getOriginalAttributeValue(
+						"resourcePrimKey"),
+					wikiPageModelImpl.getOriginalAttributeValue("nodeId"),
+					wikiPageModelImpl.getOriginalAttributeValue("head")
 				};
 
 				finderCache.removeResult(_finderPathCountByR_N_H, args);
@@ -22627,9 +22631,10 @@ public class WikiPagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					wikiPageModelImpl.getOriginalResourcePrimKey(),
-					wikiPageModelImpl.getOriginalNodeId(),
-					wikiPageModelImpl.getOriginalStatus()
+					wikiPageModelImpl.getOriginalAttributeValue(
+						"resourcePrimKey"),
+					wikiPageModelImpl.getOriginalAttributeValue("nodeId"),
+					wikiPageModelImpl.getOriginalAttributeValue("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByR_N_S, args);
@@ -22651,9 +22656,9 @@ public class WikiPagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					wikiPageModelImpl.getOriginalGroupId(),
-					wikiPageModelImpl.getOriginalNodeId(),
-					wikiPageModelImpl.getOriginalHead()
+					wikiPageModelImpl.getOriginalAttributeValue("groupId"),
+					wikiPageModelImpl.getOriginalAttributeValue("nodeId"),
+					wikiPageModelImpl.getOriginalAttributeValue("head")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_N_H, args);
@@ -22675,9 +22680,9 @@ public class WikiPagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					wikiPageModelImpl.getOriginalGroupId(),
-					wikiPageModelImpl.getOriginalNodeId(),
-					wikiPageModelImpl.getOriginalStatus()
+					wikiPageModelImpl.getOriginalAttributeValue("groupId"),
+					wikiPageModelImpl.getOriginalAttributeValue("nodeId"),
+					wikiPageModelImpl.getOriginalAttributeValue("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_N_S, args);
@@ -22699,9 +22704,9 @@ public class WikiPagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					wikiPageModelImpl.getOriginalUserId(),
-					wikiPageModelImpl.getOriginalNodeId(),
-					wikiPageModelImpl.getOriginalStatus()
+					wikiPageModelImpl.getOriginalAttributeValue("userId"),
+					wikiPageModelImpl.getOriginalAttributeValue("nodeId"),
+					wikiPageModelImpl.getOriginalAttributeValue("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByU_N_S, args);
@@ -22723,9 +22728,9 @@ public class WikiPagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					wikiPageModelImpl.getOriginalNodeId(),
-					wikiPageModelImpl.getOriginalTitle(),
-					wikiPageModelImpl.getOriginalHead()
+					wikiPageModelImpl.getOriginalAttributeValue("nodeId"),
+					wikiPageModelImpl.getOriginalAttributeValue("title"),
+					wikiPageModelImpl.getOriginalAttributeValue("head")
 				};
 
 				finderCache.removeResult(_finderPathCountByN_T_H, args);
@@ -22747,9 +22752,9 @@ public class WikiPagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					wikiPageModelImpl.getOriginalNodeId(),
-					wikiPageModelImpl.getOriginalTitle(),
-					wikiPageModelImpl.getOriginalStatus()
+					wikiPageModelImpl.getOriginalAttributeValue("nodeId"),
+					wikiPageModelImpl.getOriginalAttributeValue("title"),
+					wikiPageModelImpl.getOriginalAttributeValue("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByN_T_S, args);
@@ -22771,9 +22776,9 @@ public class WikiPagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					wikiPageModelImpl.getOriginalNodeId(),
-					wikiPageModelImpl.getOriginalHead(),
-					wikiPageModelImpl.getOriginalParentTitle()
+					wikiPageModelImpl.getOriginalAttributeValue("nodeId"),
+					wikiPageModelImpl.getOriginalAttributeValue("head"),
+					wikiPageModelImpl.getOriginalAttributeValue("parentTitle")
 				};
 
 				finderCache.removeResult(_finderPathCountByN_H_P, args);
@@ -22795,9 +22800,9 @@ public class WikiPagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					wikiPageModelImpl.getOriginalNodeId(),
-					wikiPageModelImpl.getOriginalHead(),
-					wikiPageModelImpl.getOriginalRedirectTitle()
+					wikiPageModelImpl.getOriginalAttributeValue("nodeId"),
+					wikiPageModelImpl.getOriginalAttributeValue("head"),
+					wikiPageModelImpl.getOriginalAttributeValue("redirectTitle")
 				};
 
 				finderCache.removeResult(_finderPathCountByN_H_R, args);
@@ -22819,9 +22824,9 @@ public class WikiPagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					wikiPageModelImpl.getOriginalNodeId(),
-					wikiPageModelImpl.getOriginalHead(),
-					wikiPageModelImpl.getOriginalStatus()
+					wikiPageModelImpl.getOriginalAttributeValue("nodeId"),
+					wikiPageModelImpl.getOriginalAttributeValue("head"),
+					wikiPageModelImpl.getOriginalAttributeValue("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByN_H_S, args);
@@ -22843,10 +22848,10 @@ public class WikiPagePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					wikiPageModelImpl.getOriginalGroupId(),
-					wikiPageModelImpl.getOriginalUserId(),
-					wikiPageModelImpl.getOriginalNodeId(),
-					wikiPageModelImpl.getOriginalStatus()
+					wikiPageModelImpl.getOriginalAttributeValue("groupId"),
+					wikiPageModelImpl.getOriginalAttributeValue("userId"),
+					wikiPageModelImpl.getOriginalAttributeValue("nodeId"),
+					wikiPageModelImpl.getOriginalAttributeValue("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_U_N_S, args);
@@ -22869,10 +22874,10 @@ public class WikiPagePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					wikiPageModelImpl.getOriginalGroupId(),
-					wikiPageModelImpl.getOriginalNodeId(),
-					wikiPageModelImpl.getOriginalTitle(),
-					wikiPageModelImpl.getOriginalHead()
+					wikiPageModelImpl.getOriginalAttributeValue("groupId"),
+					wikiPageModelImpl.getOriginalAttributeValue("nodeId"),
+					wikiPageModelImpl.getOriginalAttributeValue("title"),
+					wikiPageModelImpl.getOriginalAttributeValue("head")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_N_T_H, args);
@@ -22895,10 +22900,10 @@ public class WikiPagePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					wikiPageModelImpl.getOriginalGroupId(),
-					wikiPageModelImpl.getOriginalNodeId(),
-					wikiPageModelImpl.getOriginalHead(),
-					wikiPageModelImpl.getOriginalStatus()
+					wikiPageModelImpl.getOriginalAttributeValue("groupId"),
+					wikiPageModelImpl.getOriginalAttributeValue("nodeId"),
+					wikiPageModelImpl.getOriginalAttributeValue("head"),
+					wikiPageModelImpl.getOriginalAttributeValue("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_N_H_S, args);
@@ -22921,10 +22926,10 @@ public class WikiPagePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					wikiPageModelImpl.getOriginalNodeId(),
-					wikiPageModelImpl.getOriginalHead(),
-					wikiPageModelImpl.getOriginalParentTitle(),
-					wikiPageModelImpl.getOriginalStatus()
+					wikiPageModelImpl.getOriginalAttributeValue("nodeId"),
+					wikiPageModelImpl.getOriginalAttributeValue("head"),
+					wikiPageModelImpl.getOriginalAttributeValue("parentTitle"),
+					wikiPageModelImpl.getOriginalAttributeValue("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByN_H_P_S, args);
@@ -22947,10 +22952,11 @@ public class WikiPagePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					wikiPageModelImpl.getOriginalNodeId(),
-					wikiPageModelImpl.getOriginalHead(),
-					wikiPageModelImpl.getOriginalRedirectTitle(),
-					wikiPageModelImpl.getOriginalStatus()
+					wikiPageModelImpl.getOriginalAttributeValue("nodeId"),
+					wikiPageModelImpl.getOriginalAttributeValue("head"),
+					wikiPageModelImpl.getOriginalAttributeValue(
+						"redirectTitle"),
+					wikiPageModelImpl.getOriginalAttributeValue("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByN_H_R_S, args);
@@ -22973,11 +22979,11 @@ public class WikiPagePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					wikiPageModelImpl.getOriginalGroupId(),
-					wikiPageModelImpl.getOriginalNodeId(),
-					wikiPageModelImpl.getOriginalHead(),
-					wikiPageModelImpl.getOriginalParentTitle(),
-					wikiPageModelImpl.getOriginalStatus()
+					wikiPageModelImpl.getOriginalAttributeValue("groupId"),
+					wikiPageModelImpl.getOriginalAttributeValue("nodeId"),
+					wikiPageModelImpl.getOriginalAttributeValue("head"),
+					wikiPageModelImpl.getOriginalAttributeValue("parentTitle"),
+					wikiPageModelImpl.getOriginalAttributeValue("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_N_H_P_S, args);

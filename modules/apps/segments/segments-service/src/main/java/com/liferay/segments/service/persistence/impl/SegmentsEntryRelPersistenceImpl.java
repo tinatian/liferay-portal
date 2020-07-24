@@ -2191,9 +2191,11 @@ public class SegmentsEntryRelPersistenceImpl
 			 _finderPathFetchByS_CN_CPK.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				segmentsEntryRelModelImpl.getOriginalSegmentsEntryId(),
-				segmentsEntryRelModelImpl.getOriginalClassNameId(),
-				segmentsEntryRelModelImpl.getOriginalClassPK()
+				segmentsEntryRelModelImpl.getOriginalAttributeValue(
+					"segmentsEntryId"),
+				segmentsEntryRelModelImpl.getOriginalAttributeValue(
+					"classNameId"),
+				segmentsEntryRelModelImpl.getOriginalAttributeValue("classPK")
 			};
 
 			finderCache.removeResult(_finderPathCountByS_CN_CPK, args);
@@ -2437,7 +2439,8 @@ public class SegmentsEntryRelPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					segmentsEntryRelModelImpl.getOriginalSegmentsEntryId()
+					segmentsEntryRelModelImpl.getOriginalAttributeValue(
+						"segmentsEntryId")
 				};
 
 				finderCache.removeResult(
@@ -2460,8 +2463,10 @@ public class SegmentsEntryRelPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					segmentsEntryRelModelImpl.getOriginalClassNameId(),
-					segmentsEntryRelModelImpl.getOriginalClassPK()
+					segmentsEntryRelModelImpl.getOriginalAttributeValue(
+						"classNameId"),
+					segmentsEntryRelModelImpl.getOriginalAttributeValue(
+						"classPK")
 				};
 
 				finderCache.removeResult(_finderPathCountByCN_CPK, args);
@@ -2483,9 +2488,12 @@ public class SegmentsEntryRelPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					segmentsEntryRelModelImpl.getOriginalGroupId(),
-					segmentsEntryRelModelImpl.getOriginalClassNameId(),
-					segmentsEntryRelModelImpl.getOriginalClassPK()
+					segmentsEntryRelModelImpl.getOriginalAttributeValue(
+						"groupId"),
+					segmentsEntryRelModelImpl.getOriginalAttributeValue(
+						"classNameId"),
+					segmentsEntryRelModelImpl.getOriginalAttributeValue(
+						"classPK")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_CN_CPK, args);

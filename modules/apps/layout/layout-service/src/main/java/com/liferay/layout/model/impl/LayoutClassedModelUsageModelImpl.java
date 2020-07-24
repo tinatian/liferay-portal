@@ -25,7 +25,6 @@ import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -117,25 +116,35 @@ public class LayoutClassedModelUsageModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long CLASSNAMEID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long CLASSPK_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 4L;
+	public static final long UUID_COLUMN_BITMASK = 4L;
 
-	public static final long CONTAINERKEY_COLUMN_BITMASK = 8L;
+	public static final long LAYOUTCLASSEDMODELUSAGEID_COLUMN_BITMASK = 8L;
 
-	public static final long CONTAINERTYPE_COLUMN_BITMASK = 16L;
+	public static final long GROUPID_COLUMN_BITMASK = 16L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 32L;
+	public static final long COMPANYID_COLUMN_BITMASK = 32L;
 
-	public static final long PLID_COLUMN_BITMASK = 64L;
+	public static final long CREATEDATE_COLUMN_BITMASK = 64L;
 
-	public static final long TYPE_COLUMN_BITMASK = 128L;
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 128L;
 
-	public static final long UUID_COLUMN_BITMASK = 256L;
+	public static final long CLASSNAMEID_COLUMN_BITMASK = 256L;
 
-	public static final long LAYOUTCLASSEDMODELUSAGEID_COLUMN_BITMASK = 512L;
+	public static final long CLASSPK_COLUMN_BITMASK = 512L;
+
+	public static final long CONTAINERKEY_COLUMN_BITMASK = 1024L;
+
+	public static final long CONTAINERTYPE_COLUMN_BITMASK = 2048L;
+
+	public static final long PLID_COLUMN_BITMASK = 4096L;
+
+	public static final long TYPE_COLUMN_BITMASK = 8192L;
+
+	public static final long LASTPUBLISHDATE_COLUMN_BITMASK = 16384L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -265,6 +274,27 @@ public class LayoutClassedModelUsageModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_layoutClassedModelUsageCacheModel == null) ||
+			(_layoutClassedModelUsageCacheModel ==
+				_dummyLayoutClassedModelUsageCacheModel)) {
+
+			return null;
+		}
+
+		Function<LayoutClassedModelUsageCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_layoutClassedModelUsageCacheModel);
+	}
+
+	private static final Map
+		<String, Function<LayoutClassedModelUsageCacheModel, Object>>
+			_cacheModelGetterFunctions;
 	private static final Map<String, Function<LayoutClassedModelUsage, Object>>
 		_attributeGetterFunctions;
 	private static final Map
@@ -280,20 +310,40 @@ public class LayoutClassedModelUsageModelImpl
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<LayoutClassedModelUsage, ?>>();
+		Map<String, Function<LayoutClassedModelUsageCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String,
+					 Function<LayoutClassedModelUsageCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", LayoutClassedModelUsage::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			layoutClassedModelUsageCacheModel ->
+				layoutClassedModelUsageCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<LayoutClassedModelUsage, Long>)
 				LayoutClassedModelUsage::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", LayoutClassedModelUsage::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			layoutClassedModelUsageCacheModel ->
+				layoutClassedModelUsageCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<LayoutClassedModelUsage, Long>)
 				LayoutClassedModelUsage::setCtCollectionId);
 		attributeGetterFunctions.put("uuid", LayoutClassedModelUsage::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid",
+			layoutClassedModelUsageCacheModel ->
+				layoutClassedModelUsageCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid",
 			(BiConsumer<LayoutClassedModelUsage, String>)
@@ -301,70 +351,130 @@ public class LayoutClassedModelUsageModelImpl
 		attributeGetterFunctions.put(
 			"layoutClassedModelUsageId",
 			LayoutClassedModelUsage::getLayoutClassedModelUsageId);
+
+		cacheModelGetterFunctions.put(
+			"layoutClassedModelUsageId",
+			layoutClassedModelUsageCacheModel ->
+				layoutClassedModelUsageCacheModel.layoutClassedModelUsageId);
 		attributeSetterBiConsumers.put(
 			"layoutClassedModelUsageId",
 			(BiConsumer<LayoutClassedModelUsage, Long>)
 				LayoutClassedModelUsage::setLayoutClassedModelUsageId);
 		attributeGetterFunctions.put(
 			"groupId", LayoutClassedModelUsage::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			layoutClassedModelUsageCacheModel ->
+				layoutClassedModelUsageCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<LayoutClassedModelUsage, Long>)
 				LayoutClassedModelUsage::setGroupId);
 		attributeGetterFunctions.put(
 			"companyId", LayoutClassedModelUsage::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			layoutClassedModelUsageCacheModel ->
+				layoutClassedModelUsageCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<LayoutClassedModelUsage, Long>)
 				LayoutClassedModelUsage::setCompanyId);
 		attributeGetterFunctions.put(
 			"createDate", LayoutClassedModelUsage::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			layoutClassedModelUsageCacheModel ->
+				layoutClassedModelUsageCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<LayoutClassedModelUsage, Date>)
 				LayoutClassedModelUsage::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", LayoutClassedModelUsage::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			layoutClassedModelUsageCacheModel ->
+				layoutClassedModelUsageCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<LayoutClassedModelUsage, Date>)
 				LayoutClassedModelUsage::setModifiedDate);
 		attributeGetterFunctions.put(
 			"classNameId", LayoutClassedModelUsage::getClassNameId);
+
+		cacheModelGetterFunctions.put(
+			"classNameId",
+			layoutClassedModelUsageCacheModel ->
+				layoutClassedModelUsageCacheModel.classNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<LayoutClassedModelUsage, Long>)
 				LayoutClassedModelUsage::setClassNameId);
 		attributeGetterFunctions.put(
 			"classPK", LayoutClassedModelUsage::getClassPK);
+
+		cacheModelGetterFunctions.put(
+			"classPK",
+			layoutClassedModelUsageCacheModel ->
+				layoutClassedModelUsageCacheModel.classPK);
 		attributeSetterBiConsumers.put(
 			"classPK",
 			(BiConsumer<LayoutClassedModelUsage, Long>)
 				LayoutClassedModelUsage::setClassPK);
 		attributeGetterFunctions.put(
 			"containerKey", LayoutClassedModelUsage::getContainerKey);
+
+		cacheModelGetterFunctions.put(
+			"containerKey",
+			layoutClassedModelUsageCacheModel ->
+				layoutClassedModelUsageCacheModel.containerKey);
 		attributeSetterBiConsumers.put(
 			"containerKey",
 			(BiConsumer<LayoutClassedModelUsage, String>)
 				LayoutClassedModelUsage::setContainerKey);
 		attributeGetterFunctions.put(
 			"containerType", LayoutClassedModelUsage::getContainerType);
+
+		cacheModelGetterFunctions.put(
+			"containerType",
+			layoutClassedModelUsageCacheModel ->
+				layoutClassedModelUsageCacheModel.containerType);
 		attributeSetterBiConsumers.put(
 			"containerType",
 			(BiConsumer<LayoutClassedModelUsage, Long>)
 				LayoutClassedModelUsage::setContainerType);
 		attributeGetterFunctions.put("plid", LayoutClassedModelUsage::getPlid);
+
+		cacheModelGetterFunctions.put(
+			"plid",
+			layoutClassedModelUsageCacheModel ->
+				layoutClassedModelUsageCacheModel.plid);
 		attributeSetterBiConsumers.put(
 			"plid",
 			(BiConsumer<LayoutClassedModelUsage, Long>)
 				LayoutClassedModelUsage::setPlid);
 		attributeGetterFunctions.put("type", LayoutClassedModelUsage::getType);
+
+		cacheModelGetterFunctions.put(
+			"type",
+			layoutClassedModelUsageCacheModel ->
+				layoutClassedModelUsageCacheModel.type);
 		attributeSetterBiConsumers.put(
 			"type",
 			(BiConsumer<LayoutClassedModelUsage, Integer>)
 				LayoutClassedModelUsage::setType);
 		attributeGetterFunctions.put(
 			"lastPublishDate", LayoutClassedModelUsage::getLastPublishDate);
+
+		cacheModelGetterFunctions.put(
+			"lastPublishDate",
+			layoutClassedModelUsageCacheModel ->
+				layoutClassedModelUsageCacheModel.lastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<LayoutClassedModelUsage, Date>)
@@ -374,6 +484,8 @@ public class LayoutClassedModelUsageModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -383,6 +495,15 @@ public class LayoutClassedModelUsageModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_layoutClassedModelUsageCacheModel ==
+				_dummyLayoutClassedModelUsageCacheModel) {
+
+			_layoutClassedModelUsageCacheModel =
+				(LayoutClassedModelUsageCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -393,6 +514,15 @@ public class LayoutClassedModelUsageModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (_layoutClassedModelUsageCacheModel ==
+				_dummyLayoutClassedModelUsageCacheModel) {
+
+			_layoutClassedModelUsageCacheModel =
+				(LayoutClassedModelUsageCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -410,15 +540,23 @@ public class LayoutClassedModelUsageModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_layoutClassedModelUsageCacheModel ==
+				_dummyLayoutClassedModelUsageCacheModel) {
+
+			_layoutClassedModelUsageCacheModel =
+				(LayoutClassedModelUsageCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getOriginalAttributeValue("uuid");
 	}
 
 	@Override
@@ -428,6 +566,15 @@ public class LayoutClassedModelUsageModelImpl
 
 	@Override
 	public void setLayoutClassedModelUsageId(long layoutClassedModelUsageId) {
+		_columnBitmask |= LAYOUTCLASSEDMODELUSAGEID_COLUMN_BITMASK;
+
+		if (_layoutClassedModelUsageCacheModel ==
+				_dummyLayoutClassedModelUsageCacheModel) {
+
+			_layoutClassedModelUsageCacheModel =
+				(LayoutClassedModelUsageCacheModel)toCacheModel();
+		}
+
 		_layoutClassedModelUsageId = layoutClassedModelUsageId;
 	}
 
@@ -440,17 +587,23 @@ public class LayoutClassedModelUsageModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
+		if (_layoutClassedModelUsageCacheModel ==
+				_dummyLayoutClassedModelUsageCacheModel) {
 
-			_originalGroupId = _groupId;
+			_layoutClassedModelUsageCacheModel =
+				(LayoutClassedModelUsageCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getOriginalAttributeValue("groupId");
 	}
 
 	@Override
@@ -462,17 +615,23 @@ public class LayoutClassedModelUsageModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
+		if (_layoutClassedModelUsageCacheModel ==
+				_dummyLayoutClassedModelUsageCacheModel) {
 
-			_originalCompanyId = _companyId;
+			_layoutClassedModelUsageCacheModel =
+				(LayoutClassedModelUsageCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@Override
@@ -482,6 +641,15 @@ public class LayoutClassedModelUsageModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (_layoutClassedModelUsageCacheModel ==
+				_dummyLayoutClassedModelUsageCacheModel) {
+
+			_layoutClassedModelUsageCacheModel =
+				(LayoutClassedModelUsageCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -497,6 +665,15 @@ public class LayoutClassedModelUsageModelImpl
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
+
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (_layoutClassedModelUsageCacheModel ==
+				_dummyLayoutClassedModelUsageCacheModel) {
+
+			_layoutClassedModelUsageCacheModel =
+				(LayoutClassedModelUsageCacheModel)toCacheModel();
+		}
 
 		_modifiedDate = modifiedDate;
 	}
@@ -530,17 +707,23 @@ public class LayoutClassedModelUsageModelImpl
 	public void setClassNameId(long classNameId) {
 		_columnBitmask |= CLASSNAMEID_COLUMN_BITMASK;
 
-		if (!_setOriginalClassNameId) {
-			_setOriginalClassNameId = true;
+		if (_layoutClassedModelUsageCacheModel ==
+				_dummyLayoutClassedModelUsageCacheModel) {
 
-			_originalClassNameId = _classNameId;
+			_layoutClassedModelUsageCacheModel =
+				(LayoutClassedModelUsageCacheModel)toCacheModel();
 		}
 
 		_classNameId = classNameId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassNameId() {
-		return _originalClassNameId;
+		return getOriginalAttributeValue("classNameId");
 	}
 
 	@Override
@@ -552,17 +735,23 @@ public class LayoutClassedModelUsageModelImpl
 	public void setClassPK(long classPK) {
 		_columnBitmask |= CLASSPK_COLUMN_BITMASK;
 
-		if (!_setOriginalClassPK) {
-			_setOriginalClassPK = true;
+		if (_layoutClassedModelUsageCacheModel ==
+				_dummyLayoutClassedModelUsageCacheModel) {
 
-			_originalClassPK = _classPK;
+			_layoutClassedModelUsageCacheModel =
+				(LayoutClassedModelUsageCacheModel)toCacheModel();
 		}
 
 		_classPK = classPK;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassPK() {
-		return _originalClassPK;
+		return getOriginalAttributeValue("classPK");
 	}
 
 	@Override
@@ -579,15 +768,23 @@ public class LayoutClassedModelUsageModelImpl
 	public void setContainerKey(String containerKey) {
 		_columnBitmask |= CONTAINERKEY_COLUMN_BITMASK;
 
-		if (_originalContainerKey == null) {
-			_originalContainerKey = _containerKey;
+		if (_layoutClassedModelUsageCacheModel ==
+				_dummyLayoutClassedModelUsageCacheModel) {
+
+			_layoutClassedModelUsageCacheModel =
+				(LayoutClassedModelUsageCacheModel)toCacheModel();
 		}
 
 		_containerKey = containerKey;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalContainerKey() {
-		return GetterUtil.getString(_originalContainerKey);
+		return getOriginalAttributeValue("containerKey");
 	}
 
 	@Override
@@ -599,17 +796,23 @@ public class LayoutClassedModelUsageModelImpl
 	public void setContainerType(long containerType) {
 		_columnBitmask |= CONTAINERTYPE_COLUMN_BITMASK;
 
-		if (!_setOriginalContainerType) {
-			_setOriginalContainerType = true;
+		if (_layoutClassedModelUsageCacheModel ==
+				_dummyLayoutClassedModelUsageCacheModel) {
 
-			_originalContainerType = _containerType;
+			_layoutClassedModelUsageCacheModel =
+				(LayoutClassedModelUsageCacheModel)toCacheModel();
 		}
 
 		_containerType = containerType;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalContainerType() {
-		return _originalContainerType;
+		return getOriginalAttributeValue("containerType");
 	}
 
 	@Override
@@ -621,17 +824,23 @@ public class LayoutClassedModelUsageModelImpl
 	public void setPlid(long plid) {
 		_columnBitmask |= PLID_COLUMN_BITMASK;
 
-		if (!_setOriginalPlid) {
-			_setOriginalPlid = true;
+		if (_layoutClassedModelUsageCacheModel ==
+				_dummyLayoutClassedModelUsageCacheModel) {
 
-			_originalPlid = _plid;
+			_layoutClassedModelUsageCacheModel =
+				(LayoutClassedModelUsageCacheModel)toCacheModel();
 		}
 
 		_plid = plid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalPlid() {
-		return _originalPlid;
+		return getOriginalAttributeValue("plid");
 	}
 
 	@Override
@@ -643,17 +852,23 @@ public class LayoutClassedModelUsageModelImpl
 	public void setType(int type) {
 		_columnBitmask |= TYPE_COLUMN_BITMASK;
 
-		if (!_setOriginalType) {
-			_setOriginalType = true;
+		if (_layoutClassedModelUsageCacheModel ==
+				_dummyLayoutClassedModelUsageCacheModel) {
 
-			_originalType = _type;
+			_layoutClassedModelUsageCacheModel =
+				(LayoutClassedModelUsageCacheModel)toCacheModel();
 		}
 
 		_type = type;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalType() {
-		return _originalType;
+		return getOriginalAttributeValue("type");
 	}
 
 	@Override
@@ -663,6 +878,15 @@ public class LayoutClassedModelUsageModelImpl
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		_columnBitmask |= LASTPUBLISHDATE_COLUMN_BITMASK;
+
+		if (_layoutClassedModelUsageCacheModel ==
+				_dummyLayoutClassedModelUsageCacheModel) {
+
+			_layoutClassedModelUsageCacheModel =
+				(LayoutClassedModelUsageCacheModel)toCacheModel();
+		}
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -796,53 +1020,12 @@ public class LayoutClassedModelUsageModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		LayoutClassedModelUsageModelImpl layoutClassedModelUsageModelImpl =
-			this;
+		_setModifiedDate = false;
 
-		layoutClassedModelUsageModelImpl._originalUuid =
-			layoutClassedModelUsageModelImpl._uuid;
+		_columnBitmask = 0;
 
-		layoutClassedModelUsageModelImpl._originalGroupId =
-			layoutClassedModelUsageModelImpl._groupId;
-
-		layoutClassedModelUsageModelImpl._setOriginalGroupId = false;
-
-		layoutClassedModelUsageModelImpl._originalCompanyId =
-			layoutClassedModelUsageModelImpl._companyId;
-
-		layoutClassedModelUsageModelImpl._setOriginalCompanyId = false;
-
-		layoutClassedModelUsageModelImpl._setModifiedDate = false;
-
-		layoutClassedModelUsageModelImpl._originalClassNameId =
-			layoutClassedModelUsageModelImpl._classNameId;
-
-		layoutClassedModelUsageModelImpl._setOriginalClassNameId = false;
-
-		layoutClassedModelUsageModelImpl._originalClassPK =
-			layoutClassedModelUsageModelImpl._classPK;
-
-		layoutClassedModelUsageModelImpl._setOriginalClassPK = false;
-
-		layoutClassedModelUsageModelImpl._originalContainerKey =
-			layoutClassedModelUsageModelImpl._containerKey;
-
-		layoutClassedModelUsageModelImpl._originalContainerType =
-			layoutClassedModelUsageModelImpl._containerType;
-
-		layoutClassedModelUsageModelImpl._setOriginalContainerType = false;
-
-		layoutClassedModelUsageModelImpl._originalPlid =
-			layoutClassedModelUsageModelImpl._plid;
-
-		layoutClassedModelUsageModelImpl._setOriginalPlid = false;
-
-		layoutClassedModelUsageModelImpl._originalType =
-			layoutClassedModelUsageModelImpl._type;
-
-		layoutClassedModelUsageModelImpl._setOriginalType = false;
-
-		layoutClassedModelUsageModelImpl._columnBitmask = 0;
+		_layoutClassedModelUsageCacheModel =
+			_dummyLayoutClassedModelUsageCacheModel;
 	}
 
 	@Override
@@ -996,36 +1179,27 @@ public class LayoutClassedModelUsageModelImpl
 	private long _mvccVersion;
 	private long _ctCollectionId;
 	private String _uuid;
-	private String _originalUuid;
 	private long _layoutClassedModelUsageId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _classNameId;
-	private long _originalClassNameId;
-	private boolean _setOriginalClassNameId;
 	private long _classPK;
-	private long _originalClassPK;
-	private boolean _setOriginalClassPK;
 	private String _containerKey;
-	private String _originalContainerKey;
 	private long _containerType;
-	private long _originalContainerType;
-	private boolean _setOriginalContainerType;
 	private long _plid;
-	private long _originalPlid;
-	private boolean _setOriginalPlid;
 	private int _type;
-	private int _originalType;
-	private boolean _setOriginalType;
 	private Date _lastPublishDate;
 	private long _columnBitmask;
 	private LayoutClassedModelUsage _escapedModel;
+
+	private static final LayoutClassedModelUsageCacheModel
+		_dummyLayoutClassedModelUsageCacheModel =
+			new LayoutClassedModelUsageCacheModel();
+
+	private LayoutClassedModelUsageCacheModel
+		_layoutClassedModelUsageCacheModel;
 
 }

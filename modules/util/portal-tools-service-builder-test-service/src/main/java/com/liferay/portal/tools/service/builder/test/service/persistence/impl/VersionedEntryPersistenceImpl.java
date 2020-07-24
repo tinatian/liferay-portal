@@ -1436,7 +1436,7 @@ public class VersionedEntryPersistenceImpl
 			 _finderPathFetchByHeadId.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				versionedEntryModelImpl.getOriginalHeadId()
+				versionedEntryModelImpl.getOriginalAttributeValue("headId")
 			};
 
 			finderCache.removeResult(_finderPathCountByHeadId, args);
@@ -1619,7 +1619,7 @@ public class VersionedEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					versionedEntryModelImpl.getOriginalGroupId()
+					versionedEntryModelImpl.getOriginalAttributeValue("groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId, args);
@@ -1638,8 +1638,9 @@ public class VersionedEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					versionedEntryModelImpl.getOriginalGroupId(),
-					versionedEntryModelImpl.getOriginalHead()
+					versionedEntryModelImpl.getOriginalAttributeValue(
+						"groupId"),
+					versionedEntryModelImpl.getOriginalAttributeValue("head")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId_Head, args);

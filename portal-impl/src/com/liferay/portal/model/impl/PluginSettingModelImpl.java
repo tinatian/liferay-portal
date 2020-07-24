@@ -122,13 +122,19 @@ public class PluginSettingModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long PLUGINID_COLUMN_BITMASK = 2L;
+	public static final long PLUGINSETTINGID_COLUMN_BITMASK = 2L;
 
-	public static final long PLUGINTYPE_COLUMN_BITMASK = 4L;
+	public static final long COMPANYID_COLUMN_BITMASK = 4L;
 
-	public static final long PLUGINSETTINGID_COLUMN_BITMASK = 8L;
+	public static final long PLUGINID_COLUMN_BITMASK = 8L;
+
+	public static final long PLUGINTYPE_COLUMN_BITMASK = 16L;
+
+	public static final long ROLES_COLUMN_BITMASK = 32L;
+
+	public static final long ACTIVE_COLUMN_BITMASK = 64L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -292,6 +298,25 @@ public class PluginSettingModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_pluginSettingCacheModel == null) ||
+			(_pluginSettingCacheModel == _dummyPluginSettingCacheModel)) {
+
+			return null;
+		}
+
+		Function<PluginSettingCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_pluginSettingCacheModel);
+	}
+
+	private static final Map<String, Function<PluginSettingCacheModel, Object>>
+		_cacheModelGetterFunctions;
 	private static final Map<String, Function<PluginSetting, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<PluginSetting, Object>>
@@ -302,35 +327,66 @@ public class PluginSettingModelImpl
 			new LinkedHashMap<String, Function<PluginSetting, Object>>();
 		Map<String, BiConsumer<PluginSetting, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<PluginSetting, ?>>();
+		Map<String, Function<PluginSettingCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<PluginSettingCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", PluginSetting::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			pluginSettingCacheModel -> pluginSettingCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<PluginSetting, Long>)PluginSetting::setMvccVersion);
 		attributeGetterFunctions.put(
 			"pluginSettingId", PluginSetting::getPluginSettingId);
+
+		cacheModelGetterFunctions.put(
+			"pluginSettingId",
+			pluginSettingCacheModel -> pluginSettingCacheModel.pluginSettingId);
 		attributeSetterBiConsumers.put(
 			"pluginSettingId",
 			(BiConsumer<PluginSetting, Long>)PluginSetting::setPluginSettingId);
 		attributeGetterFunctions.put("companyId", PluginSetting::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			pluginSettingCacheModel -> pluginSettingCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<PluginSetting, Long>)PluginSetting::setCompanyId);
 		attributeGetterFunctions.put("pluginId", PluginSetting::getPluginId);
+
+		cacheModelGetterFunctions.put(
+			"pluginId",
+			pluginSettingCacheModel -> pluginSettingCacheModel.pluginId);
 		attributeSetterBiConsumers.put(
 			"pluginId",
 			(BiConsumer<PluginSetting, String>)PluginSetting::setPluginId);
 		attributeGetterFunctions.put(
 			"pluginType", PluginSetting::getPluginType);
+
+		cacheModelGetterFunctions.put(
+			"pluginType",
+			pluginSettingCacheModel -> pluginSettingCacheModel.pluginType);
 		attributeSetterBiConsumers.put(
 			"pluginType",
 			(BiConsumer<PluginSetting, String>)PluginSetting::setPluginType);
 		attributeGetterFunctions.put("roles", PluginSetting::getRoles);
+
+		cacheModelGetterFunctions.put(
+			"roles", pluginSettingCacheModel -> pluginSettingCacheModel.roles);
 		attributeSetterBiConsumers.put(
 			"roles",
 			(BiConsumer<PluginSetting, String>)PluginSetting::setRoles);
 		attributeGetterFunctions.put("active", PluginSetting::getActive);
+
+		cacheModelGetterFunctions.put(
+			"active",
+			pluginSettingCacheModel -> pluginSettingCacheModel.active);
 		attributeSetterBiConsumers.put(
 			"active",
 			(BiConsumer<PluginSetting, Boolean>)PluginSetting::setActive);
@@ -339,6 +395,8 @@ public class PluginSettingModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -349,6 +407,12 @@ public class PluginSettingModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_pluginSettingCacheModel == _dummyPluginSettingCacheModel) {
+			_pluginSettingCacheModel = (PluginSettingCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -360,6 +424,12 @@ public class PluginSettingModelImpl
 
 	@Override
 	public void setPluginSettingId(long pluginSettingId) {
+		_columnBitmask |= PLUGINSETTINGID_COLUMN_BITMASK;
+
+		if (_pluginSettingCacheModel == _dummyPluginSettingCacheModel) {
+			_pluginSettingCacheModel = (PluginSettingCacheModel)toCacheModel();
+		}
+
 		_pluginSettingId = pluginSettingId;
 	}
 
@@ -373,17 +443,20 @@ public class PluginSettingModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_pluginSettingCacheModel == _dummyPluginSettingCacheModel) {
+			_pluginSettingCacheModel = (PluginSettingCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@JSON
@@ -401,15 +474,20 @@ public class PluginSettingModelImpl
 	public void setPluginId(String pluginId) {
 		_columnBitmask |= PLUGINID_COLUMN_BITMASK;
 
-		if (_originalPluginId == null) {
-			_originalPluginId = _pluginId;
+		if (_pluginSettingCacheModel == _dummyPluginSettingCacheModel) {
+			_pluginSettingCacheModel = (PluginSettingCacheModel)toCacheModel();
 		}
 
 		_pluginId = pluginId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalPluginId() {
-		return GetterUtil.getString(_originalPluginId);
+		return getOriginalAttributeValue("pluginId");
 	}
 
 	@JSON
@@ -427,15 +505,20 @@ public class PluginSettingModelImpl
 	public void setPluginType(String pluginType) {
 		_columnBitmask |= PLUGINTYPE_COLUMN_BITMASK;
 
-		if (_originalPluginType == null) {
-			_originalPluginType = _pluginType;
+		if (_pluginSettingCacheModel == _dummyPluginSettingCacheModel) {
+			_pluginSettingCacheModel = (PluginSettingCacheModel)toCacheModel();
 		}
 
 		_pluginType = pluginType;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalPluginType() {
-		return GetterUtil.getString(_originalPluginType);
+		return getOriginalAttributeValue("pluginType");
 	}
 
 	@JSON
@@ -451,6 +534,12 @@ public class PluginSettingModelImpl
 
 	@Override
 	public void setRoles(String roles) {
+		_columnBitmask |= ROLES_COLUMN_BITMASK;
+
+		if (_pluginSettingCacheModel == _dummyPluginSettingCacheModel) {
+			_pluginSettingCacheModel = (PluginSettingCacheModel)toCacheModel();
+		}
+
 		_roles = roles;
 	}
 
@@ -468,6 +557,12 @@ public class PluginSettingModelImpl
 
 	@Override
 	public void setActive(boolean active) {
+		_columnBitmask |= ACTIVE_COLUMN_BITMASK;
+
+		if (_pluginSettingCacheModel == _dummyPluginSettingCacheModel) {
+			_pluginSettingCacheModel = (PluginSettingCacheModel)toCacheModel();
+		}
+
 		_active = active;
 	}
 
@@ -582,20 +677,9 @@ public class PluginSettingModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		PluginSettingModelImpl pluginSettingModelImpl = this;
+		_columnBitmask = 0;
 
-		pluginSettingModelImpl._originalCompanyId =
-			pluginSettingModelImpl._companyId;
-
-		pluginSettingModelImpl._setOriginalCompanyId = false;
-
-		pluginSettingModelImpl._originalPluginId =
-			pluginSettingModelImpl._pluginId;
-
-		pluginSettingModelImpl._originalPluginType =
-			pluginSettingModelImpl._pluginType;
-
-		pluginSettingModelImpl._columnBitmask = 0;
+		_pluginSettingCacheModel = _dummyPluginSettingCacheModel;
 	}
 
 	@Override
@@ -711,15 +795,16 @@ public class PluginSettingModelImpl
 	private long _mvccVersion;
 	private long _pluginSettingId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private String _pluginId;
-	private String _originalPluginId;
 	private String _pluginType;
-	private String _originalPluginType;
 	private String _roles;
 	private boolean _active;
 	private long _columnBitmask;
 	private PluginSetting _escapedModel;
+
+	private static final PluginSettingCacheModel _dummyPluginSettingCacheModel =
+		new PluginSettingCacheModel();
+
+	private PluginSettingCacheModel _pluginSettingCacheModel;
 
 }

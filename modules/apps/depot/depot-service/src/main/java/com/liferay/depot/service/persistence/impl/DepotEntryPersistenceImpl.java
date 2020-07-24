@@ -1791,8 +1791,8 @@ public class DepotEntryPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				depotEntryModelImpl.getOriginalUuid(),
-				depotEntryModelImpl.getOriginalGroupId()
+				depotEntryModelImpl.getOriginalAttributeValue("uuid"),
+				depotEntryModelImpl.getOriginalAttributeValue("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -1810,7 +1810,7 @@ public class DepotEntryPersistenceImpl
 			 _finderPathFetchByGroupId.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				depotEntryModelImpl.getOriginalGroupId()
+				depotEntryModelImpl.getOriginalAttributeValue("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByGroupId, args);
@@ -2024,7 +2024,7 @@ public class DepotEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					depotEntryModelImpl.getOriginalUuid()
+					depotEntryModelImpl.getOriginalAttributeValue("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -2043,8 +2043,8 @@ public class DepotEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					depotEntryModelImpl.getOriginalUuid(),
-					depotEntryModelImpl.getOriginalCompanyId()
+					depotEntryModelImpl.getOriginalAttributeValue("uuid"),
+					depotEntryModelImpl.getOriginalAttributeValue("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);

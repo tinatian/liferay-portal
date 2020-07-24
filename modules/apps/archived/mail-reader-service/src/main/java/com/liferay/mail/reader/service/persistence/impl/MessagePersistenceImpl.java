@@ -1445,8 +1445,8 @@ public class MessagePersistenceImpl
 			 _finderPathFetchByF_R.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				messageModelImpl.getOriginalFolderId(),
-				messageModelImpl.getOriginalRemoteMessageId()
+				messageModelImpl.getOriginalAttributeValue("folderId"),
+				messageModelImpl.getOriginalAttributeValue("remoteMessageId")
 			};
 
 			finderCache.removeResult(_finderPathCountByF_R, args);
@@ -1646,7 +1646,7 @@ public class MessagePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					messageModelImpl.getOriginalCompanyId()
+					messageModelImpl.getOriginalAttributeValue("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCompanyId, args);
@@ -1665,7 +1665,7 @@ public class MessagePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					messageModelImpl.getOriginalFolderId()
+					messageModelImpl.getOriginalAttributeValue("folderId")
 				};
 
 				finderCache.removeResult(_finderPathCountByFolderId, args);

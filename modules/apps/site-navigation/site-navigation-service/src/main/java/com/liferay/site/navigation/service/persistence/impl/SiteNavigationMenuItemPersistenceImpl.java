@@ -3844,8 +3844,10 @@ public class SiteNavigationMenuItemPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				siteNavigationMenuItemModelImpl.getOriginalUuid(),
-				siteNavigationMenuItemModelImpl.getOriginalGroupId()
+				siteNavigationMenuItemModelImpl.getOriginalAttributeValue(
+					"uuid"),
+				siteNavigationMenuItemModelImpl.getOriginalAttributeValue(
+					"groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -4106,7 +4108,8 @@ public class SiteNavigationMenuItemPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					siteNavigationMenuItemModelImpl.getOriginalUuid()
+					siteNavigationMenuItemModelImpl.getOriginalAttributeValue(
+						"uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -4125,8 +4128,10 @@ public class SiteNavigationMenuItemPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					siteNavigationMenuItemModelImpl.getOriginalUuid(),
-					siteNavigationMenuItemModelImpl.getOriginalCompanyId()
+					siteNavigationMenuItemModelImpl.getOriginalAttributeValue(
+						"uuid"),
+					siteNavigationMenuItemModelImpl.getOriginalAttributeValue(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -4148,8 +4153,8 @@ public class SiteNavigationMenuItemPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					siteNavigationMenuItemModelImpl.
-						getOriginalSiteNavigationMenuId()
+					siteNavigationMenuItemModelImpl.getOriginalAttributeValue(
+						"siteNavigationMenuId")
 				};
 
 				finderCache.removeResult(
@@ -4174,8 +4179,8 @@ public class SiteNavigationMenuItemPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					siteNavigationMenuItemModelImpl.
-						getOriginalParentSiteNavigationMenuItemId()
+					siteNavigationMenuItemModelImpl.getOriginalAttributeValue(
+						"parentSiteNavigationMenuItemId")
 				};
 
 				finderCache.removeResult(
@@ -4201,10 +4206,10 @@ public class SiteNavigationMenuItemPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					siteNavigationMenuItemModelImpl.
-						getOriginalSiteNavigationMenuId(),
-					siteNavigationMenuItemModelImpl.
-						getOriginalParentSiteNavigationMenuItemId()
+					siteNavigationMenuItemModelImpl.getOriginalAttributeValue(
+						"siteNavigationMenuId"),
+					siteNavigationMenuItemModelImpl.getOriginalAttributeValue(
+						"parentSiteNavigationMenuItemId")
 				};
 
 				finderCache.removeResult(_finderPathCountByS_P, args);

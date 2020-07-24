@@ -148,15 +148,37 @@ public class ExportImportConfigurationModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 2L;
+	public static final long EXPORTIMPORTCONFIGURATIONID_COLUMN_BITMASK = 2L;
 
-	public static final long STATUS_COLUMN_BITMASK = 4L;
+	public static final long GROUPID_COLUMN_BITMASK = 4L;
 
-	public static final long TYPE_COLUMN_BITMASK = 8L;
+	public static final long COMPANYID_COLUMN_BITMASK = 8L;
 
-	public static final long CREATEDATE_COLUMN_BITMASK = 16L;
+	public static final long USERID_COLUMN_BITMASK = 16L;
+
+	public static final long USERNAME_COLUMN_BITMASK = 32L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 64L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 128L;
+
+	public static final long NAME_COLUMN_BITMASK = 256L;
+
+	public static final long DESCRIPTION_COLUMN_BITMASK = 512L;
+
+	public static final long TYPE_COLUMN_BITMASK = 1024L;
+
+	public static final long SETTINGS_COLUMN_BITMASK = 2048L;
+
+	public static final long STATUS_COLUMN_BITMASK = 4096L;
+
+	public static final long STATUSBYUSERID_COLUMN_BITMASK = 8192L;
+
+	public static final long STATUSBYUSERNAME_COLUMN_BITMASK = 16384L;
+
+	public static final long STATUSDATE_COLUMN_BITMASK = 32768L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -335,6 +357,27 @@ public class ExportImportConfigurationModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_exportImportConfigurationCacheModel == null) ||
+			(_exportImportConfigurationCacheModel ==
+				_dummyExportImportConfigurationCacheModel)) {
+
+			return null;
+		}
+
+		Function<ExportImportConfigurationCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_exportImportConfigurationCacheModel);
+	}
+
+	private static final Map
+		<String, Function<ExportImportConfigurationCacheModel, Object>>
+			_cacheModelGetterFunctions;
 	private static final Map
 		<String, Function<ExportImportConfiguration, Object>>
 			_attributeGetterFunctions;
@@ -351,9 +394,19 @@ public class ExportImportConfigurationModelImpl
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<ExportImportConfiguration, ?>>();
+		Map<String, Function<ExportImportConfigurationCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String,
+					 Function<ExportImportConfigurationCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", ExportImportConfiguration::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			exportImportConfigurationCacheModel ->
+				exportImportConfigurationCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<ExportImportConfiguration, Long>)
@@ -361,90 +414,166 @@ public class ExportImportConfigurationModelImpl
 		attributeGetterFunctions.put(
 			"exportImportConfigurationId",
 			ExportImportConfiguration::getExportImportConfigurationId);
+
+		cacheModelGetterFunctions.put(
+			"exportImportConfigurationId",
+			exportImportConfigurationCacheModel ->
+				exportImportConfigurationCacheModel.
+					exportImportConfigurationId);
 		attributeSetterBiConsumers.put(
 			"exportImportConfigurationId",
 			(BiConsumer<ExportImportConfiguration, Long>)
 				ExportImportConfiguration::setExportImportConfigurationId);
 		attributeGetterFunctions.put(
 			"groupId", ExportImportConfiguration::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			exportImportConfigurationCacheModel ->
+				exportImportConfigurationCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<ExportImportConfiguration, Long>)
 				ExportImportConfiguration::setGroupId);
 		attributeGetterFunctions.put(
 			"companyId", ExportImportConfiguration::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			exportImportConfigurationCacheModel ->
+				exportImportConfigurationCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<ExportImportConfiguration, Long>)
 				ExportImportConfiguration::setCompanyId);
 		attributeGetterFunctions.put(
 			"userId", ExportImportConfiguration::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			exportImportConfigurationCacheModel ->
+				exportImportConfigurationCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<ExportImportConfiguration, Long>)
 				ExportImportConfiguration::setUserId);
 		attributeGetterFunctions.put(
 			"userName", ExportImportConfiguration::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			exportImportConfigurationCacheModel ->
+				exportImportConfigurationCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<ExportImportConfiguration, String>)
 				ExportImportConfiguration::setUserName);
 		attributeGetterFunctions.put(
 			"createDate", ExportImportConfiguration::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			exportImportConfigurationCacheModel ->
+				exportImportConfigurationCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<ExportImportConfiguration, Date>)
 				ExportImportConfiguration::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", ExportImportConfiguration::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			exportImportConfigurationCacheModel ->
+				exportImportConfigurationCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<ExportImportConfiguration, Date>)
 				ExportImportConfiguration::setModifiedDate);
 		attributeGetterFunctions.put(
 			"name", ExportImportConfiguration::getName);
+
+		cacheModelGetterFunctions.put(
+			"name",
+			exportImportConfigurationCacheModel ->
+				exportImportConfigurationCacheModel.name);
 		attributeSetterBiConsumers.put(
 			"name",
 			(BiConsumer<ExportImportConfiguration, String>)
 				ExportImportConfiguration::setName);
 		attributeGetterFunctions.put(
 			"description", ExportImportConfiguration::getDescription);
+
+		cacheModelGetterFunctions.put(
+			"description",
+			exportImportConfigurationCacheModel ->
+				exportImportConfigurationCacheModel.description);
 		attributeSetterBiConsumers.put(
 			"description",
 			(BiConsumer<ExportImportConfiguration, String>)
 				ExportImportConfiguration::setDescription);
 		attributeGetterFunctions.put(
 			"type", ExportImportConfiguration::getType);
+
+		cacheModelGetterFunctions.put(
+			"type",
+			exportImportConfigurationCacheModel ->
+				exportImportConfigurationCacheModel.type);
 		attributeSetterBiConsumers.put(
 			"type",
 			(BiConsumer<ExportImportConfiguration, Integer>)
 				ExportImportConfiguration::setType);
 		attributeGetterFunctions.put(
 			"settings", ExportImportConfiguration::getSettings);
+
+		cacheModelGetterFunctions.put(
+			"settings",
+			exportImportConfigurationCacheModel ->
+				exportImportConfigurationCacheModel.settings);
 		attributeSetterBiConsumers.put(
 			"settings",
 			(BiConsumer<ExportImportConfiguration, String>)
 				ExportImportConfiguration::setSettings);
 		attributeGetterFunctions.put(
 			"status", ExportImportConfiguration::getStatus);
+
+		cacheModelGetterFunctions.put(
+			"status",
+			exportImportConfigurationCacheModel ->
+				exportImportConfigurationCacheModel.status);
 		attributeSetterBiConsumers.put(
 			"status",
 			(BiConsumer<ExportImportConfiguration, Integer>)
 				ExportImportConfiguration::setStatus);
 		attributeGetterFunctions.put(
 			"statusByUserId", ExportImportConfiguration::getStatusByUserId);
+
+		cacheModelGetterFunctions.put(
+			"statusByUserId",
+			exportImportConfigurationCacheModel ->
+				exportImportConfigurationCacheModel.statusByUserId);
 		attributeSetterBiConsumers.put(
 			"statusByUserId",
 			(BiConsumer<ExportImportConfiguration, Long>)
 				ExportImportConfiguration::setStatusByUserId);
 		attributeGetterFunctions.put(
 			"statusByUserName", ExportImportConfiguration::getStatusByUserName);
+
+		cacheModelGetterFunctions.put(
+			"statusByUserName",
+			exportImportConfigurationCacheModel ->
+				exportImportConfigurationCacheModel.statusByUserName);
 		attributeSetterBiConsumers.put(
 			"statusByUserName",
 			(BiConsumer<ExportImportConfiguration, String>)
 				ExportImportConfiguration::setStatusByUserName);
 		attributeGetterFunctions.put(
 			"statusDate", ExportImportConfiguration::getStatusDate);
+
+		cacheModelGetterFunctions.put(
+			"statusDate",
+			exportImportConfigurationCacheModel ->
+				exportImportConfigurationCacheModel.statusDate);
 		attributeSetterBiConsumers.put(
 			"statusDate",
 			(BiConsumer<ExportImportConfiguration, Date>)
@@ -454,6 +583,8 @@ public class ExportImportConfigurationModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -464,6 +595,15 @@ public class ExportImportConfigurationModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_exportImportConfigurationCacheModel ==
+				_dummyExportImportConfigurationCacheModel) {
+
+			_exportImportConfigurationCacheModel =
+				(ExportImportConfigurationCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -476,6 +616,15 @@ public class ExportImportConfigurationModelImpl
 	@Override
 	public void setExportImportConfigurationId(
 		long exportImportConfigurationId) {
+
+		_columnBitmask |= EXPORTIMPORTCONFIGURATIONID_COLUMN_BITMASK;
+
+		if (_exportImportConfigurationCacheModel ==
+				_dummyExportImportConfigurationCacheModel) {
+
+			_exportImportConfigurationCacheModel =
+				(ExportImportConfigurationCacheModel)toCacheModel();
+		}
 
 		_exportImportConfigurationId = exportImportConfigurationId;
 	}
@@ -490,17 +639,23 @@ public class ExportImportConfigurationModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
+		if (_exportImportConfigurationCacheModel ==
+				_dummyExportImportConfigurationCacheModel) {
 
-			_originalGroupId = _groupId;
+			_exportImportConfigurationCacheModel =
+				(ExportImportConfigurationCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getOriginalAttributeValue("groupId");
 	}
 
 	@JSON
@@ -513,17 +668,23 @@ public class ExportImportConfigurationModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
+		if (_exportImportConfigurationCacheModel ==
+				_dummyExportImportConfigurationCacheModel) {
 
-			_originalCompanyId = _companyId;
+			_exportImportConfigurationCacheModel =
+				(ExportImportConfigurationCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@JSON
@@ -534,6 +695,15 @@ public class ExportImportConfigurationModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (_exportImportConfigurationCacheModel ==
+				_dummyExportImportConfigurationCacheModel) {
+
+			_exportImportConfigurationCacheModel =
+				(ExportImportConfigurationCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -566,6 +736,15 @@ public class ExportImportConfigurationModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (_exportImportConfigurationCacheModel ==
+				_dummyExportImportConfigurationCacheModel) {
+
+			_exportImportConfigurationCacheModel =
+				(ExportImportConfigurationCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -577,7 +756,14 @@ public class ExportImportConfigurationModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
-		_columnBitmask = -1L;
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (_exportImportConfigurationCacheModel ==
+				_dummyExportImportConfigurationCacheModel) {
+
+			_exportImportConfigurationCacheModel =
+				(ExportImportConfigurationCacheModel)toCacheModel();
+		}
 
 		_createDate = createDate;
 	}
@@ -596,6 +782,15 @@ public class ExportImportConfigurationModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (_exportImportConfigurationCacheModel ==
+				_dummyExportImportConfigurationCacheModel) {
+
+			_exportImportConfigurationCacheModel =
+				(ExportImportConfigurationCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -612,6 +807,15 @@ public class ExportImportConfigurationModelImpl
 
 	@Override
 	public void setName(String name) {
+		_columnBitmask |= NAME_COLUMN_BITMASK;
+
+		if (_exportImportConfigurationCacheModel ==
+				_dummyExportImportConfigurationCacheModel) {
+
+			_exportImportConfigurationCacheModel =
+				(ExportImportConfigurationCacheModel)toCacheModel();
+		}
+
 		_name = name;
 	}
 
@@ -628,6 +832,15 @@ public class ExportImportConfigurationModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		_columnBitmask |= DESCRIPTION_COLUMN_BITMASK;
+
+		if (_exportImportConfigurationCacheModel ==
+				_dummyExportImportConfigurationCacheModel) {
+
+			_exportImportConfigurationCacheModel =
+				(ExportImportConfigurationCacheModel)toCacheModel();
+		}
+
 		_description = description;
 	}
 
@@ -641,17 +854,23 @@ public class ExportImportConfigurationModelImpl
 	public void setType(int type) {
 		_columnBitmask |= TYPE_COLUMN_BITMASK;
 
-		if (!_setOriginalType) {
-			_setOriginalType = true;
+		if (_exportImportConfigurationCacheModel ==
+				_dummyExportImportConfigurationCacheModel) {
 
-			_originalType = _type;
+			_exportImportConfigurationCacheModel =
+				(ExportImportConfigurationCacheModel)toCacheModel();
 		}
 
 		_type = type;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalType() {
-		return _originalType;
+		return getOriginalAttributeValue("type");
 	}
 
 	@JSON
@@ -667,6 +886,15 @@ public class ExportImportConfigurationModelImpl
 
 	@Override
 	public void setSettings(String settings) {
+		_columnBitmask |= SETTINGS_COLUMN_BITMASK;
+
+		if (_exportImportConfigurationCacheModel ==
+				_dummyExportImportConfigurationCacheModel) {
+
+			_exportImportConfigurationCacheModel =
+				(ExportImportConfigurationCacheModel)toCacheModel();
+		}
+
 		_settings = settings;
 	}
 
@@ -680,17 +908,23 @@ public class ExportImportConfigurationModelImpl
 	public void setStatus(int status) {
 		_columnBitmask |= STATUS_COLUMN_BITMASK;
 
-		if (!_setOriginalStatus) {
-			_setOriginalStatus = true;
+		if (_exportImportConfigurationCacheModel ==
+				_dummyExportImportConfigurationCacheModel) {
 
-			_originalStatus = _status;
+			_exportImportConfigurationCacheModel =
+				(ExportImportConfigurationCacheModel)toCacheModel();
 		}
 
 		_status = status;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalStatus() {
-		return _originalStatus;
+		return getOriginalAttributeValue("status");
 	}
 
 	@JSON
@@ -701,6 +935,15 @@ public class ExportImportConfigurationModelImpl
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		_columnBitmask |= STATUSBYUSERID_COLUMN_BITMASK;
+
+		if (_exportImportConfigurationCacheModel ==
+				_dummyExportImportConfigurationCacheModel) {
+
+			_exportImportConfigurationCacheModel =
+				(ExportImportConfigurationCacheModel)toCacheModel();
+		}
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -733,6 +976,15 @@ public class ExportImportConfigurationModelImpl
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		_columnBitmask |= STATUSBYUSERNAME_COLUMN_BITMASK;
+
+		if (_exportImportConfigurationCacheModel ==
+				_dummyExportImportConfigurationCacheModel) {
+
+			_exportImportConfigurationCacheModel =
+				(ExportImportConfigurationCacheModel)toCacheModel();
+		}
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -744,6 +996,15 @@ public class ExportImportConfigurationModelImpl
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		_columnBitmask |= STATUSDATE_COLUMN_BITMASK;
+
+		if (_exportImportConfigurationCacheModel ==
+				_dummyExportImportConfigurationCacheModel) {
+
+			_exportImportConfigurationCacheModel =
+				(ExportImportConfigurationCacheModel)toCacheModel();
+		}
+
 		_statusDate = statusDate;
 	}
 
@@ -1096,32 +1357,12 @@ public class ExportImportConfigurationModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		ExportImportConfigurationModelImpl exportImportConfigurationModelImpl =
-			this;
+		_setModifiedDate = false;
 
-		exportImportConfigurationModelImpl._originalGroupId =
-			exportImportConfigurationModelImpl._groupId;
+		_columnBitmask = 0;
 
-		exportImportConfigurationModelImpl._setOriginalGroupId = false;
-
-		exportImportConfigurationModelImpl._originalCompanyId =
-			exportImportConfigurationModelImpl._companyId;
-
-		exportImportConfigurationModelImpl._setOriginalCompanyId = false;
-
-		exportImportConfigurationModelImpl._setModifiedDate = false;
-
-		exportImportConfigurationModelImpl._originalType =
-			exportImportConfigurationModelImpl._type;
-
-		exportImportConfigurationModelImpl._setOriginalType = false;
-
-		exportImportConfigurationModelImpl._originalStatus =
-			exportImportConfigurationModelImpl._status;
-
-		exportImportConfigurationModelImpl._setOriginalStatus = false;
-
-		exportImportConfigurationModelImpl._columnBitmask = 0;
+		_exportImportConfigurationCacheModel =
+			_dummyExportImportConfigurationCacheModel;
 	}
 
 	@Override
@@ -1300,11 +1541,7 @@ public class ExportImportConfigurationModelImpl
 	private long _mvccVersion;
 	private long _exportImportConfigurationId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
@@ -1313,16 +1550,19 @@ public class ExportImportConfigurationModelImpl
 	private String _name;
 	private String _description;
 	private int _type;
-	private int _originalType;
-	private boolean _setOriginalType;
 	private String _settings;
 	private int _status;
-	private int _originalStatus;
-	private boolean _setOriginalStatus;
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
 	private long _columnBitmask;
 	private ExportImportConfiguration _escapedModel;
+
+	private static final ExportImportConfigurationCacheModel
+		_dummyExportImportConfigurationCacheModel =
+			new ExportImportConfigurationCacheModel();
+
+	private ExportImportConfigurationCacheModel
+		_exportImportConfigurationCacheModel;
 
 }

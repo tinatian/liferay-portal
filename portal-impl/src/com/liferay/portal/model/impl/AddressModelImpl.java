@@ -149,21 +149,45 @@ public class AddressModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long CLASSNAMEID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long CLASSPK_COLUMN_BITMASK = 2L;
+	public static final long UUID_COLUMN_BITMASK = 2L;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 4L;
+	public static final long ADDRESSID_COLUMN_BITMASK = 4L;
 
-	public static final long MAILING_COLUMN_BITMASK = 8L;
+	public static final long COMPANYID_COLUMN_BITMASK = 8L;
 
-	public static final long PRIMARY_COLUMN_BITMASK = 16L;
+	public static final long USERID_COLUMN_BITMASK = 16L;
 
-	public static final long USERID_COLUMN_BITMASK = 32L;
+	public static final long USERNAME_COLUMN_BITMASK = 32L;
 
-	public static final long UUID_COLUMN_BITMASK = 64L;
+	public static final long CREATEDATE_COLUMN_BITMASK = 64L;
 
-	public static final long CREATEDATE_COLUMN_BITMASK = 128L;
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 128L;
+
+	public static final long CLASSNAMEID_COLUMN_BITMASK = 256L;
+
+	public static final long CLASSPK_COLUMN_BITMASK = 512L;
+
+	public static final long STREET1_COLUMN_BITMASK = 1024L;
+
+	public static final long STREET2_COLUMN_BITMASK = 2048L;
+
+	public static final long STREET3_COLUMN_BITMASK = 4096L;
+
+	public static final long CITY_COLUMN_BITMASK = 8192L;
+
+	public static final long ZIP_COLUMN_BITMASK = 16384L;
+
+	public static final long REGIONID_COLUMN_BITMASK = 32768L;
+
+	public static final long COUNTRYID_COLUMN_BITMASK = 65536L;
+
+	public static final long TYPEID_COLUMN_BITMASK = 131072L;
+
+	public static final long MAILING_COLUMN_BITMASK = 262144L;
+
+	public static final long PRIMARY_COLUMN_BITMASK = 524288L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -337,6 +361,25 @@ public class AddressModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_addressCacheModel == null) ||
+			(_addressCacheModel == _dummyAddressCacheModel)) {
+
+			return null;
+		}
+
+		Function<AddressCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_addressCacheModel);
+	}
+
+	private static final Map<String, Function<AddressCacheModel, Object>>
+		_cacheModelGetterFunctions;
 	private static final Map<String, Function<Address, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<Address, Object>>
@@ -347,66 +390,131 @@ public class AddressModelImpl
 			new LinkedHashMap<String, Function<Address, Object>>();
 		Map<String, BiConsumer<Address, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Address, ?>>();
+		Map<String, Function<AddressCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<AddressCacheModel, Object>>();
 
 		attributeGetterFunctions.put("mvccVersion", Address::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion", addressCacheModel -> addressCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion", (BiConsumer<Address, Long>)Address::setMvccVersion);
 		attributeGetterFunctions.put("uuid", Address::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid", addressCacheModel -> addressCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<Address, String>)Address::setUuid);
 		attributeGetterFunctions.put("addressId", Address::getAddressId);
+
+		cacheModelGetterFunctions.put(
+			"addressId", addressCacheModel -> addressCacheModel.addressId);
 		attributeSetterBiConsumers.put(
 			"addressId", (BiConsumer<Address, Long>)Address::setAddressId);
 		attributeGetterFunctions.put("companyId", Address::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId", addressCacheModel -> addressCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId", (BiConsumer<Address, Long>)Address::setCompanyId);
 		attributeGetterFunctions.put("userId", Address::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", addressCacheModel -> addressCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<Address, Long>)Address::setUserId);
 		attributeGetterFunctions.put("userName", Address::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName", addressCacheModel -> addressCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName", (BiConsumer<Address, String>)Address::setUserName);
 		attributeGetterFunctions.put("createDate", Address::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate", addressCacheModel -> addressCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate", (BiConsumer<Address, Date>)Address::setCreateDate);
 		attributeGetterFunctions.put("modifiedDate", Address::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			addressCacheModel -> addressCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<Address, Date>)Address::setModifiedDate);
 		attributeGetterFunctions.put("classNameId", Address::getClassNameId);
+
+		cacheModelGetterFunctions.put(
+			"classNameId", addressCacheModel -> addressCacheModel.classNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId", (BiConsumer<Address, Long>)Address::setClassNameId);
 		attributeGetterFunctions.put("classPK", Address::getClassPK);
+
+		cacheModelGetterFunctions.put(
+			"classPK", addressCacheModel -> addressCacheModel.classPK);
 		attributeSetterBiConsumers.put(
 			"classPK", (BiConsumer<Address, Long>)Address::setClassPK);
 		attributeGetterFunctions.put("street1", Address::getStreet1);
+
+		cacheModelGetterFunctions.put(
+			"street1", addressCacheModel -> addressCacheModel.street1);
 		attributeSetterBiConsumers.put(
 			"street1", (BiConsumer<Address, String>)Address::setStreet1);
 		attributeGetterFunctions.put("street2", Address::getStreet2);
+
+		cacheModelGetterFunctions.put(
+			"street2", addressCacheModel -> addressCacheModel.street2);
 		attributeSetterBiConsumers.put(
 			"street2", (BiConsumer<Address, String>)Address::setStreet2);
 		attributeGetterFunctions.put("street3", Address::getStreet3);
+
+		cacheModelGetterFunctions.put(
+			"street3", addressCacheModel -> addressCacheModel.street3);
 		attributeSetterBiConsumers.put(
 			"street3", (BiConsumer<Address, String>)Address::setStreet3);
 		attributeGetterFunctions.put("city", Address::getCity);
+
+		cacheModelGetterFunctions.put(
+			"city", addressCacheModel -> addressCacheModel.city);
 		attributeSetterBiConsumers.put(
 			"city", (BiConsumer<Address, String>)Address::setCity);
 		attributeGetterFunctions.put("zip", Address::getZip);
+
+		cacheModelGetterFunctions.put(
+			"zip", addressCacheModel -> addressCacheModel.zip);
 		attributeSetterBiConsumers.put(
 			"zip", (BiConsumer<Address, String>)Address::setZip);
 		attributeGetterFunctions.put("regionId", Address::getRegionId);
+
+		cacheModelGetterFunctions.put(
+			"regionId", addressCacheModel -> addressCacheModel.regionId);
 		attributeSetterBiConsumers.put(
 			"regionId", (BiConsumer<Address, Long>)Address::setRegionId);
 		attributeGetterFunctions.put("countryId", Address::getCountryId);
+
+		cacheModelGetterFunctions.put(
+			"countryId", addressCacheModel -> addressCacheModel.countryId);
 		attributeSetterBiConsumers.put(
 			"countryId", (BiConsumer<Address, Long>)Address::setCountryId);
 		attributeGetterFunctions.put("typeId", Address::getTypeId);
+
+		cacheModelGetterFunctions.put(
+			"typeId", addressCacheModel -> addressCacheModel.typeId);
 		attributeSetterBiConsumers.put(
 			"typeId", (BiConsumer<Address, Long>)Address::setTypeId);
 		attributeGetterFunctions.put("mailing", Address::getMailing);
+
+		cacheModelGetterFunctions.put(
+			"mailing", addressCacheModel -> addressCacheModel.mailing);
 		attributeSetterBiConsumers.put(
 			"mailing", (BiConsumer<Address, Boolean>)Address::setMailing);
 		attributeGetterFunctions.put("primary", Address::getPrimary);
+
+		cacheModelGetterFunctions.put(
+			"primary", addressCacheModel -> addressCacheModel.primary);
 		attributeSetterBiConsumers.put(
 			"primary", (BiConsumer<Address, Boolean>)Address::setPrimary);
 
@@ -414,6 +522,8 @@ public class AddressModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -424,6 +534,12 @@ public class AddressModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_addressCacheModel == _dummyAddressCacheModel) {
+			_addressCacheModel = (AddressCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -442,15 +558,20 @@ public class AddressModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_addressCacheModel == _dummyAddressCacheModel) {
+			_addressCacheModel = (AddressCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getOriginalAttributeValue("uuid");
 	}
 
 	@JSON
@@ -461,6 +582,12 @@ public class AddressModelImpl
 
 	@Override
 	public void setAddressId(long addressId) {
+		_columnBitmask |= ADDRESSID_COLUMN_BITMASK;
+
+		if (_addressCacheModel == _dummyAddressCacheModel) {
+			_addressCacheModel = (AddressCacheModel)toCacheModel();
+		}
+
 		_addressId = addressId;
 	}
 
@@ -474,17 +601,20 @@ public class AddressModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_addressCacheModel == _dummyAddressCacheModel) {
+			_addressCacheModel = (AddressCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@JSON
@@ -497,10 +627,8 @@ public class AddressModelImpl
 	public void setUserId(long userId) {
 		_columnBitmask |= USERID_COLUMN_BITMASK;
 
-		if (!_setOriginalUserId) {
-			_setOriginalUserId = true;
-
-			_originalUserId = _userId;
+		if (_addressCacheModel == _dummyAddressCacheModel) {
+			_addressCacheModel = (AddressCacheModel)toCacheModel();
 		}
 
 		_userId = userId;
@@ -522,8 +650,13 @@ public class AddressModelImpl
 	public void setUserUuid(String userUuid) {
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalUserId() {
-		return _originalUserId;
+		return getOriginalAttributeValue("userId");
 	}
 
 	@JSON
@@ -539,6 +672,12 @@ public class AddressModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (_addressCacheModel == _dummyAddressCacheModel) {
+			_addressCacheModel = (AddressCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -550,7 +689,11 @@ public class AddressModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
-		_columnBitmask = -1L;
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (_addressCacheModel == _dummyAddressCacheModel) {
+			_addressCacheModel = (AddressCacheModel)toCacheModel();
+		}
 
 		_createDate = createDate;
 	}
@@ -568,6 +711,12 @@ public class AddressModelImpl
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
+
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (_addressCacheModel == _dummyAddressCacheModel) {
+			_addressCacheModel = (AddressCacheModel)toCacheModel();
+		}
 
 		_modifiedDate = modifiedDate;
 	}
@@ -602,17 +751,20 @@ public class AddressModelImpl
 	public void setClassNameId(long classNameId) {
 		_columnBitmask |= CLASSNAMEID_COLUMN_BITMASK;
 
-		if (!_setOriginalClassNameId) {
-			_setOriginalClassNameId = true;
-
-			_originalClassNameId = _classNameId;
+		if (_addressCacheModel == _dummyAddressCacheModel) {
+			_addressCacheModel = (AddressCacheModel)toCacheModel();
 		}
 
 		_classNameId = classNameId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassNameId() {
-		return _originalClassNameId;
+		return getOriginalAttributeValue("classNameId");
 	}
 
 	@JSON
@@ -625,17 +777,20 @@ public class AddressModelImpl
 	public void setClassPK(long classPK) {
 		_columnBitmask |= CLASSPK_COLUMN_BITMASK;
 
-		if (!_setOriginalClassPK) {
-			_setOriginalClassPK = true;
-
-			_originalClassPK = _classPK;
+		if (_addressCacheModel == _dummyAddressCacheModel) {
+			_addressCacheModel = (AddressCacheModel)toCacheModel();
 		}
 
 		_classPK = classPK;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassPK() {
-		return _originalClassPK;
+		return getOriginalAttributeValue("classPK");
 	}
 
 	@JSON
@@ -651,6 +806,12 @@ public class AddressModelImpl
 
 	@Override
 	public void setStreet1(String street1) {
+		_columnBitmask |= STREET1_COLUMN_BITMASK;
+
+		if (_addressCacheModel == _dummyAddressCacheModel) {
+			_addressCacheModel = (AddressCacheModel)toCacheModel();
+		}
+
 		_street1 = street1;
 	}
 
@@ -667,6 +828,12 @@ public class AddressModelImpl
 
 	@Override
 	public void setStreet2(String street2) {
+		_columnBitmask |= STREET2_COLUMN_BITMASK;
+
+		if (_addressCacheModel == _dummyAddressCacheModel) {
+			_addressCacheModel = (AddressCacheModel)toCacheModel();
+		}
+
 		_street2 = street2;
 	}
 
@@ -683,6 +850,12 @@ public class AddressModelImpl
 
 	@Override
 	public void setStreet3(String street3) {
+		_columnBitmask |= STREET3_COLUMN_BITMASK;
+
+		if (_addressCacheModel == _dummyAddressCacheModel) {
+			_addressCacheModel = (AddressCacheModel)toCacheModel();
+		}
+
 		_street3 = street3;
 	}
 
@@ -699,6 +872,12 @@ public class AddressModelImpl
 
 	@Override
 	public void setCity(String city) {
+		_columnBitmask |= CITY_COLUMN_BITMASK;
+
+		if (_addressCacheModel == _dummyAddressCacheModel) {
+			_addressCacheModel = (AddressCacheModel)toCacheModel();
+		}
+
 		_city = city;
 	}
 
@@ -715,6 +894,12 @@ public class AddressModelImpl
 
 	@Override
 	public void setZip(String zip) {
+		_columnBitmask |= ZIP_COLUMN_BITMASK;
+
+		if (_addressCacheModel == _dummyAddressCacheModel) {
+			_addressCacheModel = (AddressCacheModel)toCacheModel();
+		}
+
 		_zip = zip;
 	}
 
@@ -726,6 +911,12 @@ public class AddressModelImpl
 
 	@Override
 	public void setRegionId(long regionId) {
+		_columnBitmask |= REGIONID_COLUMN_BITMASK;
+
+		if (_addressCacheModel == _dummyAddressCacheModel) {
+			_addressCacheModel = (AddressCacheModel)toCacheModel();
+		}
+
 		_regionId = regionId;
 	}
 
@@ -737,6 +928,12 @@ public class AddressModelImpl
 
 	@Override
 	public void setCountryId(long countryId) {
+		_columnBitmask |= COUNTRYID_COLUMN_BITMASK;
+
+		if (_addressCacheModel == _dummyAddressCacheModel) {
+			_addressCacheModel = (AddressCacheModel)toCacheModel();
+		}
+
 		_countryId = countryId;
 	}
 
@@ -748,6 +945,12 @@ public class AddressModelImpl
 
 	@Override
 	public void setTypeId(long typeId) {
+		_columnBitmask |= TYPEID_COLUMN_BITMASK;
+
+		if (_addressCacheModel == _dummyAddressCacheModel) {
+			_addressCacheModel = (AddressCacheModel)toCacheModel();
+		}
+
 		_typeId = typeId;
 	}
 
@@ -767,17 +970,20 @@ public class AddressModelImpl
 	public void setMailing(boolean mailing) {
 		_columnBitmask |= MAILING_COLUMN_BITMASK;
 
-		if (!_setOriginalMailing) {
-			_setOriginalMailing = true;
-
-			_originalMailing = _mailing;
+		if (_addressCacheModel == _dummyAddressCacheModel) {
+			_addressCacheModel = (AddressCacheModel)toCacheModel();
 		}
 
 		_mailing = mailing;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public boolean getOriginalMailing() {
-		return _originalMailing;
+		return getOriginalAttributeValue("mailing");
 	}
 
 	@JSON
@@ -796,17 +1002,20 @@ public class AddressModelImpl
 	public void setPrimary(boolean primary) {
 		_columnBitmask |= PRIMARY_COLUMN_BITMASK;
 
-		if (!_setOriginalPrimary) {
-			_setOriginalPrimary = true;
-
-			_originalPrimary = _primary;
+		if (_addressCacheModel == _dummyAddressCacheModel) {
+			_addressCacheModel = (AddressCacheModel)toCacheModel();
 		}
 
 		_primary = primary;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public boolean getOriginalPrimary() {
-		return _originalPrimary;
+		return getOriginalAttributeValue("primary");
 	}
 
 	@Override
@@ -938,37 +1147,11 @@ public class AddressModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		AddressModelImpl addressModelImpl = this;
+		_setModifiedDate = false;
 
-		addressModelImpl._originalUuid = addressModelImpl._uuid;
+		_columnBitmask = 0;
 
-		addressModelImpl._originalCompanyId = addressModelImpl._companyId;
-
-		addressModelImpl._setOriginalCompanyId = false;
-
-		addressModelImpl._originalUserId = addressModelImpl._userId;
-
-		addressModelImpl._setOriginalUserId = false;
-
-		addressModelImpl._setModifiedDate = false;
-
-		addressModelImpl._originalClassNameId = addressModelImpl._classNameId;
-
-		addressModelImpl._setOriginalClassNameId = false;
-
-		addressModelImpl._originalClassPK = addressModelImpl._classPK;
-
-		addressModelImpl._setOriginalClassPK = false;
-
-		addressModelImpl._originalMailing = addressModelImpl._mailing;
-
-		addressModelImpl._setOriginalMailing = false;
-
-		addressModelImpl._originalPrimary = addressModelImpl._primary;
-
-		addressModelImpl._setOriginalPrimary = false;
-
-		addressModelImpl._columnBitmask = 0;
+		_addressCacheModel = _dummyAddressCacheModel;
 	}
 
 	@Override
@@ -1146,24 +1329,15 @@ public class AddressModelImpl
 
 	private long _mvccVersion;
 	private String _uuid;
-	private String _originalUuid;
 	private long _addressId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
-	private long _originalUserId;
-	private boolean _setOriginalUserId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _classNameId;
-	private long _originalClassNameId;
-	private boolean _setOriginalClassNameId;
 	private long _classPK;
-	private long _originalClassPK;
-	private boolean _setOriginalClassPK;
 	private String _street1;
 	private String _street2;
 	private String _street3;
@@ -1173,12 +1347,13 @@ public class AddressModelImpl
 	private long _countryId;
 	private long _typeId;
 	private boolean _mailing;
-	private boolean _originalMailing;
-	private boolean _setOriginalMailing;
 	private boolean _primary;
-	private boolean _originalPrimary;
-	private boolean _setOriginalPrimary;
 	private long _columnBitmask;
 	private Address _escapedModel;
+
+	private static final AddressCacheModel _dummyAddressCacheModel =
+		new AddressCacheModel();
+
+	private AddressCacheModel _addressCacheModel;
 
 }

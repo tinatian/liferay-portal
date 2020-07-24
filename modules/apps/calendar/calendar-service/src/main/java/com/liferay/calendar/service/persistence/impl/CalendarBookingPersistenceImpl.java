@@ -5538,8 +5538,8 @@ public class CalendarBookingPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				calendarBookingModelImpl.getOriginalUuid(),
-				calendarBookingModelImpl.getOriginalGroupId()
+				calendarBookingModelImpl.getOriginalAttributeValue("uuid"),
+				calendarBookingModelImpl.getOriginalAttributeValue("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -5560,8 +5560,10 @@ public class CalendarBookingPersistenceImpl
 			 _finderPathFetchByC_P.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				calendarBookingModelImpl.getOriginalCalendarId(),
-				calendarBookingModelImpl.getOriginalParentCalendarBookingId()
+				calendarBookingModelImpl.getOriginalAttributeValue(
+					"calendarId"),
+				calendarBookingModelImpl.getOriginalAttributeValue(
+					"parentCalendarBookingId")
 			};
 
 			finderCache.removeResult(_finderPathCountByC_P, args);
@@ -5582,8 +5584,9 @@ public class CalendarBookingPersistenceImpl
 			 _finderPathFetchByC_V.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				calendarBookingModelImpl.getOriginalCalendarId(),
-				calendarBookingModelImpl.getOriginalVEventUid()
+				calendarBookingModelImpl.getOriginalAttributeValue(
+					"calendarId"),
+				calendarBookingModelImpl.getOriginalAttributeValue("vEventUid")
 			};
 
 			finderCache.removeResult(_finderPathCountByC_V, args);
@@ -5857,7 +5860,7 @@ public class CalendarBookingPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					calendarBookingModelImpl.getOriginalUuid()
+					calendarBookingModelImpl.getOriginalAttributeValue("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -5876,8 +5879,9 @@ public class CalendarBookingPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					calendarBookingModelImpl.getOriginalUuid(),
-					calendarBookingModelImpl.getOriginalCompanyId()
+					calendarBookingModelImpl.getOriginalAttributeValue("uuid"),
+					calendarBookingModelImpl.getOriginalAttributeValue(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -5899,7 +5903,8 @@ public class CalendarBookingPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					calendarBookingModelImpl.getOriginalCalendarId()
+					calendarBookingModelImpl.getOriginalAttributeValue(
+						"calendarId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCalendarId, args);
@@ -5918,7 +5923,8 @@ public class CalendarBookingPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					calendarBookingModelImpl.getOriginalCalendarResourceId()
+					calendarBookingModelImpl.getOriginalAttributeValue(
+						"calendarResourceId")
 				};
 
 				finderCache.removeResult(
@@ -5941,8 +5947,8 @@ public class CalendarBookingPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					calendarBookingModelImpl.
-						getOriginalParentCalendarBookingId()
+					calendarBookingModelImpl.getOriginalAttributeValue(
+						"parentCalendarBookingId")
 				};
 
 				finderCache.removeResult(
@@ -5967,8 +5973,8 @@ public class CalendarBookingPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					calendarBookingModelImpl.
-						getOriginalRecurringCalendarBookingId()
+					calendarBookingModelImpl.getOriginalAttributeValue(
+						"recurringCalendarBookingId")
 				};
 
 				finderCache.removeResult(
@@ -5993,8 +5999,9 @@ public class CalendarBookingPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					calendarBookingModelImpl.getOriginalCalendarId(),
-					calendarBookingModelImpl.getOriginalStatus()
+					calendarBookingModelImpl.getOriginalAttributeValue(
+						"calendarId"),
+					calendarBookingModelImpl.getOriginalAttributeValue("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_S, args);
@@ -6016,9 +6023,9 @@ public class CalendarBookingPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					calendarBookingModelImpl.
-						getOriginalParentCalendarBookingId(),
-					calendarBookingModelImpl.getOriginalStatus()
+					calendarBookingModelImpl.getOriginalAttributeValue(
+						"parentCalendarBookingId"),
+					calendarBookingModelImpl.getOriginalAttributeValue("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByP_S, args);

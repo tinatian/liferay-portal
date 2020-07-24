@@ -2692,8 +2692,8 @@ public class DEDataListViewPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				deDataListViewModelImpl.getOriginalUuid(),
-				deDataListViewModelImpl.getOriginalGroupId()
+				deDataListViewModelImpl.getOriginalAttributeValue("uuid"),
+				deDataListViewModelImpl.getOriginalAttributeValue("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -2928,7 +2928,7 @@ public class DEDataListViewPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					deDataListViewModelImpl.getOriginalUuid()
+					deDataListViewModelImpl.getOriginalAttributeValue("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -2947,8 +2947,9 @@ public class DEDataListViewPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					deDataListViewModelImpl.getOriginalUuid(),
-					deDataListViewModelImpl.getOriginalCompanyId()
+					deDataListViewModelImpl.getOriginalAttributeValue("uuid"),
+					deDataListViewModelImpl.getOriginalAttributeValue(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -2970,7 +2971,8 @@ public class DEDataListViewPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					deDataListViewModelImpl.getOriginalDdmStructureId()
+					deDataListViewModelImpl.getOriginalAttributeValue(
+						"ddmStructureId")
 				};
 
 				finderCache.removeResult(
@@ -2993,9 +2995,12 @@ public class DEDataListViewPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					deDataListViewModelImpl.getOriginalGroupId(),
-					deDataListViewModelImpl.getOriginalCompanyId(),
-					deDataListViewModelImpl.getOriginalDdmStructureId()
+					deDataListViewModelImpl.getOriginalAttributeValue(
+						"groupId"),
+					deDataListViewModelImpl.getOriginalAttributeValue(
+						"companyId"),
+					deDataListViewModelImpl.getOriginalAttributeValue(
+						"ddmStructureId")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_C_DDMSI, args);

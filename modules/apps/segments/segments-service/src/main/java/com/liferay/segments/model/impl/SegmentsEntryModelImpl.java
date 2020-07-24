@@ -29,7 +29,6 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.DateUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
@@ -134,21 +133,41 @@ public class SegmentsEntryModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long ACTIVE_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 4L;
+	public static final long UUID_COLUMN_BITMASK = 4L;
 
-	public static final long SEGMENTSENTRYKEY_COLUMN_BITMASK = 8L;
+	public static final long SEGMENTSENTRYID_COLUMN_BITMASK = 8L;
 
-	public static final long SOURCE_COLUMN_BITMASK = 16L;
+	public static final long GROUPID_COLUMN_BITMASK = 16L;
 
-	public static final long TYPE_COLUMN_BITMASK = 32L;
+	public static final long COMPANYID_COLUMN_BITMASK = 32L;
 
-	public static final long UUID_COLUMN_BITMASK = 64L;
+	public static final long USERID_COLUMN_BITMASK = 64L;
 
-	public static final long MODIFIEDDATE_COLUMN_BITMASK = 128L;
+	public static final long USERNAME_COLUMN_BITMASK = 128L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 256L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 512L;
+
+	public static final long SEGMENTSENTRYKEY_COLUMN_BITMASK = 1024L;
+
+	public static final long NAME_COLUMN_BITMASK = 2048L;
+
+	public static final long DESCRIPTION_COLUMN_BITMASK = 4096L;
+
+	public static final long ACTIVE_COLUMN_BITMASK = 8192L;
+
+	public static final long CRITERIA_COLUMN_BITMASK = 16384L;
+
+	public static final long SOURCE_COLUMN_BITMASK = 32768L;
+
+	public static final long TYPE_COLUMN_BITMASK = 65536L;
+
+	public static final long LASTPUBLISHDATE_COLUMN_BITMASK = 131072L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -333,6 +352,25 @@ public class SegmentsEntryModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_segmentsEntryCacheModel == null) ||
+			(_segmentsEntryCacheModel == _dummySegmentsEntryCacheModel)) {
+
+			return null;
+		}
+
+		Function<SegmentsEntryCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_segmentsEntryCacheModel);
+	}
+
+	private static final Map<String, Function<SegmentsEntryCacheModel, Object>>
+		_cacheModelGetterFunctions;
 	private static final Map<String, Function<SegmentsEntry, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<SegmentsEntry, Object>>
@@ -343,82 +381,156 @@ public class SegmentsEntryModelImpl
 			new LinkedHashMap<String, Function<SegmentsEntry, Object>>();
 		Map<String, BiConsumer<SegmentsEntry, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<SegmentsEntry, ?>>();
+		Map<String, Function<SegmentsEntryCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<SegmentsEntryCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", SegmentsEntry::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			segmentsEntryCacheModel -> segmentsEntryCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<SegmentsEntry, Long>)SegmentsEntry::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", SegmentsEntry::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			segmentsEntryCacheModel -> segmentsEntryCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<SegmentsEntry, Long>)SegmentsEntry::setCtCollectionId);
 		attributeGetterFunctions.put("uuid", SegmentsEntry::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid", segmentsEntryCacheModel -> segmentsEntryCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<SegmentsEntry, String>)SegmentsEntry::setUuid);
 		attributeGetterFunctions.put(
 			"segmentsEntryId", SegmentsEntry::getSegmentsEntryId);
+
+		cacheModelGetterFunctions.put(
+			"segmentsEntryId",
+			segmentsEntryCacheModel -> segmentsEntryCacheModel.segmentsEntryId);
 		attributeSetterBiConsumers.put(
 			"segmentsEntryId",
 			(BiConsumer<SegmentsEntry, Long>)SegmentsEntry::setSegmentsEntryId);
 		attributeGetterFunctions.put("groupId", SegmentsEntry::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			segmentsEntryCacheModel -> segmentsEntryCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<SegmentsEntry, Long>)SegmentsEntry::setGroupId);
 		attributeGetterFunctions.put("companyId", SegmentsEntry::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			segmentsEntryCacheModel -> segmentsEntryCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<SegmentsEntry, Long>)SegmentsEntry::setCompanyId);
 		attributeGetterFunctions.put("userId", SegmentsEntry::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			segmentsEntryCacheModel -> segmentsEntryCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<SegmentsEntry, Long>)SegmentsEntry::setUserId);
 		attributeGetterFunctions.put("userName", SegmentsEntry::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			segmentsEntryCacheModel -> segmentsEntryCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<SegmentsEntry, String>)SegmentsEntry::setUserName);
 		attributeGetterFunctions.put(
 			"createDate", SegmentsEntry::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			segmentsEntryCacheModel -> segmentsEntryCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<SegmentsEntry, Date>)SegmentsEntry::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", SegmentsEntry::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			segmentsEntryCacheModel -> segmentsEntryCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<SegmentsEntry, Date>)SegmentsEntry::setModifiedDate);
 		attributeGetterFunctions.put(
 			"segmentsEntryKey", SegmentsEntry::getSegmentsEntryKey);
+
+		cacheModelGetterFunctions.put(
+			"segmentsEntryKey",
+			segmentsEntryCacheModel ->
+				segmentsEntryCacheModel.segmentsEntryKey);
 		attributeSetterBiConsumers.put(
 			"segmentsEntryKey",
 			(BiConsumer<SegmentsEntry, String>)
 				SegmentsEntry::setSegmentsEntryKey);
 		attributeGetterFunctions.put("name", SegmentsEntry::getName);
+
+		cacheModelGetterFunctions.put(
+			"name", segmentsEntryCacheModel -> segmentsEntryCacheModel.name);
 		attributeSetterBiConsumers.put(
 			"name", (BiConsumer<SegmentsEntry, String>)SegmentsEntry::setName);
 		attributeGetterFunctions.put(
 			"description", SegmentsEntry::getDescription);
+
+		cacheModelGetterFunctions.put(
+			"description",
+			segmentsEntryCacheModel -> segmentsEntryCacheModel.description);
 		attributeSetterBiConsumers.put(
 			"description",
 			(BiConsumer<SegmentsEntry, String>)SegmentsEntry::setDescription);
 		attributeGetterFunctions.put("active", SegmentsEntry::getActive);
+
+		cacheModelGetterFunctions.put(
+			"active",
+			segmentsEntryCacheModel -> segmentsEntryCacheModel.active);
 		attributeSetterBiConsumers.put(
 			"active",
 			(BiConsumer<SegmentsEntry, Boolean>)SegmentsEntry::setActive);
 		attributeGetterFunctions.put("criteria", SegmentsEntry::getCriteria);
+
+		cacheModelGetterFunctions.put(
+			"criteria",
+			segmentsEntryCacheModel -> segmentsEntryCacheModel.criteria);
 		attributeSetterBiConsumers.put(
 			"criteria",
 			(BiConsumer<SegmentsEntry, String>)SegmentsEntry::setCriteria);
 		attributeGetterFunctions.put("source", SegmentsEntry::getSource);
+
+		cacheModelGetterFunctions.put(
+			"source",
+			segmentsEntryCacheModel -> segmentsEntryCacheModel.source);
 		attributeSetterBiConsumers.put(
 			"source",
 			(BiConsumer<SegmentsEntry, String>)SegmentsEntry::setSource);
 		attributeGetterFunctions.put("type", SegmentsEntry::getType);
+
+		cacheModelGetterFunctions.put(
+			"type", segmentsEntryCacheModel -> segmentsEntryCacheModel.type);
 		attributeSetterBiConsumers.put(
 			"type", (BiConsumer<SegmentsEntry, String>)SegmentsEntry::setType);
 		attributeGetterFunctions.put(
 			"lastPublishDate", SegmentsEntry::getLastPublishDate);
+
+		cacheModelGetterFunctions.put(
+			"lastPublishDate",
+			segmentsEntryCacheModel -> segmentsEntryCacheModel.lastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<SegmentsEntry, Date>)SegmentsEntry::setLastPublishDate);
@@ -427,6 +539,8 @@ public class SegmentsEntryModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -437,6 +551,12 @@ public class SegmentsEntryModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_segmentsEntryCacheModel == _dummySegmentsEntryCacheModel) {
+			_segmentsEntryCacheModel = (SegmentsEntryCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -448,6 +568,12 @@ public class SegmentsEntryModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (_segmentsEntryCacheModel == _dummySegmentsEntryCacheModel) {
+			_segmentsEntryCacheModel = (SegmentsEntryCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -466,15 +592,20 @@ public class SegmentsEntryModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_segmentsEntryCacheModel == _dummySegmentsEntryCacheModel) {
+			_segmentsEntryCacheModel = (SegmentsEntryCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getOriginalAttributeValue("uuid");
 	}
 
 	@JSON
@@ -485,6 +616,12 @@ public class SegmentsEntryModelImpl
 
 	@Override
 	public void setSegmentsEntryId(long segmentsEntryId) {
+		_columnBitmask |= SEGMENTSENTRYID_COLUMN_BITMASK;
+
+		if (_segmentsEntryCacheModel == _dummySegmentsEntryCacheModel) {
+			_segmentsEntryCacheModel = (SegmentsEntryCacheModel)toCacheModel();
+		}
+
 		_segmentsEntryId = segmentsEntryId;
 	}
 
@@ -498,17 +635,20 @@ public class SegmentsEntryModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_segmentsEntryCacheModel == _dummySegmentsEntryCacheModel) {
+			_segmentsEntryCacheModel = (SegmentsEntryCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getOriginalAttributeValue("groupId");
 	}
 
 	@JSON
@@ -521,17 +661,20 @@ public class SegmentsEntryModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_segmentsEntryCacheModel == _dummySegmentsEntryCacheModel) {
+			_segmentsEntryCacheModel = (SegmentsEntryCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@JSON
@@ -542,6 +685,12 @@ public class SegmentsEntryModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (_segmentsEntryCacheModel == _dummySegmentsEntryCacheModel) {
+			_segmentsEntryCacheModel = (SegmentsEntryCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -574,6 +723,12 @@ public class SegmentsEntryModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (_segmentsEntryCacheModel == _dummySegmentsEntryCacheModel) {
+			_segmentsEntryCacheModel = (SegmentsEntryCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -585,6 +740,12 @@ public class SegmentsEntryModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (_segmentsEntryCacheModel == _dummySegmentsEntryCacheModel) {
+			_segmentsEntryCacheModel = (SegmentsEntryCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -602,7 +763,11 @@ public class SegmentsEntryModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
-		_columnBitmask = -1L;
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (_segmentsEntryCacheModel == _dummySegmentsEntryCacheModel) {
+			_segmentsEntryCacheModel = (SegmentsEntryCacheModel)toCacheModel();
+		}
 
 		_modifiedDate = modifiedDate;
 	}
@@ -622,15 +787,20 @@ public class SegmentsEntryModelImpl
 	public void setSegmentsEntryKey(String segmentsEntryKey) {
 		_columnBitmask |= SEGMENTSENTRYKEY_COLUMN_BITMASK;
 
-		if (_originalSegmentsEntryKey == null) {
-			_originalSegmentsEntryKey = _segmentsEntryKey;
+		if (_segmentsEntryCacheModel == _dummySegmentsEntryCacheModel) {
+			_segmentsEntryCacheModel = (SegmentsEntryCacheModel)toCacheModel();
 		}
 
 		_segmentsEntryKey = segmentsEntryKey;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalSegmentsEntryKey() {
-		return GetterUtil.getString(_originalSegmentsEntryKey);
+		return getOriginalAttributeValue("segmentsEntryKey");
 	}
 
 	@JSON
@@ -689,6 +859,12 @@ public class SegmentsEntryModelImpl
 
 	@Override
 	public void setName(String name) {
+		_columnBitmask |= NAME_COLUMN_BITMASK;
+
+		if (_segmentsEntryCacheModel == _dummySegmentsEntryCacheModel) {
+			_segmentsEntryCacheModel = (SegmentsEntryCacheModel)toCacheModel();
+		}
+
 		_name = name;
 	}
 
@@ -792,6 +968,12 @@ public class SegmentsEntryModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		_columnBitmask |= DESCRIPTION_COLUMN_BITMASK;
+
+		if (_segmentsEntryCacheModel == _dummySegmentsEntryCacheModel) {
+			_segmentsEntryCacheModel = (SegmentsEntryCacheModel)toCacheModel();
+		}
+
 		_description = description;
 	}
 
@@ -860,17 +1042,20 @@ public class SegmentsEntryModelImpl
 	public void setActive(boolean active) {
 		_columnBitmask |= ACTIVE_COLUMN_BITMASK;
 
-		if (!_setOriginalActive) {
-			_setOriginalActive = true;
-
-			_originalActive = _active;
+		if (_segmentsEntryCacheModel == _dummySegmentsEntryCacheModel) {
+			_segmentsEntryCacheModel = (SegmentsEntryCacheModel)toCacheModel();
 		}
 
 		_active = active;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public boolean getOriginalActive() {
-		return _originalActive;
+		return getOriginalAttributeValue("active");
 	}
 
 	@JSON
@@ -886,6 +1071,12 @@ public class SegmentsEntryModelImpl
 
 	@Override
 	public void setCriteria(String criteria) {
+		_columnBitmask |= CRITERIA_COLUMN_BITMASK;
+
+		if (_segmentsEntryCacheModel == _dummySegmentsEntryCacheModel) {
+			_segmentsEntryCacheModel = (SegmentsEntryCacheModel)toCacheModel();
+		}
+
 		_criteria = criteria;
 	}
 
@@ -904,15 +1095,20 @@ public class SegmentsEntryModelImpl
 	public void setSource(String source) {
 		_columnBitmask |= SOURCE_COLUMN_BITMASK;
 
-		if (_originalSource == null) {
-			_originalSource = _source;
+		if (_segmentsEntryCacheModel == _dummySegmentsEntryCacheModel) {
+			_segmentsEntryCacheModel = (SegmentsEntryCacheModel)toCacheModel();
 		}
 
 		_source = source;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalSource() {
-		return GetterUtil.getString(_originalSource);
+		return getOriginalAttributeValue("source");
 	}
 
 	@JSON
@@ -930,15 +1126,20 @@ public class SegmentsEntryModelImpl
 	public void setType(String type) {
 		_columnBitmask |= TYPE_COLUMN_BITMASK;
 
-		if (_originalType == null) {
-			_originalType = _type;
+		if (_segmentsEntryCacheModel == _dummySegmentsEntryCacheModel) {
+			_segmentsEntryCacheModel = (SegmentsEntryCacheModel)toCacheModel();
 		}
 
 		_type = type;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalType() {
-		return GetterUtil.getString(_originalType);
+		return getOriginalAttributeValue("type");
 	}
 
 	@JSON
@@ -949,6 +1150,12 @@ public class SegmentsEntryModelImpl
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		_columnBitmask |= LASTPUBLISHDATE_COLUMN_BITMASK;
+
+		if (_segmentsEntryCacheModel == _dummySegmentsEntryCacheModel) {
+			_segmentsEntryCacheModel = (SegmentsEntryCacheModel)toCacheModel();
+		}
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -1169,34 +1376,11 @@ public class SegmentsEntryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		SegmentsEntryModelImpl segmentsEntryModelImpl = this;
+		_setModifiedDate = false;
 
-		segmentsEntryModelImpl._originalUuid = segmentsEntryModelImpl._uuid;
+		_columnBitmask = 0;
 
-		segmentsEntryModelImpl._originalGroupId =
-			segmentsEntryModelImpl._groupId;
-
-		segmentsEntryModelImpl._setOriginalGroupId = false;
-
-		segmentsEntryModelImpl._originalCompanyId =
-			segmentsEntryModelImpl._companyId;
-
-		segmentsEntryModelImpl._setOriginalCompanyId = false;
-
-		segmentsEntryModelImpl._setModifiedDate = false;
-
-		segmentsEntryModelImpl._originalSegmentsEntryKey =
-			segmentsEntryModelImpl._segmentsEntryKey;
-
-		segmentsEntryModelImpl._originalActive = segmentsEntryModelImpl._active;
-
-		segmentsEntryModelImpl._setOriginalActive = false;
-
-		segmentsEntryModelImpl._originalSource = segmentsEntryModelImpl._source;
-
-		segmentsEntryModelImpl._originalType = segmentsEntryModelImpl._type;
-
-		segmentsEntryModelImpl._columnBitmask = 0;
+		_segmentsEntryCacheModel = _dummySegmentsEntryCacheModel;
 	}
 
 	@Override
@@ -1385,35 +1569,30 @@ public class SegmentsEntryModelImpl
 	private long _mvccVersion;
 	private long _ctCollectionId;
 	private String _uuid;
-	private String _originalUuid;
 	private long _segmentsEntryId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private String _segmentsEntryKey;
-	private String _originalSegmentsEntryKey;
 	private String _name;
 	private String _nameCurrentLanguageId;
 	private String _description;
 	private String _descriptionCurrentLanguageId;
 	private boolean _active;
-	private boolean _originalActive;
-	private boolean _setOriginalActive;
 	private String _criteria;
 	private String _source;
-	private String _originalSource;
 	private String _type;
-	private String _originalType;
 	private Date _lastPublishDate;
 	private long _columnBitmask;
 	private SegmentsEntry _escapedModel;
+
+	private static final SegmentsEntryCacheModel _dummySegmentsEntryCacheModel =
+		new SegmentsEntryCacheModel();
+
+	private SegmentsEntryCacheModel _segmentsEntryCacheModel;
 
 }

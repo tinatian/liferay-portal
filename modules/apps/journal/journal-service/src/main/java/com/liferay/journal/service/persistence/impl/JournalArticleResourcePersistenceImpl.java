@@ -2500,8 +2500,10 @@ public class JournalArticleResourcePersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				journalArticleResourceModelImpl.getOriginalUuid(),
-				journalArticleResourceModelImpl.getOriginalGroupId()
+				journalArticleResourceModelImpl.getOriginalAttributeValue(
+					"uuid"),
+				journalArticleResourceModelImpl.getOriginalAttributeValue(
+					"groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -2522,8 +2524,10 @@ public class JournalArticleResourcePersistenceImpl
 			 _finderPathFetchByG_A.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				journalArticleResourceModelImpl.getOriginalGroupId(),
-				journalArticleResourceModelImpl.getOriginalArticleId()
+				journalArticleResourceModelImpl.getOriginalAttributeValue(
+					"groupId"),
+				journalArticleResourceModelImpl.getOriginalAttributeValue(
+					"articleId")
 			};
 
 			finderCache.removeResult(_finderPathCountByG_A, args);
@@ -2756,7 +2760,8 @@ public class JournalArticleResourcePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					journalArticleResourceModelImpl.getOriginalUuid()
+					journalArticleResourceModelImpl.getOriginalAttributeValue(
+						"uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -2775,8 +2780,10 @@ public class JournalArticleResourcePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					journalArticleResourceModelImpl.getOriginalUuid(),
-					journalArticleResourceModelImpl.getOriginalCompanyId()
+					journalArticleResourceModelImpl.getOriginalAttributeValue(
+						"uuid"),
+					journalArticleResourceModelImpl.getOriginalAttributeValue(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -2798,7 +2805,8 @@ public class JournalArticleResourcePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					journalArticleResourceModelImpl.getOriginalGroupId()
+					journalArticleResourceModelImpl.getOriginalAttributeValue(
+						"groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId, args);

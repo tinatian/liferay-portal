@@ -2423,8 +2423,8 @@ public class MBMailingListPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				mbMailingListModelImpl.getOriginalUuid(),
-				mbMailingListModelImpl.getOriginalGroupId()
+				mbMailingListModelImpl.getOriginalAttributeValue("uuid"),
+				mbMailingListModelImpl.getOriginalAttributeValue("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -2445,8 +2445,8 @@ public class MBMailingListPersistenceImpl
 			 _finderPathFetchByG_C.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				mbMailingListModelImpl.getOriginalGroupId(),
-				mbMailingListModelImpl.getOriginalCategoryId()
+				mbMailingListModelImpl.getOriginalAttributeValue("groupId"),
+				mbMailingListModelImpl.getOriginalAttributeValue("categoryId")
 			};
 
 			finderCache.removeResult(_finderPathCountByG_C, args);
@@ -2690,7 +2690,7 @@ public class MBMailingListPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mbMailingListModelImpl.getOriginalUuid()
+					mbMailingListModelImpl.getOriginalAttributeValue("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -2709,8 +2709,9 @@ public class MBMailingListPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mbMailingListModelImpl.getOriginalUuid(),
-					mbMailingListModelImpl.getOriginalCompanyId()
+					mbMailingListModelImpl.getOriginalAttributeValue("uuid"),
+					mbMailingListModelImpl.getOriginalAttributeValue(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -2732,7 +2733,7 @@ public class MBMailingListPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mbMailingListModelImpl.getOriginalActive()
+					mbMailingListModelImpl.getOriginalAttributeValue("active")
 				};
 
 				finderCache.removeResult(_finderPathCountByActive, args);

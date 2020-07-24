@@ -3158,9 +3158,9 @@ public class AssetLinkPersistenceImpl
 			 _finderPathFetchByE_E_T.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				assetLinkModelImpl.getOriginalEntryId1(),
-				assetLinkModelImpl.getOriginalEntryId2(),
-				assetLinkModelImpl.getOriginalType()
+				assetLinkModelImpl.getOriginalAttributeValue("entryId1"),
+				assetLinkModelImpl.getOriginalAttributeValue("entryId2"),
+				assetLinkModelImpl.getOriginalAttributeValue("type")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByE_E_T, args);
@@ -3382,7 +3382,7 @@ public class AssetLinkPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					assetLinkModelImpl.getOriginalEntryId1()
+					assetLinkModelImpl.getOriginalAttributeValue("entryId1")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByE1, args);
@@ -3401,7 +3401,7 @@ public class AssetLinkPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					assetLinkModelImpl.getOriginalEntryId2()
+					assetLinkModelImpl.getOriginalAttributeValue("entryId2")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByE2, args);
@@ -3420,8 +3420,8 @@ public class AssetLinkPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					assetLinkModelImpl.getOriginalEntryId1(),
-					assetLinkModelImpl.getOriginalEntryId2()
+					assetLinkModelImpl.getOriginalAttributeValue("entryId1"),
+					assetLinkModelImpl.getOriginalAttributeValue("entryId2")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByE_E, args);
@@ -3443,8 +3443,8 @@ public class AssetLinkPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					assetLinkModelImpl.getOriginalEntryId1(),
-					assetLinkModelImpl.getOriginalType()
+					assetLinkModelImpl.getOriginalAttributeValue("entryId1"),
+					assetLinkModelImpl.getOriginalAttributeValue("type")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByE1_T, args);
@@ -3466,8 +3466,8 @@ public class AssetLinkPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					assetLinkModelImpl.getOriginalEntryId2(),
-					assetLinkModelImpl.getOriginalType()
+					assetLinkModelImpl.getOriginalAttributeValue("entryId2"),
+					assetLinkModelImpl.getOriginalAttributeValue("type")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByE2_T, args);

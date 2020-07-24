@@ -27,7 +27,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.workflow.kaleo.forms.model.KaleoProcess;
@@ -118,15 +117,29 @@ public class KaleoProcessModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long DDLRECORDSETID_COLUMN_BITMASK = 1L;
+	public static final long UUID_COLUMN_BITMASK = 1L;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 2L;
+	public static final long KALEOPROCESSID_COLUMN_BITMASK = 2L;
 
 	public static final long GROUPID_COLUMN_BITMASK = 4L;
 
-	public static final long UUID_COLUMN_BITMASK = 8L;
+	public static final long COMPANYID_COLUMN_BITMASK = 8L;
 
-	public static final long KALEOPROCESSID_COLUMN_BITMASK = 16L;
+	public static final long USERID_COLUMN_BITMASK = 16L;
+
+	public static final long USERNAME_COLUMN_BITMASK = 32L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 64L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 128L;
+
+	public static final long DDLRECORDSETID_COLUMN_BITMASK = 256L;
+
+	public static final long DDMTEMPLATEID_COLUMN_BITMASK = 512L;
+
+	public static final long WORKFLOWDEFINITIONNAME_COLUMN_BITMASK = 1024L;
+
+	public static final long WORKFLOWDEFINITIONVERSION_COLUMN_BITMASK = 2048L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -306,6 +319,25 @@ public class KaleoProcessModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_kaleoProcessCacheModel == null) ||
+			(_kaleoProcessCacheModel == _dummyKaleoProcessCacheModel)) {
+
+			return null;
+		}
+
+		Function<KaleoProcessCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_kaleoProcessCacheModel);
+	}
+
+	private static final Map<String, Function<KaleoProcessCacheModel, Object>>
+		_cacheModelGetterFunctions;
 	private static final Map<String, Function<KaleoProcess, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<KaleoProcess, Object>>
@@ -316,51 +348,98 @@ public class KaleoProcessModelImpl
 			new LinkedHashMap<String, Function<KaleoProcess, Object>>();
 		Map<String, BiConsumer<KaleoProcess, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<KaleoProcess, ?>>();
+		Map<String, Function<KaleoProcessCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<KaleoProcessCacheModel, Object>>();
 
 		attributeGetterFunctions.put("uuid", KaleoProcess::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid", kaleoProcessCacheModel -> kaleoProcessCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<KaleoProcess, String>)KaleoProcess::setUuid);
 		attributeGetterFunctions.put(
 			"kaleoProcessId", KaleoProcess::getKaleoProcessId);
+
+		cacheModelGetterFunctions.put(
+			"kaleoProcessId",
+			kaleoProcessCacheModel -> kaleoProcessCacheModel.kaleoProcessId);
 		attributeSetterBiConsumers.put(
 			"kaleoProcessId",
 			(BiConsumer<KaleoProcess, Long>)KaleoProcess::setKaleoProcessId);
 		attributeGetterFunctions.put("groupId", KaleoProcess::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			kaleoProcessCacheModel -> kaleoProcessCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<KaleoProcess, Long>)KaleoProcess::setGroupId);
 		attributeGetterFunctions.put("companyId", KaleoProcess::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			kaleoProcessCacheModel -> kaleoProcessCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<KaleoProcess, Long>)KaleoProcess::setCompanyId);
 		attributeGetterFunctions.put("userId", KaleoProcess::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", kaleoProcessCacheModel -> kaleoProcessCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<KaleoProcess, Long>)KaleoProcess::setUserId);
 		attributeGetterFunctions.put("userName", KaleoProcess::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			kaleoProcessCacheModel -> kaleoProcessCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<KaleoProcess, String>)KaleoProcess::setUserName);
 		attributeGetterFunctions.put("createDate", KaleoProcess::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			kaleoProcessCacheModel -> kaleoProcessCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<KaleoProcess, Date>)KaleoProcess::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", KaleoProcess::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			kaleoProcessCacheModel -> kaleoProcessCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<KaleoProcess, Date>)KaleoProcess::setModifiedDate);
 		attributeGetterFunctions.put(
 			"DDLRecordSetId", KaleoProcess::getDDLRecordSetId);
+
+		cacheModelGetterFunctions.put(
+			"DDLRecordSetId",
+			kaleoProcessCacheModel -> kaleoProcessCacheModel.DDLRecordSetId);
 		attributeSetterBiConsumers.put(
 			"DDLRecordSetId",
 			(BiConsumer<KaleoProcess, Long>)KaleoProcess::setDDLRecordSetId);
 		attributeGetterFunctions.put(
 			"DDMTemplateId", KaleoProcess::getDDMTemplateId);
+
+		cacheModelGetterFunctions.put(
+			"DDMTemplateId",
+			kaleoProcessCacheModel -> kaleoProcessCacheModel.DDMTemplateId);
 		attributeSetterBiConsumers.put(
 			"DDMTemplateId",
 			(BiConsumer<KaleoProcess, Long>)KaleoProcess::setDDMTemplateId);
 		attributeGetterFunctions.put(
 			"workflowDefinitionName", KaleoProcess::getWorkflowDefinitionName);
+
+		cacheModelGetterFunctions.put(
+			"workflowDefinitionName",
+			kaleoProcessCacheModel ->
+				kaleoProcessCacheModel.workflowDefinitionName);
 		attributeSetterBiConsumers.put(
 			"workflowDefinitionName",
 			(BiConsumer<KaleoProcess, String>)
@@ -368,6 +447,11 @@ public class KaleoProcessModelImpl
 		attributeGetterFunctions.put(
 			"workflowDefinitionVersion",
 			KaleoProcess::getWorkflowDefinitionVersion);
+
+		cacheModelGetterFunctions.put(
+			"workflowDefinitionVersion",
+			kaleoProcessCacheModel ->
+				kaleoProcessCacheModel.workflowDefinitionVersion);
 		attributeSetterBiConsumers.put(
 			"workflowDefinitionVersion",
 			(BiConsumer<KaleoProcess, Integer>)
@@ -377,6 +461,8 @@ public class KaleoProcessModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -394,15 +480,20 @@ public class KaleoProcessModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_kaleoProcessCacheModel == _dummyKaleoProcessCacheModel) {
+			_kaleoProcessCacheModel = (KaleoProcessCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getOriginalAttributeValue("uuid");
 	}
 
 	@JSON
@@ -413,6 +504,12 @@ public class KaleoProcessModelImpl
 
 	@Override
 	public void setKaleoProcessId(long kaleoProcessId) {
+		_columnBitmask |= KALEOPROCESSID_COLUMN_BITMASK;
+
+		if (_kaleoProcessCacheModel == _dummyKaleoProcessCacheModel) {
+			_kaleoProcessCacheModel = (KaleoProcessCacheModel)toCacheModel();
+		}
+
 		_kaleoProcessId = kaleoProcessId;
 	}
 
@@ -426,17 +523,20 @@ public class KaleoProcessModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_kaleoProcessCacheModel == _dummyKaleoProcessCacheModel) {
+			_kaleoProcessCacheModel = (KaleoProcessCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getOriginalAttributeValue("groupId");
 	}
 
 	@JSON
@@ -449,17 +549,20 @@ public class KaleoProcessModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_kaleoProcessCacheModel == _dummyKaleoProcessCacheModel) {
+			_kaleoProcessCacheModel = (KaleoProcessCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@JSON
@@ -470,6 +573,12 @@ public class KaleoProcessModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (_kaleoProcessCacheModel == _dummyKaleoProcessCacheModel) {
+			_kaleoProcessCacheModel = (KaleoProcessCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -502,6 +611,12 @@ public class KaleoProcessModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (_kaleoProcessCacheModel == _dummyKaleoProcessCacheModel) {
+			_kaleoProcessCacheModel = (KaleoProcessCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -513,6 +628,12 @@ public class KaleoProcessModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (_kaleoProcessCacheModel == _dummyKaleoProcessCacheModel) {
+			_kaleoProcessCacheModel = (KaleoProcessCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -530,6 +651,12 @@ public class KaleoProcessModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (_kaleoProcessCacheModel == _dummyKaleoProcessCacheModel) {
+			_kaleoProcessCacheModel = (KaleoProcessCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -543,17 +670,20 @@ public class KaleoProcessModelImpl
 	public void setDDLRecordSetId(long DDLRecordSetId) {
 		_columnBitmask |= DDLRECORDSETID_COLUMN_BITMASK;
 
-		if (!_setOriginalDDLRecordSetId) {
-			_setOriginalDDLRecordSetId = true;
-
-			_originalDDLRecordSetId = _DDLRecordSetId;
+		if (_kaleoProcessCacheModel == _dummyKaleoProcessCacheModel) {
+			_kaleoProcessCacheModel = (KaleoProcessCacheModel)toCacheModel();
 		}
 
 		_DDLRecordSetId = DDLRecordSetId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalDDLRecordSetId() {
-		return _originalDDLRecordSetId;
+		return getOriginalAttributeValue("DDLRecordSetId");
 	}
 
 	@JSON
@@ -564,6 +694,12 @@ public class KaleoProcessModelImpl
 
 	@Override
 	public void setDDMTemplateId(long DDMTemplateId) {
+		_columnBitmask |= DDMTEMPLATEID_COLUMN_BITMASK;
+
+		if (_kaleoProcessCacheModel == _dummyKaleoProcessCacheModel) {
+			_kaleoProcessCacheModel = (KaleoProcessCacheModel)toCacheModel();
+		}
+
 		_DDMTemplateId = DDMTemplateId;
 	}
 
@@ -580,6 +716,12 @@ public class KaleoProcessModelImpl
 
 	@Override
 	public void setWorkflowDefinitionName(String workflowDefinitionName) {
+		_columnBitmask |= WORKFLOWDEFINITIONNAME_COLUMN_BITMASK;
+
+		if (_kaleoProcessCacheModel == _dummyKaleoProcessCacheModel) {
+			_kaleoProcessCacheModel = (KaleoProcessCacheModel)toCacheModel();
+		}
+
 		_workflowDefinitionName = workflowDefinitionName;
 	}
 
@@ -591,6 +733,12 @@ public class KaleoProcessModelImpl
 
 	@Override
 	public void setWorkflowDefinitionVersion(int workflowDefinitionVersion) {
+		_columnBitmask |= WORKFLOWDEFINITIONVERSION_COLUMN_BITMASK;
+
+		if (_kaleoProcessCacheModel == _dummyKaleoProcessCacheModel) {
+			_kaleoProcessCacheModel = (KaleoProcessCacheModel)toCacheModel();
+		}
+
 		_workflowDefinitionVersion = workflowDefinitionVersion;
 	}
 
@@ -717,27 +865,11 @@ public class KaleoProcessModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		KaleoProcessModelImpl kaleoProcessModelImpl = this;
+		_setModifiedDate = false;
 
-		kaleoProcessModelImpl._originalUuid = kaleoProcessModelImpl._uuid;
+		_columnBitmask = 0;
 
-		kaleoProcessModelImpl._originalGroupId = kaleoProcessModelImpl._groupId;
-
-		kaleoProcessModelImpl._setOriginalGroupId = false;
-
-		kaleoProcessModelImpl._originalCompanyId =
-			kaleoProcessModelImpl._companyId;
-
-		kaleoProcessModelImpl._setOriginalCompanyId = false;
-
-		kaleoProcessModelImpl._setModifiedDate = false;
-
-		kaleoProcessModelImpl._originalDDLRecordSetId =
-			kaleoProcessModelImpl._DDLRecordSetId;
-
-		kaleoProcessModelImpl._setOriginalDDLRecordSetId = false;
-
-		kaleoProcessModelImpl._columnBitmask = 0;
+		_kaleoProcessCacheModel = _dummyKaleoProcessCacheModel;
 	}
 
 	@Override
@@ -880,26 +1012,24 @@ public class KaleoProcessModelImpl
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _kaleoProcessId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _DDLRecordSetId;
-	private long _originalDDLRecordSetId;
-	private boolean _setOriginalDDLRecordSetId;
 	private long _DDMTemplateId;
 	private String _workflowDefinitionName;
 	private int _workflowDefinitionVersion;
 	private long _columnBitmask;
 	private KaleoProcess _escapedModel;
+
+	private static final KaleoProcessCacheModel _dummyKaleoProcessCacheModel =
+		new KaleoProcessCacheModel();
+
+	private KaleoProcessCacheModel _kaleoProcessCacheModel;
 
 }

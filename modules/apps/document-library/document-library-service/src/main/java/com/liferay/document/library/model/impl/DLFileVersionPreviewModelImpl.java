@@ -98,13 +98,17 @@ public class DLFileVersionPreviewModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long FILEENTRYID_COLUMN_BITMASK = 1L;
+	public static final long DLFILEVERSIONPREVIEWID_COLUMN_BITMASK = 1L;
 
-	public static final long FILEVERSIONID_COLUMN_BITMASK = 2L;
+	public static final long GROUPID_COLUMN_BITMASK = 2L;
 
-	public static final long PREVIEWSTATUS_COLUMN_BITMASK = 4L;
+	public static final long COMPANYID_COLUMN_BITMASK = 4L;
 
-	public static final long DLFILEVERSIONPREVIEWID_COLUMN_BITMASK = 8L;
+	public static final long FILEENTRYID_COLUMN_BITMASK = 8L;
+
+	public static final long FILEVERSIONID_COLUMN_BITMASK = 16L;
+
+	public static final long PREVIEWSTATUS_COLUMN_BITMASK = 32L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -233,6 +237,27 @@ public class DLFileVersionPreviewModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_dlFileVersionPreviewCacheModel == null) ||
+			(_dlFileVersionPreviewCacheModel ==
+				_dummyDLFileVersionPreviewCacheModel)) {
+
+			return null;
+		}
+
+		Function<DLFileVersionPreviewCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_dlFileVersionPreviewCacheModel);
+	}
+
+	private static final Map
+		<String, Function<DLFileVersionPreviewCacheModel, Object>>
+			_cacheModelGetterFunctions;
 	private static final Map<String, Function<DLFileVersionPreview, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<DLFileVersionPreview, Object>>
@@ -247,40 +272,75 @@ public class DLFileVersionPreviewModelImpl
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<DLFileVersionPreview, ?>>();
+		Map<String, Function<DLFileVersionPreviewCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String,
+					 Function<DLFileVersionPreviewCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"dlFileVersionPreviewId",
 			DLFileVersionPreview::getDlFileVersionPreviewId);
+
+		cacheModelGetterFunctions.put(
+			"dlFileVersionPreviewId",
+			dlFileVersionPreviewCacheModel ->
+				dlFileVersionPreviewCacheModel.dlFileVersionPreviewId);
 		attributeSetterBiConsumers.put(
 			"dlFileVersionPreviewId",
 			(BiConsumer<DLFileVersionPreview, Long>)
 				DLFileVersionPreview::setDlFileVersionPreviewId);
 		attributeGetterFunctions.put(
 			"groupId", DLFileVersionPreview::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			dlFileVersionPreviewCacheModel ->
+				dlFileVersionPreviewCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<DLFileVersionPreview, Long>)
 				DLFileVersionPreview::setGroupId);
 		attributeGetterFunctions.put(
 			"companyId", DLFileVersionPreview::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			dlFileVersionPreviewCacheModel ->
+				dlFileVersionPreviewCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<DLFileVersionPreview, Long>)
 				DLFileVersionPreview::setCompanyId);
 		attributeGetterFunctions.put(
 			"fileEntryId", DLFileVersionPreview::getFileEntryId);
+
+		cacheModelGetterFunctions.put(
+			"fileEntryId",
+			dlFileVersionPreviewCacheModel ->
+				dlFileVersionPreviewCacheModel.fileEntryId);
 		attributeSetterBiConsumers.put(
 			"fileEntryId",
 			(BiConsumer<DLFileVersionPreview, Long>)
 				DLFileVersionPreview::setFileEntryId);
 		attributeGetterFunctions.put(
 			"fileVersionId", DLFileVersionPreview::getFileVersionId);
+
+		cacheModelGetterFunctions.put(
+			"fileVersionId",
+			dlFileVersionPreviewCacheModel ->
+				dlFileVersionPreviewCacheModel.fileVersionId);
 		attributeSetterBiConsumers.put(
 			"fileVersionId",
 			(BiConsumer<DLFileVersionPreview, Long>)
 				DLFileVersionPreview::setFileVersionId);
 		attributeGetterFunctions.put(
 			"previewStatus", DLFileVersionPreview::getPreviewStatus);
+
+		cacheModelGetterFunctions.put(
+			"previewStatus",
+			dlFileVersionPreviewCacheModel ->
+				dlFileVersionPreviewCacheModel.previewStatus);
 		attributeSetterBiConsumers.put(
 			"previewStatus",
 			(BiConsumer<DLFileVersionPreview, Integer>)
@@ -290,6 +350,8 @@ public class DLFileVersionPreviewModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -299,7 +361,14 @@ public class DLFileVersionPreviewModelImpl
 
 	@Override
 	public void setDlFileVersionPreviewId(long dlFileVersionPreviewId) {
-		_columnBitmask = -1L;
+		_columnBitmask |= DLFILEVERSIONPREVIEWID_COLUMN_BITMASK;
+
+		if (_dlFileVersionPreviewCacheModel ==
+				_dummyDLFileVersionPreviewCacheModel) {
+
+			_dlFileVersionPreviewCacheModel =
+				(DLFileVersionPreviewCacheModel)toCacheModel();
+		}
 
 		_dlFileVersionPreviewId = dlFileVersionPreviewId;
 	}
@@ -311,6 +380,15 @@ public class DLFileVersionPreviewModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
+		_columnBitmask |= GROUPID_COLUMN_BITMASK;
+
+		if (_dlFileVersionPreviewCacheModel ==
+				_dummyDLFileVersionPreviewCacheModel) {
+
+			_dlFileVersionPreviewCacheModel =
+				(DLFileVersionPreviewCacheModel)toCacheModel();
+		}
+
 		_groupId = groupId;
 	}
 
@@ -321,6 +399,15 @@ public class DLFileVersionPreviewModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (_dlFileVersionPreviewCacheModel ==
+				_dummyDLFileVersionPreviewCacheModel) {
+
+			_dlFileVersionPreviewCacheModel =
+				(DLFileVersionPreviewCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -333,17 +420,23 @@ public class DLFileVersionPreviewModelImpl
 	public void setFileEntryId(long fileEntryId) {
 		_columnBitmask |= FILEENTRYID_COLUMN_BITMASK;
 
-		if (!_setOriginalFileEntryId) {
-			_setOriginalFileEntryId = true;
+		if (_dlFileVersionPreviewCacheModel ==
+				_dummyDLFileVersionPreviewCacheModel) {
 
-			_originalFileEntryId = _fileEntryId;
+			_dlFileVersionPreviewCacheModel =
+				(DLFileVersionPreviewCacheModel)toCacheModel();
 		}
 
 		_fileEntryId = fileEntryId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalFileEntryId() {
-		return _originalFileEntryId;
+		return getOriginalAttributeValue("fileEntryId");
 	}
 
 	@Override
@@ -355,17 +448,23 @@ public class DLFileVersionPreviewModelImpl
 	public void setFileVersionId(long fileVersionId) {
 		_columnBitmask |= FILEVERSIONID_COLUMN_BITMASK;
 
-		if (!_setOriginalFileVersionId) {
-			_setOriginalFileVersionId = true;
+		if (_dlFileVersionPreviewCacheModel ==
+				_dummyDLFileVersionPreviewCacheModel) {
 
-			_originalFileVersionId = _fileVersionId;
+			_dlFileVersionPreviewCacheModel =
+				(DLFileVersionPreviewCacheModel)toCacheModel();
 		}
 
 		_fileVersionId = fileVersionId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalFileVersionId() {
-		return _originalFileVersionId;
+		return getOriginalAttributeValue("fileVersionId");
 	}
 
 	@Override
@@ -377,17 +476,23 @@ public class DLFileVersionPreviewModelImpl
 	public void setPreviewStatus(int previewStatus) {
 		_columnBitmask |= PREVIEWSTATUS_COLUMN_BITMASK;
 
-		if (!_setOriginalPreviewStatus) {
-			_setOriginalPreviewStatus = true;
+		if (_dlFileVersionPreviewCacheModel ==
+				_dummyDLFileVersionPreviewCacheModel) {
 
-			_originalPreviewStatus = _previewStatus;
+			_dlFileVersionPreviewCacheModel =
+				(DLFileVersionPreviewCacheModel)toCacheModel();
 		}
 
 		_previewStatus = previewStatus;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalPreviewStatus() {
-		return _originalPreviewStatus;
+		return getOriginalAttributeValue("previewStatus");
 	}
 
 	public long getColumnBitmask() {
@@ -516,24 +621,9 @@ public class DLFileVersionPreviewModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		DLFileVersionPreviewModelImpl dlFileVersionPreviewModelImpl = this;
+		_columnBitmask = 0;
 
-		dlFileVersionPreviewModelImpl._originalFileEntryId =
-			dlFileVersionPreviewModelImpl._fileEntryId;
-
-		dlFileVersionPreviewModelImpl._setOriginalFileEntryId = false;
-
-		dlFileVersionPreviewModelImpl._originalFileVersionId =
-			dlFileVersionPreviewModelImpl._fileVersionId;
-
-		dlFileVersionPreviewModelImpl._setOriginalFileVersionId = false;
-
-		dlFileVersionPreviewModelImpl._originalPreviewStatus =
-			dlFileVersionPreviewModelImpl._previewStatus;
-
-		dlFileVersionPreviewModelImpl._setOriginalPreviewStatus = false;
-
-		dlFileVersionPreviewModelImpl._columnBitmask = 0;
+		_dlFileVersionPreviewCacheModel = _dummyDLFileVersionPreviewCacheModel;
 	}
 
 	@Override
@@ -633,15 +723,15 @@ public class DLFileVersionPreviewModelImpl
 	private long _groupId;
 	private long _companyId;
 	private long _fileEntryId;
-	private long _originalFileEntryId;
-	private boolean _setOriginalFileEntryId;
 	private long _fileVersionId;
-	private long _originalFileVersionId;
-	private boolean _setOriginalFileVersionId;
 	private int _previewStatus;
-	private int _originalPreviewStatus;
-	private boolean _setOriginalPreviewStatus;
 	private long _columnBitmask;
 	private DLFileVersionPreview _escapedModel;
+
+	private static final DLFileVersionPreviewCacheModel
+		_dummyDLFileVersionPreviewCacheModel =
+			new DLFileVersionPreviewCacheModel();
+
+	private DLFileVersionPreviewCacheModel _dlFileVersionPreviewCacheModel;
 
 }

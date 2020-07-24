@@ -140,19 +140,33 @@ public class WebsiteModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long CLASSNAMEID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long CLASSPK_COLUMN_BITMASK = 2L;
+	public static final long UUID_COLUMN_BITMASK = 2L;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 4L;
+	public static final long WEBSITEID_COLUMN_BITMASK = 4L;
 
-	public static final long PRIMARY_COLUMN_BITMASK = 8L;
+	public static final long COMPANYID_COLUMN_BITMASK = 8L;
 
 	public static final long USERID_COLUMN_BITMASK = 16L;
 
-	public static final long UUID_COLUMN_BITMASK = 32L;
+	public static final long USERNAME_COLUMN_BITMASK = 32L;
 
 	public static final long CREATEDATE_COLUMN_BITMASK = 64L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 128L;
+
+	public static final long CLASSNAMEID_COLUMN_BITMASK = 256L;
+
+	public static final long CLASSPK_COLUMN_BITMASK = 512L;
+
+	public static final long URL_COLUMN_BITMASK = 1024L;
+
+	public static final long TYPEID_COLUMN_BITMASK = 2048L;
+
+	public static final long PRIMARY_COLUMN_BITMASK = 4096L;
+
+	public static final long LASTPUBLISHDATE_COLUMN_BITMASK = 8192L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -320,6 +334,25 @@ public class WebsiteModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_websiteCacheModel == null) ||
+			(_websiteCacheModel == _dummyWebsiteCacheModel)) {
+
+			return null;
+		}
+
+		Function<WebsiteCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_websiteCacheModel);
+	}
+
+	private static final Map<String, Function<WebsiteCacheModel, Object>>
+		_cacheModelGetterFunctions;
 	private static final Map<String, Function<Website, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<Website, Object>>
@@ -330,49 +363,97 @@ public class WebsiteModelImpl
 			new LinkedHashMap<String, Function<Website, Object>>();
 		Map<String, BiConsumer<Website, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Website, ?>>();
+		Map<String, Function<WebsiteCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<WebsiteCacheModel, Object>>();
 
 		attributeGetterFunctions.put("mvccVersion", Website::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion", websiteCacheModel -> websiteCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion", (BiConsumer<Website, Long>)Website::setMvccVersion);
 		attributeGetterFunctions.put("uuid", Website::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid", websiteCacheModel -> websiteCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<Website, String>)Website::setUuid);
 		attributeGetterFunctions.put("websiteId", Website::getWebsiteId);
+
+		cacheModelGetterFunctions.put(
+			"websiteId", websiteCacheModel -> websiteCacheModel.websiteId);
 		attributeSetterBiConsumers.put(
 			"websiteId", (BiConsumer<Website, Long>)Website::setWebsiteId);
 		attributeGetterFunctions.put("companyId", Website::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId", websiteCacheModel -> websiteCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId", (BiConsumer<Website, Long>)Website::setCompanyId);
 		attributeGetterFunctions.put("userId", Website::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", websiteCacheModel -> websiteCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<Website, Long>)Website::setUserId);
 		attributeGetterFunctions.put("userName", Website::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName", websiteCacheModel -> websiteCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName", (BiConsumer<Website, String>)Website::setUserName);
 		attributeGetterFunctions.put("createDate", Website::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate", websiteCacheModel -> websiteCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate", (BiConsumer<Website, Date>)Website::setCreateDate);
 		attributeGetterFunctions.put("modifiedDate", Website::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			websiteCacheModel -> websiteCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<Website, Date>)Website::setModifiedDate);
 		attributeGetterFunctions.put("classNameId", Website::getClassNameId);
+
+		cacheModelGetterFunctions.put(
+			"classNameId", websiteCacheModel -> websiteCacheModel.classNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId", (BiConsumer<Website, Long>)Website::setClassNameId);
 		attributeGetterFunctions.put("classPK", Website::getClassPK);
+
+		cacheModelGetterFunctions.put(
+			"classPK", websiteCacheModel -> websiteCacheModel.classPK);
 		attributeSetterBiConsumers.put(
 			"classPK", (BiConsumer<Website, Long>)Website::setClassPK);
 		attributeGetterFunctions.put("url", Website::getUrl);
+
+		cacheModelGetterFunctions.put(
+			"url", websiteCacheModel -> websiteCacheModel.url);
 		attributeSetterBiConsumers.put(
 			"url", (BiConsumer<Website, String>)Website::setUrl);
 		attributeGetterFunctions.put("typeId", Website::getTypeId);
+
+		cacheModelGetterFunctions.put(
+			"typeId", websiteCacheModel -> websiteCacheModel.typeId);
 		attributeSetterBiConsumers.put(
 			"typeId", (BiConsumer<Website, Long>)Website::setTypeId);
 		attributeGetterFunctions.put("primary", Website::getPrimary);
+
+		cacheModelGetterFunctions.put(
+			"primary", websiteCacheModel -> websiteCacheModel.primary);
 		attributeSetterBiConsumers.put(
 			"primary", (BiConsumer<Website, Boolean>)Website::setPrimary);
 		attributeGetterFunctions.put(
 			"lastPublishDate", Website::getLastPublishDate);
+
+		cacheModelGetterFunctions.put(
+			"lastPublishDate",
+			websiteCacheModel -> websiteCacheModel.lastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<Website, Date>)Website::setLastPublishDate);
@@ -381,6 +462,8 @@ public class WebsiteModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -391,6 +474,12 @@ public class WebsiteModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_websiteCacheModel == _dummyWebsiteCacheModel) {
+			_websiteCacheModel = (WebsiteCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -409,15 +498,20 @@ public class WebsiteModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_websiteCacheModel == _dummyWebsiteCacheModel) {
+			_websiteCacheModel = (WebsiteCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getOriginalAttributeValue("uuid");
 	}
 
 	@JSON
@@ -428,6 +522,12 @@ public class WebsiteModelImpl
 
 	@Override
 	public void setWebsiteId(long websiteId) {
+		_columnBitmask |= WEBSITEID_COLUMN_BITMASK;
+
+		if (_websiteCacheModel == _dummyWebsiteCacheModel) {
+			_websiteCacheModel = (WebsiteCacheModel)toCacheModel();
+		}
+
 		_websiteId = websiteId;
 	}
 
@@ -441,17 +541,20 @@ public class WebsiteModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_websiteCacheModel == _dummyWebsiteCacheModel) {
+			_websiteCacheModel = (WebsiteCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@JSON
@@ -464,10 +567,8 @@ public class WebsiteModelImpl
 	public void setUserId(long userId) {
 		_columnBitmask |= USERID_COLUMN_BITMASK;
 
-		if (!_setOriginalUserId) {
-			_setOriginalUserId = true;
-
-			_originalUserId = _userId;
+		if (_websiteCacheModel == _dummyWebsiteCacheModel) {
+			_websiteCacheModel = (WebsiteCacheModel)toCacheModel();
 		}
 
 		_userId = userId;
@@ -489,8 +590,13 @@ public class WebsiteModelImpl
 	public void setUserUuid(String userUuid) {
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalUserId() {
-		return _originalUserId;
+		return getOriginalAttributeValue("userId");
 	}
 
 	@JSON
@@ -506,6 +612,12 @@ public class WebsiteModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (_websiteCacheModel == _dummyWebsiteCacheModel) {
+			_websiteCacheModel = (WebsiteCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -517,7 +629,11 @@ public class WebsiteModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
-		_columnBitmask = -1L;
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (_websiteCacheModel == _dummyWebsiteCacheModel) {
+			_websiteCacheModel = (WebsiteCacheModel)toCacheModel();
+		}
 
 		_createDate = createDate;
 	}
@@ -535,6 +651,12 @@ public class WebsiteModelImpl
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
+
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (_websiteCacheModel == _dummyWebsiteCacheModel) {
+			_websiteCacheModel = (WebsiteCacheModel)toCacheModel();
+		}
 
 		_modifiedDate = modifiedDate;
 	}
@@ -569,17 +691,20 @@ public class WebsiteModelImpl
 	public void setClassNameId(long classNameId) {
 		_columnBitmask |= CLASSNAMEID_COLUMN_BITMASK;
 
-		if (!_setOriginalClassNameId) {
-			_setOriginalClassNameId = true;
-
-			_originalClassNameId = _classNameId;
+		if (_websiteCacheModel == _dummyWebsiteCacheModel) {
+			_websiteCacheModel = (WebsiteCacheModel)toCacheModel();
 		}
 
 		_classNameId = classNameId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassNameId() {
-		return _originalClassNameId;
+		return getOriginalAttributeValue("classNameId");
 	}
 
 	@JSON
@@ -592,17 +717,20 @@ public class WebsiteModelImpl
 	public void setClassPK(long classPK) {
 		_columnBitmask |= CLASSPK_COLUMN_BITMASK;
 
-		if (!_setOriginalClassPK) {
-			_setOriginalClassPK = true;
-
-			_originalClassPK = _classPK;
+		if (_websiteCacheModel == _dummyWebsiteCacheModel) {
+			_websiteCacheModel = (WebsiteCacheModel)toCacheModel();
 		}
 
 		_classPK = classPK;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassPK() {
-		return _originalClassPK;
+		return getOriginalAttributeValue("classPK");
 	}
 
 	@JSON
@@ -618,6 +746,12 @@ public class WebsiteModelImpl
 
 	@Override
 	public void setUrl(String url) {
+		_columnBitmask |= URL_COLUMN_BITMASK;
+
+		if (_websiteCacheModel == _dummyWebsiteCacheModel) {
+			_websiteCacheModel = (WebsiteCacheModel)toCacheModel();
+		}
+
 		_url = url;
 	}
 
@@ -629,6 +763,12 @@ public class WebsiteModelImpl
 
 	@Override
 	public void setTypeId(long typeId) {
+		_columnBitmask |= TYPEID_COLUMN_BITMASK;
+
+		if (_websiteCacheModel == _dummyWebsiteCacheModel) {
+			_websiteCacheModel = (WebsiteCacheModel)toCacheModel();
+		}
+
 		_typeId = typeId;
 	}
 
@@ -648,17 +788,20 @@ public class WebsiteModelImpl
 	public void setPrimary(boolean primary) {
 		_columnBitmask |= PRIMARY_COLUMN_BITMASK;
 
-		if (!_setOriginalPrimary) {
-			_setOriginalPrimary = true;
-
-			_originalPrimary = _primary;
+		if (_websiteCacheModel == _dummyWebsiteCacheModel) {
+			_websiteCacheModel = (WebsiteCacheModel)toCacheModel();
 		}
 
 		_primary = primary;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public boolean getOriginalPrimary() {
-		return _originalPrimary;
+		return getOriginalAttributeValue("primary");
 	}
 
 	@JSON
@@ -669,6 +812,12 @@ public class WebsiteModelImpl
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		_columnBitmask |= LASTPUBLISHDATE_COLUMN_BITMASK;
+
+		if (_websiteCacheModel == _dummyWebsiteCacheModel) {
+			_websiteCacheModel = (WebsiteCacheModel)toCacheModel();
+		}
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -795,33 +944,11 @@ public class WebsiteModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		WebsiteModelImpl websiteModelImpl = this;
+		_setModifiedDate = false;
 
-		websiteModelImpl._originalUuid = websiteModelImpl._uuid;
+		_columnBitmask = 0;
 
-		websiteModelImpl._originalCompanyId = websiteModelImpl._companyId;
-
-		websiteModelImpl._setOriginalCompanyId = false;
-
-		websiteModelImpl._originalUserId = websiteModelImpl._userId;
-
-		websiteModelImpl._setOriginalUserId = false;
-
-		websiteModelImpl._setModifiedDate = false;
-
-		websiteModelImpl._originalClassNameId = websiteModelImpl._classNameId;
-
-		websiteModelImpl._setOriginalClassNameId = false;
-
-		websiteModelImpl._originalClassPK = websiteModelImpl._classPK;
-
-		websiteModelImpl._setOriginalClassPK = false;
-
-		websiteModelImpl._originalPrimary = websiteModelImpl._primary;
-
-		websiteModelImpl._setOriginalPrimary = false;
-
-		websiteModelImpl._columnBitmask = 0;
+		_websiteCacheModel = _dummyWebsiteCacheModel;
 	}
 
 	@Override
@@ -970,31 +1097,25 @@ public class WebsiteModelImpl
 
 	private long _mvccVersion;
 	private String _uuid;
-	private String _originalUuid;
 	private long _websiteId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
-	private long _originalUserId;
-	private boolean _setOriginalUserId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _classNameId;
-	private long _originalClassNameId;
-	private boolean _setOriginalClassNameId;
 	private long _classPK;
-	private long _originalClassPK;
-	private boolean _setOriginalClassPK;
 	private String _url;
 	private long _typeId;
 	private boolean _primary;
-	private boolean _originalPrimary;
-	private boolean _setOriginalPrimary;
 	private Date _lastPublishDate;
 	private long _columnBitmask;
 	private Website _escapedModel;
+
+	private static final WebsiteCacheModel _dummyWebsiteCacheModel =
+		new WebsiteCacheModel();
+
+	private WebsiteCacheModel _websiteCacheModel;
 
 }

@@ -1028,7 +1028,8 @@ public class SamlIdpSsoSessionPersistenceImpl
 			 _finderPathFetchBySamlIdpSsoSessionKey.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				samlIdpSsoSessionModelImpl.getOriginalSamlIdpSsoSessionKey()
+				samlIdpSsoSessionModelImpl.getOriginalAttributeValue(
+					"samlIdpSsoSessionKey")
 			};
 
 			finderCache.removeResult(

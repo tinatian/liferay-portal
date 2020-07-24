@@ -857,7 +857,8 @@ public class AnalyticsMessagePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					analyticsMessageModelImpl.getOriginalCompanyId()
+					analyticsMessageModelImpl.getOriginalAttributeValue(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCompanyId, args);

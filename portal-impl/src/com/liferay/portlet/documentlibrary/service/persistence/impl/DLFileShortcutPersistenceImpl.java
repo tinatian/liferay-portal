@@ -6289,8 +6289,8 @@ public class DLFileShortcutPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				dlFileShortcutModelImpl.getOriginalUuid(),
-				dlFileShortcutModelImpl.getOriginalGroupId()
+				dlFileShortcutModelImpl.getOriginalAttributeValue("uuid"),
+				dlFileShortcutModelImpl.getOriginalAttributeValue("groupId")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByUUID_G, args);
@@ -6573,7 +6573,7 @@ public class DLFileShortcutPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					dlFileShortcutModelImpl.getOriginalUuid()
+					dlFileShortcutModelImpl.getOriginalAttributeValue("uuid")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid, args);
@@ -6592,8 +6592,9 @@ public class DLFileShortcutPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					dlFileShortcutModelImpl.getOriginalUuid(),
-					dlFileShortcutModelImpl.getOriginalCompanyId()
+					dlFileShortcutModelImpl.getOriginalAttributeValue("uuid"),
+					dlFileShortcutModelImpl.getOriginalAttributeValue(
+						"companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid_C, args);
@@ -6615,7 +6616,8 @@ public class DLFileShortcutPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					dlFileShortcutModelImpl.getOriginalCompanyId()
+					dlFileShortcutModelImpl.getOriginalAttributeValue(
+						"companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
@@ -6634,7 +6636,8 @@ public class DLFileShortcutPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					dlFileShortcutModelImpl.getOriginalToFileEntryId()
+					dlFileShortcutModelImpl.getOriginalAttributeValue(
+						"toFileEntryId")
 				};
 
 				FinderCacheUtil.removeResult(
@@ -6657,8 +6660,10 @@ public class DLFileShortcutPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					dlFileShortcutModelImpl.getOriginalGroupId(),
-					dlFileShortcutModelImpl.getOriginalFolderId()
+					dlFileShortcutModelImpl.getOriginalAttributeValue(
+						"groupId"),
+					dlFileShortcutModelImpl.getOriginalAttributeValue(
+						"folderId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByG_F, args);
@@ -6680,9 +6685,11 @@ public class DLFileShortcutPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					dlFileShortcutModelImpl.getOriginalGroupId(),
-					dlFileShortcutModelImpl.getOriginalFolderId(),
-					dlFileShortcutModelImpl.getOriginalActive()
+					dlFileShortcutModelImpl.getOriginalAttributeValue(
+						"groupId"),
+					dlFileShortcutModelImpl.getOriginalAttributeValue(
+						"folderId"),
+					dlFileShortcutModelImpl.getOriginalAttributeValue("active")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByG_F_A, args);
@@ -6705,10 +6712,12 @@ public class DLFileShortcutPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					dlFileShortcutModelImpl.getOriginalGroupId(),
-					dlFileShortcutModelImpl.getOriginalFolderId(),
-					dlFileShortcutModelImpl.getOriginalActive(),
-					dlFileShortcutModelImpl.getOriginalStatus()
+					dlFileShortcutModelImpl.getOriginalAttributeValue(
+						"groupId"),
+					dlFileShortcutModelImpl.getOriginalAttributeValue(
+						"folderId"),
+					dlFileShortcutModelImpl.getOriginalAttributeValue("active"),
+					dlFileShortcutModelImpl.getOriginalAttributeValue("status")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByG_F_A_S, args);

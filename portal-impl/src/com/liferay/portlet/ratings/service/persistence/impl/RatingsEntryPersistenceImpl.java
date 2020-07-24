@@ -3114,9 +3114,9 @@ public class RatingsEntryPersistenceImpl
 			 _finderPathFetchByU_C_C.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				ratingsEntryModelImpl.getOriginalUserId(),
-				ratingsEntryModelImpl.getOriginalClassNameId(),
-				ratingsEntryModelImpl.getOriginalClassPK()
+				ratingsEntryModelImpl.getOriginalAttributeValue("userId"),
+				ratingsEntryModelImpl.getOriginalAttributeValue("classNameId"),
+				ratingsEntryModelImpl.getOriginalAttributeValue("classPK")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByU_C_C, args);
@@ -3382,7 +3382,7 @@ public class RatingsEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					ratingsEntryModelImpl.getOriginalUuid()
+					ratingsEntryModelImpl.getOriginalAttributeValue("uuid")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid, args);
@@ -3401,8 +3401,8 @@ public class RatingsEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					ratingsEntryModelImpl.getOriginalUuid(),
-					ratingsEntryModelImpl.getOriginalCompanyId()
+					ratingsEntryModelImpl.getOriginalAttributeValue("uuid"),
+					ratingsEntryModelImpl.getOriginalAttributeValue("companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid_C, args);
@@ -3424,8 +3424,9 @@ public class RatingsEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					ratingsEntryModelImpl.getOriginalClassNameId(),
-					ratingsEntryModelImpl.getOriginalClassPK()
+					ratingsEntryModelImpl.getOriginalAttributeValue(
+						"classNameId"),
+					ratingsEntryModelImpl.getOriginalAttributeValue("classPK")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_C, args);
@@ -3447,9 +3448,10 @@ public class RatingsEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					ratingsEntryModelImpl.getOriginalUserId(),
-					ratingsEntryModelImpl.getOriginalClassNameId(),
-					ratingsEntryModelImpl.getOriginalClassPK()
+					ratingsEntryModelImpl.getOriginalAttributeValue("userId"),
+					ratingsEntryModelImpl.getOriginalAttributeValue(
+						"classNameId"),
+					ratingsEntryModelImpl.getOriginalAttributeValue("classPK")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByU_C_C, args);
@@ -3472,9 +3474,10 @@ public class RatingsEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					ratingsEntryModelImpl.getOriginalClassNameId(),
-					ratingsEntryModelImpl.getOriginalClassPK(),
-					ratingsEntryModelImpl.getOriginalScore()
+					ratingsEntryModelImpl.getOriginalAttributeValue(
+						"classNameId"),
+					ratingsEntryModelImpl.getOriginalAttributeValue("classPK"),
+					ratingsEntryModelImpl.getOriginalAttributeValue("score")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_C_S, args);

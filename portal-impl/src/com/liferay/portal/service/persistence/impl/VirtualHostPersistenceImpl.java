@@ -1327,7 +1327,7 @@ public class VirtualHostPersistenceImpl
 			 _finderPathFetchByHostname.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				virtualHostModelImpl.getOriginalHostname()
+				virtualHostModelImpl.getOriginalAttributeValue("hostname")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByHostname, args);
@@ -1349,9 +1349,10 @@ public class VirtualHostPersistenceImpl
 			 _finderPathFetchByC_L_D.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				virtualHostModelImpl.getOriginalCompanyId(),
-				virtualHostModelImpl.getOriginalLayoutSetId(),
-				virtualHostModelImpl.getOriginalDefaultVirtualHost()
+				virtualHostModelImpl.getOriginalAttributeValue("companyId"),
+				virtualHostModelImpl.getOriginalAttributeValue("layoutSetId"),
+				virtualHostModelImpl.getOriginalAttributeValue(
+					"defaultVirtualHost")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByC_L_D, args);
@@ -1548,8 +1549,9 @@ public class VirtualHostPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					virtualHostModelImpl.getOriginalCompanyId(),
-					virtualHostModelImpl.getOriginalLayoutSetId()
+					virtualHostModelImpl.getOriginalAttributeValue("companyId"),
+					virtualHostModelImpl.getOriginalAttributeValue(
+						"layoutSetId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_L, args);

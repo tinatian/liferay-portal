@@ -117,13 +117,17 @@ public class PasswordPolicyRelModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long CLASSNAMEID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long CLASSPK_COLUMN_BITMASK = 2L;
+	public static final long PASSWORDPOLICYRELID_COLUMN_BITMASK = 2L;
 
-	public static final long PASSWORDPOLICYID_COLUMN_BITMASK = 4L;
+	public static final long COMPANYID_COLUMN_BITMASK = 4L;
 
-	public static final long PASSWORDPOLICYRELID_COLUMN_BITMASK = 8L;
+	public static final long PASSWORDPOLICYID_COLUMN_BITMASK = 8L;
+
+	public static final long CLASSNAMEID_COLUMN_BITMASK = 16L;
+
+	public static final long CLASSPK_COLUMN_BITMASK = 32L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		com.liferay.portal.util.PropsUtil.get(
@@ -242,6 +246,27 @@ public class PasswordPolicyRelModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_passwordPolicyRelCacheModel == null) ||
+			(_passwordPolicyRelCacheModel ==
+				_dummyPasswordPolicyRelCacheModel)) {
+
+			return null;
+		}
+
+		Function<PasswordPolicyRelCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_passwordPolicyRelCacheModel);
+	}
+
+	private static final Map
+		<String, Function<PasswordPolicyRelCacheModel, Object>>
+			_cacheModelGetterFunctions;
 	private static final Map<String, Function<PasswordPolicyRel, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<PasswordPolicyRel, Object>>
@@ -255,38 +280,71 @@ public class PasswordPolicyRelModelImpl
 		Map<String, BiConsumer<PasswordPolicyRel, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<PasswordPolicyRel, ?>>();
+		Map<String, Function<PasswordPolicyRelCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<PasswordPolicyRelCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", PasswordPolicyRel::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			passwordPolicyRelCacheModel ->
+				passwordPolicyRelCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<PasswordPolicyRel, Long>)
 				PasswordPolicyRel::setMvccVersion);
 		attributeGetterFunctions.put(
 			"passwordPolicyRelId", PasswordPolicyRel::getPasswordPolicyRelId);
+
+		cacheModelGetterFunctions.put(
+			"passwordPolicyRelId",
+			passwordPolicyRelCacheModel ->
+				passwordPolicyRelCacheModel.passwordPolicyRelId);
 		attributeSetterBiConsumers.put(
 			"passwordPolicyRelId",
 			(BiConsumer<PasswordPolicyRel, Long>)
 				PasswordPolicyRel::setPasswordPolicyRelId);
 		attributeGetterFunctions.put(
 			"companyId", PasswordPolicyRel::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			passwordPolicyRelCacheModel ->
+				passwordPolicyRelCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<PasswordPolicyRel, Long>)
 				PasswordPolicyRel::setCompanyId);
 		attributeGetterFunctions.put(
 			"passwordPolicyId", PasswordPolicyRel::getPasswordPolicyId);
+
+		cacheModelGetterFunctions.put(
+			"passwordPolicyId",
+			passwordPolicyRelCacheModel ->
+				passwordPolicyRelCacheModel.passwordPolicyId);
 		attributeSetterBiConsumers.put(
 			"passwordPolicyId",
 			(BiConsumer<PasswordPolicyRel, Long>)
 				PasswordPolicyRel::setPasswordPolicyId);
 		attributeGetterFunctions.put(
 			"classNameId", PasswordPolicyRel::getClassNameId);
+
+		cacheModelGetterFunctions.put(
+			"classNameId",
+			passwordPolicyRelCacheModel ->
+				passwordPolicyRelCacheModel.classNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<PasswordPolicyRel, Long>)
 				PasswordPolicyRel::setClassNameId);
 		attributeGetterFunctions.put("classPK", PasswordPolicyRel::getClassPK);
+
+		cacheModelGetterFunctions.put(
+			"classPK",
+			passwordPolicyRelCacheModel -> passwordPolicyRelCacheModel.classPK);
 		attributeSetterBiConsumers.put(
 			"classPK",
 			(BiConsumer<PasswordPolicyRel, Long>)PasswordPolicyRel::setClassPK);
@@ -295,6 +353,8 @@ public class PasswordPolicyRelModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -304,6 +364,13 @@ public class PasswordPolicyRelModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_passwordPolicyRelCacheModel == _dummyPasswordPolicyRelCacheModel) {
+			_passwordPolicyRelCacheModel =
+				(PasswordPolicyRelCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -314,6 +381,13 @@ public class PasswordPolicyRelModelImpl
 
 	@Override
 	public void setPasswordPolicyRelId(long passwordPolicyRelId) {
+		_columnBitmask |= PASSWORDPOLICYRELID_COLUMN_BITMASK;
+
+		if (_passwordPolicyRelCacheModel == _dummyPasswordPolicyRelCacheModel) {
+			_passwordPolicyRelCacheModel =
+				(PasswordPolicyRelCacheModel)toCacheModel();
+		}
+
 		_passwordPolicyRelId = passwordPolicyRelId;
 	}
 
@@ -324,6 +398,13 @@ public class PasswordPolicyRelModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (_passwordPolicyRelCacheModel == _dummyPasswordPolicyRelCacheModel) {
+			_passwordPolicyRelCacheModel =
+				(PasswordPolicyRelCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -336,17 +417,21 @@ public class PasswordPolicyRelModelImpl
 	public void setPasswordPolicyId(long passwordPolicyId) {
 		_columnBitmask |= PASSWORDPOLICYID_COLUMN_BITMASK;
 
-		if (!_setOriginalPasswordPolicyId) {
-			_setOriginalPasswordPolicyId = true;
-
-			_originalPasswordPolicyId = _passwordPolicyId;
+		if (_passwordPolicyRelCacheModel == _dummyPasswordPolicyRelCacheModel) {
+			_passwordPolicyRelCacheModel =
+				(PasswordPolicyRelCacheModel)toCacheModel();
 		}
 
 		_passwordPolicyId = passwordPolicyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalPasswordPolicyId() {
-		return _originalPasswordPolicyId;
+		return getOriginalAttributeValue("passwordPolicyId");
 	}
 
 	@Override
@@ -378,17 +463,21 @@ public class PasswordPolicyRelModelImpl
 	public void setClassNameId(long classNameId) {
 		_columnBitmask |= CLASSNAMEID_COLUMN_BITMASK;
 
-		if (!_setOriginalClassNameId) {
-			_setOriginalClassNameId = true;
-
-			_originalClassNameId = _classNameId;
+		if (_passwordPolicyRelCacheModel == _dummyPasswordPolicyRelCacheModel) {
+			_passwordPolicyRelCacheModel =
+				(PasswordPolicyRelCacheModel)toCacheModel();
 		}
 
 		_classNameId = classNameId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassNameId() {
-		return _originalClassNameId;
+		return getOriginalAttributeValue("classNameId");
 	}
 
 	@Override
@@ -400,17 +489,21 @@ public class PasswordPolicyRelModelImpl
 	public void setClassPK(long classPK) {
 		_columnBitmask |= CLASSPK_COLUMN_BITMASK;
 
-		if (!_setOriginalClassPK) {
-			_setOriginalClassPK = true;
-
-			_originalClassPK = _classPK;
+		if (_passwordPolicyRelCacheModel == _dummyPasswordPolicyRelCacheModel) {
+			_passwordPolicyRelCacheModel =
+				(PasswordPolicyRelCacheModel)toCacheModel();
 		}
 
 		_classPK = classPK;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassPK() {
-		return _originalClassPK;
+		return getOriginalAttributeValue("classPK");
 	}
 
 	public long getColumnBitmask() {
@@ -524,24 +617,9 @@ public class PasswordPolicyRelModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		PasswordPolicyRelModelImpl passwordPolicyRelModelImpl = this;
+		_columnBitmask = 0;
 
-		passwordPolicyRelModelImpl._originalPasswordPolicyId =
-			passwordPolicyRelModelImpl._passwordPolicyId;
-
-		passwordPolicyRelModelImpl._setOriginalPasswordPolicyId = false;
-
-		passwordPolicyRelModelImpl._originalClassNameId =
-			passwordPolicyRelModelImpl._classNameId;
-
-		passwordPolicyRelModelImpl._setOriginalClassNameId = false;
-
-		passwordPolicyRelModelImpl._originalClassPK =
-			passwordPolicyRelModelImpl._classPK;
-
-		passwordPolicyRelModelImpl._setOriginalClassPK = false;
-
-		passwordPolicyRelModelImpl._columnBitmask = 0;
+		_passwordPolicyRelCacheModel = _dummyPasswordPolicyRelCacheModel;
 	}
 
 	@Override
@@ -639,15 +717,14 @@ public class PasswordPolicyRelModelImpl
 	private long _passwordPolicyRelId;
 	private long _companyId;
 	private long _passwordPolicyId;
-	private long _originalPasswordPolicyId;
-	private boolean _setOriginalPasswordPolicyId;
 	private long _classNameId;
-	private long _originalClassNameId;
-	private boolean _setOriginalClassNameId;
 	private long _classPK;
-	private long _originalClassPK;
-	private boolean _setOriginalClassPK;
 	private long _columnBitmask;
 	private PasswordPolicyRel _escapedModel;
+
+	private static final PasswordPolicyRelCacheModel
+		_dummyPasswordPolicyRelCacheModel = new PasswordPolicyRelCacheModel();
+
+	private PasswordPolicyRelCacheModel _passwordPolicyRelCacheModel;
 
 }

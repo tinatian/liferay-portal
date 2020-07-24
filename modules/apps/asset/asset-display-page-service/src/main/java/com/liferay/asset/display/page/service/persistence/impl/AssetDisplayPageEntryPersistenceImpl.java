@@ -3041,8 +3041,10 @@ public class AssetDisplayPageEntryPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				assetDisplayPageEntryModelImpl.getOriginalUuid(),
-				assetDisplayPageEntryModelImpl.getOriginalGroupId()
+				assetDisplayPageEntryModelImpl.getOriginalAttributeValue(
+					"uuid"),
+				assetDisplayPageEntryModelImpl.getOriginalAttributeValue(
+					"groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -3064,9 +3066,12 @@ public class AssetDisplayPageEntryPersistenceImpl
 			 _finderPathFetchByG_C_C.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				assetDisplayPageEntryModelImpl.getOriginalGroupId(),
-				assetDisplayPageEntryModelImpl.getOriginalClassNameId(),
-				assetDisplayPageEntryModelImpl.getOriginalClassPK()
+				assetDisplayPageEntryModelImpl.getOriginalAttributeValue(
+					"groupId"),
+				assetDisplayPageEntryModelImpl.getOriginalAttributeValue(
+					"classNameId"),
+				assetDisplayPageEntryModelImpl.getOriginalAttributeValue(
+					"classPK")
 			};
 
 			finderCache.removeResult(_finderPathCountByG_C_C, args);
@@ -3334,7 +3339,8 @@ public class AssetDisplayPageEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					assetDisplayPageEntryModelImpl.getOriginalUuid()
+					assetDisplayPageEntryModelImpl.getOriginalAttributeValue(
+						"uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -3353,8 +3359,10 @@ public class AssetDisplayPageEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					assetDisplayPageEntryModelImpl.getOriginalUuid(),
-					assetDisplayPageEntryModelImpl.getOriginalCompanyId()
+					assetDisplayPageEntryModelImpl.getOriginalAttributeValue(
+						"uuid"),
+					assetDisplayPageEntryModelImpl.getOriginalAttributeValue(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -3376,7 +3384,8 @@ public class AssetDisplayPageEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					assetDisplayPageEntryModelImpl.getOriginalGroupId()
+					assetDisplayPageEntryModelImpl.getOriginalAttributeValue(
+						"groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId, args);
@@ -3397,8 +3406,8 @@ public class AssetDisplayPageEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					assetDisplayPageEntryModelImpl.
-						getOriginalLayoutPageTemplateEntryId()
+					assetDisplayPageEntryModelImpl.getOriginalAttributeValue(
+						"layoutPageTemplateEntryId")
 				};
 
 				finderCache.removeResult(

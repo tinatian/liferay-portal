@@ -2573,7 +2573,7 @@ public class SyncDevicePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					syncDeviceModelImpl.getOriginalUuid()
+					syncDeviceModelImpl.getOriginalAttributeValue("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -2592,8 +2592,8 @@ public class SyncDevicePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					syncDeviceModelImpl.getOriginalUuid(),
-					syncDeviceModelImpl.getOriginalCompanyId()
+					syncDeviceModelImpl.getOriginalAttributeValue("uuid"),
+					syncDeviceModelImpl.getOriginalAttributeValue("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -2615,7 +2615,7 @@ public class SyncDevicePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					syncDeviceModelImpl.getOriginalUserId()
+					syncDeviceModelImpl.getOriginalAttributeValue("userId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUserId, args);

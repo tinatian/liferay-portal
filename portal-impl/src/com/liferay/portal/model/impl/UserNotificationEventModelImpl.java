@@ -131,23 +131,31 @@ public class UserNotificationEventModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long ACTIONREQUIRED_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long ARCHIVED_COLUMN_BITMASK = 2L;
+	public static final long UUID_COLUMN_BITMASK = 2L;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 4L;
+	public static final long USERNOTIFICATIONEVENTID_COLUMN_BITMASK = 4L;
 
-	public static final long DELIVERED_COLUMN_BITMASK = 8L;
+	public static final long COMPANYID_COLUMN_BITMASK = 8L;
 
-	public static final long DELIVERYTYPE_COLUMN_BITMASK = 16L;
+	public static final long USERID_COLUMN_BITMASK = 16L;
 
 	public static final long TYPE_COLUMN_BITMASK = 32L;
 
-	public static final long USERID_COLUMN_BITMASK = 64L;
+	public static final long TIMESTAMP_COLUMN_BITMASK = 64L;
 
-	public static final long UUID_COLUMN_BITMASK = 128L;
+	public static final long DELIVERYTYPE_COLUMN_BITMASK = 128L;
 
-	public static final long TIMESTAMP_COLUMN_BITMASK = 256L;
+	public static final long DELIVERBY_COLUMN_BITMASK = 256L;
+
+	public static final long DELIVERED_COLUMN_BITMASK = 512L;
+
+	public static final long PAYLOAD_COLUMN_BITMASK = 1024L;
+
+	public static final long ACTIONREQUIRED_COLUMN_BITMASK = 2048L;
+
+	public static final long ARCHIVED_COLUMN_BITMASK = 4096L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		com.liferay.portal.util.PropsUtil.get(
@@ -267,6 +275,27 @@ public class UserNotificationEventModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_userNotificationEventCacheModel == null) ||
+			(_userNotificationEventCacheModel ==
+				_dummyUserNotificationEventCacheModel)) {
+
+			return null;
+		}
+
+		Function<UserNotificationEventCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_userNotificationEventCacheModel);
+	}
+
+	private static final Map
+		<String, Function<UserNotificationEventCacheModel, Object>>
+			_cacheModelGetterFunctions;
 	private static final Map<String, Function<UserNotificationEvent, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<UserNotificationEvent, Object>>
@@ -281,14 +310,29 @@ public class UserNotificationEventModelImpl
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<UserNotificationEvent, ?>>();
+		Map<String, Function<UserNotificationEventCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String,
+					 Function<UserNotificationEventCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", UserNotificationEvent::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			userNotificationEventCacheModel ->
+				userNotificationEventCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<UserNotificationEvent, Long>)
 				UserNotificationEvent::setMvccVersion);
 		attributeGetterFunctions.put("uuid", UserNotificationEvent::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid",
+			userNotificationEventCacheModel ->
+				userNotificationEventCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid",
 			(BiConsumer<UserNotificationEvent, String>)
@@ -296,65 +340,120 @@ public class UserNotificationEventModelImpl
 		attributeGetterFunctions.put(
 			"userNotificationEventId",
 			UserNotificationEvent::getUserNotificationEventId);
+
+		cacheModelGetterFunctions.put(
+			"userNotificationEventId",
+			userNotificationEventCacheModel ->
+				userNotificationEventCacheModel.userNotificationEventId);
 		attributeSetterBiConsumers.put(
 			"userNotificationEventId",
 			(BiConsumer<UserNotificationEvent, Long>)
 				UserNotificationEvent::setUserNotificationEventId);
 		attributeGetterFunctions.put(
 			"companyId", UserNotificationEvent::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			userNotificationEventCacheModel ->
+				userNotificationEventCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<UserNotificationEvent, Long>)
 				UserNotificationEvent::setCompanyId);
 		attributeGetterFunctions.put(
 			"userId", UserNotificationEvent::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			userNotificationEventCacheModel ->
+				userNotificationEventCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<UserNotificationEvent, Long>)
 				UserNotificationEvent::setUserId);
 		attributeGetterFunctions.put("type", UserNotificationEvent::getType);
+
+		cacheModelGetterFunctions.put(
+			"type",
+			userNotificationEventCacheModel ->
+				userNotificationEventCacheModel.type);
 		attributeSetterBiConsumers.put(
 			"type",
 			(BiConsumer<UserNotificationEvent, String>)
 				UserNotificationEvent::setType);
 		attributeGetterFunctions.put(
 			"timestamp", UserNotificationEvent::getTimestamp);
+
+		cacheModelGetterFunctions.put(
+			"timestamp",
+			userNotificationEventCacheModel ->
+				userNotificationEventCacheModel.timestamp);
 		attributeSetterBiConsumers.put(
 			"timestamp",
 			(BiConsumer<UserNotificationEvent, Long>)
 				UserNotificationEvent::setTimestamp);
 		attributeGetterFunctions.put(
 			"deliveryType", UserNotificationEvent::getDeliveryType);
+
+		cacheModelGetterFunctions.put(
+			"deliveryType",
+			userNotificationEventCacheModel ->
+				userNotificationEventCacheModel.deliveryType);
 		attributeSetterBiConsumers.put(
 			"deliveryType",
 			(BiConsumer<UserNotificationEvent, Integer>)
 				UserNotificationEvent::setDeliveryType);
 		attributeGetterFunctions.put(
 			"deliverBy", UserNotificationEvent::getDeliverBy);
+
+		cacheModelGetterFunctions.put(
+			"deliverBy",
+			userNotificationEventCacheModel ->
+				userNotificationEventCacheModel.deliverBy);
 		attributeSetterBiConsumers.put(
 			"deliverBy",
 			(BiConsumer<UserNotificationEvent, Long>)
 				UserNotificationEvent::setDeliverBy);
 		attributeGetterFunctions.put(
 			"delivered", UserNotificationEvent::getDelivered);
+
+		cacheModelGetterFunctions.put(
+			"delivered",
+			userNotificationEventCacheModel ->
+				userNotificationEventCacheModel.delivered);
 		attributeSetterBiConsumers.put(
 			"delivered",
 			(BiConsumer<UserNotificationEvent, Boolean>)
 				UserNotificationEvent::setDelivered);
 		attributeGetterFunctions.put(
 			"payload", UserNotificationEvent::getPayload);
+
+		cacheModelGetterFunctions.put(
+			"payload",
+			userNotificationEventCacheModel ->
+				userNotificationEventCacheModel.payload);
 		attributeSetterBiConsumers.put(
 			"payload",
 			(BiConsumer<UserNotificationEvent, String>)
 				UserNotificationEvent::setPayload);
 		attributeGetterFunctions.put(
 			"actionRequired", UserNotificationEvent::getActionRequired);
+
+		cacheModelGetterFunctions.put(
+			"actionRequired",
+			userNotificationEventCacheModel ->
+				userNotificationEventCacheModel.actionRequired);
 		attributeSetterBiConsumers.put(
 			"actionRequired",
 			(BiConsumer<UserNotificationEvent, Boolean>)
 				UserNotificationEvent::setActionRequired);
 		attributeGetterFunctions.put(
 			"archived", UserNotificationEvent::getArchived);
+
+		cacheModelGetterFunctions.put(
+			"archived",
+			userNotificationEventCacheModel ->
+				userNotificationEventCacheModel.archived);
 		attributeSetterBiConsumers.put(
 			"archived",
 			(BiConsumer<UserNotificationEvent, Boolean>)
@@ -364,6 +463,8 @@ public class UserNotificationEventModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -373,6 +474,15 @@ public class UserNotificationEventModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_userNotificationEventCacheModel ==
+				_dummyUserNotificationEventCacheModel) {
+
+			_userNotificationEventCacheModel =
+				(UserNotificationEventCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -390,15 +500,23 @@ public class UserNotificationEventModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_userNotificationEventCacheModel ==
+				_dummyUserNotificationEventCacheModel) {
+
+			_userNotificationEventCacheModel =
+				(UserNotificationEventCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getOriginalAttributeValue("uuid");
 	}
 
 	@Override
@@ -408,6 +526,15 @@ public class UserNotificationEventModelImpl
 
 	@Override
 	public void setUserNotificationEventId(long userNotificationEventId) {
+		_columnBitmask |= USERNOTIFICATIONEVENTID_COLUMN_BITMASK;
+
+		if (_userNotificationEventCacheModel ==
+				_dummyUserNotificationEventCacheModel) {
+
+			_userNotificationEventCacheModel =
+				(UserNotificationEventCacheModel)toCacheModel();
+		}
+
 		_userNotificationEventId = userNotificationEventId;
 	}
 
@@ -420,17 +547,23 @@ public class UserNotificationEventModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
+		if (_userNotificationEventCacheModel ==
+				_dummyUserNotificationEventCacheModel) {
 
-			_originalCompanyId = _companyId;
+			_userNotificationEventCacheModel =
+				(UserNotificationEventCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@Override
@@ -442,10 +575,11 @@ public class UserNotificationEventModelImpl
 	public void setUserId(long userId) {
 		_columnBitmask |= USERID_COLUMN_BITMASK;
 
-		if (!_setOriginalUserId) {
-			_setOriginalUserId = true;
+		if (_userNotificationEventCacheModel ==
+				_dummyUserNotificationEventCacheModel) {
 
-			_originalUserId = _userId;
+			_userNotificationEventCacheModel =
+				(UserNotificationEventCacheModel)toCacheModel();
 		}
 
 		_userId = userId;
@@ -467,8 +601,13 @@ public class UserNotificationEventModelImpl
 	public void setUserUuid(String userUuid) {
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalUserId() {
-		return _originalUserId;
+		return getOriginalAttributeValue("userId");
 	}
 
 	@Override
@@ -485,15 +624,23 @@ public class UserNotificationEventModelImpl
 	public void setType(String type) {
 		_columnBitmask |= TYPE_COLUMN_BITMASK;
 
-		if (_originalType == null) {
-			_originalType = _type;
+		if (_userNotificationEventCacheModel ==
+				_dummyUserNotificationEventCacheModel) {
+
+			_userNotificationEventCacheModel =
+				(UserNotificationEventCacheModel)toCacheModel();
 		}
 
 		_type = type;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalType() {
-		return GetterUtil.getString(_originalType);
+		return getOriginalAttributeValue("type");
 	}
 
 	@Override
@@ -503,7 +650,14 @@ public class UserNotificationEventModelImpl
 
 	@Override
 	public void setTimestamp(long timestamp) {
-		_columnBitmask = -1L;
+		_columnBitmask |= TIMESTAMP_COLUMN_BITMASK;
+
+		if (_userNotificationEventCacheModel ==
+				_dummyUserNotificationEventCacheModel) {
+
+			_userNotificationEventCacheModel =
+				(UserNotificationEventCacheModel)toCacheModel();
+		}
 
 		_timestamp = timestamp;
 	}
@@ -517,17 +671,23 @@ public class UserNotificationEventModelImpl
 	public void setDeliveryType(int deliveryType) {
 		_columnBitmask |= DELIVERYTYPE_COLUMN_BITMASK;
 
-		if (!_setOriginalDeliveryType) {
-			_setOriginalDeliveryType = true;
+		if (_userNotificationEventCacheModel ==
+				_dummyUserNotificationEventCacheModel) {
 
-			_originalDeliveryType = _deliveryType;
+			_userNotificationEventCacheModel =
+				(UserNotificationEventCacheModel)toCacheModel();
 		}
 
 		_deliveryType = deliveryType;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalDeliveryType() {
-		return _originalDeliveryType;
+		return getOriginalAttributeValue("deliveryType");
 	}
 
 	@Override
@@ -537,6 +697,15 @@ public class UserNotificationEventModelImpl
 
 	@Override
 	public void setDeliverBy(long deliverBy) {
+		_columnBitmask |= DELIVERBY_COLUMN_BITMASK;
+
+		if (_userNotificationEventCacheModel ==
+				_dummyUserNotificationEventCacheModel) {
+
+			_userNotificationEventCacheModel =
+				(UserNotificationEventCacheModel)toCacheModel();
+		}
+
 		_deliverBy = deliverBy;
 	}
 
@@ -554,17 +723,23 @@ public class UserNotificationEventModelImpl
 	public void setDelivered(boolean delivered) {
 		_columnBitmask |= DELIVERED_COLUMN_BITMASK;
 
-		if (!_setOriginalDelivered) {
-			_setOriginalDelivered = true;
+		if (_userNotificationEventCacheModel ==
+				_dummyUserNotificationEventCacheModel) {
 
-			_originalDelivered = _delivered;
+			_userNotificationEventCacheModel =
+				(UserNotificationEventCacheModel)toCacheModel();
 		}
 
 		_delivered = delivered;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public boolean getOriginalDelivered() {
-		return _originalDelivered;
+		return getOriginalAttributeValue("delivered");
 	}
 
 	@Override
@@ -579,6 +754,15 @@ public class UserNotificationEventModelImpl
 
 	@Override
 	public void setPayload(String payload) {
+		_columnBitmask |= PAYLOAD_COLUMN_BITMASK;
+
+		if (_userNotificationEventCacheModel ==
+				_dummyUserNotificationEventCacheModel) {
+
+			_userNotificationEventCacheModel =
+				(UserNotificationEventCacheModel)toCacheModel();
+		}
+
 		_payload = payload;
 	}
 
@@ -596,17 +780,23 @@ public class UserNotificationEventModelImpl
 	public void setActionRequired(boolean actionRequired) {
 		_columnBitmask |= ACTIONREQUIRED_COLUMN_BITMASK;
 
-		if (!_setOriginalActionRequired) {
-			_setOriginalActionRequired = true;
+		if (_userNotificationEventCacheModel ==
+				_dummyUserNotificationEventCacheModel) {
 
-			_originalActionRequired = _actionRequired;
+			_userNotificationEventCacheModel =
+				(UserNotificationEventCacheModel)toCacheModel();
 		}
 
 		_actionRequired = actionRequired;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public boolean getOriginalActionRequired() {
-		return _originalActionRequired;
+		return getOriginalAttributeValue("actionRequired");
 	}
 
 	@Override
@@ -623,17 +813,23 @@ public class UserNotificationEventModelImpl
 	public void setArchived(boolean archived) {
 		_columnBitmask |= ARCHIVED_COLUMN_BITMASK;
 
-		if (!_setOriginalArchived) {
-			_setOriginalArchived = true;
+		if (_userNotificationEventCacheModel ==
+				_dummyUserNotificationEventCacheModel) {
 
-			_originalArchived = _archived;
+			_userNotificationEventCacheModel =
+				(UserNotificationEventCacheModel)toCacheModel();
 		}
 
 		_archived = archived;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public boolean getOriginalArchived() {
-		return _originalArchived;
+		return getOriginalAttributeValue("archived");
 	}
 
 	public long getColumnBitmask() {
@@ -765,45 +961,10 @@ public class UserNotificationEventModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		UserNotificationEventModelImpl userNotificationEventModelImpl = this;
+		_columnBitmask = 0;
 
-		userNotificationEventModelImpl._originalUuid =
-			userNotificationEventModelImpl._uuid;
-
-		userNotificationEventModelImpl._originalCompanyId =
-			userNotificationEventModelImpl._companyId;
-
-		userNotificationEventModelImpl._setOriginalCompanyId = false;
-
-		userNotificationEventModelImpl._originalUserId =
-			userNotificationEventModelImpl._userId;
-
-		userNotificationEventModelImpl._setOriginalUserId = false;
-
-		userNotificationEventModelImpl._originalType =
-			userNotificationEventModelImpl._type;
-
-		userNotificationEventModelImpl._originalDeliveryType =
-			userNotificationEventModelImpl._deliveryType;
-
-		userNotificationEventModelImpl._setOriginalDeliveryType = false;
-
-		userNotificationEventModelImpl._originalDelivered =
-			userNotificationEventModelImpl._delivered;
-
-		userNotificationEventModelImpl._setOriginalDelivered = false;
-
-		userNotificationEventModelImpl._originalActionRequired =
-			userNotificationEventModelImpl._actionRequired;
-
-		userNotificationEventModelImpl._setOriginalActionRequired = false;
-
-		userNotificationEventModelImpl._originalArchived =
-			userNotificationEventModelImpl._archived;
-
-		userNotificationEventModelImpl._setOriginalArchived = false;
-
-		userNotificationEventModelImpl._columnBitmask = 0;
+		_userNotificationEventCacheModel =
+			_dummyUserNotificationEventCacheModel;
 	}
 
 	@Override
@@ -933,32 +1094,24 @@ public class UserNotificationEventModelImpl
 
 	private long _mvccVersion;
 	private String _uuid;
-	private String _originalUuid;
 	private long _userNotificationEventId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
-	private long _originalUserId;
-	private boolean _setOriginalUserId;
 	private String _type;
-	private String _originalType;
 	private long _timestamp;
 	private int _deliveryType;
-	private int _originalDeliveryType;
-	private boolean _setOriginalDeliveryType;
 	private long _deliverBy;
 	private boolean _delivered;
-	private boolean _originalDelivered;
-	private boolean _setOriginalDelivered;
 	private String _payload;
 	private boolean _actionRequired;
-	private boolean _originalActionRequired;
-	private boolean _setOriginalActionRequired;
 	private boolean _archived;
-	private boolean _originalArchived;
-	private boolean _setOriginalArchived;
 	private long _columnBitmask;
 	private UserNotificationEvent _escapedModel;
+
+	private static final UserNotificationEventCacheModel
+		_dummyUserNotificationEventCacheModel =
+			new UserNotificationEventCacheModel();
+
+	private UserNotificationEventCacheModel _userNotificationEventCacheModel;
 
 }

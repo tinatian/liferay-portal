@@ -1870,8 +1870,8 @@ public class ReadingTimeEntryPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				readingTimeEntryModelImpl.getOriginalUuid(),
-				readingTimeEntryModelImpl.getOriginalGroupId()
+				readingTimeEntryModelImpl.getOriginalAttributeValue("uuid"),
+				readingTimeEntryModelImpl.getOriginalAttributeValue("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -1893,9 +1893,10 @@ public class ReadingTimeEntryPersistenceImpl
 			 _finderPathFetchByG_C_C.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				readingTimeEntryModelImpl.getOriginalGroupId(),
-				readingTimeEntryModelImpl.getOriginalClassNameId(),
-				readingTimeEntryModelImpl.getOriginalClassPK()
+				readingTimeEntryModelImpl.getOriginalAttributeValue("groupId"),
+				readingTimeEntryModelImpl.getOriginalAttributeValue(
+					"classNameId"),
+				readingTimeEntryModelImpl.getOriginalAttributeValue("classPK")
 			};
 
 			finderCache.removeResult(_finderPathCountByG_C_C, args);
@@ -2116,7 +2117,7 @@ public class ReadingTimeEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					readingTimeEntryModelImpl.getOriginalUuid()
+					readingTimeEntryModelImpl.getOriginalAttributeValue("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -2135,8 +2136,9 @@ public class ReadingTimeEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					readingTimeEntryModelImpl.getOriginalUuid(),
-					readingTimeEntryModelImpl.getOriginalCompanyId()
+					readingTimeEntryModelImpl.getOriginalAttributeValue("uuid"),
+					readingTimeEntryModelImpl.getOriginalAttributeValue(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);

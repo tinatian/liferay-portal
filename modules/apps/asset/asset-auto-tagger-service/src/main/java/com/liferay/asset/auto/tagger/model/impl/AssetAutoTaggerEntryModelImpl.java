@@ -105,11 +105,23 @@ public class AssetAutoTaggerEntryModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long ASSETENTRYID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long ASSETTAGID_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
-	public static final long CREATEDATE_COLUMN_BITMASK = 4L;
+	public static final long ASSETAUTOTAGGERENTRYID_COLUMN_BITMASK = 4L;
+
+	public static final long GROUPID_COLUMN_BITMASK = 8L;
+
+	public static final long COMPANYID_COLUMN_BITMASK = 16L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 32L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 64L;
+
+	public static final long ASSETENTRYID_COLUMN_BITMASK = 128L;
+
+	public static final long ASSETTAGID_COLUMN_BITMASK = 256L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -238,6 +250,27 @@ public class AssetAutoTaggerEntryModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_assetAutoTaggerEntryCacheModel == null) ||
+			(_assetAutoTaggerEntryCacheModel ==
+				_dummyAssetAutoTaggerEntryCacheModel)) {
+
+			return null;
+		}
+
+		Function<AssetAutoTaggerEntryCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_assetAutoTaggerEntryCacheModel);
+	}
+
+	private static final Map
+		<String, Function<AssetAutoTaggerEntryCacheModel, Object>>
+			_cacheModelGetterFunctions;
 	private static final Map<String, Function<AssetAutoTaggerEntry, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<AssetAutoTaggerEntry, Object>>
@@ -252,15 +285,30 @@ public class AssetAutoTaggerEntryModelImpl
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<AssetAutoTaggerEntry, ?>>();
+		Map<String, Function<AssetAutoTaggerEntryCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String,
+					 Function<AssetAutoTaggerEntryCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", AssetAutoTaggerEntry::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			assetAutoTaggerEntryCacheModel ->
+				assetAutoTaggerEntryCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<AssetAutoTaggerEntry, Long>)
 				AssetAutoTaggerEntry::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", AssetAutoTaggerEntry::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			assetAutoTaggerEntryCacheModel ->
+				assetAutoTaggerEntryCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<AssetAutoTaggerEntry, Long>)
@@ -268,42 +316,77 @@ public class AssetAutoTaggerEntryModelImpl
 		attributeGetterFunctions.put(
 			"assetAutoTaggerEntryId",
 			AssetAutoTaggerEntry::getAssetAutoTaggerEntryId);
+
+		cacheModelGetterFunctions.put(
+			"assetAutoTaggerEntryId",
+			assetAutoTaggerEntryCacheModel ->
+				assetAutoTaggerEntryCacheModel.assetAutoTaggerEntryId);
 		attributeSetterBiConsumers.put(
 			"assetAutoTaggerEntryId",
 			(BiConsumer<AssetAutoTaggerEntry, Long>)
 				AssetAutoTaggerEntry::setAssetAutoTaggerEntryId);
 		attributeGetterFunctions.put(
 			"groupId", AssetAutoTaggerEntry::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			assetAutoTaggerEntryCacheModel ->
+				assetAutoTaggerEntryCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<AssetAutoTaggerEntry, Long>)
 				AssetAutoTaggerEntry::setGroupId);
 		attributeGetterFunctions.put(
 			"companyId", AssetAutoTaggerEntry::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			assetAutoTaggerEntryCacheModel ->
+				assetAutoTaggerEntryCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<AssetAutoTaggerEntry, Long>)
 				AssetAutoTaggerEntry::setCompanyId);
 		attributeGetterFunctions.put(
 			"createDate", AssetAutoTaggerEntry::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			assetAutoTaggerEntryCacheModel ->
+				assetAutoTaggerEntryCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<AssetAutoTaggerEntry, Date>)
 				AssetAutoTaggerEntry::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", AssetAutoTaggerEntry::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			assetAutoTaggerEntryCacheModel ->
+				assetAutoTaggerEntryCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<AssetAutoTaggerEntry, Date>)
 				AssetAutoTaggerEntry::setModifiedDate);
 		attributeGetterFunctions.put(
 			"assetEntryId", AssetAutoTaggerEntry::getAssetEntryId);
+
+		cacheModelGetterFunctions.put(
+			"assetEntryId",
+			assetAutoTaggerEntryCacheModel ->
+				assetAutoTaggerEntryCacheModel.assetEntryId);
 		attributeSetterBiConsumers.put(
 			"assetEntryId",
 			(BiConsumer<AssetAutoTaggerEntry, Long>)
 				AssetAutoTaggerEntry::setAssetEntryId);
 		attributeGetterFunctions.put(
 			"assetTagId", AssetAutoTaggerEntry::getAssetTagId);
+
+		cacheModelGetterFunctions.put(
+			"assetTagId",
+			assetAutoTaggerEntryCacheModel ->
+				assetAutoTaggerEntryCacheModel.assetTagId);
 		attributeSetterBiConsumers.put(
 			"assetTagId",
 			(BiConsumer<AssetAutoTaggerEntry, Long>)
@@ -313,6 +396,8 @@ public class AssetAutoTaggerEntryModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -322,6 +407,15 @@ public class AssetAutoTaggerEntryModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_assetAutoTaggerEntryCacheModel ==
+				_dummyAssetAutoTaggerEntryCacheModel) {
+
+			_assetAutoTaggerEntryCacheModel =
+				(AssetAutoTaggerEntryCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -332,6 +426,15 @@ public class AssetAutoTaggerEntryModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (_assetAutoTaggerEntryCacheModel ==
+				_dummyAssetAutoTaggerEntryCacheModel) {
+
+			_assetAutoTaggerEntryCacheModel =
+				(AssetAutoTaggerEntryCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -342,6 +445,15 @@ public class AssetAutoTaggerEntryModelImpl
 
 	@Override
 	public void setAssetAutoTaggerEntryId(long assetAutoTaggerEntryId) {
+		_columnBitmask |= ASSETAUTOTAGGERENTRYID_COLUMN_BITMASK;
+
+		if (_assetAutoTaggerEntryCacheModel ==
+				_dummyAssetAutoTaggerEntryCacheModel) {
+
+			_assetAutoTaggerEntryCacheModel =
+				(AssetAutoTaggerEntryCacheModel)toCacheModel();
+		}
+
 		_assetAutoTaggerEntryId = assetAutoTaggerEntryId;
 	}
 
@@ -352,6 +464,15 @@ public class AssetAutoTaggerEntryModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
+		_columnBitmask |= GROUPID_COLUMN_BITMASK;
+
+		if (_assetAutoTaggerEntryCacheModel ==
+				_dummyAssetAutoTaggerEntryCacheModel) {
+
+			_assetAutoTaggerEntryCacheModel =
+				(AssetAutoTaggerEntryCacheModel)toCacheModel();
+		}
+
 		_groupId = groupId;
 	}
 
@@ -362,6 +483,15 @@ public class AssetAutoTaggerEntryModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (_assetAutoTaggerEntryCacheModel ==
+				_dummyAssetAutoTaggerEntryCacheModel) {
+
+			_assetAutoTaggerEntryCacheModel =
+				(AssetAutoTaggerEntryCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -372,7 +502,14 @@ public class AssetAutoTaggerEntryModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
-		_columnBitmask = -1L;
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (_assetAutoTaggerEntryCacheModel ==
+				_dummyAssetAutoTaggerEntryCacheModel) {
+
+			_assetAutoTaggerEntryCacheModel =
+				(AssetAutoTaggerEntryCacheModel)toCacheModel();
+		}
 
 		_createDate = createDate;
 	}
@@ -390,6 +527,15 @@ public class AssetAutoTaggerEntryModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (_assetAutoTaggerEntryCacheModel ==
+				_dummyAssetAutoTaggerEntryCacheModel) {
+
+			_assetAutoTaggerEntryCacheModel =
+				(AssetAutoTaggerEntryCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -402,17 +548,23 @@ public class AssetAutoTaggerEntryModelImpl
 	public void setAssetEntryId(long assetEntryId) {
 		_columnBitmask |= ASSETENTRYID_COLUMN_BITMASK;
 
-		if (!_setOriginalAssetEntryId) {
-			_setOriginalAssetEntryId = true;
+		if (_assetAutoTaggerEntryCacheModel ==
+				_dummyAssetAutoTaggerEntryCacheModel) {
 
-			_originalAssetEntryId = _assetEntryId;
+			_assetAutoTaggerEntryCacheModel =
+				(AssetAutoTaggerEntryCacheModel)toCacheModel();
 		}
 
 		_assetEntryId = assetEntryId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalAssetEntryId() {
-		return _originalAssetEntryId;
+		return getOriginalAttributeValue("assetEntryId");
 	}
 
 	@Override
@@ -424,17 +576,23 @@ public class AssetAutoTaggerEntryModelImpl
 	public void setAssetTagId(long assetTagId) {
 		_columnBitmask |= ASSETTAGID_COLUMN_BITMASK;
 
-		if (!_setOriginalAssetTagId) {
-			_setOriginalAssetTagId = true;
+		if (_assetAutoTaggerEntryCacheModel ==
+				_dummyAssetAutoTaggerEntryCacheModel) {
 
-			_originalAssetTagId = _assetTagId;
+			_assetAutoTaggerEntryCacheModel =
+				(AssetAutoTaggerEntryCacheModel)toCacheModel();
 		}
 
 		_assetTagId = assetTagId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalAssetTagId() {
-		return _originalAssetTagId;
+		return getOriginalAttributeValue("assetTagId");
 	}
 
 	public long getColumnBitmask() {
@@ -555,21 +713,11 @@ public class AssetAutoTaggerEntryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		AssetAutoTaggerEntryModelImpl assetAutoTaggerEntryModelImpl = this;
+		_setModifiedDate = false;
 
-		assetAutoTaggerEntryModelImpl._setModifiedDate = false;
+		_columnBitmask = 0;
 
-		assetAutoTaggerEntryModelImpl._originalAssetEntryId =
-			assetAutoTaggerEntryModelImpl._assetEntryId;
-
-		assetAutoTaggerEntryModelImpl._setOriginalAssetEntryId = false;
-
-		assetAutoTaggerEntryModelImpl._originalAssetTagId =
-			assetAutoTaggerEntryModelImpl._assetTagId;
-
-		assetAutoTaggerEntryModelImpl._setOriginalAssetTagId = false;
-
-		assetAutoTaggerEntryModelImpl._columnBitmask = 0;
+		_assetAutoTaggerEntryCacheModel = _dummyAssetAutoTaggerEntryCacheModel;
 	}
 
 	@Override
@@ -695,12 +843,14 @@ public class AssetAutoTaggerEntryModelImpl
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _assetEntryId;
-	private long _originalAssetEntryId;
-	private boolean _setOriginalAssetEntryId;
 	private long _assetTagId;
-	private long _originalAssetTagId;
-	private boolean _setOriginalAssetTagId;
 	private long _columnBitmask;
 	private AssetAutoTaggerEntry _escapedModel;
+
+	private static final AssetAutoTaggerEntryCacheModel
+		_dummyAssetAutoTaggerEntryCacheModel =
+			new AssetAutoTaggerEntryCacheModel();
+
+	private AssetAutoTaggerEntryCacheModel _assetAutoTaggerEntryCacheModel;
 
 }

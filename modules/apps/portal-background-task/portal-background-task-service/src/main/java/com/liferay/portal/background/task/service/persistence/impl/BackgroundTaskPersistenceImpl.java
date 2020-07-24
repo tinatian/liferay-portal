@@ -9039,7 +9039,7 @@ public class BackgroundTaskPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					backgroundTaskModelImpl.getOriginalGroupId()
+					backgroundTaskModelImpl.getOriginalAttributeValue("groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId, args);
@@ -9058,7 +9058,8 @@ public class BackgroundTaskPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					backgroundTaskModelImpl.getOriginalCompanyId()
+					backgroundTaskModelImpl.getOriginalAttributeValue(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCompanyId, args);
@@ -9077,7 +9078,8 @@ public class BackgroundTaskPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					backgroundTaskModelImpl.getOriginalCompleted()
+					backgroundTaskModelImpl.getOriginalAttributeValue(
+						"completed")
 				};
 
 				finderCache.removeResult(_finderPathCountByCompleted, args);
@@ -9096,7 +9098,7 @@ public class BackgroundTaskPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					backgroundTaskModelImpl.getOriginalStatus()
+					backgroundTaskModelImpl.getOriginalAttributeValue("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByStatus, args);
@@ -9115,8 +9117,10 @@ public class BackgroundTaskPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					backgroundTaskModelImpl.getOriginalGroupId(),
-					backgroundTaskModelImpl.getOriginalTaskExecutorClassName()
+					backgroundTaskModelImpl.getOriginalAttributeValue(
+						"groupId"),
+					backgroundTaskModelImpl.getOriginalAttributeValue(
+						"taskExecutorClassName")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_T, args);
@@ -9138,8 +9142,9 @@ public class BackgroundTaskPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					backgroundTaskModelImpl.getOriginalGroupId(),
-					backgroundTaskModelImpl.getOriginalStatus()
+					backgroundTaskModelImpl.getOriginalAttributeValue(
+						"groupId"),
+					backgroundTaskModelImpl.getOriginalAttributeValue("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_S, args);
@@ -9161,8 +9166,9 @@ public class BackgroundTaskPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					backgroundTaskModelImpl.getOriginalTaskExecutorClassName(),
-					backgroundTaskModelImpl.getOriginalStatus()
+					backgroundTaskModelImpl.getOriginalAttributeValue(
+						"taskExecutorClassName"),
+					backgroundTaskModelImpl.getOriginalAttributeValue("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByT_S, args);
@@ -9184,9 +9190,11 @@ public class BackgroundTaskPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					backgroundTaskModelImpl.getOriginalGroupId(),
-					backgroundTaskModelImpl.getOriginalName(),
-					backgroundTaskModelImpl.getOriginalTaskExecutorClassName()
+					backgroundTaskModelImpl.getOriginalAttributeValue(
+						"groupId"),
+					backgroundTaskModelImpl.getOriginalAttributeValue("name"),
+					backgroundTaskModelImpl.getOriginalAttributeValue(
+						"taskExecutorClassName")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_N_T, args);
@@ -9209,9 +9217,12 @@ public class BackgroundTaskPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					backgroundTaskModelImpl.getOriginalGroupId(),
-					backgroundTaskModelImpl.getOriginalTaskExecutorClassName(),
-					backgroundTaskModelImpl.getOriginalCompleted()
+					backgroundTaskModelImpl.getOriginalAttributeValue(
+						"groupId"),
+					backgroundTaskModelImpl.getOriginalAttributeValue(
+						"taskExecutorClassName"),
+					backgroundTaskModelImpl.getOriginalAttributeValue(
+						"completed")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_T_C, args);
@@ -9234,9 +9245,11 @@ public class BackgroundTaskPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					backgroundTaskModelImpl.getOriginalGroupId(),
-					backgroundTaskModelImpl.getOriginalTaskExecutorClassName(),
-					backgroundTaskModelImpl.getOriginalStatus()
+					backgroundTaskModelImpl.getOriginalAttributeValue(
+						"groupId"),
+					backgroundTaskModelImpl.getOriginalAttributeValue(
+						"taskExecutorClassName"),
+					backgroundTaskModelImpl.getOriginalAttributeValue("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_T_S, args);
@@ -9259,10 +9272,13 @@ public class BackgroundTaskPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					backgroundTaskModelImpl.getOriginalGroupId(),
-					backgroundTaskModelImpl.getOriginalName(),
-					backgroundTaskModelImpl.getOriginalTaskExecutorClassName(),
-					backgroundTaskModelImpl.getOriginalCompleted()
+					backgroundTaskModelImpl.getOriginalAttributeValue(
+						"groupId"),
+					backgroundTaskModelImpl.getOriginalAttributeValue("name"),
+					backgroundTaskModelImpl.getOriginalAttributeValue(
+						"taskExecutorClassName"),
+					backgroundTaskModelImpl.getOriginalAttributeValue(
+						"completed")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_N_T_C, args);

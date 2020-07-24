@@ -1900,8 +1900,8 @@ public class TranslationEntryPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				translationEntryModelImpl.getOriginalUuid(),
-				translationEntryModelImpl.getOriginalGroupId()
+				translationEntryModelImpl.getOriginalAttributeValue("uuid"),
+				translationEntryModelImpl.getOriginalAttributeValue("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -1923,9 +1923,11 @@ public class TranslationEntryPersistenceImpl
 			 _finderPathFetchByC_C_L.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				translationEntryModelImpl.getOriginalClassNameId(),
-				translationEntryModelImpl.getOriginalClassPK(),
-				translationEntryModelImpl.getOriginalLanguageId()
+				translationEntryModelImpl.getOriginalAttributeValue(
+					"classNameId"),
+				translationEntryModelImpl.getOriginalAttributeValue("classPK"),
+				translationEntryModelImpl.getOriginalAttributeValue(
+					"languageId")
 			};
 
 			finderCache.removeResult(_finderPathCountByC_C_L, args);
@@ -2146,7 +2148,7 @@ public class TranslationEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					translationEntryModelImpl.getOriginalUuid()
+					translationEntryModelImpl.getOriginalAttributeValue("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -2165,8 +2167,9 @@ public class TranslationEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					translationEntryModelImpl.getOriginalUuid(),
-					translationEntryModelImpl.getOriginalCompanyId()
+					translationEntryModelImpl.getOriginalAttributeValue("uuid"),
+					translationEntryModelImpl.getOriginalAttributeValue(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);

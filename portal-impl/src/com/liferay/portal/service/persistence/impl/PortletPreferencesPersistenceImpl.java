@@ -5891,10 +5891,13 @@ public class PortletPreferencesPersistenceImpl
 			 _finderPathFetchByO_O_P_P.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				portletPreferencesModelImpl.getOriginalOwnerId(),
-				portletPreferencesModelImpl.getOriginalOwnerType(),
-				portletPreferencesModelImpl.getOriginalPlid(),
-				portletPreferencesModelImpl.getOriginalPortletId()
+				portletPreferencesModelImpl.getOriginalAttributeValue(
+					"ownerId"),
+				portletPreferencesModelImpl.getOriginalAttributeValue(
+					"ownerType"),
+				portletPreferencesModelImpl.getOriginalAttributeValue("plid"),
+				portletPreferencesModelImpl.getOriginalAttributeValue(
+					"portletId")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByO_O_P_P, args);
@@ -6160,7 +6163,8 @@ public class PortletPreferencesPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					portletPreferencesModelImpl.getOriginalOwnerId()
+					portletPreferencesModelImpl.getOriginalAttributeValue(
+						"ownerId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByOwnerId, args);
@@ -6179,7 +6183,8 @@ public class PortletPreferencesPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					portletPreferencesModelImpl.getOriginalPlid()
+					portletPreferencesModelImpl.getOriginalAttributeValue(
+						"plid")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByPlid, args);
@@ -6198,7 +6203,8 @@ public class PortletPreferencesPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					portletPreferencesModelImpl.getOriginalPortletId()
+					portletPreferencesModelImpl.getOriginalAttributeValue(
+						"portletId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByPortletId, args);
@@ -6219,8 +6225,10 @@ public class PortletPreferencesPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					portletPreferencesModelImpl.getOriginalOwnerType(),
-					portletPreferencesModelImpl.getOriginalPortletId()
+					portletPreferencesModelImpl.getOriginalAttributeValue(
+						"ownerType"),
+					portletPreferencesModelImpl.getOriginalAttributeValue(
+						"portletId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByO_P, args);
@@ -6242,8 +6250,10 @@ public class PortletPreferencesPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					portletPreferencesModelImpl.getOriginalPlid(),
-					portletPreferencesModelImpl.getOriginalPortletId()
+					portletPreferencesModelImpl.getOriginalAttributeValue(
+						"plid"),
+					portletPreferencesModelImpl.getOriginalAttributeValue(
+						"portletId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByP_P, args);
@@ -6265,9 +6275,12 @@ public class PortletPreferencesPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					portletPreferencesModelImpl.getOriginalOwnerId(),
-					portletPreferencesModelImpl.getOriginalOwnerType(),
-					portletPreferencesModelImpl.getOriginalPlid()
+					portletPreferencesModelImpl.getOriginalAttributeValue(
+						"ownerId"),
+					portletPreferencesModelImpl.getOriginalAttributeValue(
+						"ownerType"),
+					portletPreferencesModelImpl.getOriginalAttributeValue(
+						"plid")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByO_O_P, args);
@@ -6290,9 +6303,12 @@ public class PortletPreferencesPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					portletPreferencesModelImpl.getOriginalOwnerId(),
-					portletPreferencesModelImpl.getOriginalOwnerType(),
-					portletPreferencesModelImpl.getOriginalPortletId()
+					portletPreferencesModelImpl.getOriginalAttributeValue(
+						"ownerId"),
+					portletPreferencesModelImpl.getOriginalAttributeValue(
+						"ownerType"),
+					portletPreferencesModelImpl.getOriginalAttributeValue(
+						"portletId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByO_O_PI, args);
@@ -6315,9 +6331,12 @@ public class PortletPreferencesPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					portletPreferencesModelImpl.getOriginalOwnerType(),
-					portletPreferencesModelImpl.getOriginalPlid(),
-					portletPreferencesModelImpl.getOriginalPortletId()
+					portletPreferencesModelImpl.getOriginalAttributeValue(
+						"ownerType"),
+					portletPreferencesModelImpl.getOriginalAttributeValue(
+						"plid"),
+					portletPreferencesModelImpl.getOriginalAttributeValue(
+						"portletId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByO_P_P, args);

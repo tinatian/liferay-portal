@@ -106,13 +106,23 @@ public class CTAutoResolutionInfoModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long MODELCLASSNAMEID_COLUMN_BITMASK = 2L;
+	public static final long CTAUTORESOLUTIONINFOID_COLUMN_BITMASK = 2L;
 
-	public static final long SOURCEMODELCLASSPK_COLUMN_BITMASK = 4L;
+	public static final long COMPANYID_COLUMN_BITMASK = 4L;
 
 	public static final long CREATEDATE_COLUMN_BITMASK = 8L;
+
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 16L;
+
+	public static final long MODELCLASSNAMEID_COLUMN_BITMASK = 32L;
+
+	public static final long SOURCEMODELCLASSPK_COLUMN_BITMASK = 64L;
+
+	public static final long TARGETMODELCLASSPK_COLUMN_BITMASK = 128L;
+
+	public static final long CONFLICTIDENTIFIER_COLUMN_BITMASK = 256L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -241,6 +251,27 @@ public class CTAutoResolutionInfoModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_ctAutoResolutionInfoCacheModel == null) ||
+			(_ctAutoResolutionInfoCacheModel ==
+				_dummyCTAutoResolutionInfoCacheModel)) {
+
+			return null;
+		}
+
+		Function<CTAutoResolutionInfoCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_ctAutoResolutionInfoCacheModel);
+	}
+
+	private static final Map
+		<String, Function<CTAutoResolutionInfoCacheModel, Object>>
+			_cacheModelGetterFunctions;
 	private static final Map<String, Function<CTAutoResolutionInfo, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<CTAutoResolutionInfo, Object>>
@@ -255,9 +286,19 @@ public class CTAutoResolutionInfoModelImpl
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<CTAutoResolutionInfo, ?>>();
+		Map<String, Function<CTAutoResolutionInfoCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String,
+					 Function<CTAutoResolutionInfoCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", CTAutoResolutionInfo::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			ctAutoResolutionInfoCacheModel ->
+				ctAutoResolutionInfoCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<CTAutoResolutionInfo, Long>)
@@ -265,48 +306,88 @@ public class CTAutoResolutionInfoModelImpl
 		attributeGetterFunctions.put(
 			"ctAutoResolutionInfoId",
 			CTAutoResolutionInfo::getCtAutoResolutionInfoId);
+
+		cacheModelGetterFunctions.put(
+			"ctAutoResolutionInfoId",
+			ctAutoResolutionInfoCacheModel ->
+				ctAutoResolutionInfoCacheModel.ctAutoResolutionInfoId);
 		attributeSetterBiConsumers.put(
 			"ctAutoResolutionInfoId",
 			(BiConsumer<CTAutoResolutionInfo, Long>)
 				CTAutoResolutionInfo::setCtAutoResolutionInfoId);
 		attributeGetterFunctions.put(
 			"companyId", CTAutoResolutionInfo::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			ctAutoResolutionInfoCacheModel ->
+				ctAutoResolutionInfoCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<CTAutoResolutionInfo, Long>)
 				CTAutoResolutionInfo::setCompanyId);
 		attributeGetterFunctions.put(
 			"createDate", CTAutoResolutionInfo::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			ctAutoResolutionInfoCacheModel ->
+				ctAutoResolutionInfoCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<CTAutoResolutionInfo, Date>)
 				CTAutoResolutionInfo::setCreateDate);
 		attributeGetterFunctions.put(
 			"ctCollectionId", CTAutoResolutionInfo::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			ctAutoResolutionInfoCacheModel ->
+				ctAutoResolutionInfoCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<CTAutoResolutionInfo, Long>)
 				CTAutoResolutionInfo::setCtCollectionId);
 		attributeGetterFunctions.put(
 			"modelClassNameId", CTAutoResolutionInfo::getModelClassNameId);
+
+		cacheModelGetterFunctions.put(
+			"modelClassNameId",
+			ctAutoResolutionInfoCacheModel ->
+				ctAutoResolutionInfoCacheModel.modelClassNameId);
 		attributeSetterBiConsumers.put(
 			"modelClassNameId",
 			(BiConsumer<CTAutoResolutionInfo, Long>)
 				CTAutoResolutionInfo::setModelClassNameId);
 		attributeGetterFunctions.put(
 			"sourceModelClassPK", CTAutoResolutionInfo::getSourceModelClassPK);
+
+		cacheModelGetterFunctions.put(
+			"sourceModelClassPK",
+			ctAutoResolutionInfoCacheModel ->
+				ctAutoResolutionInfoCacheModel.sourceModelClassPK);
 		attributeSetterBiConsumers.put(
 			"sourceModelClassPK",
 			(BiConsumer<CTAutoResolutionInfo, Long>)
 				CTAutoResolutionInfo::setSourceModelClassPK);
 		attributeGetterFunctions.put(
 			"targetModelClassPK", CTAutoResolutionInfo::getTargetModelClassPK);
+
+		cacheModelGetterFunctions.put(
+			"targetModelClassPK",
+			ctAutoResolutionInfoCacheModel ->
+				ctAutoResolutionInfoCacheModel.targetModelClassPK);
 		attributeSetterBiConsumers.put(
 			"targetModelClassPK",
 			(BiConsumer<CTAutoResolutionInfo, Long>)
 				CTAutoResolutionInfo::setTargetModelClassPK);
 		attributeGetterFunctions.put(
 			"conflictIdentifier", CTAutoResolutionInfo::getConflictIdentifier);
+
+		cacheModelGetterFunctions.put(
+			"conflictIdentifier",
+			ctAutoResolutionInfoCacheModel ->
+				ctAutoResolutionInfoCacheModel.conflictIdentifier);
 		attributeSetterBiConsumers.put(
 			"conflictIdentifier",
 			(BiConsumer<CTAutoResolutionInfo, String>)
@@ -316,6 +397,8 @@ public class CTAutoResolutionInfoModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -325,6 +408,15 @@ public class CTAutoResolutionInfoModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_ctAutoResolutionInfoCacheModel ==
+				_dummyCTAutoResolutionInfoCacheModel) {
+
+			_ctAutoResolutionInfoCacheModel =
+				(CTAutoResolutionInfoCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -335,6 +427,15 @@ public class CTAutoResolutionInfoModelImpl
 
 	@Override
 	public void setCtAutoResolutionInfoId(long ctAutoResolutionInfoId) {
+		_columnBitmask |= CTAUTORESOLUTIONINFOID_COLUMN_BITMASK;
+
+		if (_ctAutoResolutionInfoCacheModel ==
+				_dummyCTAutoResolutionInfoCacheModel) {
+
+			_ctAutoResolutionInfoCacheModel =
+				(CTAutoResolutionInfoCacheModel)toCacheModel();
+		}
+
 		_ctAutoResolutionInfoId = ctAutoResolutionInfoId;
 	}
 
@@ -345,6 +446,15 @@ public class CTAutoResolutionInfoModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (_ctAutoResolutionInfoCacheModel ==
+				_dummyCTAutoResolutionInfoCacheModel) {
+
+			_ctAutoResolutionInfoCacheModel =
+				(CTAutoResolutionInfoCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -355,7 +465,14 @@ public class CTAutoResolutionInfoModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
-		_columnBitmask = -1L;
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (_ctAutoResolutionInfoCacheModel ==
+				_dummyCTAutoResolutionInfoCacheModel) {
+
+			_ctAutoResolutionInfoCacheModel =
+				(CTAutoResolutionInfoCacheModel)toCacheModel();
+		}
 
 		_createDate = createDate;
 	}
@@ -369,17 +486,23 @@ public class CTAutoResolutionInfoModelImpl
 	public void setCtCollectionId(long ctCollectionId) {
 		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
 
-		if (!_setOriginalCtCollectionId) {
-			_setOriginalCtCollectionId = true;
+		if (_ctAutoResolutionInfoCacheModel ==
+				_dummyCTAutoResolutionInfoCacheModel) {
 
-			_originalCtCollectionId = _ctCollectionId;
+			_ctAutoResolutionInfoCacheModel =
+				(CTAutoResolutionInfoCacheModel)toCacheModel();
 		}
 
 		_ctCollectionId = ctCollectionId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCtCollectionId() {
-		return _originalCtCollectionId;
+		return getOriginalAttributeValue("ctCollectionId");
 	}
 
 	@Override
@@ -391,17 +514,23 @@ public class CTAutoResolutionInfoModelImpl
 	public void setModelClassNameId(long modelClassNameId) {
 		_columnBitmask |= MODELCLASSNAMEID_COLUMN_BITMASK;
 
-		if (!_setOriginalModelClassNameId) {
-			_setOriginalModelClassNameId = true;
+		if (_ctAutoResolutionInfoCacheModel ==
+				_dummyCTAutoResolutionInfoCacheModel) {
 
-			_originalModelClassNameId = _modelClassNameId;
+			_ctAutoResolutionInfoCacheModel =
+				(CTAutoResolutionInfoCacheModel)toCacheModel();
 		}
 
 		_modelClassNameId = modelClassNameId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalModelClassNameId() {
-		return _originalModelClassNameId;
+		return getOriginalAttributeValue("modelClassNameId");
 	}
 
 	@Override
@@ -413,17 +542,23 @@ public class CTAutoResolutionInfoModelImpl
 	public void setSourceModelClassPK(long sourceModelClassPK) {
 		_columnBitmask |= SOURCEMODELCLASSPK_COLUMN_BITMASK;
 
-		if (!_setOriginalSourceModelClassPK) {
-			_setOriginalSourceModelClassPK = true;
+		if (_ctAutoResolutionInfoCacheModel ==
+				_dummyCTAutoResolutionInfoCacheModel) {
 
-			_originalSourceModelClassPK = _sourceModelClassPK;
+			_ctAutoResolutionInfoCacheModel =
+				(CTAutoResolutionInfoCacheModel)toCacheModel();
 		}
 
 		_sourceModelClassPK = sourceModelClassPK;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalSourceModelClassPK() {
-		return _originalSourceModelClassPK;
+		return getOriginalAttributeValue("sourceModelClassPK");
 	}
 
 	@Override
@@ -433,6 +568,15 @@ public class CTAutoResolutionInfoModelImpl
 
 	@Override
 	public void setTargetModelClassPK(long targetModelClassPK) {
+		_columnBitmask |= TARGETMODELCLASSPK_COLUMN_BITMASK;
+
+		if (_ctAutoResolutionInfoCacheModel ==
+				_dummyCTAutoResolutionInfoCacheModel) {
+
+			_ctAutoResolutionInfoCacheModel =
+				(CTAutoResolutionInfoCacheModel)toCacheModel();
+		}
+
 		_targetModelClassPK = targetModelClassPK;
 	}
 
@@ -448,6 +592,15 @@ public class CTAutoResolutionInfoModelImpl
 
 	@Override
 	public void setConflictIdentifier(String conflictIdentifier) {
+		_columnBitmask |= CONFLICTIDENTIFIER_COLUMN_BITMASK;
+
+		if (_ctAutoResolutionInfoCacheModel ==
+				_dummyCTAutoResolutionInfoCacheModel) {
+
+			_ctAutoResolutionInfoCacheModel =
+				(CTAutoResolutionInfoCacheModel)toCacheModel();
+		}
+
 		_conflictIdentifier = conflictIdentifier;
 	}
 
@@ -567,24 +720,9 @@ public class CTAutoResolutionInfoModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		CTAutoResolutionInfoModelImpl ctAutoResolutionInfoModelImpl = this;
+		_columnBitmask = 0;
 
-		ctAutoResolutionInfoModelImpl._originalCtCollectionId =
-			ctAutoResolutionInfoModelImpl._ctCollectionId;
-
-		ctAutoResolutionInfoModelImpl._setOriginalCtCollectionId = false;
-
-		ctAutoResolutionInfoModelImpl._originalModelClassNameId =
-			ctAutoResolutionInfoModelImpl._modelClassNameId;
-
-		ctAutoResolutionInfoModelImpl._setOriginalModelClassNameId = false;
-
-		ctAutoResolutionInfoModelImpl._originalSourceModelClassPK =
-			ctAutoResolutionInfoModelImpl._sourceModelClassPK;
-
-		ctAutoResolutionInfoModelImpl._setOriginalSourceModelClassPK = false;
-
-		ctAutoResolutionInfoModelImpl._columnBitmask = 0;
+		_ctAutoResolutionInfoCacheModel = _dummyCTAutoResolutionInfoCacheModel;
 	}
 
 	@Override
@@ -710,17 +848,17 @@ public class CTAutoResolutionInfoModelImpl
 	private long _companyId;
 	private Date _createDate;
 	private long _ctCollectionId;
-	private long _originalCtCollectionId;
-	private boolean _setOriginalCtCollectionId;
 	private long _modelClassNameId;
-	private long _originalModelClassNameId;
-	private boolean _setOriginalModelClassNameId;
 	private long _sourceModelClassPK;
-	private long _originalSourceModelClassPK;
-	private boolean _setOriginalSourceModelClassPK;
 	private long _targetModelClassPK;
 	private String _conflictIdentifier;
 	private long _columnBitmask;
 	private CTAutoResolutionInfo _escapedModel;
+
+	private static final CTAutoResolutionInfoCacheModel
+		_dummyCTAutoResolutionInfoCacheModel =
+			new CTAutoResolutionInfoCacheModel();
+
+	private CTAutoResolutionInfoCacheModel _ctAutoResolutionInfoCacheModel;
 
 }

@@ -3279,8 +3279,8 @@ public class GadgetPersistenceImpl
 			 _finderPathFetchByC_U.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				gadgetModelImpl.getOriginalCompanyId(),
-				gadgetModelImpl.getOriginalUrl()
+				gadgetModelImpl.getOriginalAttributeValue("companyId"),
+				gadgetModelImpl.getOriginalAttributeValue("url")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByC_U, args);
@@ -3496,7 +3496,7 @@ public class GadgetPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					gadgetModelImpl.getOriginalUuid()
+					gadgetModelImpl.getOriginalAttributeValue("uuid")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid, args);
@@ -3515,8 +3515,8 @@ public class GadgetPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					gadgetModelImpl.getOriginalUuid(),
-					gadgetModelImpl.getOriginalCompanyId()
+					gadgetModelImpl.getOriginalAttributeValue("uuid"),
+					gadgetModelImpl.getOriginalAttributeValue("companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid_C, args);
@@ -3537,7 +3537,7 @@ public class GadgetPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					gadgetModelImpl.getOriginalCompanyId()
+					gadgetModelImpl.getOriginalAttributeValue("companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);

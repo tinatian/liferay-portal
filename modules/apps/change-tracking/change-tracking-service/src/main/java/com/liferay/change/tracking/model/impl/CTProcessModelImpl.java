@@ -108,11 +108,19 @@ public class CTProcessModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
+	public static final long CTPROCESSID_COLUMN_BITMASK = 2L;
 
-	public static final long CREATEDATE_COLUMN_BITMASK = 4L;
+	public static final long COMPANYID_COLUMN_BITMASK = 4L;
+
+	public static final long USERID_COLUMN_BITMASK = 8L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 16L;
+
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 32L;
+
+	public static final long BACKGROUNDTASKID_COLUMN_BITMASK = 64L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -284,6 +292,25 @@ public class CTProcessModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_ctProcessCacheModel == null) ||
+			(_ctProcessCacheModel == _dummyCTProcessCacheModel)) {
+
+			return null;
+		}
+
+		Function<CTProcessCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_ctProcessCacheModel);
+	}
+
+	private static final Map<String, Function<CTProcessCacheModel, Object>>
+		_cacheModelGetterFunctions;
 	private static final Map<String, Function<CTProcess, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<CTProcess, Object>>
@@ -294,32 +321,62 @@ public class CTProcessModelImpl
 			new LinkedHashMap<String, Function<CTProcess, Object>>();
 		Map<String, BiConsumer<CTProcess, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<CTProcess, ?>>();
+		Map<String, Function<CTProcessCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<CTProcessCacheModel, Object>>();
 
 		attributeGetterFunctions.put("mvccVersion", CTProcess::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			ctProcessCacheModel -> ctProcessCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<CTProcess, Long>)CTProcess::setMvccVersion);
 		attributeGetterFunctions.put("ctProcessId", CTProcess::getCtProcessId);
+
+		cacheModelGetterFunctions.put(
+			"ctProcessId",
+			ctProcessCacheModel -> ctProcessCacheModel.ctProcessId);
 		attributeSetterBiConsumers.put(
 			"ctProcessId",
 			(BiConsumer<CTProcess, Long>)CTProcess::setCtProcessId);
 		attributeGetterFunctions.put("companyId", CTProcess::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId", ctProcessCacheModel -> ctProcessCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId", (BiConsumer<CTProcess, Long>)CTProcess::setCompanyId);
 		attributeGetterFunctions.put("userId", CTProcess::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", ctProcessCacheModel -> ctProcessCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<CTProcess, Long>)CTProcess::setUserId);
 		attributeGetterFunctions.put("createDate", CTProcess::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			ctProcessCacheModel -> ctProcessCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<CTProcess, Date>)CTProcess::setCreateDate);
 		attributeGetterFunctions.put(
 			"ctCollectionId", CTProcess::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			ctProcessCacheModel -> ctProcessCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<CTProcess, Long>)CTProcess::setCtCollectionId);
 		attributeGetterFunctions.put(
 			"backgroundTaskId", CTProcess::getBackgroundTaskId);
+
+		cacheModelGetterFunctions.put(
+			"backgroundTaskId",
+			ctProcessCacheModel -> ctProcessCacheModel.backgroundTaskId);
 		attributeSetterBiConsumers.put(
 			"backgroundTaskId",
 			(BiConsumer<CTProcess, Long>)CTProcess::setBackgroundTaskId);
@@ -328,6 +385,8 @@ public class CTProcessModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -338,6 +397,12 @@ public class CTProcessModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_ctProcessCacheModel == _dummyCTProcessCacheModel) {
+			_ctProcessCacheModel = (CTProcessCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -349,6 +414,12 @@ public class CTProcessModelImpl
 
 	@Override
 	public void setCtProcessId(long ctProcessId) {
+		_columnBitmask |= CTPROCESSID_COLUMN_BITMASK;
+
+		if (_ctProcessCacheModel == _dummyCTProcessCacheModel) {
+			_ctProcessCacheModel = (CTProcessCacheModel)toCacheModel();
+		}
+
 		_ctProcessId = ctProcessId;
 	}
 
@@ -362,17 +433,20 @@ public class CTProcessModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_ctProcessCacheModel == _dummyCTProcessCacheModel) {
+			_ctProcessCacheModel = (CTProcessCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@JSON
@@ -383,6 +457,12 @@ public class CTProcessModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (_ctProcessCacheModel == _dummyCTProcessCacheModel) {
+			_ctProcessCacheModel = (CTProcessCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -410,7 +490,11 @@ public class CTProcessModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
-		_columnBitmask = -1L;
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (_ctProcessCacheModel == _dummyCTProcessCacheModel) {
+			_ctProcessCacheModel = (CTProcessCacheModel)toCacheModel();
+		}
 
 		_createDate = createDate;
 	}
@@ -425,17 +509,20 @@ public class CTProcessModelImpl
 	public void setCtCollectionId(long ctCollectionId) {
 		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
 
-		if (!_setOriginalCtCollectionId) {
-			_setOriginalCtCollectionId = true;
-
-			_originalCtCollectionId = _ctCollectionId;
+		if (_ctProcessCacheModel == _dummyCTProcessCacheModel) {
+			_ctProcessCacheModel = (CTProcessCacheModel)toCacheModel();
 		}
 
 		_ctCollectionId = ctCollectionId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCtCollectionId() {
-		return _originalCtCollectionId;
+		return getOriginalAttributeValue("ctCollectionId");
 	}
 
 	@JSON
@@ -446,6 +533,12 @@ public class CTProcessModelImpl
 
 	@Override
 	public void setBackgroundTaskId(long backgroundTaskId) {
+		_columnBitmask |= BACKGROUNDTASKID_COLUMN_BITMASK;
+
+		if (_ctProcessCacheModel == _dummyCTProcessCacheModel) {
+			_ctProcessCacheModel = (CTProcessCacheModel)toCacheModel();
+		}
+
 		_backgroundTaskId = backgroundTaskId;
 	}
 
@@ -560,18 +653,9 @@ public class CTProcessModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		CTProcessModelImpl ctProcessModelImpl = this;
+		_columnBitmask = 0;
 
-		ctProcessModelImpl._originalCompanyId = ctProcessModelImpl._companyId;
-
-		ctProcessModelImpl._setOriginalCompanyId = false;
-
-		ctProcessModelImpl._originalCtCollectionId =
-			ctProcessModelImpl._ctCollectionId;
-
-		ctProcessModelImpl._setOriginalCtCollectionId = false;
-
-		ctProcessModelImpl._columnBitmask = 0;
+		_ctProcessCacheModel = _dummyCTProcessCacheModel;
 	}
 
 	@Override
@@ -675,15 +759,16 @@ public class CTProcessModelImpl
 	private long _mvccVersion;
 	private long _ctProcessId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private Date _createDate;
 	private long _ctCollectionId;
-	private long _originalCtCollectionId;
-	private boolean _setOriginalCtCollectionId;
 	private long _backgroundTaskId;
 	private long _columnBitmask;
 	private CTProcess _escapedModel;
+
+	private static final CTProcessCacheModel _dummyCTProcessCacheModel =
+		new CTProcessCacheModel();
+
+	private CTProcessCacheModel _ctProcessCacheModel;
 
 }

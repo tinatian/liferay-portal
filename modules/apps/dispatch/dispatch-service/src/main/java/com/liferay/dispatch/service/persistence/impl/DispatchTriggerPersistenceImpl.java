@@ -2396,8 +2396,8 @@ public class DispatchTriggerPersistenceImpl
 			 _finderPathFetchByC_N.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				dispatchTriggerModelImpl.getOriginalCompanyId(),
-				dispatchTriggerModelImpl.getOriginalName()
+				dispatchTriggerModelImpl.getOriginalAttributeValue("companyId"),
+				dispatchTriggerModelImpl.getOriginalAttributeValue("name")
 			};
 
 			finderCache.removeResult(_finderPathCountByC_N, args);
@@ -2610,7 +2610,8 @@ public class DispatchTriggerPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					dispatchTriggerModelImpl.getOriginalCompanyId()
+					dispatchTriggerModelImpl.getOriginalAttributeValue(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCompanyId, args);
@@ -2629,8 +2630,9 @@ public class DispatchTriggerPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					dispatchTriggerModelImpl.getOriginalCompanyId(),
-					dispatchTriggerModelImpl.getOriginalType()
+					dispatchTriggerModelImpl.getOriginalAttributeValue(
+						"companyId"),
+					dispatchTriggerModelImpl.getOriginalAttributeValue("type")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_T, args);

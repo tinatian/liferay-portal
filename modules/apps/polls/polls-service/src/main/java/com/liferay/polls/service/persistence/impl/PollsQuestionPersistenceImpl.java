@@ -2472,8 +2472,8 @@ public class PollsQuestionPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				pollsQuestionModelImpl.getOriginalUuid(),
-				pollsQuestionModelImpl.getOriginalGroupId()
+				pollsQuestionModelImpl.getOriginalAttributeValue("uuid"),
+				pollsQuestionModelImpl.getOriginalAttributeValue("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -2697,7 +2697,7 @@ public class PollsQuestionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					pollsQuestionModelImpl.getOriginalUuid()
+					pollsQuestionModelImpl.getOriginalAttributeValue("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -2716,8 +2716,9 @@ public class PollsQuestionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					pollsQuestionModelImpl.getOriginalUuid(),
-					pollsQuestionModelImpl.getOriginalCompanyId()
+					pollsQuestionModelImpl.getOriginalAttributeValue("uuid"),
+					pollsQuestionModelImpl.getOriginalAttributeValue(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -2739,7 +2740,7 @@ public class PollsQuestionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					pollsQuestionModelImpl.getOriginalGroupId()
+					pollsQuestionModelImpl.getOriginalAttributeValue("groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId, args);

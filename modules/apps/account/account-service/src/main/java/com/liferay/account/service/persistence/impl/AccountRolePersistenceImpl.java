@@ -1672,7 +1672,7 @@ public class AccountRolePersistenceImpl
 			 _finderPathFetchByRoleId.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				accountRoleModelImpl.getOriginalRoleId()
+				accountRoleModelImpl.getOriginalAttributeValue("roleId")
 			};
 
 			finderCache.removeResult(_finderPathCountByRoleId, args);
@@ -1850,7 +1850,7 @@ public class AccountRolePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					accountRoleModelImpl.getOriginalCompanyId()
+					accountRoleModelImpl.getOriginalAttributeValue("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCompanyId, args);
@@ -1869,7 +1869,8 @@ public class AccountRolePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					accountRoleModelImpl.getOriginalAccountEntryId()
+					accountRoleModelImpl.getOriginalAttributeValue(
+						"accountEntryId")
 				};
 
 				finderCache.removeResult(

@@ -1590,8 +1590,9 @@ public class DDMTemplateVersionPersistenceImpl
 			 _finderPathFetchByT_V.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				ddmTemplateVersionModelImpl.getOriginalTemplateId(),
-				ddmTemplateVersionModelImpl.getOriginalVersion()
+				ddmTemplateVersionModelImpl.getOriginalAttributeValue(
+					"templateId"),
+				ddmTemplateVersionModelImpl.getOriginalAttributeValue("version")
 			};
 
 			finderCache.removeResult(_finderPathCountByT_V, args);
@@ -1805,7 +1806,8 @@ public class DDMTemplateVersionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					ddmTemplateVersionModelImpl.getOriginalTemplateId()
+					ddmTemplateVersionModelImpl.getOriginalAttributeValue(
+						"templateId")
 				};
 
 				finderCache.removeResult(_finderPathCountByTemplateId, args);
@@ -1826,8 +1828,10 @@ public class DDMTemplateVersionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					ddmTemplateVersionModelImpl.getOriginalTemplateId(),
-					ddmTemplateVersionModelImpl.getOriginalStatus()
+					ddmTemplateVersionModelImpl.getOriginalAttributeValue(
+						"templateId"),
+					ddmTemplateVersionModelImpl.getOriginalAttributeValue(
+						"status")
 				};
 
 				finderCache.removeResult(_finderPathCountByT_S, args);

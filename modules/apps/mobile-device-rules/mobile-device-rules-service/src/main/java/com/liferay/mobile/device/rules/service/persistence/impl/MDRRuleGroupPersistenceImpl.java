@@ -2918,8 +2918,8 @@ public class MDRRuleGroupPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				mdrRuleGroupModelImpl.getOriginalUuid(),
-				mdrRuleGroupModelImpl.getOriginalGroupId()
+				mdrRuleGroupModelImpl.getOriginalAttributeValue("uuid"),
+				mdrRuleGroupModelImpl.getOriginalAttributeValue("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -3143,7 +3143,7 @@ public class MDRRuleGroupPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mdrRuleGroupModelImpl.getOriginalUuid()
+					mdrRuleGroupModelImpl.getOriginalAttributeValue("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -3162,8 +3162,8 @@ public class MDRRuleGroupPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mdrRuleGroupModelImpl.getOriginalUuid(),
-					mdrRuleGroupModelImpl.getOriginalCompanyId()
+					mdrRuleGroupModelImpl.getOriginalAttributeValue("uuid"),
+					mdrRuleGroupModelImpl.getOriginalAttributeValue("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -3185,7 +3185,7 @@ public class MDRRuleGroupPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					mdrRuleGroupModelImpl.getOriginalGroupId()
+					mdrRuleGroupModelImpl.getOriginalAttributeValue("groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId, args);

@@ -31,7 +31,6 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.DateUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -124,21 +123,35 @@ public class KBCommentModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long CLASSNAMEID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long CLASSPK_COLUMN_BITMASK = 2L;
+	public static final long UUID_COLUMN_BITMASK = 2L;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 4L;
+	public static final long KBCOMMENTID_COLUMN_BITMASK = 4L;
 
 	public static final long GROUPID_COLUMN_BITMASK = 8L;
 
-	public static final long STATUS_COLUMN_BITMASK = 16L;
+	public static final long COMPANYID_COLUMN_BITMASK = 16L;
 
 	public static final long USERID_COLUMN_BITMASK = 32L;
 
-	public static final long UUID_COLUMN_BITMASK = 64L;
+	public static final long USERNAME_COLUMN_BITMASK = 64L;
 
-	public static final long MODIFIEDDATE_COLUMN_BITMASK = 128L;
+	public static final long CREATEDATE_COLUMN_BITMASK = 128L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 256L;
+
+	public static final long CLASSNAMEID_COLUMN_BITMASK = 512L;
+
+	public static final long CLASSPK_COLUMN_BITMASK = 1024L;
+
+	public static final long CONTENT_COLUMN_BITMASK = 2048L;
+
+	public static final long USERRATING_COLUMN_BITMASK = 4096L;
+
+	public static final long LASTPUBLISHDATE_COLUMN_BITMASK = 8192L;
+
+	public static final long STATUS_COLUMN_BITMASK = 16384L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -318,6 +331,25 @@ public class KBCommentModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_kbCommentCacheModel == null) ||
+			(_kbCommentCacheModel == _dummyKBCommentCacheModel)) {
+
+			return null;
+		}
+
+		Function<KBCommentCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_kbCommentCacheModel);
+	}
+
+	private static final Map<String, Function<KBCommentCacheModel, Object>>
+		_cacheModelGetterFunctions;
 	private static final Map<String, Function<KBComment, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<KBComment, Object>>
@@ -328,59 +360,115 @@ public class KBCommentModelImpl
 			new LinkedHashMap<String, Function<KBComment, Object>>();
 		Map<String, BiConsumer<KBComment, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<KBComment, ?>>();
+		Map<String, Function<KBCommentCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<KBCommentCacheModel, Object>>();
 
 		attributeGetterFunctions.put("mvccVersion", KBComment::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			kbCommentCacheModel -> kbCommentCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<KBComment, Long>)KBComment::setMvccVersion);
 		attributeGetterFunctions.put("uuid", KBComment::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid", kbCommentCacheModel -> kbCommentCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<KBComment, String>)KBComment::setUuid);
 		attributeGetterFunctions.put("kbCommentId", KBComment::getKbCommentId);
+
+		cacheModelGetterFunctions.put(
+			"kbCommentId",
+			kbCommentCacheModel -> kbCommentCacheModel.kbCommentId);
 		attributeSetterBiConsumers.put(
 			"kbCommentId",
 			(BiConsumer<KBComment, Long>)KBComment::setKbCommentId);
 		attributeGetterFunctions.put("groupId", KBComment::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId", kbCommentCacheModel -> kbCommentCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId", (BiConsumer<KBComment, Long>)KBComment::setGroupId);
 		attributeGetterFunctions.put("companyId", KBComment::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId", kbCommentCacheModel -> kbCommentCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId", (BiConsumer<KBComment, Long>)KBComment::setCompanyId);
 		attributeGetterFunctions.put("userId", KBComment::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", kbCommentCacheModel -> kbCommentCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<KBComment, Long>)KBComment::setUserId);
 		attributeGetterFunctions.put("userName", KBComment::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName", kbCommentCacheModel -> kbCommentCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName", (BiConsumer<KBComment, String>)KBComment::setUserName);
 		attributeGetterFunctions.put("createDate", KBComment::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			kbCommentCacheModel -> kbCommentCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<KBComment, Date>)KBComment::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", KBComment::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			kbCommentCacheModel -> kbCommentCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<KBComment, Date>)KBComment::setModifiedDate);
 		attributeGetterFunctions.put("classNameId", KBComment::getClassNameId);
+
+		cacheModelGetterFunctions.put(
+			"classNameId",
+			kbCommentCacheModel -> kbCommentCacheModel.classNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<KBComment, Long>)KBComment::setClassNameId);
 		attributeGetterFunctions.put("classPK", KBComment::getClassPK);
+
+		cacheModelGetterFunctions.put(
+			"classPK", kbCommentCacheModel -> kbCommentCacheModel.classPK);
 		attributeSetterBiConsumers.put(
 			"classPK", (BiConsumer<KBComment, Long>)KBComment::setClassPK);
 		attributeGetterFunctions.put("content", KBComment::getContent);
+
+		cacheModelGetterFunctions.put(
+			"content", kbCommentCacheModel -> kbCommentCacheModel.content);
 		attributeSetterBiConsumers.put(
 			"content", (BiConsumer<KBComment, String>)KBComment::setContent);
 		attributeGetterFunctions.put("userRating", KBComment::getUserRating);
+
+		cacheModelGetterFunctions.put(
+			"userRating",
+			kbCommentCacheModel -> kbCommentCacheModel.userRating);
 		attributeSetterBiConsumers.put(
 			"userRating",
 			(BiConsumer<KBComment, Integer>)KBComment::setUserRating);
 		attributeGetterFunctions.put(
 			"lastPublishDate", KBComment::getLastPublishDate);
+
+		cacheModelGetterFunctions.put(
+			"lastPublishDate",
+			kbCommentCacheModel -> kbCommentCacheModel.lastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<KBComment, Date>)KBComment::setLastPublishDate);
 		attributeGetterFunctions.put("status", KBComment::getStatus);
+
+		cacheModelGetterFunctions.put(
+			"status", kbCommentCacheModel -> kbCommentCacheModel.status);
 		attributeSetterBiConsumers.put(
 			"status", (BiConsumer<KBComment, Integer>)KBComment::setStatus);
 
@@ -388,6 +476,8 @@ public class KBCommentModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -398,6 +488,12 @@ public class KBCommentModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_kbCommentCacheModel == _dummyKBCommentCacheModel) {
+			_kbCommentCacheModel = (KBCommentCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -416,15 +512,20 @@ public class KBCommentModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_kbCommentCacheModel == _dummyKBCommentCacheModel) {
+			_kbCommentCacheModel = (KBCommentCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getOriginalAttributeValue("uuid");
 	}
 
 	@JSON
@@ -435,6 +536,12 @@ public class KBCommentModelImpl
 
 	@Override
 	public void setKbCommentId(long kbCommentId) {
+		_columnBitmask |= KBCOMMENTID_COLUMN_BITMASK;
+
+		if (_kbCommentCacheModel == _dummyKBCommentCacheModel) {
+			_kbCommentCacheModel = (KBCommentCacheModel)toCacheModel();
+		}
+
 		_kbCommentId = kbCommentId;
 	}
 
@@ -448,17 +555,20 @@ public class KBCommentModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_kbCommentCacheModel == _dummyKBCommentCacheModel) {
+			_kbCommentCacheModel = (KBCommentCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getOriginalAttributeValue("groupId");
 	}
 
 	@JSON
@@ -471,17 +581,20 @@ public class KBCommentModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_kbCommentCacheModel == _dummyKBCommentCacheModel) {
+			_kbCommentCacheModel = (KBCommentCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@JSON
@@ -494,10 +607,8 @@ public class KBCommentModelImpl
 	public void setUserId(long userId) {
 		_columnBitmask |= USERID_COLUMN_BITMASK;
 
-		if (!_setOriginalUserId) {
-			_setOriginalUserId = true;
-
-			_originalUserId = _userId;
+		if (_kbCommentCacheModel == _dummyKBCommentCacheModel) {
+			_kbCommentCacheModel = (KBCommentCacheModel)toCacheModel();
 		}
 
 		_userId = userId;
@@ -519,8 +630,13 @@ public class KBCommentModelImpl
 	public void setUserUuid(String userUuid) {
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalUserId() {
-		return _originalUserId;
+		return getOriginalAttributeValue("userId");
 	}
 
 	@JSON
@@ -536,6 +652,12 @@ public class KBCommentModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (_kbCommentCacheModel == _dummyKBCommentCacheModel) {
+			_kbCommentCacheModel = (KBCommentCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -547,6 +669,12 @@ public class KBCommentModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (_kbCommentCacheModel == _dummyKBCommentCacheModel) {
+			_kbCommentCacheModel = (KBCommentCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -564,7 +692,11 @@ public class KBCommentModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
-		_columnBitmask = -1L;
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (_kbCommentCacheModel == _dummyKBCommentCacheModel) {
+			_kbCommentCacheModel = (KBCommentCacheModel)toCacheModel();
+		}
 
 		_modifiedDate = modifiedDate;
 	}
@@ -599,17 +731,20 @@ public class KBCommentModelImpl
 	public void setClassNameId(long classNameId) {
 		_columnBitmask |= CLASSNAMEID_COLUMN_BITMASK;
 
-		if (!_setOriginalClassNameId) {
-			_setOriginalClassNameId = true;
-
-			_originalClassNameId = _classNameId;
+		if (_kbCommentCacheModel == _dummyKBCommentCacheModel) {
+			_kbCommentCacheModel = (KBCommentCacheModel)toCacheModel();
 		}
 
 		_classNameId = classNameId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassNameId() {
-		return _originalClassNameId;
+		return getOriginalAttributeValue("classNameId");
 	}
 
 	@JSON
@@ -622,17 +757,20 @@ public class KBCommentModelImpl
 	public void setClassPK(long classPK) {
 		_columnBitmask |= CLASSPK_COLUMN_BITMASK;
 
-		if (!_setOriginalClassPK) {
-			_setOriginalClassPK = true;
-
-			_originalClassPK = _classPK;
+		if (_kbCommentCacheModel == _dummyKBCommentCacheModel) {
+			_kbCommentCacheModel = (KBCommentCacheModel)toCacheModel();
 		}
 
 		_classPK = classPK;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassPK() {
-		return _originalClassPK;
+		return getOriginalAttributeValue("classPK");
 	}
 
 	@JSON
@@ -648,6 +786,12 @@ public class KBCommentModelImpl
 
 	@Override
 	public void setContent(String content) {
+		_columnBitmask |= CONTENT_COLUMN_BITMASK;
+
+		if (_kbCommentCacheModel == _dummyKBCommentCacheModel) {
+			_kbCommentCacheModel = (KBCommentCacheModel)toCacheModel();
+		}
+
 		_content = content;
 	}
 
@@ -659,6 +803,12 @@ public class KBCommentModelImpl
 
 	@Override
 	public void setUserRating(int userRating) {
+		_columnBitmask |= USERRATING_COLUMN_BITMASK;
+
+		if (_kbCommentCacheModel == _dummyKBCommentCacheModel) {
+			_kbCommentCacheModel = (KBCommentCacheModel)toCacheModel();
+		}
+
 		_userRating = userRating;
 	}
 
@@ -670,6 +820,12 @@ public class KBCommentModelImpl
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		_columnBitmask |= LASTPUBLISHDATE_COLUMN_BITMASK;
+
+		if (_kbCommentCacheModel == _dummyKBCommentCacheModel) {
+			_kbCommentCacheModel = (KBCommentCacheModel)toCacheModel();
+		}
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -683,17 +839,20 @@ public class KBCommentModelImpl
 	public void setStatus(int status) {
 		_columnBitmask |= STATUS_COLUMN_BITMASK;
 
-		if (!_setOriginalStatus) {
-			_setOriginalStatus = true;
-
-			_originalStatus = _status;
+		if (_kbCommentCacheModel == _dummyKBCommentCacheModel) {
+			_kbCommentCacheModel = (KBCommentCacheModel)toCacheModel();
 		}
 
 		_status = status;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalStatus() {
-		return _originalStatus;
+		return getOriginalAttributeValue("status");
 	}
 
 	@Override
@@ -823,38 +982,11 @@ public class KBCommentModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		KBCommentModelImpl kbCommentModelImpl = this;
+		_setModifiedDate = false;
 
-		kbCommentModelImpl._originalUuid = kbCommentModelImpl._uuid;
+		_columnBitmask = 0;
 
-		kbCommentModelImpl._originalGroupId = kbCommentModelImpl._groupId;
-
-		kbCommentModelImpl._setOriginalGroupId = false;
-
-		kbCommentModelImpl._originalCompanyId = kbCommentModelImpl._companyId;
-
-		kbCommentModelImpl._setOriginalCompanyId = false;
-
-		kbCommentModelImpl._originalUserId = kbCommentModelImpl._userId;
-
-		kbCommentModelImpl._setOriginalUserId = false;
-
-		kbCommentModelImpl._setModifiedDate = false;
-
-		kbCommentModelImpl._originalClassNameId =
-			kbCommentModelImpl._classNameId;
-
-		kbCommentModelImpl._setOriginalClassNameId = false;
-
-		kbCommentModelImpl._originalClassPK = kbCommentModelImpl._classPK;
-
-		kbCommentModelImpl._setOriginalClassPK = false;
-
-		kbCommentModelImpl._originalStatus = kbCommentModelImpl._status;
-
-		kbCommentModelImpl._setOriginalStatus = false;
-
-		kbCommentModelImpl._columnBitmask = 0;
+		_kbCommentCacheModel = _dummyKBCommentCacheModel;
 	}
 
 	@Override
@@ -1005,34 +1137,26 @@ public class KBCommentModelImpl
 
 	private long _mvccVersion;
 	private String _uuid;
-	private String _originalUuid;
 	private long _kbCommentId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
-	private long _originalUserId;
-	private boolean _setOriginalUserId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _classNameId;
-	private long _originalClassNameId;
-	private boolean _setOriginalClassNameId;
 	private long _classPK;
-	private long _originalClassPK;
-	private boolean _setOriginalClassPK;
 	private String _content;
 	private int _userRating;
 	private Date _lastPublishDate;
 	private int _status;
-	private int _originalStatus;
-	private boolean _setOriginalStatus;
 	private long _columnBitmask;
 	private KBComment _escapedModel;
+
+	private static final KBCommentCacheModel _dummyKBCommentCacheModel =
+		new KBCommentCacheModel();
+
+	private KBCommentCacheModel _kbCommentCacheModel;
 
 }

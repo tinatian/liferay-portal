@@ -2640,8 +2640,8 @@ public class MBDiscussionPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				mbDiscussionModelImpl.getOriginalUuid(),
-				mbDiscussionModelImpl.getOriginalGroupId()
+				mbDiscussionModelImpl.getOriginalAttributeValue("uuid"),
+				mbDiscussionModelImpl.getOriginalAttributeValue("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -2659,7 +2659,7 @@ public class MBDiscussionPersistenceImpl
 			 _finderPathFetchByThreadId.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				mbDiscussionModelImpl.getOriginalThreadId()
+				mbDiscussionModelImpl.getOriginalAttributeValue("threadId")
 			};
 
 			finderCache.removeResult(_finderPathCountByThreadId, args);
@@ -2680,8 +2680,8 @@ public class MBDiscussionPersistenceImpl
 			 _finderPathFetchByC_C.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				mbDiscussionModelImpl.getOriginalClassNameId(),
-				mbDiscussionModelImpl.getOriginalClassPK()
+				mbDiscussionModelImpl.getOriginalAttributeValue("classNameId"),
+				mbDiscussionModelImpl.getOriginalAttributeValue("classPK")
 			};
 
 			finderCache.removeResult(_finderPathCountByC_C, args);
@@ -2925,7 +2925,7 @@ public class MBDiscussionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mbDiscussionModelImpl.getOriginalUuid()
+					mbDiscussionModelImpl.getOriginalAttributeValue("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -2944,8 +2944,8 @@ public class MBDiscussionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mbDiscussionModelImpl.getOriginalUuid(),
-					mbDiscussionModelImpl.getOriginalCompanyId()
+					mbDiscussionModelImpl.getOriginalAttributeValue("uuid"),
+					mbDiscussionModelImpl.getOriginalAttributeValue("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -2967,7 +2967,8 @@ public class MBDiscussionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					mbDiscussionModelImpl.getOriginalClassNameId()
+					mbDiscussionModelImpl.getOriginalAttributeValue(
+						"classNameId")
 				};
 
 				finderCache.removeResult(_finderPathCountByClassNameId, args);

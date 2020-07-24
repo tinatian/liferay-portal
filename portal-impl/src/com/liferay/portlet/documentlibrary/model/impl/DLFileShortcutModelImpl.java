@@ -152,21 +152,45 @@ public class DLFileShortcutModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long ACTIVE_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
-	public static final long FOLDERID_COLUMN_BITMASK = 4L;
+	public static final long UUID_COLUMN_BITMASK = 4L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 8L;
+	public static final long FILESHORTCUTID_COLUMN_BITMASK = 8L;
 
-	public static final long STATUS_COLUMN_BITMASK = 16L;
+	public static final long GROUPID_COLUMN_BITMASK = 16L;
 
-	public static final long TOFILEENTRYID_COLUMN_BITMASK = 32L;
+	public static final long COMPANYID_COLUMN_BITMASK = 32L;
 
-	public static final long UUID_COLUMN_BITMASK = 64L;
+	public static final long USERID_COLUMN_BITMASK = 64L;
 
-	public static final long FILESHORTCUTID_COLUMN_BITMASK = 128L;
+	public static final long USERNAME_COLUMN_BITMASK = 128L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 256L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 512L;
+
+	public static final long REPOSITORYID_COLUMN_BITMASK = 1024L;
+
+	public static final long FOLDERID_COLUMN_BITMASK = 2048L;
+
+	public static final long TOFILEENTRYID_COLUMN_BITMASK = 4096L;
+
+	public static final long TREEPATH_COLUMN_BITMASK = 8192L;
+
+	public static final long ACTIVE_COLUMN_BITMASK = 16384L;
+
+	public static final long LASTPUBLISHDATE_COLUMN_BITMASK = 32768L;
+
+	public static final long STATUS_COLUMN_BITMASK = 65536L;
+
+	public static final long STATUSBYUSERID_COLUMN_BITMASK = 131072L;
+
+	public static final long STATUSBYUSERNAME_COLUMN_BITMASK = 262144L;
+
+	public static final long STATUSDATE_COLUMN_BITMASK = 524288L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -345,6 +369,25 @@ public class DLFileShortcutModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_dlFileShortcutCacheModel == null) ||
+			(_dlFileShortcutCacheModel == _dummyDLFileShortcutCacheModel)) {
+
+			return null;
+		}
+
+		Function<DLFileShortcutCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_dlFileShortcutCacheModel);
+	}
+
+	private static final Map<String, Function<DLFileShortcutCacheModel, Object>>
+		_cacheModelGetterFunctions;
 	private static final Map<String, Function<DLFileShortcut, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<DLFileShortcut, Object>>
@@ -355,100 +398,188 @@ public class DLFileShortcutModelImpl
 			new LinkedHashMap<String, Function<DLFileShortcut, Object>>();
 		Map<String, BiConsumer<DLFileShortcut, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<DLFileShortcut, ?>>();
+		Map<String, Function<DLFileShortcutCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<DLFileShortcutCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", DLFileShortcut::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			dlFileShortcutCacheModel -> dlFileShortcutCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<DLFileShortcut, Long>)DLFileShortcut::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", DLFileShortcut::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			dlFileShortcutCacheModel ->
+				dlFileShortcutCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<DLFileShortcut, Long>)
 				DLFileShortcut::setCtCollectionId);
 		attributeGetterFunctions.put("uuid", DLFileShortcut::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid", dlFileShortcutCacheModel -> dlFileShortcutCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid",
 			(BiConsumer<DLFileShortcut, String>)DLFileShortcut::setUuid);
 		attributeGetterFunctions.put(
 			"fileShortcutId", DLFileShortcut::getFileShortcutId);
+
+		cacheModelGetterFunctions.put(
+			"fileShortcutId",
+			dlFileShortcutCacheModel ->
+				dlFileShortcutCacheModel.fileShortcutId);
 		attributeSetterBiConsumers.put(
 			"fileShortcutId",
 			(BiConsumer<DLFileShortcut, Long>)
 				DLFileShortcut::setFileShortcutId);
 		attributeGetterFunctions.put("groupId", DLFileShortcut::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			dlFileShortcutCacheModel -> dlFileShortcutCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<DLFileShortcut, Long>)DLFileShortcut::setGroupId);
 		attributeGetterFunctions.put("companyId", DLFileShortcut::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			dlFileShortcutCacheModel -> dlFileShortcutCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<DLFileShortcut, Long>)DLFileShortcut::setCompanyId);
 		attributeGetterFunctions.put("userId", DLFileShortcut::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			dlFileShortcutCacheModel -> dlFileShortcutCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<DLFileShortcut, Long>)DLFileShortcut::setUserId);
 		attributeGetterFunctions.put("userName", DLFileShortcut::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			dlFileShortcutCacheModel -> dlFileShortcutCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<DLFileShortcut, String>)DLFileShortcut::setUserName);
 		attributeGetterFunctions.put(
 			"createDate", DLFileShortcut::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			dlFileShortcutCacheModel -> dlFileShortcutCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<DLFileShortcut, Date>)DLFileShortcut::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", DLFileShortcut::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			dlFileShortcutCacheModel -> dlFileShortcutCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<DLFileShortcut, Date>)DLFileShortcut::setModifiedDate);
 		attributeGetterFunctions.put(
 			"repositoryId", DLFileShortcut::getRepositoryId);
+
+		cacheModelGetterFunctions.put(
+			"repositoryId",
+			dlFileShortcutCacheModel -> dlFileShortcutCacheModel.repositoryId);
 		attributeSetterBiConsumers.put(
 			"repositoryId",
 			(BiConsumer<DLFileShortcut, Long>)DLFileShortcut::setRepositoryId);
 		attributeGetterFunctions.put("folderId", DLFileShortcut::getFolderId);
+
+		cacheModelGetterFunctions.put(
+			"folderId",
+			dlFileShortcutCacheModel -> dlFileShortcutCacheModel.folderId);
 		attributeSetterBiConsumers.put(
 			"folderId",
 			(BiConsumer<DLFileShortcut, Long>)DLFileShortcut::setFolderId);
 		attributeGetterFunctions.put(
 			"toFileEntryId", DLFileShortcut::getToFileEntryId);
+
+		cacheModelGetterFunctions.put(
+			"toFileEntryId",
+			dlFileShortcutCacheModel -> dlFileShortcutCacheModel.toFileEntryId);
 		attributeSetterBiConsumers.put(
 			"toFileEntryId",
 			(BiConsumer<DLFileShortcut, Long>)DLFileShortcut::setToFileEntryId);
 		attributeGetterFunctions.put("treePath", DLFileShortcut::getTreePath);
+
+		cacheModelGetterFunctions.put(
+			"treePath",
+			dlFileShortcutCacheModel -> dlFileShortcutCacheModel.treePath);
 		attributeSetterBiConsumers.put(
 			"treePath",
 			(BiConsumer<DLFileShortcut, String>)DLFileShortcut::setTreePath);
 		attributeGetterFunctions.put("active", DLFileShortcut::getActive);
+
+		cacheModelGetterFunctions.put(
+			"active",
+			dlFileShortcutCacheModel -> dlFileShortcutCacheModel.active);
 		attributeSetterBiConsumers.put(
 			"active",
 			(BiConsumer<DLFileShortcut, Boolean>)DLFileShortcut::setActive);
 		attributeGetterFunctions.put(
 			"lastPublishDate", DLFileShortcut::getLastPublishDate);
+
+		cacheModelGetterFunctions.put(
+			"lastPublishDate",
+			dlFileShortcutCacheModel ->
+				dlFileShortcutCacheModel.lastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<DLFileShortcut, Date>)
 				DLFileShortcut::setLastPublishDate);
 		attributeGetterFunctions.put("status", DLFileShortcut::getStatus);
+
+		cacheModelGetterFunctions.put(
+			"status",
+			dlFileShortcutCacheModel -> dlFileShortcutCacheModel.status);
 		attributeSetterBiConsumers.put(
 			"status",
 			(BiConsumer<DLFileShortcut, Integer>)DLFileShortcut::setStatus);
 		attributeGetterFunctions.put(
 			"statusByUserId", DLFileShortcut::getStatusByUserId);
+
+		cacheModelGetterFunctions.put(
+			"statusByUserId",
+			dlFileShortcutCacheModel ->
+				dlFileShortcutCacheModel.statusByUserId);
 		attributeSetterBiConsumers.put(
 			"statusByUserId",
 			(BiConsumer<DLFileShortcut, Long>)
 				DLFileShortcut::setStatusByUserId);
 		attributeGetterFunctions.put(
 			"statusByUserName", DLFileShortcut::getStatusByUserName);
+
+		cacheModelGetterFunctions.put(
+			"statusByUserName",
+			dlFileShortcutCacheModel ->
+				dlFileShortcutCacheModel.statusByUserName);
 		attributeSetterBiConsumers.put(
 			"statusByUserName",
 			(BiConsumer<DLFileShortcut, String>)
 				DLFileShortcut::setStatusByUserName);
 		attributeGetterFunctions.put(
 			"statusDate", DLFileShortcut::getStatusDate);
+
+		cacheModelGetterFunctions.put(
+			"statusDate",
+			dlFileShortcutCacheModel -> dlFileShortcutCacheModel.statusDate);
 		attributeSetterBiConsumers.put(
 			"statusDate",
 			(BiConsumer<DLFileShortcut, Date>)DLFileShortcut::setStatusDate);
@@ -457,6 +588,8 @@ public class DLFileShortcutModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -467,6 +600,13 @@ public class DLFileShortcutModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_dlFileShortcutCacheModel == _dummyDLFileShortcutCacheModel) {
+			_dlFileShortcutCacheModel =
+				(DLFileShortcutCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -478,6 +618,13 @@ public class DLFileShortcutModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (_dlFileShortcutCacheModel == _dummyDLFileShortcutCacheModel) {
+			_dlFileShortcutCacheModel =
+				(DLFileShortcutCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -496,15 +643,21 @@ public class DLFileShortcutModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_dlFileShortcutCacheModel == _dummyDLFileShortcutCacheModel) {
+			_dlFileShortcutCacheModel =
+				(DLFileShortcutCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getOriginalAttributeValue("uuid");
 	}
 
 	@JSON
@@ -515,6 +668,13 @@ public class DLFileShortcutModelImpl
 
 	@Override
 	public void setFileShortcutId(long fileShortcutId) {
+		_columnBitmask |= FILESHORTCUTID_COLUMN_BITMASK;
+
+		if (_dlFileShortcutCacheModel == _dummyDLFileShortcutCacheModel) {
+			_dlFileShortcutCacheModel =
+				(DLFileShortcutCacheModel)toCacheModel();
+		}
+
 		_fileShortcutId = fileShortcutId;
 	}
 
@@ -528,17 +688,21 @@ public class DLFileShortcutModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_dlFileShortcutCacheModel == _dummyDLFileShortcutCacheModel) {
+			_dlFileShortcutCacheModel =
+				(DLFileShortcutCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getOriginalAttributeValue("groupId");
 	}
 
 	@JSON
@@ -551,17 +715,21 @@ public class DLFileShortcutModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_dlFileShortcutCacheModel == _dummyDLFileShortcutCacheModel) {
+			_dlFileShortcutCacheModel =
+				(DLFileShortcutCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@JSON
@@ -572,6 +740,13 @@ public class DLFileShortcutModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (_dlFileShortcutCacheModel == _dummyDLFileShortcutCacheModel) {
+			_dlFileShortcutCacheModel =
+				(DLFileShortcutCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -604,6 +779,13 @@ public class DLFileShortcutModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (_dlFileShortcutCacheModel == _dummyDLFileShortcutCacheModel) {
+			_dlFileShortcutCacheModel =
+				(DLFileShortcutCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -615,6 +797,13 @@ public class DLFileShortcutModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (_dlFileShortcutCacheModel == _dummyDLFileShortcutCacheModel) {
+			_dlFileShortcutCacheModel =
+				(DLFileShortcutCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -632,6 +821,13 @@ public class DLFileShortcutModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (_dlFileShortcutCacheModel == _dummyDLFileShortcutCacheModel) {
+			_dlFileShortcutCacheModel =
+				(DLFileShortcutCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -643,6 +839,13 @@ public class DLFileShortcutModelImpl
 
 	@Override
 	public void setRepositoryId(long repositoryId) {
+		_columnBitmask |= REPOSITORYID_COLUMN_BITMASK;
+
+		if (_dlFileShortcutCacheModel == _dummyDLFileShortcutCacheModel) {
+			_dlFileShortcutCacheModel =
+				(DLFileShortcutCacheModel)toCacheModel();
+		}
+
 		_repositoryId = repositoryId;
 	}
 
@@ -656,17 +859,21 @@ public class DLFileShortcutModelImpl
 	public void setFolderId(long folderId) {
 		_columnBitmask |= FOLDERID_COLUMN_BITMASK;
 
-		if (!_setOriginalFolderId) {
-			_setOriginalFolderId = true;
-
-			_originalFolderId = _folderId;
+		if (_dlFileShortcutCacheModel == _dummyDLFileShortcutCacheModel) {
+			_dlFileShortcutCacheModel =
+				(DLFileShortcutCacheModel)toCacheModel();
 		}
 
 		_folderId = folderId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalFolderId() {
-		return _originalFolderId;
+		return getOriginalAttributeValue("folderId");
 	}
 
 	@JSON
@@ -679,17 +886,21 @@ public class DLFileShortcutModelImpl
 	public void setToFileEntryId(long toFileEntryId) {
 		_columnBitmask |= TOFILEENTRYID_COLUMN_BITMASK;
 
-		if (!_setOriginalToFileEntryId) {
-			_setOriginalToFileEntryId = true;
-
-			_originalToFileEntryId = _toFileEntryId;
+		if (_dlFileShortcutCacheModel == _dummyDLFileShortcutCacheModel) {
+			_dlFileShortcutCacheModel =
+				(DLFileShortcutCacheModel)toCacheModel();
 		}
 
 		_toFileEntryId = toFileEntryId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalToFileEntryId() {
-		return _originalToFileEntryId;
+		return getOriginalAttributeValue("toFileEntryId");
 	}
 
 	@JSON
@@ -705,6 +916,13 @@ public class DLFileShortcutModelImpl
 
 	@Override
 	public void setTreePath(String treePath) {
+		_columnBitmask |= TREEPATH_COLUMN_BITMASK;
+
+		if (_dlFileShortcutCacheModel == _dummyDLFileShortcutCacheModel) {
+			_dlFileShortcutCacheModel =
+				(DLFileShortcutCacheModel)toCacheModel();
+		}
+
 		_treePath = treePath;
 	}
 
@@ -724,17 +942,21 @@ public class DLFileShortcutModelImpl
 	public void setActive(boolean active) {
 		_columnBitmask |= ACTIVE_COLUMN_BITMASK;
 
-		if (!_setOriginalActive) {
-			_setOriginalActive = true;
-
-			_originalActive = _active;
+		if (_dlFileShortcutCacheModel == _dummyDLFileShortcutCacheModel) {
+			_dlFileShortcutCacheModel =
+				(DLFileShortcutCacheModel)toCacheModel();
 		}
 
 		_active = active;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public boolean getOriginalActive() {
-		return _originalActive;
+		return getOriginalAttributeValue("active");
 	}
 
 	@JSON
@@ -745,6 +967,13 @@ public class DLFileShortcutModelImpl
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		_columnBitmask |= LASTPUBLISHDATE_COLUMN_BITMASK;
+
+		if (_dlFileShortcutCacheModel == _dummyDLFileShortcutCacheModel) {
+			_dlFileShortcutCacheModel =
+				(DLFileShortcutCacheModel)toCacheModel();
+		}
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -758,17 +987,21 @@ public class DLFileShortcutModelImpl
 	public void setStatus(int status) {
 		_columnBitmask |= STATUS_COLUMN_BITMASK;
 
-		if (!_setOriginalStatus) {
-			_setOriginalStatus = true;
-
-			_originalStatus = _status;
+		if (_dlFileShortcutCacheModel == _dummyDLFileShortcutCacheModel) {
+			_dlFileShortcutCacheModel =
+				(DLFileShortcutCacheModel)toCacheModel();
 		}
 
 		_status = status;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalStatus() {
-		return _originalStatus;
+		return getOriginalAttributeValue("status");
 	}
 
 	@JSON
@@ -779,6 +1012,13 @@ public class DLFileShortcutModelImpl
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		_columnBitmask |= STATUSBYUSERID_COLUMN_BITMASK;
+
+		if (_dlFileShortcutCacheModel == _dummyDLFileShortcutCacheModel) {
+			_dlFileShortcutCacheModel =
+				(DLFileShortcutCacheModel)toCacheModel();
+		}
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -811,6 +1051,13 @@ public class DLFileShortcutModelImpl
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		_columnBitmask |= STATUSBYUSERNAME_COLUMN_BITMASK;
+
+		if (_dlFileShortcutCacheModel == _dummyDLFileShortcutCacheModel) {
+			_dlFileShortcutCacheModel =
+				(DLFileShortcutCacheModel)toCacheModel();
+		}
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -822,6 +1069,13 @@ public class DLFileShortcutModelImpl
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		_columnBitmask |= STATUSDATE_COLUMN_BITMASK;
+
+		if (_dlFileShortcutCacheModel == _dummyDLFileShortcutCacheModel) {
+			_dlFileShortcutCacheModel =
+				(DLFileShortcutCacheModel)toCacheModel();
+		}
+
 		_statusDate = statusDate;
 	}
 
@@ -1180,43 +1434,11 @@ public class DLFileShortcutModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		DLFileShortcutModelImpl dlFileShortcutModelImpl = this;
+		_setModifiedDate = false;
 
-		dlFileShortcutModelImpl._originalUuid = dlFileShortcutModelImpl._uuid;
+		_columnBitmask = 0;
 
-		dlFileShortcutModelImpl._originalGroupId =
-			dlFileShortcutModelImpl._groupId;
-
-		dlFileShortcutModelImpl._setOriginalGroupId = false;
-
-		dlFileShortcutModelImpl._originalCompanyId =
-			dlFileShortcutModelImpl._companyId;
-
-		dlFileShortcutModelImpl._setOriginalCompanyId = false;
-
-		dlFileShortcutModelImpl._setModifiedDate = false;
-
-		dlFileShortcutModelImpl._originalFolderId =
-			dlFileShortcutModelImpl._folderId;
-
-		dlFileShortcutModelImpl._setOriginalFolderId = false;
-
-		dlFileShortcutModelImpl._originalToFileEntryId =
-			dlFileShortcutModelImpl._toFileEntryId;
-
-		dlFileShortcutModelImpl._setOriginalToFileEntryId = false;
-
-		dlFileShortcutModelImpl._originalActive =
-			dlFileShortcutModelImpl._active;
-
-		dlFileShortcutModelImpl._setOriginalActive = false;
-
-		dlFileShortcutModelImpl._originalStatus =
-			dlFileShortcutModelImpl._status;
-
-		dlFileShortcutModelImpl._setOriginalStatus = false;
-
-		dlFileShortcutModelImpl._columnBitmask = 0;
+		_dlFileShortcutCacheModel = _dummyDLFileShortcutCacheModel;
 	}
 
 	@Override
@@ -1393,14 +1615,9 @@ public class DLFileShortcutModelImpl
 	private long _mvccVersion;
 	private long _ctCollectionId;
 	private String _uuid;
-	private String _originalUuid;
 	private long _fileShortcutId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
@@ -1408,23 +1625,20 @@ public class DLFileShortcutModelImpl
 	private boolean _setModifiedDate;
 	private long _repositoryId;
 	private long _folderId;
-	private long _originalFolderId;
-	private boolean _setOriginalFolderId;
 	private long _toFileEntryId;
-	private long _originalToFileEntryId;
-	private boolean _setOriginalToFileEntryId;
 	private String _treePath;
 	private boolean _active;
-	private boolean _originalActive;
-	private boolean _setOriginalActive;
 	private Date _lastPublishDate;
 	private int _status;
-	private int _originalStatus;
-	private boolean _setOriginalStatus;
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
 	private long _columnBitmask;
 	private DLFileShortcut _escapedModel;
+
+	private static final DLFileShortcutCacheModel
+		_dummyDLFileShortcutCacheModel = new DLFileShortcutCacheModel();
+
+	private DLFileShortcutCacheModel _dlFileShortcutCacheModel;
 
 }

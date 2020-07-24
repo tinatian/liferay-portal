@@ -30,7 +30,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
@@ -120,19 +119,33 @@ public class KBFolderModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 2L;
+	public static final long UUID_COLUMN_BITMASK = 2L;
 
-	public static final long NAME_COLUMN_BITMASK = 4L;
+	public static final long KBFOLDERID_COLUMN_BITMASK = 4L;
 
-	public static final long PARENTKBFOLDERID_COLUMN_BITMASK = 8L;
+	public static final long GROUPID_COLUMN_BITMASK = 8L;
 
-	public static final long URLTITLE_COLUMN_BITMASK = 16L;
+	public static final long COMPANYID_COLUMN_BITMASK = 16L;
 
-	public static final long UUID_COLUMN_BITMASK = 32L;
+	public static final long USERID_COLUMN_BITMASK = 32L;
 
-	public static final long KBFOLDERID_COLUMN_BITMASK = 64L;
+	public static final long USERNAME_COLUMN_BITMASK = 64L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 128L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 256L;
+
+	public static final long PARENTKBFOLDERID_COLUMN_BITMASK = 512L;
+
+	public static final long NAME_COLUMN_BITMASK = 1024L;
+
+	public static final long URLTITLE_COLUMN_BITMASK = 2048L;
+
+	public static final long DESCRIPTION_COLUMN_BITMASK = 4096L;
+
+	public static final long LASTPUBLISHDATE_COLUMN_BITMASK = 8192L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -311,6 +324,25 @@ public class KBFolderModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_kbFolderCacheModel == null) ||
+			(_kbFolderCacheModel == _dummyKBFolderCacheModel)) {
+
+			return null;
+		}
+
+		Function<KBFolderCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_kbFolderCacheModel);
+	}
+
+	private static final Map<String, Function<KBFolderCacheModel, Object>>
+		_cacheModelGetterFunctions;
 	private static final Map<String, Function<KBFolder, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<KBFolder, Object>>
@@ -321,53 +353,104 @@ public class KBFolderModelImpl
 			new LinkedHashMap<String, Function<KBFolder, Object>>();
 		Map<String, BiConsumer<KBFolder, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<KBFolder, ?>>();
+		Map<String, Function<KBFolderCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<KBFolderCacheModel, Object>>();
 
 		attributeGetterFunctions.put("mvccVersion", KBFolder::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			kbFolderCacheModel -> kbFolderCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<KBFolder, Long>)KBFolder::setMvccVersion);
 		attributeGetterFunctions.put("uuid", KBFolder::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid", kbFolderCacheModel -> kbFolderCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<KBFolder, String>)KBFolder::setUuid);
 		attributeGetterFunctions.put("kbFolderId", KBFolder::getKbFolderId);
+
+		cacheModelGetterFunctions.put(
+			"kbFolderId", kbFolderCacheModel -> kbFolderCacheModel.kbFolderId);
 		attributeSetterBiConsumers.put(
 			"kbFolderId", (BiConsumer<KBFolder, Long>)KBFolder::setKbFolderId);
 		attributeGetterFunctions.put("groupId", KBFolder::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId", kbFolderCacheModel -> kbFolderCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId", (BiConsumer<KBFolder, Long>)KBFolder::setGroupId);
 		attributeGetterFunctions.put("companyId", KBFolder::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId", kbFolderCacheModel -> kbFolderCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId", (BiConsumer<KBFolder, Long>)KBFolder::setCompanyId);
 		attributeGetterFunctions.put("userId", KBFolder::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", kbFolderCacheModel -> kbFolderCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<KBFolder, Long>)KBFolder::setUserId);
 		attributeGetterFunctions.put("userName", KBFolder::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName", kbFolderCacheModel -> kbFolderCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName", (BiConsumer<KBFolder, String>)KBFolder::setUserName);
 		attributeGetterFunctions.put("createDate", KBFolder::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate", kbFolderCacheModel -> kbFolderCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate", (BiConsumer<KBFolder, Date>)KBFolder::setCreateDate);
 		attributeGetterFunctions.put("modifiedDate", KBFolder::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			kbFolderCacheModel -> kbFolderCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<KBFolder, Date>)KBFolder::setModifiedDate);
 		attributeGetterFunctions.put(
 			"parentKBFolderId", KBFolder::getParentKBFolderId);
+
+		cacheModelGetterFunctions.put(
+			"parentKBFolderId",
+			kbFolderCacheModel -> kbFolderCacheModel.parentKBFolderId);
 		attributeSetterBiConsumers.put(
 			"parentKBFolderId",
 			(BiConsumer<KBFolder, Long>)KBFolder::setParentKBFolderId);
 		attributeGetterFunctions.put("name", KBFolder::getName);
+
+		cacheModelGetterFunctions.put(
+			"name", kbFolderCacheModel -> kbFolderCacheModel.name);
 		attributeSetterBiConsumers.put(
 			"name", (BiConsumer<KBFolder, String>)KBFolder::setName);
 		attributeGetterFunctions.put("urlTitle", KBFolder::getUrlTitle);
+
+		cacheModelGetterFunctions.put(
+			"urlTitle", kbFolderCacheModel -> kbFolderCacheModel.urlTitle);
 		attributeSetterBiConsumers.put(
 			"urlTitle", (BiConsumer<KBFolder, String>)KBFolder::setUrlTitle);
 		attributeGetterFunctions.put("description", KBFolder::getDescription);
+
+		cacheModelGetterFunctions.put(
+			"description",
+			kbFolderCacheModel -> kbFolderCacheModel.description);
 		attributeSetterBiConsumers.put(
 			"description",
 			(BiConsumer<KBFolder, String>)KBFolder::setDescription);
 		attributeGetterFunctions.put(
 			"lastPublishDate", KBFolder::getLastPublishDate);
+
+		cacheModelGetterFunctions.put(
+			"lastPublishDate",
+			kbFolderCacheModel -> kbFolderCacheModel.lastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<KBFolder, Date>)KBFolder::setLastPublishDate);
@@ -376,6 +459,8 @@ public class KBFolderModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -386,6 +471,12 @@ public class KBFolderModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_kbFolderCacheModel == _dummyKBFolderCacheModel) {
+			_kbFolderCacheModel = (KBFolderCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -404,15 +495,20 @@ public class KBFolderModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_kbFolderCacheModel == _dummyKBFolderCacheModel) {
+			_kbFolderCacheModel = (KBFolderCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getOriginalAttributeValue("uuid");
 	}
 
 	@JSON
@@ -423,6 +519,12 @@ public class KBFolderModelImpl
 
 	@Override
 	public void setKbFolderId(long kbFolderId) {
+		_columnBitmask |= KBFOLDERID_COLUMN_BITMASK;
+
+		if (_kbFolderCacheModel == _dummyKBFolderCacheModel) {
+			_kbFolderCacheModel = (KBFolderCacheModel)toCacheModel();
+		}
+
 		_kbFolderId = kbFolderId;
 	}
 
@@ -436,17 +538,20 @@ public class KBFolderModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_kbFolderCacheModel == _dummyKBFolderCacheModel) {
+			_kbFolderCacheModel = (KBFolderCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getOriginalAttributeValue("groupId");
 	}
 
 	@JSON
@@ -459,17 +564,20 @@ public class KBFolderModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_kbFolderCacheModel == _dummyKBFolderCacheModel) {
+			_kbFolderCacheModel = (KBFolderCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@JSON
@@ -480,6 +588,12 @@ public class KBFolderModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (_kbFolderCacheModel == _dummyKBFolderCacheModel) {
+			_kbFolderCacheModel = (KBFolderCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -512,6 +626,12 @@ public class KBFolderModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (_kbFolderCacheModel == _dummyKBFolderCacheModel) {
+			_kbFolderCacheModel = (KBFolderCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -523,6 +643,12 @@ public class KBFolderModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (_kbFolderCacheModel == _dummyKBFolderCacheModel) {
+			_kbFolderCacheModel = (KBFolderCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -540,6 +666,12 @@ public class KBFolderModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (_kbFolderCacheModel == _dummyKBFolderCacheModel) {
+			_kbFolderCacheModel = (KBFolderCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -553,17 +685,20 @@ public class KBFolderModelImpl
 	public void setParentKBFolderId(long parentKBFolderId) {
 		_columnBitmask |= PARENTKBFOLDERID_COLUMN_BITMASK;
 
-		if (!_setOriginalParentKBFolderId) {
-			_setOriginalParentKBFolderId = true;
-
-			_originalParentKBFolderId = _parentKBFolderId;
+		if (_kbFolderCacheModel == _dummyKBFolderCacheModel) {
+			_kbFolderCacheModel = (KBFolderCacheModel)toCacheModel();
 		}
 
 		_parentKBFolderId = parentKBFolderId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalParentKBFolderId() {
-		return _originalParentKBFolderId;
+		return getOriginalAttributeValue("parentKBFolderId");
 	}
 
 	@JSON
@@ -581,15 +716,20 @@ public class KBFolderModelImpl
 	public void setName(String name) {
 		_columnBitmask |= NAME_COLUMN_BITMASK;
 
-		if (_originalName == null) {
-			_originalName = _name;
+		if (_kbFolderCacheModel == _dummyKBFolderCacheModel) {
+			_kbFolderCacheModel = (KBFolderCacheModel)toCacheModel();
 		}
 
 		_name = name;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalName() {
-		return GetterUtil.getString(_originalName);
+		return getOriginalAttributeValue("name");
 	}
 
 	@JSON
@@ -607,15 +747,20 @@ public class KBFolderModelImpl
 	public void setUrlTitle(String urlTitle) {
 		_columnBitmask |= URLTITLE_COLUMN_BITMASK;
 
-		if (_originalUrlTitle == null) {
-			_originalUrlTitle = _urlTitle;
+		if (_kbFolderCacheModel == _dummyKBFolderCacheModel) {
+			_kbFolderCacheModel = (KBFolderCacheModel)toCacheModel();
 		}
 
 		_urlTitle = urlTitle;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUrlTitle() {
-		return GetterUtil.getString(_originalUrlTitle);
+		return getOriginalAttributeValue("urlTitle");
 	}
 
 	@JSON
@@ -631,6 +776,12 @@ public class KBFolderModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		_columnBitmask |= DESCRIPTION_COLUMN_BITMASK;
+
+		if (_kbFolderCacheModel == _dummyKBFolderCacheModel) {
+			_kbFolderCacheModel = (KBFolderCacheModel)toCacheModel();
+		}
+
 		_description = description;
 	}
 
@@ -642,6 +793,12 @@ public class KBFolderModelImpl
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		_columnBitmask |= LASTPUBLISHDATE_COLUMN_BITMASK;
+
+		if (_kbFolderCacheModel == _dummyKBFolderCacheModel) {
+			_kbFolderCacheModel = (KBFolderCacheModel)toCacheModel();
+		}
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -769,30 +926,11 @@ public class KBFolderModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		KBFolderModelImpl kbFolderModelImpl = this;
+		_setModifiedDate = false;
 
-		kbFolderModelImpl._originalUuid = kbFolderModelImpl._uuid;
+		_columnBitmask = 0;
 
-		kbFolderModelImpl._originalGroupId = kbFolderModelImpl._groupId;
-
-		kbFolderModelImpl._setOriginalGroupId = false;
-
-		kbFolderModelImpl._originalCompanyId = kbFolderModelImpl._companyId;
-
-		kbFolderModelImpl._setOriginalCompanyId = false;
-
-		kbFolderModelImpl._setModifiedDate = false;
-
-		kbFolderModelImpl._originalParentKBFolderId =
-			kbFolderModelImpl._parentKBFolderId;
-
-		kbFolderModelImpl._setOriginalParentKBFolderId = false;
-
-		kbFolderModelImpl._originalName = kbFolderModelImpl._name;
-
-		kbFolderModelImpl._originalUrlTitle = kbFolderModelImpl._urlTitle;
-
-		kbFolderModelImpl._columnBitmask = 0;
+		_kbFolderCacheModel = _dummyKBFolderCacheModel;
 	}
 
 	@Override
@@ -953,29 +1091,25 @@ public class KBFolderModelImpl
 
 	private long _mvccVersion;
 	private String _uuid;
-	private String _originalUuid;
 	private long _kbFolderId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _parentKBFolderId;
-	private long _originalParentKBFolderId;
-	private boolean _setOriginalParentKBFolderId;
 	private String _name;
-	private String _originalName;
 	private String _urlTitle;
-	private String _originalUrlTitle;
 	private String _description;
 	private Date _lastPublishDate;
 	private long _columnBitmask;
 	private KBFolder _escapedModel;
+
+	private static final KBFolderCacheModel _dummyKBFolderCacheModel =
+		new KBFolderCacheModel();
+
+	private KBFolderCacheModel _kbFolderCacheModel;
 
 }

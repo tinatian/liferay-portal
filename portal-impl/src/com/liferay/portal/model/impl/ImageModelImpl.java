@@ -123,9 +123,23 @@ public class ImageModelImpl extends BaseModelImpl<Image> implements ImageModel {
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long SIZE_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long IMAGEID_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
+
+	public static final long IMAGEID_COLUMN_BITMASK = 4L;
+
+	public static final long COMPANYID_COLUMN_BITMASK = 8L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 16L;
+
+	public static final long TYPE_COLUMN_BITMASK = 32L;
+
+	public static final long HEIGHT_COLUMN_BITMASK = 64L;
+
+	public static final long WIDTH_COLUMN_BITMASK = 128L;
+
+	public static final long SIZE_COLUMN_BITMASK = 256L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -284,6 +298,25 @@ public class ImageModelImpl extends BaseModelImpl<Image> implements ImageModel {
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_imageCacheModel == null) ||
+			(_imageCacheModel == _dummyImageCacheModel)) {
+
+			return null;
+		}
+
+		Function<ImageCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_imageCacheModel);
+	}
+
+	private static final Map<String, Function<ImageCacheModel, Object>>
+		_cacheModelGetterFunctions;
 	private static final Map<String, Function<Image, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<Image, Object>>
@@ -294,34 +327,65 @@ public class ImageModelImpl extends BaseModelImpl<Image> implements ImageModel {
 			new LinkedHashMap<String, Function<Image, Object>>();
 		Map<String, BiConsumer<Image, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Image, ?>>();
+		Map<String, Function<ImageCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap<String, Function<ImageCacheModel, Object>>();
 
 		attributeGetterFunctions.put("mvccVersion", Image::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion", imageCacheModel -> imageCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion", (BiConsumer<Image, Long>)Image::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", Image::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			imageCacheModel -> imageCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<Image, Long>)Image::setCtCollectionId);
 		attributeGetterFunctions.put("imageId", Image::getImageId);
+
+		cacheModelGetterFunctions.put(
+			"imageId", imageCacheModel -> imageCacheModel.imageId);
 		attributeSetterBiConsumers.put(
 			"imageId", (BiConsumer<Image, Long>)Image::setImageId);
 		attributeGetterFunctions.put("companyId", Image::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId", imageCacheModel -> imageCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId", (BiConsumer<Image, Long>)Image::setCompanyId);
 		attributeGetterFunctions.put("modifiedDate", Image::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate", imageCacheModel -> imageCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate", (BiConsumer<Image, Date>)Image::setModifiedDate);
 		attributeGetterFunctions.put("type", Image::getType);
+
+		cacheModelGetterFunctions.put(
+			"type", imageCacheModel -> imageCacheModel.type);
 		attributeSetterBiConsumers.put(
 			"type", (BiConsumer<Image, String>)Image::setType);
 		attributeGetterFunctions.put("height", Image::getHeight);
+
+		cacheModelGetterFunctions.put(
+			"height", imageCacheModel -> imageCacheModel.height);
 		attributeSetterBiConsumers.put(
 			"height", (BiConsumer<Image, Integer>)Image::setHeight);
 		attributeGetterFunctions.put("width", Image::getWidth);
+
+		cacheModelGetterFunctions.put(
+			"width", imageCacheModel -> imageCacheModel.width);
 		attributeSetterBiConsumers.put(
 			"width", (BiConsumer<Image, Integer>)Image::setWidth);
 		attributeGetterFunctions.put("size", Image::getSize);
+
+		cacheModelGetterFunctions.put(
+			"size", imageCacheModel -> imageCacheModel.size);
 		attributeSetterBiConsumers.put(
 			"size", (BiConsumer<Image, Integer>)Image::setSize);
 
@@ -329,6 +393,8 @@ public class ImageModelImpl extends BaseModelImpl<Image> implements ImageModel {
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -339,6 +405,12 @@ public class ImageModelImpl extends BaseModelImpl<Image> implements ImageModel {
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_imageCacheModel == _dummyImageCacheModel) {
+			_imageCacheModel = (ImageCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -350,6 +422,12 @@ public class ImageModelImpl extends BaseModelImpl<Image> implements ImageModel {
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (_imageCacheModel == _dummyImageCacheModel) {
+			_imageCacheModel = (ImageCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -361,7 +439,11 @@ public class ImageModelImpl extends BaseModelImpl<Image> implements ImageModel {
 
 	@Override
 	public void setImageId(long imageId) {
-		_columnBitmask = -1L;
+		_columnBitmask |= IMAGEID_COLUMN_BITMASK;
+
+		if (_imageCacheModel == _dummyImageCacheModel) {
+			_imageCacheModel = (ImageCacheModel)toCacheModel();
+		}
 
 		_imageId = imageId;
 	}
@@ -374,6 +456,12 @@ public class ImageModelImpl extends BaseModelImpl<Image> implements ImageModel {
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (_imageCacheModel == _dummyImageCacheModel) {
+			_imageCacheModel = (ImageCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -385,6 +473,12 @@ public class ImageModelImpl extends BaseModelImpl<Image> implements ImageModel {
 
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (_imageCacheModel == _dummyImageCacheModel) {
+			_imageCacheModel = (ImageCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -401,6 +495,12 @@ public class ImageModelImpl extends BaseModelImpl<Image> implements ImageModel {
 
 	@Override
 	public void setType(String type) {
+		_columnBitmask |= TYPE_COLUMN_BITMASK;
+
+		if (_imageCacheModel == _dummyImageCacheModel) {
+			_imageCacheModel = (ImageCacheModel)toCacheModel();
+		}
+
 		_type = type;
 	}
 
@@ -412,6 +512,12 @@ public class ImageModelImpl extends BaseModelImpl<Image> implements ImageModel {
 
 	@Override
 	public void setHeight(int height) {
+		_columnBitmask |= HEIGHT_COLUMN_BITMASK;
+
+		if (_imageCacheModel == _dummyImageCacheModel) {
+			_imageCacheModel = (ImageCacheModel)toCacheModel();
+		}
+
 		_height = height;
 	}
 
@@ -423,6 +529,12 @@ public class ImageModelImpl extends BaseModelImpl<Image> implements ImageModel {
 
 	@Override
 	public void setWidth(int width) {
+		_columnBitmask |= WIDTH_COLUMN_BITMASK;
+
+		if (_imageCacheModel == _dummyImageCacheModel) {
+			_imageCacheModel = (ImageCacheModel)toCacheModel();
+		}
+
 		_width = width;
 	}
 
@@ -436,17 +548,20 @@ public class ImageModelImpl extends BaseModelImpl<Image> implements ImageModel {
 	public void setSize(int size) {
 		_columnBitmask |= SIZE_COLUMN_BITMASK;
 
-		if (!_setOriginalSize) {
-			_setOriginalSize = true;
-
-			_originalSize = _size;
+		if (_imageCacheModel == _dummyImageCacheModel) {
+			_imageCacheModel = (ImageCacheModel)toCacheModel();
 		}
 
 		_size = size;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalSize() {
-		return _originalSize;
+		return getOriginalAttributeValue("size");
 	}
 
 	public long getColumnBitmask() {
@@ -568,13 +683,9 @@ public class ImageModelImpl extends BaseModelImpl<Image> implements ImageModel {
 
 	@Override
 	public void resetOriginalValues() {
-		ImageModelImpl imageModelImpl = this;
+		_columnBitmask = 0;
 
-		imageModelImpl._originalSize = imageModelImpl._size;
-
-		imageModelImpl._setOriginalSize = false;
-
-		imageModelImpl._columnBitmask = 0;
+		_imageCacheModel = _dummyImageCacheModel;
 	}
 
 	@Override
@@ -692,9 +803,12 @@ public class ImageModelImpl extends BaseModelImpl<Image> implements ImageModel {
 	private int _height;
 	private int _width;
 	private int _size;
-	private int _originalSize;
-	private boolean _setOriginalSize;
 	private long _columnBitmask;
 	private Image _escapedModel;
+
+	private static final ImageCacheModel _dummyImageCacheModel =
+		new ImageCacheModel();
+
+	private ImageCacheModel _imageCacheModel;
 
 }

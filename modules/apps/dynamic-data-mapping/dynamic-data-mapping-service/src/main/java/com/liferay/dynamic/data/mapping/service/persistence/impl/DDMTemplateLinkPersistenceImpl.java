@@ -1516,8 +1516,9 @@ public class DDMTemplateLinkPersistenceImpl
 			 _finderPathFetchByC_C.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				ddmTemplateLinkModelImpl.getOriginalClassNameId(),
-				ddmTemplateLinkModelImpl.getOriginalClassPK()
+				ddmTemplateLinkModelImpl.getOriginalAttributeValue(
+					"classNameId"),
+				ddmTemplateLinkModelImpl.getOriginalAttributeValue("classPK")
 			};
 
 			finderCache.removeResult(_finderPathCountByC_C, args);
@@ -1723,7 +1724,8 @@ public class DDMTemplateLinkPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					ddmTemplateLinkModelImpl.getOriginalClassNameId()
+					ddmTemplateLinkModelImpl.getOriginalAttributeValue(
+						"classNameId")
 				};
 
 				finderCache.removeResult(_finderPathCountByClassNameId, args);
@@ -1742,7 +1744,8 @@ public class DDMTemplateLinkPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					ddmTemplateLinkModelImpl.getOriginalTemplateId()
+					ddmTemplateLinkModelImpl.getOriginalAttributeValue(
+						"templateId")
 				};
 
 				finderCache.removeResult(_finderPathCountByTemplateId, args);

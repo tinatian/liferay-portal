@@ -29,7 +29,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -120,13 +119,37 @@ public class AccountEntryModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
 	public static final long EXTERNALREFERENCECODE_COLUMN_BITMASK = 2L;
 
-	public static final long STATUS_COLUMN_BITMASK = 4L;
+	public static final long ACCOUNTENTRYID_COLUMN_BITMASK = 4L;
 
-	public static final long NAME_COLUMN_BITMASK = 8L;
+	public static final long COMPANYID_COLUMN_BITMASK = 8L;
+
+	public static final long USERID_COLUMN_BITMASK = 16L;
+
+	public static final long USERNAME_COLUMN_BITMASK = 32L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 64L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 128L;
+
+	public static final long PARENTACCOUNTENTRYID_COLUMN_BITMASK = 256L;
+
+	public static final long NAME_COLUMN_BITMASK = 512L;
+
+	public static final long DESCRIPTION_COLUMN_BITMASK = 1024L;
+
+	public static final long DOMAINS_COLUMN_BITMASK = 2048L;
+
+	public static final long LOGOID_COLUMN_BITMASK = 4096L;
+
+	public static final long TAXIDNUMBER_COLUMN_BITMASK = 8192L;
+
+	public static final long TYPE_COLUMN_BITMASK = 16384L;
+
+	public static final long STATUS_COLUMN_BITMASK = 32768L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -309,6 +332,25 @@ public class AccountEntryModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_accountEntryCacheModel == null) ||
+			(_accountEntryCacheModel == _dummyAccountEntryCacheModel)) {
+
+			return null;
+		}
+
+		Function<AccountEntryCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_accountEntryCacheModel);
+	}
+
+	private static final Map<String, Function<AccountEntryCacheModel, Object>>
+		_cacheModelGetterFunctions;
 	private static final Map<String, Function<AccountEntry, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<AccountEntry, Object>>
@@ -319,73 +361,138 @@ public class AccountEntryModelImpl
 			new LinkedHashMap<String, Function<AccountEntry, Object>>();
 		Map<String, BiConsumer<AccountEntry, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<AccountEntry, ?>>();
+		Map<String, Function<AccountEntryCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<AccountEntryCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", AccountEntry::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			accountEntryCacheModel -> accountEntryCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<AccountEntry, Long>)AccountEntry::setMvccVersion);
 		attributeGetterFunctions.put(
 			"externalReferenceCode", AccountEntry::getExternalReferenceCode);
+
+		cacheModelGetterFunctions.put(
+			"externalReferenceCode",
+			accountEntryCacheModel ->
+				accountEntryCacheModel.externalReferenceCode);
 		attributeSetterBiConsumers.put(
 			"externalReferenceCode",
 			(BiConsumer<AccountEntry, String>)
 				AccountEntry::setExternalReferenceCode);
 		attributeGetterFunctions.put(
 			"accountEntryId", AccountEntry::getAccountEntryId);
+
+		cacheModelGetterFunctions.put(
+			"accountEntryId",
+			accountEntryCacheModel -> accountEntryCacheModel.accountEntryId);
 		attributeSetterBiConsumers.put(
 			"accountEntryId",
 			(BiConsumer<AccountEntry, Long>)AccountEntry::setAccountEntryId);
 		attributeGetterFunctions.put("companyId", AccountEntry::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			accountEntryCacheModel -> accountEntryCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<AccountEntry, Long>)AccountEntry::setCompanyId);
 		attributeGetterFunctions.put("userId", AccountEntry::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", accountEntryCacheModel -> accountEntryCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<AccountEntry, Long>)AccountEntry::setUserId);
 		attributeGetterFunctions.put("userName", AccountEntry::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			accountEntryCacheModel -> accountEntryCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<AccountEntry, String>)AccountEntry::setUserName);
 		attributeGetterFunctions.put("createDate", AccountEntry::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			accountEntryCacheModel -> accountEntryCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<AccountEntry, Date>)AccountEntry::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", AccountEntry::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			accountEntryCacheModel -> accountEntryCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<AccountEntry, Date>)AccountEntry::setModifiedDate);
 		attributeGetterFunctions.put(
 			"parentAccountEntryId", AccountEntry::getParentAccountEntryId);
+
+		cacheModelGetterFunctions.put(
+			"parentAccountEntryId",
+			accountEntryCacheModel ->
+				accountEntryCacheModel.parentAccountEntryId);
 		attributeSetterBiConsumers.put(
 			"parentAccountEntryId",
 			(BiConsumer<AccountEntry, Long>)
 				AccountEntry::setParentAccountEntryId);
 		attributeGetterFunctions.put("name", AccountEntry::getName);
+
+		cacheModelGetterFunctions.put(
+			"name", accountEntryCacheModel -> accountEntryCacheModel.name);
 		attributeSetterBiConsumers.put(
 			"name", (BiConsumer<AccountEntry, String>)AccountEntry::setName);
 		attributeGetterFunctions.put(
 			"description", AccountEntry::getDescription);
+
+		cacheModelGetterFunctions.put(
+			"description",
+			accountEntryCacheModel -> accountEntryCacheModel.description);
 		attributeSetterBiConsumers.put(
 			"description",
 			(BiConsumer<AccountEntry, String>)AccountEntry::setDescription);
 		attributeGetterFunctions.put("domains", AccountEntry::getDomains);
+
+		cacheModelGetterFunctions.put(
+			"domains",
+			accountEntryCacheModel -> accountEntryCacheModel.domains);
 		attributeSetterBiConsumers.put(
 			"domains",
 			(BiConsumer<AccountEntry, String>)AccountEntry::setDomains);
 		attributeGetterFunctions.put("logoId", AccountEntry::getLogoId);
+
+		cacheModelGetterFunctions.put(
+			"logoId", accountEntryCacheModel -> accountEntryCacheModel.logoId);
 		attributeSetterBiConsumers.put(
 			"logoId", (BiConsumer<AccountEntry, Long>)AccountEntry::setLogoId);
 		attributeGetterFunctions.put(
 			"taxIdNumber", AccountEntry::getTaxIdNumber);
+
+		cacheModelGetterFunctions.put(
+			"taxIdNumber",
+			accountEntryCacheModel -> accountEntryCacheModel.taxIdNumber);
 		attributeSetterBiConsumers.put(
 			"taxIdNumber",
 			(BiConsumer<AccountEntry, String>)AccountEntry::setTaxIdNumber);
 		attributeGetterFunctions.put("type", AccountEntry::getType);
+
+		cacheModelGetterFunctions.put(
+			"type", accountEntryCacheModel -> accountEntryCacheModel.type);
 		attributeSetterBiConsumers.put(
 			"type", (BiConsumer<AccountEntry, String>)AccountEntry::setType);
 		attributeGetterFunctions.put("status", AccountEntry::getStatus);
+
+		cacheModelGetterFunctions.put(
+			"status", accountEntryCacheModel -> accountEntryCacheModel.status);
 		attributeSetterBiConsumers.put(
 			"status",
 			(BiConsumer<AccountEntry, Integer>)AccountEntry::setStatus);
@@ -394,6 +501,8 @@ public class AccountEntryModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -404,6 +513,12 @@ public class AccountEntryModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_accountEntryCacheModel == _dummyAccountEntryCacheModel) {
+			_accountEntryCacheModel = (AccountEntryCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -422,15 +537,20 @@ public class AccountEntryModelImpl
 	public void setExternalReferenceCode(String externalReferenceCode) {
 		_columnBitmask |= EXTERNALREFERENCECODE_COLUMN_BITMASK;
 
-		if (_originalExternalReferenceCode == null) {
-			_originalExternalReferenceCode = _externalReferenceCode;
+		if (_accountEntryCacheModel == _dummyAccountEntryCacheModel) {
+			_accountEntryCacheModel = (AccountEntryCacheModel)toCacheModel();
 		}
 
 		_externalReferenceCode = externalReferenceCode;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalExternalReferenceCode() {
-		return GetterUtil.getString(_originalExternalReferenceCode);
+		return getOriginalAttributeValue("externalReferenceCode");
 	}
 
 	@JSON
@@ -441,6 +561,12 @@ public class AccountEntryModelImpl
 
 	@Override
 	public void setAccountEntryId(long accountEntryId) {
+		_columnBitmask |= ACCOUNTENTRYID_COLUMN_BITMASK;
+
+		if (_accountEntryCacheModel == _dummyAccountEntryCacheModel) {
+			_accountEntryCacheModel = (AccountEntryCacheModel)toCacheModel();
+		}
+
 		_accountEntryId = accountEntryId;
 	}
 
@@ -454,17 +580,20 @@ public class AccountEntryModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_accountEntryCacheModel == _dummyAccountEntryCacheModel) {
+			_accountEntryCacheModel = (AccountEntryCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@JSON
@@ -475,6 +604,12 @@ public class AccountEntryModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (_accountEntryCacheModel == _dummyAccountEntryCacheModel) {
+			_accountEntryCacheModel = (AccountEntryCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -507,6 +642,12 @@ public class AccountEntryModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (_accountEntryCacheModel == _dummyAccountEntryCacheModel) {
+			_accountEntryCacheModel = (AccountEntryCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -518,6 +659,12 @@ public class AccountEntryModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (_accountEntryCacheModel == _dummyAccountEntryCacheModel) {
+			_accountEntryCacheModel = (AccountEntryCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -535,6 +682,12 @@ public class AccountEntryModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (_accountEntryCacheModel == _dummyAccountEntryCacheModel) {
+			_accountEntryCacheModel = (AccountEntryCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -546,6 +699,12 @@ public class AccountEntryModelImpl
 
 	@Override
 	public void setParentAccountEntryId(long parentAccountEntryId) {
+		_columnBitmask |= PARENTACCOUNTENTRYID_COLUMN_BITMASK;
+
+		if (_accountEntryCacheModel == _dummyAccountEntryCacheModel) {
+			_accountEntryCacheModel = (AccountEntryCacheModel)toCacheModel();
+		}
+
 		_parentAccountEntryId = parentAccountEntryId;
 	}
 
@@ -562,7 +721,11 @@ public class AccountEntryModelImpl
 
 	@Override
 	public void setName(String name) {
-		_columnBitmask = -1L;
+		_columnBitmask |= NAME_COLUMN_BITMASK;
+
+		if (_accountEntryCacheModel == _dummyAccountEntryCacheModel) {
+			_accountEntryCacheModel = (AccountEntryCacheModel)toCacheModel();
+		}
 
 		_name = name;
 	}
@@ -580,6 +743,12 @@ public class AccountEntryModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		_columnBitmask |= DESCRIPTION_COLUMN_BITMASK;
+
+		if (_accountEntryCacheModel == _dummyAccountEntryCacheModel) {
+			_accountEntryCacheModel = (AccountEntryCacheModel)toCacheModel();
+		}
+
 		_description = description;
 	}
 
@@ -596,6 +765,12 @@ public class AccountEntryModelImpl
 
 	@Override
 	public void setDomains(String domains) {
+		_columnBitmask |= DOMAINS_COLUMN_BITMASK;
+
+		if (_accountEntryCacheModel == _dummyAccountEntryCacheModel) {
+			_accountEntryCacheModel = (AccountEntryCacheModel)toCacheModel();
+		}
+
 		_domains = domains;
 	}
 
@@ -607,6 +782,12 @@ public class AccountEntryModelImpl
 
 	@Override
 	public void setLogoId(long logoId) {
+		_columnBitmask |= LOGOID_COLUMN_BITMASK;
+
+		if (_accountEntryCacheModel == _dummyAccountEntryCacheModel) {
+			_accountEntryCacheModel = (AccountEntryCacheModel)toCacheModel();
+		}
+
 		_logoId = logoId;
 	}
 
@@ -623,6 +804,12 @@ public class AccountEntryModelImpl
 
 	@Override
 	public void setTaxIdNumber(String taxIdNumber) {
+		_columnBitmask |= TAXIDNUMBER_COLUMN_BITMASK;
+
+		if (_accountEntryCacheModel == _dummyAccountEntryCacheModel) {
+			_accountEntryCacheModel = (AccountEntryCacheModel)toCacheModel();
+		}
+
 		_taxIdNumber = taxIdNumber;
 	}
 
@@ -639,6 +826,12 @@ public class AccountEntryModelImpl
 
 	@Override
 	public void setType(String type) {
+		_columnBitmask |= TYPE_COLUMN_BITMASK;
+
+		if (_accountEntryCacheModel == _dummyAccountEntryCacheModel) {
+			_accountEntryCacheModel = (AccountEntryCacheModel)toCacheModel();
+		}
+
 		_type = type;
 	}
 
@@ -652,17 +845,20 @@ public class AccountEntryModelImpl
 	public void setStatus(int status) {
 		_columnBitmask |= STATUS_COLUMN_BITMASK;
 
-		if (!_setOriginalStatus) {
-			_setOriginalStatus = true;
-
-			_originalStatus = _status;
+		if (_accountEntryCacheModel == _dummyAccountEntryCacheModel) {
+			_accountEntryCacheModel = (AccountEntryCacheModel)toCacheModel();
 		}
 
 		_status = status;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalStatus() {
-		return _originalStatus;
+		return getOriginalAttributeValue("status");
 	}
 
 	public long getColumnBitmask() {
@@ -783,23 +979,11 @@ public class AccountEntryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		AccountEntryModelImpl accountEntryModelImpl = this;
+		_setModifiedDate = false;
 
-		accountEntryModelImpl._originalExternalReferenceCode =
-			accountEntryModelImpl._externalReferenceCode;
+		_columnBitmask = 0;
 
-		accountEntryModelImpl._originalCompanyId =
-			accountEntryModelImpl._companyId;
-
-		accountEntryModelImpl._setOriginalCompanyId = false;
-
-		accountEntryModelImpl._setModifiedDate = false;
-
-		accountEntryModelImpl._originalStatus = accountEntryModelImpl._status;
-
-		accountEntryModelImpl._setOriginalStatus = false;
-
-		accountEntryModelImpl._columnBitmask = 0;
+		_accountEntryCacheModel = _dummyAccountEntryCacheModel;
 	}
 
 	@Override
@@ -974,11 +1158,8 @@ public class AccountEntryModelImpl
 
 	private long _mvccVersion;
 	private String _externalReferenceCode;
-	private String _originalExternalReferenceCode;
 	private long _accountEntryId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
@@ -992,9 +1173,12 @@ public class AccountEntryModelImpl
 	private String _taxIdNumber;
 	private String _type;
 	private int _status;
-	private int _originalStatus;
-	private boolean _setOriginalStatus;
 	private long _columnBitmask;
 	private AccountEntry _escapedModel;
+
+	private static final AccountEntryCacheModel _dummyAccountEntryCacheModel =
+		new AccountEntryCacheModel();
+
+	private AccountEntryCacheModel _accountEntryCacheModel;
 
 }

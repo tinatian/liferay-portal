@@ -28,7 +28,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
@@ -135,25 +134,57 @@ public class FragmentEntryVersionModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long FRAGMENTENTRYVERSIONID_COLUMN_BITMASK = 1L;
 
-	public static final long FRAGMENTCOLLECTIONID_COLUMN_BITMASK = 2L;
+	public static final long VERSION_COLUMN_BITMASK = 2L;
 
-	public static final long FRAGMENTENTRYID_COLUMN_BITMASK = 4L;
+	public static final long UUID_COLUMN_BITMASK = 4L;
 
-	public static final long FRAGMENTENTRYKEY_COLUMN_BITMASK = 8L;
+	public static final long FRAGMENTENTRYID_COLUMN_BITMASK = 8L;
 
 	public static final long GROUPID_COLUMN_BITMASK = 16L;
 
-	public static final long NAME_COLUMN_BITMASK = 32L;
+	public static final long COMPANYID_COLUMN_BITMASK = 32L;
 
-	public static final long STATUS_COLUMN_BITMASK = 64L;
+	public static final long USERID_COLUMN_BITMASK = 64L;
 
-	public static final long TYPE_COLUMN_BITMASK = 128L;
+	public static final long USERNAME_COLUMN_BITMASK = 128L;
 
-	public static final long UUID_COLUMN_BITMASK = 256L;
+	public static final long CREATEDATE_COLUMN_BITMASK = 256L;
 
-	public static final long VERSION_COLUMN_BITMASK = 512L;
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 512L;
+
+	public static final long FRAGMENTCOLLECTIONID_COLUMN_BITMASK = 1024L;
+
+	public static final long FRAGMENTENTRYKEY_COLUMN_BITMASK = 2048L;
+
+	public static final long NAME_COLUMN_BITMASK = 4096L;
+
+	public static final long CSS_COLUMN_BITMASK = 8192L;
+
+	public static final long HTML_COLUMN_BITMASK = 16384L;
+
+	public static final long JS_COLUMN_BITMASK = 32768L;
+
+	public static final long CACHEABLE_COLUMN_BITMASK = 65536L;
+
+	public static final long CONFIGURATION_COLUMN_BITMASK = 131072L;
+
+	public static final long PREVIEWFILEENTRYID_COLUMN_BITMASK = 262144L;
+
+	public static final long READONLY_COLUMN_BITMASK = 524288L;
+
+	public static final long TYPE_COLUMN_BITMASK = 1048576L;
+
+	public static final long LASTPUBLISHDATE_COLUMN_BITMASK = 2097152L;
+
+	public static final long STATUS_COLUMN_BITMASK = 4194304L;
+
+	public static final long STATUSBYUSERID_COLUMN_BITMASK = 8388608L;
+
+	public static final long STATUSBYUSERNAME_COLUMN_BITMASK = 16777216L;
+
+	public static final long STATUSDATE_COLUMN_BITMASK = 33554432L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -282,6 +313,27 @@ public class FragmentEntryVersionModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_fragmentEntryVersionCacheModel == null) ||
+			(_fragmentEntryVersionCacheModel ==
+				_dummyFragmentEntryVersionCacheModel)) {
+
+			return null;
+		}
+
+		Function<FragmentEntryVersionCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_fragmentEntryVersionCacheModel);
+	}
+
+	private static final Map
+		<String, Function<FragmentEntryVersionCacheModel, Object>>
+			_cacheModelGetterFunctions;
 	private static final Map<String, Function<FragmentEntryVersion, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<FragmentEntryVersion, Object>>
@@ -296,62 +348,117 @@ public class FragmentEntryVersionModelImpl
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<FragmentEntryVersion, ?>>();
+		Map<String, Function<FragmentEntryVersionCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String,
+					 Function<FragmentEntryVersionCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"fragmentEntryVersionId",
 			FragmentEntryVersion::getFragmentEntryVersionId);
+
+		cacheModelGetterFunctions.put(
+			"fragmentEntryVersionId",
+			fragmentEntryVersionCacheModel ->
+				fragmentEntryVersionCacheModel.fragmentEntryVersionId);
 		attributeSetterBiConsumers.put(
 			"fragmentEntryVersionId",
 			(BiConsumer<FragmentEntryVersion, Long>)
 				FragmentEntryVersion::setFragmentEntryVersionId);
 		attributeGetterFunctions.put(
 			"version", FragmentEntryVersion::getVersion);
+
+		cacheModelGetterFunctions.put(
+			"version",
+			fragmentEntryVersionCacheModel ->
+				fragmentEntryVersionCacheModel.version);
 		attributeSetterBiConsumers.put(
 			"version",
 			(BiConsumer<FragmentEntryVersion, Integer>)
 				FragmentEntryVersion::setVersion);
 		attributeGetterFunctions.put("uuid", FragmentEntryVersion::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid",
+			fragmentEntryVersionCacheModel ->
+				fragmentEntryVersionCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid",
 			(BiConsumer<FragmentEntryVersion, String>)
 				FragmentEntryVersion::setUuid);
 		attributeGetterFunctions.put(
 			"fragmentEntryId", FragmentEntryVersion::getFragmentEntryId);
+
+		cacheModelGetterFunctions.put(
+			"fragmentEntryId",
+			fragmentEntryVersionCacheModel ->
+				fragmentEntryVersionCacheModel.fragmentEntryId);
 		attributeSetterBiConsumers.put(
 			"fragmentEntryId",
 			(BiConsumer<FragmentEntryVersion, Long>)
 				FragmentEntryVersion::setFragmentEntryId);
 		attributeGetterFunctions.put(
 			"groupId", FragmentEntryVersion::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			fragmentEntryVersionCacheModel ->
+				fragmentEntryVersionCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<FragmentEntryVersion, Long>)
 				FragmentEntryVersion::setGroupId);
 		attributeGetterFunctions.put(
 			"companyId", FragmentEntryVersion::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			fragmentEntryVersionCacheModel ->
+				fragmentEntryVersionCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<FragmentEntryVersion, Long>)
 				FragmentEntryVersion::setCompanyId);
 		attributeGetterFunctions.put("userId", FragmentEntryVersion::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			fragmentEntryVersionCacheModel ->
+				fragmentEntryVersionCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<FragmentEntryVersion, Long>)
 				FragmentEntryVersion::setUserId);
 		attributeGetterFunctions.put(
 			"userName", FragmentEntryVersion::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			fragmentEntryVersionCacheModel ->
+				fragmentEntryVersionCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<FragmentEntryVersion, String>)
 				FragmentEntryVersion::setUserName);
 		attributeGetterFunctions.put(
 			"createDate", FragmentEntryVersion::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			fragmentEntryVersionCacheModel ->
+				fragmentEntryVersionCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<FragmentEntryVersion, Date>)
 				FragmentEntryVersion::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", FragmentEntryVersion::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			fragmentEntryVersionCacheModel ->
+				fragmentEntryVersionCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<FragmentEntryVersion, Date>)
@@ -359,90 +466,170 @@ public class FragmentEntryVersionModelImpl
 		attributeGetterFunctions.put(
 			"fragmentCollectionId",
 			FragmentEntryVersion::getFragmentCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"fragmentCollectionId",
+			fragmentEntryVersionCacheModel ->
+				fragmentEntryVersionCacheModel.fragmentCollectionId);
 		attributeSetterBiConsumers.put(
 			"fragmentCollectionId",
 			(BiConsumer<FragmentEntryVersion, Long>)
 				FragmentEntryVersion::setFragmentCollectionId);
 		attributeGetterFunctions.put(
 			"fragmentEntryKey", FragmentEntryVersion::getFragmentEntryKey);
+
+		cacheModelGetterFunctions.put(
+			"fragmentEntryKey",
+			fragmentEntryVersionCacheModel ->
+				fragmentEntryVersionCacheModel.fragmentEntryKey);
 		attributeSetterBiConsumers.put(
 			"fragmentEntryKey",
 			(BiConsumer<FragmentEntryVersion, String>)
 				FragmentEntryVersion::setFragmentEntryKey);
 		attributeGetterFunctions.put("name", FragmentEntryVersion::getName);
+
+		cacheModelGetterFunctions.put(
+			"name",
+			fragmentEntryVersionCacheModel ->
+				fragmentEntryVersionCacheModel.name);
 		attributeSetterBiConsumers.put(
 			"name",
 			(BiConsumer<FragmentEntryVersion, String>)
 				FragmentEntryVersion::setName);
 		attributeGetterFunctions.put("css", FragmentEntryVersion::getCss);
+
+		cacheModelGetterFunctions.put(
+			"css",
+			fragmentEntryVersionCacheModel ->
+				fragmentEntryVersionCacheModel.css);
 		attributeSetterBiConsumers.put(
 			"css",
 			(BiConsumer<FragmentEntryVersion, String>)
 				FragmentEntryVersion::setCss);
 		attributeGetterFunctions.put("html", FragmentEntryVersion::getHtml);
+
+		cacheModelGetterFunctions.put(
+			"html",
+			fragmentEntryVersionCacheModel ->
+				fragmentEntryVersionCacheModel.html);
 		attributeSetterBiConsumers.put(
 			"html",
 			(BiConsumer<FragmentEntryVersion, String>)
 				FragmentEntryVersion::setHtml);
 		attributeGetterFunctions.put("js", FragmentEntryVersion::getJs);
+
+		cacheModelGetterFunctions.put(
+			"js",
+			fragmentEntryVersionCacheModel ->
+				fragmentEntryVersionCacheModel.js);
 		attributeSetterBiConsumers.put(
 			"js",
 			(BiConsumer<FragmentEntryVersion, String>)
 				FragmentEntryVersion::setJs);
 		attributeGetterFunctions.put(
 			"cacheable", FragmentEntryVersion::getCacheable);
+
+		cacheModelGetterFunctions.put(
+			"cacheable",
+			fragmentEntryVersionCacheModel ->
+				fragmentEntryVersionCacheModel.cacheable);
 		attributeSetterBiConsumers.put(
 			"cacheable",
 			(BiConsumer<FragmentEntryVersion, Boolean>)
 				FragmentEntryVersion::setCacheable);
 		attributeGetterFunctions.put(
 			"configuration", FragmentEntryVersion::getConfiguration);
+
+		cacheModelGetterFunctions.put(
+			"configuration",
+			fragmentEntryVersionCacheModel ->
+				fragmentEntryVersionCacheModel.configuration);
 		attributeSetterBiConsumers.put(
 			"configuration",
 			(BiConsumer<FragmentEntryVersion, String>)
 				FragmentEntryVersion::setConfiguration);
 		attributeGetterFunctions.put(
 			"previewFileEntryId", FragmentEntryVersion::getPreviewFileEntryId);
+
+		cacheModelGetterFunctions.put(
+			"previewFileEntryId",
+			fragmentEntryVersionCacheModel ->
+				fragmentEntryVersionCacheModel.previewFileEntryId);
 		attributeSetterBiConsumers.put(
 			"previewFileEntryId",
 			(BiConsumer<FragmentEntryVersion, Long>)
 				FragmentEntryVersion::setPreviewFileEntryId);
 		attributeGetterFunctions.put(
 			"readOnly", FragmentEntryVersion::getReadOnly);
+
+		cacheModelGetterFunctions.put(
+			"readOnly",
+			fragmentEntryVersionCacheModel ->
+				fragmentEntryVersionCacheModel.readOnly);
 		attributeSetterBiConsumers.put(
 			"readOnly",
 			(BiConsumer<FragmentEntryVersion, Boolean>)
 				FragmentEntryVersion::setReadOnly);
 		attributeGetterFunctions.put("type", FragmentEntryVersion::getType);
+
+		cacheModelGetterFunctions.put(
+			"type",
+			fragmentEntryVersionCacheModel ->
+				fragmentEntryVersionCacheModel.type);
 		attributeSetterBiConsumers.put(
 			"type",
 			(BiConsumer<FragmentEntryVersion, Integer>)
 				FragmentEntryVersion::setType);
 		attributeGetterFunctions.put(
 			"lastPublishDate", FragmentEntryVersion::getLastPublishDate);
+
+		cacheModelGetterFunctions.put(
+			"lastPublishDate",
+			fragmentEntryVersionCacheModel ->
+				fragmentEntryVersionCacheModel.lastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<FragmentEntryVersion, Date>)
 				FragmentEntryVersion::setLastPublishDate);
 		attributeGetterFunctions.put("status", FragmentEntryVersion::getStatus);
+
+		cacheModelGetterFunctions.put(
+			"status",
+			fragmentEntryVersionCacheModel ->
+				fragmentEntryVersionCacheModel.status);
 		attributeSetterBiConsumers.put(
 			"status",
 			(BiConsumer<FragmentEntryVersion, Integer>)
 				FragmentEntryVersion::setStatus);
 		attributeGetterFunctions.put(
 			"statusByUserId", FragmentEntryVersion::getStatusByUserId);
+
+		cacheModelGetterFunctions.put(
+			"statusByUserId",
+			fragmentEntryVersionCacheModel ->
+				fragmentEntryVersionCacheModel.statusByUserId);
 		attributeSetterBiConsumers.put(
 			"statusByUserId",
 			(BiConsumer<FragmentEntryVersion, Long>)
 				FragmentEntryVersion::setStatusByUserId);
 		attributeGetterFunctions.put(
 			"statusByUserName", FragmentEntryVersion::getStatusByUserName);
+
+		cacheModelGetterFunctions.put(
+			"statusByUserName",
+			fragmentEntryVersionCacheModel ->
+				fragmentEntryVersionCacheModel.statusByUserName);
 		attributeSetterBiConsumers.put(
 			"statusByUserName",
 			(BiConsumer<FragmentEntryVersion, String>)
 				FragmentEntryVersion::setStatusByUserName);
 		attributeGetterFunctions.put(
 			"statusDate", FragmentEntryVersion::getStatusDate);
+
+		cacheModelGetterFunctions.put(
+			"statusDate",
+			fragmentEntryVersionCacheModel ->
+				fragmentEntryVersionCacheModel.statusDate);
 		attributeSetterBiConsumers.put(
 			"statusDate",
 			(BiConsumer<FragmentEntryVersion, Date>)
@@ -452,6 +639,8 @@ public class FragmentEntryVersionModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -510,6 +699,15 @@ public class FragmentEntryVersionModelImpl
 
 	@Override
 	public void setFragmentEntryVersionId(long fragmentEntryVersionId) {
+		_columnBitmask |= FRAGMENTENTRYVERSIONID_COLUMN_BITMASK;
+
+		if (_fragmentEntryVersionCacheModel ==
+				_dummyFragmentEntryVersionCacheModel) {
+
+			_fragmentEntryVersionCacheModel =
+				(FragmentEntryVersionCacheModel)toCacheModel();
+		}
+
 		_fragmentEntryVersionId = fragmentEntryVersionId;
 	}
 
@@ -520,19 +718,25 @@ public class FragmentEntryVersionModelImpl
 
 	@Override
 	public void setVersion(int version) {
-		_columnBitmask = -1L;
+		_columnBitmask |= VERSION_COLUMN_BITMASK;
 
-		if (!_setOriginalVersion) {
-			_setOriginalVersion = true;
+		if (_fragmentEntryVersionCacheModel ==
+				_dummyFragmentEntryVersionCacheModel) {
 
-			_originalVersion = _version;
+			_fragmentEntryVersionCacheModel =
+				(FragmentEntryVersionCacheModel)toCacheModel();
 		}
 
 		_version = version;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalVersion() {
-		return _originalVersion;
+		return getOriginalAttributeValue("version");
 	}
 
 	@Override
@@ -549,15 +753,23 @@ public class FragmentEntryVersionModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_fragmentEntryVersionCacheModel ==
+				_dummyFragmentEntryVersionCacheModel) {
+
+			_fragmentEntryVersionCacheModel =
+				(FragmentEntryVersionCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getOriginalAttributeValue("uuid");
 	}
 
 	@Override
@@ -569,17 +781,23 @@ public class FragmentEntryVersionModelImpl
 	public void setFragmentEntryId(long fragmentEntryId) {
 		_columnBitmask |= FRAGMENTENTRYID_COLUMN_BITMASK;
 
-		if (!_setOriginalFragmentEntryId) {
-			_setOriginalFragmentEntryId = true;
+		if (_fragmentEntryVersionCacheModel ==
+				_dummyFragmentEntryVersionCacheModel) {
 
-			_originalFragmentEntryId = _fragmentEntryId;
+			_fragmentEntryVersionCacheModel =
+				(FragmentEntryVersionCacheModel)toCacheModel();
 		}
 
 		_fragmentEntryId = fragmentEntryId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalFragmentEntryId() {
-		return _originalFragmentEntryId;
+		return getOriginalAttributeValue("fragmentEntryId");
 	}
 
 	@Override
@@ -591,17 +809,23 @@ public class FragmentEntryVersionModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
+		if (_fragmentEntryVersionCacheModel ==
+				_dummyFragmentEntryVersionCacheModel) {
 
-			_originalGroupId = _groupId;
+			_fragmentEntryVersionCacheModel =
+				(FragmentEntryVersionCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getOriginalAttributeValue("groupId");
 	}
 
 	@Override
@@ -613,17 +837,23 @@ public class FragmentEntryVersionModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
+		if (_fragmentEntryVersionCacheModel ==
+				_dummyFragmentEntryVersionCacheModel) {
 
-			_originalCompanyId = _companyId;
+			_fragmentEntryVersionCacheModel =
+				(FragmentEntryVersionCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@Override
@@ -633,6 +863,15 @@ public class FragmentEntryVersionModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (_fragmentEntryVersionCacheModel ==
+				_dummyFragmentEntryVersionCacheModel) {
+
+			_fragmentEntryVersionCacheModel =
+				(FragmentEntryVersionCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -664,6 +903,15 @@ public class FragmentEntryVersionModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (_fragmentEntryVersionCacheModel ==
+				_dummyFragmentEntryVersionCacheModel) {
+
+			_fragmentEntryVersionCacheModel =
+				(FragmentEntryVersionCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -674,6 +922,15 @@ public class FragmentEntryVersionModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (_fragmentEntryVersionCacheModel ==
+				_dummyFragmentEntryVersionCacheModel) {
+
+			_fragmentEntryVersionCacheModel =
+				(FragmentEntryVersionCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -690,6 +947,15 @@ public class FragmentEntryVersionModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (_fragmentEntryVersionCacheModel ==
+				_dummyFragmentEntryVersionCacheModel) {
+
+			_fragmentEntryVersionCacheModel =
+				(FragmentEntryVersionCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -702,17 +968,23 @@ public class FragmentEntryVersionModelImpl
 	public void setFragmentCollectionId(long fragmentCollectionId) {
 		_columnBitmask |= FRAGMENTCOLLECTIONID_COLUMN_BITMASK;
 
-		if (!_setOriginalFragmentCollectionId) {
-			_setOriginalFragmentCollectionId = true;
+		if (_fragmentEntryVersionCacheModel ==
+				_dummyFragmentEntryVersionCacheModel) {
 
-			_originalFragmentCollectionId = _fragmentCollectionId;
+			_fragmentEntryVersionCacheModel =
+				(FragmentEntryVersionCacheModel)toCacheModel();
 		}
 
 		_fragmentCollectionId = fragmentCollectionId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalFragmentCollectionId() {
-		return _originalFragmentCollectionId;
+		return getOriginalAttributeValue("fragmentCollectionId");
 	}
 
 	@Override
@@ -729,15 +1001,23 @@ public class FragmentEntryVersionModelImpl
 	public void setFragmentEntryKey(String fragmentEntryKey) {
 		_columnBitmask |= FRAGMENTENTRYKEY_COLUMN_BITMASK;
 
-		if (_originalFragmentEntryKey == null) {
-			_originalFragmentEntryKey = _fragmentEntryKey;
+		if (_fragmentEntryVersionCacheModel ==
+				_dummyFragmentEntryVersionCacheModel) {
+
+			_fragmentEntryVersionCacheModel =
+				(FragmentEntryVersionCacheModel)toCacheModel();
 		}
 
 		_fragmentEntryKey = fragmentEntryKey;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalFragmentEntryKey() {
-		return GetterUtil.getString(_originalFragmentEntryKey);
+		return getOriginalAttributeValue("fragmentEntryKey");
 	}
 
 	@Override
@@ -754,15 +1034,23 @@ public class FragmentEntryVersionModelImpl
 	public void setName(String name) {
 		_columnBitmask |= NAME_COLUMN_BITMASK;
 
-		if (_originalName == null) {
-			_originalName = _name;
+		if (_fragmentEntryVersionCacheModel ==
+				_dummyFragmentEntryVersionCacheModel) {
+
+			_fragmentEntryVersionCacheModel =
+				(FragmentEntryVersionCacheModel)toCacheModel();
 		}
 
 		_name = name;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalName() {
-		return GetterUtil.getString(_originalName);
+		return getOriginalAttributeValue("name");
 	}
 
 	@Override
@@ -777,6 +1065,15 @@ public class FragmentEntryVersionModelImpl
 
 	@Override
 	public void setCss(String css) {
+		_columnBitmask |= CSS_COLUMN_BITMASK;
+
+		if (_fragmentEntryVersionCacheModel ==
+				_dummyFragmentEntryVersionCacheModel) {
+
+			_fragmentEntryVersionCacheModel =
+				(FragmentEntryVersionCacheModel)toCacheModel();
+		}
+
 		_css = css;
 	}
 
@@ -792,6 +1089,15 @@ public class FragmentEntryVersionModelImpl
 
 	@Override
 	public void setHtml(String html) {
+		_columnBitmask |= HTML_COLUMN_BITMASK;
+
+		if (_fragmentEntryVersionCacheModel ==
+				_dummyFragmentEntryVersionCacheModel) {
+
+			_fragmentEntryVersionCacheModel =
+				(FragmentEntryVersionCacheModel)toCacheModel();
+		}
+
 		_html = html;
 	}
 
@@ -807,6 +1113,15 @@ public class FragmentEntryVersionModelImpl
 
 	@Override
 	public void setJs(String js) {
+		_columnBitmask |= JS_COLUMN_BITMASK;
+
+		if (_fragmentEntryVersionCacheModel ==
+				_dummyFragmentEntryVersionCacheModel) {
+
+			_fragmentEntryVersionCacheModel =
+				(FragmentEntryVersionCacheModel)toCacheModel();
+		}
+
 		_js = js;
 	}
 
@@ -822,6 +1137,15 @@ public class FragmentEntryVersionModelImpl
 
 	@Override
 	public void setCacheable(boolean cacheable) {
+		_columnBitmask |= CACHEABLE_COLUMN_BITMASK;
+
+		if (_fragmentEntryVersionCacheModel ==
+				_dummyFragmentEntryVersionCacheModel) {
+
+			_fragmentEntryVersionCacheModel =
+				(FragmentEntryVersionCacheModel)toCacheModel();
+		}
+
 		_cacheable = cacheable;
 	}
 
@@ -837,6 +1161,15 @@ public class FragmentEntryVersionModelImpl
 
 	@Override
 	public void setConfiguration(String configuration) {
+		_columnBitmask |= CONFIGURATION_COLUMN_BITMASK;
+
+		if (_fragmentEntryVersionCacheModel ==
+				_dummyFragmentEntryVersionCacheModel) {
+
+			_fragmentEntryVersionCacheModel =
+				(FragmentEntryVersionCacheModel)toCacheModel();
+		}
+
 		_configuration = configuration;
 	}
 
@@ -847,6 +1180,15 @@ public class FragmentEntryVersionModelImpl
 
 	@Override
 	public void setPreviewFileEntryId(long previewFileEntryId) {
+		_columnBitmask |= PREVIEWFILEENTRYID_COLUMN_BITMASK;
+
+		if (_fragmentEntryVersionCacheModel ==
+				_dummyFragmentEntryVersionCacheModel) {
+
+			_fragmentEntryVersionCacheModel =
+				(FragmentEntryVersionCacheModel)toCacheModel();
+		}
+
 		_previewFileEntryId = previewFileEntryId;
 	}
 
@@ -862,6 +1204,15 @@ public class FragmentEntryVersionModelImpl
 
 	@Override
 	public void setReadOnly(boolean readOnly) {
+		_columnBitmask |= READONLY_COLUMN_BITMASK;
+
+		if (_fragmentEntryVersionCacheModel ==
+				_dummyFragmentEntryVersionCacheModel) {
+
+			_fragmentEntryVersionCacheModel =
+				(FragmentEntryVersionCacheModel)toCacheModel();
+		}
+
 		_readOnly = readOnly;
 	}
 
@@ -874,17 +1225,23 @@ public class FragmentEntryVersionModelImpl
 	public void setType(int type) {
 		_columnBitmask |= TYPE_COLUMN_BITMASK;
 
-		if (!_setOriginalType) {
-			_setOriginalType = true;
+		if (_fragmentEntryVersionCacheModel ==
+				_dummyFragmentEntryVersionCacheModel) {
 
-			_originalType = _type;
+			_fragmentEntryVersionCacheModel =
+				(FragmentEntryVersionCacheModel)toCacheModel();
 		}
 
 		_type = type;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalType() {
-		return _originalType;
+		return getOriginalAttributeValue("type");
 	}
 
 	@Override
@@ -894,6 +1251,15 @@ public class FragmentEntryVersionModelImpl
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		_columnBitmask |= LASTPUBLISHDATE_COLUMN_BITMASK;
+
+		if (_fragmentEntryVersionCacheModel ==
+				_dummyFragmentEntryVersionCacheModel) {
+
+			_fragmentEntryVersionCacheModel =
+				(FragmentEntryVersionCacheModel)toCacheModel();
+		}
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -906,17 +1272,23 @@ public class FragmentEntryVersionModelImpl
 	public void setStatus(int status) {
 		_columnBitmask |= STATUS_COLUMN_BITMASK;
 
-		if (!_setOriginalStatus) {
-			_setOriginalStatus = true;
+		if (_fragmentEntryVersionCacheModel ==
+				_dummyFragmentEntryVersionCacheModel) {
 
-			_originalStatus = _status;
+			_fragmentEntryVersionCacheModel =
+				(FragmentEntryVersionCacheModel)toCacheModel();
 		}
 
 		_status = status;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalStatus() {
-		return _originalStatus;
+		return getOriginalAttributeValue("status");
 	}
 
 	@Override
@@ -926,6 +1298,15 @@ public class FragmentEntryVersionModelImpl
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		_columnBitmask |= STATUSBYUSERID_COLUMN_BITMASK;
+
+		if (_fragmentEntryVersionCacheModel ==
+				_dummyFragmentEntryVersionCacheModel) {
+
+			_fragmentEntryVersionCacheModel =
+				(FragmentEntryVersionCacheModel)toCacheModel();
+		}
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -957,6 +1338,15 @@ public class FragmentEntryVersionModelImpl
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		_columnBitmask |= STATUSBYUSERNAME_COLUMN_BITMASK;
+
+		if (_fragmentEntryVersionCacheModel ==
+				_dummyFragmentEntryVersionCacheModel) {
+
+			_fragmentEntryVersionCacheModel =
+				(FragmentEntryVersionCacheModel)toCacheModel();
+		}
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -967,6 +1357,15 @@ public class FragmentEntryVersionModelImpl
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		_columnBitmask |= STATUSDATE_COLUMN_BITMASK;
+
+		if (_fragmentEntryVersionCacheModel ==
+				_dummyFragmentEntryVersionCacheModel) {
+
+			_fragmentEntryVersionCacheModel =
+				(FragmentEntryVersionCacheModel)toCacheModel();
+		}
+
 		_statusDate = statusDate;
 	}
 
@@ -1193,55 +1592,11 @@ public class FragmentEntryVersionModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		FragmentEntryVersionModelImpl fragmentEntryVersionModelImpl = this;
+		_setModifiedDate = false;
 
-		fragmentEntryVersionModelImpl._originalVersion =
-			fragmentEntryVersionModelImpl._version;
+		_columnBitmask = 0;
 
-		fragmentEntryVersionModelImpl._setOriginalVersion = false;
-
-		fragmentEntryVersionModelImpl._originalUuid =
-			fragmentEntryVersionModelImpl._uuid;
-
-		fragmentEntryVersionModelImpl._originalFragmentEntryId =
-			fragmentEntryVersionModelImpl._fragmentEntryId;
-
-		fragmentEntryVersionModelImpl._setOriginalFragmentEntryId = false;
-
-		fragmentEntryVersionModelImpl._originalGroupId =
-			fragmentEntryVersionModelImpl._groupId;
-
-		fragmentEntryVersionModelImpl._setOriginalGroupId = false;
-
-		fragmentEntryVersionModelImpl._originalCompanyId =
-			fragmentEntryVersionModelImpl._companyId;
-
-		fragmentEntryVersionModelImpl._setOriginalCompanyId = false;
-
-		fragmentEntryVersionModelImpl._setModifiedDate = false;
-
-		fragmentEntryVersionModelImpl._originalFragmentCollectionId =
-			fragmentEntryVersionModelImpl._fragmentCollectionId;
-
-		fragmentEntryVersionModelImpl._setOriginalFragmentCollectionId = false;
-
-		fragmentEntryVersionModelImpl._originalFragmentEntryKey =
-			fragmentEntryVersionModelImpl._fragmentEntryKey;
-
-		fragmentEntryVersionModelImpl._originalName =
-			fragmentEntryVersionModelImpl._name;
-
-		fragmentEntryVersionModelImpl._originalType =
-			fragmentEntryVersionModelImpl._type;
-
-		fragmentEntryVersionModelImpl._setOriginalType = false;
-
-		fragmentEntryVersionModelImpl._originalStatus =
-			fragmentEntryVersionModelImpl._status;
-
-		fragmentEntryVersionModelImpl._setOriginalStatus = false;
-
-		fragmentEntryVersionModelImpl._columnBitmask = 0;
+		_fragmentEntryVersionCacheModel = _dummyFragmentEntryVersionCacheModel;
 	}
 
 	@Override
@@ -1467,31 +1822,18 @@ public class FragmentEntryVersionModelImpl
 
 	private long _fragmentEntryVersionId;
 	private int _version;
-	private int _originalVersion;
-	private boolean _setOriginalVersion;
 	private String _uuid;
-	private String _originalUuid;
 	private long _fragmentEntryId;
-	private long _originalFragmentEntryId;
-	private boolean _setOriginalFragmentEntryId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _fragmentCollectionId;
-	private long _originalFragmentCollectionId;
-	private boolean _setOriginalFragmentCollectionId;
 	private String _fragmentEntryKey;
-	private String _originalFragmentEntryKey;
 	private String _name;
-	private String _originalName;
 	private String _css;
 	private String _html;
 	private String _js;
@@ -1500,16 +1842,18 @@ public class FragmentEntryVersionModelImpl
 	private long _previewFileEntryId;
 	private boolean _readOnly;
 	private int _type;
-	private int _originalType;
-	private boolean _setOriginalType;
 	private Date _lastPublishDate;
 	private int _status;
-	private int _originalStatus;
-	private boolean _setOriginalStatus;
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
 	private long _columnBitmask;
 	private FragmentEntryVersion _escapedModel;
+
+	private static final FragmentEntryVersionCacheModel
+		_dummyFragmentEntryVersionCacheModel =
+			new FragmentEntryVersionCacheModel();
+
+	private FragmentEntryVersionCacheModel _fragmentEntryVersionCacheModel;
 
 }

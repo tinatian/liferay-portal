@@ -103,11 +103,15 @@ public class AccountEntryOrganizationRelModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long ACCOUNTENTRYID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long ORGANIZATIONID_COLUMN_BITMASK = 2L;
+	public static final long ACCOUNTENTRYORGANIZATIONRELID_COLUMN_BITMASK = 2L;
 
-	public static final long ACCOUNTENTRYORGANIZATIONRELID_COLUMN_BITMASK = 4L;
+	public static final long COMPANYID_COLUMN_BITMASK = 4L;
+
+	public static final long ACCOUNTENTRYID_COLUMN_BITMASK = 8L;
+
+	public static final long ORGANIZATIONID_COLUMN_BITMASK = 16L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -287,6 +291,27 @@ public class AccountEntryOrganizationRelModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_accountEntryOrganizationRelCacheModel == null) ||
+			(_accountEntryOrganizationRelCacheModel ==
+				_dummyAccountEntryOrganizationRelCacheModel)) {
+
+			return null;
+		}
+
+		Function<AccountEntryOrganizationRelCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_accountEntryOrganizationRelCacheModel);
+	}
+
+	private static final Map
+		<String, Function<AccountEntryOrganizationRelCacheModel, Object>>
+			_cacheModelGetterFunctions;
 	private static final Map
 		<String, Function<AccountEntryOrganizationRel, Object>>
 			_attributeGetterFunctions;
@@ -303,9 +328,19 @@ public class AccountEntryOrganizationRelModelImpl
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<AccountEntryOrganizationRel, ?>>();
+		Map<String, Function<AccountEntryOrganizationRelCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String,
+					 Function<AccountEntryOrganizationRelCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", AccountEntryOrganizationRel::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			accountEntryOrganizationRelCacheModel ->
+				accountEntryOrganizationRelCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<AccountEntryOrganizationRel, Long>)
@@ -313,24 +348,45 @@ public class AccountEntryOrganizationRelModelImpl
 		attributeGetterFunctions.put(
 			"accountEntryOrganizationRelId",
 			AccountEntryOrganizationRel::getAccountEntryOrganizationRelId);
+
+		cacheModelGetterFunctions.put(
+			"accountEntryOrganizationRelId",
+			accountEntryOrganizationRelCacheModel ->
+				accountEntryOrganizationRelCacheModel.
+					accountEntryOrganizationRelId);
 		attributeSetterBiConsumers.put(
 			"accountEntryOrganizationRelId",
 			(BiConsumer<AccountEntryOrganizationRel, Long>)
 				AccountEntryOrganizationRel::setAccountEntryOrganizationRelId);
 		attributeGetterFunctions.put(
 			"companyId", AccountEntryOrganizationRel::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			accountEntryOrganizationRelCacheModel ->
+				accountEntryOrganizationRelCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<AccountEntryOrganizationRel, Long>)
 				AccountEntryOrganizationRel::setCompanyId);
 		attributeGetterFunctions.put(
 			"accountEntryId", AccountEntryOrganizationRel::getAccountEntryId);
+
+		cacheModelGetterFunctions.put(
+			"accountEntryId",
+			accountEntryOrganizationRelCacheModel ->
+				accountEntryOrganizationRelCacheModel.accountEntryId);
 		attributeSetterBiConsumers.put(
 			"accountEntryId",
 			(BiConsumer<AccountEntryOrganizationRel, Long>)
 				AccountEntryOrganizationRel::setAccountEntryId);
 		attributeGetterFunctions.put(
 			"organizationId", AccountEntryOrganizationRel::getOrganizationId);
+
+		cacheModelGetterFunctions.put(
+			"organizationId",
+			accountEntryOrganizationRelCacheModel ->
+				accountEntryOrganizationRelCacheModel.organizationId);
 		attributeSetterBiConsumers.put(
 			"organizationId",
 			(BiConsumer<AccountEntryOrganizationRel, Long>)
@@ -340,6 +396,8 @@ public class AccountEntryOrganizationRelModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -350,6 +408,15 @@ public class AccountEntryOrganizationRelModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_accountEntryOrganizationRelCacheModel ==
+				_dummyAccountEntryOrganizationRelCacheModel) {
+
+			_accountEntryOrganizationRelCacheModel =
+				(AccountEntryOrganizationRelCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -363,6 +430,15 @@ public class AccountEntryOrganizationRelModelImpl
 	public void setAccountEntryOrganizationRelId(
 		long accountEntryOrganizationRelId) {
 
+		_columnBitmask |= ACCOUNTENTRYORGANIZATIONRELID_COLUMN_BITMASK;
+
+		if (_accountEntryOrganizationRelCacheModel ==
+				_dummyAccountEntryOrganizationRelCacheModel) {
+
+			_accountEntryOrganizationRelCacheModel =
+				(AccountEntryOrganizationRelCacheModel)toCacheModel();
+		}
+
 		_accountEntryOrganizationRelId = accountEntryOrganizationRelId;
 	}
 
@@ -374,6 +450,15 @@ public class AccountEntryOrganizationRelModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (_accountEntryOrganizationRelCacheModel ==
+				_dummyAccountEntryOrganizationRelCacheModel) {
+
+			_accountEntryOrganizationRelCacheModel =
+				(AccountEntryOrganizationRelCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -387,17 +472,23 @@ public class AccountEntryOrganizationRelModelImpl
 	public void setAccountEntryId(long accountEntryId) {
 		_columnBitmask |= ACCOUNTENTRYID_COLUMN_BITMASK;
 
-		if (!_setOriginalAccountEntryId) {
-			_setOriginalAccountEntryId = true;
+		if (_accountEntryOrganizationRelCacheModel ==
+				_dummyAccountEntryOrganizationRelCacheModel) {
 
-			_originalAccountEntryId = _accountEntryId;
+			_accountEntryOrganizationRelCacheModel =
+				(AccountEntryOrganizationRelCacheModel)toCacheModel();
 		}
 
 		_accountEntryId = accountEntryId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalAccountEntryId() {
-		return _originalAccountEntryId;
+		return getOriginalAttributeValue("accountEntryId");
 	}
 
 	@JSON
@@ -410,17 +501,23 @@ public class AccountEntryOrganizationRelModelImpl
 	public void setOrganizationId(long organizationId) {
 		_columnBitmask |= ORGANIZATIONID_COLUMN_BITMASK;
 
-		if (!_setOriginalOrganizationId) {
-			_setOriginalOrganizationId = true;
+		if (_accountEntryOrganizationRelCacheModel ==
+				_dummyAccountEntryOrganizationRelCacheModel) {
 
-			_originalOrganizationId = _organizationId;
+			_accountEntryOrganizationRelCacheModel =
+				(AccountEntryOrganizationRelCacheModel)toCacheModel();
 		}
 
 		_organizationId = organizationId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalOrganizationId() {
-		return _originalOrganizationId;
+		return getOriginalAttributeValue("organizationId");
 	}
 
 	public long getColumnBitmask() {
@@ -538,20 +635,10 @@ public class AccountEntryOrganizationRelModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		AccountEntryOrganizationRelModelImpl
-			accountEntryOrganizationRelModelImpl = this;
+		_columnBitmask = 0;
 
-		accountEntryOrganizationRelModelImpl._originalAccountEntryId =
-			accountEntryOrganizationRelModelImpl._accountEntryId;
-
-		accountEntryOrganizationRelModelImpl._setOriginalAccountEntryId = false;
-
-		accountEntryOrganizationRelModelImpl._originalOrganizationId =
-			accountEntryOrganizationRelModelImpl._organizationId;
-
-		accountEntryOrganizationRelModelImpl._setOriginalOrganizationId = false;
-
-		accountEntryOrganizationRelModelImpl._columnBitmask = 0;
+		_accountEntryOrganizationRelCacheModel =
+			_dummyAccountEntryOrganizationRelCacheModel;
 	}
 
 	@Override
@@ -656,12 +743,15 @@ public class AccountEntryOrganizationRelModelImpl
 	private long _accountEntryOrganizationRelId;
 	private long _companyId;
 	private long _accountEntryId;
-	private long _originalAccountEntryId;
-	private boolean _setOriginalAccountEntryId;
 	private long _organizationId;
-	private long _originalOrganizationId;
-	private boolean _setOriginalOrganizationId;
 	private long _columnBitmask;
 	private AccountEntryOrganizationRel _escapedModel;
+
+	private static final AccountEntryOrganizationRelCacheModel
+		_dummyAccountEntryOrganizationRelCacheModel =
+			new AccountEntryOrganizationRelCacheModel();
+
+	private AccountEntryOrganizationRelCacheModel
+		_accountEntryOrganizationRelCacheModel;
 
 }

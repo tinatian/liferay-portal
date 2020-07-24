@@ -1985,7 +1985,8 @@ public class BigDecimalEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					bigDecimalEntryModelImpl.getOriginalBigDecimalValue()
+					bigDecimalEntryModelImpl.getOriginalAttributeValue(
+						"bigDecimalValue")
 				};
 
 				finderCache.removeResult(

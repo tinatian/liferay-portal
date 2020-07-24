@@ -29,7 +29,6 @@ import com.liferay.portal.kernel.model.TrashedModel;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.DateUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -117,17 +116,23 @@ public class ReadingTimeEntryModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long CLASSNAMEID_COLUMN_BITMASK = 1L;
+	public static final long UUID_COLUMN_BITMASK = 1L;
 
-	public static final long CLASSPK_COLUMN_BITMASK = 2L;
+	public static final long READINGTIMEENTRYID_COLUMN_BITMASK = 2L;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 4L;
+	public static final long GROUPID_COLUMN_BITMASK = 4L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 8L;
+	public static final long COMPANYID_COLUMN_BITMASK = 8L;
 
-	public static final long UUID_COLUMN_BITMASK = 16L;
+	public static final long CREATEDATE_COLUMN_BITMASK = 16L;
 
-	public static final long CREATEDATE_COLUMN_BITMASK = 32L;
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 32L;
+
+	public static final long CLASSNAMEID_COLUMN_BITMASK = 64L;
+
+	public static final long CLASSPK_COLUMN_BITMASK = 128L;
+
+	public static final long READINGTIME_COLUMN_BITMASK = 256L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -305,6 +310,26 @@ public class ReadingTimeEntryModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_readingTimeEntryCacheModel == null) ||
+			(_readingTimeEntryCacheModel == _dummyReadingTimeEntryCacheModel)) {
+
+			return null;
+		}
+
+		Function<ReadingTimeEntryCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_readingTimeEntryCacheModel);
+	}
+
+	private static final Map
+		<String, Function<ReadingTimeEntryCacheModel, Object>>
+			_cacheModelGetterFunctions;
 	private static final Map<String, Function<ReadingTimeEntry, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<ReadingTimeEntry, Object>>
@@ -317,50 +342,95 @@ public class ReadingTimeEntryModelImpl
 		Map<String, BiConsumer<ReadingTimeEntry, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<ReadingTimeEntry, ?>>();
+		Map<String, Function<ReadingTimeEntryCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<ReadingTimeEntryCacheModel, Object>>();
 
 		attributeGetterFunctions.put("uuid", ReadingTimeEntry::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid",
+			readingTimeEntryCacheModel -> readingTimeEntryCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid",
 			(BiConsumer<ReadingTimeEntry, String>)ReadingTimeEntry::setUuid);
 		attributeGetterFunctions.put(
 			"readingTimeEntryId", ReadingTimeEntry::getReadingTimeEntryId);
+
+		cacheModelGetterFunctions.put(
+			"readingTimeEntryId",
+			readingTimeEntryCacheModel ->
+				readingTimeEntryCacheModel.readingTimeEntryId);
 		attributeSetterBiConsumers.put(
 			"readingTimeEntryId",
 			(BiConsumer<ReadingTimeEntry, Long>)
 				ReadingTimeEntry::setReadingTimeEntryId);
 		attributeGetterFunctions.put("groupId", ReadingTimeEntry::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			readingTimeEntryCacheModel -> readingTimeEntryCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<ReadingTimeEntry, Long>)ReadingTimeEntry::setGroupId);
 		attributeGetterFunctions.put(
 			"companyId", ReadingTimeEntry::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			readingTimeEntryCacheModel -> readingTimeEntryCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<ReadingTimeEntry, Long>)ReadingTimeEntry::setCompanyId);
 		attributeGetterFunctions.put(
 			"createDate", ReadingTimeEntry::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			readingTimeEntryCacheModel ->
+				readingTimeEntryCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<ReadingTimeEntry, Date>)
 				ReadingTimeEntry::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", ReadingTimeEntry::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			readingTimeEntryCacheModel ->
+				readingTimeEntryCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<ReadingTimeEntry, Date>)
 				ReadingTimeEntry::setModifiedDate);
 		attributeGetterFunctions.put(
 			"classNameId", ReadingTimeEntry::getClassNameId);
+
+		cacheModelGetterFunctions.put(
+			"classNameId",
+			readingTimeEntryCacheModel ->
+				readingTimeEntryCacheModel.classNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<ReadingTimeEntry, Long>)
 				ReadingTimeEntry::setClassNameId);
 		attributeGetterFunctions.put("classPK", ReadingTimeEntry::getClassPK);
+
+		cacheModelGetterFunctions.put(
+			"classPK",
+			readingTimeEntryCacheModel -> readingTimeEntryCacheModel.classPK);
 		attributeSetterBiConsumers.put(
 			"classPK",
 			(BiConsumer<ReadingTimeEntry, Long>)ReadingTimeEntry::setClassPK);
 		attributeGetterFunctions.put(
 			"readingTime", ReadingTimeEntry::getReadingTime);
+
+		cacheModelGetterFunctions.put(
+			"readingTime",
+			readingTimeEntryCacheModel ->
+				readingTimeEntryCacheModel.readingTime);
 		attributeSetterBiConsumers.put(
 			"readingTime",
 			(BiConsumer<ReadingTimeEntry, Long>)
@@ -370,6 +440,8 @@ public class ReadingTimeEntryModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -387,15 +459,21 @@ public class ReadingTimeEntryModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_readingTimeEntryCacheModel == _dummyReadingTimeEntryCacheModel) {
+			_readingTimeEntryCacheModel =
+				(ReadingTimeEntryCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getOriginalAttributeValue("uuid");
 	}
 
 	@JSON
@@ -406,6 +484,13 @@ public class ReadingTimeEntryModelImpl
 
 	@Override
 	public void setReadingTimeEntryId(long readingTimeEntryId) {
+		_columnBitmask |= READINGTIMEENTRYID_COLUMN_BITMASK;
+
+		if (_readingTimeEntryCacheModel == _dummyReadingTimeEntryCacheModel) {
+			_readingTimeEntryCacheModel =
+				(ReadingTimeEntryCacheModel)toCacheModel();
+		}
+
 		_readingTimeEntryId = readingTimeEntryId;
 	}
 
@@ -419,17 +504,21 @@ public class ReadingTimeEntryModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_readingTimeEntryCacheModel == _dummyReadingTimeEntryCacheModel) {
+			_readingTimeEntryCacheModel =
+				(ReadingTimeEntryCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getOriginalAttributeValue("groupId");
 	}
 
 	@JSON
@@ -442,17 +531,21 @@ public class ReadingTimeEntryModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_readingTimeEntryCacheModel == _dummyReadingTimeEntryCacheModel) {
+			_readingTimeEntryCacheModel =
+				(ReadingTimeEntryCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@JSON
@@ -463,7 +556,12 @@ public class ReadingTimeEntryModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
-		_columnBitmask = -1L;
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (_readingTimeEntryCacheModel == _dummyReadingTimeEntryCacheModel) {
+			_readingTimeEntryCacheModel =
+				(ReadingTimeEntryCacheModel)toCacheModel();
+		}
 
 		_createDate = createDate;
 	}
@@ -481,6 +579,13 @@ public class ReadingTimeEntryModelImpl
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
+
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (_readingTimeEntryCacheModel == _dummyReadingTimeEntryCacheModel) {
+			_readingTimeEntryCacheModel =
+				(ReadingTimeEntryCacheModel)toCacheModel();
+		}
 
 		_modifiedDate = modifiedDate;
 	}
@@ -515,17 +620,21 @@ public class ReadingTimeEntryModelImpl
 	public void setClassNameId(long classNameId) {
 		_columnBitmask |= CLASSNAMEID_COLUMN_BITMASK;
 
-		if (!_setOriginalClassNameId) {
-			_setOriginalClassNameId = true;
-
-			_originalClassNameId = _classNameId;
+		if (_readingTimeEntryCacheModel == _dummyReadingTimeEntryCacheModel) {
+			_readingTimeEntryCacheModel =
+				(ReadingTimeEntryCacheModel)toCacheModel();
 		}
 
 		_classNameId = classNameId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassNameId() {
-		return _originalClassNameId;
+		return getOriginalAttributeValue("classNameId");
 	}
 
 	@JSON
@@ -538,17 +647,21 @@ public class ReadingTimeEntryModelImpl
 	public void setClassPK(long classPK) {
 		_columnBitmask |= CLASSPK_COLUMN_BITMASK;
 
-		if (!_setOriginalClassPK) {
-			_setOriginalClassPK = true;
-
-			_originalClassPK = _classPK;
+		if (_readingTimeEntryCacheModel == _dummyReadingTimeEntryCacheModel) {
+			_readingTimeEntryCacheModel =
+				(ReadingTimeEntryCacheModel)toCacheModel();
 		}
 
 		_classPK = classPK;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassPK() {
-		return _originalClassPK;
+		return getOriginalAttributeValue("classPK");
 	}
 
 	@JSON
@@ -559,6 +672,13 @@ public class ReadingTimeEntryModelImpl
 
 	@Override
 	public void setReadingTime(long readingTime) {
+		_columnBitmask |= READINGTIME_COLUMN_BITMASK;
+
+		if (_readingTimeEntryCacheModel == _dummyReadingTimeEntryCacheModel) {
+			_readingTimeEntryCacheModel =
+				(ReadingTimeEntryCacheModel)toCacheModel();
+		}
+
 		_readingTime = readingTime;
 	}
 
@@ -833,34 +953,11 @@ public class ReadingTimeEntryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		ReadingTimeEntryModelImpl readingTimeEntryModelImpl = this;
+		_setModifiedDate = false;
 
-		readingTimeEntryModelImpl._originalUuid =
-			readingTimeEntryModelImpl._uuid;
+		_columnBitmask = 0;
 
-		readingTimeEntryModelImpl._originalGroupId =
-			readingTimeEntryModelImpl._groupId;
-
-		readingTimeEntryModelImpl._setOriginalGroupId = false;
-
-		readingTimeEntryModelImpl._originalCompanyId =
-			readingTimeEntryModelImpl._companyId;
-
-		readingTimeEntryModelImpl._setOriginalCompanyId = false;
-
-		readingTimeEntryModelImpl._setModifiedDate = false;
-
-		readingTimeEntryModelImpl._originalClassNameId =
-			readingTimeEntryModelImpl._classNameId;
-
-		readingTimeEntryModelImpl._setOriginalClassNameId = false;
-
-		readingTimeEntryModelImpl._originalClassPK =
-			readingTimeEntryModelImpl._classPK;
-
-		readingTimeEntryModelImpl._setOriginalClassPK = false;
-
-		readingTimeEntryModelImpl._columnBitmask = 0;
+		_readingTimeEntryCacheModel = _dummyReadingTimeEntryCacheModel;
 	}
 
 	@Override
@@ -980,25 +1077,21 @@ public class ReadingTimeEntryModelImpl
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _readingTimeEntryId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _classNameId;
-	private long _originalClassNameId;
-	private boolean _setOriginalClassNameId;
 	private long _classPK;
-	private long _originalClassPK;
-	private boolean _setOriginalClassPK;
 	private long _readingTime;
 	private long _columnBitmask;
 	private ReadingTimeEntry _escapedModel;
+
+	private static final ReadingTimeEntryCacheModel
+		_dummyReadingTimeEntryCacheModel = new ReadingTimeEntryCacheModel();
+
+	private ReadingTimeEntryCacheModel _readingTimeEntryCacheModel;
 
 }

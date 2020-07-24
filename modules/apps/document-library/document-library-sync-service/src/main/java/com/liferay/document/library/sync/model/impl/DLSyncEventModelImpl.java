@@ -96,9 +96,17 @@ public class DLSyncEventModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long MODIFIEDTIME_COLUMN_BITMASK = 1L;
+	public static final long SYNCEVENTID_COLUMN_BITMASK = 1L;
 
-	public static final long TYPEPK_COLUMN_BITMASK = 2L;
+	public static final long COMPANYID_COLUMN_BITMASK = 2L;
+
+	public static final long MODIFIEDTIME_COLUMN_BITMASK = 4L;
+
+	public static final long EVENT_COLUMN_BITMASK = 8L;
+
+	public static final long TYPE_COLUMN_BITMASK = 16L;
+
+	public static final long TYPEPK_COLUMN_BITMASK = 32L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -227,6 +235,25 @@ public class DLSyncEventModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_dlSyncEventCacheModel == null) ||
+			(_dlSyncEventCacheModel == _dummyDLSyncEventCacheModel)) {
+
+			return null;
+		}
+
+		Function<DLSyncEventCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_dlSyncEventCacheModel);
+	}
+
+	private static final Map<String, Function<DLSyncEventCacheModel, Object>>
+		_cacheModelGetterFunctions;
 	private static final Map<String, Function<DLSyncEvent, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<DLSyncEvent, Object>>
@@ -237,28 +264,53 @@ public class DLSyncEventModelImpl
 			new LinkedHashMap<String, Function<DLSyncEvent, Object>>();
 		Map<String, BiConsumer<DLSyncEvent, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<DLSyncEvent, ?>>();
+		Map<String, Function<DLSyncEventCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<DLSyncEventCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"syncEventId", DLSyncEvent::getSyncEventId);
+
+		cacheModelGetterFunctions.put(
+			"syncEventId",
+			dlSyncEventCacheModel -> dlSyncEventCacheModel.syncEventId);
 		attributeSetterBiConsumers.put(
 			"syncEventId",
 			(BiConsumer<DLSyncEvent, Long>)DLSyncEvent::setSyncEventId);
 		attributeGetterFunctions.put("companyId", DLSyncEvent::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			dlSyncEventCacheModel -> dlSyncEventCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<DLSyncEvent, Long>)DLSyncEvent::setCompanyId);
 		attributeGetterFunctions.put(
 			"modifiedTime", DLSyncEvent::getModifiedTime);
+
+		cacheModelGetterFunctions.put(
+			"modifiedTime",
+			dlSyncEventCacheModel -> dlSyncEventCacheModel.modifiedTime);
 		attributeSetterBiConsumers.put(
 			"modifiedTime",
 			(BiConsumer<DLSyncEvent, Long>)DLSyncEvent::setModifiedTime);
 		attributeGetterFunctions.put("event", DLSyncEvent::getEvent);
+
+		cacheModelGetterFunctions.put(
+			"event", dlSyncEventCacheModel -> dlSyncEventCacheModel.event);
 		attributeSetterBiConsumers.put(
 			"event", (BiConsumer<DLSyncEvent, String>)DLSyncEvent::setEvent);
 		attributeGetterFunctions.put("type", DLSyncEvent::getType);
+
+		cacheModelGetterFunctions.put(
+			"type", dlSyncEventCacheModel -> dlSyncEventCacheModel.type);
 		attributeSetterBiConsumers.put(
 			"type", (BiConsumer<DLSyncEvent, String>)DLSyncEvent::setType);
 		attributeGetterFunctions.put("typePK", DLSyncEvent::getTypePK);
+
+		cacheModelGetterFunctions.put(
+			"typePK", dlSyncEventCacheModel -> dlSyncEventCacheModel.typePK);
 		attributeSetterBiConsumers.put(
 			"typePK", (BiConsumer<DLSyncEvent, Long>)DLSyncEvent::setTypePK);
 
@@ -266,6 +318,8 @@ public class DLSyncEventModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -275,6 +329,12 @@ public class DLSyncEventModelImpl
 
 	@Override
 	public void setSyncEventId(long syncEventId) {
+		_columnBitmask |= SYNCEVENTID_COLUMN_BITMASK;
+
+		if (_dlSyncEventCacheModel == _dummyDLSyncEventCacheModel) {
+			_dlSyncEventCacheModel = (DLSyncEventCacheModel)toCacheModel();
+		}
+
 		_syncEventId = syncEventId;
 	}
 
@@ -285,6 +345,12 @@ public class DLSyncEventModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (_dlSyncEventCacheModel == _dummyDLSyncEventCacheModel) {
+			_dlSyncEventCacheModel = (DLSyncEventCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -295,19 +361,22 @@ public class DLSyncEventModelImpl
 
 	@Override
 	public void setModifiedTime(long modifiedTime) {
-		_columnBitmask = -1L;
+		_columnBitmask |= MODIFIEDTIME_COLUMN_BITMASK;
 
-		if (!_setOriginalModifiedTime) {
-			_setOriginalModifiedTime = true;
-
-			_originalModifiedTime = _modifiedTime;
+		if (_dlSyncEventCacheModel == _dummyDLSyncEventCacheModel) {
+			_dlSyncEventCacheModel = (DLSyncEventCacheModel)toCacheModel();
 		}
 
 		_modifiedTime = modifiedTime;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalModifiedTime() {
-		return _originalModifiedTime;
+		return getOriginalAttributeValue("modifiedTime");
 	}
 
 	@Override
@@ -322,6 +391,12 @@ public class DLSyncEventModelImpl
 
 	@Override
 	public void setEvent(String event) {
+		_columnBitmask |= EVENT_COLUMN_BITMASK;
+
+		if (_dlSyncEventCacheModel == _dummyDLSyncEventCacheModel) {
+			_dlSyncEventCacheModel = (DLSyncEventCacheModel)toCacheModel();
+		}
+
 		_event = event;
 	}
 
@@ -337,6 +412,12 @@ public class DLSyncEventModelImpl
 
 	@Override
 	public void setType(String type) {
+		_columnBitmask |= TYPE_COLUMN_BITMASK;
+
+		if (_dlSyncEventCacheModel == _dummyDLSyncEventCacheModel) {
+			_dlSyncEventCacheModel = (DLSyncEventCacheModel)toCacheModel();
+		}
+
 		_type = type;
 	}
 
@@ -349,17 +430,20 @@ public class DLSyncEventModelImpl
 	public void setTypePK(long typePK) {
 		_columnBitmask |= TYPEPK_COLUMN_BITMASK;
 
-		if (!_setOriginalTypePK) {
-			_setOriginalTypePK = true;
-
-			_originalTypePK = _typePK;
+		if (_dlSyncEventCacheModel == _dummyDLSyncEventCacheModel) {
+			_dlSyncEventCacheModel = (DLSyncEventCacheModel)toCacheModel();
 		}
 
 		_typePK = typePK;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalTypePK() {
-		return _originalTypePK;
+		return getOriginalAttributeValue("typePK");
 	}
 
 	public long getColumnBitmask() {
@@ -478,18 +562,9 @@ public class DLSyncEventModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		DLSyncEventModelImpl dlSyncEventModelImpl = this;
+		_columnBitmask = 0;
 
-		dlSyncEventModelImpl._originalModifiedTime =
-			dlSyncEventModelImpl._modifiedTime;
-
-		dlSyncEventModelImpl._setOriginalModifiedTime = false;
-
-		dlSyncEventModelImpl._originalTypePK = dlSyncEventModelImpl._typePK;
-
-		dlSyncEventModelImpl._setOriginalTypePK = false;
-
-		dlSyncEventModelImpl._columnBitmask = 0;
+		_dlSyncEventCacheModel = _dummyDLSyncEventCacheModel;
 	}
 
 	@Override
@@ -597,14 +672,15 @@ public class DLSyncEventModelImpl
 	private long _syncEventId;
 	private long _companyId;
 	private long _modifiedTime;
-	private long _originalModifiedTime;
-	private boolean _setOriginalModifiedTime;
 	private String _event;
 	private String _type;
 	private long _typePK;
-	private long _originalTypePK;
-	private boolean _setOriginalTypePK;
 	private long _columnBitmask;
 	private DLSyncEvent _escapedModel;
+
+	private static final DLSyncEventCacheModel _dummyDLSyncEventCacheModel =
+		new DLSyncEventCacheModel();
+
+	private DLSyncEventCacheModel _dlSyncEventCacheModel;
 
 }

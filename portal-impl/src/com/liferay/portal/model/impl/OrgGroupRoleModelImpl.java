@@ -114,11 +114,15 @@ public class OrgGroupRoleModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-	public static final long GROUPID_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long ROLEID_COLUMN_BITMASK = 2L;
+	public static final long ORGANIZATIONID_COLUMN_BITMASK = 2L;
 
-	public static final long ORGANIZATIONID_COLUMN_BITMASK = 4L;
+	public static final long GROUPID_COLUMN_BITMASK = 4L;
+
+	public static final long ROLEID_COLUMN_BITMASK = 8L;
+
+	public static final long COMPANYID_COLUMN_BITMASK = 16L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		com.liferay.portal.util.PropsUtil.get(
@@ -239,6 +243,25 @@ public class OrgGroupRoleModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_orgGroupRoleCacheModel == null) ||
+			(_orgGroupRoleCacheModel == _dummyOrgGroupRoleCacheModel)) {
+
+			return null;
+		}
+
+		Function<OrgGroupRoleCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_orgGroupRoleCacheModel);
+	}
+
+	private static final Map<String, Function<OrgGroupRoleCacheModel, Object>>
+		_cacheModelGetterFunctions;
 	private static final Map<String, Function<OrgGroupRole, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<OrgGroupRole, Object>>
@@ -249,25 +272,48 @@ public class OrgGroupRoleModelImpl
 			new LinkedHashMap<String, Function<OrgGroupRole, Object>>();
 		Map<String, BiConsumer<OrgGroupRole, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<OrgGroupRole, ?>>();
+		Map<String, Function<OrgGroupRoleCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<OrgGroupRoleCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", OrgGroupRole::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			orgGroupRoleCacheModel -> orgGroupRoleCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<OrgGroupRole, Long>)OrgGroupRole::setMvccVersion);
 		attributeGetterFunctions.put(
 			"organizationId", OrgGroupRole::getOrganizationId);
+
+		cacheModelGetterFunctions.put(
+			"organizationId",
+			orgGroupRoleCacheModel -> orgGroupRoleCacheModel.organizationId);
 		attributeSetterBiConsumers.put(
 			"organizationId",
 			(BiConsumer<OrgGroupRole, Long>)OrgGroupRole::setOrganizationId);
 		attributeGetterFunctions.put("groupId", OrgGroupRole::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			orgGroupRoleCacheModel -> orgGroupRoleCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<OrgGroupRole, Long>)OrgGroupRole::setGroupId);
 		attributeGetterFunctions.put("roleId", OrgGroupRole::getRoleId);
+
+		cacheModelGetterFunctions.put(
+			"roleId", orgGroupRoleCacheModel -> orgGroupRoleCacheModel.roleId);
 		attributeSetterBiConsumers.put(
 			"roleId", (BiConsumer<OrgGroupRole, Long>)OrgGroupRole::setRoleId);
 		attributeGetterFunctions.put("companyId", OrgGroupRole::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			orgGroupRoleCacheModel -> orgGroupRoleCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<OrgGroupRole, Long>)OrgGroupRole::setCompanyId);
@@ -276,6 +322,8 @@ public class OrgGroupRoleModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -285,6 +333,12 @@ public class OrgGroupRoleModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_orgGroupRoleCacheModel == _dummyOrgGroupRoleCacheModel) {
+			_orgGroupRoleCacheModel = (OrgGroupRoleCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -295,6 +349,12 @@ public class OrgGroupRoleModelImpl
 
 	@Override
 	public void setOrganizationId(long organizationId) {
+		_columnBitmask |= ORGANIZATIONID_COLUMN_BITMASK;
+
+		if (_orgGroupRoleCacheModel == _dummyOrgGroupRoleCacheModel) {
+			_orgGroupRoleCacheModel = (OrgGroupRoleCacheModel)toCacheModel();
+		}
+
 		_organizationId = organizationId;
 	}
 
@@ -307,17 +367,20 @@ public class OrgGroupRoleModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_orgGroupRoleCacheModel == _dummyOrgGroupRoleCacheModel) {
+			_orgGroupRoleCacheModel = (OrgGroupRoleCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getOriginalAttributeValue("groupId");
 	}
 
 	@Override
@@ -329,17 +392,20 @@ public class OrgGroupRoleModelImpl
 	public void setRoleId(long roleId) {
 		_columnBitmask |= ROLEID_COLUMN_BITMASK;
 
-		if (!_setOriginalRoleId) {
-			_setOriginalRoleId = true;
-
-			_originalRoleId = _roleId;
+		if (_orgGroupRoleCacheModel == _dummyOrgGroupRoleCacheModel) {
+			_orgGroupRoleCacheModel = (OrgGroupRoleCacheModel)toCacheModel();
 		}
 
 		_roleId = roleId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalRoleId() {
-		return _originalRoleId;
+		return getOriginalAttributeValue("roleId");
 	}
 
 	@Override
@@ -349,6 +415,12 @@ public class OrgGroupRoleModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (_orgGroupRoleCacheModel == _dummyOrgGroupRoleCacheModel) {
+			_orgGroupRoleCacheModel = (OrgGroupRoleCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -440,17 +512,9 @@ public class OrgGroupRoleModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		OrgGroupRoleModelImpl orgGroupRoleModelImpl = this;
+		_columnBitmask = 0;
 
-		orgGroupRoleModelImpl._originalGroupId = orgGroupRoleModelImpl._groupId;
-
-		orgGroupRoleModelImpl._setOriginalGroupId = false;
-
-		orgGroupRoleModelImpl._originalRoleId = orgGroupRoleModelImpl._roleId;
-
-		orgGroupRoleModelImpl._setOriginalRoleId = false;
-
-		orgGroupRoleModelImpl._columnBitmask = 0;
+		_orgGroupRoleCacheModel = _dummyOrgGroupRoleCacheModel;
 	}
 
 	@Override
@@ -546,13 +610,14 @@ public class OrgGroupRoleModelImpl
 	private long _mvccVersion;
 	private long _organizationId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _roleId;
-	private long _originalRoleId;
-	private boolean _setOriginalRoleId;
 	private long _companyId;
 	private long _columnBitmask;
 	private OrgGroupRole _escapedModel;
+
+	private static final OrgGroupRoleCacheModel _dummyOrgGroupRoleCacheModel =
+		new OrgGroupRoleCacheModel();
+
+	private OrgGroupRoleCacheModel _orgGroupRoleCacheModel;
 
 }

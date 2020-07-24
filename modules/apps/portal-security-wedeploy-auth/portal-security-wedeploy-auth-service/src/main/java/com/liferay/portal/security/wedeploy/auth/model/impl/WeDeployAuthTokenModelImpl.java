@@ -25,7 +25,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.security.wedeploy.auth.model.WeDeployAuthToken;
 import com.liferay.portal.security.wedeploy.auth.model.WeDeployAuthTokenModel;
@@ -107,13 +106,23 @@ public class WeDeployAuthTokenModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long CLIENTID_COLUMN_BITMASK = 1L;
+	public static final long WEDEPLOYAUTHTOKENID_COLUMN_BITMASK = 1L;
 
-	public static final long TOKEN_COLUMN_BITMASK = 2L;
+	public static final long COMPANYID_COLUMN_BITMASK = 2L;
 
-	public static final long TYPE_COLUMN_BITMASK = 4L;
+	public static final long USERID_COLUMN_BITMASK = 4L;
 
-	public static final long WEDEPLOYAUTHTOKENID_COLUMN_BITMASK = 8L;
+	public static final long USERNAME_COLUMN_BITMASK = 8L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 16L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 32L;
+
+	public static final long CLIENTID_COLUMN_BITMASK = 64L;
+
+	public static final long TOKEN_COLUMN_BITMASK = 128L;
+
+	public static final long TYPE_COLUMN_BITMASK = 256L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -242,6 +251,27 @@ public class WeDeployAuthTokenModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_weDeployAuthTokenCacheModel == null) ||
+			(_weDeployAuthTokenCacheModel ==
+				_dummyWeDeployAuthTokenCacheModel)) {
+
+			return null;
+		}
+
+		Function<WeDeployAuthTokenCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_weDeployAuthTokenCacheModel);
+	}
+
+	private static final Map
+		<String, Function<WeDeployAuthTokenCacheModel, Object>>
+			_cacheModelGetterFunctions;
 	private static final Map<String, Function<WeDeployAuthToken, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<WeDeployAuthToken, Object>>
@@ -255,52 +285,98 @@ public class WeDeployAuthTokenModelImpl
 		Map<String, BiConsumer<WeDeployAuthToken, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<WeDeployAuthToken, ?>>();
+		Map<String, Function<WeDeployAuthTokenCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<WeDeployAuthTokenCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"weDeployAuthTokenId", WeDeployAuthToken::getWeDeployAuthTokenId);
+
+		cacheModelGetterFunctions.put(
+			"weDeployAuthTokenId",
+			weDeployAuthTokenCacheModel ->
+				weDeployAuthTokenCacheModel.weDeployAuthTokenId);
 		attributeSetterBiConsumers.put(
 			"weDeployAuthTokenId",
 			(BiConsumer<WeDeployAuthToken, Long>)
 				WeDeployAuthToken::setWeDeployAuthTokenId);
 		attributeGetterFunctions.put(
 			"companyId", WeDeployAuthToken::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			weDeployAuthTokenCacheModel ->
+				weDeployAuthTokenCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<WeDeployAuthToken, Long>)
 				WeDeployAuthToken::setCompanyId);
 		attributeGetterFunctions.put("userId", WeDeployAuthToken::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			weDeployAuthTokenCacheModel -> weDeployAuthTokenCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<WeDeployAuthToken, Long>)WeDeployAuthToken::setUserId);
 		attributeGetterFunctions.put(
 			"userName", WeDeployAuthToken::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			weDeployAuthTokenCacheModel ->
+				weDeployAuthTokenCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<WeDeployAuthToken, String>)
 				WeDeployAuthToken::setUserName);
 		attributeGetterFunctions.put(
 			"createDate", WeDeployAuthToken::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			weDeployAuthTokenCacheModel ->
+				weDeployAuthTokenCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<WeDeployAuthToken, Date>)
 				WeDeployAuthToken::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", WeDeployAuthToken::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			weDeployAuthTokenCacheModel ->
+				weDeployAuthTokenCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<WeDeployAuthToken, Date>)
 				WeDeployAuthToken::setModifiedDate);
 		attributeGetterFunctions.put(
 			"clientId", WeDeployAuthToken::getClientId);
+
+		cacheModelGetterFunctions.put(
+			"clientId",
+			weDeployAuthTokenCacheModel ->
+				weDeployAuthTokenCacheModel.clientId);
 		attributeSetterBiConsumers.put(
 			"clientId",
 			(BiConsumer<WeDeployAuthToken, String>)
 				WeDeployAuthToken::setClientId);
 		attributeGetterFunctions.put("token", WeDeployAuthToken::getToken);
+
+		cacheModelGetterFunctions.put(
+			"token",
+			weDeployAuthTokenCacheModel -> weDeployAuthTokenCacheModel.token);
 		attributeSetterBiConsumers.put(
 			"token",
 			(BiConsumer<WeDeployAuthToken, String>)WeDeployAuthToken::setToken);
 		attributeGetterFunctions.put("type", WeDeployAuthToken::getType);
+
+		cacheModelGetterFunctions.put(
+			"type",
+			weDeployAuthTokenCacheModel -> weDeployAuthTokenCacheModel.type);
 		attributeSetterBiConsumers.put(
 			"type",
 			(BiConsumer<WeDeployAuthToken, Integer>)WeDeployAuthToken::setType);
@@ -309,6 +385,8 @@ public class WeDeployAuthTokenModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -318,6 +396,13 @@ public class WeDeployAuthTokenModelImpl
 
 	@Override
 	public void setWeDeployAuthTokenId(long weDeployAuthTokenId) {
+		_columnBitmask |= WEDEPLOYAUTHTOKENID_COLUMN_BITMASK;
+
+		if (_weDeployAuthTokenCacheModel == _dummyWeDeployAuthTokenCacheModel) {
+			_weDeployAuthTokenCacheModel =
+				(WeDeployAuthTokenCacheModel)toCacheModel();
+		}
+
 		_weDeployAuthTokenId = weDeployAuthTokenId;
 	}
 
@@ -328,6 +413,13 @@ public class WeDeployAuthTokenModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (_weDeployAuthTokenCacheModel == _dummyWeDeployAuthTokenCacheModel) {
+			_weDeployAuthTokenCacheModel =
+				(WeDeployAuthTokenCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -338,6 +430,13 @@ public class WeDeployAuthTokenModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (_weDeployAuthTokenCacheModel == _dummyWeDeployAuthTokenCacheModel) {
+			_weDeployAuthTokenCacheModel =
+				(WeDeployAuthTokenCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -369,6 +468,13 @@ public class WeDeployAuthTokenModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (_weDeployAuthTokenCacheModel == _dummyWeDeployAuthTokenCacheModel) {
+			_weDeployAuthTokenCacheModel =
+				(WeDeployAuthTokenCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -379,6 +485,13 @@ public class WeDeployAuthTokenModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (_weDeployAuthTokenCacheModel == _dummyWeDeployAuthTokenCacheModel) {
+			_weDeployAuthTokenCacheModel =
+				(WeDeployAuthTokenCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -394,6 +507,13 @@ public class WeDeployAuthTokenModelImpl
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
+
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (_weDeployAuthTokenCacheModel == _dummyWeDeployAuthTokenCacheModel) {
+			_weDeployAuthTokenCacheModel =
+				(WeDeployAuthTokenCacheModel)toCacheModel();
+		}
 
 		_modifiedDate = modifiedDate;
 	}
@@ -412,15 +532,21 @@ public class WeDeployAuthTokenModelImpl
 	public void setClientId(String clientId) {
 		_columnBitmask |= CLIENTID_COLUMN_BITMASK;
 
-		if (_originalClientId == null) {
-			_originalClientId = _clientId;
+		if (_weDeployAuthTokenCacheModel == _dummyWeDeployAuthTokenCacheModel) {
+			_weDeployAuthTokenCacheModel =
+				(WeDeployAuthTokenCacheModel)toCacheModel();
 		}
 
 		_clientId = clientId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalClientId() {
-		return GetterUtil.getString(_originalClientId);
+		return getOriginalAttributeValue("clientId");
 	}
 
 	@Override
@@ -437,15 +563,21 @@ public class WeDeployAuthTokenModelImpl
 	public void setToken(String token) {
 		_columnBitmask |= TOKEN_COLUMN_BITMASK;
 
-		if (_originalToken == null) {
-			_originalToken = _token;
+		if (_weDeployAuthTokenCacheModel == _dummyWeDeployAuthTokenCacheModel) {
+			_weDeployAuthTokenCacheModel =
+				(WeDeployAuthTokenCacheModel)toCacheModel();
 		}
 
 		_token = token;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalToken() {
-		return GetterUtil.getString(_originalToken);
+		return getOriginalAttributeValue("token");
 	}
 
 	@Override
@@ -457,17 +589,21 @@ public class WeDeployAuthTokenModelImpl
 	public void setType(int type) {
 		_columnBitmask |= TYPE_COLUMN_BITMASK;
 
-		if (!_setOriginalType) {
-			_setOriginalType = true;
-
-			_originalType = _type;
+		if (_weDeployAuthTokenCacheModel == _dummyWeDeployAuthTokenCacheModel) {
+			_weDeployAuthTokenCacheModel =
+				(WeDeployAuthTokenCacheModel)toCacheModel();
 		}
 
 		_type = type;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalType() {
-		return _originalType;
+		return getOriginalAttributeValue("type");
 	}
 
 	public long getColumnBitmask() {
@@ -584,22 +720,11 @@ public class WeDeployAuthTokenModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		WeDeployAuthTokenModelImpl weDeployAuthTokenModelImpl = this;
+		_setModifiedDate = false;
 
-		weDeployAuthTokenModelImpl._setModifiedDate = false;
+		_columnBitmask = 0;
 
-		weDeployAuthTokenModelImpl._originalClientId =
-			weDeployAuthTokenModelImpl._clientId;
-
-		weDeployAuthTokenModelImpl._originalToken =
-			weDeployAuthTokenModelImpl._token;
-
-		weDeployAuthTokenModelImpl._originalType =
-			weDeployAuthTokenModelImpl._type;
-
-		weDeployAuthTokenModelImpl._setOriginalType = false;
-
-		weDeployAuthTokenModelImpl._columnBitmask = 0;
+		_weDeployAuthTokenCacheModel = _dummyWeDeployAuthTokenCacheModel;
 	}
 
 	@Override
@@ -739,13 +864,14 @@ public class WeDeployAuthTokenModelImpl
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private String _clientId;
-	private String _originalClientId;
 	private String _token;
-	private String _originalToken;
 	private int _type;
-	private int _originalType;
-	private boolean _setOriginalType;
 	private long _columnBitmask;
 	private WeDeployAuthToken _escapedModel;
+
+	private static final WeDeployAuthTokenCacheModel
+		_dummyWeDeployAuthTokenCacheModel = new WeDeployAuthTokenCacheModel();
+
+	private WeDeployAuthTokenCacheModel _weDeployAuthTokenCacheModel;
 
 }

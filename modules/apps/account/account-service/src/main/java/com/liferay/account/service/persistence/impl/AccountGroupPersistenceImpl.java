@@ -999,8 +999,9 @@ public class AccountGroupPersistenceImpl
 			 _finderPathFetchByC_ERC.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				accountGroupModelImpl.getOriginalCompanyId(),
-				accountGroupModelImpl.getOriginalExternalReferenceCode()
+				accountGroupModelImpl.getOriginalAttributeValue("companyId"),
+				accountGroupModelImpl.getOriginalAttributeValue(
+					"externalReferenceCode")
 			};
 
 			finderCache.removeResult(_finderPathCountByC_ERC, args);
@@ -1199,7 +1200,7 @@ public class AccountGroupPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					accountGroupModelImpl.getOriginalCompanyId()
+					accountGroupModelImpl.getOriginalAttributeValue("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCompanyId, args);

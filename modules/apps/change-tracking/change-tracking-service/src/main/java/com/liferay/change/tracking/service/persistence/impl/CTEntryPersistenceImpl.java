@@ -2396,9 +2396,9 @@ public class CTEntryPersistenceImpl
 			 _finderPathFetchByC_MCNI_MCPK.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				ctEntryModelImpl.getOriginalCtCollectionId(),
-				ctEntryModelImpl.getOriginalModelClassNameId(),
-				ctEntryModelImpl.getOriginalModelClassPK()
+				ctEntryModelImpl.getOriginalAttributeValue("ctCollectionId"),
+				ctEntryModelImpl.getOriginalAttributeValue("modelClassNameId"),
+				ctEntryModelImpl.getOriginalAttributeValue("modelClassPK")
 			};
 
 			finderCache.removeResult(_finderPathCountByC_MCNI_MCPK, args);
@@ -2599,7 +2599,7 @@ public class CTEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					ctEntryModelImpl.getOriginalCtCollectionId()
+					ctEntryModelImpl.getOriginalAttributeValue("ctCollectionId")
 				};
 
 				finderCache.removeResult(
@@ -2620,8 +2620,10 @@ public class CTEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					ctEntryModelImpl.getOriginalCtCollectionId(),
-					ctEntryModelImpl.getOriginalModelClassNameId()
+					ctEntryModelImpl.getOriginalAttributeValue(
+						"ctCollectionId"),
+					ctEntryModelImpl.getOriginalAttributeValue(
+						"modelClassNameId")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_MCNI, args);

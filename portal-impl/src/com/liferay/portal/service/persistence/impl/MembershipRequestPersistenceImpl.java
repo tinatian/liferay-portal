@@ -2491,7 +2491,8 @@ public class MembershipRequestPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					membershipRequestModelImpl.getOriginalGroupId()
+					membershipRequestModelImpl.getOriginalAttributeValue(
+						"groupId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByGroupId, args);
@@ -2510,7 +2511,8 @@ public class MembershipRequestPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					membershipRequestModelImpl.getOriginalUserId()
+					membershipRequestModelImpl.getOriginalAttributeValue(
+						"userId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUserId, args);
@@ -2529,8 +2531,10 @@ public class MembershipRequestPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					membershipRequestModelImpl.getOriginalGroupId(),
-					membershipRequestModelImpl.getOriginalStatusId()
+					membershipRequestModelImpl.getOriginalAttributeValue(
+						"groupId"),
+					membershipRequestModelImpl.getOriginalAttributeValue(
+						"statusId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByG_S, args);
@@ -2552,9 +2556,12 @@ public class MembershipRequestPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					membershipRequestModelImpl.getOriginalGroupId(),
-					membershipRequestModelImpl.getOriginalUserId(),
-					membershipRequestModelImpl.getOriginalStatusId()
+					membershipRequestModelImpl.getOriginalAttributeValue(
+						"groupId"),
+					membershipRequestModelImpl.getOriginalAttributeValue(
+						"userId"),
+					membershipRequestModelImpl.getOriginalAttributeValue(
+						"statusId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByG_U_S, args);

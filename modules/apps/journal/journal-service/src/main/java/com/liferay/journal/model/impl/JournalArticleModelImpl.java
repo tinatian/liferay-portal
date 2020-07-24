@@ -33,7 +33,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -157,43 +156,75 @@ public class JournalArticleModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long DDMSTRUCTUREKEY_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long DDMTEMPLATEKEY_COLUMN_BITMASK = 2L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
 
-	public static final long ARTICLEID_COLUMN_BITMASK = 4L;
+	public static final long UUID_COLUMN_BITMASK = 4L;
 
-	public static final long CLASSNAMEID_COLUMN_BITMASK = 8L;
+	public static final long ID_COLUMN_BITMASK = 8L;
 
-	public static final long CLASSPK_COLUMN_BITMASK = 16L;
+	public static final long RESOURCEPRIMKEY_COLUMN_BITMASK = 16L;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 32L;
+	public static final long GROUPID_COLUMN_BITMASK = 32L;
 
-	public static final long DISPLAYDATE_COLUMN_BITMASK = 64L;
+	public static final long COMPANYID_COLUMN_BITMASK = 64L;
 
-	public static final long EXPIRATIONDATE_COLUMN_BITMASK = 128L;
+	public static final long USERID_COLUMN_BITMASK = 128L;
 
-	public static final long FOLDERID_COLUMN_BITMASK = 256L;
+	public static final long USERNAME_COLUMN_BITMASK = 256L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 512L;
+	public static final long CREATEDATE_COLUMN_BITMASK = 512L;
 
-	public static final long INDEXABLE_COLUMN_BITMASK = 1024L;
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 1024L;
 
-	public static final long LAYOUTUUID_COLUMN_BITMASK = 2048L;
+	public static final long FOLDERID_COLUMN_BITMASK = 2048L;
 
-	public static final long RESOURCEPRIMKEY_COLUMN_BITMASK = 4096L;
+	public static final long CLASSNAMEID_COLUMN_BITMASK = 4096L;
 
-	public static final long SMALLIMAGEID_COLUMN_BITMASK = 8192L;
+	public static final long CLASSPK_COLUMN_BITMASK = 8192L;
 
-	public static final long STATUS_COLUMN_BITMASK = 16384L;
+	public static final long TREEPATH_COLUMN_BITMASK = 16384L;
 
-	public static final long URLTITLE_COLUMN_BITMASK = 32768L;
+	public static final long ARTICLEID_COLUMN_BITMASK = 32768L;
 
-	public static final long USERID_COLUMN_BITMASK = 65536L;
+	public static final long VERSION_COLUMN_BITMASK = 65536L;
 
-	public static final long UUID_COLUMN_BITMASK = 131072L;
+	public static final long URLTITLE_COLUMN_BITMASK = 131072L;
 
-	public static final long VERSION_COLUMN_BITMASK = 262144L;
+	public static final long CONTENT_COLUMN_BITMASK = 262144L;
+
+	public static final long DDMSTRUCTUREKEY_COLUMN_BITMASK = 524288L;
+
+	public static final long DDMTEMPLATEKEY_COLUMN_BITMASK = 1048576L;
+
+	public static final long DEFAULTLANGUAGEID_COLUMN_BITMASK = 2097152L;
+
+	public static final long LAYOUTUUID_COLUMN_BITMASK = 4194304L;
+
+	public static final long DISPLAYDATE_COLUMN_BITMASK = 8388608L;
+
+	public static final long EXPIRATIONDATE_COLUMN_BITMASK = 16777216L;
+
+	public static final long REVIEWDATE_COLUMN_BITMASK = 33554432L;
+
+	public static final long INDEXABLE_COLUMN_BITMASK = 67108864L;
+
+	public static final long SMALLIMAGE_COLUMN_BITMASK = 134217728L;
+
+	public static final long SMALLIMAGEID_COLUMN_BITMASK = 268435456L;
+
+	public static final long SMALLIMAGEURL_COLUMN_BITMASK = 536870912L;
+
+	public static final long LASTPUBLISHDATE_COLUMN_BITMASK = 1073741824L;
+
+	public static final long STATUS_COLUMN_BITMASK = 2147483648L;
+
+	public static final long STATUSBYUSERID_COLUMN_BITMASK = 4294967296L;
+
+	public static final long STATUSBYUSERNAME_COLUMN_BITMASK = 8589934592L;
+
+	public static final long STATUSDATE_COLUMN_BITMASK = 17179869184L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -397,6 +428,25 @@ public class JournalArticleModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_journalArticleCacheModel == null) ||
+			(_journalArticleCacheModel == _dummyJournalArticleCacheModel)) {
+
+			return null;
+		}
+
+		Function<JournalArticleCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_journalArticleCacheModel);
+	}
+
+	private static final Map<String, Function<JournalArticleCacheModel, Object>>
+		_cacheModelGetterFunctions;
 	private static final Map<String, Function<JournalArticle, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<JournalArticle, Object>>
@@ -407,173 +457,324 @@ public class JournalArticleModelImpl
 			new LinkedHashMap<String, Function<JournalArticle, Object>>();
 		Map<String, BiConsumer<JournalArticle, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<JournalArticle, ?>>();
+		Map<String, Function<JournalArticleCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<JournalArticleCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", JournalArticle::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			journalArticleCacheModel -> journalArticleCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<JournalArticle, Long>)JournalArticle::setMvccVersion);
 		attributeGetterFunctions.put(
 			"ctCollectionId", JournalArticle::getCtCollectionId);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			journalArticleCacheModel ->
+				journalArticleCacheModel.ctCollectionId);
 		attributeSetterBiConsumers.put(
 			"ctCollectionId",
 			(BiConsumer<JournalArticle, Long>)
 				JournalArticle::setCtCollectionId);
 		attributeGetterFunctions.put("uuid", JournalArticle::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid", journalArticleCacheModel -> journalArticleCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid",
 			(BiConsumer<JournalArticle, String>)JournalArticle::setUuid);
 		attributeGetterFunctions.put("id", JournalArticle::getId);
+
+		cacheModelGetterFunctions.put(
+			"id", journalArticleCacheModel -> journalArticleCacheModel.id);
 		attributeSetterBiConsumers.put(
 			"id", (BiConsumer<JournalArticle, Long>)JournalArticle::setId);
 		attributeGetterFunctions.put(
 			"resourcePrimKey", JournalArticle::getResourcePrimKey);
+
+		cacheModelGetterFunctions.put(
+			"resourcePrimKey",
+			journalArticleCacheModel ->
+				journalArticleCacheModel.resourcePrimKey);
 		attributeSetterBiConsumers.put(
 			"resourcePrimKey",
 			(BiConsumer<JournalArticle, Long>)
 				JournalArticle::setResourcePrimKey);
 		attributeGetterFunctions.put("groupId", JournalArticle::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			journalArticleCacheModel -> journalArticleCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<JournalArticle, Long>)JournalArticle::setGroupId);
 		attributeGetterFunctions.put("companyId", JournalArticle::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			journalArticleCacheModel -> journalArticleCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<JournalArticle, Long>)JournalArticle::setCompanyId);
 		attributeGetterFunctions.put("userId", JournalArticle::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			journalArticleCacheModel -> journalArticleCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<JournalArticle, Long>)JournalArticle::setUserId);
 		attributeGetterFunctions.put("userName", JournalArticle::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			journalArticleCacheModel -> journalArticleCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<JournalArticle, String>)JournalArticle::setUserName);
 		attributeGetterFunctions.put(
 			"createDate", JournalArticle::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			journalArticleCacheModel -> journalArticleCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<JournalArticle, Date>)JournalArticle::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", JournalArticle::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			journalArticleCacheModel -> journalArticleCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<JournalArticle, Date>)JournalArticle::setModifiedDate);
 		attributeGetterFunctions.put("folderId", JournalArticle::getFolderId);
+
+		cacheModelGetterFunctions.put(
+			"folderId",
+			journalArticleCacheModel -> journalArticleCacheModel.folderId);
 		attributeSetterBiConsumers.put(
 			"folderId",
 			(BiConsumer<JournalArticle, Long>)JournalArticle::setFolderId);
 		attributeGetterFunctions.put(
 			"classNameId", JournalArticle::getClassNameId);
+
+		cacheModelGetterFunctions.put(
+			"classNameId",
+			journalArticleCacheModel -> journalArticleCacheModel.classNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<JournalArticle, Long>)JournalArticle::setClassNameId);
 		attributeGetterFunctions.put("classPK", JournalArticle::getClassPK);
+
+		cacheModelGetterFunctions.put(
+			"classPK",
+			journalArticleCacheModel -> journalArticleCacheModel.classPK);
 		attributeSetterBiConsumers.put(
 			"classPK",
 			(BiConsumer<JournalArticle, Long>)JournalArticle::setClassPK);
 		attributeGetterFunctions.put("treePath", JournalArticle::getTreePath);
+
+		cacheModelGetterFunctions.put(
+			"treePath",
+			journalArticleCacheModel -> journalArticleCacheModel.treePath);
 		attributeSetterBiConsumers.put(
 			"treePath",
 			(BiConsumer<JournalArticle, String>)JournalArticle::setTreePath);
 		attributeGetterFunctions.put("articleId", JournalArticle::getArticleId);
+
+		cacheModelGetterFunctions.put(
+			"articleId",
+			journalArticleCacheModel -> journalArticleCacheModel.articleId);
 		attributeSetterBiConsumers.put(
 			"articleId",
 			(BiConsumer<JournalArticle, String>)JournalArticle::setArticleId);
 		attributeGetterFunctions.put("version", JournalArticle::getVersion);
+
+		cacheModelGetterFunctions.put(
+			"version",
+			journalArticleCacheModel -> journalArticleCacheModel.version);
 		attributeSetterBiConsumers.put(
 			"version",
 			(BiConsumer<JournalArticle, Double>)JournalArticle::setVersion);
 		attributeGetterFunctions.put("urlTitle", JournalArticle::getUrlTitle);
+
+		cacheModelGetterFunctions.put(
+			"urlTitle",
+			journalArticleCacheModel -> journalArticleCacheModel.urlTitle);
 		attributeSetterBiConsumers.put(
 			"urlTitle",
 			(BiConsumer<JournalArticle, String>)JournalArticle::setUrlTitle);
 		attributeGetterFunctions.put("content", JournalArticle::getContent);
+
+		cacheModelGetterFunctions.put(
+			"content",
+			journalArticleCacheModel -> journalArticleCacheModel.content);
 		attributeSetterBiConsumers.put(
 			"content",
 			(BiConsumer<JournalArticle, String>)JournalArticle::setContent);
 		attributeGetterFunctions.put(
 			"DDMStructureKey", JournalArticle::getDDMStructureKey);
+
+		cacheModelGetterFunctions.put(
+			"DDMStructureKey",
+			journalArticleCacheModel ->
+				journalArticleCacheModel.DDMStructureKey);
 		attributeSetterBiConsumers.put(
 			"DDMStructureKey",
 			(BiConsumer<JournalArticle, String>)
 				JournalArticle::setDDMStructureKey);
 		attributeGetterFunctions.put(
 			"DDMTemplateKey", JournalArticle::getDDMTemplateKey);
+
+		cacheModelGetterFunctions.put(
+			"DDMTemplateKey",
+			journalArticleCacheModel ->
+				journalArticleCacheModel.DDMTemplateKey);
 		attributeSetterBiConsumers.put(
 			"DDMTemplateKey",
 			(BiConsumer<JournalArticle, String>)
 				JournalArticle::setDDMTemplateKey);
 		attributeGetterFunctions.put(
 			"defaultLanguageId", JournalArticle::getDefaultLanguageId);
+
+		cacheModelGetterFunctions.put(
+			"defaultLanguageId",
+			journalArticleCacheModel ->
+				journalArticleCacheModel.defaultLanguageId);
 		attributeSetterBiConsumers.put(
 			"defaultLanguageId",
 			(BiConsumer<JournalArticle, String>)
 				JournalArticle::setDefaultLanguageId);
 		attributeGetterFunctions.put(
 			"layoutUuid", JournalArticle::getLayoutUuid);
+
+		cacheModelGetterFunctions.put(
+			"layoutUuid",
+			journalArticleCacheModel -> journalArticleCacheModel.layoutUuid);
 		attributeSetterBiConsumers.put(
 			"layoutUuid",
 			(BiConsumer<JournalArticle, String>)JournalArticle::setLayoutUuid);
 		attributeGetterFunctions.put(
 			"displayDate", JournalArticle::getDisplayDate);
+
+		cacheModelGetterFunctions.put(
+			"displayDate",
+			journalArticleCacheModel -> journalArticleCacheModel.displayDate);
 		attributeSetterBiConsumers.put(
 			"displayDate",
 			(BiConsumer<JournalArticle, Date>)JournalArticle::setDisplayDate);
 		attributeGetterFunctions.put(
 			"expirationDate", JournalArticle::getExpirationDate);
+
+		cacheModelGetterFunctions.put(
+			"expirationDate",
+			journalArticleCacheModel ->
+				journalArticleCacheModel.expirationDate);
 		attributeSetterBiConsumers.put(
 			"expirationDate",
 			(BiConsumer<JournalArticle, Date>)
 				JournalArticle::setExpirationDate);
 		attributeGetterFunctions.put(
 			"reviewDate", JournalArticle::getReviewDate);
+
+		cacheModelGetterFunctions.put(
+			"reviewDate",
+			journalArticleCacheModel -> journalArticleCacheModel.reviewDate);
 		attributeSetterBiConsumers.put(
 			"reviewDate",
 			(BiConsumer<JournalArticle, Date>)JournalArticle::setReviewDate);
 		attributeGetterFunctions.put("indexable", JournalArticle::getIndexable);
+
+		cacheModelGetterFunctions.put(
+			"indexable",
+			journalArticleCacheModel -> journalArticleCacheModel.indexable);
 		attributeSetterBiConsumers.put(
 			"indexable",
 			(BiConsumer<JournalArticle, Boolean>)JournalArticle::setIndexable);
 		attributeGetterFunctions.put(
 			"smallImage", JournalArticle::getSmallImage);
+
+		cacheModelGetterFunctions.put(
+			"smallImage",
+			journalArticleCacheModel -> journalArticleCacheModel.smallImage);
 		attributeSetterBiConsumers.put(
 			"smallImage",
 			(BiConsumer<JournalArticle, Boolean>)JournalArticle::setSmallImage);
 		attributeGetterFunctions.put(
 			"smallImageId", JournalArticle::getSmallImageId);
+
+		cacheModelGetterFunctions.put(
+			"smallImageId",
+			journalArticleCacheModel -> journalArticleCacheModel.smallImageId);
 		attributeSetterBiConsumers.put(
 			"smallImageId",
 			(BiConsumer<JournalArticle, Long>)JournalArticle::setSmallImageId);
 		attributeGetterFunctions.put(
 			"smallImageURL", JournalArticle::getSmallImageURL);
+
+		cacheModelGetterFunctions.put(
+			"smallImageURL",
+			journalArticleCacheModel -> journalArticleCacheModel.smallImageURL);
 		attributeSetterBiConsumers.put(
 			"smallImageURL",
 			(BiConsumer<JournalArticle, String>)
 				JournalArticle::setSmallImageURL);
 		attributeGetterFunctions.put(
 			"lastPublishDate", JournalArticle::getLastPublishDate);
+
+		cacheModelGetterFunctions.put(
+			"lastPublishDate",
+			journalArticleCacheModel ->
+				journalArticleCacheModel.lastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<JournalArticle, Date>)
 				JournalArticle::setLastPublishDate);
 		attributeGetterFunctions.put("status", JournalArticle::getStatus);
+
+		cacheModelGetterFunctions.put(
+			"status",
+			journalArticleCacheModel -> journalArticleCacheModel.status);
 		attributeSetterBiConsumers.put(
 			"status",
 			(BiConsumer<JournalArticle, Integer>)JournalArticle::setStatus);
 		attributeGetterFunctions.put(
 			"statusByUserId", JournalArticle::getStatusByUserId);
+
+		cacheModelGetterFunctions.put(
+			"statusByUserId",
+			journalArticleCacheModel ->
+				journalArticleCacheModel.statusByUserId);
 		attributeSetterBiConsumers.put(
 			"statusByUserId",
 			(BiConsumer<JournalArticle, Long>)
 				JournalArticle::setStatusByUserId);
 		attributeGetterFunctions.put(
 			"statusByUserName", JournalArticle::getStatusByUserName);
+
+		cacheModelGetterFunctions.put(
+			"statusByUserName",
+			journalArticleCacheModel ->
+				journalArticleCacheModel.statusByUserName);
 		attributeSetterBiConsumers.put(
 			"statusByUserName",
 			(BiConsumer<JournalArticle, String>)
 				JournalArticle::setStatusByUserName);
 		attributeGetterFunctions.put(
 			"statusDate", JournalArticle::getStatusDate);
+
+		cacheModelGetterFunctions.put(
+			"statusDate",
+			journalArticleCacheModel -> journalArticleCacheModel.statusDate);
 		attributeSetterBiConsumers.put(
 			"statusDate",
 			(BiConsumer<JournalArticle, Date>)JournalArticle::setStatusDate);
@@ -582,6 +783,8 @@ public class JournalArticleModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -592,6 +795,13 @@ public class JournalArticleModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_journalArticleCacheModel == _dummyJournalArticleCacheModel) {
+			_journalArticleCacheModel =
+				(JournalArticleCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -603,6 +813,13 @@ public class JournalArticleModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (_journalArticleCacheModel == _dummyJournalArticleCacheModel) {
+			_journalArticleCacheModel =
+				(JournalArticleCacheModel)toCacheModel();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -621,15 +838,21 @@ public class JournalArticleModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_journalArticleCacheModel == _dummyJournalArticleCacheModel) {
+			_journalArticleCacheModel =
+				(JournalArticleCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getOriginalAttributeValue("uuid");
 	}
 
 	@JSON
@@ -640,6 +863,13 @@ public class JournalArticleModelImpl
 
 	@Override
 	public void setId(long id) {
+		_columnBitmask |= ID_COLUMN_BITMASK;
+
+		if (_journalArticleCacheModel == _dummyJournalArticleCacheModel) {
+			_journalArticleCacheModel =
+				(JournalArticleCacheModel)toCacheModel();
+		}
+
 		_id = id;
 	}
 
@@ -653,10 +883,9 @@ public class JournalArticleModelImpl
 	public void setResourcePrimKey(long resourcePrimKey) {
 		_columnBitmask |= RESOURCEPRIMKEY_COLUMN_BITMASK;
 
-		if (!_setOriginalResourcePrimKey) {
-			_setOriginalResourcePrimKey = true;
-
-			_originalResourcePrimKey = _resourcePrimKey;
+		if (_journalArticleCacheModel == _dummyJournalArticleCacheModel) {
+			_journalArticleCacheModel =
+				(JournalArticleCacheModel)toCacheModel();
 		}
 
 		_resourcePrimKey = resourcePrimKey;
@@ -667,8 +896,13 @@ public class JournalArticleModelImpl
 		return true;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalResourcePrimKey() {
-		return _originalResourcePrimKey;
+		return getOriginalAttributeValue("resourcePrimKey");
 	}
 
 	@JSON
@@ -681,17 +915,21 @@ public class JournalArticleModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_journalArticleCacheModel == _dummyJournalArticleCacheModel) {
+			_journalArticleCacheModel =
+				(JournalArticleCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getOriginalAttributeValue("groupId");
 	}
 
 	@JSON
@@ -704,17 +942,21 @@ public class JournalArticleModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_journalArticleCacheModel == _dummyJournalArticleCacheModel) {
+			_journalArticleCacheModel =
+				(JournalArticleCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@JSON
@@ -727,10 +969,9 @@ public class JournalArticleModelImpl
 	public void setUserId(long userId) {
 		_columnBitmask |= USERID_COLUMN_BITMASK;
 
-		if (!_setOriginalUserId) {
-			_setOriginalUserId = true;
-
-			_originalUserId = _userId;
+		if (_journalArticleCacheModel == _dummyJournalArticleCacheModel) {
+			_journalArticleCacheModel =
+				(JournalArticleCacheModel)toCacheModel();
 		}
 
 		_userId = userId;
@@ -752,8 +993,13 @@ public class JournalArticleModelImpl
 	public void setUserUuid(String userUuid) {
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalUserId() {
-		return _originalUserId;
+		return getOriginalAttributeValue("userId");
 	}
 
 	@JSON
@@ -769,6 +1015,13 @@ public class JournalArticleModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (_journalArticleCacheModel == _dummyJournalArticleCacheModel) {
+			_journalArticleCacheModel =
+				(JournalArticleCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -780,6 +1033,13 @@ public class JournalArticleModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (_journalArticleCacheModel == _dummyJournalArticleCacheModel) {
+			_journalArticleCacheModel =
+				(JournalArticleCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -797,6 +1057,13 @@ public class JournalArticleModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (_journalArticleCacheModel == _dummyJournalArticleCacheModel) {
+			_journalArticleCacheModel =
+				(JournalArticleCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -810,17 +1077,21 @@ public class JournalArticleModelImpl
 	public void setFolderId(long folderId) {
 		_columnBitmask |= FOLDERID_COLUMN_BITMASK;
 
-		if (!_setOriginalFolderId) {
-			_setOriginalFolderId = true;
-
-			_originalFolderId = _folderId;
+		if (_journalArticleCacheModel == _dummyJournalArticleCacheModel) {
+			_journalArticleCacheModel =
+				(JournalArticleCacheModel)toCacheModel();
 		}
 
 		_folderId = folderId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalFolderId() {
-		return _originalFolderId;
+		return getOriginalAttributeValue("folderId");
 	}
 
 	@Override
@@ -853,17 +1124,21 @@ public class JournalArticleModelImpl
 	public void setClassNameId(long classNameId) {
 		_columnBitmask |= CLASSNAMEID_COLUMN_BITMASK;
 
-		if (!_setOriginalClassNameId) {
-			_setOriginalClassNameId = true;
-
-			_originalClassNameId = _classNameId;
+		if (_journalArticleCacheModel == _dummyJournalArticleCacheModel) {
+			_journalArticleCacheModel =
+				(JournalArticleCacheModel)toCacheModel();
 		}
 
 		_classNameId = classNameId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassNameId() {
-		return _originalClassNameId;
+		return getOriginalAttributeValue("classNameId");
 	}
 
 	@JSON
@@ -876,17 +1151,21 @@ public class JournalArticleModelImpl
 	public void setClassPK(long classPK) {
 		_columnBitmask |= CLASSPK_COLUMN_BITMASK;
 
-		if (!_setOriginalClassPK) {
-			_setOriginalClassPK = true;
-
-			_originalClassPK = _classPK;
+		if (_journalArticleCacheModel == _dummyJournalArticleCacheModel) {
+			_journalArticleCacheModel =
+				(JournalArticleCacheModel)toCacheModel();
 		}
 
 		_classPK = classPK;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassPK() {
-		return _originalClassPK;
+		return getOriginalAttributeValue("classPK");
 	}
 
 	@JSON
@@ -902,6 +1181,13 @@ public class JournalArticleModelImpl
 
 	@Override
 	public void setTreePath(String treePath) {
+		_columnBitmask |= TREEPATH_COLUMN_BITMASK;
+
+		if (_journalArticleCacheModel == _dummyJournalArticleCacheModel) {
+			_journalArticleCacheModel =
+				(JournalArticleCacheModel)toCacheModel();
+		}
+
 		_treePath = treePath;
 	}
 
@@ -918,17 +1204,23 @@ public class JournalArticleModelImpl
 
 	@Override
 	public void setArticleId(String articleId) {
-		_columnBitmask = -1L;
+		_columnBitmask |= ARTICLEID_COLUMN_BITMASK;
 
-		if (_originalArticleId == null) {
-			_originalArticleId = _articleId;
+		if (_journalArticleCacheModel == _dummyJournalArticleCacheModel) {
+			_journalArticleCacheModel =
+				(JournalArticleCacheModel)toCacheModel();
 		}
 
 		_articleId = articleId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalArticleId() {
-		return GetterUtil.getString(_originalArticleId);
+		return getOriginalAttributeValue("articleId");
 	}
 
 	@JSON
@@ -939,19 +1231,23 @@ public class JournalArticleModelImpl
 
 	@Override
 	public void setVersion(double version) {
-		_columnBitmask = -1L;
+		_columnBitmask |= VERSION_COLUMN_BITMASK;
 
-		if (!_setOriginalVersion) {
-			_setOriginalVersion = true;
-
-			_originalVersion = _version;
+		if (_journalArticleCacheModel == _dummyJournalArticleCacheModel) {
+			_journalArticleCacheModel =
+				(JournalArticleCacheModel)toCacheModel();
 		}
 
 		_version = version;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public double getOriginalVersion() {
-		return _originalVersion;
+		return getOriginalAttributeValue("version");
 	}
 
 	@JSON
@@ -969,15 +1265,21 @@ public class JournalArticleModelImpl
 	public void setUrlTitle(String urlTitle) {
 		_columnBitmask |= URLTITLE_COLUMN_BITMASK;
 
-		if (_originalUrlTitle == null) {
-			_originalUrlTitle = _urlTitle;
+		if (_journalArticleCacheModel == _dummyJournalArticleCacheModel) {
+			_journalArticleCacheModel =
+				(JournalArticleCacheModel)toCacheModel();
 		}
 
 		_urlTitle = urlTitle;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUrlTitle() {
-		return GetterUtil.getString(_originalUrlTitle);
+		return getOriginalAttributeValue("urlTitle");
 	}
 
 	@JSON
@@ -993,6 +1295,13 @@ public class JournalArticleModelImpl
 
 	@Override
 	public void setContent(String content) {
+		_columnBitmask |= CONTENT_COLUMN_BITMASK;
+
+		if (_journalArticleCacheModel == _dummyJournalArticleCacheModel) {
+			_journalArticleCacheModel =
+				(JournalArticleCacheModel)toCacheModel();
+		}
+
 		_content = content;
 	}
 
@@ -1011,15 +1320,21 @@ public class JournalArticleModelImpl
 	public void setDDMStructureKey(String DDMStructureKey) {
 		_columnBitmask |= DDMSTRUCTUREKEY_COLUMN_BITMASK;
 
-		if (_originalDDMStructureKey == null) {
-			_originalDDMStructureKey = _DDMStructureKey;
+		if (_journalArticleCacheModel == _dummyJournalArticleCacheModel) {
+			_journalArticleCacheModel =
+				(JournalArticleCacheModel)toCacheModel();
 		}
 
 		_DDMStructureKey = DDMStructureKey;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalDDMStructureKey() {
-		return GetterUtil.getString(_originalDDMStructureKey);
+		return getOriginalAttributeValue("DDMStructureKey");
 	}
 
 	@JSON
@@ -1037,15 +1352,21 @@ public class JournalArticleModelImpl
 	public void setDDMTemplateKey(String DDMTemplateKey) {
 		_columnBitmask |= DDMTEMPLATEKEY_COLUMN_BITMASK;
 
-		if (_originalDDMTemplateKey == null) {
-			_originalDDMTemplateKey = _DDMTemplateKey;
+		if (_journalArticleCacheModel == _dummyJournalArticleCacheModel) {
+			_journalArticleCacheModel =
+				(JournalArticleCacheModel)toCacheModel();
 		}
 
 		_DDMTemplateKey = DDMTemplateKey;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalDDMTemplateKey() {
-		return GetterUtil.getString(_originalDDMTemplateKey);
+		return getOriginalAttributeValue("DDMTemplateKey");
 	}
 
 	@JSON
@@ -1061,6 +1382,13 @@ public class JournalArticleModelImpl
 
 	@Override
 	public void setDefaultLanguageId(String defaultLanguageId) {
+		_columnBitmask |= DEFAULTLANGUAGEID_COLUMN_BITMASK;
+
+		if (_journalArticleCacheModel == _dummyJournalArticleCacheModel) {
+			_journalArticleCacheModel =
+				(JournalArticleCacheModel)toCacheModel();
+		}
+
 		_defaultLanguageId = defaultLanguageId;
 	}
 
@@ -1079,15 +1407,21 @@ public class JournalArticleModelImpl
 	public void setLayoutUuid(String layoutUuid) {
 		_columnBitmask |= LAYOUTUUID_COLUMN_BITMASK;
 
-		if (_originalLayoutUuid == null) {
-			_originalLayoutUuid = _layoutUuid;
+		if (_journalArticleCacheModel == _dummyJournalArticleCacheModel) {
+			_journalArticleCacheModel =
+				(JournalArticleCacheModel)toCacheModel();
 		}
 
 		_layoutUuid = layoutUuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalLayoutUuid() {
-		return GetterUtil.getString(_originalLayoutUuid);
+		return getOriginalAttributeValue("layoutUuid");
 	}
 
 	@JSON
@@ -1100,15 +1434,21 @@ public class JournalArticleModelImpl
 	public void setDisplayDate(Date displayDate) {
 		_columnBitmask |= DISPLAYDATE_COLUMN_BITMASK;
 
-		if (_originalDisplayDate == null) {
-			_originalDisplayDate = _displayDate;
+		if (_journalArticleCacheModel == _dummyJournalArticleCacheModel) {
+			_journalArticleCacheModel =
+				(JournalArticleCacheModel)toCacheModel();
 		}
 
 		_displayDate = displayDate;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public Date getOriginalDisplayDate() {
-		return _originalDisplayDate;
+		return getOriginalAttributeValue("displayDate");
 	}
 
 	@JSON
@@ -1121,15 +1461,21 @@ public class JournalArticleModelImpl
 	public void setExpirationDate(Date expirationDate) {
 		_columnBitmask |= EXPIRATIONDATE_COLUMN_BITMASK;
 
-		if (_originalExpirationDate == null) {
-			_originalExpirationDate = _expirationDate;
+		if (_journalArticleCacheModel == _dummyJournalArticleCacheModel) {
+			_journalArticleCacheModel =
+				(JournalArticleCacheModel)toCacheModel();
 		}
 
 		_expirationDate = expirationDate;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public Date getOriginalExpirationDate() {
-		return _originalExpirationDate;
+		return getOriginalAttributeValue("expirationDate");
 	}
 
 	@JSON
@@ -1140,6 +1486,13 @@ public class JournalArticleModelImpl
 
 	@Override
 	public void setReviewDate(Date reviewDate) {
+		_columnBitmask |= REVIEWDATE_COLUMN_BITMASK;
+
+		if (_journalArticleCacheModel == _dummyJournalArticleCacheModel) {
+			_journalArticleCacheModel =
+				(JournalArticleCacheModel)toCacheModel();
+		}
+
 		_reviewDate = reviewDate;
 	}
 
@@ -1159,17 +1512,21 @@ public class JournalArticleModelImpl
 	public void setIndexable(boolean indexable) {
 		_columnBitmask |= INDEXABLE_COLUMN_BITMASK;
 
-		if (!_setOriginalIndexable) {
-			_setOriginalIndexable = true;
-
-			_originalIndexable = _indexable;
+		if (_journalArticleCacheModel == _dummyJournalArticleCacheModel) {
+			_journalArticleCacheModel =
+				(JournalArticleCacheModel)toCacheModel();
 		}
 
 		_indexable = indexable;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public boolean getOriginalIndexable() {
-		return _originalIndexable;
+		return getOriginalAttributeValue("indexable");
 	}
 
 	@JSON
@@ -1186,6 +1543,13 @@ public class JournalArticleModelImpl
 
 	@Override
 	public void setSmallImage(boolean smallImage) {
+		_columnBitmask |= SMALLIMAGE_COLUMN_BITMASK;
+
+		if (_journalArticleCacheModel == _dummyJournalArticleCacheModel) {
+			_journalArticleCacheModel =
+				(JournalArticleCacheModel)toCacheModel();
+		}
+
 		_smallImage = smallImage;
 	}
 
@@ -1199,17 +1563,21 @@ public class JournalArticleModelImpl
 	public void setSmallImageId(long smallImageId) {
 		_columnBitmask |= SMALLIMAGEID_COLUMN_BITMASK;
 
-		if (!_setOriginalSmallImageId) {
-			_setOriginalSmallImageId = true;
-
-			_originalSmallImageId = _smallImageId;
+		if (_journalArticleCacheModel == _dummyJournalArticleCacheModel) {
+			_journalArticleCacheModel =
+				(JournalArticleCacheModel)toCacheModel();
 		}
 
 		_smallImageId = smallImageId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalSmallImageId() {
-		return _originalSmallImageId;
+		return getOriginalAttributeValue("smallImageId");
 	}
 
 	@JSON
@@ -1225,6 +1593,13 @@ public class JournalArticleModelImpl
 
 	@Override
 	public void setSmallImageURL(String smallImageURL) {
+		_columnBitmask |= SMALLIMAGEURL_COLUMN_BITMASK;
+
+		if (_journalArticleCacheModel == _dummyJournalArticleCacheModel) {
+			_journalArticleCacheModel =
+				(JournalArticleCacheModel)toCacheModel();
+		}
+
 		_smallImageURL = smallImageURL;
 	}
 
@@ -1236,6 +1611,13 @@ public class JournalArticleModelImpl
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		_columnBitmask |= LASTPUBLISHDATE_COLUMN_BITMASK;
+
+		if (_journalArticleCacheModel == _dummyJournalArticleCacheModel) {
+			_journalArticleCacheModel =
+				(JournalArticleCacheModel)toCacheModel();
+		}
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -1249,17 +1631,21 @@ public class JournalArticleModelImpl
 	public void setStatus(int status) {
 		_columnBitmask |= STATUS_COLUMN_BITMASK;
 
-		if (!_setOriginalStatus) {
-			_setOriginalStatus = true;
-
-			_originalStatus = _status;
+		if (_journalArticleCacheModel == _dummyJournalArticleCacheModel) {
+			_journalArticleCacheModel =
+				(JournalArticleCacheModel)toCacheModel();
 		}
 
 		_status = status;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalStatus() {
-		return _originalStatus;
+		return getOriginalAttributeValue("status");
 	}
 
 	@JSON
@@ -1270,6 +1656,13 @@ public class JournalArticleModelImpl
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		_columnBitmask |= STATUSBYUSERID_COLUMN_BITMASK;
+
+		if (_journalArticleCacheModel == _dummyJournalArticleCacheModel) {
+			_journalArticleCacheModel =
+				(JournalArticleCacheModel)toCacheModel();
+		}
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -1302,6 +1695,13 @@ public class JournalArticleModelImpl
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		_columnBitmask |= STATUSBYUSERNAME_COLUMN_BITMASK;
+
+		if (_journalArticleCacheModel == _dummyJournalArticleCacheModel) {
+			_journalArticleCacheModel =
+				(JournalArticleCacheModel)toCacheModel();
+		}
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -1313,6 +1713,13 @@ public class JournalArticleModelImpl
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		_columnBitmask |= STATUSDATE_COLUMN_BITMASK;
+
+		if (_journalArticleCacheModel == _dummyJournalArticleCacheModel) {
+			_journalArticleCacheModel =
+				(JournalArticleCacheModel)toCacheModel();
+		}
+
 		_statusDate = statusDate;
 	}
 
@@ -1708,91 +2115,13 @@ public class JournalArticleModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		JournalArticleModelImpl journalArticleModelImpl = this;
-
-		journalArticleModelImpl._originalUuid = journalArticleModelImpl._uuid;
-
-		journalArticleModelImpl._originalResourcePrimKey =
-			journalArticleModelImpl._resourcePrimKey;
-
-		journalArticleModelImpl._setOriginalResourcePrimKey = false;
-
-		journalArticleModelImpl._originalGroupId =
-			journalArticleModelImpl._groupId;
-
-		journalArticleModelImpl._setOriginalGroupId = false;
-
-		journalArticleModelImpl._originalCompanyId =
-			journalArticleModelImpl._companyId;
-
-		journalArticleModelImpl._setOriginalCompanyId = false;
-
-		journalArticleModelImpl._originalUserId =
-			journalArticleModelImpl._userId;
-
-		journalArticleModelImpl._setOriginalUserId = false;
-
-		journalArticleModelImpl._setModifiedDate = false;
-
-		journalArticleModelImpl._originalFolderId =
-			journalArticleModelImpl._folderId;
-
-		journalArticleModelImpl._setOriginalFolderId = false;
-
-		journalArticleModelImpl._originalClassNameId =
-			journalArticleModelImpl._classNameId;
-
-		journalArticleModelImpl._setOriginalClassNameId = false;
-
-		journalArticleModelImpl._originalClassPK =
-			journalArticleModelImpl._classPK;
-
-		journalArticleModelImpl._setOriginalClassPK = false;
-
-		journalArticleModelImpl._originalArticleId =
-			journalArticleModelImpl._articleId;
-
-		journalArticleModelImpl._originalVersion =
-			journalArticleModelImpl._version;
-
-		journalArticleModelImpl._setOriginalVersion = false;
-
-		journalArticleModelImpl._originalUrlTitle =
-			journalArticleModelImpl._urlTitle;
-
-		journalArticleModelImpl._originalDDMStructureKey =
-			journalArticleModelImpl._DDMStructureKey;
-
-		journalArticleModelImpl._originalDDMTemplateKey =
-			journalArticleModelImpl._DDMTemplateKey;
-
-		journalArticleModelImpl._originalLayoutUuid =
-			journalArticleModelImpl._layoutUuid;
-
-		journalArticleModelImpl._originalDisplayDate =
-			journalArticleModelImpl._displayDate;
-
-		journalArticleModelImpl._originalExpirationDate =
-			journalArticleModelImpl._expirationDate;
-
-		journalArticleModelImpl._originalIndexable =
-			journalArticleModelImpl._indexable;
-
-		journalArticleModelImpl._setOriginalIndexable = false;
-
-		journalArticleModelImpl._originalSmallImageId =
-			journalArticleModelImpl._smallImageId;
-
-		journalArticleModelImpl._setOriginalSmallImageId = false;
-
-		journalArticleModelImpl._originalStatus =
-			journalArticleModelImpl._status;
-
-		journalArticleModelImpl._setOriginalStatus = false;
+		_setModifiedDate = false;
 
 		setDocument(null);
 
-		journalArticleModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
+
+		_journalArticleCacheModel = _dummyJournalArticleCacheModel;
 	}
 
 	@Override
@@ -2070,70 +2399,45 @@ public class JournalArticleModelImpl
 	private long _mvccVersion;
 	private long _ctCollectionId;
 	private String _uuid;
-	private String _originalUuid;
 	private long _id;
 	private long _resourcePrimKey;
-	private long _originalResourcePrimKey;
-	private boolean _setOriginalResourcePrimKey;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
-	private long _originalUserId;
-	private boolean _setOriginalUserId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _folderId;
-	private long _originalFolderId;
-	private boolean _setOriginalFolderId;
 	private long _classNameId;
-	private long _originalClassNameId;
-	private boolean _setOriginalClassNameId;
 	private long _classPK;
-	private long _originalClassPK;
-	private boolean _setOriginalClassPK;
 	private String _treePath;
 	private String _articleId;
-	private String _originalArticleId;
 	private double _version;
-	private double _originalVersion;
-	private boolean _setOriginalVersion;
 	private String _urlTitle;
-	private String _originalUrlTitle;
 	private String _content;
 	private String _DDMStructureKey;
-	private String _originalDDMStructureKey;
 	private String _DDMTemplateKey;
-	private String _originalDDMTemplateKey;
 	private String _defaultLanguageId;
 	private String _layoutUuid;
-	private String _originalLayoutUuid;
 	private Date _displayDate;
-	private Date _originalDisplayDate;
 	private Date _expirationDate;
-	private Date _originalExpirationDate;
 	private Date _reviewDate;
 	private boolean _indexable;
-	private boolean _originalIndexable;
-	private boolean _setOriginalIndexable;
 	private boolean _smallImage;
 	private long _smallImageId;
-	private long _originalSmallImageId;
-	private boolean _setOriginalSmallImageId;
 	private String _smallImageURL;
 	private Date _lastPublishDate;
 	private int _status;
-	private int _originalStatus;
-	private boolean _setOriginalStatus;
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
 	private long _columnBitmask;
 	private JournalArticle _escapedModel;
+
+	private static final JournalArticleCacheModel
+		_dummyJournalArticleCacheModel = new JournalArticleCacheModel();
+
+	private JournalArticleCacheModel _journalArticleCacheModel;
 
 }

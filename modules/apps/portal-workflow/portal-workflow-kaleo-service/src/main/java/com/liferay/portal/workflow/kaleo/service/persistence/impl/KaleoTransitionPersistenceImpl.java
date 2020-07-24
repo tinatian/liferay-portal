@@ -2282,8 +2282,9 @@ public class KaleoTransitionPersistenceImpl
 			 _finderPathFetchByKNI_N.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				kaleoTransitionModelImpl.getOriginalKaleoNodeId(),
-				kaleoTransitionModelImpl.getOriginalName()
+				kaleoTransitionModelImpl.getOriginalAttributeValue(
+					"kaleoNodeId"),
+				kaleoTransitionModelImpl.getOriginalAttributeValue("name")
 			};
 
 			finderCache.removeResult(_finderPathCountByKNI_N, args);
@@ -2304,8 +2305,10 @@ public class KaleoTransitionPersistenceImpl
 			 _finderPathFetchByKNI_DT.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				kaleoTransitionModelImpl.getOriginalKaleoNodeId(),
-				kaleoTransitionModelImpl.getOriginalDefaultTransition()
+				kaleoTransitionModelImpl.getOriginalAttributeValue(
+					"kaleoNodeId"),
+				kaleoTransitionModelImpl.getOriginalAttributeValue(
+					"defaultTransition")
 			};
 
 			finderCache.removeResult(_finderPathCountByKNI_DT, args);
@@ -2525,7 +2528,8 @@ public class KaleoTransitionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoTransitionModelImpl.getOriginalCompanyId()
+					kaleoTransitionModelImpl.getOriginalAttributeValue(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCompanyId, args);
@@ -2544,8 +2548,8 @@ public class KaleoTransitionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoTransitionModelImpl.
-						getOriginalKaleoDefinitionVersionId()
+					kaleoTransitionModelImpl.getOriginalAttributeValue(
+						"kaleoDefinitionVersionId")
 				};
 
 				finderCache.removeResult(
@@ -2570,7 +2574,8 @@ public class KaleoTransitionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoTransitionModelImpl.getOriginalKaleoNodeId()
+					kaleoTransitionModelImpl.getOriginalAttributeValue(
+						"kaleoNodeId")
 				};
 
 				finderCache.removeResult(_finderPathCountByKaleoNodeId, args);

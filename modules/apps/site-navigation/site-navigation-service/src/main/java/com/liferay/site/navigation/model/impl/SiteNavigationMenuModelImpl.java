@@ -27,7 +27,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.site.navigation.model.SiteNavigationMenu;
@@ -120,19 +119,31 @@ public class SiteNavigationMenuModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long AUTO_COLUMN_BITMASK = 1L;
+	public static final long MVCCVERSION_COLUMN_BITMASK = 1L;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 2L;
+	public static final long UUID_COLUMN_BITMASK = 2L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 4L;
+	public static final long SITENAVIGATIONMENUID_COLUMN_BITMASK = 4L;
 
-	public static final long NAME_COLUMN_BITMASK = 8L;
+	public static final long GROUPID_COLUMN_BITMASK = 8L;
 
-	public static final long TYPE_COLUMN_BITMASK = 16L;
+	public static final long COMPANYID_COLUMN_BITMASK = 16L;
 
-	public static final long UUID_COLUMN_BITMASK = 32L;
+	public static final long USERID_COLUMN_BITMASK = 32L;
 
-	public static final long SITENAVIGATIONMENUID_COLUMN_BITMASK = 64L;
+	public static final long USERNAME_COLUMN_BITMASK = 64L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 128L;
+
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 256L;
+
+	public static final long NAME_COLUMN_BITMASK = 512L;
+
+	public static final long TYPE_COLUMN_BITMASK = 1024L;
+
+	public static final long AUTO_COLUMN_BITMASK = 2048L;
+
+	public static final long LASTPUBLISHDATE_COLUMN_BITMASK = 4096L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -314,6 +325,27 @@ public class SiteNavigationMenuModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_siteNavigationMenuCacheModel == null) ||
+			(_siteNavigationMenuCacheModel ==
+				_dummySiteNavigationMenuCacheModel)) {
+
+			return null;
+		}
+
+		Function<SiteNavigationMenuCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_siteNavigationMenuCacheModel);
+	}
+
+	private static final Map
+		<String, Function<SiteNavigationMenuCacheModel, Object>>
+			_cacheModelGetterFunctions;
 	private static final Map<String, Function<SiteNavigationMenu, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<SiteNavigationMenu, Object>>
@@ -327,14 +359,27 @@ public class SiteNavigationMenuModelImpl
 		Map<String, BiConsumer<SiteNavigationMenu, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<SiteNavigationMenu, ?>>();
+		Map<String, Function<SiteNavigationMenuCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<SiteNavigationMenuCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", SiteNavigationMenu::getMvccVersion);
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			siteNavigationMenuCacheModel ->
+				siteNavigationMenuCacheModel.mvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<SiteNavigationMenu, Long>)
 				SiteNavigationMenu::setMvccVersion);
 		attributeGetterFunctions.put("uuid", SiteNavigationMenu::getUuid);
+
+		cacheModelGetterFunctions.put(
+			"uuid",
+			siteNavigationMenuCacheModel -> siteNavigationMenuCacheModel.uuid);
 		attributeSetterBiConsumers.put(
 			"uuid",
 			(BiConsumer<SiteNavigationMenu, String>)
@@ -342,61 +387,113 @@ public class SiteNavigationMenuModelImpl
 		attributeGetterFunctions.put(
 			"siteNavigationMenuId",
 			SiteNavigationMenu::getSiteNavigationMenuId);
+
+		cacheModelGetterFunctions.put(
+			"siteNavigationMenuId",
+			siteNavigationMenuCacheModel ->
+				siteNavigationMenuCacheModel.siteNavigationMenuId);
 		attributeSetterBiConsumers.put(
 			"siteNavigationMenuId",
 			(BiConsumer<SiteNavigationMenu, Long>)
 				SiteNavigationMenu::setSiteNavigationMenuId);
 		attributeGetterFunctions.put("groupId", SiteNavigationMenu::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			siteNavigationMenuCacheModel ->
+				siteNavigationMenuCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<SiteNavigationMenu, Long>)
 				SiteNavigationMenu::setGroupId);
 		attributeGetterFunctions.put(
 			"companyId", SiteNavigationMenu::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			siteNavigationMenuCacheModel ->
+				siteNavigationMenuCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<SiteNavigationMenu, Long>)
 				SiteNavigationMenu::setCompanyId);
 		attributeGetterFunctions.put("userId", SiteNavigationMenu::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			siteNavigationMenuCacheModel ->
+				siteNavigationMenuCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<SiteNavigationMenu, Long>)
 				SiteNavigationMenu::setUserId);
 		attributeGetterFunctions.put(
 			"userName", SiteNavigationMenu::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			siteNavigationMenuCacheModel ->
+				siteNavigationMenuCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<SiteNavigationMenu, String>)
 				SiteNavigationMenu::setUserName);
 		attributeGetterFunctions.put(
 			"createDate", SiteNavigationMenu::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			siteNavigationMenuCacheModel ->
+				siteNavigationMenuCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<SiteNavigationMenu, Date>)
 				SiteNavigationMenu::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", SiteNavigationMenu::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			siteNavigationMenuCacheModel ->
+				siteNavigationMenuCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<SiteNavigationMenu, Date>)
 				SiteNavigationMenu::setModifiedDate);
 		attributeGetterFunctions.put("name", SiteNavigationMenu::getName);
+
+		cacheModelGetterFunctions.put(
+			"name",
+			siteNavigationMenuCacheModel -> siteNavigationMenuCacheModel.name);
 		attributeSetterBiConsumers.put(
 			"name",
 			(BiConsumer<SiteNavigationMenu, String>)
 				SiteNavigationMenu::setName);
 		attributeGetterFunctions.put("type", SiteNavigationMenu::getType);
+
+		cacheModelGetterFunctions.put(
+			"type",
+			siteNavigationMenuCacheModel -> siteNavigationMenuCacheModel.type);
 		attributeSetterBiConsumers.put(
 			"type",
 			(BiConsumer<SiteNavigationMenu, Integer>)
 				SiteNavigationMenu::setType);
 		attributeGetterFunctions.put("auto", SiteNavigationMenu::getAuto);
+
+		cacheModelGetterFunctions.put(
+			"auto",
+			siteNavigationMenuCacheModel -> siteNavigationMenuCacheModel.auto);
 		attributeSetterBiConsumers.put(
 			"auto",
 			(BiConsumer<SiteNavigationMenu, Boolean>)
 				SiteNavigationMenu::setAuto);
 		attributeGetterFunctions.put(
 			"lastPublishDate", SiteNavigationMenu::getLastPublishDate);
+
+		cacheModelGetterFunctions.put(
+			"lastPublishDate",
+			siteNavigationMenuCacheModel ->
+				siteNavigationMenuCacheModel.lastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<SiteNavigationMenu, Date>)
@@ -406,6 +503,8 @@ public class SiteNavigationMenuModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -416,6 +515,15 @@ public class SiteNavigationMenuModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= MVCCVERSION_COLUMN_BITMASK;
+
+		if (_siteNavigationMenuCacheModel ==
+				_dummySiteNavigationMenuCacheModel) {
+
+			_siteNavigationMenuCacheModel =
+				(SiteNavigationMenuCacheModel)toCacheModel();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -434,15 +542,23 @@ public class SiteNavigationMenuModelImpl
 	public void setUuid(String uuid) {
 		_columnBitmask |= UUID_COLUMN_BITMASK;
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_siteNavigationMenuCacheModel ==
+				_dummySiteNavigationMenuCacheModel) {
+
+			_siteNavigationMenuCacheModel =
+				(SiteNavigationMenuCacheModel)toCacheModel();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getOriginalAttributeValue("uuid");
 	}
 
 	@JSON
@@ -453,6 +569,15 @@ public class SiteNavigationMenuModelImpl
 
 	@Override
 	public void setSiteNavigationMenuId(long siteNavigationMenuId) {
+		_columnBitmask |= SITENAVIGATIONMENUID_COLUMN_BITMASK;
+
+		if (_siteNavigationMenuCacheModel ==
+				_dummySiteNavigationMenuCacheModel) {
+
+			_siteNavigationMenuCacheModel =
+				(SiteNavigationMenuCacheModel)toCacheModel();
+		}
+
 		_siteNavigationMenuId = siteNavigationMenuId;
 	}
 
@@ -466,17 +591,23 @@ public class SiteNavigationMenuModelImpl
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
+		if (_siteNavigationMenuCacheModel ==
+				_dummySiteNavigationMenuCacheModel) {
 
-			_originalGroupId = _groupId;
+			_siteNavigationMenuCacheModel =
+				(SiteNavigationMenuCacheModel)toCacheModel();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getOriginalAttributeValue("groupId");
 	}
 
 	@JSON
@@ -489,17 +620,23 @@ public class SiteNavigationMenuModelImpl
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
+		if (_siteNavigationMenuCacheModel ==
+				_dummySiteNavigationMenuCacheModel) {
 
-			_originalCompanyId = _companyId;
+			_siteNavigationMenuCacheModel =
+				(SiteNavigationMenuCacheModel)toCacheModel();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@JSON
@@ -510,6 +647,15 @@ public class SiteNavigationMenuModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (_siteNavigationMenuCacheModel ==
+				_dummySiteNavigationMenuCacheModel) {
+
+			_siteNavigationMenuCacheModel =
+				(SiteNavigationMenuCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -542,6 +688,15 @@ public class SiteNavigationMenuModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (_siteNavigationMenuCacheModel ==
+				_dummySiteNavigationMenuCacheModel) {
+
+			_siteNavigationMenuCacheModel =
+				(SiteNavigationMenuCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -553,6 +708,15 @@ public class SiteNavigationMenuModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
+
+		if (_siteNavigationMenuCacheModel ==
+				_dummySiteNavigationMenuCacheModel) {
+
+			_siteNavigationMenuCacheModel =
+				(SiteNavigationMenuCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -569,6 +733,15 @@ public class SiteNavigationMenuModelImpl
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
+
+		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
+
+		if (_siteNavigationMenuCacheModel ==
+				_dummySiteNavigationMenuCacheModel) {
+
+			_siteNavigationMenuCacheModel =
+				(SiteNavigationMenuCacheModel)toCacheModel();
+		}
 
 		_modifiedDate = modifiedDate;
 	}
@@ -588,15 +761,23 @@ public class SiteNavigationMenuModelImpl
 	public void setName(String name) {
 		_columnBitmask |= NAME_COLUMN_BITMASK;
 
-		if (_originalName == null) {
-			_originalName = _name;
+		if (_siteNavigationMenuCacheModel ==
+				_dummySiteNavigationMenuCacheModel) {
+
+			_siteNavigationMenuCacheModel =
+				(SiteNavigationMenuCacheModel)toCacheModel();
 		}
 
 		_name = name;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalName() {
-		return GetterUtil.getString(_originalName);
+		return getOriginalAttributeValue("name");
 	}
 
 	@JSON
@@ -609,17 +790,23 @@ public class SiteNavigationMenuModelImpl
 	public void setType(int type) {
 		_columnBitmask |= TYPE_COLUMN_BITMASK;
 
-		if (!_setOriginalType) {
-			_setOriginalType = true;
+		if (_siteNavigationMenuCacheModel ==
+				_dummySiteNavigationMenuCacheModel) {
 
-			_originalType = _type;
+			_siteNavigationMenuCacheModel =
+				(SiteNavigationMenuCacheModel)toCacheModel();
 		}
 
 		_type = type;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalType() {
-		return _originalType;
+		return getOriginalAttributeValue("type");
 	}
 
 	@JSON
@@ -638,17 +825,23 @@ public class SiteNavigationMenuModelImpl
 	public void setAuto(boolean auto) {
 		_columnBitmask |= AUTO_COLUMN_BITMASK;
 
-		if (!_setOriginalAuto) {
-			_setOriginalAuto = true;
+		if (_siteNavigationMenuCacheModel ==
+				_dummySiteNavigationMenuCacheModel) {
 
-			_originalAuto = _auto;
+			_siteNavigationMenuCacheModel =
+				(SiteNavigationMenuCacheModel)toCacheModel();
 		}
 
 		_auto = auto;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public boolean getOriginalAuto() {
-		return _originalAuto;
+		return getOriginalAttributeValue("auto");
 	}
 
 	@JSON
@@ -659,6 +852,15 @@ public class SiteNavigationMenuModelImpl
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		_columnBitmask |= LASTPUBLISHDATE_COLUMN_BITMASK;
+
+		if (_siteNavigationMenuCacheModel ==
+				_dummySiteNavigationMenuCacheModel) {
+
+			_siteNavigationMenuCacheModel =
+				(SiteNavigationMenuCacheModel)toCacheModel();
+		}
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -788,37 +990,11 @@ public class SiteNavigationMenuModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		SiteNavigationMenuModelImpl siteNavigationMenuModelImpl = this;
+		_setModifiedDate = false;
 
-		siteNavigationMenuModelImpl._originalUuid =
-			siteNavigationMenuModelImpl._uuid;
+		_columnBitmask = 0;
 
-		siteNavigationMenuModelImpl._originalGroupId =
-			siteNavigationMenuModelImpl._groupId;
-
-		siteNavigationMenuModelImpl._setOriginalGroupId = false;
-
-		siteNavigationMenuModelImpl._originalCompanyId =
-			siteNavigationMenuModelImpl._companyId;
-
-		siteNavigationMenuModelImpl._setOriginalCompanyId = false;
-
-		siteNavigationMenuModelImpl._setModifiedDate = false;
-
-		siteNavigationMenuModelImpl._originalName =
-			siteNavigationMenuModelImpl._name;
-
-		siteNavigationMenuModelImpl._originalType =
-			siteNavigationMenuModelImpl._type;
-
-		siteNavigationMenuModelImpl._setOriginalType = false;
-
-		siteNavigationMenuModelImpl._originalAuto =
-			siteNavigationMenuModelImpl._auto;
-
-		siteNavigationMenuModelImpl._setOriginalAuto = false;
-
-		siteNavigationMenuModelImpl._columnBitmask = 0;
+		_siteNavigationMenuCacheModel = _dummySiteNavigationMenuCacheModel;
 	}
 
 	@Override
@@ -968,29 +1144,24 @@ public class SiteNavigationMenuModelImpl
 
 	private long _mvccVersion;
 	private String _uuid;
-	private String _originalUuid;
 	private long _siteNavigationMenuId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private String _name;
-	private String _originalName;
 	private int _type;
-	private int _originalType;
-	private boolean _setOriginalType;
 	private boolean _auto;
-	private boolean _originalAuto;
-	private boolean _setOriginalAuto;
 	private Date _lastPublishDate;
 	private long _columnBitmask;
 	private SiteNavigationMenu _escapedModel;
+
+	private static final SiteNavigationMenuCacheModel
+		_dummySiteNavigationMenuCacheModel = new SiteNavigationMenuCacheModel();
+
+	private SiteNavigationMenuCacheModel _siteNavigationMenuCacheModel;
 
 }

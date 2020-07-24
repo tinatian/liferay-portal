@@ -307,6 +307,25 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_entryCacheModel == null) ||
+			(_entryCacheModel == _dummyEntryCacheModel)) {
+
+			return null;
+		}
+
+		Function<EntryCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_entryCacheModel);
+	}
+
+	private static final Map<String, Function<EntryCacheModel, Object>>
+		_cacheModelGetterFunctions;
 	private static final Map<String, Function<Entry, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<Entry, Object>>
@@ -317,75 +336,144 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 			new LinkedHashMap<String, Function<Entry, Object>>();
 		Map<String, BiConsumer<Entry, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Entry, ?>>();
+		Map<String, Function<EntryCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap<String, Function<EntryCacheModel, Object>>();
 
 		attributeGetterFunctions.put("entryId", Entry::getEntryId);
+
+		cacheModelGetterFunctions.put(
+			"entryId", entryCacheModel -> entryCacheModel.entryId);
 		attributeSetterBiConsumers.put(
 			"entryId", (BiConsumer<Entry, Long>)Entry::setEntryId);
 		attributeGetterFunctions.put("groupId", Entry::getGroupId);
+
+		cacheModelGetterFunctions.put(
+			"groupId", entryCacheModel -> entryCacheModel.groupId);
 		attributeSetterBiConsumers.put(
 			"groupId", (BiConsumer<Entry, Long>)Entry::setGroupId);
 		attributeGetterFunctions.put("companyId", Entry::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId", entryCacheModel -> entryCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId", (BiConsumer<Entry, Long>)Entry::setCompanyId);
 		attributeGetterFunctions.put("userId", Entry::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", entryCacheModel -> entryCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<Entry, Long>)Entry::setUserId);
 		attributeGetterFunctions.put("userName", Entry::getUserName);
+
+		cacheModelGetterFunctions.put(
+			"userName", entryCacheModel -> entryCacheModel.userName);
 		attributeSetterBiConsumers.put(
 			"userName", (BiConsumer<Entry, String>)Entry::setUserName);
 		attributeGetterFunctions.put("createDate", Entry::getCreateDate);
+
+		cacheModelGetterFunctions.put(
+			"createDate", entryCacheModel -> entryCacheModel.createDate);
 		attributeSetterBiConsumers.put(
 			"createDate", (BiConsumer<Entry, Date>)Entry::setCreateDate);
 		attributeGetterFunctions.put("modifiedDate", Entry::getModifiedDate);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate", entryCacheModel -> entryCacheModel.modifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate", (BiConsumer<Entry, Date>)Entry::setModifiedDate);
 		attributeGetterFunctions.put("definitionId", Entry::getDefinitionId);
+
+		cacheModelGetterFunctions.put(
+			"definitionId", entryCacheModel -> entryCacheModel.definitionId);
 		attributeSetterBiConsumers.put(
 			"definitionId", (BiConsumer<Entry, Long>)Entry::setDefinitionId);
 		attributeGetterFunctions.put("format", Entry::getFormat);
+
+		cacheModelGetterFunctions.put(
+			"format", entryCacheModel -> entryCacheModel.format);
 		attributeSetterBiConsumers.put(
 			"format", (BiConsumer<Entry, String>)Entry::setFormat);
 		attributeGetterFunctions.put(
 			"scheduleRequest", Entry::getScheduleRequest);
+
+		cacheModelGetterFunctions.put(
+			"scheduleRequest",
+			entryCacheModel -> entryCacheModel.scheduleRequest);
 		attributeSetterBiConsumers.put(
 			"scheduleRequest",
 			(BiConsumer<Entry, Boolean>)Entry::setScheduleRequest);
 		attributeGetterFunctions.put("startDate", Entry::getStartDate);
+
+		cacheModelGetterFunctions.put(
+			"startDate", entryCacheModel -> entryCacheModel.startDate);
 		attributeSetterBiConsumers.put(
 			"startDate", (BiConsumer<Entry, Date>)Entry::setStartDate);
 		attributeGetterFunctions.put("endDate", Entry::getEndDate);
+
+		cacheModelGetterFunctions.put(
+			"endDate", entryCacheModel -> entryCacheModel.endDate);
 		attributeSetterBiConsumers.put(
 			"endDate", (BiConsumer<Entry, Date>)Entry::setEndDate);
 		attributeGetterFunctions.put("repeating", Entry::getRepeating);
+
+		cacheModelGetterFunctions.put(
+			"repeating", entryCacheModel -> entryCacheModel.repeating);
 		attributeSetterBiConsumers.put(
 			"repeating", (BiConsumer<Entry, Boolean>)Entry::setRepeating);
 		attributeGetterFunctions.put("recurrence", Entry::getRecurrence);
+
+		cacheModelGetterFunctions.put(
+			"recurrence", entryCacheModel -> entryCacheModel.recurrence);
 		attributeSetterBiConsumers.put(
 			"recurrence", (BiConsumer<Entry, String>)Entry::setRecurrence);
 		attributeGetterFunctions.put(
 			"emailNotifications", Entry::getEmailNotifications);
+
+		cacheModelGetterFunctions.put(
+			"emailNotifications",
+			entryCacheModel -> entryCacheModel.emailNotifications);
 		attributeSetterBiConsumers.put(
 			"emailNotifications",
 			(BiConsumer<Entry, String>)Entry::setEmailNotifications);
 		attributeGetterFunctions.put("emailDelivery", Entry::getEmailDelivery);
+
+		cacheModelGetterFunctions.put(
+			"emailDelivery", entryCacheModel -> entryCacheModel.emailDelivery);
 		attributeSetterBiConsumers.put(
 			"emailDelivery",
 			(BiConsumer<Entry, String>)Entry::setEmailDelivery);
 		attributeGetterFunctions.put("portletId", Entry::getPortletId);
+
+		cacheModelGetterFunctions.put(
+			"portletId", entryCacheModel -> entryCacheModel.portletId);
 		attributeSetterBiConsumers.put(
 			"portletId", (BiConsumer<Entry, String>)Entry::setPortletId);
 		attributeGetterFunctions.put("pageURL", Entry::getPageURL);
+
+		cacheModelGetterFunctions.put(
+			"pageURL", entryCacheModel -> entryCacheModel.pageURL);
 		attributeSetterBiConsumers.put(
 			"pageURL", (BiConsumer<Entry, String>)Entry::setPageURL);
 		attributeGetterFunctions.put(
 			"reportParameters", Entry::getReportParameters);
+
+		cacheModelGetterFunctions.put(
+			"reportParameters",
+			entryCacheModel -> entryCacheModel.reportParameters);
 		attributeSetterBiConsumers.put(
 			"reportParameters",
 			(BiConsumer<Entry, String>)Entry::setReportParameters);
 		attributeGetterFunctions.put("errorMessage", Entry::getErrorMessage);
+
+		cacheModelGetterFunctions.put(
+			"errorMessage", entryCacheModel -> entryCacheModel.errorMessage);
 		attributeSetterBiConsumers.put(
 			"errorMessage", (BiConsumer<Entry, String>)Entry::setErrorMessage);
 		attributeGetterFunctions.put("status", Entry::getStatus);
+
+		cacheModelGetterFunctions.put(
+			"status", entryCacheModel -> entryCacheModel.status);
 		attributeSetterBiConsumers.put(
 			"status", (BiConsumer<Entry, String>)Entry::setStatus);
 
@@ -393,6 +481,8 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@JSON
@@ -403,6 +493,10 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setEntryId(long entryId) {
+		if (_entryCacheModel == _dummyEntryCacheModel) {
+			_entryCacheModel = (EntryCacheModel)toCacheModel();
+		}
+
 		_entryId = entryId;
 	}
 
@@ -414,6 +508,10 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setGroupId(long groupId) {
+		if (_entryCacheModel == _dummyEntryCacheModel) {
+			_entryCacheModel = (EntryCacheModel)toCacheModel();
+		}
+
 		_groupId = groupId;
 	}
 
@@ -425,6 +523,10 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setCompanyId(long companyId) {
+		if (_entryCacheModel == _dummyEntryCacheModel) {
+			_entryCacheModel = (EntryCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -436,6 +538,10 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setUserId(long userId) {
+		if (_entryCacheModel == _dummyEntryCacheModel) {
+			_entryCacheModel = (EntryCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -468,6 +574,10 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setUserName(String userName) {
+		if (_entryCacheModel == _dummyEntryCacheModel) {
+			_entryCacheModel = (EntryCacheModel)toCacheModel();
+		}
+
 		_userName = userName;
 	}
 
@@ -479,6 +589,10 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		if (_entryCacheModel == _dummyEntryCacheModel) {
+			_entryCacheModel = (EntryCacheModel)toCacheModel();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -496,6 +610,10 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		if (_entryCacheModel == _dummyEntryCacheModel) {
+			_entryCacheModel = (EntryCacheModel)toCacheModel();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -507,6 +625,10 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setDefinitionId(long definitionId) {
+		if (_entryCacheModel == _dummyEntryCacheModel) {
+			_entryCacheModel = (EntryCacheModel)toCacheModel();
+		}
+
 		_definitionId = definitionId;
 	}
 
@@ -523,6 +645,10 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setFormat(String format) {
+		if (_entryCacheModel == _dummyEntryCacheModel) {
+			_entryCacheModel = (EntryCacheModel)toCacheModel();
+		}
+
 		_format = format;
 	}
 
@@ -540,6 +666,10 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setScheduleRequest(boolean scheduleRequest) {
+		if (_entryCacheModel == _dummyEntryCacheModel) {
+			_entryCacheModel = (EntryCacheModel)toCacheModel();
+		}
+
 		_scheduleRequest = scheduleRequest;
 	}
 
@@ -551,6 +681,10 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setStartDate(Date startDate) {
+		if (_entryCacheModel == _dummyEntryCacheModel) {
+			_entryCacheModel = (EntryCacheModel)toCacheModel();
+		}
+
 		_startDate = startDate;
 	}
 
@@ -562,6 +696,10 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setEndDate(Date endDate) {
+		if (_entryCacheModel == _dummyEntryCacheModel) {
+			_entryCacheModel = (EntryCacheModel)toCacheModel();
+		}
+
 		_endDate = endDate;
 	}
 
@@ -579,6 +717,10 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setRepeating(boolean repeating) {
+		if (_entryCacheModel == _dummyEntryCacheModel) {
+			_entryCacheModel = (EntryCacheModel)toCacheModel();
+		}
+
 		_repeating = repeating;
 	}
 
@@ -595,6 +737,10 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setRecurrence(String recurrence) {
+		if (_entryCacheModel == _dummyEntryCacheModel) {
+			_entryCacheModel = (EntryCacheModel)toCacheModel();
+		}
+
 		_recurrence = recurrence;
 	}
 
@@ -611,6 +757,10 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setEmailNotifications(String emailNotifications) {
+		if (_entryCacheModel == _dummyEntryCacheModel) {
+			_entryCacheModel = (EntryCacheModel)toCacheModel();
+		}
+
 		_emailNotifications = emailNotifications;
 	}
 
@@ -627,6 +777,10 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setEmailDelivery(String emailDelivery) {
+		if (_entryCacheModel == _dummyEntryCacheModel) {
+			_entryCacheModel = (EntryCacheModel)toCacheModel();
+		}
+
 		_emailDelivery = emailDelivery;
 	}
 
@@ -643,6 +797,10 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setPortletId(String portletId) {
+		if (_entryCacheModel == _dummyEntryCacheModel) {
+			_entryCacheModel = (EntryCacheModel)toCacheModel();
+		}
+
 		_portletId = portletId;
 	}
 
@@ -659,6 +817,10 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setPageURL(String pageURL) {
+		if (_entryCacheModel == _dummyEntryCacheModel) {
+			_entryCacheModel = (EntryCacheModel)toCacheModel();
+		}
+
 		_pageURL = pageURL;
 	}
 
@@ -675,6 +837,10 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setReportParameters(String reportParameters) {
+		if (_entryCacheModel == _dummyEntryCacheModel) {
+			_entryCacheModel = (EntryCacheModel)toCacheModel();
+		}
+
 		_reportParameters = reportParameters;
 	}
 
@@ -691,6 +857,10 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setErrorMessage(String errorMessage) {
+		if (_entryCacheModel == _dummyEntryCacheModel) {
+			_entryCacheModel = (EntryCacheModel)toCacheModel();
+		}
+
 		_errorMessage = errorMessage;
 	}
 
@@ -707,6 +877,10 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setStatus(String status) {
+		if (_entryCacheModel == _dummyEntryCacheModel) {
+			_entryCacheModel = (EntryCacheModel)toCacheModel();
+		}
+
 		_status = status;
 	}
 
@@ -829,9 +1003,9 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void resetOriginalValues() {
-		EntryModelImpl entryModelImpl = this;
+		_setModifiedDate = false;
 
-		entryModelImpl._setModifiedDate = false;
+		_entryCacheModel = _dummyEntryCacheModel;
 	}
 
 	@Override
@@ -1064,5 +1238,10 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 	private String _errorMessage;
 	private String _status;
 	private Entry _escapedModel;
+
+	private static final EntryCacheModel _dummyEntryCacheModel =
+		new EntryCacheModel();
+
+	private EntryCacheModel _entryCacheModel;
 
 }

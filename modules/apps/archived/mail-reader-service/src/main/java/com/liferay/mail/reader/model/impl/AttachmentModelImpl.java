@@ -104,9 +104,23 @@ public class AttachmentModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long MESSAGEID_COLUMN_BITMASK = 1L;
+	public static final long ATTACHMENTID_COLUMN_BITMASK = 1L;
 
-	public static final long ATTACHMENTID_COLUMN_BITMASK = 2L;
+	public static final long COMPANYID_COLUMN_BITMASK = 2L;
+
+	public static final long USERID_COLUMN_BITMASK = 4L;
+
+	public static final long ACCOUNTID_COLUMN_BITMASK = 8L;
+
+	public static final long FOLDERID_COLUMN_BITMASK = 16L;
+
+	public static final long MESSAGEID_COLUMN_BITMASK = 32L;
+
+	public static final long CONTENTPATH_COLUMN_BITMASK = 64L;
+
+	public static final long FILENAME_COLUMN_BITMASK = 128L;
+
+	public static final long SIZE_COLUMN_BITMASK = 256L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -234,6 +248,25 @@ public class AttachmentModelImpl
 		}
 	}
 
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		if ((_attachmentCacheModel == null) ||
+			(_attachmentCacheModel == _dummyAttachmentCacheModel)) {
+
+			return null;
+		}
+
+		Function<AttachmentCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply(_attachmentCacheModel);
+	}
+
+	private static final Map<String, Function<AttachmentCacheModel, Object>>
+		_cacheModelGetterFunctions;
 	private static final Map<String, Function<Attachment, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<Attachment, Object>>
@@ -244,39 +277,75 @@ public class AttachmentModelImpl
 			new LinkedHashMap<String, Function<Attachment, Object>>();
 		Map<String, BiConsumer<Attachment, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Attachment, ?>>();
+		Map<String, Function<AttachmentCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<AttachmentCacheModel, Object>>();
 
 		attributeGetterFunctions.put(
 			"attachmentId", Attachment::getAttachmentId);
+
+		cacheModelGetterFunctions.put(
+			"attachmentId",
+			attachmentCacheModel -> attachmentCacheModel.attachmentId);
 		attributeSetterBiConsumers.put(
 			"attachmentId",
 			(BiConsumer<Attachment, Long>)Attachment::setAttachmentId);
 		attributeGetterFunctions.put("companyId", Attachment::getCompanyId);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			attachmentCacheModel -> attachmentCacheModel.companyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<Attachment, Long>)Attachment::setCompanyId);
 		attributeGetterFunctions.put("userId", Attachment::getUserId);
+
+		cacheModelGetterFunctions.put(
+			"userId", attachmentCacheModel -> attachmentCacheModel.userId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<Attachment, Long>)Attachment::setUserId);
 		attributeGetterFunctions.put("accountId", Attachment::getAccountId);
+
+		cacheModelGetterFunctions.put(
+			"accountId",
+			attachmentCacheModel -> attachmentCacheModel.accountId);
 		attributeSetterBiConsumers.put(
 			"accountId",
 			(BiConsumer<Attachment, Long>)Attachment::setAccountId);
 		attributeGetterFunctions.put("folderId", Attachment::getFolderId);
+
+		cacheModelGetterFunctions.put(
+			"folderId", attachmentCacheModel -> attachmentCacheModel.folderId);
 		attributeSetterBiConsumers.put(
 			"folderId", (BiConsumer<Attachment, Long>)Attachment::setFolderId);
 		attributeGetterFunctions.put("messageId", Attachment::getMessageId);
+
+		cacheModelGetterFunctions.put(
+			"messageId",
+			attachmentCacheModel -> attachmentCacheModel.messageId);
 		attributeSetterBiConsumers.put(
 			"messageId",
 			(BiConsumer<Attachment, Long>)Attachment::setMessageId);
 		attributeGetterFunctions.put("contentPath", Attachment::getContentPath);
+
+		cacheModelGetterFunctions.put(
+			"contentPath",
+			attachmentCacheModel -> attachmentCacheModel.contentPath);
 		attributeSetterBiConsumers.put(
 			"contentPath",
 			(BiConsumer<Attachment, String>)Attachment::setContentPath);
 		attributeGetterFunctions.put("fileName", Attachment::getFileName);
+
+		cacheModelGetterFunctions.put(
+			"fileName", attachmentCacheModel -> attachmentCacheModel.fileName);
 		attributeSetterBiConsumers.put(
 			"fileName",
 			(BiConsumer<Attachment, String>)Attachment::setFileName);
 		attributeGetterFunctions.put("size", Attachment::getSize);
+
+		cacheModelGetterFunctions.put(
+			"size", attachmentCacheModel -> attachmentCacheModel.size);
 		attributeSetterBiConsumers.put(
 			"size", (BiConsumer<Attachment, Long>)Attachment::setSize);
 
@@ -284,6 +353,8 @@ public class AttachmentModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
 	}
 
 	@Override
@@ -293,6 +364,12 @@ public class AttachmentModelImpl
 
 	@Override
 	public void setAttachmentId(long attachmentId) {
+		_columnBitmask |= ATTACHMENTID_COLUMN_BITMASK;
+
+		if (_attachmentCacheModel == _dummyAttachmentCacheModel) {
+			_attachmentCacheModel = (AttachmentCacheModel)toCacheModel();
+		}
+
 		_attachmentId = attachmentId;
 	}
 
@@ -303,6 +380,12 @@ public class AttachmentModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (_attachmentCacheModel == _dummyAttachmentCacheModel) {
+			_attachmentCacheModel = (AttachmentCacheModel)toCacheModel();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -313,6 +396,12 @@ public class AttachmentModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (_attachmentCacheModel == _dummyAttachmentCacheModel) {
+			_attachmentCacheModel = (AttachmentCacheModel)toCacheModel();
+		}
+
 		_userId = userId;
 	}
 
@@ -339,6 +428,12 @@ public class AttachmentModelImpl
 
 	@Override
 	public void setAccountId(long accountId) {
+		_columnBitmask |= ACCOUNTID_COLUMN_BITMASK;
+
+		if (_attachmentCacheModel == _dummyAttachmentCacheModel) {
+			_attachmentCacheModel = (AttachmentCacheModel)toCacheModel();
+		}
+
 		_accountId = accountId;
 	}
 
@@ -349,6 +444,12 @@ public class AttachmentModelImpl
 
 	@Override
 	public void setFolderId(long folderId) {
+		_columnBitmask |= FOLDERID_COLUMN_BITMASK;
+
+		if (_attachmentCacheModel == _dummyAttachmentCacheModel) {
+			_attachmentCacheModel = (AttachmentCacheModel)toCacheModel();
+		}
+
 		_folderId = folderId;
 	}
 
@@ -361,17 +462,20 @@ public class AttachmentModelImpl
 	public void setMessageId(long messageId) {
 		_columnBitmask |= MESSAGEID_COLUMN_BITMASK;
 
-		if (!_setOriginalMessageId) {
-			_setOriginalMessageId = true;
-
-			_originalMessageId = _messageId;
+		if (_attachmentCacheModel == _dummyAttachmentCacheModel) {
+			_attachmentCacheModel = (AttachmentCacheModel)toCacheModel();
 		}
 
 		_messageId = messageId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalMessageId() {
-		return _originalMessageId;
+		return getOriginalAttributeValue("messageId");
 	}
 
 	@Override
@@ -386,6 +490,12 @@ public class AttachmentModelImpl
 
 	@Override
 	public void setContentPath(String contentPath) {
+		_columnBitmask |= CONTENTPATH_COLUMN_BITMASK;
+
+		if (_attachmentCacheModel == _dummyAttachmentCacheModel) {
+			_attachmentCacheModel = (AttachmentCacheModel)toCacheModel();
+		}
+
 		_contentPath = contentPath;
 	}
 
@@ -401,6 +511,12 @@ public class AttachmentModelImpl
 
 	@Override
 	public void setFileName(String fileName) {
+		_columnBitmask |= FILENAME_COLUMN_BITMASK;
+
+		if (_attachmentCacheModel == _dummyAttachmentCacheModel) {
+			_attachmentCacheModel = (AttachmentCacheModel)toCacheModel();
+		}
+
 		_fileName = fileName;
 	}
 
@@ -411,6 +527,12 @@ public class AttachmentModelImpl
 
 	@Override
 	public void setSize(long size) {
+		_columnBitmask |= SIZE_COLUMN_BITMASK;
+
+		if (_attachmentCacheModel == _dummyAttachmentCacheModel) {
+			_attachmentCacheModel = (AttachmentCacheModel)toCacheModel();
+		}
+
 		_size = size;
 	}
 
@@ -527,13 +649,9 @@ public class AttachmentModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		AttachmentModelImpl attachmentModelImpl = this;
+		_columnBitmask = 0;
 
-		attachmentModelImpl._originalMessageId = attachmentModelImpl._messageId;
-
-		attachmentModelImpl._setOriginalMessageId = false;
-
-		attachmentModelImpl._columnBitmask = 0;
+		_attachmentCacheModel = _dummyAttachmentCacheModel;
 	}
 
 	@Override
@@ -649,12 +767,15 @@ public class AttachmentModelImpl
 	private long _accountId;
 	private long _folderId;
 	private long _messageId;
-	private long _originalMessageId;
-	private boolean _setOriginalMessageId;
 	private String _contentPath;
 	private String _fileName;
 	private long _size;
 	private long _columnBitmask;
 	private Attachment _escapedModel;
+
+	private static final AttachmentCacheModel _dummyAttachmentCacheModel =
+		new AttachmentCacheModel();
+
+	private AttachmentCacheModel _attachmentCacheModel;
 
 }

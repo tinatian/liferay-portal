@@ -3063,8 +3063,10 @@ public class AssetListEntrySegmentsEntryRelPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				assetListEntrySegmentsEntryRelModelImpl.getOriginalUuid(),
-				assetListEntrySegmentsEntryRelModelImpl.getOriginalGroupId()
+				assetListEntrySegmentsEntryRelModelImpl.
+					getOriginalAttributeValue("uuid"),
+				assetListEntrySegmentsEntryRelModelImpl.
+					getOriginalAttributeValue("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -3086,9 +3088,9 @@ public class AssetListEntrySegmentsEntryRelPersistenceImpl
 
 			Object[] args = new Object[] {
 				assetListEntrySegmentsEntryRelModelImpl.
-					getOriginalAssetListEntryId(),
+					getOriginalAttributeValue("assetListEntryId"),
 				assetListEntrySegmentsEntryRelModelImpl.
-					getOriginalSegmentsEntryId()
+					getOriginalAttributeValue("segmentsEntryId")
 			};
 
 			finderCache.removeResult(_finderPathCountByA_S, args);
@@ -3369,7 +3371,8 @@ public class AssetListEntrySegmentsEntryRelPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					assetListEntrySegmentsEntryRelModelImpl.getOriginalUuid()
+					assetListEntrySegmentsEntryRelModelImpl.
+						getOriginalAttributeValue("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -3390,9 +3393,10 @@ public class AssetListEntrySegmentsEntryRelPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					assetListEntrySegmentsEntryRelModelImpl.getOriginalUuid(),
 					assetListEntrySegmentsEntryRelModelImpl.
-						getOriginalCompanyId()
+						getOriginalAttributeValue("uuid"),
+					assetListEntrySegmentsEntryRelModelImpl.
+						getOriginalAttributeValue("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -3415,7 +3419,7 @@ public class AssetListEntrySegmentsEntryRelPersistenceImpl
 
 				Object[] args = new Object[] {
 					assetListEntrySegmentsEntryRelModelImpl.
-						getOriginalAssetListEntryId()
+						getOriginalAttributeValue("assetListEntryId")
 				};
 
 				finderCache.removeResult(
@@ -3440,7 +3444,7 @@ public class AssetListEntrySegmentsEntryRelPersistenceImpl
 
 				Object[] args = new Object[] {
 					assetListEntrySegmentsEntryRelModelImpl.
-						getOriginalSegmentsEntryId()
+						getOriginalAttributeValue("segmentsEntryId")
 				};
 
 				finderCache.removeResult(
