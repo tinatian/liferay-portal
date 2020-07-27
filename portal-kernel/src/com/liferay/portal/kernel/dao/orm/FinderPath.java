@@ -34,7 +34,7 @@ public class FinderPath {
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
-	 * 				#FinderPath(Class, String, String, String[])}
+	 * 				#FinderPath(String, String, Class, String[])}
 	 */
 	@Deprecated
 	public FinderPath(
@@ -42,12 +42,12 @@ public class FinderPath {
 		Class<?> resultClass, String cacheName, String methodName,
 		String[] params) {
 
-		this(resultClass, cacheName, methodName, params);
+		this(cacheName, methodName, resultClass, new String[0]);
 	}
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
-	 * 				#FinderPath(Class, String, String, String[], long)}
+	 * 				#FinderPath(String, String, Class, String[])}
 	 */
 	@Deprecated
 	public FinderPath(
@@ -55,23 +55,40 @@ public class FinderPath {
 		Class<?> resultClass, String cacheName, String methodName,
 		String[] params, long columnBitmask) {
 
-		this(resultClass, cacheName, methodName, params, columnBitmask);
+		this(cacheName, methodName, resultClass, new String[0]);
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 * 				#FinderPath(String, String, Class, String[])}
+	 */
+	@Deprecated
 	public FinderPath(
 		Class<?> resultClass, String cacheName, String methodName,
 		String[] params) {
 
-		this(resultClass, cacheName, methodName, params, -1);
+		this(cacheName, methodName, resultClass, new String[0]);
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 * 				#FinderPath(String, String, Class, String[])}
+	 */
+	@Deprecated
 	public FinderPath(
 		Class<?> resultClass, String cacheName, String methodName,
 		String[] params, long columnBitmask) {
 
-		_resultClass = resultClass;
+		this(cacheName, methodName, resultClass, new String[0]);
+	}
+
+	public FinderPath(
+		String cacheName, String methodName, Class<?> resultClass,
+		String[] attributeNames) {
+
 		_cacheName = cacheName;
-		_columnBitmask = columnBitmask;
+		_resultClass = resultClass;
+		_attributeNames = attributeNames;
 
 		if (BaseModel.class.isAssignableFrom(_resultClass)) {
 			_cacheKeyGeneratorCacheName = _BASE_MODEL_CACHE_KEY_GENERATOR_NAME;
@@ -91,7 +108,7 @@ public class FinderPath {
 			_cacheKeyGenerator = null;
 		}
 
-		_initCacheKeyPrefix(methodName, params);
+		_initCacheKeyPrefix(methodName, attributeNames);
 	}
 
 	/**
@@ -158,12 +175,20 @@ public class FinderPath {
 			});
 	}
 
+	public String[] getAttributeNames() {
+		return _attributeNames;
+	}
+
 	public String getCacheName() {
 		return _cacheName;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	public long getColumnBitmask() {
-		return _columnBitmask;
+		return 0;
 	}
 
 	public Class<?> getResultClass() {
@@ -244,11 +269,11 @@ public class FinderPath {
 
 	private static final Map<String, String> _encodedTypes = _getEncodedTypes();
 
+	private final String[] _attributeNames;
 	private final CacheKeyGenerator _cacheKeyGenerator;
 	private final String _cacheKeyGeneratorCacheName;
 	private String _cacheKeyPrefix;
 	private final String _cacheName;
-	private final long _columnBitmask;
 	private final Class<?> _resultClass;
 
 }
