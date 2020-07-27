@@ -1392,6 +1392,17 @@ public class SamlSpIdpConnectionModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<SamlSpIdpConnection, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((SamlSpIdpConnection)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<SamlSpIdpConnectionCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

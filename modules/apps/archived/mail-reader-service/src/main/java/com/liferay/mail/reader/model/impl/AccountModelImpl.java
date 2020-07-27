@@ -1423,6 +1423,17 @@ public class AccountModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<Account, Object> function = _attributeGetterFunctions.get(
+			attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((Account)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<AccountCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

@@ -1101,6 +1101,17 @@ public class LayoutPageTemplateStructureRelModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<LayoutPageTemplateStructureRel, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((LayoutPageTemplateStructureRel)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<LayoutPageTemplateStructureRelCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

@@ -1235,6 +1235,17 @@ public class LayoutPageTemplateCollectionModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<LayoutPageTemplateCollection, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((LayoutPageTemplateCollection)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<LayoutPageTemplateCollectionCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

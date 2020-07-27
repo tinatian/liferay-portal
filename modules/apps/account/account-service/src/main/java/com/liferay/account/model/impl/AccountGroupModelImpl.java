@@ -939,6 +939,17 @@ public class AccountGroupModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<AccountGroup, Object> function = _attributeGetterFunctions.get(
+			attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((AccountGroup)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<AccountGroupCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

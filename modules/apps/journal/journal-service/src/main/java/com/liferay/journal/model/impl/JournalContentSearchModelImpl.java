@@ -911,6 +911,17 @@ public class JournalContentSearchModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<JournalContentSearch, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((JournalContentSearch)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<JournalContentSearchCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

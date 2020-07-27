@@ -876,6 +876,17 @@ public class SegmentsEntryRoleModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<SegmentsEntryRole, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((SegmentsEntryRole)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<SegmentsEntryRoleCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

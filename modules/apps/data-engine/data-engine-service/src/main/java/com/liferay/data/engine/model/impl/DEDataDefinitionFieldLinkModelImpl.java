@@ -1074,6 +1074,17 @@ public class DEDataDefinitionFieldLinkModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<DEDataDefinitionFieldLink, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((DEDataDefinitionFieldLink)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<DEDataDefinitionFieldLinkCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

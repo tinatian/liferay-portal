@@ -1884,6 +1884,17 @@ public class FragmentEntryVersionModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<FragmentEntryVersion, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((FragmentEntryVersion)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<FragmentEntryVersionCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

@@ -1259,6 +1259,17 @@ public class SourceModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<Source, Object> function = _attributeGetterFunctions.get(
+			attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((Source)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<SourceCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

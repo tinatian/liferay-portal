@@ -981,6 +981,17 @@ public class SubscriptionModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<Subscription, Object> function = _attributeGetterFunctions.get(
+			attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((Subscription)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<SubscriptionCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

@@ -724,6 +724,17 @@ public class PasswordTrackerModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<PasswordTracker, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((PasswordTracker)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<PasswordTrackerCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

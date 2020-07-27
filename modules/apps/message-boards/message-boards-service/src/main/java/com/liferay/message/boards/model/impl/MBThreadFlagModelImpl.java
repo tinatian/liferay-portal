@@ -972,6 +972,17 @@ public class MBThreadFlagModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<MBThreadFlag, Object> function = _attributeGetterFunctions.get(
+			attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((MBThreadFlag)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<MBThreadFlagCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);
