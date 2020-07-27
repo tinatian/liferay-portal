@@ -1849,6 +1849,23 @@ public class ${entity.name}ModelImpl extends BaseModelImpl<${entity.name}> imple
 			return _columnBitmasks.get(attributeName);
 		}
 
+		public <T> T getAttributeValue(String attributeName) {
+			<#if entity.versionEntity??>
+				if (attributeName.equals("head")) {
+					return (T)(Object)getHead();
+				}
+			</#if>
+
+			Function<${entity.name}, Object> function =
+				_attributeGetterFunctions.get(attributeName);
+
+			if (function == null) {
+				return null;
+			}
+
+			return (T)function.apply((${entity.name})this);
+		}
+
 		public <T> T getOriginalAttributeValue(String attributeName) {
 			Function<${entity.name}CacheModel, Object> function =
 				_cacheModelGetterFunctions.get(attributeName);
