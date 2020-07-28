@@ -659,6 +659,17 @@ public class UserTrackerPathModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<UserTrackerPath, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((UserTrackerPath)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<UserTrackerPathCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

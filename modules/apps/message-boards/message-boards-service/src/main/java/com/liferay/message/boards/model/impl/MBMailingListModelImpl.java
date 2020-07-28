@@ -1485,6 +1485,17 @@ public class MBMailingListModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<MBMailingList, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((MBMailingList)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<MBMailingListCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

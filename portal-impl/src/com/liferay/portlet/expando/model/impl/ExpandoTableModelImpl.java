@@ -688,6 +688,17 @@ public class ExpandoTableModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<ExpandoTable, Object> function = _attributeGetterFunctions.get(
+			attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((ExpandoTable)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<ExpandoTableCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

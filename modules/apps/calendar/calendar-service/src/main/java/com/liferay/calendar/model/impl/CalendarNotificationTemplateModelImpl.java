@@ -1294,6 +1294,17 @@ public class CalendarNotificationTemplateModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<CalendarNotificationTemplate, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((CalendarNotificationTemplate)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<CalendarNotificationTemplateCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

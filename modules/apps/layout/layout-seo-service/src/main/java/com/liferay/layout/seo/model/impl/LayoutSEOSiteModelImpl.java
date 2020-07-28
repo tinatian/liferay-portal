@@ -1159,6 +1159,17 @@ public class LayoutSEOSiteModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<LayoutSEOSite, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((LayoutSEOSite)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<LayoutSEOSiteCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

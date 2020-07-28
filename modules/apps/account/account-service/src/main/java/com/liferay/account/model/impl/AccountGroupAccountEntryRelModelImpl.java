@@ -719,6 +719,17 @@ public class AccountGroupAccountEntryRelModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<AccountGroupAccountEntryRel, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((AccountGroupAccountEntryRel)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<AccountGroupAccountEntryRelCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

@@ -658,6 +658,17 @@ public class ResourceActionModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<ResourceAction, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((ResourceAction)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<ResourceActionCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

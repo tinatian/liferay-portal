@@ -1087,6 +1087,17 @@ public class WorkflowDefinitionLinkModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<WorkflowDefinitionLink, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((WorkflowDefinitionLink)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<WorkflowDefinitionLinkCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

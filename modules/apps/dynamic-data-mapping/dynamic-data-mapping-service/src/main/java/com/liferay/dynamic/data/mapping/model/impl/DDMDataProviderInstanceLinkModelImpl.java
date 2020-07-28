@@ -689,6 +689,17 @@ public class DDMDataProviderInstanceLinkModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<DDMDataProviderInstanceLink, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((DDMDataProviderInstanceLink)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<DDMDataProviderInstanceLinkCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

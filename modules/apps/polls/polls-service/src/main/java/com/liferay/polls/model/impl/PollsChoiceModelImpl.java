@@ -1209,6 +1209,17 @@ public class PollsChoiceModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<PollsChoice, Object> function = _attributeGetterFunctions.get(
+			attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((PollsChoice)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<PollsChoiceCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

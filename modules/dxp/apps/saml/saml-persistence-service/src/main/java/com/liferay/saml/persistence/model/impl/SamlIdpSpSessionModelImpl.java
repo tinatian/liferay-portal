@@ -874,6 +874,17 @@ public class SamlIdpSpSessionModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<SamlIdpSpSession, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((SamlIdpSpSession)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<SamlIdpSpSessionCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

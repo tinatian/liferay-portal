@@ -1126,6 +1126,17 @@ public class KBCommentModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<KBComment, Object> function = _attributeGetterFunctions.get(
+			attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((KBComment)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<KBCommentCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

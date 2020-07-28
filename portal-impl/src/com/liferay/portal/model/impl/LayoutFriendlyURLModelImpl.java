@@ -1112,6 +1112,17 @@ public class LayoutFriendlyURLModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<LayoutFriendlyURL, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((LayoutFriendlyURL)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<LayoutFriendlyURLCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

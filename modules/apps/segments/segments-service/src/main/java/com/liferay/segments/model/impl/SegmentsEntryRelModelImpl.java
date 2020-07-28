@@ -999,6 +999,17 @@ public class SegmentsEntryRelModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<SegmentsEntryRel, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((SegmentsEntryRel)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<SegmentsEntryRelCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

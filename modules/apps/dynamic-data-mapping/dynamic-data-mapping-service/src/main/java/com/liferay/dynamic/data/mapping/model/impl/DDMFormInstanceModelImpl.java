@@ -1517,6 +1517,17 @@ public class DDMFormInstanceModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<DDMFormInstance, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((DDMFormInstance)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<DDMFormInstanceCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

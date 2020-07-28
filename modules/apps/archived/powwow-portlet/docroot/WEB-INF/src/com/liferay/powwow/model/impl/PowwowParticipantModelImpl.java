@@ -1059,6 +1059,17 @@ public class PowwowParticipantModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<PowwowParticipant, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((PowwowParticipant)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<PowwowParticipantCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

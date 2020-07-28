@@ -859,6 +859,17 @@ public class LVEntryLocalizationVersionModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<LVEntryLocalizationVersion, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((LVEntryLocalizationVersion)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<LVEntryLocalizationVersionCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

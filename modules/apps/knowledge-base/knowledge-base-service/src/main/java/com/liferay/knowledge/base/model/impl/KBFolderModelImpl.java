@@ -1077,6 +1077,17 @@ public class KBFolderModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<KBFolder, Object> function = _attributeGetterFunctions.get(
+			attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((KBFolder)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<KBFolderCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

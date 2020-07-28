@@ -787,6 +787,17 @@ public class AssetAutoTaggerEntryModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<AssetAutoTaggerEntry, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((AssetAutoTaggerEntry)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<AssetAutoTaggerEntryCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

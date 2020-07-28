@@ -685,6 +685,17 @@ public class SamlSpAuthRequestModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<SamlSpAuthRequest, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((SamlSpAuthRequest)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<SamlSpAuthRequestCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

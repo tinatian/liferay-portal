@@ -1063,6 +1063,17 @@ public class SocialActivityCounterModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<SocialActivityCounter, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((SocialActivityCounter)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<SocialActivityCounterCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

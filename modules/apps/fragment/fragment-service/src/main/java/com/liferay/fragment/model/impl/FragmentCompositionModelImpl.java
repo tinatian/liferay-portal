@@ -1485,6 +1485,17 @@ public class FragmentCompositionModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<FragmentComposition, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((FragmentComposition)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<FragmentCompositionCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

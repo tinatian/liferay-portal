@@ -861,6 +861,17 @@ public class ChangesetCollectionModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<ChangesetCollection, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((ChangesetCollection)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<ChangesetCollectionCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

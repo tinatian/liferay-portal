@@ -1142,6 +1142,17 @@ public class DEDataListViewModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<DEDataListView, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((DEDataListView)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<DEDataListViewCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

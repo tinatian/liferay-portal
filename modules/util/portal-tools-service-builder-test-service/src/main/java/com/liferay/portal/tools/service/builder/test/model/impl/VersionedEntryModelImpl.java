@@ -653,6 +653,21 @@ public class VersionedEntryModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		if (attributeName.equals("head")) {
+			return (T)(Object)getHead();
+		}
+
+		Function<VersionedEntry, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((VersionedEntry)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<VersionedEntryCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

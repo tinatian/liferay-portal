@@ -914,6 +914,17 @@ public class MemberRequestModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<MemberRequest, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((MemberRequest)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<MemberRequestCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

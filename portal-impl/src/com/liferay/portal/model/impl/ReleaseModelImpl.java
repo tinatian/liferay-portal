@@ -817,6 +817,17 @@ public class ReleaseModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<Release, Object> function = _attributeGetterFunctions.get(
+			attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((Release)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<ReleaseCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

@@ -628,6 +628,17 @@ public class BrowserTrackerModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<BrowserTracker, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((BrowserTracker)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<BrowserTrackerCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

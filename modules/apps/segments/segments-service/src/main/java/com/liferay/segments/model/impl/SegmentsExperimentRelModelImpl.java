@@ -982,6 +982,17 @@ public class SegmentsExperimentRelModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<SegmentsExperimentRel, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((SegmentsExperimentRel)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<SegmentsExperimentRelCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);
