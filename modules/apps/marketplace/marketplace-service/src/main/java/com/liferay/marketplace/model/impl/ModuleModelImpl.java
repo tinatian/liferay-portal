@@ -783,6 +783,17 @@ public class ModuleModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<Module, Object> function = _attributeGetterFunctions.get(
+			attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((Module)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<ModuleCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

@@ -1812,6 +1812,17 @@ public class DDMStructureVersionModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<DDMStructureVersion, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((DDMStructureVersion)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<DDMStructureVersionCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

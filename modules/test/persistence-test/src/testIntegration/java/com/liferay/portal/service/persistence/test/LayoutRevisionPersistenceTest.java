@@ -651,38 +651,38 @@ public class LayoutRevisionPersistenceTest {
 			Long.valueOf(existingLayoutRevision.getLayoutSetBranchId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingLayoutRevision, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, layoutSetBranchId));
+				new Class<?>[] {String.class}, "layoutSetBranchId"));
 		Assert.assertEquals(
 			Boolean.valueOf(existingLayoutRevision.getHead()),
 			ReflectionTestUtil.<Boolean>invoke(
 				existingLayoutRevision, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, head));
+				new Class<?>[] {String.class}, "head"));
 		Assert.assertEquals(
 			Long.valueOf(existingLayoutRevision.getPlid()),
 			ReflectionTestUtil.<Long>invoke(
 				existingLayoutRevision, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, plid));
+				new Class<?>[] {String.class}, "plid"));
 
 		Assert.assertEquals(
 			Long.valueOf(existingLayoutRevision.getLayoutSetBranchId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingLayoutRevision, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, layoutSetBranchId));
+				new Class<?>[] {String.class}, "layoutSetBranchId"));
 		Assert.assertEquals(
 			Long.valueOf(existingLayoutRevision.getLayoutBranchId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingLayoutRevision, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, layoutBranchId));
+				new Class<?>[] {String.class}, "layoutBranchId"));
 		Assert.assertEquals(
 			Boolean.valueOf(existingLayoutRevision.getHead()),
 			ReflectionTestUtil.<Boolean>invoke(
 				existingLayoutRevision, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, head));
+				new Class<?>[] {String.class}, "head"));
 		Assert.assertEquals(
 			Long.valueOf(existingLayoutRevision.getPlid()),
 			ReflectionTestUtil.<Long>invoke(
 				existingLayoutRevision, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, plid));
+				new Class<?>[] {String.class}, "plid"));
 	}
 
 	protected LayoutRevision addLayoutRevision() throws Exception {

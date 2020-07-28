@@ -502,28 +502,28 @@ public class ExpandoValuePersistenceTest {
 			Long.valueOf(existingExpandoValue.getColumnId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingExpandoValue, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, columnId));
+				new Class<?>[] {String.class}, "columnId"));
 		Assert.assertEquals(
 			Long.valueOf(existingExpandoValue.getRowId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingExpandoValue, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, rowId));
+				new Class<?>[] {String.class}, "rowId"));
 
 		Assert.assertEquals(
 			Long.valueOf(existingExpandoValue.getTableId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingExpandoValue, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, tableId));
+				new Class<?>[] {String.class}, "tableId"));
 		Assert.assertEquals(
 			Long.valueOf(existingExpandoValue.getColumnId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingExpandoValue, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, columnId));
+				new Class<?>[] {String.class}, "columnId"));
 		Assert.assertEquals(
 			Long.valueOf(existingExpandoValue.getClassPK()),
 			ReflectionTestUtil.<Long>invoke(
 				existingExpandoValue, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, classPK));
+				new Class<?>[] {String.class}, "classPK"));
 	}
 
 	protected ExpandoValue addExpandoValue() throws Exception {

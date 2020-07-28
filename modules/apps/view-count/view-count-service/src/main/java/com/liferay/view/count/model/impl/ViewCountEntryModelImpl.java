@@ -590,6 +590,17 @@ public class ViewCountEntryModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<ViewCountEntry, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((ViewCountEntry)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<ViewCountEntryCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

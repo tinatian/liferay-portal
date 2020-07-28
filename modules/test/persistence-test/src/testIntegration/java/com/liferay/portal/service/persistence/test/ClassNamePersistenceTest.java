@@ -400,7 +400,7 @@ public class ClassNamePersistenceTest {
 				existingClassName.getValue(),
 				ReflectionTestUtil.invoke(
 					existingClassName, "getOriginalAttributeValue",
-					new Class<?>[] {String.class}, value)));
+					new Class<?>[] {String.class}, "value")));
 	}
 
 	protected ClassName addClassName() throws Exception {

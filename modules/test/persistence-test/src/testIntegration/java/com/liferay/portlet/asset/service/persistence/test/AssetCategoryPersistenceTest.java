@@ -632,41 +632,41 @@ public class AssetCategoryPersistenceTest {
 				existingAssetCategory.getUuid(),
 				ReflectionTestUtil.invoke(
 					existingAssetCategory, "getOriginalAttributeValue",
-					new Class<?>[] {String.class}, uuid)));
+					new Class<?>[] {String.class}, "uuid")));
 		Assert.assertEquals(
 			Long.valueOf(existingAssetCategory.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingAssetCategory, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, groupId));
+				new Class<?>[] {String.class}, "groupId"));
 
 		Assert.assertEquals(
 			Long.valueOf(existingAssetCategory.getParentCategoryId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingAssetCategory, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, parentCategoryId));
+				new Class<?>[] {String.class}, "parentCategoryId"));
 		Assert.assertTrue(
 			Objects.equals(
 				existingAssetCategory.getName(),
 				ReflectionTestUtil.invoke(
 					existingAssetCategory, "getOriginalAttributeValue",
-					new Class<?>[] {String.class}, name)));
+					new Class<?>[] {String.class}, "name")));
 		Assert.assertEquals(
 			Long.valueOf(existingAssetCategory.getVocabularyId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingAssetCategory, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, vocabularyId));
+				new Class<?>[] {String.class}, "vocabularyId"));
 
 		Assert.assertEquals(
 			Long.valueOf(existingAssetCategory.getCompanyId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingAssetCategory, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, companyId));
+				new Class<?>[] {String.class}, "companyId"));
 		Assert.assertTrue(
 			Objects.equals(
 				existingAssetCategory.getExternalReferenceCode(),
 				ReflectionTestUtil.invoke(
 					existingAssetCategory, "getOriginalAttributeValue",
-					new Class<?>[] {String.class}, externalReferenceCode)));
+					new Class<?>[] {String.class}, "externalReferenceCode")));
 	}
 
 	protected AssetCategory addAssetCategory() throws Exception {

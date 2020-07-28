@@ -835,6 +835,17 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<Entry, Object> function = _attributeGetterFunctions.get(
+			attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((Entry)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<EntryCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

@@ -488,33 +488,33 @@ public class SocialActivityLimitPersistenceTest {
 			Long.valueOf(existingSocialActivityLimit.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingSocialActivityLimit, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, groupId));
+				new Class<?>[] {String.class}, "groupId"));
 		Assert.assertEquals(
 			Long.valueOf(existingSocialActivityLimit.getUserId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingSocialActivityLimit, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, userId));
+				new Class<?>[] {String.class}, "userId"));
 		Assert.assertEquals(
 			Long.valueOf(existingSocialActivityLimit.getClassNameId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingSocialActivityLimit, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, classNameId));
+				new Class<?>[] {String.class}, "classNameId"));
 		Assert.assertEquals(
 			Long.valueOf(existingSocialActivityLimit.getClassPK()),
 			ReflectionTestUtil.<Long>invoke(
 				existingSocialActivityLimit, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, classPK));
+				new Class<?>[] {String.class}, "classPK"));
 		Assert.assertEquals(
 			Integer.valueOf(existingSocialActivityLimit.getActivityType()),
 			ReflectionTestUtil.<Integer>invoke(
 				existingSocialActivityLimit, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, activityType));
+				new Class<?>[] {String.class}, "activityType"));
 		Assert.assertTrue(
 			Objects.equals(
 				existingSocialActivityLimit.getActivityCounterName(),
 				ReflectionTestUtil.invoke(
 					existingSocialActivityLimit, "getOriginalAttributeValue",
-					new Class<?>[] {String.class}, activityCounterName)));
+					new Class<?>[] {String.class}, "activityCounterName")));
 	}
 
 	protected SocialActivityLimit addSocialActivityLimit() throws Exception {

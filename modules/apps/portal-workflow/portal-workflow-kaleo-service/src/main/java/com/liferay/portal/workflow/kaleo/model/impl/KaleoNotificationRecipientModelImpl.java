@@ -1397,6 +1397,17 @@ public class KaleoNotificationRecipientModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<KaleoNotificationRecipient, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((KaleoNotificationRecipient)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<KaleoNotificationRecipientCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

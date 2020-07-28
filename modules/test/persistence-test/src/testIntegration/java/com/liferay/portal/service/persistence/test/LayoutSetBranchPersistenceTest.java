@@ -526,18 +526,18 @@ public class LayoutSetBranchPersistenceTest {
 			Long.valueOf(existingLayoutSetBranch.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingLayoutSetBranch, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, groupId));
+				new Class<?>[] {String.class}, "groupId"));
 		Assert.assertEquals(
 			Boolean.valueOf(existingLayoutSetBranch.getPrivateLayout()),
 			ReflectionTestUtil.<Boolean>invoke(
 				existingLayoutSetBranch, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, privateLayout));
+				new Class<?>[] {String.class}, "privateLayout"));
 		Assert.assertTrue(
 			Objects.equals(
 				existingLayoutSetBranch.getName(),
 				ReflectionTestUtil.invoke(
 					existingLayoutSetBranch, "getOriginalAttributeValue",
-					new Class<?>[] {String.class}, name)));
+					new Class<?>[] {String.class}, "name")));
 	}
 
 	protected LayoutSetBranch addLayoutSetBranch() throws Exception {

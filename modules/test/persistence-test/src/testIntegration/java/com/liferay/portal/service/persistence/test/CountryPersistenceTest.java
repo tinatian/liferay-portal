@@ -412,21 +412,21 @@ public class CountryPersistenceTest {
 				existingCountry.getName(),
 				ReflectionTestUtil.invoke(
 					existingCountry, "getOriginalAttributeValue",
-					new Class<?>[] {String.class}, name)));
+					new Class<?>[] {String.class}, "name")));
 
 		Assert.assertTrue(
 			Objects.equals(
 				existingCountry.getA2(),
 				ReflectionTestUtil.invoke(
 					existingCountry, "getOriginalAttributeValue",
-					new Class<?>[] {String.class}, a2)));
+					new Class<?>[] {String.class}, "a2")));
 
 		Assert.assertTrue(
 			Objects.equals(
 				existingCountry.getA3(),
 				ReflectionTestUtil.invoke(
 					existingCountry, "getOriginalAttributeValue",
-					new Class<?>[] {String.class}, a3)));
+					new Class<?>[] {String.class}, "a3")));
 	}
 
 	protected Country addCountry() throws Exception {

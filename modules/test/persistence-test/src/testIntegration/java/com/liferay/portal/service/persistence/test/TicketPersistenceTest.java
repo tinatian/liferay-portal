@@ -439,7 +439,7 @@ public class TicketPersistenceTest {
 				existingTicket.getKey(),
 				ReflectionTestUtil.invoke(
 					existingTicket, "getOriginalAttributeValue",
-					new Class<?>[] {String.class}, key)));
+					new Class<?>[] {String.class}, "key")));
 	}
 
 	protected Ticket addTicket() throws Exception {

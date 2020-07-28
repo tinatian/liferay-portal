@@ -490,23 +490,23 @@ public class LayoutSetPersistenceTest {
 			Long.valueOf(existingLayoutSet.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingLayoutSet, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, groupId));
+				new Class<?>[] {String.class}, "groupId"));
 		Assert.assertEquals(
 			Boolean.valueOf(existingLayoutSet.getPrivateLayout()),
 			ReflectionTestUtil.<Boolean>invoke(
 				existingLayoutSet, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, privateLayout));
+				new Class<?>[] {String.class}, "privateLayout"));
 
 		Assert.assertEquals(
 			Boolean.valueOf(existingLayoutSet.getPrivateLayout()),
 			ReflectionTestUtil.<Boolean>invoke(
 				existingLayoutSet, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, privateLayout));
+				new Class<?>[] {String.class}, "privateLayout"));
 		Assert.assertEquals(
 			Long.valueOf(existingLayoutSet.getLogoId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingLayoutSet, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, logoId));
+				new Class<?>[] {String.class}, "logoId"));
 	}
 
 	protected LayoutSet addLayoutSet() throws Exception {

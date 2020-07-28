@@ -535,23 +535,23 @@ public class PortletPreferencesPersistenceTest {
 			Long.valueOf(existingPortletPreferences.getOwnerId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingPortletPreferences, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, ownerId));
+				new Class<?>[] {String.class}, "ownerId"));
 		Assert.assertEquals(
 			Integer.valueOf(existingPortletPreferences.getOwnerType()),
 			ReflectionTestUtil.<Integer>invoke(
 				existingPortletPreferences, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, ownerType));
+				new Class<?>[] {String.class}, "ownerType"));
 		Assert.assertEquals(
 			Long.valueOf(existingPortletPreferences.getPlid()),
 			ReflectionTestUtil.<Long>invoke(
 				existingPortletPreferences, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, plid));
+				new Class<?>[] {String.class}, "plid"));
 		Assert.assertTrue(
 			Objects.equals(
 				existingPortletPreferences.getPortletId(),
 				ReflectionTestUtil.invoke(
 					existingPortletPreferences, "getOriginalAttributeValue",
-					new Class<?>[] {String.class}, portletId)));
+					new Class<?>[] {String.class}, "portletId")));
 	}
 
 	protected PortletPreferences addPortletPreferences() throws Exception {

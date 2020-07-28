@@ -573,25 +573,25 @@ public class OrganizationPersistenceTest {
 			Long.valueOf(existingOrganization.getCompanyId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingOrganization, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, companyId));
+				new Class<?>[] {String.class}, "companyId"));
 		Assert.assertTrue(
 			Objects.equals(
 				existingOrganization.getName(),
 				ReflectionTestUtil.invoke(
 					existingOrganization, "getOriginalAttributeValue",
-					new Class<?>[] {String.class}, name)));
+					new Class<?>[] {String.class}, "name")));
 
 		Assert.assertEquals(
 			Long.valueOf(existingOrganization.getCompanyId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingOrganization, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, companyId));
+				new Class<?>[] {String.class}, "companyId"));
 		Assert.assertTrue(
 			Objects.equals(
 				existingOrganization.getExternalReferenceCode(),
 				ReflectionTestUtil.invoke(
 					existingOrganization, "getOriginalAttributeValue",
-					new Class<?>[] {String.class}, externalReferenceCode)));
+					new Class<?>[] {String.class}, "externalReferenceCode")));
 	}
 
 	protected Organization addOrganization() throws Exception {

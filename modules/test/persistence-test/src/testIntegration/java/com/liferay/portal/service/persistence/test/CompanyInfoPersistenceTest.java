@@ -402,7 +402,7 @@ public class CompanyInfoPersistenceTest {
 			Long.valueOf(existingCompanyInfo.getCompanyId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingCompanyInfo, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, companyId));
+				new Class<?>[] {String.class}, "companyId"));
 	}
 
 	protected CompanyInfo addCompanyInfo() throws Exception {

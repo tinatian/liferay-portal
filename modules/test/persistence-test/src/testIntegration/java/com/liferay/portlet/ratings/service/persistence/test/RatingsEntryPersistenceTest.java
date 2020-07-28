@@ -486,17 +486,17 @@ public class RatingsEntryPersistenceTest {
 			Long.valueOf(existingRatingsEntry.getUserId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingRatingsEntry, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, userId));
+				new Class<?>[] {String.class}, "userId"));
 		Assert.assertEquals(
 			Long.valueOf(existingRatingsEntry.getClassNameId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingRatingsEntry, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, classNameId));
+				new Class<?>[] {String.class}, "classNameId"));
 		Assert.assertEquals(
 			Long.valueOf(existingRatingsEntry.getClassPK()),
 			ReflectionTestUtil.<Long>invoke(
 				existingRatingsEntry, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, classPK));
+				new Class<?>[] {String.class}, "classPK"));
 	}
 
 	protected RatingsEntry addRatingsEntry() throws Exception {

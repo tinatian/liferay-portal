@@ -629,24 +629,24 @@ public class DLFileVersionPersistenceTest {
 				existingDLFileVersion.getUuid(),
 				ReflectionTestUtil.invoke(
 					existingDLFileVersion, "getOriginalAttributeValue",
-					new Class<?>[] {String.class}, uuid)));
+					new Class<?>[] {String.class}, "uuid")));
 		Assert.assertEquals(
 			Long.valueOf(existingDLFileVersion.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingDLFileVersion, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, groupId));
+				new Class<?>[] {String.class}, "groupId"));
 
 		Assert.assertEquals(
 			Long.valueOf(existingDLFileVersion.getFileEntryId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingDLFileVersion, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, fileEntryId));
+				new Class<?>[] {String.class}, "fileEntryId"));
 		Assert.assertTrue(
 			Objects.equals(
 				existingDLFileVersion.getVersion(),
 				ReflectionTestUtil.invoke(
 					existingDLFileVersion, "getOriginalAttributeValue",
-					new Class<?>[] {String.class}, version)));
+					new Class<?>[] {String.class}, "version")));
 	}
 
 	protected DLFileVersion addDLFileVersion() throws Exception {

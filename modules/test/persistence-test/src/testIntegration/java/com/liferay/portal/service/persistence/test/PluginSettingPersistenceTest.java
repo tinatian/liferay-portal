@@ -432,19 +432,19 @@ public class PluginSettingPersistenceTest {
 			Long.valueOf(existingPluginSetting.getCompanyId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingPluginSetting, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, companyId));
+				new Class<?>[] {String.class}, "companyId"));
 		Assert.assertTrue(
 			Objects.equals(
 				existingPluginSetting.getPluginId(),
 				ReflectionTestUtil.invoke(
 					existingPluginSetting, "getOriginalAttributeValue",
-					new Class<?>[] {String.class}, pluginId)));
+					new Class<?>[] {String.class}, "pluginId")));
 		Assert.assertTrue(
 			Objects.equals(
 				existingPluginSetting.getPluginType(),
 				ReflectionTestUtil.invoke(
 					existingPluginSetting, "getOriginalAttributeValue",
-					new Class<?>[] {String.class}, pluginType)));
+					new Class<?>[] {String.class}, "pluginType")));
 	}
 
 	protected PluginSetting addPluginSetting() throws Exception {

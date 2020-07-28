@@ -532,6 +532,17 @@ public class RSVEntryModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<RSVEntry, Object> function = _attributeGetterFunctions.get(
+			attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((RSVEntry)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<RSVEntryCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

@@ -484,17 +484,17 @@ public class RecentLayoutRevisionPersistenceTest {
 			Long.valueOf(existingRecentLayoutRevision.getUserId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingRecentLayoutRevision, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, userId));
+				new Class<?>[] {String.class}, "userId"));
 		Assert.assertEquals(
 			Long.valueOf(existingRecentLayoutRevision.getLayoutSetBranchId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingRecentLayoutRevision, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, layoutSetBranchId));
+				new Class<?>[] {String.class}, "layoutSetBranchId"));
 		Assert.assertEquals(
 			Long.valueOf(existingRecentLayoutRevision.getPlid()),
 			ReflectionTestUtil.<Long>invoke(
 				existingRecentLayoutRevision, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, plid));
+				new Class<?>[] {String.class}, "plid"));
 	}
 
 	protected RecentLayoutRevision addRecentLayoutRevision() throws Exception {

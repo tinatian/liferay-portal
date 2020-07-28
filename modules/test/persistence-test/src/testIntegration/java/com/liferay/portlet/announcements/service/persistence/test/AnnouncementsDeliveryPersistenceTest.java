@@ -475,13 +475,13 @@ public class AnnouncementsDeliveryPersistenceTest {
 			Long.valueOf(existingAnnouncementsDelivery.getUserId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingAnnouncementsDelivery, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, userId));
+				new Class<?>[] {String.class}, "userId"));
 		Assert.assertTrue(
 			Objects.equals(
 				existingAnnouncementsDelivery.getType(),
 				ReflectionTestUtil.invoke(
 					existingAnnouncementsDelivery, "getOriginalAttributeValue",
-					new Class<?>[] {String.class}, type)));
+					new Class<?>[] {String.class}, "type")));
 	}
 
 	protected AnnouncementsDelivery addAnnouncementsDelivery()

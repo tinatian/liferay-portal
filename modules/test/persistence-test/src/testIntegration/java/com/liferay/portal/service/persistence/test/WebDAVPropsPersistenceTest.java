@@ -426,12 +426,12 @@ public class WebDAVPropsPersistenceTest {
 			Long.valueOf(existingWebDAVProps.getClassNameId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingWebDAVProps, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, classNameId));
+				new Class<?>[] {String.class}, "classNameId"));
 		Assert.assertEquals(
 			Long.valueOf(existingWebDAVProps.getClassPK()),
 			ReflectionTestUtil.<Long>invoke(
 				existingWebDAVProps, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, classPK));
+				new Class<?>[] {String.class}, "classPK"));
 	}
 
 	protected WebDAVProps addWebDAVProps() throws Exception {

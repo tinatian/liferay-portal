@@ -560,43 +560,43 @@ public class SocialActivityPersistenceTest {
 			Long.valueOf(existingSocialActivity.getMirrorActivityId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingSocialActivity, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, mirrorActivityId));
+				new Class<?>[] {String.class}, "mirrorActivityId"));
 
 		Assert.assertEquals(
 			Long.valueOf(existingSocialActivity.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingSocialActivity, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, groupId));
+				new Class<?>[] {String.class}, "groupId"));
 		Assert.assertEquals(
 			Long.valueOf(existingSocialActivity.getUserId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingSocialActivity, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, userId));
+				new Class<?>[] {String.class}, "userId"));
 		Assert.assertEquals(
 			Long.valueOf(existingSocialActivity.getCreateDate()),
 			ReflectionTestUtil.<Long>invoke(
 				existingSocialActivity, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, createDate));
+				new Class<?>[] {String.class}, "createDate"));
 		Assert.assertEquals(
 			Long.valueOf(existingSocialActivity.getClassNameId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingSocialActivity, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, classNameId));
+				new Class<?>[] {String.class}, "classNameId"));
 		Assert.assertEquals(
 			Long.valueOf(existingSocialActivity.getClassPK()),
 			ReflectionTestUtil.<Long>invoke(
 				existingSocialActivity, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, classPK));
+				new Class<?>[] {String.class}, "classPK"));
 		Assert.assertEquals(
 			Integer.valueOf(existingSocialActivity.getType()),
 			ReflectionTestUtil.<Integer>invoke(
 				existingSocialActivity, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, type));
+				new Class<?>[] {String.class}, "type"));
 		Assert.assertEquals(
 			Long.valueOf(existingSocialActivity.getReceiverUserId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingSocialActivity, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, receiverUserId));
+				new Class<?>[] {String.class}, "receiverUserId"));
 	}
 
 	protected SocialActivity addSocialActivity() throws Exception {

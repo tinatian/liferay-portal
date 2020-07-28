@@ -498,30 +498,30 @@ public class RepositoryPersistenceTest {
 				existingRepository.getUuid(),
 				ReflectionTestUtil.invoke(
 					existingRepository, "getOriginalAttributeValue",
-					new Class<?>[] {String.class}, uuid)));
+					new Class<?>[] {String.class}, "uuid")));
 		Assert.assertEquals(
 			Long.valueOf(existingRepository.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingRepository, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, groupId));
+				new Class<?>[] {String.class}, "groupId"));
 
 		Assert.assertEquals(
 			Long.valueOf(existingRepository.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingRepository, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, groupId));
+				new Class<?>[] {String.class}, "groupId"));
 		Assert.assertTrue(
 			Objects.equals(
 				existingRepository.getName(),
 				ReflectionTestUtil.invoke(
 					existingRepository, "getOriginalAttributeValue",
-					new Class<?>[] {String.class}, name)));
+					new Class<?>[] {String.class}, "name")));
 		Assert.assertTrue(
 			Objects.equals(
 				existingRepository.getPortletId(),
 				ReflectionTestUtil.invoke(
 					existingRepository, "getOriginalAttributeValue",
-					new Class<?>[] {String.class}, portletId)));
+					new Class<?>[] {String.class}, "portletId")));
 	}
 
 	protected Repository addRepository() throws Exception {

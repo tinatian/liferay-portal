@@ -477,17 +477,17 @@ public class UserGroupGroupRolePersistenceTest {
 			Long.valueOf(existingUserGroupGroupRole.getUserGroupId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingUserGroupGroupRole, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, userGroupId));
+				new Class<?>[] {String.class}, "userGroupId"));
 		Assert.assertEquals(
 			Long.valueOf(existingUserGroupGroupRole.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingUserGroupGroupRole, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, groupId));
+				new Class<?>[] {String.class}, "groupId"));
 		Assert.assertEquals(
 			Long.valueOf(existingUserGroupGroupRole.getRoleId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingUserGroupGroupRole, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, roleId));
+				new Class<?>[] {String.class}, "roleId"));
 	}
 
 	protected UserGroupGroupRole addUserGroupGroupRole() throws Exception {

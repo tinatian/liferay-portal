@@ -407,13 +407,13 @@ public class PortletPersistenceTest {
 			Long.valueOf(existingPortlet.getCompanyId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingPortlet, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, companyId));
+				new Class<?>[] {String.class}, "companyId"));
 		Assert.assertTrue(
 			Objects.equals(
 				existingPortlet.getPortletId(),
 				ReflectionTestUtil.invoke(
 					existingPortlet, "getOriginalAttributeValue",
-					new Class<?>[] {String.class}, portletId)));
+					new Class<?>[] {String.class}, "portletId")));
 	}
 
 	protected Portlet addPortlet() throws Exception {

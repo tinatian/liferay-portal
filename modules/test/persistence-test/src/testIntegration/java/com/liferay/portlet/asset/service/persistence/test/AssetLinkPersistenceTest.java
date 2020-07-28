@@ -468,17 +468,17 @@ public class AssetLinkPersistenceTest {
 			Long.valueOf(existingAssetLink.getEntryId1()),
 			ReflectionTestUtil.<Long>invoke(
 				existingAssetLink, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, entryId1));
+				new Class<?>[] {String.class}, "entryId1"));
 		Assert.assertEquals(
 			Long.valueOf(existingAssetLink.getEntryId2()),
 			ReflectionTestUtil.<Long>invoke(
 				existingAssetLink, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, entryId2));
+				new Class<?>[] {String.class}, "entryId2"));
 		Assert.assertEquals(
 			Integer.valueOf(existingAssetLink.getType()),
 			ReflectionTestUtil.<Integer>invoke(
 				existingAssetLink, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, type));
+				new Class<?>[] {String.class}, "type"));
 	}
 
 	protected AssetLink addAssetLink() throws Exception {

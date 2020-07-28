@@ -446,13 +446,13 @@ public class ExpandoColumnPersistenceTest {
 			Long.valueOf(existingExpandoColumn.getTableId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingExpandoColumn, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, tableId));
+				new Class<?>[] {String.class}, "tableId"));
 		Assert.assertTrue(
 			Objects.equals(
 				existingExpandoColumn.getName(),
 				ReflectionTestUtil.invoke(
 					existingExpandoColumn, "getOriginalAttributeValue",
-					new Class<?>[] {String.class}, name)));
+					new Class<?>[] {String.class}, "name")));
 	}
 
 	protected ExpandoColumn addExpandoColumn() throws Exception {

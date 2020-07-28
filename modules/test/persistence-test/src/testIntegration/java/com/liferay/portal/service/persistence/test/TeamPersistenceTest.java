@@ -469,24 +469,24 @@ public class TeamPersistenceTest {
 				existingTeam.getUuid(),
 				ReflectionTestUtil.invoke(
 					existingTeam, "getOriginalAttributeValue",
-					new Class<?>[] {String.class}, uuid)));
+					new Class<?>[] {String.class}, "uuid")));
 		Assert.assertEquals(
 			Long.valueOf(existingTeam.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingTeam, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, groupId));
+				new Class<?>[] {String.class}, "groupId"));
 
 		Assert.assertEquals(
 			Long.valueOf(existingTeam.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingTeam, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, groupId));
+				new Class<?>[] {String.class}, "groupId"));
 		Assert.assertTrue(
 			Objects.equals(
 				existingTeam.getName(),
 				ReflectionTestUtil.invoke(
 					existingTeam, "getOriginalAttributeValue",
-					new Class<?>[] {String.class}, name)));
+					new Class<?>[] {String.class}, "name")));
 	}
 
 	protected Team addTeam() throws Exception {

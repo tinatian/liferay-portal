@@ -551,36 +551,36 @@ public class AssetVocabularyPersistenceTest {
 				existingAssetVocabulary.getUuid(),
 				ReflectionTestUtil.invoke(
 					existingAssetVocabulary, "getOriginalAttributeValue",
-					new Class<?>[] {String.class}, uuid)));
+					new Class<?>[] {String.class}, "uuid")));
 		Assert.assertEquals(
 			Long.valueOf(existingAssetVocabulary.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingAssetVocabulary, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, groupId));
+				new Class<?>[] {String.class}, "groupId"));
 
 		Assert.assertEquals(
 			Long.valueOf(existingAssetVocabulary.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingAssetVocabulary, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, groupId));
+				new Class<?>[] {String.class}, "groupId"));
 		Assert.assertTrue(
 			Objects.equals(
 				existingAssetVocabulary.getName(),
 				ReflectionTestUtil.invoke(
 					existingAssetVocabulary, "getOriginalAttributeValue",
-					new Class<?>[] {String.class}, name)));
+					new Class<?>[] {String.class}, "name")));
 
 		Assert.assertEquals(
 			Long.valueOf(existingAssetVocabulary.getCompanyId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingAssetVocabulary, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, companyId));
+				new Class<?>[] {String.class}, "companyId"));
 		Assert.assertTrue(
 			Objects.equals(
 				existingAssetVocabulary.getExternalReferenceCode(),
 				ReflectionTestUtil.invoke(
 					existingAssetVocabulary, "getOriginalAttributeValue",
-					new Class<?>[] {String.class}, externalReferenceCode)));
+					new Class<?>[] {String.class}, "externalReferenceCode")));
 	}
 
 	protected AssetVocabulary addAssetVocabulary() throws Exception {

@@ -756,6 +756,17 @@ public class DDMStructureLinkModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<DDMStructureLink, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((DDMStructureLink)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<DDMStructureLinkCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

@@ -526,19 +526,19 @@ public class SocialActivityAchievementPersistenceTest {
 			Long.valueOf(existingSocialActivityAchievement.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingSocialActivityAchievement, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, groupId));
+				new Class<?>[] {String.class}, "groupId"));
 		Assert.assertEquals(
 			Long.valueOf(existingSocialActivityAchievement.getUserId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingSocialActivityAchievement, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, userId));
+				new Class<?>[] {String.class}, "userId"));
 		Assert.assertTrue(
 			Objects.equals(
 				existingSocialActivityAchievement.getName(),
 				ReflectionTestUtil.invoke(
 					existingSocialActivityAchievement,
 					"getOriginalAttributeValue", new Class<?>[] {String.class},
-					name)));
+					"name")));
 	}
 
 	protected SocialActivityAchievement addSocialActivityAchievement()

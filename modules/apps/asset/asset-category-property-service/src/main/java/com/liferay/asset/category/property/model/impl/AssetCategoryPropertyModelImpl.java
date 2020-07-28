@@ -1047,6 +1047,17 @@ public class AssetCategoryPropertyModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<AssetCategoryProperty, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((AssetCategoryProperty)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<AssetCategoryPropertyCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

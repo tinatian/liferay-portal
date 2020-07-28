@@ -395,13 +395,13 @@ public class RegionPersistenceTest {
 			Long.valueOf(existingRegion.getCountryId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingRegion, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, countryId));
+				new Class<?>[] {String.class}, "countryId"));
 		Assert.assertTrue(
 			Objects.equals(
 				existingRegion.getRegionCode(),
 				ReflectionTestUtil.invoke(
 					existingRegion, "getOriginalAttributeValue",
-					new Class<?>[] {String.class}, regionCode)));
+					new Class<?>[] {String.class}, "regionCode")));
 	}
 
 	protected Region addRegion() throws Exception {

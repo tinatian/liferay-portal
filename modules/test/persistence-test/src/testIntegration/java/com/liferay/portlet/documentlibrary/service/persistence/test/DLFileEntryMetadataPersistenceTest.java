@@ -485,12 +485,12 @@ public class DLFileEntryMetadataPersistenceTest {
 			Long.valueOf(existingDLFileEntryMetadata.getDDMStructureId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingDLFileEntryMetadata, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, DDMStructureId));
+				new Class<?>[] {String.class}, "DDMStructureId"));
 		Assert.assertEquals(
 			Long.valueOf(existingDLFileEntryMetadata.getFileVersionId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingDLFileEntryMetadata, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, fileVersionId));
+				new Class<?>[] {String.class}, "fileVersionId"));
 	}
 
 	protected DLFileEntryMetadata addDLFileEntryMetadata() throws Exception {

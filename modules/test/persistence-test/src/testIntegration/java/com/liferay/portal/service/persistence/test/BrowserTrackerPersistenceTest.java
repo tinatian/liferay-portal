@@ -413,7 +413,7 @@ public class BrowserTrackerPersistenceTest {
 			Long.valueOf(existingBrowserTracker.getUserId()),
 			ReflectionTestUtil.<Long>invoke(
 				existingBrowserTracker, "getOriginalAttributeValue",
-				new Class<?>[] {String.class}, userId));
+				new Class<?>[] {String.class}, "userId"));
 	}
 
 	protected BrowserTracker addBrowserTracker() throws Exception {
