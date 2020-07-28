@@ -1763,6 +1763,17 @@ public class SyncDLObjectModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<SyncDLObject, Object> function = _attributeGetterFunctions.get(
+			attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((SyncDLObject)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<SyncDLObjectCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

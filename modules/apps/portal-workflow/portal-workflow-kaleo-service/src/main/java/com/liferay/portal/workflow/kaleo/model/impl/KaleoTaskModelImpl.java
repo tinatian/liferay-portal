@@ -968,6 +968,17 @@ public class KaleoTaskModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<KaleoTask, Object> function = _attributeGetterFunctions.get(
+			attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((KaleoTask)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<KaleoTaskCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

@@ -754,6 +754,17 @@ public class AccountEntryOrganizationRelModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<AccountEntryOrganizationRel, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((AccountEntryOrganizationRel)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<AccountEntryOrganizationRelCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

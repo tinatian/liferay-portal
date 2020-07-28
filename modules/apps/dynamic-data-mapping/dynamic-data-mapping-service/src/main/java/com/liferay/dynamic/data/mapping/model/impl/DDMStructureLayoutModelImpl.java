@@ -1634,6 +1634,17 @@ public class DDMStructureLayoutModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<DDMStructureLayout, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((DDMStructureLayout)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<DDMStructureLayoutCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

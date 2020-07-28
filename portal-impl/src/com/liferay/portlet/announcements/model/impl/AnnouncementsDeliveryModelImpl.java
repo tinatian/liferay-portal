@@ -918,6 +918,17 @@ public class AnnouncementsDeliveryModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<AnnouncementsDelivery, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((AnnouncementsDelivery)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<AnnouncementsDeliveryCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

@@ -783,6 +783,17 @@ public class MBStatsUserModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<MBStatsUser, Object> function = _attributeGetterFunctions.get(
+			attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((MBStatsUser)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<MBStatsUserCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

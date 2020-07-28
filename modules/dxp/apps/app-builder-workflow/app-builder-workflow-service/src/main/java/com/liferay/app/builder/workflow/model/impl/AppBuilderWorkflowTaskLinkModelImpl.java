@@ -873,6 +873,17 @@ public class AppBuilderWorkflowTaskLinkModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<AppBuilderWorkflowTaskLink, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((AppBuilderWorkflowTaskLink)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<AppBuilderWorkflowTaskLinkCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

@@ -1567,6 +1567,17 @@ public class ExportImportConfigurationModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<ExportImportConfiguration, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((ExportImportConfiguration)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<ExportImportConfigurationCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

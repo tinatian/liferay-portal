@@ -1627,6 +1627,17 @@ public class SegmentsExperienceModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<SegmentsExperience, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((SegmentsExperience)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<SegmentsExperienceCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

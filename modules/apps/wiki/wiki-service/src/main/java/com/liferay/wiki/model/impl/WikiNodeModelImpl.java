@@ -1487,6 +1487,17 @@ public class WikiNodeModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<WikiNode, Object> function = _attributeGetterFunctions.get(
+			attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((WikiNode)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<WikiNodeCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

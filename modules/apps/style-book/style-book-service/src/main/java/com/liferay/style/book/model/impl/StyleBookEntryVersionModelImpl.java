@@ -1163,6 +1163,17 @@ public class StyleBookEntryVersionModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<StyleBookEntryVersion, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((StyleBookEntryVersion)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<StyleBookEntryVersionCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

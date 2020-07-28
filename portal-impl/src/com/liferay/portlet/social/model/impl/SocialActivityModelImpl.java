@@ -1282,6 +1282,17 @@ public class SocialActivityModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<SocialActivity, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((SocialActivity)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<SocialActivityCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

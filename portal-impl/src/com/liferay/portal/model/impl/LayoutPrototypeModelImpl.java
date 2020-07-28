@@ -1348,6 +1348,17 @@ public class LayoutPrototypeModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<LayoutPrototype, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((LayoutPrototype)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<LayoutPrototypeCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

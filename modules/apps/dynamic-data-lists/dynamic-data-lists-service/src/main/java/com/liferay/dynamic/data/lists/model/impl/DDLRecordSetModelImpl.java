@@ -1670,6 +1670,17 @@ public class DDLRecordSetModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<DDLRecordSet, Object> function = _attributeGetterFunctions.get(
+			attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((DDLRecordSet)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<DDLRecordSetCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

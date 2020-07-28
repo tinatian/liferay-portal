@@ -1228,6 +1228,17 @@ public class AssetListEntryUsageModelImpl
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<AssetListEntryUsage, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((AssetListEntryUsage)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<AssetListEntryUsageCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);
