@@ -15,6 +15,7 @@
 package com.liferay.portal.tools.service.builder.test.service.persistence.impl;
 
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.dao.orm.ArgumentsResolver;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -24,7 +25,9 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
@@ -39,10 +42,16 @@ import java.io.Serializable;
 
 import java.lang.reflect.InvocationHandler;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+
+import org.osgi.framework.Bundle;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.FrameworkUtil;
+import org.osgi.framework.ServiceRegistration;
 
 /**
  * The persistence implementation for the localized entry localization service.
@@ -949,34 +958,19 @@ public class LocalizedEntryLocalizationPersistenceImpl
 		LocalizedEntryLocalization localizedEntryLocalization) {
 
 		entityCache.removeResult(
-			LocalizedEntryLocalizationImpl.class,
-			localizedEntryLocalization.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(LocalizedEntryLocalizationModelImpl)localizedEntryLocalization,
-			true);
+			LocalizedEntryLocalizationImpl.class, localizedEntryLocalization);
 	}
 
 	@Override
 	public void clearCache(
 		List<LocalizedEntryLocalization> localizedEntryLocalizations) {
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (LocalizedEntryLocalization localizedEntryLocalization :
 				localizedEntryLocalizations) {
 
 			entityCache.removeResult(
 				LocalizedEntryLocalizationImpl.class,
-				localizedEntryLocalization.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(LocalizedEntryLocalizationModelImpl)localizedEntryLocalization,
-				true);
+				localizedEntryLocalization);
 		}
 	}
 
@@ -1007,39 +1001,6 @@ public class LocalizedEntryLocalizationPersistenceImpl
 		finderCache.putResult(
 			_finderPathFetchByLocalizedEntryId_LanguageId, args,
 			localizedEntryLocalizationModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		LocalizedEntryLocalizationModelImpl localizedEntryLocalizationModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				localizedEntryLocalizationModelImpl.getLocalizedEntryId(),
-				localizedEntryLocalizationModelImpl.getLanguageId()
-			};
-
-			finderCache.removeResult(
-				_finderPathCountByLocalizedEntryId_LanguageId, args);
-			finderCache.removeResult(
-				_finderPathFetchByLocalizedEntryId_LanguageId, args);
-		}
-
-		if ((localizedEntryLocalizationModelImpl.getColumnBitmask() &
-			 _finderPathFetchByLocalizedEntryId_LanguageId.
-				 getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				localizedEntryLocalizationModelImpl.
-					getOriginalLocalizedEntryId(),
-				localizedEntryLocalizationModelImpl.getOriginalLanguageId()
-			};
-
-			finderCache.removeResult(
-				_finderPathCountByLocalizedEntryId_LanguageId, args);
-			finderCache.removeResult(
-				_finderPathFetchByLocalizedEntryId_LanguageId, args);
-		}
 	}
 
 	/**
@@ -1187,10 +1148,8 @@ public class LocalizedEntryLocalizationPersistenceImpl
 		try {
 			session = openSession();
 
-			if (localizedEntryLocalization.isNew()) {
+			if (isNew) {
 				session.save(localizedEntryLocalization);
-
-				localizedEntryLocalization.setNew(false);
 			}
 			else {
 				localizedEntryLocalization =
@@ -1205,54 +1164,15 @@ public class LocalizedEntryLocalizationPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (isNew) {
-			Object[] args = new Object[] {
-				localizedEntryLocalizationModelImpl.getLocalizedEntryId()
-			};
-
-			finderCache.removeResult(_finderPathCountByLocalizedEntryId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByLocalizedEntryId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((localizedEntryLocalizationModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByLocalizedEntryId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					localizedEntryLocalizationModelImpl.
-						getOriginalLocalizedEntryId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByLocalizedEntryId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByLocalizedEntryId, args);
-
-				args = new Object[] {
-					localizedEntryLocalizationModelImpl.getLocalizedEntryId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByLocalizedEntryId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByLocalizedEntryId, args);
-			}
-		}
-
 		entityCache.putResult(
 			LocalizedEntryLocalizationImpl.class,
-			localizedEntryLocalization.getPrimaryKey(),
-			localizedEntryLocalization, false);
+			localizedEntryLocalizationModelImpl, false, true);
 
-		clearUniqueFindersCache(localizedEntryLocalizationModelImpl, false);
 		cacheUniqueFindersCache(localizedEntryLocalizationModelImpl);
+
+		if (isNew) {
+			localizedEntryLocalization.setNew(false);
+		}
 
 		localizedEntryLocalization.resetOriginalValues();
 
@@ -1522,58 +1442,69 @@ public class LocalizedEntryLocalizationPersistenceImpl
 	 * Initializes the localized entry localization persistence.
 	 */
 	public void afterPropertiesSet() {
-		_finderPathWithPaginationFindAll = new FinderPath(
+		Bundle bundle = FrameworkUtil.getBundle(
+			LocalizedEntryLocalizationPersistenceImpl.class);
+
+		_bundleContext = bundle.getBundleContext();
+
+		_argumentsResolverServiceRegistration = _bundleContext.registerService(
+			ArgumentsResolver.class,
+			new LocalizedEntryLocalizationModelArgumentsResolver(),
+			MapUtil.singletonDictionary(
+				"model.class.name",
+				LocalizedEntryLocalization.class.getName()));
+
+		_finderPathWithPaginationFindAll = _createFinderPath(
 			LocalizedEntryLocalizationImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
-		_finderPathWithoutPaginationFindAll = new FinderPath(
+		_finderPathWithoutPaginationFindAll = _createFinderPath(
 			LocalizedEntryLocalizationImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
-		_finderPathCountAll = new FinderPath(
+		_finderPathCountAll = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
-		_finderPathWithPaginationFindByLocalizedEntryId = new FinderPath(
+		_finderPathWithPaginationFindByLocalizedEntryId = _createFinderPath(
 			LocalizedEntryLocalizationImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByLocalizedEntryId",
-			new String[] {
-				Long.class.getName(), Integer.class.getName(),
-				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			new String[] {"localizedEntryId"});
 
-		_finderPathWithoutPaginationFindByLocalizedEntryId = new FinderPath(
+		_finderPathWithoutPaginationFindByLocalizedEntryId = _createFinderPath(
 			LocalizedEntryLocalizationImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByLocalizedEntryId",
-			new String[] {Long.class.getName()},
-			LocalizedEntryLocalizationModelImpl.
-				LOCALIZEDENTRYID_COLUMN_BITMASK);
+			new String[] {"localizedEntryId"});
 
-		_finderPathCountByLocalizedEntryId = new FinderPath(
+		_finderPathCountByLocalizedEntryId = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByLocalizedEntryId", new String[] {Long.class.getName()});
+			"countByLocalizedEntryId", new String[] {"localizedEntryId"});
 
-		_finderPathFetchByLocalizedEntryId_LanguageId = new FinderPath(
+		_finderPathFetchByLocalizedEntryId_LanguageId = _createFinderPath(
 			LocalizedEntryLocalizationImpl.class, FINDER_CLASS_NAME_ENTITY,
 			"fetchByLocalizedEntryId_LanguageId",
-			new String[] {Long.class.getName(), String.class.getName()},
-			LocalizedEntryLocalizationModelImpl.
-				LOCALIZEDENTRYID_COLUMN_BITMASK |
-			LocalizedEntryLocalizationModelImpl.LANGUAGEID_COLUMN_BITMASK);
+			new String[] {"localizedEntryId", "languageId"});
 
-		_finderPathCountByLocalizedEntryId_LanguageId = new FinderPath(
+		_finderPathCountByLocalizedEntryId_LanguageId = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByLocalizedEntryId_LanguageId",
-			new String[] {Long.class.getName(), String.class.getName()});
+			new String[] {"localizedEntryId", "languageId"});
 	}
 
 	public void destroy() {
 		entityCache.removeCache(LocalizedEntryLocalizationImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+		_argumentsResolverServiceRegistration.unregister();
+
+		for (ServiceRegistration<FinderPath> serviceRegistration :
+				_serviceRegistrations) {
+
+			serviceRegistration.unregister();
+		}
 	}
+
+	private BundleContext _bundleContext;
 
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
@@ -1604,5 +1535,102 @@ public class LocalizedEntryLocalizationPersistenceImpl
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		LocalizedEntryLocalizationPersistenceImpl.class);
+
+	private FinderPath _createFinderPath(
+		Class<?> returnClass, String cacheName, String methodName,
+		String[] arttributeNames) {
+
+		FinderPath finderPath = new FinderPath(
+			cacheName, methodName, returnClass, arttributeNames);
+
+		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
+			_serviceRegistrations.add(
+				_bundleContext.registerService(
+					FinderPath.class, finderPath,
+					MapUtil.singletonDictionary("cache.name", cacheName)));
+		}
+
+		return finderPath;
+	}
+
+	private ServiceRegistration<ArgumentsResolver>
+		_argumentsResolverServiceRegistration;
+	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
+		new HashSet<>();
+
+	private static class LocalizedEntryLocalizationModelArgumentsResolver
+		implements ArgumentsResolver {
+
+		@Override
+		public Object[] getArguments(
+			FinderPath finderPath, BaseModel<?> baseModel, boolean checkColumn,
+			boolean original) {
+
+			String[] attributeNames = finderPath.getAttributeNames();
+
+			if ((attributeNames == null) || (attributeNames.length == 0)) {
+				if (baseModel.isNew()) {
+					return FINDER_ARGS_EMPTY;
+				}
+
+				return null;
+			}
+
+			LocalizedEntryLocalizationModelImpl
+				localizedEntryLocalizationModelImpl =
+					(LocalizedEntryLocalizationModelImpl)baseModel;
+
+			long columnBitmask =
+				localizedEntryLocalizationModelImpl.getColumnBitmask();
+
+			if (!checkColumn || (columnBitmask == 0)) {
+				return _getValue(
+					localizedEntryLocalizationModelImpl, attributeNames,
+					original);
+			}
+
+			long finderPathColumnBitmask = 0;
+
+			for (String attributeName : attributeNames) {
+				finderPathColumnBitmask |=
+					localizedEntryLocalizationModelImpl.getColumnBitmask(
+						attributeName);
+			}
+
+			if ((columnBitmask & finderPathColumnBitmask) != 0) {
+				return _getValue(
+					localizedEntryLocalizationModelImpl, attributeNames,
+					original);
+			}
+
+			return null;
+		}
+
+		private Object[] _getValue(
+			LocalizedEntryLocalizationModelImpl
+				localizedEntryLocalizationModelImpl,
+			String[] attributeNames, boolean original) {
+
+			Object[] arguments = new Object[attributeNames.length];
+
+			for (int i = 0; i < arguments.length; i++) {
+				String attributeName = attributeNames[i];
+
+				if (original) {
+					arguments[i] =
+						localizedEntryLocalizationModelImpl.
+							getOriginalAttributeValue(attributeName);
+				}
+				else {
+					arguments[i] =
+						localizedEntryLocalizationModelImpl.getAttributeValue(
+							attributeName);
+				}
+			}
+
+			return arguments;
+		}
+
+	}
 
 }

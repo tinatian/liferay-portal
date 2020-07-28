@@ -24,6 +24,7 @@ import com.liferay.change.tracking.store.service.persistence.impl.constants.CTSP
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.configuration.Configuration;
+import com.liferay.portal.kernel.dao.orm.ArgumentsResolver;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -34,9 +35,11 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.dao.orm.SessionFactory;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.persistence.change.tracking.helper.CTPersistenceHelper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
@@ -59,6 +62,8 @@ import java.util.Set;
 
 import javax.sql.DataSource;
 
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
@@ -2649,25 +2654,13 @@ public class CTSContentPersistenceImpl
 	 */
 	@Override
 	public void clearCache(CTSContent ctsContent) {
-		entityCache.removeResult(
-			CTSContentImpl.class, ctsContent.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((CTSContentModelImpl)ctsContent, true);
+		entityCache.removeResult(CTSContentImpl.class, ctsContent);
 	}
 
 	@Override
 	public void clearCache(List<CTSContent> ctsContents) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (CTSContent ctsContent : ctsContents) {
-			entityCache.removeResult(
-				CTSContentImpl.class, ctsContent.getPrimaryKey());
-
-			clearUniqueFindersCache((CTSContentModelImpl)ctsContent, true);
+			entityCache.removeResult(CTSContentImpl.class, ctsContent);
 		}
 	}
 
@@ -2696,37 +2689,6 @@ public class CTSContentPersistenceImpl
 			_finderPathCountByC_R_P_V_S, args, Long.valueOf(1), false);
 		finderCache.putResult(
 			_finderPathFetchByC_R_P_V_S, args, ctsContentModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		CTSContentModelImpl ctsContentModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				ctsContentModelImpl.getCompanyId(),
-				ctsContentModelImpl.getRepositoryId(),
-				ctsContentModelImpl.getPath(), ctsContentModelImpl.getVersion(),
-				ctsContentModelImpl.getStoreType()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_R_P_V_S, args);
-			finderCache.removeResult(_finderPathFetchByC_R_P_V_S, args);
-		}
-
-		if ((ctsContentModelImpl.getColumnBitmask() &
-			 _finderPathFetchByC_R_P_V_S.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				ctsContentModelImpl.getOriginalCompanyId(),
-				ctsContentModelImpl.getOriginalRepositoryId(),
-				ctsContentModelImpl.getOriginalPath(),
-				ctsContentModelImpl.getOriginalVersion(),
-				ctsContentModelImpl.getOriginalStoreType()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_R_P_V_S, args);
-			finderCache.removeResult(_finderPathFetchByC_R_P_V_S, args);
-		}
 	}
 
 	/**
@@ -2873,8 +2835,6 @@ public class CTSContentPersistenceImpl
 				}
 
 				session.save(ctsContent);
-
-				ctsContent.setNew(false);
 			}
 			else {
 				session.evict(ctsContent);
@@ -2892,99 +2852,23 @@ public class CTSContentPersistenceImpl
 		}
 
 		if (ctsContent.getCtCollectionId() != 0) {
+			if (isNew) {
+				ctsContent.setNew(false);
+			}
+
 			ctsContent.resetOriginalValues();
 
 			return ctsContent;
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+		entityCache.putResult(
+			CTSContentImpl.class, ctsContentModelImpl, false, true);
+
+		cacheUniqueFindersCache(ctsContentModelImpl);
 
 		if (isNew) {
-			Object[] args = new Object[] {
-				ctsContentModelImpl.getCompanyId(),
-				ctsContentModelImpl.getRepositoryId(),
-				ctsContentModelImpl.getStoreType()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_R_S, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByC_R_S, args);
-
-			args = new Object[] {
-				ctsContentModelImpl.getCompanyId(),
-				ctsContentModelImpl.getRepositoryId(),
-				ctsContentModelImpl.getPath(),
-				ctsContentModelImpl.getStoreType()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_R_P_S, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByC_R_P_S, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
+			ctsContent.setNew(false);
 		}
-		else {
-			if ((ctsContentModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByC_R_S.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					ctsContentModelImpl.getOriginalCompanyId(),
-					ctsContentModelImpl.getOriginalRepositoryId(),
-					ctsContentModelImpl.getOriginalStoreType()
-				};
-
-				finderCache.removeResult(_finderPathCountByC_R_S, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByC_R_S, args);
-
-				args = new Object[] {
-					ctsContentModelImpl.getCompanyId(),
-					ctsContentModelImpl.getRepositoryId(),
-					ctsContentModelImpl.getStoreType()
-				};
-
-				finderCache.removeResult(_finderPathCountByC_R_S, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByC_R_S, args);
-			}
-
-			if ((ctsContentModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByC_R_P_S.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					ctsContentModelImpl.getOriginalCompanyId(),
-					ctsContentModelImpl.getOriginalRepositoryId(),
-					ctsContentModelImpl.getOriginalPath(),
-					ctsContentModelImpl.getOriginalStoreType()
-				};
-
-				finderCache.removeResult(_finderPathCountByC_R_P_S, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByC_R_P_S, args);
-
-				args = new Object[] {
-					ctsContentModelImpl.getCompanyId(),
-					ctsContentModelImpl.getRepositoryId(),
-					ctsContentModelImpl.getPath(),
-					ctsContentModelImpl.getStoreType()
-				};
-
-				finderCache.removeResult(_finderPathCountByC_R_P_S, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByC_R_P_S, args);
-			}
-		}
-
-		entityCache.putResult(
-			CTSContentImpl.class, ctsContent.getPrimaryKey(), ctsContent,
-			false);
-
-		clearUniqueFindersCache(ctsContentModelImpl, false);
-		cacheUniqueFindersCache(ctsContentModelImpl);
 
 		ctsContent.resetOriginalValues();
 
@@ -3430,126 +3314,91 @@ public class CTSContentPersistenceImpl
 	 * Initializes the cts content persistence.
 	 */
 	@Activate
-	public void activate() {
-		_finderPathWithPaginationFindAll = new FinderPath(
+	public void activate(BundleContext bundleContext) {
+		_bundleContext = bundleContext;
+
+		_argumentsResolverServiceRegistration = _bundleContext.registerService(
+			ArgumentsResolver.class, new CTSContentModelArgumentsResolver(),
+			MapUtil.singletonDictionary(
+				"model.class.name", CTSContent.class.getName()));
+
+		_finderPathWithPaginationFindAll = _createFinderPath(
 			CTSContentImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 			"findAll", new String[0]);
 
-		_finderPathWithoutPaginationFindAll = new FinderPath(
+		_finderPathWithoutPaginationFindAll = _createFinderPath(
 			CTSContentImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findAll", new String[0]);
 
-		_finderPathCountAll = new FinderPath(
+		_finderPathCountAll = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
-		_finderPathWithPaginationFindByC_R_S = new FinderPath(
+		_finderPathWithPaginationFindByC_R_S = _createFinderPath(
 			CTSContentImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 			"findByC_R_S",
-			new String[] {
-				Long.class.getName(), Long.class.getName(),
-				String.class.getName(), Integer.class.getName(),
-				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			new String[] {"companyId", "repositoryId", "storeType"});
 
-		_finderPathWithoutPaginationFindByC_R_S = new FinderPath(
+		_finderPathWithoutPaginationFindByC_R_S = _createFinderPath(
 			CTSContentImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByC_R_S",
-			new String[] {
-				Long.class.getName(), Long.class.getName(),
-				String.class.getName()
-			},
-			CTSContentModelImpl.COMPANYID_COLUMN_BITMASK |
-			CTSContentModelImpl.REPOSITORYID_COLUMN_BITMASK |
-			CTSContentModelImpl.STORETYPE_COLUMN_BITMASK |
-			CTSContentModelImpl.VERSION_COLUMN_BITMASK);
+			new String[] {"companyId", "repositoryId", "storeType"});
 
-		_finderPathCountByC_R_S = new FinderPath(
+		_finderPathCountByC_R_S = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByC_R_S",
-			new String[] {
-				Long.class.getName(), Long.class.getName(),
-				String.class.getName()
-			});
+			new String[] {"companyId", "repositoryId", "storeType"});
 
-		_finderPathWithPaginationFindByC_R_P_S = new FinderPath(
+		_finderPathWithPaginationFindByC_R_P_S = _createFinderPath(
 			CTSContentImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 			"findByC_R_P_S",
-			new String[] {
-				Long.class.getName(), Long.class.getName(),
-				String.class.getName(), String.class.getName(),
-				Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
+			new String[] {"companyId", "repositoryId", "path", "storeType"});
 
-		_finderPathWithoutPaginationFindByC_R_P_S = new FinderPath(
+		_finderPathWithoutPaginationFindByC_R_P_S = _createFinderPath(
 			CTSContentImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByC_R_P_S",
-			new String[] {
-				Long.class.getName(), Long.class.getName(),
-				String.class.getName(), String.class.getName()
-			},
-			CTSContentModelImpl.COMPANYID_COLUMN_BITMASK |
-			CTSContentModelImpl.REPOSITORYID_COLUMN_BITMASK |
-			CTSContentModelImpl.PATH_COLUMN_BITMASK |
-			CTSContentModelImpl.STORETYPE_COLUMN_BITMASK |
-			CTSContentModelImpl.VERSION_COLUMN_BITMASK);
+			new String[] {"companyId", "repositoryId", "path", "storeType"});
 
-		_finderPathCountByC_R_P_S = new FinderPath(
+		_finderPathCountByC_R_P_S = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByC_R_P_S",
-			new String[] {
-				Long.class.getName(), Long.class.getName(),
-				String.class.getName(), String.class.getName()
-			});
+			new String[] {"companyId", "repositoryId", "path", "storeType"});
 
-		_finderPathWithPaginationFindByC_R_LikeP_S = new FinderPath(
+		_finderPathWithPaginationFindByC_R_LikeP_S = _createFinderPath(
 			CTSContentImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 			"findByC_R_LikeP_S",
-			new String[] {
-				Long.class.getName(), Long.class.getName(),
-				String.class.getName(), String.class.getName(),
-				Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
+			new String[] {"companyId", "repositoryId", "path", "storeType"});
 
-		_finderPathWithPaginationCountByC_R_LikeP_S = new FinderPath(
+		_finderPathWithPaginationCountByC_R_LikeP_S = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 			"countByC_R_LikeP_S",
-			new String[] {
-				Long.class.getName(), Long.class.getName(),
-				String.class.getName(), String.class.getName()
-			});
+			new String[] {"companyId", "repositoryId", "path", "storeType"});
 
-		_finderPathFetchByC_R_P_V_S = new FinderPath(
+		_finderPathFetchByC_R_P_V_S = _createFinderPath(
 			CTSContentImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByC_R_P_V_S",
 			new String[] {
-				Long.class.getName(), Long.class.getName(),
-				String.class.getName(), String.class.getName(),
-				String.class.getName()
-			},
-			CTSContentModelImpl.COMPANYID_COLUMN_BITMASK |
-			CTSContentModelImpl.REPOSITORYID_COLUMN_BITMASK |
-			CTSContentModelImpl.PATH_COLUMN_BITMASK |
-			CTSContentModelImpl.VERSION_COLUMN_BITMASK |
-			CTSContentModelImpl.STORETYPE_COLUMN_BITMASK);
+				"companyId", "repositoryId", "path", "version", "storeType"
+			});
 
-		_finderPathCountByC_R_P_V_S = new FinderPath(
+		_finderPathCountByC_R_P_V_S = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByC_R_P_V_S",
 			new String[] {
-				Long.class.getName(), Long.class.getName(),
-				String.class.getName(), String.class.getName(),
-				String.class.getName()
+				"companyId", "repositoryId", "path", "version", "storeType"
 			});
 	}
 
 	@Deactivate
 	public void deactivate() {
 		entityCache.removeCache(CTSContentImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+		_argumentsResolverServiceRegistration.unregister();
+
+		for (ServiceRegistration<FinderPath> serviceRegistration :
+				_serviceRegistrations) {
+
+			serviceRegistration.unregister();
+		}
 	}
 
 	@Override
@@ -3577,6 +3426,8 @@ public class CTSContentPersistenceImpl
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		super.setSessionFactory(sessionFactory);
 	}
+
+	private BundleContext _bundleContext;
 
 	@Reference
 	protected CTPersistenceHelper ctPersistenceHelper;
@@ -3620,6 +3471,94 @@ public class CTSContentPersistenceImpl
 		catch (ClassNotFoundException classNotFoundException) {
 			throw new ExceptionInInitializerError(classNotFoundException);
 		}
+	}
+
+	private FinderPath _createFinderPath(
+		Class<?> returnClass, String cacheName, String methodName,
+		String[] arttributeNames) {
+
+		FinderPath finderPath = new FinderPath(
+			cacheName, methodName, returnClass, arttributeNames);
+
+		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
+			_serviceRegistrations.add(
+				_bundleContext.registerService(
+					FinderPath.class, finderPath,
+					MapUtil.singletonDictionary("cache.name", cacheName)));
+		}
+
+		return finderPath;
+	}
+
+	private ServiceRegistration<ArgumentsResolver>
+		_argumentsResolverServiceRegistration;
+	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
+		new HashSet<>();
+
+	private static class CTSContentModelArgumentsResolver
+		implements ArgumentsResolver {
+
+		@Override
+		public Object[] getArguments(
+			FinderPath finderPath, BaseModel<?> baseModel, boolean checkColumn,
+			boolean original) {
+
+			String[] attributeNames = finderPath.getAttributeNames();
+
+			if ((attributeNames == null) || (attributeNames.length == 0)) {
+				if (baseModel.isNew()) {
+					return FINDER_ARGS_EMPTY;
+				}
+
+				return null;
+			}
+
+			CTSContentModelImpl ctsContentModelImpl =
+				(CTSContentModelImpl)baseModel;
+
+			long columnBitmask = ctsContentModelImpl.getColumnBitmask();
+
+			if (!checkColumn || (columnBitmask == 0)) {
+				return _getValue(ctsContentModelImpl, attributeNames, original);
+			}
+
+			long finderPathColumnBitmask = 0;
+
+			for (String attributeName : attributeNames) {
+				finderPathColumnBitmask |= ctsContentModelImpl.getColumnBitmask(
+					attributeName);
+			}
+
+			if ((columnBitmask & finderPathColumnBitmask) != 0) {
+				return _getValue(ctsContentModelImpl, attributeNames, original);
+			}
+
+			return null;
+		}
+
+		private Object[] _getValue(
+			CTSContentModelImpl ctsContentModelImpl, String[] attributeNames,
+			boolean original) {
+
+			Object[] arguments = new Object[attributeNames.length];
+
+			for (int i = 0; i < arguments.length; i++) {
+				String attributeName = attributeNames[i];
+
+				if (original) {
+					arguments[i] =
+						ctsContentModelImpl.getOriginalAttributeValue(
+							attributeName);
+				}
+				else {
+					arguments[i] = ctsContentModelImpl.getAttributeValue(
+						attributeName);
+				}
+			}
+
+			return arguments;
+		}
+
 	}
 
 }

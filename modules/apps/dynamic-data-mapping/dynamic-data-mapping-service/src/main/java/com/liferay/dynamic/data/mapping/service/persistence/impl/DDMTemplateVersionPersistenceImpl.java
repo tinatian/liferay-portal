@@ -24,6 +24,7 @@ import com.liferay.dynamic.data.mapping.service.persistence.impl.constants.DDMPe
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.configuration.Configuration;
+import com.liferay.portal.kernel.dao.orm.ArgumentsResolver;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -34,9 +35,11 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.dao.orm.SessionFactory;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.persistence.change.tracking.helper.CTPersistenceHelper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
@@ -57,6 +60,8 @@ import java.util.Set;
 
 import javax.sql.DataSource;
 
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
@@ -1523,27 +1528,14 @@ public class DDMTemplateVersionPersistenceImpl
 	@Override
 	public void clearCache(DDMTemplateVersion ddmTemplateVersion) {
 		entityCache.removeResult(
-			DDMTemplateVersionImpl.class, ddmTemplateVersion.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(DDMTemplateVersionModelImpl)ddmTemplateVersion, true);
+			DDMTemplateVersionImpl.class, ddmTemplateVersion);
 	}
 
 	@Override
 	public void clearCache(List<DDMTemplateVersion> ddmTemplateVersions) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (DDMTemplateVersion ddmTemplateVersion : ddmTemplateVersions) {
 			entityCache.removeResult(
-				DDMTemplateVersionImpl.class,
-				ddmTemplateVersion.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(DDMTemplateVersionModelImpl)ddmTemplateVersion, true);
+				DDMTemplateVersionImpl.class, ddmTemplateVersion);
 		}
 	}
 
@@ -1570,33 +1562,6 @@ public class DDMTemplateVersionPersistenceImpl
 			_finderPathCountByT_V, args, Long.valueOf(1), false);
 		finderCache.putResult(
 			_finderPathFetchByT_V, args, ddmTemplateVersionModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		DDMTemplateVersionModelImpl ddmTemplateVersionModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				ddmTemplateVersionModelImpl.getTemplateId(),
-				ddmTemplateVersionModelImpl.getVersion()
-			};
-
-			finderCache.removeResult(_finderPathCountByT_V, args);
-			finderCache.removeResult(_finderPathFetchByT_V, args);
-		}
-
-		if ((ddmTemplateVersionModelImpl.getColumnBitmask() &
-			 _finderPathFetchByT_V.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				ddmTemplateVersionModelImpl.getOriginalTemplateId(),
-				ddmTemplateVersionModelImpl.getOriginalVersion()
-			};
-
-			finderCache.removeResult(_finderPathCountByT_V, args);
-			finderCache.removeResult(_finderPathFetchByT_V, args);
-		}
 	}
 
 	/**
@@ -1754,8 +1719,6 @@ public class DDMTemplateVersionPersistenceImpl
 				}
 
 				session.save(ddmTemplateVersion);
-
-				ddmTemplateVersion.setNew(false);
 			}
 			else {
 				ddmTemplateVersion = (DDMTemplateVersion)session.merge(
@@ -1770,87 +1733,24 @@ public class DDMTemplateVersionPersistenceImpl
 		}
 
 		if (ddmTemplateVersion.getCtCollectionId() != 0) {
+			if (isNew) {
+				ddmTemplateVersion.setNew(false);
+			}
+
 			ddmTemplateVersion.resetOriginalValues();
 
 			return ddmTemplateVersion;
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+		entityCache.putResult(
+			DDMTemplateVersionImpl.class, ddmTemplateVersionModelImpl, false,
+			true);
+
+		cacheUniqueFindersCache(ddmTemplateVersionModelImpl);
 
 		if (isNew) {
-			Object[] args = new Object[] {
-				ddmTemplateVersionModelImpl.getTemplateId()
-			};
-
-			finderCache.removeResult(_finderPathCountByTemplateId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByTemplateId, args);
-
-			args = new Object[] {
-				ddmTemplateVersionModelImpl.getTemplateId(),
-				ddmTemplateVersionModelImpl.getStatus()
-			};
-
-			finderCache.removeResult(_finderPathCountByT_S, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByT_S, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
+			ddmTemplateVersion.setNew(false);
 		}
-		else {
-			if ((ddmTemplateVersionModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByTemplateId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					ddmTemplateVersionModelImpl.getOriginalTemplateId()
-				};
-
-				finderCache.removeResult(_finderPathCountByTemplateId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByTemplateId, args);
-
-				args = new Object[] {
-					ddmTemplateVersionModelImpl.getTemplateId()
-				};
-
-				finderCache.removeResult(_finderPathCountByTemplateId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByTemplateId, args);
-			}
-
-			if ((ddmTemplateVersionModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByT_S.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					ddmTemplateVersionModelImpl.getOriginalTemplateId(),
-					ddmTemplateVersionModelImpl.getOriginalStatus()
-				};
-
-				finderCache.removeResult(_finderPathCountByT_S, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByT_S, args);
-
-				args = new Object[] {
-					ddmTemplateVersionModelImpl.getTemplateId(),
-					ddmTemplateVersionModelImpl.getStatus()
-				};
-
-				finderCache.removeResult(_finderPathCountByT_S, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByT_S, args);
-			}
-		}
-
-		entityCache.putResult(
-			DDMTemplateVersionImpl.class, ddmTemplateVersion.getPrimaryKey(),
-			ddmTemplateVersion, false);
-
-		clearUniqueFindersCache(ddmTemplateVersionModelImpl, false);
-		cacheUniqueFindersCache(ddmTemplateVersionModelImpl);
 
 		ddmTemplateVersion.resetOriginalValues();
 
@@ -2306,76 +2206,76 @@ public class DDMTemplateVersionPersistenceImpl
 	 * Initializes the ddm template version persistence.
 	 */
 	@Activate
-	public void activate() {
-		_finderPathWithPaginationFindAll = new FinderPath(
+	public void activate(BundleContext bundleContext) {
+		_bundleContext = bundleContext;
+
+		_argumentsResolverServiceRegistration = _bundleContext.registerService(
+			ArgumentsResolver.class,
+			new DDMTemplateVersionModelArgumentsResolver(),
+			MapUtil.singletonDictionary(
+				"model.class.name", DDMTemplateVersion.class.getName()));
+
+		_finderPathWithPaginationFindAll = _createFinderPath(
 			DDMTemplateVersionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
-		_finderPathWithoutPaginationFindAll = new FinderPath(
+		_finderPathWithoutPaginationFindAll = _createFinderPath(
 			DDMTemplateVersionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
-		_finderPathCountAll = new FinderPath(
+		_finderPathCountAll = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
-		_finderPathWithPaginationFindByTemplateId = new FinderPath(
+		_finderPathWithPaginationFindByTemplateId = _createFinderPath(
 			DDMTemplateVersionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByTemplateId",
-			new String[] {
-				Long.class.getName(), Integer.class.getName(),
-				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			new String[] {"templateId"});
 
-		_finderPathWithoutPaginationFindByTemplateId = new FinderPath(
+		_finderPathWithoutPaginationFindByTemplateId = _createFinderPath(
 			DDMTemplateVersionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByTemplateId",
-			new String[] {Long.class.getName()},
-			DDMTemplateVersionModelImpl.TEMPLATEID_COLUMN_BITMASK);
+			new String[] {"templateId"});
 
-		_finderPathCountByTemplateId = new FinderPath(
+		_finderPathCountByTemplateId = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByTemplateId", new String[] {Long.class.getName()});
+			"countByTemplateId", new String[] {"templateId"});
 
-		_finderPathFetchByT_V = new FinderPath(
+		_finderPathFetchByT_V = _createFinderPath(
 			DDMTemplateVersionImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByT_V",
-			new String[] {Long.class.getName(), String.class.getName()},
-			DDMTemplateVersionModelImpl.TEMPLATEID_COLUMN_BITMASK |
-			DDMTemplateVersionModelImpl.VERSION_COLUMN_BITMASK);
+			"fetchByT_V", new String[] {"templateId", "version"});
 
-		_finderPathCountByT_V = new FinderPath(
+		_finderPathCountByT_V = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByT_V",
-			new String[] {Long.class.getName(), String.class.getName()});
+			new String[] {"templateId", "version"});
 
-		_finderPathWithPaginationFindByT_S = new FinderPath(
+		_finderPathWithPaginationFindByT_S = _createFinderPath(
 			DDMTemplateVersionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByT_S",
-			new String[] {
-				Long.class.getName(), Integer.class.getName(),
-				Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
+			new String[] {"templateId", "status"});
 
-		_finderPathWithoutPaginationFindByT_S = new FinderPath(
+		_finderPathWithoutPaginationFindByT_S = _createFinderPath(
 			DDMTemplateVersionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByT_S",
-			new String[] {Long.class.getName(), Integer.class.getName()},
-			DDMTemplateVersionModelImpl.TEMPLATEID_COLUMN_BITMASK |
-			DDMTemplateVersionModelImpl.STATUS_COLUMN_BITMASK);
+			new String[] {"templateId", "status"});
 
-		_finderPathCountByT_S = new FinderPath(
+		_finderPathCountByT_S = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByT_S",
-			new String[] {Long.class.getName(), Integer.class.getName()});
+			new String[] {"templateId", "status"});
 	}
 
 	@Deactivate
 	public void deactivate() {
 		entityCache.removeCache(DDMTemplateVersionImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+		_argumentsResolverServiceRegistration.unregister();
+
+		for (ServiceRegistration<FinderPath> serviceRegistration :
+				_serviceRegistrations) {
+
+			serviceRegistration.unregister();
+		}
 	}
 
 	@Override
@@ -2403,6 +2303,8 @@ public class DDMTemplateVersionPersistenceImpl
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		super.setSessionFactory(sessionFactory);
 	}
+
+	private BundleContext _bundleContext;
 
 	@Reference
 	protected CTPersistenceHelper ctPersistenceHelper;
@@ -2443,6 +2345,97 @@ public class DDMTemplateVersionPersistenceImpl
 		catch (ClassNotFoundException classNotFoundException) {
 			throw new ExceptionInInitializerError(classNotFoundException);
 		}
+	}
+
+	private FinderPath _createFinderPath(
+		Class<?> returnClass, String cacheName, String methodName,
+		String[] arttributeNames) {
+
+		FinderPath finderPath = new FinderPath(
+			cacheName, methodName, returnClass, arttributeNames);
+
+		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
+			_serviceRegistrations.add(
+				_bundleContext.registerService(
+					FinderPath.class, finderPath,
+					MapUtil.singletonDictionary("cache.name", cacheName)));
+		}
+
+		return finderPath;
+	}
+
+	private ServiceRegistration<ArgumentsResolver>
+		_argumentsResolverServiceRegistration;
+	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
+		new HashSet<>();
+
+	private static class DDMTemplateVersionModelArgumentsResolver
+		implements ArgumentsResolver {
+
+		@Override
+		public Object[] getArguments(
+			FinderPath finderPath, BaseModel<?> baseModel, boolean checkColumn,
+			boolean original) {
+
+			String[] attributeNames = finderPath.getAttributeNames();
+
+			if ((attributeNames == null) || (attributeNames.length == 0)) {
+				if (baseModel.isNew()) {
+					return FINDER_ARGS_EMPTY;
+				}
+
+				return null;
+			}
+
+			DDMTemplateVersionModelImpl ddmTemplateVersionModelImpl =
+				(DDMTemplateVersionModelImpl)baseModel;
+
+			long columnBitmask = ddmTemplateVersionModelImpl.getColumnBitmask();
+
+			if (!checkColumn || (columnBitmask == 0)) {
+				return _getValue(
+					ddmTemplateVersionModelImpl, attributeNames, original);
+			}
+
+			long finderPathColumnBitmask = 0;
+
+			for (String attributeName : attributeNames) {
+				finderPathColumnBitmask |=
+					ddmTemplateVersionModelImpl.getColumnBitmask(attributeName);
+			}
+
+			if ((columnBitmask & finderPathColumnBitmask) != 0) {
+				return _getValue(
+					ddmTemplateVersionModelImpl, attributeNames, original);
+			}
+
+			return null;
+		}
+
+		private Object[] _getValue(
+			DDMTemplateVersionModelImpl ddmTemplateVersionModelImpl,
+			String[] attributeNames, boolean original) {
+
+			Object[] arguments = new Object[attributeNames.length];
+
+			for (int i = 0; i < arguments.length; i++) {
+				String attributeName = attributeNames[i];
+
+				if (original) {
+					arguments[i] =
+						ddmTemplateVersionModelImpl.getOriginalAttributeValue(
+							attributeName);
+				}
+				else {
+					arguments[i] =
+						ddmTemplateVersionModelImpl.getAttributeValue(
+							attributeName);
+				}
+			}
+
+			return arguments;
+		}
+
 	}
 
 }

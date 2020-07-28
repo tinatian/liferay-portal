@@ -17,6 +17,7 @@ package com.liferay.trash.service.persistence.impl;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.configuration.Configuration;
+import com.liferay.portal.kernel.dao.orm.ArgumentsResolver;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -27,9 +28,11 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.dao.orm.SessionFactory;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.persistence.change.tracking.helper.CTPersistenceHelper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.trash.exception.NoSuchEntryException;
@@ -59,6 +62,8 @@ import java.util.Set;
 
 import javax.sql.DataSource;
 
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
@@ -2560,25 +2565,13 @@ public class TrashEntryPersistenceImpl
 	 */
 	@Override
 	public void clearCache(TrashEntry trashEntry) {
-		entityCache.removeResult(
-			TrashEntryImpl.class, trashEntry.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((TrashEntryModelImpl)trashEntry, true);
+		entityCache.removeResult(TrashEntryImpl.class, trashEntry);
 	}
 
 	@Override
 	public void clearCache(List<TrashEntry> trashEntries) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (TrashEntry trashEntry : trashEntries) {
-			entityCache.removeResult(
-				TrashEntryImpl.class, trashEntry.getPrimaryKey());
-
-			clearUniqueFindersCache((TrashEntryModelImpl)trashEntry, true);
+			entityCache.removeResult(TrashEntryImpl.class, trashEntry);
 		}
 	}
 
@@ -2605,32 +2598,6 @@ public class TrashEntryPersistenceImpl
 			_finderPathCountByC_C, args, Long.valueOf(1), false);
 		finderCache.putResult(
 			_finderPathFetchByC_C, args, trashEntryModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		TrashEntryModelImpl trashEntryModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				trashEntryModelImpl.getClassNameId(),
-				trashEntryModelImpl.getClassPK()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_C, args);
-			finderCache.removeResult(_finderPathFetchByC_C, args);
-		}
-
-		if ((trashEntryModelImpl.getColumnBitmask() &
-			 _finderPathFetchByC_C.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				trashEntryModelImpl.getOriginalClassNameId(),
-				trashEntryModelImpl.getOriginalClassPK()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_C, args);
-			finderCache.removeResult(_finderPathFetchByC_C, args);
-		}
 	}
 
 	/**
@@ -2777,8 +2744,6 @@ public class TrashEntryPersistenceImpl
 				}
 
 				session.save(trashEntry);
-
-				trashEntry.setNew(false);
 			}
 			else {
 				trashEntry = (TrashEntry)session.merge(trashEntry);
@@ -2792,108 +2757,23 @@ public class TrashEntryPersistenceImpl
 		}
 
 		if (trashEntry.getCtCollectionId() != 0) {
+			if (isNew) {
+				trashEntry.setNew(false);
+			}
+
 			trashEntry.resetOriginalValues();
 
 			return trashEntry;
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+		entityCache.putResult(
+			TrashEntryImpl.class, trashEntryModelImpl, false, true);
+
+		cacheUniqueFindersCache(trashEntryModelImpl);
 
 		if (isNew) {
-			Object[] args = new Object[] {trashEntryModelImpl.getGroupId()};
-
-			finderCache.removeResult(_finderPathCountByGroupId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByGroupId, args);
-
-			args = new Object[] {trashEntryModelImpl.getCompanyId()};
-
-			finderCache.removeResult(_finderPathCountByCompanyId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByCompanyId, args);
-
-			args = new Object[] {
-				trashEntryModelImpl.getGroupId(),
-				trashEntryModelImpl.getClassNameId()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByG_C, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
+			trashEntry.setNew(false);
 		}
-		else {
-			if ((trashEntryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByGroupId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					trashEntryModelImpl.getOriginalGroupId()
-				};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-
-				args = new Object[] {trashEntryModelImpl.getGroupId()};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-			}
-
-			if ((trashEntryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByCompanyId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					trashEntryModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByCompanyId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByCompanyId, args);
-
-				args = new Object[] {trashEntryModelImpl.getCompanyId()};
-
-				finderCache.removeResult(_finderPathCountByCompanyId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByCompanyId, args);
-			}
-
-			if ((trashEntryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByG_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					trashEntryModelImpl.getOriginalGroupId(),
-					trashEntryModelImpl.getOriginalClassNameId()
-				};
-
-				finderCache.removeResult(_finderPathCountByG_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_C, args);
-
-				args = new Object[] {
-					trashEntryModelImpl.getGroupId(),
-					trashEntryModelImpl.getClassNameId()
-				};
-
-				finderCache.removeResult(_finderPathCountByG_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_C, args);
-			}
-		}
-
-		entityCache.putResult(
-			TrashEntryImpl.class, trashEntry.getPrimaryKey(), trashEntry,
-			false);
-
-		clearUniqueFindersCache(trashEntryModelImpl, false);
-		cacheUniqueFindersCache(trashEntryModelImpl);
 
 		trashEntry.resetOriginalValues();
 
@@ -3334,106 +3214,90 @@ public class TrashEntryPersistenceImpl
 	 * Initializes the trash entry persistence.
 	 */
 	@Activate
-	public void activate() {
-		_finderPathWithPaginationFindAll = new FinderPath(
+	public void activate(BundleContext bundleContext) {
+		_bundleContext = bundleContext;
+
+		_argumentsResolverServiceRegistration = _bundleContext.registerService(
+			ArgumentsResolver.class, new TrashEntryModelArgumentsResolver(),
+			MapUtil.singletonDictionary(
+				"model.class.name", TrashEntry.class.getName()));
+
+		_finderPathWithPaginationFindAll = _createFinderPath(
 			TrashEntryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 			"findAll", new String[0]);
 
-		_finderPathWithoutPaginationFindAll = new FinderPath(
+		_finderPathWithoutPaginationFindAll = _createFinderPath(
 			TrashEntryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findAll", new String[0]);
 
-		_finderPathCountAll = new FinderPath(
+		_finderPathCountAll = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
-		_finderPathWithPaginationFindByGroupId = new FinderPath(
+		_finderPathWithPaginationFindByGroupId = _createFinderPath(
 			TrashEntryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByGroupId",
-			new String[] {
-				Long.class.getName(), Integer.class.getName(),
-				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			"findByGroupId", new String[] {"groupId"});
 
-		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
+		_finderPathWithoutPaginationFindByGroupId = _createFinderPath(
 			TrashEntryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByGroupId", new String[] {Long.class.getName()},
-			TrashEntryModelImpl.GROUPID_COLUMN_BITMASK |
-			TrashEntryModelImpl.CREATEDATE_COLUMN_BITMASK);
+			"findByGroupId", new String[] {"groupId"});
 
-		_finderPathCountByGroupId = new FinderPath(
+		_finderPathCountByGroupId = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByGroupId", new String[] {Long.class.getName()});
+			"countByGroupId", new String[] {"groupId"});
 
-		_finderPathWithPaginationFindByCompanyId = new FinderPath(
+		_finderPathWithPaginationFindByCompanyId = _createFinderPath(
 			TrashEntryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByCompanyId",
-			new String[] {
-				Long.class.getName(), Integer.class.getName(),
-				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			"findByCompanyId", new String[] {"companyId"});
 
-		_finderPathWithoutPaginationFindByCompanyId = new FinderPath(
+		_finderPathWithoutPaginationFindByCompanyId = _createFinderPath(
 			TrashEntryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByCompanyId", new String[] {Long.class.getName()},
-			TrashEntryModelImpl.COMPANYID_COLUMN_BITMASK |
-			TrashEntryModelImpl.CREATEDATE_COLUMN_BITMASK);
+			"findByCompanyId", new String[] {"companyId"});
 
-		_finderPathCountByCompanyId = new FinderPath(
+		_finderPathCountByCompanyId = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByCompanyId", new String[] {Long.class.getName()});
+			"countByCompanyId", new String[] {"companyId"});
 
-		_finderPathWithPaginationFindByG_LtCD = new FinderPath(
+		_finderPathWithPaginationFindByG_LtCD = _createFinderPath(
 			TrashEntryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByG_LtCD",
-			new String[] {
-				Long.class.getName(), Date.class.getName(),
-				Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
+			"findByG_LtCD", new String[] {"groupId", "createDate"});
 
-		_finderPathWithPaginationCountByG_LtCD = new FinderPath(
+		_finderPathWithPaginationCountByG_LtCD = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByG_LtCD",
-			new String[] {Long.class.getName(), Date.class.getName()});
+			new String[] {"groupId", "createDate"});
 
-		_finderPathWithPaginationFindByG_C = new FinderPath(
+		_finderPathWithPaginationFindByG_C = _createFinderPath(
 			TrashEntryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByG_C",
-			new String[] {
-				Long.class.getName(), Long.class.getName(),
-				Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
+			"findByG_C", new String[] {"groupId", "classNameId"});
 
-		_finderPathWithoutPaginationFindByG_C = new FinderPath(
+		_finderPathWithoutPaginationFindByG_C = _createFinderPath(
 			TrashEntryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByG_C",
-			new String[] {Long.class.getName(), Long.class.getName()},
-			TrashEntryModelImpl.GROUPID_COLUMN_BITMASK |
-			TrashEntryModelImpl.CLASSNAMEID_COLUMN_BITMASK |
-			TrashEntryModelImpl.CREATEDATE_COLUMN_BITMASK);
+			"findByG_C", new String[] {"groupId", "classNameId"});
 
-		_finderPathCountByG_C = new FinderPath(
+		_finderPathCountByG_C = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_C",
-			new String[] {Long.class.getName(), Long.class.getName()});
+			new String[] {"groupId", "classNameId"});
 
-		_finderPathFetchByC_C = new FinderPath(
+		_finderPathFetchByC_C = _createFinderPath(
 			TrashEntryImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByC_C",
-			new String[] {Long.class.getName(), Long.class.getName()},
-			TrashEntryModelImpl.CLASSNAMEID_COLUMN_BITMASK |
-			TrashEntryModelImpl.CLASSPK_COLUMN_BITMASK);
+			new String[] {"classNameId", "classPK"});
 
-		_finderPathCountByC_C = new FinderPath(
+		_finderPathCountByC_C = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C",
-			new String[] {Long.class.getName(), Long.class.getName()});
+			new String[] {"classNameId", "classPK"});
 	}
 
 	@Deactivate
 	public void deactivate() {
 		entityCache.removeCache(TrashEntryImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+		_argumentsResolverServiceRegistration.unregister();
+
+		for (ServiceRegistration<FinderPath> serviceRegistration :
+				_serviceRegistrations) {
+
+			serviceRegistration.unregister();
+		}
 	}
 
 	@Override
@@ -3462,6 +3326,8 @@ public class TrashEntryPersistenceImpl
 		super.setSessionFactory(sessionFactory);
 	}
 
+	private BundleContext _bundleContext;
+
 	@Reference
 	protected CTPersistenceHelper ctPersistenceHelper;
 
@@ -3471,7 +3337,7 @@ public class TrashEntryPersistenceImpl
 	@Reference
 	protected FinderCache finderCache;
 
-	private Long _getTime(Date date) {
+	private static Long _getTime(Date date) {
 		if (date == null) {
 			return null;
 		}
@@ -3509,6 +3375,94 @@ public class TrashEntryPersistenceImpl
 		catch (ClassNotFoundException classNotFoundException) {
 			throw new ExceptionInInitializerError(classNotFoundException);
 		}
+	}
+
+	private FinderPath _createFinderPath(
+		Class<?> returnClass, String cacheName, String methodName,
+		String[] arttributeNames) {
+
+		FinderPath finderPath = new FinderPath(
+			cacheName, methodName, returnClass, arttributeNames);
+
+		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
+			_serviceRegistrations.add(
+				_bundleContext.registerService(
+					FinderPath.class, finderPath,
+					MapUtil.singletonDictionary("cache.name", cacheName)));
+		}
+
+		return finderPath;
+	}
+
+	private ServiceRegistration<ArgumentsResolver>
+		_argumentsResolverServiceRegistration;
+	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
+		new HashSet<>();
+
+	private static class TrashEntryModelArgumentsResolver
+		implements ArgumentsResolver {
+
+		@Override
+		public Object[] getArguments(
+			FinderPath finderPath, BaseModel<?> baseModel, boolean checkColumn,
+			boolean original) {
+
+			String[] attributeNames = finderPath.getAttributeNames();
+
+			if ((attributeNames == null) || (attributeNames.length == 0)) {
+				if (baseModel.isNew()) {
+					return FINDER_ARGS_EMPTY;
+				}
+
+				return null;
+			}
+
+			TrashEntryModelImpl trashEntryModelImpl =
+				(TrashEntryModelImpl)baseModel;
+
+			long columnBitmask = trashEntryModelImpl.getColumnBitmask();
+
+			if (!checkColumn || (columnBitmask == 0)) {
+				return _getValue(trashEntryModelImpl, attributeNames, original);
+			}
+
+			long finderPathColumnBitmask = 0;
+
+			for (String attributeName : attributeNames) {
+				finderPathColumnBitmask |= trashEntryModelImpl.getColumnBitmask(
+					attributeName);
+			}
+
+			if ((columnBitmask & finderPathColumnBitmask) != 0) {
+				return _getValue(trashEntryModelImpl, attributeNames, original);
+			}
+
+			return null;
+		}
+
+		private Object[] _getValue(
+			TrashEntryModelImpl trashEntryModelImpl, String[] attributeNames,
+			boolean original) {
+
+			Object[] arguments = new Object[attributeNames.length];
+
+			for (int i = 0; i < arguments.length; i++) {
+				String attributeName = attributeNames[i];
+
+				if (original) {
+					arguments[i] =
+						trashEntryModelImpl.getOriginalAttributeValue(
+							attributeName);
+				}
+				else {
+					arguments[i] = trashEntryModelImpl.getAttributeValue(
+						attributeName);
+				}
+			}
+
+			return arguments;
+		}
+
 	}
 
 }

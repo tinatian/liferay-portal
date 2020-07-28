@@ -23,6 +23,7 @@ import com.liferay.mail.reader.service.persistence.AttachmentPersistence;
 import com.liferay.mail.reader.service.persistence.impl.constants.MailPersistenceConstants;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.configuration.Configuration;
+import com.liferay.portal.kernel.dao.orm.ArgumentsResolver;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -33,8 +34,10 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.dao.orm.SessionFactory;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
@@ -44,12 +47,15 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import javax.sql.DataSource;
 
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
@@ -654,21 +660,13 @@ public class AttachmentPersistenceImpl
 	 */
 	@Override
 	public void clearCache(Attachment attachment) {
-		entityCache.removeResult(
-			AttachmentImpl.class, attachment.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		entityCache.removeResult(AttachmentImpl.class, attachment);
 	}
 
 	@Override
 	public void clearCache(List<Attachment> attachments) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Attachment attachment : attachments) {
-			entityCache.removeResult(
-				AttachmentImpl.class, attachment.getPrimaryKey());
+			entityCache.removeResult(AttachmentImpl.class, attachment);
 		}
 	}
 
@@ -814,10 +812,8 @@ public class AttachmentPersistenceImpl
 		try {
 			session = openSession();
 
-			if (attachment.isNew()) {
+			if (isNew) {
 				session.save(attachment);
-
-				attachment.setNew(false);
 			}
 			else {
 				attachment = (Attachment)session.merge(attachment);
@@ -830,43 +826,12 @@ public class AttachmentPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+		entityCache.putResult(
+			AttachmentImpl.class, attachmentModelImpl, false, true);
 
 		if (isNew) {
-			Object[] args = new Object[] {attachmentModelImpl.getMessageId()};
-
-			finderCache.removeResult(_finderPathCountByMessageId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByMessageId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
+			attachment.setNew(false);
 		}
-		else {
-			if ((attachmentModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByMessageId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					attachmentModelImpl.getOriginalMessageId()
-				};
-
-				finderCache.removeResult(_finderPathCountByMessageId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByMessageId, args);
-
-				args = new Object[] {attachmentModelImpl.getMessageId()};
-
-				finderCache.removeResult(_finderPathCountByMessageId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByMessageId, args);
-			}
-		}
-
-		entityCache.putResult(
-			AttachmentImpl.class, attachment.getPrimaryKey(), attachment,
-			false);
 
 		attachment.resetOriginalValues();
 
@@ -1131,43 +1096,50 @@ public class AttachmentPersistenceImpl
 	 * Initializes the attachment persistence.
 	 */
 	@Activate
-	public void activate() {
-		_finderPathWithPaginationFindAll = new FinderPath(
+	public void activate(BundleContext bundleContext) {
+		_bundleContext = bundleContext;
+
+		_argumentsResolverServiceRegistration = _bundleContext.registerService(
+			ArgumentsResolver.class, new AttachmentModelArgumentsResolver(),
+			MapUtil.singletonDictionary(
+				"model.class.name", Attachment.class.getName()));
+
+		_finderPathWithPaginationFindAll = _createFinderPath(
 			AttachmentImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 			"findAll", new String[0]);
 
-		_finderPathWithoutPaginationFindAll = new FinderPath(
+		_finderPathWithoutPaginationFindAll = _createFinderPath(
 			AttachmentImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findAll", new String[0]);
 
-		_finderPathCountAll = new FinderPath(
+		_finderPathCountAll = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
-		_finderPathWithPaginationFindByMessageId = new FinderPath(
+		_finderPathWithPaginationFindByMessageId = _createFinderPath(
 			AttachmentImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByMessageId",
-			new String[] {
-				Long.class.getName(), Integer.class.getName(),
-				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			"findByMessageId", new String[] {"messageId"});
 
-		_finderPathWithoutPaginationFindByMessageId = new FinderPath(
+		_finderPathWithoutPaginationFindByMessageId = _createFinderPath(
 			AttachmentImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByMessageId", new String[] {Long.class.getName()},
-			AttachmentModelImpl.MESSAGEID_COLUMN_BITMASK);
+			"findByMessageId", new String[] {"messageId"});
 
-		_finderPathCountByMessageId = new FinderPath(
+		_finderPathCountByMessageId = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByMessageId", new String[] {Long.class.getName()});
+			"countByMessageId", new String[] {"messageId"});
 	}
 
 	@Deactivate
 	public void deactivate() {
 		entityCache.removeCache(AttachmentImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+		_argumentsResolverServiceRegistration.unregister();
+
+		for (ServiceRegistration<FinderPath> serviceRegistration :
+				_serviceRegistrations) {
+
+			serviceRegistration.unregister();
+		}
 	}
 
 	@Override
@@ -1195,6 +1167,8 @@ public class AttachmentPersistenceImpl
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		super.setSessionFactory(sessionFactory);
 	}
+
+	private BundleContext _bundleContext;
 
 	@Reference
 	protected EntityCache entityCache;
@@ -1235,6 +1209,94 @@ public class AttachmentPersistenceImpl
 		catch (ClassNotFoundException classNotFoundException) {
 			throw new ExceptionInInitializerError(classNotFoundException);
 		}
+	}
+
+	private FinderPath _createFinderPath(
+		Class<?> returnClass, String cacheName, String methodName,
+		String[] arttributeNames) {
+
+		FinderPath finderPath = new FinderPath(
+			cacheName, methodName, returnClass, arttributeNames);
+
+		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
+			_serviceRegistrations.add(
+				_bundleContext.registerService(
+					FinderPath.class, finderPath,
+					MapUtil.singletonDictionary("cache.name", cacheName)));
+		}
+
+		return finderPath;
+	}
+
+	private ServiceRegistration<ArgumentsResolver>
+		_argumentsResolverServiceRegistration;
+	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
+		new HashSet<>();
+
+	private static class AttachmentModelArgumentsResolver
+		implements ArgumentsResolver {
+
+		@Override
+		public Object[] getArguments(
+			FinderPath finderPath, BaseModel<?> baseModel, boolean checkColumn,
+			boolean original) {
+
+			String[] attributeNames = finderPath.getAttributeNames();
+
+			if ((attributeNames == null) || (attributeNames.length == 0)) {
+				if (baseModel.isNew()) {
+					return FINDER_ARGS_EMPTY;
+				}
+
+				return null;
+			}
+
+			AttachmentModelImpl attachmentModelImpl =
+				(AttachmentModelImpl)baseModel;
+
+			long columnBitmask = attachmentModelImpl.getColumnBitmask();
+
+			if (!checkColumn || (columnBitmask == 0)) {
+				return _getValue(attachmentModelImpl, attributeNames, original);
+			}
+
+			long finderPathColumnBitmask = 0;
+
+			for (String attributeName : attributeNames) {
+				finderPathColumnBitmask |= attachmentModelImpl.getColumnBitmask(
+					attributeName);
+			}
+
+			if ((columnBitmask & finderPathColumnBitmask) != 0) {
+				return _getValue(attachmentModelImpl, attributeNames, original);
+			}
+
+			return null;
+		}
+
+		private Object[] _getValue(
+			AttachmentModelImpl attachmentModelImpl, String[] attributeNames,
+			boolean original) {
+
+			Object[] arguments = new Object[attributeNames.length];
+
+			for (int i = 0; i < arguments.length; i++) {
+				String attributeName = attributeNames[i];
+
+				if (original) {
+					arguments[i] =
+						attachmentModelImpl.getOriginalAttributeValue(
+							attributeName);
+				}
+				else {
+					arguments[i] = attachmentModelImpl.getAttributeValue(
+						attributeName);
+				}
+			}
+
+			return arguments;
+		}
+
 	}
 
 }

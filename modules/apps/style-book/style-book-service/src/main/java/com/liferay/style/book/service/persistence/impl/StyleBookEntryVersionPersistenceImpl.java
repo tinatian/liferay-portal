@@ -16,6 +16,7 @@ package com.liferay.style.book.service.persistence.impl;
 
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.configuration.Configuration;
+import com.liferay.portal.kernel.dao.orm.ArgumentsResolver;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -26,8 +27,10 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.dao.orm.SessionFactory;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.style.book.exception.NoSuchEntryVersionException;
@@ -42,6 +45,7 @@ import java.io.Serializable;
 
 import java.lang.reflect.InvocationHandler;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -49,6 +53,8 @@ import java.util.Set;
 
 import javax.sql.DataSource;
 
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
@@ -5197,30 +5203,16 @@ public class StyleBookEntryVersionPersistenceImpl
 	@Override
 	public void clearCache(StyleBookEntryVersion styleBookEntryVersion) {
 		entityCache.removeResult(
-			StyleBookEntryVersionImpl.class,
-			styleBookEntryVersion.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(StyleBookEntryVersionModelImpl)styleBookEntryVersion, true);
+			StyleBookEntryVersionImpl.class, styleBookEntryVersion);
 	}
 
 	@Override
 	public void clearCache(List<StyleBookEntryVersion> styleBookEntryVersions) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (StyleBookEntryVersion styleBookEntryVersion :
 				styleBookEntryVersions) {
 
 			entityCache.removeResult(
-				StyleBookEntryVersionImpl.class,
-				styleBookEntryVersion.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(StyleBookEntryVersionModelImpl)styleBookEntryVersion, true);
+				StyleBookEntryVersionImpl.class, styleBookEntryVersion);
 		}
 	}
 
@@ -5262,62 +5254,6 @@ public class StyleBookEntryVersionPersistenceImpl
 		finderCache.putResult(
 			_finderPathFetchByG_SBEK_Version, args,
 			styleBookEntryVersionModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		StyleBookEntryVersionModelImpl styleBookEntryVersionModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				styleBookEntryVersionModelImpl.getStyleBookEntryId(),
-				styleBookEntryVersionModelImpl.getVersion()
-			};
-
-			finderCache.removeResult(
-				_finderPathCountByStyleBookEntryId_Version, args);
-			finderCache.removeResult(
-				_finderPathFetchByStyleBookEntryId_Version, args);
-		}
-
-		if ((styleBookEntryVersionModelImpl.getColumnBitmask() &
-			 _finderPathFetchByStyleBookEntryId_Version.getColumnBitmask()) !=
-				 0) {
-
-			Object[] args = new Object[] {
-				styleBookEntryVersionModelImpl.getOriginalStyleBookEntryId(),
-				styleBookEntryVersionModelImpl.getOriginalVersion()
-			};
-
-			finderCache.removeResult(
-				_finderPathCountByStyleBookEntryId_Version, args);
-			finderCache.removeResult(
-				_finderPathFetchByStyleBookEntryId_Version, args);
-		}
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				styleBookEntryVersionModelImpl.getGroupId(),
-				styleBookEntryVersionModelImpl.getStyleBookEntryKey(),
-				styleBookEntryVersionModelImpl.getVersion()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_SBEK_Version, args);
-			finderCache.removeResult(_finderPathFetchByG_SBEK_Version, args);
-		}
-
-		if ((styleBookEntryVersionModelImpl.getColumnBitmask() &
-			 _finderPathFetchByG_SBEK_Version.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				styleBookEntryVersionModelImpl.getOriginalGroupId(),
-				styleBookEntryVersionModelImpl.getOriginalStyleBookEntryKey(),
-				styleBookEntryVersionModelImpl.getOriginalVersion()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_SBEK_Version, args);
-			finderCache.removeResult(_finderPathFetchByG_SBEK_Version, args);
-		}
 	}
 
 	/**
@@ -5461,10 +5397,8 @@ public class StyleBookEntryVersionPersistenceImpl
 		try {
 			session = openSession();
 
-			if (styleBookEntryVersion.isNew()) {
+			if (isNew) {
 				session.save(styleBookEntryVersion);
-
-				styleBookEntryVersion.setNew(false);
 			}
 			else {
 				throw new IllegalArgumentException(
@@ -5478,285 +5412,15 @@ public class StyleBookEntryVersionPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+		entityCache.putResult(
+			StyleBookEntryVersionImpl.class, styleBookEntryVersionModelImpl,
+			false, true);
+
+		cacheUniqueFindersCache(styleBookEntryVersionModelImpl);
 
 		if (isNew) {
-			Object[] args = new Object[] {
-				styleBookEntryVersionModelImpl.getStyleBookEntryId()
-			};
-
-			finderCache.removeResult(_finderPathCountByStyleBookEntryId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByStyleBookEntryId, args);
-
-			args = new Object[] {styleBookEntryVersionModelImpl.getGroupId()};
-
-			finderCache.removeResult(_finderPathCountByGroupId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByGroupId, args);
-
-			args = new Object[] {
-				styleBookEntryVersionModelImpl.getGroupId(),
-				styleBookEntryVersionModelImpl.getVersion()
-			};
-
-			finderCache.removeResult(_finderPathCountByGroupId_Version, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByGroupId_Version, args);
-
-			args = new Object[] {
-				styleBookEntryVersionModelImpl.getGroupId(),
-				styleBookEntryVersionModelImpl.isDefaultStyleBookEntry()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_D, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByG_D, args);
-
-			args = new Object[] {
-				styleBookEntryVersionModelImpl.getGroupId(),
-				styleBookEntryVersionModelImpl.isDefaultStyleBookEntry(),
-				styleBookEntryVersionModelImpl.getVersion()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_D_Version, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByG_D_Version, args);
-
-			args = new Object[] {
-				styleBookEntryVersionModelImpl.getGroupId(),
-				styleBookEntryVersionModelImpl.getName()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_LikeN, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByG_LikeN, args);
-
-			args = new Object[] {
-				styleBookEntryVersionModelImpl.getGroupId(),
-				styleBookEntryVersionModelImpl.getName(),
-				styleBookEntryVersionModelImpl.getVersion()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_LikeN_Version, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByG_LikeN_Version, args);
-
-			args = new Object[] {
-				styleBookEntryVersionModelImpl.getGroupId(),
-				styleBookEntryVersionModelImpl.getStyleBookEntryKey()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_SBEK, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByG_SBEK, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
+			styleBookEntryVersion.setNew(false);
 		}
-		else {
-			if ((styleBookEntryVersionModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByStyleBookEntryId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					styleBookEntryVersionModelImpl.getOriginalStyleBookEntryId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByStyleBookEntryId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByStyleBookEntryId, args);
-
-				args = new Object[] {
-					styleBookEntryVersionModelImpl.getStyleBookEntryId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByStyleBookEntryId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByStyleBookEntryId, args);
-			}
-
-			if ((styleBookEntryVersionModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByGroupId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					styleBookEntryVersionModelImpl.getOriginalGroupId()
-				};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-
-				args = new Object[] {
-					styleBookEntryVersionModelImpl.getGroupId()
-				};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-			}
-
-			if ((styleBookEntryVersionModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByGroupId_Version.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					styleBookEntryVersionModelImpl.getOriginalGroupId(),
-					styleBookEntryVersionModelImpl.getOriginalVersion()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByGroupId_Version, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId_Version, args);
-
-				args = new Object[] {
-					styleBookEntryVersionModelImpl.getGroupId(),
-					styleBookEntryVersionModelImpl.getVersion()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByGroupId_Version, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId_Version, args);
-			}
-
-			if ((styleBookEntryVersionModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByG_D.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					styleBookEntryVersionModelImpl.getOriginalGroupId(),
-					styleBookEntryVersionModelImpl.
-						getOriginalDefaultStyleBookEntry()
-				};
-
-				finderCache.removeResult(_finderPathCountByG_D, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_D, args);
-
-				args = new Object[] {
-					styleBookEntryVersionModelImpl.getGroupId(),
-					styleBookEntryVersionModelImpl.isDefaultStyleBookEntry()
-				};
-
-				finderCache.removeResult(_finderPathCountByG_D, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_D, args);
-			}
-
-			if ((styleBookEntryVersionModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByG_D_Version.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					styleBookEntryVersionModelImpl.getOriginalGroupId(),
-					styleBookEntryVersionModelImpl.
-						getOriginalDefaultStyleBookEntry(),
-					styleBookEntryVersionModelImpl.getOriginalVersion()
-				};
-
-				finderCache.removeResult(_finderPathCountByG_D_Version, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_D_Version, args);
-
-				args = new Object[] {
-					styleBookEntryVersionModelImpl.getGroupId(),
-					styleBookEntryVersionModelImpl.isDefaultStyleBookEntry(),
-					styleBookEntryVersionModelImpl.getVersion()
-				};
-
-				finderCache.removeResult(_finderPathCountByG_D_Version, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_D_Version, args);
-			}
-
-			if ((styleBookEntryVersionModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByG_LikeN.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					styleBookEntryVersionModelImpl.getOriginalGroupId(),
-					styleBookEntryVersionModelImpl.getOriginalName()
-				};
-
-				finderCache.removeResult(_finderPathCountByG_LikeN, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_LikeN, args);
-
-				args = new Object[] {
-					styleBookEntryVersionModelImpl.getGroupId(),
-					styleBookEntryVersionModelImpl.getName()
-				};
-
-				finderCache.removeResult(_finderPathCountByG_LikeN, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_LikeN, args);
-			}
-
-			if ((styleBookEntryVersionModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByG_LikeN_Version.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					styleBookEntryVersionModelImpl.getOriginalGroupId(),
-					styleBookEntryVersionModelImpl.getOriginalName(),
-					styleBookEntryVersionModelImpl.getOriginalVersion()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByG_LikeN_Version, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_LikeN_Version, args);
-
-				args = new Object[] {
-					styleBookEntryVersionModelImpl.getGroupId(),
-					styleBookEntryVersionModelImpl.getName(),
-					styleBookEntryVersionModelImpl.getVersion()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByG_LikeN_Version, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_LikeN_Version, args);
-			}
-
-			if ((styleBookEntryVersionModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByG_SBEK.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					styleBookEntryVersionModelImpl.getOriginalGroupId(),
-					styleBookEntryVersionModelImpl.
-						getOriginalStyleBookEntryKey()
-				};
-
-				finderCache.removeResult(_finderPathCountByG_SBEK, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_SBEK, args);
-
-				args = new Object[] {
-					styleBookEntryVersionModelImpl.getGroupId(),
-					styleBookEntryVersionModelImpl.getStyleBookEntryKey()
-				};
-
-				finderCache.removeResult(_finderPathCountByG_SBEK, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_SBEK, args);
-			}
-		}
-
-		entityCache.putResult(
-			StyleBookEntryVersionImpl.class,
-			styleBookEntryVersion.getPrimaryKey(), styleBookEntryVersion,
-			false);
-
-		clearUniqueFindersCache(styleBookEntryVersionModelImpl, false);
-		cacheUniqueFindersCache(styleBookEntryVersionModelImpl);
 
 		styleBookEntryVersion.resetOriginalValues();
 
@@ -6022,240 +5686,174 @@ public class StyleBookEntryVersionPersistenceImpl
 	 * Initializes the style book entry version persistence.
 	 */
 	@Activate
-	public void activate() {
-		_finderPathWithPaginationFindAll = new FinderPath(
+	public void activate(BundleContext bundleContext) {
+		_bundleContext = bundleContext;
+
+		_argumentsResolverServiceRegistration = _bundleContext.registerService(
+			ArgumentsResolver.class,
+			new StyleBookEntryVersionModelArgumentsResolver(),
+			MapUtil.singletonDictionary(
+				"model.class.name", StyleBookEntryVersion.class.getName()));
+
+		_finderPathWithPaginationFindAll = _createFinderPath(
 			StyleBookEntryVersionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
-		_finderPathWithoutPaginationFindAll = new FinderPath(
+		_finderPathWithoutPaginationFindAll = _createFinderPath(
 			StyleBookEntryVersionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
-		_finderPathCountAll = new FinderPath(
+		_finderPathCountAll = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
-		_finderPathWithPaginationFindByStyleBookEntryId = new FinderPath(
+		_finderPathWithPaginationFindByStyleBookEntryId = _createFinderPath(
 			StyleBookEntryVersionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByStyleBookEntryId",
-			new String[] {
-				Long.class.getName(), Integer.class.getName(),
-				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			new String[] {"styleBookEntryId"});
 
-		_finderPathWithoutPaginationFindByStyleBookEntryId = new FinderPath(
+		_finderPathWithoutPaginationFindByStyleBookEntryId = _createFinderPath(
 			StyleBookEntryVersionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByStyleBookEntryId",
-			new String[] {Long.class.getName()},
-			StyleBookEntryVersionModelImpl.STYLEBOOKENTRYID_COLUMN_BITMASK |
-			StyleBookEntryVersionModelImpl.VERSION_COLUMN_BITMASK);
+			new String[] {"styleBookEntryId"});
 
-		_finderPathCountByStyleBookEntryId = new FinderPath(
+		_finderPathCountByStyleBookEntryId = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByStyleBookEntryId", new String[] {Long.class.getName()});
+			"countByStyleBookEntryId", new String[] {"styleBookEntryId"});
 
-		_finderPathFetchByStyleBookEntryId_Version = new FinderPath(
+		_finderPathFetchByStyleBookEntryId_Version = _createFinderPath(
 			StyleBookEntryVersionImpl.class, FINDER_CLASS_NAME_ENTITY,
 			"fetchByStyleBookEntryId_Version",
-			new String[] {Long.class.getName(), Integer.class.getName()},
-			StyleBookEntryVersionModelImpl.STYLEBOOKENTRYID_COLUMN_BITMASK |
-			StyleBookEntryVersionModelImpl.VERSION_COLUMN_BITMASK);
+			new String[] {"styleBookEntryId", "version"});
 
-		_finderPathCountByStyleBookEntryId_Version = new FinderPath(
+		_finderPathCountByStyleBookEntryId_Version = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByStyleBookEntryId_Version",
-			new String[] {Long.class.getName(), Integer.class.getName()});
+			new String[] {"styleBookEntryId", "version"});
 
-		_finderPathWithPaginationFindByGroupId = new FinderPath(
+		_finderPathWithPaginationFindByGroupId = _createFinderPath(
 			StyleBookEntryVersionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
-			new String[] {
-				Long.class.getName(), Integer.class.getName(),
-				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			new String[] {"groupId"});
 
-		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
+		_finderPathWithoutPaginationFindByGroupId = _createFinderPath(
 			StyleBookEntryVersionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
-			new String[] {Long.class.getName()},
-			StyleBookEntryVersionModelImpl.GROUPID_COLUMN_BITMASK |
-			StyleBookEntryVersionModelImpl.VERSION_COLUMN_BITMASK);
+			new String[] {"groupId"});
 
-		_finderPathCountByGroupId = new FinderPath(
+		_finderPathCountByGroupId = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByGroupId", new String[] {Long.class.getName()});
+			"countByGroupId", new String[] {"groupId"});
 
-		_finderPathWithPaginationFindByGroupId_Version = new FinderPath(
+		_finderPathWithPaginationFindByGroupId_Version = _createFinderPath(
 			StyleBookEntryVersionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId_Version",
-			new String[] {
-				Long.class.getName(), Integer.class.getName(),
-				Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
+			new String[] {"groupId", "version"});
 
-		_finderPathWithoutPaginationFindByGroupId_Version = new FinderPath(
+		_finderPathWithoutPaginationFindByGroupId_Version = _createFinderPath(
 			StyleBookEntryVersionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId_Version",
-			new String[] {Long.class.getName(), Integer.class.getName()},
-			StyleBookEntryVersionModelImpl.GROUPID_COLUMN_BITMASK |
-			StyleBookEntryVersionModelImpl.VERSION_COLUMN_BITMASK);
+			new String[] {"groupId", "version"});
 
-		_finderPathCountByGroupId_Version = new FinderPath(
+		_finderPathCountByGroupId_Version = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByGroupId_Version",
-			new String[] {Long.class.getName(), Integer.class.getName()});
+			"countByGroupId_Version", new String[] {"groupId", "version"});
 
-		_finderPathWithPaginationFindByG_D = new FinderPath(
+		_finderPathWithPaginationFindByG_D = _createFinderPath(
 			StyleBookEntryVersionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_D",
-			new String[] {
-				Long.class.getName(), Boolean.class.getName(),
-				Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
+			new String[] {"groupId", "defaultStyleBookEntry"});
 
-		_finderPathWithoutPaginationFindByG_D = new FinderPath(
+		_finderPathWithoutPaginationFindByG_D = _createFinderPath(
 			StyleBookEntryVersionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_D",
-			new String[] {Long.class.getName(), Boolean.class.getName()},
-			StyleBookEntryVersionModelImpl.GROUPID_COLUMN_BITMASK |
-			StyleBookEntryVersionModelImpl.
-				DEFAULTSTYLEBOOKENTRY_COLUMN_BITMASK |
-			StyleBookEntryVersionModelImpl.VERSION_COLUMN_BITMASK);
+			new String[] {"groupId", "defaultStyleBookEntry"});
 
-		_finderPathCountByG_D = new FinderPath(
+		_finderPathCountByG_D = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_D",
-			new String[] {Long.class.getName(), Boolean.class.getName()});
+			new String[] {"groupId", "defaultStyleBookEntry"});
 
-		_finderPathWithPaginationFindByG_D_Version = new FinderPath(
+		_finderPathWithPaginationFindByG_D_Version = _createFinderPath(
 			StyleBookEntryVersionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_D_Version",
-			new String[] {
-				Long.class.getName(), Boolean.class.getName(),
-				Integer.class.getName(), Integer.class.getName(),
-				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			new String[] {"groupId", "defaultStyleBookEntry", "version"});
 
-		_finderPathWithoutPaginationFindByG_D_Version = new FinderPath(
+		_finderPathWithoutPaginationFindByG_D_Version = _createFinderPath(
 			StyleBookEntryVersionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_D_Version",
-			new String[] {
-				Long.class.getName(), Boolean.class.getName(),
-				Integer.class.getName()
-			},
-			StyleBookEntryVersionModelImpl.GROUPID_COLUMN_BITMASK |
-			StyleBookEntryVersionModelImpl.
-				DEFAULTSTYLEBOOKENTRY_COLUMN_BITMASK |
-			StyleBookEntryVersionModelImpl.VERSION_COLUMN_BITMASK);
+			new String[] {"groupId", "defaultStyleBookEntry", "version"});
 
-		_finderPathCountByG_D_Version = new FinderPath(
+		_finderPathCountByG_D_Version = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByG_D_Version",
-			new String[] {
-				Long.class.getName(), Boolean.class.getName(),
-				Integer.class.getName()
-			});
+			new String[] {"groupId", "defaultStyleBookEntry", "version"});
 
-		_finderPathWithPaginationFindByG_LikeN = new FinderPath(
+		_finderPathWithPaginationFindByG_LikeN = _createFinderPath(
 			StyleBookEntryVersionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_LikeN",
-			new String[] {
-				Long.class.getName(), String.class.getName(),
-				Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
+			new String[] {"groupId", "name"});
 
-		_finderPathWithoutPaginationFindByG_LikeN = new FinderPath(
+		_finderPathWithoutPaginationFindByG_LikeN = _createFinderPath(
 			StyleBookEntryVersionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_LikeN",
-			new String[] {Long.class.getName(), String.class.getName()},
-			StyleBookEntryVersionModelImpl.GROUPID_COLUMN_BITMASK |
-			StyleBookEntryVersionModelImpl.NAME_COLUMN_BITMASK |
-			StyleBookEntryVersionModelImpl.VERSION_COLUMN_BITMASK);
+			new String[] {"groupId", "name"});
 
-		_finderPathCountByG_LikeN = new FinderPath(
+		_finderPathCountByG_LikeN = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByG_LikeN",
-			new String[] {Long.class.getName(), String.class.getName()});
+			"countByG_LikeN", new String[] {"groupId", "name"});
 
-		_finderPathWithPaginationFindByG_LikeN_Version = new FinderPath(
+		_finderPathWithPaginationFindByG_LikeN_Version = _createFinderPath(
 			StyleBookEntryVersionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_LikeN_Version",
-			new String[] {
-				Long.class.getName(), String.class.getName(),
-				Integer.class.getName(), Integer.class.getName(),
-				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			new String[] {"groupId", "name", "version"});
 
-		_finderPathWithoutPaginationFindByG_LikeN_Version = new FinderPath(
+		_finderPathWithoutPaginationFindByG_LikeN_Version = _createFinderPath(
 			StyleBookEntryVersionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_LikeN_Version",
-			new String[] {
-				Long.class.getName(), String.class.getName(),
-				Integer.class.getName()
-			},
-			StyleBookEntryVersionModelImpl.GROUPID_COLUMN_BITMASK |
-			StyleBookEntryVersionModelImpl.NAME_COLUMN_BITMASK |
-			StyleBookEntryVersionModelImpl.VERSION_COLUMN_BITMASK);
+			new String[] {"groupId", "name", "version"});
 
-		_finderPathCountByG_LikeN_Version = new FinderPath(
+		_finderPathCountByG_LikeN_Version = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByG_LikeN_Version",
-			new String[] {
-				Long.class.getName(), String.class.getName(),
-				Integer.class.getName()
-			});
+			new String[] {"groupId", "name", "version"});
 
-		_finderPathWithPaginationFindByG_SBEK = new FinderPath(
+		_finderPathWithPaginationFindByG_SBEK = _createFinderPath(
 			StyleBookEntryVersionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_SBEK",
-			new String[] {
-				Long.class.getName(), String.class.getName(),
-				Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
+			new String[] {"groupId", "styleBookEntryKey"});
 
-		_finderPathWithoutPaginationFindByG_SBEK = new FinderPath(
+		_finderPathWithoutPaginationFindByG_SBEK = _createFinderPath(
 			StyleBookEntryVersionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_SBEK",
-			new String[] {Long.class.getName(), String.class.getName()},
-			StyleBookEntryVersionModelImpl.GROUPID_COLUMN_BITMASK |
-			StyleBookEntryVersionModelImpl.STYLEBOOKENTRYKEY_COLUMN_BITMASK |
-			StyleBookEntryVersionModelImpl.VERSION_COLUMN_BITMASK);
+			new String[] {"groupId", "styleBookEntryKey"});
 
-		_finderPathCountByG_SBEK = new FinderPath(
+		_finderPathCountByG_SBEK = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByG_SBEK",
-			new String[] {Long.class.getName(), String.class.getName()});
+			"countByG_SBEK", new String[] {"groupId", "styleBookEntryKey"});
 
-		_finderPathFetchByG_SBEK_Version = new FinderPath(
+		_finderPathFetchByG_SBEK_Version = _createFinderPath(
 			StyleBookEntryVersionImpl.class, FINDER_CLASS_NAME_ENTITY,
 			"fetchByG_SBEK_Version",
-			new String[] {
-				Long.class.getName(), String.class.getName(),
-				Integer.class.getName()
-			},
-			StyleBookEntryVersionModelImpl.GROUPID_COLUMN_BITMASK |
-			StyleBookEntryVersionModelImpl.STYLEBOOKENTRYKEY_COLUMN_BITMASK |
-			StyleBookEntryVersionModelImpl.VERSION_COLUMN_BITMASK);
+			new String[] {"groupId", "styleBookEntryKey", "version"});
 
-		_finderPathCountByG_SBEK_Version = new FinderPath(
+		_finderPathCountByG_SBEK_Version = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByG_SBEK_Version",
-			new String[] {
-				Long.class.getName(), String.class.getName(),
-				Integer.class.getName()
-			});
+			new String[] {"groupId", "styleBookEntryKey", "version"});
 	}
 
 	@Deactivate
 	public void deactivate() {
 		entityCache.removeCache(StyleBookEntryVersionImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+		_argumentsResolverServiceRegistration.unregister();
+
+		for (ServiceRegistration<FinderPath> serviceRegistration :
+				_serviceRegistrations) {
+
+			serviceRegistration.unregister();
+		}
 	}
 
 	@Override
@@ -6283,6 +5881,8 @@ public class StyleBookEntryVersionPersistenceImpl
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		super.setSessionFactory(sessionFactory);
 	}
+
+	private BundleContext _bundleContext;
 
 	@Reference
 	protected EntityCache entityCache;
@@ -6321,6 +5921,99 @@ public class StyleBookEntryVersionPersistenceImpl
 		catch (ClassNotFoundException classNotFoundException) {
 			throw new ExceptionInInitializerError(classNotFoundException);
 		}
+	}
+
+	private FinderPath _createFinderPath(
+		Class<?> returnClass, String cacheName, String methodName,
+		String[] arttributeNames) {
+
+		FinderPath finderPath = new FinderPath(
+			cacheName, methodName, returnClass, arttributeNames);
+
+		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
+			_serviceRegistrations.add(
+				_bundleContext.registerService(
+					FinderPath.class, finderPath,
+					MapUtil.singletonDictionary("cache.name", cacheName)));
+		}
+
+		return finderPath;
+	}
+
+	private ServiceRegistration<ArgumentsResolver>
+		_argumentsResolverServiceRegistration;
+	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
+		new HashSet<>();
+
+	private static class StyleBookEntryVersionModelArgumentsResolver
+		implements ArgumentsResolver {
+
+		@Override
+		public Object[] getArguments(
+			FinderPath finderPath, BaseModel<?> baseModel, boolean checkColumn,
+			boolean original) {
+
+			String[] attributeNames = finderPath.getAttributeNames();
+
+			if ((attributeNames == null) || (attributeNames.length == 0)) {
+				if (baseModel.isNew()) {
+					return FINDER_ARGS_EMPTY;
+				}
+
+				return null;
+			}
+
+			StyleBookEntryVersionModelImpl styleBookEntryVersionModelImpl =
+				(StyleBookEntryVersionModelImpl)baseModel;
+
+			long columnBitmask =
+				styleBookEntryVersionModelImpl.getColumnBitmask();
+
+			if (!checkColumn || (columnBitmask == 0)) {
+				return _getValue(
+					styleBookEntryVersionModelImpl, attributeNames, original);
+			}
+
+			long finderPathColumnBitmask = 0;
+
+			for (String attributeName : attributeNames) {
+				finderPathColumnBitmask |=
+					styleBookEntryVersionModelImpl.getColumnBitmask(
+						attributeName);
+			}
+
+			if ((columnBitmask & finderPathColumnBitmask) != 0) {
+				return _getValue(
+					styleBookEntryVersionModelImpl, attributeNames, original);
+			}
+
+			return null;
+		}
+
+		private Object[] _getValue(
+			StyleBookEntryVersionModelImpl styleBookEntryVersionModelImpl,
+			String[] attributeNames, boolean original) {
+
+			Object[] arguments = new Object[attributeNames.length];
+
+			for (int i = 0; i < arguments.length; i++) {
+				String attributeName = attributeNames[i];
+
+				if (original) {
+					arguments[i] =
+						styleBookEntryVersionModelImpl.
+							getOriginalAttributeValue(attributeName);
+				}
+				else {
+					arguments[i] =
+						styleBookEntryVersionModelImpl.getAttributeValue(
+							attributeName);
+				}
+			}
+
+			return arguments;
+		}
+
 	}
 
 }

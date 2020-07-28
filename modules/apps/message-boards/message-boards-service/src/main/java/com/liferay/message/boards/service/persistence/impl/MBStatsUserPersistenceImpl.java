@@ -24,6 +24,7 @@ import com.liferay.message.boards.service.persistence.impl.constants.MBPersisten
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.configuration.Configuration;
+import com.liferay.portal.kernel.dao.orm.ArgumentsResolver;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -34,9 +35,11 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.dao.orm.SessionFactory;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.persistence.change.tracking.helper.CTPersistenceHelper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
@@ -56,6 +59,8 @@ import java.util.Set;
 
 import javax.sql.DataSource;
 
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
@@ -2003,25 +2008,13 @@ public class MBStatsUserPersistenceImpl
 	 */
 	@Override
 	public void clearCache(MBStatsUser mbStatsUser) {
-		entityCache.removeResult(
-			MBStatsUserImpl.class, mbStatsUser.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((MBStatsUserModelImpl)mbStatsUser, true);
+		entityCache.removeResult(MBStatsUserImpl.class, mbStatsUser);
 	}
 
 	@Override
 	public void clearCache(List<MBStatsUser> mbStatsUsers) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (MBStatsUser mbStatsUser : mbStatsUsers) {
-			entityCache.removeResult(
-				MBStatsUserImpl.class, mbStatsUser.getPrimaryKey());
-
-			clearUniqueFindersCache((MBStatsUserModelImpl)mbStatsUser, true);
+			entityCache.removeResult(MBStatsUserImpl.class, mbStatsUser);
 		}
 	}
 
@@ -2047,32 +2040,6 @@ public class MBStatsUserPersistenceImpl
 			_finderPathCountByG_U, args, Long.valueOf(1), false);
 		finderCache.putResult(
 			_finderPathFetchByG_U, args, mbStatsUserModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		MBStatsUserModelImpl mbStatsUserModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				mbStatsUserModelImpl.getGroupId(),
-				mbStatsUserModelImpl.getUserId()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_U, args);
-			finderCache.removeResult(_finderPathFetchByG_U, args);
-		}
-
-		if ((mbStatsUserModelImpl.getColumnBitmask() &
-			 _finderPathFetchByG_U.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				mbStatsUserModelImpl.getOriginalGroupId(),
-				mbStatsUserModelImpl.getOriginalUserId()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_U, args);
-			finderCache.removeResult(_finderPathFetchByG_U, args);
-		}
 	}
 
 	/**
@@ -2221,8 +2188,6 @@ public class MBStatsUserPersistenceImpl
 				}
 
 				session.save(mbStatsUser);
-
-				mbStatsUser.setNew(false);
 			}
 			else {
 				mbStatsUser = (MBStatsUser)session.merge(mbStatsUser);
@@ -2236,76 +2201,23 @@ public class MBStatsUserPersistenceImpl
 		}
 
 		if (mbStatsUser.getCtCollectionId() != 0) {
+			if (isNew) {
+				mbStatsUser.setNew(false);
+			}
+
 			mbStatsUser.resetOriginalValues();
 
 			return mbStatsUser;
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+		entityCache.putResult(
+			MBStatsUserImpl.class, mbStatsUserModelImpl, false, true);
+
+		cacheUniqueFindersCache(mbStatsUserModelImpl);
 
 		if (isNew) {
-			Object[] args = new Object[] {mbStatsUserModelImpl.getGroupId()};
-
-			finderCache.removeResult(_finderPathCountByGroupId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByGroupId, args);
-
-			args = new Object[] {mbStatsUserModelImpl.getUserId()};
-
-			finderCache.removeResult(_finderPathCountByUserId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUserId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
+			mbStatsUser.setNew(false);
 		}
-		else {
-			if ((mbStatsUserModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByGroupId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					mbStatsUserModelImpl.getOriginalGroupId()
-				};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-
-				args = new Object[] {mbStatsUserModelImpl.getGroupId()};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-			}
-
-			if ((mbStatsUserModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUserId.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					mbStatsUserModelImpl.getOriginalUserId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUserId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUserId, args);
-
-				args = new Object[] {mbStatsUserModelImpl.getUserId()};
-
-				finderCache.removeResult(_finderPathCountByUserId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUserId, args);
-			}
-		}
-
-		entityCache.putResult(
-			MBStatsUserImpl.class, mbStatsUser.getPrimaryKey(), mbStatsUser,
-			false);
-
-		clearUniqueFindersCache(mbStatsUserModelImpl, false);
-		cacheUniqueFindersCache(mbStatsUserModelImpl);
 
 		mbStatsUser.resetOriginalValues();
 
@@ -2741,89 +2653,80 @@ public class MBStatsUserPersistenceImpl
 	 * Initializes the message boards stats user persistence.
 	 */
 	@Activate
-	public void activate() {
-		_finderPathWithPaginationFindAll = new FinderPath(
+	public void activate(BundleContext bundleContext) {
+		_bundleContext = bundleContext;
+
+		_argumentsResolverServiceRegistration = _bundleContext.registerService(
+			ArgumentsResolver.class, new MBStatsUserModelArgumentsResolver(),
+			MapUtil.singletonDictionary(
+				"model.class.name", MBStatsUser.class.getName()));
+
+		_finderPathWithPaginationFindAll = _createFinderPath(
 			MBStatsUserImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 			"findAll", new String[0]);
 
-		_finderPathWithoutPaginationFindAll = new FinderPath(
+		_finderPathWithoutPaginationFindAll = _createFinderPath(
 			MBStatsUserImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findAll", new String[0]);
 
-		_finderPathCountAll = new FinderPath(
+		_finderPathCountAll = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
-		_finderPathWithPaginationFindByGroupId = new FinderPath(
+		_finderPathWithPaginationFindByGroupId = _createFinderPath(
 			MBStatsUserImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByGroupId",
-			new String[] {
-				Long.class.getName(), Integer.class.getName(),
-				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			"findByGroupId", new String[] {"groupId"});
 
-		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
+		_finderPathWithoutPaginationFindByGroupId = _createFinderPath(
 			MBStatsUserImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByGroupId", new String[] {Long.class.getName()},
-			MBStatsUserModelImpl.GROUPID_COLUMN_BITMASK |
-			MBStatsUserModelImpl.MESSAGECOUNT_COLUMN_BITMASK);
+			"findByGroupId", new String[] {"groupId"});
 
-		_finderPathCountByGroupId = new FinderPath(
+		_finderPathCountByGroupId = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByGroupId", new String[] {Long.class.getName()});
+			"countByGroupId", new String[] {"groupId"});
 
-		_finderPathWithPaginationFindByUserId = new FinderPath(
+		_finderPathWithPaginationFindByUserId = _createFinderPath(
 			MBStatsUserImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByUserId",
-			new String[] {
-				Long.class.getName(), Integer.class.getName(),
-				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			"findByUserId", new String[] {"userId"});
 
-		_finderPathWithoutPaginationFindByUserId = new FinderPath(
+		_finderPathWithoutPaginationFindByUserId = _createFinderPath(
 			MBStatsUserImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByUserId", new String[] {Long.class.getName()},
-			MBStatsUserModelImpl.USERID_COLUMN_BITMASK |
-			MBStatsUserModelImpl.MESSAGECOUNT_COLUMN_BITMASK);
+			"findByUserId", new String[] {"userId"});
 
-		_finderPathCountByUserId = new FinderPath(
+		_finderPathCountByUserId = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByUserId", new String[] {Long.class.getName()});
+			"countByUserId", new String[] {"userId"});
 
-		_finderPathFetchByG_U = new FinderPath(
+		_finderPathFetchByG_U = _createFinderPath(
 			MBStatsUserImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByG_U",
-			new String[] {Long.class.getName(), Long.class.getName()},
-			MBStatsUserModelImpl.GROUPID_COLUMN_BITMASK |
-			MBStatsUserModelImpl.USERID_COLUMN_BITMASK);
+			new String[] {"groupId", "userId"});
 
-		_finderPathCountByG_U = new FinderPath(
+		_finderPathCountByG_U = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_U",
-			new String[] {Long.class.getName(), Long.class.getName()});
+			new String[] {"groupId", "userId"});
 
-		_finderPathWithPaginationFindByG_NotU_NotM = new FinderPath(
+		_finderPathWithPaginationFindByG_NotU_NotM = _createFinderPath(
 			MBStatsUserImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 			"findByG_NotU_NotM",
-			new String[] {
-				Long.class.getName(), Long.class.getName(),
-				Integer.class.getName(), Integer.class.getName(),
-				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			new String[] {"groupId", "userId", "messageCount"});
 
-		_finderPathWithPaginationCountByG_NotU_NotM = new FinderPath(
+		_finderPathWithPaginationCountByG_NotU_NotM = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 			"countByG_NotU_NotM",
-			new String[] {
-				Long.class.getName(), Long.class.getName(),
-				Integer.class.getName()
-			});
+			new String[] {"groupId", "userId", "messageCount"});
 	}
 
 	@Deactivate
 	public void deactivate() {
 		entityCache.removeCache(MBStatsUserImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+		_argumentsResolverServiceRegistration.unregister();
+
+		for (ServiceRegistration<FinderPath> serviceRegistration :
+				_serviceRegistrations) {
+
+			serviceRegistration.unregister();
+		}
 	}
 
 	@Override
@@ -2851,6 +2754,8 @@ public class MBStatsUserPersistenceImpl
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		super.setSessionFactory(sessionFactory);
 	}
+
+	private BundleContext _bundleContext;
 
 	@Reference
 	protected CTPersistenceHelper ctPersistenceHelper;
@@ -2891,6 +2796,96 @@ public class MBStatsUserPersistenceImpl
 		catch (ClassNotFoundException classNotFoundException) {
 			throw new ExceptionInInitializerError(classNotFoundException);
 		}
+	}
+
+	private FinderPath _createFinderPath(
+		Class<?> returnClass, String cacheName, String methodName,
+		String[] arttributeNames) {
+
+		FinderPath finderPath = new FinderPath(
+			cacheName, methodName, returnClass, arttributeNames);
+
+		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
+			_serviceRegistrations.add(
+				_bundleContext.registerService(
+					FinderPath.class, finderPath,
+					MapUtil.singletonDictionary("cache.name", cacheName)));
+		}
+
+		return finderPath;
+	}
+
+	private ServiceRegistration<ArgumentsResolver>
+		_argumentsResolverServiceRegistration;
+	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
+		new HashSet<>();
+
+	private static class MBStatsUserModelArgumentsResolver
+		implements ArgumentsResolver {
+
+		@Override
+		public Object[] getArguments(
+			FinderPath finderPath, BaseModel<?> baseModel, boolean checkColumn,
+			boolean original) {
+
+			String[] attributeNames = finderPath.getAttributeNames();
+
+			if ((attributeNames == null) || (attributeNames.length == 0)) {
+				if (baseModel.isNew()) {
+					return FINDER_ARGS_EMPTY;
+				}
+
+				return null;
+			}
+
+			MBStatsUserModelImpl mbStatsUserModelImpl =
+				(MBStatsUserModelImpl)baseModel;
+
+			long columnBitmask = mbStatsUserModelImpl.getColumnBitmask();
+
+			if (!checkColumn || (columnBitmask == 0)) {
+				return _getValue(
+					mbStatsUserModelImpl, attributeNames, original);
+			}
+
+			long finderPathColumnBitmask = 0;
+
+			for (String attributeName : attributeNames) {
+				finderPathColumnBitmask |=
+					mbStatsUserModelImpl.getColumnBitmask(attributeName);
+			}
+
+			if ((columnBitmask & finderPathColumnBitmask) != 0) {
+				return _getValue(
+					mbStatsUserModelImpl, attributeNames, original);
+			}
+
+			return null;
+		}
+
+		private Object[] _getValue(
+			MBStatsUserModelImpl mbStatsUserModelImpl, String[] attributeNames,
+			boolean original) {
+
+			Object[] arguments = new Object[attributeNames.length];
+
+			for (int i = 0; i < arguments.length; i++) {
+				String attributeName = attributeNames[i];
+
+				if (original) {
+					arguments[i] =
+						mbStatsUserModelImpl.getOriginalAttributeValue(
+							attributeName);
+				}
+				else {
+					arguments[i] = mbStatsUserModelImpl.getAttributeValue(
+						attributeName);
+				}
+			}
+
+			return arguments;
+		}
+
 	}
 
 }

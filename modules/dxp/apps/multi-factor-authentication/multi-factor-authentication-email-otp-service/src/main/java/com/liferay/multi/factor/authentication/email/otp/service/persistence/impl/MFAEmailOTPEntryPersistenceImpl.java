@@ -23,6 +23,7 @@ import com.liferay.multi.factor.authentication.email.otp.service.persistence.MFA
 import com.liferay.multi.factor.authentication.email.otp.service.persistence.impl.constants.MFAEmailOTPPersistenceConstants;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.configuration.Configuration;
+import com.liferay.portal.kernel.dao.orm.ArgumentsResolver;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -33,10 +34,12 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.dao.orm.SessionFactory;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
@@ -45,12 +48,15 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import javax.sql.DataSource;
 
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
@@ -356,27 +362,14 @@ public class MFAEmailOTPEntryPersistenceImpl
 	 */
 	@Override
 	public void clearCache(MFAEmailOTPEntry mfaEmailOTPEntry) {
-		entityCache.removeResult(
-			MFAEmailOTPEntryImpl.class, mfaEmailOTPEntry.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(MFAEmailOTPEntryModelImpl)mfaEmailOTPEntry, true);
+		entityCache.removeResult(MFAEmailOTPEntryImpl.class, mfaEmailOTPEntry);
 	}
 
 	@Override
 	public void clearCache(List<MFAEmailOTPEntry> mfaEmailOTPEntries) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (MFAEmailOTPEntry mfaEmailOTPEntry : mfaEmailOTPEntries) {
 			entityCache.removeResult(
-				MFAEmailOTPEntryImpl.class, mfaEmailOTPEntry.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(MFAEmailOTPEntryModelImpl)mfaEmailOTPEntry, true);
+				MFAEmailOTPEntryImpl.class, mfaEmailOTPEntry);
 		}
 	}
 
@@ -400,31 +393,6 @@ public class MFAEmailOTPEntryPersistenceImpl
 			_finderPathCountByUserId, args, Long.valueOf(1), false);
 		finderCache.putResult(
 			_finderPathFetchByUserId, args, mfaEmailOTPEntryModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		MFAEmailOTPEntryModelImpl mfaEmailOTPEntryModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				mfaEmailOTPEntryModelImpl.getUserId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUserId, args);
-			finderCache.removeResult(_finderPathFetchByUserId, args);
-		}
-
-		if ((mfaEmailOTPEntryModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUserId.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				mfaEmailOTPEntryModelImpl.getOriginalUserId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUserId, args);
-			finderCache.removeResult(_finderPathFetchByUserId, args);
-		}
 	}
 
 	/**
@@ -585,10 +553,8 @@ public class MFAEmailOTPEntryPersistenceImpl
 		try {
 			session = openSession();
 
-			if (mfaEmailOTPEntry.isNew()) {
+			if (isNew) {
 				session.save(mfaEmailOTPEntry);
-
-				mfaEmailOTPEntry.setNew(false);
 			}
 			else {
 				mfaEmailOTPEntry = (MFAEmailOTPEntry)session.merge(
@@ -602,20 +568,14 @@ public class MFAEmailOTPEntryPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+		entityCache.putResult(
+			MFAEmailOTPEntryImpl.class, mfaEmailOTPEntryModelImpl, false, true);
+
+		cacheUniqueFindersCache(mfaEmailOTPEntryModelImpl);
 
 		if (isNew) {
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
+			mfaEmailOTPEntry.setNew(false);
 		}
-
-		entityCache.putResult(
-			MFAEmailOTPEntryImpl.class, mfaEmailOTPEntry.getPrimaryKey(),
-			mfaEmailOTPEntry, false);
-
-		clearUniqueFindersCache(mfaEmailOTPEntryModelImpl, false);
-		cacheUniqueFindersCache(mfaEmailOTPEntryModelImpl);
 
 		mfaEmailOTPEntry.resetOriginalValues();
 
@@ -877,36 +837,48 @@ public class MFAEmailOTPEntryPersistenceImpl
 	 * Initializes the mfa email otp entry persistence.
 	 */
 	@Activate
-	public void activate() {
-		_finderPathWithPaginationFindAll = new FinderPath(
+	public void activate(BundleContext bundleContext) {
+		_bundleContext = bundleContext;
+
+		_argumentsResolverServiceRegistration = _bundleContext.registerService(
+			ArgumentsResolver.class,
+			new MFAEmailOTPEntryModelArgumentsResolver(),
+			MapUtil.singletonDictionary(
+				"model.class.name", MFAEmailOTPEntry.class.getName()));
+
+		_finderPathWithPaginationFindAll = _createFinderPath(
 			MFAEmailOTPEntryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 			"findAll", new String[0]);
 
-		_finderPathWithoutPaginationFindAll = new FinderPath(
+		_finderPathWithoutPaginationFindAll = _createFinderPath(
 			MFAEmailOTPEntryImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
-		_finderPathCountAll = new FinderPath(
+		_finderPathCountAll = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
-		_finderPathFetchByUserId = new FinderPath(
+		_finderPathFetchByUserId = _createFinderPath(
 			MFAEmailOTPEntryImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByUserId", new String[] {Long.class.getName()},
-			MFAEmailOTPEntryModelImpl.USERID_COLUMN_BITMASK);
+			"fetchByUserId", new String[] {"userId"});
 
-		_finderPathCountByUserId = new FinderPath(
+		_finderPathCountByUserId = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByUserId", new String[] {Long.class.getName()});
+			"countByUserId", new String[] {"userId"});
 	}
 
 	@Deactivate
 	public void deactivate() {
 		entityCache.removeCache(MFAEmailOTPEntryImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+		_argumentsResolverServiceRegistration.unregister();
+
+		for (ServiceRegistration<FinderPath> serviceRegistration :
+				_serviceRegistrations) {
+
+			serviceRegistration.unregister();
+		}
 	}
 
 	@Override
@@ -934,6 +906,8 @@ public class MFAEmailOTPEntryPersistenceImpl
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		super.setSessionFactory(sessionFactory);
 	}
+
+	private BundleContext _bundleContext;
 
 	@Reference
 	protected EntityCache entityCache;
@@ -971,6 +945,96 @@ public class MFAEmailOTPEntryPersistenceImpl
 		catch (ClassNotFoundException classNotFoundException) {
 			throw new ExceptionInInitializerError(classNotFoundException);
 		}
+	}
+
+	private FinderPath _createFinderPath(
+		Class<?> returnClass, String cacheName, String methodName,
+		String[] arttributeNames) {
+
+		FinderPath finderPath = new FinderPath(
+			cacheName, methodName, returnClass, arttributeNames);
+
+		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
+			_serviceRegistrations.add(
+				_bundleContext.registerService(
+					FinderPath.class, finderPath,
+					MapUtil.singletonDictionary("cache.name", cacheName)));
+		}
+
+		return finderPath;
+	}
+
+	private ServiceRegistration<ArgumentsResolver>
+		_argumentsResolverServiceRegistration;
+	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
+		new HashSet<>();
+
+	private static class MFAEmailOTPEntryModelArgumentsResolver
+		implements ArgumentsResolver {
+
+		@Override
+		public Object[] getArguments(
+			FinderPath finderPath, BaseModel<?> baseModel, boolean checkColumn,
+			boolean original) {
+
+			String[] attributeNames = finderPath.getAttributeNames();
+
+			if ((attributeNames == null) || (attributeNames.length == 0)) {
+				if (baseModel.isNew()) {
+					return FINDER_ARGS_EMPTY;
+				}
+
+				return null;
+			}
+
+			MFAEmailOTPEntryModelImpl mfaEmailOTPEntryModelImpl =
+				(MFAEmailOTPEntryModelImpl)baseModel;
+
+			long columnBitmask = mfaEmailOTPEntryModelImpl.getColumnBitmask();
+
+			if (!checkColumn || (columnBitmask == 0)) {
+				return _getValue(
+					mfaEmailOTPEntryModelImpl, attributeNames, original);
+			}
+
+			long finderPathColumnBitmask = 0;
+
+			for (String attributeName : attributeNames) {
+				finderPathColumnBitmask |=
+					mfaEmailOTPEntryModelImpl.getColumnBitmask(attributeName);
+			}
+
+			if ((columnBitmask & finderPathColumnBitmask) != 0) {
+				return _getValue(
+					mfaEmailOTPEntryModelImpl, attributeNames, original);
+			}
+
+			return null;
+		}
+
+		private Object[] _getValue(
+			MFAEmailOTPEntryModelImpl mfaEmailOTPEntryModelImpl,
+			String[] attributeNames, boolean original) {
+
+			Object[] arguments = new Object[attributeNames.length];
+
+			for (int i = 0; i < arguments.length; i++) {
+				String attributeName = attributeNames[i];
+
+				if (original) {
+					arguments[i] =
+						mfaEmailOTPEntryModelImpl.getOriginalAttributeValue(
+							attributeName);
+				}
+				else {
+					arguments[i] = mfaEmailOTPEntryModelImpl.getAttributeValue(
+						attributeName);
+				}
+			}
+
+			return arguments;
+		}
+
 	}
 
 }

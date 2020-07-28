@@ -23,6 +23,7 @@ import com.liferay.changeset.service.persistence.ChangesetCollectionPersistence;
 import com.liferay.changeset.service.persistence.impl.constants.ChangesetPersistenceConstants;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.configuration.Configuration;
+import com.liferay.portal.kernel.dao.orm.ArgumentsResolver;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -33,10 +34,12 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.dao.orm.SessionFactory;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
@@ -45,6 +48,7 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -52,6 +56,8 @@ import java.util.Set;
 
 import javax.sql.DataSource;
 
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
@@ -2545,27 +2551,14 @@ public class ChangesetCollectionPersistenceImpl
 	@Override
 	public void clearCache(ChangesetCollection changesetCollection) {
 		entityCache.removeResult(
-			ChangesetCollectionImpl.class, changesetCollection.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(ChangesetCollectionModelImpl)changesetCollection, true);
+			ChangesetCollectionImpl.class, changesetCollection);
 	}
 
 	@Override
 	public void clearCache(List<ChangesetCollection> changesetCollections) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (ChangesetCollection changesetCollection : changesetCollections) {
 			entityCache.removeResult(
-				ChangesetCollectionImpl.class,
-				changesetCollection.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(ChangesetCollectionModelImpl)changesetCollection, true);
+				ChangesetCollectionImpl.class, changesetCollection);
 		}
 	}
 
@@ -2592,33 +2585,6 @@ public class ChangesetCollectionPersistenceImpl
 			_finderPathCountByG_N, args, Long.valueOf(1), false);
 		finderCache.putResult(
 			_finderPathFetchByG_N, args, changesetCollectionModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		ChangesetCollectionModelImpl changesetCollectionModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				changesetCollectionModelImpl.getGroupId(),
-				changesetCollectionModelImpl.getName()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_N, args);
-			finderCache.removeResult(_finderPathFetchByG_N, args);
-		}
-
-		if ((changesetCollectionModelImpl.getColumnBitmask() &
-			 _finderPathFetchByG_N.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				changesetCollectionModelImpl.getOriginalGroupId(),
-				changesetCollectionModelImpl.getOriginalName()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_N, args);
-			finderCache.removeResult(_finderPathFetchByG_N, args);
-		}
 	}
 
 	/**
@@ -2784,10 +2750,8 @@ public class ChangesetCollectionPersistenceImpl
 		try {
 			session = openSession();
 
-			if (changesetCollection.isNew()) {
+			if (isNew) {
 				session.save(changesetCollection);
-
-				changesetCollection.setNew(false);
 			}
 			else {
 				changesetCollection = (ChangesetCollection)session.merge(
@@ -2801,139 +2765,15 @@ public class ChangesetCollectionPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+		entityCache.putResult(
+			ChangesetCollectionImpl.class, changesetCollectionModelImpl, false,
+			true);
+
+		cacheUniqueFindersCache(changesetCollectionModelImpl);
 
 		if (isNew) {
-			Object[] args = new Object[] {
-				changesetCollectionModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByGroupId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByGroupId, args);
-
-			args = new Object[] {changesetCollectionModelImpl.getCompanyId()};
-
-			finderCache.removeResult(_finderPathCountByCompanyId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByCompanyId, args);
-
-			args = new Object[] {
-				changesetCollectionModelImpl.getGroupId(),
-				changesetCollectionModelImpl.getUserId()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_U, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByG_U, args);
-
-			args = new Object[] {
-				changesetCollectionModelImpl.getCompanyId(),
-				changesetCollectionModelImpl.getName()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_N, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByC_N, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
+			changesetCollection.setNew(false);
 		}
-		else {
-			if ((changesetCollectionModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByGroupId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					changesetCollectionModelImpl.getOriginalGroupId()
-				};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-
-				args = new Object[] {changesetCollectionModelImpl.getGroupId()};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-			}
-
-			if ((changesetCollectionModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByCompanyId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					changesetCollectionModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByCompanyId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByCompanyId, args);
-
-				args = new Object[] {
-					changesetCollectionModelImpl.getCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByCompanyId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByCompanyId, args);
-			}
-
-			if ((changesetCollectionModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByG_U.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					changesetCollectionModelImpl.getOriginalGroupId(),
-					changesetCollectionModelImpl.getOriginalUserId()
-				};
-
-				finderCache.removeResult(_finderPathCountByG_U, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_U, args);
-
-				args = new Object[] {
-					changesetCollectionModelImpl.getGroupId(),
-					changesetCollectionModelImpl.getUserId()
-				};
-
-				finderCache.removeResult(_finderPathCountByG_U, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_U, args);
-			}
-
-			if ((changesetCollectionModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByC_N.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					changesetCollectionModelImpl.getOriginalCompanyId(),
-					changesetCollectionModelImpl.getOriginalName()
-				};
-
-				finderCache.removeResult(_finderPathCountByC_N, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByC_N, args);
-
-				args = new Object[] {
-					changesetCollectionModelImpl.getCompanyId(),
-					changesetCollectionModelImpl.getName()
-				};
-
-				finderCache.removeResult(_finderPathCountByC_N, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByC_N, args);
-			}
-		}
-
-		entityCache.putResult(
-			ChangesetCollectionImpl.class, changesetCollection.getPrimaryKey(),
-			changesetCollection, false);
-
-		clearUniqueFindersCache(changesetCollectionModelImpl, false);
-		cacheUniqueFindersCache(changesetCollectionModelImpl);
 
 		changesetCollection.resetOriginalValues();
 
@@ -3196,114 +3036,104 @@ public class ChangesetCollectionPersistenceImpl
 	 * Initializes the changeset collection persistence.
 	 */
 	@Activate
-	public void activate() {
-		_finderPathWithPaginationFindAll = new FinderPath(
+	public void activate(BundleContext bundleContext) {
+		_bundleContext = bundleContext;
+
+		_argumentsResolverServiceRegistration = _bundleContext.registerService(
+			ArgumentsResolver.class,
+			new ChangesetCollectionModelArgumentsResolver(),
+			MapUtil.singletonDictionary(
+				"model.class.name", ChangesetCollection.class.getName()));
+
+		_finderPathWithPaginationFindAll = _createFinderPath(
 			ChangesetCollectionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
-		_finderPathWithoutPaginationFindAll = new FinderPath(
+		_finderPathWithoutPaginationFindAll = _createFinderPath(
 			ChangesetCollectionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
-		_finderPathCountAll = new FinderPath(
+		_finderPathCountAll = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
-		_finderPathWithPaginationFindByGroupId = new FinderPath(
+		_finderPathWithPaginationFindByGroupId = _createFinderPath(
 			ChangesetCollectionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
-			new String[] {
-				Long.class.getName(), Integer.class.getName(),
-				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			new String[] {"groupId"});
 
-		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
+		_finderPathWithoutPaginationFindByGroupId = _createFinderPath(
 			ChangesetCollectionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
-			new String[] {Long.class.getName()},
-			ChangesetCollectionModelImpl.GROUPID_COLUMN_BITMASK);
+			new String[] {"groupId"});
 
-		_finderPathCountByGroupId = new FinderPath(
+		_finderPathCountByGroupId = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByGroupId", new String[] {Long.class.getName()});
+			"countByGroupId", new String[] {"groupId"});
 
-		_finderPathWithPaginationFindByCompanyId = new FinderPath(
+		_finderPathWithPaginationFindByCompanyId = _createFinderPath(
 			ChangesetCollectionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCompanyId",
-			new String[] {
-				Long.class.getName(), Integer.class.getName(),
-				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			new String[] {"companyId"});
 
-		_finderPathWithoutPaginationFindByCompanyId = new FinderPath(
+		_finderPathWithoutPaginationFindByCompanyId = _createFinderPath(
 			ChangesetCollectionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCompanyId",
-			new String[] {Long.class.getName()},
-			ChangesetCollectionModelImpl.COMPANYID_COLUMN_BITMASK);
+			new String[] {"companyId"});
 
-		_finderPathCountByCompanyId = new FinderPath(
+		_finderPathCountByCompanyId = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByCompanyId", new String[] {Long.class.getName()});
+			"countByCompanyId", new String[] {"companyId"});
 
-		_finderPathWithPaginationFindByG_U = new FinderPath(
+		_finderPathWithPaginationFindByG_U = _createFinderPath(
 			ChangesetCollectionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_U",
-			new String[] {
-				Long.class.getName(), Long.class.getName(),
-				Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
+			new String[] {"groupId", "userId"});
 
-		_finderPathWithoutPaginationFindByG_U = new FinderPath(
+		_finderPathWithoutPaginationFindByG_U = _createFinderPath(
 			ChangesetCollectionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_U",
-			new String[] {Long.class.getName(), Long.class.getName()},
-			ChangesetCollectionModelImpl.GROUPID_COLUMN_BITMASK |
-			ChangesetCollectionModelImpl.USERID_COLUMN_BITMASK);
+			new String[] {"groupId", "userId"});
 
-		_finderPathCountByG_U = new FinderPath(
+		_finderPathCountByG_U = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_U",
-			new String[] {Long.class.getName(), Long.class.getName()});
+			new String[] {"groupId", "userId"});
 
-		_finderPathFetchByG_N = new FinderPath(
+		_finderPathFetchByG_N = _createFinderPath(
 			ChangesetCollectionImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByG_N",
-			new String[] {Long.class.getName(), String.class.getName()},
-			ChangesetCollectionModelImpl.GROUPID_COLUMN_BITMASK |
-			ChangesetCollectionModelImpl.NAME_COLUMN_BITMASK);
+			"fetchByG_N", new String[] {"groupId", "name"});
 
-		_finderPathCountByG_N = new FinderPath(
+		_finderPathCountByG_N = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_N",
-			new String[] {Long.class.getName(), String.class.getName()});
+			new String[] {"groupId", "name"});
 
-		_finderPathWithPaginationFindByC_N = new FinderPath(
+		_finderPathWithPaginationFindByC_N = _createFinderPath(
 			ChangesetCollectionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_N",
-			new String[] {
-				Long.class.getName(), String.class.getName(),
-				Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
+			new String[] {"companyId", "name"});
 
-		_finderPathWithoutPaginationFindByC_N = new FinderPath(
+		_finderPathWithoutPaginationFindByC_N = _createFinderPath(
 			ChangesetCollectionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_N",
-			new String[] {Long.class.getName(), String.class.getName()},
-			ChangesetCollectionModelImpl.COMPANYID_COLUMN_BITMASK |
-			ChangesetCollectionModelImpl.NAME_COLUMN_BITMASK);
+			new String[] {"companyId", "name"});
 
-		_finderPathCountByC_N = new FinderPath(
+		_finderPathCountByC_N = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_N",
-			new String[] {Long.class.getName(), String.class.getName()});
+			new String[] {"companyId", "name"});
 	}
 
 	@Deactivate
 	public void deactivate() {
 		entityCache.removeCache(ChangesetCollectionImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+		_argumentsResolverServiceRegistration.unregister();
+
+		for (ServiceRegistration<FinderPath> serviceRegistration :
+				_serviceRegistrations) {
+
+			serviceRegistration.unregister();
+		}
 	}
 
 	@Override
@@ -3331,6 +3161,8 @@ public class ChangesetCollectionPersistenceImpl
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		super.setSessionFactory(sessionFactory);
 	}
+
+	private BundleContext _bundleContext;
 
 	@Reference
 	protected EntityCache entityCache;
@@ -3368,6 +3200,99 @@ public class ChangesetCollectionPersistenceImpl
 		catch (ClassNotFoundException classNotFoundException) {
 			throw new ExceptionInInitializerError(classNotFoundException);
 		}
+	}
+
+	private FinderPath _createFinderPath(
+		Class<?> returnClass, String cacheName, String methodName,
+		String[] arttributeNames) {
+
+		FinderPath finderPath = new FinderPath(
+			cacheName, methodName, returnClass, arttributeNames);
+
+		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
+			_serviceRegistrations.add(
+				_bundleContext.registerService(
+					FinderPath.class, finderPath,
+					MapUtil.singletonDictionary("cache.name", cacheName)));
+		}
+
+		return finderPath;
+	}
+
+	private ServiceRegistration<ArgumentsResolver>
+		_argumentsResolverServiceRegistration;
+	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
+		new HashSet<>();
+
+	private static class ChangesetCollectionModelArgumentsResolver
+		implements ArgumentsResolver {
+
+		@Override
+		public Object[] getArguments(
+			FinderPath finderPath, BaseModel<?> baseModel, boolean checkColumn,
+			boolean original) {
+
+			String[] attributeNames = finderPath.getAttributeNames();
+
+			if ((attributeNames == null) || (attributeNames.length == 0)) {
+				if (baseModel.isNew()) {
+					return FINDER_ARGS_EMPTY;
+				}
+
+				return null;
+			}
+
+			ChangesetCollectionModelImpl changesetCollectionModelImpl =
+				(ChangesetCollectionModelImpl)baseModel;
+
+			long columnBitmask =
+				changesetCollectionModelImpl.getColumnBitmask();
+
+			if (!checkColumn || (columnBitmask == 0)) {
+				return _getValue(
+					changesetCollectionModelImpl, attributeNames, original);
+			}
+
+			long finderPathColumnBitmask = 0;
+
+			for (String attributeName : attributeNames) {
+				finderPathColumnBitmask |=
+					changesetCollectionModelImpl.getColumnBitmask(
+						attributeName);
+			}
+
+			if ((columnBitmask & finderPathColumnBitmask) != 0) {
+				return _getValue(
+					changesetCollectionModelImpl, attributeNames, original);
+			}
+
+			return null;
+		}
+
+		private Object[] _getValue(
+			ChangesetCollectionModelImpl changesetCollectionModelImpl,
+			String[] attributeNames, boolean original) {
+
+			Object[] arguments = new Object[attributeNames.length];
+
+			for (int i = 0; i < arguments.length; i++) {
+				String attributeName = attributeNames[i];
+
+				if (original) {
+					arguments[i] =
+						changesetCollectionModelImpl.getOriginalAttributeValue(
+							attributeName);
+				}
+				else {
+					arguments[i] =
+						changesetCollectionModelImpl.getAttributeValue(
+							attributeName);
+				}
+			}
+
+			return arguments;
+		}
+
 	}
 
 }

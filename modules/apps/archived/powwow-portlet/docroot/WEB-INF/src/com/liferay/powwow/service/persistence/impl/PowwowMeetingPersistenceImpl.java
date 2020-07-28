@@ -15,6 +15,7 @@
 package com.liferay.powwow.service.persistence.impl;
 
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.dao.orm.ArgumentsResolver;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderCacheUtil;
@@ -26,11 +27,13 @@ import com.liferay.portal.kernel.dao.orm.SQLQuery;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.security.permission.InlineSQLHelperUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.powwow.exception.NoSuchMeetingException;
@@ -38,12 +41,16 @@ import com.liferay.powwow.model.PowwowMeeting;
 import com.liferay.powwow.model.impl.PowwowMeetingImpl;
 import com.liferay.powwow.model.impl.PowwowMeetingModelImpl;
 import com.liferay.powwow.service.persistence.PowwowMeetingPersistence;
+import com.liferay.registry.Registry;
+import com.liferay.registry.RegistryUtil;
+import com.liferay.registry.ServiceRegistration;
 
 import java.io.Serializable;
 
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -3097,21 +3104,14 @@ public class PowwowMeetingPersistenceImpl
 	 */
 	@Override
 	public void clearCache(PowwowMeeting powwowMeeting) {
-		EntityCacheUtil.removeResult(
-			PowwowMeetingImpl.class, powwowMeeting.getPrimaryKey());
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		EntityCacheUtil.removeResult(PowwowMeetingImpl.class, powwowMeeting);
 	}
 
 	@Override
 	public void clearCache(List<PowwowMeeting> powwowMeetings) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (PowwowMeeting powwowMeeting : powwowMeetings) {
 			EntityCacheUtil.removeResult(
-				PowwowMeetingImpl.class, powwowMeeting.getPrimaryKey());
+				PowwowMeetingImpl.class, powwowMeeting);
 		}
 	}
 
@@ -3282,10 +3282,8 @@ public class PowwowMeetingPersistenceImpl
 		try {
 			session = openSession();
 
-			if (powwowMeeting.isNew()) {
+			if (isNew) {
 				session.save(powwowMeeting);
-
-				powwowMeeting.setNew(false);
 			}
 			else {
 				powwowMeeting = (PowwowMeeting)session.merge(powwowMeeting);
@@ -3298,163 +3296,12 @@ public class PowwowMeetingPersistenceImpl
 			closeSession(session);
 		}
 
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+		EntityCacheUtil.putResult(
+			PowwowMeetingImpl.class, powwowMeetingModelImpl, false, true);
 
 		if (isNew) {
-			Object[] args = new Object[] {powwowMeetingModelImpl.getGroupId()};
-
-			FinderCacheUtil.removeResult(_finderPathCountByGroupId, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByGroupId, args);
-
-			args = new Object[] {powwowMeetingModelImpl.getPowwowServerId()};
-
-			FinderCacheUtil.removeResult(
-				_finderPathCountByPowwowServerId, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByPowwowServerId, args);
-
-			args = new Object[] {powwowMeetingModelImpl.getStatus()};
-
-			FinderCacheUtil.removeResult(_finderPathCountByStatus, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByStatus, args);
-
-			args = new Object[] {
-				powwowMeetingModelImpl.getUserId(),
-				powwowMeetingModelImpl.getStatus()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByU_S, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByU_S, args);
-
-			args = new Object[] {
-				powwowMeetingModelImpl.getPowwowServerId(),
-				powwowMeetingModelImpl.getStatus()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByPSI_S, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByPSI_S, args);
-
-			FinderCacheUtil.removeResult(
-				_finderPathCountAll, FINDER_ARGS_EMPTY);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
+			powwowMeeting.setNew(false);
 		}
-		else {
-			if ((powwowMeetingModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByGroupId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					powwowMeetingModelImpl.getOriginalGroupId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByGroupId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-
-				args = new Object[] {powwowMeetingModelImpl.getGroupId()};
-
-				FinderCacheUtil.removeResult(_finderPathCountByGroupId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-			}
-
-			if ((powwowMeetingModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByPowwowServerId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					powwowMeetingModelImpl.getOriginalPowwowServerId()
-				};
-
-				FinderCacheUtil.removeResult(
-					_finderPathCountByPowwowServerId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByPowwowServerId, args);
-
-				args = new Object[] {
-					powwowMeetingModelImpl.getPowwowServerId()
-				};
-
-				FinderCacheUtil.removeResult(
-					_finderPathCountByPowwowServerId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByPowwowServerId, args);
-			}
-
-			if ((powwowMeetingModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByStatus.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					powwowMeetingModelImpl.getOriginalStatus()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByStatus, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByStatus, args);
-
-				args = new Object[] {powwowMeetingModelImpl.getStatus()};
-
-				FinderCacheUtil.removeResult(_finderPathCountByStatus, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByStatus, args);
-			}
-
-			if ((powwowMeetingModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByU_S.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					powwowMeetingModelImpl.getOriginalUserId(),
-					powwowMeetingModelImpl.getOriginalStatus()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByU_S, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByU_S, args);
-
-				args = new Object[] {
-					powwowMeetingModelImpl.getUserId(),
-					powwowMeetingModelImpl.getStatus()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByU_S, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByU_S, args);
-			}
-
-			if ((powwowMeetingModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByPSI_S.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					powwowMeetingModelImpl.getOriginalPowwowServerId(),
-					powwowMeetingModelImpl.getOriginalStatus()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByPSI_S, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByPSI_S, args);
-
-				args = new Object[] {
-					powwowMeetingModelImpl.getPowwowServerId(),
-					powwowMeetingModelImpl.getStatus()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByPSI_S, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByPSI_S, args);
-			}
-		}
-
-		EntityCacheUtil.putResult(
-			PowwowMeetingImpl.class, powwowMeeting.getPrimaryKey(),
-			powwowMeeting, false);
 
 		powwowMeeting.resetOriginalValues();
 
@@ -3715,121 +3562,97 @@ public class PowwowMeetingPersistenceImpl
 	 * Initializes the powwow meeting persistence.
 	 */
 	public void afterPropertiesSet() {
-		_finderPathWithPaginationFindAll = new FinderPath(
+		Registry registry = RegistryUtil.getRegistry();
+
+		_argumentsResolverServiceRegistration = registry.registerService(
+			ArgumentsResolver.class, new PowwowMeetingModelArgumentsResolver(),
+			HashMapBuilder.<String, Object>put(
+				"model.class.name", PowwowMeeting.class.getName()
+			).build());
+
+		_finderPathWithPaginationFindAll = _createFinderPath(
 			PowwowMeetingImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 			"findAll", new String[0]);
 
-		_finderPathWithoutPaginationFindAll = new FinderPath(
+		_finderPathWithoutPaginationFindAll = _createFinderPath(
 			PowwowMeetingImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findAll", new String[0]);
 
-		_finderPathCountAll = new FinderPath(
+		_finderPathCountAll = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
-		_finderPathWithPaginationFindByGroupId = new FinderPath(
+		_finderPathWithPaginationFindByGroupId = _createFinderPath(
 			PowwowMeetingImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByGroupId",
-			new String[] {
-				Long.class.getName(), Integer.class.getName(),
-				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			"findByGroupId", new String[] {"groupId"});
 
-		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
+		_finderPathWithoutPaginationFindByGroupId = _createFinderPath(
 			PowwowMeetingImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByGroupId", new String[] {Long.class.getName()},
-			PowwowMeetingModelImpl.GROUPID_COLUMN_BITMASK |
-			PowwowMeetingModelImpl.CREATEDATE_COLUMN_BITMASK);
+			"findByGroupId", new String[] {"groupId"});
 
-		_finderPathCountByGroupId = new FinderPath(
+		_finderPathCountByGroupId = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByGroupId", new String[] {Long.class.getName()});
+			"countByGroupId", new String[] {"groupId"});
 
-		_finderPathWithPaginationFindByPowwowServerId = new FinderPath(
+		_finderPathWithPaginationFindByPowwowServerId = _createFinderPath(
 			PowwowMeetingImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByPowwowServerId",
-			new String[] {
-				Long.class.getName(), Integer.class.getName(),
-				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			"findByPowwowServerId", new String[] {"powwowServerId"});
 
-		_finderPathWithoutPaginationFindByPowwowServerId = new FinderPath(
+		_finderPathWithoutPaginationFindByPowwowServerId = _createFinderPath(
 			PowwowMeetingImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByPowwowServerId", new String[] {Long.class.getName()},
-			PowwowMeetingModelImpl.POWWOWSERVERID_COLUMN_BITMASK |
-			PowwowMeetingModelImpl.CREATEDATE_COLUMN_BITMASK);
+			"findByPowwowServerId", new String[] {"powwowServerId"});
 
-		_finderPathCountByPowwowServerId = new FinderPath(
+		_finderPathCountByPowwowServerId = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByPowwowServerId", new String[] {Long.class.getName()});
+			"countByPowwowServerId", new String[] {"powwowServerId"});
 
-		_finderPathWithPaginationFindByStatus = new FinderPath(
+		_finderPathWithPaginationFindByStatus = _createFinderPath(
 			PowwowMeetingImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByStatus",
-			new String[] {
-				Integer.class.getName(), Integer.class.getName(),
-				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			"findByStatus", new String[] {"status"});
 
-		_finderPathWithoutPaginationFindByStatus = new FinderPath(
+		_finderPathWithoutPaginationFindByStatus = _createFinderPath(
 			PowwowMeetingImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByStatus", new String[] {Integer.class.getName()},
-			PowwowMeetingModelImpl.STATUS_COLUMN_BITMASK |
-			PowwowMeetingModelImpl.CREATEDATE_COLUMN_BITMASK);
+			"findByStatus", new String[] {"status"});
 
-		_finderPathCountByStatus = new FinderPath(
+		_finderPathCountByStatus = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByStatus", new String[] {Integer.class.getName()});
+			"countByStatus", new String[] {"status"});
 
-		_finderPathWithPaginationFindByU_S = new FinderPath(
+		_finderPathWithPaginationFindByU_S = _createFinderPath(
 			PowwowMeetingImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByU_S",
-			new String[] {
-				Long.class.getName(), Integer.class.getName(),
-				Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
+			"findByU_S", new String[] {"userId", "status"});
 
-		_finderPathWithoutPaginationFindByU_S = new FinderPath(
+		_finderPathWithoutPaginationFindByU_S = _createFinderPath(
 			PowwowMeetingImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByU_S",
-			new String[] {Long.class.getName(), Integer.class.getName()},
-			PowwowMeetingModelImpl.USERID_COLUMN_BITMASK |
-			PowwowMeetingModelImpl.STATUS_COLUMN_BITMASK |
-			PowwowMeetingModelImpl.CREATEDATE_COLUMN_BITMASK);
+			"findByU_S", new String[] {"userId", "status"});
 
-		_finderPathCountByU_S = new FinderPath(
+		_finderPathCountByU_S = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_S",
-			new String[] {Long.class.getName(), Integer.class.getName()});
+			new String[] {"userId", "status"});
 
-		_finderPathWithPaginationFindByPSI_S = new FinderPath(
+		_finderPathWithPaginationFindByPSI_S = _createFinderPath(
 			PowwowMeetingImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByPSI_S",
-			new String[] {
-				Long.class.getName(), Integer.class.getName(),
-				Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
+			"findByPSI_S", new String[] {"powwowServerId", "status"});
 
-		_finderPathWithoutPaginationFindByPSI_S = new FinderPath(
+		_finderPathWithoutPaginationFindByPSI_S = _createFinderPath(
 			PowwowMeetingImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByPSI_S",
-			new String[] {Long.class.getName(), Integer.class.getName()},
-			PowwowMeetingModelImpl.POWWOWSERVERID_COLUMN_BITMASK |
-			PowwowMeetingModelImpl.STATUS_COLUMN_BITMASK |
-			PowwowMeetingModelImpl.CREATEDATE_COLUMN_BITMASK);
+			"findByPSI_S", new String[] {"powwowServerId", "status"});
 
-		_finderPathCountByPSI_S = new FinderPath(
+		_finderPathCountByPSI_S = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByPSI_S",
-			new String[] {Long.class.getName(), Integer.class.getName()});
+			"countByPSI_S", new String[] {"powwowServerId", "status"});
 	}
 
 	public void destroy() {
 		EntityCacheUtil.removeCache(PowwowMeetingImpl.class.getName());
-		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+		_argumentsResolverServiceRegistration.unregister();
+
+		for (ServiceRegistration<FinderPath> serviceRegistration :
+				_serviceRegistrations) {
+
+			serviceRegistration.unregister();
+		}
 	}
 
 	private static final String _SQL_SELECT_POWWOWMEETING =
@@ -3877,5 +3700,99 @@ public class PowwowMeetingPersistenceImpl
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		PowwowMeetingPersistenceImpl.class);
+
+	private FinderPath _createFinderPath(
+		Class<?> returnClass, String cacheName, String methodName,
+		String[] arttributeNames) {
+
+		FinderPath finderPath = new FinderPath(
+			cacheName, methodName, returnClass, arttributeNames);
+
+		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
+			Registry registry = RegistryUtil.getRegistry();
+
+			_serviceRegistrations.add(
+				registry.registerService(
+					FinderPath.class, finderPath,
+					HashMapBuilder.<String, Object>put(
+						"cache.name", cacheName
+					).build()));
+		}
+
+		return finderPath;
+	}
+
+	private ServiceRegistration<ArgumentsResolver>
+		_argumentsResolverServiceRegistration;
+	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
+		new HashSet<>();
+
+	private static class PowwowMeetingModelArgumentsResolver
+		implements ArgumentsResolver {
+
+		@Override
+		public Object[] getArguments(
+			FinderPath finderPath, BaseModel<?> baseModel, boolean checkColumn,
+			boolean original) {
+
+			String[] attributeNames = finderPath.getAttributeNames();
+
+			if ((attributeNames == null) || (attributeNames.length == 0)) {
+				if (baseModel.isNew()) {
+					return FINDER_ARGS_EMPTY;
+				}
+
+				return null;
+			}
+
+			PowwowMeetingModelImpl powwowMeetingModelImpl =
+				(PowwowMeetingModelImpl)baseModel;
+
+			long columnBitmask = powwowMeetingModelImpl.getColumnBitmask();
+
+			if (!checkColumn || (columnBitmask == 0)) {
+				return _getValue(
+					powwowMeetingModelImpl, attributeNames, original);
+			}
+
+			long finderPathColumnBitmask = 0;
+
+			for (String attributeName : attributeNames) {
+				finderPathColumnBitmask |=
+					powwowMeetingModelImpl.getColumnBitmask(attributeName);
+			}
+
+			if ((columnBitmask & finderPathColumnBitmask) != 0) {
+				return _getValue(
+					powwowMeetingModelImpl, attributeNames, original);
+			}
+
+			return null;
+		}
+
+		private Object[] _getValue(
+			PowwowMeetingModelImpl powwowMeetingModelImpl,
+			String[] attributeNames, boolean original) {
+
+			Object[] arguments = new Object[attributeNames.length];
+
+			for (int i = 0; i < arguments.length; i++) {
+				String attributeName = attributeNames[i];
+
+				if (original) {
+					arguments[i] =
+						powwowMeetingModelImpl.getOriginalAttributeValue(
+							attributeName);
+				}
+				else {
+					arguments[i] = powwowMeetingModelImpl.getAttributeValue(
+						attributeName);
+				}
+			}
+
+			return arguments;
+		}
+
+	}
 
 }

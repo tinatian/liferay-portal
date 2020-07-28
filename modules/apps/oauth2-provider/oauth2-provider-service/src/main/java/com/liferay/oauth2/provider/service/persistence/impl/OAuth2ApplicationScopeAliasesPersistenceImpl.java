@@ -23,6 +23,7 @@ import com.liferay.oauth2.provider.service.persistence.OAuth2ApplicationScopeAli
 import com.liferay.oauth2.provider.service.persistence.impl.constants.OAuthTwoPersistenceConstants;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.configuration.Configuration;
+import com.liferay.portal.kernel.dao.orm.ArgumentsResolver;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -33,8 +34,10 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.dao.orm.SessionFactory;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
@@ -44,12 +47,15 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import javax.sql.DataSource;
 
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
@@ -1208,25 +1214,19 @@ public class OAuth2ApplicationScopeAliasesPersistenceImpl
 
 		entityCache.removeResult(
 			OAuth2ApplicationScopeAliasesImpl.class,
-			oAuth2ApplicationScopeAliases.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+			oAuth2ApplicationScopeAliases);
 	}
 
 	@Override
 	public void clearCache(
 		List<OAuth2ApplicationScopeAliases> oAuth2ApplicationScopeAliaseses) {
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (OAuth2ApplicationScopeAliases oAuth2ApplicationScopeAliases :
 				oAuth2ApplicationScopeAliaseses) {
 
 			entityCache.removeResult(
 				OAuth2ApplicationScopeAliasesImpl.class,
-				oAuth2ApplicationScopeAliases.getPrimaryKey());
+				oAuth2ApplicationScopeAliases);
 		}
 	}
 
@@ -1395,10 +1395,8 @@ public class OAuth2ApplicationScopeAliasesPersistenceImpl
 		try {
 			session = openSession();
 
-			if (oAuth2ApplicationScopeAliases.isNew()) {
+			if (isNew) {
 				session.save(oAuth2ApplicationScopeAliases);
-
-				oAuth2ApplicationScopeAliases.setNew(false);
 			}
 			else {
 				oAuth2ApplicationScopeAliases =
@@ -1413,83 +1411,13 @@ public class OAuth2ApplicationScopeAliasesPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (isNew) {
-			Object[] args = new Object[] {
-				oAuth2ApplicationScopeAliasesModelImpl.getCompanyId()
-			};
-
-			finderCache.removeResult(_finderPathCountByC, args);
-			finderCache.removeResult(_finderPathWithoutPaginationFindByC, args);
-
-			args = new Object[] {
-				oAuth2ApplicationScopeAliasesModelImpl.getOAuth2ApplicationId()
-			};
-
-			finderCache.removeResult(
-				_finderPathCountByOAuth2ApplicationId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByOAuth2ApplicationId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((oAuth2ApplicationScopeAliasesModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByC.getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					oAuth2ApplicationScopeAliasesModelImpl.
-						getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByC, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByC, args);
-
-				args = new Object[] {
-					oAuth2ApplicationScopeAliasesModelImpl.getCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByC, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByC, args);
-			}
-
-			if ((oAuth2ApplicationScopeAliasesModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByOAuth2ApplicationId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					oAuth2ApplicationScopeAliasesModelImpl.
-						getOriginalOAuth2ApplicationId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByOAuth2ApplicationId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByOAuth2ApplicationId,
-					args);
-
-				args = new Object[] {
-					oAuth2ApplicationScopeAliasesModelImpl.
-						getOAuth2ApplicationId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByOAuth2ApplicationId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByOAuth2ApplicationId,
-					args);
-			}
-		}
-
 		entityCache.putResult(
 			OAuth2ApplicationScopeAliasesImpl.class,
-			oAuth2ApplicationScopeAliases.getPrimaryKey(),
-			oAuth2ApplicationScopeAliases, false);
+			oAuth2ApplicationScopeAliasesModelImpl, false, true);
+
+		if (isNew) {
+			oAuth2ApplicationScopeAliases.setNew(false);
+		}
 
 		oAuth2ApplicationScopeAliases.resetOriginalValues();
 
@@ -1765,65 +1693,72 @@ public class OAuth2ApplicationScopeAliasesPersistenceImpl
 	 * Initializes the o auth2 application scope aliases persistence.
 	 */
 	@Activate
-	public void activate() {
-		_finderPathWithPaginationFindAll = new FinderPath(
+	public void activate(BundleContext bundleContext) {
+		_bundleContext = bundleContext;
+
+		_argumentsResolverServiceRegistration = _bundleContext.registerService(
+			ArgumentsResolver.class,
+			new OAuth2ApplicationScopeAliasesModelArgumentsResolver(),
+			MapUtil.singletonDictionary(
+				"model.class.name",
+				OAuth2ApplicationScopeAliases.class.getName()));
+
+		_finderPathWithPaginationFindAll = _createFinderPath(
 			OAuth2ApplicationScopeAliasesImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
-		_finderPathWithoutPaginationFindAll = new FinderPath(
+		_finderPathWithoutPaginationFindAll = _createFinderPath(
 			OAuth2ApplicationScopeAliasesImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
-		_finderPathCountAll = new FinderPath(
+		_finderPathCountAll = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
-		_finderPathWithPaginationFindByC = new FinderPath(
+		_finderPathWithPaginationFindByC = _createFinderPath(
 			OAuth2ApplicationScopeAliasesImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC",
-			new String[] {
-				Long.class.getName(), Integer.class.getName(),
-				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			new String[] {"companyId"});
 
-		_finderPathWithoutPaginationFindByC = new FinderPath(
+		_finderPathWithoutPaginationFindByC = _createFinderPath(
 			OAuth2ApplicationScopeAliasesImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC",
-			new String[] {Long.class.getName()},
-			OAuth2ApplicationScopeAliasesModelImpl.COMPANYID_COLUMN_BITMASK);
+			new String[] {"companyId"});
 
-		_finderPathCountByC = new FinderPath(
+		_finderPathCountByC = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC",
-			new String[] {Long.class.getName()});
+			new String[] {"companyId"});
 
-		_finderPathWithPaginationFindByOAuth2ApplicationId = new FinderPath(
+		_finderPathWithPaginationFindByOAuth2ApplicationId = _createFinderPath(
 			OAuth2ApplicationScopeAliasesImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByOAuth2ApplicationId",
-			new String[] {
-				Long.class.getName(), Integer.class.getName(),
-				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			new String[] {"oAuth2ApplicationId"});
 
-		_finderPathWithoutPaginationFindByOAuth2ApplicationId = new FinderPath(
-			OAuth2ApplicationScopeAliasesImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByOAuth2ApplicationId", new String[] {Long.class.getName()},
-			OAuth2ApplicationScopeAliasesModelImpl.
-				OAUTH2APPLICATIONID_COLUMN_BITMASK);
+		_finderPathWithoutPaginationFindByOAuth2ApplicationId =
+			_createFinderPath(
+				OAuth2ApplicationScopeAliasesImpl.class,
+				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+				"findByOAuth2ApplicationId",
+				new String[] {"oAuth2ApplicationId"});
 
-		_finderPathCountByOAuth2ApplicationId = new FinderPath(
+		_finderPathCountByOAuth2ApplicationId = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByOAuth2ApplicationId", new String[] {Long.class.getName()});
+			"countByOAuth2ApplicationId", new String[] {"oAuth2ApplicationId"});
 	}
 
 	@Deactivate
 	public void deactivate() {
 		entityCache.removeCache(
 			OAuth2ApplicationScopeAliasesImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+		_argumentsResolverServiceRegistration.unregister();
+
+		for (ServiceRegistration<FinderPath> serviceRegistration :
+				_serviceRegistrations) {
+
+			serviceRegistration.unregister();
+		}
 	}
 
 	@Override
@@ -1851,6 +1786,8 @@ public class OAuth2ApplicationScopeAliasesPersistenceImpl
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		super.setSessionFactory(sessionFactory);
 	}
+
+	private BundleContext _bundleContext;
 
 	@Reference
 	protected EntityCache entityCache;
@@ -1893,6 +1830,103 @@ public class OAuth2ApplicationScopeAliasesPersistenceImpl
 		catch (ClassNotFoundException classNotFoundException) {
 			throw new ExceptionInInitializerError(classNotFoundException);
 		}
+	}
+
+	private FinderPath _createFinderPath(
+		Class<?> returnClass, String cacheName, String methodName,
+		String[] arttributeNames) {
+
+		FinderPath finderPath = new FinderPath(
+			cacheName, methodName, returnClass, arttributeNames);
+
+		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
+			_serviceRegistrations.add(
+				_bundleContext.registerService(
+					FinderPath.class, finderPath,
+					MapUtil.singletonDictionary("cache.name", cacheName)));
+		}
+
+		return finderPath;
+	}
+
+	private ServiceRegistration<ArgumentsResolver>
+		_argumentsResolverServiceRegistration;
+	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
+		new HashSet<>();
+
+	private static class OAuth2ApplicationScopeAliasesModelArgumentsResolver
+		implements ArgumentsResolver {
+
+		@Override
+		public Object[] getArguments(
+			FinderPath finderPath, BaseModel<?> baseModel, boolean checkColumn,
+			boolean original) {
+
+			String[] attributeNames = finderPath.getAttributeNames();
+
+			if ((attributeNames == null) || (attributeNames.length == 0)) {
+				if (baseModel.isNew()) {
+					return FINDER_ARGS_EMPTY;
+				}
+
+				return null;
+			}
+
+			OAuth2ApplicationScopeAliasesModelImpl
+				oAuth2ApplicationScopeAliasesModelImpl =
+					(OAuth2ApplicationScopeAliasesModelImpl)baseModel;
+
+			long columnBitmask =
+				oAuth2ApplicationScopeAliasesModelImpl.getColumnBitmask();
+
+			if (!checkColumn || (columnBitmask == 0)) {
+				return _getValue(
+					oAuth2ApplicationScopeAliasesModelImpl, attributeNames,
+					original);
+			}
+
+			long finderPathColumnBitmask = 0;
+
+			for (String attributeName : attributeNames) {
+				finderPathColumnBitmask |=
+					oAuth2ApplicationScopeAliasesModelImpl.getColumnBitmask(
+						attributeName);
+			}
+
+			if ((columnBitmask & finderPathColumnBitmask) != 0) {
+				return _getValue(
+					oAuth2ApplicationScopeAliasesModelImpl, attributeNames,
+					original);
+			}
+
+			return null;
+		}
+
+		private Object[] _getValue(
+			OAuth2ApplicationScopeAliasesModelImpl
+				oAuth2ApplicationScopeAliasesModelImpl,
+			String[] attributeNames, boolean original) {
+
+			Object[] arguments = new Object[attributeNames.length];
+
+			for (int i = 0; i < arguments.length; i++) {
+				String attributeName = attributeNames[i];
+
+				if (original) {
+					arguments[i] =
+						oAuth2ApplicationScopeAliasesModelImpl.
+							getOriginalAttributeValue(attributeName);
+				}
+				else {
+					arguments[i] =
+						oAuth2ApplicationScopeAliasesModelImpl.
+							getAttributeValue(attributeName);
+				}
+			}
+
+			return arguments;
+		}
+
 	}
 
 }

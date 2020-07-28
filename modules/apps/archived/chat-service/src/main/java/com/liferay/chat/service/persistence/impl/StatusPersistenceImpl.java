@@ -23,6 +23,7 @@ import com.liferay.chat.service.persistence.StatusPersistence;
 import com.liferay.chat.service.persistence.impl.constants.ChatPersistenceConstants;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.configuration.Configuration;
+import com.liferay.portal.kernel.dao.orm.ArgumentsResolver;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -33,7 +34,9 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.dao.orm.SessionFactory;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
@@ -43,12 +46,15 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import javax.sql.DataSource;
 
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
@@ -1871,23 +1877,13 @@ public class StatusPersistenceImpl
 	 */
 	@Override
 	public void clearCache(Status status) {
-		entityCache.removeResult(StatusImpl.class, status.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((StatusModelImpl)status, true);
+		entityCache.removeResult(StatusImpl.class, status);
 	}
 
 	@Override
 	public void clearCache(List<Status> statuses) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Status status : statuses) {
-			entityCache.removeResult(StatusImpl.class, status.getPrimaryKey());
-
-			clearUniqueFindersCache((StatusModelImpl)status, true);
+			entityCache.removeResult(StatusImpl.class, status);
 		}
 	}
 
@@ -1909,26 +1905,6 @@ public class StatusPersistenceImpl
 			_finderPathCountByUserId, args, Long.valueOf(1), false);
 		finderCache.putResult(
 			_finderPathFetchByUserId, args, statusModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		StatusModelImpl statusModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {statusModelImpl.getUserId()};
-
-			finderCache.removeResult(_finderPathCountByUserId, args);
-			finderCache.removeResult(_finderPathFetchByUserId, args);
-		}
-
-		if ((statusModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUserId.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {statusModelImpl.getOriginalUserId()};
-
-			finderCache.removeResult(_finderPathCountByUserId, args);
-			finderCache.removeResult(_finderPathFetchByUserId, args);
-		}
 	}
 
 	/**
@@ -2054,10 +2030,8 @@ public class StatusPersistenceImpl
 		try {
 			session = openSession();
 
-			if (status.isNew()) {
+			if (isNew) {
 				session.save(status);
-
-				status.setNew(false);
 			}
 			else {
 				status = (Status)session.merge(status);
@@ -2070,101 +2044,13 @@ public class StatusPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+		entityCache.putResult(StatusImpl.class, statusModelImpl, false, true);
+
+		cacheUniqueFindersCache(statusModelImpl);
 
 		if (isNew) {
-			Object[] args = new Object[] {statusModelImpl.getModifiedDate()};
-
-			finderCache.removeResult(_finderPathCountByModifiedDate, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByModifiedDate, args);
-
-			args = new Object[] {statusModelImpl.isOnline()};
-
-			finderCache.removeResult(_finderPathCountByOnline, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByOnline, args);
-
-			args = new Object[] {
-				statusModelImpl.getModifiedDate(), statusModelImpl.isOnline()
-			};
-
-			finderCache.removeResult(_finderPathCountByM_O, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByM_O, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
+			status.setNew(false);
 		}
-		else {
-			if ((statusModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByModifiedDate.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					statusModelImpl.getOriginalModifiedDate()
-				};
-
-				finderCache.removeResult(_finderPathCountByModifiedDate, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByModifiedDate, args);
-
-				args = new Object[] {statusModelImpl.getModifiedDate()};
-
-				finderCache.removeResult(_finderPathCountByModifiedDate, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByModifiedDate, args);
-			}
-
-			if ((statusModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByOnline.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					statusModelImpl.getOriginalOnline()
-				};
-
-				finderCache.removeResult(_finderPathCountByOnline, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByOnline, args);
-
-				args = new Object[] {statusModelImpl.isOnline()};
-
-				finderCache.removeResult(_finderPathCountByOnline, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByOnline, args);
-			}
-
-			if ((statusModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByM_O.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					statusModelImpl.getOriginalModifiedDate(),
-					statusModelImpl.getOriginalOnline()
-				};
-
-				finderCache.removeResult(_finderPathCountByM_O, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByM_O, args);
-
-				args = new Object[] {
-					statusModelImpl.getModifiedDate(),
-					statusModelImpl.isOnline()
-				};
-
-				finderCache.removeResult(_finderPathCountByM_O, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByM_O, args);
-			}
-		}
-
-		entityCache.putResult(
-			StatusImpl.class, status.getPrimaryKey(), status, false);
-
-		clearUniqueFindersCache(statusModelImpl, false);
-		cacheUniqueFindersCache(statusModelImpl);
 
 		status.resetOriginalValues();
 
@@ -2427,89 +2313,82 @@ public class StatusPersistenceImpl
 	 * Initializes the status persistence.
 	 */
 	@Activate
-	public void activate() {
-		_finderPathWithPaginationFindAll = new FinderPath(
+	public void activate(BundleContext bundleContext) {
+		_bundleContext = bundleContext;
+
+		_argumentsResolverServiceRegistration = _bundleContext.registerService(
+			ArgumentsResolver.class, new StatusModelArgumentsResolver(),
+			MapUtil.singletonDictionary(
+				"model.class.name", Status.class.getName()));
+
+		_finderPathWithPaginationFindAll = _createFinderPath(
 			StatusImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll",
 			new String[0]);
 
-		_finderPathWithoutPaginationFindAll = new FinderPath(
+		_finderPathWithoutPaginationFindAll = _createFinderPath(
 			StatusImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findAll", new String[0]);
 
-		_finderPathCountAll = new FinderPath(
+		_finderPathCountAll = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
-		_finderPathFetchByUserId = new FinderPath(
+		_finderPathFetchByUserId = _createFinderPath(
 			StatusImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByUserId",
-			new String[] {Long.class.getName()},
-			StatusModelImpl.USERID_COLUMN_BITMASK);
+			new String[] {"userId"});
 
-		_finderPathCountByUserId = new FinderPath(
+		_finderPathCountByUserId = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByUserId", new String[] {Long.class.getName()});
+			"countByUserId", new String[] {"userId"});
 
-		_finderPathWithPaginationFindByModifiedDate = new FinderPath(
+		_finderPathWithPaginationFindByModifiedDate = _createFinderPath(
 			StatusImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByModifiedDate",
-			new String[] {
-				Long.class.getName(), Integer.class.getName(),
-				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			"findByModifiedDate", new String[] {"modifiedDate"});
 
-		_finderPathWithoutPaginationFindByModifiedDate = new FinderPath(
+		_finderPathWithoutPaginationFindByModifiedDate = _createFinderPath(
 			StatusImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByModifiedDate", new String[] {Long.class.getName()},
-			StatusModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
+			"findByModifiedDate", new String[] {"modifiedDate"});
 
-		_finderPathCountByModifiedDate = new FinderPath(
+		_finderPathCountByModifiedDate = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByModifiedDate", new String[] {Long.class.getName()});
+			"countByModifiedDate", new String[] {"modifiedDate"});
 
-		_finderPathWithPaginationFindByOnline = new FinderPath(
+		_finderPathWithPaginationFindByOnline = _createFinderPath(
 			StatusImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByOnline",
-			new String[] {
-				Boolean.class.getName(), Integer.class.getName(),
-				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			"findByOnline", new String[] {"online"});
 
-		_finderPathWithoutPaginationFindByOnline = new FinderPath(
+		_finderPathWithoutPaginationFindByOnline = _createFinderPath(
 			StatusImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByOnline", new String[] {Boolean.class.getName()},
-			StatusModelImpl.ONLINE_COLUMN_BITMASK);
+			"findByOnline", new String[] {"online"});
 
-		_finderPathCountByOnline = new FinderPath(
+		_finderPathCountByOnline = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByOnline", new String[] {Boolean.class.getName()});
+			"countByOnline", new String[] {"online"});
 
-		_finderPathWithPaginationFindByM_O = new FinderPath(
+		_finderPathWithPaginationFindByM_O = _createFinderPath(
 			StatusImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByM_O",
-			new String[] {
-				Long.class.getName(), Boolean.class.getName(),
-				Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
+			"findByM_O", new String[] {"modifiedDate", "online"});
 
-		_finderPathWithoutPaginationFindByM_O = new FinderPath(
+		_finderPathWithoutPaginationFindByM_O = _createFinderPath(
 			StatusImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByM_O",
-			new String[] {Long.class.getName(), Boolean.class.getName()},
-			StatusModelImpl.MODIFIEDDATE_COLUMN_BITMASK |
-			StatusModelImpl.ONLINE_COLUMN_BITMASK);
+			"findByM_O", new String[] {"modifiedDate", "online"});
 
-		_finderPathCountByM_O = new FinderPath(
+		_finderPathCountByM_O = _createFinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByM_O",
-			new String[] {Long.class.getName(), Boolean.class.getName()});
+			new String[] {"modifiedDate", "online"});
 	}
 
 	@Deactivate
 	public void deactivate() {
 		entityCache.removeCache(StatusImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+		_argumentsResolverServiceRegistration.unregister();
+
+		for (ServiceRegistration<FinderPath> serviceRegistration :
+				_serviceRegistrations) {
+
+			serviceRegistration.unregister();
+		}
 	}
 
 	@Override
@@ -2537,6 +2416,8 @@ public class StatusPersistenceImpl
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		super.setSessionFactory(sessionFactory);
 	}
+
+	private BundleContext _bundleContext;
 
 	@Reference
 	protected EntityCache entityCache;
@@ -2577,6 +2458,92 @@ public class StatusPersistenceImpl
 		catch (ClassNotFoundException classNotFoundException) {
 			throw new ExceptionInInitializerError(classNotFoundException);
 		}
+	}
+
+	private FinderPath _createFinderPath(
+		Class<?> returnClass, String cacheName, String methodName,
+		String[] arttributeNames) {
+
+		FinderPath finderPath = new FinderPath(
+			cacheName, methodName, returnClass, arttributeNames);
+
+		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
+			_serviceRegistrations.add(
+				_bundleContext.registerService(
+					FinderPath.class, finderPath,
+					MapUtil.singletonDictionary("cache.name", cacheName)));
+		}
+
+		return finderPath;
+	}
+
+	private ServiceRegistration<ArgumentsResolver>
+		_argumentsResolverServiceRegistration;
+	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
+		new HashSet<>();
+
+	private static class StatusModelArgumentsResolver
+		implements ArgumentsResolver {
+
+		@Override
+		public Object[] getArguments(
+			FinderPath finderPath, BaseModel<?> baseModel, boolean checkColumn,
+			boolean original) {
+
+			String[] attributeNames = finderPath.getAttributeNames();
+
+			if ((attributeNames == null) || (attributeNames.length == 0)) {
+				if (baseModel.isNew()) {
+					return FINDER_ARGS_EMPTY;
+				}
+
+				return null;
+			}
+
+			StatusModelImpl statusModelImpl = (StatusModelImpl)baseModel;
+
+			long columnBitmask = statusModelImpl.getColumnBitmask();
+
+			if (!checkColumn || (columnBitmask == 0)) {
+				return _getValue(statusModelImpl, attributeNames, original);
+			}
+
+			long finderPathColumnBitmask = 0;
+
+			for (String attributeName : attributeNames) {
+				finderPathColumnBitmask |= statusModelImpl.getColumnBitmask(
+					attributeName);
+			}
+
+			if ((columnBitmask & finderPathColumnBitmask) != 0) {
+				return _getValue(statusModelImpl, attributeNames, original);
+			}
+
+			return null;
+		}
+
+		private Object[] _getValue(
+			StatusModelImpl statusModelImpl, String[] attributeNames,
+			boolean original) {
+
+			Object[] arguments = new Object[attributeNames.length];
+
+			for (int i = 0; i < arguments.length; i++) {
+				String attributeName = attributeNames[i];
+
+				if (original) {
+					arguments[i] = statusModelImpl.getOriginalAttributeValue(
+						attributeName);
+				}
+				else {
+					arguments[i] = statusModelImpl.getAttributeValue(
+						attributeName);
+				}
+			}
+
+			return arguments;
+		}
+
 	}
 
 }
