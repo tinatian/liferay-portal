@@ -878,6 +878,17 @@ public class SystemEventModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<SystemEvent, Object> function = _attributeGetterFunctions.get(
+			attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((SystemEvent)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<SystemEventCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

@@ -634,6 +634,17 @@ public class PasswordPolicyRelModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<PasswordPolicyRel, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((PasswordPolicyRel)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<PasswordPolicyRelCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

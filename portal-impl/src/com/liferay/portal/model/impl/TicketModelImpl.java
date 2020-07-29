@@ -725,6 +725,17 @@ public class TicketModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<Ticket, Object> function = _attributeGetterFunctions.get(
+			attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((Ticket)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<TicketCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

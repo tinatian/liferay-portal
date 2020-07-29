@@ -923,6 +923,17 @@ public class SiteNavigationMenuModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<SiteNavigationMenu, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((SiteNavigationMenu)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<SiteNavigationMenuCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

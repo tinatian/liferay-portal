@@ -626,6 +626,17 @@ public class DepotAppCustomizationModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<DepotAppCustomization, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((DepotAppCustomization)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<DepotAppCustomizationCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

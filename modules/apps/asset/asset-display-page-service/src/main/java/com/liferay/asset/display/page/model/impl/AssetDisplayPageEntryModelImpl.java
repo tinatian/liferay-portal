@@ -994,6 +994,17 @@ public class AssetDisplayPageEntryModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<AssetDisplayPageEntry, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((AssetDisplayPageEntry)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<AssetDisplayPageEntryCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

@@ -705,6 +705,17 @@ public class WeDeployAuthTokenModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<WeDeployAuthToken, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((WeDeployAuthToken)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<WeDeployAuthTokenCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

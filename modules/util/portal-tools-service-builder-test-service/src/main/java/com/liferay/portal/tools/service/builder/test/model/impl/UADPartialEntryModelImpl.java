@@ -599,6 +599,17 @@ public class UADPartialEntryModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<UADPartialEntry, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((UADPartialEntry)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<UADPartialEntryCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

@@ -911,6 +911,17 @@ public class RedirectEntryModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<RedirectEntry, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((RedirectEntry)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<RedirectEntryCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

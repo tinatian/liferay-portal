@@ -802,6 +802,17 @@ public class SiteFriendlyURLModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<SiteFriendlyURL, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((SiteFriendlyURL)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<SiteFriendlyURLCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

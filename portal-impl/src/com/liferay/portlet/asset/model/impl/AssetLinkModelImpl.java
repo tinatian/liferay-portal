@@ -711,6 +711,17 @@ public class AssetLinkModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<AssetLink, Object> function = _attributeGetterFunctions.get(
+			attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((AssetLink)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<AssetLinkCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

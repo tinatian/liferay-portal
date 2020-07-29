@@ -655,6 +655,17 @@ public class StatusModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<Status, Object> function = _attributeGetterFunctions.get(
+			attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((Status)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<StatusCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

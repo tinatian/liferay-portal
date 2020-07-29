@@ -543,6 +543,17 @@ public class CTMessageModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<CTMessage, Object> function = _attributeGetterFunctions.get(
+			attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((CTMessage)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<CTMessageCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

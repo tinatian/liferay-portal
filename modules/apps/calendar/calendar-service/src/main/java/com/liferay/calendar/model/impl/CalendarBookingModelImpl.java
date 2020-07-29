@@ -1910,6 +1910,17 @@ public class CalendarBookingModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<CalendarBooking, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((CalendarBooking)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<CalendarBookingCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

@@ -675,6 +675,17 @@ public class ImageModelImpl extends BaseModelImpl<Image> implements ImageModel {
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<Image, Object> function = _attributeGetterFunctions.get(
+			attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((Image)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<ImageCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

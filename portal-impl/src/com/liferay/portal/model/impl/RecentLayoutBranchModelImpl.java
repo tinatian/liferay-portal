@@ -706,6 +706,17 @@ public class RecentLayoutBranchModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<RecentLayoutBranch, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((RecentLayoutBranch)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<RecentLayoutBranchCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

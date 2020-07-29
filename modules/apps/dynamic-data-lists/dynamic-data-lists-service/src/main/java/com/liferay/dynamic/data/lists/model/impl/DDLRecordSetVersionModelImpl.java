@@ -1335,6 +1335,17 @@ public class DDLRecordSetVersionModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<DDLRecordSetVersion, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((DDLRecordSetVersion)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<DDLRecordSetVersionCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

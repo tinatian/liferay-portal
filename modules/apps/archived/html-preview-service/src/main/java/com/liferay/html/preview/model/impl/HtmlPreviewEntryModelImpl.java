@@ -732,6 +732,17 @@ public class HtmlPreviewEntryModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<HtmlPreviewEntry, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((HtmlPreviewEntry)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<HtmlPreviewEntryCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

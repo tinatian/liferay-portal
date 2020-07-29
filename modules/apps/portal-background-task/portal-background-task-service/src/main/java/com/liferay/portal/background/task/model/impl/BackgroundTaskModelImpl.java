@@ -974,6 +974,17 @@ public class BackgroundTaskModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<BackgroundTask, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((BackgroundTask)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<BackgroundTaskCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

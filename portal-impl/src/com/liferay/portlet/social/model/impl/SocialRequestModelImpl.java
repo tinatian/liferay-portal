@@ -1013,6 +1013,17 @@ public class SocialRequestModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<SocialRequest, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((SocialRequest)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<SocialRequestCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

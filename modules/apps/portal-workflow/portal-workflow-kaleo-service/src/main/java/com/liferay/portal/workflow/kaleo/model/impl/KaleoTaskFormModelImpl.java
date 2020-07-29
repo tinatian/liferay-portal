@@ -1004,6 +1004,17 @@ public class KaleoTaskFormModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<KaleoTaskForm, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((KaleoTaskForm)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<KaleoTaskFormCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

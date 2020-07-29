@@ -874,6 +874,17 @@ public class AppModelImpl extends BaseModelImpl<App> implements AppModel {
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<App, Object> function = _attributeGetterFunctions.get(
+			attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((App)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<AppCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

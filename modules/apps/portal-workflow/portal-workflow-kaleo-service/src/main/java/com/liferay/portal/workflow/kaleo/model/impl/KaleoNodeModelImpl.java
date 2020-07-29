@@ -822,6 +822,17 @@ public class KaleoNodeModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<KaleoNode, Object> function = _attributeGetterFunctions.get(
+			attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((KaleoNode)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<KaleoNodeCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

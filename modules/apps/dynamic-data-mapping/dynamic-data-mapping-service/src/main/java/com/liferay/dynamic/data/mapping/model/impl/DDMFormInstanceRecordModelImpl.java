@@ -1048,6 +1048,17 @@ public class DDMFormInstanceRecordModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<DDMFormInstanceRecord, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((DDMFormInstanceRecord)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<DDMFormInstanceRecordCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

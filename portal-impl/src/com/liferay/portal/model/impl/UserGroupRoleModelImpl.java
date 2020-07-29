@@ -696,6 +696,17 @@ public class UserGroupRoleModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<UserGroupRole, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((UserGroupRole)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<UserGroupRoleCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

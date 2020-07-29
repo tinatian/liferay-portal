@@ -1832,6 +1832,17 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<User, Object> function = _attributeGetterFunctions.get(
+			attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((User)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<UserCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

@@ -864,6 +864,17 @@ public class AuditEventModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<AuditEvent, Object> function = _attributeGetterFunctions.get(
+			attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((AuditEvent)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<AuditEventCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

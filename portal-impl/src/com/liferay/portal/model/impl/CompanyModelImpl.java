@@ -786,6 +786,17 @@ public class CompanyModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<Company, Object> function = _attributeGetterFunctions.get(
+			attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((Company)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<CompanyCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

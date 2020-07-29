@@ -608,6 +608,17 @@ public class SamlSpMessageModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<SamlSpMessage, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((SamlSpMessage)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<SamlSpMessageCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

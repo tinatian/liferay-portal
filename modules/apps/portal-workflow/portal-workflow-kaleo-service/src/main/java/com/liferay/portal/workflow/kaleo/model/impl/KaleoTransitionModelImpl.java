@@ -939,6 +939,17 @@ public class KaleoTransitionModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<KaleoTransition, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((KaleoTransition)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<KaleoTransitionCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

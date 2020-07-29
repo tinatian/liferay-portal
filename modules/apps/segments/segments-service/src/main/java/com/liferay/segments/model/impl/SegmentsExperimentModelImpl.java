@@ -1128,6 +1128,17 @@ public class SegmentsExperimentModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<SegmentsExperiment, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((SegmentsExperiment)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<SegmentsExperimentCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

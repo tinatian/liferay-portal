@@ -1908,6 +1908,17 @@ public class JournalArticleModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<JournalArticle, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((JournalArticle)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<JournalArticleCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

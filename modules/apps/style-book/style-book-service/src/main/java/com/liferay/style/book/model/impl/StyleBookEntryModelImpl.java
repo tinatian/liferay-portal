@@ -943,6 +943,21 @@ public class StyleBookEntryModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		if (attributeName.equals("head")) {
+			return (T)(Object)getHead();
+		}
+
+		Function<StyleBookEntry, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((StyleBookEntry)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<StyleBookEntryCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

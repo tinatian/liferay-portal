@@ -626,6 +626,17 @@ public class AccountRoleModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<AccountRole, Object> function = _attributeGetterFunctions.get(
+			attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((AccountRole)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<AccountRoleCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

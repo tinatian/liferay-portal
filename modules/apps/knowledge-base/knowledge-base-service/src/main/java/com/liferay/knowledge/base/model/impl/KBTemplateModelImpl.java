@@ -820,6 +820,17 @@ public class KBTemplateModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<KBTemplate, Object> function = _attributeGetterFunctions.get(
+			attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((KBTemplate)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<KBTemplateCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

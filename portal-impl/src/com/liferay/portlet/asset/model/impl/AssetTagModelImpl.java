@@ -863,6 +863,17 @@ public class AssetTagModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<AssetTag, Object> function = _attributeGetterFunctions.get(
+			attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((AssetTag)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<AssetTagCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

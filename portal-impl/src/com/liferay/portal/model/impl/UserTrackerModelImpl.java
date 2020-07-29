@@ -696,6 +696,17 @@ public class UserTrackerModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<UserTracker, Object> function = _attributeGetterFunctions.get(
+			attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((UserTracker)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<UserTrackerCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

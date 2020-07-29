@@ -1651,6 +1651,17 @@ public class MBMessageModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<MBMessage, Object> function = _attributeGetterFunctions.get(
+			attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((MBMessage)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<MBMessageCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);
