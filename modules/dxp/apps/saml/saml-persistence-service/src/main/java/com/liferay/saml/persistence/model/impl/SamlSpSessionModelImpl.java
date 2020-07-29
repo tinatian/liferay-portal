@@ -25,7 +25,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.saml.persistence.model.SamlSpSession;
 import com.liferay.saml.persistence.model.SamlSpSessionModel;
@@ -117,14 +116,39 @@ public class SamlSpSessionModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long JSESSIONID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long NAMEIDVALUE_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long SAMLSPSESSIONKEY_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long SESSIONINDEX_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long SAMLSPSESSIONID_COLUMN_BITMASK = 16L;
 
 	/**
@@ -360,6 +384,8 @@ public class SamlSpSessionModelImpl
 
 	@Override
 	public void setSamlSpSessionId(long samlSpSessionId) {
+		_columnBitmask |= _columnBitmasks.get("samlSpSessionId");
+
 		_samlSpSessionId = samlSpSessionId;
 	}
 
@@ -370,6 +396,8 @@ public class SamlSpSessionModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= _columnBitmasks.get("companyId");
+
 		_companyId = companyId;
 	}
 
@@ -380,6 +408,8 @@ public class SamlSpSessionModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= _columnBitmasks.get("userId");
+
 		_userId = userId;
 	}
 
@@ -411,6 +441,8 @@ public class SamlSpSessionModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= _columnBitmasks.get("userName");
+
 		_userName = userName;
 	}
 
@@ -421,6 +453,8 @@ public class SamlSpSessionModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= _columnBitmasks.get("createDate");
+
 		_createDate = createDate;
 	}
 
@@ -437,6 +471,8 @@ public class SamlSpSessionModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= _columnBitmasks.get("modifiedDate");
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -452,6 +488,8 @@ public class SamlSpSessionModelImpl
 
 	@Override
 	public void setSamlIdpEntityId(String samlIdpEntityId) {
+		_columnBitmask |= _columnBitmasks.get("samlIdpEntityId");
+
 		_samlIdpEntityId = samlIdpEntityId;
 	}
 
@@ -467,17 +505,18 @@ public class SamlSpSessionModelImpl
 
 	@Override
 	public void setSamlSpSessionKey(String samlSpSessionKey) {
-		_columnBitmask |= SAMLSPSESSIONKEY_COLUMN_BITMASK;
-
-		if (_originalSamlSpSessionKey == null) {
-			_originalSamlSpSessionKey = _samlSpSessionKey;
-		}
+		_columnBitmask |= _columnBitmasks.get("samlSpSessionKey");
 
 		_samlSpSessionKey = samlSpSessionKey;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalSamlSpSessionKey() {
-		return GetterUtil.getString(_originalSamlSpSessionKey);
+		return getOriginalAttributeValue("samlSpSessionKey");
 	}
 
 	@Override
@@ -492,6 +531,8 @@ public class SamlSpSessionModelImpl
 
 	@Override
 	public void setAssertionXml(String assertionXml) {
+		_columnBitmask |= _columnBitmasks.get("assertionXml");
+
 		_assertionXml = assertionXml;
 	}
 
@@ -507,17 +548,18 @@ public class SamlSpSessionModelImpl
 
 	@Override
 	public void setJSessionId(String jSessionId) {
-		_columnBitmask |= JSESSIONID_COLUMN_BITMASK;
-
-		if (_originalJSessionId == null) {
-			_originalJSessionId = _jSessionId;
-		}
+		_columnBitmask |= _columnBitmasks.get("jSessionId");
 
 		_jSessionId = jSessionId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalJSessionId() {
-		return GetterUtil.getString(_originalJSessionId);
+		return getOriginalAttributeValue("jSessionId");
 	}
 
 	@Override
@@ -532,6 +574,8 @@ public class SamlSpSessionModelImpl
 
 	@Override
 	public void setNameIdFormat(String nameIdFormat) {
+		_columnBitmask |= _columnBitmasks.get("nameIdFormat");
+
 		_nameIdFormat = nameIdFormat;
 	}
 
@@ -547,6 +591,8 @@ public class SamlSpSessionModelImpl
 
 	@Override
 	public void setNameIdNameQualifier(String nameIdNameQualifier) {
+		_columnBitmask |= _columnBitmasks.get("nameIdNameQualifier");
+
 		_nameIdNameQualifier = nameIdNameQualifier;
 	}
 
@@ -562,6 +608,8 @@ public class SamlSpSessionModelImpl
 
 	@Override
 	public void setNameIdSPNameQualifier(String nameIdSPNameQualifier) {
+		_columnBitmask |= _columnBitmasks.get("nameIdSPNameQualifier");
+
 		_nameIdSPNameQualifier = nameIdSPNameQualifier;
 	}
 
@@ -577,17 +625,18 @@ public class SamlSpSessionModelImpl
 
 	@Override
 	public void setNameIdValue(String nameIdValue) {
-		_columnBitmask |= NAMEIDVALUE_COLUMN_BITMASK;
-
-		if (_originalNameIdValue == null) {
-			_originalNameIdValue = _nameIdValue;
-		}
+		_columnBitmask |= _columnBitmasks.get("nameIdValue");
 
 		_nameIdValue = nameIdValue;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalNameIdValue() {
-		return GetterUtil.getString(_originalNameIdValue);
+		return getOriginalAttributeValue("nameIdValue");
 	}
 
 	@Override
@@ -602,17 +651,18 @@ public class SamlSpSessionModelImpl
 
 	@Override
 	public void setSessionIndex(String sessionIndex) {
-		_columnBitmask |= SESSIONINDEX_COLUMN_BITMASK;
-
-		if (_originalSessionIndex == null) {
-			_originalSessionIndex = _sessionIndex;
-		}
+		_columnBitmask |= _columnBitmasks.get("sessionIndex");
 
 		_sessionIndex = sessionIndex;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalSessionIndex() {
-		return GetterUtil.getString(_originalSessionIndex);
+		return getOriginalAttributeValue("sessionIndex");
 	}
 
 	@Override
@@ -627,6 +677,8 @@ public class SamlSpSessionModelImpl
 
 	@Override
 	public void setTerminated(boolean terminated) {
+		_columnBitmask |= _columnBitmasks.get("terminated");
+
 		_terminated = terminated;
 	}
 
@@ -750,27 +802,115 @@ public class SamlSpSessionModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		SamlSpSessionModelImpl samlSpSessionModelImpl = this;
+		_setModifiedDate = false;
 
-		samlSpSessionModelImpl._setModifiedDate = false;
+		_columnBitmask = 0;
 
-		samlSpSessionModelImpl._originalSamlSpSessionKey =
-			samlSpSessionModelImpl._samlSpSessionKey;
-
-		samlSpSessionModelImpl._originalJSessionId =
-			samlSpSessionModelImpl._jSessionId;
-
-		samlSpSessionModelImpl._originalNameIdValue =
-			samlSpSessionModelImpl._nameIdValue;
-
-		samlSpSessionModelImpl._originalSessionIndex =
-			samlSpSessionModelImpl._sessionIndex;
-
-		samlSpSessionModelImpl._columnBitmask = 0;
+		_samlSpSessionCacheModel = _toSamlSpSessionCacheModel();
 	}
 
 	@Override
 	public CacheModel<SamlSpSession> toCacheModel() {
+		SamlSpSessionCacheModel samlSpSessionCacheModel =
+			_toSamlSpSessionCacheModel();
+
+		return samlSpSessionCacheModel;
+	}
+
+	@Override
+	public String toString() {
+		Map<String, Function<SamlSpSession, Object>> attributeGetterFunctions =
+			getAttributeGetterFunctions();
+
+		StringBundler sb = new StringBundler(
+			4 * attributeGetterFunctions.size() + 2);
+
+		sb.append("{");
+
+		for (Map.Entry<String, Function<SamlSpSession, Object>> entry :
+				attributeGetterFunctions.entrySet()) {
+
+			String attributeName = entry.getKey();
+			Function<SamlSpSession, Object> attributeGetterFunction =
+				entry.getValue();
+
+			sb.append(attributeName);
+			sb.append("=");
+			sb.append(attributeGetterFunction.apply((SamlSpSession)this));
+			sb.append(", ");
+		}
+
+		if (sb.index() > 1) {
+			sb.setIndex(sb.index() - 1);
+		}
+
+		sb.append("}");
+
+		return sb.toString();
+	}
+
+	@Override
+	public String toXmlString() {
+		Map<String, Function<SamlSpSession, Object>> attributeGetterFunctions =
+			getAttributeGetterFunctions();
+
+		StringBundler sb = new StringBundler(
+			5 * attributeGetterFunctions.size() + 4);
+
+		sb.append("<model><model-name>");
+		sb.append(getModelClassName());
+		sb.append("</model-name>");
+
+		for (Map.Entry<String, Function<SamlSpSession, Object>> entry :
+				attributeGetterFunctions.entrySet()) {
+
+			String attributeName = entry.getKey();
+			Function<SamlSpSession, Object> attributeGetterFunction =
+				entry.getValue();
+
+			sb.append("<column><column-name>");
+			sb.append(attributeName);
+			sb.append("</column-name><column-value><![CDATA[");
+			sb.append(attributeGetterFunction.apply((SamlSpSession)this));
+			sb.append("]]></column-value></column>");
+		}
+
+		sb.append("</model>");
+
+		return sb.toString();
+	}
+
+	private static class EscapedModelProxyProviderFunctionHolder {
+
+		private static final Function<InvocationHandler, SamlSpSession>
+			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+
+	}
+
+	public static long getColumnBitmask(String attributeName) {
+		return _columnBitmasks.get(attributeName);
+	}
+
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		Function<SamlSpSessionCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"Unknown attribute name " + attributeName);
+		}
+
+		SamlSpSessionCacheModel samlSpSessionCacheModel =
+			_samlSpSessionCacheModel;
+
+		if (samlSpSessionCacheModel == null) {
+			samlSpSessionCacheModel = _dummySamlSpSessionCacheModel;
+		}
+
+		return (T)function.apply(samlSpSessionCacheModel);
+	}
+
+	private SamlSpSessionCacheModel _toSamlSpSessionCacheModel() {
 		SamlSpSessionCacheModel samlSpSessionCacheModel =
 			new SamlSpSessionCacheModel();
 
@@ -890,74 +1030,220 @@ public class SamlSpSessionModelImpl
 		return samlSpSessionCacheModel;
 	}
 
-	@Override
-	public String toString() {
-		Map<String, Function<SamlSpSession, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
+	private static final Map<String, Function<SamlSpSessionCacheModel, Object>>
+		_cacheModelGetterFunctions;
+	private static final Map<String, Long> _columnBitmasks;
+	private static final SamlSpSessionCacheModel _dummySamlSpSessionCacheModel =
+		new SamlSpSessionCacheModel();
 
-		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+	private SamlSpSessionCacheModel _samlSpSessionCacheModel;
 
-		sb.append("{");
+	static {
+		Map<String, Function<SamlSpSessionCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<SamlSpSessionCacheModel, Object>>();
+		Map<String, Long> columnBitmasks = new LinkedHashMap<String, Long>();
 
-		for (Map.Entry<String, Function<SamlSpSession, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
+		cacheModelGetterFunctions.put(
+			"samlSpSessionId",
+			samlSpSessionCacheModel -> samlSpSessionCacheModel.samlSpSessionId);
 
-			String attributeName = entry.getKey();
-			Function<SamlSpSession, Object> attributeGetterFunction =
-				entry.getValue();
+		columnBitmasks.put("samlSpSessionId", 1L);
 
-			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((SamlSpSession)this));
-			sb.append(", ");
-		}
+		cacheModelGetterFunctions.put(
+			"companyId",
+			samlSpSessionCacheModel -> samlSpSessionCacheModel.companyId);
 
-		if (sb.index() > 1) {
-			sb.setIndex(sb.index() - 1);
-		}
+		columnBitmasks.put("companyId", 2L);
 
-		sb.append("}");
+		cacheModelGetterFunctions.put(
+			"userId",
+			samlSpSessionCacheModel -> samlSpSessionCacheModel.userId);
 
-		return sb.toString();
-	}
+		columnBitmasks.put("userId", 4L);
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<SamlSpSession, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
+		cacheModelGetterFunctions.put(
+			"userName",
+			samlSpSessionCacheModel -> {
+				String userName = samlSpSessionCacheModel.userName;
 
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
+				if (userName == null) {
+					return "";
+				}
 
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
+				return userName;
+			});
 
-		for (Map.Entry<String, Function<SamlSpSession, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
+		columnBitmasks.put("userName", 8L);
 
-			String attributeName = entry.getKey();
-			Function<SamlSpSession, Object> attributeGetterFunction =
-				entry.getValue();
+		cacheModelGetterFunctions.put(
+			"createDate",
+			samlSpSessionCacheModel -> {
+				Long createDate = samlSpSessionCacheModel.createDate;
 
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((SamlSpSession)this));
-			sb.append("]]></column-value></column>");
-		}
+				if (createDate == Long.MIN_VALUE) {
+					return null;
+				}
 
-		sb.append("</model>");
+				return new Date(createDate);
+			});
 
-		return sb.toString();
-	}
+		columnBitmasks.put("createDate", 16L);
 
-	private static class EscapedModelProxyProviderFunctionHolder {
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			samlSpSessionCacheModel -> {
+				Long modifiedDate = samlSpSessionCacheModel.modifiedDate;
 
-		private static final Function<InvocationHandler, SamlSpSession>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+				if (modifiedDate == Long.MIN_VALUE) {
+					return null;
+				}
 
+				return new Date(modifiedDate);
+			});
+
+		columnBitmasks.put("modifiedDate", 32L);
+
+		cacheModelGetterFunctions.put(
+			"samlIdpEntityId",
+			samlSpSessionCacheModel -> {
+				String samlIdpEntityId =
+					samlSpSessionCacheModel.samlIdpEntityId;
+
+				if (samlIdpEntityId == null) {
+					return "";
+				}
+
+				return samlIdpEntityId;
+			});
+
+		columnBitmasks.put("samlIdpEntityId", 64L);
+
+		cacheModelGetterFunctions.put(
+			"samlSpSessionKey",
+			samlSpSessionCacheModel -> {
+				String samlSpSessionKey =
+					samlSpSessionCacheModel.samlSpSessionKey;
+
+				if (samlSpSessionKey == null) {
+					return "";
+				}
+
+				return samlSpSessionKey;
+			});
+
+		columnBitmasks.put("samlSpSessionKey", 128L);
+
+		cacheModelGetterFunctions.put(
+			"assertionXml",
+			samlSpSessionCacheModel -> {
+				String assertionXml = samlSpSessionCacheModel.assertionXml;
+
+				if (assertionXml == null) {
+					return "";
+				}
+
+				return assertionXml;
+			});
+
+		columnBitmasks.put("assertionXml", 256L);
+
+		cacheModelGetterFunctions.put(
+			"jSessionId",
+			samlSpSessionCacheModel -> {
+				String jSessionId = samlSpSessionCacheModel.jSessionId;
+
+				if (jSessionId == null) {
+					return "";
+				}
+
+				return jSessionId;
+			});
+
+		columnBitmasks.put("jSessionId", 512L);
+
+		cacheModelGetterFunctions.put(
+			"nameIdFormat",
+			samlSpSessionCacheModel -> {
+				String nameIdFormat = samlSpSessionCacheModel.nameIdFormat;
+
+				if (nameIdFormat == null) {
+					return "";
+				}
+
+				return nameIdFormat;
+			});
+
+		columnBitmasks.put("nameIdFormat", 1024L);
+
+		cacheModelGetterFunctions.put(
+			"nameIdNameQualifier",
+			samlSpSessionCacheModel -> {
+				String nameIdNameQualifier =
+					samlSpSessionCacheModel.nameIdNameQualifier;
+
+				if (nameIdNameQualifier == null) {
+					return "";
+				}
+
+				return nameIdNameQualifier;
+			});
+
+		columnBitmasks.put("nameIdNameQualifier", 2048L);
+
+		cacheModelGetterFunctions.put(
+			"nameIdSPNameQualifier",
+			samlSpSessionCacheModel -> {
+				String nameIdSPNameQualifier =
+					samlSpSessionCacheModel.nameIdSPNameQualifier;
+
+				if (nameIdSPNameQualifier == null) {
+					return "";
+				}
+
+				return nameIdSPNameQualifier;
+			});
+
+		columnBitmasks.put("nameIdSPNameQualifier", 4096L);
+
+		cacheModelGetterFunctions.put(
+			"nameIdValue",
+			samlSpSessionCacheModel -> {
+				String nameIdValue = samlSpSessionCacheModel.nameIdValue;
+
+				if (nameIdValue == null) {
+					return "";
+				}
+
+				return nameIdValue;
+			});
+
+		columnBitmasks.put("nameIdValue", 8192L);
+
+		cacheModelGetterFunctions.put(
+			"sessionIndex",
+			samlSpSessionCacheModel -> {
+				String sessionIndex = samlSpSessionCacheModel.sessionIndex;
+
+				if (sessionIndex == null) {
+					return "";
+				}
+
+				return sessionIndex;
+			});
+
+		columnBitmasks.put("sessionIndex", 16384L);
+
+		cacheModelGetterFunctions.put(
+			"terminated",
+			samlSpSessionCacheModel -> samlSpSessionCacheModel.terminated);
+
+		columnBitmasks.put("terminated", 32768L);
+
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
 	private long _samlSpSessionId;
@@ -969,17 +1255,13 @@ public class SamlSpSessionModelImpl
 	private boolean _setModifiedDate;
 	private String _samlIdpEntityId;
 	private String _samlSpSessionKey;
-	private String _originalSamlSpSessionKey;
 	private String _assertionXml;
 	private String _jSessionId;
-	private String _originalJSessionId;
 	private String _nameIdFormat;
 	private String _nameIdNameQualifier;
 	private String _nameIdSPNameQualifier;
 	private String _nameIdValue;
-	private String _originalNameIdValue;
 	private String _sessionIndex;
-	private String _originalSessionIndex;
 	private boolean _terminated;
 	private long _columnBitmask;
 	private SamlSpSession _escapedModel;

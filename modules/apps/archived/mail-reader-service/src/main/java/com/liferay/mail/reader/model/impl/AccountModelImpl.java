@@ -27,7 +27,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -130,8 +129,18 @@ public class AccountModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long ADDRESS_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long USERID_COLUMN_BITMASK = 2L;
 
 	/**
@@ -386,6 +395,8 @@ public class AccountModelImpl
 
 	@Override
 	public void setAccountId(long accountId) {
+		_columnBitmask |= _columnBitmasks.get("accountId");
+
 		_accountId = accountId;
 	}
 
@@ -396,6 +407,8 @@ public class AccountModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= _columnBitmasks.get("companyId");
+
 		_companyId = companyId;
 	}
 
@@ -406,13 +419,7 @@ public class AccountModelImpl
 
 	@Override
 	public void setUserId(long userId) {
-		_columnBitmask |= USERID_COLUMN_BITMASK;
-
-		if (!_setOriginalUserId) {
-			_setOriginalUserId = true;
-
-			_originalUserId = _userId;
-		}
+		_columnBitmask |= _columnBitmasks.get("userId");
 
 		_userId = userId;
 	}
@@ -433,8 +440,13 @@ public class AccountModelImpl
 	public void setUserUuid(String userUuid) {
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalUserId() {
-		return _originalUserId;
+		return getOriginalAttributeValue("userId");
 	}
 
 	@Override
@@ -449,6 +461,8 @@ public class AccountModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= _columnBitmasks.get("userName");
+
 		_userName = userName;
 	}
 
@@ -459,6 +473,8 @@ public class AccountModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= _columnBitmasks.get("createDate");
+
 		_createDate = createDate;
 	}
 
@@ -475,6 +491,8 @@ public class AccountModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= _columnBitmasks.get("modifiedDate");
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -490,17 +508,18 @@ public class AccountModelImpl
 
 	@Override
 	public void setAddress(String address) {
-		_columnBitmask = -1L;
-
-		if (_originalAddress == null) {
-			_originalAddress = _address;
-		}
+		_columnBitmask |= _columnBitmasks.get("address");
 
 		_address = address;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalAddress() {
-		return GetterUtil.getString(_originalAddress);
+		return getOriginalAttributeValue("address");
 	}
 
 	@Override
@@ -515,6 +534,8 @@ public class AccountModelImpl
 
 	@Override
 	public void setPersonalName(String personalName) {
+		_columnBitmask |= _columnBitmasks.get("personalName");
+
 		_personalName = personalName;
 	}
 
@@ -530,6 +551,8 @@ public class AccountModelImpl
 
 	@Override
 	public void setProtocol(String protocol) {
+		_columnBitmask |= _columnBitmasks.get("protocol");
+
 		_protocol = protocol;
 	}
 
@@ -545,6 +568,8 @@ public class AccountModelImpl
 
 	@Override
 	public void setIncomingHostName(String incomingHostName) {
+		_columnBitmask |= _columnBitmasks.get("incomingHostName");
+
 		_incomingHostName = incomingHostName;
 	}
 
@@ -555,6 +580,8 @@ public class AccountModelImpl
 
 	@Override
 	public void setIncomingPort(int incomingPort) {
+		_columnBitmask |= _columnBitmasks.get("incomingPort");
+
 		_incomingPort = incomingPort;
 	}
 
@@ -570,6 +597,8 @@ public class AccountModelImpl
 
 	@Override
 	public void setIncomingSecure(boolean incomingSecure) {
+		_columnBitmask |= _columnBitmasks.get("incomingSecure");
+
 		_incomingSecure = incomingSecure;
 	}
 
@@ -585,6 +614,8 @@ public class AccountModelImpl
 
 	@Override
 	public void setOutgoingHostName(String outgoingHostName) {
+		_columnBitmask |= _columnBitmasks.get("outgoingHostName");
+
 		_outgoingHostName = outgoingHostName;
 	}
 
@@ -595,6 +626,8 @@ public class AccountModelImpl
 
 	@Override
 	public void setOutgoingPort(int outgoingPort) {
+		_columnBitmask |= _columnBitmasks.get("outgoingPort");
+
 		_outgoingPort = outgoingPort;
 	}
 
@@ -610,6 +643,8 @@ public class AccountModelImpl
 
 	@Override
 	public void setOutgoingSecure(boolean outgoingSecure) {
+		_columnBitmask |= _columnBitmasks.get("outgoingSecure");
+
 		_outgoingSecure = outgoingSecure;
 	}
 
@@ -625,6 +660,8 @@ public class AccountModelImpl
 
 	@Override
 	public void setLogin(String login) {
+		_columnBitmask |= _columnBitmasks.get("login");
+
 		_login = login;
 	}
 
@@ -640,6 +677,8 @@ public class AccountModelImpl
 
 	@Override
 	public void setPassword(String password) {
+		_columnBitmask |= _columnBitmasks.get("password");
+
 		_password = password;
 	}
 
@@ -655,6 +694,8 @@ public class AccountModelImpl
 
 	@Override
 	public void setSavePassword(boolean savePassword) {
+		_columnBitmask |= _columnBitmasks.get("savePassword");
+
 		_savePassword = savePassword;
 	}
 
@@ -670,6 +711,8 @@ public class AccountModelImpl
 
 	@Override
 	public void setSignature(String signature) {
+		_columnBitmask |= _columnBitmasks.get("signature");
+
 		_signature = signature;
 	}
 
@@ -685,6 +728,8 @@ public class AccountModelImpl
 
 	@Override
 	public void setUseSignature(boolean useSignature) {
+		_columnBitmask |= _columnBitmasks.get("useSignature");
+
 		_useSignature = useSignature;
 	}
 
@@ -700,6 +745,8 @@ public class AccountModelImpl
 
 	@Override
 	public void setFolderPrefix(String folderPrefix) {
+		_columnBitmask |= _columnBitmasks.get("folderPrefix");
+
 		_folderPrefix = folderPrefix;
 	}
 
@@ -710,6 +757,8 @@ public class AccountModelImpl
 
 	@Override
 	public void setInboxFolderId(long inboxFolderId) {
+		_columnBitmask |= _columnBitmasks.get("inboxFolderId");
+
 		_inboxFolderId = inboxFolderId;
 	}
 
@@ -720,6 +769,8 @@ public class AccountModelImpl
 
 	@Override
 	public void setDraftFolderId(long draftFolderId) {
+		_columnBitmask |= _columnBitmasks.get("draftFolderId");
+
 		_draftFolderId = draftFolderId;
 	}
 
@@ -730,6 +781,8 @@ public class AccountModelImpl
 
 	@Override
 	public void setSentFolderId(long sentFolderId) {
+		_columnBitmask |= _columnBitmasks.get("sentFolderId");
+
 		_sentFolderId = sentFolderId;
 	}
 
@@ -740,6 +793,8 @@ public class AccountModelImpl
 
 	@Override
 	public void setTrashFolderId(long trashFolderId) {
+		_columnBitmask |= _columnBitmasks.get("trashFolderId");
+
 		_trashFolderId = trashFolderId;
 	}
 
@@ -755,6 +810,8 @@ public class AccountModelImpl
 
 	@Override
 	public void setDefaultSender(boolean defaultSender) {
+		_columnBitmask |= _columnBitmasks.get("defaultSender");
+
 		_defaultSender = defaultSender;
 	}
 
@@ -886,21 +943,113 @@ public class AccountModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		AccountModelImpl accountModelImpl = this;
+		_setModifiedDate = false;
 
-		accountModelImpl._originalUserId = accountModelImpl._userId;
+		_columnBitmask = 0;
 
-		accountModelImpl._setOriginalUserId = false;
-
-		accountModelImpl._setModifiedDate = false;
-
-		accountModelImpl._originalAddress = accountModelImpl._address;
-
-		accountModelImpl._columnBitmask = 0;
+		_accountCacheModel = _toAccountCacheModel();
 	}
 
 	@Override
 	public CacheModel<Account> toCacheModel() {
+		AccountCacheModel accountCacheModel = _toAccountCacheModel();
+
+		return accountCacheModel;
+	}
+
+	@Override
+	public String toString() {
+		Map<String, Function<Account, Object>> attributeGetterFunctions =
+			getAttributeGetterFunctions();
+
+		StringBundler sb = new StringBundler(
+			4 * attributeGetterFunctions.size() + 2);
+
+		sb.append("{");
+
+		for (Map.Entry<String, Function<Account, Object>> entry :
+				attributeGetterFunctions.entrySet()) {
+
+			String attributeName = entry.getKey();
+			Function<Account, Object> attributeGetterFunction =
+				entry.getValue();
+
+			sb.append(attributeName);
+			sb.append("=");
+			sb.append(attributeGetterFunction.apply((Account)this));
+			sb.append(", ");
+		}
+
+		if (sb.index() > 1) {
+			sb.setIndex(sb.index() - 1);
+		}
+
+		sb.append("}");
+
+		return sb.toString();
+	}
+
+	@Override
+	public String toXmlString() {
+		Map<String, Function<Account, Object>> attributeGetterFunctions =
+			getAttributeGetterFunctions();
+
+		StringBundler sb = new StringBundler(
+			5 * attributeGetterFunctions.size() + 4);
+
+		sb.append("<model><model-name>");
+		sb.append(getModelClassName());
+		sb.append("</model-name>");
+
+		for (Map.Entry<String, Function<Account, Object>> entry :
+				attributeGetterFunctions.entrySet()) {
+
+			String attributeName = entry.getKey();
+			Function<Account, Object> attributeGetterFunction =
+				entry.getValue();
+
+			sb.append("<column><column-name>");
+			sb.append(attributeName);
+			sb.append("</column-name><column-value><![CDATA[");
+			sb.append(attributeGetterFunction.apply((Account)this));
+			sb.append("]]></column-value></column>");
+		}
+
+		sb.append("</model>");
+
+		return sb.toString();
+	}
+
+	private static class EscapedModelProxyProviderFunctionHolder {
+
+		private static final Function<InvocationHandler, Account>
+			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+
+	}
+
+	public static long getColumnBitmask(String attributeName) {
+		return _columnBitmasks.get(attributeName);
+	}
+
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		Function<AccountCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"Unknown attribute name " + attributeName);
+		}
+
+		AccountCacheModel accountCacheModel = _accountCacheModel;
+
+		if (accountCacheModel == null) {
+			accountCacheModel = _dummyAccountCacheModel;
+		}
+
+		return (T)function.apply(accountCacheModel);
+	}
+
+	private AccountCacheModel _toAccountCacheModel() {
 		AccountCacheModel accountCacheModel = new AccountCacheModel();
 
 		accountCacheModel.accountId = getAccountId();
@@ -1032,87 +1181,283 @@ public class AccountModelImpl
 		return accountCacheModel;
 	}
 
-	@Override
-	public String toString() {
-		Map<String, Function<Account, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
+	private static final Map<String, Function<AccountCacheModel, Object>>
+		_cacheModelGetterFunctions;
+	private static final Map<String, Long> _columnBitmasks;
+	private static final AccountCacheModel _dummyAccountCacheModel =
+		new AccountCacheModel();
 
-		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+	private AccountCacheModel _accountCacheModel;
 
-		sb.append("{");
+	static {
+		Map<String, Function<AccountCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<AccountCacheModel, Object>>();
+		Map<String, Long> columnBitmasks = new LinkedHashMap<String, Long>();
 
-		for (Map.Entry<String, Function<Account, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
+		cacheModelGetterFunctions.put(
+			"accountId", accountCacheModel -> accountCacheModel.accountId);
 
-			String attributeName = entry.getKey();
-			Function<Account, Object> attributeGetterFunction =
-				entry.getValue();
+		columnBitmasks.put("accountId", 1L);
 
-			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((Account)this));
-			sb.append(", ");
-		}
+		cacheModelGetterFunctions.put(
+			"companyId", accountCacheModel -> accountCacheModel.companyId);
 
-		if (sb.index() > 1) {
-			sb.setIndex(sb.index() - 1);
-		}
+		columnBitmasks.put("companyId", 2L);
 
-		sb.append("}");
+		cacheModelGetterFunctions.put(
+			"userId", accountCacheModel -> accountCacheModel.userId);
 
-		return sb.toString();
-	}
+		columnBitmasks.put("userId", 4L);
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<Account, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
+		cacheModelGetterFunctions.put(
+			"userName",
+			accountCacheModel -> {
+				String userName = accountCacheModel.userName;
 
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
+				if (userName == null) {
+					return "";
+				}
 
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
+				return userName;
+			});
 
-		for (Map.Entry<String, Function<Account, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
+		columnBitmasks.put("userName", 8L);
 
-			String attributeName = entry.getKey();
-			Function<Account, Object> attributeGetterFunction =
-				entry.getValue();
+		cacheModelGetterFunctions.put(
+			"createDate",
+			accountCacheModel -> {
+				Long createDate = accountCacheModel.createDate;
 
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((Account)this));
-			sb.append("]]></column-value></column>");
-		}
+				if (createDate == Long.MIN_VALUE) {
+					return null;
+				}
 
-		sb.append("</model>");
+				return new Date(createDate);
+			});
 
-		return sb.toString();
-	}
+		columnBitmasks.put("createDate", 16L);
 
-	private static class EscapedModelProxyProviderFunctionHolder {
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			accountCacheModel -> {
+				Long modifiedDate = accountCacheModel.modifiedDate;
 
-		private static final Function<InvocationHandler, Account>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+				if (modifiedDate == Long.MIN_VALUE) {
+					return null;
+				}
 
+				return new Date(modifiedDate);
+			});
+
+		columnBitmasks.put("modifiedDate", 32L);
+
+		cacheModelGetterFunctions.put(
+			"address",
+			accountCacheModel -> {
+				String address = accountCacheModel.address;
+
+				if (address == null) {
+					return "";
+				}
+
+				return address;
+			});
+
+		columnBitmasks.put("address", 64L);
+
+		cacheModelGetterFunctions.put(
+			"personalName",
+			accountCacheModel -> {
+				String personalName = accountCacheModel.personalName;
+
+				if (personalName == null) {
+					return "";
+				}
+
+				return personalName;
+			});
+
+		columnBitmasks.put("personalName", 128L);
+
+		cacheModelGetterFunctions.put(
+			"protocol",
+			accountCacheModel -> {
+				String protocol = accountCacheModel.protocol;
+
+				if (protocol == null) {
+					return "";
+				}
+
+				return protocol;
+			});
+
+		columnBitmasks.put("protocol", 256L);
+
+		cacheModelGetterFunctions.put(
+			"incomingHostName",
+			accountCacheModel -> {
+				String incomingHostName = accountCacheModel.incomingHostName;
+
+				if (incomingHostName == null) {
+					return "";
+				}
+
+				return incomingHostName;
+			});
+
+		columnBitmasks.put("incomingHostName", 512L);
+
+		cacheModelGetterFunctions.put(
+			"incomingPort",
+			accountCacheModel -> accountCacheModel.incomingPort);
+
+		columnBitmasks.put("incomingPort", 1024L);
+
+		cacheModelGetterFunctions.put(
+			"incomingSecure",
+			accountCacheModel -> accountCacheModel.incomingSecure);
+
+		columnBitmasks.put("incomingSecure", 2048L);
+
+		cacheModelGetterFunctions.put(
+			"outgoingHostName",
+			accountCacheModel -> {
+				String outgoingHostName = accountCacheModel.outgoingHostName;
+
+				if (outgoingHostName == null) {
+					return "";
+				}
+
+				return outgoingHostName;
+			});
+
+		columnBitmasks.put("outgoingHostName", 4096L);
+
+		cacheModelGetterFunctions.put(
+			"outgoingPort",
+			accountCacheModel -> accountCacheModel.outgoingPort);
+
+		columnBitmasks.put("outgoingPort", 8192L);
+
+		cacheModelGetterFunctions.put(
+			"outgoingSecure",
+			accountCacheModel -> accountCacheModel.outgoingSecure);
+
+		columnBitmasks.put("outgoingSecure", 16384L);
+
+		cacheModelGetterFunctions.put(
+			"login",
+			accountCacheModel -> {
+				String login = accountCacheModel.login;
+
+				if (login == null) {
+					return "";
+				}
+
+				return login;
+			});
+
+		columnBitmasks.put("login", 32768L);
+
+		cacheModelGetterFunctions.put(
+			"password",
+			accountCacheModel -> {
+				String password = accountCacheModel.password;
+
+				if (password == null) {
+					return "";
+				}
+
+				return password;
+			});
+
+		columnBitmasks.put("password", 65536L);
+
+		cacheModelGetterFunctions.put(
+			"savePassword",
+			accountCacheModel -> accountCacheModel.savePassword);
+
+		columnBitmasks.put("savePassword", 131072L);
+
+		cacheModelGetterFunctions.put(
+			"signature",
+			accountCacheModel -> {
+				String signature = accountCacheModel.signature;
+
+				if (signature == null) {
+					return "";
+				}
+
+				return signature;
+			});
+
+		columnBitmasks.put("signature", 262144L);
+
+		cacheModelGetterFunctions.put(
+			"useSignature",
+			accountCacheModel -> accountCacheModel.useSignature);
+
+		columnBitmasks.put("useSignature", 524288L);
+
+		cacheModelGetterFunctions.put(
+			"folderPrefix",
+			accountCacheModel -> {
+				String folderPrefix = accountCacheModel.folderPrefix;
+
+				if (folderPrefix == null) {
+					return "";
+				}
+
+				return folderPrefix;
+			});
+
+		columnBitmasks.put("folderPrefix", 1048576L);
+
+		cacheModelGetterFunctions.put(
+			"inboxFolderId",
+			accountCacheModel -> accountCacheModel.inboxFolderId);
+
+		columnBitmasks.put("inboxFolderId", 2097152L);
+
+		cacheModelGetterFunctions.put(
+			"draftFolderId",
+			accountCacheModel -> accountCacheModel.draftFolderId);
+
+		columnBitmasks.put("draftFolderId", 4194304L);
+
+		cacheModelGetterFunctions.put(
+			"sentFolderId",
+			accountCacheModel -> accountCacheModel.sentFolderId);
+
+		columnBitmasks.put("sentFolderId", 8388608L);
+
+		cacheModelGetterFunctions.put(
+			"trashFolderId",
+			accountCacheModel -> accountCacheModel.trashFolderId);
+
+		columnBitmasks.put("trashFolderId", 16777216L);
+
+		cacheModelGetterFunctions.put(
+			"defaultSender",
+			accountCacheModel -> accountCacheModel.defaultSender);
+
+		columnBitmasks.put("defaultSender", 33554432L);
+
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
 	private long _accountId;
 	private long _companyId;
 	private long _userId;
-	private long _originalUserId;
-	private boolean _setOriginalUserId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private String _address;
-	private String _originalAddress;
 	private String _personalName;
 	private String _protocol;
 	private String _incomingHostName;

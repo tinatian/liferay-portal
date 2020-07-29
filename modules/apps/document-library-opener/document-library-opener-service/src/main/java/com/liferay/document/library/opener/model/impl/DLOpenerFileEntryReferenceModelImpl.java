@@ -27,7 +27,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -111,10 +110,25 @@ public class DLOpenerFileEntryReferenceModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long FILEENTRYID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long REFERENCETYPE_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long DLOPENERFILEENTRYREFERENCEID_COLUMN_BITMASK = 4L;
 
 	/**
@@ -346,6 +360,8 @@ public class DLOpenerFileEntryReferenceModelImpl
 	public void setDlOpenerFileEntryReferenceId(
 		long dlOpenerFileEntryReferenceId) {
 
+		_columnBitmask |= _columnBitmasks.get("dlOpenerFileEntryReferenceId");
+
 		_dlOpenerFileEntryReferenceId = dlOpenerFileEntryReferenceId;
 	}
 
@@ -356,6 +372,8 @@ public class DLOpenerFileEntryReferenceModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
+		_columnBitmask |= _columnBitmasks.get("groupId");
+
 		_groupId = groupId;
 	}
 
@@ -366,6 +384,8 @@ public class DLOpenerFileEntryReferenceModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= _columnBitmasks.get("companyId");
+
 		_companyId = companyId;
 	}
 
@@ -376,6 +396,8 @@ public class DLOpenerFileEntryReferenceModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= _columnBitmasks.get("userId");
+
 		_userId = userId;
 	}
 
@@ -407,6 +429,8 @@ public class DLOpenerFileEntryReferenceModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= _columnBitmasks.get("userName");
+
 		_userName = userName;
 	}
 
@@ -417,6 +441,8 @@ public class DLOpenerFileEntryReferenceModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= _columnBitmasks.get("createDate");
+
 		_createDate = createDate;
 	}
 
@@ -433,6 +459,8 @@ public class DLOpenerFileEntryReferenceModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= _columnBitmasks.get("modifiedDate");
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -448,6 +476,8 @@ public class DLOpenerFileEntryReferenceModelImpl
 
 	@Override
 	public void setReferenceKey(String referenceKey) {
+		_columnBitmask |= _columnBitmasks.get("referenceKey");
+
 		_referenceKey = referenceKey;
 	}
 
@@ -463,17 +493,18 @@ public class DLOpenerFileEntryReferenceModelImpl
 
 	@Override
 	public void setReferenceType(String referenceType) {
-		_columnBitmask |= REFERENCETYPE_COLUMN_BITMASK;
-
-		if (_originalReferenceType == null) {
-			_originalReferenceType = _referenceType;
-		}
+		_columnBitmask |= _columnBitmasks.get("referenceType");
 
 		_referenceType = referenceType;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalReferenceType() {
-		return GetterUtil.getString(_originalReferenceType);
+		return getOriginalAttributeValue("referenceType");
 	}
 
 	@Override
@@ -483,19 +514,18 @@ public class DLOpenerFileEntryReferenceModelImpl
 
 	@Override
 	public void setFileEntryId(long fileEntryId) {
-		_columnBitmask |= FILEENTRYID_COLUMN_BITMASK;
-
-		if (!_setOriginalFileEntryId) {
-			_setOriginalFileEntryId = true;
-
-			_originalFileEntryId = _fileEntryId;
-		}
+		_columnBitmask |= _columnBitmasks.get("fileEntryId");
 
 		_fileEntryId = fileEntryId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalFileEntryId() {
-		return _originalFileEntryId;
+		return getOriginalAttributeValue("fileEntryId");
 	}
 
 	@Override
@@ -505,6 +535,8 @@ public class DLOpenerFileEntryReferenceModelImpl
 
 	@Override
 	public void setType(int type) {
+		_columnBitmask |= _columnBitmasks.get("type");
+
 		_type = type;
 	}
 
@@ -629,85 +661,19 @@ public class DLOpenerFileEntryReferenceModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		DLOpenerFileEntryReferenceModelImpl
-			dlOpenerFileEntryReferenceModelImpl = this;
+		_setModifiedDate = false;
 
-		dlOpenerFileEntryReferenceModelImpl._setModifiedDate = false;
+		_columnBitmask = 0;
 
-		dlOpenerFileEntryReferenceModelImpl._originalReferenceType =
-			dlOpenerFileEntryReferenceModelImpl._referenceType;
-
-		dlOpenerFileEntryReferenceModelImpl._originalFileEntryId =
-			dlOpenerFileEntryReferenceModelImpl._fileEntryId;
-
-		dlOpenerFileEntryReferenceModelImpl._setOriginalFileEntryId = false;
-
-		dlOpenerFileEntryReferenceModelImpl._columnBitmask = 0;
+		_dlOpenerFileEntryReferenceCacheModel =
+			_toDLOpenerFileEntryReferenceCacheModel();
 	}
 
 	@Override
 	public CacheModel<DLOpenerFileEntryReference> toCacheModel() {
 		DLOpenerFileEntryReferenceCacheModel
 			dlOpenerFileEntryReferenceCacheModel =
-				new DLOpenerFileEntryReferenceCacheModel();
-
-		dlOpenerFileEntryReferenceCacheModel.dlOpenerFileEntryReferenceId =
-			getDlOpenerFileEntryReferenceId();
-
-		dlOpenerFileEntryReferenceCacheModel.groupId = getGroupId();
-
-		dlOpenerFileEntryReferenceCacheModel.companyId = getCompanyId();
-
-		dlOpenerFileEntryReferenceCacheModel.userId = getUserId();
-
-		dlOpenerFileEntryReferenceCacheModel.userName = getUserName();
-
-		String userName = dlOpenerFileEntryReferenceCacheModel.userName;
-
-		if ((userName != null) && (userName.length() == 0)) {
-			dlOpenerFileEntryReferenceCacheModel.userName = null;
-		}
-
-		Date createDate = getCreateDate();
-
-		if (createDate != null) {
-			dlOpenerFileEntryReferenceCacheModel.createDate =
-				createDate.getTime();
-		}
-		else {
-			dlOpenerFileEntryReferenceCacheModel.createDate = Long.MIN_VALUE;
-		}
-
-		Date modifiedDate = getModifiedDate();
-
-		if (modifiedDate != null) {
-			dlOpenerFileEntryReferenceCacheModel.modifiedDate =
-				modifiedDate.getTime();
-		}
-		else {
-			dlOpenerFileEntryReferenceCacheModel.modifiedDate = Long.MIN_VALUE;
-		}
-
-		dlOpenerFileEntryReferenceCacheModel.referenceKey = getReferenceKey();
-
-		String referenceKey = dlOpenerFileEntryReferenceCacheModel.referenceKey;
-
-		if ((referenceKey != null) && (referenceKey.length() == 0)) {
-			dlOpenerFileEntryReferenceCacheModel.referenceKey = null;
-		}
-
-		dlOpenerFileEntryReferenceCacheModel.referenceType = getReferenceType();
-
-		String referenceType =
-			dlOpenerFileEntryReferenceCacheModel.referenceType;
-
-		if ((referenceType != null) && (referenceType.length() == 0)) {
-			dlOpenerFileEntryReferenceCacheModel.referenceType = null;
-		}
-
-		dlOpenerFileEntryReferenceCacheModel.fileEntryId = getFileEntryId();
-
-		dlOpenerFileEntryReferenceCacheModel.type = getType();
+				_toDLOpenerFileEntryReferenceCacheModel();
 
 		return dlOpenerFileEntryReferenceCacheModel;
 	}
@@ -788,6 +754,240 @@ public class DLOpenerFileEntryReferenceModelImpl
 
 	}
 
+	public static long getColumnBitmask(String attributeName) {
+		return _columnBitmasks.get(attributeName);
+	}
+
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		Function<DLOpenerFileEntryReferenceCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"Unknown attribute name " + attributeName);
+		}
+
+		DLOpenerFileEntryReferenceCacheModel
+			dlOpenerFileEntryReferenceCacheModel =
+				_dlOpenerFileEntryReferenceCacheModel;
+
+		if (dlOpenerFileEntryReferenceCacheModel == null) {
+			dlOpenerFileEntryReferenceCacheModel =
+				_dummyDLOpenerFileEntryReferenceCacheModel;
+		}
+
+		return (T)function.apply(dlOpenerFileEntryReferenceCacheModel);
+	}
+
+	private DLOpenerFileEntryReferenceCacheModel
+		_toDLOpenerFileEntryReferenceCacheModel() {
+
+		DLOpenerFileEntryReferenceCacheModel
+			dlOpenerFileEntryReferenceCacheModel =
+				new DLOpenerFileEntryReferenceCacheModel();
+
+		dlOpenerFileEntryReferenceCacheModel.dlOpenerFileEntryReferenceId =
+			getDlOpenerFileEntryReferenceId();
+
+		dlOpenerFileEntryReferenceCacheModel.groupId = getGroupId();
+
+		dlOpenerFileEntryReferenceCacheModel.companyId = getCompanyId();
+
+		dlOpenerFileEntryReferenceCacheModel.userId = getUserId();
+
+		dlOpenerFileEntryReferenceCacheModel.userName = getUserName();
+
+		String userName = dlOpenerFileEntryReferenceCacheModel.userName;
+
+		if ((userName != null) && (userName.length() == 0)) {
+			dlOpenerFileEntryReferenceCacheModel.userName = null;
+		}
+
+		Date createDate = getCreateDate();
+
+		if (createDate != null) {
+			dlOpenerFileEntryReferenceCacheModel.createDate =
+				createDate.getTime();
+		}
+		else {
+			dlOpenerFileEntryReferenceCacheModel.createDate = Long.MIN_VALUE;
+		}
+
+		Date modifiedDate = getModifiedDate();
+
+		if (modifiedDate != null) {
+			dlOpenerFileEntryReferenceCacheModel.modifiedDate =
+				modifiedDate.getTime();
+		}
+		else {
+			dlOpenerFileEntryReferenceCacheModel.modifiedDate = Long.MIN_VALUE;
+		}
+
+		dlOpenerFileEntryReferenceCacheModel.referenceKey = getReferenceKey();
+
+		String referenceKey = dlOpenerFileEntryReferenceCacheModel.referenceKey;
+
+		if ((referenceKey != null) && (referenceKey.length() == 0)) {
+			dlOpenerFileEntryReferenceCacheModel.referenceKey = null;
+		}
+
+		dlOpenerFileEntryReferenceCacheModel.referenceType = getReferenceType();
+
+		String referenceType =
+			dlOpenerFileEntryReferenceCacheModel.referenceType;
+
+		if ((referenceType != null) && (referenceType.length() == 0)) {
+			dlOpenerFileEntryReferenceCacheModel.referenceType = null;
+		}
+
+		dlOpenerFileEntryReferenceCacheModel.fileEntryId = getFileEntryId();
+
+		dlOpenerFileEntryReferenceCacheModel.type = getType();
+
+		return dlOpenerFileEntryReferenceCacheModel;
+	}
+
+	private static final Map
+		<String, Function<DLOpenerFileEntryReferenceCacheModel, Object>>
+			_cacheModelGetterFunctions;
+	private static final Map<String, Long> _columnBitmasks;
+	private static final DLOpenerFileEntryReferenceCacheModel
+		_dummyDLOpenerFileEntryReferenceCacheModel =
+			new DLOpenerFileEntryReferenceCacheModel();
+
+	private DLOpenerFileEntryReferenceCacheModel
+		_dlOpenerFileEntryReferenceCacheModel;
+
+	static {
+		Map<String, Function<DLOpenerFileEntryReferenceCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String,
+					 Function<DLOpenerFileEntryReferenceCacheModel, Object>>();
+		Map<String, Long> columnBitmasks = new LinkedHashMap<String, Long>();
+
+		cacheModelGetterFunctions.put(
+			"dlOpenerFileEntryReferenceId",
+			dlOpenerFileEntryReferenceCacheModel ->
+				dlOpenerFileEntryReferenceCacheModel.
+					dlOpenerFileEntryReferenceId);
+
+		columnBitmasks.put("dlOpenerFileEntryReferenceId", 1L);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			dlOpenerFileEntryReferenceCacheModel ->
+				dlOpenerFileEntryReferenceCacheModel.groupId);
+
+		columnBitmasks.put("groupId", 2L);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			dlOpenerFileEntryReferenceCacheModel ->
+				dlOpenerFileEntryReferenceCacheModel.companyId);
+
+		columnBitmasks.put("companyId", 4L);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			dlOpenerFileEntryReferenceCacheModel ->
+				dlOpenerFileEntryReferenceCacheModel.userId);
+
+		columnBitmasks.put("userId", 8L);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			dlOpenerFileEntryReferenceCacheModel -> {
+				String userName = dlOpenerFileEntryReferenceCacheModel.userName;
+
+				if (userName == null) {
+					return "";
+				}
+
+				return userName;
+			});
+
+		columnBitmasks.put("userName", 16L);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			dlOpenerFileEntryReferenceCacheModel -> {
+				Long createDate =
+					dlOpenerFileEntryReferenceCacheModel.createDate;
+
+				if (createDate == Long.MIN_VALUE) {
+					return null;
+				}
+
+				return new Date(createDate);
+			});
+
+		columnBitmasks.put("createDate", 32L);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			dlOpenerFileEntryReferenceCacheModel -> {
+				Long modifiedDate =
+					dlOpenerFileEntryReferenceCacheModel.modifiedDate;
+
+				if (modifiedDate == Long.MIN_VALUE) {
+					return null;
+				}
+
+				return new Date(modifiedDate);
+			});
+
+		columnBitmasks.put("modifiedDate", 64L);
+
+		cacheModelGetterFunctions.put(
+			"referenceKey",
+			dlOpenerFileEntryReferenceCacheModel -> {
+				String referenceKey =
+					dlOpenerFileEntryReferenceCacheModel.referenceKey;
+
+				if (referenceKey == null) {
+					return "";
+				}
+
+				return referenceKey;
+			});
+
+		columnBitmasks.put("referenceKey", 128L);
+
+		cacheModelGetterFunctions.put(
+			"referenceType",
+			dlOpenerFileEntryReferenceCacheModel -> {
+				String referenceType =
+					dlOpenerFileEntryReferenceCacheModel.referenceType;
+
+				if (referenceType == null) {
+					return "";
+				}
+
+				return referenceType;
+			});
+
+		columnBitmasks.put("referenceType", 256L);
+
+		cacheModelGetterFunctions.put(
+			"fileEntryId",
+			dlOpenerFileEntryReferenceCacheModel ->
+				dlOpenerFileEntryReferenceCacheModel.fileEntryId);
+
+		columnBitmasks.put("fileEntryId", 512L);
+
+		cacheModelGetterFunctions.put(
+			"type",
+			dlOpenerFileEntryReferenceCacheModel ->
+				dlOpenerFileEntryReferenceCacheModel.type);
+
+		columnBitmasks.put("type", 1024L);
+
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _dlOpenerFileEntryReferenceId;
 	private long _groupId;
 	private long _companyId;
@@ -798,10 +998,7 @@ public class DLOpenerFileEntryReferenceModelImpl
 	private boolean _setModifiedDate;
 	private String _referenceKey;
 	private String _referenceType;
-	private String _originalReferenceType;
 	private long _fileEntryId;
-	private long _originalFileEntryId;
-	private boolean _setOriginalFileEntryId;
 	private int _type;
 	private long _columnBitmask;
 	private DLOpenerFileEntryReference _escapedModel;

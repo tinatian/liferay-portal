@@ -109,8 +109,18 @@ public class MFAEmailOTPEntryModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long USERID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long MFAEMAILOTPENTRYID_COLUMN_BITMASK = 2L;
 
 	/**
@@ -335,6 +345,8 @@ public class MFAEmailOTPEntryModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= _columnBitmasks.get("mvccVersion");
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -345,6 +357,8 @@ public class MFAEmailOTPEntryModelImpl
 
 	@Override
 	public void setMfaEmailOTPEntryId(long mfaEmailOTPEntryId) {
+		_columnBitmask |= _columnBitmasks.get("mfaEmailOTPEntryId");
+
 		_mfaEmailOTPEntryId = mfaEmailOTPEntryId;
 	}
 
@@ -355,6 +369,8 @@ public class MFAEmailOTPEntryModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= _columnBitmasks.get("companyId");
+
 		_companyId = companyId;
 	}
 
@@ -365,13 +381,7 @@ public class MFAEmailOTPEntryModelImpl
 
 	@Override
 	public void setUserId(long userId) {
-		_columnBitmask |= USERID_COLUMN_BITMASK;
-
-		if (!_setOriginalUserId) {
-			_setOriginalUserId = true;
-
-			_originalUserId = _userId;
-		}
+		_columnBitmask |= _columnBitmasks.get("userId");
 
 		_userId = userId;
 	}
@@ -392,8 +402,13 @@ public class MFAEmailOTPEntryModelImpl
 	public void setUserUuid(String userUuid) {
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalUserId() {
-		return _originalUserId;
+		return getOriginalAttributeValue("userId");
 	}
 
 	@Override
@@ -408,6 +423,8 @@ public class MFAEmailOTPEntryModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= _columnBitmasks.get("userName");
+
 		_userName = userName;
 	}
 
@@ -418,6 +435,8 @@ public class MFAEmailOTPEntryModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= _columnBitmasks.get("createDate");
+
 		_createDate = createDate;
 	}
 
@@ -434,6 +453,8 @@ public class MFAEmailOTPEntryModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= _columnBitmasks.get("modifiedDate");
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -444,6 +465,8 @@ public class MFAEmailOTPEntryModelImpl
 
 	@Override
 	public void setFailedAttempts(int failedAttempts) {
+		_columnBitmask |= _columnBitmasks.get("failedAttempts");
+
 		_failedAttempts = failedAttempts;
 	}
 
@@ -454,6 +477,8 @@ public class MFAEmailOTPEntryModelImpl
 
 	@Override
 	public void setLastFailDate(Date lastFailDate) {
+		_columnBitmask |= _columnBitmasks.get("lastFailDate");
+
 		_lastFailDate = lastFailDate;
 	}
 
@@ -469,6 +494,8 @@ public class MFAEmailOTPEntryModelImpl
 
 	@Override
 	public void setLastFailIP(String lastFailIP) {
+		_columnBitmask |= _columnBitmasks.get("lastFailIP");
+
 		_lastFailIP = lastFailIP;
 	}
 
@@ -479,6 +506,8 @@ public class MFAEmailOTPEntryModelImpl
 
 	@Override
 	public void setLastSuccessDate(Date lastSuccessDate) {
+		_columnBitmask |= _columnBitmasks.get("lastSuccessDate");
+
 		_lastSuccessDate = lastSuccessDate;
 	}
 
@@ -494,6 +523,8 @@ public class MFAEmailOTPEntryModelImpl
 
 	@Override
 	public void setLastSuccessIP(String lastSuccessIP) {
+		_columnBitmask |= _columnBitmasks.get("lastSuccessIP");
+
 		_lastSuccessIP = lastSuccessIP;
 	}
 
@@ -613,20 +644,115 @@ public class MFAEmailOTPEntryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		MFAEmailOTPEntryModelImpl mfaEmailOTPEntryModelImpl = this;
+		_setModifiedDate = false;
 
-		mfaEmailOTPEntryModelImpl._originalUserId =
-			mfaEmailOTPEntryModelImpl._userId;
+		_columnBitmask = 0;
 
-		mfaEmailOTPEntryModelImpl._setOriginalUserId = false;
-
-		mfaEmailOTPEntryModelImpl._setModifiedDate = false;
-
-		mfaEmailOTPEntryModelImpl._columnBitmask = 0;
+		_mfaEmailOTPEntryCacheModel = _toMFAEmailOTPEntryCacheModel();
 	}
 
 	@Override
 	public CacheModel<MFAEmailOTPEntry> toCacheModel() {
+		MFAEmailOTPEntryCacheModel mfaEmailOTPEntryCacheModel =
+			_toMFAEmailOTPEntryCacheModel();
+
+		return mfaEmailOTPEntryCacheModel;
+	}
+
+	@Override
+	public String toString() {
+		Map<String, Function<MFAEmailOTPEntry, Object>>
+			attributeGetterFunctions = getAttributeGetterFunctions();
+
+		StringBundler sb = new StringBundler(
+			4 * attributeGetterFunctions.size() + 2);
+
+		sb.append("{");
+
+		for (Map.Entry<String, Function<MFAEmailOTPEntry, Object>> entry :
+				attributeGetterFunctions.entrySet()) {
+
+			String attributeName = entry.getKey();
+			Function<MFAEmailOTPEntry, Object> attributeGetterFunction =
+				entry.getValue();
+
+			sb.append(attributeName);
+			sb.append("=");
+			sb.append(attributeGetterFunction.apply((MFAEmailOTPEntry)this));
+			sb.append(", ");
+		}
+
+		if (sb.index() > 1) {
+			sb.setIndex(sb.index() - 1);
+		}
+
+		sb.append("}");
+
+		return sb.toString();
+	}
+
+	@Override
+	public String toXmlString() {
+		Map<String, Function<MFAEmailOTPEntry, Object>>
+			attributeGetterFunctions = getAttributeGetterFunctions();
+
+		StringBundler sb = new StringBundler(
+			5 * attributeGetterFunctions.size() + 4);
+
+		sb.append("<model><model-name>");
+		sb.append(getModelClassName());
+		sb.append("</model-name>");
+
+		for (Map.Entry<String, Function<MFAEmailOTPEntry, Object>> entry :
+				attributeGetterFunctions.entrySet()) {
+
+			String attributeName = entry.getKey();
+			Function<MFAEmailOTPEntry, Object> attributeGetterFunction =
+				entry.getValue();
+
+			sb.append("<column><column-name>");
+			sb.append(attributeName);
+			sb.append("</column-name><column-value><![CDATA[");
+			sb.append(attributeGetterFunction.apply((MFAEmailOTPEntry)this));
+			sb.append("]]></column-value></column>");
+		}
+
+		sb.append("</model>");
+
+		return sb.toString();
+	}
+
+	private static class EscapedModelProxyProviderFunctionHolder {
+
+		private static final Function<InvocationHandler, MFAEmailOTPEntry>
+			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+
+	}
+
+	public static long getColumnBitmask(String attributeName) {
+		return _columnBitmasks.get(attributeName);
+	}
+
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		Function<MFAEmailOTPEntryCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"Unknown attribute name " + attributeName);
+		}
+
+		MFAEmailOTPEntryCacheModel mfaEmailOTPEntryCacheModel =
+			_mfaEmailOTPEntryCacheModel;
+
+		if (mfaEmailOTPEntryCacheModel == null) {
+			mfaEmailOTPEntryCacheModel = _dummyMFAEmailOTPEntryCacheModel;
+		}
+
+		return (T)function.apply(mfaEmailOTPEntryCacheModel);
+	}
+
+	private MFAEmailOTPEntryCacheModel _toMFAEmailOTPEntryCacheModel() {
 		MFAEmailOTPEntryCacheModel mfaEmailOTPEntryCacheModel =
 			new MFAEmailOTPEntryCacheModel();
 
@@ -704,82 +830,163 @@ public class MFAEmailOTPEntryModelImpl
 		return mfaEmailOTPEntryCacheModel;
 	}
 
-	@Override
-	public String toString() {
-		Map<String, Function<MFAEmailOTPEntry, Object>>
-			attributeGetterFunctions = getAttributeGetterFunctions();
+	private static final Map
+		<String, Function<MFAEmailOTPEntryCacheModel, Object>>
+			_cacheModelGetterFunctions;
+	private static final Map<String, Long> _columnBitmasks;
+	private static final MFAEmailOTPEntryCacheModel
+		_dummyMFAEmailOTPEntryCacheModel = new MFAEmailOTPEntryCacheModel();
 
-		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+	private MFAEmailOTPEntryCacheModel _mfaEmailOTPEntryCacheModel;
 
-		sb.append("{");
+	static {
+		Map<String, Function<MFAEmailOTPEntryCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<MFAEmailOTPEntryCacheModel, Object>>();
+		Map<String, Long> columnBitmasks = new LinkedHashMap<String, Long>();
 
-		for (Map.Entry<String, Function<MFAEmailOTPEntry, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			mfaEmailOTPEntryCacheModel ->
+				mfaEmailOTPEntryCacheModel.mvccVersion);
 
-			String attributeName = entry.getKey();
-			Function<MFAEmailOTPEntry, Object> attributeGetterFunction =
-				entry.getValue();
+		columnBitmasks.put("mvccVersion", 1L);
 
-			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((MFAEmailOTPEntry)this));
-			sb.append(", ");
-		}
+		cacheModelGetterFunctions.put(
+			"mfaEmailOTPEntryId",
+			mfaEmailOTPEntryCacheModel ->
+				mfaEmailOTPEntryCacheModel.mfaEmailOTPEntryId);
 
-		if (sb.index() > 1) {
-			sb.setIndex(sb.index() - 1);
-		}
+		columnBitmasks.put("mfaEmailOTPEntryId", 2L);
 
-		sb.append("}");
+		cacheModelGetterFunctions.put(
+			"companyId",
+			mfaEmailOTPEntryCacheModel -> mfaEmailOTPEntryCacheModel.companyId);
 
-		return sb.toString();
-	}
+		columnBitmasks.put("companyId", 4L);
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<MFAEmailOTPEntry, Object>>
-			attributeGetterFunctions = getAttributeGetterFunctions();
+		cacheModelGetterFunctions.put(
+			"userId",
+			mfaEmailOTPEntryCacheModel -> mfaEmailOTPEntryCacheModel.userId);
 
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
+		columnBitmasks.put("userId", 8L);
 
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
+		cacheModelGetterFunctions.put(
+			"userName",
+			mfaEmailOTPEntryCacheModel -> {
+				String userName = mfaEmailOTPEntryCacheModel.userName;
 
-		for (Map.Entry<String, Function<MFAEmailOTPEntry, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
+				if (userName == null) {
+					return "";
+				}
 
-			String attributeName = entry.getKey();
-			Function<MFAEmailOTPEntry, Object> attributeGetterFunction =
-				entry.getValue();
+				return userName;
+			});
 
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((MFAEmailOTPEntry)this));
-			sb.append("]]></column-value></column>");
-		}
+		columnBitmasks.put("userName", 16L);
 
-		sb.append("</model>");
+		cacheModelGetterFunctions.put(
+			"createDate",
+			mfaEmailOTPEntryCacheModel -> {
+				Long createDate = mfaEmailOTPEntryCacheModel.createDate;
 
-		return sb.toString();
-	}
+				if (createDate == Long.MIN_VALUE) {
+					return null;
+				}
 
-	private static class EscapedModelProxyProviderFunctionHolder {
+				return new Date(createDate);
+			});
 
-		private static final Function<InvocationHandler, MFAEmailOTPEntry>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+		columnBitmasks.put("createDate", 32L);
 
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			mfaEmailOTPEntryCacheModel -> {
+				Long modifiedDate = mfaEmailOTPEntryCacheModel.modifiedDate;
+
+				if (modifiedDate == Long.MIN_VALUE) {
+					return null;
+				}
+
+				return new Date(modifiedDate);
+			});
+
+		columnBitmasks.put("modifiedDate", 64L);
+
+		cacheModelGetterFunctions.put(
+			"failedAttempts",
+			mfaEmailOTPEntryCacheModel ->
+				mfaEmailOTPEntryCacheModel.failedAttempts);
+
+		columnBitmasks.put("failedAttempts", 128L);
+
+		cacheModelGetterFunctions.put(
+			"lastFailDate",
+			mfaEmailOTPEntryCacheModel -> {
+				Long lastFailDate = mfaEmailOTPEntryCacheModel.lastFailDate;
+
+				if (lastFailDate == Long.MIN_VALUE) {
+					return null;
+				}
+
+				return new Date(lastFailDate);
+			});
+
+		columnBitmasks.put("lastFailDate", 256L);
+
+		cacheModelGetterFunctions.put(
+			"lastFailIP",
+			mfaEmailOTPEntryCacheModel -> {
+				String lastFailIP = mfaEmailOTPEntryCacheModel.lastFailIP;
+
+				if (lastFailIP == null) {
+					return "";
+				}
+
+				return lastFailIP;
+			});
+
+		columnBitmasks.put("lastFailIP", 512L);
+
+		cacheModelGetterFunctions.put(
+			"lastSuccessDate",
+			mfaEmailOTPEntryCacheModel -> {
+				Long lastSuccessDate =
+					mfaEmailOTPEntryCacheModel.lastSuccessDate;
+
+				if (lastSuccessDate == Long.MIN_VALUE) {
+					return null;
+				}
+
+				return new Date(lastSuccessDate);
+			});
+
+		columnBitmasks.put("lastSuccessDate", 1024L);
+
+		cacheModelGetterFunctions.put(
+			"lastSuccessIP",
+			mfaEmailOTPEntryCacheModel -> {
+				String lastSuccessIP = mfaEmailOTPEntryCacheModel.lastSuccessIP;
+
+				if (lastSuccessIP == null) {
+					return "";
+				}
+
+				return lastSuccessIP;
+			});
+
+		columnBitmasks.put("lastSuccessIP", 2048L);
+
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
 	private long _mvccVersion;
 	private long _mfaEmailOTPEntryId;
 	private long _companyId;
 	private long _userId;
-	private long _originalUserId;
-	private boolean _setOriginalUserId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;

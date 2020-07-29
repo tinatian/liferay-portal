@@ -181,34 +181,109 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long CONTACTID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long CREATEDATE_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long DEFAULTUSER_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long EMAILADDRESS_COLUMN_BITMASK = 16L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long EXTERNALREFERENCECODE_COLUMN_BITMASK = 32L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long FACEBOOKID_COLUMN_BITMASK = 64L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long GOOGLEUSERID_COLUMN_BITMASK = 128L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long MODIFIEDDATE_COLUMN_BITMASK = 256L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long OPENID_COLUMN_BITMASK = 512L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long PORTRAITID_COLUMN_BITMASK = 1024L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long SCREENNAME_COLUMN_BITMASK = 2048L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long STATUS_COLUMN_BITMASK = 4096L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long USERID_COLUMN_BITMASK = 8192L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 16384L;
 
 	/**
@@ -662,6 +737,8 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= _columnBitmasks.get("mvccVersion");
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -673,6 +750,8 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= _columnBitmasks.get("ctCollectionId");
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -689,17 +768,18 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
-		}
+		_columnBitmask |= _columnBitmasks.get("uuid");
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getOriginalAttributeValue("uuid");
 	}
 
 	@JSON
@@ -715,17 +795,18 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setExternalReferenceCode(String externalReferenceCode) {
-		_columnBitmask |= EXTERNALREFERENCECODE_COLUMN_BITMASK;
-
-		if (_originalExternalReferenceCode == null) {
-			_originalExternalReferenceCode = _externalReferenceCode;
-		}
+		_columnBitmask |= _columnBitmasks.get("externalReferenceCode");
 
 		_externalReferenceCode = externalReferenceCode;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalExternalReferenceCode() {
-		return GetterUtil.getString(_originalExternalReferenceCode);
+		return getOriginalAttributeValue("externalReferenceCode");
 	}
 
 	@JSON
@@ -736,13 +817,7 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setUserId(long userId) {
-		_columnBitmask |= USERID_COLUMN_BITMASK;
-
-		if (!_setOriginalUserId) {
-			_setOriginalUserId = true;
-
-			_originalUserId = _userId;
-		}
+		_columnBitmask |= _columnBitmasks.get("userId");
 
 		_userId = userId;
 	}
@@ -763,8 +838,13 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 	public void setUserUuid(String userUuid) {
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalUserId() {
-		return _originalUserId;
+		return getOriginalAttributeValue("userId");
 	}
 
 	@JSON
@@ -775,19 +855,18 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
-		}
+		_columnBitmask |= _columnBitmasks.get("companyId");
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@JSON
@@ -798,17 +877,18 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setCreateDate(Date createDate) {
-		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
-
-		if (_originalCreateDate == null) {
-			_originalCreateDate = _createDate;
-		}
+		_columnBitmask |= _columnBitmasks.get("createDate");
 
 		_createDate = createDate;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public Date getOriginalCreateDate() {
-		return _originalCreateDate;
+		return getOriginalAttributeValue("createDate");
 	}
 
 	@JSON
@@ -825,17 +905,18 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
-		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
-
-		if (_originalModifiedDate == null) {
-			_originalModifiedDate = _modifiedDate;
-		}
+		_columnBitmask |= _columnBitmasks.get("modifiedDate");
 
 		_modifiedDate = modifiedDate;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public Date getOriginalModifiedDate() {
-		return _originalModifiedDate;
+		return getOriginalAttributeValue("modifiedDate");
 	}
 
 	@JSON
@@ -852,19 +933,18 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setDefaultUser(boolean defaultUser) {
-		_columnBitmask |= DEFAULTUSER_COLUMN_BITMASK;
-
-		if (!_setOriginalDefaultUser) {
-			_setOriginalDefaultUser = true;
-
-			_originalDefaultUser = _defaultUser;
-		}
+		_columnBitmask |= _columnBitmasks.get("defaultUser");
 
 		_defaultUser = defaultUser;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public boolean getOriginalDefaultUser() {
-		return _originalDefaultUser;
+		return getOriginalAttributeValue("defaultUser");
 	}
 
 	@JSON
@@ -875,19 +955,18 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setContactId(long contactId) {
-		_columnBitmask |= CONTACTID_COLUMN_BITMASK;
-
-		if (!_setOriginalContactId) {
-			_setOriginalContactId = true;
-
-			_originalContactId = _contactId;
-		}
+		_columnBitmask |= _columnBitmasks.get("contactId");
 
 		_contactId = contactId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalContactId() {
-		return _originalContactId;
+		return getOriginalAttributeValue("contactId");
 	}
 
 	@JSON(include = false)
@@ -903,6 +982,8 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setPassword(String password) {
+		_columnBitmask |= _columnBitmasks.get("password");
+
 		_password = password;
 	}
 
@@ -919,6 +1000,8 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setPasswordEncrypted(boolean passwordEncrypted) {
+		_columnBitmask |= _columnBitmasks.get("passwordEncrypted");
+
 		_passwordEncrypted = passwordEncrypted;
 	}
 
@@ -935,6 +1018,8 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setPasswordReset(boolean passwordReset) {
+		_columnBitmask |= _columnBitmasks.get("passwordReset");
+
 		_passwordReset = passwordReset;
 	}
 
@@ -946,6 +1031,8 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setPasswordModifiedDate(Date passwordModifiedDate) {
+		_columnBitmask |= _columnBitmasks.get("passwordModifiedDate");
+
 		_passwordModifiedDate = passwordModifiedDate;
 	}
 
@@ -962,6 +1049,8 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setDigest(String digest) {
+		_columnBitmask |= _columnBitmasks.get("digest");
+
 		_digest = digest;
 	}
 
@@ -978,6 +1067,8 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setReminderQueryQuestion(String reminderQueryQuestion) {
+		_columnBitmask |= _columnBitmasks.get("reminderQueryQuestion");
+
 		_reminderQueryQuestion = reminderQueryQuestion;
 	}
 
@@ -994,6 +1085,8 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setReminderQueryAnswer(String reminderQueryAnswer) {
+		_columnBitmask |= _columnBitmasks.get("reminderQueryAnswer");
+
 		_reminderQueryAnswer = reminderQueryAnswer;
 	}
 
@@ -1005,6 +1098,8 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setGraceLoginCount(int graceLoginCount) {
+		_columnBitmask |= _columnBitmasks.get("graceLoginCount");
+
 		_graceLoginCount = graceLoginCount;
 	}
 
@@ -1021,17 +1116,18 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setScreenName(String screenName) {
-		_columnBitmask |= SCREENNAME_COLUMN_BITMASK;
-
-		if (_originalScreenName == null) {
-			_originalScreenName = _screenName;
-		}
+		_columnBitmask |= _columnBitmasks.get("screenName");
 
 		_screenName = screenName;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalScreenName() {
-		return GetterUtil.getString(_originalScreenName);
+		return getOriginalAttributeValue("screenName");
 	}
 
 	@JSON
@@ -1047,17 +1143,18 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setEmailAddress(String emailAddress) {
-		_columnBitmask |= EMAILADDRESS_COLUMN_BITMASK;
-
-		if (_originalEmailAddress == null) {
-			_originalEmailAddress = _emailAddress;
-		}
+		_columnBitmask |= _columnBitmasks.get("emailAddress");
 
 		_emailAddress = emailAddress;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalEmailAddress() {
-		return GetterUtil.getString(_originalEmailAddress);
+		return getOriginalAttributeValue("emailAddress");
 	}
 
 	@JSON
@@ -1068,19 +1165,18 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setFacebookId(long facebookId) {
-		_columnBitmask |= FACEBOOKID_COLUMN_BITMASK;
-
-		if (!_setOriginalFacebookId) {
-			_setOriginalFacebookId = true;
-
-			_originalFacebookId = _facebookId;
-		}
+		_columnBitmask |= _columnBitmasks.get("facebookId");
 
 		_facebookId = facebookId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalFacebookId() {
-		return _originalFacebookId;
+		return getOriginalAttributeValue("facebookId");
 	}
 
 	@JSON
@@ -1096,17 +1192,18 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setGoogleUserId(String googleUserId) {
-		_columnBitmask |= GOOGLEUSERID_COLUMN_BITMASK;
-
-		if (_originalGoogleUserId == null) {
-			_originalGoogleUserId = _googleUserId;
-		}
+		_columnBitmask |= _columnBitmasks.get("googleUserId");
 
 		_googleUserId = googleUserId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalGoogleUserId() {
-		return GetterUtil.getString(_originalGoogleUserId);
+		return getOriginalAttributeValue("googleUserId");
 	}
 
 	@JSON
@@ -1117,6 +1214,8 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setLdapServerId(long ldapServerId) {
+		_columnBitmask |= _columnBitmasks.get("ldapServerId");
+
 		_ldapServerId = ldapServerId;
 	}
 
@@ -1133,17 +1232,18 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setOpenId(String openId) {
-		_columnBitmask |= OPENID_COLUMN_BITMASK;
-
-		if (_originalOpenId == null) {
-			_originalOpenId = _openId;
-		}
+		_columnBitmask |= _columnBitmasks.get("openId");
 
 		_openId = openId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalOpenId() {
-		return GetterUtil.getString(_originalOpenId);
+		return getOriginalAttributeValue("openId");
 	}
 
 	@JSON
@@ -1154,19 +1254,18 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setPortraitId(long portraitId) {
-		_columnBitmask |= PORTRAITID_COLUMN_BITMASK;
-
-		if (!_setOriginalPortraitId) {
-			_setOriginalPortraitId = true;
-
-			_originalPortraitId = _portraitId;
-		}
+		_columnBitmask |= _columnBitmasks.get("portraitId");
 
 		_portraitId = portraitId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalPortraitId() {
-		return _originalPortraitId;
+		return getOriginalAttributeValue("portraitId");
 	}
 
 	@JSON
@@ -1182,6 +1281,8 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setLanguageId(String languageId) {
+		_columnBitmask |= _columnBitmasks.get("languageId");
+
 		_languageId = languageId;
 	}
 
@@ -1198,6 +1299,8 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setTimeZoneId(String timeZoneId) {
+		_columnBitmask |= _columnBitmasks.get("timeZoneId");
+
 		_timeZoneId = timeZoneId;
 	}
 
@@ -1214,6 +1317,8 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setGreeting(String greeting) {
+		_columnBitmask |= _columnBitmasks.get("greeting");
+
 		_greeting = greeting;
 	}
 
@@ -1230,6 +1335,8 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setComments(String comments) {
+		_columnBitmask |= _columnBitmasks.get("comments");
+
 		_comments = comments;
 	}
 
@@ -1246,6 +1353,8 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setFirstName(String firstName) {
+		_columnBitmask |= _columnBitmasks.get("firstName");
+
 		_firstName = firstName;
 	}
 
@@ -1262,6 +1371,8 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setMiddleName(String middleName) {
+		_columnBitmask |= _columnBitmasks.get("middleName");
+
 		_middleName = middleName;
 	}
 
@@ -1278,6 +1389,8 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setLastName(String lastName) {
+		_columnBitmask |= _columnBitmasks.get("lastName");
+
 		_lastName = lastName;
 	}
 
@@ -1294,6 +1407,8 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setJobTitle(String jobTitle) {
+		_columnBitmask |= _columnBitmasks.get("jobTitle");
+
 		_jobTitle = jobTitle;
 	}
 
@@ -1305,6 +1420,8 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setLoginDate(Date loginDate) {
+		_columnBitmask |= _columnBitmasks.get("loginDate");
+
 		_loginDate = loginDate;
 	}
 
@@ -1321,6 +1438,8 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setLoginIP(String loginIP) {
+		_columnBitmask |= _columnBitmasks.get("loginIP");
+
 		_loginIP = loginIP;
 	}
 
@@ -1332,6 +1451,8 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setLastLoginDate(Date lastLoginDate) {
+		_columnBitmask |= _columnBitmasks.get("lastLoginDate");
+
 		_lastLoginDate = lastLoginDate;
 	}
 
@@ -1348,6 +1469,8 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setLastLoginIP(String lastLoginIP) {
+		_columnBitmask |= _columnBitmasks.get("lastLoginIP");
+
 		_lastLoginIP = lastLoginIP;
 	}
 
@@ -1359,6 +1482,8 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setLastFailedLoginDate(Date lastFailedLoginDate) {
+		_columnBitmask |= _columnBitmasks.get("lastFailedLoginDate");
+
 		_lastFailedLoginDate = lastFailedLoginDate;
 	}
 
@@ -1370,6 +1495,8 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setFailedLoginAttempts(int failedLoginAttempts) {
+		_columnBitmask |= _columnBitmasks.get("failedLoginAttempts");
+
 		_failedLoginAttempts = failedLoginAttempts;
 	}
 
@@ -1387,6 +1514,8 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setLockout(boolean lockout) {
+		_columnBitmask |= _columnBitmasks.get("lockout");
+
 		_lockout = lockout;
 	}
 
@@ -1398,6 +1527,8 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setLockoutDate(Date lockoutDate) {
+		_columnBitmask |= _columnBitmasks.get("lockoutDate");
+
 		_lockoutDate = lockoutDate;
 	}
 
@@ -1415,6 +1546,8 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setAgreedToTermsOfUse(boolean agreedToTermsOfUse) {
+		_columnBitmask |= _columnBitmasks.get("agreedToTermsOfUse");
+
 		_agreedToTermsOfUse = agreedToTermsOfUse;
 	}
 
@@ -1432,6 +1565,8 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setEmailAddressVerified(boolean emailAddressVerified) {
+		_columnBitmask |= _columnBitmasks.get("emailAddressVerified");
+
 		_emailAddressVerified = emailAddressVerified;
 	}
 
@@ -1443,19 +1578,18 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void setStatus(int status) {
-		_columnBitmask |= STATUS_COLUMN_BITMASK;
-
-		if (!_setOriginalStatus) {
-			_setOriginalStatus = true;
-
-			_originalStatus = _status;
-		}
+		_columnBitmask |= _columnBitmasks.get("status");
 
 		_status = status;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalStatus() {
-		return _originalStatus;
+		return getOriginalAttributeValue("status");
 	}
 
 	@Override
@@ -1612,60 +1746,111 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public void resetOriginalValues() {
-		UserModelImpl userModelImpl = this;
+		_setModifiedDate = false;
 
-		userModelImpl._originalUuid = userModelImpl._uuid;
+		_columnBitmask = 0;
 
-		userModelImpl._originalExternalReferenceCode =
-			userModelImpl._externalReferenceCode;
-
-		userModelImpl._originalUserId = userModelImpl._userId;
-
-		userModelImpl._setOriginalUserId = false;
-
-		userModelImpl._originalCompanyId = userModelImpl._companyId;
-
-		userModelImpl._setOriginalCompanyId = false;
-
-		userModelImpl._originalCreateDate = userModelImpl._createDate;
-
-		userModelImpl._originalModifiedDate = userModelImpl._modifiedDate;
-
-		userModelImpl._setModifiedDate = false;
-
-		userModelImpl._originalDefaultUser = userModelImpl._defaultUser;
-
-		userModelImpl._setOriginalDefaultUser = false;
-
-		userModelImpl._originalContactId = userModelImpl._contactId;
-
-		userModelImpl._setOriginalContactId = false;
-
-		userModelImpl._originalScreenName = userModelImpl._screenName;
-
-		userModelImpl._originalEmailAddress = userModelImpl._emailAddress;
-
-		userModelImpl._originalFacebookId = userModelImpl._facebookId;
-
-		userModelImpl._setOriginalFacebookId = false;
-
-		userModelImpl._originalGoogleUserId = userModelImpl._googleUserId;
-
-		userModelImpl._originalOpenId = userModelImpl._openId;
-
-		userModelImpl._originalPortraitId = userModelImpl._portraitId;
-
-		userModelImpl._setOriginalPortraitId = false;
-
-		userModelImpl._originalStatus = userModelImpl._status;
-
-		userModelImpl._setOriginalStatus = false;
-
-		userModelImpl._columnBitmask = 0;
+		_userCacheModel = _toUserCacheModel();
 	}
 
 	@Override
 	public CacheModel<User> toCacheModel() {
+		UserCacheModel userCacheModel = _toUserCacheModel();
+
+		return userCacheModel;
+	}
+
+	@Override
+	public String toString() {
+		Map<String, Function<User, Object>> attributeGetterFunctions =
+			getAttributeGetterFunctions();
+
+		StringBundler sb = new StringBundler(
+			4 * attributeGetterFunctions.size() + 2);
+
+		sb.append("{");
+
+		for (Map.Entry<String, Function<User, Object>> entry :
+				attributeGetterFunctions.entrySet()) {
+
+			String attributeName = entry.getKey();
+			Function<User, Object> attributeGetterFunction = entry.getValue();
+
+			sb.append(attributeName);
+			sb.append("=");
+			sb.append(attributeGetterFunction.apply((User)this));
+			sb.append(", ");
+		}
+
+		if (sb.index() > 1) {
+			sb.setIndex(sb.index() - 1);
+		}
+
+		sb.append("}");
+
+		return sb.toString();
+	}
+
+	@Override
+	public String toXmlString() {
+		Map<String, Function<User, Object>> attributeGetterFunctions =
+			getAttributeGetterFunctions();
+
+		StringBundler sb = new StringBundler(
+			5 * attributeGetterFunctions.size() + 4);
+
+		sb.append("<model><model-name>");
+		sb.append(getModelClassName());
+		sb.append("</model-name>");
+
+		for (Map.Entry<String, Function<User, Object>> entry :
+				attributeGetterFunctions.entrySet()) {
+
+			String attributeName = entry.getKey();
+			Function<User, Object> attributeGetterFunction = entry.getValue();
+
+			sb.append("<column><column-name>");
+			sb.append(attributeName);
+			sb.append("</column-name><column-value><![CDATA[");
+			sb.append(attributeGetterFunction.apply((User)this));
+			sb.append("]]></column-value></column>");
+		}
+
+		sb.append("</model>");
+
+		return sb.toString();
+	}
+
+	private static class EscapedModelProxyProviderFunctionHolder {
+
+		private static final Function<InvocationHandler, User>
+			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+
+	}
+
+	public static long getColumnBitmask(String attributeName) {
+		return _columnBitmasks.get(attributeName);
+	}
+
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		Function<UserCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"Unknown attribute name " + attributeName);
+		}
+
+		UserCacheModel userCacheModel = _userCacheModel;
+
+		if (userCacheModel == null) {
+			userCacheModel = _dummyUserCacheModel;
+		}
+
+		return (T)function.apply(userCacheModel);
+	}
+
+	private UserCacheModel _toUserCacheModel() {
 		UserCacheModel userCacheModel = new UserCacheModel();
 
 		userCacheModel.mvccVersion = getMvccVersion();
@@ -1935,97 +2120,506 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 		return userCacheModel;
 	}
 
-	@Override
-	public String toString() {
-		Map<String, Function<User, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
+	private static final Map<String, Function<UserCacheModel, Object>>
+		_cacheModelGetterFunctions;
+	private static final Map<String, Long> _columnBitmasks;
+	private static final UserCacheModel _dummyUserCacheModel =
+		new UserCacheModel();
 
-		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+	private UserCacheModel _userCacheModel;
 
-		sb.append("{");
+	static {
+		Map<String, Function<UserCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap<String, Function<UserCacheModel, Object>>();
+		Map<String, Long> columnBitmasks = new LinkedHashMap<String, Long>();
 
-		for (Map.Entry<String, Function<User, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
+		cacheModelGetterFunctions.put(
+			"mvccVersion", userCacheModel -> userCacheModel.mvccVersion);
 
-			String attributeName = entry.getKey();
-			Function<User, Object> attributeGetterFunction = entry.getValue();
+		columnBitmasks.put("mvccVersion", 1L);
 
-			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((User)this));
-			sb.append(", ");
-		}
+		cacheModelGetterFunctions.put(
+			"ctCollectionId", userCacheModel -> userCacheModel.ctCollectionId);
 
-		if (sb.index() > 1) {
-			sb.setIndex(sb.index() - 1);
-		}
+		columnBitmasks.put("ctCollectionId", 2L);
 
-		sb.append("}");
+		cacheModelGetterFunctions.put(
+			"uuid",
+			userCacheModel -> {
+				String uuid = userCacheModel.uuid;
 
-		return sb.toString();
-	}
+				if (uuid == null) {
+					return "";
+				}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<User, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
+				return uuid;
+			});
 
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
+		columnBitmasks.put("uuid", 4L);
 
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
+		cacheModelGetterFunctions.put(
+			"externalReferenceCode",
+			userCacheModel -> {
+				String externalReferenceCode =
+					userCacheModel.externalReferenceCode;
 
-		for (Map.Entry<String, Function<User, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
+				if (externalReferenceCode == null) {
+					return "";
+				}
 
-			String attributeName = entry.getKey();
-			Function<User, Object> attributeGetterFunction = entry.getValue();
+				return externalReferenceCode;
+			});
 
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((User)this));
-			sb.append("]]></column-value></column>");
-		}
+		columnBitmasks.put("externalReferenceCode", 8L);
 
-		sb.append("</model>");
+		cacheModelGetterFunctions.put(
+			"userId", userCacheModel -> userCacheModel.userId);
 
-		return sb.toString();
-	}
+		columnBitmasks.put("userId", 16L);
 
-	private static class EscapedModelProxyProviderFunctionHolder {
+		cacheModelGetterFunctions.put(
+			"companyId", userCacheModel -> userCacheModel.companyId);
 
-		private static final Function<InvocationHandler, User>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+		columnBitmasks.put("companyId", 32L);
 
+		cacheModelGetterFunctions.put(
+			"createDate",
+			userCacheModel -> {
+				Long createDate = userCacheModel.createDate;
+
+				if (createDate == Long.MIN_VALUE) {
+					return null;
+				}
+
+				return new Date(createDate);
+			});
+
+		columnBitmasks.put("createDate", 64L);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			userCacheModel -> {
+				Long modifiedDate = userCacheModel.modifiedDate;
+
+				if (modifiedDate == Long.MIN_VALUE) {
+					return null;
+				}
+
+				return new Date(modifiedDate);
+			});
+
+		columnBitmasks.put("modifiedDate", 128L);
+
+		cacheModelGetterFunctions.put(
+			"defaultUser", userCacheModel -> userCacheModel.defaultUser);
+
+		columnBitmasks.put("defaultUser", 256L);
+
+		cacheModelGetterFunctions.put(
+			"contactId", userCacheModel -> userCacheModel.contactId);
+
+		columnBitmasks.put("contactId", 512L);
+
+		cacheModelGetterFunctions.put(
+			"password",
+			userCacheModel -> {
+				String password = userCacheModel.password;
+
+				if (password == null) {
+					return "";
+				}
+
+				return password;
+			});
+
+		columnBitmasks.put("password", 1024L);
+
+		cacheModelGetterFunctions.put(
+			"passwordEncrypted",
+			userCacheModel -> userCacheModel.passwordEncrypted);
+
+		columnBitmasks.put("passwordEncrypted", 2048L);
+
+		cacheModelGetterFunctions.put(
+			"passwordReset", userCacheModel -> userCacheModel.passwordReset);
+
+		columnBitmasks.put("passwordReset", 4096L);
+
+		cacheModelGetterFunctions.put(
+			"passwordModifiedDate",
+			userCacheModel -> {
+				Long passwordModifiedDate = userCacheModel.passwordModifiedDate;
+
+				if (passwordModifiedDate == Long.MIN_VALUE) {
+					return null;
+				}
+
+				return new Date(passwordModifiedDate);
+			});
+
+		columnBitmasks.put("passwordModifiedDate", 8192L);
+
+		cacheModelGetterFunctions.put(
+			"digest",
+			userCacheModel -> {
+				String digest = userCacheModel.digest;
+
+				if (digest == null) {
+					return "";
+				}
+
+				return digest;
+			});
+
+		columnBitmasks.put("digest", 16384L);
+
+		cacheModelGetterFunctions.put(
+			"reminderQueryQuestion",
+			userCacheModel -> {
+				String reminderQueryQuestion =
+					userCacheModel.reminderQueryQuestion;
+
+				if (reminderQueryQuestion == null) {
+					return "";
+				}
+
+				return reminderQueryQuestion;
+			});
+
+		columnBitmasks.put("reminderQueryQuestion", 32768L);
+
+		cacheModelGetterFunctions.put(
+			"reminderQueryAnswer",
+			userCacheModel -> {
+				String reminderQueryAnswer = userCacheModel.reminderQueryAnswer;
+
+				if (reminderQueryAnswer == null) {
+					return "";
+				}
+
+				return reminderQueryAnswer;
+			});
+
+		columnBitmasks.put("reminderQueryAnswer", 65536L);
+
+		cacheModelGetterFunctions.put(
+			"graceLoginCount",
+			userCacheModel -> userCacheModel.graceLoginCount);
+
+		columnBitmasks.put("graceLoginCount", 131072L);
+
+		cacheModelGetterFunctions.put(
+			"screenName",
+			userCacheModel -> {
+				String screenName = userCacheModel.screenName;
+
+				if (screenName == null) {
+					return "";
+				}
+
+				return screenName;
+			});
+
+		columnBitmasks.put("screenName", 262144L);
+
+		cacheModelGetterFunctions.put(
+			"emailAddress",
+			userCacheModel -> {
+				String emailAddress = userCacheModel.emailAddress;
+
+				if (emailAddress == null) {
+					return "";
+				}
+
+				return emailAddress;
+			});
+
+		columnBitmasks.put("emailAddress", 524288L);
+
+		cacheModelGetterFunctions.put(
+			"facebookId", userCacheModel -> userCacheModel.facebookId);
+
+		columnBitmasks.put("facebookId", 1048576L);
+
+		cacheModelGetterFunctions.put(
+			"googleUserId",
+			userCacheModel -> {
+				String googleUserId = userCacheModel.googleUserId;
+
+				if (googleUserId == null) {
+					return "";
+				}
+
+				return googleUserId;
+			});
+
+		columnBitmasks.put("googleUserId", 2097152L);
+
+		cacheModelGetterFunctions.put(
+			"ldapServerId", userCacheModel -> userCacheModel.ldapServerId);
+
+		columnBitmasks.put("ldapServerId", 4194304L);
+
+		cacheModelGetterFunctions.put(
+			"openId",
+			userCacheModel -> {
+				String openId = userCacheModel.openId;
+
+				if (openId == null) {
+					return "";
+				}
+
+				return openId;
+			});
+
+		columnBitmasks.put("openId", 8388608L);
+
+		cacheModelGetterFunctions.put(
+			"portraitId", userCacheModel -> userCacheModel.portraitId);
+
+		columnBitmasks.put("portraitId", 16777216L);
+
+		cacheModelGetterFunctions.put(
+			"languageId",
+			userCacheModel -> {
+				String languageId = userCacheModel.languageId;
+
+				if (languageId == null) {
+					return "";
+				}
+
+				return languageId;
+			});
+
+		columnBitmasks.put("languageId", 33554432L);
+
+		cacheModelGetterFunctions.put(
+			"timeZoneId",
+			userCacheModel -> {
+				String timeZoneId = userCacheModel.timeZoneId;
+
+				if (timeZoneId == null) {
+					return "";
+				}
+
+				return timeZoneId;
+			});
+
+		columnBitmasks.put("timeZoneId", 67108864L);
+
+		cacheModelGetterFunctions.put(
+			"greeting",
+			userCacheModel -> {
+				String greeting = userCacheModel.greeting;
+
+				if (greeting == null) {
+					return "";
+				}
+
+				return greeting;
+			});
+
+		columnBitmasks.put("greeting", 134217728L);
+
+		cacheModelGetterFunctions.put(
+			"comments",
+			userCacheModel -> {
+				String comments = userCacheModel.comments;
+
+				if (comments == null) {
+					return "";
+				}
+
+				return comments;
+			});
+
+		columnBitmasks.put("comments", 268435456L);
+
+		cacheModelGetterFunctions.put(
+			"firstName",
+			userCacheModel -> {
+				String firstName = userCacheModel.firstName;
+
+				if (firstName == null) {
+					return "";
+				}
+
+				return firstName;
+			});
+
+		columnBitmasks.put("firstName", 536870912L);
+
+		cacheModelGetterFunctions.put(
+			"middleName",
+			userCacheModel -> {
+				String middleName = userCacheModel.middleName;
+
+				if (middleName == null) {
+					return "";
+				}
+
+				return middleName;
+			});
+
+		columnBitmasks.put("middleName", 1073741824L);
+
+		cacheModelGetterFunctions.put(
+			"lastName",
+			userCacheModel -> {
+				String lastName = userCacheModel.lastName;
+
+				if (lastName == null) {
+					return "";
+				}
+
+				return lastName;
+			});
+
+		columnBitmasks.put("lastName", 2147483648L);
+
+		cacheModelGetterFunctions.put(
+			"jobTitle",
+			userCacheModel -> {
+				String jobTitle = userCacheModel.jobTitle;
+
+				if (jobTitle == null) {
+					return "";
+				}
+
+				return jobTitle;
+			});
+
+		columnBitmasks.put("jobTitle", 4294967296L);
+
+		cacheModelGetterFunctions.put(
+			"loginDate",
+			userCacheModel -> {
+				Long loginDate = userCacheModel.loginDate;
+
+				if (loginDate == Long.MIN_VALUE) {
+					return null;
+				}
+
+				return new Date(loginDate);
+			});
+
+		columnBitmasks.put("loginDate", 8589934592L);
+
+		cacheModelGetterFunctions.put(
+			"loginIP",
+			userCacheModel -> {
+				String loginIP = userCacheModel.loginIP;
+
+				if (loginIP == null) {
+					return "";
+				}
+
+				return loginIP;
+			});
+
+		columnBitmasks.put("loginIP", 17179869184L);
+
+		cacheModelGetterFunctions.put(
+			"lastLoginDate",
+			userCacheModel -> {
+				Long lastLoginDate = userCacheModel.lastLoginDate;
+
+				if (lastLoginDate == Long.MIN_VALUE) {
+					return null;
+				}
+
+				return new Date(lastLoginDate);
+			});
+
+		columnBitmasks.put("lastLoginDate", 34359738368L);
+
+		cacheModelGetterFunctions.put(
+			"lastLoginIP",
+			userCacheModel -> {
+				String lastLoginIP = userCacheModel.lastLoginIP;
+
+				if (lastLoginIP == null) {
+					return "";
+				}
+
+				return lastLoginIP;
+			});
+
+		columnBitmasks.put("lastLoginIP", 68719476736L);
+
+		cacheModelGetterFunctions.put(
+			"lastFailedLoginDate",
+			userCacheModel -> {
+				Long lastFailedLoginDate = userCacheModel.lastFailedLoginDate;
+
+				if (lastFailedLoginDate == Long.MIN_VALUE) {
+					return null;
+				}
+
+				return new Date(lastFailedLoginDate);
+			});
+
+		columnBitmasks.put("lastFailedLoginDate", 137438953472L);
+
+		cacheModelGetterFunctions.put(
+			"failedLoginAttempts",
+			userCacheModel -> userCacheModel.failedLoginAttempts);
+
+		columnBitmasks.put("failedLoginAttempts", 274877906944L);
+
+		cacheModelGetterFunctions.put(
+			"lockout", userCacheModel -> userCacheModel.lockout);
+
+		columnBitmasks.put("lockout", 549755813888L);
+
+		cacheModelGetterFunctions.put(
+			"lockoutDate",
+			userCacheModel -> {
+				Long lockoutDate = userCacheModel.lockoutDate;
+
+				if (lockoutDate == Long.MIN_VALUE) {
+					return null;
+				}
+
+				return new Date(lockoutDate);
+			});
+
+		columnBitmasks.put("lockoutDate", 1099511627776L);
+
+		cacheModelGetterFunctions.put(
+			"agreedToTermsOfUse",
+			userCacheModel -> userCacheModel.agreedToTermsOfUse);
+
+		columnBitmasks.put("agreedToTermsOfUse", 2199023255552L);
+
+		cacheModelGetterFunctions.put(
+			"emailAddressVerified",
+			userCacheModel -> userCacheModel.emailAddressVerified);
+
+		columnBitmasks.put("emailAddressVerified", 4398046511104L);
+
+		cacheModelGetterFunctions.put(
+			"status", userCacheModel -> userCacheModel.status);
+
+		columnBitmasks.put("status", 8796093022208L);
+
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
 	private long _mvccVersion;
 	private long _ctCollectionId;
 	private String _uuid;
-	private String _originalUuid;
 	private String _externalReferenceCode;
-	private String _originalExternalReferenceCode;
 	private long _userId;
-	private long _originalUserId;
-	private boolean _setOriginalUserId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private Date _createDate;
-	private Date _originalCreateDate;
 	private Date _modifiedDate;
-	private Date _originalModifiedDate;
 	private boolean _setModifiedDate;
 	private boolean _defaultUser;
-	private boolean _originalDefaultUser;
-	private boolean _setOriginalDefaultUser;
 	private long _contactId;
-	private long _originalContactId;
-	private boolean _setOriginalContactId;
 	private String _password;
 	private boolean _passwordEncrypted;
 	private boolean _passwordReset;
@@ -2035,20 +2629,12 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 	private String _reminderQueryAnswer;
 	private int _graceLoginCount;
 	private String _screenName;
-	private String _originalScreenName;
 	private String _emailAddress;
-	private String _originalEmailAddress;
 	private long _facebookId;
-	private long _originalFacebookId;
-	private boolean _setOriginalFacebookId;
 	private String _googleUserId;
-	private String _originalGoogleUserId;
 	private long _ldapServerId;
 	private String _openId;
-	private String _originalOpenId;
 	private long _portraitId;
-	private long _originalPortraitId;
-	private boolean _setOriginalPortraitId;
 	private String _languageId;
 	private String _timeZoneId;
 	private String _greeting;
@@ -2068,8 +2654,6 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 	private boolean _agreedToTermsOfUse;
 	private boolean _emailAddressVerified;
 	private int _status;
-	private int _originalStatus;
-	private boolean _setOriginalStatus;
 	private long _columnBitmask;
 	private User _escapedModel;
 

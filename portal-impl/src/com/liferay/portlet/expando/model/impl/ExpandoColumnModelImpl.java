@@ -122,8 +122,18 @@ public class ExpandoColumnModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long NAME_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long TABLEID_COLUMN_BITMASK = 2L;
 
 	/**
@@ -354,6 +364,8 @@ public class ExpandoColumnModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= _columnBitmasks.get("mvccVersion");
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -365,6 +377,8 @@ public class ExpandoColumnModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= _columnBitmasks.get("ctCollectionId");
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -376,6 +390,8 @@ public class ExpandoColumnModelImpl
 
 	@Override
 	public void setColumnId(long columnId) {
+		_columnBitmask |= _columnBitmasks.get("columnId");
+
 		_columnId = columnId;
 	}
 
@@ -387,6 +403,8 @@ public class ExpandoColumnModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= _columnBitmasks.get("companyId");
+
 		_companyId = companyId;
 	}
 
@@ -398,19 +416,18 @@ public class ExpandoColumnModelImpl
 
 	@Override
 	public void setTableId(long tableId) {
-		_columnBitmask |= TABLEID_COLUMN_BITMASK;
-
-		if (!_setOriginalTableId) {
-			_setOriginalTableId = true;
-
-			_originalTableId = _tableId;
-		}
+		_columnBitmask |= _columnBitmasks.get("tableId");
 
 		_tableId = tableId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalTableId() {
-		return _originalTableId;
+		return getOriginalAttributeValue("tableId");
 	}
 
 	@JSON
@@ -426,17 +443,18 @@ public class ExpandoColumnModelImpl
 
 	@Override
 	public void setName(String name) {
-		_columnBitmask = -1L;
-
-		if (_originalName == null) {
-			_originalName = _name;
-		}
+		_columnBitmask |= _columnBitmasks.get("name");
 
 		_name = name;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalName() {
-		return GetterUtil.getString(_originalName);
+		return getOriginalAttributeValue("name");
 	}
 
 	@JSON
@@ -447,6 +465,8 @@ public class ExpandoColumnModelImpl
 
 	@Override
 	public void setType(int type) {
+		_columnBitmask |= _columnBitmasks.get("type");
+
 		_type = type;
 	}
 
@@ -463,6 +483,8 @@ public class ExpandoColumnModelImpl
 
 	@Override
 	public void setDefaultData(String defaultData) {
+		_columnBitmask |= _columnBitmasks.get("defaultData");
+
 		_defaultData = defaultData;
 	}
 
@@ -479,6 +501,8 @@ public class ExpandoColumnModelImpl
 
 	@Override
 	public void setTypeSettings(String typeSettings) {
+		_columnBitmask |= _columnBitmasks.get("typeSettings");
+
 		_typeSettings = typeSettings;
 	}
 
@@ -580,58 +604,15 @@ public class ExpandoColumnModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		ExpandoColumnModelImpl expandoColumnModelImpl = this;
+		_columnBitmask = 0;
 
-		expandoColumnModelImpl._originalTableId =
-			expandoColumnModelImpl._tableId;
-
-		expandoColumnModelImpl._setOriginalTableId = false;
-
-		expandoColumnModelImpl._originalName = expandoColumnModelImpl._name;
-
-		expandoColumnModelImpl._columnBitmask = 0;
+		_expandoColumnCacheModel = _toExpandoColumnCacheModel();
 	}
 
 	@Override
 	public CacheModel<ExpandoColumn> toCacheModel() {
 		ExpandoColumnCacheModel expandoColumnCacheModel =
-			new ExpandoColumnCacheModel();
-
-		expandoColumnCacheModel.mvccVersion = getMvccVersion();
-
-		expandoColumnCacheModel.ctCollectionId = getCtCollectionId();
-
-		expandoColumnCacheModel.columnId = getColumnId();
-
-		expandoColumnCacheModel.companyId = getCompanyId();
-
-		expandoColumnCacheModel.tableId = getTableId();
-
-		expandoColumnCacheModel.name = getName();
-
-		String name = expandoColumnCacheModel.name;
-
-		if ((name != null) && (name.length() == 0)) {
-			expandoColumnCacheModel.name = null;
-		}
-
-		expandoColumnCacheModel.type = getType();
-
-		expandoColumnCacheModel.defaultData = getDefaultData();
-
-		String defaultData = expandoColumnCacheModel.defaultData;
-
-		if ((defaultData != null) && (defaultData.length() == 0)) {
-			expandoColumnCacheModel.defaultData = null;
-		}
-
-		expandoColumnCacheModel.typeSettings = getTypeSettings();
-
-		String typeSettings = expandoColumnCacheModel.typeSettings;
-
-		if ((typeSettings != null) && (typeSettings.length() == 0)) {
-			expandoColumnCacheModel.typeSettings = null;
-		}
+			_toExpandoColumnCacheModel();
 
 		return expandoColumnCacheModel;
 	}
@@ -706,15 +687,175 @@ public class ExpandoColumnModelImpl
 
 	}
 
+	public static long getColumnBitmask(String attributeName) {
+		return _columnBitmasks.get(attributeName);
+	}
+
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		Function<ExpandoColumnCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"Unknown attribute name " + attributeName);
+		}
+
+		ExpandoColumnCacheModel expandoColumnCacheModel =
+			_expandoColumnCacheModel;
+
+		if (expandoColumnCacheModel == null) {
+			expandoColumnCacheModel = _dummyExpandoColumnCacheModel;
+		}
+
+		return (T)function.apply(expandoColumnCacheModel);
+	}
+
+	private ExpandoColumnCacheModel _toExpandoColumnCacheModel() {
+		ExpandoColumnCacheModel expandoColumnCacheModel =
+			new ExpandoColumnCacheModel();
+
+		expandoColumnCacheModel.mvccVersion = getMvccVersion();
+
+		expandoColumnCacheModel.ctCollectionId = getCtCollectionId();
+
+		expandoColumnCacheModel.columnId = getColumnId();
+
+		expandoColumnCacheModel.companyId = getCompanyId();
+
+		expandoColumnCacheModel.tableId = getTableId();
+
+		expandoColumnCacheModel.name = getName();
+
+		String name = expandoColumnCacheModel.name;
+
+		if ((name != null) && (name.length() == 0)) {
+			expandoColumnCacheModel.name = null;
+		}
+
+		expandoColumnCacheModel.type = getType();
+
+		expandoColumnCacheModel.defaultData = getDefaultData();
+
+		String defaultData = expandoColumnCacheModel.defaultData;
+
+		if ((defaultData != null) && (defaultData.length() == 0)) {
+			expandoColumnCacheModel.defaultData = null;
+		}
+
+		expandoColumnCacheModel.typeSettings = getTypeSettings();
+
+		String typeSettings = expandoColumnCacheModel.typeSettings;
+
+		if ((typeSettings != null) && (typeSettings.length() == 0)) {
+			expandoColumnCacheModel.typeSettings = null;
+		}
+
+		return expandoColumnCacheModel;
+	}
+
+	private static final Map<String, Function<ExpandoColumnCacheModel, Object>>
+		_cacheModelGetterFunctions;
+	private static final Map<String, Long> _columnBitmasks;
+	private static final ExpandoColumnCacheModel _dummyExpandoColumnCacheModel =
+		new ExpandoColumnCacheModel();
+
+	private ExpandoColumnCacheModel _expandoColumnCacheModel;
+
+	static {
+		Map<String, Function<ExpandoColumnCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<ExpandoColumnCacheModel, Object>>();
+		Map<String, Long> columnBitmasks = new LinkedHashMap<String, Long>();
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			expandoColumnCacheModel -> expandoColumnCacheModel.mvccVersion);
+
+		columnBitmasks.put("mvccVersion", 1L);
+
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			expandoColumnCacheModel -> expandoColumnCacheModel.ctCollectionId);
+
+		columnBitmasks.put("ctCollectionId", 2L);
+
+		cacheModelGetterFunctions.put(
+			"columnId",
+			expandoColumnCacheModel -> expandoColumnCacheModel.columnId);
+
+		columnBitmasks.put("columnId", 4L);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			expandoColumnCacheModel -> expandoColumnCacheModel.companyId);
+
+		columnBitmasks.put("companyId", 8L);
+
+		cacheModelGetterFunctions.put(
+			"tableId",
+			expandoColumnCacheModel -> expandoColumnCacheModel.tableId);
+
+		columnBitmasks.put("tableId", 16L);
+
+		cacheModelGetterFunctions.put(
+			"name",
+			expandoColumnCacheModel -> {
+				String name = expandoColumnCacheModel.name;
+
+				if (name == null) {
+					return "";
+				}
+
+				return name;
+			});
+
+		columnBitmasks.put("name", 32L);
+
+		cacheModelGetterFunctions.put(
+			"type", expandoColumnCacheModel -> expandoColumnCacheModel.type);
+
+		columnBitmasks.put("type", 64L);
+
+		cacheModelGetterFunctions.put(
+			"defaultData",
+			expandoColumnCacheModel -> {
+				String defaultData = expandoColumnCacheModel.defaultData;
+
+				if (defaultData == null) {
+					return "";
+				}
+
+				return defaultData;
+			});
+
+		columnBitmasks.put("defaultData", 128L);
+
+		cacheModelGetterFunctions.put(
+			"typeSettings",
+			expandoColumnCacheModel -> {
+				String typeSettings = expandoColumnCacheModel.typeSettings;
+
+				if (typeSettings == null) {
+					return "";
+				}
+
+				return typeSettings;
+			});
+
+		columnBitmasks.put("typeSettings", 256L);
+
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _mvccVersion;
 	private long _ctCollectionId;
 	private long _columnId;
 	private long _companyId;
 	private long _tableId;
-	private long _originalTableId;
-	private boolean _setOriginalTableId;
 	private String _name;
-	private String _originalName;
 	private int _type;
 	private String _defaultData;
 	private String _typeSettings;

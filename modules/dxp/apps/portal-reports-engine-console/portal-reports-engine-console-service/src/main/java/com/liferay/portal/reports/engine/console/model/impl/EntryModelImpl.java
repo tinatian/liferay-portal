@@ -129,6 +129,13 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
 	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 1L;
+
+	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
 	 */
 	@Deprecated
@@ -403,6 +410,8 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setEntryId(long entryId) {
+		_columnBitmask |= _columnBitmasks.get("entryId");
+
 		_entryId = entryId;
 	}
 
@@ -414,6 +423,8 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setGroupId(long groupId) {
+		_columnBitmask |= _columnBitmasks.get("groupId");
+
 		_groupId = groupId;
 	}
 
@@ -425,6 +436,8 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= _columnBitmasks.get("companyId");
+
 		_companyId = companyId;
 	}
 
@@ -436,6 +449,8 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= _columnBitmasks.get("userId");
+
 		_userId = userId;
 	}
 
@@ -468,6 +483,8 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= _columnBitmasks.get("userName");
+
 		_userName = userName;
 	}
 
@@ -479,6 +496,8 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= _columnBitmasks.get("createDate");
+
 		_createDate = createDate;
 	}
 
@@ -496,6 +515,8 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= _columnBitmasks.get("modifiedDate");
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -507,6 +528,8 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setDefinitionId(long definitionId) {
+		_columnBitmask |= _columnBitmasks.get("definitionId");
+
 		_definitionId = definitionId;
 	}
 
@@ -523,6 +546,8 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setFormat(String format) {
+		_columnBitmask |= _columnBitmasks.get("format");
+
 		_format = format;
 	}
 
@@ -540,6 +565,8 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setScheduleRequest(boolean scheduleRequest) {
+		_columnBitmask |= _columnBitmasks.get("scheduleRequest");
+
 		_scheduleRequest = scheduleRequest;
 	}
 
@@ -551,6 +578,8 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setStartDate(Date startDate) {
+		_columnBitmask |= _columnBitmasks.get("startDate");
+
 		_startDate = startDate;
 	}
 
@@ -562,6 +591,8 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setEndDate(Date endDate) {
+		_columnBitmask |= _columnBitmasks.get("endDate");
+
 		_endDate = endDate;
 	}
 
@@ -579,6 +610,8 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setRepeating(boolean repeating) {
+		_columnBitmask |= _columnBitmasks.get("repeating");
+
 		_repeating = repeating;
 	}
 
@@ -595,6 +628,8 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setRecurrence(String recurrence) {
+		_columnBitmask |= _columnBitmasks.get("recurrence");
+
 		_recurrence = recurrence;
 	}
 
@@ -611,6 +646,8 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setEmailNotifications(String emailNotifications) {
+		_columnBitmask |= _columnBitmasks.get("emailNotifications");
+
 		_emailNotifications = emailNotifications;
 	}
 
@@ -627,6 +664,8 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setEmailDelivery(String emailDelivery) {
+		_columnBitmask |= _columnBitmasks.get("emailDelivery");
+
 		_emailDelivery = emailDelivery;
 	}
 
@@ -643,6 +682,8 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setPortletId(String portletId) {
+		_columnBitmask |= _columnBitmasks.get("portletId");
+
 		_portletId = portletId;
 	}
 
@@ -659,6 +700,8 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setPageURL(String pageURL) {
+		_columnBitmask |= _columnBitmasks.get("pageURL");
+
 		_pageURL = pageURL;
 	}
 
@@ -675,6 +718,8 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setReportParameters(String reportParameters) {
+		_columnBitmask |= _columnBitmasks.get("reportParameters");
+
 		_reportParameters = reportParameters;
 	}
 
@@ -691,6 +736,8 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setErrorMessage(String errorMessage) {
+		_columnBitmask |= _columnBitmasks.get("errorMessage");
+
 		_errorMessage = errorMessage;
 	}
 
@@ -707,7 +754,13 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setStatus(String status) {
+		_columnBitmask |= _columnBitmasks.get("status");
+
 		_status = status;
+	}
+
+	public long getColumnBitmask() {
+		return _columnBitmask;
 	}
 
 	@Override
@@ -829,13 +882,111 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void resetOriginalValues() {
-		EntryModelImpl entryModelImpl = this;
+		_setModifiedDate = false;
 
-		entryModelImpl._setModifiedDate = false;
+		_columnBitmask = 0;
+
+		_entryCacheModel = _toEntryCacheModel();
 	}
 
 	@Override
 	public CacheModel<Entry> toCacheModel() {
+		EntryCacheModel entryCacheModel = _toEntryCacheModel();
+
+		return entryCacheModel;
+	}
+
+	@Override
+	public String toString() {
+		Map<String, Function<Entry, Object>> attributeGetterFunctions =
+			getAttributeGetterFunctions();
+
+		StringBundler sb = new StringBundler(
+			4 * attributeGetterFunctions.size() + 2);
+
+		sb.append("{");
+
+		for (Map.Entry<String, Function<Entry, Object>> entry :
+				attributeGetterFunctions.entrySet()) {
+
+			String attributeName = entry.getKey();
+			Function<Entry, Object> attributeGetterFunction = entry.getValue();
+
+			sb.append(attributeName);
+			sb.append("=");
+			sb.append(attributeGetterFunction.apply((Entry)this));
+			sb.append(", ");
+		}
+
+		if (sb.index() > 1) {
+			sb.setIndex(sb.index() - 1);
+		}
+
+		sb.append("}");
+
+		return sb.toString();
+	}
+
+	@Override
+	public String toXmlString() {
+		Map<String, Function<Entry, Object>> attributeGetterFunctions =
+			getAttributeGetterFunctions();
+
+		StringBundler sb = new StringBundler(
+			5 * attributeGetterFunctions.size() + 4);
+
+		sb.append("<model><model-name>");
+		sb.append(getModelClassName());
+		sb.append("</model-name>");
+
+		for (Map.Entry<String, Function<Entry, Object>> entry :
+				attributeGetterFunctions.entrySet()) {
+
+			String attributeName = entry.getKey();
+			Function<Entry, Object> attributeGetterFunction = entry.getValue();
+
+			sb.append("<column><column-name>");
+			sb.append(attributeName);
+			sb.append("</column-name><column-value><![CDATA[");
+			sb.append(attributeGetterFunction.apply((Entry)this));
+			sb.append("]]></column-value></column>");
+		}
+
+		sb.append("</model>");
+
+		return sb.toString();
+	}
+
+	private static class EscapedModelProxyProviderFunctionHolder {
+
+		private static final Function<InvocationHandler, Entry>
+			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+
+	}
+
+	public static long getColumnBitmask(String attributeName) {
+		return _columnBitmasks.get(attributeName);
+	}
+
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		Function<EntryCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"Unknown attribute name " + attributeName);
+		}
+
+		EntryCacheModel entryCacheModel = _entryCacheModel;
+
+		if (entryCacheModel == null) {
+			entryCacheModel = _dummyEntryCacheModel;
+		}
+
+		return (T)function.apply(entryCacheModel);
+	}
+
+	private EntryCacheModel _toEntryCacheModel() {
 		EntryCacheModel entryCacheModel = new EntryCacheModel();
 
 		entryCacheModel.entryId = getEntryId();
@@ -973,72 +1124,255 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 		return entryCacheModel;
 	}
 
-	@Override
-	public String toString() {
-		Map<String, Function<Entry, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
+	private static final Map<String, Function<EntryCacheModel, Object>>
+		_cacheModelGetterFunctions;
+	private static final Map<String, Long> _columnBitmasks;
+	private static final EntryCacheModel _dummyEntryCacheModel =
+		new EntryCacheModel();
 
-		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+	private EntryCacheModel _entryCacheModel;
 
-		sb.append("{");
+	static {
+		Map<String, Function<EntryCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap<String, Function<EntryCacheModel, Object>>();
+		Map<String, Long> columnBitmasks = new LinkedHashMap<String, Long>();
 
-		for (Map.Entry<String, Function<Entry, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
+		cacheModelGetterFunctions.put(
+			"entryId", entryCacheModel -> entryCacheModel.entryId);
 
-			String attributeName = entry.getKey();
-			Function<Entry, Object> attributeGetterFunction = entry.getValue();
+		columnBitmasks.put("entryId", 1L);
 
-			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((Entry)this));
-			sb.append(", ");
-		}
+		cacheModelGetterFunctions.put(
+			"groupId", entryCacheModel -> entryCacheModel.groupId);
 
-		if (sb.index() > 1) {
-			sb.setIndex(sb.index() - 1);
-		}
+		columnBitmasks.put("groupId", 2L);
 
-		sb.append("}");
+		cacheModelGetterFunctions.put(
+			"companyId", entryCacheModel -> entryCacheModel.companyId);
 
-		return sb.toString();
-	}
+		columnBitmasks.put("companyId", 4L);
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<Entry, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
+		cacheModelGetterFunctions.put(
+			"userId", entryCacheModel -> entryCacheModel.userId);
 
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
+		columnBitmasks.put("userId", 8L);
 
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
+		cacheModelGetterFunctions.put(
+			"userName",
+			entryCacheModel -> {
+				String userName = entryCacheModel.userName;
 
-		for (Map.Entry<String, Function<Entry, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
+				if (userName == null) {
+					return "";
+				}
 
-			String attributeName = entry.getKey();
-			Function<Entry, Object> attributeGetterFunction = entry.getValue();
+				return userName;
+			});
 
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((Entry)this));
-			sb.append("]]></column-value></column>");
-		}
+		columnBitmasks.put("userName", 16L);
 
-		sb.append("</model>");
+		cacheModelGetterFunctions.put(
+			"createDate",
+			entryCacheModel -> {
+				Long createDate = entryCacheModel.createDate;
 
-		return sb.toString();
-	}
+				if (createDate == Long.MIN_VALUE) {
+					return null;
+				}
 
-	private static class EscapedModelProxyProviderFunctionHolder {
+				return new Date(createDate);
+			});
 
-		private static final Function<InvocationHandler, Entry>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+		columnBitmasks.put("createDate", 32L);
 
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			entryCacheModel -> {
+				Long modifiedDate = entryCacheModel.modifiedDate;
+
+				if (modifiedDate == Long.MIN_VALUE) {
+					return null;
+				}
+
+				return new Date(modifiedDate);
+			});
+
+		columnBitmasks.put("modifiedDate", 64L);
+
+		cacheModelGetterFunctions.put(
+			"definitionId", entryCacheModel -> entryCacheModel.definitionId);
+
+		columnBitmasks.put("definitionId", 128L);
+
+		cacheModelGetterFunctions.put(
+			"format",
+			entryCacheModel -> {
+				String format = entryCacheModel.format;
+
+				if (format == null) {
+					return "";
+				}
+
+				return format;
+			});
+
+		columnBitmasks.put("format", 256L);
+
+		cacheModelGetterFunctions.put(
+			"scheduleRequest",
+			entryCacheModel -> entryCacheModel.scheduleRequest);
+
+		columnBitmasks.put("scheduleRequest", 512L);
+
+		cacheModelGetterFunctions.put(
+			"startDate",
+			entryCacheModel -> {
+				Long startDate = entryCacheModel.startDate;
+
+				if (startDate == Long.MIN_VALUE) {
+					return null;
+				}
+
+				return new Date(startDate);
+			});
+
+		columnBitmasks.put("startDate", 1024L);
+
+		cacheModelGetterFunctions.put(
+			"endDate",
+			entryCacheModel -> {
+				Long endDate = entryCacheModel.endDate;
+
+				if (endDate == Long.MIN_VALUE) {
+					return null;
+				}
+
+				return new Date(endDate);
+			});
+
+		columnBitmasks.put("endDate", 2048L);
+
+		cacheModelGetterFunctions.put(
+			"repeating", entryCacheModel -> entryCacheModel.repeating);
+
+		columnBitmasks.put("repeating", 4096L);
+
+		cacheModelGetterFunctions.put(
+			"recurrence",
+			entryCacheModel -> {
+				String recurrence = entryCacheModel.recurrence;
+
+				if (recurrence == null) {
+					return "";
+				}
+
+				return recurrence;
+			});
+
+		columnBitmasks.put("recurrence", 8192L);
+
+		cacheModelGetterFunctions.put(
+			"emailNotifications",
+			entryCacheModel -> {
+				String emailNotifications = entryCacheModel.emailNotifications;
+
+				if (emailNotifications == null) {
+					return "";
+				}
+
+				return emailNotifications;
+			});
+
+		columnBitmasks.put("emailNotifications", 16384L);
+
+		cacheModelGetterFunctions.put(
+			"emailDelivery",
+			entryCacheModel -> {
+				String emailDelivery = entryCacheModel.emailDelivery;
+
+				if (emailDelivery == null) {
+					return "";
+				}
+
+				return emailDelivery;
+			});
+
+		columnBitmasks.put("emailDelivery", 32768L);
+
+		cacheModelGetterFunctions.put(
+			"portletId",
+			entryCacheModel -> {
+				String portletId = entryCacheModel.portletId;
+
+				if (portletId == null) {
+					return "";
+				}
+
+				return portletId;
+			});
+
+		columnBitmasks.put("portletId", 65536L);
+
+		cacheModelGetterFunctions.put(
+			"pageURL",
+			entryCacheModel -> {
+				String pageURL = entryCacheModel.pageURL;
+
+				if (pageURL == null) {
+					return "";
+				}
+
+				return pageURL;
+			});
+
+		columnBitmasks.put("pageURL", 131072L);
+
+		cacheModelGetterFunctions.put(
+			"reportParameters",
+			entryCacheModel -> {
+				String reportParameters = entryCacheModel.reportParameters;
+
+				if (reportParameters == null) {
+					return "";
+				}
+
+				return reportParameters;
+			});
+
+		columnBitmasks.put("reportParameters", 262144L);
+
+		cacheModelGetterFunctions.put(
+			"errorMessage",
+			entryCacheModel -> {
+				String errorMessage = entryCacheModel.errorMessage;
+
+				if (errorMessage == null) {
+					return "";
+				}
+
+				return errorMessage;
+			});
+
+		columnBitmasks.put("errorMessage", 524288L);
+
+		cacheModelGetterFunctions.put(
+			"status",
+			entryCacheModel -> {
+				String status = entryCacheModel.status;
+
+				if (status == null) {
+					return "";
+				}
+
+				return status;
+			});
+
+		columnBitmasks.put("status", 1048576L);
+
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
 	private long _entryId;
@@ -1063,6 +1397,7 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 	private String _reportParameters;
 	private String _errorMessage;
 	private String _status;
+	private long _columnBitmask;
 	private Entry _escapedModel;
 
 }

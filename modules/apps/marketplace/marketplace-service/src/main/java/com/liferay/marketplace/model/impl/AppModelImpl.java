@@ -30,7 +30,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
@@ -118,14 +117,39 @@ public class AppModelImpl extends BaseModelImpl<App> implements AppModel {
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long CATEGORY_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long REMOTEAPPID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long APPID_COLUMN_BITMASK = 16L;
 
 	/**
@@ -373,17 +397,18 @@ public class AppModelImpl extends BaseModelImpl<App> implements AppModel {
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
-		}
+		_columnBitmask |= _columnBitmasks.get("uuid");
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getOriginalAttributeValue("uuid");
 	}
 
 	@JSON
@@ -394,6 +419,8 @@ public class AppModelImpl extends BaseModelImpl<App> implements AppModel {
 
 	@Override
 	public void setAppId(long appId) {
+		_columnBitmask |= _columnBitmasks.get("appId");
+
 		_appId = appId;
 	}
 
@@ -405,19 +432,18 @@ public class AppModelImpl extends BaseModelImpl<App> implements AppModel {
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
-		}
+		_columnBitmask |= _columnBitmasks.get("companyId");
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@JSON
@@ -428,6 +454,8 @@ public class AppModelImpl extends BaseModelImpl<App> implements AppModel {
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= _columnBitmasks.get("userId");
+
 		_userId = userId;
 	}
 
@@ -460,6 +488,8 @@ public class AppModelImpl extends BaseModelImpl<App> implements AppModel {
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= _columnBitmasks.get("userName");
+
 		_userName = userName;
 	}
 
@@ -471,6 +501,8 @@ public class AppModelImpl extends BaseModelImpl<App> implements AppModel {
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= _columnBitmasks.get("createDate");
+
 		_createDate = createDate;
 	}
 
@@ -488,6 +520,8 @@ public class AppModelImpl extends BaseModelImpl<App> implements AppModel {
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= _columnBitmasks.get("modifiedDate");
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -499,19 +533,18 @@ public class AppModelImpl extends BaseModelImpl<App> implements AppModel {
 
 	@Override
 	public void setRemoteAppId(long remoteAppId) {
-		_columnBitmask |= REMOTEAPPID_COLUMN_BITMASK;
-
-		if (!_setOriginalRemoteAppId) {
-			_setOriginalRemoteAppId = true;
-
-			_originalRemoteAppId = _remoteAppId;
-		}
+		_columnBitmask |= _columnBitmasks.get("remoteAppId");
 
 		_remoteAppId = remoteAppId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalRemoteAppId() {
-		return _originalRemoteAppId;
+		return getOriginalAttributeValue("remoteAppId");
 	}
 
 	@JSON
@@ -527,6 +560,8 @@ public class AppModelImpl extends BaseModelImpl<App> implements AppModel {
 
 	@Override
 	public void setTitle(String title) {
+		_columnBitmask |= _columnBitmasks.get("title");
+
 		_title = title;
 	}
 
@@ -543,6 +578,8 @@ public class AppModelImpl extends BaseModelImpl<App> implements AppModel {
 
 	@Override
 	public void setDescription(String description) {
+		_columnBitmask |= _columnBitmasks.get("description");
+
 		_description = description;
 	}
 
@@ -559,17 +596,18 @@ public class AppModelImpl extends BaseModelImpl<App> implements AppModel {
 
 	@Override
 	public void setCategory(String category) {
-		_columnBitmask |= CATEGORY_COLUMN_BITMASK;
-
-		if (_originalCategory == null) {
-			_originalCategory = _category;
-		}
+		_columnBitmask |= _columnBitmasks.get("category");
 
 		_category = category;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalCategory() {
-		return GetterUtil.getString(_originalCategory);
+		return getOriginalAttributeValue("category");
 	}
 
 	@JSON
@@ -585,6 +623,8 @@ public class AppModelImpl extends BaseModelImpl<App> implements AppModel {
 
 	@Override
 	public void setIconURL(String iconURL) {
+		_columnBitmask |= _columnBitmasks.get("iconURL");
+
 		_iconURL = iconURL;
 	}
 
@@ -601,6 +641,8 @@ public class AppModelImpl extends BaseModelImpl<App> implements AppModel {
 
 	@Override
 	public void setVersion(String version) {
+		_columnBitmask |= _columnBitmasks.get("version");
+
 		_version = version;
 	}
 
@@ -618,6 +660,8 @@ public class AppModelImpl extends BaseModelImpl<App> implements AppModel {
 
 	@Override
 	public void setRequired(boolean required) {
+		_columnBitmask |= _columnBitmasks.get("required");
+
 		_required = required;
 	}
 
@@ -744,27 +788,111 @@ public class AppModelImpl extends BaseModelImpl<App> implements AppModel {
 
 	@Override
 	public void resetOriginalValues() {
-		AppModelImpl appModelImpl = this;
+		_setModifiedDate = false;
 
-		appModelImpl._originalUuid = appModelImpl._uuid;
+		_columnBitmask = 0;
 
-		appModelImpl._originalCompanyId = appModelImpl._companyId;
-
-		appModelImpl._setOriginalCompanyId = false;
-
-		appModelImpl._setModifiedDate = false;
-
-		appModelImpl._originalRemoteAppId = appModelImpl._remoteAppId;
-
-		appModelImpl._setOriginalRemoteAppId = false;
-
-		appModelImpl._originalCategory = appModelImpl._category;
-
-		appModelImpl._columnBitmask = 0;
+		_appCacheModel = _toAppCacheModel();
 	}
 
 	@Override
 	public CacheModel<App> toCacheModel() {
+		AppCacheModel appCacheModel = _toAppCacheModel();
+
+		return appCacheModel;
+	}
+
+	@Override
+	public String toString() {
+		Map<String, Function<App, Object>> attributeGetterFunctions =
+			getAttributeGetterFunctions();
+
+		StringBundler sb = new StringBundler(
+			4 * attributeGetterFunctions.size() + 2);
+
+		sb.append("{");
+
+		for (Map.Entry<String, Function<App, Object>> entry :
+				attributeGetterFunctions.entrySet()) {
+
+			String attributeName = entry.getKey();
+			Function<App, Object> attributeGetterFunction = entry.getValue();
+
+			sb.append(attributeName);
+			sb.append("=");
+			sb.append(attributeGetterFunction.apply((App)this));
+			sb.append(", ");
+		}
+
+		if (sb.index() > 1) {
+			sb.setIndex(sb.index() - 1);
+		}
+
+		sb.append("}");
+
+		return sb.toString();
+	}
+
+	@Override
+	public String toXmlString() {
+		Map<String, Function<App, Object>> attributeGetterFunctions =
+			getAttributeGetterFunctions();
+
+		StringBundler sb = new StringBundler(
+			5 * attributeGetterFunctions.size() + 4);
+
+		sb.append("<model><model-name>");
+		sb.append(getModelClassName());
+		sb.append("</model-name>");
+
+		for (Map.Entry<String, Function<App, Object>> entry :
+				attributeGetterFunctions.entrySet()) {
+
+			String attributeName = entry.getKey();
+			Function<App, Object> attributeGetterFunction = entry.getValue();
+
+			sb.append("<column><column-name>");
+			sb.append(attributeName);
+			sb.append("</column-name><column-value><![CDATA[");
+			sb.append(attributeGetterFunction.apply((App)this));
+			sb.append("]]></column-value></column>");
+		}
+
+		sb.append("</model>");
+
+		return sb.toString();
+	}
+
+	private static class EscapedModelProxyProviderFunctionHolder {
+
+		private static final Function<InvocationHandler, App>
+			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+
+	}
+
+	public static long getColumnBitmask(String attributeName) {
+		return _columnBitmasks.get(attributeName);
+	}
+
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		Function<AppCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"Unknown attribute name " + attributeName);
+		}
+
+		AppCacheModel appCacheModel = _appCacheModel;
+
+		if (appCacheModel == null) {
+			appCacheModel = _dummyAppCacheModel;
+		}
+
+		return (T)function.apply(appCacheModel);
+	}
+
+	private AppCacheModel _toAppCacheModel() {
 		AppCacheModel appCacheModel = new AppCacheModel();
 
 		appCacheModel.uuid = getUuid();
@@ -854,92 +982,187 @@ public class AppModelImpl extends BaseModelImpl<App> implements AppModel {
 		return appCacheModel;
 	}
 
-	@Override
-	public String toString() {
-		Map<String, Function<App, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
+	private static final Map<String, Function<AppCacheModel, Object>>
+		_cacheModelGetterFunctions;
+	private static final Map<String, Long> _columnBitmasks;
+	private static final AppCacheModel _dummyAppCacheModel =
+		new AppCacheModel();
 
-		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+	private AppCacheModel _appCacheModel;
 
-		sb.append("{");
+	static {
+		Map<String, Function<AppCacheModel, Object>> cacheModelGetterFunctions =
+			new LinkedHashMap<String, Function<AppCacheModel, Object>>();
+		Map<String, Long> columnBitmasks = new LinkedHashMap<String, Long>();
 
-		for (Map.Entry<String, Function<App, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
+		cacheModelGetterFunctions.put(
+			"uuid",
+			appCacheModel -> {
+				String uuid = appCacheModel.uuid;
 
-			String attributeName = entry.getKey();
-			Function<App, Object> attributeGetterFunction = entry.getValue();
+				if (uuid == null) {
+					return "";
+				}
 
-			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((App)this));
-			sb.append(", ");
-		}
+				return uuid;
+			});
 
-		if (sb.index() > 1) {
-			sb.setIndex(sb.index() - 1);
-		}
+		columnBitmasks.put("uuid", 1L);
 
-		sb.append("}");
+		cacheModelGetterFunctions.put(
+			"appId", appCacheModel -> appCacheModel.appId);
 
-		return sb.toString();
-	}
+		columnBitmasks.put("appId", 2L);
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<App, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
+		cacheModelGetterFunctions.put(
+			"companyId", appCacheModel -> appCacheModel.companyId);
 
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
+		columnBitmasks.put("companyId", 4L);
 
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
+		cacheModelGetterFunctions.put(
+			"userId", appCacheModel -> appCacheModel.userId);
 
-		for (Map.Entry<String, Function<App, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
+		columnBitmasks.put("userId", 8L);
 
-			String attributeName = entry.getKey();
-			Function<App, Object> attributeGetterFunction = entry.getValue();
+		cacheModelGetterFunctions.put(
+			"userName",
+			appCacheModel -> {
+				String userName = appCacheModel.userName;
 
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((App)this));
-			sb.append("]]></column-value></column>");
-		}
+				if (userName == null) {
+					return "";
+				}
 
-		sb.append("</model>");
+				return userName;
+			});
 
-		return sb.toString();
-	}
+		columnBitmasks.put("userName", 16L);
 
-	private static class EscapedModelProxyProviderFunctionHolder {
+		cacheModelGetterFunctions.put(
+			"createDate",
+			appCacheModel -> {
+				Long createDate = appCacheModel.createDate;
 
-		private static final Function<InvocationHandler, App>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+				if (createDate == Long.MIN_VALUE) {
+					return null;
+				}
 
+				return new Date(createDate);
+			});
+
+		columnBitmasks.put("createDate", 32L);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			appCacheModel -> {
+				Long modifiedDate = appCacheModel.modifiedDate;
+
+				if (modifiedDate == Long.MIN_VALUE) {
+					return null;
+				}
+
+				return new Date(modifiedDate);
+			});
+
+		columnBitmasks.put("modifiedDate", 64L);
+
+		cacheModelGetterFunctions.put(
+			"remoteAppId", appCacheModel -> appCacheModel.remoteAppId);
+
+		columnBitmasks.put("remoteAppId", 128L);
+
+		cacheModelGetterFunctions.put(
+			"title",
+			appCacheModel -> {
+				String title = appCacheModel.title;
+
+				if (title == null) {
+					return "";
+				}
+
+				return title;
+			});
+
+		columnBitmasks.put("title", 256L);
+
+		cacheModelGetterFunctions.put(
+			"description",
+			appCacheModel -> {
+				String description = appCacheModel.description;
+
+				if (description == null) {
+					return "";
+				}
+
+				return description;
+			});
+
+		columnBitmasks.put("description", 512L);
+
+		cacheModelGetterFunctions.put(
+			"category",
+			appCacheModel -> {
+				String category = appCacheModel.category;
+
+				if (category == null) {
+					return "";
+				}
+
+				return category;
+			});
+
+		columnBitmasks.put("category", 1024L);
+
+		cacheModelGetterFunctions.put(
+			"iconURL",
+			appCacheModel -> {
+				String iconURL = appCacheModel.iconURL;
+
+				if (iconURL == null) {
+					return "";
+				}
+
+				return iconURL;
+			});
+
+		columnBitmasks.put("iconURL", 2048L);
+
+		cacheModelGetterFunctions.put(
+			"version",
+			appCacheModel -> {
+				String version = appCacheModel.version;
+
+				if (version == null) {
+					return "";
+				}
+
+				return version;
+			});
+
+		columnBitmasks.put("version", 4096L);
+
+		cacheModelGetterFunctions.put(
+			"required", appCacheModel -> appCacheModel.required);
+
+		columnBitmasks.put("required", 8192L);
+
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _appId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _remoteAppId;
-	private long _originalRemoteAppId;
-	private boolean _setOriginalRemoteAppId;
 	private String _title;
 	private String _description;
 	private String _category;
-	private String _originalCategory;
 	private String _iconURL;
 	private String _version;
 	private boolean _required;

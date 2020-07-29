@@ -30,7 +30,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
@@ -122,14 +121,39 @@ public class DEDataListViewModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long DDMSTRUCTUREID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long DEDATALISTVIEWID_COLUMN_BITMASK = 16L;
 
 	/**
@@ -350,17 +374,18 @@ public class DEDataListViewModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
-		}
+		_columnBitmask |= _columnBitmasks.get("uuid");
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getOriginalAttributeValue("uuid");
 	}
 
 	@Override
@@ -370,6 +395,8 @@ public class DEDataListViewModelImpl
 
 	@Override
 	public void setDeDataListViewId(long deDataListViewId) {
+		_columnBitmask |= _columnBitmasks.get("deDataListViewId");
+
 		_deDataListViewId = deDataListViewId;
 	}
 
@@ -380,19 +407,18 @@ public class DEDataListViewModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
-		}
+		_columnBitmask |= _columnBitmasks.get("groupId");
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getOriginalAttributeValue("groupId");
 	}
 
 	@Override
@@ -402,19 +428,18 @@ public class DEDataListViewModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
-		}
+		_columnBitmask |= _columnBitmasks.get("companyId");
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@Override
@@ -424,6 +449,8 @@ public class DEDataListViewModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= _columnBitmasks.get("userId");
+
 		_userId = userId;
 	}
 
@@ -455,6 +482,8 @@ public class DEDataListViewModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= _columnBitmasks.get("userName");
+
 		_userName = userName;
 	}
 
@@ -465,6 +494,8 @@ public class DEDataListViewModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= _columnBitmasks.get("createDate");
+
 		_createDate = createDate;
 	}
 
@@ -481,6 +512,8 @@ public class DEDataListViewModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= _columnBitmasks.get("modifiedDate");
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -496,6 +529,8 @@ public class DEDataListViewModelImpl
 
 	@Override
 	public void setAppliedFilters(String appliedFilters) {
+		_columnBitmask |= _columnBitmasks.get("appliedFilters");
+
 		_appliedFilters = appliedFilters;
 	}
 
@@ -506,19 +541,18 @@ public class DEDataListViewModelImpl
 
 	@Override
 	public void setDdmStructureId(long ddmStructureId) {
-		_columnBitmask |= DDMSTRUCTUREID_COLUMN_BITMASK;
-
-		if (!_setOriginalDdmStructureId) {
-			_setOriginalDdmStructureId = true;
-
-			_originalDdmStructureId = _ddmStructureId;
-		}
+		_columnBitmask |= _columnBitmasks.get("ddmStructureId");
 
 		_ddmStructureId = ddmStructureId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalDdmStructureId() {
-		return _originalDdmStructureId;
+		return getOriginalAttributeValue("ddmStructureId");
 	}
 
 	@Override
@@ -533,6 +567,8 @@ public class DEDataListViewModelImpl
 
 	@Override
 	public void setFieldNames(String fieldNames) {
+		_columnBitmask |= _columnBitmasks.get("fieldNames");
+
 		_fieldNames = fieldNames;
 	}
 
@@ -591,6 +627,8 @@ public class DEDataListViewModelImpl
 
 	@Override
 	public void setName(String name) {
+		_columnBitmask |= _columnBitmasks.get("name");
+
 		_name = name;
 	}
 
@@ -650,6 +688,8 @@ public class DEDataListViewModelImpl
 
 	@Override
 	public void setSortField(String sortField) {
+		_columnBitmask |= _columnBitmasks.get("sortField");
+
 		_sortField = sortField;
 	}
 
@@ -842,32 +882,115 @@ public class DEDataListViewModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		DEDataListViewModelImpl deDataListViewModelImpl = this;
+		_setModifiedDate = false;
 
-		deDataListViewModelImpl._originalUuid = deDataListViewModelImpl._uuid;
+		_columnBitmask = 0;
 
-		deDataListViewModelImpl._originalGroupId =
-			deDataListViewModelImpl._groupId;
-
-		deDataListViewModelImpl._setOriginalGroupId = false;
-
-		deDataListViewModelImpl._originalCompanyId =
-			deDataListViewModelImpl._companyId;
-
-		deDataListViewModelImpl._setOriginalCompanyId = false;
-
-		deDataListViewModelImpl._setModifiedDate = false;
-
-		deDataListViewModelImpl._originalDdmStructureId =
-			deDataListViewModelImpl._ddmStructureId;
-
-		deDataListViewModelImpl._setOriginalDdmStructureId = false;
-
-		deDataListViewModelImpl._columnBitmask = 0;
+		_deDataListViewCacheModel = _toDEDataListViewCacheModel();
 	}
 
 	@Override
 	public CacheModel<DEDataListView> toCacheModel() {
+		DEDataListViewCacheModel deDataListViewCacheModel =
+			_toDEDataListViewCacheModel();
+
+		return deDataListViewCacheModel;
+	}
+
+	@Override
+	public String toString() {
+		Map<String, Function<DEDataListView, Object>> attributeGetterFunctions =
+			getAttributeGetterFunctions();
+
+		StringBundler sb = new StringBundler(
+			4 * attributeGetterFunctions.size() + 2);
+
+		sb.append("{");
+
+		for (Map.Entry<String, Function<DEDataListView, Object>> entry :
+				attributeGetterFunctions.entrySet()) {
+
+			String attributeName = entry.getKey();
+			Function<DEDataListView, Object> attributeGetterFunction =
+				entry.getValue();
+
+			sb.append(attributeName);
+			sb.append("=");
+			sb.append(attributeGetterFunction.apply((DEDataListView)this));
+			sb.append(", ");
+		}
+
+		if (sb.index() > 1) {
+			sb.setIndex(sb.index() - 1);
+		}
+
+		sb.append("}");
+
+		return sb.toString();
+	}
+
+	@Override
+	public String toXmlString() {
+		Map<String, Function<DEDataListView, Object>> attributeGetterFunctions =
+			getAttributeGetterFunctions();
+
+		StringBundler sb = new StringBundler(
+			5 * attributeGetterFunctions.size() + 4);
+
+		sb.append("<model><model-name>");
+		sb.append(getModelClassName());
+		sb.append("</model-name>");
+
+		for (Map.Entry<String, Function<DEDataListView, Object>> entry :
+				attributeGetterFunctions.entrySet()) {
+
+			String attributeName = entry.getKey();
+			Function<DEDataListView, Object> attributeGetterFunction =
+				entry.getValue();
+
+			sb.append("<column><column-name>");
+			sb.append(attributeName);
+			sb.append("</column-name><column-value><![CDATA[");
+			sb.append(attributeGetterFunction.apply((DEDataListView)this));
+			sb.append("]]></column-value></column>");
+		}
+
+		sb.append("</model>");
+
+		return sb.toString();
+	}
+
+	private static class EscapedModelProxyProviderFunctionHolder {
+
+		private static final Function<InvocationHandler, DEDataListView>
+			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+
+	}
+
+	public static long getColumnBitmask(String attributeName) {
+		return _columnBitmasks.get(attributeName);
+	}
+
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		Function<DEDataListViewCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"Unknown attribute name " + attributeName);
+		}
+
+		DEDataListViewCacheModel deDataListViewCacheModel =
+			_deDataListViewCacheModel;
+
+		if (deDataListViewCacheModel == null) {
+			deDataListViewCacheModel = _dummyDEDataListViewCacheModel;
+		}
+
+		return (T)function.apply(deDataListViewCacheModel);
+	}
+
+	private DEDataListViewCacheModel _toDEDataListViewCacheModel() {
 		DEDataListViewCacheModel deDataListViewCacheModel =
 			new DEDataListViewCacheModel();
 
@@ -950,85 +1073,174 @@ public class DEDataListViewModelImpl
 		return deDataListViewCacheModel;
 	}
 
-	@Override
-	public String toString() {
-		Map<String, Function<DEDataListView, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
+	private static final Map<String, Function<DEDataListViewCacheModel, Object>>
+		_cacheModelGetterFunctions;
+	private static final Map<String, Long> _columnBitmasks;
+	private static final DEDataListViewCacheModel
+		_dummyDEDataListViewCacheModel = new DEDataListViewCacheModel();
 
-		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+	private DEDataListViewCacheModel _deDataListViewCacheModel;
 
-		sb.append("{");
+	static {
+		Map<String, Function<DEDataListViewCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<DEDataListViewCacheModel, Object>>();
+		Map<String, Long> columnBitmasks = new LinkedHashMap<String, Long>();
 
-		for (Map.Entry<String, Function<DEDataListView, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
+		cacheModelGetterFunctions.put(
+			"uuid",
+			deDataListViewCacheModel -> {
+				String uuid = deDataListViewCacheModel.uuid;
 
-			String attributeName = entry.getKey();
-			Function<DEDataListView, Object> attributeGetterFunction =
-				entry.getValue();
+				if (uuid == null) {
+					return "";
+				}
 
-			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((DEDataListView)this));
-			sb.append(", ");
-		}
+				return uuid;
+			});
 
-		if (sb.index() > 1) {
-			sb.setIndex(sb.index() - 1);
-		}
+		columnBitmasks.put("uuid", 1L);
 
-		sb.append("}");
+		cacheModelGetterFunctions.put(
+			"deDataListViewId",
+			deDataListViewCacheModel ->
+				deDataListViewCacheModel.deDataListViewId);
 
-		return sb.toString();
-	}
+		columnBitmasks.put("deDataListViewId", 2L);
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<DEDataListView, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
+		cacheModelGetterFunctions.put(
+			"groupId",
+			deDataListViewCacheModel -> deDataListViewCacheModel.groupId);
 
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
+		columnBitmasks.put("groupId", 4L);
 
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
+		cacheModelGetterFunctions.put(
+			"companyId",
+			deDataListViewCacheModel -> deDataListViewCacheModel.companyId);
 
-		for (Map.Entry<String, Function<DEDataListView, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
+		columnBitmasks.put("companyId", 8L);
 
-			String attributeName = entry.getKey();
-			Function<DEDataListView, Object> attributeGetterFunction =
-				entry.getValue();
+		cacheModelGetterFunctions.put(
+			"userId",
+			deDataListViewCacheModel -> deDataListViewCacheModel.userId);
 
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((DEDataListView)this));
-			sb.append("]]></column-value></column>");
-		}
+		columnBitmasks.put("userId", 16L);
 
-		sb.append("</model>");
+		cacheModelGetterFunctions.put(
+			"userName",
+			deDataListViewCacheModel -> {
+				String userName = deDataListViewCacheModel.userName;
 
-		return sb.toString();
-	}
+				if (userName == null) {
+					return "";
+				}
 
-	private static class EscapedModelProxyProviderFunctionHolder {
+				return userName;
+			});
 
-		private static final Function<InvocationHandler, DEDataListView>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+		columnBitmasks.put("userName", 32L);
 
+		cacheModelGetterFunctions.put(
+			"createDate",
+			deDataListViewCacheModel -> {
+				Long createDate = deDataListViewCacheModel.createDate;
+
+				if (createDate == Long.MIN_VALUE) {
+					return null;
+				}
+
+				return new Date(createDate);
+			});
+
+		columnBitmasks.put("createDate", 64L);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			deDataListViewCacheModel -> {
+				Long modifiedDate = deDataListViewCacheModel.modifiedDate;
+
+				if (modifiedDate == Long.MIN_VALUE) {
+					return null;
+				}
+
+				return new Date(modifiedDate);
+			});
+
+		columnBitmasks.put("modifiedDate", 128L);
+
+		cacheModelGetterFunctions.put(
+			"appliedFilters",
+			deDataListViewCacheModel -> {
+				String appliedFilters = deDataListViewCacheModel.appliedFilters;
+
+				if (appliedFilters == null) {
+					return "";
+				}
+
+				return appliedFilters;
+			});
+
+		columnBitmasks.put("appliedFilters", 256L);
+
+		cacheModelGetterFunctions.put(
+			"ddmStructureId",
+			deDataListViewCacheModel ->
+				deDataListViewCacheModel.ddmStructureId);
+
+		columnBitmasks.put("ddmStructureId", 512L);
+
+		cacheModelGetterFunctions.put(
+			"fieldNames",
+			deDataListViewCacheModel -> {
+				String fieldNames = deDataListViewCacheModel.fieldNames;
+
+				if (fieldNames == null) {
+					return "";
+				}
+
+				return fieldNames;
+			});
+
+		columnBitmasks.put("fieldNames", 1024L);
+
+		cacheModelGetterFunctions.put(
+			"name",
+			deDataListViewCacheModel -> {
+				String name = deDataListViewCacheModel.name;
+
+				if (name == null) {
+					return "";
+				}
+
+				return name;
+			});
+
+		columnBitmasks.put("name", 2048L);
+
+		cacheModelGetterFunctions.put(
+			"sortField",
+			deDataListViewCacheModel -> {
+				String sortField = deDataListViewCacheModel.sortField;
+
+				if (sortField == null) {
+					return "";
+				}
+
+				return sortField;
+			});
+
+		columnBitmasks.put("sortField", 4096L);
+
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _deDataListViewId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
@@ -1036,8 +1248,6 @@ public class DEDataListViewModelImpl
 	private boolean _setModifiedDate;
 	private String _appliedFilters;
 	private long _ddmStructureId;
-	private long _originalDdmStructureId;
-	private boolean _setOriginalDdmStructureId;
 	private String _fieldNames;
 	private String _name;
 	private String _nameCurrentLanguageId;

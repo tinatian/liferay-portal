@@ -26,7 +26,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.site.model.SiteFriendlyURL;
@@ -112,16 +111,46 @@ public class SiteFriendlyURLModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long FRIENDLYURL_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long LANGUAGEID_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 16L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long SITEFRIENDLYURLID_COLUMN_BITMASK = 32L;
 
 	/**
@@ -338,6 +367,8 @@ public class SiteFriendlyURLModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= _columnBitmasks.get("mvccVersion");
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -353,17 +384,18 @@ public class SiteFriendlyURLModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
-		}
+		_columnBitmask |= _columnBitmasks.get("uuid");
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getOriginalAttributeValue("uuid");
 	}
 
 	@Override
@@ -373,6 +405,8 @@ public class SiteFriendlyURLModelImpl
 
 	@Override
 	public void setSiteFriendlyURLId(long siteFriendlyURLId) {
+		_columnBitmask |= _columnBitmasks.get("siteFriendlyURLId");
+
 		_siteFriendlyURLId = siteFriendlyURLId;
 	}
 
@@ -383,19 +417,18 @@ public class SiteFriendlyURLModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
-		}
+		_columnBitmask |= _columnBitmasks.get("companyId");
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@Override
@@ -405,6 +438,8 @@ public class SiteFriendlyURLModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= _columnBitmasks.get("userId");
+
 		_userId = userId;
 	}
 
@@ -436,6 +471,8 @@ public class SiteFriendlyURLModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= _columnBitmasks.get("userName");
+
 		_userName = userName;
 	}
 
@@ -446,6 +483,8 @@ public class SiteFriendlyURLModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= _columnBitmasks.get("createDate");
+
 		_createDate = createDate;
 	}
 
@@ -462,6 +501,8 @@ public class SiteFriendlyURLModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= _columnBitmasks.get("modifiedDate");
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -472,19 +513,18 @@ public class SiteFriendlyURLModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
-		}
+		_columnBitmask |= _columnBitmasks.get("groupId");
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getOriginalAttributeValue("groupId");
 	}
 
 	@Override
@@ -499,17 +539,18 @@ public class SiteFriendlyURLModelImpl
 
 	@Override
 	public void setFriendlyURL(String friendlyURL) {
-		_columnBitmask |= FRIENDLYURL_COLUMN_BITMASK;
-
-		if (_originalFriendlyURL == null) {
-			_originalFriendlyURL = _friendlyURL;
-		}
+		_columnBitmask |= _columnBitmasks.get("friendlyURL");
 
 		_friendlyURL = friendlyURL;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalFriendlyURL() {
-		return GetterUtil.getString(_originalFriendlyURL);
+		return getOriginalAttributeValue("friendlyURL");
 	}
 
 	@Override
@@ -524,17 +565,18 @@ public class SiteFriendlyURLModelImpl
 
 	@Override
 	public void setLanguageId(String languageId) {
-		_columnBitmask |= LANGUAGEID_COLUMN_BITMASK;
-
-		if (_originalLanguageId == null) {
-			_originalLanguageId = _languageId;
-		}
+		_columnBitmask |= _columnBitmasks.get("languageId");
 
 		_languageId = languageId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalLanguageId() {
-		return GetterUtil.getString(_originalLanguageId);
+		return getOriginalAttributeValue("languageId");
 	}
 
 	@Override
@@ -544,6 +586,8 @@ public class SiteFriendlyURLModelImpl
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		_columnBitmask |= _columnBitmasks.get("lastPublishDate");
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -669,33 +713,115 @@ public class SiteFriendlyURLModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		SiteFriendlyURLModelImpl siteFriendlyURLModelImpl = this;
+		_setModifiedDate = false;
 
-		siteFriendlyURLModelImpl._originalUuid = siteFriendlyURLModelImpl._uuid;
+		_columnBitmask = 0;
 
-		siteFriendlyURLModelImpl._originalCompanyId =
-			siteFriendlyURLModelImpl._companyId;
-
-		siteFriendlyURLModelImpl._setOriginalCompanyId = false;
-
-		siteFriendlyURLModelImpl._setModifiedDate = false;
-
-		siteFriendlyURLModelImpl._originalGroupId =
-			siteFriendlyURLModelImpl._groupId;
-
-		siteFriendlyURLModelImpl._setOriginalGroupId = false;
-
-		siteFriendlyURLModelImpl._originalFriendlyURL =
-			siteFriendlyURLModelImpl._friendlyURL;
-
-		siteFriendlyURLModelImpl._originalLanguageId =
-			siteFriendlyURLModelImpl._languageId;
-
-		siteFriendlyURLModelImpl._columnBitmask = 0;
+		_siteFriendlyURLCacheModel = _toSiteFriendlyURLCacheModel();
 	}
 
 	@Override
 	public CacheModel<SiteFriendlyURL> toCacheModel() {
+		SiteFriendlyURLCacheModel siteFriendlyURLCacheModel =
+			_toSiteFriendlyURLCacheModel();
+
+		return siteFriendlyURLCacheModel;
+	}
+
+	@Override
+	public String toString() {
+		Map<String, Function<SiteFriendlyURL, Object>>
+			attributeGetterFunctions = getAttributeGetterFunctions();
+
+		StringBundler sb = new StringBundler(
+			4 * attributeGetterFunctions.size() + 2);
+
+		sb.append("{");
+
+		for (Map.Entry<String, Function<SiteFriendlyURL, Object>> entry :
+				attributeGetterFunctions.entrySet()) {
+
+			String attributeName = entry.getKey();
+			Function<SiteFriendlyURL, Object> attributeGetterFunction =
+				entry.getValue();
+
+			sb.append(attributeName);
+			sb.append("=");
+			sb.append(attributeGetterFunction.apply((SiteFriendlyURL)this));
+			sb.append(", ");
+		}
+
+		if (sb.index() > 1) {
+			sb.setIndex(sb.index() - 1);
+		}
+
+		sb.append("}");
+
+		return sb.toString();
+	}
+
+	@Override
+	public String toXmlString() {
+		Map<String, Function<SiteFriendlyURL, Object>>
+			attributeGetterFunctions = getAttributeGetterFunctions();
+
+		StringBundler sb = new StringBundler(
+			5 * attributeGetterFunctions.size() + 4);
+
+		sb.append("<model><model-name>");
+		sb.append(getModelClassName());
+		sb.append("</model-name>");
+
+		for (Map.Entry<String, Function<SiteFriendlyURL, Object>> entry :
+				attributeGetterFunctions.entrySet()) {
+
+			String attributeName = entry.getKey();
+			Function<SiteFriendlyURL, Object> attributeGetterFunction =
+				entry.getValue();
+
+			sb.append("<column><column-name>");
+			sb.append(attributeName);
+			sb.append("</column-name><column-value><![CDATA[");
+			sb.append(attributeGetterFunction.apply((SiteFriendlyURL)this));
+			sb.append("]]></column-value></column>");
+		}
+
+		sb.append("</model>");
+
+		return sb.toString();
+	}
+
+	private static class EscapedModelProxyProviderFunctionHolder {
+
+		private static final Function<InvocationHandler, SiteFriendlyURL>
+			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+
+	}
+
+	public static long getColumnBitmask(String attributeName) {
+		return _columnBitmasks.get(attributeName);
+	}
+
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		Function<SiteFriendlyURLCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"Unknown attribute name " + attributeName);
+		}
+
+		SiteFriendlyURLCacheModel siteFriendlyURLCacheModel =
+			_siteFriendlyURLCacheModel;
+
+		if (siteFriendlyURLCacheModel == null) {
+			siteFriendlyURLCacheModel = _dummySiteFriendlyURLCacheModel;
+		}
+
+		return (T)function.apply(siteFriendlyURLCacheModel);
+	}
+
+	private SiteFriendlyURLCacheModel _toSiteFriendlyURLCacheModel() {
 		SiteFriendlyURLCacheModel siteFriendlyURLCacheModel =
 			new SiteFriendlyURLCacheModel();
 
@@ -772,95 +898,169 @@ public class SiteFriendlyURLModelImpl
 		return siteFriendlyURLCacheModel;
 	}
 
-	@Override
-	public String toString() {
-		Map<String, Function<SiteFriendlyURL, Object>>
-			attributeGetterFunctions = getAttributeGetterFunctions();
+	private static final Map
+		<String, Function<SiteFriendlyURLCacheModel, Object>>
+			_cacheModelGetterFunctions;
+	private static final Map<String, Long> _columnBitmasks;
+	private static final SiteFriendlyURLCacheModel
+		_dummySiteFriendlyURLCacheModel = new SiteFriendlyURLCacheModel();
 
-		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+	private SiteFriendlyURLCacheModel _siteFriendlyURLCacheModel;
 
-		sb.append("{");
+	static {
+		Map<String, Function<SiteFriendlyURLCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<SiteFriendlyURLCacheModel, Object>>();
+		Map<String, Long> columnBitmasks = new LinkedHashMap<String, Long>();
 
-		for (Map.Entry<String, Function<SiteFriendlyURL, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			siteFriendlyURLCacheModel -> siteFriendlyURLCacheModel.mvccVersion);
 
-			String attributeName = entry.getKey();
-			Function<SiteFriendlyURL, Object> attributeGetterFunction =
-				entry.getValue();
+		columnBitmasks.put("mvccVersion", 1L);
 
-			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((SiteFriendlyURL)this));
-			sb.append(", ");
-		}
+		cacheModelGetterFunctions.put(
+			"uuid",
+			siteFriendlyURLCacheModel -> {
+				String uuid = siteFriendlyURLCacheModel.uuid;
 
-		if (sb.index() > 1) {
-			sb.setIndex(sb.index() - 1);
-		}
+				if (uuid == null) {
+					return "";
+				}
 
-		sb.append("}");
+				return uuid;
+			});
 
-		return sb.toString();
-	}
+		columnBitmasks.put("uuid", 2L);
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<SiteFriendlyURL, Object>>
-			attributeGetterFunctions = getAttributeGetterFunctions();
+		cacheModelGetterFunctions.put(
+			"siteFriendlyURLId",
+			siteFriendlyURLCacheModel ->
+				siteFriendlyURLCacheModel.siteFriendlyURLId);
 
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
+		columnBitmasks.put("siteFriendlyURLId", 4L);
 
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
+		cacheModelGetterFunctions.put(
+			"companyId",
+			siteFriendlyURLCacheModel -> siteFriendlyURLCacheModel.companyId);
 
-		for (Map.Entry<String, Function<SiteFriendlyURL, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
+		columnBitmasks.put("companyId", 8L);
 
-			String attributeName = entry.getKey();
-			Function<SiteFriendlyURL, Object> attributeGetterFunction =
-				entry.getValue();
+		cacheModelGetterFunctions.put(
+			"userId",
+			siteFriendlyURLCacheModel -> siteFriendlyURLCacheModel.userId);
 
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((SiteFriendlyURL)this));
-			sb.append("]]></column-value></column>");
-		}
+		columnBitmasks.put("userId", 16L);
 
-		sb.append("</model>");
+		cacheModelGetterFunctions.put(
+			"userName",
+			siteFriendlyURLCacheModel -> {
+				String userName = siteFriendlyURLCacheModel.userName;
 
-		return sb.toString();
-	}
+				if (userName == null) {
+					return "";
+				}
 
-	private static class EscapedModelProxyProviderFunctionHolder {
+				return userName;
+			});
 
-		private static final Function<InvocationHandler, SiteFriendlyURL>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+		columnBitmasks.put("userName", 32L);
 
+		cacheModelGetterFunctions.put(
+			"createDate",
+			siteFriendlyURLCacheModel -> {
+				Long createDate = siteFriendlyURLCacheModel.createDate;
+
+				if (createDate == Long.MIN_VALUE) {
+					return null;
+				}
+
+				return new Date(createDate);
+			});
+
+		columnBitmasks.put("createDate", 64L);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			siteFriendlyURLCacheModel -> {
+				Long modifiedDate = siteFriendlyURLCacheModel.modifiedDate;
+
+				if (modifiedDate == Long.MIN_VALUE) {
+					return null;
+				}
+
+				return new Date(modifiedDate);
+			});
+
+		columnBitmasks.put("modifiedDate", 128L);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			siteFriendlyURLCacheModel -> siteFriendlyURLCacheModel.groupId);
+
+		columnBitmasks.put("groupId", 256L);
+
+		cacheModelGetterFunctions.put(
+			"friendlyURL",
+			siteFriendlyURLCacheModel -> {
+				String friendlyURL = siteFriendlyURLCacheModel.friendlyURL;
+
+				if (friendlyURL == null) {
+					return "";
+				}
+
+				return friendlyURL;
+			});
+
+		columnBitmasks.put("friendlyURL", 512L);
+
+		cacheModelGetterFunctions.put(
+			"languageId",
+			siteFriendlyURLCacheModel -> {
+				String languageId = siteFriendlyURLCacheModel.languageId;
+
+				if (languageId == null) {
+					return "";
+				}
+
+				return languageId;
+			});
+
+		columnBitmasks.put("languageId", 1024L);
+
+		cacheModelGetterFunctions.put(
+			"lastPublishDate",
+			siteFriendlyURLCacheModel -> {
+				Long lastPublishDate =
+					siteFriendlyURLCacheModel.lastPublishDate;
+
+				if (lastPublishDate == Long.MIN_VALUE) {
+					return null;
+				}
+
+				return new Date(lastPublishDate);
+			});
+
+		columnBitmasks.put("lastPublishDate", 2048L);
+
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
 	private long _mvccVersion;
 	private String _uuid;
-	private String _originalUuid;
 	private long _siteFriendlyURLId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private String _friendlyURL;
-	private String _originalFriendlyURL;
 	private String _languageId;
-	private String _originalLanguageId;
 	private Date _lastPublishDate;
 	private long _columnBitmask;
 	private SiteFriendlyURL _escapedModel;

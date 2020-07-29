@@ -29,7 +29,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -121,14 +120,39 @@ public class OAuthApplicationModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long CONSUMERKEY_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long NAME_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long USERID_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long OAUTHAPPLICATIONID_COLUMN_BITMASK = 16L;
 
 	/**
@@ -423,6 +447,8 @@ public class OAuthApplicationModelImpl
 
 	@Override
 	public void setOAuthApplicationId(long oAuthApplicationId) {
+		_columnBitmask |= _columnBitmasks.get("oAuthApplicationId");
+
 		_oAuthApplicationId = oAuthApplicationId;
 	}
 
@@ -434,19 +460,18 @@ public class OAuthApplicationModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
-		}
+		_columnBitmask |= _columnBitmasks.get("companyId");
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@JSON
@@ -457,13 +482,7 @@ public class OAuthApplicationModelImpl
 
 	@Override
 	public void setUserId(long userId) {
-		_columnBitmask |= USERID_COLUMN_BITMASK;
-
-		if (!_setOriginalUserId) {
-			_setOriginalUserId = true;
-
-			_originalUserId = _userId;
-		}
+		_columnBitmask |= _columnBitmasks.get("userId");
 
 		_userId = userId;
 	}
@@ -484,8 +503,13 @@ public class OAuthApplicationModelImpl
 	public void setUserUuid(String userUuid) {
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalUserId() {
-		return _originalUserId;
+		return getOriginalAttributeValue("userId");
 	}
 
 	@JSON
@@ -501,6 +525,8 @@ public class OAuthApplicationModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= _columnBitmasks.get("userName");
+
 		_userName = userName;
 	}
 
@@ -512,6 +538,8 @@ public class OAuthApplicationModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= _columnBitmasks.get("createDate");
+
 		_createDate = createDate;
 	}
 
@@ -529,6 +557,8 @@ public class OAuthApplicationModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= _columnBitmasks.get("modifiedDate");
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -545,17 +575,18 @@ public class OAuthApplicationModelImpl
 
 	@Override
 	public void setName(String name) {
-		_columnBitmask |= NAME_COLUMN_BITMASK;
-
-		if (_originalName == null) {
-			_originalName = _name;
-		}
+		_columnBitmask |= _columnBitmasks.get("name");
 
 		_name = name;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalName() {
-		return GetterUtil.getString(_originalName);
+		return getOriginalAttributeValue("name");
 	}
 
 	@JSON
@@ -571,6 +602,8 @@ public class OAuthApplicationModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		_columnBitmask |= _columnBitmasks.get("description");
+
 		_description = description;
 	}
 
@@ -587,17 +620,18 @@ public class OAuthApplicationModelImpl
 
 	@Override
 	public void setConsumerKey(String consumerKey) {
-		_columnBitmask |= CONSUMERKEY_COLUMN_BITMASK;
-
-		if (_originalConsumerKey == null) {
-			_originalConsumerKey = _consumerKey;
-		}
+		_columnBitmask |= _columnBitmasks.get("consumerKey");
 
 		_consumerKey = consumerKey;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalConsumerKey() {
-		return GetterUtil.getString(_originalConsumerKey);
+		return getOriginalAttributeValue("consumerKey");
 	}
 
 	@JSON
@@ -613,6 +647,8 @@ public class OAuthApplicationModelImpl
 
 	@Override
 	public void setConsumerSecret(String consumerSecret) {
+		_columnBitmask |= _columnBitmasks.get("consumerSecret");
+
 		_consumerSecret = consumerSecret;
 	}
 
@@ -624,6 +660,8 @@ public class OAuthApplicationModelImpl
 
 	@Override
 	public void setAccessLevel(int accessLevel) {
+		_columnBitmask |= _columnBitmasks.get("accessLevel");
+
 		_accessLevel = accessLevel;
 	}
 
@@ -635,6 +673,8 @@ public class OAuthApplicationModelImpl
 
 	@Override
 	public void setLogoId(long logoId) {
+		_columnBitmask |= _columnBitmasks.get("logoId");
+
 		_logoId = logoId;
 	}
 
@@ -652,6 +692,8 @@ public class OAuthApplicationModelImpl
 
 	@Override
 	public void setShareableAccessToken(boolean shareableAccessToken) {
+		_columnBitmask |= _columnBitmasks.get("shareableAccessToken");
+
 		_shareableAccessToken = shareableAccessToken;
 	}
 
@@ -668,6 +710,8 @@ public class OAuthApplicationModelImpl
 
 	@Override
 	public void setCallbackURI(String callbackURI) {
+		_columnBitmask |= _columnBitmasks.get("callbackURI");
+
 		_callbackURI = callbackURI;
 	}
 
@@ -684,6 +728,8 @@ public class OAuthApplicationModelImpl
 
 	@Override
 	public void setWebsiteURL(String websiteURL) {
+		_columnBitmask |= _columnBitmasks.get("websiteURL");
+
 		_websiteURL = websiteURL;
 	}
 
@@ -806,31 +852,115 @@ public class OAuthApplicationModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		OAuthApplicationModelImpl oAuthApplicationModelImpl = this;
+		_setModifiedDate = false;
 
-		oAuthApplicationModelImpl._originalCompanyId =
-			oAuthApplicationModelImpl._companyId;
+		_columnBitmask = 0;
 
-		oAuthApplicationModelImpl._setOriginalCompanyId = false;
-
-		oAuthApplicationModelImpl._originalUserId =
-			oAuthApplicationModelImpl._userId;
-
-		oAuthApplicationModelImpl._setOriginalUserId = false;
-
-		oAuthApplicationModelImpl._setModifiedDate = false;
-
-		oAuthApplicationModelImpl._originalName =
-			oAuthApplicationModelImpl._name;
-
-		oAuthApplicationModelImpl._originalConsumerKey =
-			oAuthApplicationModelImpl._consumerKey;
-
-		oAuthApplicationModelImpl._columnBitmask = 0;
+		_oAuthApplicationCacheModel = _toOAuthApplicationCacheModel();
 	}
 
 	@Override
 	public CacheModel<OAuthApplication> toCacheModel() {
+		OAuthApplicationCacheModel oAuthApplicationCacheModel =
+			_toOAuthApplicationCacheModel();
+
+		return oAuthApplicationCacheModel;
+	}
+
+	@Override
+	public String toString() {
+		Map<String, Function<OAuthApplication, Object>>
+			attributeGetterFunctions = getAttributeGetterFunctions();
+
+		StringBundler sb = new StringBundler(
+			4 * attributeGetterFunctions.size() + 2);
+
+		sb.append("{");
+
+		for (Map.Entry<String, Function<OAuthApplication, Object>> entry :
+				attributeGetterFunctions.entrySet()) {
+
+			String attributeName = entry.getKey();
+			Function<OAuthApplication, Object> attributeGetterFunction =
+				entry.getValue();
+
+			sb.append(attributeName);
+			sb.append("=");
+			sb.append(attributeGetterFunction.apply((OAuthApplication)this));
+			sb.append(", ");
+		}
+
+		if (sb.index() > 1) {
+			sb.setIndex(sb.index() - 1);
+		}
+
+		sb.append("}");
+
+		return sb.toString();
+	}
+
+	@Override
+	public String toXmlString() {
+		Map<String, Function<OAuthApplication, Object>>
+			attributeGetterFunctions = getAttributeGetterFunctions();
+
+		StringBundler sb = new StringBundler(
+			5 * attributeGetterFunctions.size() + 4);
+
+		sb.append("<model><model-name>");
+		sb.append(getModelClassName());
+		sb.append("</model-name>");
+
+		for (Map.Entry<String, Function<OAuthApplication, Object>> entry :
+				attributeGetterFunctions.entrySet()) {
+
+			String attributeName = entry.getKey();
+			Function<OAuthApplication, Object> attributeGetterFunction =
+				entry.getValue();
+
+			sb.append("<column><column-name>");
+			sb.append(attributeName);
+			sb.append("</column-name><column-value><![CDATA[");
+			sb.append(attributeGetterFunction.apply((OAuthApplication)this));
+			sb.append("]]></column-value></column>");
+		}
+
+		sb.append("</model>");
+
+		return sb.toString();
+	}
+
+	private static class EscapedModelProxyProviderFunctionHolder {
+
+		private static final Function<InvocationHandler, OAuthApplication>
+			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+
+	}
+
+	public static long getColumnBitmask(String attributeName) {
+		return _columnBitmasks.get(attributeName);
+	}
+
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		Function<OAuthApplicationCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"Unknown attribute name " + attributeName);
+		}
+
+		OAuthApplicationCacheModel oAuthApplicationCacheModel =
+			_oAuthApplicationCacheModel;
+
+		if (oAuthApplicationCacheModel == null) {
+			oAuthApplicationCacheModel = _dummyOAuthApplicationCacheModel;
+		}
+
+		return (T)function.apply(oAuthApplicationCacheModel);
+	}
+
+	private OAuthApplicationCacheModel _toOAuthApplicationCacheModel() {
 		OAuthApplicationCacheModel oAuthApplicationCacheModel =
 			new OAuthApplicationCacheModel();
 
@@ -924,92 +1054,203 @@ public class OAuthApplicationModelImpl
 		return oAuthApplicationCacheModel;
 	}
 
-	@Override
-	public String toString() {
-		Map<String, Function<OAuthApplication, Object>>
-			attributeGetterFunctions = getAttributeGetterFunctions();
+	private static final Map
+		<String, Function<OAuthApplicationCacheModel, Object>>
+			_cacheModelGetterFunctions;
+	private static final Map<String, Long> _columnBitmasks;
+	private static final OAuthApplicationCacheModel
+		_dummyOAuthApplicationCacheModel = new OAuthApplicationCacheModel();
 
-		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+	private OAuthApplicationCacheModel _oAuthApplicationCacheModel;
 
-		sb.append("{");
+	static {
+		Map<String, Function<OAuthApplicationCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<OAuthApplicationCacheModel, Object>>();
+		Map<String, Long> columnBitmasks = new LinkedHashMap<String, Long>();
 
-		for (Map.Entry<String, Function<OAuthApplication, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
+		cacheModelGetterFunctions.put(
+			"oAuthApplicationId",
+			oAuthApplicationCacheModel ->
+				oAuthApplicationCacheModel.oAuthApplicationId);
 
-			String attributeName = entry.getKey();
-			Function<OAuthApplication, Object> attributeGetterFunction =
-				entry.getValue();
+		columnBitmasks.put("oAuthApplicationId", 1L);
 
-			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((OAuthApplication)this));
-			sb.append(", ");
-		}
+		cacheModelGetterFunctions.put(
+			"companyId",
+			oAuthApplicationCacheModel -> oAuthApplicationCacheModel.companyId);
 
-		if (sb.index() > 1) {
-			sb.setIndex(sb.index() - 1);
-		}
+		columnBitmasks.put("companyId", 2L);
 
-		sb.append("}");
+		cacheModelGetterFunctions.put(
+			"userId",
+			oAuthApplicationCacheModel -> oAuthApplicationCacheModel.userId);
 
-		return sb.toString();
-	}
+		columnBitmasks.put("userId", 4L);
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<OAuthApplication, Object>>
-			attributeGetterFunctions = getAttributeGetterFunctions();
+		cacheModelGetterFunctions.put(
+			"userName",
+			oAuthApplicationCacheModel -> {
+				String userName = oAuthApplicationCacheModel.userName;
 
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
+				if (userName == null) {
+					return "";
+				}
 
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
+				return userName;
+			});
 
-		for (Map.Entry<String, Function<OAuthApplication, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
+		columnBitmasks.put("userName", 8L);
 
-			String attributeName = entry.getKey();
-			Function<OAuthApplication, Object> attributeGetterFunction =
-				entry.getValue();
+		cacheModelGetterFunctions.put(
+			"createDate",
+			oAuthApplicationCacheModel -> {
+				Long createDate = oAuthApplicationCacheModel.createDate;
 
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((OAuthApplication)this));
-			sb.append("]]></column-value></column>");
-		}
+				if (createDate == Long.MIN_VALUE) {
+					return null;
+				}
 
-		sb.append("</model>");
+				return new Date(createDate);
+			});
 
-		return sb.toString();
-	}
+		columnBitmasks.put("createDate", 16L);
 
-	private static class EscapedModelProxyProviderFunctionHolder {
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			oAuthApplicationCacheModel -> {
+				Long modifiedDate = oAuthApplicationCacheModel.modifiedDate;
 
-		private static final Function<InvocationHandler, OAuthApplication>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+				if (modifiedDate == Long.MIN_VALUE) {
+					return null;
+				}
 
+				return new Date(modifiedDate);
+			});
+
+		columnBitmasks.put("modifiedDate", 32L);
+
+		cacheModelGetterFunctions.put(
+			"name",
+			oAuthApplicationCacheModel -> {
+				String name = oAuthApplicationCacheModel.name;
+
+				if (name == null) {
+					return "";
+				}
+
+				return name;
+			});
+
+		columnBitmasks.put("name", 64L);
+
+		cacheModelGetterFunctions.put(
+			"description",
+			oAuthApplicationCacheModel -> {
+				String description = oAuthApplicationCacheModel.description;
+
+				if (description == null) {
+					return "";
+				}
+
+				return description;
+			});
+
+		columnBitmasks.put("description", 128L);
+
+		cacheModelGetterFunctions.put(
+			"consumerKey",
+			oAuthApplicationCacheModel -> {
+				String consumerKey = oAuthApplicationCacheModel.consumerKey;
+
+				if (consumerKey == null) {
+					return "";
+				}
+
+				return consumerKey;
+			});
+
+		columnBitmasks.put("consumerKey", 256L);
+
+		cacheModelGetterFunctions.put(
+			"consumerSecret",
+			oAuthApplicationCacheModel -> {
+				String consumerSecret =
+					oAuthApplicationCacheModel.consumerSecret;
+
+				if (consumerSecret == null) {
+					return "";
+				}
+
+				return consumerSecret;
+			});
+
+		columnBitmasks.put("consumerSecret", 512L);
+
+		cacheModelGetterFunctions.put(
+			"accessLevel",
+			oAuthApplicationCacheModel ->
+				oAuthApplicationCacheModel.accessLevel);
+
+		columnBitmasks.put("accessLevel", 1024L);
+
+		cacheModelGetterFunctions.put(
+			"logoId",
+			oAuthApplicationCacheModel -> oAuthApplicationCacheModel.logoId);
+
+		columnBitmasks.put("logoId", 2048L);
+
+		cacheModelGetterFunctions.put(
+			"shareableAccessToken",
+			oAuthApplicationCacheModel ->
+				oAuthApplicationCacheModel.shareableAccessToken);
+
+		columnBitmasks.put("shareableAccessToken", 4096L);
+
+		cacheModelGetterFunctions.put(
+			"callbackURI",
+			oAuthApplicationCacheModel -> {
+				String callbackURI = oAuthApplicationCacheModel.callbackURI;
+
+				if (callbackURI == null) {
+					return "";
+				}
+
+				return callbackURI;
+			});
+
+		columnBitmasks.put("callbackURI", 8192L);
+
+		cacheModelGetterFunctions.put(
+			"websiteURL",
+			oAuthApplicationCacheModel -> {
+				String websiteURL = oAuthApplicationCacheModel.websiteURL;
+
+				if (websiteURL == null) {
+					return "";
+				}
+
+				return websiteURL;
+			});
+
+		columnBitmasks.put("websiteURL", 16384L);
+
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
 	private long _oAuthApplicationId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
-	private long _originalUserId;
-	private boolean _setOriginalUserId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private String _name;
-	private String _originalName;
 	private String _description;
 	private String _consumerKey;
-	private String _originalConsumerKey;
 	private String _consumerSecret;
 	private int _accessLevel;
 	private long _logoId;

@@ -129,16 +129,46 @@ public class KaleoTimerInstanceTokenModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long BLOCKING_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long COMPLETED_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long KALEOINSTANCEID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long KALEOINSTANCETOKENID_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long KALEOTIMERID_COLUMN_BITMASK = 16L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long KALEOTIMERINSTANCETOKENID_COLUMN_BITMASK = 32L;
 
 	/**
@@ -435,6 +465,8 @@ public class KaleoTimerInstanceTokenModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= _columnBitmasks.get("mvccVersion");
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -445,7 +477,7 @@ public class KaleoTimerInstanceTokenModelImpl
 
 	@Override
 	public void setKaleoTimerInstanceTokenId(long kaleoTimerInstanceTokenId) {
-		_columnBitmask = -1L;
+		_columnBitmask |= _columnBitmasks.get("kaleoTimerInstanceTokenId");
 
 		_kaleoTimerInstanceTokenId = kaleoTimerInstanceTokenId;
 	}
@@ -457,6 +489,8 @@ public class KaleoTimerInstanceTokenModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
+		_columnBitmask |= _columnBitmasks.get("groupId");
+
 		_groupId = groupId;
 	}
 
@@ -467,6 +501,8 @@ public class KaleoTimerInstanceTokenModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= _columnBitmasks.get("companyId");
+
 		_companyId = companyId;
 	}
 
@@ -477,6 +513,8 @@ public class KaleoTimerInstanceTokenModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= _columnBitmasks.get("userId");
+
 		_userId = userId;
 	}
 
@@ -508,6 +546,8 @@ public class KaleoTimerInstanceTokenModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= _columnBitmasks.get("userName");
+
 		_userName = userName;
 	}
 
@@ -518,6 +558,8 @@ public class KaleoTimerInstanceTokenModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= _columnBitmasks.get("createDate");
+
 		_createDate = createDate;
 	}
 
@@ -534,6 +576,8 @@ public class KaleoTimerInstanceTokenModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= _columnBitmasks.get("modifiedDate");
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -549,6 +593,8 @@ public class KaleoTimerInstanceTokenModelImpl
 
 	@Override
 	public void setKaleoClassName(String kaleoClassName) {
+		_columnBitmask |= _columnBitmasks.get("kaleoClassName");
+
 		_kaleoClassName = kaleoClassName;
 	}
 
@@ -559,6 +605,8 @@ public class KaleoTimerInstanceTokenModelImpl
 
 	@Override
 	public void setKaleoClassPK(long kaleoClassPK) {
+		_columnBitmask |= _columnBitmasks.get("kaleoClassPK");
+
 		_kaleoClassPK = kaleoClassPK;
 	}
 
@@ -569,6 +617,8 @@ public class KaleoTimerInstanceTokenModelImpl
 
 	@Override
 	public void setKaleoDefinitionId(long kaleoDefinitionId) {
+		_columnBitmask |= _columnBitmasks.get("kaleoDefinitionId");
+
 		_kaleoDefinitionId = kaleoDefinitionId;
 	}
 
@@ -579,6 +629,8 @@ public class KaleoTimerInstanceTokenModelImpl
 
 	@Override
 	public void setKaleoDefinitionVersionId(long kaleoDefinitionVersionId) {
+		_columnBitmask |= _columnBitmasks.get("kaleoDefinitionVersionId");
+
 		_kaleoDefinitionVersionId = kaleoDefinitionVersionId;
 	}
 
@@ -589,19 +641,18 @@ public class KaleoTimerInstanceTokenModelImpl
 
 	@Override
 	public void setKaleoInstanceId(long kaleoInstanceId) {
-		_columnBitmask |= KALEOINSTANCEID_COLUMN_BITMASK;
-
-		if (!_setOriginalKaleoInstanceId) {
-			_setOriginalKaleoInstanceId = true;
-
-			_originalKaleoInstanceId = _kaleoInstanceId;
-		}
+		_columnBitmask |= _columnBitmasks.get("kaleoInstanceId");
 
 		_kaleoInstanceId = kaleoInstanceId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalKaleoInstanceId() {
-		return _originalKaleoInstanceId;
+		return getOriginalAttributeValue("kaleoInstanceId");
 	}
 
 	@Override
@@ -611,19 +662,18 @@ public class KaleoTimerInstanceTokenModelImpl
 
 	@Override
 	public void setKaleoInstanceTokenId(long kaleoInstanceTokenId) {
-		_columnBitmask |= KALEOINSTANCETOKENID_COLUMN_BITMASK;
-
-		if (!_setOriginalKaleoInstanceTokenId) {
-			_setOriginalKaleoInstanceTokenId = true;
-
-			_originalKaleoInstanceTokenId = _kaleoInstanceTokenId;
-		}
+		_columnBitmask |= _columnBitmasks.get("kaleoInstanceTokenId");
 
 		_kaleoInstanceTokenId = kaleoInstanceTokenId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalKaleoInstanceTokenId() {
-		return _originalKaleoInstanceTokenId;
+		return getOriginalAttributeValue("kaleoInstanceTokenId");
 	}
 
 	@Override
@@ -633,6 +683,8 @@ public class KaleoTimerInstanceTokenModelImpl
 
 	@Override
 	public void setKaleoTaskInstanceTokenId(long kaleoTaskInstanceTokenId) {
+		_columnBitmask |= _columnBitmasks.get("kaleoTaskInstanceTokenId");
+
 		_kaleoTaskInstanceTokenId = kaleoTaskInstanceTokenId;
 	}
 
@@ -643,19 +695,18 @@ public class KaleoTimerInstanceTokenModelImpl
 
 	@Override
 	public void setKaleoTimerId(long kaleoTimerId) {
-		_columnBitmask |= KALEOTIMERID_COLUMN_BITMASK;
-
-		if (!_setOriginalKaleoTimerId) {
-			_setOriginalKaleoTimerId = true;
-
-			_originalKaleoTimerId = _kaleoTimerId;
-		}
+		_columnBitmask |= _columnBitmasks.get("kaleoTimerId");
 
 		_kaleoTimerId = kaleoTimerId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalKaleoTimerId() {
-		return _originalKaleoTimerId;
+		return getOriginalAttributeValue("kaleoTimerId");
 	}
 
 	@Override
@@ -670,6 +721,8 @@ public class KaleoTimerInstanceTokenModelImpl
 
 	@Override
 	public void setKaleoTimerName(String kaleoTimerName) {
+		_columnBitmask |= _columnBitmasks.get("kaleoTimerName");
+
 		_kaleoTimerName = kaleoTimerName;
 	}
 
@@ -685,19 +738,18 @@ public class KaleoTimerInstanceTokenModelImpl
 
 	@Override
 	public void setBlocking(boolean blocking) {
-		_columnBitmask |= BLOCKING_COLUMN_BITMASK;
-
-		if (!_setOriginalBlocking) {
-			_setOriginalBlocking = true;
-
-			_originalBlocking = _blocking;
-		}
+		_columnBitmask |= _columnBitmasks.get("blocking");
 
 		_blocking = blocking;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public boolean getOriginalBlocking() {
-		return _originalBlocking;
+		return getOriginalAttributeValue("blocking");
 	}
 
 	@Override
@@ -707,6 +759,8 @@ public class KaleoTimerInstanceTokenModelImpl
 
 	@Override
 	public void setCompletionUserId(long completionUserId) {
+		_columnBitmask |= _columnBitmasks.get("completionUserId");
+
 		_completionUserId = completionUserId;
 	}
 
@@ -738,19 +792,18 @@ public class KaleoTimerInstanceTokenModelImpl
 
 	@Override
 	public void setCompleted(boolean completed) {
-		_columnBitmask |= COMPLETED_COLUMN_BITMASK;
-
-		if (!_setOriginalCompleted) {
-			_setOriginalCompleted = true;
-
-			_originalCompleted = _completed;
-		}
+		_columnBitmask |= _columnBitmasks.get("completed");
 
 		_completed = completed;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public boolean getOriginalCompleted() {
-		return _originalCompleted;
+		return getOriginalAttributeValue("completed");
 	}
 
 	@Override
@@ -760,6 +813,8 @@ public class KaleoTimerInstanceTokenModelImpl
 
 	@Override
 	public void setCompletionDate(Date completionDate) {
+		_columnBitmask |= _columnBitmasks.get("completionDate");
+
 		_completionDate = completionDate;
 	}
 
@@ -775,6 +830,8 @@ public class KaleoTimerInstanceTokenModelImpl
 
 	@Override
 	public void setWorkflowContext(String workflowContext) {
+		_columnBitmask |= _columnBitmasks.get("workflowContext");
+
 		_workflowContext = workflowContext;
 	}
 
@@ -922,42 +979,123 @@ public class KaleoTimerInstanceTokenModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		KaleoTimerInstanceTokenModelImpl kaleoTimerInstanceTokenModelImpl =
-			this;
+		_setModifiedDate = false;
 
-		kaleoTimerInstanceTokenModelImpl._setModifiedDate = false;
+		_columnBitmask = 0;
 
-		kaleoTimerInstanceTokenModelImpl._originalKaleoInstanceId =
-			kaleoTimerInstanceTokenModelImpl._kaleoInstanceId;
-
-		kaleoTimerInstanceTokenModelImpl._setOriginalKaleoInstanceId = false;
-
-		kaleoTimerInstanceTokenModelImpl._originalKaleoInstanceTokenId =
-			kaleoTimerInstanceTokenModelImpl._kaleoInstanceTokenId;
-
-		kaleoTimerInstanceTokenModelImpl._setOriginalKaleoInstanceTokenId =
-			false;
-
-		kaleoTimerInstanceTokenModelImpl._originalKaleoTimerId =
-			kaleoTimerInstanceTokenModelImpl._kaleoTimerId;
-
-		kaleoTimerInstanceTokenModelImpl._setOriginalKaleoTimerId = false;
-
-		kaleoTimerInstanceTokenModelImpl._originalBlocking =
-			kaleoTimerInstanceTokenModelImpl._blocking;
-
-		kaleoTimerInstanceTokenModelImpl._setOriginalBlocking = false;
-
-		kaleoTimerInstanceTokenModelImpl._originalCompleted =
-			kaleoTimerInstanceTokenModelImpl._completed;
-
-		kaleoTimerInstanceTokenModelImpl._setOriginalCompleted = false;
-
-		kaleoTimerInstanceTokenModelImpl._columnBitmask = 0;
+		_kaleoTimerInstanceTokenCacheModel =
+			_toKaleoTimerInstanceTokenCacheModel();
 	}
 
 	@Override
 	public CacheModel<KaleoTimerInstanceToken> toCacheModel() {
+		KaleoTimerInstanceTokenCacheModel kaleoTimerInstanceTokenCacheModel =
+			_toKaleoTimerInstanceTokenCacheModel();
+
+		return kaleoTimerInstanceTokenCacheModel;
+	}
+
+	@Override
+	public String toString() {
+		Map<String, Function<KaleoTimerInstanceToken, Object>>
+			attributeGetterFunctions = getAttributeGetterFunctions();
+
+		StringBundler sb = new StringBundler(
+			4 * attributeGetterFunctions.size() + 2);
+
+		sb.append("{");
+
+		for (Map.Entry<String, Function<KaleoTimerInstanceToken, Object>>
+				entry : attributeGetterFunctions.entrySet()) {
+
+			String attributeName = entry.getKey();
+			Function<KaleoTimerInstanceToken, Object> attributeGetterFunction =
+				entry.getValue();
+
+			sb.append(attributeName);
+			sb.append("=");
+			sb.append(
+				attributeGetterFunction.apply((KaleoTimerInstanceToken)this));
+			sb.append(", ");
+		}
+
+		if (sb.index() > 1) {
+			sb.setIndex(sb.index() - 1);
+		}
+
+		sb.append("}");
+
+		return sb.toString();
+	}
+
+	@Override
+	public String toXmlString() {
+		Map<String, Function<KaleoTimerInstanceToken, Object>>
+			attributeGetterFunctions = getAttributeGetterFunctions();
+
+		StringBundler sb = new StringBundler(
+			5 * attributeGetterFunctions.size() + 4);
+
+		sb.append("<model><model-name>");
+		sb.append(getModelClassName());
+		sb.append("</model-name>");
+
+		for (Map.Entry<String, Function<KaleoTimerInstanceToken, Object>>
+				entry : attributeGetterFunctions.entrySet()) {
+
+			String attributeName = entry.getKey();
+			Function<KaleoTimerInstanceToken, Object> attributeGetterFunction =
+				entry.getValue();
+
+			sb.append("<column><column-name>");
+			sb.append(attributeName);
+			sb.append("</column-name><column-value><![CDATA[");
+			sb.append(
+				attributeGetterFunction.apply((KaleoTimerInstanceToken)this));
+			sb.append("]]></column-value></column>");
+		}
+
+		sb.append("</model>");
+
+		return sb.toString();
+	}
+
+	private static class EscapedModelProxyProviderFunctionHolder {
+
+		private static final Function
+			<InvocationHandler, KaleoTimerInstanceToken>
+				_escapedModelProxyProviderFunction =
+					_getProxyProviderFunction();
+
+	}
+
+	public static long getColumnBitmask(String attributeName) {
+		return _columnBitmasks.get(attributeName);
+	}
+
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		Function<KaleoTimerInstanceTokenCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"Unknown attribute name " + attributeName);
+		}
+
+		KaleoTimerInstanceTokenCacheModel kaleoTimerInstanceTokenCacheModel =
+			_kaleoTimerInstanceTokenCacheModel;
+
+		if (kaleoTimerInstanceTokenCacheModel == null) {
+			kaleoTimerInstanceTokenCacheModel =
+				_dummyKaleoTimerInstanceTokenCacheModel;
+		}
+
+		return (T)function.apply(kaleoTimerInstanceTokenCacheModel);
+	}
+
+	private KaleoTimerInstanceTokenCacheModel
+		_toKaleoTimerInstanceTokenCacheModel() {
+
 		KaleoTimerInstanceTokenCacheModel kaleoTimerInstanceTokenCacheModel =
 			new KaleoTimerInstanceTokenCacheModel();
 
@@ -1066,78 +1204,236 @@ public class KaleoTimerInstanceTokenModelImpl
 		return kaleoTimerInstanceTokenCacheModel;
 	}
 
-	@Override
-	public String toString() {
-		Map<String, Function<KaleoTimerInstanceToken, Object>>
-			attributeGetterFunctions = getAttributeGetterFunctions();
+	private static final Map
+		<String, Function<KaleoTimerInstanceTokenCacheModel, Object>>
+			_cacheModelGetterFunctions;
+	private static final Map<String, Long> _columnBitmasks;
+	private static final KaleoTimerInstanceTokenCacheModel
+		_dummyKaleoTimerInstanceTokenCacheModel =
+			new KaleoTimerInstanceTokenCacheModel();
 
-		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+	private KaleoTimerInstanceTokenCacheModel
+		_kaleoTimerInstanceTokenCacheModel;
 
-		sb.append("{");
+	static {
+		Map<String, Function<KaleoTimerInstanceTokenCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String,
+					 Function<KaleoTimerInstanceTokenCacheModel, Object>>();
+		Map<String, Long> columnBitmasks = new LinkedHashMap<String, Long>();
 
-		for (Map.Entry<String, Function<KaleoTimerInstanceToken, Object>>
-				entry : attributeGetterFunctions.entrySet()) {
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			kaleoTimerInstanceTokenCacheModel ->
+				kaleoTimerInstanceTokenCacheModel.mvccVersion);
 
-			String attributeName = entry.getKey();
-			Function<KaleoTimerInstanceToken, Object> attributeGetterFunction =
-				entry.getValue();
+		columnBitmasks.put("mvccVersion", 1L);
 
-			sb.append(attributeName);
-			sb.append("=");
-			sb.append(
-				attributeGetterFunction.apply((KaleoTimerInstanceToken)this));
-			sb.append(", ");
-		}
+		cacheModelGetterFunctions.put(
+			"kaleoTimerInstanceTokenId",
+			kaleoTimerInstanceTokenCacheModel ->
+				kaleoTimerInstanceTokenCacheModel.kaleoTimerInstanceTokenId);
 
-		if (sb.index() > 1) {
-			sb.setIndex(sb.index() - 1);
-		}
+		columnBitmasks.put("kaleoTimerInstanceTokenId", 2L);
 
-		sb.append("}");
+		cacheModelGetterFunctions.put(
+			"groupId",
+			kaleoTimerInstanceTokenCacheModel ->
+				kaleoTimerInstanceTokenCacheModel.groupId);
 
-		return sb.toString();
-	}
+		columnBitmasks.put("groupId", 4L);
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<KaleoTimerInstanceToken, Object>>
-			attributeGetterFunctions = getAttributeGetterFunctions();
+		cacheModelGetterFunctions.put(
+			"companyId",
+			kaleoTimerInstanceTokenCacheModel ->
+				kaleoTimerInstanceTokenCacheModel.companyId);
 
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
+		columnBitmasks.put("companyId", 8L);
 
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
+		cacheModelGetterFunctions.put(
+			"userId",
+			kaleoTimerInstanceTokenCacheModel ->
+				kaleoTimerInstanceTokenCacheModel.userId);
 
-		for (Map.Entry<String, Function<KaleoTimerInstanceToken, Object>>
-				entry : attributeGetterFunctions.entrySet()) {
+		columnBitmasks.put("userId", 16L);
 
-			String attributeName = entry.getKey();
-			Function<KaleoTimerInstanceToken, Object> attributeGetterFunction =
-				entry.getValue();
+		cacheModelGetterFunctions.put(
+			"userName",
+			kaleoTimerInstanceTokenCacheModel -> {
+				String userName = kaleoTimerInstanceTokenCacheModel.userName;
 
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(
-				attributeGetterFunction.apply((KaleoTimerInstanceToken)this));
-			sb.append("]]></column-value></column>");
-		}
+				if (userName == null) {
+					return "";
+				}
 
-		sb.append("</model>");
+				return userName;
+			});
 
-		return sb.toString();
-	}
+		columnBitmasks.put("userName", 32L);
 
-	private static class EscapedModelProxyProviderFunctionHolder {
+		cacheModelGetterFunctions.put(
+			"createDate",
+			kaleoTimerInstanceTokenCacheModel -> {
+				Long createDate = kaleoTimerInstanceTokenCacheModel.createDate;
 
-		private static final Function
-			<InvocationHandler, KaleoTimerInstanceToken>
-				_escapedModelProxyProviderFunction =
-					_getProxyProviderFunction();
+				if (createDate == Long.MIN_VALUE) {
+					return null;
+				}
 
+				return new Date(createDate);
+			});
+
+		columnBitmasks.put("createDate", 64L);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			kaleoTimerInstanceTokenCacheModel -> {
+				Long modifiedDate =
+					kaleoTimerInstanceTokenCacheModel.modifiedDate;
+
+				if (modifiedDate == Long.MIN_VALUE) {
+					return null;
+				}
+
+				return new Date(modifiedDate);
+			});
+
+		columnBitmasks.put("modifiedDate", 128L);
+
+		cacheModelGetterFunctions.put(
+			"kaleoClassName",
+			kaleoTimerInstanceTokenCacheModel -> {
+				String kaleoClassName =
+					kaleoTimerInstanceTokenCacheModel.kaleoClassName;
+
+				if (kaleoClassName == null) {
+					return "";
+				}
+
+				return kaleoClassName;
+			});
+
+		columnBitmasks.put("kaleoClassName", 256L);
+
+		cacheModelGetterFunctions.put(
+			"kaleoClassPK",
+			kaleoTimerInstanceTokenCacheModel ->
+				kaleoTimerInstanceTokenCacheModel.kaleoClassPK);
+
+		columnBitmasks.put("kaleoClassPK", 512L);
+
+		cacheModelGetterFunctions.put(
+			"kaleoDefinitionId",
+			kaleoTimerInstanceTokenCacheModel ->
+				kaleoTimerInstanceTokenCacheModel.kaleoDefinitionId);
+
+		columnBitmasks.put("kaleoDefinitionId", 1024L);
+
+		cacheModelGetterFunctions.put(
+			"kaleoDefinitionVersionId",
+			kaleoTimerInstanceTokenCacheModel ->
+				kaleoTimerInstanceTokenCacheModel.kaleoDefinitionVersionId);
+
+		columnBitmasks.put("kaleoDefinitionVersionId", 2048L);
+
+		cacheModelGetterFunctions.put(
+			"kaleoInstanceId",
+			kaleoTimerInstanceTokenCacheModel ->
+				kaleoTimerInstanceTokenCacheModel.kaleoInstanceId);
+
+		columnBitmasks.put("kaleoInstanceId", 4096L);
+
+		cacheModelGetterFunctions.put(
+			"kaleoInstanceTokenId",
+			kaleoTimerInstanceTokenCacheModel ->
+				kaleoTimerInstanceTokenCacheModel.kaleoInstanceTokenId);
+
+		columnBitmasks.put("kaleoInstanceTokenId", 8192L);
+
+		cacheModelGetterFunctions.put(
+			"kaleoTaskInstanceTokenId",
+			kaleoTimerInstanceTokenCacheModel ->
+				kaleoTimerInstanceTokenCacheModel.kaleoTaskInstanceTokenId);
+
+		columnBitmasks.put("kaleoTaskInstanceTokenId", 16384L);
+
+		cacheModelGetterFunctions.put(
+			"kaleoTimerId",
+			kaleoTimerInstanceTokenCacheModel ->
+				kaleoTimerInstanceTokenCacheModel.kaleoTimerId);
+
+		columnBitmasks.put("kaleoTimerId", 32768L);
+
+		cacheModelGetterFunctions.put(
+			"kaleoTimerName",
+			kaleoTimerInstanceTokenCacheModel -> {
+				String kaleoTimerName =
+					kaleoTimerInstanceTokenCacheModel.kaleoTimerName;
+
+				if (kaleoTimerName == null) {
+					return "";
+				}
+
+				return kaleoTimerName;
+			});
+
+		columnBitmasks.put("kaleoTimerName", 65536L);
+
+		cacheModelGetterFunctions.put(
+			"blocking",
+			kaleoTimerInstanceTokenCacheModel ->
+				kaleoTimerInstanceTokenCacheModel.blocking);
+
+		columnBitmasks.put("blocking", 131072L);
+
+		cacheModelGetterFunctions.put(
+			"completionUserId",
+			kaleoTimerInstanceTokenCacheModel ->
+				kaleoTimerInstanceTokenCacheModel.completionUserId);
+
+		columnBitmasks.put("completionUserId", 262144L);
+
+		cacheModelGetterFunctions.put(
+			"completed",
+			kaleoTimerInstanceTokenCacheModel ->
+				kaleoTimerInstanceTokenCacheModel.completed);
+
+		columnBitmasks.put("completed", 524288L);
+
+		cacheModelGetterFunctions.put(
+			"completionDate",
+			kaleoTimerInstanceTokenCacheModel -> {
+				Long completionDate =
+					kaleoTimerInstanceTokenCacheModel.completionDate;
+
+				if (completionDate == Long.MIN_VALUE) {
+					return null;
+				}
+
+				return new Date(completionDate);
+			});
+
+		columnBitmasks.put("completionDate", 1048576L);
+
+		cacheModelGetterFunctions.put(
+			"workflowContext",
+			kaleoTimerInstanceTokenCacheModel -> {
+				String workflowContext =
+					kaleoTimerInstanceTokenCacheModel.workflowContext;
+
+				if (workflowContext == null) {
+					return "";
+				}
+
+				return workflowContext;
+			});
+
+		columnBitmasks.put("workflowContext", 2097152L);
+
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
 	private long _mvccVersion;
@@ -1154,23 +1450,13 @@ public class KaleoTimerInstanceTokenModelImpl
 	private long _kaleoDefinitionId;
 	private long _kaleoDefinitionVersionId;
 	private long _kaleoInstanceId;
-	private long _originalKaleoInstanceId;
-	private boolean _setOriginalKaleoInstanceId;
 	private long _kaleoInstanceTokenId;
-	private long _originalKaleoInstanceTokenId;
-	private boolean _setOriginalKaleoInstanceTokenId;
 	private long _kaleoTaskInstanceTokenId;
 	private long _kaleoTimerId;
-	private long _originalKaleoTimerId;
-	private boolean _setOriginalKaleoTimerId;
 	private String _kaleoTimerName;
 	private boolean _blocking;
-	private boolean _originalBlocking;
-	private boolean _setOriginalBlocking;
 	private long _completionUserId;
 	private boolean _completed;
-	private boolean _originalCompleted;
-	private boolean _setOriginalCompleted;
 	private Date _completionDate;
 	private String _workflowContext;
 	private long _columnBitmask;

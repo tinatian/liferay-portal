@@ -132,16 +132,46 @@ public class RepositoryEntryModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long MAPPEDID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long REPOSITORYID_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 16L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long REPOSITORYENTRYID_COLUMN_BITMASK = 32L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
@@ -352,6 +382,8 @@ public class RepositoryEntryModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= _columnBitmasks.get("mvccVersion");
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -367,17 +399,18 @@ public class RepositoryEntryModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
-		}
+		_columnBitmask |= _columnBitmasks.get("uuid");
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getOriginalAttributeValue("uuid");
 	}
 
 	@Override
@@ -387,6 +420,8 @@ public class RepositoryEntryModelImpl
 
 	@Override
 	public void setRepositoryEntryId(long repositoryEntryId) {
+		_columnBitmask |= _columnBitmasks.get("repositoryEntryId");
+
 		_repositoryEntryId = repositoryEntryId;
 	}
 
@@ -397,19 +432,18 @@ public class RepositoryEntryModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
-		}
+		_columnBitmask |= _columnBitmasks.get("groupId");
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getOriginalAttributeValue("groupId");
 	}
 
 	@Override
@@ -419,19 +453,18 @@ public class RepositoryEntryModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
-		}
+		_columnBitmask |= _columnBitmasks.get("companyId");
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@Override
@@ -441,6 +474,8 @@ public class RepositoryEntryModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= _columnBitmasks.get("userId");
+
 		_userId = userId;
 	}
 
@@ -472,6 +507,8 @@ public class RepositoryEntryModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= _columnBitmasks.get("userName");
+
 		_userName = userName;
 	}
 
@@ -482,6 +519,8 @@ public class RepositoryEntryModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= _columnBitmasks.get("createDate");
+
 		_createDate = createDate;
 	}
 
@@ -498,6 +537,8 @@ public class RepositoryEntryModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= _columnBitmasks.get("modifiedDate");
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -508,19 +549,18 @@ public class RepositoryEntryModelImpl
 
 	@Override
 	public void setRepositoryId(long repositoryId) {
-		_columnBitmask |= REPOSITORYID_COLUMN_BITMASK;
-
-		if (!_setOriginalRepositoryId) {
-			_setOriginalRepositoryId = true;
-
-			_originalRepositoryId = _repositoryId;
-		}
+		_columnBitmask |= _columnBitmasks.get("repositoryId");
 
 		_repositoryId = repositoryId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalRepositoryId() {
-		return _originalRepositoryId;
+		return getOriginalAttributeValue("repositoryId");
 	}
 
 	@Override
@@ -535,17 +575,18 @@ public class RepositoryEntryModelImpl
 
 	@Override
 	public void setMappedId(String mappedId) {
-		_columnBitmask |= MAPPEDID_COLUMN_BITMASK;
-
-		if (_originalMappedId == null) {
-			_originalMappedId = _mappedId;
-		}
+		_columnBitmask |= _columnBitmasks.get("mappedId");
 
 		_mappedId = mappedId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalMappedId() {
-		return GetterUtil.getString(_originalMappedId);
+		return getOriginalAttributeValue("mappedId");
 	}
 
 	@Override
@@ -560,6 +601,8 @@ public class RepositoryEntryModelImpl
 
 	@Override
 	public void setManualCheckInRequired(boolean manualCheckInRequired) {
+		_columnBitmask |= _columnBitmasks.get("manualCheckInRequired");
+
 		_manualCheckInRequired = manualCheckInRequired;
 	}
 
@@ -570,6 +613,8 @@ public class RepositoryEntryModelImpl
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		_columnBitmask |= _columnBitmasks.get("lastPublishDate");
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -696,104 +741,17 @@ public class RepositoryEntryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		RepositoryEntryModelImpl repositoryEntryModelImpl = this;
+		_setModifiedDate = false;
 
-		repositoryEntryModelImpl._originalUuid = repositoryEntryModelImpl._uuid;
+		_columnBitmask = 0;
 
-		repositoryEntryModelImpl._originalGroupId =
-			repositoryEntryModelImpl._groupId;
-
-		repositoryEntryModelImpl._setOriginalGroupId = false;
-
-		repositoryEntryModelImpl._originalCompanyId =
-			repositoryEntryModelImpl._companyId;
-
-		repositoryEntryModelImpl._setOriginalCompanyId = false;
-
-		repositoryEntryModelImpl._setModifiedDate = false;
-
-		repositoryEntryModelImpl._originalRepositoryId =
-			repositoryEntryModelImpl._repositoryId;
-
-		repositoryEntryModelImpl._setOriginalRepositoryId = false;
-
-		repositoryEntryModelImpl._originalMappedId =
-			repositoryEntryModelImpl._mappedId;
-
-		repositoryEntryModelImpl._columnBitmask = 0;
+		_repositoryEntryCacheModel = _toRepositoryEntryCacheModel();
 	}
 
 	@Override
 	public CacheModel<RepositoryEntry> toCacheModel() {
 		RepositoryEntryCacheModel repositoryEntryCacheModel =
-			new RepositoryEntryCacheModel();
-
-		repositoryEntryCacheModel.mvccVersion = getMvccVersion();
-
-		repositoryEntryCacheModel.uuid = getUuid();
-
-		String uuid = repositoryEntryCacheModel.uuid;
-
-		if ((uuid != null) && (uuid.length() == 0)) {
-			repositoryEntryCacheModel.uuid = null;
-		}
-
-		repositoryEntryCacheModel.repositoryEntryId = getRepositoryEntryId();
-
-		repositoryEntryCacheModel.groupId = getGroupId();
-
-		repositoryEntryCacheModel.companyId = getCompanyId();
-
-		repositoryEntryCacheModel.userId = getUserId();
-
-		repositoryEntryCacheModel.userName = getUserName();
-
-		String userName = repositoryEntryCacheModel.userName;
-
-		if ((userName != null) && (userName.length() == 0)) {
-			repositoryEntryCacheModel.userName = null;
-		}
-
-		Date createDate = getCreateDate();
-
-		if (createDate != null) {
-			repositoryEntryCacheModel.createDate = createDate.getTime();
-		}
-		else {
-			repositoryEntryCacheModel.createDate = Long.MIN_VALUE;
-		}
-
-		Date modifiedDate = getModifiedDate();
-
-		if (modifiedDate != null) {
-			repositoryEntryCacheModel.modifiedDate = modifiedDate.getTime();
-		}
-		else {
-			repositoryEntryCacheModel.modifiedDate = Long.MIN_VALUE;
-		}
-
-		repositoryEntryCacheModel.repositoryId = getRepositoryId();
-
-		repositoryEntryCacheModel.mappedId = getMappedId();
-
-		String mappedId = repositoryEntryCacheModel.mappedId;
-
-		if ((mappedId != null) && (mappedId.length() == 0)) {
-			repositoryEntryCacheModel.mappedId = null;
-		}
-
-		repositoryEntryCacheModel.manualCheckInRequired =
-			isManualCheckInRequired();
-
-		Date lastPublishDate = getLastPublishDate();
-
-		if (lastPublishDate != null) {
-			repositoryEntryCacheModel.lastPublishDate =
-				lastPublishDate.getTime();
-		}
-		else {
-			repositoryEntryCacheModel.lastPublishDate = Long.MIN_VALUE;
-		}
+			_toRepositoryEntryCacheModel();
 
 		return repositoryEntryCacheModel;
 	}
@@ -868,26 +826,266 @@ public class RepositoryEntryModelImpl
 
 	}
 
+	public static long getColumnBitmask(String attributeName) {
+		return _columnBitmasks.get(attributeName);
+	}
+
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		Function<RepositoryEntryCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"Unknown attribute name " + attributeName);
+		}
+
+		RepositoryEntryCacheModel repositoryEntryCacheModel =
+			_repositoryEntryCacheModel;
+
+		if (repositoryEntryCacheModel == null) {
+			repositoryEntryCacheModel = _dummyRepositoryEntryCacheModel;
+		}
+
+		return (T)function.apply(repositoryEntryCacheModel);
+	}
+
+	private RepositoryEntryCacheModel _toRepositoryEntryCacheModel() {
+		RepositoryEntryCacheModel repositoryEntryCacheModel =
+			new RepositoryEntryCacheModel();
+
+		repositoryEntryCacheModel.mvccVersion = getMvccVersion();
+
+		repositoryEntryCacheModel.uuid = getUuid();
+
+		String uuid = repositoryEntryCacheModel.uuid;
+
+		if ((uuid != null) && (uuid.length() == 0)) {
+			repositoryEntryCacheModel.uuid = null;
+		}
+
+		repositoryEntryCacheModel.repositoryEntryId = getRepositoryEntryId();
+
+		repositoryEntryCacheModel.groupId = getGroupId();
+
+		repositoryEntryCacheModel.companyId = getCompanyId();
+
+		repositoryEntryCacheModel.userId = getUserId();
+
+		repositoryEntryCacheModel.userName = getUserName();
+
+		String userName = repositoryEntryCacheModel.userName;
+
+		if ((userName != null) && (userName.length() == 0)) {
+			repositoryEntryCacheModel.userName = null;
+		}
+
+		Date createDate = getCreateDate();
+
+		if (createDate != null) {
+			repositoryEntryCacheModel.createDate = createDate.getTime();
+		}
+		else {
+			repositoryEntryCacheModel.createDate = Long.MIN_VALUE;
+		}
+
+		Date modifiedDate = getModifiedDate();
+
+		if (modifiedDate != null) {
+			repositoryEntryCacheModel.modifiedDate = modifiedDate.getTime();
+		}
+		else {
+			repositoryEntryCacheModel.modifiedDate = Long.MIN_VALUE;
+		}
+
+		repositoryEntryCacheModel.repositoryId = getRepositoryId();
+
+		repositoryEntryCacheModel.mappedId = getMappedId();
+
+		String mappedId = repositoryEntryCacheModel.mappedId;
+
+		if ((mappedId != null) && (mappedId.length() == 0)) {
+			repositoryEntryCacheModel.mappedId = null;
+		}
+
+		repositoryEntryCacheModel.manualCheckInRequired =
+			isManualCheckInRequired();
+
+		Date lastPublishDate = getLastPublishDate();
+
+		if (lastPublishDate != null) {
+			repositoryEntryCacheModel.lastPublishDate =
+				lastPublishDate.getTime();
+		}
+		else {
+			repositoryEntryCacheModel.lastPublishDate = Long.MIN_VALUE;
+		}
+
+		return repositoryEntryCacheModel;
+	}
+
+	private static final Map
+		<String, Function<RepositoryEntryCacheModel, Object>>
+			_cacheModelGetterFunctions;
+	private static final Map<String, Long> _columnBitmasks;
+	private static final RepositoryEntryCacheModel
+		_dummyRepositoryEntryCacheModel = new RepositoryEntryCacheModel();
+
+	private RepositoryEntryCacheModel _repositoryEntryCacheModel;
+
+	static {
+		Map<String, Function<RepositoryEntryCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<RepositoryEntryCacheModel, Object>>();
+		Map<String, Long> columnBitmasks = new LinkedHashMap<String, Long>();
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			repositoryEntryCacheModel -> repositoryEntryCacheModel.mvccVersion);
+
+		columnBitmasks.put("mvccVersion", 1L);
+
+		cacheModelGetterFunctions.put(
+			"uuid",
+			repositoryEntryCacheModel -> {
+				String uuid = repositoryEntryCacheModel.uuid;
+
+				if (uuid == null) {
+					return "";
+				}
+
+				return uuid;
+			});
+
+		columnBitmasks.put("uuid", 2L);
+
+		cacheModelGetterFunctions.put(
+			"repositoryEntryId",
+			repositoryEntryCacheModel ->
+				repositoryEntryCacheModel.repositoryEntryId);
+
+		columnBitmasks.put("repositoryEntryId", 4L);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			repositoryEntryCacheModel -> repositoryEntryCacheModel.groupId);
+
+		columnBitmasks.put("groupId", 8L);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			repositoryEntryCacheModel -> repositoryEntryCacheModel.companyId);
+
+		columnBitmasks.put("companyId", 16L);
+
+		cacheModelGetterFunctions.put(
+			"userId",
+			repositoryEntryCacheModel -> repositoryEntryCacheModel.userId);
+
+		columnBitmasks.put("userId", 32L);
+
+		cacheModelGetterFunctions.put(
+			"userName",
+			repositoryEntryCacheModel -> {
+				String userName = repositoryEntryCacheModel.userName;
+
+				if (userName == null) {
+					return "";
+				}
+
+				return userName;
+			});
+
+		columnBitmasks.put("userName", 64L);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			repositoryEntryCacheModel -> {
+				Long createDate = repositoryEntryCacheModel.createDate;
+
+				if (createDate == Long.MIN_VALUE) {
+					return null;
+				}
+
+				return new Date(createDate);
+			});
+
+		columnBitmasks.put("createDate", 128L);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			repositoryEntryCacheModel -> {
+				Long modifiedDate = repositoryEntryCacheModel.modifiedDate;
+
+				if (modifiedDate == Long.MIN_VALUE) {
+					return null;
+				}
+
+				return new Date(modifiedDate);
+			});
+
+		columnBitmasks.put("modifiedDate", 256L);
+
+		cacheModelGetterFunctions.put(
+			"repositoryId",
+			repositoryEntryCacheModel ->
+				repositoryEntryCacheModel.repositoryId);
+
+		columnBitmasks.put("repositoryId", 512L);
+
+		cacheModelGetterFunctions.put(
+			"mappedId",
+			repositoryEntryCacheModel -> {
+				String mappedId = repositoryEntryCacheModel.mappedId;
+
+				if (mappedId == null) {
+					return "";
+				}
+
+				return mappedId;
+			});
+
+		columnBitmasks.put("mappedId", 1024L);
+
+		cacheModelGetterFunctions.put(
+			"manualCheckInRequired",
+			repositoryEntryCacheModel ->
+				repositoryEntryCacheModel.manualCheckInRequired);
+
+		columnBitmasks.put("manualCheckInRequired", 2048L);
+
+		cacheModelGetterFunctions.put(
+			"lastPublishDate",
+			repositoryEntryCacheModel -> {
+				Long lastPublishDate =
+					repositoryEntryCacheModel.lastPublishDate;
+
+				if (lastPublishDate == Long.MIN_VALUE) {
+					return null;
+				}
+
+				return new Date(lastPublishDate);
+			});
+
+		columnBitmasks.put("lastPublishDate", 4096L);
+
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _mvccVersion;
 	private String _uuid;
-	private String _originalUuid;
 	private long _repositoryEntryId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _repositoryId;
-	private long _originalRepositoryId;
-	private boolean _setOriginalRepositoryId;
 	private String _mappedId;
-	private String _originalMappedId;
 	private boolean _manualCheckInRequired;
 	private Date _lastPublishDate;
 	private long _columnBitmask;

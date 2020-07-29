@@ -161,26 +161,81 @@ public class DLFolderModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long FOLDERID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long HIDDEN_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long MOUNTPOINT_COLUMN_BITMASK = 16L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long NAME_COLUMN_BITMASK = 32L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long PARENTFOLDERID_COLUMN_BITMASK = 64L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long REPOSITORYID_COLUMN_BITMASK = 128L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long STATUS_COLUMN_BITMASK = 256L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long TREEPATH_COLUMN_BITMASK = 512L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 1024L;
 
 	/**
@@ -502,6 +557,8 @@ public class DLFolderModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= _columnBitmasks.get("mvccVersion");
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -513,6 +570,8 @@ public class DLFolderModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= _columnBitmasks.get("ctCollectionId");
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -529,17 +588,18 @@ public class DLFolderModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
-		}
+		_columnBitmask |= _columnBitmasks.get("uuid");
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getOriginalAttributeValue("uuid");
 	}
 
 	@JSON
@@ -550,19 +610,18 @@ public class DLFolderModelImpl
 
 	@Override
 	public void setFolderId(long folderId) {
-		_columnBitmask |= FOLDERID_COLUMN_BITMASK;
-
-		if (!_setOriginalFolderId) {
-			_setOriginalFolderId = true;
-
-			_originalFolderId = _folderId;
-		}
+		_columnBitmask |= _columnBitmasks.get("folderId");
 
 		_folderId = folderId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalFolderId() {
-		return _originalFolderId;
+		return getOriginalAttributeValue("folderId");
 	}
 
 	@JSON
@@ -573,19 +632,18 @@ public class DLFolderModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
-		}
+		_columnBitmask |= _columnBitmasks.get("groupId");
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getOriginalAttributeValue("groupId");
 	}
 
 	@JSON
@@ -596,19 +654,18 @@ public class DLFolderModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
-		}
+		_columnBitmask |= _columnBitmasks.get("companyId");
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@JSON
@@ -619,6 +676,8 @@ public class DLFolderModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= _columnBitmasks.get("userId");
+
 		_userId = userId;
 	}
 
@@ -651,6 +710,8 @@ public class DLFolderModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= _columnBitmasks.get("userName");
+
 		_userName = userName;
 	}
 
@@ -662,6 +723,8 @@ public class DLFolderModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= _columnBitmasks.get("createDate");
+
 		_createDate = createDate;
 	}
 
@@ -679,6 +742,8 @@ public class DLFolderModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= _columnBitmasks.get("modifiedDate");
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -690,19 +755,18 @@ public class DLFolderModelImpl
 
 	@Override
 	public void setRepositoryId(long repositoryId) {
-		_columnBitmask |= REPOSITORYID_COLUMN_BITMASK;
-
-		if (!_setOriginalRepositoryId) {
-			_setOriginalRepositoryId = true;
-
-			_originalRepositoryId = _repositoryId;
-		}
+		_columnBitmask |= _columnBitmasks.get("repositoryId");
 
 		_repositoryId = repositoryId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalRepositoryId() {
-		return _originalRepositoryId;
+		return getOriginalAttributeValue("repositoryId");
 	}
 
 	@JSON
@@ -719,19 +783,18 @@ public class DLFolderModelImpl
 
 	@Override
 	public void setMountPoint(boolean mountPoint) {
-		_columnBitmask |= MOUNTPOINT_COLUMN_BITMASK;
-
-		if (!_setOriginalMountPoint) {
-			_setOriginalMountPoint = true;
-
-			_originalMountPoint = _mountPoint;
-		}
+		_columnBitmask |= _columnBitmasks.get("mountPoint");
 
 		_mountPoint = mountPoint;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public boolean getOriginalMountPoint() {
-		return _originalMountPoint;
+		return getOriginalAttributeValue("mountPoint");
 	}
 
 	@JSON
@@ -742,19 +805,18 @@ public class DLFolderModelImpl
 
 	@Override
 	public void setParentFolderId(long parentFolderId) {
-		_columnBitmask = -1L;
-
-		if (!_setOriginalParentFolderId) {
-			_setOriginalParentFolderId = true;
-
-			_originalParentFolderId = _parentFolderId;
-		}
+		_columnBitmask |= _columnBitmasks.get("parentFolderId");
 
 		_parentFolderId = parentFolderId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalParentFolderId() {
-		return _originalParentFolderId;
+		return getOriginalAttributeValue("parentFolderId");
 	}
 
 	@JSON
@@ -770,17 +832,18 @@ public class DLFolderModelImpl
 
 	@Override
 	public void setTreePath(String treePath) {
-		_columnBitmask |= TREEPATH_COLUMN_BITMASK;
-
-		if (_originalTreePath == null) {
-			_originalTreePath = _treePath;
-		}
+		_columnBitmask |= _columnBitmasks.get("treePath");
 
 		_treePath = treePath;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalTreePath() {
-		return GetterUtil.getString(_originalTreePath);
+		return getOriginalAttributeValue("treePath");
 	}
 
 	@JSON
@@ -796,17 +859,18 @@ public class DLFolderModelImpl
 
 	@Override
 	public void setName(String name) {
-		_columnBitmask = -1L;
-
-		if (_originalName == null) {
-			_originalName = _name;
-		}
+		_columnBitmask |= _columnBitmasks.get("name");
 
 		_name = name;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalName() {
-		return GetterUtil.getString(_originalName);
+		return getOriginalAttributeValue("name");
 	}
 
 	@JSON
@@ -822,6 +886,8 @@ public class DLFolderModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		_columnBitmask |= _columnBitmasks.get("description");
+
 		_description = description;
 	}
 
@@ -833,6 +899,8 @@ public class DLFolderModelImpl
 
 	@Override
 	public void setLastPostDate(Date lastPostDate) {
+		_columnBitmask |= _columnBitmasks.get("lastPostDate");
+
 		_lastPostDate = lastPostDate;
 	}
 
@@ -844,6 +912,8 @@ public class DLFolderModelImpl
 
 	@Override
 	public void setDefaultFileEntryTypeId(long defaultFileEntryTypeId) {
+		_columnBitmask |= _columnBitmasks.get("defaultFileEntryTypeId");
+
 		_defaultFileEntryTypeId = defaultFileEntryTypeId;
 	}
 
@@ -861,19 +931,18 @@ public class DLFolderModelImpl
 
 	@Override
 	public void setHidden(boolean hidden) {
-		_columnBitmask |= HIDDEN_COLUMN_BITMASK;
-
-		if (!_setOriginalHidden) {
-			_setOriginalHidden = true;
-
-			_originalHidden = _hidden;
-		}
+		_columnBitmask |= _columnBitmasks.get("hidden");
 
 		_hidden = hidden;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public boolean getOriginalHidden() {
-		return _originalHidden;
+		return getOriginalAttributeValue("hidden");
 	}
 
 	@JSON
@@ -884,6 +953,8 @@ public class DLFolderModelImpl
 
 	@Override
 	public void setRestrictionType(int restrictionType) {
+		_columnBitmask |= _columnBitmasks.get("restrictionType");
+
 		_restrictionType = restrictionType;
 	}
 
@@ -895,6 +966,8 @@ public class DLFolderModelImpl
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		_columnBitmask |= _columnBitmasks.get("lastPublishDate");
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -906,19 +979,18 @@ public class DLFolderModelImpl
 
 	@Override
 	public void setStatus(int status) {
-		_columnBitmask |= STATUS_COLUMN_BITMASK;
-
-		if (!_setOriginalStatus) {
-			_setOriginalStatus = true;
-
-			_originalStatus = _status;
-		}
+		_columnBitmask |= _columnBitmasks.get("status");
 
 		_status = status;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalStatus() {
-		return _originalStatus;
+		return getOriginalAttributeValue("status");
 	}
 
 	@JSON
@@ -929,6 +1001,8 @@ public class DLFolderModelImpl
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		_columnBitmask |= _columnBitmasks.get("statusByUserId");
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -961,6 +1035,8 @@ public class DLFolderModelImpl
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		_columnBitmask |= _columnBitmasks.get("statusByUserName");
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -972,6 +1048,8 @@ public class DLFolderModelImpl
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		_columnBitmask |= _columnBitmasks.get("statusDate");
+
 		_statusDate = statusDate;
 	}
 
@@ -1372,55 +1450,113 @@ public class DLFolderModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		DLFolderModelImpl dlFolderModelImpl = this;
+		_setModifiedDate = false;
 
-		dlFolderModelImpl._originalUuid = dlFolderModelImpl._uuid;
+		_columnBitmask = 0;
 
-		dlFolderModelImpl._originalFolderId = dlFolderModelImpl._folderId;
-
-		dlFolderModelImpl._setOriginalFolderId = false;
-
-		dlFolderModelImpl._originalGroupId = dlFolderModelImpl._groupId;
-
-		dlFolderModelImpl._setOriginalGroupId = false;
-
-		dlFolderModelImpl._originalCompanyId = dlFolderModelImpl._companyId;
-
-		dlFolderModelImpl._setOriginalCompanyId = false;
-
-		dlFolderModelImpl._setModifiedDate = false;
-
-		dlFolderModelImpl._originalRepositoryId =
-			dlFolderModelImpl._repositoryId;
-
-		dlFolderModelImpl._setOriginalRepositoryId = false;
-
-		dlFolderModelImpl._originalMountPoint = dlFolderModelImpl._mountPoint;
-
-		dlFolderModelImpl._setOriginalMountPoint = false;
-
-		dlFolderModelImpl._originalParentFolderId =
-			dlFolderModelImpl._parentFolderId;
-
-		dlFolderModelImpl._setOriginalParentFolderId = false;
-
-		dlFolderModelImpl._originalTreePath = dlFolderModelImpl._treePath;
-
-		dlFolderModelImpl._originalName = dlFolderModelImpl._name;
-
-		dlFolderModelImpl._originalHidden = dlFolderModelImpl._hidden;
-
-		dlFolderModelImpl._setOriginalHidden = false;
-
-		dlFolderModelImpl._originalStatus = dlFolderModelImpl._status;
-
-		dlFolderModelImpl._setOriginalStatus = false;
-
-		dlFolderModelImpl._columnBitmask = 0;
+		_dlFolderCacheModel = _toDLFolderCacheModel();
 	}
 
 	@Override
 	public CacheModel<DLFolder> toCacheModel() {
+		DLFolderCacheModel dlFolderCacheModel = _toDLFolderCacheModel();
+
+		return dlFolderCacheModel;
+	}
+
+	@Override
+	public String toString() {
+		Map<String, Function<DLFolder, Object>> attributeGetterFunctions =
+			getAttributeGetterFunctions();
+
+		StringBundler sb = new StringBundler(
+			4 * attributeGetterFunctions.size() + 2);
+
+		sb.append("{");
+
+		for (Map.Entry<String, Function<DLFolder, Object>> entry :
+				attributeGetterFunctions.entrySet()) {
+
+			String attributeName = entry.getKey();
+			Function<DLFolder, Object> attributeGetterFunction =
+				entry.getValue();
+
+			sb.append(attributeName);
+			sb.append("=");
+			sb.append(attributeGetterFunction.apply((DLFolder)this));
+			sb.append(", ");
+		}
+
+		if (sb.index() > 1) {
+			sb.setIndex(sb.index() - 1);
+		}
+
+		sb.append("}");
+
+		return sb.toString();
+	}
+
+	@Override
+	public String toXmlString() {
+		Map<String, Function<DLFolder, Object>> attributeGetterFunctions =
+			getAttributeGetterFunctions();
+
+		StringBundler sb = new StringBundler(
+			5 * attributeGetterFunctions.size() + 4);
+
+		sb.append("<model><model-name>");
+		sb.append(getModelClassName());
+		sb.append("</model-name>");
+
+		for (Map.Entry<String, Function<DLFolder, Object>> entry :
+				attributeGetterFunctions.entrySet()) {
+
+			String attributeName = entry.getKey();
+			Function<DLFolder, Object> attributeGetterFunction =
+				entry.getValue();
+
+			sb.append("<column><column-name>");
+			sb.append(attributeName);
+			sb.append("</column-name><column-value><![CDATA[");
+			sb.append(attributeGetterFunction.apply((DLFolder)this));
+			sb.append("]]></column-value></column>");
+		}
+
+		sb.append("</model>");
+
+		return sb.toString();
+	}
+
+	private static class EscapedModelProxyProviderFunctionHolder {
+
+		private static final Function<InvocationHandler, DLFolder>
+			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+
+	}
+
+	public static long getColumnBitmask(String attributeName) {
+		return _columnBitmasks.get(attributeName);
+	}
+
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		Function<DLFolderCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"Unknown attribute name " + attributeName);
+		}
+
+		DLFolderCacheModel dlFolderCacheModel = _dlFolderCacheModel;
+
+		if (dlFolderCacheModel == null) {
+			dlFolderCacheModel = _dummyDLFolderCacheModel;
+		}
+
+		return (T)function.apply(dlFolderCacheModel);
+	}
+
+	private DLFolderCacheModel _toDLFolderCacheModel() {
 		DLFolderCacheModel dlFolderCacheModel = new DLFolderCacheModel();
 
 		dlFolderCacheModel.mvccVersion = getMvccVersion();
@@ -1547,118 +1683,280 @@ public class DLFolderModelImpl
 		return dlFolderCacheModel;
 	}
 
-	@Override
-	public String toString() {
-		Map<String, Function<DLFolder, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
+	private static final Map<String, Function<DLFolderCacheModel, Object>>
+		_cacheModelGetterFunctions;
+	private static final Map<String, Long> _columnBitmasks;
+	private static final DLFolderCacheModel _dummyDLFolderCacheModel =
+		new DLFolderCacheModel();
 
-		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+	private DLFolderCacheModel _dlFolderCacheModel;
 
-		sb.append("{");
+	static {
+		Map<String, Function<DLFolderCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<DLFolderCacheModel, Object>>();
+		Map<String, Long> columnBitmasks = new LinkedHashMap<String, Long>();
 
-		for (Map.Entry<String, Function<DLFolder, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			dlFolderCacheModel -> dlFolderCacheModel.mvccVersion);
 
-			String attributeName = entry.getKey();
-			Function<DLFolder, Object> attributeGetterFunction =
-				entry.getValue();
+		columnBitmasks.put("mvccVersion", 1L);
 
-			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((DLFolder)this));
-			sb.append(", ");
-		}
+		cacheModelGetterFunctions.put(
+			"ctCollectionId",
+			dlFolderCacheModel -> dlFolderCacheModel.ctCollectionId);
 
-		if (sb.index() > 1) {
-			sb.setIndex(sb.index() - 1);
-		}
+		columnBitmasks.put("ctCollectionId", 2L);
 
-		sb.append("}");
+		cacheModelGetterFunctions.put(
+			"uuid",
+			dlFolderCacheModel -> {
+				String uuid = dlFolderCacheModel.uuid;
 
-		return sb.toString();
-	}
+				if (uuid == null) {
+					return "";
+				}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<DLFolder, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
+				return uuid;
+			});
 
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
+		columnBitmasks.put("uuid", 4L);
 
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
+		cacheModelGetterFunctions.put(
+			"folderId", dlFolderCacheModel -> dlFolderCacheModel.folderId);
 
-		for (Map.Entry<String, Function<DLFolder, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
+		columnBitmasks.put("folderId", 8L);
 
-			String attributeName = entry.getKey();
-			Function<DLFolder, Object> attributeGetterFunction =
-				entry.getValue();
+		cacheModelGetterFunctions.put(
+			"groupId", dlFolderCacheModel -> dlFolderCacheModel.groupId);
 
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((DLFolder)this));
-			sb.append("]]></column-value></column>");
-		}
+		columnBitmasks.put("groupId", 16L);
 
-		sb.append("</model>");
+		cacheModelGetterFunctions.put(
+			"companyId", dlFolderCacheModel -> dlFolderCacheModel.companyId);
 
-		return sb.toString();
-	}
+		columnBitmasks.put("companyId", 32L);
 
-	private static class EscapedModelProxyProviderFunctionHolder {
+		cacheModelGetterFunctions.put(
+			"userId", dlFolderCacheModel -> dlFolderCacheModel.userId);
 
-		private static final Function<InvocationHandler, DLFolder>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+		columnBitmasks.put("userId", 64L);
 
+		cacheModelGetterFunctions.put(
+			"userName",
+			dlFolderCacheModel -> {
+				String userName = dlFolderCacheModel.userName;
+
+				if (userName == null) {
+					return "";
+				}
+
+				return userName;
+			});
+
+		columnBitmasks.put("userName", 128L);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			dlFolderCacheModel -> {
+				Long createDate = dlFolderCacheModel.createDate;
+
+				if (createDate == Long.MIN_VALUE) {
+					return null;
+				}
+
+				return new Date(createDate);
+			});
+
+		columnBitmasks.put("createDate", 256L);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			dlFolderCacheModel -> {
+				Long modifiedDate = dlFolderCacheModel.modifiedDate;
+
+				if (modifiedDate == Long.MIN_VALUE) {
+					return null;
+				}
+
+				return new Date(modifiedDate);
+			});
+
+		columnBitmasks.put("modifiedDate", 512L);
+
+		cacheModelGetterFunctions.put(
+			"repositoryId",
+			dlFolderCacheModel -> dlFolderCacheModel.repositoryId);
+
+		columnBitmasks.put("repositoryId", 1024L);
+
+		cacheModelGetterFunctions.put(
+			"mountPoint", dlFolderCacheModel -> dlFolderCacheModel.mountPoint);
+
+		columnBitmasks.put("mountPoint", 2048L);
+
+		cacheModelGetterFunctions.put(
+			"parentFolderId",
+			dlFolderCacheModel -> dlFolderCacheModel.parentFolderId);
+
+		columnBitmasks.put("parentFolderId", 4096L);
+
+		cacheModelGetterFunctions.put(
+			"treePath",
+			dlFolderCacheModel -> {
+				String treePath = dlFolderCacheModel.treePath;
+
+				if (treePath == null) {
+					return "";
+				}
+
+				return treePath;
+			});
+
+		columnBitmasks.put("treePath", 8192L);
+
+		cacheModelGetterFunctions.put(
+			"name",
+			dlFolderCacheModel -> {
+				String name = dlFolderCacheModel.name;
+
+				if (name == null) {
+					return "";
+				}
+
+				return name;
+			});
+
+		columnBitmasks.put("name", 16384L);
+
+		cacheModelGetterFunctions.put(
+			"description",
+			dlFolderCacheModel -> {
+				String description = dlFolderCacheModel.description;
+
+				if (description == null) {
+					return "";
+				}
+
+				return description;
+			});
+
+		columnBitmasks.put("description", 32768L);
+
+		cacheModelGetterFunctions.put(
+			"lastPostDate",
+			dlFolderCacheModel -> {
+				Long lastPostDate = dlFolderCacheModel.lastPostDate;
+
+				if (lastPostDate == Long.MIN_VALUE) {
+					return null;
+				}
+
+				return new Date(lastPostDate);
+			});
+
+		columnBitmasks.put("lastPostDate", 65536L);
+
+		cacheModelGetterFunctions.put(
+			"defaultFileEntryTypeId",
+			dlFolderCacheModel -> dlFolderCacheModel.defaultFileEntryTypeId);
+
+		columnBitmasks.put("defaultFileEntryTypeId", 131072L);
+
+		cacheModelGetterFunctions.put(
+			"hidden", dlFolderCacheModel -> dlFolderCacheModel.hidden);
+
+		columnBitmasks.put("hidden", 262144L);
+
+		cacheModelGetterFunctions.put(
+			"restrictionType",
+			dlFolderCacheModel -> dlFolderCacheModel.restrictionType);
+
+		columnBitmasks.put("restrictionType", 524288L);
+
+		cacheModelGetterFunctions.put(
+			"lastPublishDate",
+			dlFolderCacheModel -> {
+				Long lastPublishDate = dlFolderCacheModel.lastPublishDate;
+
+				if (lastPublishDate == Long.MIN_VALUE) {
+					return null;
+				}
+
+				return new Date(lastPublishDate);
+			});
+
+		columnBitmasks.put("lastPublishDate", 1048576L);
+
+		cacheModelGetterFunctions.put(
+			"status", dlFolderCacheModel -> dlFolderCacheModel.status);
+
+		columnBitmasks.put("status", 2097152L);
+
+		cacheModelGetterFunctions.put(
+			"statusByUserId",
+			dlFolderCacheModel -> dlFolderCacheModel.statusByUserId);
+
+		columnBitmasks.put("statusByUserId", 4194304L);
+
+		cacheModelGetterFunctions.put(
+			"statusByUserName",
+			dlFolderCacheModel -> {
+				String statusByUserName = dlFolderCacheModel.statusByUserName;
+
+				if (statusByUserName == null) {
+					return "";
+				}
+
+				return statusByUserName;
+			});
+
+		columnBitmasks.put("statusByUserName", 8388608L);
+
+		cacheModelGetterFunctions.put(
+			"statusDate",
+			dlFolderCacheModel -> {
+				Long statusDate = dlFolderCacheModel.statusDate;
+
+				if (statusDate == Long.MIN_VALUE) {
+					return null;
+				}
+
+				return new Date(statusDate);
+			});
+
+		columnBitmasks.put("statusDate", 16777216L);
+
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
 	private long _mvccVersion;
 	private long _ctCollectionId;
 	private String _uuid;
-	private String _originalUuid;
 	private long _folderId;
-	private long _originalFolderId;
-	private boolean _setOriginalFolderId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _repositoryId;
-	private long _originalRepositoryId;
-	private boolean _setOriginalRepositoryId;
 	private boolean _mountPoint;
-	private boolean _originalMountPoint;
-	private boolean _setOriginalMountPoint;
 	private long _parentFolderId;
-	private long _originalParentFolderId;
-	private boolean _setOriginalParentFolderId;
 	private String _treePath;
-	private String _originalTreePath;
 	private String _name;
-	private String _originalName;
 	private String _description;
 	private Date _lastPostDate;
 	private long _defaultFileEntryTypeId;
 	private boolean _hidden;
-	private boolean _originalHidden;
-	private boolean _setOriginalHidden;
 	private int _restrictionType;
 	private Date _lastPublishDate;
 	private int _status;
-	private int _originalStatus;
-	private boolean _setOriginalStatus;
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;

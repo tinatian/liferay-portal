@@ -29,7 +29,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -129,10 +128,25 @@ public class OAuth2ApplicationModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long CLIENTID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long OAUTH2APPLICATIONID_COLUMN_BITMASK = 4L;
 
 	/**
@@ -472,6 +486,8 @@ public class OAuth2ApplicationModelImpl
 
 	@Override
 	public void setOAuth2ApplicationId(long oAuth2ApplicationId) {
+		_columnBitmask |= _columnBitmasks.get("oAuth2ApplicationId");
+
 		_oAuth2ApplicationId = oAuth2ApplicationId;
 	}
 
@@ -483,19 +499,18 @@ public class OAuth2ApplicationModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
-		}
+		_columnBitmask |= _columnBitmasks.get("companyId");
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@JSON
@@ -506,6 +521,8 @@ public class OAuth2ApplicationModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= _columnBitmasks.get("userId");
+
 		_userId = userId;
 	}
 
@@ -538,6 +555,8 @@ public class OAuth2ApplicationModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= _columnBitmasks.get("userName");
+
 		_userName = userName;
 	}
 
@@ -549,6 +568,8 @@ public class OAuth2ApplicationModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= _columnBitmasks.get("createDate");
+
 		_createDate = createDate;
 	}
 
@@ -566,6 +587,8 @@ public class OAuth2ApplicationModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= _columnBitmasks.get("modifiedDate");
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -578,6 +601,9 @@ public class OAuth2ApplicationModelImpl
 	@Override
 	public void setOAuth2ApplicationScopeAliasesId(
 		long oAuth2ApplicationScopeAliasesId) {
+
+		_columnBitmask |= _columnBitmasks.get(
+			"oAuth2ApplicationScopeAliasesId");
 
 		_oAuth2ApplicationScopeAliasesId = oAuth2ApplicationScopeAliasesId;
 	}
@@ -595,6 +621,8 @@ public class OAuth2ApplicationModelImpl
 
 	@Override
 	public void setAllowedGrantTypes(String allowedGrantTypes) {
+		_columnBitmask |= _columnBitmasks.get("allowedGrantTypes");
+
 		_allowedGrantTypes = allowedGrantTypes;
 	}
 
@@ -606,6 +634,8 @@ public class OAuth2ApplicationModelImpl
 
 	@Override
 	public void setClientCredentialUserId(long clientCredentialUserId) {
+		_columnBitmask |= _columnBitmasks.get("clientCredentialUserId");
+
 		_clientCredentialUserId = clientCredentialUserId;
 	}
 
@@ -639,6 +669,8 @@ public class OAuth2ApplicationModelImpl
 
 	@Override
 	public void setClientCredentialUserName(String clientCredentialUserName) {
+		_columnBitmask |= _columnBitmasks.get("clientCredentialUserName");
+
 		_clientCredentialUserName = clientCredentialUserName;
 	}
 
@@ -655,17 +687,18 @@ public class OAuth2ApplicationModelImpl
 
 	@Override
 	public void setClientId(String clientId) {
-		_columnBitmask |= CLIENTID_COLUMN_BITMASK;
-
-		if (_originalClientId == null) {
-			_originalClientId = _clientId;
-		}
+		_columnBitmask |= _columnBitmasks.get("clientId");
 
 		_clientId = clientId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalClientId() {
-		return GetterUtil.getString(_originalClientId);
+		return getOriginalAttributeValue("clientId");
 	}
 
 	@JSON
@@ -676,6 +709,8 @@ public class OAuth2ApplicationModelImpl
 
 	@Override
 	public void setClientProfile(int clientProfile) {
+		_columnBitmask |= _columnBitmasks.get("clientProfile");
+
 		_clientProfile = clientProfile;
 	}
 
@@ -692,6 +727,8 @@ public class OAuth2ApplicationModelImpl
 
 	@Override
 	public void setClientSecret(String clientSecret) {
+		_columnBitmask |= _columnBitmasks.get("clientSecret");
+
 		_clientSecret = clientSecret;
 	}
 
@@ -708,6 +745,8 @@ public class OAuth2ApplicationModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		_columnBitmask |= _columnBitmasks.get("description");
+
 		_description = description;
 	}
 
@@ -724,6 +763,8 @@ public class OAuth2ApplicationModelImpl
 
 	@Override
 	public void setFeatures(String features) {
+		_columnBitmask |= _columnBitmasks.get("features");
+
 		_features = features;
 	}
 
@@ -740,6 +781,8 @@ public class OAuth2ApplicationModelImpl
 
 	@Override
 	public void setHomePageURL(String homePageURL) {
+		_columnBitmask |= _columnBitmasks.get("homePageURL");
+
 		_homePageURL = homePageURL;
 	}
 
@@ -751,6 +794,8 @@ public class OAuth2ApplicationModelImpl
 
 	@Override
 	public void setIconFileEntryId(long iconFileEntryId) {
+		_columnBitmask |= _columnBitmasks.get("iconFileEntryId");
+
 		_iconFileEntryId = iconFileEntryId;
 	}
 
@@ -767,6 +812,8 @@ public class OAuth2ApplicationModelImpl
 
 	@Override
 	public void setName(String name) {
+		_columnBitmask |= _columnBitmasks.get("name");
+
 		_name = name;
 	}
 
@@ -783,6 +830,8 @@ public class OAuth2ApplicationModelImpl
 
 	@Override
 	public void setPrivacyPolicyURL(String privacyPolicyURL) {
+		_columnBitmask |= _columnBitmasks.get("privacyPolicyURL");
+
 		_privacyPolicyURL = privacyPolicyURL;
 	}
 
@@ -799,6 +848,8 @@ public class OAuth2ApplicationModelImpl
 
 	@Override
 	public void setRedirectURIs(String redirectURIs) {
+		_columnBitmask |= _columnBitmasks.get("redirectURIs");
+
 		_redirectURIs = redirectURIs;
 	}
 
@@ -930,23 +981,115 @@ public class OAuth2ApplicationModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		OAuth2ApplicationModelImpl oAuth2ApplicationModelImpl = this;
+		_setModifiedDate = false;
 
-		oAuth2ApplicationModelImpl._originalCompanyId =
-			oAuth2ApplicationModelImpl._companyId;
+		_columnBitmask = 0;
 
-		oAuth2ApplicationModelImpl._setOriginalCompanyId = false;
-
-		oAuth2ApplicationModelImpl._setModifiedDate = false;
-
-		oAuth2ApplicationModelImpl._originalClientId =
-			oAuth2ApplicationModelImpl._clientId;
-
-		oAuth2ApplicationModelImpl._columnBitmask = 0;
+		_oAuth2ApplicationCacheModel = _toOAuth2ApplicationCacheModel();
 	}
 
 	@Override
 	public CacheModel<OAuth2Application> toCacheModel() {
+		OAuth2ApplicationCacheModel oAuth2ApplicationCacheModel =
+			_toOAuth2ApplicationCacheModel();
+
+		return oAuth2ApplicationCacheModel;
+	}
+
+	@Override
+	public String toString() {
+		Map<String, Function<OAuth2Application, Object>>
+			attributeGetterFunctions = getAttributeGetterFunctions();
+
+		StringBundler sb = new StringBundler(
+			4 * attributeGetterFunctions.size() + 2);
+
+		sb.append("{");
+
+		for (Map.Entry<String, Function<OAuth2Application, Object>> entry :
+				attributeGetterFunctions.entrySet()) {
+
+			String attributeName = entry.getKey();
+			Function<OAuth2Application, Object> attributeGetterFunction =
+				entry.getValue();
+
+			sb.append(attributeName);
+			sb.append("=");
+			sb.append(attributeGetterFunction.apply((OAuth2Application)this));
+			sb.append(", ");
+		}
+
+		if (sb.index() > 1) {
+			sb.setIndex(sb.index() - 1);
+		}
+
+		sb.append("}");
+
+		return sb.toString();
+	}
+
+	@Override
+	public String toXmlString() {
+		Map<String, Function<OAuth2Application, Object>>
+			attributeGetterFunctions = getAttributeGetterFunctions();
+
+		StringBundler sb = new StringBundler(
+			5 * attributeGetterFunctions.size() + 4);
+
+		sb.append("<model><model-name>");
+		sb.append(getModelClassName());
+		sb.append("</model-name>");
+
+		for (Map.Entry<String, Function<OAuth2Application, Object>> entry :
+				attributeGetterFunctions.entrySet()) {
+
+			String attributeName = entry.getKey();
+			Function<OAuth2Application, Object> attributeGetterFunction =
+				entry.getValue();
+
+			sb.append("<column><column-name>");
+			sb.append(attributeName);
+			sb.append("</column-name><column-value><![CDATA[");
+			sb.append(attributeGetterFunction.apply((OAuth2Application)this));
+			sb.append("]]></column-value></column>");
+		}
+
+		sb.append("</model>");
+
+		return sb.toString();
+	}
+
+	private static class EscapedModelProxyProviderFunctionHolder {
+
+		private static final Function<InvocationHandler, OAuth2Application>
+			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+
+	}
+
+	public static long getColumnBitmask(String attributeName) {
+		return _columnBitmasks.get(attributeName);
+	}
+
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		Function<OAuth2ApplicationCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"Unknown attribute name " + attributeName);
+		}
+
+		OAuth2ApplicationCacheModel oAuth2ApplicationCacheModel =
+			_oAuth2ApplicationCacheModel;
+
+		if (oAuth2ApplicationCacheModel == null) {
+			oAuth2ApplicationCacheModel = _dummyOAuth2ApplicationCacheModel;
+		}
+
+		return (T)function.apply(oAuth2ApplicationCacheModel);
+	}
+
+	private OAuth2ApplicationCacheModel _toOAuth2ApplicationCacheModel() {
 		OAuth2ApplicationCacheModel oAuth2ApplicationCacheModel =
 			new OAuth2ApplicationCacheModel();
 
@@ -1081,80 +1224,262 @@ public class OAuth2ApplicationModelImpl
 		return oAuth2ApplicationCacheModel;
 	}
 
-	@Override
-	public String toString() {
-		Map<String, Function<OAuth2Application, Object>>
-			attributeGetterFunctions = getAttributeGetterFunctions();
+	private static final Map
+		<String, Function<OAuth2ApplicationCacheModel, Object>>
+			_cacheModelGetterFunctions;
+	private static final Map<String, Long> _columnBitmasks;
+	private static final OAuth2ApplicationCacheModel
+		_dummyOAuth2ApplicationCacheModel = new OAuth2ApplicationCacheModel();
 
-		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+	private OAuth2ApplicationCacheModel _oAuth2ApplicationCacheModel;
 
-		sb.append("{");
+	static {
+		Map<String, Function<OAuth2ApplicationCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<OAuth2ApplicationCacheModel, Object>>();
+		Map<String, Long> columnBitmasks = new LinkedHashMap<String, Long>();
 
-		for (Map.Entry<String, Function<OAuth2Application, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
+		cacheModelGetterFunctions.put(
+			"oAuth2ApplicationId",
+			oAuth2ApplicationCacheModel ->
+				oAuth2ApplicationCacheModel.oAuth2ApplicationId);
 
-			String attributeName = entry.getKey();
-			Function<OAuth2Application, Object> attributeGetterFunction =
-				entry.getValue();
+		columnBitmasks.put("oAuth2ApplicationId", 1L);
 
-			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((OAuth2Application)this));
-			sb.append(", ");
-		}
+		cacheModelGetterFunctions.put(
+			"companyId",
+			oAuth2ApplicationCacheModel ->
+				oAuth2ApplicationCacheModel.companyId);
 
-		if (sb.index() > 1) {
-			sb.setIndex(sb.index() - 1);
-		}
+		columnBitmasks.put("companyId", 2L);
 
-		sb.append("}");
+		cacheModelGetterFunctions.put(
+			"userId",
+			oAuth2ApplicationCacheModel -> oAuth2ApplicationCacheModel.userId);
 
-		return sb.toString();
-	}
+		columnBitmasks.put("userId", 4L);
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<OAuth2Application, Object>>
-			attributeGetterFunctions = getAttributeGetterFunctions();
+		cacheModelGetterFunctions.put(
+			"userName",
+			oAuth2ApplicationCacheModel -> {
+				String userName = oAuth2ApplicationCacheModel.userName;
 
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
+				if (userName == null) {
+					return "";
+				}
 
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
+				return userName;
+			});
 
-		for (Map.Entry<String, Function<OAuth2Application, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
+		columnBitmasks.put("userName", 8L);
 
-			String attributeName = entry.getKey();
-			Function<OAuth2Application, Object> attributeGetterFunction =
-				entry.getValue();
+		cacheModelGetterFunctions.put(
+			"createDate",
+			oAuth2ApplicationCacheModel -> {
+				Long createDate = oAuth2ApplicationCacheModel.createDate;
 
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((OAuth2Application)this));
-			sb.append("]]></column-value></column>");
-		}
+				if (createDate == Long.MIN_VALUE) {
+					return null;
+				}
 
-		sb.append("</model>");
+				return new Date(createDate);
+			});
 
-		return sb.toString();
-	}
+		columnBitmasks.put("createDate", 16L);
 
-	private static class EscapedModelProxyProviderFunctionHolder {
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			oAuth2ApplicationCacheModel -> {
+				Long modifiedDate = oAuth2ApplicationCacheModel.modifiedDate;
 
-		private static final Function<InvocationHandler, OAuth2Application>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+				if (modifiedDate == Long.MIN_VALUE) {
+					return null;
+				}
 
+				return new Date(modifiedDate);
+			});
+
+		columnBitmasks.put("modifiedDate", 32L);
+
+		cacheModelGetterFunctions.put(
+			"oAuth2ApplicationScopeAliasesId",
+			oAuth2ApplicationCacheModel ->
+				oAuth2ApplicationCacheModel.oAuth2ApplicationScopeAliasesId);
+
+		columnBitmasks.put("oAuth2ApplicationScopeAliasesId", 64L);
+
+		cacheModelGetterFunctions.put(
+			"allowedGrantTypes",
+			oAuth2ApplicationCacheModel -> {
+				String allowedGrantTypes =
+					oAuth2ApplicationCacheModel.allowedGrantTypes;
+
+				if (allowedGrantTypes == null) {
+					return "";
+				}
+
+				return allowedGrantTypes;
+			});
+
+		columnBitmasks.put("allowedGrantTypes", 128L);
+
+		cacheModelGetterFunctions.put(
+			"clientCredentialUserId",
+			oAuth2ApplicationCacheModel ->
+				oAuth2ApplicationCacheModel.clientCredentialUserId);
+
+		columnBitmasks.put("clientCredentialUserId", 256L);
+
+		cacheModelGetterFunctions.put(
+			"clientCredentialUserName",
+			oAuth2ApplicationCacheModel -> {
+				String clientCredentialUserName =
+					oAuth2ApplicationCacheModel.clientCredentialUserName;
+
+				if (clientCredentialUserName == null) {
+					return "";
+				}
+
+				return clientCredentialUserName;
+			});
+
+		columnBitmasks.put("clientCredentialUserName", 512L);
+
+		cacheModelGetterFunctions.put(
+			"clientId",
+			oAuth2ApplicationCacheModel -> {
+				String clientId = oAuth2ApplicationCacheModel.clientId;
+
+				if (clientId == null) {
+					return "";
+				}
+
+				return clientId;
+			});
+
+		columnBitmasks.put("clientId", 1024L);
+
+		cacheModelGetterFunctions.put(
+			"clientProfile",
+			oAuth2ApplicationCacheModel ->
+				oAuth2ApplicationCacheModel.clientProfile);
+
+		columnBitmasks.put("clientProfile", 2048L);
+
+		cacheModelGetterFunctions.put(
+			"clientSecret",
+			oAuth2ApplicationCacheModel -> {
+				String clientSecret = oAuth2ApplicationCacheModel.clientSecret;
+
+				if (clientSecret == null) {
+					return "";
+				}
+
+				return clientSecret;
+			});
+
+		columnBitmasks.put("clientSecret", 4096L);
+
+		cacheModelGetterFunctions.put(
+			"description",
+			oAuth2ApplicationCacheModel -> {
+				String description = oAuth2ApplicationCacheModel.description;
+
+				if (description == null) {
+					return "";
+				}
+
+				return description;
+			});
+
+		columnBitmasks.put("description", 8192L);
+
+		cacheModelGetterFunctions.put(
+			"features",
+			oAuth2ApplicationCacheModel -> {
+				String features = oAuth2ApplicationCacheModel.features;
+
+				if (features == null) {
+					return "";
+				}
+
+				return features;
+			});
+
+		columnBitmasks.put("features", 16384L);
+
+		cacheModelGetterFunctions.put(
+			"homePageURL",
+			oAuth2ApplicationCacheModel -> {
+				String homePageURL = oAuth2ApplicationCacheModel.homePageURL;
+
+				if (homePageURL == null) {
+					return "";
+				}
+
+				return homePageURL;
+			});
+
+		columnBitmasks.put("homePageURL", 32768L);
+
+		cacheModelGetterFunctions.put(
+			"iconFileEntryId",
+			oAuth2ApplicationCacheModel ->
+				oAuth2ApplicationCacheModel.iconFileEntryId);
+
+		columnBitmasks.put("iconFileEntryId", 65536L);
+
+		cacheModelGetterFunctions.put(
+			"name",
+			oAuth2ApplicationCacheModel -> {
+				String name = oAuth2ApplicationCacheModel.name;
+
+				if (name == null) {
+					return "";
+				}
+
+				return name;
+			});
+
+		columnBitmasks.put("name", 131072L);
+
+		cacheModelGetterFunctions.put(
+			"privacyPolicyURL",
+			oAuth2ApplicationCacheModel -> {
+				String privacyPolicyURL =
+					oAuth2ApplicationCacheModel.privacyPolicyURL;
+
+				if (privacyPolicyURL == null) {
+					return "";
+				}
+
+				return privacyPolicyURL;
+			});
+
+		columnBitmasks.put("privacyPolicyURL", 262144L);
+
+		cacheModelGetterFunctions.put(
+			"redirectURIs",
+			oAuth2ApplicationCacheModel -> {
+				String redirectURIs = oAuth2ApplicationCacheModel.redirectURIs;
+
+				if (redirectURIs == null) {
+					return "";
+				}
+
+				return redirectURIs;
+			});
+
+		columnBitmasks.put("redirectURIs", 524288L);
+
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
 	private long _oAuth2ApplicationId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
@@ -1165,7 +1490,6 @@ public class OAuth2ApplicationModelImpl
 	private long _clientCredentialUserId;
 	private String _clientCredentialUserName;
 	private String _clientId;
-	private String _originalClientId;
 	private int _clientProfile;
 	private String _clientSecret;
 	private String _description;

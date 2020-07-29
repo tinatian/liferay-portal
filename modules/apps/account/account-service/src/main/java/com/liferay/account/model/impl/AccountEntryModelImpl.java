@@ -29,7 +29,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -120,12 +119,32 @@ public class AccountEntryModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long EXTERNALREFERENCECODE_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long STATUS_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long NAME_COLUMN_BITMASK = 8L;
 
 	/**
@@ -404,6 +423,8 @@ public class AccountEntryModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= _columnBitmasks.get("mvccVersion");
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -420,17 +441,18 @@ public class AccountEntryModelImpl
 
 	@Override
 	public void setExternalReferenceCode(String externalReferenceCode) {
-		_columnBitmask |= EXTERNALREFERENCECODE_COLUMN_BITMASK;
-
-		if (_originalExternalReferenceCode == null) {
-			_originalExternalReferenceCode = _externalReferenceCode;
-		}
+		_columnBitmask |= _columnBitmasks.get("externalReferenceCode");
 
 		_externalReferenceCode = externalReferenceCode;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalExternalReferenceCode() {
-		return GetterUtil.getString(_originalExternalReferenceCode);
+		return getOriginalAttributeValue("externalReferenceCode");
 	}
 
 	@JSON
@@ -441,6 +463,8 @@ public class AccountEntryModelImpl
 
 	@Override
 	public void setAccountEntryId(long accountEntryId) {
+		_columnBitmask |= _columnBitmasks.get("accountEntryId");
+
 		_accountEntryId = accountEntryId;
 	}
 
@@ -452,19 +476,18 @@ public class AccountEntryModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
-		}
+		_columnBitmask |= _columnBitmasks.get("companyId");
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@JSON
@@ -475,6 +498,8 @@ public class AccountEntryModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= _columnBitmasks.get("userId");
+
 		_userId = userId;
 	}
 
@@ -507,6 +532,8 @@ public class AccountEntryModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= _columnBitmasks.get("userName");
+
 		_userName = userName;
 	}
 
@@ -518,6 +545,8 @@ public class AccountEntryModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= _columnBitmasks.get("createDate");
+
 		_createDate = createDate;
 	}
 
@@ -535,6 +564,8 @@ public class AccountEntryModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= _columnBitmasks.get("modifiedDate");
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -546,6 +577,8 @@ public class AccountEntryModelImpl
 
 	@Override
 	public void setParentAccountEntryId(long parentAccountEntryId) {
+		_columnBitmask |= _columnBitmasks.get("parentAccountEntryId");
+
 		_parentAccountEntryId = parentAccountEntryId;
 	}
 
@@ -562,7 +595,7 @@ public class AccountEntryModelImpl
 
 	@Override
 	public void setName(String name) {
-		_columnBitmask = -1L;
+		_columnBitmask |= _columnBitmasks.get("name");
 
 		_name = name;
 	}
@@ -580,6 +613,8 @@ public class AccountEntryModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		_columnBitmask |= _columnBitmasks.get("description");
+
 		_description = description;
 	}
 
@@ -596,6 +631,8 @@ public class AccountEntryModelImpl
 
 	@Override
 	public void setDomains(String domains) {
+		_columnBitmask |= _columnBitmasks.get("domains");
+
 		_domains = domains;
 	}
 
@@ -607,6 +644,8 @@ public class AccountEntryModelImpl
 
 	@Override
 	public void setLogoId(long logoId) {
+		_columnBitmask |= _columnBitmasks.get("logoId");
+
 		_logoId = logoId;
 	}
 
@@ -623,6 +662,8 @@ public class AccountEntryModelImpl
 
 	@Override
 	public void setTaxIdNumber(String taxIdNumber) {
+		_columnBitmask |= _columnBitmasks.get("taxIdNumber");
+
 		_taxIdNumber = taxIdNumber;
 	}
 
@@ -639,6 +680,8 @@ public class AccountEntryModelImpl
 
 	@Override
 	public void setType(String type) {
+		_columnBitmask |= _columnBitmasks.get("type");
+
 		_type = type;
 	}
 
@@ -650,19 +693,18 @@ public class AccountEntryModelImpl
 
 	@Override
 	public void setStatus(int status) {
-		_columnBitmask |= STATUS_COLUMN_BITMASK;
-
-		if (!_setOriginalStatus) {
-			_setOriginalStatus = true;
-
-			_originalStatus = _status;
-		}
+		_columnBitmask |= _columnBitmasks.get("status");
 
 		_status = status;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalStatus() {
-		return _originalStatus;
+		return getOriginalAttributeValue("status");
 	}
 
 	public long getColumnBitmask() {
@@ -783,27 +825,114 @@ public class AccountEntryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		AccountEntryModelImpl accountEntryModelImpl = this;
+		_setModifiedDate = false;
 
-		accountEntryModelImpl._originalExternalReferenceCode =
-			accountEntryModelImpl._externalReferenceCode;
+		_columnBitmask = 0;
 
-		accountEntryModelImpl._originalCompanyId =
-			accountEntryModelImpl._companyId;
-
-		accountEntryModelImpl._setOriginalCompanyId = false;
-
-		accountEntryModelImpl._setModifiedDate = false;
-
-		accountEntryModelImpl._originalStatus = accountEntryModelImpl._status;
-
-		accountEntryModelImpl._setOriginalStatus = false;
-
-		accountEntryModelImpl._columnBitmask = 0;
+		_accountEntryCacheModel = _toAccountEntryCacheModel();
 	}
 
 	@Override
 	public CacheModel<AccountEntry> toCacheModel() {
+		AccountEntryCacheModel accountEntryCacheModel =
+			_toAccountEntryCacheModel();
+
+		return accountEntryCacheModel;
+	}
+
+	@Override
+	public String toString() {
+		Map<String, Function<AccountEntry, Object>> attributeGetterFunctions =
+			getAttributeGetterFunctions();
+
+		StringBundler sb = new StringBundler(
+			4 * attributeGetterFunctions.size() + 2);
+
+		sb.append("{");
+
+		for (Map.Entry<String, Function<AccountEntry, Object>> entry :
+				attributeGetterFunctions.entrySet()) {
+
+			String attributeName = entry.getKey();
+			Function<AccountEntry, Object> attributeGetterFunction =
+				entry.getValue();
+
+			sb.append(attributeName);
+			sb.append("=");
+			sb.append(attributeGetterFunction.apply((AccountEntry)this));
+			sb.append(", ");
+		}
+
+		if (sb.index() > 1) {
+			sb.setIndex(sb.index() - 1);
+		}
+
+		sb.append("}");
+
+		return sb.toString();
+	}
+
+	@Override
+	public String toXmlString() {
+		Map<String, Function<AccountEntry, Object>> attributeGetterFunctions =
+			getAttributeGetterFunctions();
+
+		StringBundler sb = new StringBundler(
+			5 * attributeGetterFunctions.size() + 4);
+
+		sb.append("<model><model-name>");
+		sb.append(getModelClassName());
+		sb.append("</model-name>");
+
+		for (Map.Entry<String, Function<AccountEntry, Object>> entry :
+				attributeGetterFunctions.entrySet()) {
+
+			String attributeName = entry.getKey();
+			Function<AccountEntry, Object> attributeGetterFunction =
+				entry.getValue();
+
+			sb.append("<column><column-name>");
+			sb.append(attributeName);
+			sb.append("</column-name><column-value><![CDATA[");
+			sb.append(attributeGetterFunction.apply((AccountEntry)this));
+			sb.append("]]></column-value></column>");
+		}
+
+		sb.append("</model>");
+
+		return sb.toString();
+	}
+
+	private static class EscapedModelProxyProviderFunctionHolder {
+
+		private static final Function<InvocationHandler, AccountEntry>
+			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+
+	}
+
+	public static long getColumnBitmask(String attributeName) {
+		return _columnBitmasks.get(attributeName);
+	}
+
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		Function<AccountEntryCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"Unknown attribute name " + attributeName);
+		}
+
+		AccountEntryCacheModel accountEntryCacheModel = _accountEntryCacheModel;
+
+		if (accountEntryCacheModel == null) {
+			accountEntryCacheModel = _dummyAccountEntryCacheModel;
+		}
+
+		return (T)function.apply(accountEntryCacheModel);
+	}
+
+	private AccountEntryCacheModel _toAccountEntryCacheModel() {
 		AccountEntryCacheModel accountEntryCacheModel =
 			new AccountEntryCacheModel();
 
@@ -902,83 +1031,197 @@ public class AccountEntryModelImpl
 		return accountEntryCacheModel;
 	}
 
-	@Override
-	public String toString() {
-		Map<String, Function<AccountEntry, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
+	private static final Map<String, Function<AccountEntryCacheModel, Object>>
+		_cacheModelGetterFunctions;
+	private static final Map<String, Long> _columnBitmasks;
+	private static final AccountEntryCacheModel _dummyAccountEntryCacheModel =
+		new AccountEntryCacheModel();
 
-		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+	private AccountEntryCacheModel _accountEntryCacheModel;
 
-		sb.append("{");
+	static {
+		Map<String, Function<AccountEntryCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<AccountEntryCacheModel, Object>>();
+		Map<String, Long> columnBitmasks = new LinkedHashMap<String, Long>();
 
-		for (Map.Entry<String, Function<AccountEntry, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			accountEntryCacheModel -> accountEntryCacheModel.mvccVersion);
 
-			String attributeName = entry.getKey();
-			Function<AccountEntry, Object> attributeGetterFunction =
-				entry.getValue();
+		columnBitmasks.put("mvccVersion", 1L);
 
-			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((AccountEntry)this));
-			sb.append(", ");
-		}
+		cacheModelGetterFunctions.put(
+			"externalReferenceCode",
+			accountEntryCacheModel -> {
+				String externalReferenceCode =
+					accountEntryCacheModel.externalReferenceCode;
 
-		if (sb.index() > 1) {
-			sb.setIndex(sb.index() - 1);
-		}
+				if (externalReferenceCode == null) {
+					return "";
+				}
 
-		sb.append("}");
+				return externalReferenceCode;
+			});
 
-		return sb.toString();
-	}
+		columnBitmasks.put("externalReferenceCode", 2L);
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<AccountEntry, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
+		cacheModelGetterFunctions.put(
+			"accountEntryId",
+			accountEntryCacheModel -> accountEntryCacheModel.accountEntryId);
 
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
+		columnBitmasks.put("accountEntryId", 4L);
 
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
+		cacheModelGetterFunctions.put(
+			"companyId",
+			accountEntryCacheModel -> accountEntryCacheModel.companyId);
 
-		for (Map.Entry<String, Function<AccountEntry, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
+		columnBitmasks.put("companyId", 8L);
 
-			String attributeName = entry.getKey();
-			Function<AccountEntry, Object> attributeGetterFunction =
-				entry.getValue();
+		cacheModelGetterFunctions.put(
+			"userId", accountEntryCacheModel -> accountEntryCacheModel.userId);
 
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((AccountEntry)this));
-			sb.append("]]></column-value></column>");
-		}
+		columnBitmasks.put("userId", 16L);
 
-		sb.append("</model>");
+		cacheModelGetterFunctions.put(
+			"userName",
+			accountEntryCacheModel -> {
+				String userName = accountEntryCacheModel.userName;
 
-		return sb.toString();
-	}
+				if (userName == null) {
+					return "";
+				}
 
-	private static class EscapedModelProxyProviderFunctionHolder {
+				return userName;
+			});
 
-		private static final Function<InvocationHandler, AccountEntry>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+		columnBitmasks.put("userName", 32L);
 
+		cacheModelGetterFunctions.put(
+			"createDate",
+			accountEntryCacheModel -> {
+				Long createDate = accountEntryCacheModel.createDate;
+
+				if (createDate == Long.MIN_VALUE) {
+					return null;
+				}
+
+				return new Date(createDate);
+			});
+
+		columnBitmasks.put("createDate", 64L);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			accountEntryCacheModel -> {
+				Long modifiedDate = accountEntryCacheModel.modifiedDate;
+
+				if (modifiedDate == Long.MIN_VALUE) {
+					return null;
+				}
+
+				return new Date(modifiedDate);
+			});
+
+		columnBitmasks.put("modifiedDate", 128L);
+
+		cacheModelGetterFunctions.put(
+			"parentAccountEntryId",
+			accountEntryCacheModel ->
+				accountEntryCacheModel.parentAccountEntryId);
+
+		columnBitmasks.put("parentAccountEntryId", 256L);
+
+		cacheModelGetterFunctions.put(
+			"name",
+			accountEntryCacheModel -> {
+				String name = accountEntryCacheModel.name;
+
+				if (name == null) {
+					return "";
+				}
+
+				return name;
+			});
+
+		columnBitmasks.put("name", 512L);
+
+		cacheModelGetterFunctions.put(
+			"description",
+			accountEntryCacheModel -> {
+				String description = accountEntryCacheModel.description;
+
+				if (description == null) {
+					return "";
+				}
+
+				return description;
+			});
+
+		columnBitmasks.put("description", 1024L);
+
+		cacheModelGetterFunctions.put(
+			"domains",
+			accountEntryCacheModel -> {
+				String domains = accountEntryCacheModel.domains;
+
+				if (domains == null) {
+					return "";
+				}
+
+				return domains;
+			});
+
+		columnBitmasks.put("domains", 2048L);
+
+		cacheModelGetterFunctions.put(
+			"logoId", accountEntryCacheModel -> accountEntryCacheModel.logoId);
+
+		columnBitmasks.put("logoId", 4096L);
+
+		cacheModelGetterFunctions.put(
+			"taxIdNumber",
+			accountEntryCacheModel -> {
+				String taxIdNumber = accountEntryCacheModel.taxIdNumber;
+
+				if (taxIdNumber == null) {
+					return "";
+				}
+
+				return taxIdNumber;
+			});
+
+		columnBitmasks.put("taxIdNumber", 8192L);
+
+		cacheModelGetterFunctions.put(
+			"type",
+			accountEntryCacheModel -> {
+				String type = accountEntryCacheModel.type;
+
+				if (type == null) {
+					return "";
+				}
+
+				return type;
+			});
+
+		columnBitmasks.put("type", 16384L);
+
+		cacheModelGetterFunctions.put(
+			"status", accountEntryCacheModel -> accountEntryCacheModel.status);
+
+		columnBitmasks.put("status", 32768L);
+
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
 	private long _mvccVersion;
 	private String _externalReferenceCode;
-	private String _originalExternalReferenceCode;
 	private long _accountEntryId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
@@ -992,8 +1235,6 @@ public class AccountEntryModelImpl
 	private String _taxIdNumber;
 	private String _type;
 	private int _status;
-	private int _originalStatus;
-	private boolean _setOriginalStatus;
 	private long _columnBitmask;
 	private AccountEntry _escapedModel;
 

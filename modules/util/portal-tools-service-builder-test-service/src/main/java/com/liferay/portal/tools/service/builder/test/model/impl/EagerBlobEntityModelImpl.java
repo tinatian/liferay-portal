@@ -324,15 +324,16 @@ public class EagerBlobEntityModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
-		}
-
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getOriginalAttributeValue("uuid");
 	}
 
 	@JSON
@@ -354,17 +355,16 @@ public class EagerBlobEntityModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
-		}
-
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getOriginalAttributeValue("groupId");
 	}
 
 	@JSON
@@ -481,32 +481,13 @@ public class EagerBlobEntityModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		EagerBlobEntityModelImpl eagerBlobEntityModelImpl = this;
-
-		eagerBlobEntityModelImpl._originalUuid = eagerBlobEntityModelImpl._uuid;
-
-		eagerBlobEntityModelImpl._originalGroupId =
-			eagerBlobEntityModelImpl._groupId;
-
-		eagerBlobEntityModelImpl._setOriginalGroupId = false;
+		_eagerBlobEntityCacheModel = _toEagerBlobEntityCacheModel();
 	}
 
 	@Override
 	public CacheModel<EagerBlobEntity> toCacheModel() {
 		EagerBlobEntityCacheModel eagerBlobEntityCacheModel =
-			new EagerBlobEntityCacheModel();
-
-		eagerBlobEntityCacheModel.uuid = getUuid();
-
-		String uuid = eagerBlobEntityCacheModel.uuid;
-
-		if ((uuid != null) && (uuid.length() == 0)) {
-			eagerBlobEntityCacheModel.uuid = null;
-		}
-
-		eagerBlobEntityCacheModel.eagerBlobEntityId = getEagerBlobEntityId();
-
-		eagerBlobEntityCacheModel.groupId = getGroupId();
+			_toEagerBlobEntityCacheModel();
 
 		return eagerBlobEntityCacheModel;
 	}
@@ -581,12 +562,101 @@ public class EagerBlobEntityModelImpl
 
 	}
 
+	public static long getColumnBitmask(String attributeName) {
+		return _columnBitmasks.get(attributeName);
+	}
+
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		Function<EagerBlobEntityCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"Unknown attribute name " + attributeName);
+		}
+
+		EagerBlobEntityCacheModel eagerBlobEntityCacheModel =
+			_eagerBlobEntityCacheModel;
+
+		if (eagerBlobEntityCacheModel == null) {
+			eagerBlobEntityCacheModel = _dummyEagerBlobEntityCacheModel;
+		}
+
+		return (T)function.apply(eagerBlobEntityCacheModel);
+	}
+
+	private EagerBlobEntityCacheModel _toEagerBlobEntityCacheModel() {
+		EagerBlobEntityCacheModel eagerBlobEntityCacheModel =
+			new EagerBlobEntityCacheModel();
+
+		eagerBlobEntityCacheModel.uuid = getUuid();
+
+		String uuid = eagerBlobEntityCacheModel.uuid;
+
+		if ((uuid != null) && (uuid.length() == 0)) {
+			eagerBlobEntityCacheModel.uuid = null;
+		}
+
+		eagerBlobEntityCacheModel.eagerBlobEntityId = getEagerBlobEntityId();
+
+		eagerBlobEntityCacheModel.groupId = getGroupId();
+
+		return eagerBlobEntityCacheModel;
+	}
+
+	private static final Map
+		<String, Function<EagerBlobEntityCacheModel, Object>>
+			_cacheModelGetterFunctions;
+	private static final Map<String, Long> _columnBitmasks;
+	private static final EagerBlobEntityCacheModel
+		_dummyEagerBlobEntityCacheModel = new EagerBlobEntityCacheModel();
+
+	private EagerBlobEntityCacheModel _eagerBlobEntityCacheModel;
+
+	static {
+		Map<String, Function<EagerBlobEntityCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<EagerBlobEntityCacheModel, Object>>();
+		Map<String, Long> columnBitmasks = new LinkedHashMap<String, Long>();
+
+		cacheModelGetterFunctions.put(
+			"uuid",
+			eagerBlobEntityCacheModel -> {
+				String uuid = eagerBlobEntityCacheModel.uuid;
+
+				if (uuid == null) {
+					return "";
+				}
+
+				return uuid;
+			});
+
+		columnBitmasks.put("uuid", 1L);
+
+		cacheModelGetterFunctions.put(
+			"eagerBlobEntityId",
+			eagerBlobEntityCacheModel ->
+				eagerBlobEntityCacheModel.eagerBlobEntityId);
+
+		columnBitmasks.put("eagerBlobEntityId", 2L);
+
+		cacheModelGetterFunctions.put(
+			"groupId",
+			eagerBlobEntityCacheModel -> eagerBlobEntityCacheModel.groupId);
+
+		columnBitmasks.put("groupId", 4L);
+
+		columnBitmasks.put("blob", 8L);
+
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private String _uuid;
-	private String _originalUuid;
 	private long _eagerBlobEntityId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private Blob _blob;
 	private EagerBlobEntity _escapedModel;
 

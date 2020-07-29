@@ -127,10 +127,25 @@ public class PowwowServerModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long ACTIVE_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long PROVIDERTYPE_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long NAME_COLUMN_BITMASK = 4L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
@@ -323,6 +338,8 @@ public class PowwowServerModelImpl
 
 	@Override
 	public void setPowwowServerId(long powwowServerId) {
+		_columnBitmask |= _columnBitmasks.get("powwowServerId");
+
 		_powwowServerId = powwowServerId;
 	}
 
@@ -333,6 +350,8 @@ public class PowwowServerModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= _columnBitmasks.get("companyId");
+
 		_companyId = companyId;
 	}
 
@@ -343,6 +362,8 @@ public class PowwowServerModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= _columnBitmasks.get("userId");
+
 		_userId = userId;
 	}
 
@@ -374,6 +395,8 @@ public class PowwowServerModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= _columnBitmasks.get("userName");
+
 		_userName = userName;
 	}
 
@@ -384,6 +407,8 @@ public class PowwowServerModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= _columnBitmasks.get("createDate");
+
 		_createDate = createDate;
 	}
 
@@ -400,6 +425,8 @@ public class PowwowServerModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= _columnBitmasks.get("modifiedDate");
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -415,7 +442,7 @@ public class PowwowServerModelImpl
 
 	@Override
 	public void setName(String name) {
-		_columnBitmask = -1L;
+		_columnBitmask |= _columnBitmasks.get("name");
 
 		_name = name;
 	}
@@ -432,17 +459,18 @@ public class PowwowServerModelImpl
 
 	@Override
 	public void setProviderType(String providerType) {
-		_columnBitmask |= PROVIDERTYPE_COLUMN_BITMASK;
-
-		if (_originalProviderType == null) {
-			_originalProviderType = _providerType;
-		}
+		_columnBitmask |= _columnBitmasks.get("providerType");
 
 		_providerType = providerType;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalProviderType() {
-		return GetterUtil.getString(_originalProviderType);
+		return getOriginalAttributeValue("providerType");
 	}
 
 	@Override
@@ -457,6 +485,8 @@ public class PowwowServerModelImpl
 
 	@Override
 	public void setUrl(String url) {
+		_columnBitmask |= _columnBitmasks.get("url");
+
 		_url = url;
 	}
 
@@ -472,6 +502,8 @@ public class PowwowServerModelImpl
 
 	@Override
 	public void setApiKey(String apiKey) {
+		_columnBitmask |= _columnBitmasks.get("apiKey");
+
 		_apiKey = apiKey;
 	}
 
@@ -487,6 +519,8 @@ public class PowwowServerModelImpl
 
 	@Override
 	public void setSecret(String secret) {
+		_columnBitmask |= _columnBitmasks.get("secret");
+
 		_secret = secret;
 	}
 
@@ -502,19 +536,18 @@ public class PowwowServerModelImpl
 
 	@Override
 	public void setActive(boolean active) {
-		_columnBitmask |= ACTIVE_COLUMN_BITMASK;
-
-		if (!_setOriginalActive) {
-			_setOriginalActive = true;
-
-			_originalActive = _active;
-		}
+		_columnBitmask |= _columnBitmasks.get("active");
 
 		_active = active;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public boolean getOriginalActive() {
-		return _originalActive;
+		return getOriginalAttributeValue("active");
 	}
 
 	public long getColumnBitmask() {
@@ -631,22 +664,114 @@ public class PowwowServerModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		PowwowServerModelImpl powwowServerModelImpl = this;
+		_setModifiedDate = false;
 
-		powwowServerModelImpl._setModifiedDate = false;
+		_columnBitmask = 0;
 
-		powwowServerModelImpl._originalProviderType =
-			powwowServerModelImpl._providerType;
-
-		powwowServerModelImpl._originalActive = powwowServerModelImpl._active;
-
-		powwowServerModelImpl._setOriginalActive = false;
-
-		powwowServerModelImpl._columnBitmask = 0;
+		_powwowServerCacheModel = _toPowwowServerCacheModel();
 	}
 
 	@Override
 	public CacheModel<PowwowServer> toCacheModel() {
+		PowwowServerCacheModel powwowServerCacheModel =
+			_toPowwowServerCacheModel();
+
+		return powwowServerCacheModel;
+	}
+
+	@Override
+	public String toString() {
+		Map<String, Function<PowwowServer, Object>> attributeGetterFunctions =
+			getAttributeGetterFunctions();
+
+		StringBundler sb = new StringBundler(
+			4 * attributeGetterFunctions.size() + 2);
+
+		sb.append("{");
+
+		for (Map.Entry<String, Function<PowwowServer, Object>> entry :
+				attributeGetterFunctions.entrySet()) {
+
+			String attributeName = entry.getKey();
+			Function<PowwowServer, Object> attributeGetterFunction =
+				entry.getValue();
+
+			sb.append(attributeName);
+			sb.append("=");
+			sb.append(attributeGetterFunction.apply((PowwowServer)this));
+			sb.append(", ");
+		}
+
+		if (sb.index() > 1) {
+			sb.setIndex(sb.index() - 1);
+		}
+
+		sb.append("}");
+
+		return sb.toString();
+	}
+
+	@Override
+	public String toXmlString() {
+		Map<String, Function<PowwowServer, Object>> attributeGetterFunctions =
+			getAttributeGetterFunctions();
+
+		StringBundler sb = new StringBundler(
+			5 * attributeGetterFunctions.size() + 4);
+
+		sb.append("<model><model-name>");
+		sb.append(getModelClassName());
+		sb.append("</model-name>");
+
+		for (Map.Entry<String, Function<PowwowServer, Object>> entry :
+				attributeGetterFunctions.entrySet()) {
+
+			String attributeName = entry.getKey();
+			Function<PowwowServer, Object> attributeGetterFunction =
+				entry.getValue();
+
+			sb.append("<column><column-name>");
+			sb.append(attributeName);
+			sb.append("</column-name><column-value><![CDATA[");
+			sb.append(attributeGetterFunction.apply((PowwowServer)this));
+			sb.append("]]></column-value></column>");
+		}
+
+		sb.append("</model>");
+
+		return sb.toString();
+	}
+
+	private static class EscapedModelProxyProviderFunctionHolder {
+
+		private static final Function<InvocationHandler, PowwowServer>
+			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+
+	}
+
+	public static long getColumnBitmask(String attributeName) {
+		return _columnBitmasks.get(attributeName);
+	}
+
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		Function<PowwowServerCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"Unknown attribute name " + attributeName);
+		}
+
+		PowwowServerCacheModel powwowServerCacheModel = _powwowServerCacheModel;
+
+		if (powwowServerCacheModel == null) {
+			powwowServerCacheModel = _dummyPowwowServerCacheModel;
+		}
+
+		return (T)function.apply(powwowServerCacheModel);
+	}
+
+	private PowwowServerCacheModel _toPowwowServerCacheModel() {
 		PowwowServerCacheModel powwowServerCacheModel =
 			new PowwowServerCacheModel();
 
@@ -727,74 +852,158 @@ public class PowwowServerModelImpl
 		return powwowServerCacheModel;
 	}
 
-	@Override
-	public String toString() {
-		Map<String, Function<PowwowServer, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
+	private static final Map<String, Function<PowwowServerCacheModel, Object>>
+		_cacheModelGetterFunctions;
+	private static final Map<String, Long> _columnBitmasks;
+	private static final PowwowServerCacheModel _dummyPowwowServerCacheModel =
+		new PowwowServerCacheModel();
 
-		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+	private PowwowServerCacheModel _powwowServerCacheModel;
 
-		sb.append("{");
+	static {
+		Map<String, Function<PowwowServerCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<PowwowServerCacheModel, Object>>();
+		Map<String, Long> columnBitmasks = new LinkedHashMap<String, Long>();
 
-		for (Map.Entry<String, Function<PowwowServer, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
+		cacheModelGetterFunctions.put(
+			"powwowServerId",
+			powwowServerCacheModel -> powwowServerCacheModel.powwowServerId);
 
-			String attributeName = entry.getKey();
-			Function<PowwowServer, Object> attributeGetterFunction =
-				entry.getValue();
+		columnBitmasks.put("powwowServerId", 1L);
 
-			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((PowwowServer)this));
-			sb.append(", ");
-		}
+		cacheModelGetterFunctions.put(
+			"companyId",
+			powwowServerCacheModel -> powwowServerCacheModel.companyId);
 
-		if (sb.index() > 1) {
-			sb.setIndex(sb.index() - 1);
-		}
+		columnBitmasks.put("companyId", 2L);
 
-		sb.append("}");
+		cacheModelGetterFunctions.put(
+			"userId", powwowServerCacheModel -> powwowServerCacheModel.userId);
 
-		return sb.toString();
-	}
+		columnBitmasks.put("userId", 4L);
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<PowwowServer, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
+		cacheModelGetterFunctions.put(
+			"userName",
+			powwowServerCacheModel -> {
+				String userName = powwowServerCacheModel.userName;
 
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
+				if (userName == null) {
+					return "";
+				}
 
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
+				return userName;
+			});
 
-		for (Map.Entry<String, Function<PowwowServer, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
+		columnBitmasks.put("userName", 8L);
 
-			String attributeName = entry.getKey();
-			Function<PowwowServer, Object> attributeGetterFunction =
-				entry.getValue();
+		cacheModelGetterFunctions.put(
+			"createDate",
+			powwowServerCacheModel -> {
+				Long createDate = powwowServerCacheModel.createDate;
 
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((PowwowServer)this));
-			sb.append("]]></column-value></column>");
-		}
+				if (createDate == Long.MIN_VALUE) {
+					return null;
+				}
 
-		sb.append("</model>");
+				return new Date(createDate);
+			});
 
-		return sb.toString();
-	}
+		columnBitmasks.put("createDate", 16L);
 
-	private static class EscapedModelProxyProviderFunctionHolder {
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			powwowServerCacheModel -> {
+				Long modifiedDate = powwowServerCacheModel.modifiedDate;
 
-		private static final Function<InvocationHandler, PowwowServer>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+				if (modifiedDate == Long.MIN_VALUE) {
+					return null;
+				}
 
+				return new Date(modifiedDate);
+			});
+
+		columnBitmasks.put("modifiedDate", 32L);
+
+		cacheModelGetterFunctions.put(
+			"name",
+			powwowServerCacheModel -> {
+				String name = powwowServerCacheModel.name;
+
+				if (name == null) {
+					return "";
+				}
+
+				return name;
+			});
+
+		columnBitmasks.put("name", 64L);
+
+		cacheModelGetterFunctions.put(
+			"providerType",
+			powwowServerCacheModel -> {
+				String providerType = powwowServerCacheModel.providerType;
+
+				if (providerType == null) {
+					return "";
+				}
+
+				return providerType;
+			});
+
+		columnBitmasks.put("providerType", 128L);
+
+		cacheModelGetterFunctions.put(
+			"url",
+			powwowServerCacheModel -> {
+				String url = powwowServerCacheModel.url;
+
+				if (url == null) {
+					return "";
+				}
+
+				return url;
+			});
+
+		columnBitmasks.put("url", 256L);
+
+		cacheModelGetterFunctions.put(
+			"apiKey",
+			powwowServerCacheModel -> {
+				String apiKey = powwowServerCacheModel.apiKey;
+
+				if (apiKey == null) {
+					return "";
+				}
+
+				return apiKey;
+			});
+
+		columnBitmasks.put("apiKey", 512L);
+
+		cacheModelGetterFunctions.put(
+			"secret",
+			powwowServerCacheModel -> {
+				String secret = powwowServerCacheModel.secret;
+
+				if (secret == null) {
+					return "";
+				}
+
+				return secret;
+			});
+
+		columnBitmasks.put("secret", 1024L);
+
+		cacheModelGetterFunctions.put(
+			"active", powwowServerCacheModel -> powwowServerCacheModel.active);
+
+		columnBitmasks.put("active", 2048L);
+
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
 	private long _powwowServerId;
@@ -806,13 +1015,10 @@ public class PowwowServerModelImpl
 	private boolean _setModifiedDate;
 	private String _name;
 	private String _providerType;
-	private String _originalProviderType;
 	private String _url;
 	private String _apiKey;
 	private String _secret;
 	private boolean _active;
-	private boolean _originalActive;
-	private boolean _setOriginalActive;
 	private long _columnBitmask;
 	private PowwowServer _escapedModel;
 

@@ -96,8 +96,18 @@ public class DLSyncEventModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long MODIFIEDTIME_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long TYPEPK_COLUMN_BITMASK = 2L;
 
 	/**
@@ -275,6 +285,8 @@ public class DLSyncEventModelImpl
 
 	@Override
 	public void setSyncEventId(long syncEventId) {
+		_columnBitmask |= _columnBitmasks.get("syncEventId");
+
 		_syncEventId = syncEventId;
 	}
 
@@ -285,6 +297,8 @@ public class DLSyncEventModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= _columnBitmasks.get("companyId");
+
 		_companyId = companyId;
 	}
 
@@ -295,19 +309,18 @@ public class DLSyncEventModelImpl
 
 	@Override
 	public void setModifiedTime(long modifiedTime) {
-		_columnBitmask = -1L;
-
-		if (!_setOriginalModifiedTime) {
-			_setOriginalModifiedTime = true;
-
-			_originalModifiedTime = _modifiedTime;
-		}
+		_columnBitmask |= _columnBitmasks.get("modifiedTime");
 
 		_modifiedTime = modifiedTime;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalModifiedTime() {
-		return _originalModifiedTime;
+		return getOriginalAttributeValue("modifiedTime");
 	}
 
 	@Override
@@ -322,6 +335,8 @@ public class DLSyncEventModelImpl
 
 	@Override
 	public void setEvent(String event) {
+		_columnBitmask |= _columnBitmasks.get("event");
+
 		_event = event;
 	}
 
@@ -337,6 +352,8 @@ public class DLSyncEventModelImpl
 
 	@Override
 	public void setType(String type) {
+		_columnBitmask |= _columnBitmasks.get("type");
+
 		_type = type;
 	}
 
@@ -347,19 +364,18 @@ public class DLSyncEventModelImpl
 
 	@Override
 	public void setTypePK(long typePK) {
-		_columnBitmask |= TYPEPK_COLUMN_BITMASK;
-
-		if (!_setOriginalTypePK) {
-			_setOriginalTypePK = true;
-
-			_originalTypePK = _typePK;
-		}
+		_columnBitmask |= _columnBitmasks.get("typePK");
 
 		_typePK = typePK;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalTypePK() {
-		return _originalTypePK;
+		return getOriginalAttributeValue("typePK");
 	}
 
 	public long getColumnBitmask() {
@@ -478,48 +494,15 @@ public class DLSyncEventModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		DLSyncEventModelImpl dlSyncEventModelImpl = this;
+		_columnBitmask = 0;
 
-		dlSyncEventModelImpl._originalModifiedTime =
-			dlSyncEventModelImpl._modifiedTime;
-
-		dlSyncEventModelImpl._setOriginalModifiedTime = false;
-
-		dlSyncEventModelImpl._originalTypePK = dlSyncEventModelImpl._typePK;
-
-		dlSyncEventModelImpl._setOriginalTypePK = false;
-
-		dlSyncEventModelImpl._columnBitmask = 0;
+		_dlSyncEventCacheModel = _toDLSyncEventCacheModel();
 	}
 
 	@Override
 	public CacheModel<DLSyncEvent> toCacheModel() {
 		DLSyncEventCacheModel dlSyncEventCacheModel =
-			new DLSyncEventCacheModel();
-
-		dlSyncEventCacheModel.syncEventId = getSyncEventId();
-
-		dlSyncEventCacheModel.companyId = getCompanyId();
-
-		dlSyncEventCacheModel.modifiedTime = getModifiedTime();
-
-		dlSyncEventCacheModel.event = getEvent();
-
-		String event = dlSyncEventCacheModel.event;
-
-		if ((event != null) && (event.length() == 0)) {
-			dlSyncEventCacheModel.event = null;
-		}
-
-		dlSyncEventCacheModel.type = getType();
-
-		String type = dlSyncEventCacheModel.type;
-
-		if ((type != null) && (type.length() == 0)) {
-			dlSyncEventCacheModel.type = null;
-		}
-
-		dlSyncEventCacheModel.typePK = getTypePK();
+			_toDLSyncEventCacheModel();
 
 		return dlSyncEventCacheModel;
 	}
@@ -594,16 +577,136 @@ public class DLSyncEventModelImpl
 
 	}
 
+	public static long getColumnBitmask(String attributeName) {
+		return _columnBitmasks.get(attributeName);
+	}
+
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		Function<DLSyncEventCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"Unknown attribute name " + attributeName);
+		}
+
+		DLSyncEventCacheModel dlSyncEventCacheModel = _dlSyncEventCacheModel;
+
+		if (dlSyncEventCacheModel == null) {
+			dlSyncEventCacheModel = _dummyDLSyncEventCacheModel;
+		}
+
+		return (T)function.apply(dlSyncEventCacheModel);
+	}
+
+	private DLSyncEventCacheModel _toDLSyncEventCacheModel() {
+		DLSyncEventCacheModel dlSyncEventCacheModel =
+			new DLSyncEventCacheModel();
+
+		dlSyncEventCacheModel.syncEventId = getSyncEventId();
+
+		dlSyncEventCacheModel.companyId = getCompanyId();
+
+		dlSyncEventCacheModel.modifiedTime = getModifiedTime();
+
+		dlSyncEventCacheModel.event = getEvent();
+
+		String event = dlSyncEventCacheModel.event;
+
+		if ((event != null) && (event.length() == 0)) {
+			dlSyncEventCacheModel.event = null;
+		}
+
+		dlSyncEventCacheModel.type = getType();
+
+		String type = dlSyncEventCacheModel.type;
+
+		if ((type != null) && (type.length() == 0)) {
+			dlSyncEventCacheModel.type = null;
+		}
+
+		dlSyncEventCacheModel.typePK = getTypePK();
+
+		return dlSyncEventCacheModel;
+	}
+
+	private static final Map<String, Function<DLSyncEventCacheModel, Object>>
+		_cacheModelGetterFunctions;
+	private static final Map<String, Long> _columnBitmasks;
+	private static final DLSyncEventCacheModel _dummyDLSyncEventCacheModel =
+		new DLSyncEventCacheModel();
+
+	private DLSyncEventCacheModel _dlSyncEventCacheModel;
+
+	static {
+		Map<String, Function<DLSyncEventCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<DLSyncEventCacheModel, Object>>();
+		Map<String, Long> columnBitmasks = new LinkedHashMap<String, Long>();
+
+		cacheModelGetterFunctions.put(
+			"syncEventId",
+			dlSyncEventCacheModel -> dlSyncEventCacheModel.syncEventId);
+
+		columnBitmasks.put("syncEventId", 1L);
+
+		cacheModelGetterFunctions.put(
+			"companyId",
+			dlSyncEventCacheModel -> dlSyncEventCacheModel.companyId);
+
+		columnBitmasks.put("companyId", 2L);
+
+		cacheModelGetterFunctions.put(
+			"modifiedTime",
+			dlSyncEventCacheModel -> dlSyncEventCacheModel.modifiedTime);
+
+		columnBitmasks.put("modifiedTime", 4L);
+
+		cacheModelGetterFunctions.put(
+			"event",
+			dlSyncEventCacheModel -> {
+				String event = dlSyncEventCacheModel.event;
+
+				if (event == null) {
+					return "";
+				}
+
+				return event;
+			});
+
+		columnBitmasks.put("event", 8L);
+
+		cacheModelGetterFunctions.put(
+			"type",
+			dlSyncEventCacheModel -> {
+				String type = dlSyncEventCacheModel.type;
+
+				if (type == null) {
+					return "";
+				}
+
+				return type;
+			});
+
+		columnBitmasks.put("type", 16L);
+
+		cacheModelGetterFunctions.put(
+			"typePK", dlSyncEventCacheModel -> dlSyncEventCacheModel.typePK);
+
+		columnBitmasks.put("typePK", 32L);
+
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _syncEventId;
 	private long _companyId;
 	private long _modifiedTime;
-	private long _originalModifiedTime;
-	private boolean _setOriginalModifiedTime;
 	private String _event;
 	private String _type;
 	private long _typePK;
-	private long _originalTypePK;
-	private boolean _setOriginalTypePK;
 	private long _columnBitmask;
 	private DLSyncEvent _escapedModel;
 

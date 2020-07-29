@@ -30,7 +30,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
@@ -133,12 +132,32 @@ public class DDLRecordSetVersionModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long RECORDSETID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long STATUS_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long VERSION_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long RECORDSETVERSIONID_COLUMN_BITMASK = 8L;
 
 	/**
@@ -456,6 +475,8 @@ public class DDLRecordSetVersionModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= _columnBitmasks.get("mvccVersion");
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -467,6 +488,8 @@ public class DDLRecordSetVersionModelImpl
 
 	@Override
 	public void setRecordSetVersionId(long recordSetVersionId) {
+		_columnBitmask |= _columnBitmasks.get("recordSetVersionId");
+
 		_recordSetVersionId = recordSetVersionId;
 	}
 
@@ -478,6 +501,8 @@ public class DDLRecordSetVersionModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
+		_columnBitmask |= _columnBitmasks.get("groupId");
+
 		_groupId = groupId;
 	}
 
@@ -489,6 +514,8 @@ public class DDLRecordSetVersionModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= _columnBitmasks.get("companyId");
+
 		_companyId = companyId;
 	}
 
@@ -500,6 +527,8 @@ public class DDLRecordSetVersionModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= _columnBitmasks.get("userId");
+
 		_userId = userId;
 	}
 
@@ -532,6 +561,8 @@ public class DDLRecordSetVersionModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= _columnBitmasks.get("userName");
+
 		_userName = userName;
 	}
 
@@ -543,6 +574,8 @@ public class DDLRecordSetVersionModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= _columnBitmasks.get("createDate");
+
 		_createDate = createDate;
 	}
 
@@ -554,19 +587,18 @@ public class DDLRecordSetVersionModelImpl
 
 	@Override
 	public void setRecordSetId(long recordSetId) {
-		_columnBitmask |= RECORDSETID_COLUMN_BITMASK;
-
-		if (!_setOriginalRecordSetId) {
-			_setOriginalRecordSetId = true;
-
-			_originalRecordSetId = _recordSetId;
-		}
+		_columnBitmask |= _columnBitmasks.get("recordSetId");
 
 		_recordSetId = recordSetId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalRecordSetId() {
-		return _originalRecordSetId;
+		return getOriginalAttributeValue("recordSetId");
 	}
 
 	@JSON
@@ -577,6 +609,8 @@ public class DDLRecordSetVersionModelImpl
 
 	@Override
 	public void setDDMStructureVersionId(long DDMStructureVersionId) {
+		_columnBitmask |= _columnBitmasks.get("DDMStructureVersionId");
+
 		_DDMStructureVersionId = DDMStructureVersionId;
 	}
 
@@ -636,6 +670,8 @@ public class DDLRecordSetVersionModelImpl
 
 	@Override
 	public void setName(String name) {
+		_columnBitmask |= _columnBitmasks.get("name");
+
 		_name = name;
 	}
 
@@ -739,6 +775,8 @@ public class DDLRecordSetVersionModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		_columnBitmask |= _columnBitmasks.get("description");
+
 		_description = description;
 	}
 
@@ -804,6 +842,8 @@ public class DDLRecordSetVersionModelImpl
 
 	@Override
 	public void setSettings(String settings) {
+		_columnBitmask |= _columnBitmasks.get("settings");
+
 		_settings = settings;
 	}
 
@@ -820,17 +860,18 @@ public class DDLRecordSetVersionModelImpl
 
 	@Override
 	public void setVersion(String version) {
-		_columnBitmask |= VERSION_COLUMN_BITMASK;
-
-		if (_originalVersion == null) {
-			_originalVersion = _version;
-		}
+		_columnBitmask |= _columnBitmasks.get("version");
 
 		_version = version;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalVersion() {
-		return GetterUtil.getString(_originalVersion);
+		return getOriginalAttributeValue("version");
 	}
 
 	@JSON
@@ -841,19 +882,18 @@ public class DDLRecordSetVersionModelImpl
 
 	@Override
 	public void setStatus(int status) {
-		_columnBitmask |= STATUS_COLUMN_BITMASK;
-
-		if (!_setOriginalStatus) {
-			_setOriginalStatus = true;
-
-			_originalStatus = _status;
-		}
+		_columnBitmask |= _columnBitmasks.get("status");
 
 		_status = status;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalStatus() {
-		return _originalStatus;
+		return getOriginalAttributeValue("status");
 	}
 
 	@JSON
@@ -864,6 +904,8 @@ public class DDLRecordSetVersionModelImpl
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		_columnBitmask |= _columnBitmasks.get("statusByUserId");
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -896,6 +938,8 @@ public class DDLRecordSetVersionModelImpl
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		_columnBitmask |= _columnBitmasks.get("statusByUserName");
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -907,6 +951,8 @@ public class DDLRecordSetVersionModelImpl
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		_columnBitmask |= _columnBitmasks.get("statusDate");
+
 		_statusDate = statusDate;
 	}
 
@@ -1202,26 +1248,113 @@ public class DDLRecordSetVersionModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		DDLRecordSetVersionModelImpl ddlRecordSetVersionModelImpl = this;
+		_columnBitmask = 0;
 
-		ddlRecordSetVersionModelImpl._originalRecordSetId =
-			ddlRecordSetVersionModelImpl._recordSetId;
-
-		ddlRecordSetVersionModelImpl._setOriginalRecordSetId = false;
-
-		ddlRecordSetVersionModelImpl._originalVersion =
-			ddlRecordSetVersionModelImpl._version;
-
-		ddlRecordSetVersionModelImpl._originalStatus =
-			ddlRecordSetVersionModelImpl._status;
-
-		ddlRecordSetVersionModelImpl._setOriginalStatus = false;
-
-		ddlRecordSetVersionModelImpl._columnBitmask = 0;
+		_ddlRecordSetVersionCacheModel = _toDDLRecordSetVersionCacheModel();
 	}
 
 	@Override
 	public CacheModel<DDLRecordSetVersion> toCacheModel() {
+		DDLRecordSetVersionCacheModel ddlRecordSetVersionCacheModel =
+			_toDDLRecordSetVersionCacheModel();
+
+		return ddlRecordSetVersionCacheModel;
+	}
+
+	@Override
+	public String toString() {
+		Map<String, Function<DDLRecordSetVersion, Object>>
+			attributeGetterFunctions = getAttributeGetterFunctions();
+
+		StringBundler sb = new StringBundler(
+			4 * attributeGetterFunctions.size() + 2);
+
+		sb.append("{");
+
+		for (Map.Entry<String, Function<DDLRecordSetVersion, Object>> entry :
+				attributeGetterFunctions.entrySet()) {
+
+			String attributeName = entry.getKey();
+			Function<DDLRecordSetVersion, Object> attributeGetterFunction =
+				entry.getValue();
+
+			sb.append(attributeName);
+			sb.append("=");
+			sb.append(attributeGetterFunction.apply((DDLRecordSetVersion)this));
+			sb.append(", ");
+		}
+
+		if (sb.index() > 1) {
+			sb.setIndex(sb.index() - 1);
+		}
+
+		sb.append("}");
+
+		return sb.toString();
+	}
+
+	@Override
+	public String toXmlString() {
+		Map<String, Function<DDLRecordSetVersion, Object>>
+			attributeGetterFunctions = getAttributeGetterFunctions();
+
+		StringBundler sb = new StringBundler(
+			5 * attributeGetterFunctions.size() + 4);
+
+		sb.append("<model><model-name>");
+		sb.append(getModelClassName());
+		sb.append("</model-name>");
+
+		for (Map.Entry<String, Function<DDLRecordSetVersion, Object>> entry :
+				attributeGetterFunctions.entrySet()) {
+
+			String attributeName = entry.getKey();
+			Function<DDLRecordSetVersion, Object> attributeGetterFunction =
+				entry.getValue();
+
+			sb.append("<column><column-name>");
+			sb.append(attributeName);
+			sb.append("</column-name><column-value><![CDATA[");
+			sb.append(attributeGetterFunction.apply((DDLRecordSetVersion)this));
+			sb.append("]]></column-value></column>");
+		}
+
+		sb.append("</model>");
+
+		return sb.toString();
+	}
+
+	private static class EscapedModelProxyProviderFunctionHolder {
+
+		private static final Function<InvocationHandler, DDLRecordSetVersion>
+			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+
+	}
+
+	public static long getColumnBitmask(String attributeName) {
+		return _columnBitmasks.get(attributeName);
+	}
+
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		Function<DDLRecordSetVersionCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"Unknown attribute name " + attributeName);
+		}
+
+		DDLRecordSetVersionCacheModel ddlRecordSetVersionCacheModel =
+			_ddlRecordSetVersionCacheModel;
+
+		if (ddlRecordSetVersionCacheModel == null) {
+			ddlRecordSetVersionCacheModel = _dummyDDLRecordSetVersionCacheModel;
+		}
+
+		return (T)function.apply(ddlRecordSetVersionCacheModel);
+	}
+
+	private DDLRecordSetVersionCacheModel _toDDLRecordSetVersionCacheModel() {
 		DDLRecordSetVersionCacheModel ddlRecordSetVersionCacheModel =
 			new DDLRecordSetVersionCacheModel();
 
@@ -1315,74 +1448,202 @@ public class DDLRecordSetVersionModelImpl
 		return ddlRecordSetVersionCacheModel;
 	}
 
-	@Override
-	public String toString() {
-		Map<String, Function<DDLRecordSetVersion, Object>>
-			attributeGetterFunctions = getAttributeGetterFunctions();
+	private static final Map
+		<String, Function<DDLRecordSetVersionCacheModel, Object>>
+			_cacheModelGetterFunctions;
+	private static final Map<String, Long> _columnBitmasks;
+	private static final DDLRecordSetVersionCacheModel
+		_dummyDDLRecordSetVersionCacheModel =
+			new DDLRecordSetVersionCacheModel();
 
-		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+	private DDLRecordSetVersionCacheModel _ddlRecordSetVersionCacheModel;
 
-		sb.append("{");
+	static {
+		Map<String, Function<DDLRecordSetVersionCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<DDLRecordSetVersionCacheModel, Object>>();
+		Map<String, Long> columnBitmasks = new LinkedHashMap<String, Long>();
 
-		for (Map.Entry<String, Function<DDLRecordSetVersion, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			ddlRecordSetVersionCacheModel ->
+				ddlRecordSetVersionCacheModel.mvccVersion);
 
-			String attributeName = entry.getKey();
-			Function<DDLRecordSetVersion, Object> attributeGetterFunction =
-				entry.getValue();
+		columnBitmasks.put("mvccVersion", 1L);
 
-			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((DDLRecordSetVersion)this));
-			sb.append(", ");
-		}
+		cacheModelGetterFunctions.put(
+			"recordSetVersionId",
+			ddlRecordSetVersionCacheModel ->
+				ddlRecordSetVersionCacheModel.recordSetVersionId);
 
-		if (sb.index() > 1) {
-			sb.setIndex(sb.index() - 1);
-		}
+		columnBitmasks.put("recordSetVersionId", 2L);
 
-		sb.append("}");
+		cacheModelGetterFunctions.put(
+			"groupId",
+			ddlRecordSetVersionCacheModel ->
+				ddlRecordSetVersionCacheModel.groupId);
 
-		return sb.toString();
-	}
+		columnBitmasks.put("groupId", 4L);
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<DDLRecordSetVersion, Object>>
-			attributeGetterFunctions = getAttributeGetterFunctions();
+		cacheModelGetterFunctions.put(
+			"companyId",
+			ddlRecordSetVersionCacheModel ->
+				ddlRecordSetVersionCacheModel.companyId);
 
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
+		columnBitmasks.put("companyId", 8L);
 
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
+		cacheModelGetterFunctions.put(
+			"userId",
+			ddlRecordSetVersionCacheModel ->
+				ddlRecordSetVersionCacheModel.userId);
 
-		for (Map.Entry<String, Function<DDLRecordSetVersion, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
+		columnBitmasks.put("userId", 16L);
 
-			String attributeName = entry.getKey();
-			Function<DDLRecordSetVersion, Object> attributeGetterFunction =
-				entry.getValue();
+		cacheModelGetterFunctions.put(
+			"userName",
+			ddlRecordSetVersionCacheModel -> {
+				String userName = ddlRecordSetVersionCacheModel.userName;
 
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((DDLRecordSetVersion)this));
-			sb.append("]]></column-value></column>");
-		}
+				if (userName == null) {
+					return "";
+				}
 
-		sb.append("</model>");
+				return userName;
+			});
 
-		return sb.toString();
-	}
+		columnBitmasks.put("userName", 32L);
 
-	private static class EscapedModelProxyProviderFunctionHolder {
+		cacheModelGetterFunctions.put(
+			"createDate",
+			ddlRecordSetVersionCacheModel -> {
+				Long createDate = ddlRecordSetVersionCacheModel.createDate;
 
-		private static final Function<InvocationHandler, DDLRecordSetVersion>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+				if (createDate == Long.MIN_VALUE) {
+					return null;
+				}
 
+				return new Date(createDate);
+			});
+
+		columnBitmasks.put("createDate", 64L);
+
+		cacheModelGetterFunctions.put(
+			"recordSetId",
+			ddlRecordSetVersionCacheModel ->
+				ddlRecordSetVersionCacheModel.recordSetId);
+
+		columnBitmasks.put("recordSetId", 128L);
+
+		cacheModelGetterFunctions.put(
+			"DDMStructureVersionId",
+			ddlRecordSetVersionCacheModel ->
+				ddlRecordSetVersionCacheModel.DDMStructureVersionId);
+
+		columnBitmasks.put("DDMStructureVersionId", 256L);
+
+		cacheModelGetterFunctions.put(
+			"name",
+			ddlRecordSetVersionCacheModel -> {
+				String name = ddlRecordSetVersionCacheModel.name;
+
+				if (name == null) {
+					return "";
+				}
+
+				return name;
+			});
+
+		columnBitmasks.put("name", 512L);
+
+		cacheModelGetterFunctions.put(
+			"description",
+			ddlRecordSetVersionCacheModel -> {
+				String description = ddlRecordSetVersionCacheModel.description;
+
+				if (description == null) {
+					return "";
+				}
+
+				return description;
+			});
+
+		columnBitmasks.put("description", 1024L);
+
+		cacheModelGetterFunctions.put(
+			"settings",
+			ddlRecordSetVersionCacheModel -> {
+				String settings = ddlRecordSetVersionCacheModel.settings;
+
+				if (settings == null) {
+					return "";
+				}
+
+				return settings;
+			});
+
+		columnBitmasks.put("settings", 2048L);
+
+		cacheModelGetterFunctions.put(
+			"version",
+			ddlRecordSetVersionCacheModel -> {
+				String version = ddlRecordSetVersionCacheModel.version;
+
+				if (version == null) {
+					return "";
+				}
+
+				return version;
+			});
+
+		columnBitmasks.put("version", 4096L);
+
+		cacheModelGetterFunctions.put(
+			"status",
+			ddlRecordSetVersionCacheModel ->
+				ddlRecordSetVersionCacheModel.status);
+
+		columnBitmasks.put("status", 8192L);
+
+		cacheModelGetterFunctions.put(
+			"statusByUserId",
+			ddlRecordSetVersionCacheModel ->
+				ddlRecordSetVersionCacheModel.statusByUserId);
+
+		columnBitmasks.put("statusByUserId", 16384L);
+
+		cacheModelGetterFunctions.put(
+			"statusByUserName",
+			ddlRecordSetVersionCacheModel -> {
+				String statusByUserName =
+					ddlRecordSetVersionCacheModel.statusByUserName;
+
+				if (statusByUserName == null) {
+					return "";
+				}
+
+				return statusByUserName;
+			});
+
+		columnBitmasks.put("statusByUserName", 32768L);
+
+		cacheModelGetterFunctions.put(
+			"statusDate",
+			ddlRecordSetVersionCacheModel -> {
+				Long statusDate = ddlRecordSetVersionCacheModel.statusDate;
+
+				if (statusDate == Long.MIN_VALUE) {
+					return null;
+				}
+
+				return new Date(statusDate);
+			});
+
+		columnBitmasks.put("statusDate", 65536L);
+
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
 	private long _mvccVersion;
@@ -1393,8 +1654,6 @@ public class DDLRecordSetVersionModelImpl
 	private String _userName;
 	private Date _createDate;
 	private long _recordSetId;
-	private long _originalRecordSetId;
-	private boolean _setOriginalRecordSetId;
 	private long _DDMStructureVersionId;
 	private String _name;
 	private String _nameCurrentLanguageId;
@@ -1402,10 +1661,7 @@ public class DDLRecordSetVersionModelImpl
 	private String _descriptionCurrentLanguageId;
 	private String _settings;
 	private String _version;
-	private String _originalVersion;
 	private int _status;
-	private int _originalStatus;
-	private boolean _setOriginalStatus;
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;

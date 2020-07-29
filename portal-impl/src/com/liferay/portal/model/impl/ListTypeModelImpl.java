@@ -115,8 +115,18 @@ public class ListTypeModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long NAME_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long TYPE_COLUMN_BITMASK = 2L;
 
 	/**
@@ -315,6 +325,8 @@ public class ListTypeModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= _columnBitmasks.get("mvccVersion");
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -326,6 +338,8 @@ public class ListTypeModelImpl
 
 	@Override
 	public void setListTypeId(long listTypeId) {
+		_columnBitmask |= _columnBitmasks.get("listTypeId");
+
 		_listTypeId = listTypeId;
 	}
 
@@ -342,17 +356,18 @@ public class ListTypeModelImpl
 
 	@Override
 	public void setName(String name) {
-		_columnBitmask = -1L;
-
-		if (_originalName == null) {
-			_originalName = _name;
-		}
+		_columnBitmask |= _columnBitmasks.get("name");
 
 		_name = name;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalName() {
-		return GetterUtil.getString(_originalName);
+		return getOriginalAttributeValue("name");
 	}
 
 	@JSON
@@ -368,17 +383,18 @@ public class ListTypeModelImpl
 
 	@Override
 	public void setType(String type) {
-		_columnBitmask |= TYPE_COLUMN_BITMASK;
-
-		if (_originalType == null) {
-			_originalType = _type;
-		}
+		_columnBitmask |= _columnBitmasks.get("type");
 
 		_type = type;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalType() {
-		return GetterUtil.getString(_originalType);
+		return getOriginalAttributeValue("type");
 	}
 
 	public long getColumnBitmask() {
@@ -487,38 +503,14 @@ public class ListTypeModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		ListTypeModelImpl listTypeModelImpl = this;
+		_columnBitmask = 0;
 
-		listTypeModelImpl._originalName = listTypeModelImpl._name;
-
-		listTypeModelImpl._originalType = listTypeModelImpl._type;
-
-		listTypeModelImpl._columnBitmask = 0;
+		_listTypeCacheModel = _toListTypeCacheModel();
 	}
 
 	@Override
 	public CacheModel<ListType> toCacheModel() {
-		ListTypeCacheModel listTypeCacheModel = new ListTypeCacheModel();
-
-		listTypeCacheModel.mvccVersion = getMvccVersion();
-
-		listTypeCacheModel.listTypeId = getListTypeId();
-
-		listTypeCacheModel.name = getName();
-
-		String name = listTypeCacheModel.name;
-
-		if ((name != null) && (name.length() == 0)) {
-			listTypeCacheModel.name = null;
-		}
-
-		listTypeCacheModel.type = getType();
-
-		String type = listTypeCacheModel.type;
-
-		if ((type != null) && (type.length() == 0)) {
-			listTypeCacheModel.type = null;
-		}
+		ListTypeCacheModel listTypeCacheModel = _toListTypeCacheModel();
 
 		return listTypeCacheModel;
 	}
@@ -593,12 +585,117 @@ public class ListTypeModelImpl
 
 	}
 
+	public static long getColumnBitmask(String attributeName) {
+		return _columnBitmasks.get(attributeName);
+	}
+
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		Function<ListTypeCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"Unknown attribute name " + attributeName);
+		}
+
+		ListTypeCacheModel listTypeCacheModel = _listTypeCacheModel;
+
+		if (listTypeCacheModel == null) {
+			listTypeCacheModel = _dummyListTypeCacheModel;
+		}
+
+		return (T)function.apply(listTypeCacheModel);
+	}
+
+	private ListTypeCacheModel _toListTypeCacheModel() {
+		ListTypeCacheModel listTypeCacheModel = new ListTypeCacheModel();
+
+		listTypeCacheModel.mvccVersion = getMvccVersion();
+
+		listTypeCacheModel.listTypeId = getListTypeId();
+
+		listTypeCacheModel.name = getName();
+
+		String name = listTypeCacheModel.name;
+
+		if ((name != null) && (name.length() == 0)) {
+			listTypeCacheModel.name = null;
+		}
+
+		listTypeCacheModel.type = getType();
+
+		String type = listTypeCacheModel.type;
+
+		if ((type != null) && (type.length() == 0)) {
+			listTypeCacheModel.type = null;
+		}
+
+		return listTypeCacheModel;
+	}
+
+	private static final Map<String, Function<ListTypeCacheModel, Object>>
+		_cacheModelGetterFunctions;
+	private static final Map<String, Long> _columnBitmasks;
+	private static final ListTypeCacheModel _dummyListTypeCacheModel =
+		new ListTypeCacheModel();
+
+	private ListTypeCacheModel _listTypeCacheModel;
+
+	static {
+		Map<String, Function<ListTypeCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<ListTypeCacheModel, Object>>();
+		Map<String, Long> columnBitmasks = new LinkedHashMap<String, Long>();
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			listTypeCacheModel -> listTypeCacheModel.mvccVersion);
+
+		columnBitmasks.put("mvccVersion", 1L);
+
+		cacheModelGetterFunctions.put(
+			"listTypeId", listTypeCacheModel -> listTypeCacheModel.listTypeId);
+
+		columnBitmasks.put("listTypeId", 2L);
+
+		cacheModelGetterFunctions.put(
+			"name",
+			listTypeCacheModel -> {
+				String name = listTypeCacheModel.name;
+
+				if (name == null) {
+					return "";
+				}
+
+				return name;
+			});
+
+		columnBitmasks.put("name", 4L);
+
+		cacheModelGetterFunctions.put(
+			"type",
+			listTypeCacheModel -> {
+				String type = listTypeCacheModel.type;
+
+				if (type == null) {
+					return "";
+				}
+
+				return type;
+			});
+
+		columnBitmasks.put("type", 8L);
+
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _mvccVersion;
 	private long _listTypeId;
 	private String _name;
-	private String _originalName;
 	private String _type;
-	private String _originalType;
 	private long _columnBitmask;
 	private ListType _escapedModel;
 
