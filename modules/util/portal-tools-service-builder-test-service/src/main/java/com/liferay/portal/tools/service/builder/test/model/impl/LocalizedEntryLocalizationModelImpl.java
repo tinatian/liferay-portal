@@ -639,6 +639,17 @@ public class LocalizedEntryLocalizationModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<LocalizedEntryLocalization, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((LocalizedEntryLocalization)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<LocalizedEntryLocalizationCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

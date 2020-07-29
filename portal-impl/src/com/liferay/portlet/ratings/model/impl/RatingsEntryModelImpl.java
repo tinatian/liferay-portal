@@ -893,6 +893,17 @@ public class RatingsEntryModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<RatingsEntry, Object> function = _attributeGetterFunctions.get(
+			attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((RatingsEntry)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<RatingsEntryCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

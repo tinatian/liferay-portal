@@ -694,6 +694,17 @@ public class OAuth2ScopeGrantModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<OAuth2ScopeGrant, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((OAuth2ScopeGrant)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<OAuth2ScopeGrantCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

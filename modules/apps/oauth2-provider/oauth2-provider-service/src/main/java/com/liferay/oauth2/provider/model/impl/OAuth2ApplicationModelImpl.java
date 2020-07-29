@@ -1070,6 +1070,17 @@ public class OAuth2ApplicationModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<OAuth2Application, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((OAuth2Application)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<OAuth2ApplicationCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

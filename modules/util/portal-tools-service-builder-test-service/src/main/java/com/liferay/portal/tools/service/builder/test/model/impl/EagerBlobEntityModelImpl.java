@@ -566,6 +566,17 @@ public class EagerBlobEntityModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<EagerBlobEntity, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((EagerBlobEntity)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<EagerBlobEntityCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

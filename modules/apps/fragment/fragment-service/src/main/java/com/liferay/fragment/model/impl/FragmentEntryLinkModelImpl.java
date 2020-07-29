@@ -1314,6 +1314,17 @@ public class FragmentEntryLinkModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<FragmentEntryLink, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((FragmentEntryLink)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<FragmentEntryLinkCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

@@ -1641,6 +1641,17 @@ public class DDMTemplateModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<DDMTemplate, Object> function = _attributeGetterFunctions.get(
+			attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((DDMTemplate)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<DDMTemplateCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

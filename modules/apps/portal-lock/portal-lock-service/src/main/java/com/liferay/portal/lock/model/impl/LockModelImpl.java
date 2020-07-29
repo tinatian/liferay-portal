@@ -758,6 +758,17 @@ public class LockModelImpl extends BaseModelImpl<Lock> implements LockModel {
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<Lock, Object> function = _attributeGetterFunctions.get(
+			attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((Lock)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<LockCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

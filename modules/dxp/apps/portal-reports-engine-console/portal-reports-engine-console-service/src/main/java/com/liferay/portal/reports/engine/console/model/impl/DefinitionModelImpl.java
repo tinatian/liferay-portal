@@ -1144,6 +1144,17 @@ public class DefinitionModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<Definition, Object> function = _attributeGetterFunctions.get(
+			attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((Definition)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<DefinitionCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

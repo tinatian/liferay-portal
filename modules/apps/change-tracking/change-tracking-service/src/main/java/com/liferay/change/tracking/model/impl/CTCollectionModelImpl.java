@@ -788,6 +788,17 @@ public class CTCollectionModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<CTCollection, Object> function = _attributeGetterFunctions.get(
+			attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((CTCollection)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<CTCollectionCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

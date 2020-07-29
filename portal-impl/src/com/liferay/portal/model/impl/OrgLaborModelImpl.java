@@ -889,6 +889,17 @@ public class OrgLaborModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<OrgLabor, Object> function = _attributeGetterFunctions.get(
+			attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((OrgLabor)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<OrgLaborCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

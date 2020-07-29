@@ -753,6 +753,17 @@ public class PowwowServerModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<PowwowServer, Object> function = _attributeGetterFunctions.get(
+			attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((PowwowServer)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<PowwowServerCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

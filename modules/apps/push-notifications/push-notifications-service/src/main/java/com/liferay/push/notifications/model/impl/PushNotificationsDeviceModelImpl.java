@@ -710,6 +710,17 @@ public class PushNotificationsDeviceModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<PushNotificationsDevice, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((PushNotificationsDevice)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<PushNotificationsDeviceCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

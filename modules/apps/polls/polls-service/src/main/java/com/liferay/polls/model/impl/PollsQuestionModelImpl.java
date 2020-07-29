@@ -1149,6 +1149,17 @@ public class PollsQuestionModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<PollsQuestion, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((PollsQuestion)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<PollsQuestionCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

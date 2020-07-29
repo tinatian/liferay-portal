@@ -924,6 +924,17 @@ public class PowwowMeetingModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<PowwowMeeting, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((PowwowMeeting)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<PowwowMeetingCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

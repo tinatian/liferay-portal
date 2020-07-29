@@ -903,6 +903,17 @@ public class LayoutPageTemplateStructureModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<LayoutPageTemplateStructure, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((LayoutPageTemplateStructure)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<LayoutPageTemplateStructureCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

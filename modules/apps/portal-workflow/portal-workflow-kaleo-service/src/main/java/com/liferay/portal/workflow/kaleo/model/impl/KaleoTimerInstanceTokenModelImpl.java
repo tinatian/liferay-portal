@@ -1073,6 +1073,17 @@ public class KaleoTimerInstanceTokenModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<KaleoTimerInstanceToken, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((KaleoTimerInstanceToken)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<KaleoTimerInstanceTokenCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

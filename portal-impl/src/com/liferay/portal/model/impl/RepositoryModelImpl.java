@@ -975,6 +975,17 @@ public class RepositoryModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<Repository, Object> function = _attributeGetterFunctions.get(
+			attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((Repository)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<RepositoryCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

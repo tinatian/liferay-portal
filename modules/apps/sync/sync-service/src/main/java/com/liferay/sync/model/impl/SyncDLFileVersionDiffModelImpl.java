@@ -677,6 +677,17 @@ public class SyncDLFileVersionDiffModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<SyncDLFileVersionDiff, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((SyncDLFileVersionDiff)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<SyncDLFileVersionDiffCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

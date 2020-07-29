@@ -667,6 +667,17 @@ public class CTProcessModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<CTProcess, Object> function = _attributeGetterFunctions.get(
+			attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((CTProcess)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<CTProcessCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

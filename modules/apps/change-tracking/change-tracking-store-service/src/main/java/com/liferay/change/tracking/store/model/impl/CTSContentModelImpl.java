@@ -738,6 +738,17 @@ public class CTSContentModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<CTSContent, Object> function = _attributeGetterFunctions.get(
+			attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((CTSContent)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<CTSContentCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

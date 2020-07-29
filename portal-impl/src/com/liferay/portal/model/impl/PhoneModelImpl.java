@@ -920,6 +920,17 @@ public class PhoneModelImpl extends BaseModelImpl<Phone> implements PhoneModel {
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<Phone, Object> function = _attributeGetterFunctions.get(
+			attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((Phone)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<PhoneCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

@@ -818,6 +818,17 @@ public class WorkflowInstanceLinkModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<WorkflowInstanceLink, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((WorkflowInstanceLink)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<WorkflowInstanceLinkCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

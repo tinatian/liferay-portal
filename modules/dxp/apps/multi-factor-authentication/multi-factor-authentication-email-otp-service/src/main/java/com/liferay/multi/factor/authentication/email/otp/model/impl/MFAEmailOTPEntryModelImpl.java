@@ -733,6 +733,17 @@ public class MFAEmailOTPEntryModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<MFAEmailOTPEntry, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((MFAEmailOTPEntry)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<MFAEmailOTPEntryCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

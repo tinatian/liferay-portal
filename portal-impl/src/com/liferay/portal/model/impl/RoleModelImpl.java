@@ -1278,6 +1278,17 @@ public class RoleModelImpl extends BaseModelImpl<Role> implements RoleModel {
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<Role, Object> function = _attributeGetterFunctions.get(
+			attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((Role)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<RoleCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

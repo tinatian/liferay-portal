@@ -822,6 +822,17 @@ public class ExpandoValueModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<ExpandoValue, Object> function = _attributeGetterFunctions.get(
+			attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((ExpandoValue)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<ExpandoValueCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

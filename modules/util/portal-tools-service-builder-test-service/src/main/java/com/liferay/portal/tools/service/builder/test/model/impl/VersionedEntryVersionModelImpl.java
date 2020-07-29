@@ -612,6 +612,17 @@ public class VersionedEntryVersionModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<VersionedEntryVersion, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((VersionedEntryVersion)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<VersionedEntryVersionCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

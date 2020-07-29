@@ -641,6 +641,17 @@ public class PortletModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<Portlet, Object> function = _attributeGetterFunctions.get(
+			attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((Portlet)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<PortletCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

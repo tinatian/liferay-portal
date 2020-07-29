@@ -944,6 +944,17 @@ public class LayoutSetModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<LayoutSet, Object> function = _attributeGetterFunctions.get(
+			attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((LayoutSet)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<LayoutSetCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

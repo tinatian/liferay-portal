@@ -735,6 +735,17 @@ public class GadgetModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<Gadget, Object> function = _attributeGetterFunctions.get(
+			attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((Gadget)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<GadgetCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

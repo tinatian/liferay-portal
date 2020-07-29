@@ -647,6 +647,17 @@ public class SamlIdpSsoSessionModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<SamlIdpSsoSession, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((SamlIdpSsoSession)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<SamlIdpSsoSessionCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

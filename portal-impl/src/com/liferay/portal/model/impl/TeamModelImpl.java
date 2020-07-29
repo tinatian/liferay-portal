@@ -869,6 +869,17 @@ public class TeamModelImpl extends BaseModelImpl<Team> implements TeamModel {
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<Team, Object> function = _attributeGetterFunctions.get(
+			attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((Team)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<TeamCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

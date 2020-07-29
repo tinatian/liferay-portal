@@ -836,6 +836,17 @@ public class SocialActivitySetModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<SocialActivitySet, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((SocialActivitySet)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<SocialActivitySetCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

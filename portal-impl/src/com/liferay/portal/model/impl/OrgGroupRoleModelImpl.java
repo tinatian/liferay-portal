@@ -548,6 +548,17 @@ public class OrgGroupRoleModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<OrgGroupRole, Object> function = _attributeGetterFunctions.get(
+			attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((OrgGroupRole)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<OrgGroupRoleCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

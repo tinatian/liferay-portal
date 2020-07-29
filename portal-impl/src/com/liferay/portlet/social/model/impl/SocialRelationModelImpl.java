@@ -696,6 +696,17 @@ public class SocialRelationModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<SocialRelation, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((SocialRelation)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<SocialRelationCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

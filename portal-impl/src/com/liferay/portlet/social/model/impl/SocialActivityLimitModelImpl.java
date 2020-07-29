@@ -818,6 +818,17 @@ public class SocialActivityLimitModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<SocialActivityLimit, Object> function =
+			_attributeGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((SocialActivityLimit)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<SocialActivityLimitCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);

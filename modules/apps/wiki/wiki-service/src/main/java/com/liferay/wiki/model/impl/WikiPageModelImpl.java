@@ -1568,6 +1568,17 @@ public class WikiPageModelImpl
 		return _columnBitmasks.get(attributeName);
 	}
 
+	public <T> T getAttributeValue(String attributeName) {
+		Function<WikiPage, Object> function = _attributeGetterFunctions.get(
+			attributeName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((WikiPage)this);
+	}
+
 	public <T> T getOriginalAttributeValue(String attributeName) {
 		Function<WikiPageCacheModel, Object> function =
 			_cacheModelGetterFunctions.get(attributeName);
