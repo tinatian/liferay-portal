@@ -102,7 +102,14 @@ public class CounterModelImpl
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
 	 */
 	@Deprecated
-	public static final boolean COLUMN_BITMASK_ENABLED = false;
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
+
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
+	public static final long NAME_COLUMN_BITMASK = 1L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		com.liferay.portal.util.PropsUtil.get(
@@ -255,6 +262,8 @@ public class CounterModelImpl
 
 	@Override
 	public void setName(String name) {
+		_columnBitmask |= _columnBitmasks.get("name");
+
 		_name = name;
 	}
 
@@ -265,7 +274,13 @@ public class CounterModelImpl
 
 	@Override
 	public void setCurrentId(long currentId) {
+		_columnBitmask |= _columnBitmasks.get("currentId");
+
 		_currentId = currentId;
+	}
+
+	public long getColumnBitmask() {
+		return _columnBitmask;
 	}
 
 	@Override
@@ -349,21 +364,14 @@ public class CounterModelImpl
 
 	@Override
 	public void resetOriginalValues() {
+		_columnBitmask = 0;
+
+		_counterCacheModel = _toCounterCacheModel();
 	}
 
 	@Override
 	public CacheModel<Counter> toCacheModel() {
-		CounterCacheModel counterCacheModel = new CounterCacheModel();
-
-		counterCacheModel.name = getName();
-
-		String name = counterCacheModel.name;
-
-		if ((name != null) && (name.length() == 0)) {
-			counterCacheModel.name = null;
-		}
-
-		counterCacheModel.currentId = getCurrentId();
+		CounterCacheModel counterCacheModel = _toCounterCacheModel();
 
 		return counterCacheModel;
 	}
@@ -438,8 +446,86 @@ public class CounterModelImpl
 
 	}
 
+	public static long getColumnBitmask(String attributeName) {
+		return _columnBitmasks.get(attributeName);
+	}
+
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		Function<CounterCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"Unknown attribute name " + attributeName);
+		}
+
+		CounterCacheModel counterCacheModel = _counterCacheModel;
+
+		if (counterCacheModel == null) {
+			counterCacheModel = _dummyCounterCacheModel;
+		}
+
+		return (T)function.apply(counterCacheModel);
+	}
+
+	private CounterCacheModel _toCounterCacheModel() {
+		CounterCacheModel counterCacheModel = new CounterCacheModel();
+
+		counterCacheModel.name = getName();
+
+		String name = counterCacheModel.name;
+
+		if ((name != null) && (name.length() == 0)) {
+			counterCacheModel.name = null;
+		}
+
+		counterCacheModel.currentId = getCurrentId();
+
+		return counterCacheModel;
+	}
+
+	private static final Map<String, Function<CounterCacheModel, Object>>
+		_cacheModelGetterFunctions;
+	private static final Map<String, Long> _columnBitmasks;
+	private static final CounterCacheModel _dummyCounterCacheModel =
+		new CounterCacheModel();
+
+	private CounterCacheModel _counterCacheModel;
+
+	static {
+		Map<String, Function<CounterCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<CounterCacheModel, Object>>();
+		Map<String, Long> columnBitmasks = new LinkedHashMap<String, Long>();
+
+		cacheModelGetterFunctions.put(
+			"name",
+			counterCacheModel -> {
+				String name = counterCacheModel.name;
+
+				if (name == null) {
+					return "";
+				}
+
+				return name;
+			});
+
+		columnBitmasks.put("name", 1L);
+
+		cacheModelGetterFunctions.put(
+			"currentId", counterCacheModel -> counterCacheModel.currentId);
+
+		columnBitmasks.put("currentId", 2L);
+
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private String _name;
 	private long _currentId;
+	private long _columnBitmask;
 	private Counter _escapedModel;
 
 }

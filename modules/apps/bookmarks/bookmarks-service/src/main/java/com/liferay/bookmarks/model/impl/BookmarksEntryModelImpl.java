@@ -33,7 +33,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -134,18 +133,53 @@ public class BookmarksEntryModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long FOLDERID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long STATUS_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long USERID_COLUMN_BITMASK = 16L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 32L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long NAME_COLUMN_BITMASK = 64L;
 
 	/**
@@ -451,6 +485,8 @@ public class BookmarksEntryModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= _columnBitmasks.get("mvccVersion");
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -467,17 +503,18 @@ public class BookmarksEntryModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
-		}
+		_columnBitmask |= _columnBitmasks.get("uuid");
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getOriginalAttributeValue("uuid");
 	}
 
 	@JSON
@@ -488,6 +525,8 @@ public class BookmarksEntryModelImpl
 
 	@Override
 	public void setEntryId(long entryId) {
+		_columnBitmask |= _columnBitmasks.get("entryId");
+
 		_entryId = entryId;
 	}
 
@@ -499,19 +538,18 @@ public class BookmarksEntryModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
-		}
+		_columnBitmask |= _columnBitmasks.get("groupId");
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getOriginalAttributeValue("groupId");
 	}
 
 	@JSON
@@ -522,19 +560,18 @@ public class BookmarksEntryModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
-		}
+		_columnBitmask |= _columnBitmasks.get("companyId");
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@JSON
@@ -545,13 +582,7 @@ public class BookmarksEntryModelImpl
 
 	@Override
 	public void setUserId(long userId) {
-		_columnBitmask |= USERID_COLUMN_BITMASK;
-
-		if (!_setOriginalUserId) {
-			_setOriginalUserId = true;
-
-			_originalUserId = _userId;
-		}
+		_columnBitmask |= _columnBitmasks.get("userId");
 
 		_userId = userId;
 	}
@@ -572,8 +603,13 @@ public class BookmarksEntryModelImpl
 	public void setUserUuid(String userUuid) {
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalUserId() {
-		return _originalUserId;
+		return getOriginalAttributeValue("userId");
 	}
 
 	@JSON
@@ -589,6 +625,8 @@ public class BookmarksEntryModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= _columnBitmasks.get("userName");
+
 		_userName = userName;
 	}
 
@@ -600,6 +638,8 @@ public class BookmarksEntryModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= _columnBitmasks.get("createDate");
+
 		_createDate = createDate;
 	}
 
@@ -617,6 +657,8 @@ public class BookmarksEntryModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= _columnBitmasks.get("modifiedDate");
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -628,19 +670,18 @@ public class BookmarksEntryModelImpl
 
 	@Override
 	public void setFolderId(long folderId) {
-		_columnBitmask = -1L;
-
-		if (!_setOriginalFolderId) {
-			_setOriginalFolderId = true;
-
-			_originalFolderId = _folderId;
-		}
+		_columnBitmask |= _columnBitmasks.get("folderId");
 
 		_folderId = folderId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalFolderId() {
-		return _originalFolderId;
+		return getOriginalAttributeValue("folderId");
 	}
 
 	@JSON
@@ -656,6 +697,8 @@ public class BookmarksEntryModelImpl
 
 	@Override
 	public void setTreePath(String treePath) {
+		_columnBitmask |= _columnBitmasks.get("treePath");
+
 		_treePath = treePath;
 	}
 
@@ -672,7 +715,7 @@ public class BookmarksEntryModelImpl
 
 	@Override
 	public void setName(String name) {
-		_columnBitmask = -1L;
+		_columnBitmask |= _columnBitmasks.get("name");
 
 		_name = name;
 	}
@@ -690,6 +733,8 @@ public class BookmarksEntryModelImpl
 
 	@Override
 	public void setUrl(String url) {
+		_columnBitmask |= _columnBitmasks.get("url");
+
 		_url = url;
 	}
 
@@ -706,6 +751,8 @@ public class BookmarksEntryModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		_columnBitmask |= _columnBitmasks.get("description");
+
 		_description = description;
 	}
 
@@ -717,6 +764,8 @@ public class BookmarksEntryModelImpl
 
 	@Override
 	public void setPriority(int priority) {
+		_columnBitmask |= _columnBitmasks.get("priority");
+
 		_priority = priority;
 	}
 
@@ -728,6 +777,8 @@ public class BookmarksEntryModelImpl
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		_columnBitmask |= _columnBitmasks.get("lastPublishDate");
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -739,19 +790,18 @@ public class BookmarksEntryModelImpl
 
 	@Override
 	public void setStatus(int status) {
-		_columnBitmask |= STATUS_COLUMN_BITMASK;
-
-		if (!_setOriginalStatus) {
-			_setOriginalStatus = true;
-
-			_originalStatus = _status;
-		}
+		_columnBitmask |= _columnBitmasks.get("status");
 
 		_status = status;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalStatus() {
-		return _originalStatus;
+		return getOriginalAttributeValue("status");
 	}
 
 	@JSON
@@ -762,6 +812,8 @@ public class BookmarksEntryModelImpl
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		_columnBitmask |= _columnBitmasks.get("statusByUserId");
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -794,6 +846,8 @@ public class BookmarksEntryModelImpl
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		_columnBitmask |= _columnBitmasks.get("statusByUserName");
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -805,6 +859,8 @@ public class BookmarksEntryModelImpl
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		_columnBitmask |= _columnBitmasks.get("statusDate");
+
 		_statusDate = statusDate;
 	}
 
@@ -1175,42 +1231,115 @@ public class BookmarksEntryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		BookmarksEntryModelImpl bookmarksEntryModelImpl = this;
+		_setModifiedDate = false;
 
-		bookmarksEntryModelImpl._originalUuid = bookmarksEntryModelImpl._uuid;
+		_columnBitmask = 0;
 
-		bookmarksEntryModelImpl._originalGroupId =
-			bookmarksEntryModelImpl._groupId;
-
-		bookmarksEntryModelImpl._setOriginalGroupId = false;
-
-		bookmarksEntryModelImpl._originalCompanyId =
-			bookmarksEntryModelImpl._companyId;
-
-		bookmarksEntryModelImpl._setOriginalCompanyId = false;
-
-		bookmarksEntryModelImpl._originalUserId =
-			bookmarksEntryModelImpl._userId;
-
-		bookmarksEntryModelImpl._setOriginalUserId = false;
-
-		bookmarksEntryModelImpl._setModifiedDate = false;
-
-		bookmarksEntryModelImpl._originalFolderId =
-			bookmarksEntryModelImpl._folderId;
-
-		bookmarksEntryModelImpl._setOriginalFolderId = false;
-
-		bookmarksEntryModelImpl._originalStatus =
-			bookmarksEntryModelImpl._status;
-
-		bookmarksEntryModelImpl._setOriginalStatus = false;
-
-		bookmarksEntryModelImpl._columnBitmask = 0;
+		_bookmarksEntryCacheModel = _toBookmarksEntryCacheModel();
 	}
 
 	@Override
 	public CacheModel<BookmarksEntry> toCacheModel() {
+		BookmarksEntryCacheModel bookmarksEntryCacheModel =
+			_toBookmarksEntryCacheModel();
+
+		return bookmarksEntryCacheModel;
+	}
+
+	@Override
+	public String toString() {
+		Map<String, Function<BookmarksEntry, Object>> attributeGetterFunctions =
+			getAttributeGetterFunctions();
+
+		StringBundler sb = new StringBundler(
+			4 * attributeGetterFunctions.size() + 2);
+
+		sb.append("{");
+
+		for (Map.Entry<String, Function<BookmarksEntry, Object>> entry :
+				attributeGetterFunctions.entrySet()) {
+
+			String attributeName = entry.getKey();
+			Function<BookmarksEntry, Object> attributeGetterFunction =
+				entry.getValue();
+
+			sb.append(attributeName);
+			sb.append("=");
+			sb.append(attributeGetterFunction.apply((BookmarksEntry)this));
+			sb.append(", ");
+		}
+
+		if (sb.index() > 1) {
+			sb.setIndex(sb.index() - 1);
+		}
+
+		sb.append("}");
+
+		return sb.toString();
+	}
+
+	@Override
+	public String toXmlString() {
+		Map<String, Function<BookmarksEntry, Object>> attributeGetterFunctions =
+			getAttributeGetterFunctions();
+
+		StringBundler sb = new StringBundler(
+			5 * attributeGetterFunctions.size() + 4);
+
+		sb.append("<model><model-name>");
+		sb.append(getModelClassName());
+		sb.append("</model-name>");
+
+		for (Map.Entry<String, Function<BookmarksEntry, Object>> entry :
+				attributeGetterFunctions.entrySet()) {
+
+			String attributeName = entry.getKey();
+			Function<BookmarksEntry, Object> attributeGetterFunction =
+				entry.getValue();
+
+			sb.append("<column><column-name>");
+			sb.append(attributeName);
+			sb.append("</column-name><column-value><![CDATA[");
+			sb.append(attributeGetterFunction.apply((BookmarksEntry)this));
+			sb.append("]]></column-value></column>");
+		}
+
+		sb.append("</model>");
+
+		return sb.toString();
+	}
+
+	private static class EscapedModelProxyProviderFunctionHolder {
+
+		private static final Function<InvocationHandler, BookmarksEntry>
+			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+
+	}
+
+	public static long getColumnBitmask(String attributeName) {
+		return _columnBitmasks.get(attributeName);
+	}
+
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		Function<BookmarksEntryCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"Unknown attribute name " + attributeName);
+		}
+
+		BookmarksEntryCacheModel bookmarksEntryCacheModel =
+			_bookmarksEntryCacheModel;
+
+		if (bookmarksEntryCacheModel == null) {
+			bookmarksEntryCacheModel = _dummyBookmarksEntryCacheModel;
+		}
+
+		return (T)function.apply(bookmarksEntryCacheModel);
+	}
+
+	private BookmarksEntryCacheModel _toBookmarksEntryCacheModel() {
 		BookmarksEntryCacheModel bookmarksEntryCacheModel =
 			new BookmarksEntryCacheModel();
 
@@ -1328,96 +1457,247 @@ public class BookmarksEntryModelImpl
 		return bookmarksEntryCacheModel;
 	}
 
-	@Override
-	public String toString() {
-		Map<String, Function<BookmarksEntry, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
+	private static final Map<String, Function<BookmarksEntryCacheModel, Object>>
+		_cacheModelGetterFunctions;
+	private static final Map<String, Long> _columnBitmasks;
+	private static final BookmarksEntryCacheModel
+		_dummyBookmarksEntryCacheModel = new BookmarksEntryCacheModel();
 
-		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+	private BookmarksEntryCacheModel _bookmarksEntryCacheModel;
 
-		sb.append("{");
+	static {
+		Map<String, Function<BookmarksEntryCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<BookmarksEntryCacheModel, Object>>();
+		Map<String, Long> columnBitmasks = new LinkedHashMap<String, Long>();
 
-		for (Map.Entry<String, Function<BookmarksEntry, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			bookmarksEntryCacheModel -> bookmarksEntryCacheModel.mvccVersion);
 
-			String attributeName = entry.getKey();
-			Function<BookmarksEntry, Object> attributeGetterFunction =
-				entry.getValue();
+		columnBitmasks.put("mvccVersion", 1L);
 
-			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((BookmarksEntry)this));
-			sb.append(", ");
-		}
+		cacheModelGetterFunctions.put(
+			"uuid",
+			bookmarksEntryCacheModel -> {
+				String uuid = bookmarksEntryCacheModel.uuid;
 
-		if (sb.index() > 1) {
-			sb.setIndex(sb.index() - 1);
-		}
+				if (uuid == null) {
+					return "";
+				}
 
-		sb.append("}");
+				return uuid;
+			});
 
-		return sb.toString();
-	}
+		columnBitmasks.put("uuid", 2L);
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<BookmarksEntry, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
+		cacheModelGetterFunctions.put(
+			"entryId",
+			bookmarksEntryCacheModel -> bookmarksEntryCacheModel.entryId);
 
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
+		columnBitmasks.put("entryId", 4L);
 
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
+		cacheModelGetterFunctions.put(
+			"groupId",
+			bookmarksEntryCacheModel -> bookmarksEntryCacheModel.groupId);
 
-		for (Map.Entry<String, Function<BookmarksEntry, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
+		columnBitmasks.put("groupId", 8L);
 
-			String attributeName = entry.getKey();
-			Function<BookmarksEntry, Object> attributeGetterFunction =
-				entry.getValue();
+		cacheModelGetterFunctions.put(
+			"companyId",
+			bookmarksEntryCacheModel -> bookmarksEntryCacheModel.companyId);
 
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((BookmarksEntry)this));
-			sb.append("]]></column-value></column>");
-		}
+		columnBitmasks.put("companyId", 16L);
 
-		sb.append("</model>");
+		cacheModelGetterFunctions.put(
+			"userId",
+			bookmarksEntryCacheModel -> bookmarksEntryCacheModel.userId);
 
-		return sb.toString();
-	}
+		columnBitmasks.put("userId", 32L);
 
-	private static class EscapedModelProxyProviderFunctionHolder {
+		cacheModelGetterFunctions.put(
+			"userName",
+			bookmarksEntryCacheModel -> {
+				String userName = bookmarksEntryCacheModel.userName;
 
-		private static final Function<InvocationHandler, BookmarksEntry>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+				if (userName == null) {
+					return "";
+				}
 
+				return userName;
+			});
+
+		columnBitmasks.put("userName", 64L);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			bookmarksEntryCacheModel -> {
+				Long createDate = bookmarksEntryCacheModel.createDate;
+
+				if (createDate == Long.MIN_VALUE) {
+					return null;
+				}
+
+				return new Date(createDate);
+			});
+
+		columnBitmasks.put("createDate", 128L);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			bookmarksEntryCacheModel -> {
+				Long modifiedDate = bookmarksEntryCacheModel.modifiedDate;
+
+				if (modifiedDate == Long.MIN_VALUE) {
+					return null;
+				}
+
+				return new Date(modifiedDate);
+			});
+
+		columnBitmasks.put("modifiedDate", 256L);
+
+		cacheModelGetterFunctions.put(
+			"folderId",
+			bookmarksEntryCacheModel -> bookmarksEntryCacheModel.folderId);
+
+		columnBitmasks.put("folderId", 512L);
+
+		cacheModelGetterFunctions.put(
+			"treePath",
+			bookmarksEntryCacheModel -> {
+				String treePath = bookmarksEntryCacheModel.treePath;
+
+				if (treePath == null) {
+					return "";
+				}
+
+				return treePath;
+			});
+
+		columnBitmasks.put("treePath", 1024L);
+
+		cacheModelGetterFunctions.put(
+			"name",
+			bookmarksEntryCacheModel -> {
+				String name = bookmarksEntryCacheModel.name;
+
+				if (name == null) {
+					return "";
+				}
+
+				return name;
+			});
+
+		columnBitmasks.put("name", 2048L);
+
+		cacheModelGetterFunctions.put(
+			"url",
+			bookmarksEntryCacheModel -> {
+				String url = bookmarksEntryCacheModel.url;
+
+				if (url == null) {
+					return "";
+				}
+
+				return url;
+			});
+
+		columnBitmasks.put("url", 4096L);
+
+		cacheModelGetterFunctions.put(
+			"description",
+			bookmarksEntryCacheModel -> {
+				String description = bookmarksEntryCacheModel.description;
+
+				if (description == null) {
+					return "";
+				}
+
+				return description;
+			});
+
+		columnBitmasks.put("description", 8192L);
+
+		cacheModelGetterFunctions.put(
+			"priority",
+			bookmarksEntryCacheModel -> bookmarksEntryCacheModel.priority);
+
+		columnBitmasks.put("priority", 16384L);
+
+		cacheModelGetterFunctions.put(
+			"lastPublishDate",
+			bookmarksEntryCacheModel -> {
+				Long lastPublishDate = bookmarksEntryCacheModel.lastPublishDate;
+
+				if (lastPublishDate == Long.MIN_VALUE) {
+					return null;
+				}
+
+				return new Date(lastPublishDate);
+			});
+
+		columnBitmasks.put("lastPublishDate", 32768L);
+
+		cacheModelGetterFunctions.put(
+			"status",
+			bookmarksEntryCacheModel -> bookmarksEntryCacheModel.status);
+
+		columnBitmasks.put("status", 65536L);
+
+		cacheModelGetterFunctions.put(
+			"statusByUserId",
+			bookmarksEntryCacheModel ->
+				bookmarksEntryCacheModel.statusByUserId);
+
+		columnBitmasks.put("statusByUserId", 131072L);
+
+		cacheModelGetterFunctions.put(
+			"statusByUserName",
+			bookmarksEntryCacheModel -> {
+				String statusByUserName =
+					bookmarksEntryCacheModel.statusByUserName;
+
+				if (statusByUserName == null) {
+					return "";
+				}
+
+				return statusByUserName;
+			});
+
+		columnBitmasks.put("statusByUserName", 262144L);
+
+		cacheModelGetterFunctions.put(
+			"statusDate",
+			bookmarksEntryCacheModel -> {
+				Long statusDate = bookmarksEntryCacheModel.statusDate;
+
+				if (statusDate == Long.MIN_VALUE) {
+					return null;
+				}
+
+				return new Date(statusDate);
+			});
+
+		columnBitmasks.put("statusDate", 524288L);
+
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
 	private long _mvccVersion;
 	private String _uuid;
-	private String _originalUuid;
 	private long _entryId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
-	private long _originalUserId;
-	private boolean _setOriginalUserId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _folderId;
-	private long _originalFolderId;
-	private boolean _setOriginalFolderId;
 	private String _treePath;
 	private String _name;
 	private String _url;
@@ -1425,8 +1705,6 @@ public class BookmarksEntryModelImpl
 	private int _priority;
 	private Date _lastPublishDate;
 	private int _status;
-	private int _originalStatus;
-	private boolean _setOriginalStatus;
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;

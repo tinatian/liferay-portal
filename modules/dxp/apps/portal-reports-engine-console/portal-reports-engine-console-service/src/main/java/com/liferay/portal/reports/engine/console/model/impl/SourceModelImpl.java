@@ -28,7 +28,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
@@ -126,12 +125,32 @@ public class SourceModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long SOURCEID_COLUMN_BITMASK = 8L;
 
 	/**
@@ -388,17 +407,18 @@ public class SourceModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
-		}
+		_columnBitmask |= _columnBitmasks.get("uuid");
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getOriginalAttributeValue("uuid");
 	}
 
 	@JSON
@@ -409,6 +429,8 @@ public class SourceModelImpl
 
 	@Override
 	public void setSourceId(long sourceId) {
+		_columnBitmask |= _columnBitmasks.get("sourceId");
+
 		_sourceId = sourceId;
 	}
 
@@ -420,19 +442,18 @@ public class SourceModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
-		}
+		_columnBitmask |= _columnBitmasks.get("groupId");
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getOriginalAttributeValue("groupId");
 	}
 
 	@JSON
@@ -443,19 +464,18 @@ public class SourceModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
-		}
+		_columnBitmask |= _columnBitmasks.get("companyId");
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@JSON
@@ -466,6 +486,8 @@ public class SourceModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= _columnBitmasks.get("userId");
+
 		_userId = userId;
 	}
 
@@ -498,6 +520,8 @@ public class SourceModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= _columnBitmasks.get("userName");
+
 		_userName = userName;
 	}
 
@@ -509,6 +533,8 @@ public class SourceModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= _columnBitmasks.get("createDate");
+
 		_createDate = createDate;
 	}
 
@@ -526,6 +552,8 @@ public class SourceModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= _columnBitmasks.get("modifiedDate");
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -537,6 +565,8 @@ public class SourceModelImpl
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		_columnBitmask |= _columnBitmasks.get("lastPublishDate");
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -596,6 +626,8 @@ public class SourceModelImpl
 
 	@Override
 	public void setName(String name) {
+		_columnBitmask |= _columnBitmasks.get("name");
+
 		_name = name;
 	}
 
@@ -656,6 +688,8 @@ public class SourceModelImpl
 
 	@Override
 	public void setDriverClassName(String driverClassName) {
+		_columnBitmask |= _columnBitmasks.get("driverClassName");
+
 		_driverClassName = driverClassName;
 	}
 
@@ -672,6 +706,8 @@ public class SourceModelImpl
 
 	@Override
 	public void setDriverUrl(String driverUrl) {
+		_columnBitmask |= _columnBitmasks.get("driverUrl");
+
 		_driverUrl = driverUrl;
 	}
 
@@ -688,6 +724,8 @@ public class SourceModelImpl
 
 	@Override
 	public void setDriverUserName(String driverUserName) {
+		_columnBitmask |= _columnBitmasks.get("driverUserName");
+
 		_driverUserName = driverUserName;
 	}
 
@@ -704,6 +742,8 @@ public class SourceModelImpl
 
 	@Override
 	public void setDriverPassword(String driverPassword) {
+		_columnBitmask |= _columnBitmasks.get("driverPassword");
+
 		_driverPassword = driverPassword;
 	}
 
@@ -897,25 +937,111 @@ public class SourceModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		SourceModelImpl sourceModelImpl = this;
+		_setModifiedDate = false;
 
-		sourceModelImpl._originalUuid = sourceModelImpl._uuid;
+		_columnBitmask = 0;
 
-		sourceModelImpl._originalGroupId = sourceModelImpl._groupId;
-
-		sourceModelImpl._setOriginalGroupId = false;
-
-		sourceModelImpl._originalCompanyId = sourceModelImpl._companyId;
-
-		sourceModelImpl._setOriginalCompanyId = false;
-
-		sourceModelImpl._setModifiedDate = false;
-
-		sourceModelImpl._columnBitmask = 0;
+		_sourceCacheModel = _toSourceCacheModel();
 	}
 
 	@Override
 	public CacheModel<Source> toCacheModel() {
+		SourceCacheModel sourceCacheModel = _toSourceCacheModel();
+
+		return sourceCacheModel;
+	}
+
+	@Override
+	public String toString() {
+		Map<String, Function<Source, Object>> attributeGetterFunctions =
+			getAttributeGetterFunctions();
+
+		StringBundler sb = new StringBundler(
+			4 * attributeGetterFunctions.size() + 2);
+
+		sb.append("{");
+
+		for (Map.Entry<String, Function<Source, Object>> entry :
+				attributeGetterFunctions.entrySet()) {
+
+			String attributeName = entry.getKey();
+			Function<Source, Object> attributeGetterFunction = entry.getValue();
+
+			sb.append(attributeName);
+			sb.append("=");
+			sb.append(attributeGetterFunction.apply((Source)this));
+			sb.append(", ");
+		}
+
+		if (sb.index() > 1) {
+			sb.setIndex(sb.index() - 1);
+		}
+
+		sb.append("}");
+
+		return sb.toString();
+	}
+
+	@Override
+	public String toXmlString() {
+		Map<String, Function<Source, Object>> attributeGetterFunctions =
+			getAttributeGetterFunctions();
+
+		StringBundler sb = new StringBundler(
+			5 * attributeGetterFunctions.size() + 4);
+
+		sb.append("<model><model-name>");
+		sb.append(getModelClassName());
+		sb.append("</model-name>");
+
+		for (Map.Entry<String, Function<Source, Object>> entry :
+				attributeGetterFunctions.entrySet()) {
+
+			String attributeName = entry.getKey();
+			Function<Source, Object> attributeGetterFunction = entry.getValue();
+
+			sb.append("<column><column-name>");
+			sb.append(attributeName);
+			sb.append("</column-name><column-value><![CDATA[");
+			sb.append(attributeGetterFunction.apply((Source)this));
+			sb.append("]]></column-value></column>");
+		}
+
+		sb.append("</model>");
+
+		return sb.toString();
+	}
+
+	private static class EscapedModelProxyProviderFunctionHolder {
+
+		private static final Function<InvocationHandler, Source>
+			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+
+	}
+
+	public static long getColumnBitmask(String attributeName) {
+		return _columnBitmasks.get(attributeName);
+	}
+
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		Function<SourceCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"Unknown attribute name " + attributeName);
+		}
+
+		SourceCacheModel sourceCacheModel = _sourceCacheModel;
+
+		if (sourceCacheModel == null) {
+			sourceCacheModel = _dummySourceCacheModel;
+		}
+
+		return (T)function.apply(sourceCacheModel);
+	}
+
+	private SourceCacheModel _toSourceCacheModel() {
 		SourceCacheModel sourceCacheModel = new SourceCacheModel();
 
 		sourceCacheModel.uuid = getUuid();
@@ -1012,83 +1138,189 @@ public class SourceModelImpl
 		return sourceCacheModel;
 	}
 
-	@Override
-	public String toString() {
-		Map<String, Function<Source, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
+	private static final Map<String, Function<SourceCacheModel, Object>>
+		_cacheModelGetterFunctions;
+	private static final Map<String, Long> _columnBitmasks;
+	private static final SourceCacheModel _dummySourceCacheModel =
+		new SourceCacheModel();
 
-		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+	private SourceCacheModel _sourceCacheModel;
 
-		sb.append("{");
+	static {
+		Map<String, Function<SourceCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap<String, Function<SourceCacheModel, Object>>();
+		Map<String, Long> columnBitmasks = new LinkedHashMap<String, Long>();
 
-		for (Map.Entry<String, Function<Source, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
+		cacheModelGetterFunctions.put(
+			"uuid",
+			sourceCacheModel -> {
+				String uuid = sourceCacheModel.uuid;
 
-			String attributeName = entry.getKey();
-			Function<Source, Object> attributeGetterFunction = entry.getValue();
+				if (uuid == null) {
+					return "";
+				}
 
-			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((Source)this));
-			sb.append(", ");
-		}
+				return uuid;
+			});
 
-		if (sb.index() > 1) {
-			sb.setIndex(sb.index() - 1);
-		}
+		columnBitmasks.put("uuid", 1L);
 
-		sb.append("}");
+		cacheModelGetterFunctions.put(
+			"sourceId", sourceCacheModel -> sourceCacheModel.sourceId);
 
-		return sb.toString();
-	}
+		columnBitmasks.put("sourceId", 2L);
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<Source, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
+		cacheModelGetterFunctions.put(
+			"groupId", sourceCacheModel -> sourceCacheModel.groupId);
 
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
+		columnBitmasks.put("groupId", 4L);
 
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
+		cacheModelGetterFunctions.put(
+			"companyId", sourceCacheModel -> sourceCacheModel.companyId);
 
-		for (Map.Entry<String, Function<Source, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
+		columnBitmasks.put("companyId", 8L);
 
-			String attributeName = entry.getKey();
-			Function<Source, Object> attributeGetterFunction = entry.getValue();
+		cacheModelGetterFunctions.put(
+			"userId", sourceCacheModel -> sourceCacheModel.userId);
 
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((Source)this));
-			sb.append("]]></column-value></column>");
-		}
+		columnBitmasks.put("userId", 16L);
 
-		sb.append("</model>");
+		cacheModelGetterFunctions.put(
+			"userName",
+			sourceCacheModel -> {
+				String userName = sourceCacheModel.userName;
 
-		return sb.toString();
-	}
+				if (userName == null) {
+					return "";
+				}
 
-	private static class EscapedModelProxyProviderFunctionHolder {
+				return userName;
+			});
 
-		private static final Function<InvocationHandler, Source>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+		columnBitmasks.put("userName", 32L);
 
+		cacheModelGetterFunctions.put(
+			"createDate",
+			sourceCacheModel -> {
+				Long createDate = sourceCacheModel.createDate;
+
+				if (createDate == Long.MIN_VALUE) {
+					return null;
+				}
+
+				return new Date(createDate);
+			});
+
+		columnBitmasks.put("createDate", 64L);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			sourceCacheModel -> {
+				Long modifiedDate = sourceCacheModel.modifiedDate;
+
+				if (modifiedDate == Long.MIN_VALUE) {
+					return null;
+				}
+
+				return new Date(modifiedDate);
+			});
+
+		columnBitmasks.put("modifiedDate", 128L);
+
+		cacheModelGetterFunctions.put(
+			"lastPublishDate",
+			sourceCacheModel -> {
+				Long lastPublishDate = sourceCacheModel.lastPublishDate;
+
+				if (lastPublishDate == Long.MIN_VALUE) {
+					return null;
+				}
+
+				return new Date(lastPublishDate);
+			});
+
+		columnBitmasks.put("lastPublishDate", 256L);
+
+		cacheModelGetterFunctions.put(
+			"name",
+			sourceCacheModel -> {
+				String name = sourceCacheModel.name;
+
+				if (name == null) {
+					return "";
+				}
+
+				return name;
+			});
+
+		columnBitmasks.put("name", 512L);
+
+		cacheModelGetterFunctions.put(
+			"driverClassName",
+			sourceCacheModel -> {
+				String driverClassName = sourceCacheModel.driverClassName;
+
+				if (driverClassName == null) {
+					return "";
+				}
+
+				return driverClassName;
+			});
+
+		columnBitmasks.put("driverClassName", 1024L);
+
+		cacheModelGetterFunctions.put(
+			"driverUrl",
+			sourceCacheModel -> {
+				String driverUrl = sourceCacheModel.driverUrl;
+
+				if (driverUrl == null) {
+					return "";
+				}
+
+				return driverUrl;
+			});
+
+		columnBitmasks.put("driverUrl", 2048L);
+
+		cacheModelGetterFunctions.put(
+			"driverUserName",
+			sourceCacheModel -> {
+				String driverUserName = sourceCacheModel.driverUserName;
+
+				if (driverUserName == null) {
+					return "";
+				}
+
+				return driverUserName;
+			});
+
+		columnBitmasks.put("driverUserName", 4096L);
+
+		cacheModelGetterFunctions.put(
+			"driverPassword",
+			sourceCacheModel -> {
+				String driverPassword = sourceCacheModel.driverPassword;
+
+				if (driverPassword == null) {
+					return "";
+				}
+
+				return driverPassword;
+			});
+
+		columnBitmasks.put("driverPassword", 8192L);
+
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _sourceId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;

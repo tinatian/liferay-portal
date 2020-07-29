@@ -118,8 +118,18 @@ public class ClassNameModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long VALUE_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long CLASSNAMEID_COLUMN_BITMASK = 2L;
 
 	/**
@@ -315,6 +325,8 @@ public class ClassNameModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= _columnBitmasks.get("mvccVersion");
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -346,6 +358,8 @@ public class ClassNameModelImpl
 
 	@Override
 	public void setClassNameId(long classNameId) {
+		_columnBitmask |= _columnBitmasks.get("classNameId");
+
 		_classNameId = classNameId;
 	}
 
@@ -362,17 +376,18 @@ public class ClassNameModelImpl
 
 	@Override
 	public void setValue(String value) {
-		_columnBitmask |= VALUE_COLUMN_BITMASK;
-
-		if (_originalValue == null) {
-			_originalValue = _value;
-		}
+		_columnBitmask |= _columnBitmasks.get("value");
 
 		_value = value;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalValue() {
-		return GetterUtil.getString(_originalValue);
+		return getOriginalAttributeValue("value");
 	}
 
 	public long getColumnBitmask() {
@@ -482,28 +497,14 @@ public class ClassNameModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		ClassNameModelImpl classNameModelImpl = this;
+		_columnBitmask = 0;
 
-		classNameModelImpl._originalValue = classNameModelImpl._value;
-
-		classNameModelImpl._columnBitmask = 0;
+		_classNameCacheModel = _toClassNameCacheModel();
 	}
 
 	@Override
 	public CacheModel<ClassName> toCacheModel() {
-		ClassNameCacheModel classNameCacheModel = new ClassNameCacheModel();
-
-		classNameCacheModel.mvccVersion = getMvccVersion();
-
-		classNameCacheModel.classNameId = getClassNameId();
-
-		classNameCacheModel.value = getValue();
-
-		String value = classNameCacheModel.value;
-
-		if ((value != null) && (value.length() == 0)) {
-			classNameCacheModel.value = null;
-		}
+		ClassNameCacheModel classNameCacheModel = _toClassNameCacheModel();
 
 		return classNameCacheModel;
 	}
@@ -578,10 +579,95 @@ public class ClassNameModelImpl
 
 	}
 
+	public static long getColumnBitmask(String attributeName) {
+		return _columnBitmasks.get(attributeName);
+	}
+
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		Function<ClassNameCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"Unknown attribute name " + attributeName);
+		}
+
+		ClassNameCacheModel classNameCacheModel = _classNameCacheModel;
+
+		if (classNameCacheModel == null) {
+			classNameCacheModel = _dummyClassNameCacheModel;
+		}
+
+		return (T)function.apply(classNameCacheModel);
+	}
+
+	private ClassNameCacheModel _toClassNameCacheModel() {
+		ClassNameCacheModel classNameCacheModel = new ClassNameCacheModel();
+
+		classNameCacheModel.mvccVersion = getMvccVersion();
+
+		classNameCacheModel.classNameId = getClassNameId();
+
+		classNameCacheModel.value = getValue();
+
+		String value = classNameCacheModel.value;
+
+		if ((value != null) && (value.length() == 0)) {
+			classNameCacheModel.value = null;
+		}
+
+		return classNameCacheModel;
+	}
+
+	private static final Map<String, Function<ClassNameCacheModel, Object>>
+		_cacheModelGetterFunctions;
+	private static final Map<String, Long> _columnBitmasks;
+	private static final ClassNameCacheModel _dummyClassNameCacheModel =
+		new ClassNameCacheModel();
+
+	private ClassNameCacheModel _classNameCacheModel;
+
+	static {
+		Map<String, Function<ClassNameCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<ClassNameCacheModel, Object>>();
+		Map<String, Long> columnBitmasks = new LinkedHashMap<String, Long>();
+
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			classNameCacheModel -> classNameCacheModel.mvccVersion);
+
+		columnBitmasks.put("mvccVersion", 1L);
+
+		cacheModelGetterFunctions.put(
+			"classNameId",
+			classNameCacheModel -> classNameCacheModel.classNameId);
+
+		columnBitmasks.put("classNameId", 2L);
+
+		cacheModelGetterFunctions.put(
+			"value",
+			classNameCacheModel -> {
+				String value = classNameCacheModel.value;
+
+				if (value == null) {
+					return "";
+				}
+
+				return value;
+			});
+
+		columnBitmasks.put("value", 4L);
+
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _mvccVersion;
 	private long _classNameId;
 	private String _value;
-	private String _originalValue;
 	private long _columnBitmask;
 	private ClassName _escapedModel;
 

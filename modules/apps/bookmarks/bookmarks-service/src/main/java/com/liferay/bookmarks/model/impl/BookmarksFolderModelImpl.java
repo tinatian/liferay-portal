@@ -33,7 +33,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -131,18 +130,53 @@ public class BookmarksFolderModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long FOLDERID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long PARENTFOLDERID_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long STATUS_COLUMN_BITMASK = 16L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 32L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long NAME_COLUMN_BITMASK = 64L;
 
 	/**
@@ -445,6 +479,8 @@ public class BookmarksFolderModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= _columnBitmasks.get("mvccVersion");
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -461,17 +497,18 @@ public class BookmarksFolderModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
-		}
+		_columnBitmask |= _columnBitmasks.get("uuid");
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getOriginalAttributeValue("uuid");
 	}
 
 	@JSON
@@ -482,19 +519,18 @@ public class BookmarksFolderModelImpl
 
 	@Override
 	public void setFolderId(long folderId) {
-		_columnBitmask |= FOLDERID_COLUMN_BITMASK;
-
-		if (!_setOriginalFolderId) {
-			_setOriginalFolderId = true;
-
-			_originalFolderId = _folderId;
-		}
+		_columnBitmask |= _columnBitmasks.get("folderId");
 
 		_folderId = folderId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalFolderId() {
-		return _originalFolderId;
+		return getOriginalAttributeValue("folderId");
 	}
 
 	@JSON
@@ -505,19 +541,18 @@ public class BookmarksFolderModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
-		}
+		_columnBitmask |= _columnBitmasks.get("groupId");
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return getOriginalAttributeValue("groupId");
 	}
 
 	@JSON
@@ -528,19 +563,18 @@ public class BookmarksFolderModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
-		}
+		_columnBitmask |= _columnBitmasks.get("companyId");
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return getOriginalAttributeValue("companyId");
 	}
 
 	@JSON
@@ -551,6 +585,8 @@ public class BookmarksFolderModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= _columnBitmasks.get("userId");
+
 		_userId = userId;
 	}
 
@@ -583,6 +619,8 @@ public class BookmarksFolderModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= _columnBitmasks.get("userName");
+
 		_userName = userName;
 	}
 
@@ -594,6 +632,8 @@ public class BookmarksFolderModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= _columnBitmasks.get("createDate");
+
 		_createDate = createDate;
 	}
 
@@ -611,6 +651,8 @@ public class BookmarksFolderModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= _columnBitmasks.get("modifiedDate");
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -622,19 +664,18 @@ public class BookmarksFolderModelImpl
 
 	@Override
 	public void setParentFolderId(long parentFolderId) {
-		_columnBitmask = -1L;
-
-		if (!_setOriginalParentFolderId) {
-			_setOriginalParentFolderId = true;
-
-			_originalParentFolderId = _parentFolderId;
-		}
+		_columnBitmask |= _columnBitmasks.get("parentFolderId");
 
 		_parentFolderId = parentFolderId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalParentFolderId() {
-		return _originalParentFolderId;
+		return getOriginalAttributeValue("parentFolderId");
 	}
 
 	@JSON
@@ -650,6 +691,8 @@ public class BookmarksFolderModelImpl
 
 	@Override
 	public void setTreePath(String treePath) {
+		_columnBitmask |= _columnBitmasks.get("treePath");
+
 		_treePath = treePath;
 	}
 
@@ -666,7 +709,7 @@ public class BookmarksFolderModelImpl
 
 	@Override
 	public void setName(String name) {
-		_columnBitmask = -1L;
+		_columnBitmask |= _columnBitmasks.get("name");
 
 		_name = name;
 	}
@@ -684,6 +727,8 @@ public class BookmarksFolderModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		_columnBitmask |= _columnBitmasks.get("description");
+
 		_description = description;
 	}
 
@@ -695,6 +740,8 @@ public class BookmarksFolderModelImpl
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		_columnBitmask |= _columnBitmasks.get("lastPublishDate");
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -706,19 +753,18 @@ public class BookmarksFolderModelImpl
 
 	@Override
 	public void setStatus(int status) {
-		_columnBitmask |= STATUS_COLUMN_BITMASK;
-
-		if (!_setOriginalStatus) {
-			_setOriginalStatus = true;
-
-			_originalStatus = _status;
-		}
+		_columnBitmask |= _columnBitmasks.get("status");
 
 		_status = status;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getOriginalAttributeValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalStatus() {
-		return _originalStatus;
+		return getOriginalAttributeValue("status");
 	}
 
 	@JSON
@@ -729,6 +775,8 @@ public class BookmarksFolderModelImpl
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		_columnBitmask |= _columnBitmasks.get("statusByUserId");
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -761,6 +809,8 @@ public class BookmarksFolderModelImpl
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		_columnBitmask |= _columnBitmasks.get("statusByUserName");
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -772,6 +822,8 @@ public class BookmarksFolderModelImpl
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		_columnBitmask |= _columnBitmasks.get("statusDate");
+
 		_statusDate = statusDate;
 	}
 
@@ -1165,42 +1217,115 @@ public class BookmarksFolderModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		BookmarksFolderModelImpl bookmarksFolderModelImpl = this;
+		_setModifiedDate = false;
 
-		bookmarksFolderModelImpl._originalUuid = bookmarksFolderModelImpl._uuid;
+		_columnBitmask = 0;
 
-		bookmarksFolderModelImpl._originalFolderId =
-			bookmarksFolderModelImpl._folderId;
-
-		bookmarksFolderModelImpl._setOriginalFolderId = false;
-
-		bookmarksFolderModelImpl._originalGroupId =
-			bookmarksFolderModelImpl._groupId;
-
-		bookmarksFolderModelImpl._setOriginalGroupId = false;
-
-		bookmarksFolderModelImpl._originalCompanyId =
-			bookmarksFolderModelImpl._companyId;
-
-		bookmarksFolderModelImpl._setOriginalCompanyId = false;
-
-		bookmarksFolderModelImpl._setModifiedDate = false;
-
-		bookmarksFolderModelImpl._originalParentFolderId =
-			bookmarksFolderModelImpl._parentFolderId;
-
-		bookmarksFolderModelImpl._setOriginalParentFolderId = false;
-
-		bookmarksFolderModelImpl._originalStatus =
-			bookmarksFolderModelImpl._status;
-
-		bookmarksFolderModelImpl._setOriginalStatus = false;
-
-		bookmarksFolderModelImpl._columnBitmask = 0;
+		_bookmarksFolderCacheModel = _toBookmarksFolderCacheModel();
 	}
 
 	@Override
 	public CacheModel<BookmarksFolder> toCacheModel() {
+		BookmarksFolderCacheModel bookmarksFolderCacheModel =
+			_toBookmarksFolderCacheModel();
+
+		return bookmarksFolderCacheModel;
+	}
+
+	@Override
+	public String toString() {
+		Map<String, Function<BookmarksFolder, Object>>
+			attributeGetterFunctions = getAttributeGetterFunctions();
+
+		StringBundler sb = new StringBundler(
+			4 * attributeGetterFunctions.size() + 2);
+
+		sb.append("{");
+
+		for (Map.Entry<String, Function<BookmarksFolder, Object>> entry :
+				attributeGetterFunctions.entrySet()) {
+
+			String attributeName = entry.getKey();
+			Function<BookmarksFolder, Object> attributeGetterFunction =
+				entry.getValue();
+
+			sb.append(attributeName);
+			sb.append("=");
+			sb.append(attributeGetterFunction.apply((BookmarksFolder)this));
+			sb.append(", ");
+		}
+
+		if (sb.index() > 1) {
+			sb.setIndex(sb.index() - 1);
+		}
+
+		sb.append("}");
+
+		return sb.toString();
+	}
+
+	@Override
+	public String toXmlString() {
+		Map<String, Function<BookmarksFolder, Object>>
+			attributeGetterFunctions = getAttributeGetterFunctions();
+
+		StringBundler sb = new StringBundler(
+			5 * attributeGetterFunctions.size() + 4);
+
+		sb.append("<model><model-name>");
+		sb.append(getModelClassName());
+		sb.append("</model-name>");
+
+		for (Map.Entry<String, Function<BookmarksFolder, Object>> entry :
+				attributeGetterFunctions.entrySet()) {
+
+			String attributeName = entry.getKey();
+			Function<BookmarksFolder, Object> attributeGetterFunction =
+				entry.getValue();
+
+			sb.append("<column><column-name>");
+			sb.append(attributeName);
+			sb.append("</column-name><column-value><![CDATA[");
+			sb.append(attributeGetterFunction.apply((BookmarksFolder)this));
+			sb.append("]]></column-value></column>");
+		}
+
+		sb.append("</model>");
+
+		return sb.toString();
+	}
+
+	private static class EscapedModelProxyProviderFunctionHolder {
+
+		private static final Function<InvocationHandler, BookmarksFolder>
+			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+
+	}
+
+	public static long getColumnBitmask(String attributeName) {
+		return _columnBitmasks.get(attributeName);
+	}
+
+	public <T> T getOriginalAttributeValue(String attributeName) {
+		Function<BookmarksFolderCacheModel, Object> function =
+			_cacheModelGetterFunctions.get(attributeName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"Unknown attribute name " + attributeName);
+		}
+
+		BookmarksFolderCacheModel bookmarksFolderCacheModel =
+			_bookmarksFolderCacheModel;
+
+		if (bookmarksFolderCacheModel == null) {
+			bookmarksFolderCacheModel = _dummyBookmarksFolderCacheModel;
+		}
+
+		return (T)function.apply(bookmarksFolderCacheModel);
+	}
+
+	private BookmarksFolderCacheModel _toBookmarksFolderCacheModel() {
 		BookmarksFolderCacheModel bookmarksFolderCacheModel =
 			new BookmarksFolderCacheModel();
 
@@ -1308,103 +1433,235 @@ public class BookmarksFolderModelImpl
 		return bookmarksFolderCacheModel;
 	}
 
-	@Override
-	public String toString() {
-		Map<String, Function<BookmarksFolder, Object>>
-			attributeGetterFunctions = getAttributeGetterFunctions();
+	private static final Map
+		<String, Function<BookmarksFolderCacheModel, Object>>
+			_cacheModelGetterFunctions;
+	private static final Map<String, Long> _columnBitmasks;
+	private static final BookmarksFolderCacheModel
+		_dummyBookmarksFolderCacheModel = new BookmarksFolderCacheModel();
 
-		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+	private BookmarksFolderCacheModel _bookmarksFolderCacheModel;
 
-		sb.append("{");
+	static {
+		Map<String, Function<BookmarksFolderCacheModel, Object>>
+			cacheModelGetterFunctions =
+				new LinkedHashMap
+					<String, Function<BookmarksFolderCacheModel, Object>>();
+		Map<String, Long> columnBitmasks = new LinkedHashMap<String, Long>();
 
-		for (Map.Entry<String, Function<BookmarksFolder, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
+		cacheModelGetterFunctions.put(
+			"mvccVersion",
+			bookmarksFolderCacheModel -> bookmarksFolderCacheModel.mvccVersion);
 
-			String attributeName = entry.getKey();
-			Function<BookmarksFolder, Object> attributeGetterFunction =
-				entry.getValue();
+		columnBitmasks.put("mvccVersion", 1L);
 
-			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((BookmarksFolder)this));
-			sb.append(", ");
-		}
+		cacheModelGetterFunctions.put(
+			"uuid",
+			bookmarksFolderCacheModel -> {
+				String uuid = bookmarksFolderCacheModel.uuid;
 
-		if (sb.index() > 1) {
-			sb.setIndex(sb.index() - 1);
-		}
+				if (uuid == null) {
+					return "";
+				}
 
-		sb.append("}");
+				return uuid;
+			});
 
-		return sb.toString();
-	}
+		columnBitmasks.put("uuid", 2L);
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<BookmarksFolder, Object>>
-			attributeGetterFunctions = getAttributeGetterFunctions();
+		cacheModelGetterFunctions.put(
+			"folderId",
+			bookmarksFolderCacheModel -> bookmarksFolderCacheModel.folderId);
 
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
+		columnBitmasks.put("folderId", 4L);
 
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
+		cacheModelGetterFunctions.put(
+			"groupId",
+			bookmarksFolderCacheModel -> bookmarksFolderCacheModel.groupId);
 
-		for (Map.Entry<String, Function<BookmarksFolder, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
+		columnBitmasks.put("groupId", 8L);
 
-			String attributeName = entry.getKey();
-			Function<BookmarksFolder, Object> attributeGetterFunction =
-				entry.getValue();
+		cacheModelGetterFunctions.put(
+			"companyId",
+			bookmarksFolderCacheModel -> bookmarksFolderCacheModel.companyId);
 
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((BookmarksFolder)this));
-			sb.append("]]></column-value></column>");
-		}
+		columnBitmasks.put("companyId", 16L);
 
-		sb.append("</model>");
+		cacheModelGetterFunctions.put(
+			"userId",
+			bookmarksFolderCacheModel -> bookmarksFolderCacheModel.userId);
 
-		return sb.toString();
-	}
+		columnBitmasks.put("userId", 32L);
 
-	private static class EscapedModelProxyProviderFunctionHolder {
+		cacheModelGetterFunctions.put(
+			"userName",
+			bookmarksFolderCacheModel -> {
+				String userName = bookmarksFolderCacheModel.userName;
 
-		private static final Function<InvocationHandler, BookmarksFolder>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+				if (userName == null) {
+					return "";
+				}
 
+				return userName;
+			});
+
+		columnBitmasks.put("userName", 64L);
+
+		cacheModelGetterFunctions.put(
+			"createDate",
+			bookmarksFolderCacheModel -> {
+				Long createDate = bookmarksFolderCacheModel.createDate;
+
+				if (createDate == Long.MIN_VALUE) {
+					return null;
+				}
+
+				return new Date(createDate);
+			});
+
+		columnBitmasks.put("createDate", 128L);
+
+		cacheModelGetterFunctions.put(
+			"modifiedDate",
+			bookmarksFolderCacheModel -> {
+				Long modifiedDate = bookmarksFolderCacheModel.modifiedDate;
+
+				if (modifiedDate == Long.MIN_VALUE) {
+					return null;
+				}
+
+				return new Date(modifiedDate);
+			});
+
+		columnBitmasks.put("modifiedDate", 256L);
+
+		cacheModelGetterFunctions.put(
+			"parentFolderId",
+			bookmarksFolderCacheModel ->
+				bookmarksFolderCacheModel.parentFolderId);
+
+		columnBitmasks.put("parentFolderId", 512L);
+
+		cacheModelGetterFunctions.put(
+			"treePath",
+			bookmarksFolderCacheModel -> {
+				String treePath = bookmarksFolderCacheModel.treePath;
+
+				if (treePath == null) {
+					return "";
+				}
+
+				return treePath;
+			});
+
+		columnBitmasks.put("treePath", 1024L);
+
+		cacheModelGetterFunctions.put(
+			"name",
+			bookmarksFolderCacheModel -> {
+				String name = bookmarksFolderCacheModel.name;
+
+				if (name == null) {
+					return "";
+				}
+
+				return name;
+			});
+
+		columnBitmasks.put("name", 2048L);
+
+		cacheModelGetterFunctions.put(
+			"description",
+			bookmarksFolderCacheModel -> {
+				String description = bookmarksFolderCacheModel.description;
+
+				if (description == null) {
+					return "";
+				}
+
+				return description;
+			});
+
+		columnBitmasks.put("description", 4096L);
+
+		cacheModelGetterFunctions.put(
+			"lastPublishDate",
+			bookmarksFolderCacheModel -> {
+				Long lastPublishDate =
+					bookmarksFolderCacheModel.lastPublishDate;
+
+				if (lastPublishDate == Long.MIN_VALUE) {
+					return null;
+				}
+
+				return new Date(lastPublishDate);
+			});
+
+		columnBitmasks.put("lastPublishDate", 8192L);
+
+		cacheModelGetterFunctions.put(
+			"status",
+			bookmarksFolderCacheModel -> bookmarksFolderCacheModel.status);
+
+		columnBitmasks.put("status", 16384L);
+
+		cacheModelGetterFunctions.put(
+			"statusByUserId",
+			bookmarksFolderCacheModel ->
+				bookmarksFolderCacheModel.statusByUserId);
+
+		columnBitmasks.put("statusByUserId", 32768L);
+
+		cacheModelGetterFunctions.put(
+			"statusByUserName",
+			bookmarksFolderCacheModel -> {
+				String statusByUserName =
+					bookmarksFolderCacheModel.statusByUserName;
+
+				if (statusByUserName == null) {
+					return "";
+				}
+
+				return statusByUserName;
+			});
+
+		columnBitmasks.put("statusByUserName", 65536L);
+
+		cacheModelGetterFunctions.put(
+			"statusDate",
+			bookmarksFolderCacheModel -> {
+				Long statusDate = bookmarksFolderCacheModel.statusDate;
+
+				if (statusDate == Long.MIN_VALUE) {
+					return null;
+				}
+
+				return new Date(statusDate);
+			});
+
+		columnBitmasks.put("statusDate", 131072L);
+
+		_cacheModelGetterFunctions = Collections.unmodifiableMap(
+			cacheModelGetterFunctions);
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
 
 	private long _mvccVersion;
 	private String _uuid;
-	private String _originalUuid;
 	private long _folderId;
-	private long _originalFolderId;
-	private boolean _setOriginalFolderId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _parentFolderId;
-	private long _originalParentFolderId;
-	private boolean _setOriginalParentFolderId;
 	private String _treePath;
 	private String _name;
 	private String _description;
 	private Date _lastPublishDate;
 	private int _status;
-	private int _originalStatus;
-	private boolean _setOriginalStatus;
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
