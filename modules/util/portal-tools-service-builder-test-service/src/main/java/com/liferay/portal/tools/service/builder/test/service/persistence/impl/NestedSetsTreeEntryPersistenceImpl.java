@@ -103,8 +103,6 @@ public class NestedSetsTreeEntryPersistenceImpl
 		entityCache.putResult(
 			NestedSetsTreeEntryImpl.class, nestedSetsTreeEntry.getPrimaryKey(),
 			nestedSetsTreeEntry);
-
-		nestedSetsTreeEntry.resetOriginalValues();
 	}
 
 	/**
@@ -120,9 +118,6 @@ public class NestedSetsTreeEntryPersistenceImpl
 					nestedSetsTreeEntry.getPrimaryKey()) == null) {
 
 				cacheResult(nestedSetsTreeEntry);
-			}
-			else {
-				nestedSetsTreeEntry.resetOriginalValues();
 			}
 		}
 	}
@@ -396,8 +391,6 @@ public class NestedSetsTreeEntryPersistenceImpl
 		entityCache.putResult(
 			NestedSetsTreeEntryImpl.class, nestedSetsTreeEntry.getPrimaryKey(),
 			nestedSetsTreeEntry, false);
-
-		nestedSetsTreeEntry.resetOriginalValues();
 
 		return nestedSetsTreeEntry;
 	}

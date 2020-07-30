@@ -600,8 +600,6 @@ public class CTMessagePersistenceImpl
 	public void cacheResult(CTMessage ctMessage) {
 		entityCache.putResult(
 			CTMessageImpl.class, ctMessage.getPrimaryKey(), ctMessage);
-
-		ctMessage.resetOriginalValues();
 	}
 
 	/**
@@ -616,9 +614,6 @@ public class CTMessagePersistenceImpl
 					CTMessageImpl.class, ctMessage.getPrimaryKey()) == null) {
 
 				cacheResult(ctMessage);
-			}
-			else {
-				ctMessage.resetOriginalValues();
 			}
 		}
 	}
@@ -862,8 +857,6 @@ public class CTMessagePersistenceImpl
 
 		entityCache.putResult(
 			CTMessageImpl.class, ctMessage.getPrimaryKey(), ctMessage, false);
-
-		ctMessage.resetOriginalValues();
 
 		return ctMessage;
 	}

@@ -2195,8 +2195,6 @@ public class AppBuilderWorkflowTaskLinkPersistenceImpl
 				appBuilderWorkflowTaskLink.getWorkflowTaskName()
 			},
 			appBuilderWorkflowTaskLink);
-
-		appBuilderWorkflowTaskLink.resetOriginalValues();
 	}
 
 	/**
@@ -2216,9 +2214,6 @@ public class AppBuilderWorkflowTaskLinkPersistenceImpl
 					appBuilderWorkflowTaskLink.getPrimaryKey()) == null) {
 
 				cacheResult(appBuilderWorkflowTaskLink);
-			}
-			else {
-				appBuilderWorkflowTaskLink.resetOriginalValues();
 			}
 		}
 	}
@@ -2633,8 +2628,6 @@ public class AppBuilderWorkflowTaskLinkPersistenceImpl
 
 		clearUniqueFindersCache(appBuilderWorkflowTaskLinkModelImpl, false);
 		cacheUniqueFindersCache(appBuilderWorkflowTaskLinkModelImpl);
-
-		appBuilderWorkflowTaskLink.resetOriginalValues();
 
 		return appBuilderWorkflowTaskLink;
 	}

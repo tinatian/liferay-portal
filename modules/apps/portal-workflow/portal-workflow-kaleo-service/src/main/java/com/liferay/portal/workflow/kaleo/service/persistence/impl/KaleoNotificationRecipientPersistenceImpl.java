@@ -1674,8 +1674,6 @@ public class KaleoNotificationRecipientPersistenceImpl
 			KaleoNotificationRecipientImpl.class,
 			kaleoNotificationRecipient.getPrimaryKey(),
 			kaleoNotificationRecipient);
-
-		kaleoNotificationRecipient.resetOriginalValues();
 	}
 
 	/**
@@ -1695,9 +1693,6 @@ public class KaleoNotificationRecipientPersistenceImpl
 					kaleoNotificationRecipient.getPrimaryKey()) == null) {
 
 				cacheResult(kaleoNotificationRecipient);
-			}
-			else {
-				kaleoNotificationRecipient.resetOriginalValues();
 			}
 		}
 	}
@@ -2070,8 +2065,6 @@ public class KaleoNotificationRecipientPersistenceImpl
 			KaleoNotificationRecipientImpl.class,
 			kaleoNotificationRecipient.getPrimaryKey(),
 			kaleoNotificationRecipient, false);
-
-		kaleoNotificationRecipient.resetOriginalValues();
 
 		return kaleoNotificationRecipient;
 	}

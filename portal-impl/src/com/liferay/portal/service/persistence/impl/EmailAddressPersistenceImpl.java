@@ -3947,8 +3947,6 @@ public class EmailAddressPersistenceImpl
 	public void cacheResult(EmailAddress emailAddress) {
 		EntityCacheUtil.putResult(
 			EmailAddressImpl.class, emailAddress.getPrimaryKey(), emailAddress);
-
-		emailAddress.resetOriginalValues();
 	}
 
 	/**
@@ -3964,9 +3962,6 @@ public class EmailAddressPersistenceImpl
 						null) {
 
 				cacheResult(emailAddress);
-			}
-			else {
-				emailAddress.resetOriginalValues();
 			}
 		}
 	}
@@ -4438,8 +4433,6 @@ public class EmailAddressPersistenceImpl
 		EntityCacheUtil.putResult(
 			EmailAddressImpl.class, emailAddress.getPrimaryKey(), emailAddress,
 			false);
-
-		emailAddress.resetOriginalValues();
 
 		return emailAddress;
 	}

@@ -1349,8 +1349,6 @@ public class AnnouncementsFlagPersistenceImpl
 				announcementsFlag.getValue()
 			},
 			announcementsFlag);
-
-		announcementsFlag.resetOriginalValues();
 	}
 
 	/**
@@ -1366,9 +1364,6 @@ public class AnnouncementsFlagPersistenceImpl
 					announcementsFlag.getPrimaryKey()) == null) {
 
 				cacheResult(announcementsFlag);
-			}
-			else {
-				announcementsFlag.resetOriginalValues();
 			}
 		}
 	}
@@ -1699,8 +1694,6 @@ public class AnnouncementsFlagPersistenceImpl
 
 		clearUniqueFindersCache(announcementsFlagModelImpl, false);
 		cacheUniqueFindersCache(announcementsFlagModelImpl);
-
-		announcementsFlag.resetOriginalValues();
 
 		return announcementsFlag;
 	}

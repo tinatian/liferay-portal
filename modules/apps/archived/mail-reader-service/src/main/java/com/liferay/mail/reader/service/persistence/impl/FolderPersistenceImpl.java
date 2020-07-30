@@ -864,8 +864,6 @@ public class FolderPersistenceImpl
 		finderCache.putResult(
 			_finderPathFetchByA_F,
 			new Object[] {folder.getAccountId(), folder.getFullName()}, folder);
-
-		folder.resetOriginalValues();
 	}
 
 	/**
@@ -880,9 +878,6 @@ public class FolderPersistenceImpl
 					FolderImpl.class, folder.getPrimaryKey()) == null) {
 
 				cacheResult(folder);
-			}
-			else {
-				folder.resetOriginalValues();
 			}
 		}
 	}
@@ -1182,8 +1177,6 @@ public class FolderPersistenceImpl
 
 		clearUniqueFindersCache(folderModelImpl, false);
 		cacheUniqueFindersCache(folderModelImpl);
-
-		folder.resetOriginalValues();
 
 		return folder;
 	}

@@ -3385,8 +3385,6 @@ public class FragmentCollectionPersistenceImpl
 				fragmentCollection.getFragmentCollectionKey()
 			},
 			fragmentCollection);
-
-		fragmentCollection.resetOriginalValues();
 	}
 
 	/**
@@ -3402,9 +3400,6 @@ public class FragmentCollectionPersistenceImpl
 					fragmentCollection.getPrimaryKey()) == null) {
 
 				cacheResult(fragmentCollection);
-			}
-			else {
-				fragmentCollection.resetOriginalValues();
 			}
 		}
 	}
@@ -3838,8 +3833,6 @@ public class FragmentCollectionPersistenceImpl
 
 		clearUniqueFindersCache(fragmentCollectionModelImpl, false);
 		cacheUniqueFindersCache(fragmentCollectionModelImpl);
-
-		fragmentCollection.resetOriginalValues();
 
 		return fragmentCollection;
 	}

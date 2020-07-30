@@ -2881,8 +2881,6 @@ public class SiteFriendlyURLPersistenceImpl
 				siteFriendlyURL.getLanguageId()
 			},
 			siteFriendlyURL);
-
-		siteFriendlyURL.resetOriginalValues();
 	}
 
 	/**
@@ -2898,9 +2896,6 @@ public class SiteFriendlyURLPersistenceImpl
 					siteFriendlyURL.getPrimaryKey()) == null) {
 
 				cacheResult(siteFriendlyURL);
-			}
-			else {
-				siteFriendlyURL.resetOriginalValues();
 			}
 		}
 	}
@@ -3402,8 +3397,6 @@ public class SiteFriendlyURLPersistenceImpl
 
 		clearUniqueFindersCache(siteFriendlyURLModelImpl, false);
 		cacheUniqueFindersCache(siteFriendlyURLModelImpl);
-
-		siteFriendlyURL.resetOriginalValues();
 
 		return siteFriendlyURL;
 	}

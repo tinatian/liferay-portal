@@ -1328,8 +1328,6 @@ public class VersionedEntryPersistenceImpl
 		finderCache.putResult(
 			_finderPathFetchByHeadId, new Object[] {versionedEntry.getHeadId()},
 			versionedEntry);
-
-		versionedEntry.resetOriginalValues();
 	}
 
 	/**
@@ -1345,9 +1343,6 @@ public class VersionedEntryPersistenceImpl
 						null) {
 
 				cacheResult(versionedEntry);
-			}
-			else {
-				versionedEntry.resetOriginalValues();
 			}
 		}
 	}
@@ -1664,8 +1659,6 @@ public class VersionedEntryPersistenceImpl
 
 		clearUniqueFindersCache(versionedEntryModelImpl, false);
 		cacheUniqueFindersCache(versionedEntryModelImpl);
-
-		versionedEntry.resetOriginalValues();
 
 		return versionedEntry;
 	}

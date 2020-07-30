@@ -2570,8 +2570,6 @@ public class KaleoProcessPersistenceImpl
 		finderCache.putResult(
 			_finderPathFetchByDDLRecordSetId,
 			new Object[] {kaleoProcess.getDDLRecordSetId()}, kaleoProcess);
-
-		kaleoProcess.resetOriginalValues();
 	}
 
 	/**
@@ -2587,9 +2585,6 @@ public class KaleoProcessPersistenceImpl
 						null) {
 
 				cacheResult(kaleoProcess);
-			}
-			else {
-				kaleoProcess.resetOriginalValues();
 			}
 		}
 	}
@@ -2999,8 +2994,6 @@ public class KaleoProcessPersistenceImpl
 
 		clearUniqueFindersCache(kaleoProcessModelImpl, false);
 		cacheUniqueFindersCache(kaleoProcessModelImpl);
-
-		kaleoProcess.resetOriginalValues();
 
 		return kaleoProcess;
 	}

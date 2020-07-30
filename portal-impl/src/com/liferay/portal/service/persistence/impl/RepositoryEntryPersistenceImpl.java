@@ -2243,8 +2243,6 @@ public class RepositoryEntryPersistenceImpl
 				repositoryEntry.getRepositoryId(), repositoryEntry.getMappedId()
 			},
 			repositoryEntry);
-
-		repositoryEntry.resetOriginalValues();
 	}
 
 	/**
@@ -2260,9 +2258,6 @@ public class RepositoryEntryPersistenceImpl
 					repositoryEntry.getPrimaryKey()) == null) {
 
 				cacheResult(repositoryEntry);
-			}
-			else {
-				repositoryEntry.resetOriginalValues();
 			}
 		}
 	}
@@ -2690,8 +2685,6 @@ public class RepositoryEntryPersistenceImpl
 
 		clearUniqueFindersCache(repositoryEntryModelImpl, false);
 		cacheUniqueFindersCache(repositoryEntryModelImpl);
-
-		repositoryEntry.resetOriginalValues();
 
 		return repositoryEntry;
 	}

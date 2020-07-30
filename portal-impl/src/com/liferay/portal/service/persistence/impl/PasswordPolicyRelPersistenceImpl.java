@@ -836,8 +836,6 @@ public class PasswordPolicyRelPersistenceImpl
 				passwordPolicyRel.getClassPK()
 			},
 			passwordPolicyRel);
-
-		passwordPolicyRel.resetOriginalValues();
 	}
 
 	/**
@@ -853,9 +851,6 @@ public class PasswordPolicyRelPersistenceImpl
 					passwordPolicyRel.getPrimaryKey()) == null) {
 
 				cacheResult(passwordPolicyRel);
-			}
-			else {
-				passwordPolicyRel.resetOriginalValues();
 			}
 		}
 	}
@@ -1165,8 +1160,6 @@ public class PasswordPolicyRelPersistenceImpl
 
 		clearUniqueFindersCache(passwordPolicyRelModelImpl, false);
 		cacheUniqueFindersCache(passwordPolicyRelModelImpl);
-
-		passwordPolicyRel.resetOriginalValues();
 
 		return passwordPolicyRel;
 	}

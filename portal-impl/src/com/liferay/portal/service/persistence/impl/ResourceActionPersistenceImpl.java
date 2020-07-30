@@ -910,8 +910,6 @@ public class ResourceActionPersistenceImpl
 				resourceAction.getName(), resourceAction.getActionId()
 			},
 			resourceAction);
-
-		resourceAction.resetOriginalValues();
 	}
 
 	/**
@@ -927,9 +925,6 @@ public class ResourceActionPersistenceImpl
 						null) {
 
 				cacheResult(resourceAction);
-			}
-			else {
-				resourceAction.resetOriginalValues();
 			}
 		}
 	}
@@ -1221,8 +1216,6 @@ public class ResourceActionPersistenceImpl
 
 		clearUniqueFindersCache(resourceActionModelImpl, false);
 		cacheUniqueFindersCache(resourceActionModelImpl);
-
-		resourceAction.resetOriginalValues();
 
 		return resourceAction;
 	}

@@ -2830,8 +2830,6 @@ public class LVEntryLocalizationVersionPersistenceImpl
 				lvEntryLocalizationVersion.getVersion()
 			},
 			lvEntryLocalizationVersion);
-
-		lvEntryLocalizationVersion.resetOriginalValues();
 	}
 
 	/**
@@ -2851,9 +2849,6 @@ public class LVEntryLocalizationVersionPersistenceImpl
 					lvEntryLocalizationVersion.getPrimaryKey()) == null) {
 
 				cacheResult(lvEntryLocalizationVersion);
-			}
-			else {
-				lvEntryLocalizationVersion.resetOriginalValues();
 			}
 		}
 	}
@@ -3347,8 +3342,6 @@ public class LVEntryLocalizationVersionPersistenceImpl
 
 		clearUniqueFindersCache(lvEntryLocalizationVersionModelImpl, false);
 		cacheUniqueFindersCache(lvEntryLocalizationVersionModelImpl);
-
-		lvEntryLocalizationVersion.resetOriginalValues();
 
 		return lvEntryLocalizationVersion;
 	}

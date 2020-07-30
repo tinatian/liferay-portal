@@ -2962,8 +2962,6 @@ public class ChangesetEntryPersistenceImpl
 				changesetEntry.getClassNameId(), changesetEntry.getClassPK()
 			},
 			changesetEntry);
-
-		changesetEntry.resetOriginalValues();
 	}
 
 	/**
@@ -2979,9 +2977,6 @@ public class ChangesetEntryPersistenceImpl
 						null) {
 
 				cacheResult(changesetEntry);
-			}
-			else {
-				changesetEntry.resetOriginalValues();
 			}
 		}
 	}
@@ -3432,8 +3427,6 @@ public class ChangesetEntryPersistenceImpl
 
 		clearUniqueFindersCache(changesetEntryModelImpl, false);
 		cacheUniqueFindersCache(changesetEntryModelImpl);
-
-		changesetEntry.resetOriginalValues();
 
 		return changesetEntry;
 	}

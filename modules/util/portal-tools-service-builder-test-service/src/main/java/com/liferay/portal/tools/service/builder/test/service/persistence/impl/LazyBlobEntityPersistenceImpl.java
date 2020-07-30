@@ -891,8 +891,6 @@ public class LazyBlobEntityPersistenceImpl
 				lazyBlobEntity.getUuid(), lazyBlobEntity.getGroupId()
 			},
 			lazyBlobEntity);
-
-		lazyBlobEntity.resetOriginalValues();
 	}
 
 	/**
@@ -908,9 +906,6 @@ public class LazyBlobEntityPersistenceImpl
 						null) {
 
 				cacheResult(lazyBlobEntity);
-			}
-			else {
-				lazyBlobEntity.resetOriginalValues();
 			}
 		}
 	}
@@ -1215,8 +1210,6 @@ public class LazyBlobEntityPersistenceImpl
 
 		clearUniqueFindersCache(lazyBlobEntityModelImpl, false);
 		cacheUniqueFindersCache(lazyBlobEntityModelImpl);
-
-		lazyBlobEntity.resetOriginalValues();
 
 		return lazyBlobEntity;
 	}

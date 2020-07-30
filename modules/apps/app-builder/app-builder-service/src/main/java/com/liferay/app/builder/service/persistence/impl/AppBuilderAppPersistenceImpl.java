@@ -7128,8 +7128,6 @@ public class AppBuilderAppPersistenceImpl
 			_finderPathFetchByUUID_G,
 			new Object[] {appBuilderApp.getUuid(), appBuilderApp.getGroupId()},
 			appBuilderApp);
-
-		appBuilderApp.resetOriginalValues();
 	}
 
 	/**
@@ -7145,9 +7143,6 @@ public class AppBuilderAppPersistenceImpl
 						null) {
 
 				cacheResult(appBuilderApp);
-			}
-			else {
-				appBuilderApp.resetOriginalValues();
 			}
 		}
 	}
@@ -7758,8 +7753,6 @@ public class AppBuilderAppPersistenceImpl
 
 		clearUniqueFindersCache(appBuilderAppModelImpl, false);
 		cacheUniqueFindersCache(appBuilderAppModelImpl);
-
-		appBuilderApp.resetOriginalValues();
 
 		return appBuilderApp;
 	}

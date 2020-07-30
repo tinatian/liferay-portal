@@ -3454,8 +3454,6 @@ public class DDMDataProviderInstancePersistenceImpl
 	@Override
 	public void cacheResult(DDMDataProviderInstance ddmDataProviderInstance) {
 		if (ddmDataProviderInstance.getCtCollectionId() != 0) {
-			ddmDataProviderInstance.resetOriginalValues();
-
 			return;
 		}
 
@@ -3470,8 +3468,6 @@ public class DDMDataProviderInstancePersistenceImpl
 				ddmDataProviderInstance.getGroupId()
 			},
 			ddmDataProviderInstance);
-
-		ddmDataProviderInstance.resetOriginalValues();
 	}
 
 	/**
@@ -3487,8 +3483,6 @@ public class DDMDataProviderInstancePersistenceImpl
 				ddmDataProviderInstances) {
 
 			if (ddmDataProviderInstance.getCtCollectionId() != 0) {
-				ddmDataProviderInstance.resetOriginalValues();
-
 				continue;
 			}
 
@@ -3497,9 +3491,6 @@ public class DDMDataProviderInstancePersistenceImpl
 					ddmDataProviderInstance.getPrimaryKey()) == null) {
 
 				cacheResult(ddmDataProviderInstance);
-			}
-			else {
-				ddmDataProviderInstance.resetOriginalValues();
 			}
 		}
 	}
@@ -3826,8 +3817,6 @@ public class DDMDataProviderInstancePersistenceImpl
 		}
 
 		if (ddmDataProviderInstance.getCtCollectionId() != 0) {
-			ddmDataProviderInstance.resetOriginalValues();
-
 			return ddmDataProviderInstance;
 		}
 
@@ -3969,8 +3958,6 @@ public class DDMDataProviderInstancePersistenceImpl
 
 		clearUniqueFindersCache(ddmDataProviderInstanceModelImpl, false);
 		cacheUniqueFindersCache(ddmDataProviderInstanceModelImpl);
-
-		ddmDataProviderInstance.resetOriginalValues();
 
 		return ddmDataProviderInstance;
 	}

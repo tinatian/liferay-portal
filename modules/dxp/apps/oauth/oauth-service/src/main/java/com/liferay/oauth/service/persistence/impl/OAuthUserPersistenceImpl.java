@@ -2309,8 +2309,6 @@ public class OAuthUserPersistenceImpl
 				oAuthUser.getUserId(), oAuthUser.getOAuthApplicationId()
 			},
 			oAuthUser);
-
-		oAuthUser.resetOriginalValues();
 	}
 
 	/**
@@ -2325,9 +2323,6 @@ public class OAuthUserPersistenceImpl
 					OAuthUserImpl.class, oAuthUser.getPrimaryKey()) == null) {
 
 				cacheResult(oAuthUser);
-			}
-			else {
-				oAuthUser.resetOriginalValues();
 			}
 		}
 	}
@@ -2693,8 +2688,6 @@ public class OAuthUserPersistenceImpl
 
 		clearUniqueFindersCache(oAuthUserModelImpl, false);
 		cacheUniqueFindersCache(oAuthUserModelImpl);
-
-		oAuthUser.resetOriginalValues();
 
 		return oAuthUser;
 	}

@@ -1872,8 +1872,6 @@ public class RecentLayoutRevisionPersistenceImpl
 				recentLayoutRevision.getPlid()
 			},
 			recentLayoutRevision);
-
-		recentLayoutRevision.resetOriginalValues();
 	}
 
 	/**
@@ -1891,9 +1889,6 @@ public class RecentLayoutRevisionPersistenceImpl
 					recentLayoutRevision.getPrimaryKey()) == null) {
 
 				cacheResult(recentLayoutRevision);
-			}
-			else {
-				recentLayoutRevision.resetOriginalValues();
 			}
 		}
 	}
@@ -2271,8 +2266,6 @@ public class RecentLayoutRevisionPersistenceImpl
 
 		clearUniqueFindersCache(recentLayoutRevisionModelImpl, false);
 		cacheUniqueFindersCache(recentLayoutRevisionModelImpl);
-
-		recentLayoutRevision.resetOriginalValues();
 
 		return recentLayoutRevision;
 	}

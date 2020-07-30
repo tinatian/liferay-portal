@@ -2435,8 +2435,6 @@ public class WorkflowMetricsSLADefinitionVersionPersistenceImpl
 					getWorkflowMetricsSLADefinitionId()
 			},
 			workflowMetricsSLADefinitionVersion);
-
-		workflowMetricsSLADefinitionVersion.resetOriginalValues();
 	}
 
 	/**
@@ -2459,9 +2457,6 @@ public class WorkflowMetricsSLADefinitionVersionPersistenceImpl
 						null) {
 
 				cacheResult(workflowMetricsSLADefinitionVersion);
-			}
-			else {
-				workflowMetricsSLADefinitionVersion.resetOriginalValues();
 			}
 		}
 	}
@@ -2961,8 +2956,6 @@ public class WorkflowMetricsSLADefinitionVersionPersistenceImpl
 		clearUniqueFindersCache(
 			workflowMetricsSLADefinitionVersionModelImpl, false);
 		cacheUniqueFindersCache(workflowMetricsSLADefinitionVersionModelImpl);
-
-		workflowMetricsSLADefinitionVersion.resetOriginalValues();
 
 		return workflowMetricsSLADefinitionVersion;
 	}

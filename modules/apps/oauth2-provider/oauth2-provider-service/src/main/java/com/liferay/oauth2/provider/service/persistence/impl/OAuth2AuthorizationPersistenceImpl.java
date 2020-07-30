@@ -2261,8 +2261,6 @@ public class OAuth2AuthorizationPersistenceImpl
 		entityCache.putResult(
 			OAuth2AuthorizationImpl.class, oAuth2Authorization.getPrimaryKey(),
 			oAuth2Authorization);
-
-		oAuth2Authorization.resetOriginalValues();
 	}
 
 	/**
@@ -2278,9 +2276,6 @@ public class OAuth2AuthorizationPersistenceImpl
 					oAuth2Authorization.getPrimaryKey()) == null) {
 
 				cacheResult(oAuth2Authorization);
-			}
-			else {
-				oAuth2Authorization.resetOriginalValues();
 			}
 		}
 	}
@@ -2653,8 +2648,6 @@ public class OAuth2AuthorizationPersistenceImpl
 		entityCache.putResult(
 			OAuth2AuthorizationImpl.class, oAuth2Authorization.getPrimaryKey(),
 			oAuth2Authorization, false);
-
-		oAuth2Authorization.resetOriginalValues();
 
 		return oAuth2Authorization;
 	}

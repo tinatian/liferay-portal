@@ -790,8 +790,6 @@ public class DLSyncEventPersistenceImpl
 		finderCache.putResult(
 			_finderPathFetchByTypePK, new Object[] {dlSyncEvent.getTypePK()},
 			dlSyncEvent);
-
-		dlSyncEvent.resetOriginalValues();
 	}
 
 	/**
@@ -807,9 +805,6 @@ public class DLSyncEventPersistenceImpl
 						null) {
 
 				cacheResult(dlSyncEvent);
-			}
-			else {
-				dlSyncEvent.resetOriginalValues();
 			}
 		}
 	}
@@ -1064,8 +1059,6 @@ public class DLSyncEventPersistenceImpl
 
 		clearUniqueFindersCache(dlSyncEventModelImpl, false);
 		cacheUniqueFindersCache(dlSyncEventModelImpl);
-
-		dlSyncEvent.resetOriginalValues();
 
 		return dlSyncEvent;
 	}

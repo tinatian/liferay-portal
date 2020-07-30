@@ -3446,8 +3446,6 @@ public class SubscriptionPersistenceImpl
 	@Override
 	public void cacheResult(Subscription subscription) {
 		if (subscription.getCtCollectionId() != 0) {
-			subscription.resetOriginalValues();
-
 			return;
 		}
 
@@ -3461,8 +3459,6 @@ public class SubscriptionPersistenceImpl
 				subscription.getClassNameId(), subscription.getClassPK()
 			},
 			subscription);
-
-		subscription.resetOriginalValues();
 	}
 
 	/**
@@ -3474,8 +3470,6 @@ public class SubscriptionPersistenceImpl
 	public void cacheResult(List<Subscription> subscriptions) {
 		for (Subscription subscription : subscriptions) {
 			if (subscription.getCtCollectionId() != 0) {
-				subscription.resetOriginalValues();
-
 				continue;
 			}
 
@@ -3484,9 +3478,6 @@ public class SubscriptionPersistenceImpl
 						null) {
 
 				cacheResult(subscription);
-			}
-			else {
-				subscription.resetOriginalValues();
 			}
 		}
 	}
@@ -3782,8 +3773,6 @@ public class SubscriptionPersistenceImpl
 		}
 
 		if (subscription.getCtCollectionId() != 0) {
-			subscription.resetOriginalValues();
-
 			return subscription;
 		}
 
@@ -3994,8 +3983,6 @@ public class SubscriptionPersistenceImpl
 
 		clearUniqueFindersCache(subscriptionModelImpl, false);
 		cacheUniqueFindersCache(subscriptionModelImpl);
-
-		subscription.resetOriginalValues();
 
 		return subscription;
 	}

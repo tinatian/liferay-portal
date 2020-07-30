@@ -2347,8 +2347,6 @@ public class KBTemplatePersistenceImpl
 			_finderPathFetchByUUID_G,
 			new Object[] {kbTemplate.getUuid(), kbTemplate.getGroupId()},
 			kbTemplate);
-
-		kbTemplate.resetOriginalValues();
 	}
 
 	/**
@@ -2363,9 +2361,6 @@ public class KBTemplatePersistenceImpl
 					KBTemplateImpl.class, kbTemplate.getPrimaryKey()) == null) {
 
 				cacheResult(kbTemplate);
-			}
-			else {
-				kbTemplate.resetOriginalValues();
 			}
 		}
 	}
@@ -2766,8 +2761,6 @@ public class KBTemplatePersistenceImpl
 
 		clearUniqueFindersCache(kbTemplateModelImpl, false);
 		cacheUniqueFindersCache(kbTemplateModelImpl);
-
-		kbTemplate.resetOriginalValues();
 
 		return kbTemplate;
 	}

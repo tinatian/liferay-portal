@@ -1428,8 +1428,6 @@ public class DDMDataProviderInstanceLinkPersistenceImpl
 		DDMDataProviderInstanceLink ddmDataProviderInstanceLink) {
 
 		if (ddmDataProviderInstanceLink.getCtCollectionId() != 0) {
-			ddmDataProviderInstanceLink.resetOriginalValues();
-
 			return;
 		}
 
@@ -1445,8 +1443,6 @@ public class DDMDataProviderInstanceLinkPersistenceImpl
 				ddmDataProviderInstanceLink.getStructureId()
 			},
 			ddmDataProviderInstanceLink);
-
-		ddmDataProviderInstanceLink.resetOriginalValues();
 	}
 
 	/**
@@ -1462,8 +1458,6 @@ public class DDMDataProviderInstanceLinkPersistenceImpl
 				ddmDataProviderInstanceLinks) {
 
 			if (ddmDataProviderInstanceLink.getCtCollectionId() != 0) {
-				ddmDataProviderInstanceLink.resetOriginalValues();
-
 				continue;
 			}
 
@@ -1472,9 +1466,6 @@ public class DDMDataProviderInstanceLinkPersistenceImpl
 					ddmDataProviderInstanceLink.getPrimaryKey()) == null) {
 
 				cacheResult(ddmDataProviderInstanceLink);
-			}
-			else {
-				ddmDataProviderInstanceLink.resetOriginalValues();
 			}
 		}
 	}
@@ -1779,8 +1770,6 @@ public class DDMDataProviderInstanceLinkPersistenceImpl
 		}
 
 		if (ddmDataProviderInstanceLink.getCtCollectionId() != 0) {
-			ddmDataProviderInstanceLink.resetOriginalValues();
-
 			return ddmDataProviderInstanceLink;
 		}
 
@@ -1866,8 +1855,6 @@ public class DDMDataProviderInstanceLinkPersistenceImpl
 
 		clearUniqueFindersCache(ddmDataProviderInstanceLinkModelImpl, false);
 		cacheUniqueFindersCache(ddmDataProviderInstanceLinkModelImpl);
-
-		ddmDataProviderInstanceLink.resetOriginalValues();
 
 		return ddmDataProviderInstanceLink;
 	}

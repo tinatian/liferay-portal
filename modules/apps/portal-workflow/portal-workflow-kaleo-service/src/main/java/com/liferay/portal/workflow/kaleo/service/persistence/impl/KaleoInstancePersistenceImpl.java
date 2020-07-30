@@ -4352,8 +4352,6 @@ public class KaleoInstancePersistenceImpl
 				kaleoInstance.getCompanyId(), kaleoInstance.getUserId()
 			},
 			kaleoInstance);
-
-		kaleoInstance.resetOriginalValues();
 	}
 
 	/**
@@ -4369,9 +4367,6 @@ public class KaleoInstancePersistenceImpl
 						null) {
 
 				cacheResult(kaleoInstance);
-			}
-			else {
-				kaleoInstance.resetOriginalValues();
 			}
 		}
 	}
@@ -4906,8 +4901,6 @@ public class KaleoInstancePersistenceImpl
 
 		clearUniqueFindersCache(kaleoInstanceModelImpl, false);
 		cacheUniqueFindersCache(kaleoInstanceModelImpl);
-
-		kaleoInstance.resetOriginalValues();
 
 		return kaleoInstance;
 	}

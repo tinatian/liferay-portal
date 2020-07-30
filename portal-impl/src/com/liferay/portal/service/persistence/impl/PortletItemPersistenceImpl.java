@@ -1612,8 +1612,6 @@ public class PortletItemPersistenceImpl
 				portletItem.getPortletId(), portletItem.getClassNameId()
 			},
 			portletItem);
-
-		portletItem.resetOriginalValues();
 	}
 
 	/**
@@ -1629,9 +1627,6 @@ public class PortletItemPersistenceImpl
 						null) {
 
 				cacheResult(portletItem);
-			}
-			else {
-				portletItem.resetOriginalValues();
 			}
 		}
 	}
@@ -1995,8 +1990,6 @@ public class PortletItemPersistenceImpl
 
 		clearUniqueFindersCache(portletItemModelImpl, false);
 		cacheUniqueFindersCache(portletItemModelImpl);
-
-		portletItem.resetOriginalValues();
 
 		return portletItem;
 	}

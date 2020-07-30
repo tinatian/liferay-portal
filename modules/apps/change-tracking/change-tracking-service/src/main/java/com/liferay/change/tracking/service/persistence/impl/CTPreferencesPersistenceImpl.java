@@ -1350,8 +1350,6 @@ public class CTPreferencesPersistenceImpl
 				ctPreferences.getCompanyId(), ctPreferences.getUserId()
 			},
 			ctPreferences);
-
-		ctPreferences.resetOriginalValues();
 	}
 
 	/**
@@ -1367,9 +1365,6 @@ public class CTPreferencesPersistenceImpl
 						null) {
 
 				cacheResult(ctPreferences);
-			}
-			else {
-				ctPreferences.resetOriginalValues();
 			}
 		}
 	}
@@ -1701,8 +1696,6 @@ public class CTPreferencesPersistenceImpl
 
 		clearUniqueFindersCache(ctPreferencesModelImpl, false);
 		cacheUniqueFindersCache(ctPreferencesModelImpl);
-
-		ctPreferences.resetOriginalValues();
 
 		return ctPreferences;
 	}

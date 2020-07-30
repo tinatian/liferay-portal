@@ -21706,8 +21706,6 @@ public class WikiPagePersistenceImpl
 				wikiPage.getNodeId(), wikiPage.getTitle(), wikiPage.getVersion()
 			},
 			wikiPage);
-
-		wikiPage.resetOriginalValues();
 	}
 
 	/**
@@ -21722,9 +21720,6 @@ public class WikiPagePersistenceImpl
 					WikiPageImpl.class, wikiPage.getPrimaryKey()) == null) {
 
 				cacheResult(wikiPage);
-			}
-			else {
-				wikiPage.resetOriginalValues();
 			}
 		}
 	}
@@ -23008,8 +23003,6 @@ public class WikiPagePersistenceImpl
 
 		clearUniqueFindersCache(wikiPageModelImpl, false);
 		cacheUniqueFindersCache(wikiPageModelImpl);
-
-		wikiPage.resetOriginalValues();
 
 		return wikiPage;
 	}

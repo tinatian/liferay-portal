@@ -2411,8 +2411,6 @@ public class KaleoTaskAssignmentPersistenceImpl
 		entityCache.putResult(
 			KaleoTaskAssignmentImpl.class, kaleoTaskAssignment.getPrimaryKey(),
 			kaleoTaskAssignment);
-
-		kaleoTaskAssignment.resetOriginalValues();
 	}
 
 	/**
@@ -2428,9 +2426,6 @@ public class KaleoTaskAssignmentPersistenceImpl
 					kaleoTaskAssignment.getPrimaryKey()) == null) {
 
 				cacheResult(kaleoTaskAssignment);
-			}
-			else {
-				kaleoTaskAssignment.resetOriginalValues();
 			}
 		}
 	}
@@ -2820,8 +2815,6 @@ public class KaleoTaskAssignmentPersistenceImpl
 		entityCache.putResult(
 			KaleoTaskAssignmentImpl.class, kaleoTaskAssignment.getPrimaryKey(),
 			kaleoTaskAssignment, false);
-
-		kaleoTaskAssignment.resetOriginalValues();
 
 		return kaleoTaskAssignment;
 	}

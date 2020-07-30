@@ -2870,8 +2870,6 @@ public class AssetDisplayPageEntryPersistenceImpl
 	@Override
 	public void cacheResult(AssetDisplayPageEntry assetDisplayPageEntry) {
 		if (assetDisplayPageEntry.getCtCollectionId() != 0) {
-			assetDisplayPageEntry.resetOriginalValues();
-
 			return;
 		}
 
@@ -2895,8 +2893,6 @@ public class AssetDisplayPageEntryPersistenceImpl
 				assetDisplayPageEntry.getClassPK()
 			},
 			assetDisplayPageEntry);
-
-		assetDisplayPageEntry.resetOriginalValues();
 	}
 
 	/**
@@ -2912,8 +2908,6 @@ public class AssetDisplayPageEntryPersistenceImpl
 				assetDisplayPageEntries) {
 
 			if (assetDisplayPageEntry.getCtCollectionId() != 0) {
-				assetDisplayPageEntry.resetOriginalValues();
-
 				continue;
 			}
 
@@ -2922,9 +2916,6 @@ public class AssetDisplayPageEntryPersistenceImpl
 					assetDisplayPageEntry.getPrimaryKey()) == null) {
 
 				cacheResult(assetDisplayPageEntry);
-			}
-			else {
-				assetDisplayPageEntry.resetOriginalValues();
 			}
 		}
 	}
@@ -3288,8 +3279,6 @@ public class AssetDisplayPageEntryPersistenceImpl
 		}
 
 		if (assetDisplayPageEntry.getCtCollectionId() != 0) {
-			assetDisplayPageEntry.resetOriginalValues();
-
 			return assetDisplayPageEntry;
 		}
 
@@ -3436,8 +3425,6 @@ public class AssetDisplayPageEntryPersistenceImpl
 
 		clearUniqueFindersCache(assetDisplayPageEntryModelImpl, false);
 		cacheUniqueFindersCache(assetDisplayPageEntryModelImpl);
-
-		assetDisplayPageEntry.resetOriginalValues();
 
 		return assetDisplayPageEntry;
 	}

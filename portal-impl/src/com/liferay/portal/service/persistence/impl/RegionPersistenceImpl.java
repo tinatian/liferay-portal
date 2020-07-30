@@ -1867,8 +1867,6 @@ public class RegionPersistenceImpl
 			_finderPathFetchByC_R,
 			new Object[] {region.getCountryId(), region.getRegionCode()},
 			region);
-
-		region.resetOriginalValues();
 	}
 
 	/**
@@ -1883,9 +1881,6 @@ public class RegionPersistenceImpl
 					RegionImpl.class, region.getPrimaryKey()) == null) {
 
 				cacheResult(region);
-			}
-			else {
-				region.resetOriginalValues();
 			}
 		}
 	}
@@ -2217,8 +2212,6 @@ public class RegionPersistenceImpl
 
 		clearUniqueFindersCache(regionModelImpl, false);
 		cacheUniqueFindersCache(regionModelImpl);
-
-		region.resetOriginalValues();
 
 		return region;
 	}

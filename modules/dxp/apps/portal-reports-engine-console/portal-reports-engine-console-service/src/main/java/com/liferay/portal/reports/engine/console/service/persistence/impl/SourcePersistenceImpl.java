@@ -2819,8 +2819,6 @@ public class SourcePersistenceImpl
 		finderCache.putResult(
 			_finderPathFetchByUUID_G,
 			new Object[] {source.getUuid(), source.getGroupId()}, source);
-
-		source.resetOriginalValues();
 	}
 
 	/**
@@ -2835,9 +2833,6 @@ public class SourcePersistenceImpl
 					SourceImpl.class, source.getPrimaryKey()) == null) {
 
 				cacheResult(source);
-			}
-			else {
-				source.resetOriginalValues();
 			}
 		}
 	}
@@ -3227,8 +3222,6 @@ public class SourcePersistenceImpl
 
 		clearUniqueFindersCache(sourceModelImpl, false);
 		cacheUniqueFindersCache(sourceModelImpl);
-
-		source.resetOriginalValues();
 
 		return source;
 	}

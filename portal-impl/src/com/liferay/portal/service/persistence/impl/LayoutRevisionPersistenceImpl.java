@@ -7795,8 +7795,6 @@ public class LayoutRevisionPersistenceImpl
 				layoutRevision.getPlid()
 			},
 			layoutRevision);
-
-		layoutRevision.resetOriginalValues();
 	}
 
 	/**
@@ -7812,9 +7810,6 @@ public class LayoutRevisionPersistenceImpl
 						null) {
 
 				cacheResult(layoutRevision);
-			}
-			else {
-				layoutRevision.resetOriginalValues();
 			}
 		}
 	}
@@ -8548,8 +8543,6 @@ public class LayoutRevisionPersistenceImpl
 
 		clearUniqueFindersCache(layoutRevisionModelImpl, false);
 		cacheUniqueFindersCache(layoutRevisionModelImpl);
-
-		layoutRevision.resetOriginalValues();
 
 		return layoutRevision;
 	}

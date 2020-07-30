@@ -919,8 +919,6 @@ public class ServiceComponentPersistenceImpl
 				serviceComponent.getBuildNumber()
 			},
 			serviceComponent);
-
-		serviceComponent.resetOriginalValues();
 	}
 
 	/**
@@ -936,9 +934,6 @@ public class ServiceComponentPersistenceImpl
 					serviceComponent.getPrimaryKey()) == null) {
 
 				cacheResult(serviceComponent);
-			}
-			else {
-				serviceComponent.resetOriginalValues();
 			}
 		}
 	}
@@ -1244,8 +1239,6 @@ public class ServiceComponentPersistenceImpl
 
 		clearUniqueFindersCache(serviceComponentModelImpl, false);
 		cacheUniqueFindersCache(serviceComponentModelImpl);
-
-		serviceComponent.resetOriginalValues();
 
 		return serviceComponent;
 	}

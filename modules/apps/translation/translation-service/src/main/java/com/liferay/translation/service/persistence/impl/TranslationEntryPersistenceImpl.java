@@ -1773,8 +1773,6 @@ public class TranslationEntryPersistenceImpl
 				translationEntry.getClassPK(), translationEntry.getLanguageId()
 			},
 			translationEntry);
-
-		translationEntry.resetOriginalValues();
 	}
 
 	/**
@@ -1790,9 +1788,6 @@ public class TranslationEntryPersistenceImpl
 					translationEntry.getPrimaryKey()) == null) {
 
 				cacheResult(translationEntry);
-			}
-			else {
-				translationEntry.resetOriginalValues();
 			}
 		}
 	}
@@ -2193,8 +2188,6 @@ public class TranslationEntryPersistenceImpl
 
 		clearUniqueFindersCache(translationEntryModelImpl, false);
 		cacheUniqueFindersCache(translationEntryModelImpl);
-
-		translationEntry.resetOriginalValues();
 
 		return translationEntry;
 	}

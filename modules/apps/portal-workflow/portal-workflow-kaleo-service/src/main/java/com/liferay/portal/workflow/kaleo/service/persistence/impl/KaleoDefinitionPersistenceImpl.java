@@ -2022,8 +2022,6 @@ public class KaleoDefinitionPersistenceImpl
 				kaleoDefinition.isActive()
 			},
 			kaleoDefinition);
-
-		kaleoDefinition.resetOriginalValues();
 	}
 
 	/**
@@ -2039,9 +2037,6 @@ public class KaleoDefinitionPersistenceImpl
 					kaleoDefinition.getPrimaryKey()) == null) {
 
 				cacheResult(kaleoDefinition);
-			}
-			else {
-				kaleoDefinition.resetOriginalValues();
 			}
 		}
 	}
@@ -2468,8 +2463,6 @@ public class KaleoDefinitionPersistenceImpl
 
 		clearUniqueFindersCache(kaleoDefinitionModelImpl, false);
 		cacheUniqueFindersCache(kaleoDefinitionModelImpl);
-
-		kaleoDefinition.resetOriginalValues();
 
 		return kaleoDefinition;
 	}

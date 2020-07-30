@@ -886,8 +886,6 @@ public class AccountGroupPersistenceImpl
 				accountGroup.getExternalReferenceCode()
 			},
 			accountGroup);
-
-		accountGroup.resetOriginalValues();
 	}
 
 	/**
@@ -903,9 +901,6 @@ public class AccountGroupPersistenceImpl
 						null) {
 
 				cacheResult(accountGroup);
-			}
-			else {
-				accountGroup.resetOriginalValues();
 			}
 		}
 	}
@@ -1221,8 +1216,6 @@ public class AccountGroupPersistenceImpl
 
 		clearUniqueFindersCache(accountGroupModelImpl, false);
 		cacheUniqueFindersCache(accountGroupModelImpl);
-
-		accountGroup.resetOriginalValues();
 
 		return accountGroup;
 	}

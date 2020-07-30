@@ -97,8 +97,6 @@ public class TestEntityPersistenceImpl
 	public void cacheResult(TestEntity testEntity) {
 		entityCache.putResult(
 			TestEntityImpl.class, testEntity.getPrimaryKey(), testEntity);
-
-		testEntity.resetOriginalValues();
 	}
 
 	/**
@@ -113,9 +111,6 @@ public class TestEntityPersistenceImpl
 					TestEntityImpl.class, testEntity.getPrimaryKey()) == null) {
 
 				cacheResult(testEntity);
-			}
-			else {
-				testEntity.resetOriginalValues();
 			}
 		}
 	}
@@ -309,8 +304,6 @@ public class TestEntityPersistenceImpl
 		entityCache.putResult(
 			TestEntityImpl.class, testEntity.getPrimaryKey(), testEntity,
 			false);
-
-		testEntity.resetOriginalValues();
 
 		return testEntity;
 	}

@@ -2403,8 +2403,6 @@ public class KaleoTaskFormPersistenceImpl
 				kaleoTaskForm.getKaleoTaskId(), kaleoTaskForm.getFormUuid()
 			},
 			kaleoTaskForm);
-
-		kaleoTaskForm.resetOriginalValues();
 	}
 
 	/**
@@ -2420,9 +2418,6 @@ public class KaleoTaskFormPersistenceImpl
 						null) {
 
 				cacheResult(kaleoTaskForm);
-			}
-			else {
-				kaleoTaskForm.resetOriginalValues();
 			}
 		}
 	}
@@ -2830,8 +2825,6 @@ public class KaleoTaskFormPersistenceImpl
 
 		clearUniqueFindersCache(kaleoTaskFormModelImpl, false);
 		cacheUniqueFindersCache(kaleoTaskFormModelImpl);
-
-		kaleoTaskForm.resetOriginalValues();
 
 		return kaleoTaskForm;
 	}

@@ -5231,8 +5231,6 @@ public class JournalContentSearchPersistenceImpl
 	@Override
 	public void cacheResult(JournalContentSearch journalContentSearch) {
 		if (journalContentSearch.getCtCollectionId() != 0) {
-			journalContentSearch.resetOriginalValues();
-
 			return;
 		}
 
@@ -5250,8 +5248,6 @@ public class JournalContentSearchPersistenceImpl
 				journalContentSearch.getArticleId()
 			},
 			journalContentSearch);
-
-		journalContentSearch.resetOriginalValues();
 	}
 
 	/**
@@ -5265,8 +5261,6 @@ public class JournalContentSearchPersistenceImpl
 				journalContentSearchs) {
 
 			if (journalContentSearch.getCtCollectionId() != 0) {
-				journalContentSearch.resetOriginalValues();
-
 				continue;
 			}
 
@@ -5275,9 +5269,6 @@ public class JournalContentSearchPersistenceImpl
 					journalContentSearch.getPrimaryKey()) == null) {
 
 				cacheResult(journalContentSearch);
-			}
-			else {
-				journalContentSearch.resetOriginalValues();
 			}
 		}
 	}
@@ -5575,8 +5566,6 @@ public class JournalContentSearchPersistenceImpl
 		}
 
 		if (journalContentSearch.getCtCollectionId() != 0) {
-			journalContentSearch.resetOriginalValues();
-
 			return journalContentSearch;
 		}
 
@@ -5867,8 +5856,6 @@ public class JournalContentSearchPersistenceImpl
 
 		clearUniqueFindersCache(journalContentSearchModelImpl, false);
 		cacheUniqueFindersCache(journalContentSearchModelImpl);
-
-		journalContentSearch.resetOriginalValues();
 
 		return journalContentSearch;
 	}

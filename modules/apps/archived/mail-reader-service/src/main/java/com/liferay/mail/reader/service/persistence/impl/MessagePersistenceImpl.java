@@ -1336,8 +1336,6 @@ public class MessagePersistenceImpl
 			_finderPathFetchByF_R,
 			new Object[] {message.getFolderId(), message.getRemoteMessageId()},
 			message);
-
-		message.resetOriginalValues();
 	}
 
 	/**
@@ -1352,9 +1350,6 @@ public class MessagePersistenceImpl
 					MessageImpl.class, message.getPrimaryKey()) == null) {
 
 				cacheResult(message);
-			}
-			else {
-				message.resetOriginalValues();
 			}
 		}
 	}
@@ -1685,8 +1680,6 @@ public class MessagePersistenceImpl
 
 		clearUniqueFindersCache(messageModelImpl, false);
 		cacheUniqueFindersCache(messageModelImpl);
-
-		message.resetOriginalValues();
 
 		return message;
 	}

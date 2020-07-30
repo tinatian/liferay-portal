@@ -8683,8 +8683,6 @@ public class BackgroundTaskPersistenceImpl
 		entityCache.putResult(
 			BackgroundTaskImpl.class, backgroundTask.getPrimaryKey(),
 			backgroundTask);
-
-		backgroundTask.resetOriginalValues();
 	}
 
 	/**
@@ -8700,9 +8698,6 @@ public class BackgroundTaskPersistenceImpl
 						null) {
 
 				cacheResult(backgroundTask);
-			}
-			else {
-				backgroundTask.resetOriginalValues();
 			}
 		}
 	}
@@ -9301,8 +9296,6 @@ public class BackgroundTaskPersistenceImpl
 		entityCache.putResult(
 			BackgroundTaskImpl.class, backgroundTask.getPrimaryKey(),
 			backgroundTask, false);
-
-		backgroundTask.resetOriginalValues();
 
 		return backgroundTask;
 	}

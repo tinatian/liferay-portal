@@ -2445,8 +2445,6 @@ public class AppPersistenceImpl
 		finderCache.putResult(
 			_finderPathFetchByRemoteAppId, new Object[] {app.getRemoteAppId()},
 			app);
-
-		app.resetOriginalValues();
 	}
 
 	/**
@@ -2461,9 +2459,6 @@ public class AppPersistenceImpl
 					null) {
 
 				cacheResult(app);
-			}
-			else {
-				app.resetOriginalValues();
 			}
 		}
 	}
@@ -2846,8 +2841,6 @@ public class AppPersistenceImpl
 
 		clearUniqueFindersCache(appModelImpl, false);
 		cacheUniqueFindersCache(appModelImpl);
-
-		app.resetOriginalValues();
 
 		return app;
 	}

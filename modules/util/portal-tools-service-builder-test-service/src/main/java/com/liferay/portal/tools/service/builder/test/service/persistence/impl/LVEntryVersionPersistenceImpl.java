@@ -5926,8 +5926,6 @@ public class LVEntryVersionPersistenceImpl
 				lvEntryVersion.getVersion()
 			},
 			lvEntryVersion);
-
-		lvEntryVersion.resetOriginalValues();
 	}
 
 	/**
@@ -5943,9 +5941,6 @@ public class LVEntryVersionPersistenceImpl
 						null) {
 
 				cacheResult(lvEntryVersion);
-			}
-			else {
-				lvEntryVersion.resetOriginalValues();
 			}
 		}
 	}
@@ -6573,8 +6568,6 @@ public class LVEntryVersionPersistenceImpl
 
 		clearUniqueFindersCache(lvEntryVersionModelImpl, false);
 		cacheUniqueFindersCache(lvEntryVersionModelImpl);
-
-		lvEntryVersion.resetOriginalValues();
 
 		return lvEntryVersion;
 	}

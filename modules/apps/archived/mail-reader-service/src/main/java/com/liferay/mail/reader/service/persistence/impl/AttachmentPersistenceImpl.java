@@ -606,8 +606,6 @@ public class AttachmentPersistenceImpl
 	public void cacheResult(Attachment attachment) {
 		entityCache.putResult(
 			AttachmentImpl.class, attachment.getPrimaryKey(), attachment);
-
-		attachment.resetOriginalValues();
 	}
 
 	/**
@@ -622,9 +620,6 @@ public class AttachmentPersistenceImpl
 					AttachmentImpl.class, attachment.getPrimaryKey()) == null) {
 
 				cacheResult(attachment);
-			}
-			else {
-				attachment.resetOriginalValues();
 			}
 		}
 	}
@@ -867,8 +862,6 @@ public class AttachmentPersistenceImpl
 		entityCache.putResult(
 			AttachmentImpl.class, attachment.getPrimaryKey(), attachment,
 			false);
-
-		attachment.resetOriginalValues();
 
 		return attachment;
 	}

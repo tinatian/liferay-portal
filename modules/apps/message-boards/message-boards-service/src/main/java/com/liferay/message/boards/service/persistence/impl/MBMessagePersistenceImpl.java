@@ -21145,8 +21145,6 @@ public class MBMessagePersistenceImpl
 	@Override
 	public void cacheResult(MBMessage mbMessage) {
 		if (mbMessage.getCtCollectionId() != 0) {
-			mbMessage.resetOriginalValues();
-
 			return;
 		}
 
@@ -21162,8 +21160,6 @@ public class MBMessagePersistenceImpl
 			_finderPathFetchByG_US,
 			new Object[] {mbMessage.getGroupId(), mbMessage.getUrlSubject()},
 			mbMessage);
-
-		mbMessage.resetOriginalValues();
 	}
 
 	/**
@@ -21175,8 +21171,6 @@ public class MBMessagePersistenceImpl
 	public void cacheResult(List<MBMessage> mbMessages) {
 		for (MBMessage mbMessage : mbMessages) {
 			if (mbMessage.getCtCollectionId() != 0) {
-				mbMessage.resetOriginalValues();
-
 				continue;
 			}
 
@@ -21184,9 +21178,6 @@ public class MBMessagePersistenceImpl
 					MBMessageImpl.class, mbMessage.getPrimaryKey()) == null) {
 
 				cacheResult(mbMessage);
-			}
-			else {
-				mbMessage.resetOriginalValues();
 			}
 		}
 	}
@@ -21534,8 +21525,6 @@ public class MBMessagePersistenceImpl
 		}
 
 		if (mbMessage.getCtCollectionId() != 0) {
-			mbMessage.resetOriginalValues();
-
 			return mbMessage;
 		}
 
@@ -22430,8 +22419,6 @@ public class MBMessagePersistenceImpl
 
 		clearUniqueFindersCache(mbMessageModelImpl, false);
 		cacheUniqueFindersCache(mbMessageModelImpl);
-
-		mbMessage.resetOriginalValues();
 
 		return mbMessage;
 	}

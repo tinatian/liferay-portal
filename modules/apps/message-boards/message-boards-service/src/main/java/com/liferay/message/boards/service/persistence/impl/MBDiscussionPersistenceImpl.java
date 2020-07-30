@@ -1970,8 +1970,6 @@ public class MBDiscussionPersistenceImpl
 	@Override
 	public void cacheResult(MBDiscussion mbDiscussion) {
 		if (mbDiscussion.getCtCollectionId() != 0) {
-			mbDiscussion.resetOriginalValues();
-
 			return;
 		}
 
@@ -1993,8 +1991,6 @@ public class MBDiscussionPersistenceImpl
 				mbDiscussion.getClassNameId(), mbDiscussion.getClassPK()
 			},
 			mbDiscussion);
-
-		mbDiscussion.resetOriginalValues();
 	}
 
 	/**
@@ -2006,8 +2002,6 @@ public class MBDiscussionPersistenceImpl
 	public void cacheResult(List<MBDiscussion> mbDiscussions) {
 		for (MBDiscussion mbDiscussion : mbDiscussions) {
 			if (mbDiscussion.getCtCollectionId() != 0) {
-				mbDiscussion.resetOriginalValues();
-
 				continue;
 			}
 
@@ -2016,9 +2010,6 @@ public class MBDiscussionPersistenceImpl
 						null) {
 
 				cacheResult(mbDiscussion);
-			}
-			else {
-				mbDiscussion.resetOriginalValues();
 			}
 		}
 	}
@@ -2374,8 +2365,6 @@ public class MBDiscussionPersistenceImpl
 		}
 
 		if (mbDiscussion.getCtCollectionId() != 0) {
-			mbDiscussion.resetOriginalValues();
-
 			return mbDiscussion;
 		}
 
@@ -2451,8 +2440,6 @@ public class MBDiscussionPersistenceImpl
 
 		clearUniqueFindersCache(mbDiscussionModelImpl, false);
 		cacheUniqueFindersCache(mbDiscussionModelImpl);
-
-		mbDiscussion.resetOriginalValues();
 
 		return mbDiscussion;
 	}

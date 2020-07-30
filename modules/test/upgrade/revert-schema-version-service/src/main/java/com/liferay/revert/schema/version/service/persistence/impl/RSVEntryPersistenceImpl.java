@@ -99,8 +99,6 @@ public class RSVEntryPersistenceImpl
 	public void cacheResult(RSVEntry rsvEntry) {
 		entityCache.putResult(
 			RSVEntryImpl.class, rsvEntry.getPrimaryKey(), rsvEntry);
-
-		rsvEntry.resetOriginalValues();
 	}
 
 	/**
@@ -115,9 +113,6 @@ public class RSVEntryPersistenceImpl
 					RSVEntryImpl.class, rsvEntry.getPrimaryKey()) == null) {
 
 				cacheResult(rsvEntry);
-			}
-			else {
-				rsvEntry.resetOriginalValues();
 			}
 		}
 	}
@@ -311,8 +306,6 @@ public class RSVEntryPersistenceImpl
 
 		entityCache.putResult(
 			RSVEntryImpl.class, rsvEntry.getPrimaryKey(), rsvEntry, false);
-
-		rsvEntry.resetOriginalValues();
 
 		return rsvEntry;
 	}

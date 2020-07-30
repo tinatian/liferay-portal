@@ -1546,8 +1546,6 @@ public class JournalArticleLocalizationPersistenceImpl
 		JournalArticleLocalization journalArticleLocalization) {
 
 		if (journalArticleLocalization.getCtCollectionId() != 0) {
-			journalArticleLocalization.resetOriginalValues();
-
 			return;
 		}
 
@@ -1582,8 +1580,6 @@ public class JournalArticleLocalizationPersistenceImpl
 				journalArticleLocalization.getLanguageId()
 			},
 			journalArticleLocalization);
-
-		journalArticleLocalization.resetOriginalValues();
 	}
 
 	/**
@@ -1599,8 +1595,6 @@ public class JournalArticleLocalizationPersistenceImpl
 				journalArticleLocalizations) {
 
 			if (journalArticleLocalization.getCtCollectionId() != 0) {
-				journalArticleLocalization.resetOriginalValues();
-
 				continue;
 			}
 
@@ -1609,9 +1603,6 @@ public class JournalArticleLocalizationPersistenceImpl
 					journalArticleLocalization.getPrimaryKey()) == null) {
 
 				cacheResult(journalArticleLocalization);
-			}
-			else {
-				journalArticleLocalization.resetOriginalValues();
 			}
 		}
 	}
@@ -1992,8 +1983,6 @@ public class JournalArticleLocalizationPersistenceImpl
 		}
 
 		if (journalArticleLocalization.getCtCollectionId() != 0) {
-			journalArticleLocalization.resetOriginalValues();
-
 			return journalArticleLocalization;
 		}
 
@@ -2043,8 +2032,6 @@ public class JournalArticleLocalizationPersistenceImpl
 
 		clearUniqueFindersCache(journalArticleLocalizationModelImpl, false);
 		cacheUniqueFindersCache(journalArticleLocalizationModelImpl);
-
-		journalArticleLocalization.resetOriginalValues();
 
 		return journalArticleLocalization;
 	}

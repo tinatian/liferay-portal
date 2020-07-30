@@ -710,8 +710,6 @@ public class WeDeployAuthAppPersistenceImpl
 				weDeployAuthApp.getClientId(), weDeployAuthApp.getClientSecret()
 			},
 			weDeployAuthApp);
-
-		weDeployAuthApp.resetOriginalValues();
 	}
 
 	/**
@@ -727,9 +725,6 @@ public class WeDeployAuthAppPersistenceImpl
 					weDeployAuthApp.getPrimaryKey()) == null) {
 
 				cacheResult(weDeployAuthApp);
-			}
-			else {
-				weDeployAuthApp.resetOriginalValues();
 			}
 		}
 	}
@@ -1058,8 +1053,6 @@ public class WeDeployAuthAppPersistenceImpl
 
 		clearUniqueFindersCache(weDeployAuthAppModelImpl, false);
 		cacheUniqueFindersCache(weDeployAuthAppModelImpl);
-
-		weDeployAuthApp.resetOriginalValues();
 
 		return weDeployAuthApp;
 	}

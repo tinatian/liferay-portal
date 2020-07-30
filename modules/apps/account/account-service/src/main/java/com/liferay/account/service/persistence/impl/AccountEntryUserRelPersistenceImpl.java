@@ -1375,8 +1375,6 @@ public class AccountEntryUserRelPersistenceImpl
 				accountEntryUserRel.getAccountUserId()
 			},
 			accountEntryUserRel);
-
-		accountEntryUserRel.resetOriginalValues();
 	}
 
 	/**
@@ -1392,9 +1390,6 @@ public class AccountEntryUserRelPersistenceImpl
 					accountEntryUserRel.getPrimaryKey()) == null) {
 
 				cacheResult(accountEntryUserRel);
-			}
-			else {
-				accountEntryUserRel.resetOriginalValues();
 			}
 		}
 	}
@@ -1734,8 +1729,6 @@ public class AccountEntryUserRelPersistenceImpl
 
 		clearUniqueFindersCache(accountEntryUserRelModelImpl, false);
 		cacheUniqueFindersCache(accountEntryUserRelModelImpl);
-
-		accountEntryUserRel.resetOriginalValues();
 
 		return accountEntryUserRel;
 	}

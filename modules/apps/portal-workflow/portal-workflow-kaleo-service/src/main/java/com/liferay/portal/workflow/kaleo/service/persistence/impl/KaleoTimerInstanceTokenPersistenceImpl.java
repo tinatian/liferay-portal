@@ -2024,8 +2024,6 @@ public class KaleoTimerInstanceTokenPersistenceImpl
 				kaleoTimerInstanceToken.getKaleoTimerId()
 			},
 			kaleoTimerInstanceToken);
-
-		kaleoTimerInstanceToken.resetOriginalValues();
 	}
 
 	/**
@@ -2045,9 +2043,6 @@ public class KaleoTimerInstanceTokenPersistenceImpl
 					kaleoTimerInstanceToken.getPrimaryKey()) == null) {
 
 				cacheResult(kaleoTimerInstanceToken);
-			}
-			else {
-				kaleoTimerInstanceToken.resetOriginalValues();
 			}
 		}
 	}
@@ -2468,8 +2463,6 @@ public class KaleoTimerInstanceTokenPersistenceImpl
 
 		clearUniqueFindersCache(kaleoTimerInstanceTokenModelImpl, false);
 		cacheUniqueFindersCache(kaleoTimerInstanceTokenModelImpl);
-
-		kaleoTimerInstanceToken.resetOriginalValues();
 
 		return kaleoTimerInstanceToken;
 	}

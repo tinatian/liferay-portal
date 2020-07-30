@@ -714,8 +714,6 @@ public class WeDeployAuthTokenPersistenceImpl
 				weDeployAuthToken.getType()
 			},
 			weDeployAuthToken);
-
-		weDeployAuthToken.resetOriginalValues();
 	}
 
 	/**
@@ -731,9 +729,6 @@ public class WeDeployAuthTokenPersistenceImpl
 					weDeployAuthToken.getPrimaryKey()) == null) {
 
 				cacheResult(weDeployAuthToken);
-			}
-			else {
-				weDeployAuthToken.resetOriginalValues();
 			}
 		}
 	}
@@ -1067,8 +1062,6 @@ public class WeDeployAuthTokenPersistenceImpl
 
 		clearUniqueFindersCache(weDeployAuthTokenModelImpl, false);
 		cacheUniqueFindersCache(weDeployAuthTokenModelImpl);
-
-		weDeployAuthToken.resetOriginalValues();
 
 		return weDeployAuthToken;
 	}

@@ -2895,8 +2895,6 @@ public class DDMFormInstancePersistenceImpl
 	@Override
 	public void cacheResult(DDMFormInstance ddmFormInstance) {
 		if (ddmFormInstance.getCtCollectionId() != 0) {
-			ddmFormInstance.resetOriginalValues();
-
 			return;
 		}
 
@@ -2910,8 +2908,6 @@ public class DDMFormInstancePersistenceImpl
 				ddmFormInstance.getUuid(), ddmFormInstance.getGroupId()
 			},
 			ddmFormInstance);
-
-		ddmFormInstance.resetOriginalValues();
 	}
 
 	/**
@@ -2923,8 +2919,6 @@ public class DDMFormInstancePersistenceImpl
 	public void cacheResult(List<DDMFormInstance> ddmFormInstances) {
 		for (DDMFormInstance ddmFormInstance : ddmFormInstances) {
 			if (ddmFormInstance.getCtCollectionId() != 0) {
-				ddmFormInstance.resetOriginalValues();
-
 				continue;
 			}
 
@@ -2933,9 +2927,6 @@ public class DDMFormInstancePersistenceImpl
 					ddmFormInstance.getPrimaryKey()) == null) {
 
 				cacheResult(ddmFormInstance);
-			}
-			else {
-				ddmFormInstance.resetOriginalValues();
 			}
 		}
 	}
@@ -3242,8 +3233,6 @@ public class DDMFormInstancePersistenceImpl
 		}
 
 		if (ddmFormInstance.getCtCollectionId() != 0) {
-			ddmFormInstance.resetOriginalValues();
-
 			return ddmFormInstance;
 		}
 
@@ -3346,8 +3335,6 @@ public class DDMFormInstancePersistenceImpl
 
 		clearUniqueFindersCache(ddmFormInstanceModelImpl, false);
 		cacheUniqueFindersCache(ddmFormInstanceModelImpl);
-
-		ddmFormInstance.resetOriginalValues();
 
 		return ddmFormInstance;
 	}

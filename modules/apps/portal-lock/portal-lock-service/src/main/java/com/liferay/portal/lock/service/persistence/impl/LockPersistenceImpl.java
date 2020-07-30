@@ -2553,8 +2553,6 @@ public class LockPersistenceImpl
 		finderCache.putResult(
 			_finderPathFetchByC_K,
 			new Object[] {lock.getClassName(), lock.getKey()}, lock);
-
-		lock.resetOriginalValues();
 	}
 
 	/**
@@ -2569,9 +2567,6 @@ public class LockPersistenceImpl
 					null) {
 
 				cacheResult(lock);
-			}
-			else {
-				lock.resetOriginalValues();
 			}
 		}
 	}
@@ -2913,8 +2908,6 @@ public class LockPersistenceImpl
 
 		clearUniqueFindersCache(lockModelImpl, false);
 		cacheUniqueFindersCache(lockModelImpl);
-
-		lock.resetOriginalValues();
 
 		return lock;
 	}

@@ -1371,8 +1371,6 @@ public class AnnouncementsDeliveryPersistenceImpl
 				announcementsDelivery.getType()
 			},
 			announcementsDelivery);
-
-		announcementsDelivery.resetOriginalValues();
 	}
 
 	/**
@@ -1392,9 +1390,6 @@ public class AnnouncementsDeliveryPersistenceImpl
 					announcementsDelivery.getPrimaryKey()) == null) {
 
 				cacheResult(announcementsDelivery);
-			}
-			else {
-				announcementsDelivery.resetOriginalValues();
 			}
 		}
 	}
@@ -1741,8 +1736,6 @@ public class AnnouncementsDeliveryPersistenceImpl
 
 		clearUniqueFindersCache(announcementsDeliveryModelImpl, false);
 		cacheUniqueFindersCache(announcementsDeliveryModelImpl);
-
-		announcementsDelivery.resetOriginalValues();
 
 		return announcementsDelivery;
 	}

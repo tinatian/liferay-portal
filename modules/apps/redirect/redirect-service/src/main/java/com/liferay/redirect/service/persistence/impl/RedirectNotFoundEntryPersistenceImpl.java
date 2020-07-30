@@ -876,8 +876,6 @@ public class RedirectNotFoundEntryPersistenceImpl
 				redirectNotFoundEntry.getUrl()
 			},
 			redirectNotFoundEntry);
-
-		redirectNotFoundEntry.resetOriginalValues();
 	}
 
 	/**
@@ -897,9 +895,6 @@ public class RedirectNotFoundEntryPersistenceImpl
 					redirectNotFoundEntry.getPrimaryKey()) == null) {
 
 				cacheResult(redirectNotFoundEntry);
-			}
-			else {
-				redirectNotFoundEntry.resetOriginalValues();
 			}
 		}
 	}
@@ -1269,8 +1264,6 @@ public class RedirectNotFoundEntryPersistenceImpl
 
 		clearUniqueFindersCache(redirectNotFoundEntryModelImpl, false);
 		cacheUniqueFindersCache(redirectNotFoundEntryModelImpl);
-
-		redirectNotFoundEntry.resetOriginalValues();
 
 		return redirectNotFoundEntry;
 	}

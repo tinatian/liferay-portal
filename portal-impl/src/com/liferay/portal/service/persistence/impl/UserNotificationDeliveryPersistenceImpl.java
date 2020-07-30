@@ -943,8 +943,6 @@ public class UserNotificationDeliveryPersistenceImpl
 				userNotificationDelivery.getDeliveryType()
 			},
 			userNotificationDelivery);
-
-		userNotificationDelivery.resetOriginalValues();
 	}
 
 	/**
@@ -964,9 +962,6 @@ public class UserNotificationDeliveryPersistenceImpl
 					userNotificationDelivery.getPrimaryKey()) == null) {
 
 				cacheResult(userNotificationDelivery);
-			}
-			else {
-				userNotificationDelivery.resetOriginalValues();
 			}
 		}
 	}
@@ -1303,8 +1298,6 @@ public class UserNotificationDeliveryPersistenceImpl
 
 		clearUniqueFindersCache(userNotificationDeliveryModelImpl, false);
 		cacheUniqueFindersCache(userNotificationDeliveryModelImpl);
-
-		userNotificationDelivery.resetOriginalValues();
 
 		return userNotificationDelivery;
 	}

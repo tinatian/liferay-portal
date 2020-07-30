@@ -1128,8 +1128,6 @@ public class DepotAppCustomizationPersistenceImpl
 				depotAppCustomization.getPortletId()
 			},
 			depotAppCustomization);
-
-		depotAppCustomization.resetOriginalValues();
 	}
 
 	/**
@@ -1149,9 +1147,6 @@ public class DepotAppCustomizationPersistenceImpl
 					depotAppCustomization.getPrimaryKey()) == null) {
 
 				cacheResult(depotAppCustomization);
-			}
-			else {
-				depotAppCustomization.resetOriginalValues();
 			}
 		}
 	}
@@ -1502,8 +1497,6 @@ public class DepotAppCustomizationPersistenceImpl
 
 		clearUniqueFindersCache(depotAppCustomizationModelImpl, false);
 		cacheUniqueFindersCache(depotAppCustomizationModelImpl);
-
-		depotAppCustomization.resetOriginalValues();
 
 		return depotAppCustomization;
 	}

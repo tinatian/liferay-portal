@@ -13544,8 +13544,6 @@ public class AssetListEntryPersistenceImpl
 	@Override
 	public void cacheResult(AssetListEntry assetListEntry) {
 		if (assetListEntry.getCtCollectionId() != 0) {
-			assetListEntry.resetOriginalValues();
-
 			return;
 		}
 
@@ -13574,8 +13572,6 @@ public class AssetListEntryPersistenceImpl
 				assetListEntry.getGroupId(), assetListEntry.getTitle()
 			},
 			assetListEntry);
-
-		assetListEntry.resetOriginalValues();
 	}
 
 	/**
@@ -13587,8 +13583,6 @@ public class AssetListEntryPersistenceImpl
 	public void cacheResult(List<AssetListEntry> assetListEntries) {
 		for (AssetListEntry assetListEntry : assetListEntries) {
 			if (assetListEntry.getCtCollectionId() != 0) {
-				assetListEntry.resetOriginalValues();
-
 				continue;
 			}
 
@@ -13597,9 +13591,6 @@ public class AssetListEntryPersistenceImpl
 						null) {
 
 				cacheResult(assetListEntry);
-			}
-			else {
-				assetListEntry.resetOriginalValues();
 			}
 		}
 	}
@@ -13967,8 +13958,6 @@ public class AssetListEntryPersistenceImpl
 		}
 
 		if (assetListEntry.getCtCollectionId() != 0) {
-			assetListEntry.resetOriginalValues();
-
 			return assetListEntry;
 		}
 
@@ -14175,8 +14164,6 @@ public class AssetListEntryPersistenceImpl
 
 		clearUniqueFindersCache(assetListEntryModelImpl, false);
 		cacheUniqueFindersCache(assetListEntryModelImpl);
-
-		assetListEntry.resetOriginalValues();
 
 		return assetListEntry;
 	}

@@ -6246,8 +6246,6 @@ public class SyncDLObjectPersistenceImpl
 			_finderPathFetchByT_T,
 			new Object[] {syncDLObject.getType(), syncDLObject.getTypePK()},
 			syncDLObject);
-
-		syncDLObject.resetOriginalValues();
 	}
 
 	/**
@@ -6263,9 +6261,6 @@ public class SyncDLObjectPersistenceImpl
 						null) {
 
 				cacheResult(syncDLObject);
-			}
-			else {
-				syncDLObject.resetOriginalValues();
 			}
 		}
 	}
@@ -6666,8 +6661,6 @@ public class SyncDLObjectPersistenceImpl
 
 		clearUniqueFindersCache(syncDLObjectModelImpl, false);
 		cacheUniqueFindersCache(syncDLObjectModelImpl);
-
-		syncDLObject.resetOriginalValues();
 
 		return syncDLObject;
 	}

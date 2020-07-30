@@ -2028,8 +2028,6 @@ public class AssetCategoryPropertyPersistenceImpl
 	@Override
 	public void cacheResult(AssetCategoryProperty assetCategoryProperty) {
 		if (assetCategoryProperty.getCtCollectionId() != 0) {
-			assetCategoryProperty.resetOriginalValues();
-
 			return;
 		}
 
@@ -2044,8 +2042,6 @@ public class AssetCategoryPropertyPersistenceImpl
 				assetCategoryProperty.getKey()
 			},
 			assetCategoryProperty);
-
-		assetCategoryProperty.resetOriginalValues();
 	}
 
 	/**
@@ -2061,8 +2057,6 @@ public class AssetCategoryPropertyPersistenceImpl
 				assetCategoryProperties) {
 
 			if (assetCategoryProperty.getCtCollectionId() != 0) {
-				assetCategoryProperty.resetOriginalValues();
-
 				continue;
 			}
 
@@ -2071,9 +2065,6 @@ public class AssetCategoryPropertyPersistenceImpl
 					assetCategoryProperty.getPrimaryKey()) == null) {
 
 				cacheResult(assetCategoryProperty);
-			}
-			else {
-				assetCategoryProperty.resetOriginalValues();
 			}
 		}
 	}
@@ -2387,8 +2378,6 @@ public class AssetCategoryPropertyPersistenceImpl
 		}
 
 		if (assetCategoryProperty.getCtCollectionId() != 0) {
-			assetCategoryProperty.resetOriginalValues();
-
 			return assetCategoryProperty;
 		}
 
@@ -2502,8 +2491,6 @@ public class AssetCategoryPropertyPersistenceImpl
 
 		clearUniqueFindersCache(assetCategoryPropertyModelImpl, false);
 		cacheUniqueFindersCache(assetCategoryPropertyModelImpl);
-
-		assetCategoryProperty.resetOriginalValues();
 
 		return assetCategoryProperty;
 	}

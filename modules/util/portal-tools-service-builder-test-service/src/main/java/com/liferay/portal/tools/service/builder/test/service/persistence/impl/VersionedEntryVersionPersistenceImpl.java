@@ -1896,8 +1896,6 @@ public class VersionedEntryVersionPersistenceImpl
 				versionedEntryVersion.getVersion()
 			},
 			versionedEntryVersion);
-
-		versionedEntryVersion.resetOriginalValues();
 	}
 
 	/**
@@ -1917,9 +1915,6 @@ public class VersionedEntryVersionPersistenceImpl
 					versionedEntryVersion.getPrimaryKey()) == null) {
 
 				cacheResult(versionedEntryVersion);
-			}
-			else {
-				versionedEntryVersion.resetOriginalValues();
 			}
 		}
 	}
@@ -2307,8 +2302,6 @@ public class VersionedEntryVersionPersistenceImpl
 
 		clearUniqueFindersCache(versionedEntryVersionModelImpl, false);
 		cacheUniqueFindersCache(versionedEntryVersionModelImpl);
-
-		versionedEntryVersion.resetOriginalValues();
 
 		return versionedEntryVersion;
 	}

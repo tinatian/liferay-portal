@@ -1616,8 +1616,6 @@ public class DLFileVersionPreviewPersistenceImpl
 				dlFileVersionPreview.getPreviewStatus()
 			},
 			dlFileVersionPreview);
-
-		dlFileVersionPreview.resetOriginalValues();
 	}
 
 	/**
@@ -1635,9 +1633,6 @@ public class DLFileVersionPreviewPersistenceImpl
 					dlFileVersionPreview.getPrimaryKey()) == null) {
 
 				cacheResult(dlFileVersionPreview);
-			}
-			else {
-				dlFileVersionPreview.resetOriginalValues();
 			}
 		}
 	}
@@ -2020,8 +2015,6 @@ public class DLFileVersionPreviewPersistenceImpl
 
 		clearUniqueFindersCache(dlFileVersionPreviewModelImpl, false);
 		cacheUniqueFindersCache(dlFileVersionPreviewModelImpl);
-
-		dlFileVersionPreview.resetOriginalValues();
 
 		return dlFileVersionPreview;
 	}

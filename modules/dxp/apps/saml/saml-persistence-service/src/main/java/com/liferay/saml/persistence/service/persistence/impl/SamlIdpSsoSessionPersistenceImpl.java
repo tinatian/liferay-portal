@@ -910,8 +910,6 @@ public class SamlIdpSsoSessionPersistenceImpl
 			_finderPathFetchBySamlIdpSsoSessionKey,
 			new Object[] {samlIdpSsoSession.getSamlIdpSsoSessionKey()},
 			samlIdpSsoSession);
-
-		samlIdpSsoSession.resetOriginalValues();
 	}
 
 	/**
@@ -927,9 +925,6 @@ public class SamlIdpSsoSessionPersistenceImpl
 					samlIdpSsoSession.getPrimaryKey()) == null) {
 
 				cacheResult(samlIdpSsoSession);
-			}
-			else {
-				samlIdpSsoSession.resetOriginalValues();
 			}
 		}
 	}
@@ -1231,8 +1226,6 @@ public class SamlIdpSsoSessionPersistenceImpl
 
 		clearUniqueFindersCache(samlIdpSsoSessionModelImpl, false);
 		cacheUniqueFindersCache(samlIdpSsoSessionModelImpl);
-
-		samlIdpSsoSession.resetOriginalValues();
 
 		return samlIdpSsoSession;
 	}

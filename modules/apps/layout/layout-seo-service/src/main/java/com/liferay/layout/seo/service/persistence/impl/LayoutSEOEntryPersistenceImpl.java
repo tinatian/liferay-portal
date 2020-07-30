@@ -1743,8 +1743,6 @@ public class LayoutSEOEntryPersistenceImpl
 				layoutSEOEntry.getLayoutId()
 			},
 			layoutSEOEntry);
-
-		layoutSEOEntry.resetOriginalValues();
 	}
 
 	/**
@@ -1760,9 +1758,6 @@ public class LayoutSEOEntryPersistenceImpl
 						null) {
 
 				cacheResult(layoutSEOEntry);
-			}
-			else {
-				layoutSEOEntry.resetOriginalValues();
 			}
 		}
 	}
@@ -2158,8 +2153,6 @@ public class LayoutSEOEntryPersistenceImpl
 
 		clearUniqueFindersCache(layoutSEOEntryModelImpl, false);
 		cacheUniqueFindersCache(layoutSEOEntryModelImpl);
-
-		layoutSEOEntry.resetOriginalValues();
 
 		return layoutSEOEntry;
 	}

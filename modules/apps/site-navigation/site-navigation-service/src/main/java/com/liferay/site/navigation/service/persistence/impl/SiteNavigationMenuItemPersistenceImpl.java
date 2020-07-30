@@ -3716,8 +3716,6 @@ public class SiteNavigationMenuItemPersistenceImpl
 				siteNavigationMenuItem.getGroupId()
 			},
 			siteNavigationMenuItem);
-
-		siteNavigationMenuItem.resetOriginalValues();
 	}
 
 	/**
@@ -3737,9 +3735,6 @@ public class SiteNavigationMenuItemPersistenceImpl
 					siteNavigationMenuItem.getPrimaryKey()) == null) {
 
 				cacheResult(siteNavigationMenuItem);
-			}
-			else {
-				siteNavigationMenuItem.resetOriginalValues();
 			}
 		}
 	}
@@ -4235,8 +4230,6 @@ public class SiteNavigationMenuItemPersistenceImpl
 
 		clearUniqueFindersCache(siteNavigationMenuItemModelImpl, false);
 		cacheUniqueFindersCache(siteNavigationMenuItemModelImpl);
-
-		siteNavigationMenuItem.resetOriginalValues();
 
 		return siteNavigationMenuItem;
 	}

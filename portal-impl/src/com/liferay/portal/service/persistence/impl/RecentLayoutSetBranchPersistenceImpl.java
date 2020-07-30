@@ -1849,8 +1849,6 @@ public class RecentLayoutSetBranchPersistenceImpl
 				recentLayoutSetBranch.getLayoutSetId()
 			},
 			recentLayoutSetBranch);
-
-		recentLayoutSetBranch.resetOriginalValues();
 	}
 
 	/**
@@ -1870,9 +1868,6 @@ public class RecentLayoutSetBranchPersistenceImpl
 					recentLayoutSetBranch.getPrimaryKey()) == null) {
 
 				cacheResult(recentLayoutSetBranch);
-			}
-			else {
-				recentLayoutSetBranch.resetOriginalValues();
 			}
 		}
 	}
@@ -2251,8 +2246,6 @@ public class RecentLayoutSetBranchPersistenceImpl
 
 		clearUniqueFindersCache(recentLayoutSetBranchModelImpl, false);
 		cacheUniqueFindersCache(recentLayoutSetBranchModelImpl);
-
-		recentLayoutSetBranch.resetOriginalValues();
 
 		return recentLayoutSetBranch;
 	}

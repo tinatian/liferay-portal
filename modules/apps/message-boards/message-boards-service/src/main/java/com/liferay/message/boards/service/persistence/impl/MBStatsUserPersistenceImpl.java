@@ -1936,8 +1936,6 @@ public class MBStatsUserPersistenceImpl
 	@Override
 	public void cacheResult(MBStatsUser mbStatsUser) {
 		if (mbStatsUser.getCtCollectionId() != 0) {
-			mbStatsUser.resetOriginalValues();
-
 			return;
 		}
 
@@ -1948,8 +1946,6 @@ public class MBStatsUserPersistenceImpl
 			_finderPathFetchByG_U,
 			new Object[] {mbStatsUser.getGroupId(), mbStatsUser.getUserId()},
 			mbStatsUser);
-
-		mbStatsUser.resetOriginalValues();
 	}
 
 	/**
@@ -1961,8 +1957,6 @@ public class MBStatsUserPersistenceImpl
 	public void cacheResult(List<MBStatsUser> mbStatsUsers) {
 		for (MBStatsUser mbStatsUser : mbStatsUsers) {
 			if (mbStatsUser.getCtCollectionId() != 0) {
-				mbStatsUser.resetOriginalValues();
-
 				continue;
 			}
 
@@ -1971,9 +1965,6 @@ public class MBStatsUserPersistenceImpl
 						null) {
 
 				cacheResult(mbStatsUser);
-			}
-			else {
-				mbStatsUser.resetOriginalValues();
 			}
 		}
 	}
@@ -2236,8 +2227,6 @@ public class MBStatsUserPersistenceImpl
 		}
 
 		if (mbStatsUser.getCtCollectionId() != 0) {
-			mbStatsUser.resetOriginalValues();
-
 			return mbStatsUser;
 		}
 
@@ -2306,8 +2295,6 @@ public class MBStatsUserPersistenceImpl
 
 		clearUniqueFindersCache(mbStatsUserModelImpl, false);
 		cacheUniqueFindersCache(mbStatsUserModelImpl);
-
-		mbStatsUser.resetOriginalValues();
 
 		return mbStatsUser;
 	}

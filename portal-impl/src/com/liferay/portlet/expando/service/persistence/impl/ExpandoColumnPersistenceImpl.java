@@ -1747,8 +1747,6 @@ public class ExpandoColumnPersistenceImpl
 	@Override
 	public void cacheResult(ExpandoColumn expandoColumn) {
 		if (expandoColumn.getCtCollectionId() != 0) {
-			expandoColumn.resetOriginalValues();
-
 			return;
 		}
 
@@ -1760,8 +1758,6 @@ public class ExpandoColumnPersistenceImpl
 			_finderPathFetchByT_N,
 			new Object[] {expandoColumn.getTableId(), expandoColumn.getName()},
 			expandoColumn);
-
-		expandoColumn.resetOriginalValues();
 	}
 
 	/**
@@ -1773,8 +1769,6 @@ public class ExpandoColumnPersistenceImpl
 	public void cacheResult(List<ExpandoColumn> expandoColumns) {
 		for (ExpandoColumn expandoColumn : expandoColumns) {
 			if (expandoColumn.getCtCollectionId() != 0) {
-				expandoColumn.resetOriginalValues();
-
 				continue;
 			}
 
@@ -1783,9 +1777,6 @@ public class ExpandoColumnPersistenceImpl
 						null) {
 
 				cacheResult(expandoColumn);
-			}
-			else {
-				expandoColumn.resetOriginalValues();
 			}
 		}
 	}
@@ -2050,8 +2041,6 @@ public class ExpandoColumnPersistenceImpl
 		}
 
 		if (expandoColumn.getCtCollectionId() != 0) {
-			expandoColumn.resetOriginalValues();
-
 			return expandoColumn;
 		}
 
@@ -2128,8 +2117,6 @@ public class ExpandoColumnPersistenceImpl
 
 		clearUniqueFindersCache(expandoColumnModelImpl, false);
 		cacheUniqueFindersCache(expandoColumnModelImpl);
-
-		expandoColumn.resetOriginalValues();
 
 		return expandoColumn;
 	}

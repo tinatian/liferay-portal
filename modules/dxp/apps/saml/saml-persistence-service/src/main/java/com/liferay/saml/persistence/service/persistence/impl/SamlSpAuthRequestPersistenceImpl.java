@@ -959,8 +959,6 @@ public class SamlSpAuthRequestPersistenceImpl
 				samlSpAuthRequest.getSamlSpAuthRequestKey()
 			},
 			samlSpAuthRequest);
-
-		samlSpAuthRequest.resetOriginalValues();
 	}
 
 	/**
@@ -976,9 +974,6 @@ public class SamlSpAuthRequestPersistenceImpl
 					samlSpAuthRequest.getPrimaryKey()) == null) {
 
 				cacheResult(samlSpAuthRequest);
-			}
-			else {
-				samlSpAuthRequest.resetOriginalValues();
 			}
 		}
 	}
@@ -1254,8 +1249,6 @@ public class SamlSpAuthRequestPersistenceImpl
 
 		clearUniqueFindersCache(samlSpAuthRequestModelImpl, false);
 		cacheUniqueFindersCache(samlSpAuthRequestModelImpl);
-
-		samlSpAuthRequest.resetOriginalValues();
 
 		return samlSpAuthRequest;
 	}

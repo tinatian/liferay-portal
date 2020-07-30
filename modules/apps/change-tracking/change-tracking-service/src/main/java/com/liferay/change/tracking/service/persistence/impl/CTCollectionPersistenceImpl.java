@@ -1917,8 +1917,6 @@ public class CTCollectionPersistenceImpl
 	public void cacheResult(CTCollection ctCollection) {
 		entityCache.putResult(
 			CTCollectionImpl.class, ctCollection.getPrimaryKey(), ctCollection);
-
-		ctCollection.resetOriginalValues();
 	}
 
 	/**
@@ -1934,9 +1932,6 @@ public class CTCollectionPersistenceImpl
 						null) {
 
 				cacheResult(ctCollection);
-			}
-			else {
-				ctCollection.resetOriginalValues();
 			}
 		}
 	}
@@ -2237,8 +2232,6 @@ public class CTCollectionPersistenceImpl
 		entityCache.putResult(
 			CTCollectionImpl.class, ctCollection.getPrimaryKey(), ctCollection,
 			false);
-
-		ctCollection.resetOriginalValues();
 
 		return ctCollection;
 	}

@@ -2209,8 +2209,6 @@ public class AccountEntryPersistenceImpl
 				accountEntry.getExternalReferenceCode()
 			},
 			accountEntry);
-
-		accountEntry.resetOriginalValues();
 	}
 
 	/**
@@ -2226,9 +2224,6 @@ public class AccountEntryPersistenceImpl
 						null) {
 
 				cacheResult(accountEntry);
-			}
-			else {
-				accountEntry.resetOriginalValues();
 			}
 		}
 	}
@@ -2577,8 +2572,6 @@ public class AccountEntryPersistenceImpl
 
 		clearUniqueFindersCache(accountEntryModelImpl, false);
 		cacheUniqueFindersCache(accountEntryModelImpl);
-
-		accountEntry.resetOriginalValues();
 
 		return accountEntry;
 	}

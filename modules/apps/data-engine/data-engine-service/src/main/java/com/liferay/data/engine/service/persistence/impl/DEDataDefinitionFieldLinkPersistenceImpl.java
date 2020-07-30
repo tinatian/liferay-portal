@@ -5452,8 +5452,6 @@ public class DEDataDefinitionFieldLinkPersistenceImpl
 				deDataDefinitionFieldLink.getFieldName()
 			},
 			deDataDefinitionFieldLink);
-
-		deDataDefinitionFieldLink.resetOriginalValues();
 	}
 
 	/**
@@ -5473,9 +5471,6 @@ public class DEDataDefinitionFieldLinkPersistenceImpl
 					deDataDefinitionFieldLink.getPrimaryKey()) == null) {
 
 				cacheResult(deDataDefinitionFieldLink);
-			}
-			else {
-				deDataDefinitionFieldLink.resetOriginalValues();
 			}
 		}
 	}
@@ -6086,8 +6081,6 @@ public class DEDataDefinitionFieldLinkPersistenceImpl
 
 		clearUniqueFindersCache(deDataDefinitionFieldLinkModelImpl, false);
 		cacheUniqueFindersCache(deDataDefinitionFieldLinkModelImpl);
-
-		deDataDefinitionFieldLink.resetOriginalValues();
 
 		return deDataDefinitionFieldLink;
 	}

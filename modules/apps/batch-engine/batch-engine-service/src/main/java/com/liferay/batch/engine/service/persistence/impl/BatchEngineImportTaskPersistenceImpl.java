@@ -1799,8 +1799,6 @@ public class BatchEngineImportTaskPersistenceImpl
 		entityCache.putResult(
 			BatchEngineImportTaskImpl.class,
 			batchEngineImportTask.getPrimaryKey(), batchEngineImportTask);
-
-		batchEngineImportTask.resetOriginalValues();
 	}
 
 	/**
@@ -1820,9 +1818,6 @@ public class BatchEngineImportTaskPersistenceImpl
 					batchEngineImportTask.getPrimaryKey()) == null) {
 
 				cacheResult(batchEngineImportTask);
-			}
-			else {
-				batchEngineImportTask.resetOriginalValues();
 			}
 		}
 	}
@@ -2187,8 +2182,6 @@ public class BatchEngineImportTaskPersistenceImpl
 			BatchEngineImportTaskImpl.class,
 			batchEngineImportTask.getPrimaryKey(), batchEngineImportTask,
 			false);
-
-		batchEngineImportTask.resetOriginalValues();
 
 		return batchEngineImportTask;
 	}

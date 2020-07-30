@@ -874,8 +874,6 @@ public class AkismetEntryPersistenceImpl
 				akismetEntry.getClassNameId(), akismetEntry.getClassPK()
 			},
 			akismetEntry);
-
-		akismetEntry.resetOriginalValues();
 	}
 
 	/**
@@ -891,9 +889,6 @@ public class AkismetEntryPersistenceImpl
 						null) {
 
 				cacheResult(akismetEntry);
-			}
-			else {
-				akismetEntry.resetOriginalValues();
 			}
 		}
 	}
@@ -1156,8 +1151,6 @@ public class AkismetEntryPersistenceImpl
 
 		clearUniqueFindersCache(akismetEntryModelImpl, false);
 		cacheUniqueFindersCache(akismetEntryModelImpl);
-
-		akismetEntry.resetOriginalValues();
 
 		return akismetEntry;
 	}

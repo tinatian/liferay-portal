@@ -4710,8 +4710,6 @@ public class MDRRuleGroupInstancePersistenceImpl
 				mdrRuleGroupInstance.getRuleGroupId()
 			},
 			mdrRuleGroupInstance);
-
-		mdrRuleGroupInstance.resetOriginalValues();
 	}
 
 	/**
@@ -4729,9 +4727,6 @@ public class MDRRuleGroupInstancePersistenceImpl
 					mdrRuleGroupInstance.getPrimaryKey()) == null) {
 
 				cacheResult(mdrRuleGroupInstance);
-			}
-			else {
-				mdrRuleGroupInstance.resetOriginalValues();
 			}
 		}
 	}
@@ -5281,8 +5276,6 @@ public class MDRRuleGroupInstancePersistenceImpl
 
 		clearUniqueFindersCache(mdrRuleGroupInstanceModelImpl, false);
 		cacheUniqueFindersCache(mdrRuleGroupInstanceModelImpl);
-
-		mdrRuleGroupInstance.resetOriginalValues();
 
 		return mdrRuleGroupInstance;
 	}

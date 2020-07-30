@@ -897,8 +897,6 @@ public class SamlIdpSpConnectionPersistenceImpl
 				samlIdpSpConnection.getSamlSpEntityId()
 			},
 			samlIdpSpConnection);
-
-		samlIdpSpConnection.resetOriginalValues();
 	}
 
 	/**
@@ -914,9 +912,6 @@ public class SamlIdpSpConnectionPersistenceImpl
 					samlIdpSpConnection.getPrimaryKey()) == null) {
 
 				cacheResult(samlIdpSpConnection);
-			}
-			else {
-				samlIdpSpConnection.resetOriginalValues();
 			}
 		}
 	}
@@ -1251,8 +1246,6 @@ public class SamlIdpSpConnectionPersistenceImpl
 
 		clearUniqueFindersCache(samlIdpSpConnectionModelImpl, false);
 		cacheUniqueFindersCache(samlIdpSpConnectionModelImpl);
-
-		samlIdpSpConnection.resetOriginalValues();
 
 		return samlIdpSpConnection;
 	}

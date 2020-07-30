@@ -379,8 +379,6 @@ public class HtmlPreviewEntryPersistenceImpl
 				htmlPreviewEntry.getClassNameId(), htmlPreviewEntry.getClassPK()
 			},
 			htmlPreviewEntry);
-
-		htmlPreviewEntry.resetOriginalValues();
 	}
 
 	/**
@@ -396,9 +394,6 @@ public class HtmlPreviewEntryPersistenceImpl
 					htmlPreviewEntry.getPrimaryKey()) == null) {
 
 				cacheResult(htmlPreviewEntry);
-			}
-			else {
-				htmlPreviewEntry.resetOriginalValues();
 			}
 		}
 	}
@@ -697,8 +692,6 @@ public class HtmlPreviewEntryPersistenceImpl
 
 		clearUniqueFindersCache(htmlPreviewEntryModelImpl, false);
 		cacheUniqueFindersCache(htmlPreviewEntryModelImpl);
-
-		htmlPreviewEntry.resetOriginalValues();
 
 		return htmlPreviewEntry;
 	}

@@ -1677,8 +1677,6 @@ public class MemberRequestPersistenceImpl
 				memberRequest.getStatus()
 			},
 			memberRequest);
-
-		memberRequest.resetOriginalValues();
 	}
 
 	/**
@@ -1694,9 +1692,6 @@ public class MemberRequestPersistenceImpl
 						null) {
 
 				cacheResult(memberRequest);
-			}
-			else {
-				memberRequest.resetOriginalValues();
 			}
 		}
 	}
@@ -2081,8 +2076,6 @@ public class MemberRequestPersistenceImpl
 
 		clearUniqueFindersCache(memberRequestModelImpl, false);
 		cacheUniqueFindersCache(memberRequestModelImpl);
-
-		memberRequest.resetOriginalValues();
 
 		return memberRequest;
 	}

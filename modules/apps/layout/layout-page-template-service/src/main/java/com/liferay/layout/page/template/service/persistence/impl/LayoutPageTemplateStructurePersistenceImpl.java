@@ -2284,8 +2284,6 @@ public class LayoutPageTemplateStructurePersistenceImpl
 				layoutPageTemplateStructure.getClassPK()
 			},
 			layoutPageTemplateStructure);
-
-		layoutPageTemplateStructure.resetOriginalValues();
 	}
 
 	/**
@@ -2305,9 +2303,6 @@ public class LayoutPageTemplateStructurePersistenceImpl
 					layoutPageTemplateStructure.getPrimaryKey()) == null) {
 
 				cacheResult(layoutPageTemplateStructure);
-			}
-			else {
-				layoutPageTemplateStructure.resetOriginalValues();
 			}
 		}
 	}
@@ -2783,8 +2778,6 @@ public class LayoutPageTemplateStructurePersistenceImpl
 
 		clearUniqueFindersCache(layoutPageTemplateStructureModelImpl, false);
 		cacheUniqueFindersCache(layoutPageTemplateStructureModelImpl);
-
-		layoutPageTemplateStructure.resetOriginalValues();
 
 		return layoutPageTemplateStructure;
 	}

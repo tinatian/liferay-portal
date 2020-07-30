@@ -1733,8 +1733,6 @@ public class BigDecimalEntryPersistenceImpl
 		entityCache.putResult(
 			BigDecimalEntryImpl.class, bigDecimalEntry.getPrimaryKey(),
 			bigDecimalEntry);
-
-		bigDecimalEntry.resetOriginalValues();
 	}
 
 	/**
@@ -1750,9 +1748,6 @@ public class BigDecimalEntryPersistenceImpl
 					bigDecimalEntry.getPrimaryKey()) == null) {
 
 				cacheResult(bigDecimalEntry);
-			}
-			else {
-				bigDecimalEntry.resetOriginalValues();
 			}
 		}
 	}
@@ -2008,8 +2003,6 @@ public class BigDecimalEntryPersistenceImpl
 		entityCache.putResult(
 			BigDecimalEntryImpl.class, bigDecimalEntry.getPrimaryKey(),
 			bigDecimalEntry, false);
-
-		bigDecimalEntry.resetOriginalValues();
 
 		return bigDecimalEntry;
 	}

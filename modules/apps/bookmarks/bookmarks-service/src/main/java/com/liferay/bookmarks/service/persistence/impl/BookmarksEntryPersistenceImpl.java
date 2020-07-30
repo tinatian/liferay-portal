@@ -12483,8 +12483,6 @@ public class BookmarksEntryPersistenceImpl
 				bookmarksEntry.getUuid(), bookmarksEntry.getGroupId()
 			},
 			bookmarksEntry);
-
-		bookmarksEntry.resetOriginalValues();
 	}
 
 	/**
@@ -12500,9 +12498,6 @@ public class BookmarksEntryPersistenceImpl
 						null) {
 
 				cacheResult(bookmarksEntry);
-			}
-			else {
-				bookmarksEntry.resetOriginalValues();
 			}
 		}
 	}
@@ -13066,8 +13061,6 @@ public class BookmarksEntryPersistenceImpl
 
 		clearUniqueFindersCache(bookmarksEntryModelImpl, false);
 		cacheUniqueFindersCache(bookmarksEntryModelImpl);
-
-		bookmarksEntry.resetOriginalValues();
 
 		return bookmarksEntry;
 	}

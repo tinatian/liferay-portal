@@ -1969,8 +1969,6 @@ public class MDRRulePersistenceImpl
 		finderCache.putResult(
 			_finderPathFetchByUUID_G,
 			new Object[] {mdrRule.getUuid(), mdrRule.getGroupId()}, mdrRule);
-
-		mdrRule.resetOriginalValues();
 	}
 
 	/**
@@ -1985,9 +1983,6 @@ public class MDRRulePersistenceImpl
 					MDRRuleImpl.class, mdrRule.getPrimaryKey()) == null) {
 
 				cacheResult(mdrRule);
-			}
-			else {
-				mdrRule.resetOriginalValues();
 			}
 		}
 	}
@@ -2354,8 +2349,6 @@ public class MDRRulePersistenceImpl
 
 		clearUniqueFindersCache(mdrRuleModelImpl, false);
 		cacheUniqueFindersCache(mdrRuleModelImpl);
-
-		mdrRule.resetOriginalValues();
 
 		return mdrRule;
 	}

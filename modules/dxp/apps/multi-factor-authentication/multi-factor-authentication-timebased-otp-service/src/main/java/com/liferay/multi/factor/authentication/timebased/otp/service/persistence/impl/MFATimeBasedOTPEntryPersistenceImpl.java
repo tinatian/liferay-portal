@@ -311,8 +311,6 @@ public class MFATimeBasedOTPEntryPersistenceImpl
 			_finderPathFetchByUserId,
 			new Object[] {mfaTimeBasedOTPEntry.getUserId()},
 			mfaTimeBasedOTPEntry);
-
-		mfaTimeBasedOTPEntry.resetOriginalValues();
 	}
 
 	/**
@@ -330,9 +328,6 @@ public class MFATimeBasedOTPEntryPersistenceImpl
 					mfaTimeBasedOTPEntry.getPrimaryKey()) == null) {
 
 				cacheResult(mfaTimeBasedOTPEntry);
-			}
-			else {
-				mfaTimeBasedOTPEntry.resetOriginalValues();
 			}
 		}
 	}
@@ -637,8 +632,6 @@ public class MFATimeBasedOTPEntryPersistenceImpl
 
 		clearUniqueFindersCache(mfaTimeBasedOTPEntryModelImpl, false);
 		cacheUniqueFindersCache(mfaTimeBasedOTPEntryModelImpl);
-
-		mfaTimeBasedOTPEntry.resetOriginalValues();
 
 		return mfaTimeBasedOTPEntry;
 	}

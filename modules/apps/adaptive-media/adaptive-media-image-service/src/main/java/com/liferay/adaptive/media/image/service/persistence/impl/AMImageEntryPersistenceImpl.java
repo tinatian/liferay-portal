@@ -4364,8 +4364,6 @@ public class AMImageEntryPersistenceImpl
 				amImageEntry.getFileVersionId()
 			},
 			amImageEntry);
-
-		amImageEntry.resetOriginalValues();
 	}
 
 	/**
@@ -4381,9 +4379,6 @@ public class AMImageEntryPersistenceImpl
 						null) {
 
 				cacheResult(amImageEntry);
-			}
-			else {
-				amImageEntry.resetOriginalValues();
 			}
 		}
 	}
@@ -4888,8 +4883,6 @@ public class AMImageEntryPersistenceImpl
 
 		clearUniqueFindersCache(amImageEntryModelImpl, false);
 		cacheUniqueFindersCache(amImageEntryModelImpl);
-
-		amImageEntry.resetOriginalValues();
 
 		return amImageEntry;
 	}

@@ -893,8 +893,6 @@ public class EagerBlobEntityPersistenceImpl
 				eagerBlobEntity.getUuid(), eagerBlobEntity.getGroupId()
 			},
 			eagerBlobEntity);
-
-		eagerBlobEntity.resetOriginalValues();
 	}
 
 	/**
@@ -910,9 +908,6 @@ public class EagerBlobEntityPersistenceImpl
 					eagerBlobEntity.getPrimaryKey()) == null) {
 
 				cacheResult(eagerBlobEntity);
-			}
-			else {
-				eagerBlobEntity.resetOriginalValues();
 			}
 		}
 	}
@@ -1216,8 +1211,6 @@ public class EagerBlobEntityPersistenceImpl
 
 		clearUniqueFindersCache(eagerBlobEntityModelImpl, false);
 		cacheUniqueFindersCache(eagerBlobEntityModelImpl);
-
-		eagerBlobEntity.resetOriginalValues();
 
 		return eagerBlobEntity;
 	}

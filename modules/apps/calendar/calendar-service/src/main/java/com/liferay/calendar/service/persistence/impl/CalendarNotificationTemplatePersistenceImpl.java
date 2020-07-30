@@ -2392,8 +2392,6 @@ public class CalendarNotificationTemplatePersistenceImpl
 				calendarNotificationTemplate.getNotificationTemplateType()
 			},
 			calendarNotificationTemplate);
-
-		calendarNotificationTemplate.resetOriginalValues();
 	}
 
 	/**
@@ -2413,9 +2411,6 @@ public class CalendarNotificationTemplatePersistenceImpl
 					calendarNotificationTemplate.getPrimaryKey()) == null) {
 
 				cacheResult(calendarNotificationTemplate);
-			}
-			else {
-				calendarNotificationTemplate.resetOriginalValues();
 			}
 		}
 	}
@@ -2892,8 +2887,6 @@ public class CalendarNotificationTemplatePersistenceImpl
 
 		clearUniqueFindersCache(calendarNotificationTemplateModelImpl, false);
 		cacheUniqueFindersCache(calendarNotificationTemplateModelImpl);
-
-		calendarNotificationTemplate.resetOriginalValues();
 
 		return calendarNotificationTemplate;
 	}
