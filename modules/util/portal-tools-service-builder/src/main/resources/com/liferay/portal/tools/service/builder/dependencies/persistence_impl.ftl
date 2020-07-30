@@ -277,8 +277,6 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 	public void cacheResult(${entity.name} ${entity.varName}) {
 		<#if entity.isChangeTrackingEnabled()>
 			if (${entity.varName}.getCtCollectionId() != 0) {
-				${entity.varName}.resetOriginalValues();
-
 				return;
 			}
 		</#if>
@@ -309,8 +307,6 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 				},
 				${entity.varName});
 		</#list>
-
-		${entity.varName}.resetOriginalValues();
 	}
 
 	/**
@@ -323,8 +319,6 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 		for (${entity.name} ${entity.varName} : ${entity.pluralVarName}) {
 			<#if entity.isChangeTrackingEnabled()>
 				if (${entity.varName}.getCtCollectionId() != 0) {
-					${entity.varName}.resetOriginalValues();
-
 					continue;
 				}
 			</#if>
@@ -335,9 +329,6 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 				</#if>
 				${entity.name}Impl.class, ${entity.varName}.getPrimaryKey()) == null) {
 				cacheResult(${entity.varName});
-			}
-			else {
-				${entity.varName}.resetOriginalValues();
 			}
 		}
 	}
@@ -844,8 +835,6 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 
 		<#if entity.isChangeTrackingEnabled()>
 			if (${entity.varName}.getCtCollectionId() != 0) {
-				${entity.varName}.resetOriginalValues();
-
 				return ${entity.varName};
 			}
 		</#if>
@@ -969,8 +958,6 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 			clearUniqueFindersCache(${entity.varName}ModelImpl, false);
 			cacheUniqueFindersCache(${entity.varName}ModelImpl);
 		</#if>
-
-		${entity.varName}.resetOriginalValues();
 
 		return ${entity.varName};
 	}
