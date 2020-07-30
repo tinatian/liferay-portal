@@ -1328,8 +1328,6 @@ public class VersionedEntryPersistenceImpl
 		finderCache.putResult(
 			_finderPathFetchByHeadId, new Object[] {versionedEntry.getHeadId()},
 			versionedEntry);
-
-		versionedEntry.resetOriginalValues();
 	}
 
 	/**
@@ -1345,9 +1343,6 @@ public class VersionedEntryPersistenceImpl
 						null) {
 
 				cacheResult(versionedEntry);
-			}
-			else {
-				versionedEntry.resetOriginalValues();
 			}
 		}
 	}
@@ -1436,7 +1431,7 @@ public class VersionedEntryPersistenceImpl
 			 _finderPathFetchByHeadId.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				versionedEntryModelImpl.getOriginalHeadId()
+				versionedEntryModelImpl.getOriginalAttributeValue("headId")
 			};
 
 			finderCache.removeResult(_finderPathCountByHeadId, args);
@@ -1619,7 +1614,7 @@ public class VersionedEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					versionedEntryModelImpl.getOriginalGroupId()
+					versionedEntryModelImpl.getOriginalAttributeValue("groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId, args);
@@ -1638,8 +1633,9 @@ public class VersionedEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					versionedEntryModelImpl.getOriginalGroupId(),
-					versionedEntryModelImpl.getOriginalHead()
+					versionedEntryModelImpl.getOriginalAttributeValue(
+						"groupId"),
+					versionedEntryModelImpl.getOriginalAttributeValue("head")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId_Head, args);
@@ -1946,7 +1942,7 @@ public class VersionedEntryPersistenceImpl
 		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
 			VersionedEntryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByGroupId", new String[] {Long.class.getName()},
-			VersionedEntryModelImpl.GROUPID_COLUMN_BITMASK);
+			VersionedEntryModelImpl.getColumnBitmask("groupId"));
 
 		_finderPathCountByGroupId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -1965,8 +1961,8 @@ public class VersionedEntryPersistenceImpl
 			VersionedEntryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByGroupId_Head",
 			new String[] {Long.class.getName(), Boolean.class.getName()},
-			VersionedEntryModelImpl.GROUPID_COLUMN_BITMASK |
-			VersionedEntryModelImpl.HEAD_COLUMN_BITMASK);
+			VersionedEntryModelImpl.getColumnBitmask("groupId") |
+			VersionedEntryModelImpl.getColumnBitmask("head"));
 
 		_finderPathCountByGroupId_Head = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -1976,7 +1972,7 @@ public class VersionedEntryPersistenceImpl
 		_finderPathFetchByHeadId = new FinderPath(
 			VersionedEntryImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByHeadId",
 			new String[] {Long.class.getName()},
-			VersionedEntryModelImpl.HEADID_COLUMN_BITMASK);
+			VersionedEntryModelImpl.getColumnBitmask("headId"));
 
 		_finderPathCountByHeadId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,

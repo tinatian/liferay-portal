@@ -348,8 +348,6 @@ public class FriendlyURLEntryMappingPersistenceImpl
 	@Override
 	public void cacheResult(FriendlyURLEntryMapping friendlyURLEntryMapping) {
 		if (friendlyURLEntryMapping.getCtCollectionId() != 0) {
-			friendlyURLEntryMapping.resetOriginalValues();
-
 			return;
 		}
 
@@ -364,8 +362,6 @@ public class FriendlyURLEntryMappingPersistenceImpl
 				friendlyURLEntryMapping.getClassPK()
 			},
 			friendlyURLEntryMapping);
-
-		friendlyURLEntryMapping.resetOriginalValues();
 	}
 
 	/**
@@ -381,8 +377,6 @@ public class FriendlyURLEntryMappingPersistenceImpl
 				friendlyURLEntryMappings) {
 
 			if (friendlyURLEntryMapping.getCtCollectionId() != 0) {
-				friendlyURLEntryMapping.resetOriginalValues();
-
 				continue;
 			}
 
@@ -391,9 +385,6 @@ public class FriendlyURLEntryMappingPersistenceImpl
 					friendlyURLEntryMapping.getPrimaryKey()) == null) {
 
 				cacheResult(friendlyURLEntryMapping);
-			}
-			else {
-				friendlyURLEntryMapping.resetOriginalValues();
 			}
 		}
 	}
@@ -499,8 +490,10 @@ public class FriendlyURLEntryMappingPersistenceImpl
 			 _finderPathFetchByC_C.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				friendlyURLEntryMappingModelImpl.getOriginalClassNameId(),
-				friendlyURLEntryMappingModelImpl.getOriginalClassPK()
+				friendlyURLEntryMappingModelImpl.getOriginalAttributeValue(
+					"classNameId"),
+				friendlyURLEntryMappingModelImpl.getOriginalAttributeValue(
+					"classPK")
 			};
 
 			finderCache.removeResult(_finderPathCountByC_C, args);
@@ -1173,8 +1166,8 @@ public class FriendlyURLEntryMappingPersistenceImpl
 			FriendlyURLEntryMappingImpl.class, FINDER_CLASS_NAME_ENTITY,
 			"fetchByC_C",
 			new String[] {Long.class.getName(), Long.class.getName()},
-			FriendlyURLEntryMappingModelImpl.CLASSNAMEID_COLUMN_BITMASK |
-			FriendlyURLEntryMappingModelImpl.CLASSPK_COLUMN_BITMASK);
+			FriendlyURLEntryMappingModelImpl.getColumnBitmask("classNameId") |
+			FriendlyURLEntryMappingModelImpl.getColumnBitmask("classPK"));
 
 		_finderPathCountByC_C = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C",

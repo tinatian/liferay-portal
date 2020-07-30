@@ -3439,8 +3439,6 @@ public class KaleoLogPersistenceImpl
 	public void cacheResult(KaleoLog kaleoLog) {
 		entityCache.putResult(
 			KaleoLogImpl.class, kaleoLog.getPrimaryKey(), kaleoLog);
-
-		kaleoLog.resetOriginalValues();
 	}
 
 	/**
@@ -3455,9 +3453,6 @@ public class KaleoLogPersistenceImpl
 					KaleoLogImpl.class, kaleoLog.getPrimaryKey()) == null) {
 
 				cacheResult(kaleoLog);
-			}
-			else {
-				kaleoLog.resetOriginalValues();
 			}
 		}
 	}
@@ -3745,7 +3740,7 @@ public class KaleoLogPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoLogModelImpl.getOriginalCompanyId()
+					kaleoLogModelImpl.getOriginalAttributeValue("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCompanyId, args);
@@ -3764,7 +3759,8 @@ public class KaleoLogPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoLogModelImpl.getOriginalKaleoDefinitionVersionId()
+					kaleoLogModelImpl.getOriginalAttributeValue(
+						"kaleoDefinitionVersionId")
 				};
 
 				finderCache.removeResult(
@@ -3789,7 +3785,8 @@ public class KaleoLogPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoLogModelImpl.getOriginalKaleoInstanceId()
+					kaleoLogModelImpl.getOriginalAttributeValue(
+						"kaleoInstanceId")
 				};
 
 				finderCache.removeResult(
@@ -3810,7 +3807,8 @@ public class KaleoLogPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoLogModelImpl.getOriginalKaleoTaskInstanceTokenId()
+					kaleoLogModelImpl.getOriginalAttributeValue(
+						"kaleoTaskInstanceTokenId")
 				};
 
 				finderCache.removeResult(
@@ -3835,8 +3833,9 @@ public class KaleoLogPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					kaleoLogModelImpl.getOriginalKaleoInstanceTokenId(),
-					kaleoLogModelImpl.getOriginalType()
+					kaleoLogModelImpl.getOriginalAttributeValue(
+						"kaleoInstanceTokenId"),
+					kaleoLogModelImpl.getOriginalAttributeValue("type")
 				};
 
 				finderCache.removeResult(_finderPathCountByKITI_T, args);
@@ -3858,10 +3857,12 @@ public class KaleoLogPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoLogModelImpl.getOriginalKaleoClassName(),
-					kaleoLogModelImpl.getOriginalKaleoClassPK(),
-					kaleoLogModelImpl.getOriginalKaleoInstanceTokenId(),
-					kaleoLogModelImpl.getOriginalType()
+					kaleoLogModelImpl.getOriginalAttributeValue(
+						"kaleoClassName"),
+					kaleoLogModelImpl.getOriginalAttributeValue("kaleoClassPK"),
+					kaleoLogModelImpl.getOriginalAttributeValue(
+						"kaleoInstanceTokenId"),
+					kaleoLogModelImpl.getOriginalAttributeValue("type")
 				};
 
 				finderCache.removeResult(
@@ -4173,7 +4174,7 @@ public class KaleoLogPersistenceImpl
 		_finderPathWithoutPaginationFindByCompanyId = new FinderPath(
 			KaleoLogImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByCompanyId", new String[] {Long.class.getName()},
-			KaleoLogModelImpl.COMPANYID_COLUMN_BITMASK);
+			KaleoLogModelImpl.getColumnBitmask("companyId"));
 
 		_finderPathCountByCompanyId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -4193,7 +4194,7 @@ public class KaleoLogPersistenceImpl
 				KaleoLogImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 				"findByKaleoDefinitionVersionId",
 				new String[] {Long.class.getName()},
-				KaleoLogModelImpl.KALEODEFINITIONVERSIONID_COLUMN_BITMASK);
+				KaleoLogModelImpl.getColumnBitmask("kaleoDefinitionVersionId"));
 
 		_finderPathCountByKaleoDefinitionVersionId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -4211,7 +4212,7 @@ public class KaleoLogPersistenceImpl
 		_finderPathWithoutPaginationFindByKaleoInstanceId = new FinderPath(
 			KaleoLogImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByKaleoInstanceId", new String[] {Long.class.getName()},
-			KaleoLogModelImpl.KALEOINSTANCEID_COLUMN_BITMASK);
+			KaleoLogModelImpl.getColumnBitmask("kaleoInstanceId"));
 
 		_finderPathCountByKaleoInstanceId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -4231,7 +4232,7 @@ public class KaleoLogPersistenceImpl
 				KaleoLogImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 				"findByKaleoTaskInstanceTokenId",
 				new String[] {Long.class.getName()},
-				KaleoLogModelImpl.KALEOTASKINSTANCETOKENID_COLUMN_BITMASK);
+				KaleoLogModelImpl.getColumnBitmask("kaleoTaskInstanceTokenId"));
 
 		_finderPathCountByKaleoTaskInstanceTokenId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -4251,8 +4252,8 @@ public class KaleoLogPersistenceImpl
 			KaleoLogImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByKITI_T",
 			new String[] {Long.class.getName(), String.class.getName()},
-			KaleoLogModelImpl.KALEOINSTANCETOKENID_COLUMN_BITMASK |
-			KaleoLogModelImpl.TYPE_COLUMN_BITMASK);
+			KaleoLogModelImpl.getColumnBitmask("kaleoInstanceTokenId") |
+			KaleoLogModelImpl.getColumnBitmask("type"));
 
 		_finderPathCountByKITI_T = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -4276,10 +4277,10 @@ public class KaleoLogPersistenceImpl
 				String.class.getName(), Long.class.getName(),
 				Long.class.getName(), String.class.getName()
 			},
-			KaleoLogModelImpl.KALEOCLASSNAME_COLUMN_BITMASK |
-			KaleoLogModelImpl.KALEOCLASSPK_COLUMN_BITMASK |
-			KaleoLogModelImpl.KALEOINSTANCETOKENID_COLUMN_BITMASK |
-			KaleoLogModelImpl.TYPE_COLUMN_BITMASK);
+			KaleoLogModelImpl.getColumnBitmask("kaleoClassName") |
+			KaleoLogModelImpl.getColumnBitmask("kaleoClassPK") |
+			KaleoLogModelImpl.getColumnBitmask("kaleoInstanceTokenId") |
+			KaleoLogModelImpl.getColumnBitmask("type"));
 
 		_finderPathCountByKCN_KCPK_KITI_T = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,

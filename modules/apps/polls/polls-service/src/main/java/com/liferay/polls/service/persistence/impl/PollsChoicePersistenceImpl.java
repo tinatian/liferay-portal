@@ -2227,8 +2227,6 @@ public class PollsChoicePersistenceImpl
 			_finderPathFetchByQ_N,
 			new Object[] {pollsChoice.getQuestionId(), pollsChoice.getName()},
 			pollsChoice);
-
-		pollsChoice.resetOriginalValues();
 	}
 
 	/**
@@ -2244,9 +2242,6 @@ public class PollsChoicePersistenceImpl
 						null) {
 
 				cacheResult(pollsChoice);
-			}
-			else {
-				pollsChoice.resetOriginalValues();
 			}
 		}
 	}
@@ -2348,8 +2343,8 @@ public class PollsChoicePersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				pollsChoiceModelImpl.getOriginalUuid(),
-				pollsChoiceModelImpl.getOriginalGroupId()
+				pollsChoiceModelImpl.getOriginalAttributeValue("uuid"),
+				pollsChoiceModelImpl.getOriginalAttributeValue("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -2370,8 +2365,8 @@ public class PollsChoicePersistenceImpl
 			 _finderPathFetchByQ_N.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				pollsChoiceModelImpl.getOriginalQuestionId(),
-				pollsChoiceModelImpl.getOriginalName()
+				pollsChoiceModelImpl.getOriginalAttributeValue("questionId"),
+				pollsChoiceModelImpl.getOriginalAttributeValue("name")
 			};
 
 			finderCache.removeResult(_finderPathCountByQ_N, args);
@@ -2592,7 +2587,7 @@ public class PollsChoicePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					pollsChoiceModelImpl.getOriginalUuid()
+					pollsChoiceModelImpl.getOriginalAttributeValue("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -2611,8 +2606,8 @@ public class PollsChoicePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					pollsChoiceModelImpl.getOriginalUuid(),
-					pollsChoiceModelImpl.getOriginalCompanyId()
+					pollsChoiceModelImpl.getOriginalAttributeValue("uuid"),
+					pollsChoiceModelImpl.getOriginalAttributeValue("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -2634,7 +2629,7 @@ public class PollsChoicePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					pollsChoiceModelImpl.getOriginalQuestionId()
+					pollsChoiceModelImpl.getOriginalAttributeValue("questionId")
 				};
 
 				finderCache.removeResult(_finderPathCountByQuestionId, args);
@@ -2943,9 +2938,9 @@ public class PollsChoicePersistenceImpl
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
 			PollsChoiceImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByUuid", new String[] {String.class.getName()},
-			PollsChoiceModelImpl.UUID_COLUMN_BITMASK |
-			PollsChoiceModelImpl.QUESTIONID_COLUMN_BITMASK |
-			PollsChoiceModelImpl.NAME_COLUMN_BITMASK);
+			PollsChoiceModelImpl.getColumnBitmask("uuid") |
+			PollsChoiceModelImpl.getColumnBitmask("questionId") |
+			PollsChoiceModelImpl.getColumnBitmask("name"));
 
 		_finderPathCountByUuid = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -2954,8 +2949,8 @@ public class PollsChoicePersistenceImpl
 		_finderPathFetchByUUID_G = new FinderPath(
 			PollsChoiceImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
-			PollsChoiceModelImpl.UUID_COLUMN_BITMASK |
-			PollsChoiceModelImpl.GROUPID_COLUMN_BITMASK);
+			PollsChoiceModelImpl.getColumnBitmask("uuid") |
+			PollsChoiceModelImpl.getColumnBitmask("groupId"));
 
 		_finderPathCountByUUID_G = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -2975,10 +2970,10 @@ public class PollsChoicePersistenceImpl
 			PollsChoiceImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
-			PollsChoiceModelImpl.UUID_COLUMN_BITMASK |
-			PollsChoiceModelImpl.COMPANYID_COLUMN_BITMASK |
-			PollsChoiceModelImpl.QUESTIONID_COLUMN_BITMASK |
-			PollsChoiceModelImpl.NAME_COLUMN_BITMASK);
+			PollsChoiceModelImpl.getColumnBitmask("uuid") |
+			PollsChoiceModelImpl.getColumnBitmask("companyId") |
+			PollsChoiceModelImpl.getColumnBitmask("questionId") |
+			PollsChoiceModelImpl.getColumnBitmask("name"));
 
 		_finderPathCountByUuid_C = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -2996,8 +2991,8 @@ public class PollsChoicePersistenceImpl
 		_finderPathWithoutPaginationFindByQuestionId = new FinderPath(
 			PollsChoiceImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByQuestionId", new String[] {Long.class.getName()},
-			PollsChoiceModelImpl.QUESTIONID_COLUMN_BITMASK |
-			PollsChoiceModelImpl.NAME_COLUMN_BITMASK);
+			PollsChoiceModelImpl.getColumnBitmask("questionId") |
+			PollsChoiceModelImpl.getColumnBitmask("name"));
 
 		_finderPathCountByQuestionId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -3006,8 +3001,8 @@ public class PollsChoicePersistenceImpl
 		_finderPathFetchByQ_N = new FinderPath(
 			PollsChoiceImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByQ_N",
 			new String[] {Long.class.getName(), String.class.getName()},
-			PollsChoiceModelImpl.QUESTIONID_COLUMN_BITMASK |
-			PollsChoiceModelImpl.NAME_COLUMN_BITMASK);
+			PollsChoiceModelImpl.getColumnBitmask("questionId") |
+			PollsChoiceModelImpl.getColumnBitmask("name"));
 
 		_finderPathCountByQ_N = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByQ_N",

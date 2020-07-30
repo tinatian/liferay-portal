@@ -1674,8 +1674,6 @@ public class DepotEntryPersistenceImpl
 		finderCache.putResult(
 			_finderPathFetchByGroupId, new Object[] {depotEntry.getGroupId()},
 			depotEntry);
-
-		depotEntry.resetOriginalValues();
 	}
 
 	/**
@@ -1690,9 +1688,6 @@ public class DepotEntryPersistenceImpl
 					DepotEntryImpl.class, depotEntry.getPrimaryKey()) == null) {
 
 				cacheResult(depotEntry);
-			}
-			else {
-				depotEntry.resetOriginalValues();
 			}
 		}
 	}
@@ -1791,8 +1786,8 @@ public class DepotEntryPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				depotEntryModelImpl.getOriginalUuid(),
-				depotEntryModelImpl.getOriginalGroupId()
+				depotEntryModelImpl.getOriginalAttributeValue("uuid"),
+				depotEntryModelImpl.getOriginalAttributeValue("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -1810,7 +1805,7 @@ public class DepotEntryPersistenceImpl
 			 _finderPathFetchByGroupId.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				depotEntryModelImpl.getOriginalGroupId()
+				depotEntryModelImpl.getOriginalAttributeValue("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByGroupId, args);
@@ -2024,7 +2019,7 @@ public class DepotEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					depotEntryModelImpl.getOriginalUuid()
+					depotEntryModelImpl.getOriginalAttributeValue("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -2043,8 +2038,8 @@ public class DepotEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					depotEntryModelImpl.getOriginalUuid(),
-					depotEntryModelImpl.getOriginalCompanyId()
+					depotEntryModelImpl.getOriginalAttributeValue("uuid"),
+					depotEntryModelImpl.getOriginalAttributeValue("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -2356,7 +2351,7 @@ public class DepotEntryPersistenceImpl
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
 			DepotEntryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByUuid", new String[] {String.class.getName()},
-			DepotEntryModelImpl.UUID_COLUMN_BITMASK);
+			DepotEntryModelImpl.getColumnBitmask("uuid"));
 
 		_finderPathCountByUuid = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -2365,8 +2360,8 @@ public class DepotEntryPersistenceImpl
 		_finderPathFetchByUUID_G = new FinderPath(
 			DepotEntryImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
-			DepotEntryModelImpl.UUID_COLUMN_BITMASK |
-			DepotEntryModelImpl.GROUPID_COLUMN_BITMASK);
+			DepotEntryModelImpl.getColumnBitmask("uuid") |
+			DepotEntryModelImpl.getColumnBitmask("groupId"));
 
 		_finderPathCountByUUID_G = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -2386,8 +2381,8 @@ public class DepotEntryPersistenceImpl
 			DepotEntryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
-			DepotEntryModelImpl.UUID_COLUMN_BITMASK |
-			DepotEntryModelImpl.COMPANYID_COLUMN_BITMASK);
+			DepotEntryModelImpl.getColumnBitmask("uuid") |
+			DepotEntryModelImpl.getColumnBitmask("companyId"));
 
 		_finderPathCountByUuid_C = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -2397,7 +2392,7 @@ public class DepotEntryPersistenceImpl
 		_finderPathFetchByGroupId = new FinderPath(
 			DepotEntryImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByGroupId",
 			new String[] {Long.class.getName()},
-			DepotEntryModelImpl.GROUPID_COLUMN_BITMASK);
+			DepotEntryModelImpl.getColumnBitmask("groupId"));
 
 		_finderPathCountByGroupId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,

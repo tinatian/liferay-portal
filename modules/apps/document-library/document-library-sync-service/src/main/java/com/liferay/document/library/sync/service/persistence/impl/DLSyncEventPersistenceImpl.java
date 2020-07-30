@@ -790,8 +790,6 @@ public class DLSyncEventPersistenceImpl
 		finderCache.putResult(
 			_finderPathFetchByTypePK, new Object[] {dlSyncEvent.getTypePK()},
 			dlSyncEvent);
-
-		dlSyncEvent.resetOriginalValues();
 	}
 
 	/**
@@ -807,9 +805,6 @@ public class DLSyncEventPersistenceImpl
 						null) {
 
 				cacheResult(dlSyncEvent);
-			}
-			else {
-				dlSyncEvent.resetOriginalValues();
 			}
 		}
 	}
@@ -897,7 +892,7 @@ public class DLSyncEventPersistenceImpl
 			 _finderPathFetchByTypePK.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				dlSyncEventModelImpl.getOriginalTypePK()
+				dlSyncEventModelImpl.getOriginalAttributeValue("typePK")
 			};
 
 			finderCache.removeResult(_finderPathCountByTypePK, args);
@@ -1356,7 +1351,7 @@ public class DLSyncEventPersistenceImpl
 		_finderPathFetchByTypePK = new FinderPath(
 			DLSyncEventImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByTypePK",
 			new String[] {Long.class.getName()},
-			DLSyncEventModelImpl.TYPEPK_COLUMN_BITMASK);
+			DLSyncEventModelImpl.getColumnBitmask("typePK"));
 
 		_finderPathCountByTypePK = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,

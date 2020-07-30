@@ -2795,8 +2795,6 @@ public class DDMStorageLinkPersistenceImpl
 	@Override
 	public void cacheResult(DDMStorageLink ddmStorageLink) {
 		if (ddmStorageLink.getCtCollectionId() != 0) {
-			ddmStorageLink.resetOriginalValues();
-
 			return;
 		}
 
@@ -2807,8 +2805,6 @@ public class DDMStorageLinkPersistenceImpl
 		finderCache.putResult(
 			_finderPathFetchByClassPK,
 			new Object[] {ddmStorageLink.getClassPK()}, ddmStorageLink);
-
-		ddmStorageLink.resetOriginalValues();
 	}
 
 	/**
@@ -2820,8 +2816,6 @@ public class DDMStorageLinkPersistenceImpl
 	public void cacheResult(List<DDMStorageLink> ddmStorageLinks) {
 		for (DDMStorageLink ddmStorageLink : ddmStorageLinks) {
 			if (ddmStorageLink.getCtCollectionId() != 0) {
-				ddmStorageLink.resetOriginalValues();
-
 				continue;
 			}
 
@@ -2830,9 +2824,6 @@ public class DDMStorageLinkPersistenceImpl
 						null) {
 
 				cacheResult(ddmStorageLink);
-			}
-			else {
-				ddmStorageLink.resetOriginalValues();
 			}
 		}
 	}
@@ -2921,7 +2912,7 @@ public class DDMStorageLinkPersistenceImpl
 			 _finderPathFetchByClassPK.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				ddmStorageLinkModelImpl.getOriginalClassPK()
+				ddmStorageLinkModelImpl.getOriginalAttributeValue("classPK")
 			};
 
 			finderCache.removeResult(_finderPathCountByClassPK, args);
@@ -3152,7 +3143,7 @@ public class DDMStorageLinkPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					ddmStorageLinkModelImpl.getOriginalUuid()
+					ddmStorageLinkModelImpl.getOriginalAttributeValue("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -3171,8 +3162,9 @@ public class DDMStorageLinkPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					ddmStorageLinkModelImpl.getOriginalUuid(),
-					ddmStorageLinkModelImpl.getOriginalCompanyId()
+					ddmStorageLinkModelImpl.getOriginalAttributeValue("uuid"),
+					ddmStorageLinkModelImpl.getOriginalAttributeValue(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -3194,7 +3186,8 @@ public class DDMStorageLinkPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					ddmStorageLinkModelImpl.getOriginalStructureId()
+					ddmStorageLinkModelImpl.getOriginalAttributeValue(
+						"structureId")
 				};
 
 				finderCache.removeResult(_finderPathCountByStructureId, args);
@@ -3213,7 +3206,8 @@ public class DDMStorageLinkPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					ddmStorageLinkModelImpl.getOriginalStructureVersionId()
+					ddmStorageLinkModelImpl.getOriginalAttributeValue(
+						"structureVersionId")
 				};
 
 				finderCache.removeResult(
@@ -3706,7 +3700,7 @@ public class DDMStorageLinkPersistenceImpl
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
 			DDMStorageLinkImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByUuid", new String[] {String.class.getName()},
-			DDMStorageLinkModelImpl.UUID_COLUMN_BITMASK);
+			DDMStorageLinkModelImpl.getColumnBitmask("uuid"));
 
 		_finderPathCountByUuid = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -3725,8 +3719,8 @@ public class DDMStorageLinkPersistenceImpl
 			DDMStorageLinkImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
-			DDMStorageLinkModelImpl.UUID_COLUMN_BITMASK |
-			DDMStorageLinkModelImpl.COMPANYID_COLUMN_BITMASK);
+			DDMStorageLinkModelImpl.getColumnBitmask("uuid") |
+			DDMStorageLinkModelImpl.getColumnBitmask("companyId"));
 
 		_finderPathCountByUuid_C = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -3736,7 +3730,7 @@ public class DDMStorageLinkPersistenceImpl
 		_finderPathFetchByClassPK = new FinderPath(
 			DDMStorageLinkImpl.class, FINDER_CLASS_NAME_ENTITY,
 			"fetchByClassPK", new String[] {Long.class.getName()},
-			DDMStorageLinkModelImpl.CLASSPK_COLUMN_BITMASK);
+			DDMStorageLinkModelImpl.getColumnBitmask("classPK"));
 
 		_finderPathCountByClassPK = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -3753,7 +3747,7 @@ public class DDMStorageLinkPersistenceImpl
 		_finderPathWithoutPaginationFindByStructureId = new FinderPath(
 			DDMStorageLinkImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByStructureId", new String[] {Long.class.getName()},
-			DDMStorageLinkModelImpl.STRUCTUREID_COLUMN_BITMASK);
+			DDMStorageLinkModelImpl.getColumnBitmask("structureId"));
 
 		_finderPathCountByStructureId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -3770,7 +3764,7 @@ public class DDMStorageLinkPersistenceImpl
 		_finderPathWithoutPaginationFindByStructureVersionId = new FinderPath(
 			DDMStorageLinkImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByStructureVersionId", new String[] {Long.class.getName()},
-			DDMStorageLinkModelImpl.STRUCTUREVERSIONID_COLUMN_BITMASK);
+			DDMStorageLinkModelImpl.getColumnBitmask("structureVersionId"));
 
 		_finderPathCountByStructureVersionId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,

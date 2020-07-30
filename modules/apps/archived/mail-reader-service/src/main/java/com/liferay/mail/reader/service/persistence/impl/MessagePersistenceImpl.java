@@ -1336,8 +1336,6 @@ public class MessagePersistenceImpl
 			_finderPathFetchByF_R,
 			new Object[] {message.getFolderId(), message.getRemoteMessageId()},
 			message);
-
-		message.resetOriginalValues();
 	}
 
 	/**
@@ -1352,9 +1350,6 @@ public class MessagePersistenceImpl
 					MessageImpl.class, message.getPrimaryKey()) == null) {
 
 				cacheResult(message);
-			}
-			else {
-				message.resetOriginalValues();
 			}
 		}
 	}
@@ -1445,8 +1440,8 @@ public class MessagePersistenceImpl
 			 _finderPathFetchByF_R.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				messageModelImpl.getOriginalFolderId(),
-				messageModelImpl.getOriginalRemoteMessageId()
+				messageModelImpl.getOriginalAttributeValue("folderId"),
+				messageModelImpl.getOriginalAttributeValue("remoteMessageId")
 			};
 
 			finderCache.removeResult(_finderPathCountByF_R, args);
@@ -1646,7 +1641,7 @@ public class MessagePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					messageModelImpl.getOriginalCompanyId()
+					messageModelImpl.getOriginalAttributeValue("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCompanyId, args);
@@ -1665,7 +1660,7 @@ public class MessagePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					messageModelImpl.getOriginalFolderId()
+					messageModelImpl.getOriginalAttributeValue("folderId")
 				};
 
 				finderCache.removeResult(_finderPathCountByFolderId, args);
@@ -1973,8 +1968,8 @@ public class MessagePersistenceImpl
 		_finderPathWithoutPaginationFindByCompanyId = new FinderPath(
 			MessageImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByCompanyId", new String[] {Long.class.getName()},
-			MessageModelImpl.COMPANYID_COLUMN_BITMASK |
-			MessageModelImpl.SENTDATE_COLUMN_BITMASK);
+			MessageModelImpl.getColumnBitmask("companyId") |
+			MessageModelImpl.getColumnBitmask("sentDate"));
 
 		_finderPathCountByCompanyId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -1991,8 +1986,8 @@ public class MessagePersistenceImpl
 		_finderPathWithoutPaginationFindByFolderId = new FinderPath(
 			MessageImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByFolderId", new String[] {Long.class.getName()},
-			MessageModelImpl.FOLDERID_COLUMN_BITMASK |
-			MessageModelImpl.SENTDATE_COLUMN_BITMASK);
+			MessageModelImpl.getColumnBitmask("folderId") |
+			MessageModelImpl.getColumnBitmask("sentDate"));
 
 		_finderPathCountByFolderId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -2001,8 +1996,8 @@ public class MessagePersistenceImpl
 		_finderPathFetchByF_R = new FinderPath(
 			MessageImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByF_R",
 			new String[] {Long.class.getName(), Long.class.getName()},
-			MessageModelImpl.FOLDERID_COLUMN_BITMASK |
-			MessageModelImpl.REMOTEMESSAGEID_COLUMN_BITMASK);
+			MessageModelImpl.getColumnBitmask("folderId") |
+			MessageModelImpl.getColumnBitmask("remoteMessageId"));
 
 		_finderPathCountByF_R = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByF_R",

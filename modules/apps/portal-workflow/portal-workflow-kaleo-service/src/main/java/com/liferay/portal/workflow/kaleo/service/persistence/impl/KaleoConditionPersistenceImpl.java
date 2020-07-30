@@ -1344,8 +1344,6 @@ public class KaleoConditionPersistenceImpl
 		finderCache.putResult(
 			_finderPathFetchByKaleoNodeId,
 			new Object[] {kaleoCondition.getKaleoNodeId()}, kaleoCondition);
-
-		kaleoCondition.resetOriginalValues();
 	}
 
 	/**
@@ -1361,9 +1359,6 @@ public class KaleoConditionPersistenceImpl
 						null) {
 
 				cacheResult(kaleoCondition);
-			}
-			else {
-				kaleoCondition.resetOriginalValues();
 			}
 		}
 	}
@@ -1455,7 +1450,7 @@ public class KaleoConditionPersistenceImpl
 			 _finderPathFetchByKaleoNodeId.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				kaleoConditionModelImpl.getOriginalKaleoNodeId()
+				kaleoConditionModelImpl.getOriginalAttributeValue("kaleoNodeId")
 			};
 
 			finderCache.removeResult(_finderPathCountByKaleoNodeId, args);
@@ -1667,7 +1662,8 @@ public class KaleoConditionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoConditionModelImpl.getOriginalCompanyId()
+					kaleoConditionModelImpl.getOriginalAttributeValue(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCompanyId, args);
@@ -1686,8 +1682,8 @@ public class KaleoConditionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoConditionModelImpl.
-						getOriginalKaleoDefinitionVersionId()
+					kaleoConditionModelImpl.getOriginalAttributeValue(
+						"kaleoDefinitionVersionId")
 				};
 
 				finderCache.removeResult(
@@ -1998,7 +1994,7 @@ public class KaleoConditionPersistenceImpl
 		_finderPathWithoutPaginationFindByCompanyId = new FinderPath(
 			KaleoConditionImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByCompanyId", new String[] {Long.class.getName()},
-			KaleoConditionModelImpl.COMPANYID_COLUMN_BITMASK);
+			KaleoConditionModelImpl.getColumnBitmask("companyId"));
 
 		_finderPathCountByCompanyId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -2020,8 +2016,8 @@ public class KaleoConditionPersistenceImpl
 				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 				"findByKaleoDefinitionVersionId",
 				new String[] {Long.class.getName()},
-				KaleoConditionModelImpl.
-					KALEODEFINITIONVERSIONID_COLUMN_BITMASK);
+				KaleoConditionModelImpl.getColumnBitmask(
+					"kaleoDefinitionVersionId"));
 
 		_finderPathCountByKaleoDefinitionVersionId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -2031,7 +2027,7 @@ public class KaleoConditionPersistenceImpl
 		_finderPathFetchByKaleoNodeId = new FinderPath(
 			KaleoConditionImpl.class, FINDER_CLASS_NAME_ENTITY,
 			"fetchByKaleoNodeId", new String[] {Long.class.getName()},
-			KaleoConditionModelImpl.KALEONODEID_COLUMN_BITMASK);
+			KaleoConditionModelImpl.getColumnBitmask("kaleoNodeId"));
 
 		_finderPathCountByKaleoNodeId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,

@@ -1677,8 +1677,6 @@ public class MemberRequestPersistenceImpl
 				memberRequest.getStatus()
 			},
 			memberRequest);
-
-		memberRequest.resetOriginalValues();
 	}
 
 	/**
@@ -1694,9 +1692,6 @@ public class MemberRequestPersistenceImpl
 						null) {
 
 				cacheResult(memberRequest);
-			}
-			else {
-				memberRequest.resetOriginalValues();
 			}
 		}
 	}
@@ -1796,7 +1791,7 @@ public class MemberRequestPersistenceImpl
 			 _finderPathFetchByKey.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				memberRequestModelImpl.getOriginalKey()
+				memberRequestModelImpl.getOriginalAttributeValue("key")
 			};
 
 			finderCache.removeResult(_finderPathCountByKey, args);
@@ -1818,9 +1813,10 @@ public class MemberRequestPersistenceImpl
 			 _finderPathFetchByG_R_S.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				memberRequestModelImpl.getOriginalGroupId(),
-				memberRequestModelImpl.getOriginalReceiverUserId(),
-				memberRequestModelImpl.getOriginalStatus()
+				memberRequestModelImpl.getOriginalAttributeValue("groupId"),
+				memberRequestModelImpl.getOriginalAttributeValue(
+					"receiverUserId"),
+				memberRequestModelImpl.getOriginalAttributeValue("status")
 			};
 
 			finderCache.removeResult(_finderPathCountByG_R_S, args);
@@ -2030,7 +2026,8 @@ public class MemberRequestPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					memberRequestModelImpl.getOriginalReceiverUserId()
+					memberRequestModelImpl.getOriginalAttributeValue(
+						"receiverUserId")
 				};
 
 				finderCache.removeResult(
@@ -2053,8 +2050,9 @@ public class MemberRequestPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					memberRequestModelImpl.getOriginalReceiverUserId(),
-					memberRequestModelImpl.getOriginalStatus()
+					memberRequestModelImpl.getOriginalAttributeValue(
+						"receiverUserId"),
+					memberRequestModelImpl.getOriginalAttributeValue("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByR_S, args);
@@ -2359,7 +2357,7 @@ public class MemberRequestPersistenceImpl
 		_finderPathFetchByKey = new FinderPath(
 			MemberRequestImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByKey",
 			new String[] {String.class.getName()},
-			MemberRequestModelImpl.KEY_COLUMN_BITMASK);
+			MemberRequestModelImpl.getColumnBitmask("key"));
 
 		_finderPathCountByKey = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByKey",
@@ -2376,8 +2374,8 @@ public class MemberRequestPersistenceImpl
 		_finderPathWithoutPaginationFindByReceiverUserId = new FinderPath(
 			MemberRequestImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByReceiverUserId", new String[] {Long.class.getName()},
-			MemberRequestModelImpl.RECEIVERUSERID_COLUMN_BITMASK |
-			MemberRequestModelImpl.CREATEDATE_COLUMN_BITMASK);
+			MemberRequestModelImpl.getColumnBitmask("receiverUserId") |
+			MemberRequestModelImpl.getColumnBitmask("createDate"));
 
 		_finderPathCountByReceiverUserId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -2396,9 +2394,9 @@ public class MemberRequestPersistenceImpl
 			MemberRequestImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByR_S",
 			new String[] {Long.class.getName(), Integer.class.getName()},
-			MemberRequestModelImpl.RECEIVERUSERID_COLUMN_BITMASK |
-			MemberRequestModelImpl.STATUS_COLUMN_BITMASK |
-			MemberRequestModelImpl.CREATEDATE_COLUMN_BITMASK);
+			MemberRequestModelImpl.getColumnBitmask("receiverUserId") |
+			MemberRequestModelImpl.getColumnBitmask("status") |
+			MemberRequestModelImpl.getColumnBitmask("createDate"));
 
 		_finderPathCountByR_S = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByR_S",
@@ -2410,9 +2408,9 @@ public class MemberRequestPersistenceImpl
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName()
 			},
-			MemberRequestModelImpl.GROUPID_COLUMN_BITMASK |
-			MemberRequestModelImpl.RECEIVERUSERID_COLUMN_BITMASK |
-			MemberRequestModelImpl.STATUS_COLUMN_BITMASK);
+			MemberRequestModelImpl.getColumnBitmask("groupId") |
+			MemberRequestModelImpl.getColumnBitmask("receiverUserId") |
+			MemberRequestModelImpl.getColumnBitmask("status"));
 
 		_finderPathCountByG_R_S = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,

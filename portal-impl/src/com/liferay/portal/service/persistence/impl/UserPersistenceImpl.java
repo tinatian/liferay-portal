@@ -8227,8 +8227,6 @@ public class UserPersistenceImpl
 	@Override
 	public void cacheResult(User user) {
 		if (user.getCtCollectionId() != 0) {
-			user.resetOriginalValues();
-
 			return;
 		}
 
@@ -8274,8 +8272,6 @@ public class UserPersistenceImpl
 			_finderPathFetchByC_ERC,
 			new Object[] {user.getCompanyId(), user.getExternalReferenceCode()},
 			user);
-
-		user.resetOriginalValues();
 	}
 
 	/**
@@ -8287,8 +8283,6 @@ public class UserPersistenceImpl
 	public void cacheResult(List<User> users) {
 		for (User user : users) {
 			if (user.getCtCollectionId() != 0) {
-				user.resetOriginalValues();
-
 				continue;
 			}
 
@@ -8296,9 +8290,6 @@ public class UserPersistenceImpl
 					UserImpl.class, user.getPrimaryKey()) == null) {
 
 				cacheResult(user);
-			}
-			else {
-				user.resetOriginalValues();
 			}
 		}
 	}
@@ -8461,7 +8452,9 @@ public class UserPersistenceImpl
 		if ((userModelImpl.getColumnBitmask() &
 			 _finderPathFetchByContactId.getColumnBitmask()) != 0) {
 
-			Object[] args = new Object[] {userModelImpl.getOriginalContactId()};
+			Object[] args = new Object[] {
+				userModelImpl.getOriginalAttributeValue("contactId")
+			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByContactId, args);
 			FinderCacheUtil.removeResult(_finderPathFetchByContactId, args);
@@ -8478,7 +8471,7 @@ public class UserPersistenceImpl
 			 _finderPathFetchByPortraitId.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				userModelImpl.getOriginalPortraitId()
+				userModelImpl.getOriginalAttributeValue("portraitId")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByPortraitId, args);
@@ -8498,8 +8491,8 @@ public class UserPersistenceImpl
 			 _finderPathFetchByC_U.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				userModelImpl.getOriginalCompanyId(),
-				userModelImpl.getOriginalUserId()
+				userModelImpl.getOriginalAttributeValue("companyId"),
+				userModelImpl.getOriginalAttributeValue("userId")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByC_U, args);
@@ -8519,8 +8512,8 @@ public class UserPersistenceImpl
 			 _finderPathFetchByC_DU.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				userModelImpl.getOriginalCompanyId(),
-				userModelImpl.getOriginalDefaultUser()
+				userModelImpl.getOriginalAttributeValue("companyId"),
+				userModelImpl.getOriginalAttributeValue("defaultUser")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByC_DU, args);
@@ -8540,8 +8533,8 @@ public class UserPersistenceImpl
 			 _finderPathFetchByC_SN.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				userModelImpl.getOriginalCompanyId(),
-				userModelImpl.getOriginalScreenName()
+				userModelImpl.getOriginalAttributeValue("companyId"),
+				userModelImpl.getOriginalAttributeValue("screenName")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByC_SN, args);
@@ -8561,8 +8554,8 @@ public class UserPersistenceImpl
 			 _finderPathFetchByC_EA.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				userModelImpl.getOriginalCompanyId(),
-				userModelImpl.getOriginalEmailAddress()
+				userModelImpl.getOriginalAttributeValue("companyId"),
+				userModelImpl.getOriginalAttributeValue("emailAddress")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByC_EA, args);
@@ -8582,8 +8575,8 @@ public class UserPersistenceImpl
 			 _finderPathFetchByC_FID.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				userModelImpl.getOriginalCompanyId(),
-				userModelImpl.getOriginalFacebookId()
+				userModelImpl.getOriginalAttributeValue("companyId"),
+				userModelImpl.getOriginalAttributeValue("facebookId")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByC_FID, args);
@@ -8603,8 +8596,8 @@ public class UserPersistenceImpl
 			 _finderPathFetchByC_GUID.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				userModelImpl.getOriginalCompanyId(),
-				userModelImpl.getOriginalGoogleUserId()
+				userModelImpl.getOriginalAttributeValue("companyId"),
+				userModelImpl.getOriginalAttributeValue("googleUserId")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByC_GUID, args);
@@ -8624,8 +8617,8 @@ public class UserPersistenceImpl
 			 _finderPathFetchByC_O.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				userModelImpl.getOriginalCompanyId(),
-				userModelImpl.getOriginalOpenId()
+				userModelImpl.getOriginalAttributeValue("companyId"),
+				userModelImpl.getOriginalAttributeValue("openId")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByC_O, args);
@@ -8646,8 +8639,8 @@ public class UserPersistenceImpl
 			 _finderPathFetchByC_ERC.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				userModelImpl.getOriginalCompanyId(),
-				userModelImpl.getOriginalExternalReferenceCode()
+				userModelImpl.getOriginalAttributeValue("companyId"),
+				userModelImpl.getOriginalAttributeValue("externalReferenceCode")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByC_ERC, args);
@@ -8944,7 +8937,9 @@ public class UserPersistenceImpl
 				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
 					 0) {
 
-				Object[] args = new Object[] {userModelImpl.getOriginalUuid()};
+				Object[] args = new Object[] {
+					userModelImpl.getOriginalAttributeValue("uuid")
+				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid, args);
 				FinderCacheUtil.removeResult(
@@ -8962,8 +8957,8 @@ public class UserPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					userModelImpl.getOriginalUuid(),
-					userModelImpl.getOriginalCompanyId()
+					userModelImpl.getOriginalAttributeValue("uuid"),
+					userModelImpl.getOriginalAttributeValue("companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid_C, args);
@@ -8984,7 +8979,7 @@ public class UserPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					userModelImpl.getOriginalCompanyId()
+					userModelImpl.getOriginalAttributeValue("companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
@@ -9003,7 +8998,7 @@ public class UserPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					userModelImpl.getOriginalEmailAddress()
+					userModelImpl.getOriginalAttributeValue("emailAddress")
 				};
 
 				FinderCacheUtil.removeResult(
@@ -9024,8 +9019,8 @@ public class UserPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					userModelImpl.getOriginalCompanyId(),
-					userModelImpl.getOriginalCreateDate()
+					userModelImpl.getOriginalAttributeValue("companyId"),
+					userModelImpl.getOriginalAttributeValue("createDate")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_CD, args);
@@ -9046,8 +9041,8 @@ public class UserPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					userModelImpl.getOriginalCompanyId(),
-					userModelImpl.getOriginalModifiedDate()
+					userModelImpl.getOriginalAttributeValue("companyId"),
+					userModelImpl.getOriginalAttributeValue("modifiedDate")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_MD, args);
@@ -9069,8 +9064,8 @@ public class UserPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					userModelImpl.getOriginalCompanyId(),
-					userModelImpl.getOriginalStatus()
+					userModelImpl.getOriginalAttributeValue("companyId"),
+					userModelImpl.getOriginalAttributeValue("status")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_S, args);
@@ -9091,9 +9086,9 @@ public class UserPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					userModelImpl.getOriginalCompanyId(),
-					userModelImpl.getOriginalCreateDate(),
-					userModelImpl.getOriginalModifiedDate()
+					userModelImpl.getOriginalAttributeValue("companyId"),
+					userModelImpl.getOriginalAttributeValue("createDate"),
+					userModelImpl.getOriginalAttributeValue("modifiedDate")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_CD_MD, args);
@@ -9115,9 +9110,9 @@ public class UserPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					userModelImpl.getOriginalCompanyId(),
-					userModelImpl.getOriginalDefaultUser(),
-					userModelImpl.getOriginalStatus()
+					userModelImpl.getOriginalAttributeValue("companyId"),
+					userModelImpl.getOriginalAttributeValue("defaultUser"),
+					userModelImpl.getOriginalAttributeValue("status")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_DU_S, args);
@@ -11239,7 +11234,7 @@ public class UserPersistenceImpl
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
 			UserImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByUuid", new String[] {String.class.getName()},
-			UserModelImpl.UUID_COLUMN_BITMASK);
+			UserModelImpl.getColumnBitmask("uuid"));
 
 		_finderPathCountByUuid = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -11258,8 +11253,8 @@ public class UserPersistenceImpl
 			UserImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
-			UserModelImpl.UUID_COLUMN_BITMASK |
-			UserModelImpl.COMPANYID_COLUMN_BITMASK);
+			UserModelImpl.getColumnBitmask("uuid") |
+			UserModelImpl.getColumnBitmask("companyId"));
 
 		_finderPathCountByUuid_C = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -11277,7 +11272,7 @@ public class UserPersistenceImpl
 		_finderPathWithoutPaginationFindByCompanyId = new FinderPath(
 			UserImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByCompanyId", new String[] {Long.class.getName()},
-			UserModelImpl.COMPANYID_COLUMN_BITMASK);
+			UserModelImpl.getColumnBitmask("companyId"));
 
 		_finderPathCountByCompanyId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -11286,7 +11281,7 @@ public class UserPersistenceImpl
 		_finderPathFetchByContactId = new FinderPath(
 			UserImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByContactId",
 			new String[] {Long.class.getName()},
-			UserModelImpl.CONTACTID_COLUMN_BITMASK);
+			UserModelImpl.getColumnBitmask("contactId"));
 
 		_finderPathCountByContactId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -11303,7 +11298,7 @@ public class UserPersistenceImpl
 		_finderPathWithoutPaginationFindByEmailAddress = new FinderPath(
 			UserImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByEmailAddress", new String[] {String.class.getName()},
-			UserModelImpl.EMAILADDRESS_COLUMN_BITMASK);
+			UserModelImpl.getColumnBitmask("emailAddress"));
 
 		_finderPathCountByEmailAddress = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -11312,7 +11307,7 @@ public class UserPersistenceImpl
 		_finderPathFetchByPortraitId = new FinderPath(
 			UserImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByPortraitId",
 			new String[] {Long.class.getName()},
-			UserModelImpl.PORTRAITID_COLUMN_BITMASK);
+			UserModelImpl.getColumnBitmask("portraitId"));
 
 		_finderPathCountByPortraitId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -11333,8 +11328,8 @@ public class UserPersistenceImpl
 		_finderPathFetchByC_U = new FinderPath(
 			UserImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByC_U",
 			new String[] {Long.class.getName(), Long.class.getName()},
-			UserModelImpl.COMPANYID_COLUMN_BITMASK |
-			UserModelImpl.USERID_COLUMN_BITMASK);
+			UserModelImpl.getColumnBitmask("companyId") |
+			UserModelImpl.getColumnBitmask("userId"));
 
 		_finderPathCountByC_U = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_U",
@@ -11353,8 +11348,8 @@ public class UserPersistenceImpl
 			UserImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByC_CD",
 			new String[] {Long.class.getName(), Date.class.getName()},
-			UserModelImpl.COMPANYID_COLUMN_BITMASK |
-			UserModelImpl.CREATEDATE_COLUMN_BITMASK);
+			UserModelImpl.getColumnBitmask("companyId") |
+			UserModelImpl.getColumnBitmask("createDate"));
 
 		_finderPathCountByC_CD = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -11374,8 +11369,8 @@ public class UserPersistenceImpl
 			UserImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByC_MD",
 			new String[] {Long.class.getName(), Date.class.getName()},
-			UserModelImpl.COMPANYID_COLUMN_BITMASK |
-			UserModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
+			UserModelImpl.getColumnBitmask("companyId") |
+			UserModelImpl.getColumnBitmask("modifiedDate"));
 
 		_finderPathCountByC_MD = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -11385,8 +11380,8 @@ public class UserPersistenceImpl
 		_finderPathFetchByC_DU = new FinderPath(
 			UserImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByC_DU",
 			new String[] {Long.class.getName(), Boolean.class.getName()},
-			UserModelImpl.COMPANYID_COLUMN_BITMASK |
-			UserModelImpl.DEFAULTUSER_COLUMN_BITMASK);
+			UserModelImpl.getColumnBitmask("companyId") |
+			UserModelImpl.getColumnBitmask("defaultUser"));
 
 		_finderPathCountByC_DU = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -11396,8 +11391,8 @@ public class UserPersistenceImpl
 		_finderPathFetchByC_SN = new FinderPath(
 			UserImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByC_SN",
 			new String[] {Long.class.getName(), String.class.getName()},
-			UserModelImpl.COMPANYID_COLUMN_BITMASK |
-			UserModelImpl.SCREENNAME_COLUMN_BITMASK);
+			UserModelImpl.getColumnBitmask("companyId") |
+			UserModelImpl.getColumnBitmask("screenName"));
 
 		_finderPathCountByC_SN = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -11407,8 +11402,8 @@ public class UserPersistenceImpl
 		_finderPathFetchByC_EA = new FinderPath(
 			UserImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByC_EA",
 			new String[] {Long.class.getName(), String.class.getName()},
-			UserModelImpl.COMPANYID_COLUMN_BITMASK |
-			UserModelImpl.EMAILADDRESS_COLUMN_BITMASK);
+			UserModelImpl.getColumnBitmask("companyId") |
+			UserModelImpl.getColumnBitmask("emailAddress"));
 
 		_finderPathCountByC_EA = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -11418,8 +11413,8 @@ public class UserPersistenceImpl
 		_finderPathFetchByC_FID = new FinderPath(
 			UserImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByC_FID",
 			new String[] {Long.class.getName(), Long.class.getName()},
-			UserModelImpl.COMPANYID_COLUMN_BITMASK |
-			UserModelImpl.FACEBOOKID_COLUMN_BITMASK);
+			UserModelImpl.getColumnBitmask("companyId") |
+			UserModelImpl.getColumnBitmask("facebookId"));
 
 		_finderPathCountByC_FID = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -11429,8 +11424,8 @@ public class UserPersistenceImpl
 		_finderPathFetchByC_GUID = new FinderPath(
 			UserImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByC_GUID",
 			new String[] {Long.class.getName(), String.class.getName()},
-			UserModelImpl.COMPANYID_COLUMN_BITMASK |
-			UserModelImpl.GOOGLEUSERID_COLUMN_BITMASK);
+			UserModelImpl.getColumnBitmask("companyId") |
+			UserModelImpl.getColumnBitmask("googleUserId"));
 
 		_finderPathCountByC_GUID = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -11440,8 +11435,8 @@ public class UserPersistenceImpl
 		_finderPathFetchByC_O = new FinderPath(
 			UserImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByC_O",
 			new String[] {Long.class.getName(), String.class.getName()},
-			UserModelImpl.COMPANYID_COLUMN_BITMASK |
-			UserModelImpl.OPENID_COLUMN_BITMASK);
+			UserModelImpl.getColumnBitmask("companyId") |
+			UserModelImpl.getColumnBitmask("openId"));
 
 		_finderPathCountByC_O = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_O",
@@ -11459,8 +11454,8 @@ public class UserPersistenceImpl
 			UserImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByC_S",
 			new String[] {Long.class.getName(), Integer.class.getName()},
-			UserModelImpl.COMPANYID_COLUMN_BITMASK |
-			UserModelImpl.STATUS_COLUMN_BITMASK);
+			UserModelImpl.getColumnBitmask("companyId") |
+			UserModelImpl.getColumnBitmask("status"));
 
 		_finderPathCountByC_S = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_S",
@@ -11481,9 +11476,9 @@ public class UserPersistenceImpl
 			new String[] {
 				Long.class.getName(), Date.class.getName(), Date.class.getName()
 			},
-			UserModelImpl.COMPANYID_COLUMN_BITMASK |
-			UserModelImpl.CREATEDATE_COLUMN_BITMASK |
-			UserModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
+			UserModelImpl.getColumnBitmask("companyId") |
+			UserModelImpl.getColumnBitmask("createDate") |
+			UserModelImpl.getColumnBitmask("modifiedDate"));
 
 		_finderPathCountByC_CD_MD = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -11508,9 +11503,9 @@ public class UserPersistenceImpl
 				Long.class.getName(), Boolean.class.getName(),
 				Integer.class.getName()
 			},
-			UserModelImpl.COMPANYID_COLUMN_BITMASK |
-			UserModelImpl.DEFAULTUSER_COLUMN_BITMASK |
-			UserModelImpl.STATUS_COLUMN_BITMASK);
+			UserModelImpl.getColumnBitmask("companyId") |
+			UserModelImpl.getColumnBitmask("defaultUser") |
+			UserModelImpl.getColumnBitmask("status"));
 
 		_finderPathCountByC_DU_S = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -11523,8 +11518,8 @@ public class UserPersistenceImpl
 		_finderPathFetchByC_ERC = new FinderPath(
 			UserImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByC_ERC",
 			new String[] {Long.class.getName(), String.class.getName()},
-			UserModelImpl.COMPANYID_COLUMN_BITMASK |
-			UserModelImpl.EXTERNALREFERENCECODE_COLUMN_BITMASK);
+			UserModelImpl.getColumnBitmask("companyId") |
+			UserModelImpl.getColumnBitmask("externalReferenceCode"));
 
 		_finderPathCountByC_ERC = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,

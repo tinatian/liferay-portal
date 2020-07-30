@@ -877,8 +877,6 @@ public class KaleoProcessLinkPersistenceImpl
 				kaleoProcessLink.getWorkflowTaskName()
 			},
 			kaleoProcessLink);
-
-		kaleoProcessLink.resetOriginalValues();
 	}
 
 	/**
@@ -894,9 +892,6 @@ public class KaleoProcessLinkPersistenceImpl
 					kaleoProcessLink.getPrimaryKey()) == null) {
 
 				cacheResult(kaleoProcessLink);
-			}
-			else {
-				kaleoProcessLink.resetOriginalValues();
 			}
 		}
 	}
@@ -993,8 +988,10 @@ public class KaleoProcessLinkPersistenceImpl
 			 _finderPathFetchByKPI_WTN.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				kaleoProcessLinkModelImpl.getOriginalKaleoProcessId(),
-				kaleoProcessLinkModelImpl.getOriginalWorkflowTaskName()
+				kaleoProcessLinkModelImpl.getOriginalAttributeValue(
+					"kaleoProcessId"),
+				kaleoProcessLinkModelImpl.getOriginalAttributeValue(
+					"workflowTaskName")
 			};
 
 			finderCache.removeResult(_finderPathCountByKPI_WTN, args);
@@ -1173,7 +1170,8 @@ public class KaleoProcessLinkPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoProcessLinkModelImpl.getOriginalKaleoProcessId()
+					kaleoProcessLinkModelImpl.getOriginalAttributeValue(
+						"kaleoProcessId")
 				};
 
 				finderCache.removeResult(
@@ -1485,7 +1483,7 @@ public class KaleoProcessLinkPersistenceImpl
 			KaleoProcessLinkImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByKaleoProcessId",
 			new String[] {Long.class.getName()},
-			KaleoProcessLinkModelImpl.KALEOPROCESSID_COLUMN_BITMASK);
+			KaleoProcessLinkModelImpl.getColumnBitmask("kaleoProcessId"));
 
 		_finderPathCountByKaleoProcessId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -1495,8 +1493,8 @@ public class KaleoProcessLinkPersistenceImpl
 			KaleoProcessLinkImpl.class, FINDER_CLASS_NAME_ENTITY,
 			"fetchByKPI_WTN",
 			new String[] {Long.class.getName(), String.class.getName()},
-			KaleoProcessLinkModelImpl.KALEOPROCESSID_COLUMN_BITMASK |
-			KaleoProcessLinkModelImpl.WORKFLOWTASKNAME_COLUMN_BITMASK);
+			KaleoProcessLinkModelImpl.getColumnBitmask("kaleoProcessId") |
+			KaleoProcessLinkModelImpl.getColumnBitmask("workflowTaskName"));
 
 		_finderPathCountByKPI_WTN = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,

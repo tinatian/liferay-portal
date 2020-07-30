@@ -2773,8 +2773,6 @@ public class MBThreadFlagPersistenceImpl
 	@Override
 	public void cacheResult(MBThreadFlag mbThreadFlag) {
 		if (mbThreadFlag.getCtCollectionId() != 0) {
-			mbThreadFlag.resetOriginalValues();
-
 			return;
 		}
 
@@ -2790,8 +2788,6 @@ public class MBThreadFlagPersistenceImpl
 			_finderPathFetchByU_T,
 			new Object[] {mbThreadFlag.getUserId(), mbThreadFlag.getThreadId()},
 			mbThreadFlag);
-
-		mbThreadFlag.resetOriginalValues();
 	}
 
 	/**
@@ -2803,8 +2799,6 @@ public class MBThreadFlagPersistenceImpl
 	public void cacheResult(List<MBThreadFlag> mbThreadFlags) {
 		for (MBThreadFlag mbThreadFlag : mbThreadFlags) {
 			if (mbThreadFlag.getCtCollectionId() != 0) {
-				mbThreadFlag.resetOriginalValues();
-
 				continue;
 			}
 
@@ -2813,9 +2807,6 @@ public class MBThreadFlagPersistenceImpl
 						null) {
 
 				cacheResult(mbThreadFlag);
-			}
-			else {
-				mbThreadFlag.resetOriginalValues();
 			}
 		}
 	}
@@ -2918,8 +2909,8 @@ public class MBThreadFlagPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				mbThreadFlagModelImpl.getOriginalUuid(),
-				mbThreadFlagModelImpl.getOriginalGroupId()
+				mbThreadFlagModelImpl.getOriginalAttributeValue("uuid"),
+				mbThreadFlagModelImpl.getOriginalAttributeValue("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -2940,8 +2931,8 @@ public class MBThreadFlagPersistenceImpl
 			 _finderPathFetchByU_T.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				mbThreadFlagModelImpl.getOriginalUserId(),
-				mbThreadFlagModelImpl.getOriginalThreadId()
+				mbThreadFlagModelImpl.getOriginalAttributeValue("userId"),
+				mbThreadFlagModelImpl.getOriginalAttributeValue("threadId")
 			};
 
 			finderCache.removeResult(_finderPathCountByU_T, args);
@@ -3191,7 +3182,7 @@ public class MBThreadFlagPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mbThreadFlagModelImpl.getOriginalUuid()
+					mbThreadFlagModelImpl.getOriginalAttributeValue("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -3210,8 +3201,8 @@ public class MBThreadFlagPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mbThreadFlagModelImpl.getOriginalUuid(),
-					mbThreadFlagModelImpl.getOriginalCompanyId()
+					mbThreadFlagModelImpl.getOriginalAttributeValue("uuid"),
+					mbThreadFlagModelImpl.getOriginalAttributeValue("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -3233,7 +3224,7 @@ public class MBThreadFlagPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mbThreadFlagModelImpl.getOriginalUserId()
+					mbThreadFlagModelImpl.getOriginalAttributeValue("userId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUserId, args);
@@ -3252,7 +3243,7 @@ public class MBThreadFlagPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					mbThreadFlagModelImpl.getOriginalThreadId()
+					mbThreadFlagModelImpl.getOriginalAttributeValue("threadId")
 				};
 
 				finderCache.removeResult(_finderPathCountByThreadId, args);
@@ -3743,7 +3734,7 @@ public class MBThreadFlagPersistenceImpl
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
 			MBThreadFlagImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByUuid", new String[] {String.class.getName()},
-			MBThreadFlagModelImpl.UUID_COLUMN_BITMASK);
+			MBThreadFlagModelImpl.getColumnBitmask("uuid"));
 
 		_finderPathCountByUuid = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -3752,8 +3743,8 @@ public class MBThreadFlagPersistenceImpl
 		_finderPathFetchByUUID_G = new FinderPath(
 			MBThreadFlagImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
-			MBThreadFlagModelImpl.UUID_COLUMN_BITMASK |
-			MBThreadFlagModelImpl.GROUPID_COLUMN_BITMASK);
+			MBThreadFlagModelImpl.getColumnBitmask("uuid") |
+			MBThreadFlagModelImpl.getColumnBitmask("groupId"));
 
 		_finderPathCountByUUID_G = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -3773,8 +3764,8 @@ public class MBThreadFlagPersistenceImpl
 			MBThreadFlagImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
-			MBThreadFlagModelImpl.UUID_COLUMN_BITMASK |
-			MBThreadFlagModelImpl.COMPANYID_COLUMN_BITMASK);
+			MBThreadFlagModelImpl.getColumnBitmask("uuid") |
+			MBThreadFlagModelImpl.getColumnBitmask("companyId"));
 
 		_finderPathCountByUuid_C = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -3792,7 +3783,7 @@ public class MBThreadFlagPersistenceImpl
 		_finderPathWithoutPaginationFindByUserId = new FinderPath(
 			MBThreadFlagImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByUserId", new String[] {Long.class.getName()},
-			MBThreadFlagModelImpl.USERID_COLUMN_BITMASK);
+			MBThreadFlagModelImpl.getColumnBitmask("userId"));
 
 		_finderPathCountByUserId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -3809,7 +3800,7 @@ public class MBThreadFlagPersistenceImpl
 		_finderPathWithoutPaginationFindByThreadId = new FinderPath(
 			MBThreadFlagImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByThreadId", new String[] {Long.class.getName()},
-			MBThreadFlagModelImpl.THREADID_COLUMN_BITMASK);
+			MBThreadFlagModelImpl.getColumnBitmask("threadId"));
 
 		_finderPathCountByThreadId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -3818,8 +3809,8 @@ public class MBThreadFlagPersistenceImpl
 		_finderPathFetchByU_T = new FinderPath(
 			MBThreadFlagImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByU_T",
 			new String[] {Long.class.getName(), Long.class.getName()},
-			MBThreadFlagModelImpl.USERID_COLUMN_BITMASK |
-			MBThreadFlagModelImpl.THREADID_COLUMN_BITMASK);
+			MBThreadFlagModelImpl.getColumnBitmask("userId") |
+			MBThreadFlagModelImpl.getColumnBitmask("threadId"));
 
 		_finderPathCountByU_T = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_T",

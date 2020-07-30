@@ -1094,8 +1094,6 @@ public class CTProcessPersistenceImpl
 	public void cacheResult(CTProcess ctProcess) {
 		entityCache.putResult(
 			CTProcessImpl.class, ctProcess.getPrimaryKey(), ctProcess);
-
-		ctProcess.resetOriginalValues();
 	}
 
 	/**
@@ -1110,9 +1108,6 @@ public class CTProcessPersistenceImpl
 					CTProcessImpl.class, ctProcess.getPrimaryKey()) == null) {
 
 				cacheResult(ctProcess);
-			}
-			else {
-				ctProcess.resetOriginalValues();
 			}
 		}
 	}
@@ -1340,7 +1335,7 @@ public class CTProcessPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					ctProcessModelImpl.getOriginalCompanyId()
+					ctProcessModelImpl.getOriginalAttributeValue("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCompanyId, args);
@@ -1359,7 +1354,8 @@ public class CTProcessPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					ctProcessModelImpl.getOriginalCtCollectionId()
+					ctProcessModelImpl.getOriginalAttributeValue(
+						"ctCollectionId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCollectionId, args);
@@ -1659,8 +1655,8 @@ public class CTProcessPersistenceImpl
 		_finderPathWithoutPaginationFindByCompanyId = new FinderPath(
 			CTProcessImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByCompanyId", new String[] {Long.class.getName()},
-			CTProcessModelImpl.COMPANYID_COLUMN_BITMASK |
-			CTProcessModelImpl.CREATEDATE_COLUMN_BITMASK);
+			CTProcessModelImpl.getColumnBitmask("companyId") |
+			CTProcessModelImpl.getColumnBitmask("createDate"));
 
 		_finderPathCountByCompanyId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -1677,8 +1673,8 @@ public class CTProcessPersistenceImpl
 		_finderPathWithoutPaginationFindByCollectionId = new FinderPath(
 			CTProcessImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByCollectionId", new String[] {Long.class.getName()},
-			CTProcessModelImpl.CTCOLLECTIONID_COLUMN_BITMASK |
-			CTProcessModelImpl.CREATEDATE_COLUMN_BITMASK);
+			CTProcessModelImpl.getColumnBitmask("ctCollectionId") |
+			CTProcessModelImpl.getColumnBitmask("createDate"));
 
 		_finderPathCountByCollectionId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,

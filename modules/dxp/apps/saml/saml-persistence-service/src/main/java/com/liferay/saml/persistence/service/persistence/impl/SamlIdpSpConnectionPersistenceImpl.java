@@ -897,8 +897,6 @@ public class SamlIdpSpConnectionPersistenceImpl
 				samlIdpSpConnection.getSamlSpEntityId()
 			},
 			samlIdpSpConnection);
-
-		samlIdpSpConnection.resetOriginalValues();
 	}
 
 	/**
@@ -914,9 +912,6 @@ public class SamlIdpSpConnectionPersistenceImpl
 					samlIdpSpConnection.getPrimaryKey()) == null) {
 
 				cacheResult(samlIdpSpConnection);
-			}
-			else {
-				samlIdpSpConnection.resetOriginalValues();
 			}
 		}
 	}
@@ -1015,8 +1010,10 @@ public class SamlIdpSpConnectionPersistenceImpl
 			 _finderPathFetchByC_SSEI.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				samlIdpSpConnectionModelImpl.getOriginalCompanyId(),
-				samlIdpSpConnectionModelImpl.getOriginalSamlSpEntityId()
+				samlIdpSpConnectionModelImpl.getOriginalAttributeValue(
+					"companyId"),
+				samlIdpSpConnectionModelImpl.getOriginalAttributeValue(
+					"samlSpEntityId")
 			};
 
 			finderCache.removeResult(_finderPathCountByC_SSEI, args);
@@ -1225,7 +1222,8 @@ public class SamlIdpSpConnectionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					samlIdpSpConnectionModelImpl.getOriginalCompanyId()
+					samlIdpSpConnectionModelImpl.getOriginalAttributeValue(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCompanyId, args);
@@ -1536,7 +1534,7 @@ public class SamlIdpSpConnectionPersistenceImpl
 			SamlIdpSpConnectionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCompanyId",
 			new String[] {Long.class.getName()},
-			SamlIdpSpConnectionModelImpl.COMPANYID_COLUMN_BITMASK);
+			SamlIdpSpConnectionModelImpl.getColumnBitmask("companyId"));
 
 		_finderPathCountByCompanyId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -1546,8 +1544,8 @@ public class SamlIdpSpConnectionPersistenceImpl
 			SamlIdpSpConnectionImpl.class, FINDER_CLASS_NAME_ENTITY,
 			"fetchByC_SSEI",
 			new String[] {Long.class.getName(), String.class.getName()},
-			SamlIdpSpConnectionModelImpl.COMPANYID_COLUMN_BITMASK |
-			SamlIdpSpConnectionModelImpl.SAMLSPENTITYID_COLUMN_BITMASK);
+			SamlIdpSpConnectionModelImpl.getColumnBitmask("companyId") |
+			SamlIdpSpConnectionModelImpl.getColumnBitmask("samlSpEntityId"));
 
 		_finderPathCountByC_SSEI = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,

@@ -897,8 +897,6 @@ public class SegmentsExperimentRelPersistenceImpl
 	@Override
 	public void cacheResult(SegmentsExperimentRel segmentsExperimentRel) {
 		if (segmentsExperimentRel.getCtCollectionId() != 0) {
-			segmentsExperimentRel.resetOriginalValues();
-
 			return;
 		}
 
@@ -913,8 +911,6 @@ public class SegmentsExperimentRelPersistenceImpl
 				segmentsExperimentRel.getSegmentsExperienceId()
 			},
 			segmentsExperimentRel);
-
-		segmentsExperimentRel.resetOriginalValues();
 	}
 
 	/**
@@ -930,8 +926,6 @@ public class SegmentsExperimentRelPersistenceImpl
 				segmentsExperimentRels) {
 
 			if (segmentsExperimentRel.getCtCollectionId() != 0) {
-				segmentsExperimentRel.resetOriginalValues();
-
 				continue;
 			}
 
@@ -940,9 +934,6 @@ public class SegmentsExperimentRelPersistenceImpl
 					segmentsExperimentRel.getPrimaryKey()) == null) {
 
 				cacheResult(segmentsExperimentRel);
-			}
-			else {
-				segmentsExperimentRel.resetOriginalValues();
 			}
 		}
 	}
@@ -1044,9 +1035,10 @@ public class SegmentsExperimentRelPersistenceImpl
 			 _finderPathFetchByS_S.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				segmentsExperimentRelModelImpl.
-					getOriginalSegmentsExperimentId(),
-				segmentsExperimentRelModelImpl.getOriginalSegmentsExperienceId()
+				segmentsExperimentRelModelImpl.getOriginalAttributeValue(
+					"segmentsExperimentId"),
+				segmentsExperimentRelModelImpl.getOriginalAttributeValue(
+					"segmentsExperienceId")
 			};
 
 			finderCache.removeResult(_finderPathCountByS_S, args);
@@ -1280,8 +1272,8 @@ public class SegmentsExperimentRelPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					segmentsExperimentRelModelImpl.
-						getOriginalSegmentsExperimentId()
+					segmentsExperimentRelModelImpl.getOriginalAttributeValue(
+						"segmentsExperimentId")
 				};
 
 				finderCache.removeResult(
@@ -1788,7 +1780,8 @@ public class SegmentsExperimentRelPersistenceImpl
 			SegmentsExperimentRelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findBySegmentsExperimentId", new String[] {Long.class.getName()},
-			SegmentsExperimentRelModelImpl.SEGMENTSEXPERIMENTID_COLUMN_BITMASK);
+			SegmentsExperimentRelModelImpl.getColumnBitmask(
+				"segmentsExperimentId"));
 
 		_finderPathCountBySegmentsExperimentId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -1798,8 +1791,10 @@ public class SegmentsExperimentRelPersistenceImpl
 			SegmentsExperimentRelImpl.class, FINDER_CLASS_NAME_ENTITY,
 			"fetchByS_S",
 			new String[] {Long.class.getName(), Long.class.getName()},
-			SegmentsExperimentRelModelImpl.SEGMENTSEXPERIMENTID_COLUMN_BITMASK |
-			SegmentsExperimentRelModelImpl.SEGMENTSEXPERIENCEID_COLUMN_BITMASK);
+			SegmentsExperimentRelModelImpl.getColumnBitmask(
+				"segmentsExperimentId") |
+			SegmentsExperimentRelModelImpl.getColumnBitmask(
+				"segmentsExperienceId"));
 
 		_finderPathCountByS_S = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByS_S",

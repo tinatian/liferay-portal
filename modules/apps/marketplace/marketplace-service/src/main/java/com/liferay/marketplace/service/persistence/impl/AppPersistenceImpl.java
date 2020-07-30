@@ -2445,8 +2445,6 @@ public class AppPersistenceImpl
 		finderCache.putResult(
 			_finderPathFetchByRemoteAppId, new Object[] {app.getRemoteAppId()},
 			app);
-
-		app.resetOriginalValues();
 	}
 
 	/**
@@ -2461,9 +2459,6 @@ public class AppPersistenceImpl
 					null) {
 
 				cacheResult(app);
-			}
-			else {
-				app.resetOriginalValues();
 			}
 		}
 	}
@@ -2547,7 +2542,7 @@ public class AppPersistenceImpl
 			 _finderPathFetchByRemoteAppId.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				appModelImpl.getOriginalRemoteAppId()
+				appModelImpl.getOriginalAttributeValue("remoteAppId")
 			};
 
 			finderCache.removeResult(_finderPathCountByRemoteAppId, args);
@@ -2766,7 +2761,9 @@ public class AppPersistenceImpl
 				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
 					 0) {
 
-				Object[] args = new Object[] {appModelImpl.getOriginalUuid()};
+				Object[] args = new Object[] {
+					appModelImpl.getOriginalAttributeValue("uuid")
+				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
 				finderCache.removeResult(
@@ -2784,8 +2781,8 @@ public class AppPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					appModelImpl.getOriginalUuid(),
-					appModelImpl.getOriginalCompanyId()
+					appModelImpl.getOriginalAttributeValue("uuid"),
+					appModelImpl.getOriginalAttributeValue("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -2806,7 +2803,7 @@ public class AppPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					appModelImpl.getOriginalCompanyId()
+					appModelImpl.getOriginalAttributeValue("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCompanyId, args);
@@ -2825,7 +2822,7 @@ public class AppPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					appModelImpl.getOriginalCategory()
+					appModelImpl.getOriginalAttributeValue("category")
 				};
 
 				finderCache.removeResult(_finderPathCountByCategory, args);
@@ -3129,7 +3126,7 @@ public class AppPersistenceImpl
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
 			AppImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByUuid", new String[] {String.class.getName()},
-			AppModelImpl.UUID_COLUMN_BITMASK);
+			AppModelImpl.getColumnBitmask("uuid"));
 
 		_finderPathCountByUuid = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -3148,8 +3145,8 @@ public class AppPersistenceImpl
 			AppImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
-			AppModelImpl.UUID_COLUMN_BITMASK |
-			AppModelImpl.COMPANYID_COLUMN_BITMASK);
+			AppModelImpl.getColumnBitmask("uuid") |
+			AppModelImpl.getColumnBitmask("companyId"));
 
 		_finderPathCountByUuid_C = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -3167,7 +3164,7 @@ public class AppPersistenceImpl
 		_finderPathWithoutPaginationFindByCompanyId = new FinderPath(
 			AppImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByCompanyId", new String[] {Long.class.getName()},
-			AppModelImpl.COMPANYID_COLUMN_BITMASK);
+			AppModelImpl.getColumnBitmask("companyId"));
 
 		_finderPathCountByCompanyId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -3176,7 +3173,7 @@ public class AppPersistenceImpl
 		_finderPathFetchByRemoteAppId = new FinderPath(
 			AppImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByRemoteAppId",
 			new String[] {Long.class.getName()},
-			AppModelImpl.REMOTEAPPID_COLUMN_BITMASK);
+			AppModelImpl.getColumnBitmask("remoteAppId"));
 
 		_finderPathCountByRemoteAppId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -3193,7 +3190,7 @@ public class AppPersistenceImpl
 		_finderPathWithoutPaginationFindByCategory = new FinderPath(
 			AppImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByCategory", new String[] {String.class.getName()},
-			AppModelImpl.CATEGORY_COLUMN_BITMASK);
+			AppModelImpl.getColumnBitmask("category"));
 
 		_finderPathCountByCategory = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,

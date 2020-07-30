@@ -910,8 +910,6 @@ public class SamlIdpSsoSessionPersistenceImpl
 			_finderPathFetchBySamlIdpSsoSessionKey,
 			new Object[] {samlIdpSsoSession.getSamlIdpSsoSessionKey()},
 			samlIdpSsoSession);
-
-		samlIdpSsoSession.resetOriginalValues();
 	}
 
 	/**
@@ -927,9 +925,6 @@ public class SamlIdpSsoSessionPersistenceImpl
 					samlIdpSsoSession.getPrimaryKey()) == null) {
 
 				cacheResult(samlIdpSsoSession);
-			}
-			else {
-				samlIdpSsoSession.resetOriginalValues();
 			}
 		}
 	}
@@ -1028,7 +1023,8 @@ public class SamlIdpSsoSessionPersistenceImpl
 			 _finderPathFetchBySamlIdpSsoSessionKey.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				samlIdpSsoSessionModelImpl.getOriginalSamlIdpSsoSessionKey()
+				samlIdpSsoSessionModelImpl.getOriginalAttributeValue(
+					"samlIdpSsoSessionKey")
 			};
 
 			finderCache.removeResult(
@@ -1521,7 +1517,8 @@ public class SamlIdpSsoSessionPersistenceImpl
 			SamlIdpSsoSessionImpl.class, FINDER_CLASS_NAME_ENTITY,
 			"fetchBySamlIdpSsoSessionKey",
 			new String[] {String.class.getName()},
-			SamlIdpSsoSessionModelImpl.SAMLIDPSSOSESSIONKEY_COLUMN_BITMASK);
+			SamlIdpSsoSessionModelImpl.getColumnBitmask(
+				"samlIdpSsoSessionKey"));
 
 		_finderPathCountBySamlIdpSsoSessionKey = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,

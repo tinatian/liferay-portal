@@ -4364,8 +4364,6 @@ public class AMImageEntryPersistenceImpl
 				amImageEntry.getFileVersionId()
 			},
 			amImageEntry);
-
-		amImageEntry.resetOriginalValues();
 	}
 
 	/**
@@ -4381,9 +4379,6 @@ public class AMImageEntryPersistenceImpl
 						null) {
 
 				cacheResult(amImageEntry);
-			}
-			else {
-				amImageEntry.resetOriginalValues();
 			}
 		}
 	}
@@ -4486,8 +4481,8 @@ public class AMImageEntryPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				amImageEntryModelImpl.getOriginalUuid(),
-				amImageEntryModelImpl.getOriginalGroupId()
+				amImageEntryModelImpl.getOriginalAttributeValue("uuid"),
+				amImageEntryModelImpl.getOriginalAttributeValue("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -4508,8 +4503,9 @@ public class AMImageEntryPersistenceImpl
 			 _finderPathFetchByC_F.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				amImageEntryModelImpl.getOriginalConfigurationUuid(),
-				amImageEntryModelImpl.getOriginalFileVersionId()
+				amImageEntryModelImpl.getOriginalAttributeValue(
+					"configurationUuid"),
+				amImageEntryModelImpl.getOriginalAttributeValue("fileVersionId")
 			};
 
 			finderCache.removeResult(_finderPathCountByC_F, args);
@@ -4736,7 +4732,7 @@ public class AMImageEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					amImageEntryModelImpl.getOriginalUuid()
+					amImageEntryModelImpl.getOriginalAttributeValue("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -4755,8 +4751,8 @@ public class AMImageEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					amImageEntryModelImpl.getOriginalUuid(),
-					amImageEntryModelImpl.getOriginalCompanyId()
+					amImageEntryModelImpl.getOriginalAttributeValue("uuid"),
+					amImageEntryModelImpl.getOriginalAttributeValue("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -4778,7 +4774,7 @@ public class AMImageEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					amImageEntryModelImpl.getOriginalGroupId()
+					amImageEntryModelImpl.getOriginalAttributeValue("groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId, args);
@@ -4797,7 +4793,7 @@ public class AMImageEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					amImageEntryModelImpl.getOriginalCompanyId()
+					amImageEntryModelImpl.getOriginalAttributeValue("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCompanyId, args);
@@ -4816,7 +4812,8 @@ public class AMImageEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					amImageEntryModelImpl.getOriginalConfigurationUuid()
+					amImageEntryModelImpl.getOriginalAttributeValue(
+						"configurationUuid")
 				};
 
 				finderCache.removeResult(
@@ -4839,7 +4836,8 @@ public class AMImageEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					amImageEntryModelImpl.getOriginalFileVersionId()
+					amImageEntryModelImpl.getOriginalAttributeValue(
+						"fileVersionId")
 				};
 
 				finderCache.removeResult(_finderPathCountByFileVersionId, args);
@@ -4858,8 +4856,10 @@ public class AMImageEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					amImageEntryModelImpl.getOriginalCompanyId(),
-					amImageEntryModelImpl.getOriginalConfigurationUuid()
+					amImageEntryModelImpl.getOriginalAttributeValue(
+						"companyId"),
+					amImageEntryModelImpl.getOriginalAttributeValue(
+						"configurationUuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_C, args);
@@ -5171,7 +5171,7 @@ public class AMImageEntryPersistenceImpl
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
 			AMImageEntryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByUuid", new String[] {String.class.getName()},
-			AMImageEntryModelImpl.UUID_COLUMN_BITMASK);
+			AMImageEntryModelImpl.getColumnBitmask("uuid"));
 
 		_finderPathCountByUuid = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -5180,8 +5180,8 @@ public class AMImageEntryPersistenceImpl
 		_finderPathFetchByUUID_G = new FinderPath(
 			AMImageEntryImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
-			AMImageEntryModelImpl.UUID_COLUMN_BITMASK |
-			AMImageEntryModelImpl.GROUPID_COLUMN_BITMASK);
+			AMImageEntryModelImpl.getColumnBitmask("uuid") |
+			AMImageEntryModelImpl.getColumnBitmask("groupId"));
 
 		_finderPathCountByUUID_G = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -5201,8 +5201,8 @@ public class AMImageEntryPersistenceImpl
 			AMImageEntryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
-			AMImageEntryModelImpl.UUID_COLUMN_BITMASK |
-			AMImageEntryModelImpl.COMPANYID_COLUMN_BITMASK);
+			AMImageEntryModelImpl.getColumnBitmask("uuid") |
+			AMImageEntryModelImpl.getColumnBitmask("companyId"));
 
 		_finderPathCountByUuid_C = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -5220,7 +5220,7 @@ public class AMImageEntryPersistenceImpl
 		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
 			AMImageEntryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByGroupId", new String[] {Long.class.getName()},
-			AMImageEntryModelImpl.GROUPID_COLUMN_BITMASK);
+			AMImageEntryModelImpl.getColumnBitmask("groupId"));
 
 		_finderPathCountByGroupId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -5237,7 +5237,7 @@ public class AMImageEntryPersistenceImpl
 		_finderPathWithoutPaginationFindByCompanyId = new FinderPath(
 			AMImageEntryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByCompanyId", new String[] {Long.class.getName()},
-			AMImageEntryModelImpl.COMPANYID_COLUMN_BITMASK);
+			AMImageEntryModelImpl.getColumnBitmask("companyId"));
 
 		_finderPathCountByCompanyId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -5254,7 +5254,7 @@ public class AMImageEntryPersistenceImpl
 		_finderPathWithoutPaginationFindByConfigurationUuid = new FinderPath(
 			AMImageEntryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByConfigurationUuid", new String[] {String.class.getName()},
-			AMImageEntryModelImpl.CONFIGURATIONUUID_COLUMN_BITMASK);
+			AMImageEntryModelImpl.getColumnBitmask("configurationUuid"));
 
 		_finderPathCountByConfigurationUuid = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -5271,7 +5271,7 @@ public class AMImageEntryPersistenceImpl
 		_finderPathWithoutPaginationFindByFileVersionId = new FinderPath(
 			AMImageEntryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByFileVersionId", new String[] {Long.class.getName()},
-			AMImageEntryModelImpl.FILEVERSIONID_COLUMN_BITMASK);
+			AMImageEntryModelImpl.getColumnBitmask("fileVersionId"));
 
 		_finderPathCountByFileVersionId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -5290,8 +5290,8 @@ public class AMImageEntryPersistenceImpl
 			AMImageEntryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByC_C",
 			new String[] {Long.class.getName(), String.class.getName()},
-			AMImageEntryModelImpl.COMPANYID_COLUMN_BITMASK |
-			AMImageEntryModelImpl.CONFIGURATIONUUID_COLUMN_BITMASK);
+			AMImageEntryModelImpl.getColumnBitmask("companyId") |
+			AMImageEntryModelImpl.getColumnBitmask("configurationUuid"));
 
 		_finderPathCountByC_C = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C",
@@ -5300,8 +5300,8 @@ public class AMImageEntryPersistenceImpl
 		_finderPathFetchByC_F = new FinderPath(
 			AMImageEntryImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByC_F",
 			new String[] {String.class.getName(), Long.class.getName()},
-			AMImageEntryModelImpl.CONFIGURATIONUUID_COLUMN_BITMASK |
-			AMImageEntryModelImpl.FILEVERSIONID_COLUMN_BITMASK);
+			AMImageEntryModelImpl.getColumnBitmask("configurationUuid") |
+			AMImageEntryModelImpl.getColumnBitmask("fileVersionId"));
 
 		_finderPathCountByC_F = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_F",

@@ -2403,8 +2403,6 @@ public class KaleoTaskFormPersistenceImpl
 				kaleoTaskForm.getKaleoTaskId(), kaleoTaskForm.getFormUuid()
 			},
 			kaleoTaskForm);
-
-		kaleoTaskForm.resetOriginalValues();
 	}
 
 	/**
@@ -2420,9 +2418,6 @@ public class KaleoTaskFormPersistenceImpl
 						null) {
 
 				cacheResult(kaleoTaskForm);
-			}
-			else {
-				kaleoTaskForm.resetOriginalValues();
 			}
 		}
 	}
@@ -2518,8 +2513,8 @@ public class KaleoTaskFormPersistenceImpl
 			 _finderPathFetchByFormUuid_KTI.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				kaleoTaskFormModelImpl.getOriginalKaleoTaskId(),
-				kaleoTaskFormModelImpl.getOriginalFormUuid()
+				kaleoTaskFormModelImpl.getOriginalAttributeValue("kaleoTaskId"),
+				kaleoTaskFormModelImpl.getOriginalAttributeValue("formUuid")
 			};
 
 			finderCache.removeResult(_finderPathCountByFormUuid_KTI, args);
@@ -2742,7 +2737,8 @@ public class KaleoTaskFormPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoTaskFormModelImpl.getOriginalCompanyId()
+					kaleoTaskFormModelImpl.getOriginalAttributeValue(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCompanyId, args);
@@ -2761,7 +2757,8 @@ public class KaleoTaskFormPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoTaskFormModelImpl.getOriginalKaleoDefinitionVersionId()
+					kaleoTaskFormModelImpl.getOriginalAttributeValue(
+						"kaleoDefinitionVersionId")
 				};
 
 				finderCache.removeResult(
@@ -2786,7 +2783,8 @@ public class KaleoTaskFormPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoTaskFormModelImpl.getOriginalKaleoNodeId()
+					kaleoTaskFormModelImpl.getOriginalAttributeValue(
+						"kaleoNodeId")
 				};
 
 				finderCache.removeResult(_finderPathCountByKaleoNodeId, args);
@@ -2805,7 +2803,8 @@ public class KaleoTaskFormPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					kaleoTaskFormModelImpl.getOriginalKaleoTaskId()
+					kaleoTaskFormModelImpl.getOriginalAttributeValue(
+						"kaleoTaskId")
 				};
 
 				finderCache.removeResult(_finderPathCountByKaleoTaskId, args);
@@ -3110,8 +3109,8 @@ public class KaleoTaskFormPersistenceImpl
 		_finderPathWithoutPaginationFindByCompanyId = new FinderPath(
 			KaleoTaskFormImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByCompanyId", new String[] {Long.class.getName()},
-			KaleoTaskFormModelImpl.COMPANYID_COLUMN_BITMASK |
-			KaleoTaskFormModelImpl.PRIORITY_COLUMN_BITMASK);
+			KaleoTaskFormModelImpl.getColumnBitmask("companyId") |
+			KaleoTaskFormModelImpl.getColumnBitmask("priority"));
 
 		_finderPathCountByCompanyId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -3132,8 +3131,9 @@ public class KaleoTaskFormPersistenceImpl
 				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 				"findByKaleoDefinitionVersionId",
 				new String[] {Long.class.getName()},
-				KaleoTaskFormModelImpl.KALEODEFINITIONVERSIONID_COLUMN_BITMASK |
-				KaleoTaskFormModelImpl.PRIORITY_COLUMN_BITMASK);
+				KaleoTaskFormModelImpl.getColumnBitmask(
+					"kaleoDefinitionVersionId") |
+				KaleoTaskFormModelImpl.getColumnBitmask("priority"));
 
 		_finderPathCountByKaleoDefinitionVersionId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -3151,8 +3151,8 @@ public class KaleoTaskFormPersistenceImpl
 		_finderPathWithoutPaginationFindByKaleoNodeId = new FinderPath(
 			KaleoTaskFormImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByKaleoNodeId", new String[] {Long.class.getName()},
-			KaleoTaskFormModelImpl.KALEONODEID_COLUMN_BITMASK |
-			KaleoTaskFormModelImpl.PRIORITY_COLUMN_BITMASK);
+			KaleoTaskFormModelImpl.getColumnBitmask("kaleoNodeId") |
+			KaleoTaskFormModelImpl.getColumnBitmask("priority"));
 
 		_finderPathCountByKaleoNodeId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -3169,8 +3169,8 @@ public class KaleoTaskFormPersistenceImpl
 		_finderPathWithoutPaginationFindByKaleoTaskId = new FinderPath(
 			KaleoTaskFormImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByKaleoTaskId", new String[] {Long.class.getName()},
-			KaleoTaskFormModelImpl.KALEOTASKID_COLUMN_BITMASK |
-			KaleoTaskFormModelImpl.PRIORITY_COLUMN_BITMASK);
+			KaleoTaskFormModelImpl.getColumnBitmask("kaleoTaskId") |
+			KaleoTaskFormModelImpl.getColumnBitmask("priority"));
 
 		_finderPathCountByKaleoTaskId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -3180,8 +3180,8 @@ public class KaleoTaskFormPersistenceImpl
 			KaleoTaskFormImpl.class, FINDER_CLASS_NAME_ENTITY,
 			"fetchByFormUuid_KTI",
 			new String[] {Long.class.getName(), String.class.getName()},
-			KaleoTaskFormModelImpl.KALEOTASKID_COLUMN_BITMASK |
-			KaleoTaskFormModelImpl.FORMUUID_COLUMN_BITMASK);
+			KaleoTaskFormModelImpl.getColumnBitmask("kaleoTaskId") |
+			KaleoTaskFormModelImpl.getColumnBitmask("formUuid"));
 
 		_finderPathCountByFormUuid_KTI = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,

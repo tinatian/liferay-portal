@@ -2063,8 +2063,6 @@ public class SocialActivityLimitPersistenceImpl
 	@Override
 	public void cacheResult(SocialActivityLimit socialActivityLimit) {
 		if (socialActivityLimit.getCtCollectionId() != 0) {
-			socialActivityLimit.resetOriginalValues();
-
 			return;
 		}
 
@@ -2083,8 +2081,6 @@ public class SocialActivityLimitPersistenceImpl
 				socialActivityLimit.getActivityCounterName()
 			},
 			socialActivityLimit);
-
-		socialActivityLimit.resetOriginalValues();
 	}
 
 	/**
@@ -2096,8 +2092,6 @@ public class SocialActivityLimitPersistenceImpl
 	public void cacheResult(List<SocialActivityLimit> socialActivityLimits) {
 		for (SocialActivityLimit socialActivityLimit : socialActivityLimits) {
 			if (socialActivityLimit.getCtCollectionId() != 0) {
-				socialActivityLimit.resetOriginalValues();
-
 				continue;
 			}
 
@@ -2106,9 +2100,6 @@ public class SocialActivityLimitPersistenceImpl
 					socialActivityLimit.getPrimaryKey()) == null) {
 
 				cacheResult(socialActivityLimit);
-			}
-			else {
-				socialActivityLimit.resetOriginalValues();
 			}
 		}
 	}
@@ -2216,12 +2207,18 @@ public class SocialActivityLimitPersistenceImpl
 			 _finderPathFetchByG_U_C_C_A_A.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				socialActivityLimitModelImpl.getOriginalGroupId(),
-				socialActivityLimitModelImpl.getOriginalUserId(),
-				socialActivityLimitModelImpl.getOriginalClassNameId(),
-				socialActivityLimitModelImpl.getOriginalClassPK(),
-				socialActivityLimitModelImpl.getOriginalActivityType(),
-				socialActivityLimitModelImpl.getOriginalActivityCounterName()
+				socialActivityLimitModelImpl.getOriginalAttributeValue(
+					"groupId"),
+				socialActivityLimitModelImpl.getOriginalAttributeValue(
+					"userId"),
+				socialActivityLimitModelImpl.getOriginalAttributeValue(
+					"classNameId"),
+				socialActivityLimitModelImpl.getOriginalAttributeValue(
+					"classPK"),
+				socialActivityLimitModelImpl.getOriginalAttributeValue(
+					"activityType"),
+				socialActivityLimitModelImpl.getOriginalAttributeValue(
+					"activityCounterName")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByG_U_C_C_A_A, args);
@@ -2442,7 +2439,8 @@ public class SocialActivityLimitPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					socialActivityLimitModelImpl.getOriginalGroupId()
+					socialActivityLimitModelImpl.getOriginalAttributeValue(
+						"groupId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByGroupId, args);
@@ -2461,7 +2459,8 @@ public class SocialActivityLimitPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					socialActivityLimitModelImpl.getOriginalUserId()
+					socialActivityLimitModelImpl.getOriginalAttributeValue(
+						"userId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUserId, args);
@@ -2480,8 +2479,10 @@ public class SocialActivityLimitPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					socialActivityLimitModelImpl.getOriginalClassNameId(),
-					socialActivityLimitModelImpl.getOriginalClassPK()
+					socialActivityLimitModelImpl.getOriginalAttributeValue(
+						"classNameId"),
+					socialActivityLimitModelImpl.getOriginalAttributeValue(
+						"classPK")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_C, args);
@@ -2985,7 +2986,7 @@ public class SocialActivityLimitPersistenceImpl
 			SocialActivityLimitImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
 			new String[] {Long.class.getName()},
-			SocialActivityLimitModelImpl.GROUPID_COLUMN_BITMASK);
+			SocialActivityLimitModelImpl.getColumnBitmask("groupId"));
 
 		_finderPathCountByGroupId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -3003,7 +3004,7 @@ public class SocialActivityLimitPersistenceImpl
 			SocialActivityLimitImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUserId",
 			new String[] {Long.class.getName()},
-			SocialActivityLimitModelImpl.USERID_COLUMN_BITMASK);
+			SocialActivityLimitModelImpl.getColumnBitmask("userId"));
 
 		_finderPathCountByUserId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -3022,8 +3023,8 @@ public class SocialActivityLimitPersistenceImpl
 			SocialActivityLimitImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_C",
 			new String[] {Long.class.getName(), Long.class.getName()},
-			SocialActivityLimitModelImpl.CLASSNAMEID_COLUMN_BITMASK |
-			SocialActivityLimitModelImpl.CLASSPK_COLUMN_BITMASK);
+			SocialActivityLimitModelImpl.getColumnBitmask("classNameId") |
+			SocialActivityLimitModelImpl.getColumnBitmask("classPK"));
 
 		_finderPathCountByC_C = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C",
@@ -3037,12 +3038,13 @@ public class SocialActivityLimitPersistenceImpl
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName(), String.class.getName()
 			},
-			SocialActivityLimitModelImpl.GROUPID_COLUMN_BITMASK |
-			SocialActivityLimitModelImpl.USERID_COLUMN_BITMASK |
-			SocialActivityLimitModelImpl.CLASSNAMEID_COLUMN_BITMASK |
-			SocialActivityLimitModelImpl.CLASSPK_COLUMN_BITMASK |
-			SocialActivityLimitModelImpl.ACTIVITYTYPE_COLUMN_BITMASK |
-			SocialActivityLimitModelImpl.ACTIVITYCOUNTERNAME_COLUMN_BITMASK);
+			SocialActivityLimitModelImpl.getColumnBitmask("groupId") |
+			SocialActivityLimitModelImpl.getColumnBitmask("userId") |
+			SocialActivityLimitModelImpl.getColumnBitmask("classNameId") |
+			SocialActivityLimitModelImpl.getColumnBitmask("classPK") |
+			SocialActivityLimitModelImpl.getColumnBitmask("activityType") |
+			SocialActivityLimitModelImpl.getColumnBitmask(
+				"activityCounterName"));
 
 		_finderPathCountByG_U_C_C_A_A = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,

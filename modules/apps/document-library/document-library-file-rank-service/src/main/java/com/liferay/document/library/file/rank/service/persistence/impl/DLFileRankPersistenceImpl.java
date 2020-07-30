@@ -2474,8 +2474,6 @@ public class DLFileRankPersistenceImpl
 				dlFileRank.getFileEntryId()
 			},
 			dlFileRank);
-
-		dlFileRank.resetOriginalValues();
 	}
 
 	/**
@@ -2490,9 +2488,6 @@ public class DLFileRankPersistenceImpl
 					DLFileRankImpl.class, dlFileRank.getPrimaryKey()) == null) {
 
 				cacheResult(dlFileRank);
-			}
-			else {
-				dlFileRank.resetOriginalValues();
 			}
 		}
 	}
@@ -2587,9 +2582,9 @@ public class DLFileRankPersistenceImpl
 			 _finderPathFetchByC_U_F.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				dlFileRankModelImpl.getOriginalCompanyId(),
-				dlFileRankModelImpl.getOriginalUserId(),
-				dlFileRankModelImpl.getOriginalFileEntryId()
+				dlFileRankModelImpl.getOriginalAttributeValue("companyId"),
+				dlFileRankModelImpl.getOriginalAttributeValue("userId"),
+				dlFileRankModelImpl.getOriginalAttributeValue("fileEntryId")
 			};
 
 			finderCache.removeResult(_finderPathCountByC_U_F, args);
@@ -2785,7 +2780,7 @@ public class DLFileRankPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					dlFileRankModelImpl.getOriginalUserId()
+					dlFileRankModelImpl.getOriginalAttributeValue("userId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUserId, args);
@@ -2804,7 +2799,7 @@ public class DLFileRankPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					dlFileRankModelImpl.getOriginalFileEntryId()
+					dlFileRankModelImpl.getOriginalAttributeValue("fileEntryId")
 				};
 
 				finderCache.removeResult(_finderPathCountByFileEntryId, args);
@@ -2823,8 +2818,8 @@ public class DLFileRankPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					dlFileRankModelImpl.getOriginalGroupId(),
-					dlFileRankModelImpl.getOriginalUserId()
+					dlFileRankModelImpl.getOriginalAttributeValue("groupId"),
+					dlFileRankModelImpl.getOriginalAttributeValue("userId")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_U, args);
@@ -2846,9 +2841,9 @@ public class DLFileRankPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					dlFileRankModelImpl.getOriginalGroupId(),
-					dlFileRankModelImpl.getOriginalUserId(),
-					dlFileRankModelImpl.getOriginalActive()
+					dlFileRankModelImpl.getOriginalAttributeValue("groupId"),
+					dlFileRankModelImpl.getOriginalAttributeValue("userId"),
+					dlFileRankModelImpl.getOriginalAttributeValue("active")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_U_A, args);
@@ -3161,8 +3156,8 @@ public class DLFileRankPersistenceImpl
 		_finderPathWithoutPaginationFindByUserId = new FinderPath(
 			DLFileRankImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByUserId", new String[] {Long.class.getName()},
-			DLFileRankModelImpl.USERID_COLUMN_BITMASK |
-			DLFileRankModelImpl.CREATEDATE_COLUMN_BITMASK);
+			DLFileRankModelImpl.getColumnBitmask("userId") |
+			DLFileRankModelImpl.getColumnBitmask("createDate"));
 
 		_finderPathCountByUserId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -3179,8 +3174,8 @@ public class DLFileRankPersistenceImpl
 		_finderPathWithoutPaginationFindByFileEntryId = new FinderPath(
 			DLFileRankImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByFileEntryId", new String[] {Long.class.getName()},
-			DLFileRankModelImpl.FILEENTRYID_COLUMN_BITMASK |
-			DLFileRankModelImpl.CREATEDATE_COLUMN_BITMASK);
+			DLFileRankModelImpl.getColumnBitmask("fileEntryId") |
+			DLFileRankModelImpl.getColumnBitmask("createDate"));
 
 		_finderPathCountByFileEntryId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -3199,9 +3194,9 @@ public class DLFileRankPersistenceImpl
 			DLFileRankImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByG_U",
 			new String[] {Long.class.getName(), Long.class.getName()},
-			DLFileRankModelImpl.GROUPID_COLUMN_BITMASK |
-			DLFileRankModelImpl.USERID_COLUMN_BITMASK |
-			DLFileRankModelImpl.CREATEDATE_COLUMN_BITMASK);
+			DLFileRankModelImpl.getColumnBitmask("groupId") |
+			DLFileRankModelImpl.getColumnBitmask("userId") |
+			DLFileRankModelImpl.getColumnBitmask("createDate"));
 
 		_finderPathCountByG_U = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_U",
@@ -3223,10 +3218,10 @@ public class DLFileRankPersistenceImpl
 				Long.class.getName(), Long.class.getName(),
 				Boolean.class.getName()
 			},
-			DLFileRankModelImpl.GROUPID_COLUMN_BITMASK |
-			DLFileRankModelImpl.USERID_COLUMN_BITMASK |
-			DLFileRankModelImpl.ACTIVE_COLUMN_BITMASK |
-			DLFileRankModelImpl.CREATEDATE_COLUMN_BITMASK);
+			DLFileRankModelImpl.getColumnBitmask("groupId") |
+			DLFileRankModelImpl.getColumnBitmask("userId") |
+			DLFileRankModelImpl.getColumnBitmask("active") |
+			DLFileRankModelImpl.getColumnBitmask("createDate"));
 
 		_finderPathCountByG_U_A = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -3241,9 +3236,9 @@ public class DLFileRankPersistenceImpl
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			},
-			DLFileRankModelImpl.COMPANYID_COLUMN_BITMASK |
-			DLFileRankModelImpl.USERID_COLUMN_BITMASK |
-			DLFileRankModelImpl.FILEENTRYID_COLUMN_BITMASK);
+			DLFileRankModelImpl.getColumnBitmask("companyId") |
+			DLFileRankModelImpl.getColumnBitmask("userId") |
+			DLFileRankModelImpl.getColumnBitmask("fileEntryId"));
 
 		_finderPathCountByC_U_F = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,

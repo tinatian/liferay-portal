@@ -1823,8 +1823,6 @@ public class StatusPersistenceImpl
 		finderCache.putResult(
 			_finderPathFetchByUserId, new Object[] {status.getUserId()},
 			status);
-
-		status.resetOriginalValues();
 	}
 
 	/**
@@ -1839,9 +1837,6 @@ public class StatusPersistenceImpl
 					StatusImpl.class, status.getPrimaryKey()) == null) {
 
 				cacheResult(status);
-			}
-			else {
-				status.resetOriginalValues();
 			}
 		}
 	}
@@ -1924,7 +1919,9 @@ public class StatusPersistenceImpl
 		if ((statusModelImpl.getColumnBitmask() &
 			 _finderPathFetchByUserId.getColumnBitmask()) != 0) {
 
-			Object[] args = new Object[] {statusModelImpl.getOriginalUserId()};
+			Object[] args = new Object[] {
+				statusModelImpl.getOriginalAttributeValue("userId")
+			};
 
 			finderCache.removeResult(_finderPathCountByUserId, args);
 			finderCache.removeResult(_finderPathFetchByUserId, args);
@@ -2103,7 +2100,7 @@ public class StatusPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					statusModelImpl.getOriginalModifiedDate()
+					statusModelImpl.getOriginalAttributeValue("modifiedDate")
 				};
 
 				finderCache.removeResult(_finderPathCountByModifiedDate, args);
@@ -2122,7 +2119,7 @@ public class StatusPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					statusModelImpl.getOriginalOnline()
+					statusModelImpl.getOriginalAttributeValue("online")
 				};
 
 				finderCache.removeResult(_finderPathCountByOnline, args);
@@ -2141,8 +2138,8 @@ public class StatusPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					statusModelImpl.getOriginalModifiedDate(),
-					statusModelImpl.getOriginalOnline()
+					statusModelImpl.getOriginalAttributeValue("modifiedDate"),
+					statusModelImpl.getOriginalAttributeValue("online")
 				};
 
 				finderCache.removeResult(_finderPathCountByM_O, args);
@@ -2443,7 +2440,7 @@ public class StatusPersistenceImpl
 		_finderPathFetchByUserId = new FinderPath(
 			StatusImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByUserId",
 			new String[] {Long.class.getName()},
-			StatusModelImpl.USERID_COLUMN_BITMASK);
+			StatusModelImpl.getColumnBitmask("userId"));
 
 		_finderPathCountByUserId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -2460,7 +2457,7 @@ public class StatusPersistenceImpl
 		_finderPathWithoutPaginationFindByModifiedDate = new FinderPath(
 			StatusImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByModifiedDate", new String[] {Long.class.getName()},
-			StatusModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
+			StatusModelImpl.getColumnBitmask("modifiedDate"));
 
 		_finderPathCountByModifiedDate = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -2477,7 +2474,7 @@ public class StatusPersistenceImpl
 		_finderPathWithoutPaginationFindByOnline = new FinderPath(
 			StatusImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByOnline", new String[] {Boolean.class.getName()},
-			StatusModelImpl.ONLINE_COLUMN_BITMASK);
+			StatusModelImpl.getColumnBitmask("online"));
 
 		_finderPathCountByOnline = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -2496,8 +2493,8 @@ public class StatusPersistenceImpl
 			StatusImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByM_O",
 			new String[] {Long.class.getName(), Boolean.class.getName()},
-			StatusModelImpl.MODIFIEDDATE_COLUMN_BITMASK |
-			StatusModelImpl.ONLINE_COLUMN_BITMASK);
+			StatusModelImpl.getColumnBitmask("modifiedDate") |
+			StatusModelImpl.getColumnBitmask("online"));
 
 		_finderPathCountByM_O = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByM_O",

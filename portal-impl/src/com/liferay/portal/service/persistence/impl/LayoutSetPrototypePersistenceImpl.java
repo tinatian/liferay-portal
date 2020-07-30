@@ -3953,8 +3953,6 @@ public class LayoutSetPrototypePersistenceImpl
 		EntityCacheUtil.putResult(
 			LayoutSetPrototypeImpl.class, layoutSetPrototype.getPrimaryKey(),
 			layoutSetPrototype);
-
-		layoutSetPrototype.resetOriginalValues();
 	}
 
 	/**
@@ -3970,9 +3968,6 @@ public class LayoutSetPrototypePersistenceImpl
 					layoutSetPrototype.getPrimaryKey()) == null) {
 
 				cacheResult(layoutSetPrototype);
-			}
-			else {
-				layoutSetPrototype.resetOriginalValues();
 			}
 		}
 	}
@@ -4269,7 +4264,8 @@ public class LayoutSetPrototypePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					layoutSetPrototypeModelImpl.getOriginalUuid()
+					layoutSetPrototypeModelImpl.getOriginalAttributeValue(
+						"uuid")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid, args);
@@ -4288,8 +4284,10 @@ public class LayoutSetPrototypePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					layoutSetPrototypeModelImpl.getOriginalUuid(),
-					layoutSetPrototypeModelImpl.getOriginalCompanyId()
+					layoutSetPrototypeModelImpl.getOriginalAttributeValue(
+						"uuid"),
+					layoutSetPrototypeModelImpl.getOriginalAttributeValue(
+						"companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid_C, args);
@@ -4311,7 +4309,8 @@ public class LayoutSetPrototypePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					layoutSetPrototypeModelImpl.getOriginalCompanyId()
+					layoutSetPrototypeModelImpl.getOriginalAttributeValue(
+						"companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
@@ -4332,8 +4331,10 @@ public class LayoutSetPrototypePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					layoutSetPrototypeModelImpl.getOriginalCompanyId(),
-					layoutSetPrototypeModelImpl.getOriginalActive()
+					layoutSetPrototypeModelImpl.getOriginalAttributeValue(
+						"companyId"),
+					layoutSetPrototypeModelImpl.getOriginalAttributeValue(
+						"active")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_A, args);
@@ -4646,7 +4647,7 @@ public class LayoutSetPrototypePersistenceImpl
 			LayoutSetPrototypeImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
 			new String[] {String.class.getName()},
-			LayoutSetPrototypeModelImpl.UUID_COLUMN_BITMASK);
+			LayoutSetPrototypeModelImpl.getColumnBitmask("uuid"));
 
 		_finderPathCountByUuid = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -4665,8 +4666,8 @@ public class LayoutSetPrototypePersistenceImpl
 			LayoutSetPrototypeImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
-			LayoutSetPrototypeModelImpl.UUID_COLUMN_BITMASK |
-			LayoutSetPrototypeModelImpl.COMPANYID_COLUMN_BITMASK);
+			LayoutSetPrototypeModelImpl.getColumnBitmask("uuid") |
+			LayoutSetPrototypeModelImpl.getColumnBitmask("companyId"));
 
 		_finderPathCountByUuid_C = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -4685,7 +4686,7 @@ public class LayoutSetPrototypePersistenceImpl
 			LayoutSetPrototypeImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCompanyId",
 			new String[] {Long.class.getName()},
-			LayoutSetPrototypeModelImpl.COMPANYID_COLUMN_BITMASK);
+			LayoutSetPrototypeModelImpl.getColumnBitmask("companyId"));
 
 		_finderPathCountByCompanyId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -4704,8 +4705,8 @@ public class LayoutSetPrototypePersistenceImpl
 			LayoutSetPrototypeImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_A",
 			new String[] {Long.class.getName(), Boolean.class.getName()},
-			LayoutSetPrototypeModelImpl.COMPANYID_COLUMN_BITMASK |
-			LayoutSetPrototypeModelImpl.ACTIVE_COLUMN_BITMASK);
+			LayoutSetPrototypeModelImpl.getColumnBitmask("companyId") |
+			LayoutSetPrototypeModelImpl.getColumnBitmask("active"));
 
 		_finderPathCountByC_A = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_A",

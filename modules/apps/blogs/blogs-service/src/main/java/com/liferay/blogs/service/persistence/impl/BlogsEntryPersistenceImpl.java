@@ -21001,8 +21001,6 @@ public class BlogsEntryPersistenceImpl
 			_finderPathFetchByG_UT,
 			new Object[] {blogsEntry.getGroupId(), blogsEntry.getUrlTitle()},
 			blogsEntry);
-
-		blogsEntry.resetOriginalValues();
 	}
 
 	/**
@@ -21017,9 +21015,6 @@ public class BlogsEntryPersistenceImpl
 					BlogsEntryImpl.class, blogsEntry.getPrimaryKey()) == null) {
 
 				cacheResult(blogsEntry);
-			}
-			else {
-				blogsEntry.resetOriginalValues();
 			}
 		}
 	}
@@ -21120,8 +21115,8 @@ public class BlogsEntryPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				blogsEntryModelImpl.getOriginalUuid(),
-				blogsEntryModelImpl.getOriginalGroupId()
+				blogsEntryModelImpl.getOriginalAttributeValue("uuid"),
+				blogsEntryModelImpl.getOriginalAttributeValue("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -21142,8 +21137,8 @@ public class BlogsEntryPersistenceImpl
 			 _finderPathFetchByG_UT.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				blogsEntryModelImpl.getOriginalGroupId(),
-				blogsEntryModelImpl.getOriginalUrlTitle()
+				blogsEntryModelImpl.getOriginalAttributeValue("groupId"),
+				blogsEntryModelImpl.getOriginalAttributeValue("urlTitle")
 			};
 
 			finderCache.removeResult(_finderPathCountByG_UT, args);
@@ -21461,7 +21456,7 @@ public class BlogsEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					blogsEntryModelImpl.getOriginalUuid()
+					blogsEntryModelImpl.getOriginalAttributeValue("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -21480,8 +21475,8 @@ public class BlogsEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					blogsEntryModelImpl.getOriginalUuid(),
-					blogsEntryModelImpl.getOriginalCompanyId()
+					blogsEntryModelImpl.getOriginalAttributeValue("uuid"),
+					blogsEntryModelImpl.getOriginalAttributeValue("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -21503,7 +21498,7 @@ public class BlogsEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					blogsEntryModelImpl.getOriginalGroupId()
+					blogsEntryModelImpl.getOriginalAttributeValue("groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId, args);
@@ -21522,7 +21517,7 @@ public class BlogsEntryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					blogsEntryModelImpl.getOriginalCompanyId()
+					blogsEntryModelImpl.getOriginalAttributeValue("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCompanyId, args);
@@ -21541,8 +21536,8 @@ public class BlogsEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					blogsEntryModelImpl.getOriginalGroupId(),
-					blogsEntryModelImpl.getOriginalStatus()
+					blogsEntryModelImpl.getOriginalAttributeValue("groupId"),
+					blogsEntryModelImpl.getOriginalAttributeValue("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_S, args);
@@ -21564,8 +21559,8 @@ public class BlogsEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					blogsEntryModelImpl.getOriginalCompanyId(),
-					blogsEntryModelImpl.getOriginalUserId()
+					blogsEntryModelImpl.getOriginalAttributeValue("companyId"),
+					blogsEntryModelImpl.getOriginalAttributeValue("userId")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_U, args);
@@ -21587,8 +21582,8 @@ public class BlogsEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					blogsEntryModelImpl.getOriginalCompanyId(),
-					blogsEntryModelImpl.getOriginalStatus()
+					blogsEntryModelImpl.getOriginalAttributeValue("companyId"),
+					blogsEntryModelImpl.getOriginalAttributeValue("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_S, args);
@@ -21610,9 +21605,9 @@ public class BlogsEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					blogsEntryModelImpl.getOriginalGroupId(),
-					blogsEntryModelImpl.getOriginalUserId(),
-					blogsEntryModelImpl.getOriginalStatus()
+					blogsEntryModelImpl.getOriginalAttributeValue("groupId"),
+					blogsEntryModelImpl.getOriginalAttributeValue("userId"),
+					blogsEntryModelImpl.getOriginalAttributeValue("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_U_S, args);
@@ -21635,9 +21630,10 @@ public class BlogsEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					blogsEntryModelImpl.getOriginalGroupId(),
-					blogsEntryModelImpl.getOriginalDisplayDate(),
-					blogsEntryModelImpl.getOriginalStatus()
+					blogsEntryModelImpl.getOriginalAttributeValue("groupId"),
+					blogsEntryModelImpl.getOriginalAttributeValue(
+						"displayDate"),
+					blogsEntryModelImpl.getOriginalAttributeValue("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_D_S, args);
@@ -21660,9 +21656,9 @@ public class BlogsEntryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					blogsEntryModelImpl.getOriginalCompanyId(),
-					blogsEntryModelImpl.getOriginalUserId(),
-					blogsEntryModelImpl.getOriginalStatus()
+					blogsEntryModelImpl.getOriginalAttributeValue("companyId"),
+					blogsEntryModelImpl.getOriginalAttributeValue("userId"),
+					blogsEntryModelImpl.getOriginalAttributeValue("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_U_S, args);
@@ -21975,9 +21971,9 @@ public class BlogsEntryPersistenceImpl
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
 			BlogsEntryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByUuid", new String[] {String.class.getName()},
-			BlogsEntryModelImpl.UUID_COLUMN_BITMASK |
-			BlogsEntryModelImpl.DISPLAYDATE_COLUMN_BITMASK |
-			BlogsEntryModelImpl.CREATEDATE_COLUMN_BITMASK);
+			BlogsEntryModelImpl.getColumnBitmask("uuid") |
+			BlogsEntryModelImpl.getColumnBitmask("displayDate") |
+			BlogsEntryModelImpl.getColumnBitmask("createDate"));
 
 		_finderPathCountByUuid = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -21986,8 +21982,8 @@ public class BlogsEntryPersistenceImpl
 		_finderPathFetchByUUID_G = new FinderPath(
 			BlogsEntryImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
-			BlogsEntryModelImpl.UUID_COLUMN_BITMASK |
-			BlogsEntryModelImpl.GROUPID_COLUMN_BITMASK);
+			BlogsEntryModelImpl.getColumnBitmask("uuid") |
+			BlogsEntryModelImpl.getColumnBitmask("groupId"));
 
 		_finderPathCountByUUID_G = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -22007,10 +22003,10 @@ public class BlogsEntryPersistenceImpl
 			BlogsEntryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
-			BlogsEntryModelImpl.UUID_COLUMN_BITMASK |
-			BlogsEntryModelImpl.COMPANYID_COLUMN_BITMASK |
-			BlogsEntryModelImpl.DISPLAYDATE_COLUMN_BITMASK |
-			BlogsEntryModelImpl.CREATEDATE_COLUMN_BITMASK);
+			BlogsEntryModelImpl.getColumnBitmask("uuid") |
+			BlogsEntryModelImpl.getColumnBitmask("companyId") |
+			BlogsEntryModelImpl.getColumnBitmask("displayDate") |
+			BlogsEntryModelImpl.getColumnBitmask("createDate"));
 
 		_finderPathCountByUuid_C = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -22028,9 +22024,9 @@ public class BlogsEntryPersistenceImpl
 		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
 			BlogsEntryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByGroupId", new String[] {Long.class.getName()},
-			BlogsEntryModelImpl.GROUPID_COLUMN_BITMASK |
-			BlogsEntryModelImpl.DISPLAYDATE_COLUMN_BITMASK |
-			BlogsEntryModelImpl.CREATEDATE_COLUMN_BITMASK);
+			BlogsEntryModelImpl.getColumnBitmask("groupId") |
+			BlogsEntryModelImpl.getColumnBitmask("displayDate") |
+			BlogsEntryModelImpl.getColumnBitmask("createDate"));
 
 		_finderPathCountByGroupId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -22047,9 +22043,9 @@ public class BlogsEntryPersistenceImpl
 		_finderPathWithoutPaginationFindByCompanyId = new FinderPath(
 			BlogsEntryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByCompanyId", new String[] {Long.class.getName()},
-			BlogsEntryModelImpl.COMPANYID_COLUMN_BITMASK |
-			BlogsEntryModelImpl.DISPLAYDATE_COLUMN_BITMASK |
-			BlogsEntryModelImpl.CREATEDATE_COLUMN_BITMASK);
+			BlogsEntryModelImpl.getColumnBitmask("companyId") |
+			BlogsEntryModelImpl.getColumnBitmask("displayDate") |
+			BlogsEntryModelImpl.getColumnBitmask("createDate"));
 
 		_finderPathCountByCompanyId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -22058,8 +22054,8 @@ public class BlogsEntryPersistenceImpl
 		_finderPathFetchByG_UT = new FinderPath(
 			BlogsEntryImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByG_UT",
 			new String[] {Long.class.getName(), String.class.getName()},
-			BlogsEntryModelImpl.GROUPID_COLUMN_BITMASK |
-			BlogsEntryModelImpl.URLTITLE_COLUMN_BITMASK);
+			BlogsEntryModelImpl.getColumnBitmask("groupId") |
+			BlogsEntryModelImpl.getColumnBitmask("urlTitle"));
 
 		_finderPathCountByG_UT = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -22092,10 +22088,10 @@ public class BlogsEntryPersistenceImpl
 			BlogsEntryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByG_S",
 			new String[] {Long.class.getName(), Integer.class.getName()},
-			BlogsEntryModelImpl.GROUPID_COLUMN_BITMASK |
-			BlogsEntryModelImpl.STATUS_COLUMN_BITMASK |
-			BlogsEntryModelImpl.DISPLAYDATE_COLUMN_BITMASK |
-			BlogsEntryModelImpl.CREATEDATE_COLUMN_BITMASK);
+			BlogsEntryModelImpl.getColumnBitmask("groupId") |
+			BlogsEntryModelImpl.getColumnBitmask("status") |
+			BlogsEntryModelImpl.getColumnBitmask("displayDate") |
+			BlogsEntryModelImpl.getColumnBitmask("createDate"));
 
 		_finderPathCountByG_S = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_S",
@@ -22127,10 +22123,10 @@ public class BlogsEntryPersistenceImpl
 			BlogsEntryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByC_U",
 			new String[] {Long.class.getName(), Long.class.getName()},
-			BlogsEntryModelImpl.COMPANYID_COLUMN_BITMASK |
-			BlogsEntryModelImpl.USERID_COLUMN_BITMASK |
-			BlogsEntryModelImpl.DISPLAYDATE_COLUMN_BITMASK |
-			BlogsEntryModelImpl.CREATEDATE_COLUMN_BITMASK);
+			BlogsEntryModelImpl.getColumnBitmask("companyId") |
+			BlogsEntryModelImpl.getColumnBitmask("userId") |
+			BlogsEntryModelImpl.getColumnBitmask("displayDate") |
+			BlogsEntryModelImpl.getColumnBitmask("createDate"));
 
 		_finderPathCountByC_U = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_U",
@@ -22162,10 +22158,10 @@ public class BlogsEntryPersistenceImpl
 			BlogsEntryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByC_S",
 			new String[] {Long.class.getName(), Integer.class.getName()},
-			BlogsEntryModelImpl.COMPANYID_COLUMN_BITMASK |
-			BlogsEntryModelImpl.STATUS_COLUMN_BITMASK |
-			BlogsEntryModelImpl.DISPLAYDATE_COLUMN_BITMASK |
-			BlogsEntryModelImpl.CREATEDATE_COLUMN_BITMASK);
+			BlogsEntryModelImpl.getColumnBitmask("companyId") |
+			BlogsEntryModelImpl.getColumnBitmask("status") |
+			BlogsEntryModelImpl.getColumnBitmask("displayDate") |
+			BlogsEntryModelImpl.getColumnBitmask("createDate"));
 
 		_finderPathCountByC_S = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_S",
@@ -22229,11 +22225,11 @@ public class BlogsEntryPersistenceImpl
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName()
 			},
-			BlogsEntryModelImpl.GROUPID_COLUMN_BITMASK |
-			BlogsEntryModelImpl.USERID_COLUMN_BITMASK |
-			BlogsEntryModelImpl.STATUS_COLUMN_BITMASK |
-			BlogsEntryModelImpl.DISPLAYDATE_COLUMN_BITMASK |
-			BlogsEntryModelImpl.CREATEDATE_COLUMN_BITMASK);
+			BlogsEntryModelImpl.getColumnBitmask("groupId") |
+			BlogsEntryModelImpl.getColumnBitmask("userId") |
+			BlogsEntryModelImpl.getColumnBitmask("status") |
+			BlogsEntryModelImpl.getColumnBitmask("displayDate") |
+			BlogsEntryModelImpl.getColumnBitmask("createDate"));
 
 		_finderPathCountByG_U_S = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -22283,10 +22279,10 @@ public class BlogsEntryPersistenceImpl
 				Long.class.getName(), Date.class.getName(),
 				Integer.class.getName()
 			},
-			BlogsEntryModelImpl.GROUPID_COLUMN_BITMASK |
-			BlogsEntryModelImpl.DISPLAYDATE_COLUMN_BITMASK |
-			BlogsEntryModelImpl.STATUS_COLUMN_BITMASK |
-			BlogsEntryModelImpl.CREATEDATE_COLUMN_BITMASK);
+			BlogsEntryModelImpl.getColumnBitmask("groupId") |
+			BlogsEntryModelImpl.getColumnBitmask("displayDate") |
+			BlogsEntryModelImpl.getColumnBitmask("status") |
+			BlogsEntryModelImpl.getColumnBitmask("createDate"));
 
 		_finderPathCountByG_D_S = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -22363,11 +22359,11 @@ public class BlogsEntryPersistenceImpl
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName()
 			},
-			BlogsEntryModelImpl.COMPANYID_COLUMN_BITMASK |
-			BlogsEntryModelImpl.USERID_COLUMN_BITMASK |
-			BlogsEntryModelImpl.STATUS_COLUMN_BITMASK |
-			BlogsEntryModelImpl.DISPLAYDATE_COLUMN_BITMASK |
-			BlogsEntryModelImpl.CREATEDATE_COLUMN_BITMASK);
+			BlogsEntryModelImpl.getColumnBitmask("companyId") |
+			BlogsEntryModelImpl.getColumnBitmask("userId") |
+			BlogsEntryModelImpl.getColumnBitmask("status") |
+			BlogsEntryModelImpl.getColumnBitmask("displayDate") |
+			BlogsEntryModelImpl.getColumnBitmask("createDate"));
 
 		_finderPathCountByC_U_S = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,

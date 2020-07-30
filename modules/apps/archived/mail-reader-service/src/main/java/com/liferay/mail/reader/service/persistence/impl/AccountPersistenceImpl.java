@@ -870,8 +870,6 @@ public class AccountPersistenceImpl
 		finderCache.putResult(
 			_finderPathFetchByU_A,
 			new Object[] {account.getUserId(), account.getAddress()}, account);
-
-		account.resetOriginalValues();
 	}
 
 	/**
@@ -886,9 +884,6 @@ public class AccountPersistenceImpl
 					AccountImpl.class, account.getPrimaryKey()) == null) {
 
 				cacheResult(account);
-			}
-			else {
-				account.resetOriginalValues();
 			}
 		}
 	}
@@ -977,8 +972,8 @@ public class AccountPersistenceImpl
 			 _finderPathFetchByU_A.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				accountModelImpl.getOriginalUserId(),
-				accountModelImpl.getOriginalAddress()
+				accountModelImpl.getOriginalAttributeValue("userId"),
+				accountModelImpl.getOriginalAttributeValue("address")
 			};
 
 			finderCache.removeResult(_finderPathCountByU_A, args);
@@ -1172,7 +1167,7 @@ public class AccountPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					accountModelImpl.getOriginalUserId()
+					accountModelImpl.getOriginalAttributeValue("userId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUserId, args);
@@ -1480,8 +1475,8 @@ public class AccountPersistenceImpl
 		_finderPathWithoutPaginationFindByUserId = new FinderPath(
 			AccountImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByUserId", new String[] {Long.class.getName()},
-			AccountModelImpl.USERID_COLUMN_BITMASK |
-			AccountModelImpl.ADDRESS_COLUMN_BITMASK);
+			AccountModelImpl.getColumnBitmask("userId") |
+			AccountModelImpl.getColumnBitmask("address"));
 
 		_finderPathCountByUserId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -1490,8 +1485,8 @@ public class AccountPersistenceImpl
 		_finderPathFetchByU_A = new FinderPath(
 			AccountImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByU_A",
 			new String[] {Long.class.getName(), String.class.getName()},
-			AccountModelImpl.USERID_COLUMN_BITMASK |
-			AccountModelImpl.ADDRESS_COLUMN_BITMASK);
+			AccountModelImpl.getColumnBitmask("userId") |
+			AccountModelImpl.getColumnBitmask("address"));
 
 		_finderPathCountByU_A = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_A",

@@ -2212,8 +2212,6 @@ public class MembershipRequestPersistenceImpl
 		EntityCacheUtil.putResult(
 			MembershipRequestImpl.class, membershipRequest.getPrimaryKey(),
 			membershipRequest);
-
-		membershipRequest.resetOriginalValues();
 	}
 
 	/**
@@ -2229,9 +2227,6 @@ public class MembershipRequestPersistenceImpl
 					membershipRequest.getPrimaryKey()) == null) {
 
 				cacheResult(membershipRequest);
-			}
-			else {
-				membershipRequest.resetOriginalValues();
 			}
 		}
 	}
@@ -2491,7 +2486,8 @@ public class MembershipRequestPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					membershipRequestModelImpl.getOriginalGroupId()
+					membershipRequestModelImpl.getOriginalAttributeValue(
+						"groupId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByGroupId, args);
@@ -2510,7 +2506,8 @@ public class MembershipRequestPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					membershipRequestModelImpl.getOriginalUserId()
+					membershipRequestModelImpl.getOriginalAttributeValue(
+						"userId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUserId, args);
@@ -2529,8 +2526,10 @@ public class MembershipRequestPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					membershipRequestModelImpl.getOriginalGroupId(),
-					membershipRequestModelImpl.getOriginalStatusId()
+					membershipRequestModelImpl.getOriginalAttributeValue(
+						"groupId"),
+					membershipRequestModelImpl.getOriginalAttributeValue(
+						"statusId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByG_S, args);
@@ -2552,9 +2551,12 @@ public class MembershipRequestPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					membershipRequestModelImpl.getOriginalGroupId(),
-					membershipRequestModelImpl.getOriginalUserId(),
-					membershipRequestModelImpl.getOriginalStatusId()
+					membershipRequestModelImpl.getOriginalAttributeValue(
+						"groupId"),
+					membershipRequestModelImpl.getOriginalAttributeValue(
+						"userId"),
+					membershipRequestModelImpl.getOriginalAttributeValue(
+						"statusId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByG_U_S, args);
@@ -2862,8 +2864,8 @@ public class MembershipRequestPersistenceImpl
 			MembershipRequestImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
 			new String[] {Long.class.getName()},
-			MembershipRequestModelImpl.GROUPID_COLUMN_BITMASK |
-			MembershipRequestModelImpl.CREATEDATE_COLUMN_BITMASK);
+			MembershipRequestModelImpl.getColumnBitmask("groupId") |
+			MembershipRequestModelImpl.getColumnBitmask("createDate"));
 
 		_finderPathCountByGroupId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -2881,8 +2883,8 @@ public class MembershipRequestPersistenceImpl
 			MembershipRequestImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUserId",
 			new String[] {Long.class.getName()},
-			MembershipRequestModelImpl.USERID_COLUMN_BITMASK |
-			MembershipRequestModelImpl.CREATEDATE_COLUMN_BITMASK);
+			MembershipRequestModelImpl.getColumnBitmask("userId") |
+			MembershipRequestModelImpl.getColumnBitmask("createDate"));
 
 		_finderPathCountByUserId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -2901,9 +2903,9 @@ public class MembershipRequestPersistenceImpl
 			MembershipRequestImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_S",
 			new String[] {Long.class.getName(), Long.class.getName()},
-			MembershipRequestModelImpl.GROUPID_COLUMN_BITMASK |
-			MembershipRequestModelImpl.STATUSID_COLUMN_BITMASK |
-			MembershipRequestModelImpl.CREATEDATE_COLUMN_BITMASK);
+			MembershipRequestModelImpl.getColumnBitmask("groupId") |
+			MembershipRequestModelImpl.getColumnBitmask("statusId") |
+			MembershipRequestModelImpl.getColumnBitmask("createDate"));
 
 		_finderPathCountByG_S = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_S",
@@ -2924,10 +2926,10 @@ public class MembershipRequestPersistenceImpl
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			},
-			MembershipRequestModelImpl.GROUPID_COLUMN_BITMASK |
-			MembershipRequestModelImpl.USERID_COLUMN_BITMASK |
-			MembershipRequestModelImpl.STATUSID_COLUMN_BITMASK |
-			MembershipRequestModelImpl.CREATEDATE_COLUMN_BITMASK);
+			MembershipRequestModelImpl.getColumnBitmask("groupId") |
+			MembershipRequestModelImpl.getColumnBitmask("userId") |
+			MembershipRequestModelImpl.getColumnBitmask("statusId") |
+			MembershipRequestModelImpl.getColumnBitmask("createDate"));
 
 		_finderPathCountByG_U_S = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,

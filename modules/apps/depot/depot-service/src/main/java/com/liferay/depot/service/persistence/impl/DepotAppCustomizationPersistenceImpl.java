@@ -1128,8 +1128,6 @@ public class DepotAppCustomizationPersistenceImpl
 				depotAppCustomization.getPortletId()
 			},
 			depotAppCustomization);
-
-		depotAppCustomization.resetOriginalValues();
 	}
 
 	/**
@@ -1149,9 +1147,6 @@ public class DepotAppCustomizationPersistenceImpl
 					depotAppCustomization.getPrimaryKey()) == null) {
 
 				cacheResult(depotAppCustomization);
-			}
-			else {
-				depotAppCustomization.resetOriginalValues();
 			}
 		}
 	}
@@ -1263,8 +1258,10 @@ public class DepotAppCustomizationPersistenceImpl
 			 _finderPathFetchByD_E.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				depotAppCustomizationModelImpl.getOriginalDepotEntryId(),
-				depotAppCustomizationModelImpl.getOriginalEnabled()
+				depotAppCustomizationModelImpl.getOriginalAttributeValue(
+					"depotEntryId"),
+				depotAppCustomizationModelImpl.getOriginalAttributeValue(
+					"enabled")
 			};
 
 			finderCache.removeResult(_finderPathCountByD_E, args);
@@ -1285,8 +1282,10 @@ public class DepotAppCustomizationPersistenceImpl
 			 _finderPathFetchByD_P.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				depotAppCustomizationModelImpl.getOriginalDepotEntryId(),
-				depotAppCustomizationModelImpl.getOriginalPortletId()
+				depotAppCustomizationModelImpl.getOriginalAttributeValue(
+					"depotEntryId"),
+				depotAppCustomizationModelImpl.getOriginalAttributeValue(
+					"portletId")
 			};
 
 			finderCache.removeResult(_finderPathCountByD_P, args);
@@ -1473,7 +1472,8 @@ public class DepotAppCustomizationPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					depotAppCustomizationModelImpl.getOriginalDepotEntryId()
+					depotAppCustomizationModelImpl.getOriginalAttributeValue(
+						"depotEntryId")
 				};
 
 				finderCache.removeResult(_finderPathCountByDepotEntryId, args);
@@ -1788,7 +1788,7 @@ public class DepotAppCustomizationPersistenceImpl
 			DepotAppCustomizationImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByDepotEntryId",
 			new String[] {Long.class.getName()},
-			DepotAppCustomizationModelImpl.DEPOTENTRYID_COLUMN_BITMASK);
+			DepotAppCustomizationModelImpl.getColumnBitmask("depotEntryId"));
 
 		_finderPathCountByDepotEntryId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -1798,8 +1798,8 @@ public class DepotAppCustomizationPersistenceImpl
 			DepotAppCustomizationImpl.class, FINDER_CLASS_NAME_ENTITY,
 			"fetchByD_E",
 			new String[] {Long.class.getName(), Boolean.class.getName()},
-			DepotAppCustomizationModelImpl.DEPOTENTRYID_COLUMN_BITMASK |
-			DepotAppCustomizationModelImpl.ENABLED_COLUMN_BITMASK);
+			DepotAppCustomizationModelImpl.getColumnBitmask("depotEntryId") |
+			DepotAppCustomizationModelImpl.getColumnBitmask("enabled"));
 
 		_finderPathCountByD_E = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByD_E",
@@ -1809,8 +1809,8 @@ public class DepotAppCustomizationPersistenceImpl
 			DepotAppCustomizationImpl.class, FINDER_CLASS_NAME_ENTITY,
 			"fetchByD_P",
 			new String[] {Long.class.getName(), String.class.getName()},
-			DepotAppCustomizationModelImpl.DEPOTENTRYID_COLUMN_BITMASK |
-			DepotAppCustomizationModelImpl.PORTLETID_COLUMN_BITMASK);
+			DepotAppCustomizationModelImpl.getColumnBitmask("depotEntryId") |
+			DepotAppCustomizationModelImpl.getColumnBitmask("portletId"));
 
 		_finderPathCountByD_P = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByD_P",

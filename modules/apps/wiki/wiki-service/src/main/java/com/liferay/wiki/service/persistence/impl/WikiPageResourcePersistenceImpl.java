@@ -1740,8 +1740,6 @@ public class WikiPageResourcePersistenceImpl
 				wikiPageResource.getNodeId(), wikiPageResource.getTitle()
 			},
 			wikiPageResource);
-
-		wikiPageResource.resetOriginalValues();
 	}
 
 	/**
@@ -1757,9 +1755,6 @@ public class WikiPageResourcePersistenceImpl
 					wikiPageResource.getPrimaryKey()) == null) {
 
 				cacheResult(wikiPageResource);
-			}
-			else {
-				wikiPageResource.resetOriginalValues();
 			}
 		}
 	}
@@ -1866,8 +1861,8 @@ public class WikiPageResourcePersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				wikiPageResourceModelImpl.getOriginalUuid(),
-				wikiPageResourceModelImpl.getOriginalGroupId()
+				wikiPageResourceModelImpl.getOriginalAttributeValue("uuid"),
+				wikiPageResourceModelImpl.getOriginalAttributeValue("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -1888,8 +1883,8 @@ public class WikiPageResourcePersistenceImpl
 			 _finderPathFetchByN_T.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				wikiPageResourceModelImpl.getOriginalNodeId(),
-				wikiPageResourceModelImpl.getOriginalTitle()
+				wikiPageResourceModelImpl.getOriginalAttributeValue("nodeId"),
+				wikiPageResourceModelImpl.getOriginalAttributeValue("title")
 			};
 
 			finderCache.removeResult(_finderPathCountByN_T, args);
@@ -2085,7 +2080,7 @@ public class WikiPageResourcePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					wikiPageResourceModelImpl.getOriginalUuid()
+					wikiPageResourceModelImpl.getOriginalAttributeValue("uuid")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -2104,8 +2099,9 @@ public class WikiPageResourcePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					wikiPageResourceModelImpl.getOriginalUuid(),
-					wikiPageResourceModelImpl.getOriginalCompanyId()
+					wikiPageResourceModelImpl.getOriginalAttributeValue("uuid"),
+					wikiPageResourceModelImpl.getOriginalAttributeValue(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -2421,7 +2417,7 @@ public class WikiPageResourcePersistenceImpl
 			WikiPageResourceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
 			new String[] {String.class.getName()},
-			WikiPageResourceModelImpl.UUID_COLUMN_BITMASK);
+			WikiPageResourceModelImpl.getColumnBitmask("uuid"));
 
 		_finderPathCountByUuid = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -2431,8 +2427,8 @@ public class WikiPageResourcePersistenceImpl
 			WikiPageResourceImpl.class, FINDER_CLASS_NAME_ENTITY,
 			"fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
-			WikiPageResourceModelImpl.UUID_COLUMN_BITMASK |
-			WikiPageResourceModelImpl.GROUPID_COLUMN_BITMASK);
+			WikiPageResourceModelImpl.getColumnBitmask("uuid") |
+			WikiPageResourceModelImpl.getColumnBitmask("groupId"));
 
 		_finderPathCountByUUID_G = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -2452,8 +2448,8 @@ public class WikiPageResourcePersistenceImpl
 			WikiPageResourceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
-			WikiPageResourceModelImpl.UUID_COLUMN_BITMASK |
-			WikiPageResourceModelImpl.COMPANYID_COLUMN_BITMASK);
+			WikiPageResourceModelImpl.getColumnBitmask("uuid") |
+			WikiPageResourceModelImpl.getColumnBitmask("companyId"));
 
 		_finderPathCountByUuid_C = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -2463,8 +2459,8 @@ public class WikiPageResourcePersistenceImpl
 		_finderPathFetchByN_T = new FinderPath(
 			WikiPageResourceImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByN_T",
 			new String[] {Long.class.getName(), String.class.getName()},
-			WikiPageResourceModelImpl.NODEID_COLUMN_BITMASK |
-			WikiPageResourceModelImpl.TITLE_COLUMN_BITMASK);
+			WikiPageResourceModelImpl.getColumnBitmask("nodeId") |
+			WikiPageResourceModelImpl.getColumnBitmask("title"));
 
 		_finderPathCountByN_T = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByN_T",
