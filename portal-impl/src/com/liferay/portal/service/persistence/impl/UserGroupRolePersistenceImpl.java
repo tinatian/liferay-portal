@@ -2988,6 +2988,8 @@ public class UserGroupRolePersistenceImpl
 	@Override
 	public void cacheResult(UserGroupRole userGroupRole) {
 		if (userGroupRole.getCtCollectionId() != 0) {
+			userGroupRole.resetOriginalValues();
+
 			return;
 		}
 
@@ -3002,6 +3004,8 @@ public class UserGroupRolePersistenceImpl
 				userGroupRole.getRoleId()
 			},
 			userGroupRole);
+
+		userGroupRole.resetOriginalValues();
 	}
 
 	/**
@@ -3013,6 +3017,8 @@ public class UserGroupRolePersistenceImpl
 	public void cacheResult(List<UserGroupRole> userGroupRoles) {
 		for (UserGroupRole userGroupRole : userGroupRoles) {
 			if (userGroupRole.getCtCollectionId() != 0) {
+				userGroupRole.resetOriginalValues();
+
 				continue;
 			}
 
@@ -3021,6 +3027,9 @@ public class UserGroupRolePersistenceImpl
 						null) {
 
 				cacheResult(userGroupRole);
+			}
+			else {
+				userGroupRole.resetOriginalValues();
 			}
 		}
 	}

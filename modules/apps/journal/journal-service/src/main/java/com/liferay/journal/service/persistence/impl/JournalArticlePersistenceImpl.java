@@ -33021,14 +33021,7 @@ public class JournalArticlePersistenceImpl
 
 			if (ctPersistenceHelper.isInsert(journalArticle)) {
 				if (!isNew) {
-					JournalArticle oldJournalArticle =
-						(JournalArticle)session.get(
-							JournalArticleImpl.class,
-							journalArticle.getPrimaryKeyObj());
-
-					if (oldJournalArticle != null) {
-						session.evict(oldJournalArticle);
-					}
+					session.evict(journalArticle);
 				}
 
 				session.save(journalArticle);

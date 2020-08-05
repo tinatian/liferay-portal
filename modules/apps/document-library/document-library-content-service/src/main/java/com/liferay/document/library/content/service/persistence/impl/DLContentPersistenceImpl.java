@@ -2542,12 +2542,7 @@ public class DLContentPersistenceImpl
 
 			if (ctPersistenceHelper.isInsert(dlContent)) {
 				if (!isNew) {
-					DLContent oldDLContent = (DLContent)session.get(
-						DLContentImpl.class, dlContent.getPrimaryKeyObj());
-
-					if (oldDLContent != null) {
-						session.evict(oldDLContent);
-					}
+					session.evict(dlContent);
 				}
 
 				session.save(dlContent);

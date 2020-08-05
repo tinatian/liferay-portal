@@ -3025,6 +3025,8 @@ public class AssetLinkPersistenceImpl
 	@Override
 	public void cacheResult(AssetLink assetLink) {
 		if (assetLink.getCtCollectionId() != 0) {
+			assetLink.resetOriginalValues();
+
 			return;
 		}
 
@@ -3038,6 +3040,8 @@ public class AssetLinkPersistenceImpl
 				assetLink.getType()
 			},
 			assetLink);
+
+		assetLink.resetOriginalValues();
 	}
 
 	/**
@@ -3049,6 +3053,8 @@ public class AssetLinkPersistenceImpl
 	public void cacheResult(List<AssetLink> assetLinks) {
 		for (AssetLink assetLink : assetLinks) {
 			if (assetLink.getCtCollectionId() != 0) {
+				assetLink.resetOriginalValues();
+
 				continue;
 			}
 
@@ -3056,6 +3062,9 @@ public class AssetLinkPersistenceImpl
 					AssetLinkImpl.class, assetLink.getPrimaryKey()) == null) {
 
 				cacheResult(assetLink);
+			}
+			else {
+				assetLink.resetOriginalValues();
 			}
 		}
 	}

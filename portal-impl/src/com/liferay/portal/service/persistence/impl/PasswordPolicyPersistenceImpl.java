@@ -3475,6 +3475,8 @@ public class PasswordPolicyPersistenceImpl
 				passwordPolicy.getCompanyId(), passwordPolicy.getName()
 			},
 			passwordPolicy);
+
+		passwordPolicy.resetOriginalValues();
 	}
 
 	/**
@@ -3490,6 +3492,9 @@ public class PasswordPolicyPersistenceImpl
 						null) {
 
 				cacheResult(passwordPolicy);
+			}
+			else {
+				passwordPolicy.resetOriginalValues();
 			}
 		}
 	}

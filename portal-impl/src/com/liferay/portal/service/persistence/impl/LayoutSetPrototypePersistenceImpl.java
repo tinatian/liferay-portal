@@ -3953,6 +3953,8 @@ public class LayoutSetPrototypePersistenceImpl
 		EntityCacheUtil.putResult(
 			LayoutSetPrototypeImpl.class, layoutSetPrototype.getPrimaryKey(),
 			layoutSetPrototype);
+
+		layoutSetPrototype.resetOriginalValues();
 	}
 
 	/**
@@ -3968,6 +3970,9 @@ public class LayoutSetPrototypePersistenceImpl
 					layoutSetPrototype.getPrimaryKey()) == null) {
 
 				cacheResult(layoutSetPrototype);
+			}
+			else {
+				layoutSetPrototype.resetOriginalValues();
 			}
 		}
 	}

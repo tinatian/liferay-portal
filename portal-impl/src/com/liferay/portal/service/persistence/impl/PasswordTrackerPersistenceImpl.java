@@ -596,6 +596,8 @@ public class PasswordTrackerPersistenceImpl
 		EntityCacheUtil.putResult(
 			PasswordTrackerImpl.class, passwordTracker.getPrimaryKey(),
 			passwordTracker);
+
+		passwordTracker.resetOriginalValues();
 	}
 
 	/**
@@ -611,6 +613,9 @@ public class PasswordTrackerPersistenceImpl
 					passwordTracker.getPrimaryKey()) == null) {
 
 				cacheResult(passwordTracker);
+			}
+			else {
+				passwordTracker.resetOriginalValues();
 			}
 		}
 	}

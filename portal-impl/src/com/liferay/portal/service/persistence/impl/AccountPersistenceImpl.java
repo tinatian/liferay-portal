@@ -104,6 +104,8 @@ public class AccountPersistenceImpl
 	public void cacheResult(Account account) {
 		EntityCacheUtil.putResult(
 			AccountImpl.class, account.getPrimaryKey(), account);
+
+		account.resetOriginalValues();
 	}
 
 	/**
@@ -118,6 +120,9 @@ public class AccountPersistenceImpl
 					AccountImpl.class, account.getPrimaryKey()) == null) {
 
 				cacheResult(account);
+			}
+			else {
+				account.resetOriginalValues();
 			}
 		}
 	}

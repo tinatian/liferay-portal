@@ -320,6 +320,8 @@ public class ClassNamePersistenceImpl
 		FinderCacheUtil.putResult(
 			_finderPathFetchByValue, new Object[] {className.getValue()},
 			className);
+
+		className.resetOriginalValues();
 	}
 
 	/**
@@ -334,6 +336,9 @@ public class ClassNamePersistenceImpl
 					ClassNameImpl.class, className.getPrimaryKey()) == null) {
 
 				cacheResult(className);
+			}
+			else {
+				className.resetOriginalValues();
 			}
 		}
 	}

@@ -5745,6 +5745,8 @@ public class PortletPreferencesPersistenceImpl
 	@Override
 	public void cacheResult(PortletPreferences portletPreferences) {
 		if (portletPreferences.getCtCollectionId() != 0) {
+			portletPreferences.resetOriginalValues();
+
 			return;
 		}
 
@@ -5760,6 +5762,8 @@ public class PortletPreferencesPersistenceImpl
 				portletPreferences.getPortletId()
 			},
 			portletPreferences);
+
+		portletPreferences.resetOriginalValues();
 	}
 
 	/**
@@ -5771,6 +5775,8 @@ public class PortletPreferencesPersistenceImpl
 	public void cacheResult(List<PortletPreferences> portletPreferenceses) {
 		for (PortletPreferences portletPreferences : portletPreferenceses) {
 			if (portletPreferences.getCtCollectionId() != 0) {
+				portletPreferences.resetOriginalValues();
+
 				continue;
 			}
 
@@ -5779,6 +5785,9 @@ public class PortletPreferencesPersistenceImpl
 					portletPreferences.getPrimaryKey()) == null) {
 
 				cacheResult(portletPreferences);
+			}
+			else {
+				portletPreferences.resetOriginalValues();
 			}
 		}
 	}

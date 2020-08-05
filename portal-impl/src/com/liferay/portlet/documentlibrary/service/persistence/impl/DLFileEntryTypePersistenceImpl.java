@@ -3158,6 +3158,8 @@ public class DLFileEntryTypePersistenceImpl
 	@Override
 	public void cacheResult(DLFileEntryType dlFileEntryType) {
 		if (dlFileEntryType.getCtCollectionId() != 0) {
+			dlFileEntryType.resetOriginalValues();
+
 			return;
 		}
 
@@ -3179,6 +3181,8 @@ public class DLFileEntryTypePersistenceImpl
 				dlFileEntryType.getFileEntryTypeKey()
 			},
 			dlFileEntryType);
+
+		dlFileEntryType.resetOriginalValues();
 	}
 
 	/**
@@ -3190,6 +3194,8 @@ public class DLFileEntryTypePersistenceImpl
 	public void cacheResult(List<DLFileEntryType> dlFileEntryTypes) {
 		for (DLFileEntryType dlFileEntryType : dlFileEntryTypes) {
 			if (dlFileEntryType.getCtCollectionId() != 0) {
+				dlFileEntryType.resetOriginalValues();
+
 				continue;
 			}
 
@@ -3198,6 +3204,9 @@ public class DLFileEntryTypePersistenceImpl
 					dlFileEntryType.getPrimaryKey()) == null) {
 
 				cacheResult(dlFileEntryType);
+			}
+			else {
+				dlFileEntryType.resetOriginalValues();
 			}
 		}
 	}

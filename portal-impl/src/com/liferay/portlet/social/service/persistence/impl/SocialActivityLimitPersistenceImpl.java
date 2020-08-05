@@ -2063,6 +2063,8 @@ public class SocialActivityLimitPersistenceImpl
 	@Override
 	public void cacheResult(SocialActivityLimit socialActivityLimit) {
 		if (socialActivityLimit.getCtCollectionId() != 0) {
+			socialActivityLimit.resetOriginalValues();
+
 			return;
 		}
 
@@ -2081,6 +2083,8 @@ public class SocialActivityLimitPersistenceImpl
 				socialActivityLimit.getActivityCounterName()
 			},
 			socialActivityLimit);
+
+		socialActivityLimit.resetOriginalValues();
 	}
 
 	/**
@@ -2092,6 +2096,8 @@ public class SocialActivityLimitPersistenceImpl
 	public void cacheResult(List<SocialActivityLimit> socialActivityLimits) {
 		for (SocialActivityLimit socialActivityLimit : socialActivityLimits) {
 			if (socialActivityLimit.getCtCollectionId() != 0) {
+				socialActivityLimit.resetOriginalValues();
+
 				continue;
 			}
 
@@ -2100,6 +2106,9 @@ public class SocialActivityLimitPersistenceImpl
 					socialActivityLimit.getPrimaryKey()) == null) {
 
 				cacheResult(socialActivityLimit);
+			}
+			else {
+				socialActivityLimit.resetOriginalValues();
 			}
 		}
 	}

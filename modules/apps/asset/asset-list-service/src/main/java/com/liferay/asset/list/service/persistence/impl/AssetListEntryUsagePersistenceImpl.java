@@ -3283,14 +3283,7 @@ public class AssetListEntryUsagePersistenceImpl
 
 			if (ctPersistenceHelper.isInsert(assetListEntryUsage)) {
 				if (!isNew) {
-					AssetListEntryUsage oldAssetListEntryUsage =
-						(AssetListEntryUsage)session.get(
-							AssetListEntryUsageImpl.class,
-							assetListEntryUsage.getPrimaryKeyObj());
-
-					if (oldAssetListEntryUsage != null) {
-						session.evict(oldAssetListEntryUsage);
-					}
+					session.evict(assetListEntryUsage);
 				}
 
 				session.save(assetListEntryUsage);

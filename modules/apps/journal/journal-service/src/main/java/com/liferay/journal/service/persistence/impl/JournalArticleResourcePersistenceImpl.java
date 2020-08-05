@@ -2679,14 +2679,7 @@ public class JournalArticleResourcePersistenceImpl
 
 			if (ctPersistenceHelper.isInsert(journalArticleResource)) {
 				if (!isNew) {
-					JournalArticleResource oldJournalArticleResource =
-						(JournalArticleResource)session.get(
-							JournalArticleResourceImpl.class,
-							journalArticleResource.getPrimaryKeyObj());
-
-					if (oldJournalArticleResource != null) {
-						session.evict(oldJournalArticleResource);
-					}
+					session.evict(journalArticleResource);
 				}
 
 				session.save(journalArticleResource);

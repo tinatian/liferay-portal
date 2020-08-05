@@ -1861,6 +1861,8 @@ public class RecentLayoutBranchPersistenceImpl
 				recentLayoutBranch.getPlid()
 			},
 			recentLayoutBranch);
+
+		recentLayoutBranch.resetOriginalValues();
 	}
 
 	/**
@@ -1876,6 +1878,9 @@ public class RecentLayoutBranchPersistenceImpl
 					recentLayoutBranch.getPrimaryKey()) == null) {
 
 				cacheResult(recentLayoutBranch);
+			}
+			else {
+				recentLayoutBranch.resetOriginalValues();
 			}
 		}
 	}

@@ -1612,6 +1612,8 @@ public class PortletItemPersistenceImpl
 				portletItem.getPortletId(), portletItem.getClassNameId()
 			},
 			portletItem);
+
+		portletItem.resetOriginalValues();
 	}
 
 	/**
@@ -1627,6 +1629,9 @@ public class PortletItemPersistenceImpl
 						null) {
 
 				cacheResult(portletItem);
+			}
+			else {
+				portletItem.resetOriginalValues();
 			}
 		}
 	}

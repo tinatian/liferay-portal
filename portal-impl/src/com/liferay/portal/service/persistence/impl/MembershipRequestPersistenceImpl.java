@@ -2212,6 +2212,8 @@ public class MembershipRequestPersistenceImpl
 		EntityCacheUtil.putResult(
 			MembershipRequestImpl.class, membershipRequest.getPrimaryKey(),
 			membershipRequest);
+
+		membershipRequest.resetOriginalValues();
 	}
 
 	/**
@@ -2227,6 +2229,9 @@ public class MembershipRequestPersistenceImpl
 					membershipRequest.getPrimaryKey()) == null) {
 
 				cacheResult(membershipRequest);
+			}
+			else {
+				membershipRequest.resetOriginalValues();
 			}
 		}
 	}

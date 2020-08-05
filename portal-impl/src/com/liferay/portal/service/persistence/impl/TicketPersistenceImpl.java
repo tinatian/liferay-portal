@@ -1537,6 +1537,8 @@ public class TicketPersistenceImpl
 
 		FinderCacheUtil.putResult(
 			_finderPathFetchByKey, new Object[] {ticket.getKey()}, ticket);
+
+		ticket.resetOriginalValues();
 	}
 
 	/**
@@ -1551,6 +1553,9 @@ public class TicketPersistenceImpl
 					TicketImpl.class, ticket.getPrimaryKey()) == null) {
 
 				cacheResult(ticket);
+			}
+			else {
+				ticket.resetOriginalValues();
 			}
 		}
 	}

@@ -590,6 +590,8 @@ public class OrgLaborPersistenceImpl
 	public void cacheResult(OrgLabor orgLabor) {
 		EntityCacheUtil.putResult(
 			OrgLaborImpl.class, orgLabor.getPrimaryKey(), orgLabor);
+
+		orgLabor.resetOriginalValues();
 	}
 
 	/**
@@ -604,6 +606,9 @@ public class OrgLaborPersistenceImpl
 					OrgLaborImpl.class, orgLabor.getPrimaryKey()) == null) {
 
 				cacheResult(orgLabor);
+			}
+			else {
+				orgLabor.resetOriginalValues();
 			}
 		}
 	}

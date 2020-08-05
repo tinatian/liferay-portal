@@ -6637,6 +6637,8 @@ public class ResourcePermissionPersistenceImpl
 	@Override
 	public void cacheResult(ResourcePermission resourcePermission) {
 		if (resourcePermission.getCtCollectionId() != 0) {
+			resourcePermission.resetOriginalValues();
+
 			return;
 		}
 
@@ -6652,6 +6654,8 @@ public class ResourcePermissionPersistenceImpl
 				resourcePermission.getRoleId()
 			},
 			resourcePermission);
+
+		resourcePermission.resetOriginalValues();
 	}
 
 	/**
@@ -6663,6 +6667,8 @@ public class ResourcePermissionPersistenceImpl
 	public void cacheResult(List<ResourcePermission> resourcePermissions) {
 		for (ResourcePermission resourcePermission : resourcePermissions) {
 			if (resourcePermission.getCtCollectionId() != 0) {
+				resourcePermission.resetOriginalValues();
+
 				continue;
 			}
 
@@ -6671,6 +6677,9 @@ public class ResourcePermissionPersistenceImpl
 					resourcePermission.getPrimaryKey()) == null) {
 
 				cacheResult(resourcePermission);
+			}
+			else {
+				resourcePermission.resetOriginalValues();
 			}
 		}
 	}

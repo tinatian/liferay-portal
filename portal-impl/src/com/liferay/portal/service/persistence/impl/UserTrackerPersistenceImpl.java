@@ -1619,6 +1619,8 @@ public class UserTrackerPersistenceImpl
 	public void cacheResult(UserTracker userTracker) {
 		EntityCacheUtil.putResult(
 			UserTrackerImpl.class, userTracker.getPrimaryKey(), userTracker);
+
+		userTracker.resetOriginalValues();
 	}
 
 	/**
@@ -1634,6 +1636,9 @@ public class UserTrackerPersistenceImpl
 						null) {
 
 				cacheResult(userTracker);
+			}
+			else {
+				userTracker.resetOriginalValues();
 			}
 		}
 	}

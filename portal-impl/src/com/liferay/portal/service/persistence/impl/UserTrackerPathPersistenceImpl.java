@@ -609,6 +609,8 @@ public class UserTrackerPathPersistenceImpl
 		EntityCacheUtil.putResult(
 			UserTrackerPathImpl.class, userTrackerPath.getPrimaryKey(),
 			userTrackerPath);
+
+		userTrackerPath.resetOriginalValues();
 	}
 
 	/**
@@ -624,6 +626,9 @@ public class UserTrackerPathPersistenceImpl
 					userTrackerPath.getPrimaryKey()) == null) {
 
 				cacheResult(userTrackerPath);
+			}
+			else {
+				userTrackerPath.resetOriginalValues();
 			}
 		}
 	}

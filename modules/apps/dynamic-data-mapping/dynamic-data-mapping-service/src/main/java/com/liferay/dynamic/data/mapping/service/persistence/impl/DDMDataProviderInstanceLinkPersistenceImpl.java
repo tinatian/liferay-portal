@@ -1741,14 +1741,7 @@ public class DDMDataProviderInstanceLinkPersistenceImpl
 
 			if (ctPersistenceHelper.isInsert(ddmDataProviderInstanceLink)) {
 				if (!isNew) {
-					DDMDataProviderInstanceLink oldDDMDataProviderInstanceLink =
-						(DDMDataProviderInstanceLink)session.get(
-							DDMDataProviderInstanceLinkImpl.class,
-							ddmDataProviderInstanceLink.getPrimaryKeyObj());
-
-					if (oldDDMDataProviderInstanceLink != null) {
-						session.evict(oldDDMDataProviderInstanceLink);
-					}
+					session.evict(ddmDataProviderInstanceLink);
 				}
 
 				session.save(ddmDataProviderInstanceLink);

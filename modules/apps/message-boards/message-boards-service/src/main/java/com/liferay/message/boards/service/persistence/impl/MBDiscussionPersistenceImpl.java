@@ -2340,13 +2340,7 @@ public class MBDiscussionPersistenceImpl
 
 			if (ctPersistenceHelper.isInsert(mbDiscussion)) {
 				if (!isNew) {
-					MBDiscussion oldMBDiscussion = (MBDiscussion)session.get(
-						MBDiscussionImpl.class,
-						mbDiscussion.getPrimaryKeyObj());
-
-					if (oldMBDiscussion != null) {
-						session.evict(oldMBDiscussion);
-					}
+					session.evict(mbDiscussion);
 				}
 
 				session.save(mbDiscussion);

@@ -322,6 +322,8 @@ public class WebDAVPropsPersistenceImpl
 				webDAVProps.getClassNameId(), webDAVProps.getClassPK()
 			},
 			webDAVProps);
+
+		webDAVProps.resetOriginalValues();
 	}
 
 	/**
@@ -337,6 +339,9 @@ public class WebDAVPropsPersistenceImpl
 						null) {
 
 				cacheResult(webDAVProps);
+			}
+			else {
+				webDAVProps.resetOriginalValues();
 			}
 		}
 	}

@@ -14736,6 +14736,8 @@ public class DLFileEntryPersistenceImpl
 	@Override
 	public void cacheResult(DLFileEntry dlFileEntry) {
 		if (dlFileEntry.getCtCollectionId() != 0) {
+			dlFileEntry.resetOriginalValues();
+
 			return;
 		}
 
@@ -14770,6 +14772,8 @@ public class DLFileEntryPersistenceImpl
 				dlFileEntry.getTitle()
 			},
 			dlFileEntry);
+
+		dlFileEntry.resetOriginalValues();
 	}
 
 	/**
@@ -14781,6 +14785,8 @@ public class DLFileEntryPersistenceImpl
 	public void cacheResult(List<DLFileEntry> dlFileEntries) {
 		for (DLFileEntry dlFileEntry : dlFileEntries) {
 			if (dlFileEntry.getCtCollectionId() != 0) {
+				dlFileEntry.resetOriginalValues();
+
 				continue;
 			}
 
@@ -14789,6 +14795,9 @@ public class DLFileEntryPersistenceImpl
 						null) {
 
 				cacheResult(dlFileEntry);
+			}
+			else {
+				dlFileEntry.resetOriginalValues();
 			}
 		}
 	}

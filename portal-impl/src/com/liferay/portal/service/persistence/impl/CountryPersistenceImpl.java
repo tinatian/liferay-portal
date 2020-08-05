@@ -1262,6 +1262,8 @@ public class CountryPersistenceImpl
 
 		FinderCacheUtil.putResult(
 			_finderPathFetchByA3, new Object[] {country.getA3()}, country);
+
+		country.resetOriginalValues();
 	}
 
 	/**
@@ -1276,6 +1278,9 @@ public class CountryPersistenceImpl
 					CountryImpl.class, country.getPrimaryKey()) == null) {
 
 				cacheResult(country);
+			}
+			else {
+				country.resetOriginalValues();
 			}
 		}
 	}

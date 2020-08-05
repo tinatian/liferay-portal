@@ -836,6 +836,8 @@ public class PasswordPolicyRelPersistenceImpl
 				passwordPolicyRel.getClassPK()
 			},
 			passwordPolicyRel);
+
+		passwordPolicyRel.resetOriginalValues();
 	}
 
 	/**
@@ -851,6 +853,9 @@ public class PasswordPolicyRelPersistenceImpl
 					passwordPolicyRel.getPrimaryKey()) == null) {
 
 				cacheResult(passwordPolicyRel);
+			}
+			else {
+				passwordPolicyRel.resetOriginalValues();
 			}
 		}
 	}

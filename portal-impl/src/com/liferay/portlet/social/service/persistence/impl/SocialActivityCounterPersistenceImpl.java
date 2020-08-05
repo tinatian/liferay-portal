@@ -2557,6 +2557,8 @@ public class SocialActivityCounterPersistenceImpl
 	@Override
 	public void cacheResult(SocialActivityCounter socialActivityCounter) {
 		if (socialActivityCounter.getCtCollectionId() != 0) {
+			socialActivityCounter.resetOriginalValues();
+
 			return;
 		}
 
@@ -2587,6 +2589,8 @@ public class SocialActivityCounterPersistenceImpl
 				socialActivityCounter.getEndPeriod()
 			},
 			socialActivityCounter);
+
+		socialActivityCounter.resetOriginalValues();
 	}
 
 	/**
@@ -2602,6 +2606,8 @@ public class SocialActivityCounterPersistenceImpl
 				socialActivityCounters) {
 
 			if (socialActivityCounter.getCtCollectionId() != 0) {
+				socialActivityCounter.resetOriginalValues();
+
 				continue;
 			}
 
@@ -2610,6 +2616,9 @@ public class SocialActivityCounterPersistenceImpl
 					socialActivityCounter.getPrimaryKey()) == null) {
 
 				cacheResult(socialActivityCounter);
+			}
+			else {
+				socialActivityCounter.resetOriginalValues();
 			}
 		}
 	}

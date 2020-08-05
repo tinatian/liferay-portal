@@ -5328,6 +5328,8 @@ public class LayoutFriendlyURLPersistenceImpl
 	@Override
 	public void cacheResult(LayoutFriendlyURL layoutFriendlyURL) {
 		if (layoutFriendlyURL.getCtCollectionId() != 0) {
+			layoutFriendlyURL.resetOriginalValues();
+
 			return;
 		}
 
@@ -5358,6 +5360,8 @@ public class LayoutFriendlyURLPersistenceImpl
 				layoutFriendlyURL.getLanguageId()
 			},
 			layoutFriendlyURL);
+
+		layoutFriendlyURL.resetOriginalValues();
 	}
 
 	/**
@@ -5369,6 +5373,8 @@ public class LayoutFriendlyURLPersistenceImpl
 	public void cacheResult(List<LayoutFriendlyURL> layoutFriendlyURLs) {
 		for (LayoutFriendlyURL layoutFriendlyURL : layoutFriendlyURLs) {
 			if (layoutFriendlyURL.getCtCollectionId() != 0) {
+				layoutFriendlyURL.resetOriginalValues();
+
 				continue;
 			}
 
@@ -5377,6 +5383,9 @@ public class LayoutFriendlyURLPersistenceImpl
 					layoutFriendlyURL.getPrimaryKey()) == null) {
 
 				cacheResult(layoutFriendlyURL);
+			}
+			else {
+				layoutFriendlyURL.resetOriginalValues();
 			}
 		}
 	}

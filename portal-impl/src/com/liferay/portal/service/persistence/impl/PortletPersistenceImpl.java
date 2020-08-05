@@ -848,6 +848,8 @@ public class PortletPersistenceImpl
 			_finderPathFetchByC_P,
 			new Object[] {portlet.getCompanyId(), portlet.getPortletId()},
 			portlet);
+
+		portlet.resetOriginalValues();
 	}
 
 	/**
@@ -862,6 +864,9 @@ public class PortletPersistenceImpl
 					PortletImpl.class, portlet.getPrimaryKey()) == null) {
 
 				cacheResult(portlet);
+			}
+			else {
+				portlet.resetOriginalValues();
 			}
 		}
 	}

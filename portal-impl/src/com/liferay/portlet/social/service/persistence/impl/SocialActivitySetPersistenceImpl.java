@@ -3587,12 +3587,16 @@ public class SocialActivitySetPersistenceImpl
 	@Override
 	public void cacheResult(SocialActivitySet socialActivitySet) {
 		if (socialActivitySet.getCtCollectionId() != 0) {
+			socialActivitySet.resetOriginalValues();
+
 			return;
 		}
 
 		EntityCacheUtil.putResult(
 			SocialActivitySetImpl.class, socialActivitySet.getPrimaryKey(),
 			socialActivitySet);
+
+		socialActivitySet.resetOriginalValues();
 	}
 
 	/**
@@ -3604,6 +3608,8 @@ public class SocialActivitySetPersistenceImpl
 	public void cacheResult(List<SocialActivitySet> socialActivitySets) {
 		for (SocialActivitySet socialActivitySet : socialActivitySets) {
 			if (socialActivitySet.getCtCollectionId() != 0) {
+				socialActivitySet.resetOriginalValues();
+
 				continue;
 			}
 
@@ -3612,6 +3618,9 @@ public class SocialActivitySetPersistenceImpl
 					socialActivitySet.getPrimaryKey()) == null) {
 
 				cacheResult(socialActivitySet);
+			}
+			else {
+				socialActivitySet.resetOriginalValues();
 			}
 		}
 	}

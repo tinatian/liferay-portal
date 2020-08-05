@@ -2872,6 +2872,8 @@ public class WorkflowDefinitionLinkPersistenceImpl
 	@Override
 	public void cacheResult(WorkflowDefinitionLink workflowDefinitionLink) {
 		if (workflowDefinitionLink.getCtCollectionId() != 0) {
+			workflowDefinitionLink.resetOriginalValues();
+
 			return;
 		}
 
@@ -2889,6 +2891,8 @@ public class WorkflowDefinitionLinkPersistenceImpl
 				workflowDefinitionLink.getTypePK()
 			},
 			workflowDefinitionLink);
+
+		workflowDefinitionLink.resetOriginalValues();
 	}
 
 	/**
@@ -2904,6 +2908,8 @@ public class WorkflowDefinitionLinkPersistenceImpl
 				workflowDefinitionLinks) {
 
 			if (workflowDefinitionLink.getCtCollectionId() != 0) {
+				workflowDefinitionLink.resetOriginalValues();
+
 				continue;
 			}
 
@@ -2912,6 +2918,9 @@ public class WorkflowDefinitionLinkPersistenceImpl
 					workflowDefinitionLink.getPrimaryKey()) == null) {
 
 				cacheResult(workflowDefinitionLink);
+			}
+			else {
+				workflowDefinitionLink.resetOriginalValues();
 			}
 		}
 	}

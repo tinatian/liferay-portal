@@ -910,6 +910,8 @@ public class ResourceActionPersistenceImpl
 				resourceAction.getName(), resourceAction.getActionId()
 			},
 			resourceAction);
+
+		resourceAction.resetOriginalValues();
 	}
 
 	/**
@@ -925,6 +927,9 @@ public class ResourceActionPersistenceImpl
 						null) {
 
 				cacheResult(resourceAction);
+			}
+			else {
+				resourceAction.resetOriginalValues();
 			}
 		}
 	}

@@ -1353,6 +1353,8 @@ public class ExpandoRowPersistenceImpl
 	@Override
 	public void cacheResult(ExpandoRow expandoRow) {
 		if (expandoRow.getCtCollectionId() != 0) {
+			expandoRow.resetOriginalValues();
+
 			return;
 		}
 
@@ -1363,6 +1365,8 @@ public class ExpandoRowPersistenceImpl
 			_finderPathFetchByT_C,
 			new Object[] {expandoRow.getTableId(), expandoRow.getClassPK()},
 			expandoRow);
+
+		expandoRow.resetOriginalValues();
 	}
 
 	/**
@@ -1374,6 +1378,8 @@ public class ExpandoRowPersistenceImpl
 	public void cacheResult(List<ExpandoRow> expandoRows) {
 		for (ExpandoRow expandoRow : expandoRows) {
 			if (expandoRow.getCtCollectionId() != 0) {
+				expandoRow.resetOriginalValues();
+
 				continue;
 			}
 
@@ -1381,6 +1387,9 @@ public class ExpandoRowPersistenceImpl
 					ExpandoRowImpl.class, expandoRow.getPrimaryKey()) == null) {
 
 				cacheResult(expandoRow);
+			}
+			else {
+				expandoRow.resetOriginalValues();
 			}
 		}
 	}

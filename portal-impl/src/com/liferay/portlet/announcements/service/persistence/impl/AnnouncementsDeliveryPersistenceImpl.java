@@ -1371,6 +1371,8 @@ public class AnnouncementsDeliveryPersistenceImpl
 				announcementsDelivery.getType()
 			},
 			announcementsDelivery);
+
+		announcementsDelivery.resetOriginalValues();
 	}
 
 	/**
@@ -1390,6 +1392,9 @@ public class AnnouncementsDeliveryPersistenceImpl
 					announcementsDelivery.getPrimaryKey()) == null) {
 
 				cacheResult(announcementsDelivery);
+			}
+			else {
+				announcementsDelivery.resetOriginalValues();
 			}
 		}
 	}

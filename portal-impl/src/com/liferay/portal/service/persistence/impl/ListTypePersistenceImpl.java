@@ -925,6 +925,8 @@ public class ListTypePersistenceImpl
 		FinderCacheUtil.putResult(
 			_finderPathFetchByN_T,
 			new Object[] {listType.getName(), listType.getType()}, listType);
+
+		listType.resetOriginalValues();
 	}
 
 	/**
@@ -939,6 +941,9 @@ public class ListTypePersistenceImpl
 					ListTypeImpl.class, listType.getPrimaryKey()) == null) {
 
 				cacheResult(listType);
+			}
+			else {
+				listType.resetOriginalValues();
 			}
 		}
 	}

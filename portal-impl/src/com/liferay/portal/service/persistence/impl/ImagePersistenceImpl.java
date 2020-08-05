@@ -594,11 +594,15 @@ public class ImagePersistenceImpl
 	@Override
 	public void cacheResult(Image image) {
 		if (image.getCtCollectionId() != 0) {
+			image.resetOriginalValues();
+
 			return;
 		}
 
 		EntityCacheUtil.putResult(
 			ImageImpl.class, image.getPrimaryKey(), image);
+
+		image.resetOriginalValues();
 	}
 
 	/**
@@ -610,6 +614,8 @@ public class ImagePersistenceImpl
 	public void cacheResult(List<Image> images) {
 		for (Image image : images) {
 			if (image.getCtCollectionId() != 0) {
+				image.resetOriginalValues();
+
 				continue;
 			}
 
@@ -617,6 +623,9 @@ public class ImagePersistenceImpl
 					ImageImpl.class, image.getPrimaryKey()) == null) {
 
 				cacheResult(image);
+			}
+			else {
+				image.resetOriginalValues();
 			}
 		}
 	}

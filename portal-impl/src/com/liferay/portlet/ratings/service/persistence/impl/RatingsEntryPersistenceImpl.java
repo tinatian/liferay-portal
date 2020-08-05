@@ -2978,6 +2978,8 @@ public class RatingsEntryPersistenceImpl
 	@Override
 	public void cacheResult(RatingsEntry ratingsEntry) {
 		if (ratingsEntry.getCtCollectionId() != 0) {
+			ratingsEntry.resetOriginalValues();
+
 			return;
 		}
 
@@ -2991,6 +2993,8 @@ public class RatingsEntryPersistenceImpl
 				ratingsEntry.getClassPK()
 			},
 			ratingsEntry);
+
+		ratingsEntry.resetOriginalValues();
 	}
 
 	/**
@@ -3002,6 +3006,8 @@ public class RatingsEntryPersistenceImpl
 	public void cacheResult(List<RatingsEntry> ratingsEntries) {
 		for (RatingsEntry ratingsEntry : ratingsEntries) {
 			if (ratingsEntry.getCtCollectionId() != 0) {
+				ratingsEntry.resetOriginalValues();
+
 				continue;
 			}
 
@@ -3010,6 +3016,9 @@ public class RatingsEntryPersistenceImpl
 						null) {
 
 				cacheResult(ratingsEntry);
+			}
+			else {
+				ratingsEntry.resetOriginalValues();
 			}
 		}
 	}

@@ -6146,6 +6146,8 @@ public class UserGroupPersistenceImpl
 	@Override
 	public void cacheResult(UserGroup userGroup) {
 		if (userGroup.getCtCollectionId() != 0) {
+			userGroup.resetOriginalValues();
+
 			return;
 		}
 
@@ -6163,6 +6165,8 @@ public class UserGroupPersistenceImpl
 				userGroup.getCompanyId(), userGroup.getExternalReferenceCode()
 			},
 			userGroup);
+
+		userGroup.resetOriginalValues();
 	}
 
 	/**
@@ -6174,6 +6178,8 @@ public class UserGroupPersistenceImpl
 	public void cacheResult(List<UserGroup> userGroups) {
 		for (UserGroup userGroup : userGroups) {
 			if (userGroup.getCtCollectionId() != 0) {
+				userGroup.resetOriginalValues();
+
 				continue;
 			}
 
@@ -6181,6 +6187,9 @@ public class UserGroupPersistenceImpl
 					UserGroupImpl.class, userGroup.getPrimaryKey()) == null) {
 
 				cacheResult(userGroup);
+			}
+			else {
+				userGroup.resetOriginalValues();
 			}
 		}
 	}

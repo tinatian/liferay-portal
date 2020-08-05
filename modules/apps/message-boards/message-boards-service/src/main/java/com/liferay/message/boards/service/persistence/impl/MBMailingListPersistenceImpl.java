@@ -2617,13 +2617,7 @@ public class MBMailingListPersistenceImpl
 
 			if (ctPersistenceHelper.isInsert(mbMailingList)) {
 				if (!isNew) {
-					MBMailingList oldMBMailingList = (MBMailingList)session.get(
-						MBMailingListImpl.class,
-						mbMailingList.getPrimaryKeyObj());
-
-					if (oldMBMailingList != null) {
-						session.evict(oldMBMailingList);
-					}
+					session.evict(mbMailingList);
 				}
 
 				session.save(mbMailingList);

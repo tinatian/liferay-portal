@@ -5776,6 +5776,8 @@ public class DLFileVersionPersistenceImpl
 	@Override
 	public void cacheResult(DLFileVersion dlFileVersion) {
 		if (dlFileVersion.getCtCollectionId() != 0) {
+			dlFileVersion.resetOriginalValues();
+
 			return;
 		}
 
@@ -5794,6 +5796,8 @@ public class DLFileVersionPersistenceImpl
 				dlFileVersion.getFileEntryId(), dlFileVersion.getVersion()
 			},
 			dlFileVersion);
+
+		dlFileVersion.resetOriginalValues();
 	}
 
 	/**
@@ -5805,6 +5809,8 @@ public class DLFileVersionPersistenceImpl
 	public void cacheResult(List<DLFileVersion> dlFileVersions) {
 		for (DLFileVersion dlFileVersion : dlFileVersions) {
 			if (dlFileVersion.getCtCollectionId() != 0) {
+				dlFileVersion.resetOriginalValues();
+
 				continue;
 			}
 
@@ -5813,6 +5819,9 @@ public class DLFileVersionPersistenceImpl
 						null) {
 
 				cacheResult(dlFileVersion);
+			}
+			else {
+				dlFileVersion.resetOriginalValues();
 			}
 		}
 	}

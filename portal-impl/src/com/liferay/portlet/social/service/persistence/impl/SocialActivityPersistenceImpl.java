@@ -5746,6 +5746,8 @@ public class SocialActivityPersistenceImpl
 	@Override
 	public void cacheResult(SocialActivity socialActivity) {
 		if (socialActivity.getCtCollectionId() != 0) {
+			socialActivity.resetOriginalValues();
+
 			return;
 		}
 
@@ -5767,6 +5769,8 @@ public class SocialActivityPersistenceImpl
 				socialActivity.getReceiverUserId()
 			},
 			socialActivity);
+
+		socialActivity.resetOriginalValues();
 	}
 
 	/**
@@ -5778,6 +5782,8 @@ public class SocialActivityPersistenceImpl
 	public void cacheResult(List<SocialActivity> socialActivities) {
 		for (SocialActivity socialActivity : socialActivities) {
 			if (socialActivity.getCtCollectionId() != 0) {
+				socialActivity.resetOriginalValues();
+
 				continue;
 			}
 
@@ -5786,6 +5792,9 @@ public class SocialActivityPersistenceImpl
 						null) {
 
 				cacheResult(socialActivity);
+			}
+			else {
+				socialActivity.resetOriginalValues();
 			}
 		}
 	}

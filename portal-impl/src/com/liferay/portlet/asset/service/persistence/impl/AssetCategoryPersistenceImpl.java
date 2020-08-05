@@ -12044,6 +12044,8 @@ public class AssetCategoryPersistenceImpl
 	@Override
 	public void cacheResult(AssetCategory assetCategory) {
 		if (assetCategory.getCtCollectionId() != 0) {
+			assetCategory.resetOriginalValues();
+
 			return;
 		}
 
@@ -12071,6 +12073,8 @@ public class AssetCategoryPersistenceImpl
 				assetCategory.getExternalReferenceCode()
 			},
 			assetCategory);
+
+		assetCategory.resetOriginalValues();
 	}
 
 	/**
@@ -12082,6 +12086,8 @@ public class AssetCategoryPersistenceImpl
 	public void cacheResult(List<AssetCategory> assetCategories) {
 		for (AssetCategory assetCategory : assetCategories) {
 			if (assetCategory.getCtCollectionId() != 0) {
+				assetCategory.resetOriginalValues();
+
 				continue;
 			}
 
@@ -12090,6 +12096,9 @@ public class AssetCategoryPersistenceImpl
 						null) {
 
 				cacheResult(assetCategory);
+			}
+			else {
+				assetCategory.resetOriginalValues();
 			}
 		}
 	}

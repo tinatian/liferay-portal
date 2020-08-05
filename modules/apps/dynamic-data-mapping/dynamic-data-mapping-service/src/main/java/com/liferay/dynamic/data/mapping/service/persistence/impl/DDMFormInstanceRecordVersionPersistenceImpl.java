@@ -3129,16 +3129,7 @@ public class DDMFormInstanceRecordVersionPersistenceImpl
 
 			if (ctPersistenceHelper.isInsert(ddmFormInstanceRecordVersion)) {
 				if (!isNew) {
-					DDMFormInstanceRecordVersion
-						oldDDMFormInstanceRecordVersion =
-							(DDMFormInstanceRecordVersion)session.get(
-								DDMFormInstanceRecordVersionImpl.class,
-								ddmFormInstanceRecordVersion.
-									getPrimaryKeyObj());
-
-					if (oldDDMFormInstanceRecordVersion != null) {
-						session.evict(oldDDMFormInstanceRecordVersion);
-					}
+					session.evict(ddmFormInstanceRecordVersion);
 				}
 
 				session.save(ddmFormInstanceRecordVersion);

@@ -2652,6 +2652,8 @@ public class TeamPersistenceImpl
 	@Override
 	public void cacheResult(Team team) {
 		if (team.getCtCollectionId() != 0) {
+			team.resetOriginalValues();
+
 			return;
 		}
 
@@ -2664,6 +2666,8 @@ public class TeamPersistenceImpl
 		FinderCacheUtil.putResult(
 			_finderPathFetchByG_N,
 			new Object[] {team.getGroupId(), team.getName()}, team);
+
+		team.resetOriginalValues();
 	}
 
 	/**
@@ -2675,6 +2679,8 @@ public class TeamPersistenceImpl
 	public void cacheResult(List<Team> teams) {
 		for (Team team : teams) {
 			if (team.getCtCollectionId() != 0) {
+				team.resetOriginalValues();
+
 				continue;
 			}
 
@@ -2682,6 +2688,9 @@ public class TeamPersistenceImpl
 					TeamImpl.class, team.getPrimaryKey()) == null) {
 
 				cacheResult(team);
+			}
+			else {
+				team.resetOriginalValues();
 			}
 		}
 	}
