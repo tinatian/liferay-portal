@@ -555,23 +555,26 @@ public class UserGroupPersistenceTest {
 		Assert.assertEquals(
 			Long.valueOf(userGroup.getCompanyId()),
 			ReflectionTestUtil.<Long>invoke(
-				userGroup, "getOriginalCompanyId", new Class<?>[0]));
+				userGroup, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "companyId"));
 		Assert.assertTrue(
 			Objects.equals(
 				userGroup.getName(),
 				ReflectionTestUtil.invoke(
-					userGroup, "getOriginalName", new Class<?>[0])));
+					userGroup, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "name")));
 
 		Assert.assertEquals(
 			Long.valueOf(userGroup.getCompanyId()),
 			ReflectionTestUtil.<Long>invoke(
-				userGroup, "getOriginalCompanyId", new Class<?>[0]));
+				userGroup, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "companyId"));
 		Assert.assertTrue(
 			Objects.equals(
 				userGroup.getExternalReferenceCode(),
 				ReflectionTestUtil.invoke(
-					userGroup, "getOriginalExternalReferenceCode",
-					new Class<?>[0])));
+					userGroup, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "externalReferenceCode")));
 	}
 
 	protected UserGroup addUserGroup() throws Exception {

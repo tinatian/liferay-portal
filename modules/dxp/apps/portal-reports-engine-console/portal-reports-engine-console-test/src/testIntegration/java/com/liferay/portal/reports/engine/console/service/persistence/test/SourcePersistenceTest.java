@@ -520,11 +520,13 @@ public class SourcePersistenceTest {
 			Objects.equals(
 				source.getUuid(),
 				ReflectionTestUtil.invoke(
-					source, "getOriginalUuid", new Class<?>[0])));
+					source, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "uuid_")));
 		Assert.assertEquals(
 			Long.valueOf(source.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
-				source, "getOriginalGroupId", new Class<?>[0]));
+				source, "getColumnOriginalValue", new Class<?>[] {String.class},
+				"groupId"));
 	}
 
 	protected Source addSource() throws Exception {

@@ -794,27 +794,31 @@ public class FragmentEntryPersistenceTest {
 			Objects.equals(
 				fragmentEntry.getUuid(),
 				ReflectionTestUtil.invoke(
-					fragmentEntry, "getOriginalUuid", new Class<?>[0])));
+					fragmentEntry, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "uuid_")));
 		Assert.assertEquals(
 			Long.valueOf(fragmentEntry.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
-				fragmentEntry, "getOriginalGroupId", new Class<?>[0]));
+				fragmentEntry, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "groupId"));
 
 		Assert.assertEquals(
 			Long.valueOf(fragmentEntry.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
-				fragmentEntry, "getOriginalGroupId", new Class<?>[0]));
+				fragmentEntry, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "groupId"));
 		Assert.assertTrue(
 			Objects.equals(
 				fragmentEntry.getFragmentEntryKey(),
 				ReflectionTestUtil.invoke(
-					fragmentEntry, "getOriginalFragmentEntryKey",
-					new Class<?>[0])));
+					fragmentEntry, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "fragmentEntryKey")));
 
 		Assert.assertEquals(
 			Long.valueOf(fragmentEntry.getHeadId()),
 			ReflectionTestUtil.<Long>invoke(
-				fragmentEntry, "getOriginalHeadId", new Class<?>[0]));
+				fragmentEntry, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "headId"));
 	}
 
 	protected FragmentEntry addFragmentEntry() throws Exception {

@@ -611,44 +611,48 @@ public class LayoutFriendlyURLPersistenceTest {
 			Objects.equals(
 				layoutFriendlyURL.getUuid(),
 				ReflectionTestUtil.invoke(
-					layoutFriendlyURL, "getOriginalUuid", new Class<?>[0])));
+					layoutFriendlyURL, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "uuid_")));
 		Assert.assertEquals(
 			Long.valueOf(layoutFriendlyURL.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
-				layoutFriendlyURL, "getOriginalGroupId", new Class<?>[0]));
+				layoutFriendlyURL, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "groupId"));
 
 		Assert.assertEquals(
 			Long.valueOf(layoutFriendlyURL.getPlid()),
 			ReflectionTestUtil.<Long>invoke(
-				layoutFriendlyURL, "getOriginalPlid", new Class<?>[0]));
+				layoutFriendlyURL, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "plid"));
 		Assert.assertTrue(
 			Objects.equals(
 				layoutFriendlyURL.getLanguageId(),
 				ReflectionTestUtil.invoke(
-					layoutFriendlyURL, "getOriginalLanguageId",
-					new Class<?>[0])));
+					layoutFriendlyURL, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "languageId")));
 
 		Assert.assertEquals(
 			Long.valueOf(layoutFriendlyURL.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
-				layoutFriendlyURL, "getOriginalGroupId", new Class<?>[0]));
+				layoutFriendlyURL, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "groupId"));
 		Assert.assertEquals(
 			Boolean.valueOf(layoutFriendlyURL.getPrivateLayout()),
 			ReflectionTestUtil.<Boolean>invoke(
-				layoutFriendlyURL, "getOriginalPrivateLayout",
-				new Class<?>[0]));
+				layoutFriendlyURL, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "privateLayout"));
 		Assert.assertTrue(
 			Objects.equals(
 				layoutFriendlyURL.getFriendlyURL(),
 				ReflectionTestUtil.invoke(
-					layoutFriendlyURL, "getOriginalFriendlyURL",
-					new Class<?>[0])));
+					layoutFriendlyURL, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "friendlyURL")));
 		Assert.assertTrue(
 			Objects.equals(
 				layoutFriendlyURL.getLanguageId(),
 				ReflectionTestUtil.invoke(
-					layoutFriendlyURL, "getOriginalLanguageId",
-					new Class<?>[0])));
+					layoutFriendlyURL, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "languageId")));
 	}
 
 	protected LayoutFriendlyURL addLayoutFriendlyURL() throws Exception {

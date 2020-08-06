@@ -602,32 +602,36 @@ public class DDMStructureLayoutPersistenceTest {
 			Objects.equals(
 				ddmStructureLayout.getUuid(),
 				ReflectionTestUtil.invoke(
-					ddmStructureLayout, "getOriginalUuid", new Class<?>[0])));
+					ddmStructureLayout, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "uuid_")));
 		Assert.assertEquals(
 			Long.valueOf(ddmStructureLayout.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
-				ddmStructureLayout, "getOriginalGroupId", new Class<?>[0]));
+				ddmStructureLayout, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "groupId"));
 
 		Assert.assertEquals(
 			Long.valueOf(ddmStructureLayout.getStructureVersionId()),
 			ReflectionTestUtil.<Long>invoke(
-				ddmStructureLayout, "getOriginalStructureVersionId",
-				new Class<?>[0]));
+				ddmStructureLayout, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "structureVersionId"));
 
 		Assert.assertEquals(
 			Long.valueOf(ddmStructureLayout.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
-				ddmStructureLayout, "getOriginalGroupId", new Class<?>[0]));
+				ddmStructureLayout, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "groupId"));
 		Assert.assertEquals(
 			Long.valueOf(ddmStructureLayout.getClassNameId()),
 			ReflectionTestUtil.<Long>invoke(
-				ddmStructureLayout, "getOriginalClassNameId", new Class<?>[0]));
+				ddmStructureLayout, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "classNameId"));
 		Assert.assertTrue(
 			Objects.equals(
 				ddmStructureLayout.getStructureLayoutKey(),
 				ReflectionTestUtil.invoke(
-					ddmStructureLayout, "getOriginalStructureLayoutKey",
-					new Class<?>[0])));
+					ddmStructureLayout, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "structureLayoutKey")));
 	}
 
 	protected DDMStructureLayout addDDMStructureLayout() throws Exception {

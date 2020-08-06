@@ -2735,12 +2735,17 @@ public class SocialActivityCounterPersistenceImpl
 			 _finderPathFetchByG_C_C_N_O_S.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				socialActivityCounterModelImpl.getOriginalGroupId(),
-				socialActivityCounterModelImpl.getOriginalClassNameId(),
-				socialActivityCounterModelImpl.getOriginalClassPK(),
-				socialActivityCounterModelImpl.getOriginalName(),
-				socialActivityCounterModelImpl.getOriginalOwnerType(),
-				socialActivityCounterModelImpl.getOriginalStartPeriod()
+				socialActivityCounterModelImpl.getColumnOriginalValue(
+					"groupId"),
+				socialActivityCounterModelImpl.getColumnOriginalValue(
+					"classNameId"),
+				socialActivityCounterModelImpl.getColumnOriginalValue(
+					"classPK"),
+				socialActivityCounterModelImpl.getColumnOriginalValue("name"),
+				socialActivityCounterModelImpl.getColumnOriginalValue(
+					"ownerType"),
+				socialActivityCounterModelImpl.getColumnOriginalValue(
+					"startPeriod")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByG_C_C_N_O_S, args);
@@ -2765,12 +2770,17 @@ public class SocialActivityCounterPersistenceImpl
 			 _finderPathFetchByG_C_C_N_O_E.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				socialActivityCounterModelImpl.getOriginalGroupId(),
-				socialActivityCounterModelImpl.getOriginalClassNameId(),
-				socialActivityCounterModelImpl.getOriginalClassPK(),
-				socialActivityCounterModelImpl.getOriginalName(),
-				socialActivityCounterModelImpl.getOriginalOwnerType(),
-				socialActivityCounterModelImpl.getOriginalEndPeriod()
+				socialActivityCounterModelImpl.getColumnOriginalValue(
+					"groupId"),
+				socialActivityCounterModelImpl.getColumnOriginalValue(
+					"classNameId"),
+				socialActivityCounterModelImpl.getColumnOriginalValue(
+					"classPK"),
+				socialActivityCounterModelImpl.getColumnOriginalValue("name"),
+				socialActivityCounterModelImpl.getColumnOriginalValue(
+					"ownerType"),
+				socialActivityCounterModelImpl.getColumnOriginalValue(
+					"endPeriod")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByG_C_C_N_O_E, args);
@@ -2992,7 +3002,8 @@ public class SocialActivityCounterPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					socialActivityCounterModelImpl.getOriginalGroupId()
+					socialActivityCounterModelImpl.getColumnOriginalValue(
+						"groupId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByGroupId, args);
@@ -3013,8 +3024,10 @@ public class SocialActivityCounterPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					socialActivityCounterModelImpl.getOriginalClassNameId(),
-					socialActivityCounterModelImpl.getOriginalClassPK()
+					socialActivityCounterModelImpl.getColumnOriginalValue(
+						"classNameId"),
+					socialActivityCounterModelImpl.getColumnOriginalValue(
+						"classPK")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_C, args);
@@ -3036,10 +3049,14 @@ public class SocialActivityCounterPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					socialActivityCounterModelImpl.getOriginalGroupId(),
-					socialActivityCounterModelImpl.getOriginalClassNameId(),
-					socialActivityCounterModelImpl.getOriginalClassPK(),
-					socialActivityCounterModelImpl.getOriginalOwnerType()
+					socialActivityCounterModelImpl.getColumnOriginalValue(
+						"groupId"),
+					socialActivityCounterModelImpl.getColumnOriginalValue(
+						"classNameId"),
+					socialActivityCounterModelImpl.getColumnOriginalValue(
+						"classPK"),
+					socialActivityCounterModelImpl.getColumnOriginalValue(
+						"ownerType")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByG_C_C_O, args);
@@ -3562,7 +3579,7 @@ public class SocialActivityCounterPersistenceImpl
 			SocialActivityCounterImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
 			new String[] {Long.class.getName()},
-			SocialActivityCounterModelImpl.GROUPID_COLUMN_BITMASK);
+			SocialActivityCounterModelImpl.getColumnBitmask("groupId"));
 
 		_finderPathCountByGroupId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -3581,8 +3598,8 @@ public class SocialActivityCounterPersistenceImpl
 			SocialActivityCounterImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_C",
 			new String[] {Long.class.getName(), Long.class.getName()},
-			SocialActivityCounterModelImpl.CLASSNAMEID_COLUMN_BITMASK |
-			SocialActivityCounterModelImpl.CLASSPK_COLUMN_BITMASK);
+			SocialActivityCounterModelImpl.getColumnBitmask("classNameId") |
+			SocialActivityCounterModelImpl.getColumnBitmask("classPK"));
 
 		_finderPathCountByC_C = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C",
@@ -3605,10 +3622,10 @@ public class SocialActivityCounterPersistenceImpl
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), Integer.class.getName()
 			},
-			SocialActivityCounterModelImpl.GROUPID_COLUMN_BITMASK |
-			SocialActivityCounterModelImpl.CLASSNAMEID_COLUMN_BITMASK |
-			SocialActivityCounterModelImpl.CLASSPK_COLUMN_BITMASK |
-			SocialActivityCounterModelImpl.OWNERTYPE_COLUMN_BITMASK);
+			SocialActivityCounterModelImpl.getColumnBitmask("groupId") |
+			SocialActivityCounterModelImpl.getColumnBitmask("classNameId") |
+			SocialActivityCounterModelImpl.getColumnBitmask("classPK") |
+			SocialActivityCounterModelImpl.getColumnBitmask("ownerType"));
 
 		_finderPathCountByG_C_C_O = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -3626,12 +3643,12 @@ public class SocialActivityCounterPersistenceImpl
 				Long.class.getName(), String.class.getName(),
 				Integer.class.getName(), Integer.class.getName()
 			},
-			SocialActivityCounterModelImpl.GROUPID_COLUMN_BITMASK |
-			SocialActivityCounterModelImpl.CLASSNAMEID_COLUMN_BITMASK |
-			SocialActivityCounterModelImpl.CLASSPK_COLUMN_BITMASK |
-			SocialActivityCounterModelImpl.NAME_COLUMN_BITMASK |
-			SocialActivityCounterModelImpl.OWNERTYPE_COLUMN_BITMASK |
-			SocialActivityCounterModelImpl.STARTPERIOD_COLUMN_BITMASK);
+			SocialActivityCounterModelImpl.getColumnBitmask("groupId") |
+			SocialActivityCounterModelImpl.getColumnBitmask("classNameId") |
+			SocialActivityCounterModelImpl.getColumnBitmask("classPK") |
+			SocialActivityCounterModelImpl.getColumnBitmask("name") |
+			SocialActivityCounterModelImpl.getColumnBitmask("ownerType") |
+			SocialActivityCounterModelImpl.getColumnBitmask("startPeriod"));
 
 		_finderPathCountByG_C_C_N_O_S = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -3650,12 +3667,12 @@ public class SocialActivityCounterPersistenceImpl
 				Long.class.getName(), String.class.getName(),
 				Integer.class.getName(), Integer.class.getName()
 			},
-			SocialActivityCounterModelImpl.GROUPID_COLUMN_BITMASK |
-			SocialActivityCounterModelImpl.CLASSNAMEID_COLUMN_BITMASK |
-			SocialActivityCounterModelImpl.CLASSPK_COLUMN_BITMASK |
-			SocialActivityCounterModelImpl.NAME_COLUMN_BITMASK |
-			SocialActivityCounterModelImpl.OWNERTYPE_COLUMN_BITMASK |
-			SocialActivityCounterModelImpl.ENDPERIOD_COLUMN_BITMASK);
+			SocialActivityCounterModelImpl.getColumnBitmask("groupId") |
+			SocialActivityCounterModelImpl.getColumnBitmask("classNameId") |
+			SocialActivityCounterModelImpl.getColumnBitmask("classPK") |
+			SocialActivityCounterModelImpl.getColumnBitmask("name") |
+			SocialActivityCounterModelImpl.getColumnBitmask("ownerType") |
+			SocialActivityCounterModelImpl.getColumnBitmask("endPeriod"));
 
 		_finderPathCountByG_C_C_N_O_E = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,

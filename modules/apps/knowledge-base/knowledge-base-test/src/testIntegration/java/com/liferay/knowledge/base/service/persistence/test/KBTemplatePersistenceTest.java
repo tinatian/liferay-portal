@@ -518,11 +518,13 @@ public class KBTemplatePersistenceTest {
 			Objects.equals(
 				kbTemplate.getUuid(),
 				ReflectionTestUtil.invoke(
-					kbTemplate, "getOriginalUuid", new Class<?>[0])));
+					kbTemplate, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "uuid_")));
 		Assert.assertEquals(
 			Long.valueOf(kbTemplate.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
-				kbTemplate, "getOriginalGroupId", new Class<?>[0]));
+				kbTemplate, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "groupId"));
 	}
 
 	protected KBTemplate addKBTemplate() throws Exception {

@@ -626,31 +626,32 @@ public class CalendarNotificationTemplatePersistenceTest {
 			Objects.equals(
 				calendarNotificationTemplate.getUuid(),
 				ReflectionTestUtil.invoke(
-					calendarNotificationTemplate, "getOriginalUuid",
-					new Class<?>[0])));
+					calendarNotificationTemplate, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "uuid_")));
 		Assert.assertEquals(
 			Long.valueOf(calendarNotificationTemplate.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
-				calendarNotificationTemplate, "getOriginalGroupId",
-				new Class<?>[0]));
+				calendarNotificationTemplate, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "groupId"));
 
 		Assert.assertEquals(
 			Long.valueOf(calendarNotificationTemplate.getCalendarId()),
 			ReflectionTestUtil.<Long>invoke(
-				calendarNotificationTemplate, "getOriginalCalendarId",
-				new Class<?>[0]));
+				calendarNotificationTemplate, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "calendarId"));
 		Assert.assertTrue(
 			Objects.equals(
 				calendarNotificationTemplate.getNotificationType(),
 				ReflectionTestUtil.invoke(
-					calendarNotificationTemplate, "getOriginalNotificationType",
-					new Class<?>[0])));
+					calendarNotificationTemplate, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "notificationType")));
 		Assert.assertTrue(
 			Objects.equals(
 				calendarNotificationTemplate.getNotificationTemplateType(),
 				ReflectionTestUtil.invoke(
-					calendarNotificationTemplate,
-					"getOriginalNotificationTemplateType", new Class<?>[0])));
+					calendarNotificationTemplate, "getColumnOriginalValue",
+					new Class<?>[] {String.class},
+					"notificationTemplateType")));
 	}
 
 	protected CalendarNotificationTemplate addCalendarNotificationTemplate()

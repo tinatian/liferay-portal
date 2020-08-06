@@ -536,11 +536,13 @@ public class PollsQuestionPersistenceTest {
 			Objects.equals(
 				pollsQuestion.getUuid(),
 				ReflectionTestUtil.invoke(
-					pollsQuestion, "getOriginalUuid", new Class<?>[0])));
+					pollsQuestion, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "uuid_")));
 		Assert.assertEquals(
 			Long.valueOf(pollsQuestion.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
-				pollsQuestion, "getOriginalGroupId", new Class<?>[0]));
+				pollsQuestion, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "groupId"));
 	}
 
 	protected PollsQuestion addPollsQuestion() throws Exception {

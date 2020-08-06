@@ -633,14 +633,14 @@ public class DDMFormInstanceRecordVersionPersistenceTest {
 			Long.valueOf(
 				ddmFormInstanceRecordVersion.getFormInstanceRecordId()),
 			ReflectionTestUtil.<Long>invoke(
-				ddmFormInstanceRecordVersion, "getOriginalFormInstanceRecordId",
-				new Class<?>[0]));
+				ddmFormInstanceRecordVersion, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "formInstanceRecordId"));
 		Assert.assertTrue(
 			Objects.equals(
 				ddmFormInstanceRecordVersion.getVersion(),
 				ReflectionTestUtil.invoke(
-					ddmFormInstanceRecordVersion, "getOriginalVersion",
-					new Class<?>[0])));
+					ddmFormInstanceRecordVersion, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "version")));
 	}
 
 	protected DDMFormInstanceRecordVersion addDDMFormInstanceRecordVersion()

@@ -992,40 +992,47 @@ public class JournalArticlePersistenceTest {
 			Objects.equals(
 				journalArticle.getUuid(),
 				ReflectionTestUtil.invoke(
-					journalArticle, "getOriginalUuid", new Class<?>[0])));
+					journalArticle, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "uuid_")));
 		Assert.assertEquals(
 			Long.valueOf(journalArticle.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
-				journalArticle, "getOriginalGroupId", new Class<?>[0]));
+				journalArticle, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "groupId"));
 
 		Assert.assertEquals(
 			Long.valueOf(journalArticle.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
-				journalArticle, "getOriginalGroupId", new Class<?>[0]));
+				journalArticle, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "groupId"));
 		Assert.assertEquals(
 			Long.valueOf(journalArticle.getClassNameId()),
 			ReflectionTestUtil.<Long>invoke(
-				journalArticle, "getOriginalClassNameId", new Class<?>[0]));
+				journalArticle, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "classNameId"));
 		Assert.assertTrue(
 			Objects.equals(
 				journalArticle.getDDMStructureKey(),
 				ReflectionTestUtil.invoke(
-					journalArticle, "getOriginalDDMStructureKey",
-					new Class<?>[0])));
+					journalArticle, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "DDMStructureKey")));
 
 		Assert.assertEquals(
 			Long.valueOf(journalArticle.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
-				journalArticle, "getOriginalGroupId", new Class<?>[0]));
+				journalArticle, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "groupId"));
 		Assert.assertTrue(
 			Objects.equals(
 				journalArticle.getArticleId(),
 				ReflectionTestUtil.invoke(
-					journalArticle, "getOriginalArticleId", new Class<?>[0])));
+					journalArticle, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "articleId")));
 		AssertUtils.assertEquals(
 			journalArticle.getVersion(),
 			ReflectionTestUtil.<Double>invoke(
-				journalArticle, "getOriginalVersion", new Class<?>[0]));
+				journalArticle, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "version"));
 	}
 
 	protected JournalArticle addJournalArticle() throws Exception {

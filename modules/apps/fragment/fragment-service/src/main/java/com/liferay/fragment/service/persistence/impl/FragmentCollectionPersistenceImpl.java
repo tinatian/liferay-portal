@@ -3507,8 +3507,8 @@ public class FragmentCollectionPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				fragmentCollectionModelImpl.getOriginalUuid(),
-				fragmentCollectionModelImpl.getOriginalGroupId()
+				fragmentCollectionModelImpl.getColumnOriginalValue("uuid_"),
+				fragmentCollectionModelImpl.getColumnOriginalValue("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -3529,8 +3529,9 @@ public class FragmentCollectionPersistenceImpl
 			 _finderPathFetchByG_FCK.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				fragmentCollectionModelImpl.getOriginalGroupId(),
-				fragmentCollectionModelImpl.getOriginalFragmentCollectionKey()
+				fragmentCollectionModelImpl.getColumnOriginalValue("groupId"),
+				fragmentCollectionModelImpl.getColumnOriginalValue(
+					"fragmentCollectionKey")
 			};
 
 			finderCache.removeResult(_finderPathCountByG_FCK, args);
@@ -3764,7 +3765,7 @@ public class FragmentCollectionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					fragmentCollectionModelImpl.getOriginalUuid()
+					fragmentCollectionModelImpl.getColumnOriginalValue("uuid_")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -3783,8 +3784,9 @@ public class FragmentCollectionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					fragmentCollectionModelImpl.getOriginalUuid(),
-					fragmentCollectionModelImpl.getOriginalCompanyId()
+					fragmentCollectionModelImpl.getColumnOriginalValue("uuid_"),
+					fragmentCollectionModelImpl.getColumnOriginalValue(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -3806,7 +3808,8 @@ public class FragmentCollectionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					fragmentCollectionModelImpl.getOriginalGroupId()
+					fragmentCollectionModelImpl.getColumnOriginalValue(
+						"groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId, args);
@@ -4120,8 +4123,8 @@ public class FragmentCollectionPersistenceImpl
 			FragmentCollectionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
 			new String[] {String.class.getName()},
-			FragmentCollectionModelImpl.UUID_COLUMN_BITMASK |
-			FragmentCollectionModelImpl.NAME_COLUMN_BITMASK);
+			FragmentCollectionModelImpl.getColumnBitmask("uuid_") |
+			FragmentCollectionModelImpl.getColumnBitmask("name"));
 
 		_finderPathCountByUuid = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -4131,8 +4134,8 @@ public class FragmentCollectionPersistenceImpl
 			FragmentCollectionImpl.class, FINDER_CLASS_NAME_ENTITY,
 			"fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
-			FragmentCollectionModelImpl.UUID_COLUMN_BITMASK |
-			FragmentCollectionModelImpl.GROUPID_COLUMN_BITMASK);
+			FragmentCollectionModelImpl.getColumnBitmask("uuid_") |
+			FragmentCollectionModelImpl.getColumnBitmask("groupId"));
 
 		_finderPathCountByUUID_G = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -4152,9 +4155,9 @@ public class FragmentCollectionPersistenceImpl
 			FragmentCollectionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
-			FragmentCollectionModelImpl.UUID_COLUMN_BITMASK |
-			FragmentCollectionModelImpl.COMPANYID_COLUMN_BITMASK |
-			FragmentCollectionModelImpl.NAME_COLUMN_BITMASK);
+			FragmentCollectionModelImpl.getColumnBitmask("uuid_") |
+			FragmentCollectionModelImpl.getColumnBitmask("companyId") |
+			FragmentCollectionModelImpl.getColumnBitmask("name"));
 
 		_finderPathCountByUuid_C = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -4173,8 +4176,8 @@ public class FragmentCollectionPersistenceImpl
 			FragmentCollectionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
 			new String[] {Long.class.getName()},
-			FragmentCollectionModelImpl.GROUPID_COLUMN_BITMASK |
-			FragmentCollectionModelImpl.NAME_COLUMN_BITMASK);
+			FragmentCollectionModelImpl.getColumnBitmask("groupId") |
+			FragmentCollectionModelImpl.getColumnBitmask("name"));
 
 		_finderPathCountByGroupId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -4188,8 +4191,9 @@ public class FragmentCollectionPersistenceImpl
 			FragmentCollectionImpl.class, FINDER_CLASS_NAME_ENTITY,
 			"fetchByG_FCK",
 			new String[] {Long.class.getName(), String.class.getName()},
-			FragmentCollectionModelImpl.GROUPID_COLUMN_BITMASK |
-			FragmentCollectionModelImpl.FRAGMENTCOLLECTIONKEY_COLUMN_BITMASK);
+			FragmentCollectionModelImpl.getColumnBitmask("groupId") |
+			FragmentCollectionModelImpl.getColumnBitmask(
+				"fragmentCollectionKey"));
 
 		_finderPathCountByG_FCK = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
