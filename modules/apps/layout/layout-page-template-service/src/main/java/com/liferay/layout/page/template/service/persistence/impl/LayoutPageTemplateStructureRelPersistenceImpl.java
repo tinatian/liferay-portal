@@ -3008,8 +3008,10 @@ public class LayoutPageTemplateStructureRelPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				layoutPageTemplateStructureRelModelImpl.getOriginalUuid(),
-				layoutPageTemplateStructureRelModelImpl.getOriginalGroupId()
+				layoutPageTemplateStructureRelModelImpl.getColumnOriginalValue(
+					"uuid_"),
+				layoutPageTemplateStructureRelModelImpl.getColumnOriginalValue(
+					"groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -3032,10 +3034,10 @@ public class LayoutPageTemplateStructureRelPersistenceImpl
 			 _finderPathFetchByL_S.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				layoutPageTemplateStructureRelModelImpl.
-					getOriginalLayoutPageTemplateStructureId(),
-				layoutPageTemplateStructureRelModelImpl.
-					getOriginalSegmentsExperienceId()
+				layoutPageTemplateStructureRelModelImpl.getColumnOriginalValue(
+					"layoutPageTemplateStructureId"),
+				layoutPageTemplateStructureRelModelImpl.getColumnOriginalValue(
+					"segmentsExperienceId")
 			};
 
 			finderCache.removeResult(_finderPathCountByL_S, args);
@@ -3298,7 +3300,8 @@ public class LayoutPageTemplateStructureRelPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					layoutPageTemplateStructureRelModelImpl.getOriginalUuid()
+					layoutPageTemplateStructureRelModelImpl.
+						getColumnOriginalValue("uuid_")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -3319,9 +3322,10 @@ public class LayoutPageTemplateStructureRelPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					layoutPageTemplateStructureRelModelImpl.getOriginalUuid(),
 					layoutPageTemplateStructureRelModelImpl.
-						getOriginalCompanyId()
+						getColumnOriginalValue("uuid_"),
+					layoutPageTemplateStructureRelModelImpl.
+						getColumnOriginalValue("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -3344,7 +3348,7 @@ public class LayoutPageTemplateStructureRelPersistenceImpl
 
 				Object[] args = new Object[] {
 					layoutPageTemplateStructureRelModelImpl.
-						getOriginalLayoutPageTemplateStructureId()
+						getColumnOriginalValue("layoutPageTemplateStructureId")
 				};
 
 				finderCache.removeResult(
@@ -3371,7 +3375,7 @@ public class LayoutPageTemplateStructureRelPersistenceImpl
 
 				Object[] args = new Object[] {
 					layoutPageTemplateStructureRelModelImpl.
-						getOriginalSegmentsExperienceId()
+						getColumnOriginalValue("segmentsExperienceId")
 				};
 
 				finderCache.removeResult(
@@ -3702,7 +3706,7 @@ public class LayoutPageTemplateStructureRelPersistenceImpl
 			LayoutPageTemplateStructureRelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
 			new String[] {String.class.getName()},
-			LayoutPageTemplateStructureRelModelImpl.UUID_COLUMN_BITMASK);
+			LayoutPageTemplateStructureRelModelImpl.getColumnBitmask("uuid_"));
 
 		_finderPathCountByUuid = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -3712,8 +3716,9 @@ public class LayoutPageTemplateStructureRelPersistenceImpl
 			LayoutPageTemplateStructureRelImpl.class, FINDER_CLASS_NAME_ENTITY,
 			"fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
-			LayoutPageTemplateStructureRelModelImpl.UUID_COLUMN_BITMASK |
-			LayoutPageTemplateStructureRelModelImpl.GROUPID_COLUMN_BITMASK);
+			LayoutPageTemplateStructureRelModelImpl.getColumnBitmask("uuid_") |
+			LayoutPageTemplateStructureRelModelImpl.getColumnBitmask(
+				"groupId"));
 
 		_finderPathCountByUUID_G = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -3733,8 +3738,9 @@ public class LayoutPageTemplateStructureRelPersistenceImpl
 			LayoutPageTemplateStructureRelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
-			LayoutPageTemplateStructureRelModelImpl.UUID_COLUMN_BITMASK |
-			LayoutPageTemplateStructureRelModelImpl.COMPANYID_COLUMN_BITMASK);
+			LayoutPageTemplateStructureRelModelImpl.getColumnBitmask("uuid_") |
+			LayoutPageTemplateStructureRelModelImpl.getColumnBitmask(
+				"companyId"));
 
 		_finderPathCountByUuid_C = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -3757,8 +3763,8 @@ public class LayoutPageTemplateStructureRelPersistenceImpl
 				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 				"findByLayoutPageTemplateStructureId",
 				new String[] {Long.class.getName()},
-				LayoutPageTemplateStructureRelModelImpl.
-					LAYOUTPAGETEMPLATESTRUCTUREID_COLUMN_BITMASK);
+				LayoutPageTemplateStructureRelModelImpl.getColumnBitmask(
+					"layoutPageTemplateStructureId"));
 
 		_finderPathCountByLayoutPageTemplateStructureId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -3778,8 +3784,8 @@ public class LayoutPageTemplateStructureRelPersistenceImpl
 			LayoutPageTemplateStructureRelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findBySegmentsExperienceId", new String[] {Long.class.getName()},
-			LayoutPageTemplateStructureRelModelImpl.
-				SEGMENTSEXPERIENCEID_COLUMN_BITMASK);
+			LayoutPageTemplateStructureRelModelImpl.getColumnBitmask(
+				"segmentsExperienceId"));
 
 		_finderPathCountBySegmentsExperienceId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -3789,10 +3795,10 @@ public class LayoutPageTemplateStructureRelPersistenceImpl
 			LayoutPageTemplateStructureRelImpl.class, FINDER_CLASS_NAME_ENTITY,
 			"fetchByL_S",
 			new String[] {Long.class.getName(), Long.class.getName()},
-			LayoutPageTemplateStructureRelModelImpl.
-				LAYOUTPAGETEMPLATESTRUCTUREID_COLUMN_BITMASK |
-			LayoutPageTemplateStructureRelModelImpl.
-				SEGMENTSEXPERIENCEID_COLUMN_BITMASK);
+			LayoutPageTemplateStructureRelModelImpl.getColumnBitmask(
+				"layoutPageTemplateStructureId") |
+			LayoutPageTemplateStructureRelModelImpl.getColumnBitmask(
+				"segmentsExperienceId"));
 
 		_finderPathCountByL_S = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByL_S",

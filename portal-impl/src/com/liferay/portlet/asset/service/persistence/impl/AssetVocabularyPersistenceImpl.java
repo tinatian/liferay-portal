@@ -4987,8 +4987,6 @@ public class AssetVocabularyPersistenceImpl
 	@Override
 	public void cacheResult(AssetVocabulary assetVocabulary) {
 		if (assetVocabulary.getCtCollectionId() != 0) {
-			assetVocabulary.resetOriginalValues();
-
 			return;
 		}
 
@@ -5017,8 +5015,6 @@ public class AssetVocabularyPersistenceImpl
 				assetVocabulary.getExternalReferenceCode()
 			},
 			assetVocabulary);
-
-		assetVocabulary.resetOriginalValues();
 	}
 
 	/**
@@ -5030,8 +5026,6 @@ public class AssetVocabularyPersistenceImpl
 	public void cacheResult(List<AssetVocabulary> assetVocabularies) {
 		for (AssetVocabulary assetVocabulary : assetVocabularies) {
 			if (assetVocabulary.getCtCollectionId() != 0) {
-				assetVocabulary.resetOriginalValues();
-
 				continue;
 			}
 
@@ -5040,9 +5034,6 @@ public class AssetVocabularyPersistenceImpl
 					assetVocabulary.getPrimaryKey()) == null) {
 
 				cacheResult(assetVocabulary);
-			}
-			else {
-				assetVocabulary.resetOriginalValues();
 			}
 		}
 	}
@@ -5159,8 +5150,8 @@ public class AssetVocabularyPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				assetVocabularyModelImpl.getOriginalUuid(),
-				assetVocabularyModelImpl.getOriginalGroupId()
+				assetVocabularyModelImpl.getColumnOriginalValue("uuid_"),
+				assetVocabularyModelImpl.getColumnOriginalValue("groupId")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByUUID_G, args);
@@ -5181,8 +5172,8 @@ public class AssetVocabularyPersistenceImpl
 			 _finderPathFetchByG_N.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				assetVocabularyModelImpl.getOriginalGroupId(),
-				assetVocabularyModelImpl.getOriginalName()
+				assetVocabularyModelImpl.getColumnOriginalValue("groupId"),
+				assetVocabularyModelImpl.getColumnOriginalValue("name")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByG_N, args);
@@ -5203,8 +5194,9 @@ public class AssetVocabularyPersistenceImpl
 			 _finderPathFetchByC_ERC.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				assetVocabularyModelImpl.getOriginalCompanyId(),
-				assetVocabularyModelImpl.getOriginalExternalReferenceCode()
+				assetVocabularyModelImpl.getColumnOriginalValue("companyId"),
+				assetVocabularyModelImpl.getColumnOriginalValue(
+					"externalReferenceCode")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByC_ERC, args);
@@ -5386,14 +5378,7 @@ public class AssetVocabularyPersistenceImpl
 
 			if (CTPersistenceHelperUtil.isInsert(assetVocabulary)) {
 				if (!isNew) {
-					AssetVocabulary oldAssetVocabulary =
-						(AssetVocabulary)session.get(
-							AssetVocabularyImpl.class,
-							assetVocabulary.getPrimaryKeyObj());
-
-					if (oldAssetVocabulary != null) {
-						session.evict(oldAssetVocabulary);
-					}
+					session.evict(assetVocabulary);
 				}
 
 				session.save(assetVocabulary);
@@ -5459,7 +5444,7 @@ public class AssetVocabularyPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					assetVocabularyModelImpl.getOriginalUuid()
+					assetVocabularyModelImpl.getColumnOriginalValue("uuid_")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid, args);
@@ -5478,8 +5463,8 @@ public class AssetVocabularyPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					assetVocabularyModelImpl.getOriginalUuid(),
-					assetVocabularyModelImpl.getOriginalCompanyId()
+					assetVocabularyModelImpl.getColumnOriginalValue("uuid_"),
+					assetVocabularyModelImpl.getColumnOriginalValue("companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid_C, args);
@@ -5501,7 +5486,7 @@ public class AssetVocabularyPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					assetVocabularyModelImpl.getOriginalGroupId()
+					assetVocabularyModelImpl.getColumnOriginalValue("groupId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByGroupId, args);
@@ -5520,7 +5505,7 @@ public class AssetVocabularyPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					assetVocabularyModelImpl.getOriginalCompanyId()
+					assetVocabularyModelImpl.getColumnOriginalValue("companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
@@ -6021,8 +6006,8 @@ public class AssetVocabularyPersistenceImpl
 			AssetVocabularyImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
 			new String[] {String.class.getName()},
-			AssetVocabularyModelImpl.UUID_COLUMN_BITMASK |
-			AssetVocabularyModelImpl.NAME_COLUMN_BITMASK);
+			AssetVocabularyModelImpl.getColumnBitmask("uuid_") |
+			AssetVocabularyModelImpl.getColumnBitmask("name"));
 
 		_finderPathCountByUuid = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -6032,8 +6017,8 @@ public class AssetVocabularyPersistenceImpl
 			AssetVocabularyImpl.class, FINDER_CLASS_NAME_ENTITY,
 			"fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
-			AssetVocabularyModelImpl.UUID_COLUMN_BITMASK |
-			AssetVocabularyModelImpl.GROUPID_COLUMN_BITMASK);
+			AssetVocabularyModelImpl.getColumnBitmask("uuid_") |
+			AssetVocabularyModelImpl.getColumnBitmask("groupId"));
 
 		_finderPathCountByUUID_G = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -6053,9 +6038,9 @@ public class AssetVocabularyPersistenceImpl
 			AssetVocabularyImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
-			AssetVocabularyModelImpl.UUID_COLUMN_BITMASK |
-			AssetVocabularyModelImpl.COMPANYID_COLUMN_BITMASK |
-			AssetVocabularyModelImpl.NAME_COLUMN_BITMASK);
+			AssetVocabularyModelImpl.getColumnBitmask("uuid_") |
+			AssetVocabularyModelImpl.getColumnBitmask("companyId") |
+			AssetVocabularyModelImpl.getColumnBitmask("name"));
 
 		_finderPathCountByUuid_C = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -6074,8 +6059,8 @@ public class AssetVocabularyPersistenceImpl
 			AssetVocabularyImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
 			new String[] {Long.class.getName()},
-			AssetVocabularyModelImpl.GROUPID_COLUMN_BITMASK |
-			AssetVocabularyModelImpl.NAME_COLUMN_BITMASK);
+			AssetVocabularyModelImpl.getColumnBitmask("groupId") |
+			AssetVocabularyModelImpl.getColumnBitmask("name"));
 
 		_finderPathCountByGroupId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -6097,8 +6082,8 @@ public class AssetVocabularyPersistenceImpl
 			AssetVocabularyImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCompanyId",
 			new String[] {Long.class.getName()},
-			AssetVocabularyModelImpl.COMPANYID_COLUMN_BITMASK |
-			AssetVocabularyModelImpl.NAME_COLUMN_BITMASK);
+			AssetVocabularyModelImpl.getColumnBitmask("companyId") |
+			AssetVocabularyModelImpl.getColumnBitmask("name"));
 
 		_finderPathCountByCompanyId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -6107,8 +6092,8 @@ public class AssetVocabularyPersistenceImpl
 		_finderPathFetchByG_N = new FinderPath(
 			AssetVocabularyImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByG_N",
 			new String[] {Long.class.getName(), String.class.getName()},
-			AssetVocabularyModelImpl.GROUPID_COLUMN_BITMASK |
-			AssetVocabularyModelImpl.NAME_COLUMN_BITMASK);
+			AssetVocabularyModelImpl.getColumnBitmask("groupId") |
+			AssetVocabularyModelImpl.getColumnBitmask("name"));
 
 		_finderPathCountByG_N = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_N",
@@ -6131,8 +6116,8 @@ public class AssetVocabularyPersistenceImpl
 		_finderPathFetchByC_ERC = new FinderPath(
 			AssetVocabularyImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByC_ERC",
 			new String[] {Long.class.getName(), String.class.getName()},
-			AssetVocabularyModelImpl.COMPANYID_COLUMN_BITMASK |
-			AssetVocabularyModelImpl.EXTERNALREFERENCECODE_COLUMN_BITMASK);
+			AssetVocabularyModelImpl.getColumnBitmask("companyId") |
+			AssetVocabularyModelImpl.getColumnBitmask("externalReferenceCode"));
 
 		_finderPathCountByC_ERC = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,

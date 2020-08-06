@@ -590,8 +590,6 @@ public class OrgLaborPersistenceImpl
 	public void cacheResult(OrgLabor orgLabor) {
 		EntityCacheUtil.putResult(
 			OrgLaborImpl.class, orgLabor.getPrimaryKey(), orgLabor);
-
-		orgLabor.resetOriginalValues();
 	}
 
 	/**
@@ -606,9 +604,6 @@ public class OrgLaborPersistenceImpl
 					OrgLaborImpl.class, orgLabor.getPrimaryKey()) == null) {
 
 				cacheResult(orgLabor);
-			}
-			else {
-				orgLabor.resetOriginalValues();
 			}
 		}
 	}
@@ -834,7 +829,7 @@ public class OrgLaborPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					orgLaborModelImpl.getOriginalOrganizationId()
+					orgLaborModelImpl.getColumnOriginalValue("organizationId")
 				};
 
 				FinderCacheUtil.removeResult(
@@ -1135,8 +1130,8 @@ public class OrgLaborPersistenceImpl
 		_finderPathWithoutPaginationFindByOrganizationId = new FinderPath(
 			OrgLaborImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByOrganizationId", new String[] {Long.class.getName()},
-			OrgLaborModelImpl.ORGANIZATIONID_COLUMN_BITMASK |
-			OrgLaborModelImpl.TYPEID_COLUMN_BITMASK);
+			OrgLaborModelImpl.getColumnBitmask("organizationId") |
+			OrgLaborModelImpl.getColumnBitmask("typeId"));
 
 		_finderPathCountByOrganizationId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,

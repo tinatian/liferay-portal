@@ -439,7 +439,8 @@ public class DLSyncEventPersistenceTest {
 		Assert.assertEquals(
 			Long.valueOf(dlSyncEvent.getTypePK()),
 			ReflectionTestUtil.<Long>invoke(
-				dlSyncEvent, "getOriginalTypePK", new Class<?>[0]));
+				dlSyncEvent, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "typePK"));
 	}
 
 	protected DLSyncEvent addDLSyncEvent() throws Exception {

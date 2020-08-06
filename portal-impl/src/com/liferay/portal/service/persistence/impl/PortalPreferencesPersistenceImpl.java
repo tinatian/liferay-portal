@@ -337,8 +337,6 @@ public class PortalPreferencesPersistenceImpl
 				portalPreferences.getOwnerId(), portalPreferences.getOwnerType()
 			},
 			portalPreferences);
-
-		portalPreferences.resetOriginalValues();
 	}
 
 	/**
@@ -354,9 +352,6 @@ public class PortalPreferencesPersistenceImpl
 					portalPreferences.getPrimaryKey()) == null) {
 
 				cacheResult(portalPreferences);
-			}
-			else {
-				portalPreferences.resetOriginalValues();
 			}
 		}
 	}
@@ -454,8 +449,8 @@ public class PortalPreferencesPersistenceImpl
 			 _finderPathFetchByO_O.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				portalPreferencesModelImpl.getOriginalOwnerId(),
-				portalPreferencesModelImpl.getOriginalOwnerType()
+				portalPreferencesModelImpl.getColumnOriginalValue("ownerId"),
+				portalPreferencesModelImpl.getColumnOriginalValue("ownerType")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByO_O, args);
@@ -906,8 +901,8 @@ public class PortalPreferencesPersistenceImpl
 		_finderPathFetchByO_O = new FinderPath(
 			PortalPreferencesImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByO_O",
 			new String[] {Long.class.getName(), Integer.class.getName()},
-			PortalPreferencesModelImpl.OWNERID_COLUMN_BITMASK |
-			PortalPreferencesModelImpl.OWNERTYPE_COLUMN_BITMASK);
+			PortalPreferencesModelImpl.getColumnBitmask("ownerId") |
+			PortalPreferencesModelImpl.getColumnBitmask("ownerType"));
 
 		_finderPathCountByO_O = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByO_O",

@@ -424,12 +424,14 @@ public class PortletPersistenceTest {
 		Assert.assertEquals(
 			Long.valueOf(portlet.getCompanyId()),
 			ReflectionTestUtil.<Long>invoke(
-				portlet, "getOriginalCompanyId", new Class<?>[0]));
+				portlet, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "companyId"));
 		Assert.assertTrue(
 			Objects.equals(
 				portlet.getPortletId(),
 				ReflectionTestUtil.invoke(
-					portlet, "getOriginalPortletId", new Class<?>[0])));
+					portlet, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "portletId")));
 	}
 
 	protected Portlet addPortlet() throws Exception {

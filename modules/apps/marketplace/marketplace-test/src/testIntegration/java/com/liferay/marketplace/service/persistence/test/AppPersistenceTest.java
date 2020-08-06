@@ -476,7 +476,8 @@ public class AppPersistenceTest {
 		Assert.assertEquals(
 			Long.valueOf(app.getRemoteAppId()),
 			ReflectionTestUtil.<Long>invoke(
-				app, "getOriginalRemoteAppId", new Class<?>[0]));
+				app, "getColumnOriginalValue", new Class<?>[] {String.class},
+				"remoteAppId"));
 	}
 
 	protected App addApp() throws Exception {

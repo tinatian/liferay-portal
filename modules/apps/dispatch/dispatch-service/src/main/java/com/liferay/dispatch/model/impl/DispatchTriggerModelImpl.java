@@ -121,12 +121,32 @@ public class DispatchTriggerModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long NAME_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long TYPE_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long MODIFIEDDATE_COLUMN_BITMASK = 8L;
 
 	/**
@@ -410,6 +430,8 @@ public class DispatchTriggerModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= _columnBitmasks.get("mvccVersion");
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -421,6 +443,8 @@ public class DispatchTriggerModelImpl
 
 	@Override
 	public void setDispatchTriggerId(long dispatchTriggerId) {
+		_columnBitmask |= _columnBitmasks.get("dispatchTriggerId");
+
 		_dispatchTriggerId = dispatchTriggerId;
 	}
 
@@ -432,19 +456,18 @@ public class DispatchTriggerModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
-		}
+		_columnBitmask |= _columnBitmasks.get("companyId");
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -455,6 +478,8 @@ public class DispatchTriggerModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= _columnBitmasks.get("userId");
+
 		_userId = userId;
 	}
 
@@ -487,6 +512,8 @@ public class DispatchTriggerModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= _columnBitmasks.get("userName");
+
 		_userName = userName;
 	}
 
@@ -498,6 +525,8 @@ public class DispatchTriggerModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= _columnBitmasks.get("createDate");
+
 		_createDate = createDate;
 	}
 
@@ -515,7 +544,7 @@ public class DispatchTriggerModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
-		_columnBitmask = -1L;
+		_columnBitmask |= _columnBitmasks.get("modifiedDate");
 
 		_modifiedDate = modifiedDate;
 	}
@@ -534,6 +563,8 @@ public class DispatchTriggerModelImpl
 
 	@Override
 	public void setActive(boolean active) {
+		_columnBitmask |= _columnBitmasks.get("active_");
+
 		_active = active;
 	}
 
@@ -550,6 +581,8 @@ public class DispatchTriggerModelImpl
 
 	@Override
 	public void setCronExpression(String cronExpression) {
+		_columnBitmask |= _columnBitmasks.get("cronExpression");
+
 		_cronExpression = cronExpression;
 	}
 
@@ -561,6 +594,8 @@ public class DispatchTriggerModelImpl
 
 	@Override
 	public void setEndDate(Date endDate) {
+		_columnBitmask |= _columnBitmasks.get("endDate");
+
 		_endDate = endDate;
 	}
 
@@ -577,17 +612,18 @@ public class DispatchTriggerModelImpl
 
 	@Override
 	public void setName(String name) {
-		_columnBitmask |= NAME_COLUMN_BITMASK;
-
-		if (_originalName == null) {
-			_originalName = _name;
-		}
+		_columnBitmask |= _columnBitmasks.get("name");
 
 		_name = name;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalName() {
-		return GetterUtil.getString(_originalName);
+		return getColumnOriginalValue("name");
 	}
 
 	@JSON
@@ -598,6 +634,8 @@ public class DispatchTriggerModelImpl
 
 	@Override
 	public void setStartDate(Date startDate) {
+		_columnBitmask |= _columnBitmasks.get("startDate");
+
 		_startDate = startDate;
 	}
 
@@ -615,6 +653,8 @@ public class DispatchTriggerModelImpl
 
 	@Override
 	public void setSystem(boolean system) {
+		_columnBitmask |= _columnBitmasks.get("system_");
+
 		_system = system;
 	}
 
@@ -631,17 +671,18 @@ public class DispatchTriggerModelImpl
 
 	@Override
 	public void setType(String type) {
-		_columnBitmask |= TYPE_COLUMN_BITMASK;
-
-		if (_originalType == null) {
-			_originalType = _type;
-		}
+		_columnBitmask |= _columnBitmasks.get("type_");
 
 		_type = type;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalType() {
-		return GetterUtil.getString(_originalType);
+		return getColumnOriginalValue("type_");
 	}
 
 	@JSON
@@ -657,6 +698,8 @@ public class DispatchTriggerModelImpl
 
 	@Override
 	public void setTypeSettings(String typeSettings) {
+		_columnBitmask |= _columnBitmasks.get("typeSettings");
+
 		_typeSettings = typeSettings;
 	}
 
@@ -780,20 +823,18 @@ public class DispatchTriggerModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		DispatchTriggerModelImpl dispatchTriggerModelImpl = this;
+		_columnOriginalValues = getModelAttributes();
 
-		dispatchTriggerModelImpl._originalCompanyId =
-			dispatchTriggerModelImpl._companyId;
+		_columnOriginalValues.put(
+			"active_", _columnOriginalValues.remove("active"));
+		_columnOriginalValues.put(
+			"system_", _columnOriginalValues.remove("system"));
+		_columnOriginalValues.put(
+			"type_", _columnOriginalValues.remove("type"));
 
-		dispatchTriggerModelImpl._setOriginalCompanyId = false;
+		_setModifiedDate = false;
 
-		dispatchTriggerModelImpl._setModifiedDate = false;
-
-		dispatchTriggerModelImpl._originalName = dispatchTriggerModelImpl._name;
-
-		dispatchTriggerModelImpl._originalType = dispatchTriggerModelImpl._type;
-
-		dispatchTriggerModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -962,11 +1003,60 @@ public class DispatchTriggerModelImpl
 
 	}
 
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new LinkedHashMap<>();
+
+		columnBitmasks.put("mvccVersion", 1L);
+
+		columnBitmasks.put("dispatchTriggerId", 2L);
+
+		columnBitmasks.put("companyId", 4L);
+
+		columnBitmasks.put("userId", 8L);
+
+		columnBitmasks.put("userName", 16L);
+
+		columnBitmasks.put("createDate", 32L);
+
+		columnBitmasks.put("modifiedDate", 64L);
+
+		columnBitmasks.put("active_", 128L);
+
+		columnBitmasks.put("cronExpression", 256L);
+
+		columnBitmasks.put("endDate", 512L);
+
+		columnBitmasks.put("name", 1024L);
+
+		columnBitmasks.put("startDate", 2048L);
+
+		columnBitmasks.put("system_", 4096L);
+
+		columnBitmasks.put("type_", 8192L);
+
+		columnBitmasks.put("typeSettings", 16384L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
 	private long _mvccVersion;
 	private long _dispatchTriggerId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
@@ -976,11 +1066,9 @@ public class DispatchTriggerModelImpl
 	private String _cronExpression;
 	private Date _endDate;
 	private String _name;
-	private String _originalName;
 	private Date _startDate;
 	private boolean _system;
 	private String _type;
-	private String _originalType;
 	private String _typeSettings;
 	private long _columnBitmask;
 	private DispatchTrigger _escapedModel;

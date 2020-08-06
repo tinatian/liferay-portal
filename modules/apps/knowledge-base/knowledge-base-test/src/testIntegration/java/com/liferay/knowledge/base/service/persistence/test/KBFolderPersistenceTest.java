@@ -514,39 +514,47 @@ public class KBFolderPersistenceTest {
 			Objects.equals(
 				kbFolder.getUuid(),
 				ReflectionTestUtil.invoke(
-					kbFolder, "getOriginalUuid", new Class<?>[0])));
+					kbFolder, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "uuid_")));
 		Assert.assertEquals(
 			Long.valueOf(kbFolder.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
-				kbFolder, "getOriginalGroupId", new Class<?>[0]));
+				kbFolder, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "groupId"));
 
 		Assert.assertEquals(
 			Long.valueOf(kbFolder.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
-				kbFolder, "getOriginalGroupId", new Class<?>[0]));
+				kbFolder, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "groupId"));
 		Assert.assertEquals(
 			Long.valueOf(kbFolder.getParentKBFolderId()),
 			ReflectionTestUtil.<Long>invoke(
-				kbFolder, "getOriginalParentKBFolderId", new Class<?>[0]));
+				kbFolder, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "parentKBFolderId"));
 		Assert.assertTrue(
 			Objects.equals(
 				kbFolder.getName(),
 				ReflectionTestUtil.invoke(
-					kbFolder, "getOriginalName", new Class<?>[0])));
+					kbFolder, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "name")));
 
 		Assert.assertEquals(
 			Long.valueOf(kbFolder.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
-				kbFolder, "getOriginalGroupId", new Class<?>[0]));
+				kbFolder, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "groupId"));
 		Assert.assertEquals(
 			Long.valueOf(kbFolder.getParentKBFolderId()),
 			ReflectionTestUtil.<Long>invoke(
-				kbFolder, "getOriginalParentKBFolderId", new Class<?>[0]));
+				kbFolder, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "parentKBFolderId"));
 		Assert.assertTrue(
 			Objects.equals(
 				kbFolder.getUrlTitle(),
 				ReflectionTestUtil.invoke(
-					kbFolder, "getOriginalUrlTitle", new Class<?>[0])));
+					kbFolder, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "urlTitle")));
 	}
 
 	protected KBFolder addKBFolder() throws Exception {

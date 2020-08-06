@@ -502,11 +502,13 @@ public class FriendlyURLEntryPersistenceTest {
 			Objects.equals(
 				friendlyURLEntry.getUuid(),
 				ReflectionTestUtil.invoke(
-					friendlyURLEntry, "getOriginalUuid", new Class<?>[0])));
+					friendlyURLEntry, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "uuid_")));
 		Assert.assertEquals(
 			Long.valueOf(friendlyURLEntry.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
-				friendlyURLEntry, "getOriginalGroupId", new Class<?>[0]));
+				friendlyURLEntry, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "groupId"));
 	}
 
 	protected FriendlyURLEntry addFriendlyURLEntry() throws Exception {

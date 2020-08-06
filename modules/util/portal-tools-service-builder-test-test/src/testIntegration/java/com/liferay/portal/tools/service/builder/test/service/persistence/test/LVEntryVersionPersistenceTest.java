@@ -523,40 +523,47 @@ public class LVEntryVersionPersistenceTest {
 		Assert.assertEquals(
 			Long.valueOf(lvEntryVersion.getLvEntryId()),
 			ReflectionTestUtil.<Long>invoke(
-				lvEntryVersion, "getOriginalLvEntryId", new Class<?>[0]));
+				lvEntryVersion, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "lvEntryId"));
 		Assert.assertEquals(
 			Integer.valueOf(lvEntryVersion.getVersion()),
 			ReflectionTestUtil.<Integer>invoke(
-				lvEntryVersion, "getOriginalVersion", new Class<?>[0]));
+				lvEntryVersion, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "version"));
 
 		Assert.assertTrue(
 			Objects.equals(
 				lvEntryVersion.getUuid(),
 				ReflectionTestUtil.invoke(
-					lvEntryVersion, "getOriginalUuid", new Class<?>[0])));
+					lvEntryVersion, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "uuid_")));
 		Assert.assertEquals(
 			Long.valueOf(lvEntryVersion.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
-				lvEntryVersion, "getOriginalGroupId", new Class<?>[0]));
+				lvEntryVersion, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "groupId"));
 		Assert.assertEquals(
 			Integer.valueOf(lvEntryVersion.getVersion()),
 			ReflectionTestUtil.<Integer>invoke(
-				lvEntryVersion, "getOriginalVersion", new Class<?>[0]));
+				lvEntryVersion, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "version"));
 
 		Assert.assertEquals(
 			Long.valueOf(lvEntryVersion.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
-				lvEntryVersion, "getOriginalGroupId", new Class<?>[0]));
+				lvEntryVersion, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "groupId"));
 		Assert.assertTrue(
 			Objects.equals(
 				lvEntryVersion.getUniqueGroupKey(),
 				ReflectionTestUtil.invoke(
-					lvEntryVersion, "getOriginalUniqueGroupKey",
-					new Class<?>[0])));
+					lvEntryVersion, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "uniqueGroupKey")));
 		Assert.assertEquals(
 			Integer.valueOf(lvEntryVersion.getVersion()),
 			ReflectionTestUtil.<Integer>invoke(
-				lvEntryVersion, "getOriginalVersion", new Class<?>[0]));
+				lvEntryVersion, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "version"));
 	}
 
 	protected LVEntryVersion addLVEntryVersion() throws Exception {

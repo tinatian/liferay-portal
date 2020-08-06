@@ -452,14 +452,14 @@ public class SamlSpMessagePersistenceTest {
 			Objects.equals(
 				samlSpMessage.getSamlIdpEntityId(),
 				ReflectionTestUtil.invoke(
-					samlSpMessage, "getOriginalSamlIdpEntityId",
-					new Class<?>[0])));
+					samlSpMessage, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "samlIdpEntityId")));
 		Assert.assertTrue(
 			Objects.equals(
 				samlSpMessage.getSamlIdpResponseKey(),
 				ReflectionTestUtil.invoke(
-					samlSpMessage, "getOriginalSamlIdpResponseKey",
-					new Class<?>[0])));
+					samlSpMessage, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "samlIdpResponseKey")));
 	}
 
 	protected SamlSpMessage addSamlSpMessage() throws Exception {

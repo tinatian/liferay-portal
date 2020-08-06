@@ -9222,8 +9222,6 @@ public class OrganizationPersistenceImpl
 	@Override
 	public void cacheResult(Organization organization) {
 		if (organization.getCtCollectionId() != 0) {
-			organization.resetOriginalValues();
-
 			return;
 		}
 
@@ -9242,8 +9240,6 @@ public class OrganizationPersistenceImpl
 				organization.getExternalReferenceCode()
 			},
 			organization);
-
-		organization.resetOriginalValues();
 	}
 
 	/**
@@ -9255,8 +9251,6 @@ public class OrganizationPersistenceImpl
 	public void cacheResult(List<Organization> organizations) {
 		for (Organization organization : organizations) {
 			if (organization.getCtCollectionId() != 0) {
-				organization.resetOriginalValues();
-
 				continue;
 			}
 
@@ -9265,9 +9259,6 @@ public class OrganizationPersistenceImpl
 						null) {
 
 				cacheResult(organization);
-			}
-			else {
-				organization.resetOriginalValues();
 			}
 		}
 	}
@@ -9371,8 +9362,8 @@ public class OrganizationPersistenceImpl
 			 _finderPathFetchByC_N.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				organizationModelImpl.getOriginalCompanyId(),
-				organizationModelImpl.getOriginalName()
+				organizationModelImpl.getColumnOriginalValue("companyId"),
+				organizationModelImpl.getColumnOriginalValue("name")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByC_N, args);
@@ -9393,8 +9384,9 @@ public class OrganizationPersistenceImpl
 			 _finderPathFetchByC_ERC.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				organizationModelImpl.getOriginalCompanyId(),
-				organizationModelImpl.getOriginalExternalReferenceCode()
+				organizationModelImpl.getColumnOriginalValue("companyId"),
+				organizationModelImpl.getColumnOriginalValue(
+					"externalReferenceCode")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByC_ERC, args);
@@ -9580,13 +9572,7 @@ public class OrganizationPersistenceImpl
 
 			if (CTPersistenceHelperUtil.isInsert(organization)) {
 				if (!isNew) {
-					Organization oldOrganization = (Organization)session.get(
-						OrganizationImpl.class,
-						organization.getPrimaryKeyObj());
-
-					if (oldOrganization != null) {
-						session.evict(oldOrganization);
-					}
+					session.evict(organization);
 				}
 
 				session.save(organization);
@@ -9660,7 +9646,7 @@ public class OrganizationPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					organizationModelImpl.getOriginalUuid()
+					organizationModelImpl.getColumnOriginalValue("uuid_")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid, args);
@@ -9679,8 +9665,8 @@ public class OrganizationPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					organizationModelImpl.getOriginalUuid(),
-					organizationModelImpl.getOriginalCompanyId()
+					organizationModelImpl.getColumnOriginalValue("uuid_"),
+					organizationModelImpl.getColumnOriginalValue("companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid_C, args);
@@ -9702,7 +9688,7 @@ public class OrganizationPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					organizationModelImpl.getOriginalCompanyId()
+					organizationModelImpl.getColumnOriginalValue("companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
@@ -9721,7 +9707,7 @@ public class OrganizationPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					organizationModelImpl.getOriginalCompanyId()
+					organizationModelImpl.getColumnOriginalValue("companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByLocations, args);
@@ -9740,8 +9726,9 @@ public class OrganizationPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					organizationModelImpl.getOriginalCompanyId(),
-					organizationModelImpl.getOriginalParentOrganizationId()
+					organizationModelImpl.getColumnOriginalValue("companyId"),
+					organizationModelImpl.getColumnOriginalValue(
+						"parentOrganizationId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_P, args);
@@ -10872,8 +10859,8 @@ public class OrganizationPersistenceImpl
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
 			OrganizationImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByUuid", new String[] {String.class.getName()},
-			OrganizationModelImpl.UUID_COLUMN_BITMASK |
-			OrganizationModelImpl.NAME_COLUMN_BITMASK);
+			OrganizationModelImpl.getColumnBitmask("uuid_") |
+			OrganizationModelImpl.getColumnBitmask("name"));
 
 		_finderPathCountByUuid = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -10892,9 +10879,9 @@ public class OrganizationPersistenceImpl
 			OrganizationImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
-			OrganizationModelImpl.UUID_COLUMN_BITMASK |
-			OrganizationModelImpl.COMPANYID_COLUMN_BITMASK |
-			OrganizationModelImpl.NAME_COLUMN_BITMASK);
+			OrganizationModelImpl.getColumnBitmask("uuid_") |
+			OrganizationModelImpl.getColumnBitmask("companyId") |
+			OrganizationModelImpl.getColumnBitmask("name"));
 
 		_finderPathCountByUuid_C = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -10912,8 +10899,8 @@ public class OrganizationPersistenceImpl
 		_finderPathWithoutPaginationFindByCompanyId = new FinderPath(
 			OrganizationImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByCompanyId", new String[] {Long.class.getName()},
-			OrganizationModelImpl.COMPANYID_COLUMN_BITMASK |
-			OrganizationModelImpl.NAME_COLUMN_BITMASK);
+			OrganizationModelImpl.getColumnBitmask("companyId") |
+			OrganizationModelImpl.getColumnBitmask("name"));
 
 		_finderPathCountByCompanyId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -10930,8 +10917,8 @@ public class OrganizationPersistenceImpl
 		_finderPathWithoutPaginationFindByLocations = new FinderPath(
 			OrganizationImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByLocations", new String[] {Long.class.getName()},
-			OrganizationModelImpl.COMPANYID_COLUMN_BITMASK |
-			OrganizationModelImpl.NAME_COLUMN_BITMASK);
+			OrganizationModelImpl.getColumnBitmask("companyId") |
+			OrganizationModelImpl.getColumnBitmask("name"));
 
 		_finderPathCountByLocations = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -10950,9 +10937,9 @@ public class OrganizationPersistenceImpl
 			OrganizationImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByC_P",
 			new String[] {Long.class.getName(), Long.class.getName()},
-			OrganizationModelImpl.COMPANYID_COLUMN_BITMASK |
-			OrganizationModelImpl.PARENTORGANIZATIONID_COLUMN_BITMASK |
-			OrganizationModelImpl.NAME_COLUMN_BITMASK);
+			OrganizationModelImpl.getColumnBitmask("companyId") |
+			OrganizationModelImpl.getColumnBitmask("parentOrganizationId") |
+			OrganizationModelImpl.getColumnBitmask("name"));
 
 		_finderPathCountByC_P = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_P",
@@ -10974,8 +10961,8 @@ public class OrganizationPersistenceImpl
 		_finderPathFetchByC_N = new FinderPath(
 			OrganizationImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByC_N",
 			new String[] {Long.class.getName(), String.class.getName()},
-			OrganizationModelImpl.COMPANYID_COLUMN_BITMASK |
-			OrganizationModelImpl.NAME_COLUMN_BITMASK);
+			OrganizationModelImpl.getColumnBitmask("companyId") |
+			OrganizationModelImpl.getColumnBitmask("name"));
 
 		_finderPathCountByC_N = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_N",
@@ -11030,8 +11017,8 @@ public class OrganizationPersistenceImpl
 		_finderPathFetchByC_ERC = new FinderPath(
 			OrganizationImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByC_ERC",
 			new String[] {Long.class.getName(), String.class.getName()},
-			OrganizationModelImpl.COMPANYID_COLUMN_BITMASK |
-			OrganizationModelImpl.EXTERNALREFERENCECODE_COLUMN_BITMASK);
+			OrganizationModelImpl.getColumnBitmask("companyId") |
+			OrganizationModelImpl.getColumnBitmask("externalReferenceCode"));
 
 		_finderPathCountByC_ERC = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,

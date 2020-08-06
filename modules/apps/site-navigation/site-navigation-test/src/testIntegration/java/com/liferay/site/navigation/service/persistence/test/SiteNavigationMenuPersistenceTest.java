@@ -576,21 +576,25 @@ public class SiteNavigationMenuPersistenceTest {
 			Objects.equals(
 				siteNavigationMenu.getUuid(),
 				ReflectionTestUtil.invoke(
-					siteNavigationMenu, "getOriginalUuid", new Class<?>[0])));
+					siteNavigationMenu, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "uuid_")));
 		Assert.assertEquals(
 			Long.valueOf(siteNavigationMenu.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
-				siteNavigationMenu, "getOriginalGroupId", new Class<?>[0]));
+				siteNavigationMenu, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "groupId"));
 
 		Assert.assertEquals(
 			Long.valueOf(siteNavigationMenu.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
-				siteNavigationMenu, "getOriginalGroupId", new Class<?>[0]));
+				siteNavigationMenu, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "groupId"));
 		Assert.assertTrue(
 			Objects.equals(
 				siteNavigationMenu.getName(),
 				ReflectionTestUtil.invoke(
-					siteNavigationMenu, "getOriginalName", new Class<?>[0])));
+					siteNavigationMenu, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "name")));
 	}
 
 	protected SiteNavigationMenu addSiteNavigationMenu() throws Exception {

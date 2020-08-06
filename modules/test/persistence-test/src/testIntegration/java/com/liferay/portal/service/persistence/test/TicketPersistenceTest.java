@@ -457,7 +457,8 @@ public class TicketPersistenceTest {
 			Objects.equals(
 				ticket.getKey(),
 				ReflectionTestUtil.invoke(
-					ticket, "getOriginalKey", new Class<?>[0])));
+					ticket, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "key_")));
 	}
 
 	protected Ticket addTicket() throws Exception {

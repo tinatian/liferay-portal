@@ -626,22 +626,25 @@ public class FragmentCompositionPersistenceTest {
 			Objects.equals(
 				fragmentComposition.getUuid(),
 				ReflectionTestUtil.invoke(
-					fragmentComposition, "getOriginalUuid", new Class<?>[0])));
+					fragmentComposition, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "uuid_")));
 		Assert.assertEquals(
 			Long.valueOf(fragmentComposition.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
-				fragmentComposition, "getOriginalGroupId", new Class<?>[0]));
+				fragmentComposition, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "groupId"));
 
 		Assert.assertEquals(
 			Long.valueOf(fragmentComposition.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
-				fragmentComposition, "getOriginalGroupId", new Class<?>[0]));
+				fragmentComposition, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "groupId"));
 		Assert.assertTrue(
 			Objects.equals(
 				fragmentComposition.getFragmentCompositionKey(),
 				ReflectionTestUtil.invoke(
-					fragmentComposition, "getOriginalFragmentCompositionKey",
-					new Class<?>[0])));
+					fragmentComposition, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "fragmentCompositionKey")));
 	}
 
 	protected FragmentComposition addFragmentComposition() throws Exception {

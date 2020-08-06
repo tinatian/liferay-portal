@@ -459,14 +459,14 @@ public class SamlSpAuthRequestPersistenceTest {
 			Objects.equals(
 				samlSpAuthRequest.getSamlIdpEntityId(),
 				ReflectionTestUtil.invoke(
-					samlSpAuthRequest, "getOriginalSamlIdpEntityId",
-					new Class<?>[0])));
+					samlSpAuthRequest, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "samlIdpEntityId")));
 		Assert.assertTrue(
 			Objects.equals(
 				samlSpAuthRequest.getSamlSpAuthRequestKey(),
 				ReflectionTestUtil.invoke(
-					samlSpAuthRequest, "getOriginalSamlSpAuthRequestKey",
-					new Class<?>[0])));
+					samlSpAuthRequest, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "samlSpAuthRequestKey")));
 	}
 
 	protected SamlSpAuthRequest addSamlSpAuthRequest() throws Exception {

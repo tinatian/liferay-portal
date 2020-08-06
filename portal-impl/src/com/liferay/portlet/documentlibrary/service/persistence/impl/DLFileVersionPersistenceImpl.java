@@ -5776,8 +5776,6 @@ public class DLFileVersionPersistenceImpl
 	@Override
 	public void cacheResult(DLFileVersion dlFileVersion) {
 		if (dlFileVersion.getCtCollectionId() != 0) {
-			dlFileVersion.resetOriginalValues();
-
 			return;
 		}
 
@@ -5796,8 +5794,6 @@ public class DLFileVersionPersistenceImpl
 				dlFileVersion.getFileEntryId(), dlFileVersion.getVersion()
 			},
 			dlFileVersion);
-
-		dlFileVersion.resetOriginalValues();
 	}
 
 	/**
@@ -5809,8 +5805,6 @@ public class DLFileVersionPersistenceImpl
 	public void cacheResult(List<DLFileVersion> dlFileVersions) {
 		for (DLFileVersion dlFileVersion : dlFileVersions) {
 			if (dlFileVersion.getCtCollectionId() != 0) {
-				dlFileVersion.resetOriginalValues();
-
 				continue;
 			}
 
@@ -5819,9 +5813,6 @@ public class DLFileVersionPersistenceImpl
 						null) {
 
 				cacheResult(dlFileVersion);
-			}
-			else {
-				dlFileVersion.resetOriginalValues();
 			}
 		}
 	}
@@ -5926,8 +5917,8 @@ public class DLFileVersionPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				dlFileVersionModelImpl.getOriginalUuid(),
-				dlFileVersionModelImpl.getOriginalGroupId()
+				dlFileVersionModelImpl.getColumnOriginalValue("uuid_"),
+				dlFileVersionModelImpl.getColumnOriginalValue("groupId")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByUUID_G, args);
@@ -5948,8 +5939,8 @@ public class DLFileVersionPersistenceImpl
 			 _finderPathFetchByF_V.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				dlFileVersionModelImpl.getOriginalFileEntryId(),
-				dlFileVersionModelImpl.getOriginalVersion()
+				dlFileVersionModelImpl.getColumnOriginalValue("fileEntryId"),
+				dlFileVersionModelImpl.getColumnOriginalValue("version")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByF_V, args);
@@ -6129,13 +6120,7 @@ public class DLFileVersionPersistenceImpl
 
 			if (CTPersistenceHelperUtil.isInsert(dlFileVersion)) {
 				if (!isNew) {
-					DLFileVersion oldDLFileVersion = (DLFileVersion)session.get(
-						DLFileVersionImpl.class,
-						dlFileVersion.getPrimaryKeyObj());
-
-					if (oldDLFileVersion != null) {
-						session.evict(oldDLFileVersion);
-					}
+					session.evict(dlFileVersion);
 				}
 
 				session.save(dlFileVersion);
@@ -6236,7 +6221,7 @@ public class DLFileVersionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					dlFileVersionModelImpl.getOriginalUuid()
+					dlFileVersionModelImpl.getColumnOriginalValue("uuid_")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid, args);
@@ -6255,8 +6240,8 @@ public class DLFileVersionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					dlFileVersionModelImpl.getOriginalUuid(),
-					dlFileVersionModelImpl.getOriginalCompanyId()
+					dlFileVersionModelImpl.getColumnOriginalValue("uuid_"),
+					dlFileVersionModelImpl.getColumnOriginalValue("companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid_C, args);
@@ -6278,7 +6263,7 @@ public class DLFileVersionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					dlFileVersionModelImpl.getOriginalCompanyId()
+					dlFileVersionModelImpl.getColumnOriginalValue("companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
@@ -6297,7 +6282,7 @@ public class DLFileVersionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					dlFileVersionModelImpl.getOriginalFileEntryId()
+					dlFileVersionModelImpl.getColumnOriginalValue("fileEntryId")
 				};
 
 				FinderCacheUtil.removeResult(
@@ -6318,7 +6303,7 @@ public class DLFileVersionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					dlFileVersionModelImpl.getOriginalMimeType()
+					dlFileVersionModelImpl.getColumnOriginalValue("mimeType")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByMimeType, args);
@@ -6337,8 +6322,9 @@ public class DLFileVersionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					dlFileVersionModelImpl.getOriginalFileEntryId(),
-					dlFileVersionModelImpl.getOriginalStatus()
+					dlFileVersionModelImpl.getColumnOriginalValue(
+						"fileEntryId"),
+					dlFileVersionModelImpl.getColumnOriginalValue("status")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByF_S, args);
@@ -6360,9 +6346,9 @@ public class DLFileVersionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					dlFileVersionModelImpl.getOriginalGroupId(),
-					dlFileVersionModelImpl.getOriginalFolderId(),
-					dlFileVersionModelImpl.getOriginalStatus()
+					dlFileVersionModelImpl.getColumnOriginalValue("groupId"),
+					dlFileVersionModelImpl.getColumnOriginalValue("folderId"),
+					dlFileVersionModelImpl.getColumnOriginalValue("status")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByG_F_S, args);
@@ -6385,10 +6371,10 @@ public class DLFileVersionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					dlFileVersionModelImpl.getOriginalGroupId(),
-					dlFileVersionModelImpl.getOriginalFolderId(),
-					dlFileVersionModelImpl.getOriginalTitle(),
-					dlFileVersionModelImpl.getOriginalVersion()
+					dlFileVersionModelImpl.getColumnOriginalValue("groupId"),
+					dlFileVersionModelImpl.getColumnOriginalValue("folderId"),
+					dlFileVersionModelImpl.getColumnOriginalValue("title"),
+					dlFileVersionModelImpl.getColumnOriginalValue("version")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByG_F_T_V, args);
@@ -6904,9 +6890,9 @@ public class DLFileVersionPersistenceImpl
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
 			DLFileVersionImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByUuid", new String[] {String.class.getName()},
-			DLFileVersionModelImpl.UUID_COLUMN_BITMASK |
-			DLFileVersionModelImpl.FILEENTRYID_COLUMN_BITMASK |
-			DLFileVersionModelImpl.CREATEDATE_COLUMN_BITMASK);
+			DLFileVersionModelImpl.getColumnBitmask("uuid_") |
+			DLFileVersionModelImpl.getColumnBitmask("fileEntryId") |
+			DLFileVersionModelImpl.getColumnBitmask("createDate"));
 
 		_finderPathCountByUuid = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -6915,8 +6901,8 @@ public class DLFileVersionPersistenceImpl
 		_finderPathFetchByUUID_G = new FinderPath(
 			DLFileVersionImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
-			DLFileVersionModelImpl.UUID_COLUMN_BITMASK |
-			DLFileVersionModelImpl.GROUPID_COLUMN_BITMASK);
+			DLFileVersionModelImpl.getColumnBitmask("uuid_") |
+			DLFileVersionModelImpl.getColumnBitmask("groupId"));
 
 		_finderPathCountByUUID_G = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -6936,10 +6922,10 @@ public class DLFileVersionPersistenceImpl
 			DLFileVersionImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
-			DLFileVersionModelImpl.UUID_COLUMN_BITMASK |
-			DLFileVersionModelImpl.COMPANYID_COLUMN_BITMASK |
-			DLFileVersionModelImpl.FILEENTRYID_COLUMN_BITMASK |
-			DLFileVersionModelImpl.CREATEDATE_COLUMN_BITMASK);
+			DLFileVersionModelImpl.getColumnBitmask("uuid_") |
+			DLFileVersionModelImpl.getColumnBitmask("companyId") |
+			DLFileVersionModelImpl.getColumnBitmask("fileEntryId") |
+			DLFileVersionModelImpl.getColumnBitmask("createDate"));
 
 		_finderPathCountByUuid_C = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -6957,9 +6943,9 @@ public class DLFileVersionPersistenceImpl
 		_finderPathWithoutPaginationFindByCompanyId = new FinderPath(
 			DLFileVersionImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByCompanyId", new String[] {Long.class.getName()},
-			DLFileVersionModelImpl.COMPANYID_COLUMN_BITMASK |
-			DLFileVersionModelImpl.FILEENTRYID_COLUMN_BITMASK |
-			DLFileVersionModelImpl.CREATEDATE_COLUMN_BITMASK);
+			DLFileVersionModelImpl.getColumnBitmask("companyId") |
+			DLFileVersionModelImpl.getColumnBitmask("fileEntryId") |
+			DLFileVersionModelImpl.getColumnBitmask("createDate"));
 
 		_finderPathCountByCompanyId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -6976,8 +6962,8 @@ public class DLFileVersionPersistenceImpl
 		_finderPathWithoutPaginationFindByFileEntryId = new FinderPath(
 			DLFileVersionImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByFileEntryId", new String[] {Long.class.getName()},
-			DLFileVersionModelImpl.FILEENTRYID_COLUMN_BITMASK |
-			DLFileVersionModelImpl.CREATEDATE_COLUMN_BITMASK);
+			DLFileVersionModelImpl.getColumnBitmask("fileEntryId") |
+			DLFileVersionModelImpl.getColumnBitmask("createDate"));
 
 		_finderPathCountByFileEntryId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -6994,9 +6980,9 @@ public class DLFileVersionPersistenceImpl
 		_finderPathWithoutPaginationFindByMimeType = new FinderPath(
 			DLFileVersionImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByMimeType", new String[] {String.class.getName()},
-			DLFileVersionModelImpl.MIMETYPE_COLUMN_BITMASK |
-			DLFileVersionModelImpl.FILEENTRYID_COLUMN_BITMASK |
-			DLFileVersionModelImpl.CREATEDATE_COLUMN_BITMASK);
+			DLFileVersionModelImpl.getColumnBitmask("mimeType") |
+			DLFileVersionModelImpl.getColumnBitmask("fileEntryId") |
+			DLFileVersionModelImpl.getColumnBitmask("createDate"));
 
 		_finderPathCountByMimeType = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -7018,8 +7004,8 @@ public class DLFileVersionPersistenceImpl
 		_finderPathFetchByF_V = new FinderPath(
 			DLFileVersionImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByF_V",
 			new String[] {Long.class.getName(), String.class.getName()},
-			DLFileVersionModelImpl.FILEENTRYID_COLUMN_BITMASK |
-			DLFileVersionModelImpl.VERSION_COLUMN_BITMASK);
+			DLFileVersionModelImpl.getColumnBitmask("fileEntryId") |
+			DLFileVersionModelImpl.getColumnBitmask("version"));
 
 		_finderPathCountByF_V = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByF_V",
@@ -7038,9 +7024,9 @@ public class DLFileVersionPersistenceImpl
 			DLFileVersionImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByF_S",
 			new String[] {Long.class.getName(), Integer.class.getName()},
-			DLFileVersionModelImpl.FILEENTRYID_COLUMN_BITMASK |
-			DLFileVersionModelImpl.STATUS_COLUMN_BITMASK |
-			DLFileVersionModelImpl.CREATEDATE_COLUMN_BITMASK);
+			DLFileVersionModelImpl.getColumnBitmask("fileEntryId") |
+			DLFileVersionModelImpl.getColumnBitmask("status") |
+			DLFileVersionModelImpl.getColumnBitmask("createDate"));
 
 		_finderPathCountByF_S = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByF_S",
@@ -7062,11 +7048,11 @@ public class DLFileVersionPersistenceImpl
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName()
 			},
-			DLFileVersionModelImpl.GROUPID_COLUMN_BITMASK |
-			DLFileVersionModelImpl.FOLDERID_COLUMN_BITMASK |
-			DLFileVersionModelImpl.STATUS_COLUMN_BITMASK |
-			DLFileVersionModelImpl.FILEENTRYID_COLUMN_BITMASK |
-			DLFileVersionModelImpl.CREATEDATE_COLUMN_BITMASK);
+			DLFileVersionModelImpl.getColumnBitmask("groupId") |
+			DLFileVersionModelImpl.getColumnBitmask("folderId") |
+			DLFileVersionModelImpl.getColumnBitmask("status") |
+			DLFileVersionModelImpl.getColumnBitmask("fileEntryId") |
+			DLFileVersionModelImpl.getColumnBitmask("createDate"));
 
 		_finderPathCountByG_F_S = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -7093,12 +7079,12 @@ public class DLFileVersionPersistenceImpl
 				Long.class.getName(), Long.class.getName(),
 				String.class.getName(), String.class.getName()
 			},
-			DLFileVersionModelImpl.GROUPID_COLUMN_BITMASK |
-			DLFileVersionModelImpl.FOLDERID_COLUMN_BITMASK |
-			DLFileVersionModelImpl.TITLE_COLUMN_BITMASK |
-			DLFileVersionModelImpl.VERSION_COLUMN_BITMASK |
-			DLFileVersionModelImpl.FILEENTRYID_COLUMN_BITMASK |
-			DLFileVersionModelImpl.CREATEDATE_COLUMN_BITMASK);
+			DLFileVersionModelImpl.getColumnBitmask("groupId") |
+			DLFileVersionModelImpl.getColumnBitmask("folderId") |
+			DLFileVersionModelImpl.getColumnBitmask("title") |
+			DLFileVersionModelImpl.getColumnBitmask("version") |
+			DLFileVersionModelImpl.getColumnBitmask("fileEntryId") |
+			DLFileVersionModelImpl.getColumnBitmask("createDate"));
 
 		_finderPathCountByG_F_T_V = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,

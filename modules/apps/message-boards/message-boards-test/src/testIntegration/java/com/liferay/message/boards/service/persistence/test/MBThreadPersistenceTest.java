@@ -656,16 +656,19 @@ public class MBThreadPersistenceTest {
 			Objects.equals(
 				mbThread.getUuid(),
 				ReflectionTestUtil.invoke(
-					mbThread, "getOriginalUuid", new Class<?>[0])));
+					mbThread, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "uuid_")));
 		Assert.assertEquals(
 			Long.valueOf(mbThread.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
-				mbThread, "getOriginalGroupId", new Class<?>[0]));
+				mbThread, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "groupId"));
 
 		Assert.assertEquals(
 			Long.valueOf(mbThread.getRootMessageId()),
 			ReflectionTestUtil.<Long>invoke(
-				mbThread, "getOriginalRootMessageId", new Class<?>[0]));
+				mbThread, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "rootMessageId"));
 	}
 
 	protected MBThread addMBThread() throws Exception {

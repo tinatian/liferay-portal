@@ -518,26 +518,31 @@ public class RepositoryPersistenceTest {
 			Objects.equals(
 				repository.getUuid(),
 				ReflectionTestUtil.invoke(
-					repository, "getOriginalUuid", new Class<?>[0])));
+					repository, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "uuid_")));
 		Assert.assertEquals(
 			Long.valueOf(repository.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
-				repository, "getOriginalGroupId", new Class<?>[0]));
+				repository, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "groupId"));
 
 		Assert.assertEquals(
 			Long.valueOf(repository.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
-				repository, "getOriginalGroupId", new Class<?>[0]));
+				repository, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "groupId"));
 		Assert.assertTrue(
 			Objects.equals(
 				repository.getName(),
 				ReflectionTestUtil.invoke(
-					repository, "getOriginalName", new Class<?>[0])));
+					repository, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "name")));
 		Assert.assertTrue(
 			Objects.equals(
 				repository.getPortletId(),
 				ReflectionTestUtil.invoke(
-					repository, "getOriginalPortletId", new Class<?>[0])));
+					repository, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "portletId")));
 	}
 
 	protected Repository addRepository() throws Exception {

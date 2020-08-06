@@ -552,30 +552,35 @@ public class AssetEntryUsagePersistenceTest {
 			Objects.equals(
 				assetEntryUsage.getUuid(),
 				ReflectionTestUtil.invoke(
-					assetEntryUsage, "getOriginalUuid", new Class<?>[0])));
+					assetEntryUsage, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "uuid_")));
 		Assert.assertEquals(
 			Long.valueOf(assetEntryUsage.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
-				assetEntryUsage, "getOriginalGroupId", new Class<?>[0]));
+				assetEntryUsage, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "groupId"));
 
 		Assert.assertEquals(
 			Long.valueOf(assetEntryUsage.getAssetEntryId()),
 			ReflectionTestUtil.<Long>invoke(
-				assetEntryUsage, "getOriginalAssetEntryId", new Class<?>[0]));
+				assetEntryUsage, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "assetEntryId"));
 		Assert.assertEquals(
 			Long.valueOf(assetEntryUsage.getContainerType()),
 			ReflectionTestUtil.<Long>invoke(
-				assetEntryUsage, "getOriginalContainerType", new Class<?>[0]));
+				assetEntryUsage, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "containerType"));
 		Assert.assertTrue(
 			Objects.equals(
 				assetEntryUsage.getContainerKey(),
 				ReflectionTestUtil.invoke(
-					assetEntryUsage, "getOriginalContainerKey",
-					new Class<?>[0])));
+					assetEntryUsage, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "containerKey")));
 		Assert.assertEquals(
 			Long.valueOf(assetEntryUsage.getPlid()),
 			ReflectionTestUtil.<Long>invoke(
-				assetEntryUsage, "getOriginalPlid", new Class<?>[0]));
+				assetEntryUsage, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "plid"));
 	}
 
 	protected AssetEntryUsage addAssetEntryUsage() throws Exception {

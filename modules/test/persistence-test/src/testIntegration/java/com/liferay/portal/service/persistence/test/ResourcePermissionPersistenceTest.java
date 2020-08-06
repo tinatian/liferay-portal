@@ -589,26 +589,30 @@ public class ResourcePermissionPersistenceTest {
 		Assert.assertEquals(
 			Long.valueOf(resourcePermission.getCompanyId()),
 			ReflectionTestUtil.<Long>invoke(
-				resourcePermission, "getOriginalCompanyId", new Class<?>[0]));
+				resourcePermission, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "companyId"));
 		Assert.assertTrue(
 			Objects.equals(
 				resourcePermission.getName(),
 				ReflectionTestUtil.invoke(
-					resourcePermission, "getOriginalName", new Class<?>[0])));
+					resourcePermission, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "name")));
 		Assert.assertEquals(
 			Integer.valueOf(resourcePermission.getScope()),
 			ReflectionTestUtil.<Integer>invoke(
-				resourcePermission, "getOriginalScope", new Class<?>[0]));
+				resourcePermission, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "scope"));
 		Assert.assertTrue(
 			Objects.equals(
 				resourcePermission.getPrimKey(),
 				ReflectionTestUtil.invoke(
-					resourcePermission, "getOriginalPrimKey",
-					new Class<?>[0])));
+					resourcePermission, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "primKey")));
 		Assert.assertEquals(
 			Long.valueOf(resourcePermission.getRoleId()),
 			ReflectionTestUtil.<Long>invoke(
-				resourcePermission, "getOriginalRoleId", new Class<?>[0]));
+				resourcePermission, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "roleId"));
 	}
 
 	protected ResourcePermission addResourcePermission() throws Exception {

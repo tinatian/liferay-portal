@@ -590,26 +590,29 @@ public class MDRRuleGroupInstancePersistenceTest {
 			Objects.equals(
 				mdrRuleGroupInstance.getUuid(),
 				ReflectionTestUtil.invoke(
-					mdrRuleGroupInstance, "getOriginalUuid", new Class<?>[0])));
+					mdrRuleGroupInstance, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "uuid_")));
 		Assert.assertEquals(
 			Long.valueOf(mdrRuleGroupInstance.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
-				mdrRuleGroupInstance, "getOriginalGroupId", new Class<?>[0]));
+				mdrRuleGroupInstance, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "groupId"));
 
 		Assert.assertEquals(
 			Long.valueOf(mdrRuleGroupInstance.getClassNameId()),
 			ReflectionTestUtil.<Long>invoke(
-				mdrRuleGroupInstance, "getOriginalClassNameId",
-				new Class<?>[0]));
+				mdrRuleGroupInstance, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "classNameId"));
 		Assert.assertEquals(
 			Long.valueOf(mdrRuleGroupInstance.getClassPK()),
 			ReflectionTestUtil.<Long>invoke(
-				mdrRuleGroupInstance, "getOriginalClassPK", new Class<?>[0]));
+				mdrRuleGroupInstance, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "classPK"));
 		Assert.assertEquals(
 			Long.valueOf(mdrRuleGroupInstance.getRuleGroupId()),
 			ReflectionTestUtil.<Long>invoke(
-				mdrRuleGroupInstance, "getOriginalRuleGroupId",
-				new Class<?>[0]));
+				mdrRuleGroupInstance, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "ruleGroupId"));
 	}
 
 	protected MDRRuleGroupInstance addMDRRuleGroupInstance() throws Exception {

@@ -448,7 +448,8 @@ public class AccountRolePersistenceTest {
 		Assert.assertEquals(
 			Long.valueOf(accountRole.getRoleId()),
 			ReflectionTestUtil.<Long>invoke(
-				accountRole, "getOriginalRoleId", new Class<?>[0]));
+				accountRole, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "roleId"));
 	}
 
 	protected AccountRole addAccountRole() throws Exception {

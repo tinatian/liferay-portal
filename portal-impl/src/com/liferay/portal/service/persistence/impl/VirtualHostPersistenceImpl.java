@@ -1184,8 +1184,6 @@ public class VirtualHostPersistenceImpl
 	@Override
 	public void cacheResult(VirtualHost virtualHost) {
 		if (virtualHost.getCtCollectionId() != 0) {
-			virtualHost.resetOriginalValues();
-
 			return;
 		}
 
@@ -1203,8 +1201,6 @@ public class VirtualHostPersistenceImpl
 				virtualHost.isDefaultVirtualHost()
 			},
 			virtualHost);
-
-		virtualHost.resetOriginalValues();
 	}
 
 	/**
@@ -1216,8 +1212,6 @@ public class VirtualHostPersistenceImpl
 	public void cacheResult(List<VirtualHost> virtualHosts) {
 		for (VirtualHost virtualHost : virtualHosts) {
 			if (virtualHost.getCtCollectionId() != 0) {
-				virtualHost.resetOriginalValues();
-
 				continue;
 			}
 
@@ -1226,9 +1220,6 @@ public class VirtualHostPersistenceImpl
 						null) {
 
 				cacheResult(virtualHost);
-			}
-			else {
-				virtualHost.resetOriginalValues();
 			}
 		}
 	}
@@ -1327,7 +1318,7 @@ public class VirtualHostPersistenceImpl
 			 _finderPathFetchByHostname.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				virtualHostModelImpl.getOriginalHostname()
+				virtualHostModelImpl.getColumnOriginalValue("hostname")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByHostname, args);
@@ -1349,9 +1340,10 @@ public class VirtualHostPersistenceImpl
 			 _finderPathFetchByC_L_D.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				virtualHostModelImpl.getOriginalCompanyId(),
-				virtualHostModelImpl.getOriginalLayoutSetId(),
-				virtualHostModelImpl.getOriginalDefaultVirtualHost()
+				virtualHostModelImpl.getColumnOriginalValue("companyId"),
+				virtualHostModelImpl.getColumnOriginalValue("layoutSetId"),
+				virtualHostModelImpl.getColumnOriginalValue(
+					"defaultVirtualHost")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByC_L_D, args);
@@ -1496,12 +1488,7 @@ public class VirtualHostPersistenceImpl
 
 			if (CTPersistenceHelperUtil.isInsert(virtualHost)) {
 				if (!isNew) {
-					VirtualHost oldVirtualHost = (VirtualHost)session.get(
-						VirtualHostImpl.class, virtualHost.getPrimaryKeyObj());
-
-					if (oldVirtualHost != null) {
-						session.evict(oldVirtualHost);
-					}
+					session.evict(virtualHost);
 				}
 
 				session.save(virtualHost);
@@ -1548,8 +1535,8 @@ public class VirtualHostPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					virtualHostModelImpl.getOriginalCompanyId(),
-					virtualHostModelImpl.getOriginalLayoutSetId()
+					virtualHostModelImpl.getColumnOriginalValue("companyId"),
+					virtualHostModelImpl.getColumnOriginalValue("layoutSetId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_L, args);
@@ -2023,7 +2010,7 @@ public class VirtualHostPersistenceImpl
 		_finderPathFetchByHostname = new FinderPath(
 			VirtualHostImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByHostname",
 			new String[] {String.class.getName()},
-			VirtualHostModelImpl.HOSTNAME_COLUMN_BITMASK);
+			VirtualHostModelImpl.getColumnBitmask("hostname"));
 
 		_finderPathCountByHostname = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -2042,8 +2029,8 @@ public class VirtualHostPersistenceImpl
 			VirtualHostImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByC_L",
 			new String[] {Long.class.getName(), Long.class.getName()},
-			VirtualHostModelImpl.COMPANYID_COLUMN_BITMASK |
-			VirtualHostModelImpl.LAYOUTSETID_COLUMN_BITMASK);
+			VirtualHostModelImpl.getColumnBitmask("companyId") |
+			VirtualHostModelImpl.getColumnBitmask("layoutSetId"));
 
 		_finderPathCountByC_L = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_L",
@@ -2055,9 +2042,9 @@ public class VirtualHostPersistenceImpl
 				Long.class.getName(), Long.class.getName(),
 				Boolean.class.getName()
 			},
-			VirtualHostModelImpl.COMPANYID_COLUMN_BITMASK |
-			VirtualHostModelImpl.LAYOUTSETID_COLUMN_BITMASK |
-			VirtualHostModelImpl.DEFAULTVIRTUALHOST_COLUMN_BITMASK);
+			VirtualHostModelImpl.getColumnBitmask("companyId") |
+			VirtualHostModelImpl.getColumnBitmask("layoutSetId") |
+			VirtualHostModelImpl.getColumnBitmask("defaultVirtualHost"));
 
 		_finderPathCountByC_L_D = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,

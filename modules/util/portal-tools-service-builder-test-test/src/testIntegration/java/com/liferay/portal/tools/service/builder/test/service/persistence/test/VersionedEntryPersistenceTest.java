@@ -445,7 +445,8 @@ public class VersionedEntryPersistenceTest {
 		Assert.assertEquals(
 			Long.valueOf(versionedEntry.getHeadId()),
 			ReflectionTestUtil.<Long>invoke(
-				versionedEntry, "getOriginalHeadId", new Class<?>[0]));
+				versionedEntry, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "headId"));
 	}
 
 	protected VersionedEntry addVersionedEntry() throws Exception {

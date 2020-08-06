@@ -450,8 +450,8 @@ public class ReleasePersistenceTest {
 			Objects.equals(
 				release.getServletContextName(),
 				ReflectionTestUtil.invoke(
-					release, "getOriginalServletContextName",
-					new Class<?>[0])));
+					release, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "servletContextName")));
 	}
 
 	protected Release addRelease() throws Exception {

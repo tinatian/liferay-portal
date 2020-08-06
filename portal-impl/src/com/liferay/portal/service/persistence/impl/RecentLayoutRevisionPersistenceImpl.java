@@ -1872,8 +1872,6 @@ public class RecentLayoutRevisionPersistenceImpl
 				recentLayoutRevision.getPlid()
 			},
 			recentLayoutRevision);
-
-		recentLayoutRevision.resetOriginalValues();
 	}
 
 	/**
@@ -1891,9 +1889,6 @@ public class RecentLayoutRevisionPersistenceImpl
 					recentLayoutRevision.getPrimaryKey()) == null) {
 
 				cacheResult(recentLayoutRevision);
-			}
-			else {
-				recentLayoutRevision.resetOriginalValues();
 			}
 		}
 	}
@@ -1998,9 +1993,10 @@ public class RecentLayoutRevisionPersistenceImpl
 			 _finderPathFetchByU_L_P.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				recentLayoutRevisionModelImpl.getOriginalUserId(),
-				recentLayoutRevisionModelImpl.getOriginalLayoutSetBranchId(),
-				recentLayoutRevisionModelImpl.getOriginalPlid()
+				recentLayoutRevisionModelImpl.getColumnOriginalValue("userId"),
+				recentLayoutRevisionModelImpl.getColumnOriginalValue(
+					"layoutSetBranchId"),
+				recentLayoutRevisionModelImpl.getColumnOriginalValue("plid")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByU_L_P, args);
@@ -2201,7 +2197,8 @@ public class RecentLayoutRevisionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					recentLayoutRevisionModelImpl.getOriginalGroupId()
+					recentLayoutRevisionModelImpl.getColumnOriginalValue(
+						"groupId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByGroupId, args);
@@ -2222,7 +2219,8 @@ public class RecentLayoutRevisionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					recentLayoutRevisionModelImpl.getOriginalUserId()
+					recentLayoutRevisionModelImpl.getColumnOriginalValue(
+						"userId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUserId, args);
@@ -2241,7 +2239,8 @@ public class RecentLayoutRevisionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					recentLayoutRevisionModelImpl.getOriginalLayoutRevisionId()
+					recentLayoutRevisionModelImpl.getColumnOriginalValue(
+						"layoutRevisionId")
 				};
 
 				FinderCacheUtil.removeResult(
@@ -2554,7 +2553,7 @@ public class RecentLayoutRevisionPersistenceImpl
 			RecentLayoutRevisionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
 			new String[] {Long.class.getName()},
-			RecentLayoutRevisionModelImpl.GROUPID_COLUMN_BITMASK);
+			RecentLayoutRevisionModelImpl.getColumnBitmask("groupId"));
 
 		_finderPathCountByGroupId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -2572,7 +2571,7 @@ public class RecentLayoutRevisionPersistenceImpl
 			RecentLayoutRevisionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUserId",
 			new String[] {Long.class.getName()},
-			RecentLayoutRevisionModelImpl.USERID_COLUMN_BITMASK);
+			RecentLayoutRevisionModelImpl.getColumnBitmask("userId"));
 
 		_finderPathCountByUserId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -2590,7 +2589,7 @@ public class RecentLayoutRevisionPersistenceImpl
 			RecentLayoutRevisionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByLayoutRevisionId",
 			new String[] {Long.class.getName()},
-			RecentLayoutRevisionModelImpl.LAYOUTREVISIONID_COLUMN_BITMASK);
+			RecentLayoutRevisionModelImpl.getColumnBitmask("layoutRevisionId"));
 
 		_finderPathCountByLayoutRevisionId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -2602,9 +2601,10 @@ public class RecentLayoutRevisionPersistenceImpl
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			},
-			RecentLayoutRevisionModelImpl.USERID_COLUMN_BITMASK |
-			RecentLayoutRevisionModelImpl.LAYOUTSETBRANCHID_COLUMN_BITMASK |
-			RecentLayoutRevisionModelImpl.PLID_COLUMN_BITMASK);
+			RecentLayoutRevisionModelImpl.getColumnBitmask("userId") |
+			RecentLayoutRevisionModelImpl.getColumnBitmask(
+				"layoutSetBranchId") |
+			RecentLayoutRevisionModelImpl.getColumnBitmask("plid"));
 
 		_finderPathCountByU_L_P = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,

@@ -4385,8 +4385,10 @@ public class LayoutClassedModelUsagePersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				layoutClassedModelUsageModelImpl.getOriginalUuid(),
-				layoutClassedModelUsageModelImpl.getOriginalGroupId()
+				layoutClassedModelUsageModelImpl.getColumnOriginalValue(
+					"uuid_"),
+				layoutClassedModelUsageModelImpl.getColumnOriginalValue(
+					"groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -4410,11 +4412,15 @@ public class LayoutClassedModelUsagePersistenceImpl
 			 _finderPathFetchByC_C_CK_CT_P.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				layoutClassedModelUsageModelImpl.getOriginalClassNameId(),
-				layoutClassedModelUsageModelImpl.getOriginalClassPK(),
-				layoutClassedModelUsageModelImpl.getOriginalContainerKey(),
-				layoutClassedModelUsageModelImpl.getOriginalContainerType(),
-				layoutClassedModelUsageModelImpl.getOriginalPlid()
+				layoutClassedModelUsageModelImpl.getColumnOriginalValue(
+					"classNameId"),
+				layoutClassedModelUsageModelImpl.getColumnOriginalValue(
+					"classPK"),
+				layoutClassedModelUsageModelImpl.getColumnOriginalValue(
+					"containerKey"),
+				layoutClassedModelUsageModelImpl.getColumnOriginalValue(
+					"containerType"),
+				layoutClassedModelUsageModelImpl.getColumnOriginalValue("plid")
 			};
 
 			finderCache.removeResult(_finderPathCountByC_C_CK_CT_P, args);
@@ -4695,7 +4701,8 @@ public class LayoutClassedModelUsagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					layoutClassedModelUsageModelImpl.getOriginalUuid()
+					layoutClassedModelUsageModelImpl.getColumnOriginalValue(
+						"uuid_")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -4716,8 +4723,10 @@ public class LayoutClassedModelUsagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					layoutClassedModelUsageModelImpl.getOriginalUuid(),
-					layoutClassedModelUsageModelImpl.getOriginalCompanyId()
+					layoutClassedModelUsageModelImpl.getColumnOriginalValue(
+						"uuid_"),
+					layoutClassedModelUsageModelImpl.getColumnOriginalValue(
+						"companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -4739,7 +4748,8 @@ public class LayoutClassedModelUsagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					layoutClassedModelUsageModelImpl.getOriginalPlid()
+					layoutClassedModelUsageModelImpl.getColumnOriginalValue(
+						"plid")
 				};
 
 				finderCache.removeResult(_finderPathCountByPlid, args);
@@ -4760,8 +4770,10 @@ public class LayoutClassedModelUsagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					layoutClassedModelUsageModelImpl.getOriginalClassNameId(),
-					layoutClassedModelUsageModelImpl.getOriginalClassPK()
+					layoutClassedModelUsageModelImpl.getColumnOriginalValue(
+						"classNameId"),
+					layoutClassedModelUsageModelImpl.getColumnOriginalValue(
+						"classPK")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_C, args);
@@ -4783,9 +4795,12 @@ public class LayoutClassedModelUsagePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					layoutClassedModelUsageModelImpl.getOriginalClassNameId(),
-					layoutClassedModelUsageModelImpl.getOriginalClassPK(),
-					layoutClassedModelUsageModelImpl.getOriginalType()
+					layoutClassedModelUsageModelImpl.getColumnOriginalValue(
+						"classNameId"),
+					layoutClassedModelUsageModelImpl.getColumnOriginalValue(
+						"classPK"),
+					layoutClassedModelUsageModelImpl.getColumnOriginalValue(
+						"type_")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_C_T, args);
@@ -4808,9 +4823,12 @@ public class LayoutClassedModelUsagePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					layoutClassedModelUsageModelImpl.getOriginalContainerKey(),
-					layoutClassedModelUsageModelImpl.getOriginalContainerType(),
-					layoutClassedModelUsageModelImpl.getOriginalPlid()
+					layoutClassedModelUsageModelImpl.getColumnOriginalValue(
+						"containerKey"),
+					layoutClassedModelUsageModelImpl.getColumnOriginalValue(
+						"containerType"),
+					layoutClassedModelUsageModelImpl.getColumnOriginalValue(
+						"plid")
 				};
 
 				finderCache.removeResult(_finderPathCountByCK_CT_P, args);
@@ -5333,7 +5351,7 @@ public class LayoutClassedModelUsagePersistenceImpl
 			LayoutClassedModelUsageImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
 			new String[] {String.class.getName()},
-			LayoutClassedModelUsageModelImpl.UUID_COLUMN_BITMASK);
+			LayoutClassedModelUsageModelImpl.getColumnBitmask("uuid_"));
 
 		_finderPathCountByUuid = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -5343,8 +5361,8 @@ public class LayoutClassedModelUsagePersistenceImpl
 			LayoutClassedModelUsageImpl.class, FINDER_CLASS_NAME_ENTITY,
 			"fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
-			LayoutClassedModelUsageModelImpl.UUID_COLUMN_BITMASK |
-			LayoutClassedModelUsageModelImpl.GROUPID_COLUMN_BITMASK);
+			LayoutClassedModelUsageModelImpl.getColumnBitmask("uuid_") |
+			LayoutClassedModelUsageModelImpl.getColumnBitmask("groupId"));
 
 		_finderPathCountByUUID_G = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -5364,8 +5382,8 @@ public class LayoutClassedModelUsagePersistenceImpl
 			LayoutClassedModelUsageImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
-			LayoutClassedModelUsageModelImpl.UUID_COLUMN_BITMASK |
-			LayoutClassedModelUsageModelImpl.COMPANYID_COLUMN_BITMASK);
+			LayoutClassedModelUsageModelImpl.getColumnBitmask("uuid_") |
+			LayoutClassedModelUsageModelImpl.getColumnBitmask("companyId"));
 
 		_finderPathCountByUuid_C = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -5384,7 +5402,7 @@ public class LayoutClassedModelUsagePersistenceImpl
 			LayoutClassedModelUsageImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPlid",
 			new String[] {Long.class.getName()},
-			LayoutClassedModelUsageModelImpl.PLID_COLUMN_BITMASK);
+			LayoutClassedModelUsageModelImpl.getColumnBitmask("plid"));
 
 		_finderPathCountByPlid = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -5403,8 +5421,8 @@ public class LayoutClassedModelUsagePersistenceImpl
 			LayoutClassedModelUsageImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_C",
 			new String[] {Long.class.getName(), Long.class.getName()},
-			LayoutClassedModelUsageModelImpl.CLASSNAMEID_COLUMN_BITMASK |
-			LayoutClassedModelUsageModelImpl.CLASSPK_COLUMN_BITMASK);
+			LayoutClassedModelUsageModelImpl.getColumnBitmask("classNameId") |
+			LayoutClassedModelUsageModelImpl.getColumnBitmask("classPK"));
 
 		_finderPathCountByC_C = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C",
@@ -5426,9 +5444,9 @@ public class LayoutClassedModelUsagePersistenceImpl
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName()
 			},
-			LayoutClassedModelUsageModelImpl.CLASSNAMEID_COLUMN_BITMASK |
-			LayoutClassedModelUsageModelImpl.CLASSPK_COLUMN_BITMASK |
-			LayoutClassedModelUsageModelImpl.TYPE_COLUMN_BITMASK);
+			LayoutClassedModelUsageModelImpl.getColumnBitmask("classNameId") |
+			LayoutClassedModelUsageModelImpl.getColumnBitmask("classPK") |
+			LayoutClassedModelUsageModelImpl.getColumnBitmask("type_"));
 
 		_finderPathCountByC_C_T = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -5454,9 +5472,9 @@ public class LayoutClassedModelUsagePersistenceImpl
 				String.class.getName(), Long.class.getName(),
 				Long.class.getName()
 			},
-			LayoutClassedModelUsageModelImpl.CONTAINERKEY_COLUMN_BITMASK |
-			LayoutClassedModelUsageModelImpl.CONTAINERTYPE_COLUMN_BITMASK |
-			LayoutClassedModelUsageModelImpl.PLID_COLUMN_BITMASK);
+			LayoutClassedModelUsageModelImpl.getColumnBitmask("containerKey") |
+			LayoutClassedModelUsageModelImpl.getColumnBitmask("containerType") |
+			LayoutClassedModelUsageModelImpl.getColumnBitmask("plid"));
 
 		_finderPathCountByCK_CT_P = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -5474,11 +5492,11 @@ public class LayoutClassedModelUsagePersistenceImpl
 				String.class.getName(), Long.class.getName(),
 				Long.class.getName()
 			},
-			LayoutClassedModelUsageModelImpl.CLASSNAMEID_COLUMN_BITMASK |
-			LayoutClassedModelUsageModelImpl.CLASSPK_COLUMN_BITMASK |
-			LayoutClassedModelUsageModelImpl.CONTAINERKEY_COLUMN_BITMASK |
-			LayoutClassedModelUsageModelImpl.CONTAINERTYPE_COLUMN_BITMASK |
-			LayoutClassedModelUsageModelImpl.PLID_COLUMN_BITMASK);
+			LayoutClassedModelUsageModelImpl.getColumnBitmask("classNameId") |
+			LayoutClassedModelUsageModelImpl.getColumnBitmask("classPK") |
+			LayoutClassedModelUsageModelImpl.getColumnBitmask("containerKey") |
+			LayoutClassedModelUsageModelImpl.getColumnBitmask("containerType") |
+			LayoutClassedModelUsageModelImpl.getColumnBitmask("plid"));
 
 		_finderPathCountByC_C_CK_CT_P = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,

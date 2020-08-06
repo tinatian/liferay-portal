@@ -535,21 +535,25 @@ public class RedirectEntryPersistenceTest {
 			Objects.equals(
 				redirectEntry.getUuid(),
 				ReflectionTestUtil.invoke(
-					redirectEntry, "getOriginalUuid", new Class<?>[0])));
+					redirectEntry, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "uuid_")));
 		Assert.assertEquals(
 			Long.valueOf(redirectEntry.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
-				redirectEntry, "getOriginalGroupId", new Class<?>[0]));
+				redirectEntry, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "groupId"));
 
 		Assert.assertEquals(
 			Long.valueOf(redirectEntry.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
-				redirectEntry, "getOriginalGroupId", new Class<?>[0]));
+				redirectEntry, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "groupId"));
 		Assert.assertTrue(
 			Objects.equals(
 				redirectEntry.getSourceURL(),
 				ReflectionTestUtil.invoke(
-					redirectEntry, "getOriginalSourceURL", new Class<?>[0])));
+					redirectEntry, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "sourceURL")));
 	}
 
 	protected RedirectEntry addRedirectEntry() throws Exception {

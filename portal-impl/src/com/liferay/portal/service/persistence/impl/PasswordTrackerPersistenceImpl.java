@@ -596,8 +596,6 @@ public class PasswordTrackerPersistenceImpl
 		EntityCacheUtil.putResult(
 			PasswordTrackerImpl.class, passwordTracker.getPrimaryKey(),
 			passwordTracker);
-
-		passwordTracker.resetOriginalValues();
 	}
 
 	/**
@@ -613,9 +611,6 @@ public class PasswordTrackerPersistenceImpl
 					passwordTracker.getPrimaryKey()) == null) {
 
 				cacheResult(passwordTracker);
-			}
-			else {
-				passwordTracker.resetOriginalValues();
 			}
 		}
 	}
@@ -844,7 +839,7 @@ public class PasswordTrackerPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					passwordTrackerModelImpl.getOriginalUserId()
+					passwordTrackerModelImpl.getColumnOriginalValue("userId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUserId, args);
@@ -1153,8 +1148,8 @@ public class PasswordTrackerPersistenceImpl
 			PasswordTrackerImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUserId",
 			new String[] {Long.class.getName()},
-			PasswordTrackerModelImpl.USERID_COLUMN_BITMASK |
-			PasswordTrackerModelImpl.CREATEDATE_COLUMN_BITMASK);
+			PasswordTrackerModelImpl.getColumnBitmask("userId") |
+			PasswordTrackerModelImpl.getColumnBitmask("createDate"));
 
 		_finderPathCountByUserId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,

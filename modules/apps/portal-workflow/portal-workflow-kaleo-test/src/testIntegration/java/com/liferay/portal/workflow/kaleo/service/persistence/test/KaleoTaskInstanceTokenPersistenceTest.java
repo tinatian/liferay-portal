@@ -602,13 +602,13 @@ public class KaleoTaskInstanceTokenPersistenceTest {
 		Assert.assertEquals(
 			Long.valueOf(kaleoTaskInstanceToken.getKaleoInstanceId()),
 			ReflectionTestUtil.<Long>invoke(
-				kaleoTaskInstanceToken, "getOriginalKaleoInstanceId",
-				new Class<?>[0]));
+				kaleoTaskInstanceToken, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "kaleoInstanceId"));
 		Assert.assertEquals(
 			Long.valueOf(kaleoTaskInstanceToken.getKaleoTaskId()),
 			ReflectionTestUtil.<Long>invoke(
-				kaleoTaskInstanceToken, "getOriginalKaleoTaskId",
-				new Class<?>[0]));
+				kaleoTaskInstanceToken, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "kaleoTaskId"));
 	}
 
 	protected KaleoTaskInstanceToken addKaleoTaskInstanceToken()

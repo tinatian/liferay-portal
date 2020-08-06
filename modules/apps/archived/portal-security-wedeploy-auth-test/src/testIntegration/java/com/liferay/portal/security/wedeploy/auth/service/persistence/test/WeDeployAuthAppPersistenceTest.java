@@ -478,25 +478,27 @@ public class WeDeployAuthAppPersistenceTest {
 			Objects.equals(
 				weDeployAuthApp.getRedirectURI(),
 				ReflectionTestUtil.invoke(
-					weDeployAuthApp, "getOriginalRedirectURI",
-					new Class<?>[0])));
+					weDeployAuthApp, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "redirectURI")));
 		Assert.assertTrue(
 			Objects.equals(
 				weDeployAuthApp.getClientId(),
 				ReflectionTestUtil.invoke(
-					weDeployAuthApp, "getOriginalClientId", new Class<?>[0])));
+					weDeployAuthApp, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "clientId")));
 
 		Assert.assertTrue(
 			Objects.equals(
 				weDeployAuthApp.getClientId(),
 				ReflectionTestUtil.invoke(
-					weDeployAuthApp, "getOriginalClientId", new Class<?>[0])));
+					weDeployAuthApp, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "clientId")));
 		Assert.assertTrue(
 			Objects.equals(
 				weDeployAuthApp.getClientSecret(),
 				ReflectionTestUtil.invoke(
-					weDeployAuthApp, "getOriginalClientSecret",
-					new Class<?>[0])));
+					weDeployAuthApp, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "clientSecret")));
 	}
 
 	protected WeDeployAuthApp addWeDeployAuthApp() throws Exception {

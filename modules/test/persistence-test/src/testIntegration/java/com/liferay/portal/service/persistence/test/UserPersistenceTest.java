@@ -745,90 +745,107 @@ public class UserPersistenceTest {
 		Assert.assertEquals(
 			Long.valueOf(user.getContactId()),
 			ReflectionTestUtil.<Long>invoke(
-				user, "getOriginalContactId", new Class<?>[0]));
+				user, "getColumnOriginalValue", new Class<?>[] {String.class},
+				"contactId"));
 
 		Assert.assertEquals(
 			Long.valueOf(user.getPortraitId()),
 			ReflectionTestUtil.<Long>invoke(
-				user, "getOriginalPortraitId", new Class<?>[0]));
+				user, "getColumnOriginalValue", new Class<?>[] {String.class},
+				"portraitId"));
 
 		Assert.assertEquals(
 			Long.valueOf(user.getCompanyId()),
 			ReflectionTestUtil.<Long>invoke(
-				user, "getOriginalCompanyId", new Class<?>[0]));
+				user, "getColumnOriginalValue", new Class<?>[] {String.class},
+				"companyId"));
 		Assert.assertEquals(
 			Long.valueOf(user.getUserId()),
 			ReflectionTestUtil.<Long>invoke(
-				user, "getOriginalUserId", new Class<?>[0]));
+				user, "getColumnOriginalValue", new Class<?>[] {String.class},
+				"userId"));
 
 		Assert.assertEquals(
 			Long.valueOf(user.getCompanyId()),
 			ReflectionTestUtil.<Long>invoke(
-				user, "getOriginalCompanyId", new Class<?>[0]));
+				user, "getColumnOriginalValue", new Class<?>[] {String.class},
+				"companyId"));
 		Assert.assertEquals(
 			Boolean.valueOf(user.getDefaultUser()),
 			ReflectionTestUtil.<Boolean>invoke(
-				user, "getOriginalDefaultUser", new Class<?>[0]));
+				user, "getColumnOriginalValue", new Class<?>[] {String.class},
+				"defaultUser"));
 
 		Assert.assertEquals(
 			Long.valueOf(user.getCompanyId()),
 			ReflectionTestUtil.<Long>invoke(
-				user, "getOriginalCompanyId", new Class<?>[0]));
+				user, "getColumnOriginalValue", new Class<?>[] {String.class},
+				"companyId"));
 		Assert.assertTrue(
 			Objects.equals(
 				user.getScreenName(),
 				ReflectionTestUtil.invoke(
-					user, "getOriginalScreenName", new Class<?>[0])));
+					user, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "screenName")));
 
 		Assert.assertEquals(
 			Long.valueOf(user.getCompanyId()),
 			ReflectionTestUtil.<Long>invoke(
-				user, "getOriginalCompanyId", new Class<?>[0]));
+				user, "getColumnOriginalValue", new Class<?>[] {String.class},
+				"companyId"));
 		Assert.assertTrue(
 			Objects.equals(
 				user.getEmailAddress(),
 				ReflectionTestUtil.invoke(
-					user, "getOriginalEmailAddress", new Class<?>[0])));
+					user, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "emailAddress")));
 
 		Assert.assertEquals(
 			Long.valueOf(user.getCompanyId()),
 			ReflectionTestUtil.<Long>invoke(
-				user, "getOriginalCompanyId", new Class<?>[0]));
+				user, "getColumnOriginalValue", new Class<?>[] {String.class},
+				"companyId"));
 		Assert.assertEquals(
 			Long.valueOf(user.getFacebookId()),
 			ReflectionTestUtil.<Long>invoke(
-				user, "getOriginalFacebookId", new Class<?>[0]));
+				user, "getColumnOriginalValue", new Class<?>[] {String.class},
+				"facebookId"));
 
 		Assert.assertEquals(
 			Long.valueOf(user.getCompanyId()),
 			ReflectionTestUtil.<Long>invoke(
-				user, "getOriginalCompanyId", new Class<?>[0]));
+				user, "getColumnOriginalValue", new Class<?>[] {String.class},
+				"companyId"));
 		Assert.assertTrue(
 			Objects.equals(
 				user.getGoogleUserId(),
 				ReflectionTestUtil.invoke(
-					user, "getOriginalGoogleUserId", new Class<?>[0])));
+					user, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "googleUserId")));
 
 		Assert.assertEquals(
 			Long.valueOf(user.getCompanyId()),
 			ReflectionTestUtil.<Long>invoke(
-				user, "getOriginalCompanyId", new Class<?>[0]));
+				user, "getColumnOriginalValue", new Class<?>[] {String.class},
+				"companyId"));
 		Assert.assertTrue(
 			Objects.equals(
 				user.getOpenId(),
 				ReflectionTestUtil.invoke(
-					user, "getOriginalOpenId", new Class<?>[0])));
+					user, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "openId")));
 
 		Assert.assertEquals(
 			Long.valueOf(user.getCompanyId()),
 			ReflectionTestUtil.<Long>invoke(
-				user, "getOriginalCompanyId", new Class<?>[0]));
+				user, "getColumnOriginalValue", new Class<?>[] {String.class},
+				"companyId"));
 		Assert.assertTrue(
 			Objects.equals(
 				user.getExternalReferenceCode(),
 				ReflectionTestUtil.invoke(
-					user, "getOriginalExternalReferenceCode",
-					new Class<?>[0])));
+					user, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "externalReferenceCode")));
 	}
 
 	protected User addUser() throws Exception {

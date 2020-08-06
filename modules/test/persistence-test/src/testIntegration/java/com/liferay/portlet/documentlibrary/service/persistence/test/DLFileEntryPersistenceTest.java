@@ -760,53 +760,64 @@ public class DLFileEntryPersistenceTest {
 			Objects.equals(
 				dlFileEntry.getUuid(),
 				ReflectionTestUtil.invoke(
-					dlFileEntry, "getOriginalUuid", new Class<?>[0])));
+					dlFileEntry, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "uuid_")));
 		Assert.assertEquals(
 			Long.valueOf(dlFileEntry.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
-				dlFileEntry, "getOriginalGroupId", new Class<?>[0]));
+				dlFileEntry, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "groupId"));
 
 		Assert.assertEquals(
 			Long.valueOf(dlFileEntry.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
-				dlFileEntry, "getOriginalGroupId", new Class<?>[0]));
+				dlFileEntry, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "groupId"));
 		Assert.assertEquals(
 			Long.valueOf(dlFileEntry.getFolderId()),
 			ReflectionTestUtil.<Long>invoke(
-				dlFileEntry, "getOriginalFolderId", new Class<?>[0]));
+				dlFileEntry, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "folderId"));
 		Assert.assertTrue(
 			Objects.equals(
 				dlFileEntry.getName(),
 				ReflectionTestUtil.invoke(
-					dlFileEntry, "getOriginalName", new Class<?>[0])));
+					dlFileEntry, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "name")));
 
 		Assert.assertEquals(
 			Long.valueOf(dlFileEntry.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
-				dlFileEntry, "getOriginalGroupId", new Class<?>[0]));
+				dlFileEntry, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "groupId"));
 		Assert.assertEquals(
 			Long.valueOf(dlFileEntry.getFolderId()),
 			ReflectionTestUtil.<Long>invoke(
-				dlFileEntry, "getOriginalFolderId", new Class<?>[0]));
+				dlFileEntry, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "folderId"));
 		Assert.assertTrue(
 			Objects.equals(
 				dlFileEntry.getFileName(),
 				ReflectionTestUtil.invoke(
-					dlFileEntry, "getOriginalFileName", new Class<?>[0])));
+					dlFileEntry, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "fileName")));
 
 		Assert.assertEquals(
 			Long.valueOf(dlFileEntry.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
-				dlFileEntry, "getOriginalGroupId", new Class<?>[0]));
+				dlFileEntry, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "groupId"));
 		Assert.assertEquals(
 			Long.valueOf(dlFileEntry.getFolderId()),
 			ReflectionTestUtil.<Long>invoke(
-				dlFileEntry, "getOriginalFolderId", new Class<?>[0]));
+				dlFileEntry, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "folderId"));
 		Assert.assertTrue(
 			Objects.equals(
 				dlFileEntry.getTitle(),
 				ReflectionTestUtil.invoke(
-					dlFileEntry, "getOriginalTitle", new Class<?>[0])));
+					dlFileEntry, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "title")));
 	}
 
 	protected DLFileEntry addDLFileEntry() throws Exception {

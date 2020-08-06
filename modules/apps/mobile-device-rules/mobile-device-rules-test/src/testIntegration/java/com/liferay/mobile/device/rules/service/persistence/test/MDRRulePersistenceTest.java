@@ -490,11 +490,13 @@ public class MDRRulePersistenceTest {
 			Objects.equals(
 				mdrRule.getUuid(),
 				ReflectionTestUtil.invoke(
-					mdrRule, "getOriginalUuid", new Class<?>[0])));
+					mdrRule, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "uuid_")));
 		Assert.assertEquals(
 			Long.valueOf(mdrRule.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
-				mdrRule, "getOriginalGroupId", new Class<?>[0]));
+				mdrRule, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "groupId"));
 	}
 
 	protected MDRRule addMDRRule() throws Exception {

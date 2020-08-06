@@ -592,27 +592,28 @@ public class LayoutPageTemplateStructureRelPersistenceTest {
 			Objects.equals(
 				layoutPageTemplateStructureRel.getUuid(),
 				ReflectionTestUtil.invoke(
-					layoutPageTemplateStructureRel, "getOriginalUuid",
-					new Class<?>[0])));
+					layoutPageTemplateStructureRel, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "uuid_")));
 		Assert.assertEquals(
 			Long.valueOf(layoutPageTemplateStructureRel.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
-				layoutPageTemplateStructureRel, "getOriginalGroupId",
-				new Class<?>[0]));
+				layoutPageTemplateStructureRel, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "groupId"));
 
 		Assert.assertEquals(
 			Long.valueOf(
 				layoutPageTemplateStructureRel.
 					getLayoutPageTemplateStructureId()),
 			ReflectionTestUtil.<Long>invoke(
-				layoutPageTemplateStructureRel,
-				"getOriginalLayoutPageTemplateStructureId", new Class<?>[0]));
+				layoutPageTemplateStructureRel, "getColumnOriginalValue",
+				new Class<?>[] {String.class},
+				"layoutPageTemplateStructureId"));
 		Assert.assertEquals(
 			Long.valueOf(
 				layoutPageTemplateStructureRel.getSegmentsExperienceId()),
 			ReflectionTestUtil.<Long>invoke(
-				layoutPageTemplateStructureRel,
-				"getOriginalSegmentsExperienceId", new Class<?>[0]));
+				layoutPageTemplateStructureRel, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "segmentsExperienceId"));
 	}
 
 	protected LayoutPageTemplateStructureRel addLayoutPageTemplateStructureRel()
