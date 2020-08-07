@@ -468,12 +468,14 @@ public class ResourceActionPersistenceTest {
 			Objects.equals(
 				resourceAction.getName(),
 				ReflectionTestUtil.invoke(
-					resourceAction, "getOriginalName", new Class<?>[0])));
+					resourceAction, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "name")));
 		Assert.assertTrue(
 			Objects.equals(
 				resourceAction.getActionId(),
 				ReflectionTestUtil.invoke(
-					resourceAction, "getOriginalActionId", new Class<?>[0])));
+					resourceAction, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "actionId")));
 	}
 
 	protected ResourceAction addResourceAction() throws Exception {

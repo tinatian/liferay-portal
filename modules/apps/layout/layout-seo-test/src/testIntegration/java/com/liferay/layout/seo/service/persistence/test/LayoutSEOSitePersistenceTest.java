@@ -522,16 +522,19 @@ public class LayoutSEOSitePersistenceTest {
 			Objects.equals(
 				layoutSEOSite.getUuid(),
 				ReflectionTestUtil.invoke(
-					layoutSEOSite, "getOriginalUuid", new Class<?>[0])));
+					layoutSEOSite, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "uuid_")));
 		Assert.assertEquals(
 			Long.valueOf(layoutSEOSite.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
-				layoutSEOSite, "getOriginalGroupId", new Class<?>[0]));
+				layoutSEOSite, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "groupId"));
 
 		Assert.assertEquals(
 			Long.valueOf(layoutSEOSite.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
-				layoutSEOSite, "getOriginalGroupId", new Class<?>[0]));
+				layoutSEOSite, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "groupId"));
 	}
 
 	protected LayoutSEOSite addLayoutSEOSite() throws Exception {

@@ -673,11 +673,13 @@ public class SyncDLObjectPersistenceTest {
 			Objects.equals(
 				syncDLObject.getType(),
 				ReflectionTestUtil.invoke(
-					syncDLObject, "getOriginalType", new Class<?>[0])));
+					syncDLObject, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "type_")));
 		Assert.assertEquals(
 			Long.valueOf(syncDLObject.getTypePK()),
 			ReflectionTestUtil.<Long>invoke(
-				syncDLObject, "getOriginalTypePK", new Class<?>[0]));
+				syncDLObject, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "typePK"));
 	}
 
 	protected SyncDLObject addSyncDLObject() throws Exception {

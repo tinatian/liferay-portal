@@ -554,13 +554,14 @@ public class AssetCategoryPropertyPersistenceTest {
 		Assert.assertEquals(
 			Long.valueOf(assetCategoryProperty.getCategoryId()),
 			ReflectionTestUtil.<Long>invoke(
-				assetCategoryProperty, "getOriginalCategoryId",
-				new Class<?>[0]));
+				assetCategoryProperty, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "categoryId"));
 		Assert.assertTrue(
 			Objects.equals(
 				assetCategoryProperty.getKey(),
 				ReflectionTestUtil.invoke(
-					assetCategoryProperty, "getOriginalKey", new Class<?>[0])));
+					assetCategoryProperty, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "key_")));
 	}
 
 	protected AssetCategoryProperty addAssetCategoryProperty()

@@ -2165,8 +2165,9 @@ public class AssetCategoryPropertyPersistenceImpl
 			 _finderPathFetchByCA_K.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				assetCategoryPropertyModelImpl.getOriginalCategoryId(),
-				assetCategoryPropertyModelImpl.getOriginalKey()
+				assetCategoryPropertyModelImpl.getColumnOriginalValue(
+					"categoryId"),
+				assetCategoryPropertyModelImpl.getColumnOriginalValue("key_")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByCA_K, args);
@@ -2410,7 +2411,8 @@ public class AssetCategoryPropertyPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					assetCategoryPropertyModelImpl.getOriginalCompanyId()
+					assetCategoryPropertyModelImpl.getColumnOriginalValue(
+						"companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
@@ -2431,7 +2433,8 @@ public class AssetCategoryPropertyPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					assetCategoryPropertyModelImpl.getOriginalCategoryId()
+					assetCategoryPropertyModelImpl.getColumnOriginalValue(
+						"categoryId")
 				};
 
 				FinderCacheUtil.removeResult(
@@ -2454,8 +2457,10 @@ public class AssetCategoryPropertyPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					assetCategoryPropertyModelImpl.getOriginalCompanyId(),
-					assetCategoryPropertyModelImpl.getOriginalKey()
+					assetCategoryPropertyModelImpl.getColumnOriginalValue(
+						"companyId"),
+					assetCategoryPropertyModelImpl.getColumnOriginalValue(
+						"key_")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_K, args);
@@ -2962,8 +2967,8 @@ public class AssetCategoryPropertyPersistenceImpl
 			AssetCategoryPropertyImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCompanyId",
 			new String[] {Long.class.getName()},
-			AssetCategoryPropertyModelImpl.COMPANYID_COLUMN_BITMASK |
-			AssetCategoryPropertyModelImpl.KEY_COLUMN_BITMASK);
+			AssetCategoryPropertyModelImpl.getColumnBitmask("companyId") |
+			AssetCategoryPropertyModelImpl.getColumnBitmask("key_"));
 
 		_finderPathCountByCompanyId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -2981,8 +2986,8 @@ public class AssetCategoryPropertyPersistenceImpl
 			AssetCategoryPropertyImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCategoryId",
 			new String[] {Long.class.getName()},
-			AssetCategoryPropertyModelImpl.CATEGORYID_COLUMN_BITMASK |
-			AssetCategoryPropertyModelImpl.KEY_COLUMN_BITMASK);
+			AssetCategoryPropertyModelImpl.getColumnBitmask("categoryId") |
+			AssetCategoryPropertyModelImpl.getColumnBitmask("key_"));
 
 		_finderPathCountByCategoryId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -3001,8 +3006,8 @@ public class AssetCategoryPropertyPersistenceImpl
 			AssetCategoryPropertyImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_K",
 			new String[] {Long.class.getName(), String.class.getName()},
-			AssetCategoryPropertyModelImpl.COMPANYID_COLUMN_BITMASK |
-			AssetCategoryPropertyModelImpl.KEY_COLUMN_BITMASK);
+			AssetCategoryPropertyModelImpl.getColumnBitmask("companyId") |
+			AssetCategoryPropertyModelImpl.getColumnBitmask("key_"));
 
 		_finderPathCountByC_K = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_K",
@@ -3012,8 +3017,8 @@ public class AssetCategoryPropertyPersistenceImpl
 			AssetCategoryPropertyImpl.class, FINDER_CLASS_NAME_ENTITY,
 			"fetchByCA_K",
 			new String[] {Long.class.getName(), String.class.getName()},
-			AssetCategoryPropertyModelImpl.CATEGORYID_COLUMN_BITMASK |
-			AssetCategoryPropertyModelImpl.KEY_COLUMN_BITMASK);
+			AssetCategoryPropertyModelImpl.getColumnBitmask("categoryId") |
+			AssetCategoryPropertyModelImpl.getColumnBitmask("key_"));
 
 		_finderPathCountByCA_K = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,

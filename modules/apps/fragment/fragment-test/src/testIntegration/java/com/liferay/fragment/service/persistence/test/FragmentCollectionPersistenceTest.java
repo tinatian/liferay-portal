@@ -577,22 +577,25 @@ public class FragmentCollectionPersistenceTest {
 			Objects.equals(
 				fragmentCollection.getUuid(),
 				ReflectionTestUtil.invoke(
-					fragmentCollection, "getOriginalUuid", new Class<?>[0])));
+					fragmentCollection, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "uuid_")));
 		Assert.assertEquals(
 			Long.valueOf(fragmentCollection.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
-				fragmentCollection, "getOriginalGroupId", new Class<?>[0]));
+				fragmentCollection, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "groupId"));
 
 		Assert.assertEquals(
 			Long.valueOf(fragmentCollection.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
-				fragmentCollection, "getOriginalGroupId", new Class<?>[0]));
+				fragmentCollection, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "groupId"));
 		Assert.assertTrue(
 			Objects.equals(
 				fragmentCollection.getFragmentCollectionKey(),
 				ReflectionTestUtil.invoke(
-					fragmentCollection, "getOriginalFragmentCollectionKey",
-					new Class<?>[0])));
+					fragmentCollection, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "fragmentCollectionKey")));
 	}
 
 	protected FragmentCollection addFragmentCollection() throws Exception {

@@ -124,8 +124,18 @@ public class ReleaseModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long SERVLETCONTEXTNAME_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long RELEASEID_COLUMN_BITMASK = 2L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
@@ -307,6 +317,8 @@ public class ReleaseModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= _columnBitmasks.get("mvccVersion");
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -317,6 +329,8 @@ public class ReleaseModelImpl
 
 	@Override
 	public void setReleaseId(long releaseId) {
+		_columnBitmask |= _columnBitmasks.get("releaseId");
+
 		_releaseId = releaseId;
 	}
 
@@ -327,6 +341,8 @@ public class ReleaseModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= _columnBitmasks.get("createDate");
+
 		_createDate = createDate;
 	}
 
@@ -343,6 +359,8 @@ public class ReleaseModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= _columnBitmasks.get("modifiedDate");
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -358,17 +376,18 @@ public class ReleaseModelImpl
 
 	@Override
 	public void setServletContextName(String servletContextName) {
-		_columnBitmask |= SERVLETCONTEXTNAME_COLUMN_BITMASK;
-
-		if (_originalServletContextName == null) {
-			_originalServletContextName = _servletContextName;
-		}
+		_columnBitmask |= _columnBitmasks.get("servletContextName");
 
 		_servletContextName = servletContextName;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalServletContextName() {
-		return GetterUtil.getString(_originalServletContextName);
+		return getColumnOriginalValue("servletContextName");
 	}
 
 	@Override
@@ -383,6 +402,8 @@ public class ReleaseModelImpl
 
 	@Override
 	public void setSchemaVersion(String schemaVersion) {
+		_columnBitmask |= _columnBitmasks.get("schemaVersion");
+
 		_schemaVersion = schemaVersion;
 	}
 
@@ -393,6 +414,8 @@ public class ReleaseModelImpl
 
 	@Override
 	public void setBuildNumber(int buildNumber) {
+		_columnBitmask |= _columnBitmasks.get("buildNumber");
+
 		_buildNumber = buildNumber;
 	}
 
@@ -403,6 +426,8 @@ public class ReleaseModelImpl
 
 	@Override
 	public void setBuildDate(Date buildDate) {
+		_columnBitmask |= _columnBitmasks.get("buildDate");
+
 		_buildDate = buildDate;
 	}
 
@@ -418,6 +443,8 @@ public class ReleaseModelImpl
 
 	@Override
 	public void setVerified(boolean verified) {
+		_columnBitmask |= _columnBitmasks.get("verified");
+
 		_verified = verified;
 	}
 
@@ -428,6 +455,8 @@ public class ReleaseModelImpl
 
 	@Override
 	public void setState(int state) {
+		_columnBitmask |= _columnBitmasks.get("state_");
+
 		_state = state;
 	}
 
@@ -443,6 +472,8 @@ public class ReleaseModelImpl
 
 	@Override
 	public void setTestString(String testString) {
+		_columnBitmask |= _columnBitmasks.get("testString");
+
 		_testString = testString;
 	}
 
@@ -561,14 +592,14 @@ public class ReleaseModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		ReleaseModelImpl releaseModelImpl = this;
+		_columnOriginalValues = getModelAttributes();
 
-		releaseModelImpl._setModifiedDate = false;
+		_columnOriginalValues.put(
+			"state_", _columnOriginalValues.remove("state"));
 
-		releaseModelImpl._originalServletContextName =
-			releaseModelImpl._servletContextName;
+		_setModifiedDate = false;
 
-		releaseModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -711,13 +742,55 @@ public class ReleaseModelImpl
 
 	}
 
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new LinkedHashMap<>();
+
+		columnBitmasks.put("mvccVersion", 1L);
+
+		columnBitmasks.put("releaseId", 2L);
+
+		columnBitmasks.put("createDate", 4L);
+
+		columnBitmasks.put("modifiedDate", 8L);
+
+		columnBitmasks.put("servletContextName", 16L);
+
+		columnBitmasks.put("schemaVersion", 32L);
+
+		columnBitmasks.put("buildNumber", 64L);
+
+		columnBitmasks.put("buildDate", 128L);
+
+		columnBitmasks.put("verified", 256L);
+
+		columnBitmasks.put("state_", 512L);
+
+		columnBitmasks.put("testString", 1024L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
 	private long _mvccVersion;
 	private long _releaseId;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private String _servletContextName;
-	private String _originalServletContextName;
 	private String _schemaVersion;
 	private int _buildNumber;
 	private Date _buildDate;

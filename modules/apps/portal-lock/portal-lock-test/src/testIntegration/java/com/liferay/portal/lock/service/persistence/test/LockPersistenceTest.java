@@ -499,12 +499,14 @@ public class LockPersistenceTest {
 			Objects.equals(
 				lock.getClassName(),
 				ReflectionTestUtil.invoke(
-					lock, "getOriginalClassName", new Class<?>[0])));
+					lock, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "className")));
 		Assert.assertTrue(
 			Objects.equals(
 				lock.getKey(),
 				ReflectionTestUtil.invoke(
-					lock, "getOriginalKey", new Class<?>[0])));
+					lock, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "key_")));
 	}
 
 	protected Lock addLock() throws Exception {

@@ -1529,8 +1529,8 @@ public class TrashVersionPersistenceImpl
 			 _finderPathFetchByC_C.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				trashVersionModelImpl.getOriginalClassNameId(),
-				trashVersionModelImpl.getOriginalClassPK()
+				trashVersionModelImpl.getColumnOriginalValue("classNameId"),
+				trashVersionModelImpl.getColumnOriginalValue("classPK")
 			};
 
 			finderCache.removeResult(_finderPathCountByC_C, args);
@@ -1726,7 +1726,7 @@ public class TrashVersionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					trashVersionModelImpl.getOriginalEntryId()
+					trashVersionModelImpl.getColumnOriginalValue("entryId")
 				};
 
 				finderCache.removeResult(_finderPathCountByEntryId, args);
@@ -1745,8 +1745,8 @@ public class TrashVersionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					trashVersionModelImpl.getOriginalEntryId(),
-					trashVersionModelImpl.getOriginalClassNameId()
+					trashVersionModelImpl.getColumnOriginalValue("entryId"),
+					trashVersionModelImpl.getColumnOriginalValue("classNameId")
 				};
 
 				finderCache.removeResult(_finderPathCountByE_C, args);
@@ -2230,7 +2230,7 @@ public class TrashVersionPersistenceImpl
 		_finderPathWithoutPaginationFindByEntryId = new FinderPath(
 			TrashVersionImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByEntryId", new String[] {Long.class.getName()},
-			TrashVersionModelImpl.ENTRYID_COLUMN_BITMASK);
+			TrashVersionModelImpl.getColumnBitmask("entryId"));
 
 		_finderPathCountByEntryId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -2249,8 +2249,8 @@ public class TrashVersionPersistenceImpl
 			TrashVersionImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByE_C",
 			new String[] {Long.class.getName(), Long.class.getName()},
-			TrashVersionModelImpl.ENTRYID_COLUMN_BITMASK |
-			TrashVersionModelImpl.CLASSNAMEID_COLUMN_BITMASK);
+			TrashVersionModelImpl.getColumnBitmask("entryId") |
+			TrashVersionModelImpl.getColumnBitmask("classNameId"));
 
 		_finderPathCountByE_C = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByE_C",
@@ -2259,8 +2259,8 @@ public class TrashVersionPersistenceImpl
 		_finderPathFetchByC_C = new FinderPath(
 			TrashVersionImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByC_C",
 			new String[] {Long.class.getName(), Long.class.getName()},
-			TrashVersionModelImpl.CLASSNAMEID_COLUMN_BITMASK |
-			TrashVersionModelImpl.CLASSPK_COLUMN_BITMASK);
+			TrashVersionModelImpl.getColumnBitmask("classNameId") |
+			TrashVersionModelImpl.getColumnBitmask("classPK"));
 
 		_finderPathCountByC_C = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C",
