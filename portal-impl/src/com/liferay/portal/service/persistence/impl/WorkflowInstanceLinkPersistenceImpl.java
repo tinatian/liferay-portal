@@ -1663,9 +1663,12 @@ public class WorkflowInstanceLinkPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					workflowInstanceLinkModelImpl.getOriginalGroupId(),
-					workflowInstanceLinkModelImpl.getOriginalCompanyId(),
-					workflowInstanceLinkModelImpl.getOriginalClassNameId()
+					workflowInstanceLinkModelImpl.getColumnOriginalValue(
+						"groupId"),
+					workflowInstanceLinkModelImpl.getColumnOriginalValue(
+						"companyId"),
+					workflowInstanceLinkModelImpl.getColumnOriginalValue(
+						"classNameId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByG_C_C, args);
@@ -1688,10 +1691,14 @@ public class WorkflowInstanceLinkPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					workflowInstanceLinkModelImpl.getOriginalGroupId(),
-					workflowInstanceLinkModelImpl.getOriginalCompanyId(),
-					workflowInstanceLinkModelImpl.getOriginalClassNameId(),
-					workflowInstanceLinkModelImpl.getOriginalClassPK()
+					workflowInstanceLinkModelImpl.getColumnOriginalValue(
+						"groupId"),
+					workflowInstanceLinkModelImpl.getColumnOriginalValue(
+						"companyId"),
+					workflowInstanceLinkModelImpl.getColumnOriginalValue(
+						"classNameId"),
+					workflowInstanceLinkModelImpl.getColumnOriginalValue(
+						"classPK")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByG_C_C_C, args);
@@ -2193,10 +2200,10 @@ public class WorkflowInstanceLinkPersistenceImpl
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			},
-			WorkflowInstanceLinkModelImpl.GROUPID_COLUMN_BITMASK |
-			WorkflowInstanceLinkModelImpl.COMPANYID_COLUMN_BITMASK |
-			WorkflowInstanceLinkModelImpl.CLASSNAMEID_COLUMN_BITMASK |
-			WorkflowInstanceLinkModelImpl.CREATEDATE_COLUMN_BITMASK);
+			WorkflowInstanceLinkModelImpl.getColumnBitmask("groupId") |
+			WorkflowInstanceLinkModelImpl.getColumnBitmask("companyId") |
+			WorkflowInstanceLinkModelImpl.getColumnBitmask("classNameId") |
+			WorkflowInstanceLinkModelImpl.getColumnBitmask("createDate"));
 
 		_finderPathCountByG_C_C = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -2222,11 +2229,11 @@ public class WorkflowInstanceLinkPersistenceImpl
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), Long.class.getName()
 			},
-			WorkflowInstanceLinkModelImpl.GROUPID_COLUMN_BITMASK |
-			WorkflowInstanceLinkModelImpl.COMPANYID_COLUMN_BITMASK |
-			WorkflowInstanceLinkModelImpl.CLASSNAMEID_COLUMN_BITMASK |
-			WorkflowInstanceLinkModelImpl.CLASSPK_COLUMN_BITMASK |
-			WorkflowInstanceLinkModelImpl.CREATEDATE_COLUMN_BITMASK);
+			WorkflowInstanceLinkModelImpl.getColumnBitmask("groupId") |
+			WorkflowInstanceLinkModelImpl.getColumnBitmask("companyId") |
+			WorkflowInstanceLinkModelImpl.getColumnBitmask("classNameId") |
+			WorkflowInstanceLinkModelImpl.getColumnBitmask("classPK") |
+			WorkflowInstanceLinkModelImpl.getColumnBitmask("createDate"));
 
 		_finderPathCountByG_C_C_C = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,

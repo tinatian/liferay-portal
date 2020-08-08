@@ -506,14 +506,14 @@ public class SamlIdpSpSessionPersistenceTest {
 		Assert.assertEquals(
 			Long.valueOf(samlIdpSpSession.getSamlIdpSsoSessionId()),
 			ReflectionTestUtil.<Long>invoke(
-				samlIdpSpSession, "getOriginalSamlIdpSsoSessionId",
-				new Class<?>[0]));
+				samlIdpSpSession, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "samlIdpSsoSessionId"));
 		Assert.assertTrue(
 			Objects.equals(
 				samlIdpSpSession.getSamlSpEntityId(),
 				ReflectionTestUtil.invoke(
-					samlIdpSpSession, "getOriginalSamlSpEntityId",
-					new Class<?>[0])));
+					samlIdpSpSession, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "samlSpEntityId")));
 	}
 
 	protected SamlIdpSpSession addSamlIdpSpSession() throws Exception {

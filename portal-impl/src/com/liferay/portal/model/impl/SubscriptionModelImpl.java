@@ -131,16 +131,46 @@ public class SubscriptionModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long CLASSNAMEID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long CLASSPK_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long USERID_COLUMN_BITMASK = 16L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long SUBSCRIPTIONID_COLUMN_BITMASK = 32L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
@@ -332,6 +362,8 @@ public class SubscriptionModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= _columnBitmasks.get("mvccVersion");
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -342,6 +374,8 @@ public class SubscriptionModelImpl
 
 	@Override
 	public void setSubscriptionId(long subscriptionId) {
+		_columnBitmask |= _columnBitmasks.get("subscriptionId");
+
 		_subscriptionId = subscriptionId;
 	}
 
@@ -352,19 +386,18 @@ public class SubscriptionModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
-		}
+		_columnBitmask |= _columnBitmasks.get("groupId");
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return GetterUtil.getLong(_columnOriginalValues.get("groupId"));
 	}
 
 	@Override
@@ -374,19 +407,18 @@ public class SubscriptionModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
-		}
+		_columnBitmask |= _columnBitmasks.get("companyId");
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
 	}
 
 	@Override
@@ -396,13 +428,7 @@ public class SubscriptionModelImpl
 
 	@Override
 	public void setUserId(long userId) {
-		_columnBitmask |= USERID_COLUMN_BITMASK;
-
-		if (!_setOriginalUserId) {
-			_setOriginalUserId = true;
-
-			_originalUserId = _userId;
-		}
+		_columnBitmask |= _columnBitmasks.get("userId");
 
 		_userId = userId;
 	}
@@ -423,8 +449,13 @@ public class SubscriptionModelImpl
 	public void setUserUuid(String userUuid) {
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalUserId() {
-		return _originalUserId;
+		return GetterUtil.getLong(_columnOriginalValues.get("userId"));
 	}
 
 	@Override
@@ -439,6 +470,8 @@ public class SubscriptionModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= _columnBitmasks.get("userName");
+
 		_userName = userName;
 	}
 
@@ -449,6 +482,8 @@ public class SubscriptionModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= _columnBitmasks.get("createDate");
+
 		_createDate = createDate;
 	}
 
@@ -464,6 +499,8 @@ public class SubscriptionModelImpl
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
+
+		_columnBitmask |= _columnBitmasks.get("modifiedDate");
 
 		_modifiedDate = modifiedDate;
 	}
@@ -495,19 +532,18 @@ public class SubscriptionModelImpl
 
 	@Override
 	public void setClassNameId(long classNameId) {
-		_columnBitmask |= CLASSNAMEID_COLUMN_BITMASK;
-
-		if (!_setOriginalClassNameId) {
-			_setOriginalClassNameId = true;
-
-			_originalClassNameId = _classNameId;
-		}
+		_columnBitmask |= _columnBitmasks.get("classNameId");
 
 		_classNameId = classNameId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassNameId() {
-		return _originalClassNameId;
+		return GetterUtil.getLong(_columnOriginalValues.get("classNameId"));
 	}
 
 	@Override
@@ -517,19 +553,18 @@ public class SubscriptionModelImpl
 
 	@Override
 	public void setClassPK(long classPK) {
-		_columnBitmask |= CLASSPK_COLUMN_BITMASK;
-
-		if (!_setOriginalClassPK) {
-			_setOriginalClassPK = true;
-
-			_originalClassPK = _classPK;
-		}
+		_columnBitmask |= _columnBitmasks.get("classPK");
 
 		_classPK = classPK;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassPK() {
-		return _originalClassPK;
+		return GetterUtil.getLong(_columnOriginalValues.get("classPK"));
 	}
 
 	@Override
@@ -544,6 +579,8 @@ public class SubscriptionModelImpl
 
 	@Override
 	public void setFrequency(String frequency) {
+		_columnBitmask |= _columnBitmasks.get("frequency");
+
 		_frequency = frequency;
 	}
 
@@ -662,33 +699,32 @@ public class SubscriptionModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		SubscriptionModelImpl subscriptionModelImpl = this;
+		_columnOriginalValues = new HashMap<String, Object>();
 
-		subscriptionModelImpl._originalGroupId = subscriptionModelImpl._groupId;
+		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 
-		subscriptionModelImpl._setOriginalGroupId = false;
+		_columnOriginalValues.put("subscriptionId", _subscriptionId);
 
-		subscriptionModelImpl._originalCompanyId =
-			subscriptionModelImpl._companyId;
+		_columnOriginalValues.put("groupId", _groupId);
 
-		subscriptionModelImpl._setOriginalCompanyId = false;
+		_columnOriginalValues.put("companyId", _companyId);
 
-		subscriptionModelImpl._originalUserId = subscriptionModelImpl._userId;
+		_columnOriginalValues.put("userId", _userId);
 
-		subscriptionModelImpl._setOriginalUserId = false;
+		_columnOriginalValues.put("userName", _userName);
 
-		subscriptionModelImpl._setModifiedDate = false;
+		_columnOriginalValues.put("createDate", _createDate);
 
-		subscriptionModelImpl._originalClassNameId =
-			subscriptionModelImpl._classNameId;
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
 
-		subscriptionModelImpl._setOriginalClassNameId = false;
+		_setModifiedDate = false;
+		_columnOriginalValues.put("classNameId", _classNameId);
 
-		subscriptionModelImpl._originalClassPK = subscriptionModelImpl._classPK;
+		_columnOriginalValues.put("classPK", _classPK);
 
-		subscriptionModelImpl._setOriginalClassPK = false;
+		_columnOriginalValues.put("frequency", _frequency);
 
-		subscriptionModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -817,27 +853,60 @@ public class SubscriptionModelImpl
 
 	}
 
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new LinkedHashMap<>();
+
+		columnBitmasks.put("mvccVersion", 1L);
+
+		columnBitmasks.put("subscriptionId", 2L);
+
+		columnBitmasks.put("groupId", 4L);
+
+		columnBitmasks.put("companyId", 8L);
+
+		columnBitmasks.put("userId", 16L);
+
+		columnBitmasks.put("userName", 32L);
+
+		columnBitmasks.put("createDate", 64L);
+
+		columnBitmasks.put("modifiedDate", 128L);
+
+		columnBitmasks.put("classNameId", 256L);
+
+		columnBitmasks.put("classPK", 512L);
+
+		columnBitmasks.put("frequency", 1024L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
 	private long _mvccVersion;
 	private long _subscriptionId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
-	private long _originalUserId;
-	private boolean _setOriginalUserId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _classNameId;
-	private long _originalClassNameId;
-	private boolean _setOriginalClassNameId;
 	private long _classPK;
-	private long _originalClassPK;
-	private boolean _setOriginalClassPK;
 	private String _frequency;
 	private long _columnBitmask;
 	private Subscription _escapedModel;

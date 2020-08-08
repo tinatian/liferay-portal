@@ -541,21 +541,25 @@ public class RepositoryEntryPersistenceTest {
 			Objects.equals(
 				repositoryEntry.getUuid(),
 				ReflectionTestUtil.invoke(
-					repositoryEntry, "getOriginalUuid", new Class<?>[0])));
+					repositoryEntry, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "uuid_")));
 		Assert.assertEquals(
 			Long.valueOf(repositoryEntry.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
-				repositoryEntry, "getOriginalGroupId", new Class<?>[0]));
+				repositoryEntry, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "groupId"));
 
 		Assert.assertEquals(
 			Long.valueOf(repositoryEntry.getRepositoryId()),
 			ReflectionTestUtil.<Long>invoke(
-				repositoryEntry, "getOriginalRepositoryId", new Class<?>[0]));
+				repositoryEntry, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "repositoryId"));
 		Assert.assertTrue(
 			Objects.equals(
 				repositoryEntry.getMappedId(),
 				ReflectionTestUtil.invoke(
-					repositoryEntry, "getOriginalMappedId", new Class<?>[0])));
+					repositoryEntry, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "mappedId")));
 	}
 
 	protected RepositoryEntry addRepositoryEntry() throws Exception {

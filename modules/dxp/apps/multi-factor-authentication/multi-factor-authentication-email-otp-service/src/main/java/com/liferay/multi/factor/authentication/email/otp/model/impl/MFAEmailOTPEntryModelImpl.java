@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -109,8 +110,18 @@ public class MFAEmailOTPEntryModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long USERID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long MFAEMAILOTPENTRYID_COLUMN_BITMASK = 2L;
 
 	/**
@@ -335,6 +346,8 @@ public class MFAEmailOTPEntryModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= _columnBitmasks.get("mvccVersion");
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -345,6 +358,8 @@ public class MFAEmailOTPEntryModelImpl
 
 	@Override
 	public void setMfaEmailOTPEntryId(long mfaEmailOTPEntryId) {
+		_columnBitmask |= _columnBitmasks.get("mfaEmailOTPEntryId");
+
 		_mfaEmailOTPEntryId = mfaEmailOTPEntryId;
 	}
 
@@ -355,6 +370,8 @@ public class MFAEmailOTPEntryModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= _columnBitmasks.get("companyId");
+
 		_companyId = companyId;
 	}
 
@@ -365,13 +382,7 @@ public class MFAEmailOTPEntryModelImpl
 
 	@Override
 	public void setUserId(long userId) {
-		_columnBitmask |= USERID_COLUMN_BITMASK;
-
-		if (!_setOriginalUserId) {
-			_setOriginalUserId = true;
-
-			_originalUserId = _userId;
-		}
+		_columnBitmask |= _columnBitmasks.get("userId");
 
 		_userId = userId;
 	}
@@ -392,8 +403,13 @@ public class MFAEmailOTPEntryModelImpl
 	public void setUserUuid(String userUuid) {
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalUserId() {
-		return _originalUserId;
+		return GetterUtil.getLong(_columnOriginalValues.get("userId"));
 	}
 
 	@Override
@@ -408,6 +424,8 @@ public class MFAEmailOTPEntryModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= _columnBitmasks.get("userName");
+
 		_userName = userName;
 	}
 
@@ -418,6 +436,8 @@ public class MFAEmailOTPEntryModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= _columnBitmasks.get("createDate");
+
 		_createDate = createDate;
 	}
 
@@ -434,6 +454,8 @@ public class MFAEmailOTPEntryModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= _columnBitmasks.get("modifiedDate");
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -444,6 +466,8 @@ public class MFAEmailOTPEntryModelImpl
 
 	@Override
 	public void setFailedAttempts(int failedAttempts) {
+		_columnBitmask |= _columnBitmasks.get("failedAttempts");
+
 		_failedAttempts = failedAttempts;
 	}
 
@@ -454,6 +478,8 @@ public class MFAEmailOTPEntryModelImpl
 
 	@Override
 	public void setLastFailDate(Date lastFailDate) {
+		_columnBitmask |= _columnBitmasks.get("lastFailDate");
+
 		_lastFailDate = lastFailDate;
 	}
 
@@ -469,6 +495,8 @@ public class MFAEmailOTPEntryModelImpl
 
 	@Override
 	public void setLastFailIP(String lastFailIP) {
+		_columnBitmask |= _columnBitmasks.get("lastFailIP");
+
 		_lastFailIP = lastFailIP;
 	}
 
@@ -479,6 +507,8 @@ public class MFAEmailOTPEntryModelImpl
 
 	@Override
 	public void setLastSuccessDate(Date lastSuccessDate) {
+		_columnBitmask |= _columnBitmasks.get("lastSuccessDate");
+
 		_lastSuccessDate = lastSuccessDate;
 	}
 
@@ -494,6 +524,8 @@ public class MFAEmailOTPEntryModelImpl
 
 	@Override
 	public void setLastSuccessIP(String lastSuccessIP) {
+		_columnBitmask |= _columnBitmasks.get("lastSuccessIP");
+
 		_lastSuccessIP = lastSuccessIP;
 	}
 
@@ -613,16 +645,34 @@ public class MFAEmailOTPEntryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		MFAEmailOTPEntryModelImpl mfaEmailOTPEntryModelImpl = this;
+		_columnOriginalValues = new HashMap<String, Object>();
 
-		mfaEmailOTPEntryModelImpl._originalUserId =
-			mfaEmailOTPEntryModelImpl._userId;
+		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 
-		mfaEmailOTPEntryModelImpl._setOriginalUserId = false;
+		_columnOriginalValues.put("mfaEmailOTPEntryId", _mfaEmailOTPEntryId);
 
-		mfaEmailOTPEntryModelImpl._setModifiedDate = false;
+		_columnOriginalValues.put("companyId", _companyId);
 
-		mfaEmailOTPEntryModelImpl._columnBitmask = 0;
+		_columnOriginalValues.put("userId", _userId);
+
+		_columnOriginalValues.put("userName", _userName);
+
+		_columnOriginalValues.put("createDate", _createDate);
+
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
+
+		_setModifiedDate = false;
+		_columnOriginalValues.put("failedAttempts", _failedAttempts);
+
+		_columnOriginalValues.put("lastFailDate", _lastFailDate);
+
+		_columnOriginalValues.put("lastFailIP", _lastFailIP);
+
+		_columnOriginalValues.put("lastSuccessDate", _lastSuccessDate);
+
+		_columnOriginalValues.put("lastSuccessIP", _lastSuccessIP);
+
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -774,12 +824,55 @@ public class MFAEmailOTPEntryModelImpl
 
 	}
 
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new LinkedHashMap<>();
+
+		columnBitmasks.put("mvccVersion", 1L);
+
+		columnBitmasks.put("mfaEmailOTPEntryId", 2L);
+
+		columnBitmasks.put("companyId", 4L);
+
+		columnBitmasks.put("userId", 8L);
+
+		columnBitmasks.put("userName", 16L);
+
+		columnBitmasks.put("createDate", 32L);
+
+		columnBitmasks.put("modifiedDate", 64L);
+
+		columnBitmasks.put("failedAttempts", 128L);
+
+		columnBitmasks.put("lastFailDate", 256L);
+
+		columnBitmasks.put("lastFailIP", 512L);
+
+		columnBitmasks.put("lastSuccessDate", 1024L);
+
+		columnBitmasks.put("lastSuccessIP", 2048L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
 	private long _mvccVersion;
 	private long _mfaEmailOTPEntryId;
 	private long _companyId;
 	private long _userId;
-	private long _originalUserId;
-	private boolean _setOriginalUserId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;

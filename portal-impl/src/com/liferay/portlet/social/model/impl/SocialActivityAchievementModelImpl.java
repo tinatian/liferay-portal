@@ -125,14 +125,39 @@ public class SocialActivityAchievementModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long FIRSTINGROUP_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long NAME_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long USERID_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long ACTIVITYACHIEVEMENTID_COLUMN_BITMASK = 16L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
@@ -339,6 +364,8 @@ public class SocialActivityAchievementModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= _columnBitmasks.get("mvccVersion");
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -349,6 +376,8 @@ public class SocialActivityAchievementModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= _columnBitmasks.get("ctCollectionId");
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -359,6 +388,8 @@ public class SocialActivityAchievementModelImpl
 
 	@Override
 	public void setActivityAchievementId(long activityAchievementId) {
+		_columnBitmask |= _columnBitmasks.get("activityAchievementId");
+
 		_activityAchievementId = activityAchievementId;
 	}
 
@@ -369,19 +400,18 @@ public class SocialActivityAchievementModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
-		}
+		_columnBitmask |= _columnBitmasks.get("groupId");
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return GetterUtil.getLong(_columnOriginalValues.get("groupId"));
 	}
 
 	@Override
@@ -391,6 +421,8 @@ public class SocialActivityAchievementModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= _columnBitmasks.get("companyId");
+
 		_companyId = companyId;
 	}
 
@@ -401,13 +433,7 @@ public class SocialActivityAchievementModelImpl
 
 	@Override
 	public void setUserId(long userId) {
-		_columnBitmask |= USERID_COLUMN_BITMASK;
-
-		if (!_setOriginalUserId) {
-			_setOriginalUserId = true;
-
-			_originalUserId = _userId;
-		}
+		_columnBitmask |= _columnBitmasks.get("userId");
 
 		_userId = userId;
 	}
@@ -428,8 +454,13 @@ public class SocialActivityAchievementModelImpl
 	public void setUserUuid(String userUuid) {
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalUserId() {
-		return _originalUserId;
+		return GetterUtil.getLong(_columnOriginalValues.get("userId"));
 	}
 
 	@Override
@@ -439,6 +470,8 @@ public class SocialActivityAchievementModelImpl
 
 	@Override
 	public void setCreateDate(long createDate) {
+		_columnBitmask |= _columnBitmasks.get("createDate");
+
 		_createDate = createDate;
 	}
 
@@ -454,17 +487,18 @@ public class SocialActivityAchievementModelImpl
 
 	@Override
 	public void setName(String name) {
-		_columnBitmask |= NAME_COLUMN_BITMASK;
-
-		if (_originalName == null) {
-			_originalName = _name;
-		}
+		_columnBitmask |= _columnBitmasks.get("name");
 
 		_name = name;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalName() {
-		return GetterUtil.getString(_originalName);
+		return getColumnOriginalValue("name");
 	}
 
 	@Override
@@ -479,19 +513,18 @@ public class SocialActivityAchievementModelImpl
 
 	@Override
 	public void setFirstInGroup(boolean firstInGroup) {
-		_columnBitmask |= FIRSTINGROUP_COLUMN_BITMASK;
-
-		if (!_setOriginalFirstInGroup) {
-			_setOriginalFirstInGroup = true;
-
-			_originalFirstInGroup = _firstInGroup;
-		}
+		_columnBitmask |= _columnBitmasks.get("firstInGroup");
 
 		_firstInGroup = firstInGroup;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public boolean getOriginalFirstInGroup() {
-		return _originalFirstInGroup;
+		return GetterUtil.getBoolean(_columnOriginalValues.get("firstInGroup"));
 	}
 
 	public long getColumnBitmask() {
@@ -611,28 +644,28 @@ public class SocialActivityAchievementModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		SocialActivityAchievementModelImpl socialActivityAchievementModelImpl =
-			this;
+		_columnOriginalValues = new HashMap<String, Object>();
 
-		socialActivityAchievementModelImpl._originalGroupId =
-			socialActivityAchievementModelImpl._groupId;
+		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 
-		socialActivityAchievementModelImpl._setOriginalGroupId = false;
+		_columnOriginalValues.put("ctCollectionId", _ctCollectionId);
 
-		socialActivityAchievementModelImpl._originalUserId =
-			socialActivityAchievementModelImpl._userId;
+		_columnOriginalValues.put(
+			"activityAchievementId", _activityAchievementId);
 
-		socialActivityAchievementModelImpl._setOriginalUserId = false;
+		_columnOriginalValues.put("groupId", _groupId);
 
-		socialActivityAchievementModelImpl._originalName =
-			socialActivityAchievementModelImpl._name;
+		_columnOriginalValues.put("companyId", _companyId);
 
-		socialActivityAchievementModelImpl._originalFirstInGroup =
-			socialActivityAchievementModelImpl._firstInGroup;
+		_columnOriginalValues.put("userId", _userId);
 
-		socialActivityAchievementModelImpl._setOriginalFirstInGroup = false;
+		_columnOriginalValues.put("createDate", _createDate);
 
-		socialActivityAchievementModelImpl._columnBitmask = 0;
+		_columnOriginalValues.put("name", _name);
+
+		_columnOriginalValues.put("firstInGroup", _firstInGroup);
+
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -744,22 +777,54 @@ public class SocialActivityAchievementModelImpl
 
 	}
 
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new LinkedHashMap<>();
+
+		columnBitmasks.put("mvccVersion", 1L);
+
+		columnBitmasks.put("ctCollectionId", 2L);
+
+		columnBitmasks.put("activityAchievementId", 4L);
+
+		columnBitmasks.put("groupId", 8L);
+
+		columnBitmasks.put("companyId", 16L);
+
+		columnBitmasks.put("userId", 32L);
+
+		columnBitmasks.put("createDate", 64L);
+
+		columnBitmasks.put("name", 128L);
+
+		columnBitmasks.put("firstInGroup", 256L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
 	private long _mvccVersion;
 	private long _ctCollectionId;
 	private long _activityAchievementId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
 	private long _userId;
-	private long _originalUserId;
-	private boolean _setOriginalUserId;
 	private long _createDate;
 	private String _name;
-	private String _originalName;
 	private boolean _firstInGroup;
-	private boolean _originalFirstInGroup;
-	private boolean _setOriginalFirstInGroup;
 	private long _columnBitmask;
 	private SocialActivityAchievement _escapedModel;
 

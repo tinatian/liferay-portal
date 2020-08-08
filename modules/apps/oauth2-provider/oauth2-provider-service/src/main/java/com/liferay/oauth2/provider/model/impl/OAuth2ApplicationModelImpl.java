@@ -129,10 +129,25 @@ public class OAuth2ApplicationModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long CLIENTID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long OAUTH2APPLICATIONID_COLUMN_BITMASK = 4L;
 
 	/**
@@ -472,6 +487,8 @@ public class OAuth2ApplicationModelImpl
 
 	@Override
 	public void setOAuth2ApplicationId(long oAuth2ApplicationId) {
+		_columnBitmask |= _columnBitmasks.get("oAuth2ApplicationId");
+
 		_oAuth2ApplicationId = oAuth2ApplicationId;
 	}
 
@@ -483,19 +500,18 @@ public class OAuth2ApplicationModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
-		}
+		_columnBitmask |= _columnBitmasks.get("companyId");
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
 	}
 
 	@JSON
@@ -506,6 +522,8 @@ public class OAuth2ApplicationModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= _columnBitmasks.get("userId");
+
 		_userId = userId;
 	}
 
@@ -538,6 +556,8 @@ public class OAuth2ApplicationModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= _columnBitmasks.get("userName");
+
 		_userName = userName;
 	}
 
@@ -549,6 +569,8 @@ public class OAuth2ApplicationModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= _columnBitmasks.get("createDate");
+
 		_createDate = createDate;
 	}
 
@@ -566,6 +588,8 @@ public class OAuth2ApplicationModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= _columnBitmasks.get("modifiedDate");
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -578,6 +602,8 @@ public class OAuth2ApplicationModelImpl
 	@Override
 	public void setOAuth2ApplicationScopeAliasesId(
 		long oAuth2ApplicationScopeAliasesId) {
+
+		_columnBitmask |= _columnBitmasks.get("oA2AScopeAliasesId");
 
 		_oAuth2ApplicationScopeAliasesId = oAuth2ApplicationScopeAliasesId;
 	}
@@ -595,6 +621,8 @@ public class OAuth2ApplicationModelImpl
 
 	@Override
 	public void setAllowedGrantTypes(String allowedGrantTypes) {
+		_columnBitmask |= _columnBitmasks.get("allowedGrantTypes");
+
 		_allowedGrantTypes = allowedGrantTypes;
 	}
 
@@ -606,6 +634,8 @@ public class OAuth2ApplicationModelImpl
 
 	@Override
 	public void setClientCredentialUserId(long clientCredentialUserId) {
+		_columnBitmask |= _columnBitmasks.get("clientCredentialUserId");
+
 		_clientCredentialUserId = clientCredentialUserId;
 	}
 
@@ -639,6 +669,8 @@ public class OAuth2ApplicationModelImpl
 
 	@Override
 	public void setClientCredentialUserName(String clientCredentialUserName) {
+		_columnBitmask |= _columnBitmasks.get("clientCredentialUserName");
+
 		_clientCredentialUserName = clientCredentialUserName;
 	}
 
@@ -655,17 +687,18 @@ public class OAuth2ApplicationModelImpl
 
 	@Override
 	public void setClientId(String clientId) {
-		_columnBitmask |= CLIENTID_COLUMN_BITMASK;
-
-		if (_originalClientId == null) {
-			_originalClientId = _clientId;
-		}
+		_columnBitmask |= _columnBitmasks.get("clientId");
 
 		_clientId = clientId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalClientId() {
-		return GetterUtil.getString(_originalClientId);
+		return getColumnOriginalValue("clientId");
 	}
 
 	@JSON
@@ -676,6 +709,8 @@ public class OAuth2ApplicationModelImpl
 
 	@Override
 	public void setClientProfile(int clientProfile) {
+		_columnBitmask |= _columnBitmasks.get("clientProfile");
+
 		_clientProfile = clientProfile;
 	}
 
@@ -692,6 +727,8 @@ public class OAuth2ApplicationModelImpl
 
 	@Override
 	public void setClientSecret(String clientSecret) {
+		_columnBitmask |= _columnBitmasks.get("clientSecret");
+
 		_clientSecret = clientSecret;
 	}
 
@@ -708,6 +745,8 @@ public class OAuth2ApplicationModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		_columnBitmask |= _columnBitmasks.get("description");
+
 		_description = description;
 	}
 
@@ -724,6 +763,8 @@ public class OAuth2ApplicationModelImpl
 
 	@Override
 	public void setFeatures(String features) {
+		_columnBitmask |= _columnBitmasks.get("features");
+
 		_features = features;
 	}
 
@@ -740,6 +781,8 @@ public class OAuth2ApplicationModelImpl
 
 	@Override
 	public void setHomePageURL(String homePageURL) {
+		_columnBitmask |= _columnBitmasks.get("homePageURL");
+
 		_homePageURL = homePageURL;
 	}
 
@@ -751,6 +794,8 @@ public class OAuth2ApplicationModelImpl
 
 	@Override
 	public void setIconFileEntryId(long iconFileEntryId) {
+		_columnBitmask |= _columnBitmasks.get("iconFileEntryId");
+
 		_iconFileEntryId = iconFileEntryId;
 	}
 
@@ -767,6 +812,8 @@ public class OAuth2ApplicationModelImpl
 
 	@Override
 	public void setName(String name) {
+		_columnBitmask |= _columnBitmasks.get("name");
+
 		_name = name;
 	}
 
@@ -783,6 +830,8 @@ public class OAuth2ApplicationModelImpl
 
 	@Override
 	public void setPrivacyPolicyURL(String privacyPolicyURL) {
+		_columnBitmask |= _columnBitmasks.get("privacyPolicyURL");
+
 		_privacyPolicyURL = privacyPolicyURL;
 	}
 
@@ -799,6 +848,8 @@ public class OAuth2ApplicationModelImpl
 
 	@Override
 	public void setRedirectURIs(String redirectURIs) {
+		_columnBitmask |= _columnBitmasks.get("redirectURIs");
+
 		_redirectURIs = redirectURIs;
 	}
 
@@ -930,19 +981,53 @@ public class OAuth2ApplicationModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		OAuth2ApplicationModelImpl oAuth2ApplicationModelImpl = this;
+		_columnOriginalValues = new HashMap<String, Object>();
 
-		oAuth2ApplicationModelImpl._originalCompanyId =
-			oAuth2ApplicationModelImpl._companyId;
+		_columnOriginalValues.put("oAuth2ApplicationId", _oAuth2ApplicationId);
 
-		oAuth2ApplicationModelImpl._setOriginalCompanyId = false;
+		_columnOriginalValues.put("companyId", _companyId);
 
-		oAuth2ApplicationModelImpl._setModifiedDate = false;
+		_columnOriginalValues.put("userId", _userId);
 
-		oAuth2ApplicationModelImpl._originalClientId =
-			oAuth2ApplicationModelImpl._clientId;
+		_columnOriginalValues.put("userName", _userName);
 
-		oAuth2ApplicationModelImpl._columnBitmask = 0;
+		_columnOriginalValues.put("createDate", _createDate);
+
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
+
+		_setModifiedDate = false;
+		_columnOriginalValues.put(
+			"oA2AScopeAliasesId", _oAuth2ApplicationScopeAliasesId);
+
+		_columnOriginalValues.put("allowedGrantTypes", _allowedGrantTypes);
+
+		_columnOriginalValues.put(
+			"clientCredentialUserId", _clientCredentialUserId);
+
+		_columnOriginalValues.put(
+			"clientCredentialUserName", _clientCredentialUserName);
+
+		_columnOriginalValues.put("clientId", _clientId);
+
+		_columnOriginalValues.put("clientProfile", _clientProfile);
+
+		_columnOriginalValues.put("clientSecret", _clientSecret);
+
+		_columnOriginalValues.put("description", _description);
+
+		_columnOriginalValues.put("features", _features);
+
+		_columnOriginalValues.put("homePageURL", _homePageURL);
+
+		_columnOriginalValues.put("iconFileEntryId", _iconFileEntryId);
+
+		_columnOriginalValues.put("name", _name);
+
+		_columnOriginalValues.put("privacyPolicyURL", _privacyPolicyURL);
+
+		_columnOriginalValues.put("redirectURIs", _redirectURIs);
+
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -1151,10 +1236,69 @@ public class OAuth2ApplicationModelImpl
 
 	}
 
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new LinkedHashMap<>();
+
+		columnBitmasks.put("oAuth2ApplicationId", 1L);
+
+		columnBitmasks.put("companyId", 2L);
+
+		columnBitmasks.put("userId", 4L);
+
+		columnBitmasks.put("userName", 8L);
+
+		columnBitmasks.put("createDate", 16L);
+
+		columnBitmasks.put("modifiedDate", 32L);
+
+		columnBitmasks.put("oA2AScopeAliasesId", 64L);
+
+		columnBitmasks.put("allowedGrantTypes", 128L);
+
+		columnBitmasks.put("clientCredentialUserId", 256L);
+
+		columnBitmasks.put("clientCredentialUserName", 512L);
+
+		columnBitmasks.put("clientId", 1024L);
+
+		columnBitmasks.put("clientProfile", 2048L);
+
+		columnBitmasks.put("clientSecret", 4096L);
+
+		columnBitmasks.put("description", 8192L);
+
+		columnBitmasks.put("features", 16384L);
+
+		columnBitmasks.put("homePageURL", 32768L);
+
+		columnBitmasks.put("iconFileEntryId", 65536L);
+
+		columnBitmasks.put("name", 131072L);
+
+		columnBitmasks.put("privacyPolicyURL", 262144L);
+
+		columnBitmasks.put("redirectURIs", 524288L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
 	private long _oAuth2ApplicationId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
@@ -1165,7 +1309,6 @@ public class OAuth2ApplicationModelImpl
 	private long _clientCredentialUserId;
 	private String _clientCredentialUserName;
 	private String _clientId;
-	private String _originalClientId;
 	private int _clientProfile;
 	private String _clientSecret;
 	private String _description;

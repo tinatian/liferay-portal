@@ -1581,8 +1581,9 @@ public class DDMTemplateVersionPersistenceImpl
 			 _finderPathFetchByT_V.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				ddmTemplateVersionModelImpl.getOriginalTemplateId(),
-				ddmTemplateVersionModelImpl.getOriginalVersion()
+				ddmTemplateVersionModelImpl.getColumnOriginalValue(
+					"templateId"),
+				ddmTemplateVersionModelImpl.getColumnOriginalValue("version")
 			};
 
 			finderCache.removeResult(_finderPathCountByT_V, args);
@@ -1789,7 +1790,8 @@ public class DDMTemplateVersionPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					ddmTemplateVersionModelImpl.getOriginalTemplateId()
+					ddmTemplateVersionModelImpl.getColumnOriginalValue(
+						"templateId")
 				};
 
 				finderCache.removeResult(_finderPathCountByTemplateId, args);
@@ -1810,8 +1812,9 @@ public class DDMTemplateVersionPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					ddmTemplateVersionModelImpl.getOriginalTemplateId(),
-					ddmTemplateVersionModelImpl.getOriginalStatus()
+					ddmTemplateVersionModelImpl.getColumnOriginalValue(
+						"templateId"),
+					ddmTemplateVersionModelImpl.getColumnOriginalValue("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByT_S, args);
@@ -2316,7 +2319,7 @@ public class DDMTemplateVersionPersistenceImpl
 			DDMTemplateVersionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByTemplateId",
 			new String[] {Long.class.getName()},
-			DDMTemplateVersionModelImpl.TEMPLATEID_COLUMN_BITMASK);
+			DDMTemplateVersionModelImpl.getColumnBitmask("templateId"));
 
 		_finderPathCountByTemplateId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -2326,8 +2329,8 @@ public class DDMTemplateVersionPersistenceImpl
 			DDMTemplateVersionImpl.class, FINDER_CLASS_NAME_ENTITY,
 			"fetchByT_V",
 			new String[] {Long.class.getName(), String.class.getName()},
-			DDMTemplateVersionModelImpl.TEMPLATEID_COLUMN_BITMASK |
-			DDMTemplateVersionModelImpl.VERSION_COLUMN_BITMASK);
+			DDMTemplateVersionModelImpl.getColumnBitmask("templateId") |
+			DDMTemplateVersionModelImpl.getColumnBitmask("version"));
 
 		_finderPathCountByT_V = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByT_V",
@@ -2346,8 +2349,8 @@ public class DDMTemplateVersionPersistenceImpl
 			DDMTemplateVersionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByT_S",
 			new String[] {Long.class.getName(), Integer.class.getName()},
-			DDMTemplateVersionModelImpl.TEMPLATEID_COLUMN_BITMASK |
-			DDMTemplateVersionModelImpl.STATUS_COLUMN_BITMASK);
+			DDMTemplateVersionModelImpl.getColumnBitmask("templateId") |
+			DDMTemplateVersionModelImpl.getColumnBitmask("status"));
 
 		_finderPathCountByT_S = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByT_S",

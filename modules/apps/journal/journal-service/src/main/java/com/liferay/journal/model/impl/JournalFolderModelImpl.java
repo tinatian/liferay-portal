@@ -135,18 +135,53 @@ public class JournalFolderModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long FOLDERID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long NAME_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long PARENTFOLDERID_COLUMN_BITMASK = 16L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long STATUS_COLUMN_BITMASK = 32L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 64L;
 
 	/**
@@ -451,6 +486,8 @@ public class JournalFolderModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= _columnBitmasks.get("mvccVersion");
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -462,6 +499,8 @@ public class JournalFolderModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= _columnBitmasks.get("ctCollectionId");
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -478,17 +517,18 @@ public class JournalFolderModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
-		}
+		_columnBitmask |= _columnBitmasks.get("uuid_");
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@JSON
@@ -499,19 +539,18 @@ public class JournalFolderModelImpl
 
 	@Override
 	public void setFolderId(long folderId) {
-		_columnBitmask |= FOLDERID_COLUMN_BITMASK;
-
-		if (!_setOriginalFolderId) {
-			_setOriginalFolderId = true;
-
-			_originalFolderId = _folderId;
-		}
+		_columnBitmask |= _columnBitmasks.get("folderId");
 
 		_folderId = folderId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalFolderId() {
-		return _originalFolderId;
+		return GetterUtil.getLong(_columnOriginalValues.get("folderId"));
 	}
 
 	@JSON
@@ -522,19 +561,18 @@ public class JournalFolderModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
-		}
+		_columnBitmask |= _columnBitmasks.get("groupId");
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return GetterUtil.getLong(_columnOriginalValues.get("groupId"));
 	}
 
 	@JSON
@@ -545,19 +583,18 @@ public class JournalFolderModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
-		}
+		_columnBitmask |= _columnBitmasks.get("companyId");
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
 	}
 
 	@JSON
@@ -568,6 +605,8 @@ public class JournalFolderModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= _columnBitmasks.get("userId");
+
 		_userId = userId;
 	}
 
@@ -600,6 +639,8 @@ public class JournalFolderModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= _columnBitmasks.get("userName");
+
 		_userName = userName;
 	}
 
@@ -611,6 +652,8 @@ public class JournalFolderModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= _columnBitmasks.get("createDate");
+
 		_createDate = createDate;
 	}
 
@@ -628,6 +671,8 @@ public class JournalFolderModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= _columnBitmasks.get("modifiedDate");
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -639,19 +684,18 @@ public class JournalFolderModelImpl
 
 	@Override
 	public void setParentFolderId(long parentFolderId) {
-		_columnBitmask = -1L;
-
-		if (!_setOriginalParentFolderId) {
-			_setOriginalParentFolderId = true;
-
-			_originalParentFolderId = _parentFolderId;
-		}
+		_columnBitmask |= _columnBitmasks.get("parentFolderId");
 
 		_parentFolderId = parentFolderId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalParentFolderId() {
-		return _originalParentFolderId;
+		return GetterUtil.getLong(_columnOriginalValues.get("parentFolderId"));
 	}
 
 	@JSON
@@ -667,6 +711,8 @@ public class JournalFolderModelImpl
 
 	@Override
 	public void setTreePath(String treePath) {
+		_columnBitmask |= _columnBitmasks.get("treePath");
+
 		_treePath = treePath;
 	}
 
@@ -683,17 +729,18 @@ public class JournalFolderModelImpl
 
 	@Override
 	public void setName(String name) {
-		_columnBitmask = -1L;
-
-		if (_originalName == null) {
-			_originalName = _name;
-		}
+		_columnBitmask |= _columnBitmasks.get("name");
 
 		_name = name;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalName() {
-		return GetterUtil.getString(_originalName);
+		return getColumnOriginalValue("name");
 	}
 
 	@JSON
@@ -709,6 +756,8 @@ public class JournalFolderModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		_columnBitmask |= _columnBitmasks.get("description");
+
 		_description = description;
 	}
 
@@ -720,6 +769,8 @@ public class JournalFolderModelImpl
 
 	@Override
 	public void setRestrictionType(int restrictionType) {
+		_columnBitmask |= _columnBitmasks.get("restrictionType");
+
 		_restrictionType = restrictionType;
 	}
 
@@ -731,6 +782,8 @@ public class JournalFolderModelImpl
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		_columnBitmask |= _columnBitmasks.get("lastPublishDate");
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -742,19 +795,18 @@ public class JournalFolderModelImpl
 
 	@Override
 	public void setStatus(int status) {
-		_columnBitmask |= STATUS_COLUMN_BITMASK;
-
-		if (!_setOriginalStatus) {
-			_setOriginalStatus = true;
-
-			_originalStatus = _status;
-		}
+		_columnBitmask |= _columnBitmasks.get("status");
 
 		_status = status;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalStatus() {
-		return _originalStatus;
+		return GetterUtil.getInteger(_columnOriginalValues.get("status"));
 	}
 
 	@JSON
@@ -765,6 +817,8 @@ public class JournalFolderModelImpl
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		_columnBitmask |= _columnBitmasks.get("statusByUserId");
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -797,6 +851,8 @@ public class JournalFolderModelImpl
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		_columnBitmask |= _columnBitmasks.get("statusByUserName");
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -808,6 +864,8 @@ public class JournalFolderModelImpl
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		_columnBitmask |= _columnBitmasks.get("statusDate");
+
 		_statusDate = statusDate;
 	}
 
@@ -1203,39 +1261,50 @@ public class JournalFolderModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		JournalFolderModelImpl journalFolderModelImpl = this;
+		_columnOriginalValues = new HashMap<String, Object>();
 
-		journalFolderModelImpl._originalUuid = journalFolderModelImpl._uuid;
+		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 
-		journalFolderModelImpl._originalFolderId =
-			journalFolderModelImpl._folderId;
+		_columnOriginalValues.put("ctCollectionId", _ctCollectionId);
 
-		journalFolderModelImpl._setOriginalFolderId = false;
+		_columnOriginalValues.put("uuid_", _uuid);
 
-		journalFolderModelImpl._originalGroupId =
-			journalFolderModelImpl._groupId;
+		_columnOriginalValues.put("folderId", _folderId);
 
-		journalFolderModelImpl._setOriginalGroupId = false;
+		_columnOriginalValues.put("groupId", _groupId);
 
-		journalFolderModelImpl._originalCompanyId =
-			journalFolderModelImpl._companyId;
+		_columnOriginalValues.put("companyId", _companyId);
 
-		journalFolderModelImpl._setOriginalCompanyId = false;
+		_columnOriginalValues.put("userId", _userId);
 
-		journalFolderModelImpl._setModifiedDate = false;
+		_columnOriginalValues.put("userName", _userName);
 
-		journalFolderModelImpl._originalParentFolderId =
-			journalFolderModelImpl._parentFolderId;
+		_columnOriginalValues.put("createDate", _createDate);
 
-		journalFolderModelImpl._setOriginalParentFolderId = false;
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
 
-		journalFolderModelImpl._originalName = journalFolderModelImpl._name;
+		_setModifiedDate = false;
+		_columnOriginalValues.put("parentFolderId", _parentFolderId);
 
-		journalFolderModelImpl._originalStatus = journalFolderModelImpl._status;
+		_columnOriginalValues.put("treePath", _treePath);
 
-		journalFolderModelImpl._setOriginalStatus = false;
+		_columnOriginalValues.put("name", _name);
 
-		journalFolderModelImpl._columnBitmask = 0;
+		_columnOriginalValues.put("description", _description);
+
+		_columnOriginalValues.put("restrictionType", _restrictionType);
+
+		_columnOriginalValues.put("lastPublishDate", _lastPublishDate);
+
+		_columnOriginalValues.put("status", _status);
+
+		_columnOriginalValues.put("statusByUserId", _statusByUserId);
+
+		_columnOriginalValues.put("statusByUserName", _statusByUserName);
+
+		_columnOriginalValues.put("statusDate", _statusDate);
+
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -1420,36 +1489,85 @@ public class JournalFolderModelImpl
 
 	}
 
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new LinkedHashMap<>();
+
+		columnBitmasks.put("mvccVersion", 1L);
+
+		columnBitmasks.put("ctCollectionId", 2L);
+
+		columnBitmasks.put("uuid_", 4L);
+
+		columnBitmasks.put("folderId", 8L);
+
+		columnBitmasks.put("groupId", 16L);
+
+		columnBitmasks.put("companyId", 32L);
+
+		columnBitmasks.put("userId", 64L);
+
+		columnBitmasks.put("userName", 128L);
+
+		columnBitmasks.put("createDate", 256L);
+
+		columnBitmasks.put("modifiedDate", 512L);
+
+		columnBitmasks.put("parentFolderId", 1024L);
+
+		columnBitmasks.put("treePath", 2048L);
+
+		columnBitmasks.put("name", 4096L);
+
+		columnBitmasks.put("description", 8192L);
+
+		columnBitmasks.put("restrictionType", 16384L);
+
+		columnBitmasks.put("lastPublishDate", 32768L);
+
+		columnBitmasks.put("status", 65536L);
+
+		columnBitmasks.put("statusByUserId", 131072L);
+
+		columnBitmasks.put("statusByUserName", 262144L);
+
+		columnBitmasks.put("statusDate", 524288L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
 	private long _mvccVersion;
 	private long _ctCollectionId;
 	private String _uuid;
-	private String _originalUuid;
 	private long _folderId;
-	private long _originalFolderId;
-	private boolean _setOriginalFolderId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _parentFolderId;
-	private long _originalParentFolderId;
-	private boolean _setOriginalParentFolderId;
 	private String _treePath;
 	private String _name;
-	private String _originalName;
 	private String _description;
 	private int _restrictionType;
 	private Date _lastPublishDate;
 	private int _status;
-	private int _originalStatus;
-	private boolean _setOriginalStatus;
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;

@@ -137,20 +137,60 @@ public class TasksEntryModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long ASSIGNEEUSERID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long RESOLVERUSERID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long STATUS_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long USERID_COLUMN_BITMASK = 16L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long PRIORITY_COLUMN_BITMASK = 32L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long DUEDATE_COLUMN_BITMASK = 64L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long CREATEDATE_COLUMN_BITMASK = 128L;
 
 	/**
@@ -401,6 +441,8 @@ public class TasksEntryModelImpl
 
 	@Override
 	public void setTasksEntryId(long tasksEntryId) {
+		_columnBitmask |= _columnBitmasks.get("tasksEntryId");
+
 		_tasksEntryId = tasksEntryId;
 	}
 
@@ -412,19 +454,18 @@ public class TasksEntryModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
-		}
+		_columnBitmask |= _columnBitmasks.get("groupId");
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return GetterUtil.getLong(_columnOriginalValues.get("groupId"));
 	}
 
 	@JSON
@@ -435,6 +476,8 @@ public class TasksEntryModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= _columnBitmasks.get("companyId");
+
 		_companyId = companyId;
 	}
 
@@ -446,13 +489,7 @@ public class TasksEntryModelImpl
 
 	@Override
 	public void setUserId(long userId) {
-		_columnBitmask |= USERID_COLUMN_BITMASK;
-
-		if (!_setOriginalUserId) {
-			_setOriginalUserId = true;
-
-			_originalUserId = _userId;
-		}
+		_columnBitmask |= _columnBitmasks.get("userId");
 
 		_userId = userId;
 	}
@@ -473,8 +510,13 @@ public class TasksEntryModelImpl
 	public void setUserUuid(String userUuid) {
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalUserId() {
-		return _originalUserId;
+		return GetterUtil.getLong(_columnOriginalValues.get("userId"));
 	}
 
 	@JSON
@@ -490,6 +532,8 @@ public class TasksEntryModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= _columnBitmasks.get("userName");
+
 		_userName = userName;
 	}
 
@@ -501,7 +545,7 @@ public class TasksEntryModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
-		_columnBitmask = -1L;
+		_columnBitmask |= _columnBitmasks.get("createDate");
 
 		_createDate = createDate;
 	}
@@ -520,6 +564,8 @@ public class TasksEntryModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= _columnBitmasks.get("modifiedDate");
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -536,6 +582,8 @@ public class TasksEntryModelImpl
 
 	@Override
 	public void setTitle(String title) {
+		_columnBitmask |= _columnBitmasks.get("title");
+
 		_title = title;
 	}
 
@@ -547,7 +595,7 @@ public class TasksEntryModelImpl
 
 	@Override
 	public void setPriority(int priority) {
-		_columnBitmask = -1L;
+		_columnBitmask |= _columnBitmasks.get("priority");
 
 		_priority = priority;
 	}
@@ -560,13 +608,7 @@ public class TasksEntryModelImpl
 
 	@Override
 	public void setAssigneeUserId(long assigneeUserId) {
-		_columnBitmask |= ASSIGNEEUSERID_COLUMN_BITMASK;
-
-		if (!_setOriginalAssigneeUserId) {
-			_setOriginalAssigneeUserId = true;
-
-			_originalAssigneeUserId = _assigneeUserId;
-		}
+		_columnBitmask |= _columnBitmasks.get("assigneeUserId");
 
 		_assigneeUserId = assigneeUserId;
 	}
@@ -587,8 +629,13 @@ public class TasksEntryModelImpl
 	public void setAssigneeUserUuid(String assigneeUserUuid) {
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalAssigneeUserId() {
-		return _originalAssigneeUserId;
+		return GetterUtil.getLong(_columnOriginalValues.get("assigneeUserId"));
 	}
 
 	@JSON
@@ -599,13 +646,7 @@ public class TasksEntryModelImpl
 
 	@Override
 	public void setResolverUserId(long resolverUserId) {
-		_columnBitmask |= RESOLVERUSERID_COLUMN_BITMASK;
-
-		if (!_setOriginalResolverUserId) {
-			_setOriginalResolverUserId = true;
-
-			_originalResolverUserId = _resolverUserId;
-		}
+		_columnBitmask |= _columnBitmasks.get("resolverUserId");
 
 		_resolverUserId = resolverUserId;
 	}
@@ -626,8 +667,13 @@ public class TasksEntryModelImpl
 	public void setResolverUserUuid(String resolverUserUuid) {
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalResolverUserId() {
-		return _originalResolverUserId;
+		return GetterUtil.getLong(_columnOriginalValues.get("resolverUserId"));
 	}
 
 	@JSON
@@ -638,7 +684,7 @@ public class TasksEntryModelImpl
 
 	@Override
 	public void setDueDate(Date dueDate) {
-		_columnBitmask = -1L;
+		_columnBitmask |= _columnBitmasks.get("dueDate");
 
 		_dueDate = dueDate;
 	}
@@ -651,6 +697,8 @@ public class TasksEntryModelImpl
 
 	@Override
 	public void setFinishDate(Date finishDate) {
+		_columnBitmask |= _columnBitmasks.get("finishDate");
+
 		_finishDate = finishDate;
 	}
 
@@ -662,19 +710,18 @@ public class TasksEntryModelImpl
 
 	@Override
 	public void setStatus(int status) {
-		_columnBitmask |= STATUS_COLUMN_BITMASK;
-
-		if (!_setOriginalStatus) {
-			_setOriginalStatus = true;
-
-			_originalStatus = _status;
-		}
+		_columnBitmask |= _columnBitmasks.get("status");
 
 		_status = status;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalStatus() {
-		return _originalStatus;
+		return GetterUtil.getInteger(_columnOriginalValues.get("status"));
 	}
 
 	public long getColumnBitmask() {
@@ -813,33 +860,38 @@ public class TasksEntryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		TasksEntryModelImpl tasksEntryModelImpl = this;
+		_columnOriginalValues = new HashMap<String, Object>();
 
-		tasksEntryModelImpl._originalGroupId = tasksEntryModelImpl._groupId;
+		_columnOriginalValues.put("tasksEntryId", _tasksEntryId);
 
-		tasksEntryModelImpl._setOriginalGroupId = false;
+		_columnOriginalValues.put("groupId", _groupId);
 
-		tasksEntryModelImpl._originalUserId = tasksEntryModelImpl._userId;
+		_columnOriginalValues.put("companyId", _companyId);
 
-		tasksEntryModelImpl._setOriginalUserId = false;
+		_columnOriginalValues.put("userId", _userId);
 
-		tasksEntryModelImpl._setModifiedDate = false;
+		_columnOriginalValues.put("userName", _userName);
 
-		tasksEntryModelImpl._originalAssigneeUserId =
-			tasksEntryModelImpl._assigneeUserId;
+		_columnOriginalValues.put("createDate", _createDate);
 
-		tasksEntryModelImpl._setOriginalAssigneeUserId = false;
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
 
-		tasksEntryModelImpl._originalResolverUserId =
-			tasksEntryModelImpl._resolverUserId;
+		_setModifiedDate = false;
+		_columnOriginalValues.put("title", _title);
 
-		tasksEntryModelImpl._setOriginalResolverUserId = false;
+		_columnOriginalValues.put("priority", _priority);
 
-		tasksEntryModelImpl._originalStatus = tasksEntryModelImpl._status;
+		_columnOriginalValues.put("assigneeUserId", _assigneeUserId);
 
-		tasksEntryModelImpl._setOriginalStatus = false;
+		_columnOriginalValues.put("resolverUserId", _resolverUserId);
 
-		tasksEntryModelImpl._columnBitmask = 0;
+		_columnOriginalValues.put("dueDate", _dueDate);
+
+		_columnOriginalValues.put("finishDate", _finishDate);
+
+		_columnOriginalValues.put("status", _status);
+
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -987,14 +1039,59 @@ public class TasksEntryModelImpl
 
 	}
 
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new LinkedHashMap<>();
+
+		columnBitmasks.put("tasksEntryId", 1L);
+
+		columnBitmasks.put("groupId", 2L);
+
+		columnBitmasks.put("companyId", 4L);
+
+		columnBitmasks.put("userId", 8L);
+
+		columnBitmasks.put("userName", 16L);
+
+		columnBitmasks.put("createDate", 32L);
+
+		columnBitmasks.put("modifiedDate", 64L);
+
+		columnBitmasks.put("title", 128L);
+
+		columnBitmasks.put("priority", 256L);
+
+		columnBitmasks.put("assigneeUserId", 512L);
+
+		columnBitmasks.put("resolverUserId", 1024L);
+
+		columnBitmasks.put("dueDate", 2048L);
+
+		columnBitmasks.put("finishDate", 4096L);
+
+		columnBitmasks.put("status", 8192L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
 	private long _tasksEntryId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
 	private long _userId;
-	private long _originalUserId;
-	private boolean _setOriginalUserId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
@@ -1002,16 +1099,10 @@ public class TasksEntryModelImpl
 	private String _title;
 	private int _priority;
 	private long _assigneeUserId;
-	private long _originalAssigneeUserId;
-	private boolean _setOriginalAssigneeUserId;
 	private long _resolverUserId;
-	private long _originalResolverUserId;
-	private boolean _setOriginalResolverUserId;
 	private Date _dueDate;
 	private Date _finishDate;
 	private int _status;
-	private int _originalStatus;
-	private boolean _setOriginalStatus;
 	private long _columnBitmask;
 	private TasksEntry _escapedModel;
 

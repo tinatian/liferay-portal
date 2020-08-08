@@ -520,13 +520,14 @@ public class AnnouncementsDeliveryPersistenceTest {
 		Assert.assertEquals(
 			Long.valueOf(announcementsDelivery.getUserId()),
 			ReflectionTestUtil.<Long>invoke(
-				announcementsDelivery, "getOriginalUserId", new Class<?>[0]));
+				announcementsDelivery, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "userId"));
 		Assert.assertTrue(
 			Objects.equals(
 				announcementsDelivery.getType(),
 				ReflectionTestUtil.invoke(
-					announcementsDelivery, "getOriginalType",
-					new Class<?>[0])));
+					announcementsDelivery, "getColumnOriginalValue",
+					new Class<?>[] {String.class}, "type_")));
 	}
 
 	protected AnnouncementsDelivery addAnnouncementsDelivery()

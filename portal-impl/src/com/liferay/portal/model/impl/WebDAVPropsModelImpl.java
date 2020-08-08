@@ -121,10 +121,25 @@ public class WebDAVPropsModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long CLASSNAMEID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long CLASSPK_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long WEBDAVPROPSID_COLUMN_BITMASK = 4L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
@@ -303,6 +318,8 @@ public class WebDAVPropsModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= _columnBitmasks.get("mvccVersion");
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -313,6 +330,8 @@ public class WebDAVPropsModelImpl
 
 	@Override
 	public void setWebDavPropsId(long webDavPropsId) {
+		_columnBitmask |= _columnBitmasks.get("webDavPropsId");
+
 		_webDavPropsId = webDavPropsId;
 	}
 
@@ -323,6 +342,8 @@ public class WebDAVPropsModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= _columnBitmasks.get("companyId");
+
 		_companyId = companyId;
 	}
 
@@ -333,6 +354,8 @@ public class WebDAVPropsModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= _columnBitmasks.get("createDate");
+
 		_createDate = createDate;
 	}
 
@@ -348,6 +371,8 @@ public class WebDAVPropsModelImpl
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
+
+		_columnBitmask |= _columnBitmasks.get("modifiedDate");
 
 		_modifiedDate = modifiedDate;
 	}
@@ -379,19 +404,18 @@ public class WebDAVPropsModelImpl
 
 	@Override
 	public void setClassNameId(long classNameId) {
-		_columnBitmask |= CLASSNAMEID_COLUMN_BITMASK;
-
-		if (!_setOriginalClassNameId) {
-			_setOriginalClassNameId = true;
-
-			_originalClassNameId = _classNameId;
-		}
+		_columnBitmask |= _columnBitmasks.get("classNameId");
 
 		_classNameId = classNameId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassNameId() {
-		return _originalClassNameId;
+		return GetterUtil.getLong(_columnOriginalValues.get("classNameId"));
 	}
 
 	@Override
@@ -401,19 +425,18 @@ public class WebDAVPropsModelImpl
 
 	@Override
 	public void setClassPK(long classPK) {
-		_columnBitmask |= CLASSPK_COLUMN_BITMASK;
-
-		if (!_setOriginalClassPK) {
-			_setOriginalClassPK = true;
-
-			_originalClassPK = _classPK;
-		}
+		_columnBitmask |= _columnBitmasks.get("classPK");
 
 		_classPK = classPK;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassPK() {
-		return _originalClassPK;
+		return GetterUtil.getLong(_columnOriginalValues.get("classPK"));
 	}
 
 	@Override
@@ -428,6 +451,8 @@ public class WebDAVPropsModelImpl
 
 	@Override
 	public void setProps(String props) {
+		_columnBitmask |= _columnBitmasks.get("props");
+
 		_props = props;
 	}
 
@@ -543,20 +568,26 @@ public class WebDAVPropsModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		WebDAVPropsModelImpl webDAVPropsModelImpl = this;
+		_columnOriginalValues = new HashMap<String, Object>();
 
-		webDAVPropsModelImpl._setModifiedDate = false;
+		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 
-		webDAVPropsModelImpl._originalClassNameId =
-			webDAVPropsModelImpl._classNameId;
+		_columnOriginalValues.put("webDavPropsId", _webDavPropsId);
 
-		webDAVPropsModelImpl._setOriginalClassNameId = false;
+		_columnOriginalValues.put("companyId", _companyId);
 
-		webDAVPropsModelImpl._originalClassPK = webDAVPropsModelImpl._classPK;
+		_columnOriginalValues.put("createDate", _createDate);
 
-		webDAVPropsModelImpl._setOriginalClassPK = false;
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
 
-		webDAVPropsModelImpl._columnBitmask = 0;
+		_setModifiedDate = false;
+		_columnOriginalValues.put("classNameId", _classNameId);
+
+		_columnOriginalValues.put("classPK", _classPK);
+
+		_columnOriginalValues.put("props", _props);
+
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -673,6 +704,43 @@ public class WebDAVPropsModelImpl
 
 	}
 
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new LinkedHashMap<>();
+
+		columnBitmasks.put("mvccVersion", 1L);
+
+		columnBitmasks.put("webDavPropsId", 2L);
+
+		columnBitmasks.put("companyId", 4L);
+
+		columnBitmasks.put("createDate", 8L);
+
+		columnBitmasks.put("modifiedDate", 16L);
+
+		columnBitmasks.put("classNameId", 32L);
+
+		columnBitmasks.put("classPK", 64L);
+
+		columnBitmasks.put("props", 128L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
 	private long _mvccVersion;
 	private long _webDavPropsId;
 	private long _companyId;
@@ -680,11 +748,7 @@ public class WebDAVPropsModelImpl
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _classNameId;
-	private long _originalClassNameId;
-	private boolean _setOriginalClassNameId;
 	private long _classPK;
-	private long _originalClassPK;
-	private boolean _setOriginalClassPK;
 	private String _props;
 	private long _columnBitmask;
 	private WebDAVProps _escapedModel;

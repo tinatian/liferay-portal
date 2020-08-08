@@ -118,12 +118,32 @@ public class KBTemplateModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long MODIFIEDDATE_COLUMN_BITMASK = 8L;
 
 	/**
@@ -373,6 +393,8 @@ public class KBTemplateModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= _columnBitmasks.get("mvccVersion");
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -389,17 +411,18 @@ public class KBTemplateModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
-		}
+		_columnBitmask |= _columnBitmasks.get("uuid_");
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@JSON
@@ -410,6 +433,8 @@ public class KBTemplateModelImpl
 
 	@Override
 	public void setKbTemplateId(long kbTemplateId) {
+		_columnBitmask |= _columnBitmasks.get("kbTemplateId");
+
 		_kbTemplateId = kbTemplateId;
 	}
 
@@ -421,19 +446,18 @@ public class KBTemplateModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
-		}
+		_columnBitmask |= _columnBitmasks.get("groupId");
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return GetterUtil.getLong(_columnOriginalValues.get("groupId"));
 	}
 
 	@JSON
@@ -444,19 +468,18 @@ public class KBTemplateModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
-		}
+		_columnBitmask |= _columnBitmasks.get("companyId");
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
 	}
 
 	@JSON
@@ -467,6 +490,8 @@ public class KBTemplateModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= _columnBitmasks.get("userId");
+
 		_userId = userId;
 	}
 
@@ -499,6 +524,8 @@ public class KBTemplateModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= _columnBitmasks.get("userName");
+
 		_userName = userName;
 	}
 
@@ -510,6 +537,8 @@ public class KBTemplateModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= _columnBitmasks.get("createDate");
+
 		_createDate = createDate;
 	}
 
@@ -527,7 +556,7 @@ public class KBTemplateModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
-		_columnBitmask = -1L;
+		_columnBitmask |= _columnBitmasks.get("modifiedDate");
 
 		_modifiedDate = modifiedDate;
 	}
@@ -545,6 +574,8 @@ public class KBTemplateModelImpl
 
 	@Override
 	public void setTitle(String title) {
+		_columnBitmask |= _columnBitmasks.get("title");
+
 		_title = title;
 	}
 
@@ -561,6 +592,8 @@ public class KBTemplateModelImpl
 
 	@Override
 	public void setContent(String content) {
+		_columnBitmask |= _columnBitmasks.get("content");
+
 		_content = content;
 	}
 
@@ -572,6 +605,8 @@ public class KBTemplateModelImpl
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		_columnBitmask |= _columnBitmasks.get("lastPublishDate");
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -698,21 +733,34 @@ public class KBTemplateModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		KBTemplateModelImpl kbTemplateModelImpl = this;
+		_columnOriginalValues = new HashMap<String, Object>();
 
-		kbTemplateModelImpl._originalUuid = kbTemplateModelImpl._uuid;
+		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 
-		kbTemplateModelImpl._originalGroupId = kbTemplateModelImpl._groupId;
+		_columnOriginalValues.put("uuid_", _uuid);
 
-		kbTemplateModelImpl._setOriginalGroupId = false;
+		_columnOriginalValues.put("kbTemplateId", _kbTemplateId);
 
-		kbTemplateModelImpl._originalCompanyId = kbTemplateModelImpl._companyId;
+		_columnOriginalValues.put("groupId", _groupId);
 
-		kbTemplateModelImpl._setOriginalCompanyId = false;
+		_columnOriginalValues.put("companyId", _companyId);
 
-		kbTemplateModelImpl._setModifiedDate = false;
+		_columnOriginalValues.put("userId", _userId);
 
-		kbTemplateModelImpl._columnBitmask = 0;
+		_columnOriginalValues.put("userName", _userName);
+
+		_columnOriginalValues.put("createDate", _createDate);
+
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
+
+		_setModifiedDate = false;
+		_columnOriginalValues.put("title", _title);
+
+		_columnOriginalValues.put("content", _content);
+
+		_columnOriginalValues.put("lastPublishDate", _lastPublishDate);
+
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -861,16 +909,56 @@ public class KBTemplateModelImpl
 
 	}
 
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new LinkedHashMap<>();
+
+		columnBitmasks.put("mvccVersion", 1L);
+
+		columnBitmasks.put("uuid_", 2L);
+
+		columnBitmasks.put("kbTemplateId", 4L);
+
+		columnBitmasks.put("groupId", 8L);
+
+		columnBitmasks.put("companyId", 16L);
+
+		columnBitmasks.put("userId", 32L);
+
+		columnBitmasks.put("userName", 64L);
+
+		columnBitmasks.put("createDate", 128L);
+
+		columnBitmasks.put("modifiedDate", 256L);
+
+		columnBitmasks.put("title", 512L);
+
+		columnBitmasks.put("content", 1024L);
+
+		columnBitmasks.put("lastPublishDate", 2048L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
 	private long _mvccVersion;
 	private String _uuid;
-	private String _originalUuid;
 	private long _kbTemplateId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
