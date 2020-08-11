@@ -256,10 +256,18 @@ public class PortalHibernateConfiguration extends LocalSessionFactoryBean {
 				}
 			}
 
-			if (_mvccEnabled) {
-				EventListeners eventListeners =
-					configuration.getEventListeners();
+			EventListeners eventListeners = configuration.getEventListeners();
 
+			eventListeners.setLoadEventListeners(
+				new LoadEventListener[] {
+					ResetOriginalValuesLoadEventListener.INSTANCE
+				});
+			eventListeners.setPostLoadEventListeners(
+				new PostLoadEventListener[] {
+					ResetOriginalValuesPostLoadEventListener.INSTANCE
+				});
+
+			if (_mvccEnabled) {
 				eventListeners.setAutoFlushEventListeners(
 					new AutoFlushEventListener[] {
 						NestableAutoFlushEventListener.INSTANCE
@@ -267,14 +275,6 @@ public class PortalHibernateConfiguration extends LocalSessionFactoryBean {
 				eventListeners.setFlushEventListeners(
 					new FlushEventListener[] {
 						NestableFlushEventListener.INSTANCE
-					});
-				eventListeners.setLoadEventListeners(
-					new LoadEventListener[] {
-						ResetOriginalValuesLoadEventListener.INSTANCE
-					});
-				eventListeners.setPostLoadEventListeners(
-					new PostLoadEventListener[] {
-						ResetOriginalValuesPostLoadEventListener.INSTANCE
 					});
 				eventListeners.setPostUpdateEventListeners(
 					new PostUpdateEventListener[] {
