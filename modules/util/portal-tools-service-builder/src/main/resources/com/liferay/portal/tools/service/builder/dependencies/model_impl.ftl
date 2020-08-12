@@ -900,6 +900,10 @@ public class ${entity.name}ModelImpl extends BaseModelImpl<${entity.name}> imple
 				<#if columnBitmaskEnabled>
 					_columnBitmask |= _columnBitmasks.get("${entityColumn.DBName}");
 				</#if>
+
+				if (_columnOriginalValues == Collections.EMPTY_MAP) {
+					_setColumnOriginalValues();
+				}
 			<#elseif entityColumn.isFinderPath() || (validator.isNotNull(parentPKColumn) && (parentPKColumn.name == entityColumn.name))>
 				<#if columnBitmaskEnabled>
 					_columnBitmask |= ${entityColumn.name?upper_case}_COLUMN_BITMASK;
@@ -1655,15 +1659,13 @@ public class ${entity.name}ModelImpl extends BaseModelImpl<${entity.name}> imple
 	@Override
 	public void resetOriginalValues() {
 		<#if serviceBuilder.isVersionGTE_7_3_0()>
-			_columnOriginalValues = new HashMap<String, Object>();
+			_columnOriginalValues = Collections.emptyMap();
 		</#if>
 
 		<#list entity.databaseRegularEntityColumns as entityColumn>
 			<#if stringUtil.equals(entityColumn.type, "Blob") && entityColumn.lazy>
 				_${entityColumn.name}BlobModel = null;
-			<#elseif serviceBuilder.isVersionGTE_7_3_0()>
-				_columnOriginalValues.put("${entityColumn.DBName}", _${entityColumn.name});
-			<#elseif entityColumn.isFinderPath() || (validator.isNotNull(parentPKColumn) && (parentPKColumn.name == entityColumn.name))>
+			<#elseif serviceBuilder.isVersionLTE_7_2_0() && (entityColumn.isFinderPath() || (validator.isNotNull(parentPKColumn) && (parentPKColumn.name == entityColumn.name)))>
 				_original${entityColumn.methodName} = _${entityColumn.name};
 
 				<#if entityColumn.isPrimitiveType()>
@@ -1863,7 +1865,21 @@ public class ${entity.name}ModelImpl extends BaseModelImpl<${entity.name}> imple
 				return null;
 			}
 
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
+
 			return (T)_columnOriginalValues.get(columnName);
+		}
+
+		private void _setColumnOriginalValues() {
+			_columnOriginalValues = new HashMap<String, Object>();
+
+			<#list entity.databaseRegularEntityColumns as entityColumn>
+				<#if !stringUtil.equals(entityColumn.type, "Blob") || !entityColumn.lazy>
+					_columnOriginalValues.put("${entityColumn.DBName}", _${entityColumn.name});
+				</#if>
+			</#list>
 		}
 
 		private static final Map<String, Long> _columnBitmasks;
