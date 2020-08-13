@@ -1081,7 +1081,7 @@ public class SamlSpSessionModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("samlSpSessionId", _samlSpSessionId);
 		_columnOriginalValues.put("companyId", _companyId);

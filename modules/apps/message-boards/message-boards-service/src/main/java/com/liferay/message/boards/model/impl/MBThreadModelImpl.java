@@ -591,7 +591,7 @@ public class MBThreadModelImpl
 	 */
 	@Deprecated
 	public long getOriginalGroupId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("groupId"));
+		return GetterUtil.getLong(getColumnOriginalValue("groupId"));
 	}
 
 	@JSON
@@ -617,7 +617,7 @@ public class MBThreadModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCompanyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -738,7 +738,7 @@ public class MBThreadModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCategoryId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("categoryId"));
+		return GetterUtil.getLong(getColumnOriginalValue("categoryId"));
 	}
 
 	@JSON
@@ -764,7 +764,7 @@ public class MBThreadModelImpl
 	 */
 	@Deprecated
 	public long getOriginalRootMessageId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("rootMessageId"));
+		return GetterUtil.getLong(getColumnOriginalValue("rootMessageId"));
 	}
 
 	@JSON
@@ -905,7 +905,7 @@ public class MBThreadModelImpl
 	 */
 	@Deprecated
 	public double getOriginalPriority() {
-		return GetterUtil.getDouble(_columnOriginalValues.get("priority"));
+		return GetterUtil.getDouble(getColumnOriginalValue("priority"));
 	}
 
 	@JSON
@@ -971,7 +971,7 @@ public class MBThreadModelImpl
 	 */
 	@Deprecated
 	public int getOriginalStatus() {
-		return GetterUtil.getInteger(_columnOriginalValues.get("status"));
+		return GetterUtil.getInteger(getColumnOriginalValue("status"));
 	}
 
 	@JSON
@@ -1652,7 +1652,7 @@ public class MBThreadModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("ctCollectionId", _ctCollectionId);

@@ -438,7 +438,7 @@ public class SocialRelationModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCompanyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@Override
@@ -479,7 +479,7 @@ public class SocialRelationModelImpl
 	 */
 	@Deprecated
 	public long getOriginalUserId1() {
-		return GetterUtil.getLong(_columnOriginalValues.get("userId1"));
+		return GetterUtil.getLong(getColumnOriginalValue("userId1"));
 	}
 
 	@Override
@@ -504,7 +504,7 @@ public class SocialRelationModelImpl
 	 */
 	@Deprecated
 	public long getOriginalUserId2() {
-		return GetterUtil.getLong(_columnOriginalValues.get("userId2"));
+		return GetterUtil.getLong(getColumnOriginalValue("userId2"));
 	}
 
 	@Override
@@ -529,7 +529,7 @@ public class SocialRelationModelImpl
 	 */
 	@Deprecated
 	public int getOriginalType() {
-		return GetterUtil.getInteger(_columnOriginalValues.get("type_"));
+		return GetterUtil.getInteger(getColumnOriginalValue("type_"));
 	}
 
 	public long getColumnBitmask() {
@@ -769,7 +769,7 @@ public class SocialRelationModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("ctCollectionId", _ctCollectionId);

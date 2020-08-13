@@ -509,7 +509,7 @@ public class SegmentsEntryRoleModelImpl
 	 */
 	@Deprecated
 	public long getOriginalSegmentsEntryId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("segmentsEntryId"));
+		return GetterUtil.getLong(getColumnOriginalValue("segmentsEntryId"));
 	}
 
 	@Override
@@ -534,7 +534,7 @@ public class SegmentsEntryRoleModelImpl
 	 */
 	@Deprecated
 	public long getOriginalRoleId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("roleId"));
+		return GetterUtil.getLong(getColumnOriginalValue("roleId"));
 	}
 
 	public long getColumnBitmask() {
@@ -795,7 +795,7 @@ public class SegmentsEntryRoleModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("ctCollectionId", _ctCollectionId);

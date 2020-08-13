@@ -504,7 +504,7 @@ public class KaleoNotificationRecipientModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCompanyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@Override
@@ -637,7 +637,7 @@ public class KaleoNotificationRecipientModelImpl
 	@Deprecated
 	public long getOriginalKaleoDefinitionVersionId() {
 		return GetterUtil.getLong(
-			_columnOriginalValues.get("kaleoDefinitionVersionId"));
+			getColumnOriginalValue("kaleoDefinitionVersionId"));
 	}
 
 	@Override
@@ -663,7 +663,7 @@ public class KaleoNotificationRecipientModelImpl
 	@Deprecated
 	public long getOriginalKaleoNotificationId() {
 		return GetterUtil.getLong(
-			_columnOriginalValues.get("kaleoNotificationId"));
+			getColumnOriginalValue("kaleoNotificationId"));
 	}
 
 	@Override
@@ -1203,7 +1203,7 @@ public class KaleoNotificationRecipientModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put(

@@ -481,7 +481,7 @@ public class PortletPreferencesModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCompanyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -507,7 +507,7 @@ public class PortletPreferencesModelImpl
 	 */
 	@Deprecated
 	public long getOriginalOwnerId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("ownerId"));
+		return GetterUtil.getLong(getColumnOriginalValue("ownerId"));
 	}
 
 	@JSON
@@ -533,7 +533,7 @@ public class PortletPreferencesModelImpl
 	 */
 	@Deprecated
 	public int getOriginalOwnerType() {
-		return GetterUtil.getInteger(_columnOriginalValues.get("ownerType"));
+		return GetterUtil.getInteger(getColumnOriginalValue("ownerType"));
 	}
 
 	@JSON
@@ -559,7 +559,7 @@ public class PortletPreferencesModelImpl
 	 */
 	@Deprecated
 	public long getOriginalPlid() {
-		return GetterUtil.getLong(_columnOriginalValues.get("plid"));
+		return GetterUtil.getLong(getColumnOriginalValue("plid"));
 	}
 
 	@JSON
@@ -862,7 +862,7 @@ public class PortletPreferencesModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("ctCollectionId", _ctCollectionId);

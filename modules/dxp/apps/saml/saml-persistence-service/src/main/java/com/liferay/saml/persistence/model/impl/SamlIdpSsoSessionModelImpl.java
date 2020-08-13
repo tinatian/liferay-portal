@@ -733,7 +733,7 @@ public class SamlIdpSsoSessionModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("samlIdpSsoSessionId", _samlIdpSsoSessionId);
 		_columnOriginalValues.put("companyId", _companyId);

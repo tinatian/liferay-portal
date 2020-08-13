@@ -333,7 +333,7 @@ public class DLSyncEventModelImpl
 	 */
 	@Deprecated
 	public long getOriginalModifiedTime() {
-		return GetterUtil.getLong(_columnOriginalValues.get("modifiedTime"));
+		return GetterUtil.getLong(getColumnOriginalValue("modifiedTime"));
 	}
 
 	@Override
@@ -400,7 +400,7 @@ public class DLSyncEventModelImpl
 	 */
 	@Deprecated
 	public long getOriginalTypePK() {
-		return GetterUtil.getLong(_columnOriginalValues.get("typePK"));
+		return GetterUtil.getLong(getColumnOriginalValue("typePK"));
 	}
 
 	public long getColumnBitmask() {
@@ -643,7 +643,7 @@ public class DLSyncEventModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("syncEventId", _syncEventId);
 		_columnOriginalValues.put("companyId", _companyId);

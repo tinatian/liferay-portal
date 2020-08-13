@@ -543,7 +543,7 @@ public class BookmarksFolderModelImpl
 	 */
 	@Deprecated
 	public long getOriginalFolderId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("folderId"));
+		return GetterUtil.getLong(getColumnOriginalValue("folderId"));
 	}
 
 	@JSON
@@ -569,7 +569,7 @@ public class BookmarksFolderModelImpl
 	 */
 	@Deprecated
 	public long getOriginalGroupId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("groupId"));
+		return GetterUtil.getLong(getColumnOriginalValue("groupId"));
 	}
 
 	@JSON
@@ -595,7 +595,7 @@ public class BookmarksFolderModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCompanyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -716,7 +716,7 @@ public class BookmarksFolderModelImpl
 	 */
 	@Deprecated
 	public long getOriginalParentFolderId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("parentFolderId"));
+		return GetterUtil.getLong(getColumnOriginalValue("parentFolderId"));
 	}
 
 	@JSON
@@ -825,7 +825,7 @@ public class BookmarksFolderModelImpl
 	 */
 	@Deprecated
 	public int getOriginalStatus() {
-		return GetterUtil.getInteger(_columnOriginalValues.get("status"));
+		return GetterUtil.getInteger(getColumnOriginalValue("status"));
 	}
 
 	@JSON
@@ -1493,7 +1493,7 @@ public class BookmarksFolderModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("uuid_", _uuid);

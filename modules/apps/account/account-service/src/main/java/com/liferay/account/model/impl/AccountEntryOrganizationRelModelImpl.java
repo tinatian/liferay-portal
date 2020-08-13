@@ -434,7 +434,7 @@ public class AccountEntryOrganizationRelModelImpl
 	 */
 	@Deprecated
 	public long getOriginalAccountEntryId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("accountEntryId"));
+		return GetterUtil.getLong(getColumnOriginalValue("accountEntryId"));
 	}
 
 	@JSON
@@ -460,7 +460,7 @@ public class AccountEntryOrganizationRelModelImpl
 	 */
 	@Deprecated
 	public long getOriginalOrganizationId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("organizationId"));
+		return GetterUtil.getLong(getColumnOriginalValue("organizationId"));
 	}
 
 	public long getColumnBitmask() {
@@ -698,7 +698,7 @@ public class AccountEntryOrganizationRelModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put(

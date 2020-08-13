@@ -481,7 +481,7 @@ public class CounterModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("name", _name);
 		_columnOriginalValues.put("currentId", _currentId);

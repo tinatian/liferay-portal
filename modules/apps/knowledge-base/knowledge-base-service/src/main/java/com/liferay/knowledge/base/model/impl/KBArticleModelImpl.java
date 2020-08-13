@@ -653,7 +653,7 @@ public class KBArticleModelImpl
 	 */
 	@Deprecated
 	public long getOriginalResourcePrimKey() {
-		return GetterUtil.getLong(_columnOriginalValues.get("resourcePrimKey"));
+		return GetterUtil.getLong(getColumnOriginalValue("resourcePrimKey"));
 	}
 
 	@JSON
@@ -679,7 +679,7 @@ public class KBArticleModelImpl
 	 */
 	@Deprecated
 	public long getOriginalGroupId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("groupId"));
+		return GetterUtil.getLong(getColumnOriginalValue("groupId"));
 	}
 
 	@JSON
@@ -705,7 +705,7 @@ public class KBArticleModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCompanyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -861,7 +861,7 @@ public class KBArticleModelImpl
 	@Deprecated
 	public long getOriginalParentResourcePrimKey() {
 		return GetterUtil.getLong(
-			_columnOriginalValues.get("parentResourcePrimKey"));
+			getColumnOriginalValue("parentResourcePrimKey"));
 	}
 
 	@JSON
@@ -887,7 +887,7 @@ public class KBArticleModelImpl
 	 */
 	@Deprecated
 	public long getOriginalKbFolderId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("kbFolderId"));
+		return GetterUtil.getLong(getColumnOriginalValue("kbFolderId"));
 	}
 
 	@JSON
@@ -913,7 +913,7 @@ public class KBArticleModelImpl
 	 */
 	@Deprecated
 	public int getOriginalVersion() {
-		return GetterUtil.getInteger(_columnOriginalValues.get("version"));
+		return GetterUtil.getInteger(getColumnOriginalValue("version"));
 	}
 
 	@JSON
@@ -1090,7 +1090,7 @@ public class KBArticleModelImpl
 	 */
 	@Deprecated
 	public boolean getOriginalLatest() {
-		return GetterUtil.getBoolean(_columnOriginalValues.get("latest"));
+		return GetterUtil.getBoolean(getColumnOriginalValue("latest"));
 	}
 
 	@JSON
@@ -1122,7 +1122,7 @@ public class KBArticleModelImpl
 	 */
 	@Deprecated
 	public boolean getOriginalMain() {
-		return GetterUtil.getBoolean(_columnOriginalValues.get("main"));
+		return GetterUtil.getBoolean(getColumnOriginalValue("main"));
 	}
 
 	@JSON
@@ -1187,7 +1187,7 @@ public class KBArticleModelImpl
 	 */
 	@Deprecated
 	public int getOriginalStatus() {
-		return GetterUtil.getInteger(_columnOriginalValues.get("status"));
+		return GetterUtil.getInteger(getColumnOriginalValue("status"));
 	}
 
 	@JSON
@@ -1725,7 +1725,7 @@ public class KBArticleModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("uuid_", _uuid);

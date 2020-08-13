@@ -376,7 +376,7 @@ public class EagerBlobEntityModelImpl
 	 */
 	@Deprecated
 	public long getOriginalGroupId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("groupId"));
+		return GetterUtil.getLong(getColumnOriginalValue("groupId"));
 	}
 
 	@JSON
@@ -607,7 +607,7 @@ public class EagerBlobEntityModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("uuid_", _uuid);
 		_columnOriginalValues.put("eagerBlobEntityId", _eagerBlobEntityId);

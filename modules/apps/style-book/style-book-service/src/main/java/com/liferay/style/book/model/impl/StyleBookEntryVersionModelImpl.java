@@ -462,7 +462,7 @@ public class StyleBookEntryVersionModelImpl
 	 */
 	@Deprecated
 	public int getOriginalVersion() {
-		return GetterUtil.getInteger(_columnOriginalValues.get("version"));
+		return GetterUtil.getInteger(getColumnOriginalValue("version"));
 	}
 
 	@Override
@@ -487,8 +487,7 @@ public class StyleBookEntryVersionModelImpl
 	 */
 	@Deprecated
 	public long getOriginalStyleBookEntryId() {
-		return GetterUtil.getLong(
-			_columnOriginalValues.get("styleBookEntryId"));
+		return GetterUtil.getLong(getColumnOriginalValue("styleBookEntryId"));
 	}
 
 	@Override
@@ -513,7 +512,7 @@ public class StyleBookEntryVersionModelImpl
 	 */
 	@Deprecated
 	public long getOriginalGroupId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("groupId"));
+		return GetterUtil.getLong(getColumnOriginalValue("groupId"));
 	}
 
 	@Override
@@ -629,7 +628,7 @@ public class StyleBookEntryVersionModelImpl
 	@Deprecated
 	public boolean getOriginalDefaultStyleBookEntry() {
 		return GetterUtil.getBoolean(
-			_columnOriginalValues.get("defaultStyleBookEntry"));
+			getColumnOriginalValue("defaultStyleBookEntry"));
 	}
 
 	@Override
@@ -1030,7 +1029,7 @@ public class StyleBookEntryVersionModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put(
 			"styleBookEntryVersionId", _styleBookEntryVersionId);

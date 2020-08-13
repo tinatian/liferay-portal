@@ -631,7 +631,7 @@ public class DDLRecordSetVersionModelImpl
 	 */
 	@Deprecated
 	public long getOriginalRecordSetId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("recordSetId"));
+		return GetterUtil.getLong(getColumnOriginalValue("recordSetId"));
 	}
 
 	@JSON
@@ -950,7 +950,7 @@ public class DDLRecordSetVersionModelImpl
 	 */
 	@Deprecated
 	public int getOriginalStatus() {
-		return GetterUtil.getInteger(_columnOriginalValues.get("status"));
+		return GetterUtil.getInteger(getColumnOriginalValue("status"));
 	}
 
 	@JSON
@@ -1504,7 +1504,7 @@ public class DDLRecordSetVersionModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("recordSetVersionId", _recordSetVersionId);

@@ -591,7 +591,7 @@ public class FragmentEntryVersionModelImpl
 	 */
 	@Deprecated
 	public int getOriginalVersion() {
-		return GetterUtil.getInteger(_columnOriginalValues.get("version"));
+		return GetterUtil.getInteger(getColumnOriginalValue("version"));
 	}
 
 	@Override
@@ -646,7 +646,7 @@ public class FragmentEntryVersionModelImpl
 	 */
 	@Deprecated
 	public long getOriginalFragmentEntryId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("fragmentEntryId"));
+		return GetterUtil.getLong(getColumnOriginalValue("fragmentEntryId"));
 	}
 
 	@Override
@@ -671,7 +671,7 @@ public class FragmentEntryVersionModelImpl
 	 */
 	@Deprecated
 	public long getOriginalGroupId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("groupId"));
+		return GetterUtil.getLong(getColumnOriginalValue("groupId"));
 	}
 
 	@Override
@@ -696,7 +696,7 @@ public class FragmentEntryVersionModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCompanyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@Override
@@ -813,7 +813,7 @@ public class FragmentEntryVersionModelImpl
 	@Deprecated
 	public long getOriginalFragmentCollectionId() {
 		return GetterUtil.getLong(
-			_columnOriginalValues.get("fragmentCollectionId"));
+			getColumnOriginalValue("fragmentCollectionId"));
 	}
 
 	@Override
@@ -1040,7 +1040,7 @@ public class FragmentEntryVersionModelImpl
 	 */
 	@Deprecated
 	public int getOriginalType() {
-		return GetterUtil.getInteger(_columnOriginalValues.get("type_"));
+		return GetterUtil.getInteger(getColumnOriginalValue("type_"));
 	}
 
 	@Override
@@ -1081,7 +1081,7 @@ public class FragmentEntryVersionModelImpl
 	 */
 	@Deprecated
 	public int getOriginalStatus() {
-		return GetterUtil.getInteger(_columnOriginalValues.get("status"));
+		return GetterUtil.getInteger(getColumnOriginalValue("status"));
 	}
 
 	@Override
@@ -1621,7 +1621,7 @@ public class FragmentEntryVersionModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put(
 			"fragmentEntryVersionId", _fragmentEntryVersionId);

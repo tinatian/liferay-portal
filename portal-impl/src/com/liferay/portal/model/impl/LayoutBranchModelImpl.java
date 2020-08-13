@@ -541,8 +541,7 @@ public class LayoutBranchModelImpl
 	 */
 	@Deprecated
 	public long getOriginalLayoutSetBranchId() {
-		return GetterUtil.getLong(
-			_columnOriginalValues.get("layoutSetBranchId"));
+		return GetterUtil.getLong(getColumnOriginalValue("layoutSetBranchId"));
 	}
 
 	@JSON
@@ -568,7 +567,7 @@ public class LayoutBranchModelImpl
 	 */
 	@Deprecated
 	public long getOriginalPlid() {
-		return GetterUtil.getLong(_columnOriginalValues.get("plid"));
+		return GetterUtil.getLong(getColumnOriginalValue("plid"));
 	}
 
 	@JSON
@@ -653,7 +652,7 @@ public class LayoutBranchModelImpl
 	 */
 	@Deprecated
 	public boolean getOriginalMaster() {
-		return GetterUtil.getBoolean(_columnOriginalValues.get("master"));
+		return GetterUtil.getBoolean(getColumnOriginalValue("master"));
 	}
 
 	public long getColumnBitmask() {
@@ -911,7 +910,7 @@ public class LayoutBranchModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("layoutBranchId", _layoutBranchId);

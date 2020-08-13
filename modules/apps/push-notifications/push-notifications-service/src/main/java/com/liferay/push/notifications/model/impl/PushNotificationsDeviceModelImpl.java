@@ -447,7 +447,7 @@ public class PushNotificationsDeviceModelImpl
 	 */
 	@Deprecated
 	public long getOriginalUserId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("userId"));
+		return GetterUtil.getLong(getColumnOriginalValue("userId"));
 	}
 
 	@JSON
@@ -779,7 +779,7 @@ public class PushNotificationsDeviceModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put(
 			"pushNotificationsDeviceId", _pushNotificationsDeviceId);

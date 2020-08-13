@@ -374,7 +374,7 @@ public class DLFileRankModelImpl
 	 */
 	@Deprecated
 	public long getOriginalGroupId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("groupId"));
+		return GetterUtil.getLong(getColumnOriginalValue("groupId"));
 	}
 
 	@Override
@@ -399,7 +399,7 @@ public class DLFileRankModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCompanyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@Override
@@ -440,7 +440,7 @@ public class DLFileRankModelImpl
 	 */
 	@Deprecated
 	public long getOriginalUserId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("userId"));
+		return GetterUtil.getLong(getColumnOriginalValue("userId"));
 	}
 
 	@Override
@@ -481,7 +481,7 @@ public class DLFileRankModelImpl
 	 */
 	@Deprecated
 	public long getOriginalFileEntryId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("fileEntryId"));
+		return GetterUtil.getLong(getColumnOriginalValue("fileEntryId"));
 	}
 
 	@Override
@@ -511,7 +511,7 @@ public class DLFileRankModelImpl
 	 */
 	@Deprecated
 	public boolean getOriginalActive() {
-		return GetterUtil.getBoolean(_columnOriginalValues.get("active_"));
+		return GetterUtil.getBoolean(getColumnOriginalValue("active_"));
 	}
 
 	public long getColumnBitmask() {
@@ -748,7 +748,7 @@ public class DLFileRankModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("fileRankId", _fileRankId);

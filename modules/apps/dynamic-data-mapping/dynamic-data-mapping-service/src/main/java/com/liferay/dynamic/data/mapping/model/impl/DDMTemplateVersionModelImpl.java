@@ -720,7 +720,7 @@ public class DDMTemplateVersionModelImpl
 	 */
 	@Deprecated
 	public long getOriginalTemplateId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("templateId"));
+		return GetterUtil.getLong(getColumnOriginalValue("templateId"));
 	}
 
 	@JSON
@@ -1044,7 +1044,7 @@ public class DDMTemplateVersionModelImpl
 	 */
 	@Deprecated
 	public int getOriginalStatus() {
-		return GetterUtil.getInteger(_columnOriginalValues.get("status"));
+		return GetterUtil.getInteger(getColumnOriginalValue("status"));
 	}
 
 	@JSON
@@ -1609,7 +1609,7 @@ public class DDMTemplateVersionModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("ctCollectionId", _ctCollectionId);

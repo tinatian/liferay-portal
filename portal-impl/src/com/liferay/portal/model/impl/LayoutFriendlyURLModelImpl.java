@@ -511,7 +511,7 @@ public class LayoutFriendlyURLModelImpl
 	 */
 	@Deprecated
 	public long getOriginalGroupId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("groupId"));
+		return GetterUtil.getLong(getColumnOriginalValue("groupId"));
 	}
 
 	@Override
@@ -536,7 +536,7 @@ public class LayoutFriendlyURLModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCompanyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@Override
@@ -652,7 +652,7 @@ public class LayoutFriendlyURLModelImpl
 	 */
 	@Deprecated
 	public long getOriginalPlid() {
-		return GetterUtil.getLong(_columnOriginalValues.get("plid"));
+		return GetterUtil.getLong(getColumnOriginalValue("plid"));
 	}
 
 	@Override
@@ -682,8 +682,7 @@ public class LayoutFriendlyURLModelImpl
 	 */
 	@Deprecated
 	public boolean getOriginalPrivateLayout() {
-		return GetterUtil.getBoolean(
-			_columnOriginalValues.get("privateLayout"));
+		return GetterUtil.getBoolean(getColumnOriginalValue("privateLayout"));
 	}
 
 	@Override
@@ -1067,7 +1066,7 @@ public class LayoutFriendlyURLModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("ctCollectionId", _ctCollectionId);

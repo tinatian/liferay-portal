@@ -322,7 +322,7 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 	 */
 	@Deprecated
 	public long getOriginalCreateDate() {
-		return GetterUtil.getLong(_columnOriginalValues.get("createDate"));
+		return GetterUtil.getLong(getColumnOriginalValue("createDate"));
 	}
 
 	@Override
@@ -363,7 +363,7 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 	 */
 	@Deprecated
 	public long getOriginalFromUserId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("fromUserId"));
+		return GetterUtil.getLong(getColumnOriginalValue("fromUserId"));
 	}
 
 	@Override
@@ -404,7 +404,7 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 	 */
 	@Deprecated
 	public long getOriginalToUserId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("toUserId"));
+		return GetterUtil.getLong(getColumnOriginalValue("toUserId"));
 	}
 
 	@Override
@@ -686,7 +686,7 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("entryId", _entryId);
 		_columnOriginalValues.put("createDate", _createDate);

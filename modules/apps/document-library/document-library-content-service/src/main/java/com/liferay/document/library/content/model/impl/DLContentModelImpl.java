@@ -399,7 +399,7 @@ public class DLContentModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCompanyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@Override
@@ -424,7 +424,7 @@ public class DLContentModelImpl
 	 */
 	@Deprecated
 	public long getOriginalRepositoryId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("repositoryId"));
+		return GetterUtil.getLong(getColumnOriginalValue("repositoryId"));
 	}
 
 	@Override
@@ -797,7 +797,7 @@ public class DLContentModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("ctCollectionId", _ctCollectionId);

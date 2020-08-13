@@ -416,7 +416,7 @@ public class AppBuilderWorkflowTaskLinkModelImpl
 	 */
 	@Deprecated
 	public long getOriginalAppBuilderAppId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("appBuilderAppId"));
+		return GetterUtil.getLong(getColumnOriginalValue("appBuilderAppId"));
 	}
 
 	@Override
@@ -442,7 +442,7 @@ public class AppBuilderWorkflowTaskLinkModelImpl
 	@Deprecated
 	public long getOriginalAppBuilderAppVersionId() {
 		return GetterUtil.getLong(
-			_columnOriginalValues.get("appBuilderAppVersionId"));
+			getColumnOriginalValue("appBuilderAppVersionId"));
 	}
 
 	@Override
@@ -468,7 +468,7 @@ public class AppBuilderWorkflowTaskLinkModelImpl
 	@Deprecated
 	public long getOriginalDdmStructureLayoutId() {
 		return GetterUtil.getLong(
-			_columnOriginalValues.get("ddmStructureLayoutId"));
+			getColumnOriginalValue("ddmStructureLayoutId"));
 	}
 
 	@Override
@@ -789,7 +789,7 @@ public class AppBuilderWorkflowTaskLinkModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put(

@@ -582,7 +582,7 @@ public class KaleoTimerModelImpl
 	 */
 	@Deprecated
 	public long getOriginalKaleoClassPK() {
-		return GetterUtil.getLong(_columnOriginalValues.get("kaleoClassPK"));
+		return GetterUtil.getLong(getColumnOriginalValue("kaleoClassPK"));
 	}
 
 	@Override
@@ -665,7 +665,7 @@ public class KaleoTimerModelImpl
 	 */
 	@Deprecated
 	public boolean getOriginalBlocking() {
-		return GetterUtil.getBoolean(_columnOriginalValues.get("blocking"));
+		return GetterUtil.getBoolean(getColumnOriginalValue("blocking"));
 	}
 
 	@Override
@@ -1083,7 +1083,7 @@ public class KaleoTimerModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("kaleoTimerId", _kaleoTimerId);

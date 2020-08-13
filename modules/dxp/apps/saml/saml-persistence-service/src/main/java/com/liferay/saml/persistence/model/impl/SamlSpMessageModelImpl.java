@@ -685,7 +685,7 @@ public class SamlSpMessageModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("samlSpMessageId", _samlSpMessageId);
 		_columnOriginalValues.put("companyId", _companyId);

@@ -478,7 +478,7 @@ public class AssetCategoryPropertyModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCompanyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -599,7 +599,7 @@ public class AssetCategoryPropertyModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCategoryId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("categoryId"));
+		return GetterUtil.getLong(getColumnOriginalValue("categoryId"));
 	}
 
 	@JSON
@@ -932,7 +932,7 @@ public class AssetCategoryPropertyModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("ctCollectionId", _ctCollectionId);

@@ -409,7 +409,7 @@ public class BlogsStatsUserModelImpl
 	 */
 	@Deprecated
 	public long getOriginalGroupId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("groupId"));
+		return GetterUtil.getLong(getColumnOriginalValue("groupId"));
 	}
 
 	@Override
@@ -434,7 +434,7 @@ public class BlogsStatsUserModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCompanyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@Override
@@ -475,7 +475,7 @@ public class BlogsStatsUserModelImpl
 	 */
 	@Deprecated
 	public long getOriginalUserId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("userId"));
+		return GetterUtil.getLong(getColumnOriginalValue("userId"));
 	}
 
 	@Override
@@ -500,7 +500,7 @@ public class BlogsStatsUserModelImpl
 	 */
 	@Deprecated
 	public int getOriginalEntryCount() {
-		return GetterUtil.getInteger(_columnOriginalValues.get("entryCount"));
+		return GetterUtil.getInteger(getColumnOriginalValue("entryCount"));
 	}
 
 	@Override
@@ -825,7 +825,7 @@ public class BlogsStatsUserModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("statsUserId", _statsUserId);

@@ -383,7 +383,7 @@ public class ServiceComponentModelImpl
 	 */
 	@Deprecated
 	public long getOriginalBuildNumber() {
-		return GetterUtil.getLong(_columnOriginalValues.get("buildNumber"));
+		return GetterUtil.getLong(getColumnOriginalValue("buildNumber"));
 	}
 
 	@Override
@@ -674,7 +674,7 @@ public class ServiceComponentModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("serviceComponentId", _serviceComponentId);

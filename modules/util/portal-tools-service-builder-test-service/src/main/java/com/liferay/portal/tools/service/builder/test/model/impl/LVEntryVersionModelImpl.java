@@ -424,7 +424,7 @@ public class LVEntryVersionModelImpl
 	 */
 	@Deprecated
 	public int getOriginalVersion() {
-		return GetterUtil.getInteger(_columnOriginalValues.get("version"));
+		return GetterUtil.getInteger(getColumnOriginalValue("version"));
 	}
 
 	@Override
@@ -500,7 +500,7 @@ public class LVEntryVersionModelImpl
 	 */
 	@Deprecated
 	public long getOriginalLvEntryId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("lvEntryId"));
+		return GetterUtil.getLong(getColumnOriginalValue("lvEntryId"));
 	}
 
 	@Override
@@ -525,7 +525,7 @@ public class LVEntryVersionModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCompanyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@Override
@@ -550,7 +550,7 @@ public class LVEntryVersionModelImpl
 	 */
 	@Deprecated
 	public long getOriginalGroupId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("groupId"));
+		return GetterUtil.getLong(getColumnOriginalValue("groupId"));
 	}
 
 	@Override
@@ -837,7 +837,7 @@ public class LVEntryVersionModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("lvEntryVersionId", _lvEntryVersionId);
 		_columnOriginalValues.put("version", _version);

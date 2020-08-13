@@ -455,7 +455,7 @@ public class AppBuilderAppModelImpl
 	 */
 	@Deprecated
 	public long getOriginalGroupId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("groupId"));
+		return GetterUtil.getLong(getColumnOriginalValue("groupId"));
 	}
 
 	@Override
@@ -480,7 +480,7 @@ public class AppBuilderAppModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCompanyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@Override
@@ -601,7 +601,7 @@ public class AppBuilderAppModelImpl
 	 */
 	@Deprecated
 	public boolean getOriginalActive() {
-		return GetterUtil.getBoolean(_columnOriginalValues.get("active_"));
+		return GetterUtil.getBoolean(getColumnOriginalValue("active_"));
 	}
 
 	@Override
@@ -642,7 +642,7 @@ public class AppBuilderAppModelImpl
 	 */
 	@Deprecated
 	public long getOriginalDdmStructureId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("ddmStructureId"));
+		return GetterUtil.getLong(getColumnOriginalValue("ddmStructureId"));
 	}
 
 	@Override
@@ -1177,7 +1177,7 @@ public class AppBuilderAppModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("uuid_", _uuid);
 		_columnOriginalValues.put("appBuilderAppId", _appBuilderAppId);

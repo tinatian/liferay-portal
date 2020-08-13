@@ -782,7 +782,7 @@ public class OAuthConsumerModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("oAuthConsumerId", _oAuthConsumerId);
 		_columnOriginalValues.put("companyId", _companyId);

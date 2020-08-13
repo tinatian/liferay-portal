@@ -350,7 +350,7 @@ public class VersionedEntryModelImpl
 	 */
 	@Deprecated
 	public long getOriginalHeadId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("headId"));
+		return GetterUtil.getLong(getColumnOriginalValue("headId"));
 	}
 
 	public boolean getHead() {
@@ -378,7 +378,7 @@ public class VersionedEntryModelImpl
 	 */
 	@Deprecated
 	public boolean getOriginalHead() {
-		return GetterUtil.getBoolean(_columnOriginalValues.get("head"));
+		return GetterUtil.getBoolean(getColumnOriginalValue("head"));
 	}
 
 	@Override
@@ -419,7 +419,7 @@ public class VersionedEntryModelImpl
 	 */
 	@Deprecated
 	public long getOriginalGroupId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("groupId"));
+		return GetterUtil.getLong(getColumnOriginalValue("groupId"));
 	}
 
 	public long getColumnBitmask() {
@@ -640,7 +640,7 @@ public class VersionedEntryModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("headId", _headId);

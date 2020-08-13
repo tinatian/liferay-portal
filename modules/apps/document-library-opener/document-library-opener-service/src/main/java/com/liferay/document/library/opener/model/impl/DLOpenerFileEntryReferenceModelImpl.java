@@ -566,7 +566,7 @@ public class DLOpenerFileEntryReferenceModelImpl
 	 */
 	@Deprecated
 	public long getOriginalFileEntryId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("fileEntryId"));
+		return GetterUtil.getLong(getColumnOriginalValue("fileEntryId"));
 	}
 
 	@Override
@@ -873,7 +873,7 @@ public class DLOpenerFileEntryReferenceModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put(
 			"dlOpenerFileEntryReferenceId", _dlOpenerFileEntryReferenceId);

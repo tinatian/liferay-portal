@@ -595,7 +595,7 @@ public class PowwowServerModelImpl
 	 */
 	@Deprecated
 	public boolean getOriginalActive() {
-		return GetterUtil.getBoolean(_columnOriginalValues.get("active_"));
+		return GetterUtil.getBoolean(getColumnOriginalValue("active_"));
 	}
 
 	public long getColumnBitmask() {
@@ -888,7 +888,7 @@ public class PowwowServerModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("powwowServerId", _powwowServerId);
 		_columnOriginalValues.put("companyId", _companyId);

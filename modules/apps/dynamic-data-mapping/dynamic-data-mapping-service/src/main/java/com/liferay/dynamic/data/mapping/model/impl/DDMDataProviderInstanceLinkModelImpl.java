@@ -399,7 +399,7 @@ public class DDMDataProviderInstanceLinkModelImpl
 	@Deprecated
 	public long getOriginalDataProviderInstanceId() {
 		return GetterUtil.getLong(
-			_columnOriginalValues.get("dataProviderInstanceId"));
+			getColumnOriginalValue("dataProviderInstanceId"));
 	}
 
 	@Override
@@ -424,7 +424,7 @@ public class DDMDataProviderInstanceLinkModelImpl
 	 */
 	@Deprecated
 	public long getOriginalStructureId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("structureId"));
+		return GetterUtil.getLong(getColumnOriginalValue("structureId"));
 	}
 
 	public long getColumnBitmask() {
@@ -666,7 +666,7 @@ public class DDMDataProviderInstanceLinkModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("ctCollectionId", _ctCollectionId);

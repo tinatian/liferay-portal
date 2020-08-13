@@ -497,7 +497,7 @@ public class PollsChoiceModelImpl
 	 */
 	@Deprecated
 	public long getOriginalGroupId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("groupId"));
+		return GetterUtil.getLong(getColumnOriginalValue("groupId"));
 	}
 
 	@JSON
@@ -523,7 +523,7 @@ public class PollsChoiceModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCompanyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -644,7 +644,7 @@ public class PollsChoiceModelImpl
 	 */
 	@Deprecated
 	public long getOriginalQuestionId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("questionId"));
+		return GetterUtil.getLong(getColumnOriginalValue("questionId"));
 	}
 
 	@JSON
@@ -1185,7 +1185,7 @@ public class PollsChoiceModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("uuid_", _uuid);

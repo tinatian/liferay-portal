@@ -910,7 +910,7 @@ public class WeDeployAuthAppModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("weDeployAuthAppId", _weDeployAuthAppId);
 		_columnOriginalValues.put("companyId", _companyId);

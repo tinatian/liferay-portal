@@ -775,7 +775,7 @@ public class LayoutModelImpl
 	 */
 	@Deprecated
 	public long getOriginalGroupId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("groupId"));
+		return GetterUtil.getLong(getColumnOriginalValue("groupId"));
 	}
 
 	@JSON
@@ -801,7 +801,7 @@ public class LayoutModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCompanyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -922,7 +922,7 @@ public class LayoutModelImpl
 	 */
 	@Deprecated
 	public long getOriginalParentPlid() {
-		return GetterUtil.getLong(_columnOriginalValues.get("parentPlid"));
+		return GetterUtil.getLong(getColumnOriginalValue("parentPlid"));
 	}
 
 	@JSON
@@ -954,8 +954,7 @@ public class LayoutModelImpl
 	 */
 	@Deprecated
 	public boolean getOriginalPrivateLayout() {
-		return GetterUtil.getBoolean(
-			_columnOriginalValues.get("privateLayout"));
+		return GetterUtil.getBoolean(getColumnOriginalValue("privateLayout"));
 	}
 
 	@JSON
@@ -981,7 +980,7 @@ public class LayoutModelImpl
 	 */
 	@Deprecated
 	public long getOriginalLayoutId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("layoutId"));
+		return GetterUtil.getLong(getColumnOriginalValue("layoutId"));
 	}
 
 	@JSON
@@ -1007,7 +1006,7 @@ public class LayoutModelImpl
 	 */
 	@Deprecated
 	public long getOriginalParentLayoutId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("parentLayoutId"));
+		return GetterUtil.getLong(getColumnOriginalValue("parentLayoutId"));
 	}
 
 	@Override
@@ -1053,7 +1052,7 @@ public class LayoutModelImpl
 	 */
 	@Deprecated
 	public long getOriginalClassNameId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("classNameId"));
+		return GetterUtil.getLong(getColumnOriginalValue("classNameId"));
 	}
 
 	@JSON
@@ -1079,7 +1078,7 @@ public class LayoutModelImpl
 	 */
 	@Deprecated
 	public long getOriginalClassPK() {
-		return GetterUtil.getLong(_columnOriginalValues.get("classPK"));
+		return GetterUtil.getLong(getColumnOriginalValue("classPK"));
 	}
 
 	@JSON
@@ -1724,7 +1723,7 @@ public class LayoutModelImpl
 	 */
 	@Deprecated
 	public boolean getOriginalHidden() {
-		return GetterUtil.getBoolean(_columnOriginalValues.get("hidden_"));
+		return GetterUtil.getBoolean(getColumnOriginalValue("hidden_"));
 	}
 
 	@JSON
@@ -1804,7 +1803,7 @@ public class LayoutModelImpl
 	 */
 	@Deprecated
 	public long getOriginalIconImageId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("iconImageId"));
+		return GetterUtil.getLong(getColumnOriginalValue("iconImageId"));
 	}
 
 	@JSON
@@ -1913,7 +1912,7 @@ public class LayoutModelImpl
 	 */
 	@Deprecated
 	public int getOriginalPriority() {
-		return GetterUtil.getInteger(_columnOriginalValues.get("priority"));
+		return GetterUtil.getInteger(getColumnOriginalValue("priority"));
 	}
 
 	@JSON
@@ -1939,8 +1938,7 @@ public class LayoutModelImpl
 	 */
 	@Deprecated
 	public long getOriginalMasterLayoutPlid() {
-		return GetterUtil.getLong(
-			_columnOriginalValues.get("masterLayoutPlid"));
+		return GetterUtil.getLong(getColumnOriginalValue("masterLayoutPlid"));
 	}
 
 	@JSON
@@ -2877,7 +2875,7 @@ public class LayoutModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("ctCollectionId", _ctCollectionId);

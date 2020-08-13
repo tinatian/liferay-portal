@@ -512,7 +512,7 @@ public class KaleoTaskFormInstanceModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCompanyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@Override
@@ -645,7 +645,7 @@ public class KaleoTaskFormInstanceModelImpl
 	@Deprecated
 	public long getOriginalKaleoDefinitionVersionId() {
 		return GetterUtil.getLong(
-			_columnOriginalValues.get("kaleoDefinitionVersionId"));
+			getColumnOriginalValue("kaleoDefinitionVersionId"));
 	}
 
 	@Override
@@ -670,7 +670,7 @@ public class KaleoTaskFormInstanceModelImpl
 	 */
 	@Deprecated
 	public long getOriginalKaleoInstanceId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("kaleoInstanceId"));
+		return GetterUtil.getLong(getColumnOriginalValue("kaleoInstanceId"));
 	}
 
 	@Override
@@ -695,7 +695,7 @@ public class KaleoTaskFormInstanceModelImpl
 	 */
 	@Deprecated
 	public long getOriginalKaleoTaskId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("kaleoTaskId"));
+		return GetterUtil.getLong(getColumnOriginalValue("kaleoTaskId"));
 	}
 
 	@Override
@@ -721,7 +721,7 @@ public class KaleoTaskFormInstanceModelImpl
 	@Deprecated
 	public long getOriginalKaleoTaskInstanceTokenId() {
 		return GetterUtil.getLong(
-			_columnOriginalValues.get("kaleoTaskInstanceTokenId"));
+			getColumnOriginalValue("kaleoTaskInstanceTokenId"));
 	}
 
 	@Override
@@ -746,7 +746,7 @@ public class KaleoTaskFormInstanceModelImpl
 	 */
 	@Deprecated
 	public long getOriginalKaleoTaskFormId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("kaleoTaskFormId"));
+		return GetterUtil.getLong(getColumnOriginalValue("kaleoTaskFormId"));
 	}
 
 	@Override
@@ -1176,7 +1176,7 @@ public class KaleoTaskFormInstanceModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put(

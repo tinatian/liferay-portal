@@ -637,7 +637,7 @@ public class DLFolderModelImpl
 	 */
 	@Deprecated
 	public long getOriginalFolderId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("folderId"));
+		return GetterUtil.getLong(getColumnOriginalValue("folderId"));
 	}
 
 	@JSON
@@ -663,7 +663,7 @@ public class DLFolderModelImpl
 	 */
 	@Deprecated
 	public long getOriginalGroupId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("groupId"));
+		return GetterUtil.getLong(getColumnOriginalValue("groupId"));
 	}
 
 	@JSON
@@ -689,7 +689,7 @@ public class DLFolderModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCompanyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -810,7 +810,7 @@ public class DLFolderModelImpl
 	 */
 	@Deprecated
 	public long getOriginalRepositoryId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("repositoryId"));
+		return GetterUtil.getLong(getColumnOriginalValue("repositoryId"));
 	}
 
 	@JSON
@@ -842,7 +842,7 @@ public class DLFolderModelImpl
 	 */
 	@Deprecated
 	public boolean getOriginalMountPoint() {
-		return GetterUtil.getBoolean(_columnOriginalValues.get("mountPoint"));
+		return GetterUtil.getBoolean(getColumnOriginalValue("mountPoint"));
 	}
 
 	@JSON
@@ -868,7 +868,7 @@ public class DLFolderModelImpl
 	 */
 	@Deprecated
 	public long getOriginalParentFolderId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("parentFolderId"));
+		return GetterUtil.getLong(getColumnOriginalValue("parentFolderId"));
 	}
 
 	@JSON
@@ -1018,7 +1018,7 @@ public class DLFolderModelImpl
 	 */
 	@Deprecated
 	public boolean getOriginalHidden() {
-		return GetterUtil.getBoolean(_columnOriginalValues.get("hidden_"));
+		return GetterUtil.getBoolean(getColumnOriginalValue("hidden_"));
 	}
 
 	@JSON
@@ -1078,7 +1078,7 @@ public class DLFolderModelImpl
 	 */
 	@Deprecated
 	public int getOriginalStatus() {
-		return GetterUtil.getInteger(_columnOriginalValues.get("status"));
+		return GetterUtil.getInteger(getColumnOriginalValue("status"));
 	}
 
 	@JSON
@@ -1772,7 +1772,7 @@ public class DLFolderModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("ctCollectionId", _ctCollectionId);

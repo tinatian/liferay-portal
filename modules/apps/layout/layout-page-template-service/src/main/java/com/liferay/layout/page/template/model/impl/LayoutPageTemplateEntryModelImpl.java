@@ -685,7 +685,7 @@ public class LayoutPageTemplateEntryModelImpl
 	 */
 	@Deprecated
 	public long getOriginalGroupId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("groupId"));
+		return GetterUtil.getLong(getColumnOriginalValue("groupId"));
 	}
 
 	@JSON
@@ -711,7 +711,7 @@ public class LayoutPageTemplateEntryModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCompanyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -835,7 +835,7 @@ public class LayoutPageTemplateEntryModelImpl
 	@Deprecated
 	public long getOriginalLayoutPageTemplateCollectionId() {
 		return GetterUtil.getLong(
-			_columnOriginalValues.get("layoutPageTemplateCollectionId"));
+			getColumnOriginalValue("layoutPageTemplateCollectionId"));
 	}
 
 	@JSON
@@ -914,7 +914,7 @@ public class LayoutPageTemplateEntryModelImpl
 	 */
 	@Deprecated
 	public long getOriginalClassNameId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("classNameId"));
+		return GetterUtil.getLong(getColumnOriginalValue("classNameId"));
 	}
 
 	@JSON
@@ -940,7 +940,7 @@ public class LayoutPageTemplateEntryModelImpl
 	 */
 	@Deprecated
 	public long getOriginalClassTypeId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("classTypeId"));
+		return GetterUtil.getLong(getColumnOriginalValue("classTypeId"));
 	}
 
 	@JSON
@@ -997,7 +997,7 @@ public class LayoutPageTemplateEntryModelImpl
 	 */
 	@Deprecated
 	public int getOriginalType() {
-		return GetterUtil.getInteger(_columnOriginalValues.get("type_"));
+		return GetterUtil.getInteger(getColumnOriginalValue("type_"));
 	}
 
 	@JSON
@@ -1046,8 +1046,7 @@ public class LayoutPageTemplateEntryModelImpl
 	 */
 	@Deprecated
 	public boolean getOriginalDefaultTemplate() {
-		return GetterUtil.getBoolean(
-			_columnOriginalValues.get("defaultTemplate"));
+		return GetterUtil.getBoolean(getColumnOriginalValue("defaultTemplate"));
 	}
 
 	@JSON
@@ -1073,8 +1072,7 @@ public class LayoutPageTemplateEntryModelImpl
 	 */
 	@Deprecated
 	public long getOriginalLayoutPrototypeId() {
-		return GetterUtil.getLong(
-			_columnOriginalValues.get("layoutPrototypeId"));
+		return GetterUtil.getLong(getColumnOriginalValue("layoutPrototypeId"));
 	}
 
 	@JSON
@@ -1100,7 +1098,7 @@ public class LayoutPageTemplateEntryModelImpl
 	 */
 	@Deprecated
 	public long getOriginalPlid() {
-		return GetterUtil.getLong(_columnOriginalValues.get("plid"));
+		return GetterUtil.getLong(getColumnOriginalValue("plid"));
 	}
 
 	@JSON
@@ -1143,7 +1141,7 @@ public class LayoutPageTemplateEntryModelImpl
 	 */
 	@Deprecated
 	public int getOriginalStatus() {
-		return GetterUtil.getInteger(_columnOriginalValues.get("status"));
+		return GetterUtil.getInteger(getColumnOriginalValue("status"));
 	}
 
 	@JSON
@@ -1663,7 +1661,7 @@ public class LayoutPageTemplateEntryModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("uuid_", _uuid);

@@ -387,8 +387,7 @@ public class PasswordPolicyRelModelImpl
 	 */
 	@Deprecated
 	public long getOriginalPasswordPolicyId() {
-		return GetterUtil.getLong(
-			_columnOriginalValues.get("passwordPolicyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("passwordPolicyId"));
 	}
 
 	@Override
@@ -433,7 +432,7 @@ public class PasswordPolicyRelModelImpl
 	 */
 	@Deprecated
 	public long getOriginalClassNameId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("classNameId"));
+		return GetterUtil.getLong(getColumnOriginalValue("classNameId"));
 	}
 
 	@Override
@@ -458,7 +457,7 @@ public class PasswordPolicyRelModelImpl
 	 */
 	@Deprecated
 	public long getOriginalClassPK() {
-		return GetterUtil.getLong(_columnOriginalValues.get("classPK"));
+		return GetterUtil.getLong(getColumnOriginalValue("classPK"));
 	}
 
 	public long getColumnBitmask() {
@@ -685,7 +684,7 @@ public class PasswordPolicyRelModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("passwordPolicyRelId", _passwordPolicyRelId);

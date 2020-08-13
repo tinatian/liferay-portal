@@ -391,7 +391,7 @@ public class MBStatsUserModelImpl
 	 */
 	@Deprecated
 	public long getOriginalGroupId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("groupId"));
+		return GetterUtil.getLong(getColumnOriginalValue("groupId"));
 	}
 
 	@Override
@@ -448,7 +448,7 @@ public class MBStatsUserModelImpl
 	 */
 	@Deprecated
 	public long getOriginalUserId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("userId"));
+		return GetterUtil.getLong(getColumnOriginalValue("userId"));
 	}
 
 	@Override
@@ -473,7 +473,7 @@ public class MBStatsUserModelImpl
 	 */
 	@Deprecated
 	public int getOriginalMessageCount() {
-		return GetterUtil.getInteger(_columnOriginalValues.get("messageCount"));
+		return GetterUtil.getInteger(getColumnOriginalValue("messageCount"));
 	}
 
 	@Override
@@ -735,7 +735,7 @@ public class MBStatsUserModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("ctCollectionId", _ctCollectionId);

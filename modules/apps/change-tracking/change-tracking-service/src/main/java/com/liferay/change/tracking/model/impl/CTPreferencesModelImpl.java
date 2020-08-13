@@ -372,7 +372,7 @@ public class CTPreferencesModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCompanyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@Override
@@ -413,7 +413,7 @@ public class CTPreferencesModelImpl
 	 */
 	@Deprecated
 	public long getOriginalUserId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("userId"));
+		return GetterUtil.getLong(getColumnOriginalValue("userId"));
 	}
 
 	@Override
@@ -438,7 +438,7 @@ public class CTPreferencesModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCtCollectionId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("ctCollectionId"));
+		return GetterUtil.getLong(getColumnOriginalValue("ctCollectionId"));
 	}
 
 	@Override
@@ -464,7 +464,7 @@ public class CTPreferencesModelImpl
 	@Deprecated
 	public long getOriginalPreviousCtCollectionId() {
 		return GetterUtil.getLong(
-			_columnOriginalValues.get("previousCtCollectionId"));
+			getColumnOriginalValue("previousCtCollectionId"));
 	}
 
 	@Override
@@ -715,7 +715,7 @@ public class CTPreferencesModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("ctPreferencesId", _ctPreferencesId);

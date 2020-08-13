@@ -475,7 +475,7 @@ public class KaleoProcessModelImpl
 	 */
 	@Deprecated
 	public long getOriginalGroupId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("groupId"));
+		return GetterUtil.getLong(getColumnOriginalValue("groupId"));
 	}
 
 	@JSON
@@ -501,7 +501,7 @@ public class KaleoProcessModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCompanyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -622,7 +622,7 @@ public class KaleoProcessModelImpl
 	 */
 	@Deprecated
 	public long getOriginalDDLRecordSetId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("DDLRecordSetId"));
+		return GetterUtil.getLong(getColumnOriginalValue("DDLRecordSetId"));
 	}
 
 	@JSON
@@ -967,7 +967,7 @@ public class KaleoProcessModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("uuid_", _uuid);
 		_columnOriginalValues.put("kaleoProcessId", _kaleoProcessId);

@@ -492,7 +492,7 @@ public class KaleoInstanceTokenModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCompanyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@Override
@@ -625,7 +625,7 @@ public class KaleoInstanceTokenModelImpl
 	@Deprecated
 	public long getOriginalKaleoDefinitionVersionId() {
 		return GetterUtil.getLong(
-			_columnOriginalValues.get("kaleoDefinitionVersionId"));
+			getColumnOriginalValue("kaleoDefinitionVersionId"));
 	}
 
 	@Override
@@ -650,7 +650,7 @@ public class KaleoInstanceTokenModelImpl
 	 */
 	@Deprecated
 	public long getOriginalKaleoInstanceId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("kaleoInstanceId"));
+		return GetterUtil.getLong(getColumnOriginalValue("kaleoInstanceId"));
 	}
 
 	@Override
@@ -676,7 +676,7 @@ public class KaleoInstanceTokenModelImpl
 	@Deprecated
 	public long getOriginalParentKaleoInstanceTokenId() {
 		return GetterUtil.getLong(
-			_columnOriginalValues.get("parentKaleoInstanceTokenId"));
+			getColumnOriginalValue("parentKaleoInstanceTokenId"));
 	}
 
 	@Override
@@ -1123,7 +1123,7 @@ public class KaleoInstanceTokenModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put(

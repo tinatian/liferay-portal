@@ -426,7 +426,7 @@ public class JournalContentSearchModelImpl
 	 */
 	@Deprecated
 	public long getOriginalGroupId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("groupId"));
+		return GetterUtil.getLong(getColumnOriginalValue("groupId"));
 	}
 
 	@Override
@@ -451,7 +451,7 @@ public class JournalContentSearchModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCompanyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@Override
@@ -481,8 +481,7 @@ public class JournalContentSearchModelImpl
 	 */
 	@Deprecated
 	public boolean getOriginalPrivateLayout() {
-		return GetterUtil.getBoolean(
-			_columnOriginalValues.get("privateLayout"));
+		return GetterUtil.getBoolean(getColumnOriginalValue("privateLayout"));
 	}
 
 	@Override
@@ -507,7 +506,7 @@ public class JournalContentSearchModelImpl
 	 */
 	@Deprecated
 	public long getOriginalLayoutId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("layoutId"));
+		return GetterUtil.getLong(getColumnOriginalValue("layoutId"));
 	}
 
 	@Override
@@ -818,7 +817,7 @@ public class JournalContentSearchModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("ctCollectionId", _ctCollectionId);

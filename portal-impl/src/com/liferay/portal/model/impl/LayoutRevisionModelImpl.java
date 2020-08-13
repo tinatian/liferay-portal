@@ -746,8 +746,7 @@ public class LayoutRevisionModelImpl
 	 */
 	@Deprecated
 	public long getOriginalLayoutSetBranchId() {
-		return GetterUtil.getLong(
-			_columnOriginalValues.get("layoutSetBranchId"));
+		return GetterUtil.getLong(getColumnOriginalValue("layoutSetBranchId"));
 	}
 
 	@JSON
@@ -773,7 +772,7 @@ public class LayoutRevisionModelImpl
 	 */
 	@Deprecated
 	public long getOriginalLayoutBranchId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("layoutBranchId"));
+		return GetterUtil.getLong(getColumnOriginalValue("layoutBranchId"));
 	}
 
 	@JSON
@@ -800,7 +799,7 @@ public class LayoutRevisionModelImpl
 	@Deprecated
 	public long getOriginalParentLayoutRevisionId() {
 		return GetterUtil.getLong(
-			_columnOriginalValues.get("parentLayoutRevisionId"));
+			getColumnOriginalValue("parentLayoutRevisionId"));
 	}
 
 	@JSON
@@ -832,7 +831,7 @@ public class LayoutRevisionModelImpl
 	 */
 	@Deprecated
 	public boolean getOriginalHead() {
-		return GetterUtil.getBoolean(_columnOriginalValues.get("head"));
+		return GetterUtil.getBoolean(getColumnOriginalValue("head"));
 	}
 
 	@JSON
@@ -881,7 +880,7 @@ public class LayoutRevisionModelImpl
 	 */
 	@Deprecated
 	public long getOriginalPlid() {
-		return GetterUtil.getLong(_columnOriginalValues.get("plid"));
+		return GetterUtil.getLong(getColumnOriginalValue("plid"));
 	}
 
 	@JSON
@@ -1595,7 +1594,7 @@ public class LayoutRevisionModelImpl
 	 */
 	@Deprecated
 	public int getOriginalStatus() {
-		return GetterUtil.getInteger(_columnOriginalValues.get("status"));
+		return GetterUtil.getInteger(getColumnOriginalValue("status"));
 	}
 
 	@JSON
@@ -2282,7 +2281,7 @@ public class LayoutRevisionModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("layoutRevisionId", _layoutRevisionId);

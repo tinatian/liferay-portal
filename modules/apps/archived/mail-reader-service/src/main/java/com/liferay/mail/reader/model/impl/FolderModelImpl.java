@@ -437,7 +437,7 @@ public class FolderModelImpl
 	 */
 	@Deprecated
 	public long getOriginalAccountId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("accountId"));
+		return GetterUtil.getLong(getColumnOriginalValue("accountId"));
 	}
 
 	@Override
@@ -770,7 +770,7 @@ public class FolderModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("folderId", _folderId);
 		_columnOriginalValues.put("companyId", _companyId);

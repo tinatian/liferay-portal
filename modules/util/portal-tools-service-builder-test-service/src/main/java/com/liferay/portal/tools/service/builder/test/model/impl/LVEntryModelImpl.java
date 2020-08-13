@@ -582,7 +582,7 @@ public class LVEntryModelImpl
 	 */
 	@Deprecated
 	public long getOriginalHeadId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("headId"));
+		return GetterUtil.getLong(getColumnOriginalValue("headId"));
 	}
 
 	public boolean getHead() {
@@ -610,7 +610,7 @@ public class LVEntryModelImpl
 	 */
 	@Deprecated
 	public boolean getOriginalHead() {
-		return GetterUtil.getBoolean(_columnOriginalValues.get("head"));
+		return GetterUtil.getBoolean(getColumnOriginalValue("head"));
 	}
 
 	@Override
@@ -672,7 +672,7 @@ public class LVEntryModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCompanyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@Override
@@ -697,7 +697,7 @@ public class LVEntryModelImpl
 	 */
 	@Deprecated
 	public long getOriginalGroupId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("groupId"));
+		return GetterUtil.getLong(getColumnOriginalValue("groupId"));
 	}
 
 	@Override
@@ -977,7 +977,7 @@ public class LVEntryModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("uuid_", _uuid);

@@ -463,7 +463,7 @@ public class DDMFormInstanceReportModelImpl
 	 */
 	@Deprecated
 	public long getOriginalFormInstanceId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("formInstanceId"));
+		return GetterUtil.getLong(getColumnOriginalValue("formInstanceId"));
 	}
 
 	@Override
@@ -748,7 +748,7 @@ public class DDMFormInstanceReportModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("ctCollectionId", _ctCollectionId);

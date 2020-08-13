@@ -518,7 +518,7 @@ public class ResourcePermissionModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCompanyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -575,7 +575,7 @@ public class ResourcePermissionModelImpl
 	 */
 	@Deprecated
 	public int getOriginalScope() {
-		return GetterUtil.getInteger(_columnOriginalValues.get("scope"));
+		return GetterUtil.getInteger(getColumnOriginalValue("scope"));
 	}
 
 	@JSON
@@ -632,7 +632,7 @@ public class ResourcePermissionModelImpl
 	 */
 	@Deprecated
 	public long getOriginalPrimKeyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("primKeyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("primKeyId"));
 	}
 
 	@JSON
@@ -658,7 +658,7 @@ public class ResourcePermissionModelImpl
 	 */
 	@Deprecated
 	public long getOriginalRoleId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("roleId"));
+		return GetterUtil.getLong(getColumnOriginalValue("roleId"));
 	}
 
 	@JSON
@@ -724,7 +724,7 @@ public class ResourcePermissionModelImpl
 	 */
 	@Deprecated
 	public boolean getOriginalViewActionId() {
-		return GetterUtil.getBoolean(_columnOriginalValues.get("viewActionId"));
+		return GetterUtil.getBoolean(getColumnOriginalValue("viewActionId"));
 	}
 
 	public long getColumnBitmask() {
@@ -983,7 +983,7 @@ public class ResourcePermissionModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("ctCollectionId", _ctCollectionId);

@@ -553,7 +553,7 @@ public class SocialActivityModelImpl
 	 */
 	@Deprecated
 	public long getOriginalGroupId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("groupId"));
+		return GetterUtil.getLong(getColumnOriginalValue("groupId"));
 	}
 
 	@JSON
@@ -579,7 +579,7 @@ public class SocialActivityModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCompanyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -621,7 +621,7 @@ public class SocialActivityModelImpl
 	 */
 	@Deprecated
 	public long getOriginalUserId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("userId"));
+		return GetterUtil.getLong(getColumnOriginalValue("userId"));
 	}
 
 	@JSON
@@ -647,7 +647,7 @@ public class SocialActivityModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCreateDate() {
-		return GetterUtil.getLong(_columnOriginalValues.get("createDate"));
+		return GetterUtil.getLong(getColumnOriginalValue("createDate"));
 	}
 
 	@JSON
@@ -673,7 +673,7 @@ public class SocialActivityModelImpl
 	 */
 	@Deprecated
 	public long getOriginalActivitySetId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("activitySetId"));
+		return GetterUtil.getLong(getColumnOriginalValue("activitySetId"));
 	}
 
 	@JSON
@@ -699,8 +699,7 @@ public class SocialActivityModelImpl
 	 */
 	@Deprecated
 	public long getOriginalMirrorActivityId() {
-		return GetterUtil.getLong(
-			_columnOriginalValues.get("mirrorActivityId"));
+		return GetterUtil.getLong(getColumnOriginalValue("mirrorActivityId"));
 	}
 
 	@Override
@@ -746,7 +745,7 @@ public class SocialActivityModelImpl
 	 */
 	@Deprecated
 	public long getOriginalClassNameId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("classNameId"));
+		return GetterUtil.getLong(getColumnOriginalValue("classNameId"));
 	}
 
 	@JSON
@@ -772,7 +771,7 @@ public class SocialActivityModelImpl
 	 */
 	@Deprecated
 	public long getOriginalClassPK() {
-		return GetterUtil.getLong(_columnOriginalValues.get("classPK"));
+		return GetterUtil.getLong(getColumnOriginalValue("classPK"));
 	}
 
 	@JSON
@@ -832,7 +831,7 @@ public class SocialActivityModelImpl
 	 */
 	@Deprecated
 	public int getOriginalType() {
-		return GetterUtil.getInteger(_columnOriginalValues.get("type_"));
+		return GetterUtil.getInteger(getColumnOriginalValue("type_"));
 	}
 
 	@JSON
@@ -896,7 +895,7 @@ public class SocialActivityModelImpl
 	 */
 	@Deprecated
 	public long getOriginalReceiverUserId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("receiverUserId"));
+		return GetterUtil.getLong(getColumnOriginalValue("receiverUserId"));
 	}
 
 	public long getColumnBitmask() {
@@ -1165,7 +1164,7 @@ public class SocialActivityModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("ctCollectionId", _ctCollectionId);

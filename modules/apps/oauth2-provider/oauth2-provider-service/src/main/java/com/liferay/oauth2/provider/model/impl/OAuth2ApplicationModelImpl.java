@@ -519,7 +519,7 @@ public class OAuth2ApplicationModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCompanyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -1291,7 +1291,7 @@ public class OAuth2ApplicationModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("oAuth2ApplicationId", _oAuth2ApplicationId);
 		_columnOriginalValues.put("companyId", _companyId);

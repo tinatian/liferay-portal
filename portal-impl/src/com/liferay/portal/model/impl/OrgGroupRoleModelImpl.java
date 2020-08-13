@@ -347,7 +347,7 @@ public class OrgGroupRoleModelImpl
 	 */
 	@Deprecated
 	public long getOriginalGroupId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("groupId"));
+		return GetterUtil.getLong(getColumnOriginalValue("groupId"));
 	}
 
 	@Override
@@ -372,7 +372,7 @@ public class OrgGroupRoleModelImpl
 	 */
 	@Deprecated
 	public long getOriginalRoleId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("roleId"));
+		return GetterUtil.getLong(getColumnOriginalValue("roleId"));
 	}
 
 	@Override
@@ -591,7 +591,7 @@ public class OrgGroupRoleModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("organizationId", _organizationId);

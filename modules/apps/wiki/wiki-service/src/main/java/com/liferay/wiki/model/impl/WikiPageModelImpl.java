@@ -620,7 +620,7 @@ public class WikiPageModelImpl
 	 */
 	@Deprecated
 	public long getOriginalResourcePrimKey() {
-		return GetterUtil.getLong(_columnOriginalValues.get("resourcePrimKey"));
+		return GetterUtil.getLong(getColumnOriginalValue("resourcePrimKey"));
 	}
 
 	@JSON
@@ -646,7 +646,7 @@ public class WikiPageModelImpl
 	 */
 	@Deprecated
 	public long getOriginalGroupId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("groupId"));
+		return GetterUtil.getLong(getColumnOriginalValue("groupId"));
 	}
 
 	@JSON
@@ -672,7 +672,7 @@ public class WikiPageModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCompanyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -714,7 +714,7 @@ public class WikiPageModelImpl
 	 */
 	@Deprecated
 	public long getOriginalUserId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("userId"));
+		return GetterUtil.getLong(getColumnOriginalValue("userId"));
 	}
 
 	@JSON
@@ -802,7 +802,7 @@ public class WikiPageModelImpl
 	 */
 	@Deprecated
 	public long getOriginalNodeId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("nodeId"));
+		return GetterUtil.getLong(getColumnOriginalValue("nodeId"));
 	}
 
 	@JSON
@@ -859,7 +859,7 @@ public class WikiPageModelImpl
 	 */
 	@Deprecated
 	public double getOriginalVersion() {
-		return GetterUtil.getDouble(_columnOriginalValues.get("version"));
+		return GetterUtil.getDouble(getColumnOriginalValue("version"));
 	}
 
 	@JSON
@@ -989,7 +989,7 @@ public class WikiPageModelImpl
 	 */
 	@Deprecated
 	public boolean getOriginalHead() {
-		return GetterUtil.getBoolean(_columnOriginalValues.get("head"));
+		return GetterUtil.getBoolean(getColumnOriginalValue("head"));
 	}
 
 	@JSON
@@ -1094,7 +1094,7 @@ public class WikiPageModelImpl
 	 */
 	@Deprecated
 	public int getOriginalStatus() {
-		return GetterUtil.getInteger(_columnOriginalValues.get("status"));
+		return GetterUtil.getInteger(getColumnOriginalValue("status"));
 	}
 
 	@JSON
@@ -1814,7 +1814,7 @@ public class WikiPageModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("uuid_", _uuid);

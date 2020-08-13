@@ -382,7 +382,7 @@ public class OAuth2ScopeGrantModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCompanyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@Override
@@ -409,8 +409,7 @@ public class OAuth2ScopeGrantModelImpl
 	 */
 	@Deprecated
 	public long getOriginalOAuth2ApplicationScopeAliasesId() {
-		return GetterUtil.getLong(
-			_columnOriginalValues.get("oA2AScopeAliasesId"));
+		return GetterUtil.getLong(getColumnOriginalValue("oA2AScopeAliasesId"));
 	}
 
 	@Override
@@ -778,7 +777,7 @@ public class OAuth2ScopeGrantModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("oAuth2ScopeGrantId", _oAuth2ScopeGrantId);
 		_columnOriginalValues.put("companyId", _companyId);

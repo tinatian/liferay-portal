@@ -382,7 +382,7 @@ public class ChangesetEntryModelImpl
 	 */
 	@Deprecated
 	public long getOriginalGroupId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("groupId"));
+		return GetterUtil.getLong(getColumnOriginalValue("groupId"));
 	}
 
 	@Override
@@ -407,7 +407,7 @@ public class ChangesetEntryModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCompanyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@Override
@@ -524,7 +524,7 @@ public class ChangesetEntryModelImpl
 	@Deprecated
 	public long getOriginalChangesetCollectionId() {
 		return GetterUtil.getLong(
-			_columnOriginalValues.get("changesetCollectionId"));
+			getColumnOriginalValue("changesetCollectionId"));
 	}
 
 	@Override
@@ -569,7 +569,7 @@ public class ChangesetEntryModelImpl
 	 */
 	@Deprecated
 	public long getOriginalClassNameId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("classNameId"));
+		return GetterUtil.getLong(getColumnOriginalValue("classNameId"));
 	}
 
 	@Override
@@ -594,7 +594,7 @@ public class ChangesetEntryModelImpl
 	 */
 	@Deprecated
 	public long getOriginalClassPK() {
-		return GetterUtil.getLong(_columnOriginalValues.get("classPK"));
+		return GetterUtil.getLong(getColumnOriginalValue("classPK"));
 	}
 
 	public long getColumnBitmask() {
@@ -854,7 +854,7 @@ public class ChangesetEntryModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("changesetEntryId", _changesetEntryId);
 		_columnOriginalValues.put("groupId", _groupId);

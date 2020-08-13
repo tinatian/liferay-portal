@@ -555,8 +555,7 @@ public class DispatchLogModelImpl
 	 */
 	@Deprecated
 	public long getOriginalDispatchTriggerId() {
-		return GetterUtil.getLong(
-			_columnOriginalValues.get("dispatchTriggerId"));
+		return GetterUtil.getLong(getColumnOriginalValue("dispatchTriggerId"));
 	}
 
 	@JSON
@@ -660,7 +659,7 @@ public class DispatchLogModelImpl
 	 */
 	@Deprecated
 	public int getOriginalStatus() {
-		return GetterUtil.getInteger(_columnOriginalValues.get("status"));
+		return GetterUtil.getInteger(getColumnOriginalValue("status"));
 	}
 
 	public long getColumnBitmask() {
@@ -955,7 +954,7 @@ public class DispatchLogModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("dispatchLogId", _dispatchLogId);

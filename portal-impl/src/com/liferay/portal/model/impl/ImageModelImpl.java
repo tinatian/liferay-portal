@@ -505,7 +505,7 @@ public class ImageModelImpl extends BaseModelImpl<Image> implements ImageModel {
 	 */
 	@Deprecated
 	public int getOriginalSize() {
-		return GetterUtil.getInteger(_columnOriginalValues.get("size_"));
+		return GetterUtil.getInteger(getColumnOriginalValue("size_"));
 	}
 
 	public long getColumnBitmask() {
@@ -755,7 +755,7 @@ public class ImageModelImpl extends BaseModelImpl<Image> implements ImageModel {
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("ctCollectionId", _ctCollectionId);

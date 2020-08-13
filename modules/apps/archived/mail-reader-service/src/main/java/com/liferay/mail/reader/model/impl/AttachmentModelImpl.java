@@ -415,7 +415,7 @@ public class AttachmentModelImpl
 	 */
 	@Deprecated
 	public long getOriginalMessageId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("messageId"));
+		return GetterUtil.getLong(getColumnOriginalValue("messageId"));
 	}
 
 	@Override
@@ -718,7 +718,7 @@ public class AttachmentModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("attachmentId", _attachmentId);
 		_columnOriginalValues.put("companyId", _companyId);

@@ -354,7 +354,7 @@ public class AppBuilderAppDeploymentModelImpl
 	 */
 	@Deprecated
 	public long getOriginalAppBuilderAppId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("appBuilderAppId"));
+		return GetterUtil.getLong(getColumnOriginalValue("appBuilderAppId"));
 	}
 
 	@Override
@@ -649,7 +649,7 @@ public class AppBuilderAppDeploymentModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put(
 			"appBuilderAppDeploymentId", _appBuilderAppDeploymentId);

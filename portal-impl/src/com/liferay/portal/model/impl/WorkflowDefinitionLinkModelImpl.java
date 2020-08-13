@@ -482,7 +482,7 @@ public class WorkflowDefinitionLinkModelImpl
 	 */
 	@Deprecated
 	public long getOriginalGroupId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("groupId"));
+		return GetterUtil.getLong(getColumnOriginalValue("groupId"));
 	}
 
 	@Override
@@ -507,7 +507,7 @@ public class WorkflowDefinitionLinkModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCompanyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@Override
@@ -643,7 +643,7 @@ public class WorkflowDefinitionLinkModelImpl
 	 */
 	@Deprecated
 	public long getOriginalClassNameId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("classNameId"));
+		return GetterUtil.getLong(getColumnOriginalValue("classNameId"));
 	}
 
 	@Override
@@ -668,7 +668,7 @@ public class WorkflowDefinitionLinkModelImpl
 	 */
 	@Deprecated
 	public long getOriginalClassPK() {
-		return GetterUtil.getLong(_columnOriginalValues.get("classPK"));
+		return GetterUtil.getLong(getColumnOriginalValue("classPK"));
 	}
 
 	@Override
@@ -693,7 +693,7 @@ public class WorkflowDefinitionLinkModelImpl
 	 */
 	@Deprecated
 	public long getOriginalTypePK() {
-		return GetterUtil.getLong(_columnOriginalValues.get("typePK"));
+		return GetterUtil.getLong(getColumnOriginalValue("typePK"));
 	}
 
 	@Override
@@ -749,7 +749,7 @@ public class WorkflowDefinitionLinkModelImpl
 	@Deprecated
 	public int getOriginalWorkflowDefinitionVersion() {
 		return GetterUtil.getInteger(
-			_columnOriginalValues.get("workflowDefinitionVersion"));
+			getColumnOriginalValue("workflowDefinitionVersion"));
 	}
 
 	public long getColumnBitmask() {
@@ -1040,7 +1040,7 @@ public class WorkflowDefinitionLinkModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("ctCollectionId", _ctCollectionId);

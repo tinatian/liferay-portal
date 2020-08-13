@@ -494,7 +494,7 @@ public class SamlIdpSpSessionModelImpl
 	@Deprecated
 	public long getOriginalSamlIdpSsoSessionId() {
 		return GetterUtil.getLong(
-			_columnOriginalValues.get("samlIdpSsoSessionId"));
+			getColumnOriginalValue("samlIdpSsoSessionId"));
 	}
 
 	@Override
@@ -844,7 +844,7 @@ public class SamlIdpSpSessionModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("samlIdpSpSessionId", _samlIdpSpSessionId);
 		_columnOriginalValues.put("companyId", _companyId);

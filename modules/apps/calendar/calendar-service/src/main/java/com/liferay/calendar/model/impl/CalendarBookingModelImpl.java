@@ -697,7 +697,7 @@ public class CalendarBookingModelImpl
 	 */
 	@Deprecated
 	public long getOriginalGroupId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("groupId"));
+		return GetterUtil.getLong(getColumnOriginalValue("groupId"));
 	}
 
 	@JSON
@@ -723,7 +723,7 @@ public class CalendarBookingModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCompanyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -844,7 +844,7 @@ public class CalendarBookingModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCalendarId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("calendarId"));
+		return GetterUtil.getLong(getColumnOriginalValue("calendarId"));
 	}
 
 	@JSON
@@ -870,8 +870,7 @@ public class CalendarBookingModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCalendarResourceId() {
-		return GetterUtil.getLong(
-			_columnOriginalValues.get("calendarResourceId"));
+		return GetterUtil.getLong(getColumnOriginalValue("calendarResourceId"));
 	}
 
 	@JSON
@@ -898,7 +897,7 @@ public class CalendarBookingModelImpl
 	@Deprecated
 	public long getOriginalParentCalendarBookingId() {
 		return GetterUtil.getLong(
-			_columnOriginalValues.get("parentCalendarBookingId"));
+			getColumnOriginalValue("parentCalendarBookingId"));
 	}
 
 	@JSON
@@ -925,7 +924,7 @@ public class CalendarBookingModelImpl
 	@Deprecated
 	public long getOriginalRecurringCalendarBookingId() {
 		return GetterUtil.getLong(
-			_columnOriginalValues.get("recurringCalendarBookingId"));
+			getColumnOriginalValue("recurringCalendarBookingId"));
 	}
 
 	@JSON
@@ -1403,7 +1402,7 @@ public class CalendarBookingModelImpl
 	 */
 	@Deprecated
 	public int getOriginalStatus() {
-		return GetterUtil.getInteger(_columnOriginalValues.get("status"));
+		return GetterUtil.getInteger(getColumnOriginalValue("status"));
 	}
 
 	@JSON
@@ -2201,7 +2200,7 @@ public class CalendarBookingModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("uuid_", _uuid);

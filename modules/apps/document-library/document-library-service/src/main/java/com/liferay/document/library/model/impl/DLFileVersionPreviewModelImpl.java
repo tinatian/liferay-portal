@@ -383,7 +383,7 @@ public class DLFileVersionPreviewModelImpl
 	 */
 	@Deprecated
 	public long getOriginalFileEntryId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("fileEntryId"));
+		return GetterUtil.getLong(getColumnOriginalValue("fileEntryId"));
 	}
 
 	@Override
@@ -408,7 +408,7 @@ public class DLFileVersionPreviewModelImpl
 	 */
 	@Deprecated
 	public long getOriginalFileVersionId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("fileVersionId"));
+		return GetterUtil.getLong(getColumnOriginalValue("fileVersionId"));
 	}
 
 	@Override
@@ -433,8 +433,7 @@ public class DLFileVersionPreviewModelImpl
 	 */
 	@Deprecated
 	public int getOriginalPreviewStatus() {
-		return GetterUtil.getInteger(
-			_columnOriginalValues.get("previewStatus"));
+		return GetterUtil.getInteger(getColumnOriginalValue("previewStatus"));
 	}
 
 	public long getColumnBitmask() {
@@ -678,7 +677,7 @@ public class DLFileVersionPreviewModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put(
 			"dlFileVersionPreviewId", _dlFileVersionPreviewId);

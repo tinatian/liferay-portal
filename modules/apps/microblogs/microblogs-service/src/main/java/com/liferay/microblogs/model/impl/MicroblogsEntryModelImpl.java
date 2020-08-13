@@ -475,7 +475,7 @@ public class MicroblogsEntryModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCompanyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -517,7 +517,7 @@ public class MicroblogsEntryModelImpl
 	 */
 	@Deprecated
 	public long getOriginalUserId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("userId"));
+		return GetterUtil.getLong(getColumnOriginalValue("userId"));
 	}
 
 	@JSON
@@ -614,8 +614,7 @@ public class MicroblogsEntryModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCreatorClassNameId() {
-		return GetterUtil.getLong(
-			_columnOriginalValues.get("creatorClassNameId"));
+		return GetterUtil.getLong(getColumnOriginalValue("creatorClassNameId"));
 	}
 
 	@JSON
@@ -641,7 +640,7 @@ public class MicroblogsEntryModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCreatorClassPK() {
-		return GetterUtil.getLong(_columnOriginalValues.get("creatorClassPK"));
+		return GetterUtil.getLong(getColumnOriginalValue("creatorClassPK"));
 	}
 
 	@JSON
@@ -689,7 +688,7 @@ public class MicroblogsEntryModelImpl
 	 */
 	@Deprecated
 	public int getOriginalType() {
-		return GetterUtil.getInteger(_columnOriginalValues.get("type_"));
+		return GetterUtil.getInteger(getColumnOriginalValue("type_"));
 	}
 
 	@JSON
@@ -716,7 +715,7 @@ public class MicroblogsEntryModelImpl
 	@Deprecated
 	public long getOriginalParentMicroblogsEntryId() {
 		return GetterUtil.getLong(
-			_columnOriginalValues.get("parentMicroblogsEntryId"));
+			getColumnOriginalValue("parentMicroblogsEntryId"));
 	}
 
 	@JSON
@@ -743,7 +742,7 @@ public class MicroblogsEntryModelImpl
 	@Deprecated
 	public int getOriginalSocialRelationType() {
 		return GetterUtil.getInteger(
-			_columnOriginalValues.get("socialRelationType"));
+			getColumnOriginalValue("socialRelationType"));
 	}
 
 	public long getColumnBitmask() {
@@ -1017,7 +1016,7 @@ public class MicroblogsEntryModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("microblogsEntryId", _microblogsEntryId);
 		_columnOriginalValues.put("companyId", _companyId);

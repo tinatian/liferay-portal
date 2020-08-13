@@ -648,7 +648,7 @@ public class UADPartialEntryModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("uadPartialEntryId", _uadPartialEntryId);
 		_columnOriginalValues.put("userId", _userId);

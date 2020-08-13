@@ -583,7 +583,7 @@ public class CalendarNotificationTemplateModelImpl
 	 */
 	@Deprecated
 	public long getOriginalGroupId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("groupId"));
+		return GetterUtil.getLong(getColumnOriginalValue("groupId"));
 	}
 
 	@JSON
@@ -609,7 +609,7 @@ public class CalendarNotificationTemplateModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCompanyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -730,7 +730,7 @@ public class CalendarNotificationTemplateModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCalendarId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("calendarId"));
+		return GetterUtil.getLong(getColumnOriginalValue("calendarId"));
 	}
 
 	@JSON
@@ -1237,7 +1237,7 @@ public class CalendarNotificationTemplateModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("uuid_", _uuid);

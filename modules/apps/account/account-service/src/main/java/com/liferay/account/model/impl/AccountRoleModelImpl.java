@@ -396,7 +396,7 @@ public class AccountRoleModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCompanyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -422,7 +422,7 @@ public class AccountRoleModelImpl
 	 */
 	@Deprecated
 	public long getOriginalAccountEntryId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("accountEntryId"));
+		return GetterUtil.getLong(getColumnOriginalValue("accountEntryId"));
 	}
 
 	@JSON
@@ -448,7 +448,7 @@ public class AccountRoleModelImpl
 	 */
 	@Deprecated
 	public long getOriginalRoleId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("roleId"));
+		return GetterUtil.getLong(getColumnOriginalValue("roleId"));
 	}
 
 	public long getColumnBitmask() {
@@ -670,7 +670,7 @@ public class AccountRoleModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("accountRoleId", _accountRoleId);

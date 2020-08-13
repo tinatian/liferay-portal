@@ -439,7 +439,7 @@ public class AnnouncementsFlagModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCompanyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -481,7 +481,7 @@ public class AnnouncementsFlagModelImpl
 	 */
 	@Deprecated
 	public long getOriginalUserId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("userId"));
+		return GetterUtil.getLong(getColumnOriginalValue("userId"));
 	}
 
 	@JSON
@@ -524,7 +524,7 @@ public class AnnouncementsFlagModelImpl
 	 */
 	@Deprecated
 	public long getOriginalEntryId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("entryId"));
+		return GetterUtil.getLong(getColumnOriginalValue("entryId"));
 	}
 
 	@JSON
@@ -550,7 +550,7 @@ public class AnnouncementsFlagModelImpl
 	 */
 	@Deprecated
 	public int getOriginalValue() {
-		return GetterUtil.getInteger(_columnOriginalValues.get("value"));
+		return GetterUtil.getInteger(getColumnOriginalValue("value"));
 	}
 
 	public long getColumnBitmask() {
@@ -799,7 +799,7 @@ public class AnnouncementsFlagModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("flagId", _flagId);

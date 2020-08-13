@@ -498,7 +498,7 @@ public class StyleBookEntryModelImpl
 	 */
 	@Deprecated
 	public long getOriginalHeadId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("headId"));
+		return GetterUtil.getLong(getColumnOriginalValue("headId"));
 	}
 
 	@JSON(include = false)
@@ -527,7 +527,7 @@ public class StyleBookEntryModelImpl
 	 */
 	@Deprecated
 	public boolean getOriginalHead() {
-		return GetterUtil.getBoolean(_columnOriginalValues.get("head"));
+		return GetterUtil.getBoolean(getColumnOriginalValue("head"));
 	}
 
 	@JSON
@@ -570,7 +570,7 @@ public class StyleBookEntryModelImpl
 	 */
 	@Deprecated
 	public long getOriginalGroupId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("groupId"));
+		return GetterUtil.getLong(getColumnOriginalValue("groupId"));
 	}
 
 	@JSON
@@ -692,7 +692,7 @@ public class StyleBookEntryModelImpl
 	@Deprecated
 	public boolean getOriginalDefaultStyleBookEntry() {
 		return GetterUtil.getBoolean(
-			_columnOriginalValues.get("defaultStyleBookEntry"));
+			getColumnOriginalValue("defaultStyleBookEntry"));
 	}
 
 	@JSON
@@ -1078,7 +1078,7 @@ public class StyleBookEntryModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("headId", _headId);

@@ -447,7 +447,7 @@ public class ExpandoColumnModelImpl
 	 */
 	@Deprecated
 	public long getOriginalTableId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("tableId"));
+		return GetterUtil.getLong(getColumnOriginalValue("tableId"));
 	}
 
 	@JSON
@@ -776,7 +776,7 @@ public class ExpandoColumnModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("ctCollectionId", _ctCollectionId);

@@ -430,7 +430,7 @@ public class KaleoConditionModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCompanyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@Override
@@ -563,7 +563,7 @@ public class KaleoConditionModelImpl
 	@Deprecated
 	public long getOriginalKaleoDefinitionVersionId() {
 		return GetterUtil.getLong(
-			_columnOriginalValues.get("kaleoDefinitionVersionId"));
+			getColumnOriginalValue("kaleoDefinitionVersionId"));
 	}
 
 	@Override
@@ -588,7 +588,7 @@ public class KaleoConditionModelImpl
 	 */
 	@Deprecated
 	public long getOriginalKaleoNodeId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("kaleoNodeId"));
+		return GetterUtil.getLong(getColumnOriginalValue("kaleoNodeId"));
 	}
 
 	@Override
@@ -953,7 +953,7 @@ public class KaleoConditionModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("kaleoConditionId", _kaleoConditionId);

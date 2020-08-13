@@ -452,7 +452,7 @@ public class UserNotificationDeliveryModelImpl
 	 */
 	@Deprecated
 	public long getOriginalUserId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("userId"));
+		return GetterUtil.getLong(getColumnOriginalValue("userId"));
 	}
 
 	@Override
@@ -527,7 +527,7 @@ public class UserNotificationDeliveryModelImpl
 	 */
 	@Deprecated
 	public long getOriginalClassNameId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("classNameId"));
+		return GetterUtil.getLong(getColumnOriginalValue("classNameId"));
 	}
 
 	@Override
@@ -553,7 +553,7 @@ public class UserNotificationDeliveryModelImpl
 	@Deprecated
 	public int getOriginalNotificationType() {
 		return GetterUtil.getInteger(
-			_columnOriginalValues.get("notificationType"));
+			getColumnOriginalValue("notificationType"));
 	}
 
 	@Override
@@ -578,7 +578,7 @@ public class UserNotificationDeliveryModelImpl
 	 */
 	@Deprecated
 	public int getOriginalDeliveryType() {
-		return GetterUtil.getInteger(_columnOriginalValues.get("deliveryType"));
+		return GetterUtil.getInteger(getColumnOriginalValue("deliveryType"));
 	}
 
 	@Override
@@ -849,7 +849,7 @@ public class UserNotificationDeliveryModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put(

@@ -589,7 +589,7 @@ public class UserGroupModelImpl
 	 */
 	@Deprecated
 	public long getOriginalUserGroupId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("userGroupId"));
+		return GetterUtil.getLong(getColumnOriginalValue("userGroupId"));
 	}
 
 	@JSON
@@ -615,7 +615,7 @@ public class UserGroupModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCompanyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -736,8 +736,7 @@ public class UserGroupModelImpl
 	 */
 	@Deprecated
 	public long getOriginalParentUserGroupId() {
-		return GetterUtil.getLong(
-			_columnOriginalValues.get("parentUserGroupId"));
+		return GetterUtil.getLong(getColumnOriginalValue("parentUserGroupId"));
 	}
 
 	@JSON
@@ -1114,7 +1113,7 @@ public class UserGroupModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("ctCollectionId", _ctCollectionId);

@@ -406,7 +406,7 @@ public class AssetEntryAssetCategoryRelModelImpl
 	 */
 	@Deprecated
 	public long getOriginalAssetEntryId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("assetEntryId"));
+		return GetterUtil.getLong(getColumnOriginalValue("assetEntryId"));
 	}
 
 	@Override
@@ -431,7 +431,7 @@ public class AssetEntryAssetCategoryRelModelImpl
 	 */
 	@Deprecated
 	public long getOriginalAssetCategoryId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("assetCategoryId"));
+		return GetterUtil.getLong(getColumnOriginalValue("assetCategoryId"));
 	}
 
 	@Override
@@ -691,7 +691,7 @@ public class AssetEntryAssetCategoryRelModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("ctCollectionId", _ctCollectionId);

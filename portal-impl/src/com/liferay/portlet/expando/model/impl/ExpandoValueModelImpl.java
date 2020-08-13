@@ -482,7 +482,7 @@ public class ExpandoValueModelImpl
 	 */
 	@Deprecated
 	public long getOriginalTableId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("tableId"));
+		return GetterUtil.getLong(getColumnOriginalValue("tableId"));
 	}
 
 	@JSON
@@ -508,7 +508,7 @@ public class ExpandoValueModelImpl
 	 */
 	@Deprecated
 	public long getOriginalColumnId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("columnId"));
+		return GetterUtil.getLong(getColumnOriginalValue("columnId"));
 	}
 
 	@JSON
@@ -534,7 +534,7 @@ public class ExpandoValueModelImpl
 	 */
 	@Deprecated
 	public long getOriginalRowId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("rowId_"));
+		return GetterUtil.getLong(getColumnOriginalValue("rowId_"));
 	}
 
 	@Override
@@ -580,7 +580,7 @@ public class ExpandoValueModelImpl
 	 */
 	@Deprecated
 	public long getOriginalClassNameId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("classNameId"));
+		return GetterUtil.getLong(getColumnOriginalValue("classNameId"));
 	}
 
 	@JSON
@@ -606,7 +606,7 @@ public class ExpandoValueModelImpl
 	 */
 	@Deprecated
 	public long getOriginalClassPK() {
-		return GetterUtil.getLong(_columnOriginalValues.get("classPK"));
+		return GetterUtil.getLong(getColumnOriginalValue("classPK"));
 	}
 
 	@JSON
@@ -901,7 +901,7 @@ public class ExpandoValueModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("ctCollectionId", _ctCollectionId);

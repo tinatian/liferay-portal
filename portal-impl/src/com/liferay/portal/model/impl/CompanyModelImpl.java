@@ -528,7 +528,7 @@ public class CompanyModelImpl
 	 */
 	@Deprecated
 	public long getOriginalLogoId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("logoId"));
+		return GetterUtil.getLong(getColumnOriginalValue("logoId"));
 	}
 
 	@JSON
@@ -560,7 +560,7 @@ public class CompanyModelImpl
 	 */
 	@Deprecated
 	public boolean getOriginalSystem() {
-		return GetterUtil.getBoolean(_columnOriginalValues.get("system_"));
+		return GetterUtil.getBoolean(getColumnOriginalValue("system_"));
 	}
 
 	@JSON
@@ -877,7 +877,7 @@ public class CompanyModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("companyId", _companyId);

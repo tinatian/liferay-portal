@@ -385,7 +385,7 @@ public class DepotAppCustomizationModelImpl
 	 */
 	@Deprecated
 	public long getOriginalDepotEntryId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("depotEntryId"));
+		return GetterUtil.getLong(getColumnOriginalValue("depotEntryId"));
 	}
 
 	@Override
@@ -415,7 +415,7 @@ public class DepotAppCustomizationModelImpl
 	 */
 	@Deprecated
 	public boolean getOriginalEnabled() {
-		return GetterUtil.getBoolean(_columnOriginalValues.get("enabled"));
+		return GetterUtil.getBoolean(getColumnOriginalValue("enabled"));
 	}
 
 	@Override
@@ -683,7 +683,7 @@ public class DepotAppCustomizationModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put(

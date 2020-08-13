@@ -563,7 +563,7 @@ public class BigDecimalEntryModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("bigDecimalEntryId", _bigDecimalEntryId);
 		_columnOriginalValues.put("companyId", _companyId);

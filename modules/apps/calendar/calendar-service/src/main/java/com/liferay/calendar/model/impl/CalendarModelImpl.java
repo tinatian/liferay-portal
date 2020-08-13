@@ -528,7 +528,7 @@ public class CalendarModelImpl
 	 */
 	@Deprecated
 	public long getOriginalGroupId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("groupId"));
+		return GetterUtil.getLong(getColumnOriginalValue("groupId"));
 	}
 
 	@JSON
@@ -554,7 +554,7 @@ public class CalendarModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCompanyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -675,8 +675,7 @@ public class CalendarModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCalendarResourceId() {
-		return GetterUtil.getLong(
-			_columnOriginalValues.get("calendarResourceId"));
+		return GetterUtil.getLong(getColumnOriginalValue("calendarResourceId"));
 	}
 
 	@JSON
@@ -970,8 +969,7 @@ public class CalendarModelImpl
 	 */
 	@Deprecated
 	public boolean getOriginalDefaultCalendar() {
-		return GetterUtil.getBoolean(
-			_columnOriginalValues.get("defaultCalendar"));
+		return GetterUtil.getBoolean(getColumnOriginalValue("defaultCalendar"));
 	}
 
 	@JSON
@@ -1439,7 +1437,7 @@ public class CalendarModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("uuid_", _uuid);

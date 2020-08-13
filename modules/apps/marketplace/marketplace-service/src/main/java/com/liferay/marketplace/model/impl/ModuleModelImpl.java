@@ -379,7 +379,7 @@ public class ModuleModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCompanyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@Override
@@ -404,7 +404,7 @@ public class ModuleModelImpl
 	 */
 	@Deprecated
 	public long getOriginalAppId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("appId"));
+		return GetterUtil.getLong(getColumnOriginalValue("appId"));
 	}
 
 	@Override
@@ -745,7 +745,7 @@ public class ModuleModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("uuid_", _uuid);
 		_columnOriginalValues.put("moduleId", _moduleId);

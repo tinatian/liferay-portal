@@ -622,7 +622,7 @@ public class SegmentsExperimentRelModelImpl
 	@Deprecated
 	public long getOriginalSegmentsExperimentId() {
 		return GetterUtil.getLong(
-			_columnOriginalValues.get("segmentsExperimentId"));
+			getColumnOriginalValue("segmentsExperimentId"));
 	}
 
 	@JSON
@@ -649,7 +649,7 @@ public class SegmentsExperimentRelModelImpl
 	@Deprecated
 	public long getOriginalSegmentsExperienceId() {
 		return GetterUtil.getLong(
-			_columnOriginalValues.get("segmentsExperienceId"));
+			getColumnOriginalValue("segmentsExperienceId"));
 	}
 
 	@JSON
@@ -943,7 +943,7 @@ public class SegmentsExperimentRelModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("ctCollectionId", _ctCollectionId);

@@ -382,7 +382,7 @@ public class MemberRequestModelImpl
 	 */
 	@Deprecated
 	public long getOriginalGroupId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("groupId"));
+		return GetterUtil.getLong(getColumnOriginalValue("groupId"));
 	}
 
 	@Override
@@ -560,7 +560,7 @@ public class MemberRequestModelImpl
 	 */
 	@Deprecated
 	public long getOriginalReceiverUserId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("receiverUserId"));
+		return GetterUtil.getLong(getColumnOriginalValue("receiverUserId"));
 	}
 
 	@Override
@@ -617,7 +617,7 @@ public class MemberRequestModelImpl
 	 */
 	@Deprecated
 	public int getOriginalStatus() {
-		return GetterUtil.getInteger(_columnOriginalValues.get("status"));
+		return GetterUtil.getInteger(getColumnOriginalValue("status"));
 	}
 
 	public long getColumnBitmask() {
@@ -889,7 +889,7 @@ public class MemberRequestModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("memberRequestId", _memberRequestId);
 		_columnOriginalValues.put("groupId", _groupId);

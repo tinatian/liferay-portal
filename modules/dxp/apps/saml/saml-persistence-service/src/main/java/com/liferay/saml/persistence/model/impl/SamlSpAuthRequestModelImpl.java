@@ -665,7 +665,7 @@ public class SamlSpAuthRequestModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put(
 			"samlSpAuthnRequestId", _samlSpAuthnRequestId);

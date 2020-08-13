@@ -455,7 +455,7 @@ public class DLFileEntryMetadataModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCompanyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@Override
@@ -496,7 +496,7 @@ public class DLFileEntryMetadataModelImpl
 	 */
 	@Deprecated
 	public long getOriginalDDMStructureId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("DDMStructureId"));
+		return GetterUtil.getLong(getColumnOriginalValue("DDMStructureId"));
 	}
 
 	@Override
@@ -521,7 +521,7 @@ public class DLFileEntryMetadataModelImpl
 	 */
 	@Deprecated
 	public long getOriginalFileEntryId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("fileEntryId"));
+		return GetterUtil.getLong(getColumnOriginalValue("fileEntryId"));
 	}
 
 	@Override
@@ -546,7 +546,7 @@ public class DLFileEntryMetadataModelImpl
 	 */
 	@Deprecated
 	public long getOriginalFileVersionId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("fileVersionId"));
+		return GetterUtil.getLong(getColumnOriginalValue("fileVersionId"));
 	}
 
 	public long getColumnBitmask() {
@@ -790,7 +790,7 @@ public class DLFileEntryMetadataModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("ctCollectionId", _ctCollectionId);

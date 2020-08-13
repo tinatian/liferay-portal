@@ -569,7 +569,7 @@ public class SiteNavigationMenuItemModelImpl
 	 */
 	@Deprecated
 	public long getOriginalGroupId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("groupId"));
+		return GetterUtil.getLong(getColumnOriginalValue("groupId"));
 	}
 
 	@JSON
@@ -595,7 +595,7 @@ public class SiteNavigationMenuItemModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCompanyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -717,7 +717,7 @@ public class SiteNavigationMenuItemModelImpl
 	@Deprecated
 	public long getOriginalSiteNavigationMenuId() {
 		return GetterUtil.getLong(
-			_columnOriginalValues.get("siteNavigationMenuId"));
+			getColumnOriginalValue("siteNavigationMenuId"));
 	}
 
 	@JSON
@@ -746,7 +746,7 @@ public class SiteNavigationMenuItemModelImpl
 	@Deprecated
 	public long getOriginalParentSiteNavigationMenuItemId() {
 		return GetterUtil.getLong(
-			_columnOriginalValues.get("parentSiteNavigationMenuItemId"));
+			getColumnOriginalValue("parentSiteNavigationMenuItemId"));
 	}
 
 	@JSON
@@ -1182,7 +1182,7 @@ public class SiteNavigationMenuItemModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("uuid_", _uuid);

@@ -561,7 +561,7 @@ public class KaleoLogModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCompanyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@Override
@@ -707,7 +707,7 @@ public class KaleoLogModelImpl
 	 */
 	@Deprecated
 	public long getOriginalKaleoClassPK() {
-		return GetterUtil.getLong(_columnOriginalValues.get("kaleoClassPK"));
+		return GetterUtil.getLong(getColumnOriginalValue("kaleoClassPK"));
 	}
 
 	@Override
@@ -749,7 +749,7 @@ public class KaleoLogModelImpl
 	@Deprecated
 	public long getOriginalKaleoDefinitionVersionId() {
 		return GetterUtil.getLong(
-			_columnOriginalValues.get("kaleoDefinitionVersionId"));
+			getColumnOriginalValue("kaleoDefinitionVersionId"));
 	}
 
 	@Override
@@ -774,7 +774,7 @@ public class KaleoLogModelImpl
 	 */
 	@Deprecated
 	public long getOriginalKaleoInstanceId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("kaleoInstanceId"));
+		return GetterUtil.getLong(getColumnOriginalValue("kaleoInstanceId"));
 	}
 
 	@Override
@@ -800,7 +800,7 @@ public class KaleoLogModelImpl
 	@Deprecated
 	public long getOriginalKaleoInstanceTokenId() {
 		return GetterUtil.getLong(
-			_columnOriginalValues.get("kaleoInstanceTokenId"));
+			getColumnOriginalValue("kaleoInstanceTokenId"));
 	}
 
 	@Override
@@ -826,7 +826,7 @@ public class KaleoLogModelImpl
 	@Deprecated
 	public long getOriginalKaleoTaskInstanceTokenId() {
 		return GetterUtil.getLong(
-			_columnOriginalValues.get("kaleoTaskInstanceTokenId"));
+			getColumnOriginalValue("kaleoTaskInstanceTokenId"));
 	}
 
 	@Override
@@ -1578,7 +1578,7 @@ public class KaleoLogModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("kaleoLogId", _kaleoLogId);

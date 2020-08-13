@@ -512,7 +512,7 @@ public class KaleoTaskAssignmentInstanceModelImpl
 	 */
 	@Deprecated
 	public long getOriginalGroupId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("groupId"));
+		return GetterUtil.getLong(getColumnOriginalValue("groupId"));
 	}
 
 	@Override
@@ -537,7 +537,7 @@ public class KaleoTaskAssignmentInstanceModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCompanyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@Override
@@ -670,7 +670,7 @@ public class KaleoTaskAssignmentInstanceModelImpl
 	@Deprecated
 	public long getOriginalKaleoDefinitionVersionId() {
 		return GetterUtil.getLong(
-			_columnOriginalValues.get("kaleoDefinitionVersionId"));
+			getColumnOriginalValue("kaleoDefinitionVersionId"));
 	}
 
 	@Override
@@ -695,7 +695,7 @@ public class KaleoTaskAssignmentInstanceModelImpl
 	 */
 	@Deprecated
 	public long getOriginalKaleoInstanceId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("kaleoInstanceId"));
+		return GetterUtil.getLong(getColumnOriginalValue("kaleoInstanceId"));
 	}
 
 	@Override
@@ -737,7 +737,7 @@ public class KaleoTaskAssignmentInstanceModelImpl
 	@Deprecated
 	public long getOriginalKaleoTaskInstanceTokenId() {
 		return GetterUtil.getLong(
-			_columnOriginalValues.get("kaleoTaskInstanceTokenId"));
+			getColumnOriginalValue("kaleoTaskInstanceTokenId"));
 	}
 
 	@Override
@@ -829,7 +829,7 @@ public class KaleoTaskAssignmentInstanceModelImpl
 	 */
 	@Deprecated
 	public long getOriginalAssigneeClassPK() {
-		return GetterUtil.getLong(_columnOriginalValues.get("assigneeClassPK"));
+		return GetterUtil.getLong(getColumnOriginalValue("assigneeClassPK"));
 	}
 
 	@Override
@@ -1218,7 +1218,7 @@ public class KaleoTaskAssignmentInstanceModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put(

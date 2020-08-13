@@ -478,7 +478,7 @@ public class OrgLaborModelImpl
 	 */
 	@Deprecated
 	public long getOriginalOrganizationId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("organizationId"));
+		return GetterUtil.getLong(getColumnOriginalValue("organizationId"));
 	}
 
 	@JSON
@@ -1016,7 +1016,7 @@ public class OrgLaborModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("orgLaborId", _orgLaborId);

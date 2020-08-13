@@ -397,7 +397,7 @@ public class ExpandoRowModelImpl
 	 */
 	@Deprecated
 	public long getOriginalTableId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("tableId"));
+		return GetterUtil.getLong(getColumnOriginalValue("tableId"));
 	}
 
 	@Override
@@ -422,7 +422,7 @@ public class ExpandoRowModelImpl
 	 */
 	@Deprecated
 	public long getOriginalClassPK() {
-		return GetterUtil.getLong(_columnOriginalValues.get("classPK"));
+		return GetterUtil.getLong(getColumnOriginalValue("classPK"));
 	}
 
 	public long getColumnBitmask() {
@@ -643,7 +643,7 @@ public class ExpandoRowModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("ctCollectionId", _ctCollectionId);

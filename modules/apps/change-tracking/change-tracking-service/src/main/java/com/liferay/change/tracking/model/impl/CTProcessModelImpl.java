@@ -403,7 +403,7 @@ public class CTProcessModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCompanyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -479,7 +479,7 @@ public class CTProcessModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCtCollectionId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("ctCollectionId"));
+		return GetterUtil.getLong(getColumnOriginalValue("ctCollectionId"));
 	}
 
 	@JSON
@@ -730,7 +730,7 @@ public class CTProcessModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("ctProcessId", _ctProcessId);

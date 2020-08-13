@@ -677,7 +677,7 @@ public class MBMessageModelImpl
 	 */
 	@Deprecated
 	public long getOriginalGroupId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("groupId"));
+		return GetterUtil.getLong(getColumnOriginalValue("groupId"));
 	}
 
 	@JSON
@@ -703,7 +703,7 @@ public class MBMessageModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCompanyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -745,7 +745,7 @@ public class MBMessageModelImpl
 	 */
 	@Deprecated
 	public long getOriginalUserId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("userId"));
+		return GetterUtil.getLong(getColumnOriginalValue("userId"));
 	}
 
 	@JSON
@@ -853,7 +853,7 @@ public class MBMessageModelImpl
 	 */
 	@Deprecated
 	public long getOriginalClassNameId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("classNameId"));
+		return GetterUtil.getLong(getColumnOriginalValue("classNameId"));
 	}
 
 	@JSON
@@ -879,7 +879,7 @@ public class MBMessageModelImpl
 	 */
 	@Deprecated
 	public long getOriginalClassPK() {
-		return GetterUtil.getLong(_columnOriginalValues.get("classPK"));
+		return GetterUtil.getLong(getColumnOriginalValue("classPK"));
 	}
 
 	@JSON
@@ -905,7 +905,7 @@ public class MBMessageModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCategoryId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("categoryId"));
+		return GetterUtil.getLong(getColumnOriginalValue("categoryId"));
 	}
 
 	@JSON
@@ -931,7 +931,7 @@ public class MBMessageModelImpl
 	 */
 	@Deprecated
 	public long getOriginalThreadId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("threadId"));
+		return GetterUtil.getLong(getColumnOriginalValue("threadId"));
 	}
 
 	@JSON
@@ -974,7 +974,7 @@ public class MBMessageModelImpl
 	 */
 	@Deprecated
 	public long getOriginalParentMessageId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("parentMessageId"));
+		return GetterUtil.getLong(getColumnOriginalValue("parentMessageId"));
 	}
 
 	@JSON
@@ -1188,7 +1188,7 @@ public class MBMessageModelImpl
 	 */
 	@Deprecated
 	public boolean getOriginalAnswer() {
-		return GetterUtil.getBoolean(_columnOriginalValues.get("answer"));
+		return GetterUtil.getBoolean(getColumnOriginalValue("answer"));
 	}
 
 	@JSON
@@ -1231,7 +1231,7 @@ public class MBMessageModelImpl
 	 */
 	@Deprecated
 	public int getOriginalStatus() {
-		return GetterUtil.getInteger(_columnOriginalValues.get("status"));
+		return GetterUtil.getInteger(getColumnOriginalValue("status"));
 	}
 
 	@JSON
@@ -1921,7 +1921,7 @@ public class MBMessageModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("ctCollectionId", _ctCollectionId);

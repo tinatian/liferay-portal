@@ -406,7 +406,7 @@ public class KaleoTaskModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCompanyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@Override
@@ -539,7 +539,7 @@ public class KaleoTaskModelImpl
 	@Deprecated
 	public long getOriginalKaleoDefinitionVersionId() {
 		return GetterUtil.getLong(
-			_columnOriginalValues.get("kaleoDefinitionVersionId"));
+			getColumnOriginalValue("kaleoDefinitionVersionId"));
 	}
 
 	@Override
@@ -564,7 +564,7 @@ public class KaleoTaskModelImpl
 	 */
 	@Deprecated
 	public long getOriginalKaleoNodeId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("kaleoNodeId"));
+		return GetterUtil.getLong(getColumnOriginalValue("kaleoNodeId"));
 	}
 
 	@Override
@@ -893,7 +893,7 @@ public class KaleoTaskModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("kaleoTaskId", _kaleoTaskId);

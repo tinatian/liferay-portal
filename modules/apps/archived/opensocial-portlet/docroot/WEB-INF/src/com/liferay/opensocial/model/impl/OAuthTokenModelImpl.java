@@ -435,7 +435,7 @@ public class OAuthTokenModelImpl
 	 */
 	@Deprecated
 	public long getOriginalUserId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("userId"));
+		return GetterUtil.getLong(getColumnOriginalValue("userId"));
 	}
 
 	@Override
@@ -579,7 +579,7 @@ public class OAuthTokenModelImpl
 	 */
 	@Deprecated
 	public long getOriginalModuleId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("moduleId"));
+		return GetterUtil.getLong(getColumnOriginalValue("moduleId"));
 	}
 
 	@Override
@@ -994,7 +994,7 @@ public class OAuthTokenModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("oAuthTokenId", _oAuthTokenId);
 		_columnOriginalValues.put("companyId", _companyId);

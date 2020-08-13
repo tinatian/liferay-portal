@@ -495,7 +495,7 @@ public class UserNotificationEventModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCompanyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@Override
@@ -536,7 +536,7 @@ public class UserNotificationEventModelImpl
 	 */
 	@Deprecated
 	public long getOriginalUserId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("userId"));
+		return GetterUtil.getLong(getColumnOriginalValue("userId"));
 	}
 
 	@Override
@@ -607,7 +607,7 @@ public class UserNotificationEventModelImpl
 	 */
 	@Deprecated
 	public int getOriginalDeliveryType() {
-		return GetterUtil.getInteger(_columnOriginalValues.get("deliveryType"));
+		return GetterUtil.getInteger(getColumnOriginalValue("deliveryType"));
 	}
 
 	@Override
@@ -653,7 +653,7 @@ public class UserNotificationEventModelImpl
 	 */
 	@Deprecated
 	public boolean getOriginalDelivered() {
-		return GetterUtil.getBoolean(_columnOriginalValues.get("delivered"));
+		return GetterUtil.getBoolean(getColumnOriginalValue("delivered"));
 	}
 
 	@Override
@@ -704,8 +704,7 @@ public class UserNotificationEventModelImpl
 	 */
 	@Deprecated
 	public boolean getOriginalActionRequired() {
-		return GetterUtil.getBoolean(
-			_columnOriginalValues.get("actionRequired"));
+		return GetterUtil.getBoolean(getColumnOriginalValue("actionRequired"));
 	}
 
 	@Override
@@ -735,7 +734,7 @@ public class UserNotificationEventModelImpl
 	 */
 	@Deprecated
 	public boolean getOriginalArchived() {
-		return GetterUtil.getBoolean(_columnOriginalValues.get("archived"));
+		return GetterUtil.getBoolean(getColumnOriginalValue("archived"));
 	}
 
 	public long getColumnBitmask() {
@@ -1014,7 +1013,7 @@ public class UserNotificationEventModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("uuid_", _uuid);

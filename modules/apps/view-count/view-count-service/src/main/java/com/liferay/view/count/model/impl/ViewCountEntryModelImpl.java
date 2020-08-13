@@ -559,7 +559,7 @@ public class ViewCountEntryModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("companyId", _companyId);
 		_columnOriginalValues.put("classNameId", _classNameId);

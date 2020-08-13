@@ -400,7 +400,7 @@ public class LVEntryLocalizationModelImpl
 	 */
 	@Deprecated
 	public long getOriginalHeadId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("headId"));
+		return GetterUtil.getLong(getColumnOriginalValue("headId"));
 	}
 
 	public boolean getHead() {
@@ -428,7 +428,7 @@ public class LVEntryLocalizationModelImpl
 	 */
 	@Deprecated
 	public boolean getOriginalHead() {
-		return GetterUtil.getBoolean(_columnOriginalValues.get("head"));
+		return GetterUtil.getBoolean(getColumnOriginalValue("head"));
 	}
 
 	@Override
@@ -485,7 +485,7 @@ public class LVEntryLocalizationModelImpl
 	 */
 	@Deprecated
 	public long getOriginalLvEntryId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("lvEntryId"));
+		return GetterUtil.getLong(getColumnOriginalValue("lvEntryId"));
 	}
 
 	@Override
@@ -812,7 +812,7 @@ public class LVEntryLocalizationModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("headId", _headId);

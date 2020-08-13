@@ -394,7 +394,7 @@ public class MessageModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCompanyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@Override
@@ -526,7 +526,7 @@ public class MessageModelImpl
 	 */
 	@Deprecated
 	public long getOriginalFolderId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("folderId"));
+		return GetterUtil.getLong(getColumnOriginalValue("folderId"));
 	}
 
 	@Override
@@ -751,7 +751,7 @@ public class MessageModelImpl
 	 */
 	@Deprecated
 	public long getOriginalRemoteMessageId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("remoteMessageId"));
+		return GetterUtil.getLong(getColumnOriginalValue("remoteMessageId"));
 	}
 
 	@Override
@@ -1119,7 +1119,7 @@ public class MessageModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("messageId", _messageId);
 		_columnOriginalValues.put("companyId", _companyId);

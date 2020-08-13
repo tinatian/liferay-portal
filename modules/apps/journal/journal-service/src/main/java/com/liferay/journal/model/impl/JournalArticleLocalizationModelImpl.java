@@ -409,7 +409,7 @@ public class JournalArticleLocalizationModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCompanyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@Override
@@ -434,7 +434,7 @@ public class JournalArticleLocalizationModelImpl
 	 */
 	@Deprecated
 	public long getOriginalArticlePK() {
-		return GetterUtil.getLong(_columnOriginalValues.get("articlePK"));
+		return GetterUtil.getLong(getColumnOriginalValue("articlePK"));
 	}
 
 	@Override
@@ -779,7 +779,7 @@ public class JournalArticleLocalizationModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("ctCollectionId", _ctCollectionId);

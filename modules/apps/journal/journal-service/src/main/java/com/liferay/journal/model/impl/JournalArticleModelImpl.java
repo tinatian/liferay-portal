@@ -782,7 +782,7 @@ public class JournalArticleModelImpl
 	 */
 	@Deprecated
 	public long getOriginalResourcePrimKey() {
-		return GetterUtil.getLong(_columnOriginalValues.get("resourcePrimKey"));
+		return GetterUtil.getLong(getColumnOriginalValue("resourcePrimKey"));
 	}
 
 	@JSON
@@ -808,7 +808,7 @@ public class JournalArticleModelImpl
 	 */
 	@Deprecated
 	public long getOriginalGroupId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("groupId"));
+		return GetterUtil.getLong(getColumnOriginalValue("groupId"));
 	}
 
 	@JSON
@@ -834,7 +834,7 @@ public class JournalArticleModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCompanyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -876,7 +876,7 @@ public class JournalArticleModelImpl
 	 */
 	@Deprecated
 	public long getOriginalUserId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("userId"));
+		return GetterUtil.getLong(getColumnOriginalValue("userId"));
 	}
 
 	@JSON
@@ -964,7 +964,7 @@ public class JournalArticleModelImpl
 	 */
 	@Deprecated
 	public long getOriginalFolderId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("folderId"));
+		return GetterUtil.getLong(getColumnOriginalValue("folderId"));
 	}
 
 	@Override
@@ -1010,7 +1010,7 @@ public class JournalArticleModelImpl
 	 */
 	@Deprecated
 	public long getOriginalClassNameId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("classNameId"));
+		return GetterUtil.getLong(getColumnOriginalValue("classNameId"));
 	}
 
 	@JSON
@@ -1036,7 +1036,7 @@ public class JournalArticleModelImpl
 	 */
 	@Deprecated
 	public long getOriginalClassPK() {
-		return GetterUtil.getLong(_columnOriginalValues.get("classPK"));
+		return GetterUtil.getLong(getColumnOriginalValue("classPK"));
 	}
 
 	@JSON
@@ -1115,7 +1115,7 @@ public class JournalArticleModelImpl
 	 */
 	@Deprecated
 	public double getOriginalVersion() {
-		return GetterUtil.getDouble(_columnOriginalValues.get("version"));
+		return GetterUtil.getDouble(getColumnOriginalValue("version"));
 	}
 
 	@JSON
@@ -1375,7 +1375,7 @@ public class JournalArticleModelImpl
 	 */
 	@Deprecated
 	public boolean getOriginalIndexable() {
-		return GetterUtil.getBoolean(_columnOriginalValues.get("indexable"));
+		return GetterUtil.getBoolean(getColumnOriginalValue("indexable"));
 	}
 
 	@JSON
@@ -1424,7 +1424,7 @@ public class JournalArticleModelImpl
 	 */
 	@Deprecated
 	public long getOriginalSmallImageId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("smallImageId"));
+		return GetterUtil.getLong(getColumnOriginalValue("smallImageId"));
 	}
 
 	@JSON
@@ -1489,7 +1489,7 @@ public class JournalArticleModelImpl
 	 */
 	@Deprecated
 	public int getOriginalStatus() {
-		return GetterUtil.getInteger(_columnOriginalValues.get("status"));
+		return GetterUtil.getInteger(getColumnOriginalValue("status"));
 	}
 
 	@JSON
@@ -2254,7 +2254,7 @@ public class JournalArticleModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("ctCollectionId", _ctCollectionId);

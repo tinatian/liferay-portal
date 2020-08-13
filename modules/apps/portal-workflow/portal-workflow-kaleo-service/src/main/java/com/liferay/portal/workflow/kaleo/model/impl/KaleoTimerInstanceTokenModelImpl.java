@@ -705,7 +705,7 @@ public class KaleoTimerInstanceTokenModelImpl
 	 */
 	@Deprecated
 	public long getOriginalKaleoInstanceId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("kaleoInstanceId"));
+		return GetterUtil.getLong(getColumnOriginalValue("kaleoInstanceId"));
 	}
 
 	@Override
@@ -731,7 +731,7 @@ public class KaleoTimerInstanceTokenModelImpl
 	@Deprecated
 	public long getOriginalKaleoInstanceTokenId() {
 		return GetterUtil.getLong(
-			_columnOriginalValues.get("kaleoInstanceTokenId"));
+			getColumnOriginalValue("kaleoInstanceTokenId"));
 	}
 
 	@Override
@@ -772,7 +772,7 @@ public class KaleoTimerInstanceTokenModelImpl
 	 */
 	@Deprecated
 	public long getOriginalKaleoTimerId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("kaleoTimerId"));
+		return GetterUtil.getLong(getColumnOriginalValue("kaleoTimerId"));
 	}
 
 	@Override
@@ -823,7 +823,7 @@ public class KaleoTimerInstanceTokenModelImpl
 	 */
 	@Deprecated
 	public boolean getOriginalBlocking() {
-		return GetterUtil.getBoolean(_columnOriginalValues.get("blocking"));
+		return GetterUtil.getBoolean(getColumnOriginalValue("blocking"));
 	}
 
 	@Override
@@ -885,7 +885,7 @@ public class KaleoTimerInstanceTokenModelImpl
 	 */
 	@Deprecated
 	public boolean getOriginalCompleted() {
-		return GetterUtil.getBoolean(_columnOriginalValues.get("completed"));
+		return GetterUtil.getBoolean(getColumnOriginalValue("completed"));
 	}
 
 	@Override
@@ -1277,7 +1277,7 @@ public class KaleoTimerInstanceTokenModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put(

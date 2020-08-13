@@ -472,7 +472,7 @@ public class PowwowMeetingModelImpl
 	 */
 	@Deprecated
 	public long getOriginalGroupId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("groupId"));
+		return GetterUtil.getLong(getColumnOriginalValue("groupId"));
 	}
 
 	@JSON
@@ -531,7 +531,7 @@ public class PowwowMeetingModelImpl
 	 */
 	@Deprecated
 	public long getOriginalUserId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("userId"));
+		return GetterUtil.getLong(getColumnOriginalValue("userId"));
 	}
 
 	@JSON
@@ -619,7 +619,7 @@ public class PowwowMeetingModelImpl
 	 */
 	@Deprecated
 	public long getOriginalPowwowServerId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("powwowServerId"));
+		return GetterUtil.getLong(getColumnOriginalValue("powwowServerId"));
 	}
 
 	@JSON
@@ -772,7 +772,7 @@ public class PowwowMeetingModelImpl
 	 */
 	@Deprecated
 	public int getOriginalStatus() {
-		return GetterUtil.getInteger(_columnOriginalValues.get("status"));
+		return GetterUtil.getInteger(getColumnOriginalValue("status"));
 	}
 
 	public long getColumnBitmask() {
@@ -1081,7 +1081,7 @@ public class PowwowMeetingModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("powwowMeetingId", _powwowMeetingId);
 		_columnOriginalValues.put("groupId", _groupId);

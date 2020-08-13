@@ -501,7 +501,7 @@ public class LayoutSetModelImpl
 	 */
 	@Deprecated
 	public long getOriginalGroupId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("groupId"));
+		return GetterUtil.getLong(getColumnOriginalValue("groupId"));
 	}
 
 	@JSON
@@ -527,7 +527,7 @@ public class LayoutSetModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCompanyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -599,8 +599,7 @@ public class LayoutSetModelImpl
 	 */
 	@Deprecated
 	public boolean getOriginalPrivateLayout() {
-		return GetterUtil.getBoolean(
-			_columnOriginalValues.get("privateLayout"));
+		return GetterUtil.getBoolean(getColumnOriginalValue("privateLayout"));
 	}
 
 	@JSON
@@ -626,7 +625,7 @@ public class LayoutSetModelImpl
 	 */
 	@Deprecated
 	public long getOriginalLogoId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("logoId"));
+		return GetterUtil.getLong(getColumnOriginalValue("logoId"));
 	}
 
 	@JSON
@@ -1097,7 +1096,7 @@ public class LayoutSetModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("ctCollectionId", _ctCollectionId);

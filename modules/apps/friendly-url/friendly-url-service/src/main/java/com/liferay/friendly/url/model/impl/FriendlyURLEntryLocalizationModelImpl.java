@@ -462,8 +462,7 @@ public class FriendlyURLEntryLocalizationModelImpl
 	 */
 	@Deprecated
 	public long getOriginalFriendlyURLEntryId() {
-		return GetterUtil.getLong(
-			_columnOriginalValues.get("friendlyURLEntryId"));
+		return GetterUtil.getLong(getColumnOriginalValue("friendlyURLEntryId"));
 	}
 
 	@Override
@@ -548,7 +547,7 @@ public class FriendlyURLEntryLocalizationModelImpl
 	 */
 	@Deprecated
 	public long getOriginalGroupId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("groupId"));
+		return GetterUtil.getLong(getColumnOriginalValue("groupId"));
 	}
 
 	@Override
@@ -593,7 +592,7 @@ public class FriendlyURLEntryLocalizationModelImpl
 	 */
 	@Deprecated
 	public long getOriginalClassNameId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("classNameId"));
+		return GetterUtil.getLong(getColumnOriginalValue("classNameId"));
 	}
 
 	@Override
@@ -618,7 +617,7 @@ public class FriendlyURLEntryLocalizationModelImpl
 	 */
 	@Deprecated
 	public long getOriginalClassPK() {
-		return GetterUtil.getLong(_columnOriginalValues.get("classPK"));
+		return GetterUtil.getLong(getColumnOriginalValue("classPK"));
 	}
 
 	public long getColumnBitmask() {
@@ -884,7 +883,7 @@ public class FriendlyURLEntryLocalizationModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("ctCollectionId", _ctCollectionId);

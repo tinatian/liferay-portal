@@ -384,7 +384,7 @@ public class AppBuilderAppDataRecordLinkModelImpl
 	 */
 	@Deprecated
 	public long getOriginalAppBuilderAppId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("appBuilderAppId"));
+		return GetterUtil.getLong(getColumnOriginalValue("appBuilderAppId"));
 	}
 
 	@Override
@@ -425,7 +425,7 @@ public class AppBuilderAppDataRecordLinkModelImpl
 	 */
 	@Deprecated
 	public long getOriginalDdlRecordId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("ddlRecordId"));
+		return GetterUtil.getLong(getColumnOriginalValue("ddlRecordId"));
 	}
 
 	public long getColumnBitmask() {
@@ -668,7 +668,7 @@ public class AppBuilderAppDataRecordLinkModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put(
 			"appBuilderAppDataRecordLinkId", _appBuilderAppDataRecordLinkId);

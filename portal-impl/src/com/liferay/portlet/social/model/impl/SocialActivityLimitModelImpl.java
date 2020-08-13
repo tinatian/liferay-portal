@@ -451,7 +451,7 @@ public class SocialActivityLimitModelImpl
 	 */
 	@Deprecated
 	public long getOriginalGroupId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("groupId"));
+		return GetterUtil.getLong(getColumnOriginalValue("groupId"));
 	}
 
 	@Override
@@ -508,7 +508,7 @@ public class SocialActivityLimitModelImpl
 	 */
 	@Deprecated
 	public long getOriginalUserId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("userId"));
+		return GetterUtil.getLong(getColumnOriginalValue("userId"));
 	}
 
 	@Override
@@ -553,7 +553,7 @@ public class SocialActivityLimitModelImpl
 	 */
 	@Deprecated
 	public long getOriginalClassNameId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("classNameId"));
+		return GetterUtil.getLong(getColumnOriginalValue("classNameId"));
 	}
 
 	@Override
@@ -578,7 +578,7 @@ public class SocialActivityLimitModelImpl
 	 */
 	@Deprecated
 	public long getOriginalClassPK() {
-		return GetterUtil.getLong(_columnOriginalValues.get("classPK"));
+		return GetterUtil.getLong(getColumnOriginalValue("classPK"));
 	}
 
 	@Override
@@ -603,7 +603,7 @@ public class SocialActivityLimitModelImpl
 	 */
 	@Deprecated
 	public int getOriginalActivityType() {
-		return GetterUtil.getInteger(_columnOriginalValues.get("activityType"));
+		return GetterUtil.getInteger(getColumnOriginalValue("activityType"));
 	}
 
 	@Override
@@ -913,7 +913,7 @@ public class SocialActivityLimitModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("ctCollectionId", _ctCollectionId);

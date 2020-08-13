@@ -425,7 +425,7 @@ public class CTAutoResolutionInfoModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCtCollectionId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("ctCollectionId"));
+		return GetterUtil.getLong(getColumnOriginalValue("ctCollectionId"));
 	}
 
 	@Override
@@ -450,8 +450,7 @@ public class CTAutoResolutionInfoModelImpl
 	 */
 	@Deprecated
 	public long getOriginalModelClassNameId() {
-		return GetterUtil.getLong(
-			_columnOriginalValues.get("modelClassNameId"));
+		return GetterUtil.getLong(getColumnOriginalValue("modelClassNameId"));
 	}
 
 	@Override
@@ -476,8 +475,7 @@ public class CTAutoResolutionInfoModelImpl
 	 */
 	@Deprecated
 	public long getOriginalSourceModelClassPK() {
-		return GetterUtil.getLong(
-			_columnOriginalValues.get("sourceModelClassPK"));
+		return GetterUtil.getLong(getColumnOriginalValue("sourceModelClassPK"));
 	}
 
 	@Override
@@ -773,7 +771,7 @@ public class CTAutoResolutionInfoModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put(

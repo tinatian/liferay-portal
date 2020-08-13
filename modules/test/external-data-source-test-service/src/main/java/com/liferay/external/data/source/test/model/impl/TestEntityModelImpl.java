@@ -506,7 +506,7 @@ public class TestEntityModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("id_", _id);
 		_columnOriginalValues.put("data_", _data);

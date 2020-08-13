@@ -548,7 +548,7 @@ public class MDRRuleGroupInstanceModelImpl
 	 */
 	@Deprecated
 	public long getOriginalGroupId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("groupId"));
+		return GetterUtil.getLong(getColumnOriginalValue("groupId"));
 	}
 
 	@JSON
@@ -574,7 +574,7 @@ public class MDRRuleGroupInstanceModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCompanyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -715,7 +715,7 @@ public class MDRRuleGroupInstanceModelImpl
 	 */
 	@Deprecated
 	public long getOriginalClassNameId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("classNameId"));
+		return GetterUtil.getLong(getColumnOriginalValue("classNameId"));
 	}
 
 	@JSON
@@ -741,7 +741,7 @@ public class MDRRuleGroupInstanceModelImpl
 	 */
 	@Deprecated
 	public long getOriginalClassPK() {
-		return GetterUtil.getLong(_columnOriginalValues.get("classPK"));
+		return GetterUtil.getLong(getColumnOriginalValue("classPK"));
 	}
 
 	@JSON
@@ -767,7 +767,7 @@ public class MDRRuleGroupInstanceModelImpl
 	 */
 	@Deprecated
 	public long getOriginalRuleGroupId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("ruleGroupId"));
+		return GetterUtil.getLong(getColumnOriginalValue("ruleGroupId"));
 	}
 
 	@JSON
@@ -1101,7 +1101,7 @@ public class MDRRuleGroupInstanceModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("uuid_", _uuid);

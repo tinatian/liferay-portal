@@ -417,7 +417,7 @@ public class LVEntryLocalizationVersionModelImpl
 	 */
 	@Deprecated
 	public int getOriginalVersion() {
-		return GetterUtil.getInteger(_columnOriginalValues.get("version"));
+		return GetterUtil.getInteger(getColumnOriginalValue("version"));
 	}
 
 	@Override
@@ -443,7 +443,7 @@ public class LVEntryLocalizationVersionModelImpl
 	@Deprecated
 	public long getOriginalLvEntryLocalizationId() {
 		return GetterUtil.getLong(
-			_columnOriginalValues.get("lvEntryLocalizationId"));
+			getColumnOriginalValue("lvEntryLocalizationId"));
 	}
 
 	@Override
@@ -484,7 +484,7 @@ public class LVEntryLocalizationVersionModelImpl
 	 */
 	@Deprecated
 	public long getOriginalLvEntryId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("lvEntryId"));
+		return GetterUtil.getLong(getColumnOriginalValue("lvEntryId"));
 	}
 
 	@Override
@@ -829,7 +829,7 @@ public class LVEntryLocalizationVersionModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put(
 			"lvEntryLocalizationVersionId", _lvEntryLocalizationVersionId);

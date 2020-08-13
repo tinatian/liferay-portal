@@ -354,7 +354,7 @@ public class NestedSetsTreeEntryModelImpl
 	@Deprecated
 	public long getOriginalParentNestedSetsTreeEntryId() {
 		return GetterUtil.getLong(
-			_columnOriginalValues.get("parentNestedSetsTreeEntryId"));
+			getColumnOriginalValue("parentNestedSetsTreeEntryId"));
 	}
 
 	@Override
@@ -637,7 +637,7 @@ public class NestedSetsTreeEntryModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put(
 			"nestedSetsTreeEntryId", _nestedSetsTreeEntryId);

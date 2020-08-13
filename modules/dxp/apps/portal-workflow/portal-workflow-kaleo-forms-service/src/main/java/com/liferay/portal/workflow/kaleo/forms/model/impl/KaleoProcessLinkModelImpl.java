@@ -347,7 +347,7 @@ public class KaleoProcessLinkModelImpl
 	 */
 	@Deprecated
 	public long getOriginalKaleoProcessId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("kaleoProcessId"));
+		return GetterUtil.getLong(getColumnOriginalValue("kaleoProcessId"));
 	}
 
 	@Override
@@ -621,7 +621,7 @@ public class KaleoProcessLinkModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("kaleoProcessLinkId", _kaleoProcessLinkId);
 		_columnOriginalValues.put("companyId", _companyId);

@@ -471,7 +471,7 @@ public class AssetAutoTaggerEntryModelImpl
 	 */
 	@Deprecated
 	public long getOriginalAssetEntryId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("assetEntryId"));
+		return GetterUtil.getLong(getColumnOriginalValue("assetEntryId"));
 	}
 
 	@Override
@@ -496,7 +496,7 @@ public class AssetAutoTaggerEntryModelImpl
 	 */
 	@Deprecated
 	public long getOriginalAssetTagId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("assetTagId"));
+		return GetterUtil.getLong(getColumnOriginalValue("assetTagId"));
 	}
 
 	public long getColumnBitmask() {
@@ -755,7 +755,7 @@ public class AssetAutoTaggerEntryModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("ctCollectionId", _ctCollectionId);

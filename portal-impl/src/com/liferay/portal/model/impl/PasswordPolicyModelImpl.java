@@ -680,7 +680,7 @@ public class PasswordPolicyModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCompanyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -807,8 +807,7 @@ public class PasswordPolicyModelImpl
 	 */
 	@Deprecated
 	public boolean getOriginalDefaultPolicy() {
-		return GetterUtil.getBoolean(
-			_columnOriginalValues.get("defaultPolicy"));
+		return GetterUtil.getBoolean(getColumnOriginalValue("defaultPolicy"));
 	}
 
 	@JSON
@@ -1687,7 +1686,7 @@ public class PasswordPolicyModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("uuid_", _uuid);

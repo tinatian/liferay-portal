@@ -623,7 +623,7 @@ public class OrganizationModelImpl
 	 */
 	@Deprecated
 	public long getOriginalOrganizationId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("organizationId"));
+		return GetterUtil.getLong(getColumnOriginalValue("organizationId"));
 	}
 
 	@JSON
@@ -649,7 +649,7 @@ public class OrganizationModelImpl
 	 */
 	@Deprecated
 	public long getOriginalCompanyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -771,7 +771,7 @@ public class OrganizationModelImpl
 	@Deprecated
 	public long getOriginalParentOrganizationId() {
 		return GetterUtil.getLong(
-			_columnOriginalValues.get("parentOrganizationId"));
+			getColumnOriginalValue("parentOrganizationId"));
 	}
 
 	@JSON
@@ -1301,7 +1301,7 @@ public class OrganizationModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("ctCollectionId", _ctCollectionId);

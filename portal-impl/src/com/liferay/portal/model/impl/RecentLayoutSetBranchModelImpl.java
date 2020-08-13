@@ -394,7 +394,7 @@ public class RecentLayoutSetBranchModelImpl
 	 */
 	@Deprecated
 	public long getOriginalGroupId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("groupId"));
+		return GetterUtil.getLong(getColumnOriginalValue("groupId"));
 	}
 
 	@Override
@@ -451,7 +451,7 @@ public class RecentLayoutSetBranchModelImpl
 	 */
 	@Deprecated
 	public long getOriginalUserId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("userId"));
+		return GetterUtil.getLong(getColumnOriginalValue("userId"));
 	}
 
 	@Override
@@ -476,8 +476,7 @@ public class RecentLayoutSetBranchModelImpl
 	 */
 	@Deprecated
 	public long getOriginalLayoutSetBranchId() {
-		return GetterUtil.getLong(
-			_columnOriginalValues.get("layoutSetBranchId"));
+		return GetterUtil.getLong(getColumnOriginalValue("layoutSetBranchId"));
 	}
 
 	@Override
@@ -502,7 +501,7 @@ public class RecentLayoutSetBranchModelImpl
 	 */
 	@Deprecated
 	public long getOriginalLayoutSetId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("layoutSetId"));
+		return GetterUtil.getLong(getColumnOriginalValue("layoutSetId"));
 	}
 
 	public long getColumnBitmask() {
@@ -738,7 +737,7 @@ public class RecentLayoutSetBranchModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put(

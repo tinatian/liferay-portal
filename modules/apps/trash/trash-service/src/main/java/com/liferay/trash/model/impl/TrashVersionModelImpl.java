@@ -403,7 +403,7 @@ public class TrashVersionModelImpl
 	 */
 	@Deprecated
 	public long getOriginalEntryId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("entryId"));
+		return GetterUtil.getLong(getColumnOriginalValue("entryId"));
 	}
 
 	@Override
@@ -448,7 +448,7 @@ public class TrashVersionModelImpl
 	 */
 	@Deprecated
 	public long getOriginalClassNameId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("classNameId"));
+		return GetterUtil.getLong(getColumnOriginalValue("classNameId"));
 	}
 
 	@Override
@@ -473,7 +473,7 @@ public class TrashVersionModelImpl
 	 */
 	@Deprecated
 	public long getOriginalClassPK() {
-		return GetterUtil.getLong(_columnOriginalValues.get("classPK"));
+		return GetterUtil.getLong(getColumnOriginalValue("classPK"));
 	}
 
 	@Override
@@ -750,7 +750,7 @@ public class TrashVersionModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("ctCollectionId", _ctCollectionId);

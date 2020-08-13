@@ -864,7 +864,7 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 	 */
 	@Deprecated
 	public long getOriginalUserId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("userId"));
+		return GetterUtil.getLong(getColumnOriginalValue("userId"));
 	}
 
 	@JSON
@@ -890,7 +890,7 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 	 */
 	@Deprecated
 	public long getOriginalCompanyId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -980,7 +980,7 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 	 */
 	@Deprecated
 	public boolean getOriginalDefaultUser() {
-		return GetterUtil.getBoolean(_columnOriginalValues.get("defaultUser"));
+		return GetterUtil.getBoolean(getColumnOriginalValue("defaultUser"));
 	}
 
 	@JSON
@@ -1006,7 +1006,7 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 	 */
 	@Deprecated
 	public long getOriginalContactId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("contactId"));
+		return GetterUtil.getLong(getColumnOriginalValue("contactId"));
 	}
 
 	@JSON(include = false)
@@ -1260,7 +1260,7 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 	 */
 	@Deprecated
 	public long getOriginalFacebookId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("facebookId"));
+		return GetterUtil.getLong(getColumnOriginalValue("facebookId"));
 	}
 
 	@JSON
@@ -1365,7 +1365,7 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 	 */
 	@Deprecated
 	public long getOriginalPortraitId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("portraitId"));
+		return GetterUtil.getLong(getColumnOriginalValue("portraitId"));
 	}
 
 	@JSON
@@ -1765,7 +1765,7 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 	 */
 	@Deprecated
 	public int getOriginalStatus() {
-		return GetterUtil.getInteger(_columnOriginalValues.get("status"));
+		return GetterUtil.getInteger(getColumnOriginalValue("status"));
 	}
 
 	@Override
@@ -2285,7 +2285,7 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("ctCollectionId", _ctCollectionId);

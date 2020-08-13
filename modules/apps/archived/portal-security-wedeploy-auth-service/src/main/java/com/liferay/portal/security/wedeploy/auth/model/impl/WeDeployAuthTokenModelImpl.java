@@ -536,7 +536,7 @@ public class WeDeployAuthTokenModelImpl
 	 */
 	@Deprecated
 	public int getOriginalType() {
-		return GetterUtil.getInteger(_columnOriginalValues.get("type_"));
+		return GetterUtil.getInteger(getColumnOriginalValue("type_"));
 	}
 
 	public long getColumnBitmask() {
@@ -806,7 +806,7 @@ public class WeDeployAuthTokenModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("weDeployAuthTokenId", _weDeployAuthTokenId);
 		_columnOriginalValues.put("companyId", _companyId);

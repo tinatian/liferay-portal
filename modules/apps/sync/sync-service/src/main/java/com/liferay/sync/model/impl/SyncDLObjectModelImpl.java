@@ -656,7 +656,7 @@ public class SyncDLObjectModelImpl
 	 */
 	@Deprecated
 	public long getOriginalModifiedTime() {
-		return GetterUtil.getLong(_columnOriginalValues.get("modifiedTime"));
+		return GetterUtil.getLong(getColumnOriginalValue("modifiedTime"));
 	}
 
 	@JSON
@@ -682,7 +682,7 @@ public class SyncDLObjectModelImpl
 	 */
 	@Deprecated
 	public long getOriginalRepositoryId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("repositoryId"));
+		return GetterUtil.getLong(getColumnOriginalValue("repositoryId"));
 	}
 
 	@JSON
@@ -708,7 +708,7 @@ public class SyncDLObjectModelImpl
 	 */
 	@Deprecated
 	public long getOriginalParentFolderId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("parentFolderId"));
+		return GetterUtil.getLong(getColumnOriginalValue("parentFolderId"));
 	}
 
 	@JSON(include = false)
@@ -1157,7 +1157,7 @@ public class SyncDLObjectModelImpl
 	 */
 	@Deprecated
 	public long getOriginalTypePK() {
-		return GetterUtil.getLong(_columnOriginalValues.get("typePK"));
+		return GetterUtil.getLong(getColumnOriginalValue("typePK"));
 	}
 
 	@JSON
@@ -1597,7 +1597,7 @@ public class SyncDLObjectModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("syncDLObjectId", _syncDLObjectId);
 		_columnOriginalValues.put("companyId", _companyId);

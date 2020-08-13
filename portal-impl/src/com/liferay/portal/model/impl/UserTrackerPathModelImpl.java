@@ -366,7 +366,7 @@ public class UserTrackerPathModelImpl
 	 */
 	@Deprecated
 	public long getOriginalUserTrackerId() {
-		return GetterUtil.getLong(_columnOriginalValues.get("userTrackerId"));
+		return GetterUtil.getLong(getColumnOriginalValue("userTrackerId"));
 	}
 
 	@Override
@@ -641,7 +641,7 @@ public class UserTrackerPathModelImpl
 	}
 
 	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
+		_columnOriginalValues = new HashMap<>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("userTrackerPathId", _userTrackerPathId);
