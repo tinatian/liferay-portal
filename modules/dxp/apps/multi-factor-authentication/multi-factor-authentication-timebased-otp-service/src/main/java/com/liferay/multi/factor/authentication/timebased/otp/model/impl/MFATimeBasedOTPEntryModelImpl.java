@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -113,8 +114,18 @@ public class MFATimeBasedOTPEntryModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long USERID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long MFATIMEBASEDOTPENTRYID_COLUMN_BITMASK = 2L;
 
 	/**
@@ -351,6 +362,12 @@ public class MFATimeBasedOTPEntryModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= _columnBitmasks.get("mvccVersion");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -361,6 +378,12 @@ public class MFATimeBasedOTPEntryModelImpl
 
 	@Override
 	public void setMfaTimeBasedOTPEntryId(long mfaTimeBasedOTPEntryId) {
+		_columnBitmask |= _columnBitmasks.get("mfaTimeBasedOTPEntryId");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_mfaTimeBasedOTPEntryId = mfaTimeBasedOTPEntryId;
 	}
 
@@ -371,6 +394,12 @@ public class MFATimeBasedOTPEntryModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= _columnBitmasks.get("companyId");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -381,12 +410,10 @@ public class MFATimeBasedOTPEntryModelImpl
 
 	@Override
 	public void setUserId(long userId) {
-		_columnBitmask |= USERID_COLUMN_BITMASK;
+		_columnBitmask |= _columnBitmasks.get("userId");
 
-		if (!_setOriginalUserId) {
-			_setOriginalUserId = true;
-
-			_originalUserId = _userId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_userId = userId;
@@ -408,8 +435,13 @@ public class MFATimeBasedOTPEntryModelImpl
 	public void setUserUuid(String userUuid) {
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalUserId() {
-		return _originalUserId;
+		return GetterUtil.getLong(_columnOriginalValues.get("userId"));
 	}
 
 	@Override
@@ -424,6 +456,12 @@ public class MFATimeBasedOTPEntryModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= _columnBitmasks.get("userName");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userName = userName;
 	}
 
@@ -434,6 +472,12 @@ public class MFATimeBasedOTPEntryModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= _columnBitmasks.get("createDate");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -450,6 +494,12 @@ public class MFATimeBasedOTPEntryModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= _columnBitmasks.get("modifiedDate");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -460,6 +510,12 @@ public class MFATimeBasedOTPEntryModelImpl
 
 	@Override
 	public void setFailedAttempts(int failedAttempts) {
+		_columnBitmask |= _columnBitmasks.get("failedAttempts");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_failedAttempts = failedAttempts;
 	}
 
@@ -470,6 +526,12 @@ public class MFATimeBasedOTPEntryModelImpl
 
 	@Override
 	public void setLastFailDate(Date lastFailDate) {
+		_columnBitmask |= _columnBitmasks.get("lastFailDate");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_lastFailDate = lastFailDate;
 	}
 
@@ -485,6 +547,12 @@ public class MFATimeBasedOTPEntryModelImpl
 
 	@Override
 	public void setLastFailIP(String lastFailIP) {
+		_columnBitmask |= _columnBitmasks.get("lastFailIP");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_lastFailIP = lastFailIP;
 	}
 
@@ -495,6 +563,12 @@ public class MFATimeBasedOTPEntryModelImpl
 
 	@Override
 	public void setLastSuccessDate(Date lastSuccessDate) {
+		_columnBitmask |= _columnBitmasks.get("lastSuccessDate");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_lastSuccessDate = lastSuccessDate;
 	}
 
@@ -510,6 +584,12 @@ public class MFATimeBasedOTPEntryModelImpl
 
 	@Override
 	public void setLastSuccessIP(String lastSuccessIP) {
+		_columnBitmask |= _columnBitmasks.get("lastSuccessIP");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_lastSuccessIP = lastSuccessIP;
 	}
 
@@ -525,6 +605,12 @@ public class MFATimeBasedOTPEntryModelImpl
 
 	@Override
 	public void setSharedSecret(String sharedSecret) {
+		_columnBitmask |= _columnBitmasks.get("sharedSecret");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_sharedSecret = sharedSecret;
 	}
 
@@ -649,16 +735,11 @@ public class MFATimeBasedOTPEntryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		MFATimeBasedOTPEntryModelImpl mfaTimeBasedOTPEntryModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		mfaTimeBasedOTPEntryModelImpl._originalUserId =
-			mfaTimeBasedOTPEntryModelImpl._userId;
+		_setModifiedDate = false;
 
-		mfaTimeBasedOTPEntryModelImpl._setOriginalUserId = false;
-
-		mfaTimeBasedOTPEntryModelImpl._setModifiedDate = false;
-
-		mfaTimeBasedOTPEntryModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -823,12 +904,80 @@ public class MFATimeBasedOTPEntryModelImpl
 
 	}
 
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("mvccVersion", _mvccVersion);
+		_columnOriginalValues.put(
+			"mfaTimeBasedOTPEntryId", _mfaTimeBasedOTPEntryId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("userId", _userId);
+		_columnOriginalValues.put("userName", _userName);
+		_columnOriginalValues.put("createDate", _createDate);
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
+		_columnOriginalValues.put("failedAttempts", _failedAttempts);
+		_columnOriginalValues.put("lastFailDate", _lastFailDate);
+		_columnOriginalValues.put("lastFailIP", _lastFailIP);
+		_columnOriginalValues.put("lastSuccessDate", _lastSuccessDate);
+		_columnOriginalValues.put("lastSuccessIP", _lastSuccessIP);
+		_columnOriginalValues.put("sharedSecret", _sharedSecret);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new LinkedHashMap<>();
+
+		columnBitmasks.put("mvccVersion", 1L);
+
+		columnBitmasks.put("mfaTimeBasedOTPEntryId", 2L);
+
+		columnBitmasks.put("companyId", 4L);
+
+		columnBitmasks.put("userId", 8L);
+
+		columnBitmasks.put("userName", 16L);
+
+		columnBitmasks.put("createDate", 32L);
+
+		columnBitmasks.put("modifiedDate", 64L);
+
+		columnBitmasks.put("failedAttempts", 128L);
+
+		columnBitmasks.put("lastFailDate", 256L);
+
+		columnBitmasks.put("lastFailIP", 512L);
+
+		columnBitmasks.put("lastSuccessDate", 1024L);
+
+		columnBitmasks.put("lastSuccessIP", 2048L);
+
+		columnBitmasks.put("sharedSecret", 4096L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
 	private long _mvccVersion;
 	private long _mfaTimeBasedOTPEntryId;
 	private long _companyId;
 	private long _userId;
-	private long _originalUserId;
-	private boolean _setOriginalUserId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;

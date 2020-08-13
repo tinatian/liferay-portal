@@ -125,14 +125,39 @@ public class CompanyModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long LOGOID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long MX_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long SYSTEM_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long WEBID_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 16L;
 
 	/**
@@ -353,6 +378,12 @@ public class CompanyModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= _columnBitmasks.get("mvccVersion");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -364,6 +395,12 @@ public class CompanyModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= _columnBitmasks.get("companyId");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -375,6 +412,12 @@ public class CompanyModelImpl
 
 	@Override
 	public void setAccountId(long accountId) {
+		_columnBitmask |= _columnBitmasks.get("accountId");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_accountId = accountId;
 	}
 
@@ -391,17 +434,22 @@ public class CompanyModelImpl
 
 	@Override
 	public void setWebId(String webId) {
-		_columnBitmask |= WEBID_COLUMN_BITMASK;
+		_columnBitmask |= _columnBitmasks.get("webId");
 
-		if (_originalWebId == null) {
-			_originalWebId = _webId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_webId = webId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalWebId() {
-		return GetterUtil.getString(_originalWebId);
+		return getColumnOriginalValue("webId");
 	}
 
 	@JSON
@@ -417,17 +465,22 @@ public class CompanyModelImpl
 
 	@Override
 	public void setMx(String mx) {
-		_columnBitmask |= MX_COLUMN_BITMASK;
+		_columnBitmask |= _columnBitmasks.get("mx");
 
-		if (_originalMx == null) {
-			_originalMx = _mx;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_mx = mx;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalMx() {
-		return GetterUtil.getString(_originalMx);
+		return getColumnOriginalValue("mx");
 	}
 
 	@JSON
@@ -443,6 +496,12 @@ public class CompanyModelImpl
 
 	@Override
 	public void setHomeURL(String homeURL) {
+		_columnBitmask |= _columnBitmasks.get("homeURL");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_homeURL = homeURL;
 	}
 
@@ -454,19 +513,22 @@ public class CompanyModelImpl
 
 	@Override
 	public void setLogoId(long logoId) {
-		_columnBitmask |= LOGOID_COLUMN_BITMASK;
+		_columnBitmask |= _columnBitmasks.get("logoId");
 
-		if (!_setOriginalLogoId) {
-			_setOriginalLogoId = true;
-
-			_originalLogoId = _logoId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_logoId = logoId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalLogoId() {
-		return _originalLogoId;
+		return GetterUtil.getLong(_columnOriginalValues.get("logoId"));
 	}
 
 	@JSON
@@ -483,19 +545,22 @@ public class CompanyModelImpl
 
 	@Override
 	public void setSystem(boolean system) {
-		_columnBitmask |= SYSTEM_COLUMN_BITMASK;
+		_columnBitmask |= _columnBitmasks.get("system_");
 
-		if (!_setOriginalSystem) {
-			_setOriginalSystem = true;
-
-			_originalSystem = _system;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_system = system;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public boolean getOriginalSystem() {
-		return _originalSystem;
+		return GetterUtil.getBoolean(_columnOriginalValues.get("system_"));
 	}
 
 	@JSON
@@ -506,6 +571,12 @@ public class CompanyModelImpl
 
 	@Override
 	public void setMaxUsers(int maxUsers) {
+		_columnBitmask |= _columnBitmasks.get("maxUsers");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_maxUsers = maxUsers;
 	}
 
@@ -523,6 +594,12 @@ public class CompanyModelImpl
 
 	@Override
 	public void setActive(boolean active) {
+		_columnBitmask |= _columnBitmasks.get("active_");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_active = active;
 	}
 
@@ -655,25 +732,13 @@ public class CompanyModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		CompanyModelImpl companyModelImpl = this;
-
-		companyModelImpl._originalWebId = companyModelImpl._webId;
-
-		companyModelImpl._originalMx = companyModelImpl._mx;
-
-		companyModelImpl._originalLogoId = companyModelImpl._logoId;
-
-		companyModelImpl._setOriginalLogoId = false;
-
-		companyModelImpl._originalSystem = companyModelImpl._system;
-
-		companyModelImpl._setOriginalSystem = false;
+		_columnOriginalValues = Collections.emptyMap();
 
 		setCompanySecurityBag(null);
 
 		setVirtualHostname(null);
 
-		companyModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -795,20 +860,74 @@ public class CompanyModelImpl
 
 	}
 
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("mvccVersion", _mvccVersion);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("accountId", _accountId);
+		_columnOriginalValues.put("webId", _webId);
+		_columnOriginalValues.put("mx", _mx);
+		_columnOriginalValues.put("homeURL", _homeURL);
+		_columnOriginalValues.put("logoId", _logoId);
+		_columnOriginalValues.put("system_", _system);
+		_columnOriginalValues.put("maxUsers", _maxUsers);
+		_columnOriginalValues.put("active_", _active);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new LinkedHashMap<>();
+
+		columnBitmasks.put("mvccVersion", 1L);
+
+		columnBitmasks.put("companyId", 2L);
+
+		columnBitmasks.put("accountId", 4L);
+
+		columnBitmasks.put("webId", 8L);
+
+		columnBitmasks.put("mx", 16L);
+
+		columnBitmasks.put("homeURL", 32L);
+
+		columnBitmasks.put("logoId", 64L);
+
+		columnBitmasks.put("system_", 128L);
+
+		columnBitmasks.put("maxUsers", 256L);
+
+		columnBitmasks.put("active_", 512L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
 	private long _mvccVersion;
 	private long _companyId;
 	private long _accountId;
 	private String _webId;
-	private String _originalWebId;
 	private String _mx;
-	private String _originalMx;
 	private String _homeURL;
 	private long _logoId;
-	private long _originalLogoId;
-	private boolean _setOriginalLogoId;
 	private boolean _system;
-	private boolean _originalSystem;
-	private boolean _setOriginalSystem;
 	private int _maxUsers;
 	private boolean _active;
 	private long _columnBitmask;

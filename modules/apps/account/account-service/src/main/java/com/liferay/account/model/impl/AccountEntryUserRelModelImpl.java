@@ -29,6 +29,7 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -105,10 +106,25 @@ public class AccountEntryUserRelModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long ACCOUNTENTRYID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long ACCOUNTUSERID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long ACCOUNTENTRYUSERRELID_COLUMN_BITMASK = 4L;
 
 	/**
@@ -345,6 +361,12 @@ public class AccountEntryUserRelModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= _columnBitmasks.get("mvccVersion");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -356,6 +378,12 @@ public class AccountEntryUserRelModelImpl
 
 	@Override
 	public void setAccountEntryUserRelId(long accountEntryUserRelId) {
+		_columnBitmask |= _columnBitmasks.get("accountEntryUserRelId");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_accountEntryUserRelId = accountEntryUserRelId;
 	}
 
@@ -367,6 +395,12 @@ public class AccountEntryUserRelModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= _columnBitmasks.get("companyId");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -378,19 +412,22 @@ public class AccountEntryUserRelModelImpl
 
 	@Override
 	public void setAccountEntryId(long accountEntryId) {
-		_columnBitmask |= ACCOUNTENTRYID_COLUMN_BITMASK;
+		_columnBitmask |= _columnBitmasks.get("accountEntryId");
 
-		if (!_setOriginalAccountEntryId) {
-			_setOriginalAccountEntryId = true;
-
-			_originalAccountEntryId = _accountEntryId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_accountEntryId = accountEntryId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalAccountEntryId() {
-		return _originalAccountEntryId;
+		return GetterUtil.getLong(_columnOriginalValues.get("accountEntryId"));
 	}
 
 	@JSON
@@ -401,12 +438,10 @@ public class AccountEntryUserRelModelImpl
 
 	@Override
 	public void setAccountUserId(long accountUserId) {
-		_columnBitmask |= ACCOUNTUSERID_COLUMN_BITMASK;
+		_columnBitmask |= _columnBitmasks.get("accountUserId");
 
-		if (!_setOriginalAccountUserId) {
-			_setOriginalAccountUserId = true;
-
-			_originalAccountUserId = _accountUserId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_accountUserId = accountUserId;
@@ -428,8 +463,13 @@ public class AccountEntryUserRelModelImpl
 	public void setAccountUserUuid(String accountUserUuid) {
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalAccountUserId() {
-		return _originalAccountUserId;
+		return GetterUtil.getLong(_columnOriginalValues.get("accountUserId"));
 	}
 
 	public long getColumnBitmask() {
@@ -544,19 +584,9 @@ public class AccountEntryUserRelModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		AccountEntryUserRelModelImpl accountEntryUserRelModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		accountEntryUserRelModelImpl._originalAccountEntryId =
-			accountEntryUserRelModelImpl._accountEntryId;
-
-		accountEntryUserRelModelImpl._setOriginalAccountEntryId = false;
-
-		accountEntryUserRelModelImpl._originalAccountUserId =
-			accountEntryUserRelModelImpl._accountUserId;
-
-		accountEntryUserRelModelImpl._setOriginalAccountUserId = false;
-
-		accountEntryUserRelModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -648,15 +678,57 @@ public class AccountEntryUserRelModelImpl
 
 	}
 
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("mvccVersion", _mvccVersion);
+		_columnOriginalValues.put(
+			"accountEntryUserRelId", _accountEntryUserRelId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("accountEntryId", _accountEntryId);
+		_columnOriginalValues.put("accountUserId", _accountUserId);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new LinkedHashMap<>();
+
+		columnBitmasks.put("mvccVersion", 1L);
+
+		columnBitmasks.put("accountEntryUserRelId", 2L);
+
+		columnBitmasks.put("companyId", 4L);
+
+		columnBitmasks.put("accountEntryId", 8L);
+
+		columnBitmasks.put("accountUserId", 16L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
 	private long _mvccVersion;
 	private long _accountEntryUserRelId;
 	private long _companyId;
 	private long _accountEntryId;
-	private long _originalAccountEntryId;
-	private boolean _setOriginalAccountEntryId;
 	private long _accountUserId;
-	private long _originalAccountUserId;
-	private boolean _setOriginalAccountUserId;
 	private long _columnBitmask;
 	private AccountEntryUserRel _escapedModel;
 

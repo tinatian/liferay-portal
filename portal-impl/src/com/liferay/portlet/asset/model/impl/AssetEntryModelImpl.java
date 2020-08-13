@@ -165,24 +165,74 @@ public class AssetEntryModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long CLASSNAMEID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long CLASSPK_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long CLASSUUID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long EXPIRATIONDATE_COLUMN_BITMASK = 16L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 32L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long LAYOUTUUID_COLUMN_BITMASK = 64L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long PUBLISHDATE_COLUMN_BITMASK = 128L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long VISIBLE_COLUMN_BITMASK = 256L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long ENTRYID_COLUMN_BITMASK = 512L;
 
 	/**
@@ -535,6 +585,12 @@ public class AssetEntryModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= _columnBitmasks.get("mvccVersion");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -546,6 +602,12 @@ public class AssetEntryModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= _columnBitmasks.get("ctCollectionId");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -557,6 +619,12 @@ public class AssetEntryModelImpl
 
 	@Override
 	public void setEntryId(long entryId) {
+		_columnBitmask |= _columnBitmasks.get("entryId");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_entryId = entryId;
 	}
 
@@ -568,19 +636,22 @@ public class AssetEntryModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
+		_columnBitmask |= _columnBitmasks.get("groupId");
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return GetterUtil.getLong(_columnOriginalValues.get("groupId"));
 	}
 
 	@JSON
@@ -591,19 +662,22 @@ public class AssetEntryModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+		_columnBitmask |= _columnBitmasks.get("companyId");
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
 	}
 
 	@JSON
@@ -614,6 +688,12 @@ public class AssetEntryModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= _columnBitmasks.get("userId");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userId = userId;
 	}
 
@@ -646,6 +726,12 @@ public class AssetEntryModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= _columnBitmasks.get("userName");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userName = userName;
 	}
 
@@ -657,6 +743,12 @@ public class AssetEntryModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= _columnBitmasks.get("createDate");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -673,6 +765,12 @@ public class AssetEntryModelImpl
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
+
+		_columnBitmask |= _columnBitmasks.get("modifiedDate");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
 
 		_modifiedDate = modifiedDate;
 	}
@@ -705,19 +803,22 @@ public class AssetEntryModelImpl
 
 	@Override
 	public void setClassNameId(long classNameId) {
-		_columnBitmask |= CLASSNAMEID_COLUMN_BITMASK;
+		_columnBitmask |= _columnBitmasks.get("classNameId");
 
-		if (!_setOriginalClassNameId) {
-			_setOriginalClassNameId = true;
-
-			_originalClassNameId = _classNameId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_classNameId = classNameId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassNameId() {
-		return _originalClassNameId;
+		return GetterUtil.getLong(_columnOriginalValues.get("classNameId"));
 	}
 
 	@JSON
@@ -728,19 +829,22 @@ public class AssetEntryModelImpl
 
 	@Override
 	public void setClassPK(long classPK) {
-		_columnBitmask |= CLASSPK_COLUMN_BITMASK;
+		_columnBitmask |= _columnBitmasks.get("classPK");
 
-		if (!_setOriginalClassPK) {
-			_setOriginalClassPK = true;
-
-			_originalClassPK = _classPK;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_classPK = classPK;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassPK() {
-		return _originalClassPK;
+		return GetterUtil.getLong(_columnOriginalValues.get("classPK"));
 	}
 
 	@JSON
@@ -756,17 +860,22 @@ public class AssetEntryModelImpl
 
 	@Override
 	public void setClassUuid(String classUuid) {
-		_columnBitmask |= CLASSUUID_COLUMN_BITMASK;
+		_columnBitmask |= _columnBitmasks.get("classUuid");
 
-		if (_originalClassUuid == null) {
-			_originalClassUuid = _classUuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_classUuid = classUuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalClassUuid() {
-		return GetterUtil.getString(_originalClassUuid);
+		return getColumnOriginalValue("classUuid");
 	}
 
 	@JSON
@@ -777,6 +886,12 @@ public class AssetEntryModelImpl
 
 	@Override
 	public void setClassTypeId(long classTypeId) {
+		_columnBitmask |= _columnBitmasks.get("classTypeId");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_classTypeId = classTypeId;
 	}
 
@@ -794,6 +909,12 @@ public class AssetEntryModelImpl
 
 	@Override
 	public void setListable(boolean listable) {
+		_columnBitmask |= _columnBitmasks.get("listable");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_listable = listable;
 	}
 
@@ -811,19 +932,22 @@ public class AssetEntryModelImpl
 
 	@Override
 	public void setVisible(boolean visible) {
-		_columnBitmask |= VISIBLE_COLUMN_BITMASK;
+		_columnBitmask |= _columnBitmasks.get("visible");
 
-		if (!_setOriginalVisible) {
-			_setOriginalVisible = true;
-
-			_originalVisible = _visible;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_visible = visible;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public boolean getOriginalVisible() {
-		return _originalVisible;
+		return GetterUtil.getBoolean(_columnOriginalValues.get("visible"));
 	}
 
 	@JSON
@@ -834,6 +958,12 @@ public class AssetEntryModelImpl
 
 	@Override
 	public void setStartDate(Date startDate) {
+		_columnBitmask |= _columnBitmasks.get("startDate");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_startDate = startDate;
 	}
 
@@ -845,6 +975,12 @@ public class AssetEntryModelImpl
 
 	@Override
 	public void setEndDate(Date endDate) {
+		_columnBitmask |= _columnBitmasks.get("endDate");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_endDate = endDate;
 	}
 
@@ -856,17 +992,22 @@ public class AssetEntryModelImpl
 
 	@Override
 	public void setPublishDate(Date publishDate) {
-		_columnBitmask |= PUBLISHDATE_COLUMN_BITMASK;
+		_columnBitmask |= _columnBitmasks.get("publishDate");
 
-		if (_originalPublishDate == null) {
-			_originalPublishDate = _publishDate;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_publishDate = publishDate;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public Date getOriginalPublishDate() {
-		return _originalPublishDate;
+		return getColumnOriginalValue("publishDate");
 	}
 
 	@JSON
@@ -877,17 +1018,22 @@ public class AssetEntryModelImpl
 
 	@Override
 	public void setExpirationDate(Date expirationDate) {
-		_columnBitmask |= EXPIRATIONDATE_COLUMN_BITMASK;
+		_columnBitmask |= _columnBitmasks.get("expirationDate");
 
-		if (_originalExpirationDate == null) {
-			_originalExpirationDate = _expirationDate;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_expirationDate = expirationDate;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public Date getOriginalExpirationDate() {
-		return _originalExpirationDate;
+		return getColumnOriginalValue("expirationDate");
 	}
 
 	@JSON
@@ -903,6 +1049,12 @@ public class AssetEntryModelImpl
 
 	@Override
 	public void setMimeType(String mimeType) {
+		_columnBitmask |= _columnBitmasks.get("mimeType");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_mimeType = mimeType;
 	}
 
@@ -962,6 +1114,12 @@ public class AssetEntryModelImpl
 
 	@Override
 	public void setTitle(String title) {
+		_columnBitmask |= _columnBitmasks.get("title");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_title = title;
 	}
 
@@ -1067,6 +1225,12 @@ public class AssetEntryModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		_columnBitmask |= _columnBitmasks.get("description");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_description = description;
 	}
 
@@ -1175,6 +1339,12 @@ public class AssetEntryModelImpl
 
 	@Override
 	public void setSummary(String summary) {
+		_columnBitmask |= _columnBitmasks.get("summary");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_summary = summary;
 	}
 
@@ -1240,6 +1410,12 @@ public class AssetEntryModelImpl
 
 	@Override
 	public void setUrl(String url) {
+		_columnBitmask |= _columnBitmasks.get("url");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_url = url;
 	}
 
@@ -1256,17 +1432,22 @@ public class AssetEntryModelImpl
 
 	@Override
 	public void setLayoutUuid(String layoutUuid) {
-		_columnBitmask |= LAYOUTUUID_COLUMN_BITMASK;
+		_columnBitmask |= _columnBitmasks.get("layoutUuid");
 
-		if (_originalLayoutUuid == null) {
-			_originalLayoutUuid = _layoutUuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_layoutUuid = layoutUuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalLayoutUuid() {
-		return GetterUtil.getString(_originalLayoutUuid);
+		return getColumnOriginalValue("layoutUuid");
 	}
 
 	@JSON
@@ -1277,6 +1458,12 @@ public class AssetEntryModelImpl
 
 	@Override
 	public void setHeight(int height) {
+		_columnBitmask |= _columnBitmasks.get("height");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_height = height;
 	}
 
@@ -1288,6 +1475,12 @@ public class AssetEntryModelImpl
 
 	@Override
 	public void setWidth(int width) {
+		_columnBitmask |= _columnBitmasks.get("width");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_width = width;
 	}
 
@@ -1299,6 +1492,12 @@ public class AssetEntryModelImpl
 
 	@Override
 	public void setPriority(double priority) {
+		_columnBitmask |= _columnBitmasks.get("priority");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_priority = priority;
 	}
 
@@ -1542,43 +1741,11 @@ public class AssetEntryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		AssetEntryModelImpl assetEntryModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		assetEntryModelImpl._originalGroupId = assetEntryModelImpl._groupId;
+		_setModifiedDate = false;
 
-		assetEntryModelImpl._setOriginalGroupId = false;
-
-		assetEntryModelImpl._originalCompanyId = assetEntryModelImpl._companyId;
-
-		assetEntryModelImpl._setOriginalCompanyId = false;
-
-		assetEntryModelImpl._setModifiedDate = false;
-
-		assetEntryModelImpl._originalClassNameId =
-			assetEntryModelImpl._classNameId;
-
-		assetEntryModelImpl._setOriginalClassNameId = false;
-
-		assetEntryModelImpl._originalClassPK = assetEntryModelImpl._classPK;
-
-		assetEntryModelImpl._setOriginalClassPK = false;
-
-		assetEntryModelImpl._originalClassUuid = assetEntryModelImpl._classUuid;
-
-		assetEntryModelImpl._originalVisible = assetEntryModelImpl._visible;
-
-		assetEntryModelImpl._setOriginalVisible = false;
-
-		assetEntryModelImpl._originalPublishDate =
-			assetEntryModelImpl._publishDate;
-
-		assetEntryModelImpl._originalExpirationDate =
-			assetEntryModelImpl._expirationDate;
-
-		assetEntryModelImpl._originalLayoutUuid =
-			assetEntryModelImpl._layoutUuid;
-
-		assetEntryModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -1804,39 +1971,140 @@ public class AssetEntryModelImpl
 
 	}
 
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("mvccVersion", _mvccVersion);
+		_columnOriginalValues.put("ctCollectionId", _ctCollectionId);
+		_columnOriginalValues.put("entryId", _entryId);
+		_columnOriginalValues.put("groupId", _groupId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("userId", _userId);
+		_columnOriginalValues.put("userName", _userName);
+		_columnOriginalValues.put("createDate", _createDate);
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
+		_columnOriginalValues.put("classNameId", _classNameId);
+		_columnOriginalValues.put("classPK", _classPK);
+		_columnOriginalValues.put("classUuid", _classUuid);
+		_columnOriginalValues.put("classTypeId", _classTypeId);
+		_columnOriginalValues.put("listable", _listable);
+		_columnOriginalValues.put("visible", _visible);
+		_columnOriginalValues.put("startDate", _startDate);
+		_columnOriginalValues.put("endDate", _endDate);
+		_columnOriginalValues.put("publishDate", _publishDate);
+		_columnOriginalValues.put("expirationDate", _expirationDate);
+		_columnOriginalValues.put("mimeType", _mimeType);
+		_columnOriginalValues.put("title", _title);
+		_columnOriginalValues.put("description", _description);
+		_columnOriginalValues.put("summary", _summary);
+		_columnOriginalValues.put("url", _url);
+		_columnOriginalValues.put("layoutUuid", _layoutUuid);
+		_columnOriginalValues.put("height", _height);
+		_columnOriginalValues.put("width", _width);
+		_columnOriginalValues.put("priority", _priority);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new LinkedHashMap<>();
+
+		columnBitmasks.put("mvccVersion", 1L);
+
+		columnBitmasks.put("ctCollectionId", 2L);
+
+		columnBitmasks.put("entryId", 4L);
+
+		columnBitmasks.put("groupId", 8L);
+
+		columnBitmasks.put("companyId", 16L);
+
+		columnBitmasks.put("userId", 32L);
+
+		columnBitmasks.put("userName", 64L);
+
+		columnBitmasks.put("createDate", 128L);
+
+		columnBitmasks.put("modifiedDate", 256L);
+
+		columnBitmasks.put("classNameId", 512L);
+
+		columnBitmasks.put("classPK", 1024L);
+
+		columnBitmasks.put("classUuid", 2048L);
+
+		columnBitmasks.put("classTypeId", 4096L);
+
+		columnBitmasks.put("listable", 8192L);
+
+		columnBitmasks.put("visible", 16384L);
+
+		columnBitmasks.put("startDate", 32768L);
+
+		columnBitmasks.put("endDate", 65536L);
+
+		columnBitmasks.put("publishDate", 131072L);
+
+		columnBitmasks.put("expirationDate", 262144L);
+
+		columnBitmasks.put("mimeType", 524288L);
+
+		columnBitmasks.put("title", 1048576L);
+
+		columnBitmasks.put("description", 2097152L);
+
+		columnBitmasks.put("summary", 4194304L);
+
+		columnBitmasks.put("url", 8388608L);
+
+		columnBitmasks.put("layoutUuid", 16777216L);
+
+		columnBitmasks.put("height", 33554432L);
+
+		columnBitmasks.put("width", 67108864L);
+
+		columnBitmasks.put("priority", 134217728L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
 	private long _mvccVersion;
 	private long _ctCollectionId;
 	private long _entryId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _classNameId;
-	private long _originalClassNameId;
-	private boolean _setOriginalClassNameId;
 	private long _classPK;
-	private long _originalClassPK;
-	private boolean _setOriginalClassPK;
 	private String _classUuid;
-	private String _originalClassUuid;
 	private long _classTypeId;
 	private boolean _listable;
 	private boolean _visible;
-	private boolean _originalVisible;
-	private boolean _setOriginalVisible;
 	private Date _startDate;
 	private Date _endDate;
 	private Date _publishDate;
-	private Date _originalPublishDate;
 	private Date _expirationDate;
-	private Date _originalExpirationDate;
 	private String _mimeType;
 	private String _title;
 	private String _titleCurrentLanguageId;
@@ -1846,7 +2114,6 @@ public class AssetEntryModelImpl
 	private String _summaryCurrentLanguageId;
 	private String _url;
 	private String _layoutUuid;
-	private String _originalLayoutUuid;
 	private int _height;
 	private int _width;
 	private double _priority;

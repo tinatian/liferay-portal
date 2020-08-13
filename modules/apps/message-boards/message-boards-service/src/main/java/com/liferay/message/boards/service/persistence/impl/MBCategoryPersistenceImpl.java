@@ -11717,8 +11717,8 @@ public class MBCategoryPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				mbCategoryModelImpl.getOriginalUuid(),
-				mbCategoryModelImpl.getOriginalGroupId()
+				mbCategoryModelImpl.getColumnOriginalValue("uuid_"),
+				mbCategoryModelImpl.getColumnOriginalValue("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -11995,7 +11995,7 @@ public class MBCategoryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mbCategoryModelImpl.getOriginalUuid()
+					mbCategoryModelImpl.getColumnOriginalValue("uuid_")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -12014,8 +12014,8 @@ public class MBCategoryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mbCategoryModelImpl.getOriginalUuid(),
-					mbCategoryModelImpl.getOriginalCompanyId()
+					mbCategoryModelImpl.getColumnOriginalValue("uuid_"),
+					mbCategoryModelImpl.getColumnOriginalValue("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -12037,7 +12037,7 @@ public class MBCategoryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					mbCategoryModelImpl.getOriginalGroupId()
+					mbCategoryModelImpl.getColumnOriginalValue("groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId, args);
@@ -12056,7 +12056,7 @@ public class MBCategoryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					mbCategoryModelImpl.getOriginalCompanyId()
+					mbCategoryModelImpl.getColumnOriginalValue("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByCompanyId, args);
@@ -12075,8 +12075,9 @@ public class MBCategoryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mbCategoryModelImpl.getOriginalGroupId(),
-					mbCategoryModelImpl.getOriginalParentCategoryId()
+					mbCategoryModelImpl.getColumnOriginalValue("groupId"),
+					mbCategoryModelImpl.getColumnOriginalValue(
+						"parentCategoryId")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_P, args);
@@ -12098,8 +12099,8 @@ public class MBCategoryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mbCategoryModelImpl.getOriginalGroupId(),
-					mbCategoryModelImpl.getOriginalStatus()
+					mbCategoryModelImpl.getColumnOriginalValue("groupId"),
+					mbCategoryModelImpl.getColumnOriginalValue("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_S, args);
@@ -12121,8 +12122,8 @@ public class MBCategoryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mbCategoryModelImpl.getOriginalCompanyId(),
-					mbCategoryModelImpl.getOriginalStatus()
+					mbCategoryModelImpl.getColumnOriginalValue("companyId"),
+					mbCategoryModelImpl.getColumnOriginalValue("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_S, args);
@@ -12144,9 +12145,10 @@ public class MBCategoryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					mbCategoryModelImpl.getOriginalGroupId(),
-					mbCategoryModelImpl.getOriginalParentCategoryId(),
-					mbCategoryModelImpl.getOriginalStatus()
+					mbCategoryModelImpl.getColumnOriginalValue("groupId"),
+					mbCategoryModelImpl.getColumnOriginalValue(
+						"parentCategoryId"),
+					mbCategoryModelImpl.getColumnOriginalValue("status")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_P_S, args);
@@ -12646,9 +12648,9 @@ public class MBCategoryPersistenceImpl
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
 			MBCategoryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByUuid", new String[] {String.class.getName()},
-			MBCategoryModelImpl.UUID_COLUMN_BITMASK |
-			MBCategoryModelImpl.PARENTCATEGORYID_COLUMN_BITMASK |
-			MBCategoryModelImpl.NAME_COLUMN_BITMASK);
+			MBCategoryModelImpl.getColumnBitmask("uuid_") |
+			MBCategoryModelImpl.getColumnBitmask("parentCategoryId") |
+			MBCategoryModelImpl.getColumnBitmask("name"));
 
 		_finderPathCountByUuid = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -12657,8 +12659,8 @@ public class MBCategoryPersistenceImpl
 		_finderPathFetchByUUID_G = new FinderPath(
 			MBCategoryImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
-			MBCategoryModelImpl.UUID_COLUMN_BITMASK |
-			MBCategoryModelImpl.GROUPID_COLUMN_BITMASK);
+			MBCategoryModelImpl.getColumnBitmask("uuid_") |
+			MBCategoryModelImpl.getColumnBitmask("groupId"));
 
 		_finderPathCountByUUID_G = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -12678,10 +12680,10 @@ public class MBCategoryPersistenceImpl
 			MBCategoryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
-			MBCategoryModelImpl.UUID_COLUMN_BITMASK |
-			MBCategoryModelImpl.COMPANYID_COLUMN_BITMASK |
-			MBCategoryModelImpl.PARENTCATEGORYID_COLUMN_BITMASK |
-			MBCategoryModelImpl.NAME_COLUMN_BITMASK);
+			MBCategoryModelImpl.getColumnBitmask("uuid_") |
+			MBCategoryModelImpl.getColumnBitmask("companyId") |
+			MBCategoryModelImpl.getColumnBitmask("parentCategoryId") |
+			MBCategoryModelImpl.getColumnBitmask("name"));
 
 		_finderPathCountByUuid_C = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -12699,9 +12701,9 @@ public class MBCategoryPersistenceImpl
 		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
 			MBCategoryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByGroupId", new String[] {Long.class.getName()},
-			MBCategoryModelImpl.GROUPID_COLUMN_BITMASK |
-			MBCategoryModelImpl.PARENTCATEGORYID_COLUMN_BITMASK |
-			MBCategoryModelImpl.NAME_COLUMN_BITMASK);
+			MBCategoryModelImpl.getColumnBitmask("groupId") |
+			MBCategoryModelImpl.getColumnBitmask("parentCategoryId") |
+			MBCategoryModelImpl.getColumnBitmask("name"));
 
 		_finderPathCountByGroupId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -12718,9 +12720,9 @@ public class MBCategoryPersistenceImpl
 		_finderPathWithoutPaginationFindByCompanyId = new FinderPath(
 			MBCategoryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByCompanyId", new String[] {Long.class.getName()},
-			MBCategoryModelImpl.COMPANYID_COLUMN_BITMASK |
-			MBCategoryModelImpl.PARENTCATEGORYID_COLUMN_BITMASK |
-			MBCategoryModelImpl.NAME_COLUMN_BITMASK);
+			MBCategoryModelImpl.getColumnBitmask("companyId") |
+			MBCategoryModelImpl.getColumnBitmask("parentCategoryId") |
+			MBCategoryModelImpl.getColumnBitmask("name"));
 
 		_finderPathCountByCompanyId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -12739,9 +12741,9 @@ public class MBCategoryPersistenceImpl
 			MBCategoryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByG_P",
 			new String[] {Long.class.getName(), Long.class.getName()},
-			MBCategoryModelImpl.GROUPID_COLUMN_BITMASK |
-			MBCategoryModelImpl.PARENTCATEGORYID_COLUMN_BITMASK |
-			MBCategoryModelImpl.NAME_COLUMN_BITMASK);
+			MBCategoryModelImpl.getColumnBitmask("groupId") |
+			MBCategoryModelImpl.getColumnBitmask("parentCategoryId") |
+			MBCategoryModelImpl.getColumnBitmask("name"));
 
 		_finderPathCountByG_P = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_P",
@@ -12764,10 +12766,10 @@ public class MBCategoryPersistenceImpl
 			MBCategoryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByG_S",
 			new String[] {Long.class.getName(), Integer.class.getName()},
-			MBCategoryModelImpl.GROUPID_COLUMN_BITMASK |
-			MBCategoryModelImpl.STATUS_COLUMN_BITMASK |
-			MBCategoryModelImpl.PARENTCATEGORYID_COLUMN_BITMASK |
-			MBCategoryModelImpl.NAME_COLUMN_BITMASK);
+			MBCategoryModelImpl.getColumnBitmask("groupId") |
+			MBCategoryModelImpl.getColumnBitmask("status") |
+			MBCategoryModelImpl.getColumnBitmask("parentCategoryId") |
+			MBCategoryModelImpl.getColumnBitmask("name"));
 
 		_finderPathCountByG_S = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_S",
@@ -12786,10 +12788,10 @@ public class MBCategoryPersistenceImpl
 			MBCategoryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByC_S",
 			new String[] {Long.class.getName(), Integer.class.getName()},
-			MBCategoryModelImpl.COMPANYID_COLUMN_BITMASK |
-			MBCategoryModelImpl.STATUS_COLUMN_BITMASK |
-			MBCategoryModelImpl.PARENTCATEGORYID_COLUMN_BITMASK |
-			MBCategoryModelImpl.NAME_COLUMN_BITMASK);
+			MBCategoryModelImpl.getColumnBitmask("companyId") |
+			MBCategoryModelImpl.getColumnBitmask("status") |
+			MBCategoryModelImpl.getColumnBitmask("parentCategoryId") |
+			MBCategoryModelImpl.getColumnBitmask("name"));
 
 		_finderPathCountByC_S = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_S",
@@ -12827,10 +12829,10 @@ public class MBCategoryPersistenceImpl
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName()
 			},
-			MBCategoryModelImpl.GROUPID_COLUMN_BITMASK |
-			MBCategoryModelImpl.PARENTCATEGORYID_COLUMN_BITMASK |
-			MBCategoryModelImpl.STATUS_COLUMN_BITMASK |
-			MBCategoryModelImpl.NAME_COLUMN_BITMASK);
+			MBCategoryModelImpl.getColumnBitmask("groupId") |
+			MBCategoryModelImpl.getColumnBitmask("parentCategoryId") |
+			MBCategoryModelImpl.getColumnBitmask("status") |
+			MBCategoryModelImpl.getColumnBitmask("name"));
 
 		_finderPathCountByG_P_S = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,

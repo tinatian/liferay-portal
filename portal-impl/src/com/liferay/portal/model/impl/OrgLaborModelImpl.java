@@ -140,8 +140,18 @@ public class OrgLaborModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long ORGANIZATIONID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long TYPEID_COLUMN_BITMASK = 2L;
 
 	/**
@@ -402,6 +412,12 @@ public class OrgLaborModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= _columnBitmasks.get("mvccVersion");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -413,6 +429,12 @@ public class OrgLaborModelImpl
 
 	@Override
 	public void setOrgLaborId(long orgLaborId) {
+		_columnBitmask |= _columnBitmasks.get("orgLaborId");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_orgLaborId = orgLaborId;
 	}
 
@@ -424,6 +446,12 @@ public class OrgLaborModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= _columnBitmasks.get("companyId");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -435,19 +463,22 @@ public class OrgLaborModelImpl
 
 	@Override
 	public void setOrganizationId(long organizationId) {
-		_columnBitmask = -1L;
+		_columnBitmask |= _columnBitmasks.get("organizationId");
 
-		if (!_setOriginalOrganizationId) {
-			_setOriginalOrganizationId = true;
-
-			_originalOrganizationId = _organizationId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_organizationId = organizationId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalOrganizationId() {
-		return _originalOrganizationId;
+		return GetterUtil.getLong(_columnOriginalValues.get("organizationId"));
 	}
 
 	@JSON
@@ -458,7 +489,11 @@ public class OrgLaborModelImpl
 
 	@Override
 	public void setTypeId(long typeId) {
-		_columnBitmask = -1L;
+		_columnBitmask |= _columnBitmasks.get("typeId");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
 
 		_typeId = typeId;
 	}
@@ -471,6 +506,12 @@ public class OrgLaborModelImpl
 
 	@Override
 	public void setSunOpen(int sunOpen) {
+		_columnBitmask |= _columnBitmasks.get("sunOpen");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_sunOpen = sunOpen;
 	}
 
@@ -482,6 +523,12 @@ public class OrgLaborModelImpl
 
 	@Override
 	public void setSunClose(int sunClose) {
+		_columnBitmask |= _columnBitmasks.get("sunClose");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_sunClose = sunClose;
 	}
 
@@ -493,6 +540,12 @@ public class OrgLaborModelImpl
 
 	@Override
 	public void setMonOpen(int monOpen) {
+		_columnBitmask |= _columnBitmasks.get("monOpen");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_monOpen = monOpen;
 	}
 
@@ -504,6 +557,12 @@ public class OrgLaborModelImpl
 
 	@Override
 	public void setMonClose(int monClose) {
+		_columnBitmask |= _columnBitmasks.get("monClose");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_monClose = monClose;
 	}
 
@@ -515,6 +574,12 @@ public class OrgLaborModelImpl
 
 	@Override
 	public void setTueOpen(int tueOpen) {
+		_columnBitmask |= _columnBitmasks.get("tueOpen");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_tueOpen = tueOpen;
 	}
 
@@ -526,6 +591,12 @@ public class OrgLaborModelImpl
 
 	@Override
 	public void setTueClose(int tueClose) {
+		_columnBitmask |= _columnBitmasks.get("tueClose");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_tueClose = tueClose;
 	}
 
@@ -537,6 +608,12 @@ public class OrgLaborModelImpl
 
 	@Override
 	public void setWedOpen(int wedOpen) {
+		_columnBitmask |= _columnBitmasks.get("wedOpen");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_wedOpen = wedOpen;
 	}
 
@@ -548,6 +625,12 @@ public class OrgLaborModelImpl
 
 	@Override
 	public void setWedClose(int wedClose) {
+		_columnBitmask |= _columnBitmasks.get("wedClose");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_wedClose = wedClose;
 	}
 
@@ -559,6 +642,12 @@ public class OrgLaborModelImpl
 
 	@Override
 	public void setThuOpen(int thuOpen) {
+		_columnBitmask |= _columnBitmasks.get("thuOpen");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_thuOpen = thuOpen;
 	}
 
@@ -570,6 +659,12 @@ public class OrgLaborModelImpl
 
 	@Override
 	public void setThuClose(int thuClose) {
+		_columnBitmask |= _columnBitmasks.get("thuClose");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_thuClose = thuClose;
 	}
 
@@ -581,6 +676,12 @@ public class OrgLaborModelImpl
 
 	@Override
 	public void setFriOpen(int friOpen) {
+		_columnBitmask |= _columnBitmasks.get("friOpen");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_friOpen = friOpen;
 	}
 
@@ -592,6 +693,12 @@ public class OrgLaborModelImpl
 
 	@Override
 	public void setFriClose(int friClose) {
+		_columnBitmask |= _columnBitmasks.get("friClose");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_friClose = friClose;
 	}
 
@@ -603,6 +710,12 @@ public class OrgLaborModelImpl
 
 	@Override
 	public void setSatOpen(int satOpen) {
+		_columnBitmask |= _columnBitmasks.get("satOpen");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_satOpen = satOpen;
 	}
 
@@ -614,6 +727,12 @@ public class OrgLaborModelImpl
 
 	@Override
 	public void setSatClose(int satClose) {
+		_columnBitmask |= _columnBitmasks.get("satClose");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_satClose = satClose;
 	}
 
@@ -760,14 +879,9 @@ public class OrgLaborModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		OrgLaborModelImpl orgLaborModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		orgLaborModelImpl._originalOrganizationId =
-			orgLaborModelImpl._organizationId;
-
-		orgLaborModelImpl._setOriginalOrganizationId = false;
-
-		orgLaborModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -885,12 +999,97 @@ public class OrgLaborModelImpl
 
 	}
 
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("mvccVersion", _mvccVersion);
+		_columnOriginalValues.put("orgLaborId", _orgLaborId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("organizationId", _organizationId);
+		_columnOriginalValues.put("typeId", _typeId);
+		_columnOriginalValues.put("sunOpen", _sunOpen);
+		_columnOriginalValues.put("sunClose", _sunClose);
+		_columnOriginalValues.put("monOpen", _monOpen);
+		_columnOriginalValues.put("monClose", _monClose);
+		_columnOriginalValues.put("tueOpen", _tueOpen);
+		_columnOriginalValues.put("tueClose", _tueClose);
+		_columnOriginalValues.put("wedOpen", _wedOpen);
+		_columnOriginalValues.put("wedClose", _wedClose);
+		_columnOriginalValues.put("thuOpen", _thuOpen);
+		_columnOriginalValues.put("thuClose", _thuClose);
+		_columnOriginalValues.put("friOpen", _friOpen);
+		_columnOriginalValues.put("friClose", _friClose);
+		_columnOriginalValues.put("satOpen", _satOpen);
+		_columnOriginalValues.put("satClose", _satClose);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new LinkedHashMap<>();
+
+		columnBitmasks.put("mvccVersion", 1L);
+
+		columnBitmasks.put("orgLaborId", 2L);
+
+		columnBitmasks.put("companyId", 4L);
+
+		columnBitmasks.put("organizationId", 8L);
+
+		columnBitmasks.put("typeId", 16L);
+
+		columnBitmasks.put("sunOpen", 32L);
+
+		columnBitmasks.put("sunClose", 64L);
+
+		columnBitmasks.put("monOpen", 128L);
+
+		columnBitmasks.put("monClose", 256L);
+
+		columnBitmasks.put("tueOpen", 512L);
+
+		columnBitmasks.put("tueClose", 1024L);
+
+		columnBitmasks.put("wedOpen", 2048L);
+
+		columnBitmasks.put("wedClose", 4096L);
+
+		columnBitmasks.put("thuOpen", 8192L);
+
+		columnBitmasks.put("thuClose", 16384L);
+
+		columnBitmasks.put("friOpen", 32768L);
+
+		columnBitmasks.put("friClose", 65536L);
+
+		columnBitmasks.put("satOpen", 131072L);
+
+		columnBitmasks.put("satClose", 262144L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
 	private long _mvccVersion;
 	private long _orgLaborId;
 	private long _companyId;
 	private long _organizationId;
-	private long _originalOrganizationId;
-	private boolean _setOriginalOrganizationId;
 	private long _typeId;
 	private int _sunOpen;
 	private int _sunClose;

@@ -24,6 +24,7 @@ import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -96,8 +97,18 @@ public class DLSyncEventModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long MODIFIEDTIME_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long TYPEPK_COLUMN_BITMASK = 2L;
 
 	/**
@@ -275,6 +286,12 @@ public class DLSyncEventModelImpl
 
 	@Override
 	public void setSyncEventId(long syncEventId) {
+		_columnBitmask |= _columnBitmasks.get("syncEventId");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_syncEventId = syncEventId;
 	}
 
@@ -285,6 +302,12 @@ public class DLSyncEventModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= _columnBitmasks.get("companyId");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -295,19 +318,22 @@ public class DLSyncEventModelImpl
 
 	@Override
 	public void setModifiedTime(long modifiedTime) {
-		_columnBitmask = -1L;
+		_columnBitmask |= _columnBitmasks.get("modifiedTime");
 
-		if (!_setOriginalModifiedTime) {
-			_setOriginalModifiedTime = true;
-
-			_originalModifiedTime = _modifiedTime;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_modifiedTime = modifiedTime;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalModifiedTime() {
-		return _originalModifiedTime;
+		return GetterUtil.getLong(_columnOriginalValues.get("modifiedTime"));
 	}
 
 	@Override
@@ -322,6 +348,12 @@ public class DLSyncEventModelImpl
 
 	@Override
 	public void setEvent(String event) {
+		_columnBitmask |= _columnBitmasks.get("event");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_event = event;
 	}
 
@@ -337,6 +369,12 @@ public class DLSyncEventModelImpl
 
 	@Override
 	public void setType(String type) {
+		_columnBitmask |= _columnBitmasks.get("type_");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_type = type;
 	}
 
@@ -347,19 +385,22 @@ public class DLSyncEventModelImpl
 
 	@Override
 	public void setTypePK(long typePK) {
-		_columnBitmask |= TYPEPK_COLUMN_BITMASK;
+		_columnBitmask |= _columnBitmasks.get("typePK");
 
-		if (!_setOriginalTypePK) {
-			_setOriginalTypePK = true;
-
-			_originalTypePK = _typePK;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_typePK = typePK;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalTypePK() {
-		return _originalTypePK;
+		return GetterUtil.getLong(_columnOriginalValues.get("typePK"));
 	}
 
 	public long getColumnBitmask() {
@@ -478,18 +519,9 @@ public class DLSyncEventModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		DLSyncEventModelImpl dlSyncEventModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		dlSyncEventModelImpl._originalModifiedTime =
-			dlSyncEventModelImpl._modifiedTime;
-
-		dlSyncEventModelImpl._setOriginalModifiedTime = false;
-
-		dlSyncEventModelImpl._originalTypePK = dlSyncEventModelImpl._typePK;
-
-		dlSyncEventModelImpl._setOriginalTypePK = false;
-
-		dlSyncEventModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -594,16 +626,60 @@ public class DLSyncEventModelImpl
 
 	}
 
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("syncEventId", _syncEventId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("modifiedTime", _modifiedTime);
+		_columnOriginalValues.put("event", _event);
+		_columnOriginalValues.put("type_", _type);
+		_columnOriginalValues.put("typePK", _typePK);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new LinkedHashMap<>();
+
+		columnBitmasks.put("syncEventId", 1L);
+
+		columnBitmasks.put("companyId", 2L);
+
+		columnBitmasks.put("modifiedTime", 4L);
+
+		columnBitmasks.put("event", 8L);
+
+		columnBitmasks.put("type_", 16L);
+
+		columnBitmasks.put("typePK", 32L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
 	private long _syncEventId;
 	private long _companyId;
 	private long _modifiedTime;
-	private long _originalModifiedTime;
-	private boolean _setOriginalModifiedTime;
 	private String _event;
 	private String _type;
 	private long _typePK;
-	private long _originalTypePK;
-	private boolean _setOriginalTypePK;
 	private long _columnBitmask;
 	private DLSyncEvent _escapedModel;
 

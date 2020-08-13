@@ -138,16 +138,46 @@ public class SystemEventModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long CLASSNAMEID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long CLASSPK_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long SYSTEMEVENTSETKEY_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long TYPE_COLUMN_BITMASK = 16L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long CREATEDATE_COLUMN_BITMASK = 32L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
@@ -359,6 +389,12 @@ public class SystemEventModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= _columnBitmasks.get("mvccVersion");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -369,6 +405,12 @@ public class SystemEventModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= _columnBitmasks.get("ctCollectionId");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -379,6 +421,12 @@ public class SystemEventModelImpl
 
 	@Override
 	public void setSystemEventId(long systemEventId) {
+		_columnBitmask |= _columnBitmasks.get("systemEventId");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_systemEventId = systemEventId;
 	}
 
@@ -389,19 +437,22 @@ public class SystemEventModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
+		_columnBitmask |= _columnBitmasks.get("groupId");
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return GetterUtil.getLong(_columnOriginalValues.get("groupId"));
 	}
 
 	@Override
@@ -411,6 +462,12 @@ public class SystemEventModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= _columnBitmasks.get("companyId");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -421,6 +478,12 @@ public class SystemEventModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= _columnBitmasks.get("userId");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userId = userId;
 	}
 
@@ -452,6 +515,12 @@ public class SystemEventModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= _columnBitmasks.get("userName");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userName = userName;
 	}
 
@@ -462,7 +531,11 @@ public class SystemEventModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
-		_columnBitmask = -1L;
+		_columnBitmask |= _columnBitmasks.get("createDate");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
 
 		_createDate = createDate;
 	}
@@ -494,19 +567,22 @@ public class SystemEventModelImpl
 
 	@Override
 	public void setClassNameId(long classNameId) {
-		_columnBitmask |= CLASSNAMEID_COLUMN_BITMASK;
+		_columnBitmask |= _columnBitmasks.get("classNameId");
 
-		if (!_setOriginalClassNameId) {
-			_setOriginalClassNameId = true;
-
-			_originalClassNameId = _classNameId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_classNameId = classNameId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassNameId() {
-		return _originalClassNameId;
+		return GetterUtil.getLong(_columnOriginalValues.get("classNameId"));
 	}
 
 	@Override
@@ -516,19 +592,22 @@ public class SystemEventModelImpl
 
 	@Override
 	public void setClassPK(long classPK) {
-		_columnBitmask |= CLASSPK_COLUMN_BITMASK;
+		_columnBitmask |= _columnBitmasks.get("classPK");
 
-		if (!_setOriginalClassPK) {
-			_setOriginalClassPK = true;
-
-			_originalClassPK = _classPK;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_classPK = classPK;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalClassPK() {
-		return _originalClassPK;
+		return GetterUtil.getLong(_columnOriginalValues.get("classPK"));
 	}
 
 	@Override
@@ -543,6 +622,12 @@ public class SystemEventModelImpl
 
 	@Override
 	public void setClassUuid(String classUuid) {
+		_columnBitmask |= _columnBitmasks.get("classUuid");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_classUuid = classUuid;
 	}
 
@@ -553,6 +638,12 @@ public class SystemEventModelImpl
 
 	@Override
 	public void setReferrerClassNameId(long referrerClassNameId) {
+		_columnBitmask |= _columnBitmasks.get("referrerClassNameId");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_referrerClassNameId = referrerClassNameId;
 	}
 
@@ -563,6 +654,12 @@ public class SystemEventModelImpl
 
 	@Override
 	public void setParentSystemEventId(long parentSystemEventId) {
+		_columnBitmask |= _columnBitmasks.get("parentSystemEventId");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_parentSystemEventId = parentSystemEventId;
 	}
 
@@ -573,19 +670,23 @@ public class SystemEventModelImpl
 
 	@Override
 	public void setSystemEventSetKey(long systemEventSetKey) {
-		_columnBitmask |= SYSTEMEVENTSETKEY_COLUMN_BITMASK;
+		_columnBitmask |= _columnBitmasks.get("systemEventSetKey");
 
-		if (!_setOriginalSystemEventSetKey) {
-			_setOriginalSystemEventSetKey = true;
-
-			_originalSystemEventSetKey = _systemEventSetKey;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_systemEventSetKey = systemEventSetKey;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalSystemEventSetKey() {
-		return _originalSystemEventSetKey;
+		return GetterUtil.getLong(
+			_columnOriginalValues.get("systemEventSetKey"));
 	}
 
 	@Override
@@ -595,19 +696,22 @@ public class SystemEventModelImpl
 
 	@Override
 	public void setType(int type) {
-		_columnBitmask |= TYPE_COLUMN_BITMASK;
+		_columnBitmask |= _columnBitmasks.get("type_");
 
-		if (!_setOriginalType) {
-			_setOriginalType = true;
-
-			_originalType = _type;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_type = type;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalType() {
-		return _originalType;
+		return GetterUtil.getInteger(_columnOriginalValues.get("type_"));
 	}
 
 	@Override
@@ -622,6 +726,12 @@ public class SystemEventModelImpl
 
 	@Override
 	public void setExtraData(String extraData) {
+		_columnBitmask |= _columnBitmasks.get("extraData");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_extraData = extraData;
 	}
 
@@ -746,31 +856,9 @@ public class SystemEventModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		SystemEventModelImpl systemEventModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		systemEventModelImpl._originalGroupId = systemEventModelImpl._groupId;
-
-		systemEventModelImpl._setOriginalGroupId = false;
-
-		systemEventModelImpl._originalClassNameId =
-			systemEventModelImpl._classNameId;
-
-		systemEventModelImpl._setOriginalClassNameId = false;
-
-		systemEventModelImpl._originalClassPK = systemEventModelImpl._classPK;
-
-		systemEventModelImpl._setOriginalClassPK = false;
-
-		systemEventModelImpl._originalSystemEventSetKey =
-			systemEventModelImpl._systemEventSetKey;
-
-		systemEventModelImpl._setOriginalSystemEventSetKey = false;
-
-		systemEventModelImpl._originalType = systemEventModelImpl._type;
-
-		systemEventModelImpl._setOriginalType = false;
-
-		systemEventModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -908,31 +996,99 @@ public class SystemEventModelImpl
 
 	}
 
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("mvccVersion", _mvccVersion);
+		_columnOriginalValues.put("ctCollectionId", _ctCollectionId);
+		_columnOriginalValues.put("systemEventId", _systemEventId);
+		_columnOriginalValues.put("groupId", _groupId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("userId", _userId);
+		_columnOriginalValues.put("userName", _userName);
+		_columnOriginalValues.put("createDate", _createDate);
+		_columnOriginalValues.put("classNameId", _classNameId);
+		_columnOriginalValues.put("classPK", _classPK);
+		_columnOriginalValues.put("classUuid", _classUuid);
+		_columnOriginalValues.put("referrerClassNameId", _referrerClassNameId);
+		_columnOriginalValues.put("parentSystemEventId", _parentSystemEventId);
+		_columnOriginalValues.put("systemEventSetKey", _systemEventSetKey);
+		_columnOriginalValues.put("type_", _type);
+		_columnOriginalValues.put("extraData", _extraData);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new LinkedHashMap<>();
+
+		columnBitmasks.put("mvccVersion", 1L);
+
+		columnBitmasks.put("ctCollectionId", 2L);
+
+		columnBitmasks.put("systemEventId", 4L);
+
+		columnBitmasks.put("groupId", 8L);
+
+		columnBitmasks.put("companyId", 16L);
+
+		columnBitmasks.put("userId", 32L);
+
+		columnBitmasks.put("userName", 64L);
+
+		columnBitmasks.put("createDate", 128L);
+
+		columnBitmasks.put("classNameId", 256L);
+
+		columnBitmasks.put("classPK", 512L);
+
+		columnBitmasks.put("classUuid", 1024L);
+
+		columnBitmasks.put("referrerClassNameId", 2048L);
+
+		columnBitmasks.put("parentSystemEventId", 4096L);
+
+		columnBitmasks.put("systemEventSetKey", 8192L);
+
+		columnBitmasks.put("type_", 16384L);
+
+		columnBitmasks.put("extraData", 32768L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
 	private long _mvccVersion;
 	private long _ctCollectionId;
 	private long _systemEventId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private long _classNameId;
-	private long _originalClassNameId;
-	private boolean _setOriginalClassNameId;
 	private long _classPK;
-	private long _originalClassPK;
-	private boolean _setOriginalClassPK;
 	private String _classUuid;
 	private long _referrerClassNameId;
 	private long _parentSystemEventId;
 	private long _systemEventSetKey;
-	private long _originalSystemEventSetKey;
-	private boolean _setOriginalSystemEventSetKey;
 	private int _type;
-	private int _originalType;
-	private boolean _setOriginalType;
 	private String _extraData;
 	private long _columnBitmask;
 	private SystemEvent _escapedModel;

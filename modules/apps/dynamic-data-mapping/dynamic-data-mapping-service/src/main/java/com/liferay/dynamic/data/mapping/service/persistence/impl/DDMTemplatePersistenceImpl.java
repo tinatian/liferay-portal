@@ -12305,8 +12305,8 @@ public class DDMTemplatePersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				ddmTemplateModelImpl.getOriginalUuid(),
-				ddmTemplateModelImpl.getOriginalGroupId()
+				ddmTemplateModelImpl.getColumnOriginalValue("uuid_"),
+				ddmTemplateModelImpl.getColumnOriginalValue("groupId")
 			};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -12326,7 +12326,7 @@ public class DDMTemplatePersistenceImpl
 			 _finderPathFetchBySmallImageId.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				ddmTemplateModelImpl.getOriginalSmallImageId()
+				ddmTemplateModelImpl.getColumnOriginalValue("smallImageId")
 			};
 
 			finderCache.removeResult(_finderPathCountBySmallImageId, args);
@@ -12348,9 +12348,9 @@ public class DDMTemplatePersistenceImpl
 			 _finderPathFetchByG_C_T.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				ddmTemplateModelImpl.getOriginalGroupId(),
-				ddmTemplateModelImpl.getOriginalClassNameId(),
-				ddmTemplateModelImpl.getOriginalTemplateKey()
+				ddmTemplateModelImpl.getColumnOriginalValue("groupId"),
+				ddmTemplateModelImpl.getColumnOriginalValue("classNameId"),
+				ddmTemplateModelImpl.getColumnOriginalValue("templateKey")
 			};
 
 			finderCache.removeResult(_finderPathCountByG_C_T, args);
@@ -12669,7 +12669,7 @@ public class DDMTemplatePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					ddmTemplateModelImpl.getOriginalUuid()
+					ddmTemplateModelImpl.getColumnOriginalValue("uuid_")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
@@ -12688,8 +12688,8 @@ public class DDMTemplatePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					ddmTemplateModelImpl.getOriginalUuid(),
-					ddmTemplateModelImpl.getOriginalCompanyId()
+					ddmTemplateModelImpl.getColumnOriginalValue("uuid_"),
+					ddmTemplateModelImpl.getColumnOriginalValue("companyId")
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
@@ -12711,7 +12711,7 @@ public class DDMTemplatePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					ddmTemplateModelImpl.getOriginalGroupId()
+					ddmTemplateModelImpl.getColumnOriginalValue("groupId")
 				};
 
 				finderCache.removeResult(_finderPathCountByGroupId, args);
@@ -12730,7 +12730,7 @@ public class DDMTemplatePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					ddmTemplateModelImpl.getOriginalClassPK()
+					ddmTemplateModelImpl.getColumnOriginalValue("classPK")
 				};
 
 				finderCache.removeResult(_finderPathCountByClassPK, args);
@@ -12749,7 +12749,7 @@ public class DDMTemplatePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					ddmTemplateModelImpl.getOriginalTemplateKey()
+					ddmTemplateModelImpl.getColumnOriginalValue("templateKey")
 				};
 
 				finderCache.removeResult(_finderPathCountByTemplateKey, args);
@@ -12768,7 +12768,7 @@ public class DDMTemplatePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					ddmTemplateModelImpl.getOriginalType()
+					ddmTemplateModelImpl.getColumnOriginalValue("type_")
 				};
 
 				finderCache.removeResult(_finderPathCountByType, args);
@@ -12787,7 +12787,7 @@ public class DDMTemplatePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					ddmTemplateModelImpl.getOriginalLanguage()
+					ddmTemplateModelImpl.getColumnOriginalValue("language")
 				};
 
 				finderCache.removeResult(_finderPathCountByLanguage, args);
@@ -12806,8 +12806,8 @@ public class DDMTemplatePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					ddmTemplateModelImpl.getOriginalGroupId(),
-					ddmTemplateModelImpl.getOriginalClassNameId()
+					ddmTemplateModelImpl.getColumnOriginalValue("groupId"),
+					ddmTemplateModelImpl.getColumnOriginalValue("classNameId")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_C, args);
@@ -12829,8 +12829,8 @@ public class DDMTemplatePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					ddmTemplateModelImpl.getOriginalGroupId(),
-					ddmTemplateModelImpl.getOriginalClassPK()
+					ddmTemplateModelImpl.getColumnOriginalValue("groupId"),
+					ddmTemplateModelImpl.getColumnOriginalValue("classPK")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_CPK, args);
@@ -12852,9 +12852,9 @@ public class DDMTemplatePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					ddmTemplateModelImpl.getOriginalGroupId(),
-					ddmTemplateModelImpl.getOriginalClassNameId(),
-					ddmTemplateModelImpl.getOriginalClassPK()
+					ddmTemplateModelImpl.getColumnOriginalValue("groupId"),
+					ddmTemplateModelImpl.getColumnOriginalValue("classNameId"),
+					ddmTemplateModelImpl.getColumnOriginalValue("classPK")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_C_C, args);
@@ -12877,9 +12877,9 @@ public class DDMTemplatePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					ddmTemplateModelImpl.getOriginalClassNameId(),
-					ddmTemplateModelImpl.getOriginalClassPK(),
-					ddmTemplateModelImpl.getOriginalType()
+					ddmTemplateModelImpl.getColumnOriginalValue("classNameId"),
+					ddmTemplateModelImpl.getColumnOriginalValue("classPK"),
+					ddmTemplateModelImpl.getColumnOriginalValue("type_")
 				};
 
 				finderCache.removeResult(_finderPathCountByC_C_T, args);
@@ -12902,10 +12902,10 @@ public class DDMTemplatePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					ddmTemplateModelImpl.getOriginalGroupId(),
-					ddmTemplateModelImpl.getOriginalClassNameId(),
-					ddmTemplateModelImpl.getOriginalClassPK(),
-					ddmTemplateModelImpl.getOriginalType()
+					ddmTemplateModelImpl.getColumnOriginalValue("groupId"),
+					ddmTemplateModelImpl.getColumnOriginalValue("classNameId"),
+					ddmTemplateModelImpl.getColumnOriginalValue("classPK"),
+					ddmTemplateModelImpl.getColumnOriginalValue("type_")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_C_C_T, args);
@@ -12929,11 +12929,11 @@ public class DDMTemplatePersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					ddmTemplateModelImpl.getOriginalGroupId(),
-					ddmTemplateModelImpl.getOriginalClassNameId(),
-					ddmTemplateModelImpl.getOriginalClassPK(),
-					ddmTemplateModelImpl.getOriginalType(),
-					ddmTemplateModelImpl.getOriginalMode()
+					ddmTemplateModelImpl.getColumnOriginalValue("groupId"),
+					ddmTemplateModelImpl.getColumnOriginalValue("classNameId"),
+					ddmTemplateModelImpl.getColumnOriginalValue("classPK"),
+					ddmTemplateModelImpl.getColumnOriginalValue("type_"),
+					ddmTemplateModelImpl.getColumnOriginalValue("mode_")
 				};
 
 				finderCache.removeResult(_finderPathCountByG_C_C_T_M, args);
@@ -13447,7 +13447,7 @@ public class DDMTemplatePersistenceImpl
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
 			DDMTemplateImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByUuid", new String[] {String.class.getName()},
-			DDMTemplateModelImpl.UUID_COLUMN_BITMASK);
+			DDMTemplateModelImpl.getColumnBitmask("uuid_"));
 
 		_finderPathCountByUuid = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -13456,8 +13456,8 @@ public class DDMTemplatePersistenceImpl
 		_finderPathFetchByUUID_G = new FinderPath(
 			DDMTemplateImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
-			DDMTemplateModelImpl.UUID_COLUMN_BITMASK |
-			DDMTemplateModelImpl.GROUPID_COLUMN_BITMASK);
+			DDMTemplateModelImpl.getColumnBitmask("uuid_") |
+			DDMTemplateModelImpl.getColumnBitmask("groupId"));
 
 		_finderPathCountByUUID_G = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -13477,8 +13477,8 @@ public class DDMTemplatePersistenceImpl
 			DDMTemplateImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
-			DDMTemplateModelImpl.UUID_COLUMN_BITMASK |
-			DDMTemplateModelImpl.COMPANYID_COLUMN_BITMASK);
+			DDMTemplateModelImpl.getColumnBitmask("uuid_") |
+			DDMTemplateModelImpl.getColumnBitmask("companyId"));
 
 		_finderPathCountByUuid_C = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -13496,7 +13496,7 @@ public class DDMTemplatePersistenceImpl
 		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
 			DDMTemplateImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByGroupId", new String[] {Long.class.getName()},
-			DDMTemplateModelImpl.GROUPID_COLUMN_BITMASK);
+			DDMTemplateModelImpl.getColumnBitmask("groupId"));
 
 		_finderPathCountByGroupId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -13513,7 +13513,7 @@ public class DDMTemplatePersistenceImpl
 		_finderPathWithoutPaginationFindByClassPK = new FinderPath(
 			DDMTemplateImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByClassPK", new String[] {Long.class.getName()},
-			DDMTemplateModelImpl.CLASSPK_COLUMN_BITMASK);
+			DDMTemplateModelImpl.getColumnBitmask("classPK"));
 
 		_finderPathCountByClassPK = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -13530,7 +13530,7 @@ public class DDMTemplatePersistenceImpl
 		_finderPathWithoutPaginationFindByTemplateKey = new FinderPath(
 			DDMTemplateImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByTemplateKey", new String[] {String.class.getName()},
-			DDMTemplateModelImpl.TEMPLATEKEY_COLUMN_BITMASK);
+			DDMTemplateModelImpl.getColumnBitmask("templateKey"));
 
 		_finderPathCountByTemplateKey = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -13547,7 +13547,7 @@ public class DDMTemplatePersistenceImpl
 		_finderPathWithoutPaginationFindByType = new FinderPath(
 			DDMTemplateImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByType", new String[] {String.class.getName()},
-			DDMTemplateModelImpl.TYPE_COLUMN_BITMASK);
+			DDMTemplateModelImpl.getColumnBitmask("type_"));
 
 		_finderPathCountByType = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -13564,7 +13564,7 @@ public class DDMTemplatePersistenceImpl
 		_finderPathWithoutPaginationFindByLanguage = new FinderPath(
 			DDMTemplateImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByLanguage", new String[] {String.class.getName()},
-			DDMTemplateModelImpl.LANGUAGE_COLUMN_BITMASK);
+			DDMTemplateModelImpl.getColumnBitmask("language"));
 
 		_finderPathCountByLanguage = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -13573,7 +13573,7 @@ public class DDMTemplatePersistenceImpl
 		_finderPathFetchBySmallImageId = new FinderPath(
 			DDMTemplateImpl.class, FINDER_CLASS_NAME_ENTITY,
 			"fetchBySmallImageId", new String[] {Long.class.getName()},
-			DDMTemplateModelImpl.SMALLIMAGEID_COLUMN_BITMASK);
+			DDMTemplateModelImpl.getColumnBitmask("smallImageId"));
 
 		_finderPathCountBySmallImageId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -13592,8 +13592,8 @@ public class DDMTemplatePersistenceImpl
 			DDMTemplateImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByG_C",
 			new String[] {Long.class.getName(), Long.class.getName()},
-			DDMTemplateModelImpl.GROUPID_COLUMN_BITMASK |
-			DDMTemplateModelImpl.CLASSNAMEID_COLUMN_BITMASK);
+			DDMTemplateModelImpl.getColumnBitmask("groupId") |
+			DDMTemplateModelImpl.getColumnBitmask("classNameId"));
 
 		_finderPathCountByG_C = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_C",
@@ -13612,8 +13612,8 @@ public class DDMTemplatePersistenceImpl
 			DDMTemplateImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByG_CPK",
 			new String[] {Long.class.getName(), Long.class.getName()},
-			DDMTemplateModelImpl.GROUPID_COLUMN_BITMASK |
-			DDMTemplateModelImpl.CLASSPK_COLUMN_BITMASK);
+			DDMTemplateModelImpl.getColumnBitmask("groupId") |
+			DDMTemplateModelImpl.getColumnBitmask("classPK"));
 
 		_finderPathCountByG_CPK = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -13639,9 +13639,9 @@ public class DDMTemplatePersistenceImpl
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			},
-			DDMTemplateModelImpl.GROUPID_COLUMN_BITMASK |
-			DDMTemplateModelImpl.CLASSNAMEID_COLUMN_BITMASK |
-			DDMTemplateModelImpl.CLASSPK_COLUMN_BITMASK);
+			DDMTemplateModelImpl.getColumnBitmask("groupId") |
+			DDMTemplateModelImpl.getColumnBitmask("classNameId") |
+			DDMTemplateModelImpl.getColumnBitmask("classPK"));
 
 		_finderPathCountByG_C_C = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -13662,9 +13662,9 @@ public class DDMTemplatePersistenceImpl
 				Long.class.getName(), Long.class.getName(),
 				String.class.getName()
 			},
-			DDMTemplateModelImpl.GROUPID_COLUMN_BITMASK |
-			DDMTemplateModelImpl.CLASSNAMEID_COLUMN_BITMASK |
-			DDMTemplateModelImpl.TEMPLATEKEY_COLUMN_BITMASK);
+			DDMTemplateModelImpl.getColumnBitmask("groupId") |
+			DDMTemplateModelImpl.getColumnBitmask("classNameId") |
+			DDMTemplateModelImpl.getColumnBitmask("templateKey"));
 
 		_finderPathCountByG_C_T = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -13690,9 +13690,9 @@ public class DDMTemplatePersistenceImpl
 				Long.class.getName(), Long.class.getName(),
 				String.class.getName()
 			},
-			DDMTemplateModelImpl.CLASSNAMEID_COLUMN_BITMASK |
-			DDMTemplateModelImpl.CLASSPK_COLUMN_BITMASK |
-			DDMTemplateModelImpl.TYPE_COLUMN_BITMASK);
+			DDMTemplateModelImpl.getColumnBitmask("classNameId") |
+			DDMTemplateModelImpl.getColumnBitmask("classPK") |
+			DDMTemplateModelImpl.getColumnBitmask("type_"));
 
 		_finderPathCountByC_C_T = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -13719,10 +13719,10 @@ public class DDMTemplatePersistenceImpl
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), String.class.getName()
 			},
-			DDMTemplateModelImpl.GROUPID_COLUMN_BITMASK |
-			DDMTemplateModelImpl.CLASSNAMEID_COLUMN_BITMASK |
-			DDMTemplateModelImpl.CLASSPK_COLUMN_BITMASK |
-			DDMTemplateModelImpl.TYPE_COLUMN_BITMASK);
+			DDMTemplateModelImpl.getColumnBitmask("groupId") |
+			DDMTemplateModelImpl.getColumnBitmask("classNameId") |
+			DDMTemplateModelImpl.getColumnBitmask("classPK") |
+			DDMTemplateModelImpl.getColumnBitmask("type_"));
 
 		_finderPathCountByG_C_C_T = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -13750,11 +13750,11 @@ public class DDMTemplatePersistenceImpl
 				Long.class.getName(), String.class.getName(),
 				String.class.getName()
 			},
-			DDMTemplateModelImpl.GROUPID_COLUMN_BITMASK |
-			DDMTemplateModelImpl.CLASSNAMEID_COLUMN_BITMASK |
-			DDMTemplateModelImpl.CLASSPK_COLUMN_BITMASK |
-			DDMTemplateModelImpl.TYPE_COLUMN_BITMASK |
-			DDMTemplateModelImpl.MODE_COLUMN_BITMASK);
+			DDMTemplateModelImpl.getColumnBitmask("groupId") |
+			DDMTemplateModelImpl.getColumnBitmask("classNameId") |
+			DDMTemplateModelImpl.getColumnBitmask("classPK") |
+			DDMTemplateModelImpl.getColumnBitmask("type_") |
+			DDMTemplateModelImpl.getColumnBitmask("mode_"));
 
 		_finderPathCountByG_C_C_T_M = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,

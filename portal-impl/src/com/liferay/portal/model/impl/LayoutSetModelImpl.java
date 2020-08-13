@@ -135,16 +135,46 @@ public class LayoutSetModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long LAYOUTSETPROTOTYPEUUID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long LOGOID_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long PRIVATELAYOUT_COLUMN_BITMASK = 16L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long LAYOUTSETID_COLUMN_BITMASK = 32L;
 
 	/**
@@ -405,6 +435,12 @@ public class LayoutSetModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		_columnBitmask |= _columnBitmasks.get("mvccVersion");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -416,6 +452,12 @@ public class LayoutSetModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= _columnBitmasks.get("ctCollectionId");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -427,6 +469,12 @@ public class LayoutSetModelImpl
 
 	@Override
 	public void setLayoutSetId(long layoutSetId) {
+		_columnBitmask |= _columnBitmasks.get("layoutSetId");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_layoutSetId = layoutSetId;
 	}
 
@@ -438,19 +486,22 @@ public class LayoutSetModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
+		_columnBitmask |= _columnBitmasks.get("groupId");
 
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return GetterUtil.getLong(_columnOriginalValues.get("groupId"));
 	}
 
 	@JSON
@@ -461,19 +512,22 @@ public class LayoutSetModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+		_columnBitmask |= _columnBitmasks.get("companyId");
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return GetterUtil.getLong(_columnOriginalValues.get("companyId"));
 	}
 
 	@JSON
@@ -484,6 +538,12 @@ public class LayoutSetModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= _columnBitmasks.get("createDate");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -500,6 +560,12 @@ public class LayoutSetModelImpl
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
+
+		_columnBitmask |= _columnBitmasks.get("modifiedDate");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
 
 		_modifiedDate = modifiedDate;
 	}
@@ -518,19 +584,23 @@ public class LayoutSetModelImpl
 
 	@Override
 	public void setPrivateLayout(boolean privateLayout) {
-		_columnBitmask |= PRIVATELAYOUT_COLUMN_BITMASK;
+		_columnBitmask |= _columnBitmasks.get("privateLayout");
 
-		if (!_setOriginalPrivateLayout) {
-			_setOriginalPrivateLayout = true;
-
-			_originalPrivateLayout = _privateLayout;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_privateLayout = privateLayout;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public boolean getOriginalPrivateLayout() {
-		return _originalPrivateLayout;
+		return GetterUtil.getBoolean(
+			_columnOriginalValues.get("privateLayout"));
 	}
 
 	@JSON
@@ -541,19 +611,22 @@ public class LayoutSetModelImpl
 
 	@Override
 	public void setLogoId(long logoId) {
-		_columnBitmask |= LOGOID_COLUMN_BITMASK;
+		_columnBitmask |= _columnBitmasks.get("logoId");
 
-		if (!_setOriginalLogoId) {
-			_setOriginalLogoId = true;
-
-			_originalLogoId = _logoId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_logoId = logoId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalLogoId() {
-		return _originalLogoId;
+		return GetterUtil.getLong(_columnOriginalValues.get("logoId"));
 	}
 
 	@JSON
@@ -569,6 +642,12 @@ public class LayoutSetModelImpl
 
 	@Override
 	public void setThemeId(String themeId) {
+		_columnBitmask |= _columnBitmasks.get("themeId");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_themeId = themeId;
 	}
 
@@ -585,6 +664,12 @@ public class LayoutSetModelImpl
 
 	@Override
 	public void setColorSchemeId(String colorSchemeId) {
+		_columnBitmask |= _columnBitmasks.get("colorSchemeId");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_colorSchemeId = colorSchemeId;
 	}
 
@@ -601,6 +686,12 @@ public class LayoutSetModelImpl
 
 	@Override
 	public void setCss(String css) {
+		_columnBitmask |= _columnBitmasks.get("css");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_css = css;
 	}
 
@@ -617,6 +708,12 @@ public class LayoutSetModelImpl
 
 	@Override
 	public void setSettings(String settings) {
+		_columnBitmask |= _columnBitmasks.get("settings_");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_settings = settings;
 	}
 
@@ -633,17 +730,22 @@ public class LayoutSetModelImpl
 
 	@Override
 	public void setLayoutSetPrototypeUuid(String layoutSetPrototypeUuid) {
-		_columnBitmask |= LAYOUTSETPROTOTYPEUUID_COLUMN_BITMASK;
+		_columnBitmask |= _columnBitmasks.get("layoutSetPrototypeUuid");
 
-		if (_originalLayoutSetPrototypeUuid == null) {
-			_originalLayoutSetPrototypeUuid = _layoutSetPrototypeUuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_layoutSetPrototypeUuid = layoutSetPrototypeUuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalLayoutSetPrototypeUuid() {
-		return GetterUtil.getString(_originalLayoutSetPrototypeUuid);
+		return getColumnOriginalValue("layoutSetPrototypeUuid");
 	}
 
 	@JSON
@@ -661,6 +763,12 @@ public class LayoutSetModelImpl
 	@Override
 	public void setLayoutSetPrototypeLinkEnabled(
 		boolean layoutSetPrototypeLinkEnabled) {
+
+		_columnBitmask |= _columnBitmasks.get("layoutSetPrototypeLinkEnabled");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
 
 		_layoutSetPrototypeLinkEnabled = layoutSetPrototypeLinkEnabled;
 	}
@@ -800,35 +908,15 @@ public class LayoutSetModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		LayoutSetModelImpl layoutSetModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		layoutSetModelImpl._originalGroupId = layoutSetModelImpl._groupId;
-
-		layoutSetModelImpl._setOriginalGroupId = false;
-
-		layoutSetModelImpl._originalCompanyId = layoutSetModelImpl._companyId;
-
-		layoutSetModelImpl._setOriginalCompanyId = false;
-
-		layoutSetModelImpl._setModifiedDate = false;
-
-		layoutSetModelImpl._originalPrivateLayout =
-			layoutSetModelImpl._privateLayout;
-
-		layoutSetModelImpl._setOriginalPrivateLayout = false;
-
-		layoutSetModelImpl._originalLogoId = layoutSetModelImpl._logoId;
-
-		layoutSetModelImpl._setOriginalLogoId = false;
-
-		layoutSetModelImpl._originalLayoutSetPrototypeUuid =
-			layoutSetModelImpl._layoutSetPrototypeUuid;
+		_setModifiedDate = false;
 
 		setCompanyFallbackVirtualHostname(null);
 
 		setVirtualHostnames(null);
 
-		layoutSetModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -992,30 +1080,98 @@ public class LayoutSetModelImpl
 
 	}
 
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("mvccVersion", _mvccVersion);
+		_columnOriginalValues.put("ctCollectionId", _ctCollectionId);
+		_columnOriginalValues.put("layoutSetId", _layoutSetId);
+		_columnOriginalValues.put("groupId", _groupId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("createDate", _createDate);
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
+		_columnOriginalValues.put("privateLayout", _privateLayout);
+		_columnOriginalValues.put("logoId", _logoId);
+		_columnOriginalValues.put("themeId", _themeId);
+		_columnOriginalValues.put("colorSchemeId", _colorSchemeId);
+		_columnOriginalValues.put("css", _css);
+		_columnOriginalValues.put("settings_", _settings);
+		_columnOriginalValues.put(
+			"layoutSetPrototypeUuid", _layoutSetPrototypeUuid);
+		_columnOriginalValues.put(
+			"layoutSetPrototypeLinkEnabled", _layoutSetPrototypeLinkEnabled);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new LinkedHashMap<>();
+
+		columnBitmasks.put("mvccVersion", 1L);
+
+		columnBitmasks.put("ctCollectionId", 2L);
+
+		columnBitmasks.put("layoutSetId", 4L);
+
+		columnBitmasks.put("groupId", 8L);
+
+		columnBitmasks.put("companyId", 16L);
+
+		columnBitmasks.put("createDate", 32L);
+
+		columnBitmasks.put("modifiedDate", 64L);
+
+		columnBitmasks.put("privateLayout", 128L);
+
+		columnBitmasks.put("logoId", 256L);
+
+		columnBitmasks.put("themeId", 512L);
+
+		columnBitmasks.put("colorSchemeId", 1024L);
+
+		columnBitmasks.put("css", 2048L);
+
+		columnBitmasks.put("settings_", 4096L);
+
+		columnBitmasks.put("layoutSetPrototypeUuid", 8192L);
+
+		columnBitmasks.put("layoutSetPrototypeLinkEnabled", 16384L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
 	private long _mvccVersion;
 	private long _ctCollectionId;
 	private long _layoutSetId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private boolean _privateLayout;
-	private boolean _originalPrivateLayout;
-	private boolean _setOriginalPrivateLayout;
 	private long _logoId;
-	private long _originalLogoId;
-	private boolean _setOriginalLogoId;
 	private String _themeId;
 	private String _colorSchemeId;
 	private String _css;
 	private String _settings;
 	private String _layoutSetPrototypeUuid;
-	private String _originalLayoutSetPrototypeUuid;
 	private boolean _layoutSetPrototypeLinkEnabled;
 	private long _columnBitmask;
 	private LayoutSet _escapedModel;

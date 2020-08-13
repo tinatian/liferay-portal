@@ -129,6 +129,13 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
 	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 1L;
+
+	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
 	 */
 	@Deprecated
@@ -403,6 +410,12 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setEntryId(long entryId) {
+		_columnBitmask |= _columnBitmasks.get("entryId");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_entryId = entryId;
 	}
 
@@ -414,6 +427,12 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setGroupId(long groupId) {
+		_columnBitmask |= _columnBitmasks.get("groupId");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_groupId = groupId;
 	}
 
@@ -425,6 +444,12 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= _columnBitmasks.get("companyId");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -436,6 +461,12 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= _columnBitmasks.get("userId");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userId = userId;
 	}
 
@@ -468,6 +499,12 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= _columnBitmasks.get("userName");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userName = userName;
 	}
 
@@ -479,6 +516,12 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask |= _columnBitmasks.get("createDate");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -496,6 +539,12 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask |= _columnBitmasks.get("modifiedDate");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -507,6 +556,12 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setDefinitionId(long definitionId) {
+		_columnBitmask |= _columnBitmasks.get("definitionId");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_definitionId = definitionId;
 	}
 
@@ -523,6 +578,12 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setFormat(String format) {
+		_columnBitmask |= _columnBitmasks.get("format");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_format = format;
 	}
 
@@ -540,6 +601,12 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setScheduleRequest(boolean scheduleRequest) {
+		_columnBitmask |= _columnBitmasks.get("scheduleRequest");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_scheduleRequest = scheduleRequest;
 	}
 
@@ -551,6 +618,12 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setStartDate(Date startDate) {
+		_columnBitmask |= _columnBitmasks.get("startDate");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_startDate = startDate;
 	}
 
@@ -562,6 +635,12 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setEndDate(Date endDate) {
+		_columnBitmask |= _columnBitmasks.get("endDate");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_endDate = endDate;
 	}
 
@@ -579,6 +658,12 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setRepeating(boolean repeating) {
+		_columnBitmask |= _columnBitmasks.get("repeating");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_repeating = repeating;
 	}
 
@@ -595,6 +680,12 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setRecurrence(String recurrence) {
+		_columnBitmask |= _columnBitmasks.get("recurrence");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_recurrence = recurrence;
 	}
 
@@ -611,6 +702,12 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setEmailNotifications(String emailNotifications) {
+		_columnBitmask |= _columnBitmasks.get("emailNotifications");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_emailNotifications = emailNotifications;
 	}
 
@@ -627,6 +724,12 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setEmailDelivery(String emailDelivery) {
+		_columnBitmask |= _columnBitmasks.get("emailDelivery");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_emailDelivery = emailDelivery;
 	}
 
@@ -643,6 +746,12 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setPortletId(String portletId) {
+		_columnBitmask |= _columnBitmasks.get("portletId");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_portletId = portletId;
 	}
 
@@ -659,6 +768,12 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setPageURL(String pageURL) {
+		_columnBitmask |= _columnBitmasks.get("pageURL");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_pageURL = pageURL;
 	}
 
@@ -675,6 +790,12 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setReportParameters(String reportParameters) {
+		_columnBitmask |= _columnBitmasks.get("reportParameters");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_reportParameters = reportParameters;
 	}
 
@@ -691,6 +812,12 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setErrorMessage(String errorMessage) {
+		_columnBitmask |= _columnBitmasks.get("errorMessage");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_errorMessage = errorMessage;
 	}
 
@@ -707,7 +834,17 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setStatus(String status) {
+		_columnBitmask |= _columnBitmasks.get("status");
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_status = status;
+	}
+
+	public long getColumnBitmask() {
+		return _columnBitmask;
 	}
 
 	@Override
@@ -829,9 +966,11 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void resetOriginalValues() {
-		EntryModelImpl entryModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		entryModelImpl._setModifiedDate = false;
+		_setModifiedDate = false;
+
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -1041,6 +1180,99 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	}
 
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("entryId", _entryId);
+		_columnOriginalValues.put("groupId", _groupId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("userId", _userId);
+		_columnOriginalValues.put("userName", _userName);
+		_columnOriginalValues.put("createDate", _createDate);
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
+		_columnOriginalValues.put("definitionId", _definitionId);
+		_columnOriginalValues.put("format", _format);
+		_columnOriginalValues.put("scheduleRequest", _scheduleRequest);
+		_columnOriginalValues.put("startDate", _startDate);
+		_columnOriginalValues.put("endDate", _endDate);
+		_columnOriginalValues.put("repeating", _repeating);
+		_columnOriginalValues.put("recurrence", _recurrence);
+		_columnOriginalValues.put("emailNotifications", _emailNotifications);
+		_columnOriginalValues.put("emailDelivery", _emailDelivery);
+		_columnOriginalValues.put("portletId", _portletId);
+		_columnOriginalValues.put("pageURL", _pageURL);
+		_columnOriginalValues.put("reportParameters", _reportParameters);
+		_columnOriginalValues.put("errorMessage", _errorMessage);
+		_columnOriginalValues.put("status", _status);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new LinkedHashMap<>();
+
+		columnBitmasks.put("entryId", 1L);
+
+		columnBitmasks.put("groupId", 2L);
+
+		columnBitmasks.put("companyId", 4L);
+
+		columnBitmasks.put("userId", 8L);
+
+		columnBitmasks.put("userName", 16L);
+
+		columnBitmasks.put("createDate", 32L);
+
+		columnBitmasks.put("modifiedDate", 64L);
+
+		columnBitmasks.put("definitionId", 128L);
+
+		columnBitmasks.put("format", 256L);
+
+		columnBitmasks.put("scheduleRequest", 512L);
+
+		columnBitmasks.put("startDate", 1024L);
+
+		columnBitmasks.put("endDate", 2048L);
+
+		columnBitmasks.put("repeating", 4096L);
+
+		columnBitmasks.put("recurrence", 8192L);
+
+		columnBitmasks.put("emailNotifications", 16384L);
+
+		columnBitmasks.put("emailDelivery", 32768L);
+
+		columnBitmasks.put("portletId", 65536L);
+
+		columnBitmasks.put("pageURL", 131072L);
+
+		columnBitmasks.put("reportParameters", 262144L);
+
+		columnBitmasks.put("errorMessage", 524288L);
+
+		columnBitmasks.put("status", 1048576L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
 	private long _entryId;
 	private long _groupId;
 	private long _companyId;
@@ -1063,6 +1295,7 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 	private String _reportParameters;
 	private String _errorMessage;
 	private String _status;
+	private long _columnBitmask;
 	private Entry _escapedModel;
 
 }
