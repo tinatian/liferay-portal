@@ -848,8 +848,6 @@ public class PortletPersistenceImpl
 			_finderPathFetchByC_P,
 			new Object[] {portlet.getCompanyId(), portlet.getPortletId()},
 			portlet);
-
-		portlet.resetOriginalValues();
 	}
 
 	/**
@@ -864,9 +862,6 @@ public class PortletPersistenceImpl
 					PortletImpl.class, portlet.getPrimaryKey()) == null) {
 
 				cacheResult(portlet);
-			}
-			else {
-				portlet.resetOriginalValues();
 			}
 		}
 	}
@@ -956,8 +951,8 @@ public class PortletPersistenceImpl
 			 _finderPathFetchByC_P.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				portletModelImpl.getOriginalCompanyId(),
-				portletModelImpl.getOriginalPortletId()
+				portletModelImpl.getColumnOriginalValue("companyId"),
+				portletModelImpl.getColumnOriginalValue("portletId")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByC_P, args);
@@ -1129,7 +1124,7 @@ public class PortletPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					portletModelImpl.getOriginalCompanyId()
+					portletModelImpl.getColumnOriginalValue("companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
@@ -1434,7 +1429,7 @@ public class PortletPersistenceImpl
 		_finderPathWithoutPaginationFindByCompanyId = new FinderPath(
 			PortletImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByCompanyId", new String[] {Long.class.getName()},
-			PortletModelImpl.COMPANYID_COLUMN_BITMASK);
+			PortletModelImpl.getColumnBitmask("companyId"));
 
 		_finderPathCountByCompanyId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -1443,8 +1438,8 @@ public class PortletPersistenceImpl
 		_finderPathFetchByC_P = new FinderPath(
 			PortletImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByC_P",
 			new String[] {Long.class.getName(), String.class.getName()},
-			PortletModelImpl.COMPANYID_COLUMN_BITMASK |
-			PortletModelImpl.PORTLETID_COLUMN_BITMASK);
+			PortletModelImpl.getColumnBitmask("companyId") |
+			PortletModelImpl.getColumnBitmask("portletId"));
 
 		_finderPathCountByC_P = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_P",

@@ -944,8 +944,6 @@ public class ExpandoTablePersistenceImpl
 	@Override
 	public void cacheResult(ExpandoTable expandoTable) {
 		if (expandoTable.getCtCollectionId() != 0) {
-			expandoTable.resetOriginalValues();
-
 			return;
 		}
 
@@ -959,8 +957,6 @@ public class ExpandoTablePersistenceImpl
 				expandoTable.getName()
 			},
 			expandoTable);
-
-		expandoTable.resetOriginalValues();
 	}
 
 	/**
@@ -972,8 +968,6 @@ public class ExpandoTablePersistenceImpl
 	public void cacheResult(List<ExpandoTable> expandoTables) {
 		for (ExpandoTable expandoTable : expandoTables) {
 			if (expandoTable.getCtCollectionId() != 0) {
-				expandoTable.resetOriginalValues();
-
 				continue;
 			}
 
@@ -982,9 +976,6 @@ public class ExpandoTablePersistenceImpl
 						null) {
 
 				cacheResult(expandoTable);
-			}
-			else {
-				expandoTable.resetOriginalValues();
 			}
 		}
 	}
@@ -1080,9 +1071,9 @@ public class ExpandoTablePersistenceImpl
 			 _finderPathFetchByC_C_N.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				expandoTableModelImpl.getOriginalCompanyId(),
-				expandoTableModelImpl.getOriginalClassNameId(),
-				expandoTableModelImpl.getOriginalName()
+				expandoTableModelImpl.getColumnOriginalValue("companyId"),
+				expandoTableModelImpl.getColumnOriginalValue("classNameId"),
+				expandoTableModelImpl.getColumnOriginalValue("name")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByC_C_N, args);
@@ -1275,8 +1266,8 @@ public class ExpandoTablePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					expandoTableModelImpl.getOriginalCompanyId(),
-					expandoTableModelImpl.getOriginalClassNameId()
+					expandoTableModelImpl.getColumnOriginalValue("companyId"),
+					expandoTableModelImpl.getColumnOriginalValue("classNameId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByC_C, args);
@@ -1759,8 +1750,8 @@ public class ExpandoTablePersistenceImpl
 			ExpandoTableImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByC_C",
 			new String[] {Long.class.getName(), Long.class.getName()},
-			ExpandoTableModelImpl.COMPANYID_COLUMN_BITMASK |
-			ExpandoTableModelImpl.CLASSNAMEID_COLUMN_BITMASK);
+			ExpandoTableModelImpl.getColumnBitmask("companyId") |
+			ExpandoTableModelImpl.getColumnBitmask("classNameId"));
 
 		_finderPathCountByC_C = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C",
@@ -1772,9 +1763,9 @@ public class ExpandoTablePersistenceImpl
 				Long.class.getName(), Long.class.getName(),
 				String.class.getName()
 			},
-			ExpandoTableModelImpl.COMPANYID_COLUMN_BITMASK |
-			ExpandoTableModelImpl.CLASSNAMEID_COLUMN_BITMASK |
-			ExpandoTableModelImpl.NAME_COLUMN_BITMASK);
+			ExpandoTableModelImpl.getColumnBitmask("companyId") |
+			ExpandoTableModelImpl.getColumnBitmask("classNameId") |
+			ExpandoTableModelImpl.getColumnBitmask("name"));
 
 		_finderPathCountByC_C_N = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,

@@ -322,8 +322,6 @@ public class WebDAVPropsPersistenceImpl
 				webDAVProps.getClassNameId(), webDAVProps.getClassPK()
 			},
 			webDAVProps);
-
-		webDAVProps.resetOriginalValues();
 	}
 
 	/**
@@ -339,9 +337,6 @@ public class WebDAVPropsPersistenceImpl
 						null) {
 
 				cacheResult(webDAVProps);
-			}
-			else {
-				webDAVProps.resetOriginalValues();
 			}
 		}
 	}
@@ -435,8 +430,8 @@ public class WebDAVPropsPersistenceImpl
 			 _finderPathFetchByC_C.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				webDAVPropsModelImpl.getOriginalClassNameId(),
-				webDAVPropsModelImpl.getOriginalClassPK()
+				webDAVPropsModelImpl.getColumnOriginalValue("classNameId"),
+				webDAVPropsModelImpl.getColumnOriginalValue("classPK")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByC_C, args);
@@ -904,8 +899,8 @@ public class WebDAVPropsPersistenceImpl
 		_finderPathFetchByC_C = new FinderPath(
 			WebDAVPropsImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByC_C",
 			new String[] {Long.class.getName(), Long.class.getName()},
-			WebDAVPropsModelImpl.CLASSNAMEID_COLUMN_BITMASK |
-			WebDAVPropsModelImpl.CLASSPK_COLUMN_BITMASK);
+			WebDAVPropsModelImpl.getColumnBitmask("classNameId") |
+			WebDAVPropsModelImpl.getColumnBitmask("classPK"));
 
 		_finderPathCountByC_C = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C",

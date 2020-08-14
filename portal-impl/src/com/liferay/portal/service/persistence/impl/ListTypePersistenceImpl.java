@@ -925,8 +925,6 @@ public class ListTypePersistenceImpl
 		FinderCacheUtil.putResult(
 			_finderPathFetchByN_T,
 			new Object[] {listType.getName(), listType.getType()}, listType);
-
-		listType.resetOriginalValues();
 	}
 
 	/**
@@ -941,9 +939,6 @@ public class ListTypePersistenceImpl
 					ListTypeImpl.class, listType.getPrimaryKey()) == null) {
 
 				cacheResult(listType);
-			}
-			else {
-				listType.resetOriginalValues();
 			}
 		}
 	}
@@ -1035,8 +1030,8 @@ public class ListTypePersistenceImpl
 			 _finderPathFetchByN_T.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				listTypeModelImpl.getOriginalName(),
-				listTypeModelImpl.getOriginalType()
+				listTypeModelImpl.getColumnOriginalValue("name"),
+				listTypeModelImpl.getColumnOriginalValue("type_")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByN_T, args);
@@ -1206,7 +1201,7 @@ public class ListTypePersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					listTypeModelImpl.getOriginalType()
+					listTypeModelImpl.getColumnOriginalValue("type_")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByType, args);
@@ -1513,8 +1508,8 @@ public class ListTypePersistenceImpl
 		_finderPathWithoutPaginationFindByType = new FinderPath(
 			ListTypeImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByType", new String[] {String.class.getName()},
-			ListTypeModelImpl.TYPE_COLUMN_BITMASK |
-			ListTypeModelImpl.NAME_COLUMN_BITMASK);
+			ListTypeModelImpl.getColumnBitmask("type_") |
+			ListTypeModelImpl.getColumnBitmask("name"));
 
 		_finderPathCountByType = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -1523,8 +1518,8 @@ public class ListTypePersistenceImpl
 		_finderPathFetchByN_T = new FinderPath(
 			ListTypeImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByN_T",
 			new String[] {String.class.getName(), String.class.getName()},
-			ListTypeModelImpl.NAME_COLUMN_BITMASK |
-			ListTypeModelImpl.TYPE_COLUMN_BITMASK);
+			ListTypeModelImpl.getColumnBitmask("name") |
+			ListTypeModelImpl.getColumnBitmask("type_"));
 
 		_finderPathCountByN_T = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByN_T",

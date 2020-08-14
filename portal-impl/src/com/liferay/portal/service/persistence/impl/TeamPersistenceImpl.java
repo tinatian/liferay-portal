@@ -2652,8 +2652,6 @@ public class TeamPersistenceImpl
 	@Override
 	public void cacheResult(Team team) {
 		if (team.getCtCollectionId() != 0) {
-			team.resetOriginalValues();
-
 			return;
 		}
 
@@ -2666,8 +2664,6 @@ public class TeamPersistenceImpl
 		FinderCacheUtil.putResult(
 			_finderPathFetchByG_N,
 			new Object[] {team.getGroupId(), team.getName()}, team);
-
-		team.resetOriginalValues();
 	}
 
 	/**
@@ -2679,8 +2675,6 @@ public class TeamPersistenceImpl
 	public void cacheResult(List<Team> teams) {
 		for (Team team : teams) {
 			if (team.getCtCollectionId() != 0) {
-				team.resetOriginalValues();
-
 				continue;
 			}
 
@@ -2688,9 +2682,6 @@ public class TeamPersistenceImpl
 					TeamImpl.class, team.getPrimaryKey()) == null) {
 
 				cacheResult(team);
-			}
-			else {
-				team.resetOriginalValues();
 			}
 		}
 	}
@@ -2787,8 +2778,8 @@ public class TeamPersistenceImpl
 			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				teamModelImpl.getOriginalUuid(),
-				teamModelImpl.getOriginalGroupId()
+				teamModelImpl.getColumnOriginalValue("uuid_"),
+				teamModelImpl.getColumnOriginalValue("groupId")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByUUID_G, args);
@@ -2808,8 +2799,8 @@ public class TeamPersistenceImpl
 			 _finderPathFetchByG_N.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				teamModelImpl.getOriginalGroupId(),
-				teamModelImpl.getOriginalName()
+				teamModelImpl.getColumnOriginalValue("groupId"),
+				teamModelImpl.getColumnOriginalValue("name")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByG_N, args);
@@ -3044,7 +3035,9 @@ public class TeamPersistenceImpl
 				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
 					 0) {
 
-				Object[] args = new Object[] {teamModelImpl.getOriginalUuid()};
+				Object[] args = new Object[] {
+					teamModelImpl.getColumnOriginalValue("uuid_")
+				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid, args);
 				FinderCacheUtil.removeResult(
@@ -3062,8 +3055,8 @@ public class TeamPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					teamModelImpl.getOriginalUuid(),
-					teamModelImpl.getOriginalCompanyId()
+					teamModelImpl.getColumnOriginalValue("uuid_"),
+					teamModelImpl.getColumnOriginalValue("companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUuid_C, args);
@@ -3084,7 +3077,7 @@ public class TeamPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					teamModelImpl.getOriginalGroupId()
+					teamModelImpl.getColumnOriginalValue("groupId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByGroupId, args);
@@ -4209,8 +4202,8 @@ public class TeamPersistenceImpl
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
 			TeamImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByUuid", new String[] {String.class.getName()},
-			TeamModelImpl.UUID_COLUMN_BITMASK |
-			TeamModelImpl.NAME_COLUMN_BITMASK);
+			TeamModelImpl.getColumnBitmask("uuid_") |
+			TeamModelImpl.getColumnBitmask("name"));
 
 		_finderPathCountByUuid = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -4219,8 +4212,8 @@ public class TeamPersistenceImpl
 		_finderPathFetchByUUID_G = new FinderPath(
 			TeamImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
-			TeamModelImpl.UUID_COLUMN_BITMASK |
-			TeamModelImpl.GROUPID_COLUMN_BITMASK);
+			TeamModelImpl.getColumnBitmask("uuid_") |
+			TeamModelImpl.getColumnBitmask("groupId"));
 
 		_finderPathCountByUUID_G = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -4240,9 +4233,9 @@ public class TeamPersistenceImpl
 			TeamImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
-			TeamModelImpl.UUID_COLUMN_BITMASK |
-			TeamModelImpl.COMPANYID_COLUMN_BITMASK |
-			TeamModelImpl.NAME_COLUMN_BITMASK);
+			TeamModelImpl.getColumnBitmask("uuid_") |
+			TeamModelImpl.getColumnBitmask("companyId") |
+			TeamModelImpl.getColumnBitmask("name"));
 
 		_finderPathCountByUuid_C = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -4260,8 +4253,8 @@ public class TeamPersistenceImpl
 		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
 			TeamImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByGroupId", new String[] {Long.class.getName()},
-			TeamModelImpl.GROUPID_COLUMN_BITMASK |
-			TeamModelImpl.NAME_COLUMN_BITMASK);
+			TeamModelImpl.getColumnBitmask("groupId") |
+			TeamModelImpl.getColumnBitmask("name"));
 
 		_finderPathCountByGroupId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -4270,8 +4263,8 @@ public class TeamPersistenceImpl
 		_finderPathFetchByG_N = new FinderPath(
 			TeamImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByG_N",
 			new String[] {Long.class.getName(), String.class.getName()},
-			TeamModelImpl.GROUPID_COLUMN_BITMASK |
-			TeamModelImpl.NAME_COLUMN_BITMASK);
+			TeamModelImpl.getColumnBitmask("groupId") |
+			TeamModelImpl.getColumnBitmask("name"));
 
 		_finderPathCountByG_N = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_N",

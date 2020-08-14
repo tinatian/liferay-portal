@@ -1371,8 +1371,6 @@ public class AnnouncementsDeliveryPersistenceImpl
 				announcementsDelivery.getType()
 			},
 			announcementsDelivery);
-
-		announcementsDelivery.resetOriginalValues();
 	}
 
 	/**
@@ -1392,9 +1390,6 @@ public class AnnouncementsDeliveryPersistenceImpl
 					announcementsDelivery.getPrimaryKey()) == null) {
 
 				cacheResult(announcementsDelivery);
-			}
-			else {
-				announcementsDelivery.resetOriginalValues();
 			}
 		}
 	}
@@ -1498,8 +1493,8 @@ public class AnnouncementsDeliveryPersistenceImpl
 			 _finderPathFetchByU_T.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				announcementsDeliveryModelImpl.getOriginalUserId(),
-				announcementsDeliveryModelImpl.getOriginalType()
+				announcementsDeliveryModelImpl.getColumnOriginalValue("userId"),
+				announcementsDeliveryModelImpl.getColumnOriginalValue("type_")
 			};
 
 			FinderCacheUtil.removeResult(_finderPathCountByU_T, args);
@@ -1693,7 +1688,8 @@ public class AnnouncementsDeliveryPersistenceImpl
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					announcementsDeliveryModelImpl.getOriginalCompanyId()
+					announcementsDeliveryModelImpl.getColumnOriginalValue(
+						"companyId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
@@ -1714,7 +1710,8 @@ public class AnnouncementsDeliveryPersistenceImpl
 					 0) {
 
 				Object[] args = new Object[] {
-					announcementsDeliveryModelImpl.getOriginalUserId()
+					announcementsDeliveryModelImpl.getColumnOriginalValue(
+						"userId")
 				};
 
 				FinderCacheUtil.removeResult(_finderPathCountByUserId, args);
@@ -2031,7 +2028,7 @@ public class AnnouncementsDeliveryPersistenceImpl
 			AnnouncementsDeliveryImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCompanyId",
 			new String[] {Long.class.getName()},
-			AnnouncementsDeliveryModelImpl.COMPANYID_COLUMN_BITMASK);
+			AnnouncementsDeliveryModelImpl.getColumnBitmask("companyId"));
 
 		_finderPathCountByCompanyId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -2049,7 +2046,7 @@ public class AnnouncementsDeliveryPersistenceImpl
 			AnnouncementsDeliveryImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUserId",
 			new String[] {Long.class.getName()},
-			AnnouncementsDeliveryModelImpl.USERID_COLUMN_BITMASK);
+			AnnouncementsDeliveryModelImpl.getColumnBitmask("userId"));
 
 		_finderPathCountByUserId = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -2059,8 +2056,8 @@ public class AnnouncementsDeliveryPersistenceImpl
 			AnnouncementsDeliveryImpl.class, FINDER_CLASS_NAME_ENTITY,
 			"fetchByU_T",
 			new String[] {Long.class.getName(), String.class.getName()},
-			AnnouncementsDeliveryModelImpl.USERID_COLUMN_BITMASK |
-			AnnouncementsDeliveryModelImpl.TYPE_COLUMN_BITMASK);
+			AnnouncementsDeliveryModelImpl.getColumnBitmask("userId") |
+			AnnouncementsDeliveryModelImpl.getColumnBitmask("type_"));
 
 		_finderPathCountByU_T = new FinderPath(
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_T",
