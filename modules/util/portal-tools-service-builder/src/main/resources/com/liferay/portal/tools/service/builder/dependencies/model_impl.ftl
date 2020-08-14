@@ -900,12 +900,17 @@ public class ${entity.name}ModelImpl extends BaseModelImpl<${entity.name}> imple
 				<#if columnBitmaskEnabled>
 					if (_columnOriginalValues != null) {
 						_columnBitmask |= _columnBitmasks.get("${entityColumn.DBName}");
+
+						if (_columnOriginalValues == Collections.EMPTY_MAP) {
+							_setColumnOriginalValues();
+						}
+					}
+				<#else>
+					if (_columnOriginalValues == Collections.EMPTY_MAP) {
+						_setColumnOriginalValues();
 					}
 				</#if>
 
-				if (_columnOriginalValues == Collections.EMPTY_MAP) {
-					_setColumnOriginalValues();
-				}
 			<#elseif entityColumn.isFinderPath() || (validator.isNotNull(parentPKColumn) && (parentPKColumn.name == entityColumn.name))>
 				<#if columnBitmaskEnabled>
 					_columnBitmask |= ${entityColumn.name?upper_case}_COLUMN_BITMASK;
