@@ -20,10 +20,9 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.transaction.Propagation;
-import com.liferay.portal.kernel.transaction.TransactionConfig;
-import com.liferay.portal.kernel.transaction.TransactionInvokerUtil;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
+import com.liferay.portal.test.rule.TransactionalTestRule;
 import com.liferay.portal.tools.service.builder.test.model.LazyBlobEntity;
 import com.liferay.portal.tools.service.builder.test.service.persistence.LazyBlobEntityPersistence;
 
@@ -46,78 +45,61 @@ public class LazyBlobEntityPersistenceImplTest {
 	@ClassRule
 	@Rule
 	public static final AggregateTestRule aggregateTestRule =
-		new LiferayIntegrationTestRule();
+		new AggregateTestRule(
+			new LiferayIntegrationTestRule(),
+			new TransactionalTestRule(
+				Propagation.REQUIRED,
+				"com.liferay.portal.tools.service.builder.test.service"));
 
 	@Test
 	public void testUpdateExisting() throws Throwable {
-		TransactionInvokerUtil.invoke(
-			_transactionConfig,
-			() -> {
-				Session session = null;
+		Session session = null;
 
-				try {
-					LazyBlobEntity lazyBlobEntity =
-						_lazyBlobEntityPersistence.create(
-							RandomTestUtil.nextLong());
+		try {
+			LazyBlobEntity lazyBlobEntity = _lazyBlobEntityPersistence.create(
+				RandomTestUtil.nextLong());
 
-					lazyBlobEntity.setUuid(RandomTestUtil.randomString());
-					lazyBlobEntity.setGroupId(RandomTestUtil.nextLong());
+			lazyBlobEntity.setUuid(RandomTestUtil.randomString());
+			lazyBlobEntity.setGroupId(RandomTestUtil.nextLong());
 
-					Blob blob = new OutputBlob(
-						new ByteArrayInputStream(new byte[0]), 0);
+			Blob blob = new OutputBlob(
+				new ByteArrayInputStream(new byte[0]), 0);
 
-					lazyBlobEntity.setBlob1(blob);
-					lazyBlobEntity.setBlob2(blob);
+			lazyBlobEntity.setBlob1(blob);
+			lazyBlobEntity.setBlob2(blob);
 
-					lazyBlobEntity = _lazyBlobEntityPersistence.update(
-						lazyBlobEntity);
+			lazyBlobEntity = _lazyBlobEntityPersistence.update(lazyBlobEntity);
 
-					session = _lazyBlobEntityPersistence.getCurrentSession();
+			session = _lazyBlobEntityPersistence.getCurrentSession();
 
-					Object sessionObject = session.get(
-						lazyBlobEntity.getClass(),
-						lazyBlobEntity.getPrimaryKey());
+			Object sessionObject = session.get(
+				lazyBlobEntity.getClass(), lazyBlobEntity.getPrimaryKey());
 
-					LazyBlobEntity existingLazyBlobEntity =
-						_lazyBlobEntityPersistence.findByPrimaryKey(
-							lazyBlobEntity.getPrimaryKey());
+			LazyBlobEntity existingLazyBlobEntity =
+				_lazyBlobEntityPersistence.findByPrimaryKey(
+					lazyBlobEntity.getPrimaryKey());
 
-					Assert.assertEquals(sessionObject, existingLazyBlobEntity);
-					Assert.assertNotSame(sessionObject, existingLazyBlobEntity);
+			Assert.assertEquals(sessionObject, existingLazyBlobEntity);
+			Assert.assertNotSame(sessionObject, existingLazyBlobEntity);
 
-					existingLazyBlobEntity.setGroupId(
-						RandomTestUtil.nextLong());
+			existingLazyBlobEntity.setGroupId(RandomTestUtil.nextLong());
 
-					existingLazyBlobEntity = _lazyBlobEntityPersistence.update(
-						existingLazyBlobEntity);
+			existingLazyBlobEntity = _lazyBlobEntityPersistence.update(
+				existingLazyBlobEntity);
 
-					LazyBlobEntity newExistingLazyBlobEntity =
-						_lazyBlobEntityPersistence.findByPrimaryKey(
-							lazyBlobEntity.getPrimaryKey());
+			LazyBlobEntity newExistingLazyBlobEntity =
+				_lazyBlobEntityPersistence.findByPrimaryKey(
+					lazyBlobEntity.getPrimaryKey());
 
-					Assert.assertEquals(
-						existingLazyBlobEntity.getGroupId(),
-						newExistingLazyBlobEntity.getGroupId());
-				}
-				finally {
-					if (session != null) {
-						session.clear();
-					}
-				}
-
-				return null;
-			});
-	}
-
-	private static final TransactionConfig _transactionConfig;
-
-	static {
-		TransactionConfig.Builder builder = new TransactionConfig.Builder();
-
-		builder.setPropagation(Propagation.REQUIRES_NEW);
-		builder.setRollbackForClasses(Exception.class);
-
-		_transactionConfig = builder.build();
+			Assert.assertEquals(
+				existingLazyBlobEntity.getGroupId(),
+				newExistingLazyBlobEntity.getGroupId());
+		}
+		finally {
+			if (session != null) {
+				session.clear();
+			}
+		}
 	}
 
 	@Inject
