@@ -22,6 +22,7 @@ import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portlet.ratings.model.impl.RatingsEntryModelImpl;
 import com.liferay.ratings.kernel.model.RatingsEntry;
 
@@ -116,7 +117,12 @@ public class RatingsEntryModelListener extends BaseModelListener<RatingsEntry> {
 			RatingsEntryModelImpl ratingsEntryModelImpl =
 				(RatingsEntryModelImpl)ratingsEntry;
 
-			double originalScore = ratingsEntryModelImpl.getOriginalScore();
+			double originalScore = GetterUtil.DEFAULT_DOUBLE;
+
+			if (!ratingsEntry.isNew()) {
+				originalScore = ratingsEntryModelImpl.getColumnOriginalValue(
+					"score");
+			}
 
 			ratingsTotalScore += ratingsEntry.getScore() - originalScore;
 
