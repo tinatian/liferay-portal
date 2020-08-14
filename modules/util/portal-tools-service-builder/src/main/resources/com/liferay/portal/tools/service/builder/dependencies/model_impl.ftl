@@ -898,7 +898,9 @@ public class ${entity.name}ModelImpl extends BaseModelImpl<${entity.name}> imple
 
 			<#if serviceBuilder.isVersionGTE_7_3_0()>
 				<#if columnBitmaskEnabled>
-					_columnBitmask |= _columnBitmasks.get("${entityColumn.DBName}");
+					if (_columnOriginalValues != null) {
+						_columnBitmask |= _columnBitmasks.get("${entityColumn.DBName}");
+					}
 				</#if>
 
 				if (_columnOriginalValues == Collections.EMPTY_MAP) {
