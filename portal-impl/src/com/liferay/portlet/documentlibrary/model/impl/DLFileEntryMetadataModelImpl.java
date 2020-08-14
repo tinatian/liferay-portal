@@ -364,10 +364,10 @@ public class DLFileEntryMetadataModelImpl
 	public void setMvccVersion(long mvccVersion) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("mvccVersion");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_mvccVersion = mvccVersion;
@@ -382,10 +382,10 @@ public class DLFileEntryMetadataModelImpl
 	public void setCtCollectionId(long ctCollectionId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("ctCollectionId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_ctCollectionId = ctCollectionId;
@@ -405,10 +405,10 @@ public class DLFileEntryMetadataModelImpl
 	public void setUuid(String uuid) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("uuid_");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_uuid = uuid;
@@ -432,10 +432,10 @@ public class DLFileEntryMetadataModelImpl
 	public void setFileEntryMetadataId(long fileEntryMetadataId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("fileEntryMetadataId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_fileEntryMetadataId = fileEntryMetadataId;
@@ -450,10 +450,10 @@ public class DLFileEntryMetadataModelImpl
 	public void setCompanyId(long companyId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("companyId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_companyId = companyId;
@@ -477,10 +477,10 @@ public class DLFileEntryMetadataModelImpl
 	public void setDDMStorageId(long DDMStorageId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("DDMStorageId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_DDMStorageId = DDMStorageId;
@@ -495,10 +495,10 @@ public class DLFileEntryMetadataModelImpl
 	public void setDDMStructureId(long DDMStructureId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("DDMStructureId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_DDMStructureId = DDMStructureId;
@@ -522,10 +522,10 @@ public class DLFileEntryMetadataModelImpl
 	public void setFileEntryId(long fileEntryId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("fileEntryId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_fileEntryId = fileEntryId;
@@ -549,10 +549,10 @@ public class DLFileEntryMetadataModelImpl
 	public void setFileVersionId(long fileVersionId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("fileVersionId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_fileVersionId = fileVersionId;

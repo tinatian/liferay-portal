@@ -324,10 +324,10 @@ public class DepotAppCustomizationModelImpl
 	public void setMvccVersion(long mvccVersion) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("mvccVersion");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_mvccVersion = mvccVersion;
@@ -342,10 +342,10 @@ public class DepotAppCustomizationModelImpl
 	public void setDepotAppCustomizationId(long depotAppCustomizationId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("depotAppCustomizationId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_depotAppCustomizationId = depotAppCustomizationId;
@@ -360,10 +360,10 @@ public class DepotAppCustomizationModelImpl
 	public void setCompanyId(long companyId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("companyId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_companyId = companyId;
@@ -378,10 +378,10 @@ public class DepotAppCustomizationModelImpl
 	public void setDepotEntryId(long depotEntryId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("depotEntryId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_depotEntryId = depotEntryId;
@@ -410,10 +410,10 @@ public class DepotAppCustomizationModelImpl
 	public void setEnabled(boolean enabled) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("enabled");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_enabled = enabled;
@@ -442,10 +442,10 @@ public class DepotAppCustomizationModelImpl
 	public void setPortletId(String portletId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("portletId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_portletId = portletId;

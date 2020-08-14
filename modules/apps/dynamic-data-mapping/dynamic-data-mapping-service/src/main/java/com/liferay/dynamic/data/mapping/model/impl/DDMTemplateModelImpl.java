@@ -566,10 +566,10 @@ public class DDMTemplateModelImpl
 	public void setMvccVersion(long mvccVersion) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("mvccVersion");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_mvccVersion = mvccVersion;
@@ -585,10 +585,10 @@ public class DDMTemplateModelImpl
 	public void setCtCollectionId(long ctCollectionId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("ctCollectionId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_ctCollectionId = ctCollectionId;
@@ -609,10 +609,10 @@ public class DDMTemplateModelImpl
 	public void setUuid(String uuid) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("uuid_");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_uuid = uuid;
@@ -637,10 +637,10 @@ public class DDMTemplateModelImpl
 	public void setTemplateId(long templateId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("templateId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_templateId = templateId;
@@ -656,10 +656,10 @@ public class DDMTemplateModelImpl
 	public void setGroupId(long groupId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("groupId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_groupId = groupId;
@@ -684,10 +684,10 @@ public class DDMTemplateModelImpl
 	public void setCompanyId(long companyId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("companyId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_companyId = companyId;
@@ -712,10 +712,10 @@ public class DDMTemplateModelImpl
 	public void setUserId(long userId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("userId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_userId = userId;
@@ -752,10 +752,10 @@ public class DDMTemplateModelImpl
 	public void setUserName(String userName) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("userName");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_userName = userName;
@@ -771,10 +771,10 @@ public class DDMTemplateModelImpl
 	public void setVersionUserId(long versionUserId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("versionUserId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_versionUserId = versionUserId;
@@ -811,10 +811,10 @@ public class DDMTemplateModelImpl
 	public void setVersionUserName(String versionUserName) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("versionUserName");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_versionUserName = versionUserName;
@@ -830,10 +830,10 @@ public class DDMTemplateModelImpl
 	public void setCreateDate(Date createDate) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("createDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_createDate = createDate;
@@ -855,10 +855,10 @@ public class DDMTemplateModelImpl
 
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("modifiedDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_modifiedDate = modifiedDate;
@@ -894,10 +894,10 @@ public class DDMTemplateModelImpl
 	public void setClassNameId(long classNameId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("classNameId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_classNameId = classNameId;
@@ -922,10 +922,10 @@ public class DDMTemplateModelImpl
 	public void setClassPK(long classPK) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("classPK");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_classPK = classPK;
@@ -950,10 +950,10 @@ public class DDMTemplateModelImpl
 	public void setResourceClassNameId(long resourceClassNameId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("resourceClassNameId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_resourceClassNameId = resourceClassNameId;
@@ -974,10 +974,10 @@ public class DDMTemplateModelImpl
 	public void setTemplateKey(String templateKey) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("templateKey");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_templateKey = templateKey;
@@ -1007,10 +1007,10 @@ public class DDMTemplateModelImpl
 	public void setVersion(String version) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("version");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_version = version;
@@ -1074,10 +1074,10 @@ public class DDMTemplateModelImpl
 	public void setName(String name) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("name");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_name = name;
@@ -1185,10 +1185,10 @@ public class DDMTemplateModelImpl
 	public void setDescription(String description) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("description");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_description = description;
@@ -1258,10 +1258,10 @@ public class DDMTemplateModelImpl
 	public void setType(String type) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("type_");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_type = type;
@@ -1291,10 +1291,10 @@ public class DDMTemplateModelImpl
 	public void setMode(String mode) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("mode_");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_mode = mode;
@@ -1324,10 +1324,10 @@ public class DDMTemplateModelImpl
 	public void setLanguage(String language) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("language");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_language = language;
@@ -1357,10 +1357,10 @@ public class DDMTemplateModelImpl
 	public void setScript(String script) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("script");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_script = script;
@@ -1382,10 +1382,10 @@ public class DDMTemplateModelImpl
 	public void setCacheable(boolean cacheable) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("cacheable");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_cacheable = cacheable;
@@ -1407,10 +1407,10 @@ public class DDMTemplateModelImpl
 	public void setSmallImage(boolean smallImage) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("smallImage");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_smallImage = smallImage;
@@ -1426,10 +1426,10 @@ public class DDMTemplateModelImpl
 	public void setSmallImageId(long smallImageId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("smallImageId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_smallImageId = smallImageId;
@@ -1459,10 +1459,10 @@ public class DDMTemplateModelImpl
 	public void setSmallImageURL(String smallImageURL) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("smallImageURL");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_smallImageURL = smallImageURL;
@@ -1478,10 +1478,10 @@ public class DDMTemplateModelImpl
 	public void setLastPublishDate(Date lastPublishDate) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("lastPublishDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_lastPublishDate = lastPublishDate;

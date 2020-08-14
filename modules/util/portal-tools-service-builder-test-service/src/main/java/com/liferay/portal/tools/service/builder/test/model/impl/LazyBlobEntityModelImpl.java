@@ -365,10 +365,10 @@ public class LazyBlobEntityModelImpl
 	public void setUuid(String uuid) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("uuid_");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_uuid = uuid;
@@ -393,10 +393,10 @@ public class LazyBlobEntityModelImpl
 	public void setLazyBlobEntityId(long lazyBlobEntityId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("lazyBlobEntityId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_lazyBlobEntityId = lazyBlobEntityId;
@@ -412,10 +412,10 @@ public class LazyBlobEntityModelImpl
 	public void setGroupId(long groupId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("groupId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_groupId = groupId;
@@ -456,10 +456,10 @@ public class LazyBlobEntityModelImpl
 	public void setBlob1(Blob blob1) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("blob1");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		if (_blob1BlobModel == null) {
@@ -497,10 +497,10 @@ public class LazyBlobEntityModelImpl
 	public void setBlob2(Blob blob2) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("blob2");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		if (_blob2BlobModel == null) {

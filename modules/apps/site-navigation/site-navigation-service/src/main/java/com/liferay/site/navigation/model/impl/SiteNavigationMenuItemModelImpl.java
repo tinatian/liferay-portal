@@ -495,10 +495,10 @@ public class SiteNavigationMenuItemModelImpl
 	public void setMvccVersion(long mvccVersion) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("mvccVersion");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_mvccVersion = mvccVersion;
@@ -519,10 +519,10 @@ public class SiteNavigationMenuItemModelImpl
 	public void setUuid(String uuid) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("uuid_");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_uuid = uuid;
@@ -547,10 +547,10 @@ public class SiteNavigationMenuItemModelImpl
 	public void setSiteNavigationMenuItemId(long siteNavigationMenuItemId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("siteNavigationMenuItemId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_siteNavigationMenuItemId = siteNavigationMenuItemId;
@@ -566,10 +566,10 @@ public class SiteNavigationMenuItemModelImpl
 	public void setGroupId(long groupId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("groupId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_groupId = groupId;
@@ -594,10 +594,10 @@ public class SiteNavigationMenuItemModelImpl
 	public void setCompanyId(long companyId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("companyId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_companyId = companyId;
@@ -622,10 +622,10 @@ public class SiteNavigationMenuItemModelImpl
 	public void setUserId(long userId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("userId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_userId = userId;
@@ -662,10 +662,10 @@ public class SiteNavigationMenuItemModelImpl
 	public void setUserName(String userName) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("userName");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_userName = userName;
@@ -681,10 +681,10 @@ public class SiteNavigationMenuItemModelImpl
 	public void setCreateDate(Date createDate) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("createDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_createDate = createDate;
@@ -706,10 +706,10 @@ public class SiteNavigationMenuItemModelImpl
 
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("modifiedDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_modifiedDate = modifiedDate;
@@ -725,10 +725,10 @@ public class SiteNavigationMenuItemModelImpl
 	public void setSiteNavigationMenuId(long siteNavigationMenuId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("siteNavigationMenuId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_siteNavigationMenuId = siteNavigationMenuId;
@@ -757,10 +757,10 @@ public class SiteNavigationMenuItemModelImpl
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get(
 				"parentSiteNavigationMenuItemId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_parentSiteNavigationMenuItemId = parentSiteNavigationMenuItemId;
@@ -791,10 +791,10 @@ public class SiteNavigationMenuItemModelImpl
 	public void setName(String name) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("name");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_name = name;
@@ -824,10 +824,10 @@ public class SiteNavigationMenuItemModelImpl
 	public void setType(String type) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("type_");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_type = type;
@@ -848,10 +848,10 @@ public class SiteNavigationMenuItemModelImpl
 	public void setTypeSettings(String typeSettings) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("typeSettings");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_typeSettings = typeSettings;
@@ -867,10 +867,10 @@ public class SiteNavigationMenuItemModelImpl
 	public void setOrder(int order) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("order_");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_order = order;
@@ -886,10 +886,10 @@ public class SiteNavigationMenuItemModelImpl
 	public void setLastPublishDate(Date lastPublishDate) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("lastPublishDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_lastPublishDate = lastPublishDate;

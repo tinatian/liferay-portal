@@ -288,10 +288,10 @@ public class DLSyncEventModelImpl
 	public void setSyncEventId(long syncEventId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("syncEventId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_syncEventId = syncEventId;
@@ -306,10 +306,10 @@ public class DLSyncEventModelImpl
 	public void setCompanyId(long companyId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("companyId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_companyId = companyId;
@@ -324,10 +324,10 @@ public class DLSyncEventModelImpl
 	public void setModifiedTime(long modifiedTime) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("modifiedTime");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_modifiedTime = modifiedTime;
@@ -356,10 +356,10 @@ public class DLSyncEventModelImpl
 	public void setEvent(String event) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("event");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_event = event;
@@ -379,10 +379,10 @@ public class DLSyncEventModelImpl
 	public void setType(String type) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("type_");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_type = type;
@@ -397,10 +397,10 @@ public class DLSyncEventModelImpl
 	public void setTypePK(long typePK) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("typePK");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_typePK = typePK;

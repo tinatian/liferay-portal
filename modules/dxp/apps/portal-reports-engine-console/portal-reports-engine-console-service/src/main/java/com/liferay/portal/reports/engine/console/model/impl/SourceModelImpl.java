@@ -414,10 +414,10 @@ public class SourceModelImpl
 	public void setUuid(String uuid) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("uuid_");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_uuid = uuid;
@@ -442,10 +442,10 @@ public class SourceModelImpl
 	public void setSourceId(long sourceId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("sourceId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_sourceId = sourceId;
@@ -461,10 +461,10 @@ public class SourceModelImpl
 	public void setGroupId(long groupId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("groupId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_groupId = groupId;
@@ -489,10 +489,10 @@ public class SourceModelImpl
 	public void setCompanyId(long companyId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("companyId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_companyId = companyId;
@@ -517,10 +517,10 @@ public class SourceModelImpl
 	public void setUserId(long userId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("userId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_userId = userId;
@@ -557,10 +557,10 @@ public class SourceModelImpl
 	public void setUserName(String userName) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("userName");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_userName = userName;
@@ -576,10 +576,10 @@ public class SourceModelImpl
 	public void setCreateDate(Date createDate) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("createDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_createDate = createDate;
@@ -601,10 +601,10 @@ public class SourceModelImpl
 
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("modifiedDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_modifiedDate = modifiedDate;
@@ -620,10 +620,10 @@ public class SourceModelImpl
 	public void setLastPublishDate(Date lastPublishDate) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("lastPublishDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_lastPublishDate = lastPublishDate;
@@ -687,10 +687,10 @@ public class SourceModelImpl
 	public void setName(String name) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("name");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_name = name;
@@ -755,10 +755,10 @@ public class SourceModelImpl
 	public void setDriverClassName(String driverClassName) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("driverClassName");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_driverClassName = driverClassName;
@@ -779,10 +779,10 @@ public class SourceModelImpl
 	public void setDriverUrl(String driverUrl) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("driverUrl");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_driverUrl = driverUrl;
@@ -803,10 +803,10 @@ public class SourceModelImpl
 	public void setDriverUserName(String driverUserName) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("driverUserName");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_driverUserName = driverUserName;
@@ -827,10 +827,10 @@ public class SourceModelImpl
 	public void setDriverPassword(String driverPassword) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("driverPassword");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_driverPassword = driverPassword;

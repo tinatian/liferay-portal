@@ -423,10 +423,10 @@ public class KaleoProcessModelImpl
 	public void setUuid(String uuid) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("uuid_");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_uuid = uuid;
@@ -451,10 +451,10 @@ public class KaleoProcessModelImpl
 	public void setKaleoProcessId(long kaleoProcessId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("kaleoProcessId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_kaleoProcessId = kaleoProcessId;
@@ -470,10 +470,10 @@ public class KaleoProcessModelImpl
 	public void setGroupId(long groupId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("groupId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_groupId = groupId;
@@ -498,10 +498,10 @@ public class KaleoProcessModelImpl
 	public void setCompanyId(long companyId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("companyId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_companyId = companyId;
@@ -526,10 +526,10 @@ public class KaleoProcessModelImpl
 	public void setUserId(long userId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("userId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_userId = userId;
@@ -566,10 +566,10 @@ public class KaleoProcessModelImpl
 	public void setUserName(String userName) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("userName");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_userName = userName;
@@ -585,10 +585,10 @@ public class KaleoProcessModelImpl
 	public void setCreateDate(Date createDate) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("createDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_createDate = createDate;
@@ -610,10 +610,10 @@ public class KaleoProcessModelImpl
 
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("modifiedDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_modifiedDate = modifiedDate;
@@ -629,10 +629,10 @@ public class KaleoProcessModelImpl
 	public void setDDLRecordSetId(long DDLRecordSetId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("DDLRecordSetId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_DDLRecordSetId = DDLRecordSetId;
@@ -657,10 +657,10 @@ public class KaleoProcessModelImpl
 	public void setDDMTemplateId(long DDMTemplateId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("DDMTemplateId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_DDMTemplateId = DDMTemplateId;
@@ -681,10 +681,10 @@ public class KaleoProcessModelImpl
 	public void setWorkflowDefinitionName(String workflowDefinitionName) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("workflowDefinitionName");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_workflowDefinitionName = workflowDefinitionName;
@@ -700,10 +700,10 @@ public class KaleoProcessModelImpl
 	public void setWorkflowDefinitionVersion(int workflowDefinitionVersion) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("workflowDefinitionVersion");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_workflowDefinitionVersion = workflowDefinitionVersion;

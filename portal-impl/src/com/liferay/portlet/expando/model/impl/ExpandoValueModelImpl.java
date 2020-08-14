@@ -405,10 +405,10 @@ public class ExpandoValueModelImpl
 	public void setMvccVersion(long mvccVersion) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("mvccVersion");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_mvccVersion = mvccVersion;
@@ -424,10 +424,10 @@ public class ExpandoValueModelImpl
 	public void setCtCollectionId(long ctCollectionId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("ctCollectionId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_ctCollectionId = ctCollectionId;
@@ -443,10 +443,10 @@ public class ExpandoValueModelImpl
 	public void setValueId(long valueId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("valueId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_valueId = valueId;
@@ -462,10 +462,10 @@ public class ExpandoValueModelImpl
 	public void setCompanyId(long companyId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("companyId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_companyId = companyId;
@@ -481,10 +481,10 @@ public class ExpandoValueModelImpl
 	public void setTableId(long tableId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("tableId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_tableId = tableId;
@@ -509,10 +509,10 @@ public class ExpandoValueModelImpl
 	public void setColumnId(long columnId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("columnId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_columnId = columnId;
@@ -537,10 +537,10 @@ public class ExpandoValueModelImpl
 	public void setRowId(long rowId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("rowId_");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_rowId = rowId;
@@ -585,10 +585,10 @@ public class ExpandoValueModelImpl
 	public void setClassNameId(long classNameId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("classNameId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_classNameId = classNameId;
@@ -613,10 +613,10 @@ public class ExpandoValueModelImpl
 	public void setClassPK(long classPK) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("classPK");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_classPK = classPK;
@@ -646,10 +646,10 @@ public class ExpandoValueModelImpl
 	public void setData(String data) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("data_");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_data = data;

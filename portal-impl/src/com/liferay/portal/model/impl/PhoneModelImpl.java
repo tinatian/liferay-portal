@@ -422,10 +422,10 @@ public class PhoneModelImpl extends BaseModelImpl<Phone> implements PhoneModel {
 	public void setMvccVersion(long mvccVersion) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("mvccVersion");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_mvccVersion = mvccVersion;
@@ -446,10 +446,10 @@ public class PhoneModelImpl extends BaseModelImpl<Phone> implements PhoneModel {
 	public void setUuid(String uuid) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("uuid_");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_uuid = uuid;
@@ -474,10 +474,10 @@ public class PhoneModelImpl extends BaseModelImpl<Phone> implements PhoneModel {
 	public void setPhoneId(long phoneId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("phoneId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_phoneId = phoneId;
@@ -493,10 +493,10 @@ public class PhoneModelImpl extends BaseModelImpl<Phone> implements PhoneModel {
 	public void setCompanyId(long companyId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("companyId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_companyId = companyId;
@@ -521,10 +521,10 @@ public class PhoneModelImpl extends BaseModelImpl<Phone> implements PhoneModel {
 	public void setUserId(long userId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("userId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_userId = userId;
@@ -570,10 +570,10 @@ public class PhoneModelImpl extends BaseModelImpl<Phone> implements PhoneModel {
 	public void setUserName(String userName) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("userName");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_userName = userName;
@@ -589,10 +589,10 @@ public class PhoneModelImpl extends BaseModelImpl<Phone> implements PhoneModel {
 	public void setCreateDate(Date createDate) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("createDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_createDate = createDate;
@@ -614,10 +614,10 @@ public class PhoneModelImpl extends BaseModelImpl<Phone> implements PhoneModel {
 
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("modifiedDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_modifiedDate = modifiedDate;
@@ -653,10 +653,10 @@ public class PhoneModelImpl extends BaseModelImpl<Phone> implements PhoneModel {
 	public void setClassNameId(long classNameId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("classNameId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_classNameId = classNameId;
@@ -681,10 +681,10 @@ public class PhoneModelImpl extends BaseModelImpl<Phone> implements PhoneModel {
 	public void setClassPK(long classPK) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("classPK");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_classPK = classPK;
@@ -714,10 +714,10 @@ public class PhoneModelImpl extends BaseModelImpl<Phone> implements PhoneModel {
 	public void setNumber(String number) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("number_");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_number = number;
@@ -738,10 +738,10 @@ public class PhoneModelImpl extends BaseModelImpl<Phone> implements PhoneModel {
 	public void setExtension(String extension) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("extension");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_extension = extension;
@@ -757,10 +757,10 @@ public class PhoneModelImpl extends BaseModelImpl<Phone> implements PhoneModel {
 	public void setTypeId(long typeId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("typeId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_typeId = typeId;
@@ -782,10 +782,10 @@ public class PhoneModelImpl extends BaseModelImpl<Phone> implements PhoneModel {
 	public void setPrimary(boolean primary) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("primary_");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_primary = primary;

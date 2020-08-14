@@ -404,10 +404,10 @@ public class AuditEventModelImpl
 	public void setAuditEventId(long auditEventId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("auditEventId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_auditEventId = auditEventId;
@@ -423,10 +423,10 @@ public class AuditEventModelImpl
 	public void setCompanyId(long companyId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("companyId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_companyId = companyId;
@@ -451,10 +451,10 @@ public class AuditEventModelImpl
 	public void setUserId(long userId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("userId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_userId = userId;
@@ -491,10 +491,10 @@ public class AuditEventModelImpl
 	public void setUserName(String userName) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("userName");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_userName = userName;
@@ -510,10 +510,10 @@ public class AuditEventModelImpl
 	public void setCreateDate(Date createDate) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("createDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_createDate = createDate;
@@ -534,10 +534,10 @@ public class AuditEventModelImpl
 	public void setEventType(String eventType) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("eventType");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_eventType = eventType;
@@ -558,10 +558,10 @@ public class AuditEventModelImpl
 	public void setClassName(String className) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("className");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_className = className;
@@ -582,10 +582,10 @@ public class AuditEventModelImpl
 	public void setClassPK(String classPK) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("classPK");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_classPK = classPK;
@@ -606,10 +606,10 @@ public class AuditEventModelImpl
 	public void setMessage(String message) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("message");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_message = message;
@@ -630,10 +630,10 @@ public class AuditEventModelImpl
 	public void setClientHost(String clientHost) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("clientHost");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_clientHost = clientHost;
@@ -654,10 +654,10 @@ public class AuditEventModelImpl
 	public void setClientIP(String clientIP) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("clientIP");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_clientIP = clientIP;
@@ -678,10 +678,10 @@ public class AuditEventModelImpl
 	public void setServerName(String serverName) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("serverName");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_serverName = serverName;
@@ -697,10 +697,10 @@ public class AuditEventModelImpl
 	public void setServerPort(int serverPort) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("serverPort");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_serverPort = serverPort;
@@ -721,10 +721,10 @@ public class AuditEventModelImpl
 	public void setSessionID(String sessionID) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("sessionID");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_sessionID = sessionID;
@@ -745,10 +745,10 @@ public class AuditEventModelImpl
 	public void setAdditionalInfo(String additionalInfo) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("additionalInfo");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_additionalInfo = additionalInfo;

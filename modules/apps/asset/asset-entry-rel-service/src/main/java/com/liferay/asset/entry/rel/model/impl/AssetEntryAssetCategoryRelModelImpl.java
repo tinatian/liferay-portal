@@ -327,10 +327,10 @@ public class AssetEntryAssetCategoryRelModelImpl
 	public void setMvccVersion(long mvccVersion) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("mvccVersion");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_mvccVersion = mvccVersion;
@@ -345,10 +345,10 @@ public class AssetEntryAssetCategoryRelModelImpl
 	public void setCtCollectionId(long ctCollectionId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("ctCollectionId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_ctCollectionId = ctCollectionId;
@@ -366,10 +366,10 @@ public class AssetEntryAssetCategoryRelModelImpl
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get(
 				"assetEntryAssetCategoryRelId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_assetEntryAssetCategoryRelId = assetEntryAssetCategoryRelId;
@@ -384,10 +384,10 @@ public class AssetEntryAssetCategoryRelModelImpl
 	public void setCompanyId(long companyId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("companyId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_companyId = companyId;
@@ -402,10 +402,10 @@ public class AssetEntryAssetCategoryRelModelImpl
 	public void setAssetEntryId(long assetEntryId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("assetEntryId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_assetEntryId = assetEntryId;
@@ -429,10 +429,10 @@ public class AssetEntryAssetCategoryRelModelImpl
 	public void setAssetCategoryId(long assetCategoryId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("assetCategoryId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_assetCategoryId = assetCategoryId;
@@ -456,10 +456,10 @@ public class AssetEntryAssetCategoryRelModelImpl
 	public void setPriority(int priority) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("priority");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_priority = priority;

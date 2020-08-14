@@ -326,10 +326,10 @@ public class PasswordPolicyRelModelImpl
 	public void setMvccVersion(long mvccVersion) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("mvccVersion");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_mvccVersion = mvccVersion;
@@ -344,10 +344,10 @@ public class PasswordPolicyRelModelImpl
 	public void setPasswordPolicyRelId(long passwordPolicyRelId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("passwordPolicyRelId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_passwordPolicyRelId = passwordPolicyRelId;
@@ -362,10 +362,10 @@ public class PasswordPolicyRelModelImpl
 	public void setCompanyId(long companyId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("companyId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_companyId = companyId;
@@ -380,10 +380,10 @@ public class PasswordPolicyRelModelImpl
 	public void setPasswordPolicyId(long passwordPolicyId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("passwordPolicyId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_passwordPolicyId = passwordPolicyId;
@@ -427,10 +427,10 @@ public class PasswordPolicyRelModelImpl
 	public void setClassNameId(long classNameId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("classNameId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_classNameId = classNameId;
@@ -454,10 +454,10 @@ public class PasswordPolicyRelModelImpl
 	public void setClassPK(long classPK) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("classPK");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_classPK = classPK;

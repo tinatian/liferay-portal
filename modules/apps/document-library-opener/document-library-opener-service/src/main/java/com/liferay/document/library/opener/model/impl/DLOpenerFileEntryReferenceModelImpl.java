@@ -364,10 +364,10 @@ public class DLOpenerFileEntryReferenceModelImpl
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get(
 				"dlOpenerFileEntryReferenceId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_dlOpenerFileEntryReferenceId = dlOpenerFileEntryReferenceId;
@@ -382,10 +382,10 @@ public class DLOpenerFileEntryReferenceModelImpl
 	public void setGroupId(long groupId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("groupId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_groupId = groupId;
@@ -400,10 +400,10 @@ public class DLOpenerFileEntryReferenceModelImpl
 	public void setCompanyId(long companyId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("companyId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_companyId = companyId;
@@ -418,10 +418,10 @@ public class DLOpenerFileEntryReferenceModelImpl
 	public void setUserId(long userId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("userId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_userId = userId;
@@ -457,10 +457,10 @@ public class DLOpenerFileEntryReferenceModelImpl
 	public void setUserName(String userName) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("userName");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_userName = userName;
@@ -475,10 +475,10 @@ public class DLOpenerFileEntryReferenceModelImpl
 	public void setCreateDate(Date createDate) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("createDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_createDate = createDate;
@@ -499,10 +499,10 @@ public class DLOpenerFileEntryReferenceModelImpl
 
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("modifiedDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_modifiedDate = modifiedDate;
@@ -522,10 +522,10 @@ public class DLOpenerFileEntryReferenceModelImpl
 	public void setReferenceKey(String referenceKey) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("referenceKey");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_referenceKey = referenceKey;
@@ -545,10 +545,10 @@ public class DLOpenerFileEntryReferenceModelImpl
 	public void setReferenceType(String referenceType) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("referenceType");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_referenceType = referenceType;
@@ -572,10 +572,10 @@ public class DLOpenerFileEntryReferenceModelImpl
 	public void setFileEntryId(long fileEntryId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("fileEntryId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_fileEntryId = fileEntryId;
@@ -599,10 +599,10 @@ public class DLOpenerFileEntryReferenceModelImpl
 	public void setType(int type) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("type_");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_type = type;

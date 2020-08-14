@@ -322,10 +322,10 @@ public class DLFileVersionPreviewModelImpl
 	public void setDlFileVersionPreviewId(long dlFileVersionPreviewId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("dlFileVersionPreviewId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_dlFileVersionPreviewId = dlFileVersionPreviewId;
@@ -340,10 +340,10 @@ public class DLFileVersionPreviewModelImpl
 	public void setGroupId(long groupId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("groupId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_groupId = groupId;
@@ -358,10 +358,10 @@ public class DLFileVersionPreviewModelImpl
 	public void setCompanyId(long companyId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("companyId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_companyId = companyId;
@@ -376,10 +376,10 @@ public class DLFileVersionPreviewModelImpl
 	public void setFileEntryId(long fileEntryId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("fileEntryId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_fileEntryId = fileEntryId;
@@ -403,10 +403,10 @@ public class DLFileVersionPreviewModelImpl
 	public void setFileVersionId(long fileVersionId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("fileVersionId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_fileVersionId = fileVersionId;
@@ -430,10 +430,10 @@ public class DLFileVersionPreviewModelImpl
 	public void setPreviewStatus(int previewStatus) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("previewStatus");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_previewStatus = previewStatus;

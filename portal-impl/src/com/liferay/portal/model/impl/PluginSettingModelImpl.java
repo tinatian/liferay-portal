@@ -375,10 +375,10 @@ public class PluginSettingModelImpl
 	public void setMvccVersion(long mvccVersion) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("mvccVersion");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_mvccVersion = mvccVersion;
@@ -394,10 +394,10 @@ public class PluginSettingModelImpl
 	public void setPluginSettingId(long pluginSettingId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("pluginSettingId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_pluginSettingId = pluginSettingId;
@@ -413,10 +413,10 @@ public class PluginSettingModelImpl
 	public void setCompanyId(long companyId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("companyId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_companyId = companyId;
@@ -446,10 +446,10 @@ public class PluginSettingModelImpl
 	public void setPluginId(String pluginId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("pluginId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_pluginId = pluginId;
@@ -479,10 +479,10 @@ public class PluginSettingModelImpl
 	public void setPluginType(String pluginType) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("pluginType");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_pluginType = pluginType;
@@ -512,10 +512,10 @@ public class PluginSettingModelImpl
 	public void setRoles(String roles) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("roles");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_roles = roles;
@@ -537,10 +537,10 @@ public class PluginSettingModelImpl
 	public void setActive(boolean active) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("active_");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_active = active;

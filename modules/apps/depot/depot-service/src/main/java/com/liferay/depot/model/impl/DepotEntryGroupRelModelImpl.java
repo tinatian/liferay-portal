@@ -393,10 +393,10 @@ public class DepotEntryGroupRelModelImpl
 	public void setMvccVersion(long mvccVersion) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("mvccVersion");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_mvccVersion = mvccVersion;
@@ -412,10 +412,10 @@ public class DepotEntryGroupRelModelImpl
 	public void setDepotEntryGroupRelId(long depotEntryGroupRelId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("depotEntryGroupRelId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_depotEntryGroupRelId = depotEntryGroupRelId;
@@ -431,10 +431,10 @@ public class DepotEntryGroupRelModelImpl
 	public void setCompanyId(long companyId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("companyId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_companyId = companyId;
@@ -456,10 +456,10 @@ public class DepotEntryGroupRelModelImpl
 	public void setDdmStructuresAvailable(boolean ddmStructuresAvailable) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("ddmStructuresAvailable");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_ddmStructuresAvailable = ddmStructuresAvailable;
@@ -485,10 +485,10 @@ public class DepotEntryGroupRelModelImpl
 	public void setDepotEntryId(long depotEntryId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("depotEntryId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_depotEntryId = depotEntryId;
@@ -519,10 +519,10 @@ public class DepotEntryGroupRelModelImpl
 	public void setSearchable(boolean searchable) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("searchable");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_searchable = searchable;
@@ -547,10 +547,10 @@ public class DepotEntryGroupRelModelImpl
 	public void setToGroupId(long toGroupId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("toGroupId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_toGroupId = toGroupId;

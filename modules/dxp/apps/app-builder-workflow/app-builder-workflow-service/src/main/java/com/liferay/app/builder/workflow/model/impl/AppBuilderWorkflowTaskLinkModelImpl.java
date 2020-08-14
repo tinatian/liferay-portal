@@ -353,10 +353,10 @@ public class AppBuilderWorkflowTaskLinkModelImpl
 	public void setMvccVersion(long mvccVersion) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("mvccVersion");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_mvccVersion = mvccVersion;
@@ -374,10 +374,10 @@ public class AppBuilderWorkflowTaskLinkModelImpl
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get(
 				"appBuilderWorkflowTaskLinkId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_appBuilderWorkflowTaskLinkId = appBuilderWorkflowTaskLinkId;
@@ -392,10 +392,10 @@ public class AppBuilderWorkflowTaskLinkModelImpl
 	public void setCompanyId(long companyId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("companyId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_companyId = companyId;
@@ -410,10 +410,10 @@ public class AppBuilderWorkflowTaskLinkModelImpl
 	public void setAppBuilderAppId(long appBuilderAppId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("appBuilderAppId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_appBuilderAppId = appBuilderAppId;
@@ -437,10 +437,10 @@ public class AppBuilderWorkflowTaskLinkModelImpl
 	public void setAppBuilderAppVersionId(long appBuilderAppVersionId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("appBuilderAppVersionId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_appBuilderAppVersionId = appBuilderAppVersionId;
@@ -465,10 +465,10 @@ public class AppBuilderWorkflowTaskLinkModelImpl
 	public void setDdmStructureLayoutId(long ddmStructureLayoutId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("ddmStructureLayoutId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_ddmStructureLayoutId = ddmStructureLayoutId;
@@ -498,10 +498,10 @@ public class AppBuilderWorkflowTaskLinkModelImpl
 	public void setReadOnly(boolean readOnly) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("readOnly");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_readOnly = readOnly;
@@ -521,10 +521,10 @@ public class AppBuilderWorkflowTaskLinkModelImpl
 	public void setWorkflowTaskName(String workflowTaskName) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("workflowTaskName");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_workflowTaskName = workflowTaskName;

@@ -436,10 +436,10 @@ public class DispatchTriggerModelImpl
 	public void setMvccVersion(long mvccVersion) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("mvccVersion");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_mvccVersion = mvccVersion;
@@ -455,10 +455,10 @@ public class DispatchTriggerModelImpl
 	public void setDispatchTriggerId(long dispatchTriggerId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("dispatchTriggerId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_dispatchTriggerId = dispatchTriggerId;
@@ -474,10 +474,10 @@ public class DispatchTriggerModelImpl
 	public void setCompanyId(long companyId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("companyId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_companyId = companyId;
@@ -502,10 +502,10 @@ public class DispatchTriggerModelImpl
 	public void setUserId(long userId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("userId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_userId = userId;
@@ -542,10 +542,10 @@ public class DispatchTriggerModelImpl
 	public void setUserName(String userName) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("userName");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_userName = userName;
@@ -561,10 +561,10 @@ public class DispatchTriggerModelImpl
 	public void setCreateDate(Date createDate) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("createDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_createDate = createDate;
@@ -586,10 +586,10 @@ public class DispatchTriggerModelImpl
 
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("modifiedDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_modifiedDate = modifiedDate;
@@ -611,10 +611,10 @@ public class DispatchTriggerModelImpl
 	public void setActive(boolean active) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("active_");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_active = active;
@@ -635,10 +635,10 @@ public class DispatchTriggerModelImpl
 	public void setCronExpression(String cronExpression) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("cronExpression");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_cronExpression = cronExpression;
@@ -654,10 +654,10 @@ public class DispatchTriggerModelImpl
 	public void setEndDate(Date endDate) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("endDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_endDate = endDate;
@@ -678,10 +678,10 @@ public class DispatchTriggerModelImpl
 	public void setName(String name) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("name");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_name = name;
@@ -706,10 +706,10 @@ public class DispatchTriggerModelImpl
 	public void setStartDate(Date startDate) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("startDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_startDate = startDate;
@@ -731,10 +731,10 @@ public class DispatchTriggerModelImpl
 	public void setSystem(boolean system) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("system_");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_system = system;
@@ -755,10 +755,10 @@ public class DispatchTriggerModelImpl
 	public void setType(String type) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("type_");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_type = type;
@@ -788,10 +788,10 @@ public class DispatchTriggerModelImpl
 	public void setTypeSettings(String typeSettings) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("typeSettings");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_typeSettings = typeSettings;

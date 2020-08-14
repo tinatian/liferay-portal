@@ -356,10 +356,10 @@ public class RecentLayoutBranchModelImpl
 	public void setMvccVersion(long mvccVersion) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("mvccVersion");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_mvccVersion = mvccVersion;
@@ -374,10 +374,10 @@ public class RecentLayoutBranchModelImpl
 	public void setRecentLayoutBranchId(long recentLayoutBranchId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("recentLayoutBranchId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_recentLayoutBranchId = recentLayoutBranchId;
@@ -392,10 +392,10 @@ public class RecentLayoutBranchModelImpl
 	public void setGroupId(long groupId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("groupId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_groupId = groupId;
@@ -419,10 +419,10 @@ public class RecentLayoutBranchModelImpl
 	public void setCompanyId(long companyId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("companyId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_companyId = companyId;
@@ -437,10 +437,10 @@ public class RecentLayoutBranchModelImpl
 	public void setUserId(long userId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("userId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_userId = userId;
@@ -480,10 +480,10 @@ public class RecentLayoutBranchModelImpl
 	public void setLayoutBranchId(long layoutBranchId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("layoutBranchId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_layoutBranchId = layoutBranchId;
@@ -507,10 +507,10 @@ public class RecentLayoutBranchModelImpl
 	public void setLayoutSetBranchId(long layoutSetBranchId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("layoutSetBranchId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_layoutSetBranchId = layoutSetBranchId;
@@ -534,10 +534,10 @@ public class RecentLayoutBranchModelImpl
 	public void setPlid(long plid) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("plid");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_plid = plid;

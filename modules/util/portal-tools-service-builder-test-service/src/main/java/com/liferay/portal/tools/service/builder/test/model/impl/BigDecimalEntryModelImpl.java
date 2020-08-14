@@ -303,10 +303,10 @@ public class BigDecimalEntryModelImpl
 	public void setBigDecimalEntryId(long bigDecimalEntryId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("bigDecimalEntryId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_bigDecimalEntryId = bigDecimalEntryId;
@@ -321,10 +321,10 @@ public class BigDecimalEntryModelImpl
 	public void setCompanyId(long companyId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("companyId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_companyId = companyId;
@@ -339,10 +339,10 @@ public class BigDecimalEntryModelImpl
 	public void setBigDecimalValue(BigDecimal bigDecimalValue) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("bigDecimalValue");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_bigDecimalValue = bigDecimalValue;

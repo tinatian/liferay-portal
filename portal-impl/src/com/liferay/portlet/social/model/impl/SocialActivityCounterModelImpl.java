@@ -427,10 +427,10 @@ public class SocialActivityCounterModelImpl
 	public void setMvccVersion(long mvccVersion) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("mvccVersion");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_mvccVersion = mvccVersion;
@@ -445,10 +445,10 @@ public class SocialActivityCounterModelImpl
 	public void setCtCollectionId(long ctCollectionId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("ctCollectionId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_ctCollectionId = ctCollectionId;
@@ -463,10 +463,10 @@ public class SocialActivityCounterModelImpl
 	public void setActivityCounterId(long activityCounterId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("activityCounterId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_activityCounterId = activityCounterId;
@@ -481,10 +481,10 @@ public class SocialActivityCounterModelImpl
 	public void setGroupId(long groupId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("groupId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_groupId = groupId;
@@ -508,10 +508,10 @@ public class SocialActivityCounterModelImpl
 	public void setCompanyId(long companyId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("companyId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_companyId = companyId;
@@ -546,10 +546,10 @@ public class SocialActivityCounterModelImpl
 	public void setClassNameId(long classNameId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("classNameId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_classNameId = classNameId;
@@ -573,10 +573,10 @@ public class SocialActivityCounterModelImpl
 	public void setClassPK(long classPK) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("classPK");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_classPK = classPK;
@@ -605,10 +605,10 @@ public class SocialActivityCounterModelImpl
 	public void setName(String name) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("name");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_name = name;
@@ -632,10 +632,10 @@ public class SocialActivityCounterModelImpl
 	public void setOwnerType(int ownerType) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("ownerType");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_ownerType = ownerType;
@@ -659,10 +659,10 @@ public class SocialActivityCounterModelImpl
 	public void setCurrentValue(int currentValue) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("currentValue");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_currentValue = currentValue;
@@ -677,10 +677,10 @@ public class SocialActivityCounterModelImpl
 	public void setTotalValue(int totalValue) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("totalValue");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_totalValue = totalValue;
@@ -695,10 +695,10 @@ public class SocialActivityCounterModelImpl
 	public void setGraceValue(int graceValue) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("graceValue");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_graceValue = graceValue;
@@ -713,10 +713,10 @@ public class SocialActivityCounterModelImpl
 	public void setStartPeriod(int startPeriod) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("startPeriod");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_startPeriod = startPeriod;
@@ -740,10 +740,10 @@ public class SocialActivityCounterModelImpl
 	public void setEndPeriod(int endPeriod) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("endPeriod");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_endPeriod = endPeriod;
@@ -772,10 +772,10 @@ public class SocialActivityCounterModelImpl
 	public void setActive(boolean active) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("active_");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_active = active;

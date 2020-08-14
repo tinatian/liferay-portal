@@ -375,10 +375,10 @@ public class UserNotificationDeliveryModelImpl
 	public void setMvccVersion(long mvccVersion) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("mvccVersion");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_mvccVersion = mvccVersion;
@@ -393,10 +393,10 @@ public class UserNotificationDeliveryModelImpl
 	public void setUserNotificationDeliveryId(long userNotificationDeliveryId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("userNotificationDeliveryId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_userNotificationDeliveryId = userNotificationDeliveryId;
@@ -411,10 +411,10 @@ public class UserNotificationDeliveryModelImpl
 	public void setCompanyId(long companyId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("companyId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_companyId = companyId;
@@ -429,10 +429,10 @@ public class UserNotificationDeliveryModelImpl
 	public void setUserId(long userId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("userId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_userId = userId;
@@ -477,10 +477,10 @@ public class UserNotificationDeliveryModelImpl
 	public void setPortletId(String portletId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("portletId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_portletId = portletId;
@@ -524,10 +524,10 @@ public class UserNotificationDeliveryModelImpl
 	public void setClassNameId(long classNameId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("classNameId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_classNameId = classNameId;
@@ -551,10 +551,10 @@ public class UserNotificationDeliveryModelImpl
 	public void setNotificationType(int notificationType) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("notificationType");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_notificationType = notificationType;
@@ -579,10 +579,10 @@ public class UserNotificationDeliveryModelImpl
 	public void setDeliveryType(int deliveryType) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("deliveryType");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_deliveryType = deliveryType;
@@ -611,10 +611,10 @@ public class UserNotificationDeliveryModelImpl
 	public void setDeliver(boolean deliver) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("deliver");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_deliver = deliver;

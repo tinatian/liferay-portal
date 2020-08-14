@@ -584,10 +584,10 @@ public class DLFileVersionModelImpl
 	public void setMvccVersion(long mvccVersion) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("mvccVersion");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_mvccVersion = mvccVersion;
@@ -603,10 +603,10 @@ public class DLFileVersionModelImpl
 	public void setCtCollectionId(long ctCollectionId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("ctCollectionId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_ctCollectionId = ctCollectionId;
@@ -627,10 +627,10 @@ public class DLFileVersionModelImpl
 	public void setUuid(String uuid) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("uuid_");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_uuid = uuid;
@@ -655,10 +655,10 @@ public class DLFileVersionModelImpl
 	public void setFileVersionId(long fileVersionId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("fileVersionId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_fileVersionId = fileVersionId;
@@ -674,10 +674,10 @@ public class DLFileVersionModelImpl
 	public void setGroupId(long groupId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("groupId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_groupId = groupId;
@@ -702,10 +702,10 @@ public class DLFileVersionModelImpl
 	public void setCompanyId(long companyId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("companyId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_companyId = companyId;
@@ -730,10 +730,10 @@ public class DLFileVersionModelImpl
 	public void setUserId(long userId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("userId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_userId = userId;
@@ -770,10 +770,10 @@ public class DLFileVersionModelImpl
 	public void setUserName(String userName) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("userName");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_userName = userName;
@@ -789,10 +789,10 @@ public class DLFileVersionModelImpl
 	public void setCreateDate(Date createDate) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("createDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_createDate = createDate;
@@ -814,10 +814,10 @@ public class DLFileVersionModelImpl
 
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("modifiedDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_modifiedDate = modifiedDate;
@@ -833,10 +833,10 @@ public class DLFileVersionModelImpl
 	public void setRepositoryId(long repositoryId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("repositoryId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_repositoryId = repositoryId;
@@ -852,10 +852,10 @@ public class DLFileVersionModelImpl
 	public void setFolderId(long folderId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("folderId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_folderId = folderId;
@@ -880,10 +880,10 @@ public class DLFileVersionModelImpl
 	public void setFileEntryId(long fileEntryId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("fileEntryId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_fileEntryId = fileEntryId;
@@ -913,10 +913,10 @@ public class DLFileVersionModelImpl
 	public void setTreePath(String treePath) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("treePath");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_treePath = treePath;
@@ -937,10 +937,10 @@ public class DLFileVersionModelImpl
 	public void setFileName(String fileName) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("fileName");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_fileName = fileName;
@@ -961,10 +961,10 @@ public class DLFileVersionModelImpl
 	public void setExtension(String extension) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("extension");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_extension = extension;
@@ -985,10 +985,10 @@ public class DLFileVersionModelImpl
 	public void setMimeType(String mimeType) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("mimeType");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_mimeType = mimeType;
@@ -1018,10 +1018,10 @@ public class DLFileVersionModelImpl
 	public void setTitle(String title) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("title");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_title = title;
@@ -1051,10 +1051,10 @@ public class DLFileVersionModelImpl
 	public void setDescription(String description) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("description");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_description = description;
@@ -1075,10 +1075,10 @@ public class DLFileVersionModelImpl
 	public void setChangeLog(String changeLog) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("changeLog");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_changeLog = changeLog;
@@ -1099,10 +1099,10 @@ public class DLFileVersionModelImpl
 	public void setExtraSettings(String extraSettings) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("extraSettings");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_extraSettings = extraSettings;
@@ -1118,10 +1118,10 @@ public class DLFileVersionModelImpl
 	public void setFileEntryTypeId(long fileEntryTypeId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("fileEntryTypeId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_fileEntryTypeId = fileEntryTypeId;
@@ -1142,10 +1142,10 @@ public class DLFileVersionModelImpl
 	public void setVersion(String version) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("version");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_version = version;
@@ -1170,10 +1170,10 @@ public class DLFileVersionModelImpl
 	public void setSize(long size) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("size_");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_size = size;
@@ -1194,10 +1194,10 @@ public class DLFileVersionModelImpl
 	public void setChecksum(String checksum) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("checksum");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_checksum = checksum;
@@ -1213,10 +1213,10 @@ public class DLFileVersionModelImpl
 	public void setLastPublishDate(Date lastPublishDate) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("lastPublishDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_lastPublishDate = lastPublishDate;
@@ -1232,10 +1232,10 @@ public class DLFileVersionModelImpl
 	public void setStatus(int status) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("status");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_status = status;
@@ -1260,10 +1260,10 @@ public class DLFileVersionModelImpl
 	public void setStatusByUserId(long statusByUserId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("statusByUserId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_statusByUserId = statusByUserId;
@@ -1300,10 +1300,10 @@ public class DLFileVersionModelImpl
 	public void setStatusByUserName(String statusByUserName) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("statusByUserName");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_statusByUserName = statusByUserName;
@@ -1319,10 +1319,10 @@ public class DLFileVersionModelImpl
 	public void setStatusDate(Date statusDate) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("statusDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_statusDate = statusDate;

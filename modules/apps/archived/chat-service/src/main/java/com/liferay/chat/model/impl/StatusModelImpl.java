@@ -305,10 +305,10 @@ public class StatusModelImpl
 	public void setStatusId(long statusId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("statusId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_statusId = statusId;
@@ -323,10 +323,10 @@ public class StatusModelImpl
 	public void setUserId(long userId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("userId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_userId = userId;
@@ -366,10 +366,10 @@ public class StatusModelImpl
 	public void setModifiedDate(long modifiedDate) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("modifiedDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_modifiedDate = modifiedDate;
@@ -398,10 +398,10 @@ public class StatusModelImpl
 	public void setOnline(boolean online) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("online_");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_online = online;
@@ -430,10 +430,10 @@ public class StatusModelImpl
 	public void setAwake(boolean awake) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("awake");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_awake = awake;
@@ -453,10 +453,10 @@ public class StatusModelImpl
 	public void setActivePanelIds(String activePanelIds) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("activePanelIds");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_activePanelIds = activePanelIds;
@@ -476,10 +476,10 @@ public class StatusModelImpl
 	public void setMessage(String message) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("message");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_message = message;
@@ -499,10 +499,10 @@ public class StatusModelImpl
 	public void setPlaySound(boolean playSound) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("playSound");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_playSound = playSound;

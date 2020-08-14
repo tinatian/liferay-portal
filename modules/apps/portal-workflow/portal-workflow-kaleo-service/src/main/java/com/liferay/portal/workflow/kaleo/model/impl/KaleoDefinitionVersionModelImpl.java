@@ -432,10 +432,10 @@ public class KaleoDefinitionVersionModelImpl
 	public void setMvccVersion(long mvccVersion) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("mvccVersion");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_mvccVersion = mvccVersion;
@@ -450,10 +450,10 @@ public class KaleoDefinitionVersionModelImpl
 	public void setKaleoDefinitionVersionId(long kaleoDefinitionVersionId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("kaleoDefinitionVersionId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_kaleoDefinitionVersionId = kaleoDefinitionVersionId;
@@ -468,10 +468,10 @@ public class KaleoDefinitionVersionModelImpl
 	public void setGroupId(long groupId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("groupId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_groupId = groupId;
@@ -486,10 +486,10 @@ public class KaleoDefinitionVersionModelImpl
 	public void setCompanyId(long companyId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("companyId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_companyId = companyId;
@@ -513,10 +513,10 @@ public class KaleoDefinitionVersionModelImpl
 	public void setUserId(long userId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("userId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_userId = userId;
@@ -552,10 +552,10 @@ public class KaleoDefinitionVersionModelImpl
 	public void setUserName(String userName) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("userName");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_userName = userName;
@@ -570,10 +570,10 @@ public class KaleoDefinitionVersionModelImpl
 	public void setStatusByUserId(long statusByUserId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("statusByUserId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_statusByUserId = statusByUserId;
@@ -609,10 +609,10 @@ public class KaleoDefinitionVersionModelImpl
 	public void setStatusByUserName(String statusByUserName) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("statusByUserName");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_statusByUserName = statusByUserName;
@@ -627,10 +627,10 @@ public class KaleoDefinitionVersionModelImpl
 	public void setStatusDate(Date statusDate) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("statusDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_statusDate = statusDate;
@@ -645,10 +645,10 @@ public class KaleoDefinitionVersionModelImpl
 	public void setCreateDate(Date createDate) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("createDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_createDate = createDate;
@@ -669,10 +669,10 @@ public class KaleoDefinitionVersionModelImpl
 
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("modifiedDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_modifiedDate = modifiedDate;
@@ -687,10 +687,10 @@ public class KaleoDefinitionVersionModelImpl
 	public void setKaleoDefinitionId(long kaleoDefinitionId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("kaleoDefinitionId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_kaleoDefinitionId = kaleoDefinitionId;
@@ -710,10 +710,10 @@ public class KaleoDefinitionVersionModelImpl
 	public void setName(String name) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("name");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_name = name;
@@ -785,10 +785,10 @@ public class KaleoDefinitionVersionModelImpl
 	public void setTitle(String title) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("title");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_title = title;
@@ -854,10 +854,10 @@ public class KaleoDefinitionVersionModelImpl
 	public void setDescription(String description) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("description");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_description = description;
@@ -877,10 +877,10 @@ public class KaleoDefinitionVersionModelImpl
 	public void setContent(String content) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("content");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_content = content;
@@ -900,10 +900,10 @@ public class KaleoDefinitionVersionModelImpl
 	public void setVersion(String version) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("version");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_version = version;
@@ -927,10 +927,10 @@ public class KaleoDefinitionVersionModelImpl
 	public void setStartKaleoNodeId(long startKaleoNodeId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("startKaleoNodeId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_startKaleoNodeId = startKaleoNodeId;
@@ -945,10 +945,10 @@ public class KaleoDefinitionVersionModelImpl
 	public void setStatus(int status) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("status");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_status = status;

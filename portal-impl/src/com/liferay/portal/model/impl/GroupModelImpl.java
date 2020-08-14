@@ -608,10 +608,10 @@ public class GroupModelImpl extends BaseModelImpl<Group> implements GroupModel {
 	public void setMvccVersion(long mvccVersion) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("mvccVersion");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_mvccVersion = mvccVersion;
@@ -627,10 +627,10 @@ public class GroupModelImpl extends BaseModelImpl<Group> implements GroupModel {
 	public void setCtCollectionId(long ctCollectionId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("ctCollectionId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_ctCollectionId = ctCollectionId;
@@ -651,10 +651,10 @@ public class GroupModelImpl extends BaseModelImpl<Group> implements GroupModel {
 	public void setUuid(String uuid) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("uuid_");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_uuid = uuid;
@@ -679,10 +679,10 @@ public class GroupModelImpl extends BaseModelImpl<Group> implements GroupModel {
 	public void setGroupId(long groupId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("groupId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_groupId = groupId;
@@ -707,10 +707,10 @@ public class GroupModelImpl extends BaseModelImpl<Group> implements GroupModel {
 	public void setCompanyId(long companyId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("companyId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_companyId = companyId;
@@ -735,10 +735,10 @@ public class GroupModelImpl extends BaseModelImpl<Group> implements GroupModel {
 	public void setCreatorUserId(long creatorUserId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("creatorUserId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_creatorUserId = creatorUserId;
@@ -790,10 +790,10 @@ public class GroupModelImpl extends BaseModelImpl<Group> implements GroupModel {
 	public void setClassNameId(long classNameId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("classNameId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_classNameId = classNameId;
@@ -818,10 +818,10 @@ public class GroupModelImpl extends BaseModelImpl<Group> implements GroupModel {
 	public void setClassPK(long classPK) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("classPK");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_classPK = classPK;
@@ -846,10 +846,10 @@ public class GroupModelImpl extends BaseModelImpl<Group> implements GroupModel {
 	public void setParentGroupId(long parentGroupId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("parentGroupId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_parentGroupId = parentGroupId;
@@ -874,10 +874,10 @@ public class GroupModelImpl extends BaseModelImpl<Group> implements GroupModel {
 	public void setLiveGroupId(long liveGroupId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("liveGroupId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_liveGroupId = liveGroupId;
@@ -907,10 +907,10 @@ public class GroupModelImpl extends BaseModelImpl<Group> implements GroupModel {
 	public void setTreePath(String treePath) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("treePath");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_treePath = treePath;
@@ -940,10 +940,10 @@ public class GroupModelImpl extends BaseModelImpl<Group> implements GroupModel {
 	public void setGroupKey(String groupKey) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("groupKey");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_groupKey = groupKey;
@@ -1016,10 +1016,10 @@ public class GroupModelImpl extends BaseModelImpl<Group> implements GroupModel {
 	public void setName(String name) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("name");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_name = name;
@@ -1136,10 +1136,10 @@ public class GroupModelImpl extends BaseModelImpl<Group> implements GroupModel {
 	public void setDescription(String description) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("description");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_description = description;
@@ -1204,10 +1204,10 @@ public class GroupModelImpl extends BaseModelImpl<Group> implements GroupModel {
 	public void setType(int type) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("type_");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_type = type;
@@ -1237,10 +1237,10 @@ public class GroupModelImpl extends BaseModelImpl<Group> implements GroupModel {
 	public void setTypeSettings(String typeSettings) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("typeSettings");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_typeSettings = typeSettings;
@@ -1262,10 +1262,10 @@ public class GroupModelImpl extends BaseModelImpl<Group> implements GroupModel {
 	public void setManualMembership(boolean manualMembership) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("manualMembership");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_manualMembership = manualMembership;
@@ -1281,10 +1281,10 @@ public class GroupModelImpl extends BaseModelImpl<Group> implements GroupModel {
 	public void setMembershipRestriction(int membershipRestriction) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("membershipRestriction");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_membershipRestriction = membershipRestriction;
@@ -1305,10 +1305,10 @@ public class GroupModelImpl extends BaseModelImpl<Group> implements GroupModel {
 	public void setFriendlyURL(String friendlyURL) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("friendlyURL");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_friendlyURL = friendlyURL;
@@ -1339,10 +1339,10 @@ public class GroupModelImpl extends BaseModelImpl<Group> implements GroupModel {
 	public void setSite(boolean site) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("site");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_site = site;
@@ -1367,10 +1367,10 @@ public class GroupModelImpl extends BaseModelImpl<Group> implements GroupModel {
 	public void setRemoteStagingGroupCount(int remoteStagingGroupCount) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("remoteStagingGroupCount");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_remoteStagingGroupCount = remoteStagingGroupCount;
@@ -1392,10 +1392,10 @@ public class GroupModelImpl extends BaseModelImpl<Group> implements GroupModel {
 	public void setInheritContent(boolean inheritContent) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("inheritContent");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_inheritContent = inheritContent;
@@ -1426,10 +1426,10 @@ public class GroupModelImpl extends BaseModelImpl<Group> implements GroupModel {
 	public void setActive(boolean active) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("active_");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_active = active;

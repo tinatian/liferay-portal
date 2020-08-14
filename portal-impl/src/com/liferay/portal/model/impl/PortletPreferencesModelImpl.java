@@ -421,10 +421,10 @@ public class PortletPreferencesModelImpl
 	public void setMvccVersion(long mvccVersion) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("mvccVersion");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_mvccVersion = mvccVersion;
@@ -440,10 +440,10 @@ public class PortletPreferencesModelImpl
 	public void setCtCollectionId(long ctCollectionId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("ctCollectionId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_ctCollectionId = ctCollectionId;
@@ -459,10 +459,10 @@ public class PortletPreferencesModelImpl
 	public void setPortletPreferencesId(long portletPreferencesId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("portletPreferencesId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_portletPreferencesId = portletPreferencesId;
@@ -478,10 +478,10 @@ public class PortletPreferencesModelImpl
 	public void setCompanyId(long companyId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("companyId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_companyId = companyId;
@@ -506,10 +506,10 @@ public class PortletPreferencesModelImpl
 	public void setOwnerId(long ownerId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("ownerId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_ownerId = ownerId;
@@ -534,10 +534,10 @@ public class PortletPreferencesModelImpl
 	public void setOwnerType(int ownerType) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("ownerType");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_ownerType = ownerType;
@@ -562,10 +562,10 @@ public class PortletPreferencesModelImpl
 	public void setPlid(long plid) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("plid");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_plid = plid;
@@ -595,10 +595,10 @@ public class PortletPreferencesModelImpl
 	public void setPortletId(String portletId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("portletId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_portletId = portletId;
@@ -628,10 +628,10 @@ public class PortletPreferencesModelImpl
 	public void setPreferences(String preferences) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("preferences");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_preferences = preferences;

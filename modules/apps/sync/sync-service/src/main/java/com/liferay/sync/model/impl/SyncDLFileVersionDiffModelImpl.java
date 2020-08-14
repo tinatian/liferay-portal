@@ -348,10 +348,10 @@ public class SyncDLFileVersionDiffModelImpl
 	public void setSyncDLFileVersionDiffId(long syncDLFileVersionDiffId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("syncDLFileVersionDiffId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_syncDLFileVersionDiffId = syncDLFileVersionDiffId;
@@ -366,10 +366,10 @@ public class SyncDLFileVersionDiffModelImpl
 	public void setCompanyId(long companyId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("companyId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_companyId = companyId;
@@ -384,10 +384,10 @@ public class SyncDLFileVersionDiffModelImpl
 	public void setFileEntryId(long fileEntryId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("fileEntryId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_fileEntryId = fileEntryId;
@@ -411,10 +411,10 @@ public class SyncDLFileVersionDiffModelImpl
 	public void setSourceFileVersionId(long sourceFileVersionId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("sourceFileVersionId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_sourceFileVersionId = sourceFileVersionId;
@@ -439,10 +439,10 @@ public class SyncDLFileVersionDiffModelImpl
 	public void setTargetFileVersionId(long targetFileVersionId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("targetFileVersionId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_targetFileVersionId = targetFileVersionId;
@@ -467,10 +467,10 @@ public class SyncDLFileVersionDiffModelImpl
 	public void setDataFileEntryId(long dataFileEntryId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("dataFileEntryId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_dataFileEntryId = dataFileEntryId;
@@ -485,10 +485,10 @@ public class SyncDLFileVersionDiffModelImpl
 	public void setSize(long size) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("size_");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_size = size;
@@ -503,10 +503,10 @@ public class SyncDLFileVersionDiffModelImpl
 	public void setExpirationDate(Date expirationDate) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("expirationDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_expirationDate = expirationDate;

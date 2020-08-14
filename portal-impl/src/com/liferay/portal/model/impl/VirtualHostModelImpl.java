@@ -335,10 +335,10 @@ public class VirtualHostModelImpl
 	public void setMvccVersion(long mvccVersion) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("mvccVersion");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_mvccVersion = mvccVersion;
@@ -353,10 +353,10 @@ public class VirtualHostModelImpl
 	public void setCtCollectionId(long ctCollectionId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("ctCollectionId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_ctCollectionId = ctCollectionId;
@@ -371,10 +371,10 @@ public class VirtualHostModelImpl
 	public void setVirtualHostId(long virtualHostId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("virtualHostId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_virtualHostId = virtualHostId;
@@ -389,10 +389,10 @@ public class VirtualHostModelImpl
 	public void setCompanyId(long companyId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("companyId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_companyId = companyId;
@@ -416,10 +416,10 @@ public class VirtualHostModelImpl
 	public void setLayoutSetId(long layoutSetId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("layoutSetId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_layoutSetId = layoutSetId;
@@ -448,10 +448,10 @@ public class VirtualHostModelImpl
 	public void setHostname(String hostname) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("hostname");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_hostname = hostname;
@@ -480,10 +480,10 @@ public class VirtualHostModelImpl
 	public void setDefaultVirtualHost(boolean defaultVirtualHost) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("defaultVirtualHost");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_defaultVirtualHost = defaultVirtualHost;
@@ -513,10 +513,10 @@ public class VirtualHostModelImpl
 	public void setLanguageId(String languageId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("languageId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_languageId = languageId;

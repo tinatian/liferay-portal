@@ -306,10 +306,10 @@ public class NestedSetsTreeEntryModelImpl
 	public void setNestedSetsTreeEntryId(long nestedSetsTreeEntryId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("nestedSetsTreeEntryId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_nestedSetsTreeEntryId = nestedSetsTreeEntryId;
@@ -324,10 +324,10 @@ public class NestedSetsTreeEntryModelImpl
 	public void setGroupId(long groupId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("groupId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_groupId = groupId;
@@ -345,10 +345,10 @@ public class NestedSetsTreeEntryModelImpl
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get(
 				"parentNestedSetsTreeEntryId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_parentNestedSetsTreeEntryId = parentNestedSetsTreeEntryId;
@@ -373,10 +373,10 @@ public class NestedSetsTreeEntryModelImpl
 	public void setLeftNestedSetsTreeEntryId(long leftNestedSetsTreeEntryId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("leftNestedSetsTreeEntryId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_leftNestedSetsTreeEntryId = leftNestedSetsTreeEntryId;
@@ -391,10 +391,10 @@ public class NestedSetsTreeEntryModelImpl
 	public void setRightNestedSetsTreeEntryId(long rightNestedSetsTreeEntryId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("rightNestedSetsTreeEntryId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_rightNestedSetsTreeEntryId = rightNestedSetsTreeEntryId;

@@ -374,10 +374,10 @@ public class OAuthTokenModelImpl
 	public void setOAuthTokenId(long oAuthTokenId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("oAuthTokenId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_oAuthTokenId = oAuthTokenId;
@@ -392,10 +392,10 @@ public class OAuthTokenModelImpl
 	public void setCompanyId(long companyId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("companyId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_companyId = companyId;
@@ -410,10 +410,10 @@ public class OAuthTokenModelImpl
 	public void setUserId(long userId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("userId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_userId = userId;
@@ -458,10 +458,10 @@ public class OAuthTokenModelImpl
 	public void setUserName(String userName) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("userName");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_userName = userName;
@@ -476,10 +476,10 @@ public class OAuthTokenModelImpl
 	public void setCreateDate(Date createDate) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("createDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_createDate = createDate;
@@ -500,10 +500,10 @@ public class OAuthTokenModelImpl
 
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("modifiedDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_modifiedDate = modifiedDate;
@@ -523,10 +523,10 @@ public class OAuthTokenModelImpl
 	public void setGadgetKey(String gadgetKey) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("gadgetKey");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_gadgetKey = gadgetKey;
@@ -555,10 +555,10 @@ public class OAuthTokenModelImpl
 	public void setServiceName(String serviceName) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("serviceName");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_serviceName = serviceName;
@@ -582,10 +582,10 @@ public class OAuthTokenModelImpl
 	public void setModuleId(long moduleId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("moduleId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_moduleId = moduleId;
@@ -614,10 +614,10 @@ public class OAuthTokenModelImpl
 	public void setAccessToken(String accessToken) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("accessToken");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_accessToken = accessToken;
@@ -637,10 +637,10 @@ public class OAuthTokenModelImpl
 	public void setTokenName(String tokenName) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("tokenName");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_tokenName = tokenName;
@@ -669,10 +669,10 @@ public class OAuthTokenModelImpl
 	public void setTokenSecret(String tokenSecret) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("tokenSecret");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_tokenSecret = tokenSecret;
@@ -692,10 +692,10 @@ public class OAuthTokenModelImpl
 	public void setSessionHandle(String sessionHandle) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("sessionHandle");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_sessionHandle = sessionHandle;
@@ -710,10 +710,10 @@ public class OAuthTokenModelImpl
 	public void setExpiration(long expiration) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("expiration");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_expiration = expiration;

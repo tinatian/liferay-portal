@@ -350,10 +350,10 @@ public class SharepointOAuth2TokenEntryModelImpl
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get(
 				"sharepointOAuth2TokenEntryId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_sharepointOAuth2TokenEntryId = sharepointOAuth2TokenEntryId;
@@ -368,10 +368,10 @@ public class SharepointOAuth2TokenEntryModelImpl
 	public void setCompanyId(long companyId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("companyId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_companyId = companyId;
@@ -386,10 +386,10 @@ public class SharepointOAuth2TokenEntryModelImpl
 	public void setUserId(long userId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("userId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_userId = userId;
@@ -434,10 +434,10 @@ public class SharepointOAuth2TokenEntryModelImpl
 	public void setUserName(String userName) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("userName");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_userName = userName;
@@ -452,10 +452,10 @@ public class SharepointOAuth2TokenEntryModelImpl
 	public void setCreateDate(Date createDate) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("createDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_createDate = createDate;
@@ -475,10 +475,10 @@ public class SharepointOAuth2TokenEntryModelImpl
 	public void setAccessToken(String accessToken) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("accessToken");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_accessToken = accessToken;
@@ -498,10 +498,10 @@ public class SharepointOAuth2TokenEntryModelImpl
 	public void setConfigurationPid(String configurationPid) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("configurationPid");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_configurationPid = configurationPid;
@@ -525,10 +525,10 @@ public class SharepointOAuth2TokenEntryModelImpl
 	public void setExpirationDate(Date expirationDate) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("expirationDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_expirationDate = expirationDate;
@@ -548,10 +548,10 @@ public class SharepointOAuth2TokenEntryModelImpl
 	public void setRefreshToken(String refreshToken) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("refreshToken");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_refreshToken = refreshToken;

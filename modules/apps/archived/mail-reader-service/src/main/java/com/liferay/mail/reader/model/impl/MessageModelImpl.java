@@ -365,10 +365,10 @@ public class MessageModelImpl
 	public void setMessageId(long messageId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("messageId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_messageId = messageId;
@@ -383,10 +383,10 @@ public class MessageModelImpl
 	public void setCompanyId(long companyId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("companyId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_companyId = companyId;
@@ -410,10 +410,10 @@ public class MessageModelImpl
 	public void setUserId(long userId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("userId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_userId = userId;
@@ -449,10 +449,10 @@ public class MessageModelImpl
 	public void setUserName(String userName) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("userName");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_userName = userName;
@@ -467,10 +467,10 @@ public class MessageModelImpl
 	public void setCreateDate(Date createDate) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("createDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_createDate = createDate;
@@ -491,10 +491,10 @@ public class MessageModelImpl
 
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("modifiedDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_modifiedDate = modifiedDate;
@@ -509,10 +509,10 @@ public class MessageModelImpl
 	public void setAccountId(long accountId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("accountId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_accountId = accountId;
@@ -527,10 +527,10 @@ public class MessageModelImpl
 	public void setFolderId(long folderId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("folderId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_folderId = folderId;
@@ -559,10 +559,10 @@ public class MessageModelImpl
 	public void setSender(String sender) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("sender");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_sender = sender;
@@ -582,10 +582,10 @@ public class MessageModelImpl
 	public void setTo(String to) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("to_");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_to = to;
@@ -605,10 +605,10 @@ public class MessageModelImpl
 	public void setCc(String cc) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("cc");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_cc = cc;
@@ -628,10 +628,10 @@ public class MessageModelImpl
 	public void setBcc(String bcc) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("bcc");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_bcc = bcc;
@@ -646,10 +646,10 @@ public class MessageModelImpl
 	public void setSentDate(Date sentDate) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("sentDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_sentDate = sentDate;
@@ -669,10 +669,10 @@ public class MessageModelImpl
 	public void setSubject(String subject) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("subject");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_subject = subject;
@@ -692,10 +692,10 @@ public class MessageModelImpl
 	public void setPreview(String preview) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("preview");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_preview = preview;
@@ -715,10 +715,10 @@ public class MessageModelImpl
 	public void setBody(String body) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("body");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_body = body;
@@ -738,10 +738,10 @@ public class MessageModelImpl
 	public void setFlags(String flags) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("flags");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_flags = flags;
@@ -756,10 +756,10 @@ public class MessageModelImpl
 	public void setSize(long size) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("size_");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_size = size;
@@ -774,10 +774,10 @@ public class MessageModelImpl
 	public void setRemoteMessageId(long remoteMessageId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("remoteMessageId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_remoteMessageId = remoteMessageId;
@@ -806,10 +806,10 @@ public class MessageModelImpl
 	public void setContentType(String contentType) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("contentType");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_contentType = contentType;

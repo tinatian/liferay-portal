@@ -339,10 +339,10 @@ public class AkismetEntryModelImpl
 	public void setAkismetEntryId(long akismetEntryId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("akismetEntryId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_akismetEntryId = akismetEntryId;
@@ -357,10 +357,10 @@ public class AkismetEntryModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("modifiedDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_modifiedDate = modifiedDate;
@@ -404,10 +404,10 @@ public class AkismetEntryModelImpl
 	public void setClassNameId(long classNameId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("classNameId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_classNameId = classNameId;
@@ -431,10 +431,10 @@ public class AkismetEntryModelImpl
 	public void setClassPK(long classPK) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("classPK");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_classPK = classPK;
@@ -463,10 +463,10 @@ public class AkismetEntryModelImpl
 	public void setType(String type) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("type_");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_type = type;
@@ -486,10 +486,10 @@ public class AkismetEntryModelImpl
 	public void setPermalink(String permalink) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("permalink");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_permalink = permalink;
@@ -509,10 +509,10 @@ public class AkismetEntryModelImpl
 	public void setReferrer(String referrer) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("referrer");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_referrer = referrer;
@@ -532,10 +532,10 @@ public class AkismetEntryModelImpl
 	public void setUserAgent(String userAgent) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("userAgent");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_userAgent = userAgent;
@@ -555,10 +555,10 @@ public class AkismetEntryModelImpl
 	public void setUserIP(String userIP) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("userIP");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_userIP = userIP;
@@ -578,10 +578,10 @@ public class AkismetEntryModelImpl
 	public void setUserURL(String userURL) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("userURL");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_userURL = userURL;

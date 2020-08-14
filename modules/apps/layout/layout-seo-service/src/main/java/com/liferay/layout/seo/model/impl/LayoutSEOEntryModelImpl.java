@@ -517,10 +517,10 @@ public class LayoutSEOEntryModelImpl
 	public void setMvccVersion(long mvccVersion) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("mvccVersion");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_mvccVersion = mvccVersion;
@@ -541,10 +541,10 @@ public class LayoutSEOEntryModelImpl
 	public void setUuid(String uuid) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("uuid_");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_uuid = uuid;
@@ -569,10 +569,10 @@ public class LayoutSEOEntryModelImpl
 	public void setLayoutSEOEntryId(long layoutSEOEntryId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("layoutSEOEntryId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_layoutSEOEntryId = layoutSEOEntryId;
@@ -588,10 +588,10 @@ public class LayoutSEOEntryModelImpl
 	public void setGroupId(long groupId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("groupId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_groupId = groupId;
@@ -616,10 +616,10 @@ public class LayoutSEOEntryModelImpl
 	public void setCompanyId(long companyId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("companyId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_companyId = companyId;
@@ -644,10 +644,10 @@ public class LayoutSEOEntryModelImpl
 	public void setUserId(long userId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("userId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_userId = userId;
@@ -684,10 +684,10 @@ public class LayoutSEOEntryModelImpl
 	public void setUserName(String userName) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("userName");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_userName = userName;
@@ -703,10 +703,10 @@ public class LayoutSEOEntryModelImpl
 	public void setCreateDate(Date createDate) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("createDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_createDate = createDate;
@@ -728,10 +728,10 @@ public class LayoutSEOEntryModelImpl
 
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("modifiedDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_modifiedDate = modifiedDate;
@@ -753,10 +753,10 @@ public class LayoutSEOEntryModelImpl
 	public void setPrivateLayout(boolean privateLayout) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("privateLayout");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_privateLayout = privateLayout;
@@ -781,10 +781,10 @@ public class LayoutSEOEntryModelImpl
 	public void setLayoutId(long layoutId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("layoutId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_layoutId = layoutId;
@@ -857,10 +857,10 @@ public class LayoutSEOEntryModelImpl
 	public void setCanonicalURL(String canonicalURL) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("canonicalURL");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_canonicalURL = canonicalURL;
@@ -931,10 +931,10 @@ public class LayoutSEOEntryModelImpl
 	public void setCanonicalURLEnabled(boolean canonicalURLEnabled) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("canonicalURLEnabled");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_canonicalURLEnabled = canonicalURLEnabled;
@@ -950,10 +950,10 @@ public class LayoutSEOEntryModelImpl
 	public void setDDMStorageId(long DDMStorageId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("DDMStorageId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_DDMStorageId = DDMStorageId;
@@ -1020,10 +1020,10 @@ public class LayoutSEOEntryModelImpl
 	public void setOpenGraphDescription(String openGraphDescription) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("openGraphDescription");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_openGraphDescription = openGraphDescription;
@@ -1105,10 +1105,10 @@ public class LayoutSEOEntryModelImpl
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get(
 				"openGraphDescriptionEnabled");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_openGraphDescriptionEnabled = openGraphDescriptionEnabled;
@@ -1173,10 +1173,10 @@ public class LayoutSEOEntryModelImpl
 	public void setOpenGraphImageAlt(String openGraphImageAlt) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("openGraphImageAlt");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_openGraphImageAlt = openGraphImageAlt;
@@ -1245,10 +1245,10 @@ public class LayoutSEOEntryModelImpl
 	public void setOpenGraphImageFileEntryId(long openGraphImageFileEntryId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("openGraphImageFileEntryId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_openGraphImageFileEntryId = openGraphImageFileEntryId;
@@ -1313,10 +1313,10 @@ public class LayoutSEOEntryModelImpl
 	public void setOpenGraphTitle(String openGraphTitle) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("openGraphTitle");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_openGraphTitle = openGraphTitle;
@@ -1387,10 +1387,10 @@ public class LayoutSEOEntryModelImpl
 	public void setOpenGraphTitleEnabled(boolean openGraphTitleEnabled) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("openGraphTitleEnabled");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_openGraphTitleEnabled = openGraphTitleEnabled;
@@ -1406,10 +1406,10 @@ public class LayoutSEOEntryModelImpl
 	public void setLastPublishDate(Date lastPublishDate) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("lastPublishDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_lastPublishDate = lastPublishDate;

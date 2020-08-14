@@ -302,10 +302,10 @@ public class KaleoProcessLinkModelImpl
 	public void setKaleoProcessLinkId(long kaleoProcessLinkId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("kaleoProcessLinkId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_kaleoProcessLinkId = kaleoProcessLinkId;
@@ -320,10 +320,10 @@ public class KaleoProcessLinkModelImpl
 	public void setCompanyId(long companyId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("companyId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_companyId = companyId;
@@ -338,10 +338,10 @@ public class KaleoProcessLinkModelImpl
 	public void setKaleoProcessId(long kaleoProcessId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("kaleoProcessId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_kaleoProcessId = kaleoProcessId;
@@ -370,10 +370,10 @@ public class KaleoProcessLinkModelImpl
 	public void setWorkflowTaskName(String workflowTaskName) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("workflowTaskName");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_workflowTaskName = workflowTaskName;
@@ -397,10 +397,10 @@ public class KaleoProcessLinkModelImpl
 	public void setDDMTemplateId(long DDMTemplateId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("DDMTemplateId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_DDMTemplateId = DDMTemplateId;

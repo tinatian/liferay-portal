@@ -466,10 +466,10 @@ public class MBMailingListModelImpl
 	public void setMvccVersion(long mvccVersion) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("mvccVersion");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_mvccVersion = mvccVersion;
@@ -484,10 +484,10 @@ public class MBMailingListModelImpl
 	public void setCtCollectionId(long ctCollectionId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("ctCollectionId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_ctCollectionId = ctCollectionId;
@@ -507,10 +507,10 @@ public class MBMailingListModelImpl
 	public void setUuid(String uuid) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("uuid_");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_uuid = uuid;
@@ -534,10 +534,10 @@ public class MBMailingListModelImpl
 	public void setMailingListId(long mailingListId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("mailingListId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_mailingListId = mailingListId;
@@ -552,10 +552,10 @@ public class MBMailingListModelImpl
 	public void setGroupId(long groupId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("groupId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_groupId = groupId;
@@ -579,10 +579,10 @@ public class MBMailingListModelImpl
 	public void setCompanyId(long companyId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("companyId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_companyId = companyId;
@@ -606,10 +606,10 @@ public class MBMailingListModelImpl
 	public void setUserId(long userId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("userId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_userId = userId;
@@ -645,10 +645,10 @@ public class MBMailingListModelImpl
 	public void setUserName(String userName) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("userName");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_userName = userName;
@@ -663,10 +663,10 @@ public class MBMailingListModelImpl
 	public void setCreateDate(Date createDate) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("createDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_createDate = createDate;
@@ -687,10 +687,10 @@ public class MBMailingListModelImpl
 
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("modifiedDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_modifiedDate = modifiedDate;
@@ -705,10 +705,10 @@ public class MBMailingListModelImpl
 	public void setCategoryId(long categoryId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("categoryId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_categoryId = categoryId;
@@ -737,10 +737,10 @@ public class MBMailingListModelImpl
 	public void setEmailAddress(String emailAddress) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("emailAddress");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_emailAddress = emailAddress;
@@ -760,10 +760,10 @@ public class MBMailingListModelImpl
 	public void setInProtocol(String inProtocol) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("inProtocol");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_inProtocol = inProtocol;
@@ -783,10 +783,10 @@ public class MBMailingListModelImpl
 	public void setInServerName(String inServerName) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("inServerName");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_inServerName = inServerName;
@@ -801,10 +801,10 @@ public class MBMailingListModelImpl
 	public void setInServerPort(int inServerPort) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("inServerPort");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_inServerPort = inServerPort;
@@ -824,10 +824,10 @@ public class MBMailingListModelImpl
 	public void setInUseSSL(boolean inUseSSL) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("inUseSSL");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_inUseSSL = inUseSSL;
@@ -847,10 +847,10 @@ public class MBMailingListModelImpl
 	public void setInUserName(String inUserName) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("inUserName");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_inUserName = inUserName;
@@ -870,10 +870,10 @@ public class MBMailingListModelImpl
 	public void setInPassword(String inPassword) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("inPassword");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_inPassword = inPassword;
@@ -888,10 +888,10 @@ public class MBMailingListModelImpl
 	public void setInReadInterval(int inReadInterval) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("inReadInterval");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_inReadInterval = inReadInterval;
@@ -911,10 +911,10 @@ public class MBMailingListModelImpl
 	public void setOutEmailAddress(String outEmailAddress) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("outEmailAddress");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_outEmailAddress = outEmailAddress;
@@ -934,10 +934,10 @@ public class MBMailingListModelImpl
 	public void setOutCustom(boolean outCustom) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("outCustom");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_outCustom = outCustom;
@@ -957,10 +957,10 @@ public class MBMailingListModelImpl
 	public void setOutServerName(String outServerName) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("outServerName");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_outServerName = outServerName;
@@ -975,10 +975,10 @@ public class MBMailingListModelImpl
 	public void setOutServerPort(int outServerPort) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("outServerPort");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_outServerPort = outServerPort;
@@ -998,10 +998,10 @@ public class MBMailingListModelImpl
 	public void setOutUseSSL(boolean outUseSSL) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("outUseSSL");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_outUseSSL = outUseSSL;
@@ -1021,10 +1021,10 @@ public class MBMailingListModelImpl
 	public void setOutUserName(String outUserName) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("outUserName");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_outUserName = outUserName;
@@ -1044,10 +1044,10 @@ public class MBMailingListModelImpl
 	public void setOutPassword(String outPassword) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("outPassword");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_outPassword = outPassword;
@@ -1067,10 +1067,10 @@ public class MBMailingListModelImpl
 	public void setAllowAnonymous(boolean allowAnonymous) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("allowAnonymous");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_allowAnonymous = allowAnonymous;
@@ -1090,10 +1090,10 @@ public class MBMailingListModelImpl
 	public void setActive(boolean active) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("active_");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_active = active;

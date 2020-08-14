@@ -404,10 +404,10 @@ public class AppModelImpl extends BaseModelImpl<App> implements AppModel {
 	public void setUuid(String uuid) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("uuid_");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_uuid = uuid;
@@ -432,10 +432,10 @@ public class AppModelImpl extends BaseModelImpl<App> implements AppModel {
 	public void setAppId(long appId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("appId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_appId = appId;
@@ -451,10 +451,10 @@ public class AppModelImpl extends BaseModelImpl<App> implements AppModel {
 	public void setCompanyId(long companyId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("companyId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_companyId = companyId;
@@ -479,10 +479,10 @@ public class AppModelImpl extends BaseModelImpl<App> implements AppModel {
 	public void setUserId(long userId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("userId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_userId = userId;
@@ -519,10 +519,10 @@ public class AppModelImpl extends BaseModelImpl<App> implements AppModel {
 	public void setUserName(String userName) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("userName");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_userName = userName;
@@ -538,10 +538,10 @@ public class AppModelImpl extends BaseModelImpl<App> implements AppModel {
 	public void setCreateDate(Date createDate) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("createDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_createDate = createDate;
@@ -563,10 +563,10 @@ public class AppModelImpl extends BaseModelImpl<App> implements AppModel {
 
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("modifiedDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_modifiedDate = modifiedDate;
@@ -582,10 +582,10 @@ public class AppModelImpl extends BaseModelImpl<App> implements AppModel {
 	public void setRemoteAppId(long remoteAppId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("remoteAppId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_remoteAppId = remoteAppId;
@@ -615,10 +615,10 @@ public class AppModelImpl extends BaseModelImpl<App> implements AppModel {
 	public void setTitle(String title) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("title");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_title = title;
@@ -639,10 +639,10 @@ public class AppModelImpl extends BaseModelImpl<App> implements AppModel {
 	public void setDescription(String description) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("description");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_description = description;
@@ -663,10 +663,10 @@ public class AppModelImpl extends BaseModelImpl<App> implements AppModel {
 	public void setCategory(String category) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("category");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_category = category;
@@ -696,10 +696,10 @@ public class AppModelImpl extends BaseModelImpl<App> implements AppModel {
 	public void setIconURL(String iconURL) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("iconURL");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_iconURL = iconURL;
@@ -720,10 +720,10 @@ public class AppModelImpl extends BaseModelImpl<App> implements AppModel {
 	public void setVersion(String version) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("version");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_version = version;
@@ -745,10 +745,10 @@ public class AppModelImpl extends BaseModelImpl<App> implements AppModel {
 	public void setRequired(boolean required) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("required");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_required = required;

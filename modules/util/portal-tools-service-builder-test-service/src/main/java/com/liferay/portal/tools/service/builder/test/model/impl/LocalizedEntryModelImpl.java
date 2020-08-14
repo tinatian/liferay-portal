@@ -434,10 +434,10 @@ public class LocalizedEntryModelImpl
 	public void setDefaultLanguageId(String defaultLanguageId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("defaultLanguageId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_defaultLanguageId = defaultLanguageId;
@@ -452,10 +452,10 @@ public class LocalizedEntryModelImpl
 	public void setLocalizedEntryId(long localizedEntryId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("localizedEntryId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_localizedEntryId = localizedEntryId;

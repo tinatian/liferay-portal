@@ -441,10 +441,10 @@ public class KaleoNotificationRecipientModelImpl
 	public void setMvccVersion(long mvccVersion) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("mvccVersion");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_mvccVersion = mvccVersion;
@@ -462,10 +462,10 @@ public class KaleoNotificationRecipientModelImpl
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get(
 				"kaleoNotificationRecipientId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_kaleoNotificationRecipientId = kaleoNotificationRecipientId;
@@ -480,10 +480,10 @@ public class KaleoNotificationRecipientModelImpl
 	public void setGroupId(long groupId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("groupId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_groupId = groupId;
@@ -498,10 +498,10 @@ public class KaleoNotificationRecipientModelImpl
 	public void setCompanyId(long companyId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("companyId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_companyId = companyId;
@@ -525,10 +525,10 @@ public class KaleoNotificationRecipientModelImpl
 	public void setUserId(long userId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("userId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_userId = userId;
@@ -564,10 +564,10 @@ public class KaleoNotificationRecipientModelImpl
 	public void setUserName(String userName) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("userName");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_userName = userName;
@@ -582,10 +582,10 @@ public class KaleoNotificationRecipientModelImpl
 	public void setCreateDate(Date createDate) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("createDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_createDate = createDate;
@@ -606,10 +606,10 @@ public class KaleoNotificationRecipientModelImpl
 
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("modifiedDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_modifiedDate = modifiedDate;
@@ -624,10 +624,10 @@ public class KaleoNotificationRecipientModelImpl
 	public void setKaleoDefinitionId(long kaleoDefinitionId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("kaleoDefinitionId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_kaleoDefinitionId = kaleoDefinitionId;
@@ -642,10 +642,10 @@ public class KaleoNotificationRecipientModelImpl
 	public void setKaleoDefinitionVersionId(long kaleoDefinitionVersionId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("kaleoDefinitionVersionId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_kaleoDefinitionVersionId = kaleoDefinitionVersionId;
@@ -670,10 +670,10 @@ public class KaleoNotificationRecipientModelImpl
 	public void setKaleoNotificationId(long kaleoNotificationId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("kaleoNotificationId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_kaleoNotificationId = kaleoNotificationId;
@@ -703,10 +703,10 @@ public class KaleoNotificationRecipientModelImpl
 	public void setRecipientClassName(String recipientClassName) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("recipientClassName");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_recipientClassName = recipientClassName;
@@ -721,10 +721,10 @@ public class KaleoNotificationRecipientModelImpl
 	public void setRecipientClassPK(long recipientClassPK) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("recipientClassPK");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_recipientClassPK = recipientClassPK;
@@ -739,10 +739,10 @@ public class KaleoNotificationRecipientModelImpl
 	public void setRecipientRoleType(int recipientRoleType) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("recipientRoleType");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_recipientRoleType = recipientRoleType;
@@ -762,10 +762,10 @@ public class KaleoNotificationRecipientModelImpl
 	public void setRecipientScript(String recipientScript) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("recipientScript");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_recipientScript = recipientScript;
@@ -785,10 +785,10 @@ public class KaleoNotificationRecipientModelImpl
 	public void setRecipientScriptLanguage(String recipientScriptLanguage) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("recipientScriptLanguage");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_recipientScriptLanguage = recipientScriptLanguage;
@@ -808,10 +808,10 @@ public class KaleoNotificationRecipientModelImpl
 	public void setRecipientScriptContexts(String recipientScriptContexts) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("recipientScriptContexts");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_recipientScriptContexts = recipientScriptContexts;
@@ -831,10 +831,10 @@ public class KaleoNotificationRecipientModelImpl
 	public void setAddress(String address) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("address");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_address = address;
@@ -854,10 +854,10 @@ public class KaleoNotificationRecipientModelImpl
 	public void setNotificationReceptionType(String notificationReceptionType) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("notificationReceptionType");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_notificationReceptionType = notificationReceptionType;

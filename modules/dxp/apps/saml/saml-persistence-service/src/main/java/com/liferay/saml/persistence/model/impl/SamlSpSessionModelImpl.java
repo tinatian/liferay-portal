@@ -386,10 +386,10 @@ public class SamlSpSessionModelImpl
 	public void setSamlSpSessionId(long samlSpSessionId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("samlSpSessionId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_samlSpSessionId = samlSpSessionId;
@@ -404,10 +404,10 @@ public class SamlSpSessionModelImpl
 	public void setCompanyId(long companyId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("companyId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_companyId = companyId;
@@ -422,10 +422,10 @@ public class SamlSpSessionModelImpl
 	public void setUserId(long userId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("userId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_userId = userId;
@@ -461,10 +461,10 @@ public class SamlSpSessionModelImpl
 	public void setUserName(String userName) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("userName");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_userName = userName;
@@ -479,10 +479,10 @@ public class SamlSpSessionModelImpl
 	public void setCreateDate(Date createDate) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("createDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_createDate = createDate;
@@ -503,10 +503,10 @@ public class SamlSpSessionModelImpl
 
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("modifiedDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_modifiedDate = modifiedDate;
@@ -526,10 +526,10 @@ public class SamlSpSessionModelImpl
 	public void setSamlIdpEntityId(String samlIdpEntityId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("samlIdpEntityId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_samlIdpEntityId = samlIdpEntityId;
@@ -549,10 +549,10 @@ public class SamlSpSessionModelImpl
 	public void setSamlSpSessionKey(String samlSpSessionKey) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("samlSpSessionKey");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_samlSpSessionKey = samlSpSessionKey;
@@ -581,10 +581,10 @@ public class SamlSpSessionModelImpl
 	public void setAssertionXml(String assertionXml) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("assertionXml");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_assertionXml = assertionXml;
@@ -604,10 +604,10 @@ public class SamlSpSessionModelImpl
 	public void setJSessionId(String jSessionId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("jSessionId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_jSessionId = jSessionId;
@@ -636,10 +636,10 @@ public class SamlSpSessionModelImpl
 	public void setNameIdFormat(String nameIdFormat) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("nameIdFormat");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_nameIdFormat = nameIdFormat;
@@ -659,10 +659,10 @@ public class SamlSpSessionModelImpl
 	public void setNameIdNameQualifier(String nameIdNameQualifier) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("nameIdNameQualifier");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_nameIdNameQualifier = nameIdNameQualifier;
@@ -682,10 +682,10 @@ public class SamlSpSessionModelImpl
 	public void setNameIdSPNameQualifier(String nameIdSPNameQualifier) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("nameIdSPNameQualifier");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_nameIdSPNameQualifier = nameIdSPNameQualifier;
@@ -705,10 +705,10 @@ public class SamlSpSessionModelImpl
 	public void setNameIdValue(String nameIdValue) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("nameIdValue");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_nameIdValue = nameIdValue;
@@ -737,10 +737,10 @@ public class SamlSpSessionModelImpl
 	public void setSessionIndex(String sessionIndex) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("sessionIndex");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_sessionIndex = sessionIndex;
@@ -769,10 +769,10 @@ public class SamlSpSessionModelImpl
 	public void setTerminated(boolean terminated) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("terminated_");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_terminated = terminated;

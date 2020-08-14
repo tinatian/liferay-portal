@@ -398,10 +398,10 @@ public class AccountModelImpl
 	public void setAccountId(long accountId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("accountId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_accountId = accountId;
@@ -416,10 +416,10 @@ public class AccountModelImpl
 	public void setCompanyId(long companyId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("companyId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_companyId = companyId;
@@ -434,10 +434,10 @@ public class AccountModelImpl
 	public void setUserId(long userId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("userId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_userId = userId;
@@ -482,10 +482,10 @@ public class AccountModelImpl
 	public void setUserName(String userName) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("userName");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_userName = userName;
@@ -500,10 +500,10 @@ public class AccountModelImpl
 	public void setCreateDate(Date createDate) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("createDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_createDate = createDate;
@@ -524,10 +524,10 @@ public class AccountModelImpl
 
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("modifiedDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_modifiedDate = modifiedDate;
@@ -547,10 +547,10 @@ public class AccountModelImpl
 	public void setAddress(String address) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("address");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_address = address;
@@ -579,10 +579,10 @@ public class AccountModelImpl
 	public void setPersonalName(String personalName) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("personalName");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_personalName = personalName;
@@ -602,10 +602,10 @@ public class AccountModelImpl
 	public void setProtocol(String protocol) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("protocol");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_protocol = protocol;
@@ -625,10 +625,10 @@ public class AccountModelImpl
 	public void setIncomingHostName(String incomingHostName) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("incomingHostName");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_incomingHostName = incomingHostName;
@@ -643,10 +643,10 @@ public class AccountModelImpl
 	public void setIncomingPort(int incomingPort) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("incomingPort");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_incomingPort = incomingPort;
@@ -666,10 +666,10 @@ public class AccountModelImpl
 	public void setIncomingSecure(boolean incomingSecure) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("incomingSecure");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_incomingSecure = incomingSecure;
@@ -689,10 +689,10 @@ public class AccountModelImpl
 	public void setOutgoingHostName(String outgoingHostName) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("outgoingHostName");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_outgoingHostName = outgoingHostName;
@@ -707,10 +707,10 @@ public class AccountModelImpl
 	public void setOutgoingPort(int outgoingPort) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("outgoingPort");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_outgoingPort = outgoingPort;
@@ -730,10 +730,10 @@ public class AccountModelImpl
 	public void setOutgoingSecure(boolean outgoingSecure) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("outgoingSecure");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_outgoingSecure = outgoingSecure;
@@ -753,10 +753,10 @@ public class AccountModelImpl
 	public void setLogin(String login) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("login");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_login = login;
@@ -776,10 +776,10 @@ public class AccountModelImpl
 	public void setPassword(String password) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("password_");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_password = password;
@@ -799,10 +799,10 @@ public class AccountModelImpl
 	public void setSavePassword(boolean savePassword) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("savePassword");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_savePassword = savePassword;
@@ -822,10 +822,10 @@ public class AccountModelImpl
 	public void setSignature(String signature) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("signature");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_signature = signature;
@@ -845,10 +845,10 @@ public class AccountModelImpl
 	public void setUseSignature(boolean useSignature) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("useSignature");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_useSignature = useSignature;
@@ -868,10 +868,10 @@ public class AccountModelImpl
 	public void setFolderPrefix(String folderPrefix) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("folderPrefix");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_folderPrefix = folderPrefix;
@@ -886,10 +886,10 @@ public class AccountModelImpl
 	public void setInboxFolderId(long inboxFolderId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("inboxFolderId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_inboxFolderId = inboxFolderId;
@@ -904,10 +904,10 @@ public class AccountModelImpl
 	public void setDraftFolderId(long draftFolderId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("draftFolderId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_draftFolderId = draftFolderId;
@@ -922,10 +922,10 @@ public class AccountModelImpl
 	public void setSentFolderId(long sentFolderId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("sentFolderId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_sentFolderId = sentFolderId;
@@ -940,10 +940,10 @@ public class AccountModelImpl
 	public void setTrashFolderId(long trashFolderId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("trashFolderId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_trashFolderId = trashFolderId;
@@ -963,10 +963,10 @@ public class AccountModelImpl
 	public void setDefaultSender(boolean defaultSender) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("defaultSender");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_defaultSender = defaultSender;

@@ -311,10 +311,10 @@ public class SamlSpAuthRequestModelImpl
 	public void setSamlSpAuthnRequestId(long samlSpAuthnRequestId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("samlSpAuthnRequestId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_samlSpAuthnRequestId = samlSpAuthnRequestId;
@@ -329,10 +329,10 @@ public class SamlSpAuthRequestModelImpl
 	public void setCompanyId(long companyId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("companyId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_companyId = companyId;
@@ -347,10 +347,10 @@ public class SamlSpAuthRequestModelImpl
 	public void setCreateDate(Date createDate) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("createDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_createDate = createDate;
@@ -379,10 +379,10 @@ public class SamlSpAuthRequestModelImpl
 	public void setSamlIdpEntityId(String samlIdpEntityId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("samlIdpEntityId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_samlIdpEntityId = samlIdpEntityId;
@@ -411,10 +411,10 @@ public class SamlSpAuthRequestModelImpl
 	public void setSamlSpAuthRequestKey(String samlSpAuthRequestKey) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("samlSpAuthRequestKey");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_samlSpAuthRequestKey = samlSpAuthRequestKey;

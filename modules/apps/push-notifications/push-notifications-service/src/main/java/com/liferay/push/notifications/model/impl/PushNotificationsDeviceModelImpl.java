@@ -388,10 +388,10 @@ public class PushNotificationsDeviceModelImpl
 	public void setPushNotificationsDeviceId(long pushNotificationsDeviceId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("pushNotificationsDeviceId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_pushNotificationsDeviceId = pushNotificationsDeviceId;
@@ -407,10 +407,10 @@ public class PushNotificationsDeviceModelImpl
 	public void setCompanyId(long companyId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("companyId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_companyId = companyId;
@@ -426,10 +426,10 @@ public class PushNotificationsDeviceModelImpl
 	public void setUserId(long userId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("userId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_userId = userId;
@@ -470,10 +470,10 @@ public class PushNotificationsDeviceModelImpl
 	public void setCreateDate(Date createDate) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("createDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_createDate = createDate;
@@ -494,10 +494,10 @@ public class PushNotificationsDeviceModelImpl
 	public void setPlatform(String platform) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("platform");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_platform = platform;
@@ -527,10 +527,10 @@ public class PushNotificationsDeviceModelImpl
 	public void setToken(String token) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("token");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_token = token;

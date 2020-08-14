@@ -324,10 +324,10 @@ public class AppBuilderAppDataRecordLinkModelImpl
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get(
 				"appBuilderAppDataRecordLinkId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_appBuilderAppDataRecordLinkId = appBuilderAppDataRecordLinkId;
@@ -342,10 +342,10 @@ public class AppBuilderAppDataRecordLinkModelImpl
 	public void setGroupId(long groupId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("groupId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_groupId = groupId;
@@ -360,10 +360,10 @@ public class AppBuilderAppDataRecordLinkModelImpl
 	public void setCompanyId(long companyId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("companyId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_companyId = companyId;
@@ -378,10 +378,10 @@ public class AppBuilderAppDataRecordLinkModelImpl
 	public void setAppBuilderAppId(long appBuilderAppId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("appBuilderAppId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_appBuilderAppId = appBuilderAppId;
@@ -405,10 +405,10 @@ public class AppBuilderAppDataRecordLinkModelImpl
 	public void setAppBuilderAppVersionId(long appBuilderAppVersionId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("appBuilderAppVersionId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_appBuilderAppVersionId = appBuilderAppVersionId;
@@ -423,10 +423,10 @@ public class AppBuilderAppDataRecordLinkModelImpl
 	public void setDdlRecordId(long ddlRecordId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("ddlRecordId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_ddlRecordId = ddlRecordId;

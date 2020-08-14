@@ -353,10 +353,10 @@ public class OAuth2ScopeGrantModelImpl
 	public void setOAuth2ScopeGrantId(long oAuth2ScopeGrantId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("oAuth2ScopeGrantId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_oAuth2ScopeGrantId = oAuth2ScopeGrantId;
@@ -371,10 +371,10 @@ public class OAuth2ScopeGrantModelImpl
 	public void setCompanyId(long companyId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("companyId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_companyId = companyId;
@@ -400,10 +400,10 @@ public class OAuth2ScopeGrantModelImpl
 
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("oA2AScopeAliasesId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_oAuth2ApplicationScopeAliasesId = oAuth2ApplicationScopeAliasesId;
@@ -432,10 +432,10 @@ public class OAuth2ScopeGrantModelImpl
 	public void setApplicationName(String applicationName) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("applicationName");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_applicationName = applicationName;
@@ -464,10 +464,10 @@ public class OAuth2ScopeGrantModelImpl
 	public void setBundleSymbolicName(String bundleSymbolicName) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("bundleSymbolicName");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_bundleSymbolicName = bundleSymbolicName;
@@ -496,10 +496,10 @@ public class OAuth2ScopeGrantModelImpl
 	public void setScope(String scope) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("scope");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_scope = scope;
@@ -528,10 +528,10 @@ public class OAuth2ScopeGrantModelImpl
 	public void setScopeAliases(String scopeAliases) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("scopeAliases");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_scopeAliases = scopeAliases;

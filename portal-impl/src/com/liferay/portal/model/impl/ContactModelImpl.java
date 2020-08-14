@@ -506,10 +506,10 @@ public class ContactModelImpl
 	public void setMvccVersion(long mvccVersion) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("mvccVersion");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_mvccVersion = mvccVersion;
@@ -525,10 +525,10 @@ public class ContactModelImpl
 	public void setContactId(long contactId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("contactId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_contactId = contactId;
@@ -544,10 +544,10 @@ public class ContactModelImpl
 	public void setCompanyId(long companyId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("companyId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_companyId = companyId;
@@ -572,10 +572,10 @@ public class ContactModelImpl
 	public void setUserId(long userId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("userId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_userId = userId;
@@ -612,10 +612,10 @@ public class ContactModelImpl
 	public void setUserName(String userName) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("userName");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_userName = userName;
@@ -631,10 +631,10 @@ public class ContactModelImpl
 	public void setCreateDate(Date createDate) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("createDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_createDate = createDate;
@@ -656,10 +656,10 @@ public class ContactModelImpl
 
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("modifiedDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_modifiedDate = modifiedDate;
@@ -695,10 +695,10 @@ public class ContactModelImpl
 	public void setClassNameId(long classNameId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("classNameId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_classNameId = classNameId;
@@ -723,10 +723,10 @@ public class ContactModelImpl
 	public void setClassPK(long classPK) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("classPK");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_classPK = classPK;
@@ -751,10 +751,10 @@ public class ContactModelImpl
 	public void setAccountId(long accountId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("accountId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_accountId = accountId;
@@ -779,10 +779,10 @@ public class ContactModelImpl
 	public void setParentContactId(long parentContactId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("parentContactId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_parentContactId = parentContactId;
@@ -803,10 +803,10 @@ public class ContactModelImpl
 	public void setEmailAddress(String emailAddress) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("emailAddress");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_emailAddress = emailAddress;
@@ -827,10 +827,10 @@ public class ContactModelImpl
 	public void setFirstName(String firstName) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("firstName");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_firstName = firstName;
@@ -851,10 +851,10 @@ public class ContactModelImpl
 	public void setMiddleName(String middleName) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("middleName");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_middleName = middleName;
@@ -875,10 +875,10 @@ public class ContactModelImpl
 	public void setLastName(String lastName) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("lastName");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_lastName = lastName;
@@ -894,10 +894,10 @@ public class ContactModelImpl
 	public void setPrefixId(long prefixId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("prefixId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_prefixId = prefixId;
@@ -913,10 +913,10 @@ public class ContactModelImpl
 	public void setSuffixId(long suffixId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("suffixId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_suffixId = suffixId;
@@ -938,10 +938,10 @@ public class ContactModelImpl
 	public void setMale(boolean male) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("male");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_male = male;
@@ -957,10 +957,10 @@ public class ContactModelImpl
 	public void setBirthday(Date birthday) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("birthday");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_birthday = birthday;
@@ -981,10 +981,10 @@ public class ContactModelImpl
 	public void setSmsSn(String smsSn) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("smsSn");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_smsSn = smsSn;
@@ -1005,10 +1005,10 @@ public class ContactModelImpl
 	public void setFacebookSn(String facebookSn) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("facebookSn");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_facebookSn = facebookSn;
@@ -1029,10 +1029,10 @@ public class ContactModelImpl
 	public void setJabberSn(String jabberSn) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("jabberSn");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_jabberSn = jabberSn;
@@ -1053,10 +1053,10 @@ public class ContactModelImpl
 	public void setSkypeSn(String skypeSn) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("skypeSn");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_skypeSn = skypeSn;
@@ -1077,10 +1077,10 @@ public class ContactModelImpl
 	public void setTwitterSn(String twitterSn) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("twitterSn");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_twitterSn = twitterSn;
@@ -1101,10 +1101,10 @@ public class ContactModelImpl
 	public void setEmployeeStatusId(String employeeStatusId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("employeeStatusId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_employeeStatusId = employeeStatusId;
@@ -1125,10 +1125,10 @@ public class ContactModelImpl
 	public void setEmployeeNumber(String employeeNumber) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("employeeNumber");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_employeeNumber = employeeNumber;
@@ -1149,10 +1149,10 @@ public class ContactModelImpl
 	public void setJobTitle(String jobTitle) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("jobTitle");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_jobTitle = jobTitle;
@@ -1173,10 +1173,10 @@ public class ContactModelImpl
 	public void setJobClass(String jobClass) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("jobClass");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_jobClass = jobClass;
@@ -1197,10 +1197,10 @@ public class ContactModelImpl
 	public void setHoursOfOperation(String hoursOfOperation) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("hoursOfOperation");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_hoursOfOperation = hoursOfOperation;

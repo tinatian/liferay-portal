@@ -308,10 +308,10 @@ public class ServiceComponentModelImpl
 	public void setMvccVersion(long mvccVersion) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("mvccVersion");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_mvccVersion = mvccVersion;
@@ -326,10 +326,10 @@ public class ServiceComponentModelImpl
 	public void setServiceComponentId(long serviceComponentId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("serviceComponentId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_serviceComponentId = serviceComponentId;
@@ -349,10 +349,10 @@ public class ServiceComponentModelImpl
 	public void setBuildNamespace(String buildNamespace) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("buildNamespace");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_buildNamespace = buildNamespace;
@@ -376,10 +376,10 @@ public class ServiceComponentModelImpl
 	public void setBuildNumber(long buildNumber) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("buildNumber");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_buildNumber = buildNumber;
@@ -403,10 +403,10 @@ public class ServiceComponentModelImpl
 	public void setBuildDate(long buildDate) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("buildDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_buildDate = buildDate;
@@ -426,10 +426,10 @@ public class ServiceComponentModelImpl
 	public void setData(String data) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("data_");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_data = data;

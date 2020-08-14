@@ -371,10 +371,10 @@ public class CountryModelImpl
 	public void setMvccVersion(long mvccVersion) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("mvccVersion");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_mvccVersion = mvccVersion;
@@ -390,10 +390,10 @@ public class CountryModelImpl
 	public void setCountryId(long countryId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("countryId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_countryId = countryId;
@@ -414,10 +414,10 @@ public class CountryModelImpl
 	public void setName(String name) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("name");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_name = name;
@@ -447,10 +447,10 @@ public class CountryModelImpl
 	public void setA2(String a2) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("a2");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_a2 = a2;
@@ -480,10 +480,10 @@ public class CountryModelImpl
 	public void setA3(String a3) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("a3");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_a3 = a3;
@@ -513,10 +513,10 @@ public class CountryModelImpl
 	public void setNumber(String number) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("number_");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_number = number;
@@ -537,10 +537,10 @@ public class CountryModelImpl
 	public void setIdd(String idd) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("idd_");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_idd = idd;
@@ -562,10 +562,10 @@ public class CountryModelImpl
 	public void setZipRequired(boolean zipRequired) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("zipRequired");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_zipRequired = zipRequired;
@@ -587,10 +587,10 @@ public class CountryModelImpl
 	public void setActive(boolean active) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("active_");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_active = active;

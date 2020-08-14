@@ -310,10 +310,10 @@ public class PortalPreferencesModelImpl
 	public void setMvccVersion(long mvccVersion) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("mvccVersion");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_mvccVersion = mvccVersion;
@@ -328,10 +328,10 @@ public class PortalPreferencesModelImpl
 	public void setPortalPreferencesId(long portalPreferencesId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("portalPreferencesId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_portalPreferencesId = portalPreferencesId;
@@ -346,10 +346,10 @@ public class PortalPreferencesModelImpl
 	public void setOwnerId(long ownerId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("ownerId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_ownerId = ownerId;
@@ -373,10 +373,10 @@ public class PortalPreferencesModelImpl
 	public void setOwnerType(int ownerType) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("ownerType");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_ownerType = ownerType;
@@ -405,10 +405,10 @@ public class PortalPreferencesModelImpl
 	public void setPreferences(String preferences) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("preferences");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_preferences = preferences;

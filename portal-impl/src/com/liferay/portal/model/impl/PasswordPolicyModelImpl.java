@@ -606,10 +606,10 @@ public class PasswordPolicyModelImpl
 	public void setMvccVersion(long mvccVersion) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("mvccVersion");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_mvccVersion = mvccVersion;
@@ -630,10 +630,10 @@ public class PasswordPolicyModelImpl
 	public void setUuid(String uuid) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("uuid_");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_uuid = uuid;
@@ -658,10 +658,10 @@ public class PasswordPolicyModelImpl
 	public void setPasswordPolicyId(long passwordPolicyId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("passwordPolicyId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_passwordPolicyId = passwordPolicyId;
@@ -677,10 +677,10 @@ public class PasswordPolicyModelImpl
 	public void setCompanyId(long companyId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("companyId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_companyId = companyId;
@@ -705,10 +705,10 @@ public class PasswordPolicyModelImpl
 	public void setUserId(long userId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("userId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_userId = userId;
@@ -745,10 +745,10 @@ public class PasswordPolicyModelImpl
 	public void setUserName(String userName) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("userName");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_userName = userName;
@@ -764,10 +764,10 @@ public class PasswordPolicyModelImpl
 	public void setCreateDate(Date createDate) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("createDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_createDate = createDate;
@@ -789,10 +789,10 @@ public class PasswordPolicyModelImpl
 
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("modifiedDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_modifiedDate = modifiedDate;
@@ -814,10 +814,10 @@ public class PasswordPolicyModelImpl
 	public void setDefaultPolicy(boolean defaultPolicy) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("defaultPolicy");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_defaultPolicy = defaultPolicy;
@@ -847,10 +847,10 @@ public class PasswordPolicyModelImpl
 	public void setName(String name) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("name");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_name = name;
@@ -880,10 +880,10 @@ public class PasswordPolicyModelImpl
 	public void setDescription(String description) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("description");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_description = description;
@@ -905,10 +905,10 @@ public class PasswordPolicyModelImpl
 	public void setChangeable(boolean changeable) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("changeable");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_changeable = changeable;
@@ -930,10 +930,10 @@ public class PasswordPolicyModelImpl
 	public void setChangeRequired(boolean changeRequired) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("changeRequired");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_changeRequired = changeRequired;
@@ -949,10 +949,10 @@ public class PasswordPolicyModelImpl
 	public void setMinAge(long minAge) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("minAge");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_minAge = minAge;
@@ -974,10 +974,10 @@ public class PasswordPolicyModelImpl
 	public void setCheckSyntax(boolean checkSyntax) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("checkSyntax");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_checkSyntax = checkSyntax;
@@ -999,10 +999,10 @@ public class PasswordPolicyModelImpl
 	public void setAllowDictionaryWords(boolean allowDictionaryWords) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("allowDictionaryWords");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_allowDictionaryWords = allowDictionaryWords;
@@ -1018,10 +1018,10 @@ public class PasswordPolicyModelImpl
 	public void setMinAlphanumeric(int minAlphanumeric) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("minAlphanumeric");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_minAlphanumeric = minAlphanumeric;
@@ -1037,10 +1037,10 @@ public class PasswordPolicyModelImpl
 	public void setMinLength(int minLength) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("minLength");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_minLength = minLength;
@@ -1056,10 +1056,10 @@ public class PasswordPolicyModelImpl
 	public void setMinLowerCase(int minLowerCase) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("minLowerCase");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_minLowerCase = minLowerCase;
@@ -1075,10 +1075,10 @@ public class PasswordPolicyModelImpl
 	public void setMinNumbers(int minNumbers) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("minNumbers");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_minNumbers = minNumbers;
@@ -1094,10 +1094,10 @@ public class PasswordPolicyModelImpl
 	public void setMinSymbols(int minSymbols) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("minSymbols");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_minSymbols = minSymbols;
@@ -1113,10 +1113,10 @@ public class PasswordPolicyModelImpl
 	public void setMinUpperCase(int minUpperCase) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("minUpperCase");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_minUpperCase = minUpperCase;
@@ -1137,10 +1137,10 @@ public class PasswordPolicyModelImpl
 	public void setRegex(String regex) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("regex");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_regex = regex;
@@ -1162,10 +1162,10 @@ public class PasswordPolicyModelImpl
 	public void setHistory(boolean history) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("history");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_history = history;
@@ -1181,10 +1181,10 @@ public class PasswordPolicyModelImpl
 	public void setHistoryCount(int historyCount) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("historyCount");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_historyCount = historyCount;
@@ -1206,10 +1206,10 @@ public class PasswordPolicyModelImpl
 	public void setExpireable(boolean expireable) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("expireable");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_expireable = expireable;
@@ -1225,10 +1225,10 @@ public class PasswordPolicyModelImpl
 	public void setMaxAge(long maxAge) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("maxAge");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_maxAge = maxAge;
@@ -1244,10 +1244,10 @@ public class PasswordPolicyModelImpl
 	public void setWarningTime(long warningTime) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("warningTime");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_warningTime = warningTime;
@@ -1263,10 +1263,10 @@ public class PasswordPolicyModelImpl
 	public void setGraceLimit(int graceLimit) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("graceLimit");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_graceLimit = graceLimit;
@@ -1288,10 +1288,10 @@ public class PasswordPolicyModelImpl
 	public void setLockout(boolean lockout) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("lockout");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_lockout = lockout;
@@ -1307,10 +1307,10 @@ public class PasswordPolicyModelImpl
 	public void setMaxFailure(int maxFailure) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("maxFailure");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_maxFailure = maxFailure;
@@ -1326,10 +1326,10 @@ public class PasswordPolicyModelImpl
 	public void setLockoutDuration(long lockoutDuration) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("lockoutDuration");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_lockoutDuration = lockoutDuration;
@@ -1351,10 +1351,10 @@ public class PasswordPolicyModelImpl
 	public void setRequireUnlock(boolean requireUnlock) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("requireUnlock");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_requireUnlock = requireUnlock;
@@ -1370,10 +1370,10 @@ public class PasswordPolicyModelImpl
 	public void setResetFailureCount(long resetFailureCount) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("resetFailureCount");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_resetFailureCount = resetFailureCount;
@@ -1389,10 +1389,10 @@ public class PasswordPolicyModelImpl
 	public void setResetTicketMaxAge(long resetTicketMaxAge) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("resetTicketMaxAge");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_resetTicketMaxAge = resetTicketMaxAge;

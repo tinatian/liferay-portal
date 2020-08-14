@@ -309,10 +309,10 @@ public class AppBuilderAppDeploymentModelImpl
 	public void setAppBuilderAppDeploymentId(long appBuilderAppDeploymentId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("appBuilderAppDeploymentId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_appBuilderAppDeploymentId = appBuilderAppDeploymentId;
@@ -327,10 +327,10 @@ public class AppBuilderAppDeploymentModelImpl
 	public void setCompanyId(long companyId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("companyId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_companyId = companyId;
@@ -345,10 +345,10 @@ public class AppBuilderAppDeploymentModelImpl
 	public void setAppBuilderAppId(long appBuilderAppId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("appBuilderAppId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_appBuilderAppId = appBuilderAppId;
@@ -377,10 +377,10 @@ public class AppBuilderAppDeploymentModelImpl
 	public void setSettings(String settings) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("settings_");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_settings = settings;
@@ -400,10 +400,10 @@ public class AppBuilderAppDeploymentModelImpl
 	public void setType(String type) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("type_");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_type = type;

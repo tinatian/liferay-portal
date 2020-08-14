@@ -263,10 +263,10 @@ public class TestEntityModelImpl
 	public void setId(long id) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("id_");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_id = id;
@@ -286,10 +286,10 @@ public class TestEntityModelImpl
 	public void setData(String data) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("data_");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_data = data;

@@ -420,10 +420,10 @@ public class UserNotificationEventModelImpl
 	public void setMvccVersion(long mvccVersion) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("mvccVersion");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_mvccVersion = mvccVersion;
@@ -443,10 +443,10 @@ public class UserNotificationEventModelImpl
 	public void setUuid(String uuid) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("uuid_");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_uuid = uuid;
@@ -470,10 +470,10 @@ public class UserNotificationEventModelImpl
 	public void setUserNotificationEventId(long userNotificationEventId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("userNotificationEventId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_userNotificationEventId = userNotificationEventId;
@@ -488,10 +488,10 @@ public class UserNotificationEventModelImpl
 	public void setCompanyId(long companyId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("companyId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_companyId = companyId;
@@ -515,10 +515,10 @@ public class UserNotificationEventModelImpl
 	public void setUserId(long userId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("userId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_userId = userId;
@@ -563,10 +563,10 @@ public class UserNotificationEventModelImpl
 	public void setType(String type) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("type_");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_type = type;
@@ -590,10 +590,10 @@ public class UserNotificationEventModelImpl
 	public void setTimestamp(long timestamp) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("timestamp");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_timestamp = timestamp;
@@ -608,10 +608,10 @@ public class UserNotificationEventModelImpl
 	public void setDeliveryType(int deliveryType) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("deliveryType");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_deliveryType = deliveryType;
@@ -635,10 +635,10 @@ public class UserNotificationEventModelImpl
 	public void setDeliverBy(long deliverBy) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("deliverBy");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_deliverBy = deliverBy;
@@ -658,10 +658,10 @@ public class UserNotificationEventModelImpl
 	public void setDelivered(boolean delivered) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("delivered");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_delivered = delivered;
@@ -690,10 +690,10 @@ public class UserNotificationEventModelImpl
 	public void setPayload(String payload) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("payload");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_payload = payload;
@@ -713,10 +713,10 @@ public class UserNotificationEventModelImpl
 	public void setActionRequired(boolean actionRequired) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("actionRequired");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_actionRequired = actionRequired;
@@ -745,10 +745,10 @@ public class UserNotificationEventModelImpl
 	public void setArchived(boolean archived) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("archived");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_archived = archived;

@@ -293,10 +293,10 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 	public void setEntryId(long entryId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("entryId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_entryId = entryId;
@@ -311,10 +311,10 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 	public void setCreateDate(long createDate) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("createDate");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_createDate = createDate;
@@ -338,10 +338,10 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 	public void setFromUserId(long fromUserId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("fromUserId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_fromUserId = fromUserId;
@@ -381,10 +381,10 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 	public void setToUserId(long toUserId) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("toUserId");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_toUserId = toUserId;
@@ -429,10 +429,10 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 	public void setContent(String content) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("content");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_content = content;
@@ -456,10 +456,10 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 	public void setFlag(int flag) {
 		if (_columnOriginalValues != null) {
 			_columnBitmask |= _columnBitmasks.get("flag");
-		}
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_flag = flag;
