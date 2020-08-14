@@ -2443,6 +2443,8 @@ public class PortletDataContextImpl implements PortletDataContext {
 			new String[] {
 				"com.thoughtworks.xstream.mapper.DynamicProxyMapper*"
 			});
+
+		_xStream.ignoreUnknownElements("^_original[A-Z_$][a-zA-Z_$0-9]*$");
 	}
 
 	protected boolean isResourceMain(ClassedModel classedModel) {
