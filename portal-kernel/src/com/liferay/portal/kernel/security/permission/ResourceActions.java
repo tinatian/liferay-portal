@@ -22,6 +22,7 @@ import com.liferay.portal.kernel.model.Role;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -48,6 +49,8 @@ public interface ResourceActions {
 	@Deprecated
 	public void checkAction(String name, String actionId)
 		throws NoSuchResourceActionException;
+
+	public void checkResourceActions(Set<String> resourceNames);
 
 	public String getAction(
 		HttpServletRequest httpServletRequest, String action);
@@ -166,16 +169,49 @@ public interface ResourceActions {
 
 	public boolean isRootModelResource(String modelResource);
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #readPortletResource(String, ClassLoader, String[])} and
+	 *             {@link #readModelResource(String, ClassLoader, String[])}
+	 */
+	@Deprecated
 	public void read(
 			String servletContextName, ClassLoader classLoader, String source)
 		throws ResourceActionsException;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #readPortletResource(String, ClassLoader, String[])} and
+	 *             {@link #readModelResource(String, ClassLoader, String[])}
+	 */
+	@Deprecated
 	public void read(
 			String servletContextName, ClassLoader classLoader,
 			String... sources)
 		throws ResourceActionsException;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #readModelResource(String, ClassLoader, String[])} and
+	 *             {@link #checkResourceActions(Set)}
+	 */
+	@Deprecated
 	public void readAndCheck(
+			String servletContextName, ClassLoader classLoader,
+			String... sources)
+		throws ResourceActionsException;
+
+	public Set<String> readModelResource(
+			String servletContextName, ClassLoader classLoader,
+			String... sources)
+		throws ResourceActionsException;
+
+	public void readPortletResource(
+			Portlet portlet, String servletContextName, ClassLoader classLoader,
+			String... sources)
+		throws ResourceActionsException;
+
+	public void readPortletResource(
 			String servletContextName, ClassLoader classLoader,
 			String... sources)
 		throws ResourceActionsException;
