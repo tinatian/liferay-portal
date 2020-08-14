@@ -497,11 +497,13 @@ public class RemoteAppEntryPersistenceTest {
 		Assert.assertEquals(
 			Long.valueOf(remoteAppEntry.getCompanyId()),
 			ReflectionTestUtil.<Long>invoke(
-				remoteAppEntry, "getOriginalCompanyId", new Class<?>[0]));
+				remoteAppEntry, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "companyId"));
 		Assert.assertEquals(
 			remoteAppEntry.getUrl(),
 			ReflectionTestUtil.invoke(
-				remoteAppEntry, "getOriginalUrl", new Class<?>[0]));
+				remoteAppEntry, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "url"));
 	}
 
 	protected RemoteAppEntry addRemoteAppEntry() throws Exception {

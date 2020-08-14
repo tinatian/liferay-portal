@@ -117,12 +117,32 @@ public class RemoteAppEntryModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long URL_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long NAME_COLUMN_BITMASK = 8L;
 
 	/**
@@ -319,6 +339,14 @@ public class RemoteAppEntryModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		if (_columnOriginalValues != null) {
+			_columnBitmask |= _columnBitmasks.get("mvccVersion");
+
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -334,17 +362,24 @@ public class RemoteAppEntryModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
+		if (_columnOriginalValues != null) {
+			_columnBitmask |= _columnBitmasks.get("uuid_");
 
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@Override
@@ -354,6 +389,14 @@ public class RemoteAppEntryModelImpl
 
 	@Override
 	public void setEntryId(long entryId) {
+		if (_columnOriginalValues != null) {
+			_columnBitmask |= _columnBitmasks.get("entryId");
+
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
+		}
+
 		_entryId = entryId;
 	}
 
@@ -364,19 +407,24 @@ public class RemoteAppEntryModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+		if (_columnOriginalValues != null) {
+			_columnBitmask |= _columnBitmasks.get("companyId");
 
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@Override
@@ -386,6 +434,14 @@ public class RemoteAppEntryModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		if (_columnOriginalValues != null) {
+			_columnBitmask |= _columnBitmasks.get("userId");
+
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
+		}
+
 		_userId = userId;
 	}
 
@@ -417,6 +473,14 @@ public class RemoteAppEntryModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		if (_columnOriginalValues != null) {
+			_columnBitmask |= _columnBitmasks.get("userName");
+
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
+		}
+
 		_userName = userName;
 	}
 
@@ -427,6 +491,14 @@ public class RemoteAppEntryModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		if (_columnOriginalValues != null) {
+			_columnBitmask |= _columnBitmasks.get("createDate");
+
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
+		}
+
 		_createDate = createDate;
 	}
 
@@ -442,6 +514,14 @@ public class RemoteAppEntryModelImpl
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
+
+		if (_columnOriginalValues != null) {
+			_columnBitmask |= _columnBitmasks.get("modifiedDate");
+
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
+		}
 
 		_modifiedDate = modifiedDate;
 	}
@@ -501,7 +581,13 @@ public class RemoteAppEntryModelImpl
 
 	@Override
 	public void setName(String name) {
-		_columnBitmask = -1L;
+		if (_columnOriginalValues != null) {
+			_columnBitmask |= _columnBitmasks.get("name");
+
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
+		}
 
 		_name = name;
 	}
@@ -562,17 +648,24 @@ public class RemoteAppEntryModelImpl
 
 	@Override
 	public void setUrl(String url) {
-		_columnBitmask |= URL_COLUMN_BITMASK;
+		if (_columnOriginalValues != null) {
+			_columnBitmask |= _columnBitmasks.get("url");
 
-		if (_originalUrl == null) {
-			_originalUrl = _url;
+			if (_columnOriginalValues == Collections.EMPTY_MAP) {
+				_setColumnOriginalValues();
+			}
 		}
 
 		_url = url;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUrl() {
-		return GetterUtil.getString(_originalUrl);
+		return getColumnOriginalValue("url");
 	}
 
 	@Override
@@ -783,20 +876,11 @@ public class RemoteAppEntryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		RemoteAppEntryModelImpl remoteAppEntryModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		remoteAppEntryModelImpl._originalUuid = remoteAppEntryModelImpl._uuid;
+		_setModifiedDate = false;
 
-		remoteAppEntryModelImpl._originalCompanyId =
-			remoteAppEntryModelImpl._companyId;
-
-		remoteAppEntryModelImpl._setOriginalCompanyId = false;
-
-		remoteAppEntryModelImpl._setModifiedDate = false;
-
-		remoteAppEntryModelImpl._originalUrl = remoteAppEntryModelImpl._url;
-
-		remoteAppEntryModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -935,13 +1019,70 @@ public class RemoteAppEntryModelImpl
 
 	}
 
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("mvccVersion", _mvccVersion);
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("entryId", _entryId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("userId", _userId);
+		_columnOriginalValues.put("userName", _userName);
+		_columnOriginalValues.put("createDate", _createDate);
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
+		_columnOriginalValues.put("name", _name);
+		_columnOriginalValues.put("url", _url);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new LinkedHashMap<>();
+
+		columnBitmasks.put("mvccVersion", 1L);
+
+		columnBitmasks.put("uuid_", 2L);
+
+		columnBitmasks.put("entryId", 4L);
+
+		columnBitmasks.put("companyId", 8L);
+
+		columnBitmasks.put("userId", 16L);
+
+		columnBitmasks.put("userName", 32L);
+
+		columnBitmasks.put("createDate", 64L);
+
+		columnBitmasks.put("modifiedDate", 128L);
+
+		columnBitmasks.put("name", 256L);
+
+		columnBitmasks.put("url", 512L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
 	private long _mvccVersion;
 	private String _uuid;
-	private String _originalUuid;
 	private long _entryId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
@@ -950,7 +1091,6 @@ public class RemoteAppEntryModelImpl
 	private String _name;
 	private String _nameCurrentLanguageId;
 	private String _url;
-	private String _originalUrl;
 	private long _columnBitmask;
 	private RemoteAppEntry _escapedModel;
 
