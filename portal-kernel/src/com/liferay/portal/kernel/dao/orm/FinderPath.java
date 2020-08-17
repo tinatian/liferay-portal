@@ -34,7 +34,7 @@ public class FinderPath {
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
-	 *             #FinderPath(Class, String, String, String[])}
+	 * 				#FinderPath(String, String, Class, String[])}
 	 */
 	@Deprecated
 	public FinderPath(
@@ -42,12 +42,12 @@ public class FinderPath {
 		Class<?> resultClass, String cacheName, String methodName,
 		String[] params) {
 
-		this(resultClass, cacheName, methodName, params);
+		this(cacheName, methodName, resultClass, new String[0]);
 	}
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
-	 *             #FinderPath(Class, String, String, String[], long)}
+	 * 				#FinderPath(String, String, Class, String[])}
 	 */
 	@Deprecated
 	public FinderPath(
@@ -55,23 +55,40 @@ public class FinderPath {
 		Class<?> resultClass, String cacheName, String methodName,
 		String[] params, long columnBitmask) {
 
-		this(resultClass, cacheName, methodName, params, columnBitmask);
+		this(cacheName, methodName, resultClass, new String[0]);
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 * 				#FinderPath(String, String, Class, String[])}
+	 */
+	@Deprecated
 	public FinderPath(
 		Class<?> resultClass, String cacheName, String methodName,
 		String[] params) {
 
-		this(resultClass, cacheName, methodName, params, -1);
+		this(cacheName, methodName, resultClass, new String[0]);
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 * 				#FinderPath(String, String, Class, String[])}
+	 */
+	@Deprecated
 	public FinderPath(
 		Class<?> resultClass, String cacheName, String methodName,
 		String[] params, long columnBitmask) {
 
-		_resultClass = resultClass;
+		this(cacheName, methodName, resultClass, new String[0]);
+	}
+
+	public FinderPath(
+		String cacheName, String methodName, Class<?> resultClass,
+		String[] columnNames) {
+
 		_cacheName = cacheName;
-		_columnBitmask = columnBitmask;
+		_resultClass = resultClass;
+		_columnNames = columnNames;
 
 		if (BaseModel.class.isAssignableFrom(_resultClass)) {
 			_cacheKeyGeneratorCacheName = _BASE_MODEL_CACHE_KEY_GENERATOR_NAME;
@@ -91,7 +108,7 @@ public class FinderPath {
 			_cacheKeyGenerator = null;
 		}
 
-		_initCacheKeyPrefix(methodName, params);
+		_initCacheKeyPrefix(methodName, columnNames);
 	}
 
 	/**
@@ -162,8 +179,16 @@ public class FinderPath {
 		return _cacheName;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	public long getColumnBitmask() {
-		return _columnBitmask;
+		return 0;
+	}
+
+	public String[] getColumnNames() {
+		return _columnNames;
 	}
 
 	public Class<?> getResultClass() {
@@ -219,13 +244,13 @@ public class FinderPath {
 		return cacheKeyGenerator.getCacheKey(keys);
 	}
 
-	private void _initCacheKeyPrefix(String methodName, String[] params) {
-		StringBundler sb = new StringBundler((params.length * 2) + 3);
+	private void _initCacheKeyPrefix(String methodName, String[] columnNames) {
+		StringBundler sb = new StringBundler((columnNames.length * 2) + 3);
 
 		sb.append(methodName);
 		sb.append(_PARAMS_SEPARATOR);
 
-		for (String param : params) {
+		for (String param : columnNames) {
 			sb.append(StringPool.PERIOD);
 			sb.append(_encodedTypes.getOrDefault(param, param));
 		}
@@ -248,7 +273,7 @@ public class FinderPath {
 	private final String _cacheKeyGeneratorCacheName;
 	private String _cacheKeyPrefix;
 	private final String _cacheName;
-	private final long _columnBitmask;
+	private final String[] _columnNames;
 	private final Class<?> _resultClass;
 
 }
