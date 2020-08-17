@@ -402,12 +402,8 @@ public class AuditEventModelImpl
 
 	@Override
 	public void setAuditEventId(long auditEventId) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("auditEventId");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_auditEventId = auditEventId;
@@ -421,12 +417,8 @@ public class AuditEventModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("companyId");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_companyId = companyId;
@@ -449,12 +441,8 @@ public class AuditEventModelImpl
 
 	@Override
 	public void setUserId(long userId) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("userId");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_userId = userId;
@@ -489,12 +477,8 @@ public class AuditEventModelImpl
 
 	@Override
 	public void setUserName(String userName) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("userName");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_userName = userName;
@@ -508,12 +492,8 @@ public class AuditEventModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("createDate");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_createDate = createDate;
@@ -532,12 +512,8 @@ public class AuditEventModelImpl
 
 	@Override
 	public void setEventType(String eventType) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("eventType");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_eventType = eventType;
@@ -556,12 +532,8 @@ public class AuditEventModelImpl
 
 	@Override
 	public void setClassName(String className) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("className");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_className = className;
@@ -580,12 +552,8 @@ public class AuditEventModelImpl
 
 	@Override
 	public void setClassPK(String classPK) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("classPK");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_classPK = classPK;
@@ -604,12 +572,8 @@ public class AuditEventModelImpl
 
 	@Override
 	public void setMessage(String message) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("message");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_message = message;
@@ -628,12 +592,8 @@ public class AuditEventModelImpl
 
 	@Override
 	public void setClientHost(String clientHost) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("clientHost");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_clientHost = clientHost;
@@ -652,12 +612,8 @@ public class AuditEventModelImpl
 
 	@Override
 	public void setClientIP(String clientIP) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("clientIP");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_clientIP = clientIP;
@@ -676,12 +632,8 @@ public class AuditEventModelImpl
 
 	@Override
 	public void setServerName(String serverName) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("serverName");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_serverName = serverName;
@@ -695,12 +647,8 @@ public class AuditEventModelImpl
 
 	@Override
 	public void setServerPort(int serverPort) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("serverPort");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_serverPort = serverPort;
@@ -719,12 +667,8 @@ public class AuditEventModelImpl
 
 	@Override
 	public void setSessionID(String sessionID) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("sessionID");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_sessionID = sessionID;
@@ -743,18 +687,32 @@ public class AuditEventModelImpl
 
 	@Override
 	public void setAdditionalInfo(String additionalInfo) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("additionalInfo");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_additionalInfo = additionalInfo;
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (entry.getValue() != getColumnValue(entry.getKey())) {
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -1054,6 +1012,17 @@ public class AuditEventModelImpl
 
 	public static long getColumnBitmask(String columnName) {
 		return _columnBitmasks.get(columnName);
+	}
+
+	public <T> T getColumnValue(String columnName) {
+		Function<AuditEvent, Object> function = _attributeGetterFunctions.get(
+			columnName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((AuditEvent)this);
 	}
 
 	public <T> T getColumnOriginalValue(String columnName) {
