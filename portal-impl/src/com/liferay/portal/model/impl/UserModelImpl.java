@@ -1469,6 +1469,20 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) || (_columnOriginalValues == Collections.EMPTY_MAP)) {
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry : _columnOriginalValues.entrySet()) {
+			if (entry.getValue() != getColumnValue(entry.getKey())) {
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
