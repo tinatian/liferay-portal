@@ -142,6 +142,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.sql.DataSource;
 
@@ -2824,10 +2825,16 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 						return _getValue(${entity.varName}ModelImpl, columnNames, original);
 					}
 
-					long finderPathColumnBitmask = 0;
+					Long finderPathColumnBitmask = _finderPathColumnBitmasksCache.get(finderPath);
 
-					for (String columnName : columnNames) {
-						finderPathColumnBitmask |= ${entity.varName}ModelImpl.getColumnBitmask(columnName);
+					if (finderPathColumnBitmask == null) {
+						finderPathColumnBitmask = 0L;
+
+						for (String columnName : columnNames) {
+							finderPathColumnBitmask |= ${entity.varName}ModelImpl.getColumnBitmask(columnName);
+						}
+
+						_finderPathColumnBitmasksCache.put(finderPath, finderPathColumnBitmask);
 					}
 
 					if ((columnBitmask & finderPathColumnBitmask) != 0) {
@@ -2860,6 +2867,8 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 
 				return arguments;
 			}
+
+			private static Map<FinderPath, Long> _finderPathColumnBitmasksCache = new ConcurrentHashMap<>();
 
 		}
 	</#if>
