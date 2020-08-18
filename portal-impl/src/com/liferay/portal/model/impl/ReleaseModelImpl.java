@@ -317,12 +317,8 @@ public class ReleaseModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("mvccVersion");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_mvccVersion = mvccVersion;
@@ -335,12 +331,8 @@ public class ReleaseModelImpl
 
 	@Override
 	public void setReleaseId(long releaseId) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("releaseId");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_releaseId = releaseId;
@@ -353,12 +345,8 @@ public class ReleaseModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("createDate");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_createDate = createDate;
@@ -377,12 +365,8 @@ public class ReleaseModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("modifiedDate");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_modifiedDate = modifiedDate;
@@ -400,12 +384,8 @@ public class ReleaseModelImpl
 
 	@Override
 	public void setServletContextName(String servletContextName) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("servletContextName");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_servletContextName = servletContextName;
@@ -432,12 +412,8 @@ public class ReleaseModelImpl
 
 	@Override
 	public void setSchemaVersion(String schemaVersion) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("schemaVersion");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_schemaVersion = schemaVersion;
@@ -450,12 +426,8 @@ public class ReleaseModelImpl
 
 	@Override
 	public void setBuildNumber(int buildNumber) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("buildNumber");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_buildNumber = buildNumber;
@@ -468,12 +440,8 @@ public class ReleaseModelImpl
 
 	@Override
 	public void setBuildDate(Date buildDate) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("buildDate");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_buildDate = buildDate;
@@ -491,12 +459,8 @@ public class ReleaseModelImpl
 
 	@Override
 	public void setVerified(boolean verified) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("verified");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_verified = verified;
@@ -509,12 +473,8 @@ public class ReleaseModelImpl
 
 	@Override
 	public void setState(int state) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("state_");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_state = state;
@@ -532,18 +492,32 @@ public class ReleaseModelImpl
 
 	@Override
 	public void setTestString(String testString) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("testString");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_testString = testString;
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (entry.getValue() != getColumnValue(entry.getKey())) {
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -807,6 +781,21 @@ public class ReleaseModelImpl
 
 	public static long getColumnBitmask(String columnName) {
 		return _columnBitmasks.get(columnName);
+	}
+
+	public <T> T getColumnValue(String columnName) {
+		if (columnName.startsWith("_")) {
+			columnName = columnName.substring(1);
+		}
+
+		Function<Release, Object> function = _attributeGetterFunctions.get(
+			columnName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((Release)this);
 	}
 
 	public <T> T getColumnOriginalValue(String columnName) {

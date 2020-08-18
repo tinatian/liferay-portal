@@ -328,12 +328,8 @@ public class LocalizedEntryLocalizationModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("mvccVersion");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_mvccVersion = mvccVersion;
@@ -348,13 +344,8 @@ public class LocalizedEntryLocalizationModelImpl
 	public void setLocalizedEntryLocalizationId(
 		long localizedEntryLocalizationId) {
 
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get(
-				"localizedEntryLocalizationId");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_localizedEntryLocalizationId = localizedEntryLocalizationId;
@@ -367,12 +358,8 @@ public class LocalizedEntryLocalizationModelImpl
 
 	@Override
 	public void setLocalizedEntryId(long localizedEntryId) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("localizedEntryId");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_localizedEntryId = localizedEntryId;
@@ -399,12 +386,8 @@ public class LocalizedEntryLocalizationModelImpl
 
 	@Override
 	public void setLanguageId(String languageId) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("languageId");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_languageId = languageId;
@@ -431,12 +414,8 @@ public class LocalizedEntryLocalizationModelImpl
 
 	@Override
 	public void setTitle(String title) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("title");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_title = title;
@@ -454,18 +433,32 @@ public class LocalizedEntryLocalizationModelImpl
 
 	@Override
 	public void setContent(String content) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("content");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_content = content;
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (entry.getValue() != getColumnValue(entry.getKey())) {
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -705,6 +698,17 @@ public class LocalizedEntryLocalizationModelImpl
 
 	public static long getColumnBitmask(String columnName) {
 		return _columnBitmasks.get(columnName);
+	}
+
+	public <T> T getColumnValue(String columnName) {
+		Function<LocalizedEntryLocalization, Object> function =
+			_attributeGetterFunctions.get(columnName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((LocalizedEntryLocalization)this);
 	}
 
 	public <T> T getColumnOriginalValue(String columnName) {

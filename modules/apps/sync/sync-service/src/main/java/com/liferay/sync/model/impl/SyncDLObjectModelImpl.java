@@ -539,12 +539,8 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setSyncDLObjectId(long syncDLObjectId) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("syncDLObjectId");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_syncDLObjectId = syncDLObjectId;
@@ -558,12 +554,8 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("companyId");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_companyId = companyId;
@@ -577,12 +569,8 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setUserId(long userId) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("userId");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_userId = userId;
@@ -617,12 +605,8 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setUserName(String userName) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("userName");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_userName = userName;
@@ -636,12 +620,8 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setCreateTime(long createTime) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("createTime");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_createTime = createTime;
@@ -655,12 +635,8 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setModifiedTime(long modifiedTime) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("modifiedTime");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_modifiedTime = modifiedTime;
@@ -683,12 +659,8 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setRepositoryId(long repositoryId) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("repositoryId");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_repositoryId = repositoryId;
@@ -711,12 +683,8 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setParentFolderId(long parentFolderId) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("parentFolderId");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_parentFolderId = parentFolderId;
@@ -744,12 +712,8 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setTreePath(String treePath) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("treePath");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_treePath = treePath;
@@ -777,12 +741,8 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setName(String name) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("name");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_name = name;
@@ -801,12 +761,8 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setExtension(String extension) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("extension");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_extension = extension;
@@ -825,12 +781,8 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setMimeType(String mimeType) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("mimeType");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_mimeType = mimeType;
@@ -849,12 +801,8 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setDescription(String description) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("description");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_description = description;
@@ -873,12 +821,8 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setChangeLog(String changeLog) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("changeLog");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_changeLog = changeLog;
@@ -897,12 +841,8 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setExtraSettings(String extraSettings) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("extraSettings");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_extraSettings = extraSettings;
@@ -921,12 +861,8 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setVersion(String version) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("version");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_version = version;
@@ -949,12 +885,8 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setVersionId(long versionId) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("versionId");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_versionId = versionId;
@@ -968,12 +900,8 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setSize(long size) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("size_");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_size = size;
@@ -992,12 +920,8 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setChecksum(String checksum) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("checksum");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_checksum = checksum;
@@ -1016,12 +940,8 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setEvent(String event) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("event");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_event = event;
@@ -1049,12 +969,8 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setLanTokenKey(String lanTokenKey) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("lanTokenKey");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_lanTokenKey = lanTokenKey;
@@ -1068,12 +984,8 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setLastPermissionChangeDate(Date lastPermissionChangeDate) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("lastPermissionChangeDate");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_lastPermissionChangeDate = lastPermissionChangeDate;
@@ -1087,12 +999,8 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setLockExpirationDate(Date lockExpirationDate) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("lockExpirationDate");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_lockExpirationDate = lockExpirationDate;
@@ -1106,12 +1014,8 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setLockUserId(long lockUserId) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("lockUserId");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_lockUserId = lockUserId;
@@ -1146,12 +1050,8 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setLockUserName(String lockUserName) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("lockUserName");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_lockUserName = lockUserName;
@@ -1170,12 +1070,8 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setType(String type) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("type_");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_type = type;
@@ -1198,12 +1094,8 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setTypePK(long typePK) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("typePK");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_typePK = typePK;
@@ -1231,18 +1123,32 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setTypeUuid(String typeUuid) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("typeUuid");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_typeUuid = typeUuid;
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (entry.getValue() != getColumnValue(entry.getKey())) {
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -1642,6 +1548,21 @@ public class SyncDLObjectModelImpl
 
 	public static long getColumnBitmask(String columnName) {
 		return _columnBitmasks.get(columnName);
+	}
+
+	public <T> T getColumnValue(String columnName) {
+		if (columnName.startsWith("_")) {
+			columnName = columnName.substring(1);
+		}
+
+		Function<SyncDLObject, Object> function = _attributeGetterFunctions.get(
+			columnName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((SyncDLObject)this);
 	}
 
 	public <T> T getColumnOriginalValue(String columnName) {

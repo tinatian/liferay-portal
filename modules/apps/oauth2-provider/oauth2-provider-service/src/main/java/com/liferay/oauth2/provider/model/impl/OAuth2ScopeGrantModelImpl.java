@@ -351,12 +351,8 @@ public class OAuth2ScopeGrantModelImpl
 
 	@Override
 	public void setOAuth2ScopeGrantId(long oAuth2ScopeGrantId) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("oAuth2ScopeGrantId");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_oAuth2ScopeGrantId = oAuth2ScopeGrantId;
@@ -369,12 +365,8 @@ public class OAuth2ScopeGrantModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("companyId");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_companyId = companyId;
@@ -398,12 +390,8 @@ public class OAuth2ScopeGrantModelImpl
 	public void setOAuth2ApplicationScopeAliasesId(
 		long oAuth2ApplicationScopeAliasesId) {
 
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("oA2AScopeAliasesId");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_oAuth2ApplicationScopeAliasesId = oAuth2ApplicationScopeAliasesId;
@@ -430,12 +418,8 @@ public class OAuth2ScopeGrantModelImpl
 
 	@Override
 	public void setApplicationName(String applicationName) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("applicationName");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_applicationName = applicationName;
@@ -462,12 +446,8 @@ public class OAuth2ScopeGrantModelImpl
 
 	@Override
 	public void setBundleSymbolicName(String bundleSymbolicName) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("bundleSymbolicName");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_bundleSymbolicName = bundleSymbolicName;
@@ -494,12 +474,8 @@ public class OAuth2ScopeGrantModelImpl
 
 	@Override
 	public void setScope(String scope) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("scope");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_scope = scope;
@@ -526,18 +502,32 @@ public class OAuth2ScopeGrantModelImpl
 
 	@Override
 	public void setScopeAliases(String scopeAliases) {
-		if (_columnOriginalValues != null) {
-			_columnBitmask |= _columnBitmasks.get("scopeAliases");
-
-			if (_columnOriginalValues == Collections.EMPTY_MAP) {
-				_setColumnOriginalValues();
-			}
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_scopeAliases = scopeAliases;
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (entry.getValue() != getColumnValue(entry.getKey())) {
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -776,6 +766,21 @@ public class OAuth2ScopeGrantModelImpl
 
 	public static long getColumnBitmask(String columnName) {
 		return _columnBitmasks.get(columnName);
+	}
+
+	public <T> T getColumnValue(String columnName) {
+		if (columnName.startsWith("_")) {
+			columnName = columnName.substring(1);
+		}
+
+		Function<OAuth2ScopeGrant, Object> function =
+			_attributeGetterFunctions.get(columnName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((OAuth2ScopeGrant)this);
 	}
 
 	public <T> T getColumnOriginalValue(String columnName) {
