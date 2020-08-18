@@ -1867,6 +1867,29 @@ public class ${entity.name}ModelImpl extends BaseModelImpl<${entity.name}> imple
 			return _columnBitmasks.get(columnName);
 		}
 
+		public <T> T getColumnValue(String columnName) {
+			<#if entity.versionEntity??>
+				if (columnName.equals("head")) {
+					return (T)(Object)getHead();
+				}
+			</#if>
+
+			<#if entity.badEntityColumns?size != 0>
+				if (columnName.startsWith("_")) {
+					columnName = columnName.substring(1);
+				}
+			</#if>
+
+			Function<${entity.name}, Object> function =
+				_attributeGetterFunctions.get(columnName);
+
+			if (function == null) {
+				return null;
+			}
+
+			return (T)function.apply((${entity.name})this);
+		}
+
 		public <T> T getColumnOriginalValue(String columnName) {
 			if (_columnOriginalValues == null) {
 				return null;
