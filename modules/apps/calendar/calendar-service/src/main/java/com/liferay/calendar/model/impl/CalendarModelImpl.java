@@ -131,16 +131,46 @@ public class CalendarModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long CALENDARRESOURCEID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long DEFAULTCALENDAR_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 16L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long NAME_COLUMN_BITMASK = 32L;
 
 	/**
@@ -422,6 +452,10 @@ public class CalendarModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -438,17 +472,20 @@ public class CalendarModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@JSON
@@ -459,6 +496,10 @@ public class CalendarModelImpl
 
 	@Override
 	public void setCalendarId(long calendarId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_calendarId = calendarId;
 	}
 
@@ -470,19 +511,20 @@ public class CalendarModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return GetterUtil.getLong(getColumnOriginalValue("groupId"));
 	}
 
 	@JSON
@@ -493,19 +535,20 @@ public class CalendarModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -516,6 +559,10 @@ public class CalendarModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userId = userId;
 	}
 
@@ -548,6 +595,10 @@ public class CalendarModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userName = userName;
 	}
 
@@ -559,6 +610,10 @@ public class CalendarModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -576,6 +631,10 @@ public class CalendarModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -587,19 +646,20 @@ public class CalendarModelImpl
 
 	@Override
 	public void setCalendarResourceId(long calendarResourceId) {
-		_columnBitmask |= CALENDARRESOURCEID_COLUMN_BITMASK;
-
-		if (!_setOriginalCalendarResourceId) {
-			_setOriginalCalendarResourceId = true;
-
-			_originalCalendarResourceId = _calendarResourceId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_calendarResourceId = calendarResourceId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCalendarResourceId() {
-		return _originalCalendarResourceId;
+		return GetterUtil.getLong(getColumnOriginalValue("calendarResourceId"));
 	}
 
 	@JSON
@@ -658,7 +718,9 @@ public class CalendarModelImpl
 
 	@Override
 	public void setName(String name) {
-		_columnBitmask = -1L;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
 
 		_name = name;
 	}
@@ -763,6 +825,10 @@ public class CalendarModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_description = description;
 	}
 
@@ -828,6 +894,10 @@ public class CalendarModelImpl
 
 	@Override
 	public void setTimeZoneId(String timeZoneId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_timeZoneId = timeZoneId;
 	}
 
@@ -839,6 +909,10 @@ public class CalendarModelImpl
 
 	@Override
 	public void setColor(int color) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_color = color;
 	}
 
@@ -856,19 +930,20 @@ public class CalendarModelImpl
 
 	@Override
 	public void setDefaultCalendar(boolean defaultCalendar) {
-		_columnBitmask |= DEFAULTCALENDAR_COLUMN_BITMASK;
-
-		if (!_setOriginalDefaultCalendar) {
-			_setOriginalDefaultCalendar = true;
-
-			_originalDefaultCalendar = _defaultCalendar;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_defaultCalendar = defaultCalendar;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public boolean getOriginalDefaultCalendar() {
-		return _originalDefaultCalendar;
+		return GetterUtil.getBoolean(getColumnOriginalValue("defaultCalendar"));
 	}
 
 	@JSON
@@ -885,6 +960,10 @@ public class CalendarModelImpl
 
 	@Override
 	public void setEnableComments(boolean enableComments) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_enableComments = enableComments;
 	}
 
@@ -902,6 +981,10 @@ public class CalendarModelImpl
 
 	@Override
 	public void setEnableRatings(boolean enableRatings) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_enableRatings = enableRatings;
 	}
 
@@ -913,6 +996,10 @@ public class CalendarModelImpl
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -923,6 +1010,24 @@ public class CalendarModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (entry.getValue() != getColumnValue(entry.getKey())) {
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -1130,31 +1235,11 @@ public class CalendarModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		CalendarModelImpl calendarModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		calendarModelImpl._originalUuid = calendarModelImpl._uuid;
+		_setModifiedDate = false;
 
-		calendarModelImpl._originalGroupId = calendarModelImpl._groupId;
-
-		calendarModelImpl._setOriginalGroupId = false;
-
-		calendarModelImpl._originalCompanyId = calendarModelImpl._companyId;
-
-		calendarModelImpl._setOriginalCompanyId = false;
-
-		calendarModelImpl._setModifiedDate = false;
-
-		calendarModelImpl._originalCalendarResourceId =
-			calendarModelImpl._calendarResourceId;
-
-		calendarModelImpl._setOriginalCalendarResourceId = false;
-
-		calendarModelImpl._originalDefaultCalendar =
-			calendarModelImpl._defaultCalendar;
-
-		calendarModelImpl._setOriginalDefaultCalendar = false;
-
-		calendarModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -1321,24 +1406,116 @@ public class CalendarModelImpl
 
 	}
 
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	public <T> T getColumnValue(String columnName) {
+		if (columnName.startsWith("_")) {
+			columnName = columnName.substring(1);
+		}
+
+		Function<Calendar, Object> function = _attributeGetterFunctions.get(
+			columnName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((Calendar)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("mvccVersion", _mvccVersion);
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("calendarId", _calendarId);
+		_columnOriginalValues.put("groupId", _groupId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("userId", _userId);
+		_columnOriginalValues.put("userName", _userName);
+		_columnOriginalValues.put("createDate", _createDate);
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
+		_columnOriginalValues.put("calendarResourceId", _calendarResourceId);
+		_columnOriginalValues.put("name", _name);
+		_columnOriginalValues.put("description", _description);
+		_columnOriginalValues.put("timeZoneId", _timeZoneId);
+		_columnOriginalValues.put("color", _color);
+		_columnOriginalValues.put("defaultCalendar", _defaultCalendar);
+		_columnOriginalValues.put("enableComments", _enableComments);
+		_columnOriginalValues.put("enableRatings", _enableRatings);
+		_columnOriginalValues.put("lastPublishDate", _lastPublishDate);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new LinkedHashMap<>();
+
+		columnBitmasks.put("mvccVersion", 1L);
+
+		columnBitmasks.put("uuid_", 2L);
+
+		columnBitmasks.put("calendarId", 4L);
+
+		columnBitmasks.put("groupId", 8L);
+
+		columnBitmasks.put("companyId", 16L);
+
+		columnBitmasks.put("userId", 32L);
+
+		columnBitmasks.put("userName", 64L);
+
+		columnBitmasks.put("createDate", 128L);
+
+		columnBitmasks.put("modifiedDate", 256L);
+
+		columnBitmasks.put("calendarResourceId", 512L);
+
+		columnBitmasks.put("name", 1024L);
+
+		columnBitmasks.put("description", 2048L);
+
+		columnBitmasks.put("timeZoneId", 4096L);
+
+		columnBitmasks.put("color", 8192L);
+
+		columnBitmasks.put("defaultCalendar", 16384L);
+
+		columnBitmasks.put("enableComments", 32768L);
+
+		columnBitmasks.put("enableRatings", 65536L);
+
+		columnBitmasks.put("lastPublishDate", 131072L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
 	private long _mvccVersion;
 	private String _uuid;
-	private String _originalUuid;
 	private long _calendarId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _calendarResourceId;
-	private long _originalCalendarResourceId;
-	private boolean _setOriginalCalendarResourceId;
 	private String _name;
 	private String _nameCurrentLanguageId;
 	private String _description;
@@ -1346,8 +1523,6 @@ public class CalendarModelImpl
 	private String _timeZoneId;
 	private int _color;
 	private boolean _defaultCalendar;
-	private boolean _originalDefaultCalendar;
-	private boolean _setOriginalDefaultCalendar;
 	private boolean _enableComments;
 	private boolean _enableRatings;
 	private Date _lastPublishDate;

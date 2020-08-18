@@ -102,7 +102,14 @@ public class CounterModelImpl
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
 	 */
 	@Deprecated
-	public static final boolean COLUMN_BITMASK_ENABLED = false;
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
+
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
+	public static final long NAME_COLUMN_BITMASK = 1L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		com.liferay.portal.util.PropsUtil.get(
@@ -255,6 +262,10 @@ public class CounterModelImpl
 
 	@Override
 	public void setName(String name) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_name = name;
 	}
 
@@ -265,7 +276,33 @@ public class CounterModelImpl
 
 	@Override
 	public void setCurrentId(long currentId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_currentId = currentId;
+	}
+
+	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (entry.getValue() != getColumnValue(entry.getKey())) {
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
+		return _columnBitmask;
 	}
 
 	@Override
@@ -349,6 +386,9 @@ public class CounterModelImpl
 
 	@Override
 	public void resetOriginalValues() {
+		_columnOriginalValues = Collections.emptyMap();
+
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -438,8 +478,56 @@ public class CounterModelImpl
 
 	}
 
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	public <T> T getColumnValue(String columnName) {
+		Function<Counter, Object> function = _attributeGetterFunctions.get(
+			columnName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((Counter)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("name", _name);
+		_columnOriginalValues.put("currentId", _currentId);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new LinkedHashMap<>();
+
+		columnBitmasks.put("name", 1L);
+
+		columnBitmasks.put("currentId", 2L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
 	private String _name;
 	private long _currentId;
+	private long _columnBitmask;
 	private Counter _escapedModel;
 
 }

@@ -20,6 +20,7 @@ import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
@@ -42,7 +43,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 
 import org.junit.After;
@@ -538,37 +538,82 @@ public class StyleBookEntryVersionPersistenceTest {
 
 		_persistence.clearCache();
 
-		StyleBookEntryVersion existingStyleBookEntryVersion =
+		_assertOriginalValues(
 			_persistence.findByPrimaryKey(
-				newStyleBookEntryVersion.getPrimaryKey());
+				newStyleBookEntryVersion.getPrimaryKey()));
+	}
+
+	@Test
+	public void testResetOriginalValuesWithDynamicQueryLoadFromDatabase()
+		throws Exception {
+
+		_testResetOriginalValuesWithDynamicQuery(true);
+	}
+
+	@Test
+	public void testResetOriginalValuesWithDynamicQueryLoadFromSession()
+		throws Exception {
+
+		_testResetOriginalValuesWithDynamicQuery(false);
+	}
+
+	private void _testResetOriginalValuesWithDynamicQuery(boolean clearSession)
+		throws Exception {
+
+		StyleBookEntryVersion newStyleBookEntryVersion =
+			addStyleBookEntryVersion();
+
+		if (clearSession) {
+			Session session = _persistence.openSession();
+
+			session.flush();
+
+			session.clear();
+		}
+
+		DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(
+			StyleBookEntryVersion.class, _dynamicQueryClassLoader);
+
+		dynamicQuery.add(
+			RestrictionsFactoryUtil.eq(
+				"styleBookEntryVersionId",
+				newStyleBookEntryVersion.getStyleBookEntryVersionId()));
+
+		List<StyleBookEntryVersion> result = _persistence.findWithDynamicQuery(
+			dynamicQuery);
+
+		_assertOriginalValues(result.get(0));
+	}
+
+	private void _assertOriginalValues(
+		StyleBookEntryVersion styleBookEntryVersion) {
 
 		Assert.assertEquals(
-			Long.valueOf(existingStyleBookEntryVersion.getStyleBookEntryId()),
+			Long.valueOf(styleBookEntryVersion.getStyleBookEntryId()),
 			ReflectionTestUtil.<Long>invoke(
-				existingStyleBookEntryVersion, "getOriginalStyleBookEntryId",
-				new Class<?>[0]));
+				styleBookEntryVersion, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "styleBookEntryId"));
 		Assert.assertEquals(
-			Integer.valueOf(existingStyleBookEntryVersion.getVersion()),
+			Integer.valueOf(styleBookEntryVersion.getVersion()),
 			ReflectionTestUtil.<Integer>invoke(
-				existingStyleBookEntryVersion, "getOriginalVersion",
-				new Class<?>[0]));
+				styleBookEntryVersion, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "version"));
 
 		Assert.assertEquals(
-			Long.valueOf(existingStyleBookEntryVersion.getGroupId()),
+			Long.valueOf(styleBookEntryVersion.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
-				existingStyleBookEntryVersion, "getOriginalGroupId",
-				new Class<?>[0]));
-		Assert.assertTrue(
-			Objects.equals(
-				existingStyleBookEntryVersion.getStyleBookEntryKey(),
-				ReflectionTestUtil.invoke(
-					existingStyleBookEntryVersion,
-					"getOriginalStyleBookEntryKey", new Class<?>[0])));
+				styleBookEntryVersion, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "groupId"));
 		Assert.assertEquals(
-			Integer.valueOf(existingStyleBookEntryVersion.getVersion()),
+			styleBookEntryVersion.getStyleBookEntryKey(),
+			ReflectionTestUtil.invoke(
+				styleBookEntryVersion, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "styleBookEntryKey"));
+		Assert.assertEquals(
+			Integer.valueOf(styleBookEntryVersion.getVersion()),
 			ReflectionTestUtil.<Integer>invoke(
-				existingStyleBookEntryVersion, "getOriginalVersion",
-				new Class<?>[0]));
+				styleBookEntryVersion, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "version"));
 	}
 
 	protected StyleBookEntryVersion addStyleBookEntryVersion()

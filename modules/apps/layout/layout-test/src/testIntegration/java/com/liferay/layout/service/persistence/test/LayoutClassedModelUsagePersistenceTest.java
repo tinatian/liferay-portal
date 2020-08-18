@@ -26,6 +26,7 @@ import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
@@ -45,7 +46,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 
 import org.junit.After;
@@ -571,48 +571,92 @@ public class LayoutClassedModelUsagePersistenceTest {
 
 		_persistence.clearCache();
 
-		LayoutClassedModelUsage existingLayoutClassedModelUsage =
+		_assertOriginalValues(
 			_persistence.findByPrimaryKey(
-				newLayoutClassedModelUsage.getPrimaryKey());
+				newLayoutClassedModelUsage.getPrimaryKey()));
+	}
 
-		Assert.assertTrue(
-			Objects.equals(
-				existingLayoutClassedModelUsage.getUuid(),
-				ReflectionTestUtil.invoke(
-					existingLayoutClassedModelUsage, "getOriginalUuid",
-					new Class<?>[0])));
-		Assert.assertEquals(
-			Long.valueOf(existingLayoutClassedModelUsage.getGroupId()),
-			ReflectionTestUtil.<Long>invoke(
-				existingLayoutClassedModelUsage, "getOriginalGroupId",
-				new Class<?>[0]));
+	@Test
+	public void testResetOriginalValuesWithDynamicQueryLoadFromDatabase()
+		throws Exception {
+
+		_testResetOriginalValuesWithDynamicQuery(true);
+	}
+
+	@Test
+	public void testResetOriginalValuesWithDynamicQueryLoadFromSession()
+		throws Exception {
+
+		_testResetOriginalValuesWithDynamicQuery(false);
+	}
+
+	private void _testResetOriginalValuesWithDynamicQuery(boolean clearSession)
+		throws Exception {
+
+		LayoutClassedModelUsage newLayoutClassedModelUsage =
+			addLayoutClassedModelUsage();
+
+		if (clearSession) {
+			Session session = _persistence.openSession();
+
+			session.flush();
+
+			session.clear();
+		}
+
+		DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(
+			LayoutClassedModelUsage.class, _dynamicQueryClassLoader);
+
+		dynamicQuery.add(
+			RestrictionsFactoryUtil.eq(
+				"layoutClassedModelUsageId",
+				newLayoutClassedModelUsage.getLayoutClassedModelUsageId()));
+
+		List<LayoutClassedModelUsage> result =
+			_persistence.findWithDynamicQuery(dynamicQuery);
+
+		_assertOriginalValues(result.get(0));
+	}
+
+	private void _assertOriginalValues(
+		LayoutClassedModelUsage layoutClassedModelUsage) {
 
 		Assert.assertEquals(
-			Long.valueOf(existingLayoutClassedModelUsage.getClassNameId()),
-			ReflectionTestUtil.<Long>invoke(
-				existingLayoutClassedModelUsage, "getOriginalClassNameId",
-				new Class<?>[0]));
+			layoutClassedModelUsage.getUuid(),
+			ReflectionTestUtil.invoke(
+				layoutClassedModelUsage, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "uuid_"));
 		Assert.assertEquals(
-			Long.valueOf(existingLayoutClassedModelUsage.getClassPK()),
+			Long.valueOf(layoutClassedModelUsage.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
-				existingLayoutClassedModelUsage, "getOriginalClassPK",
-				new Class<?>[0]));
-		Assert.assertTrue(
-			Objects.equals(
-				existingLayoutClassedModelUsage.getContainerKey(),
-				ReflectionTestUtil.invoke(
-					existingLayoutClassedModelUsage, "getOriginalContainerKey",
-					new Class<?>[0])));
+				layoutClassedModelUsage, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "groupId"));
+
 		Assert.assertEquals(
-			Long.valueOf(existingLayoutClassedModelUsage.getContainerType()),
+			Long.valueOf(layoutClassedModelUsage.getClassNameId()),
 			ReflectionTestUtil.<Long>invoke(
-				existingLayoutClassedModelUsage, "getOriginalContainerType",
-				new Class<?>[0]));
+				layoutClassedModelUsage, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "classNameId"));
 		Assert.assertEquals(
-			Long.valueOf(existingLayoutClassedModelUsage.getPlid()),
+			Long.valueOf(layoutClassedModelUsage.getClassPK()),
 			ReflectionTestUtil.<Long>invoke(
-				existingLayoutClassedModelUsage, "getOriginalPlid",
-				new Class<?>[0]));
+				layoutClassedModelUsage, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "classPK"));
+		Assert.assertEquals(
+			layoutClassedModelUsage.getContainerKey(),
+			ReflectionTestUtil.invoke(
+				layoutClassedModelUsage, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "containerKey"));
+		Assert.assertEquals(
+			Long.valueOf(layoutClassedModelUsage.getContainerType()),
+			ReflectionTestUtil.<Long>invoke(
+				layoutClassedModelUsage, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "containerType"));
+		Assert.assertEquals(
+			Long.valueOf(layoutClassedModelUsage.getPlid()),
+			ReflectionTestUtil.<Long>invoke(
+				layoutClassedModelUsage, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "plid"));
 	}
 
 	protected LayoutClassedModelUsage addLayoutClassedModelUsage()

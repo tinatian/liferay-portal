@@ -123,16 +123,46 @@ public class KaleoActionModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long EXECUTIONTYPE_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long KALEOCLASSNAME_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long KALEOCLASSPK_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long KALEODEFINITIONVERSIONID_COLUMN_BITMASK = 16L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long PRIORITY_COLUMN_BITMASK = 32L;
 
 	/**
@@ -378,6 +408,10 @@ public class KaleoActionModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -388,6 +422,10 @@ public class KaleoActionModelImpl
 
 	@Override
 	public void setKaleoActionId(long kaleoActionId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_kaleoActionId = kaleoActionId;
 	}
 
@@ -398,6 +436,10 @@ public class KaleoActionModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_groupId = groupId;
 	}
 
@@ -408,19 +450,20 @@ public class KaleoActionModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@Override
@@ -430,6 +473,10 @@ public class KaleoActionModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userId = userId;
 	}
 
@@ -461,6 +508,10 @@ public class KaleoActionModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userName = userName;
 	}
 
@@ -471,6 +522,10 @@ public class KaleoActionModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -487,6 +542,10 @@ public class KaleoActionModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -502,17 +561,20 @@ public class KaleoActionModelImpl
 
 	@Override
 	public void setKaleoClassName(String kaleoClassName) {
-		_columnBitmask |= KALEOCLASSNAME_COLUMN_BITMASK;
-
-		if (_originalKaleoClassName == null) {
-			_originalKaleoClassName = _kaleoClassName;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_kaleoClassName = kaleoClassName;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalKaleoClassName() {
-		return GetterUtil.getString(_originalKaleoClassName);
+		return getColumnOriginalValue("kaleoClassName");
 	}
 
 	@Override
@@ -522,19 +584,20 @@ public class KaleoActionModelImpl
 
 	@Override
 	public void setKaleoClassPK(long kaleoClassPK) {
-		_columnBitmask |= KALEOCLASSPK_COLUMN_BITMASK;
-
-		if (!_setOriginalKaleoClassPK) {
-			_setOriginalKaleoClassPK = true;
-
-			_originalKaleoClassPK = _kaleoClassPK;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_kaleoClassPK = kaleoClassPK;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalKaleoClassPK() {
-		return _originalKaleoClassPK;
+		return GetterUtil.getLong(getColumnOriginalValue("kaleoClassPK"));
 	}
 
 	@Override
@@ -544,6 +607,10 @@ public class KaleoActionModelImpl
 
 	@Override
 	public void setKaleoDefinitionId(long kaleoDefinitionId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_kaleoDefinitionId = kaleoDefinitionId;
 	}
 
@@ -554,19 +621,21 @@ public class KaleoActionModelImpl
 
 	@Override
 	public void setKaleoDefinitionVersionId(long kaleoDefinitionVersionId) {
-		_columnBitmask |= KALEODEFINITIONVERSIONID_COLUMN_BITMASK;
-
-		if (!_setOriginalKaleoDefinitionVersionId) {
-			_setOriginalKaleoDefinitionVersionId = true;
-
-			_originalKaleoDefinitionVersionId = _kaleoDefinitionVersionId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_kaleoDefinitionVersionId = kaleoDefinitionVersionId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalKaleoDefinitionVersionId() {
-		return _originalKaleoDefinitionVersionId;
+		return GetterUtil.getLong(
+			getColumnOriginalValue("kaleoDefinitionVersionId"));
 	}
 
 	@Override
@@ -581,6 +650,10 @@ public class KaleoActionModelImpl
 
 	@Override
 	public void setKaleoNodeName(String kaleoNodeName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_kaleoNodeName = kaleoNodeName;
 	}
 
@@ -596,6 +669,10 @@ public class KaleoActionModelImpl
 
 	@Override
 	public void setName(String name) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_name = name;
 	}
 
@@ -611,6 +688,10 @@ public class KaleoActionModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_description = description;
 	}
 
@@ -626,17 +707,20 @@ public class KaleoActionModelImpl
 
 	@Override
 	public void setExecutionType(String executionType) {
-		_columnBitmask |= EXECUTIONTYPE_COLUMN_BITMASK;
-
-		if (_originalExecutionType == null) {
-			_originalExecutionType = _executionType;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_executionType = executionType;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalExecutionType() {
-		return GetterUtil.getString(_originalExecutionType);
+		return getColumnOriginalValue("executionType");
 	}
 
 	@Override
@@ -651,6 +735,10 @@ public class KaleoActionModelImpl
 
 	@Override
 	public void setScript(String script) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_script = script;
 	}
 
@@ -666,6 +754,10 @@ public class KaleoActionModelImpl
 
 	@Override
 	public void setScriptLanguage(String scriptLanguage) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_scriptLanguage = scriptLanguage;
 	}
 
@@ -681,6 +773,10 @@ public class KaleoActionModelImpl
 
 	@Override
 	public void setScriptRequiredContexts(String scriptRequiredContexts) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_scriptRequiredContexts = scriptRequiredContexts;
 	}
 
@@ -691,12 +787,32 @@ public class KaleoActionModelImpl
 
 	@Override
 	public void setPriority(int priority) {
-		_columnBitmask = -1L;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
 
 		_priority = priority;
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (entry.getValue() != getColumnValue(entry.getKey())) {
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -827,32 +943,11 @@ public class KaleoActionModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		KaleoActionModelImpl kaleoActionModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		kaleoActionModelImpl._originalCompanyId =
-			kaleoActionModelImpl._companyId;
+		_setModifiedDate = false;
 
-		kaleoActionModelImpl._setOriginalCompanyId = false;
-
-		kaleoActionModelImpl._setModifiedDate = false;
-
-		kaleoActionModelImpl._originalKaleoClassName =
-			kaleoActionModelImpl._kaleoClassName;
-
-		kaleoActionModelImpl._originalKaleoClassPK =
-			kaleoActionModelImpl._kaleoClassPK;
-
-		kaleoActionModelImpl._setOriginalKaleoClassPK = false;
-
-		kaleoActionModelImpl._originalKaleoDefinitionVersionId =
-			kaleoActionModelImpl._kaleoDefinitionVersionId;
-
-		kaleoActionModelImpl._setOriginalKaleoDefinitionVersionId = false;
-
-		kaleoActionModelImpl._originalExecutionType =
-			kaleoActionModelImpl._executionType;
-
-		kaleoActionModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -1046,31 +1141,126 @@ public class KaleoActionModelImpl
 
 	}
 
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	public <T> T getColumnValue(String columnName) {
+		Function<KaleoAction, Object> function = _attributeGetterFunctions.get(
+			columnName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((KaleoAction)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("mvccVersion", _mvccVersion);
+		_columnOriginalValues.put("kaleoActionId", _kaleoActionId);
+		_columnOriginalValues.put("groupId", _groupId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("userId", _userId);
+		_columnOriginalValues.put("userName", _userName);
+		_columnOriginalValues.put("createDate", _createDate);
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
+		_columnOriginalValues.put("kaleoClassName", _kaleoClassName);
+		_columnOriginalValues.put("kaleoClassPK", _kaleoClassPK);
+		_columnOriginalValues.put("kaleoDefinitionId", _kaleoDefinitionId);
+		_columnOriginalValues.put(
+			"kaleoDefinitionVersionId", _kaleoDefinitionVersionId);
+		_columnOriginalValues.put("kaleoNodeName", _kaleoNodeName);
+		_columnOriginalValues.put("name", _name);
+		_columnOriginalValues.put("description", _description);
+		_columnOriginalValues.put("executionType", _executionType);
+		_columnOriginalValues.put("script", _script);
+		_columnOriginalValues.put("scriptLanguage", _scriptLanguage);
+		_columnOriginalValues.put(
+			"scriptRequiredContexts", _scriptRequiredContexts);
+		_columnOriginalValues.put("priority", _priority);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new LinkedHashMap<>();
+
+		columnBitmasks.put("mvccVersion", 1L);
+
+		columnBitmasks.put("kaleoActionId", 2L);
+
+		columnBitmasks.put("groupId", 4L);
+
+		columnBitmasks.put("companyId", 8L);
+
+		columnBitmasks.put("userId", 16L);
+
+		columnBitmasks.put("userName", 32L);
+
+		columnBitmasks.put("createDate", 64L);
+
+		columnBitmasks.put("modifiedDate", 128L);
+
+		columnBitmasks.put("kaleoClassName", 256L);
+
+		columnBitmasks.put("kaleoClassPK", 512L);
+
+		columnBitmasks.put("kaleoDefinitionId", 1024L);
+
+		columnBitmasks.put("kaleoDefinitionVersionId", 2048L);
+
+		columnBitmasks.put("kaleoNodeName", 4096L);
+
+		columnBitmasks.put("name", 8192L);
+
+		columnBitmasks.put("description", 16384L);
+
+		columnBitmasks.put("executionType", 32768L);
+
+		columnBitmasks.put("script", 65536L);
+
+		columnBitmasks.put("scriptLanguage", 131072L);
+
+		columnBitmasks.put("scriptRequiredContexts", 262144L);
+
+		columnBitmasks.put("priority", 524288L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
 	private long _mvccVersion;
 	private long _kaleoActionId;
 	private long _groupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private String _kaleoClassName;
-	private String _originalKaleoClassName;
 	private long _kaleoClassPK;
-	private long _originalKaleoClassPK;
-	private boolean _setOriginalKaleoClassPK;
 	private long _kaleoDefinitionId;
 	private long _kaleoDefinitionVersionId;
-	private long _originalKaleoDefinitionVersionId;
-	private boolean _setOriginalKaleoDefinitionVersionId;
 	private String _kaleoNodeName;
 	private String _name;
 	private String _description;
 	private String _executionType;
-	private String _originalExecutionType;
 	private String _script;
 	private String _scriptLanguage;
 	private String _scriptRequiredContexts;

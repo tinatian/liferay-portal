@@ -122,18 +122,53 @@ public class StyleBookEntryModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long DEFAULTSTYLEBOOKENTRY_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long HEAD_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long HEADID_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long NAME_COLUMN_BITMASK = 16L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long STYLEBOOKENTRYKEY_COLUMN_BITMASK = 32L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long CREATEDATE_COLUMN_BITMASK = 64L;
 
 	/**
@@ -402,31 +437,6 @@ public class StyleBookEntryModelImpl
 			(Map)attributeSetterBiConsumers);
 	}
 
-	public boolean getHead() {
-		return _head;
-	}
-
-	@Override
-	public boolean isHead() {
-		return _head;
-	}
-
-	public boolean getOriginalHead() {
-		return _originalHead;
-	}
-
-	public void setHead(boolean head) {
-		_columnBitmask |= HEAD_COLUMN_BITMASK;
-
-		if (!_setOriginalHead) {
-			_setOriginalHead = true;
-
-			_originalHead = _head;
-		}
-
-		_head = head;
-	}
-
 	@Override
 	public void populateVersionModel(
 		StyleBookEntryVersion styleBookEntryVersion) {
@@ -453,6 +463,10 @@ public class StyleBookEntryModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -464,12 +478,8 @@ public class StyleBookEntryModelImpl
 
 	@Override
 	public void setHeadId(long headId) {
-		_columnBitmask |= HEADID_COLUMN_BITMASK;
-
-		if (!_setOriginalHeadId) {
-			_setOriginalHeadId = true;
-
-			_originalHeadId = _headId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		if (headId >= 0) {
@@ -482,8 +492,40 @@ public class StyleBookEntryModelImpl
 		_headId = headId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalHeadId() {
-		return _originalHeadId;
+		return GetterUtil.getLong(getColumnOriginalValue("headId"));
+	}
+
+	@JSON(include = false)
+	public boolean getHead() {
+		return _head;
+	}
+
+	@Override
+	public boolean isHead() {
+		return _head;
+	}
+
+	public void setHead(boolean head) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		_head = head;
+	}
+
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
+	public boolean getOriginalHead() {
+		return GetterUtil.getBoolean(getColumnOriginalValue("head"));
 	}
 
 	@JSON
@@ -494,6 +536,10 @@ public class StyleBookEntryModelImpl
 
 	@Override
 	public void setStyleBookEntryId(long styleBookEntryId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_styleBookEntryId = styleBookEntryId;
 	}
 
@@ -505,19 +551,20 @@ public class StyleBookEntryModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return GetterUtil.getLong(getColumnOriginalValue("groupId"));
 	}
 
 	@JSON
@@ -528,6 +575,10 @@ public class StyleBookEntryModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -539,6 +590,10 @@ public class StyleBookEntryModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userId = userId;
 	}
 
@@ -571,6 +626,10 @@ public class StyleBookEntryModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userName = userName;
 	}
 
@@ -582,7 +641,9 @@ public class StyleBookEntryModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
-		_columnBitmask = -1L;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
 
 		_createDate = createDate;
 	}
@@ -601,19 +662,21 @@ public class StyleBookEntryModelImpl
 
 	@Override
 	public void setDefaultStyleBookEntry(boolean defaultStyleBookEntry) {
-		_columnBitmask |= DEFAULTSTYLEBOOKENTRY_COLUMN_BITMASK;
-
-		if (!_setOriginalDefaultStyleBookEntry) {
-			_setOriginalDefaultStyleBookEntry = true;
-
-			_originalDefaultStyleBookEntry = _defaultStyleBookEntry;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_defaultStyleBookEntry = defaultStyleBookEntry;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public boolean getOriginalDefaultStyleBookEntry() {
-		return _originalDefaultStyleBookEntry;
+		return GetterUtil.getBoolean(
+			getColumnOriginalValue("defaultStyleBookEntry"));
 	}
 
 	@JSON
@@ -629,6 +692,10 @@ public class StyleBookEntryModelImpl
 
 	@Override
 	public void setFrontendTokensValues(String frontendTokensValues) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_frontendTokensValues = frontendTokensValues;
 	}
 
@@ -645,17 +712,20 @@ public class StyleBookEntryModelImpl
 
 	@Override
 	public void setName(String name) {
-		_columnBitmask |= NAME_COLUMN_BITMASK;
-
-		if (_originalName == null) {
-			_originalName = _name;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_name = name;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalName() {
-		return GetterUtil.getString(_originalName);
+		return getColumnOriginalValue("name");
 	}
 
 	@JSON
@@ -666,6 +736,10 @@ public class StyleBookEntryModelImpl
 
 	@Override
 	public void setPreviewFileEntryId(long previewFileEntryId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_previewFileEntryId = previewFileEntryId;
 	}
 
@@ -682,20 +756,41 @@ public class StyleBookEntryModelImpl
 
 	@Override
 	public void setStyleBookEntryKey(String styleBookEntryKey) {
-		_columnBitmask |= STYLEBOOKENTRYKEY_COLUMN_BITMASK;
-
-		if (_originalStyleBookEntryKey == null) {
-			_originalStyleBookEntryKey = _styleBookEntryKey;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_styleBookEntryKey = styleBookEntryKey;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalStyleBookEntryKey() {
-		return GetterUtil.getString(_originalStyleBookEntryKey);
+		return getColumnOriginalValue("styleBookEntryKey");
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (entry.getValue() != getColumnValue(entry.getKey())) {
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -813,33 +908,9 @@ public class StyleBookEntryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		StyleBookEntryModelImpl styleBookEntryModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		styleBookEntryModelImpl._originalHeadId =
-			styleBookEntryModelImpl._headId;
-
-		styleBookEntryModelImpl._setOriginalHeadId = false;
-
-		styleBookEntryModelImpl._originalHead = styleBookEntryModelImpl._head;
-
-		styleBookEntryModelImpl._setOriginalHead = false;
-
-		styleBookEntryModelImpl._originalGroupId =
-			styleBookEntryModelImpl._groupId;
-
-		styleBookEntryModelImpl._setOriginalGroupId = false;
-
-		styleBookEntryModelImpl._originalDefaultStyleBookEntry =
-			styleBookEntryModelImpl._defaultStyleBookEntry;
-
-		styleBookEntryModelImpl._setOriginalDefaultStyleBookEntry = false;
-
-		styleBookEntryModelImpl._originalName = styleBookEntryModelImpl._name;
-
-		styleBookEntryModelImpl._originalStyleBookEntryKey =
-			styleBookEntryModelImpl._styleBookEntryKey;
-
-		styleBookEntryModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -984,30 +1055,109 @@ public class StyleBookEntryModelImpl
 
 	}
 
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	public <T> T getColumnValue(String columnName) {
+		if (columnName.equals("head")) {
+			return (T)(Object)getHead();
+		}
+
+		Function<StyleBookEntry, Object> function =
+			_attributeGetterFunctions.get(columnName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((StyleBookEntry)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("mvccVersion", _mvccVersion);
+		_columnOriginalValues.put("headId", _headId);
+		_columnOriginalValues.put("head", _head);
+		_columnOriginalValues.put("styleBookEntryId", _styleBookEntryId);
+		_columnOriginalValues.put("groupId", _groupId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("userId", _userId);
+		_columnOriginalValues.put("userName", _userName);
+		_columnOriginalValues.put("createDate", _createDate);
+		_columnOriginalValues.put(
+			"defaultStyleBookEntry", _defaultStyleBookEntry);
+		_columnOriginalValues.put(
+			"frontendTokensValues", _frontendTokensValues);
+		_columnOriginalValues.put("name", _name);
+		_columnOriginalValues.put("previewFileEntryId", _previewFileEntryId);
+		_columnOriginalValues.put("styleBookEntryKey", _styleBookEntryKey);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new LinkedHashMap<>();
+
+		columnBitmasks.put("mvccVersion", 1L);
+
+		columnBitmasks.put("headId", 2L);
+
+		columnBitmasks.put("head", 4L);
+
+		columnBitmasks.put("styleBookEntryId", 8L);
+
+		columnBitmasks.put("groupId", 16L);
+
+		columnBitmasks.put("companyId", 32L);
+
+		columnBitmasks.put("userId", 64L);
+
+		columnBitmasks.put("userName", 128L);
+
+		columnBitmasks.put("createDate", 256L);
+
+		columnBitmasks.put("defaultStyleBookEntry", 512L);
+
+		columnBitmasks.put("frontendTokensValues", 1024L);
+
+		columnBitmasks.put("name", 2048L);
+
+		columnBitmasks.put("previewFileEntryId", 4096L);
+
+		columnBitmasks.put("styleBookEntryKey", 8192L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
 	private long _mvccVersion;
 	private long _headId;
-	private long _originalHeadId;
-	private boolean _setOriginalHeadId;
 	private boolean _head;
-	private boolean _originalHead;
-	private boolean _setOriginalHead;
 	private long _styleBookEntryId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private boolean _defaultStyleBookEntry;
-	private boolean _originalDefaultStyleBookEntry;
-	private boolean _setOriginalDefaultStyleBookEntry;
 	private String _frontendTokensValues;
 	private String _name;
-	private String _originalName;
 	private long _previewFileEntryId;
 	private String _styleBookEntryKey;
-	private String _originalStyleBookEntryKey;
 	private long _columnBitmask;
 	private StyleBookEntry _escapedModel;
 

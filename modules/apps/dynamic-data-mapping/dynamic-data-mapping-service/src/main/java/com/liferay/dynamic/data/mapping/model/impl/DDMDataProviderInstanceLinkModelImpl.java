@@ -24,6 +24,7 @@ import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -99,10 +100,25 @@ public class DDMDataProviderInstanceLinkModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long DATAPROVIDERINSTANCEID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long STRUCTUREID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long DATAPROVIDERINSTANCELINKID_COLUMN_BITMASK = 4L;
 
 	/**
@@ -303,6 +319,10 @@ public class DDMDataProviderInstanceLinkModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -313,6 +333,10 @@ public class DDMDataProviderInstanceLinkModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_ctCollectionId = ctCollectionId;
 	}
 
@@ -323,6 +347,10 @@ public class DDMDataProviderInstanceLinkModelImpl
 
 	@Override
 	public void setDataProviderInstanceLinkId(long dataProviderInstanceLinkId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_dataProviderInstanceLinkId = dataProviderInstanceLinkId;
 	}
 
@@ -333,6 +361,10 @@ public class DDMDataProviderInstanceLinkModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -343,19 +375,21 @@ public class DDMDataProviderInstanceLinkModelImpl
 
 	@Override
 	public void setDataProviderInstanceId(long dataProviderInstanceId) {
-		_columnBitmask |= DATAPROVIDERINSTANCEID_COLUMN_BITMASK;
-
-		if (!_setOriginalDataProviderInstanceId) {
-			_setOriginalDataProviderInstanceId = true;
-
-			_originalDataProviderInstanceId = _dataProviderInstanceId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_dataProviderInstanceId = dataProviderInstanceId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalDataProviderInstanceId() {
-		return _originalDataProviderInstanceId;
+		return GetterUtil.getLong(
+			getColumnOriginalValue("dataProviderInstanceId"));
 	}
 
 	@Override
@@ -365,22 +399,41 @@ public class DDMDataProviderInstanceLinkModelImpl
 
 	@Override
 	public void setStructureId(long structureId) {
-		_columnBitmask |= STRUCTUREID_COLUMN_BITMASK;
-
-		if (!_setOriginalStructureId) {
-			_setOriginalStructureId = true;
-
-			_originalStructureId = _structureId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_structureId = structureId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalStructureId() {
-		return _originalStructureId;
+		return GetterUtil.getLong(getColumnOriginalValue("structureId"));
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (entry.getValue() != getColumnValue(entry.getKey())) {
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -497,21 +550,9 @@ public class DDMDataProviderInstanceLinkModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		DDMDataProviderInstanceLinkModelImpl
-			ddmDataProviderInstanceLinkModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		ddmDataProviderInstanceLinkModelImpl._originalDataProviderInstanceId =
-			ddmDataProviderInstanceLinkModelImpl._dataProviderInstanceId;
-
-		ddmDataProviderInstanceLinkModelImpl.
-			_setOriginalDataProviderInstanceId = false;
-
-		ddmDataProviderInstanceLinkModelImpl._originalStructureId =
-			ddmDataProviderInstanceLinkModelImpl._structureId;
-
-		ddmDataProviderInstanceLinkModelImpl._setOriginalStructureId = false;
-
-		ddmDataProviderInstanceLinkModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -614,16 +655,73 @@ public class DDMDataProviderInstanceLinkModelImpl
 
 	}
 
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	public <T> T getColumnValue(String columnName) {
+		Function<DDMDataProviderInstanceLink, Object> function =
+			_attributeGetterFunctions.get(columnName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((DDMDataProviderInstanceLink)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("mvccVersion", _mvccVersion);
+		_columnOriginalValues.put("ctCollectionId", _ctCollectionId);
+		_columnOriginalValues.put(
+			"dataProviderInstanceLinkId", _dataProviderInstanceLinkId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put(
+			"dataProviderInstanceId", _dataProviderInstanceId);
+		_columnOriginalValues.put("structureId", _structureId);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new LinkedHashMap<>();
+
+		columnBitmasks.put("mvccVersion", 1L);
+
+		columnBitmasks.put("ctCollectionId", 2L);
+
+		columnBitmasks.put("dataProviderInstanceLinkId", 4L);
+
+		columnBitmasks.put("companyId", 8L);
+
+		columnBitmasks.put("dataProviderInstanceId", 16L);
+
+		columnBitmasks.put("structureId", 32L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
 	private long _mvccVersion;
 	private long _ctCollectionId;
 	private long _dataProviderInstanceLinkId;
 	private long _companyId;
 	private long _dataProviderInstanceId;
-	private long _originalDataProviderInstanceId;
-	private boolean _setOriginalDataProviderInstanceId;
 	private long _structureId;
-	private long _originalStructureId;
-	private boolean _setOriginalStructureId;
 	private long _columnBitmask;
 	private DDMDataProviderInstanceLink _escapedModel;
 

@@ -113,6 +113,11 @@ public class BigDecimalEntryModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long BIGDECIMALVALUE_COLUMN_BITMASK = 1L;
 
 	public static final String MAPPING_TABLE_BIGDECIMALENTRIES_LVENTRIES_NAME =
@@ -296,6 +301,10 @@ public class BigDecimalEntryModelImpl
 
 	@Override
 	public void setBigDecimalEntryId(long bigDecimalEntryId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_bigDecimalEntryId = bigDecimalEntryId;
 	}
 
@@ -306,6 +315,10 @@ public class BigDecimalEntryModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -316,20 +329,41 @@ public class BigDecimalEntryModelImpl
 
 	@Override
 	public void setBigDecimalValue(BigDecimal bigDecimalValue) {
-		_columnBitmask = -1L;
-
-		if (_originalBigDecimalValue == null) {
-			_originalBigDecimalValue = _bigDecimalValue;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_bigDecimalValue = bigDecimalValue;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public BigDecimal getOriginalBigDecimalValue() {
-		return _originalBigDecimalValue;
+		return getColumnOriginalValue("bigDecimalValue");
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (entry.getValue() != getColumnValue(entry.getKey())) {
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -435,12 +469,9 @@ public class BigDecimalEntryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		BigDecimalEntryModelImpl bigDecimalEntryModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		bigDecimalEntryModelImpl._originalBigDecimalValue =
-			bigDecimalEntryModelImpl._bigDecimalValue;
-
-		bigDecimalEntryModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -527,10 +558,59 @@ public class BigDecimalEntryModelImpl
 
 	}
 
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	public <T> T getColumnValue(String columnName) {
+		Function<BigDecimalEntry, Object> function =
+			_attributeGetterFunctions.get(columnName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((BigDecimalEntry)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("bigDecimalEntryId", _bigDecimalEntryId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("bigDecimalValue", _bigDecimalValue);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new LinkedHashMap<>();
+
+		columnBitmasks.put("bigDecimalEntryId", 1L);
+
+		columnBitmasks.put("companyId", 2L);
+
+		columnBitmasks.put("bigDecimalValue", 4L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
 	private long _bigDecimalEntryId;
 	private long _companyId;
 	private BigDecimal _bigDecimalValue;
-	private BigDecimal _originalBigDecimalValue;
 	private long _columnBitmask;
 	private BigDecimalEntry _escapedModel;
 

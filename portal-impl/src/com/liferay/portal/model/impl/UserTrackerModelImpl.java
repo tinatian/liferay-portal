@@ -124,12 +124,32 @@ public class UserTrackerModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long SESSIONID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long USERID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long USERTRACKERID_COLUMN_BITMASK = 8L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
@@ -312,6 +332,10 @@ public class UserTrackerModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -322,6 +346,10 @@ public class UserTrackerModelImpl
 
 	@Override
 	public void setUserTrackerId(long userTrackerId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userTrackerId = userTrackerId;
 	}
 
@@ -332,19 +360,20 @@ public class UserTrackerModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@Override
@@ -354,12 +383,8 @@ public class UserTrackerModelImpl
 
 	@Override
 	public void setUserId(long userId) {
-		_columnBitmask |= USERID_COLUMN_BITMASK;
-
-		if (!_setOriginalUserId) {
-			_setOriginalUserId = true;
-
-			_originalUserId = _userId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_userId = userId;
@@ -381,8 +406,13 @@ public class UserTrackerModelImpl
 	public void setUserUuid(String userUuid) {
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalUserId() {
-		return _originalUserId;
+		return GetterUtil.getLong(getColumnOriginalValue("userId"));
 	}
 
 	@Override
@@ -392,6 +422,10 @@ public class UserTrackerModelImpl
 
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -407,17 +441,20 @@ public class UserTrackerModelImpl
 
 	@Override
 	public void setSessionId(String sessionId) {
-		_columnBitmask |= SESSIONID_COLUMN_BITMASK;
-
-		if (_originalSessionId == null) {
-			_originalSessionId = _sessionId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_sessionId = sessionId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalSessionId() {
-		return GetterUtil.getString(_originalSessionId);
+		return getColumnOriginalValue("sessionId");
 	}
 
 	@Override
@@ -432,6 +469,10 @@ public class UserTrackerModelImpl
 
 	@Override
 	public void setRemoteAddr(String remoteAddr) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_remoteAddr = remoteAddr;
 	}
 
@@ -447,6 +488,10 @@ public class UserTrackerModelImpl
 
 	@Override
 	public void setRemoteHost(String remoteHost) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_remoteHost = remoteHost;
 	}
 
@@ -462,10 +507,32 @@ public class UserTrackerModelImpl
 
 	@Override
 	public void setUserAgent(String userAgent) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userAgent = userAgent;
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (entry.getValue() != getColumnValue(entry.getKey())) {
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -578,21 +645,9 @@ public class UserTrackerModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		UserTrackerModelImpl userTrackerModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		userTrackerModelImpl._originalCompanyId =
-			userTrackerModelImpl._companyId;
-
-		userTrackerModelImpl._setOriginalCompanyId = false;
-
-		userTrackerModelImpl._originalUserId = userTrackerModelImpl._userId;
-
-		userTrackerModelImpl._setOriginalUserId = false;
-
-		userTrackerModelImpl._originalSessionId =
-			userTrackerModelImpl._sessionId;
-
-		userTrackerModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -722,17 +777,80 @@ public class UserTrackerModelImpl
 
 	}
 
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	public <T> T getColumnValue(String columnName) {
+		Function<UserTracker, Object> function = _attributeGetterFunctions.get(
+			columnName);
+
+		if (function == null) {
+			return null;
+		}
+
+		return (T)function.apply((UserTracker)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("mvccVersion", _mvccVersion);
+		_columnOriginalValues.put("userTrackerId", _userTrackerId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("userId", _userId);
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
+		_columnOriginalValues.put("sessionId", _sessionId);
+		_columnOriginalValues.put("remoteAddr", _remoteAddr);
+		_columnOriginalValues.put("remoteHost", _remoteHost);
+		_columnOriginalValues.put("userAgent", _userAgent);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new LinkedHashMap<>();
+
+		columnBitmasks.put("mvccVersion", 1L);
+
+		columnBitmasks.put("userTrackerId", 2L);
+
+		columnBitmasks.put("companyId", 4L);
+
+		columnBitmasks.put("userId", 8L);
+
+		columnBitmasks.put("modifiedDate", 16L);
+
+		columnBitmasks.put("sessionId", 32L);
+
+		columnBitmasks.put("remoteAddr", 64L);
+
+		columnBitmasks.put("remoteHost", 128L);
+
+		columnBitmasks.put("userAgent", 256L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
 	private long _mvccVersion;
 	private long _userTrackerId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
-	private long _originalUserId;
-	private boolean _setOriginalUserId;
 	private Date _modifiedDate;
 	private String _sessionId;
-	private String _originalSessionId;
 	private String _remoteAddr;
 	private String _remoteHost;
 	private String _userAgent;
