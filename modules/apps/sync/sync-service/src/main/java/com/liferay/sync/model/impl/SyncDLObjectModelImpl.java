@@ -140,20 +140,60 @@ public class SyncDLObjectModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long EVENT_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long MODIFIEDTIME_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long PARENTFOLDERID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long REPOSITORYID_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long TREEPATH_COLUMN_BITMASK = 16L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long TYPE_COLUMN_BITMASK = 32L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long TYPEPK_COLUMN_BITMASK = 64L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long VERSION_COLUMN_BITMASK = 128L;
 
 	/**
@@ -499,6 +539,10 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setSyncDLObjectId(long syncDLObjectId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_syncDLObjectId = syncDLObjectId;
 	}
 
@@ -510,6 +554,10 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -521,6 +569,10 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userId = userId;
 	}
 
@@ -553,6 +605,10 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userName = userName;
 	}
 
@@ -564,6 +620,10 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setCreateTime(long createTime) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_createTime = createTime;
 	}
 
@@ -575,19 +635,20 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setModifiedTime(long modifiedTime) {
-		_columnBitmask = -1L;
-
-		if (!_setOriginalModifiedTime) {
-			_setOriginalModifiedTime = true;
-
-			_originalModifiedTime = _modifiedTime;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_modifiedTime = modifiedTime;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalModifiedTime() {
-		return _originalModifiedTime;
+		return GetterUtil.getLong(getColumnOriginalValue("modifiedTime"));
 	}
 
 	@JSON
@@ -598,19 +659,20 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setRepositoryId(long repositoryId) {
-		_columnBitmask = -1L;
-
-		if (!_setOriginalRepositoryId) {
-			_setOriginalRepositoryId = true;
-
-			_originalRepositoryId = _repositoryId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_repositoryId = repositoryId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalRepositoryId() {
-		return _originalRepositoryId;
+		return GetterUtil.getLong(getColumnOriginalValue("repositoryId"));
 	}
 
 	@JSON
@@ -621,19 +683,20 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setParentFolderId(long parentFolderId) {
-		_columnBitmask |= PARENTFOLDERID_COLUMN_BITMASK;
-
-		if (!_setOriginalParentFolderId) {
-			_setOriginalParentFolderId = true;
-
-			_originalParentFolderId = _parentFolderId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_parentFolderId = parentFolderId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalParentFolderId() {
-		return _originalParentFolderId;
+		return GetterUtil.getLong(getColumnOriginalValue("parentFolderId"));
 	}
 
 	@JSON(include = false)
@@ -649,17 +712,20 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setTreePath(String treePath) {
-		_columnBitmask |= TREEPATH_COLUMN_BITMASK;
-
-		if (_originalTreePath == null) {
-			_originalTreePath = _treePath;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_treePath = treePath;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalTreePath() {
-		return GetterUtil.getString(_originalTreePath);
+		return getColumnOriginalValue("treePath");
 	}
 
 	@JSON
@@ -675,6 +741,10 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setName(String name) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_name = name;
 	}
 
@@ -691,6 +761,10 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setExtension(String extension) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_extension = extension;
 	}
 
@@ -707,6 +781,10 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setMimeType(String mimeType) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_mimeType = mimeType;
 	}
 
@@ -723,6 +801,10 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_description = description;
 	}
 
@@ -739,6 +821,10 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setChangeLog(String changeLog) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_changeLog = changeLog;
 	}
 
@@ -755,6 +841,10 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setExtraSettings(String extraSettings) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_extraSettings = extraSettings;
 	}
 
@@ -771,17 +861,20 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setVersion(String version) {
-		_columnBitmask |= VERSION_COLUMN_BITMASK;
-
-		if (_originalVersion == null) {
-			_originalVersion = _version;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_version = version;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalVersion() {
-		return GetterUtil.getString(_originalVersion);
+		return getColumnOriginalValue("version");
 	}
 
 	@JSON
@@ -792,6 +885,10 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setVersionId(long versionId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_versionId = versionId;
 	}
 
@@ -803,6 +900,10 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setSize(long size) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_size = size;
 	}
 
@@ -819,6 +920,10 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setChecksum(String checksum) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_checksum = checksum;
 	}
 
@@ -835,17 +940,20 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setEvent(String event) {
-		_columnBitmask |= EVENT_COLUMN_BITMASK;
-
-		if (_originalEvent == null) {
-			_originalEvent = _event;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_event = event;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalEvent() {
-		return GetterUtil.getString(_originalEvent);
+		return getColumnOriginalValue("event");
 	}
 
 	@JSON
@@ -861,6 +969,10 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setLanTokenKey(String lanTokenKey) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_lanTokenKey = lanTokenKey;
 	}
 
@@ -872,6 +984,10 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setLastPermissionChangeDate(Date lastPermissionChangeDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_lastPermissionChangeDate = lastPermissionChangeDate;
 	}
 
@@ -883,6 +999,10 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setLockExpirationDate(Date lockExpirationDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_lockExpirationDate = lockExpirationDate;
 	}
 
@@ -894,6 +1014,10 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setLockUserId(long lockUserId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_lockUserId = lockUserId;
 	}
 
@@ -926,6 +1050,10 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setLockUserName(String lockUserName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_lockUserName = lockUserName;
 	}
 
@@ -942,17 +1070,20 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setType(String type) {
-		_columnBitmask |= TYPE_COLUMN_BITMASK;
-
-		if (_originalType == null) {
-			_originalType = _type;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_type = type;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalType() {
-		return GetterUtil.getString(_originalType);
+		return getColumnOriginalValue("type_");
 	}
 
 	@JSON
@@ -963,19 +1094,20 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setTypePK(long typePK) {
-		_columnBitmask |= TYPEPK_COLUMN_BITMASK;
-
-		if (!_setOriginalTypePK) {
-			_setOriginalTypePK = true;
-
-			_originalTypePK = _typePK;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_typePK = typePK;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalTypePK() {
-		return _originalTypePK;
+		return GetterUtil.getLong(getColumnOriginalValue("typePK"));
 	}
 
 	@JSON
@@ -991,10 +1123,32 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setTypeUuid(String typeUuid) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_typeUuid = typeUuid;
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (entry.getValue() != getColumnValue(entry.getKey())) {
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -1147,37 +1301,9 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		SyncDLObjectModelImpl syncDLObjectModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		syncDLObjectModelImpl._originalModifiedTime =
-			syncDLObjectModelImpl._modifiedTime;
-
-		syncDLObjectModelImpl._setOriginalModifiedTime = false;
-
-		syncDLObjectModelImpl._originalRepositoryId =
-			syncDLObjectModelImpl._repositoryId;
-
-		syncDLObjectModelImpl._setOriginalRepositoryId = false;
-
-		syncDLObjectModelImpl._originalParentFolderId =
-			syncDLObjectModelImpl._parentFolderId;
-
-		syncDLObjectModelImpl._setOriginalParentFolderId = false;
-
-		syncDLObjectModelImpl._originalTreePath =
-			syncDLObjectModelImpl._treePath;
-
-		syncDLObjectModelImpl._originalVersion = syncDLObjectModelImpl._version;
-
-		syncDLObjectModelImpl._originalEvent = syncDLObjectModelImpl._event;
-
-		syncDLObjectModelImpl._originalType = syncDLObjectModelImpl._type;
-
-		syncDLObjectModelImpl._originalTypePK = syncDLObjectModelImpl._typePK;
-
-		syncDLObjectModelImpl._setOriginalTypePK = false;
-
-		syncDLObjectModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -1420,22 +1546,146 @@ public class SyncDLObjectModelImpl
 
 	}
 
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	public <T> T getColumnValue(String columnName) {
+		if (columnName.endsWith("_")) {
+			columnName = columnName.substring(0, columnName.length() - 1);
+		}
+
+		Function<SyncDLObject, Object> function = _attributeGetterFunctions.get(
+			columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((SyncDLObject)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("syncDLObjectId", _syncDLObjectId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("userId", _userId);
+		_columnOriginalValues.put("userName", _userName);
+		_columnOriginalValues.put("createTime", _createTime);
+		_columnOriginalValues.put("modifiedTime", _modifiedTime);
+		_columnOriginalValues.put("repositoryId", _repositoryId);
+		_columnOriginalValues.put("parentFolderId", _parentFolderId);
+		_columnOriginalValues.put("treePath", _treePath);
+		_columnOriginalValues.put("name", _name);
+		_columnOriginalValues.put("extension", _extension);
+		_columnOriginalValues.put("mimeType", _mimeType);
+		_columnOriginalValues.put("description", _description);
+		_columnOriginalValues.put("changeLog", _changeLog);
+		_columnOriginalValues.put("extraSettings", _extraSettings);
+		_columnOriginalValues.put("version", _version);
+		_columnOriginalValues.put("versionId", _versionId);
+		_columnOriginalValues.put("size_", _size);
+		_columnOriginalValues.put("checksum", _checksum);
+		_columnOriginalValues.put("event", _event);
+		_columnOriginalValues.put("lanTokenKey", _lanTokenKey);
+		_columnOriginalValues.put(
+			"lastPermissionChangeDate", _lastPermissionChangeDate);
+		_columnOriginalValues.put("lockExpirationDate", _lockExpirationDate);
+		_columnOriginalValues.put("lockUserId", _lockUserId);
+		_columnOriginalValues.put("lockUserName", _lockUserName);
+		_columnOriginalValues.put("type_", _type);
+		_columnOriginalValues.put("typePK", _typePK);
+		_columnOriginalValues.put("typeUuid", _typeUuid);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new LinkedHashMap<>();
+
+		columnBitmasks.put("syncDLObjectId", 1L);
+
+		columnBitmasks.put("companyId", 2L);
+
+		columnBitmasks.put("userId", 4L);
+
+		columnBitmasks.put("userName", 8L);
+
+		columnBitmasks.put("createTime", 16L);
+
+		columnBitmasks.put("modifiedTime", 32L);
+
+		columnBitmasks.put("repositoryId", 64L);
+
+		columnBitmasks.put("parentFolderId", 128L);
+
+		columnBitmasks.put("treePath", 256L);
+
+		columnBitmasks.put("name", 512L);
+
+		columnBitmasks.put("extension", 1024L);
+
+		columnBitmasks.put("mimeType", 2048L);
+
+		columnBitmasks.put("description", 4096L);
+
+		columnBitmasks.put("changeLog", 8192L);
+
+		columnBitmasks.put("extraSettings", 16384L);
+
+		columnBitmasks.put("version", 32768L);
+
+		columnBitmasks.put("versionId", 65536L);
+
+		columnBitmasks.put("size_", 131072L);
+
+		columnBitmasks.put("checksum", 262144L);
+
+		columnBitmasks.put("event", 524288L);
+
+		columnBitmasks.put("lanTokenKey", 1048576L);
+
+		columnBitmasks.put("lastPermissionChangeDate", 2097152L);
+
+		columnBitmasks.put("lockExpirationDate", 4194304L);
+
+		columnBitmasks.put("lockUserId", 8388608L);
+
+		columnBitmasks.put("lockUserName", 16777216L);
+
+		columnBitmasks.put("type_", 33554432L);
+
+		columnBitmasks.put("typePK", 67108864L);
+
+		columnBitmasks.put("typeUuid", 134217728L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
 	private long _syncDLObjectId;
 	private long _companyId;
 	private long _userId;
 	private String _userName;
 	private long _createTime;
 	private long _modifiedTime;
-	private long _originalModifiedTime;
-	private boolean _setOriginalModifiedTime;
 	private long _repositoryId;
-	private long _originalRepositoryId;
-	private boolean _setOriginalRepositoryId;
 	private long _parentFolderId;
-	private long _originalParentFolderId;
-	private boolean _setOriginalParentFolderId;
 	private String _treePath;
-	private String _originalTreePath;
 	private String _name;
 	private String _extension;
 	private String _mimeType;
@@ -1443,22 +1693,17 @@ public class SyncDLObjectModelImpl
 	private String _changeLog;
 	private String _extraSettings;
 	private String _version;
-	private String _originalVersion;
 	private long _versionId;
 	private long _size;
 	private String _checksum;
 	private String _event;
-	private String _originalEvent;
 	private String _lanTokenKey;
 	private Date _lastPermissionChangeDate;
 	private Date _lockExpirationDate;
 	private long _lockUserId;
 	private String _lockUserName;
 	private String _type;
-	private String _originalType;
 	private long _typePK;
-	private long _originalTypePK;
-	private boolean _setOriginalTypePK;
 	private String _typeUuid;
 	private long _columnBitmask;
 	private SyncDLObject _escapedModel;
