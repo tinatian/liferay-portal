@@ -26,6 +26,7 @@ import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
@@ -45,7 +46,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 
 import org.junit.After;
@@ -544,37 +544,82 @@ public class AssetDisplayPageEntryPersistenceTest {
 
 		_persistence.clearCache();
 
-		AssetDisplayPageEntry existingAssetDisplayPageEntry =
+		_assertOriginalValues(
 			_persistence.findByPrimaryKey(
-				newAssetDisplayPageEntry.getPrimaryKey());
+				newAssetDisplayPageEntry.getPrimaryKey()));
+	}
 
-		Assert.assertTrue(
-			Objects.equals(
-				existingAssetDisplayPageEntry.getUuid(),
-				ReflectionTestUtil.invoke(
-					existingAssetDisplayPageEntry, "getOriginalUuid",
-					new Class<?>[0])));
-		Assert.assertEquals(
-			Long.valueOf(existingAssetDisplayPageEntry.getGroupId()),
-			ReflectionTestUtil.<Long>invoke(
-				existingAssetDisplayPageEntry, "getOriginalGroupId",
-				new Class<?>[0]));
+	@Test
+	public void testResetOriginalValuesWithDynamicQueryLoadFromDatabase()
+		throws Exception {
+
+		_testResetOriginalValuesWithDynamicQuery(true);
+	}
+
+	@Test
+	public void testResetOriginalValuesWithDynamicQueryLoadFromSession()
+		throws Exception {
+
+		_testResetOriginalValuesWithDynamicQuery(false);
+	}
+
+	private void _testResetOriginalValuesWithDynamicQuery(boolean clearSession)
+		throws Exception {
+
+		AssetDisplayPageEntry newAssetDisplayPageEntry =
+			addAssetDisplayPageEntry();
+
+		if (clearSession) {
+			Session session = _persistence.openSession();
+
+			session.flush();
+
+			session.clear();
+		}
+
+		DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(
+			AssetDisplayPageEntry.class, _dynamicQueryClassLoader);
+
+		dynamicQuery.add(
+			RestrictionsFactoryUtil.eq(
+				"assetDisplayPageEntryId",
+				newAssetDisplayPageEntry.getAssetDisplayPageEntryId()));
+
+		List<AssetDisplayPageEntry> result = _persistence.findWithDynamicQuery(
+			dynamicQuery);
+
+		_assertOriginalValues(result.get(0));
+	}
+
+	private void _assertOriginalValues(
+		AssetDisplayPageEntry assetDisplayPageEntry) {
 
 		Assert.assertEquals(
-			Long.valueOf(existingAssetDisplayPageEntry.getGroupId()),
-			ReflectionTestUtil.<Long>invoke(
-				existingAssetDisplayPageEntry, "getOriginalGroupId",
-				new Class<?>[0]));
+			assetDisplayPageEntry.getUuid(),
+			ReflectionTestUtil.invoke(
+				assetDisplayPageEntry, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "uuid_"));
 		Assert.assertEquals(
-			Long.valueOf(existingAssetDisplayPageEntry.getClassNameId()),
+			Long.valueOf(assetDisplayPageEntry.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
-				existingAssetDisplayPageEntry, "getOriginalClassNameId",
-				new Class<?>[0]));
+				assetDisplayPageEntry, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "groupId"));
+
 		Assert.assertEquals(
-			Long.valueOf(existingAssetDisplayPageEntry.getClassPK()),
+			Long.valueOf(assetDisplayPageEntry.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
-				existingAssetDisplayPageEntry, "getOriginalClassPK",
-				new Class<?>[0]));
+				assetDisplayPageEntry, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "groupId"));
+		Assert.assertEquals(
+			Long.valueOf(assetDisplayPageEntry.getClassNameId()),
+			ReflectionTestUtil.<Long>invoke(
+				assetDisplayPageEntry, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "classNameId"));
+		Assert.assertEquals(
+			Long.valueOf(assetDisplayPageEntry.getClassPK()),
+			ReflectionTestUtil.<Long>invoke(
+				assetDisplayPageEntry, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "classPK"));
 	}
 
 	protected AssetDisplayPageEntry addAssetDisplayPageEntry()

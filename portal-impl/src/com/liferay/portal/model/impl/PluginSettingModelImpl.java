@@ -122,12 +122,32 @@ public class PluginSettingModelImpl
 	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long PLUGINID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long PLUGINTYPE_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)
+	 */
+	@Deprecated
 	public static final long PLUGINSETTINGID_COLUMN_BITMASK = 8L;
 
 	/**
@@ -353,6 +373,10 @@ public class PluginSettingModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_mvccVersion = mvccVersion;
 	}
 
@@ -364,6 +388,10 @@ public class PluginSettingModelImpl
 
 	@Override
 	public void setPluginSettingId(long pluginSettingId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_pluginSettingId = pluginSettingId;
 	}
 
@@ -375,19 +403,20 @@ public class PluginSettingModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return GetterUtil.getLong(getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -403,17 +432,20 @@ public class PluginSettingModelImpl
 
 	@Override
 	public void setPluginId(String pluginId) {
-		_columnBitmask |= PLUGINID_COLUMN_BITMASK;
-
-		if (_originalPluginId == null) {
-			_originalPluginId = _pluginId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_pluginId = pluginId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalPluginId() {
-		return GetterUtil.getString(_originalPluginId);
+		return getColumnOriginalValue("pluginId");
 	}
 
 	@JSON
@@ -429,17 +461,20 @@ public class PluginSettingModelImpl
 
 	@Override
 	public void setPluginType(String pluginType) {
-		_columnBitmask |= PLUGINTYPE_COLUMN_BITMASK;
-
-		if (_originalPluginType == null) {
-			_originalPluginType = _pluginType;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_pluginType = pluginType;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalPluginType() {
-		return GetterUtil.getString(_originalPluginType);
+		return getColumnOriginalValue("pluginType");
 	}
 
 	@JSON
@@ -455,6 +490,10 @@ public class PluginSettingModelImpl
 
 	@Override
 	public void setRoles(String roles) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_roles = roles;
 	}
 
@@ -472,10 +511,32 @@ public class PluginSettingModelImpl
 
 	@Override
 	public void setActive(boolean active) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_active = active;
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (entry.getValue() != getColumnValue(entry.getKey())) {
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -586,20 +647,9 @@ public class PluginSettingModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		PluginSettingModelImpl pluginSettingModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		pluginSettingModelImpl._originalCompanyId =
-			pluginSettingModelImpl._companyId;
-
-		pluginSettingModelImpl._setOriginalCompanyId = false;
-
-		pluginSettingModelImpl._originalPluginId =
-			pluginSettingModelImpl._pluginId;
-
-		pluginSettingModelImpl._originalPluginType =
-			pluginSettingModelImpl._pluginType;
-
-		pluginSettingModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -712,15 +762,85 @@ public class PluginSettingModelImpl
 
 	}
 
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	public <T> T getColumnValue(String columnName) {
+		if (_attributeNames.containsKey(columnName)) {
+			columnName = _attributeNames.get(columnName);
+		}
+
+		Function<PluginSetting, Object> function =
+			_attributeGetterFunctions.get(columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((PluginSetting)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("mvccVersion", _mvccVersion);
+		_columnOriginalValues.put("pluginSettingId", _pluginSettingId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("pluginId", _pluginId);
+		_columnOriginalValues.put("pluginType", _pluginType);
+		_columnOriginalValues.put("roles", _roles);
+		_columnOriginalValues.put("active_", _active);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, Long> columnBitmasks = new LinkedHashMap<>();
+
+		columnBitmasks.put("mvccVersion", 1L);
+
+		columnBitmasks.put("pluginSettingId", 2L);
+
+		columnBitmasks.put("companyId", 4L);
+
+		columnBitmasks.put("pluginId", 8L);
+
+		columnBitmasks.put("pluginType", 16L);
+
+		columnBitmasks.put("roles", 32L);
+
+		columnBitmasks.put("active_", 64L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+
+		Map<String, String> attributeNames = new LinkedHashMap<>();
+
+		attributeNames.put("active_", "active");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
 	private long _mvccVersion;
 	private long _pluginSettingId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private String _pluginId;
-	private String _originalPluginId;
 	private String _pluginType;
-	private String _originalPluginType;
 	private String _roles;
 	private boolean _active;
 	private long _columnBitmask;

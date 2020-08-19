@@ -26,6 +26,7 @@ import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
@@ -45,7 +46,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 
 import org.junit.After;
@@ -557,37 +557,82 @@ public class MDRRuleGroupInstancePersistenceTest {
 
 		_persistence.clearCache();
 
-		MDRRuleGroupInstance existingMDRRuleGroupInstance =
+		_assertOriginalValues(
 			_persistence.findByPrimaryKey(
-				newMDRRuleGroupInstance.getPrimaryKey());
+				newMDRRuleGroupInstance.getPrimaryKey()));
+	}
 
-		Assert.assertTrue(
-			Objects.equals(
-				existingMDRRuleGroupInstance.getUuid(),
-				ReflectionTestUtil.invoke(
-					existingMDRRuleGroupInstance, "getOriginalUuid",
-					new Class<?>[0])));
-		Assert.assertEquals(
-			Long.valueOf(existingMDRRuleGroupInstance.getGroupId()),
-			ReflectionTestUtil.<Long>invoke(
-				existingMDRRuleGroupInstance, "getOriginalGroupId",
-				new Class<?>[0]));
+	@Test
+	public void testResetOriginalValuesWithDynamicQueryLoadFromDatabase()
+		throws Exception {
+
+		_testResetOriginalValuesWithDynamicQuery(true);
+	}
+
+	@Test
+	public void testResetOriginalValuesWithDynamicQueryLoadFromSession()
+		throws Exception {
+
+		_testResetOriginalValuesWithDynamicQuery(false);
+	}
+
+	private void _testResetOriginalValuesWithDynamicQuery(boolean clearSession)
+		throws Exception {
+
+		MDRRuleGroupInstance newMDRRuleGroupInstance =
+			addMDRRuleGroupInstance();
+
+		if (clearSession) {
+			Session session = _persistence.openSession();
+
+			session.flush();
+
+			session.clear();
+		}
+
+		DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(
+			MDRRuleGroupInstance.class, _dynamicQueryClassLoader);
+
+		dynamicQuery.add(
+			RestrictionsFactoryUtil.eq(
+				"ruleGroupInstanceId",
+				newMDRRuleGroupInstance.getRuleGroupInstanceId()));
+
+		List<MDRRuleGroupInstance> result = _persistence.findWithDynamicQuery(
+			dynamicQuery);
+
+		_assertOriginalValues(result.get(0));
+	}
+
+	private void _assertOriginalValues(
+		MDRRuleGroupInstance mdrRuleGroupInstance) {
 
 		Assert.assertEquals(
-			Long.valueOf(existingMDRRuleGroupInstance.getClassNameId()),
-			ReflectionTestUtil.<Long>invoke(
-				existingMDRRuleGroupInstance, "getOriginalClassNameId",
-				new Class<?>[0]));
+			mdrRuleGroupInstance.getUuid(),
+			ReflectionTestUtil.invoke(
+				mdrRuleGroupInstance, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "uuid_"));
 		Assert.assertEquals(
-			Long.valueOf(existingMDRRuleGroupInstance.getClassPK()),
+			Long.valueOf(mdrRuleGroupInstance.getGroupId()),
 			ReflectionTestUtil.<Long>invoke(
-				existingMDRRuleGroupInstance, "getOriginalClassPK",
-				new Class<?>[0]));
+				mdrRuleGroupInstance, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "groupId"));
+
 		Assert.assertEquals(
-			Long.valueOf(existingMDRRuleGroupInstance.getRuleGroupId()),
+			Long.valueOf(mdrRuleGroupInstance.getClassNameId()),
 			ReflectionTestUtil.<Long>invoke(
-				existingMDRRuleGroupInstance, "getOriginalRuleGroupId",
-				new Class<?>[0]));
+				mdrRuleGroupInstance, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "classNameId"));
+		Assert.assertEquals(
+			Long.valueOf(mdrRuleGroupInstance.getClassPK()),
+			ReflectionTestUtil.<Long>invoke(
+				mdrRuleGroupInstance, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "classPK"));
+		Assert.assertEquals(
+			Long.valueOf(mdrRuleGroupInstance.getRuleGroupId()),
+			ReflectionTestUtil.<Long>invoke(
+				mdrRuleGroupInstance, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "ruleGroupId"));
 	}
 
 	protected MDRRuleGroupInstance addMDRRuleGroupInstance() throws Exception {

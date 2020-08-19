@@ -21,6 +21,7 @@ import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.exception.NoSuchUserException;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
@@ -45,7 +46,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 
 import org.junit.After;
@@ -720,96 +720,148 @@ public class UserPersistenceTest {
 
 		_persistence.clearCache();
 
-		User existingUser = _persistence.findByPrimaryKey(
-			newUser.getPrimaryKey());
+		_assertOriginalValues(
+			_persistence.findByPrimaryKey(newUser.getPrimaryKey()));
+	}
+
+	@Test
+	public void testResetOriginalValuesWithDynamicQueryLoadFromDatabase()
+		throws Exception {
+
+		_testResetOriginalValuesWithDynamicQuery(true);
+	}
+
+	@Test
+	public void testResetOriginalValuesWithDynamicQueryLoadFromSession()
+		throws Exception {
+
+		_testResetOriginalValuesWithDynamicQuery(false);
+	}
+
+	private void _testResetOriginalValuesWithDynamicQuery(boolean clearSession)
+		throws Exception {
+
+		User newUser = addUser();
+
+		if (clearSession) {
+			Session session = _persistence.openSession();
+
+			session.flush();
+
+			session.clear();
+		}
+
+		DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(
+			User.class, _dynamicQueryClassLoader);
+
+		dynamicQuery.add(
+			RestrictionsFactoryUtil.eq("userId", newUser.getUserId()));
+
+		List<User> result = _persistence.findWithDynamicQuery(dynamicQuery);
+
+		_assertOriginalValues(result.get(0));
+	}
+
+	private void _assertOriginalValues(User user) {
+		Assert.assertEquals(
+			Long.valueOf(user.getContactId()),
+			ReflectionTestUtil.<Long>invoke(
+				user, "getColumnOriginalValue", new Class<?>[] {String.class},
+				"contactId"));
 
 		Assert.assertEquals(
-			Long.valueOf(existingUser.getContactId()),
+			Long.valueOf(user.getPortraitId()),
 			ReflectionTestUtil.<Long>invoke(
-				existingUser, "getOriginalContactId", new Class<?>[0]));
+				user, "getColumnOriginalValue", new Class<?>[] {String.class},
+				"portraitId"));
 
 		Assert.assertEquals(
-			Long.valueOf(existingUser.getPortraitId()),
+			Long.valueOf(user.getCompanyId()),
 			ReflectionTestUtil.<Long>invoke(
-				existingUser, "getOriginalPortraitId", new Class<?>[0]));
+				user, "getColumnOriginalValue", new Class<?>[] {String.class},
+				"companyId"));
+		Assert.assertEquals(
+			Long.valueOf(user.getUserId()),
+			ReflectionTestUtil.<Long>invoke(
+				user, "getColumnOriginalValue", new Class<?>[] {String.class},
+				"userId"));
 
 		Assert.assertEquals(
-			Long.valueOf(existingUser.getCompanyId()),
+			Long.valueOf(user.getCompanyId()),
 			ReflectionTestUtil.<Long>invoke(
-				existingUser, "getOriginalCompanyId", new Class<?>[0]));
+				user, "getColumnOriginalValue", new Class<?>[] {String.class},
+				"companyId"));
 		Assert.assertEquals(
-			Long.valueOf(existingUser.getUserId()),
-			ReflectionTestUtil.<Long>invoke(
-				existingUser, "getOriginalUserId", new Class<?>[0]));
-
-		Assert.assertEquals(
-			Long.valueOf(existingUser.getCompanyId()),
-			ReflectionTestUtil.<Long>invoke(
-				existingUser, "getOriginalCompanyId", new Class<?>[0]));
-		Assert.assertEquals(
-			Boolean.valueOf(existingUser.getDefaultUser()),
+			Boolean.valueOf(user.getDefaultUser()),
 			ReflectionTestUtil.<Boolean>invoke(
-				existingUser, "getOriginalDefaultUser", new Class<?>[0]));
+				user, "getColumnOriginalValue", new Class<?>[] {String.class},
+				"defaultUser"));
 
 		Assert.assertEquals(
-			Long.valueOf(existingUser.getCompanyId()),
+			Long.valueOf(user.getCompanyId()),
 			ReflectionTestUtil.<Long>invoke(
-				existingUser, "getOriginalCompanyId", new Class<?>[0]));
-		Assert.assertTrue(
-			Objects.equals(
-				existingUser.getScreenName(),
-				ReflectionTestUtil.invoke(
-					existingUser, "getOriginalScreenName", new Class<?>[0])));
+				user, "getColumnOriginalValue", new Class<?>[] {String.class},
+				"companyId"));
+		Assert.assertEquals(
+			user.getScreenName(),
+			ReflectionTestUtil.invoke(
+				user, "getColumnOriginalValue", new Class<?>[] {String.class},
+				"screenName"));
 
 		Assert.assertEquals(
-			Long.valueOf(existingUser.getCompanyId()),
+			Long.valueOf(user.getCompanyId()),
 			ReflectionTestUtil.<Long>invoke(
-				existingUser, "getOriginalCompanyId", new Class<?>[0]));
-		Assert.assertTrue(
-			Objects.equals(
-				existingUser.getEmailAddress(),
-				ReflectionTestUtil.invoke(
-					existingUser, "getOriginalEmailAddress", new Class<?>[0])));
+				user, "getColumnOriginalValue", new Class<?>[] {String.class},
+				"companyId"));
+		Assert.assertEquals(
+			user.getEmailAddress(),
+			ReflectionTestUtil.invoke(
+				user, "getColumnOriginalValue", new Class<?>[] {String.class},
+				"emailAddress"));
 
 		Assert.assertEquals(
-			Long.valueOf(existingUser.getCompanyId()),
+			Long.valueOf(user.getCompanyId()),
 			ReflectionTestUtil.<Long>invoke(
-				existingUser, "getOriginalCompanyId", new Class<?>[0]));
+				user, "getColumnOriginalValue", new Class<?>[] {String.class},
+				"companyId"));
 		Assert.assertEquals(
-			Long.valueOf(existingUser.getFacebookId()),
+			Long.valueOf(user.getFacebookId()),
 			ReflectionTestUtil.<Long>invoke(
-				existingUser, "getOriginalFacebookId", new Class<?>[0]));
+				user, "getColumnOriginalValue", new Class<?>[] {String.class},
+				"facebookId"));
 
 		Assert.assertEquals(
-			Long.valueOf(existingUser.getCompanyId()),
+			Long.valueOf(user.getCompanyId()),
 			ReflectionTestUtil.<Long>invoke(
-				existingUser, "getOriginalCompanyId", new Class<?>[0]));
-		Assert.assertTrue(
-			Objects.equals(
-				existingUser.getGoogleUserId(),
-				ReflectionTestUtil.invoke(
-					existingUser, "getOriginalGoogleUserId", new Class<?>[0])));
+				user, "getColumnOriginalValue", new Class<?>[] {String.class},
+				"companyId"));
+		Assert.assertEquals(
+			user.getGoogleUserId(),
+			ReflectionTestUtil.invoke(
+				user, "getColumnOriginalValue", new Class<?>[] {String.class},
+				"googleUserId"));
 
 		Assert.assertEquals(
-			Long.valueOf(existingUser.getCompanyId()),
+			Long.valueOf(user.getCompanyId()),
 			ReflectionTestUtil.<Long>invoke(
-				existingUser, "getOriginalCompanyId", new Class<?>[0]));
-		Assert.assertTrue(
-			Objects.equals(
-				existingUser.getOpenId(),
-				ReflectionTestUtil.invoke(
-					existingUser, "getOriginalOpenId", new Class<?>[0])));
+				user, "getColumnOriginalValue", new Class<?>[] {String.class},
+				"companyId"));
+		Assert.assertEquals(
+			user.getOpenId(),
+			ReflectionTestUtil.invoke(
+				user, "getColumnOriginalValue", new Class<?>[] {String.class},
+				"openId"));
 
 		Assert.assertEquals(
-			Long.valueOf(existingUser.getCompanyId()),
+			Long.valueOf(user.getCompanyId()),
 			ReflectionTestUtil.<Long>invoke(
-				existingUser, "getOriginalCompanyId", new Class<?>[0]));
-		Assert.assertTrue(
-			Objects.equals(
-				existingUser.getExternalReferenceCode(),
-				ReflectionTestUtil.invoke(
-					existingUser, "getOriginalExternalReferenceCode",
-					new Class<?>[0])));
+				user, "getColumnOriginalValue", new Class<?>[] {String.class},
+				"companyId"));
+		Assert.assertEquals(
+			user.getExternalReferenceCode(),
+			ReflectionTestUtil.invoke(
+				user, "getColumnOriginalValue", new Class<?>[] {String.class},
+				"externalReferenceCode"));
 	}
 
 	protected User addUser() throws Exception {
