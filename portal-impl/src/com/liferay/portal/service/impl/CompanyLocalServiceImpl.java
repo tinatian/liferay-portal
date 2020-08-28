@@ -103,6 +103,9 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import java.net.IDN;
+import java.net.Inet6Address;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -509,7 +512,7 @@ public class CompanyLocalServiceImpl extends CompanyLocalServiceBaseImpl {
 			virtualHostname = StringUtil.toLowerCase(
 				StringUtil.trim(virtualHostname));
 
-			VirtualHost virtualHost = virtualHostPersistence.findByHostname(
+			VirtualHost virtualHost = virtualHostLocalService.fetchVirtualHost(
 				virtualHostname);
 
 			if ((virtualHost == null) && virtualHostname.contains("xn--")) {
@@ -1401,6 +1404,23 @@ public class CompanyLocalServiceImpl extends CompanyLocalServiceBaseImpl {
 		throws CompanyVirtualHostException {
 
 		if (Validator.isNotNull(virtualHostname)) {
+			try {
+				if (Validator.isIPv6Address(virtualHostname)) {
+					Inet6Address address = (Inet6Address)InetAddress.getByName(
+						virtualHostname);
+
+					virtualHostname = address.getHostAddress();
+				}
+			}
+			catch (UnknownHostException unknownHostException) {
+				if (_log.isDebugEnabled()) {
+					_log.debug(unknownHostException, unknownHostException);
+				}
+
+				throw new CompanyVirtualHostException(
+					"Virtual hostname is not a valid IPv6 address");
+			}
+
 			VirtualHost virtualHost = virtualHostPersistence.fetchByHostname(
 				virtualHostname);
 
@@ -1497,32 +1517,26 @@ public class CompanyLocalServiceImpl extends CompanyLocalServiceBaseImpl {
 			throw new CompanyVirtualHostException(
 				"localhost can only be used with the default web ID " + webId);
 		}
-		else if (!Validator.isDomain(virtualHostname)) {
+		else if (!Validator.isDomain(virtualHostname) &&
+				 !Validator.isIPAddress(virtualHostname)) {
+
 			throw new CompanyVirtualHostException(
-				"Virtual hostname is an invalid domain");
+				"Virtual hostname is invalid");
 		}
 		else {
-			try {
-				VirtualHost virtualHost = virtualHostPersistence.findByHostname(
-					virtualHostname);
+			VirtualHost virtualHost = virtualHostLocalService.fetchVirtualHost(
+				virtualHostname);
 
-				Company virtualHostnameCompany =
-					companyPersistence.findByPrimaryKey(
-						virtualHost.getCompanyId());
-
-				if (!webId.equals(virtualHostnameCompany.getWebId())) {
-					throw new CompanyVirtualHostException(
-						"Duplicate virtual hostname " + virtualHostname);
-				}
+			if (virtualHost == null) {
+				return;
 			}
-			catch (NoSuchVirtualHostException noSuchVirtualHostException) {
 
-				// LPS-52675
+			Company virtualHostnameCompany =
+				companyPersistence.findByPrimaryKey(virtualHost.getCompanyId());
 
-				if (_log.isDebugEnabled()) {
-					_log.debug(
-						noSuchVirtualHostException, noSuchVirtualHostException);
-				}
+			if (!webId.equals(virtualHostnameCompany.getWebId())) {
+				throw new CompanyVirtualHostException(
+					"Duplicate virtual hostname " + virtualHostname);
 			}
 		}
 	}

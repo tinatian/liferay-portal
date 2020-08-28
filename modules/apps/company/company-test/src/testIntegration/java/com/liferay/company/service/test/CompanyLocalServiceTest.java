@@ -287,6 +287,16 @@ public class CompanyLocalServiceTest {
 	}
 
 	@Test
+	public void testAddAndDeleteCompanyWithIPv6Host() throws Exception {
+		String hostname = "::1";
+
+		Company company = CompanyLocalServiceUtil.addCompany(
+			null, hostname, hostname, "test.com", false, 0, true);
+
+		CompanyLocalServiceUtil.deleteCompany(company.getCompanyId());
+	}
+
+	@Test
 	public void testAddAndDeleteCompanyWithLayoutSetPrototype()
 		throws Throwable {
 
@@ -770,6 +780,23 @@ public class CompanyLocalServiceTest {
 	}
 
 	@Test
+	public void testGetCompanyByVirtualHostWithIPv6() throws Exception {
+		String virtualHostName = "::1";
+
+		Company company = CompanyLocalServiceUtil.addCompany(
+			null, virtualHostName, virtualHostName, "test.com", false, 0, true);
+
+		Assert.assertEquals(
+			company,
+			CompanyLocalServiceUtil.getCompanyByVirtualHost(virtualHostName));
+		Assert.assertEquals(
+			company,
+			CompanyLocalServiceUtil.getCompanyByVirtualHost("0:0:0:0:0:0:0:1"));
+
+		CompanyLocalServiceUtil.deleteCompany(company);
+	}
+
+	@Test
 	public void testUpdateDisplay() throws Exception {
 		Company company = addCompany();
 
@@ -841,7 +868,12 @@ public class CompanyLocalServiceTest {
 
 	@Test
 	public void testUpdateValidVirtualHostnames() throws Exception {
-		testUpdateVirtualHostnames(new String[] {"abc.com"}, false);
+		testUpdateVirtualHostnames(
+			new String[] {
+				"abc.com", "255.0.0.0",
+				"0000:0000:0000:0000:0000:0000:0000:0001"
+			},
+			false);
 	}
 
 	protected Company addCompany() throws Exception {
