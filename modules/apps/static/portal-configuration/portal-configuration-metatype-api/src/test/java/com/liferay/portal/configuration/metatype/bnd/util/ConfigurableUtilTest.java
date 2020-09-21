@@ -160,6 +160,22 @@ public class ConfigurableUtilTest {
 		new ConfigurableUtil();
 	}
 
+	@Test
+	public void testSuppliedValueNotEscaped() {
+		Dictionary<String, String> dictionary = new HashMapDictionary<>();
+
+		dictionary.put("testReqiredString", "testReqiredString");
+		dictionary.put("testStringSuppliedValueNotEscaped", "a=b\\,c\\=d\\\\");
+
+		TestConfiguration testConfiguration =
+			ConfigurableUtil.createConfigurable(
+				TestConfiguration.class, dictionary);
+
+		Assert.assertEquals(
+			"a=b\\,c\\=d\\\\",
+			testConfiguration.testStringSuppliedValueNotEscaped());
+	}
+
 	@Aspect
 	public static class ConfigurableUtilAdvice {
 
@@ -216,22 +232,16 @@ public class ConfigurableUtilTest {
 		Assert.assertEquals(TestEnum.TEST_VALUE, testConfiguration.testEnum());
 		Assert.assertEquals(1.0, testConfiguration.testFloat(), 0);
 		Assert.assertEquals(100, testConfiguration.testInt());
-		Assert.assertEquals(100L, testConfiguration.testLong());
-		Assert.assertArrayEquals(
-			new long[] {100, 100}, testConfiguration.testLongArray());
 		Assert.assertNull(testConfiguration.testNullResult());
 		Assert.assertEquals(
 			requiredString, testConfiguration.testReqiredString());
 		Assert.assertEquals(1, testConfiguration.testShort());
 		Assert.assertEquals("test_string", testConfiguration.testString());
-		Assert.assertEquals(
-			"a=b\\,c= d", testConfiguration.testStringBackslashEscape());
 		Assert.assertArrayEquals(
 			new String[] {"test_string_1", "test_string_2"},
 			testConfiguration.testStringArray());
-		Assert.assertArrayEquals(
-			new String[] {"a,b", "b,c", " c\\", "d"},
-			testConfiguration.testStringArrayBackslashEscape());
+		Assert.assertEquals(
+			"a=b,c\\=d", testConfiguration.testStringDefaultValueEscaped());
 
 		TestClass testClass = testConfiguration.testClass();
 
@@ -280,9 +290,6 @@ public class ConfigurableUtilTest {
 		@Meta.AD(deflt = "100", required = false)
 		public long testLong();
 
-		@Meta.AD(deflt = "100, 100", required = false)
-		public long[] testLongArray();
-
 		@Meta.AD(required = false)
 		public String testNullResult();
 
@@ -298,11 +305,11 @@ public class ConfigurableUtilTest {
 		@Meta.AD(deflt = "test_string_1|test_string_2", required = false)
 		public String[] testStringArray();
 
-		@Meta.AD(deflt = "a\\,b,b\\,c,\\ c\\\\,d", required = false)
-		public String[] testStringArrayBackslashEscape();
+		@Meta.AD(deflt = "a=b\\,c\\=d", required = false)
+		public String testStringDefaultValueEscaped();
 
-		@Meta.AD(deflt = "a\\=b\\\\\\,c\\=\\ d", required = false)
-		public String testStringBackslashEscape();
+		@Meta.AD(required = false)
+		public String testStringSuppliedValueNotEscaped();
 
 	}
 
