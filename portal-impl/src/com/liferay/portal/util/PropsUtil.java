@@ -36,6 +36,10 @@ import com.liferay.portal.kernel.util.ServerDetector;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.SystemProperties;
 import com.liferay.portal.kernel.util.UnicodeProperties;
+import com.liferay.portal.kernel.util.Validator;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -234,6 +238,30 @@ public class PropsUtil {
 		configuration.set(key, value);
 	}
 
+	private static String _getComputerName() {
+		String computerName = System.getProperty("env.COMPUTERNAME");
+
+		if (Validator.isNull(computerName)) {
+			computerName = System.getProperty("env.HOST");
+		}
+
+		if (Validator.isNull(computerName)) {
+			computerName = System.getProperty("env.HOSTNAME");
+		}
+
+		if (Validator.isNull(computerName)) {
+			try {
+				InetAddress inetAddress = InetAddress.getLocalHost();
+
+				computerName = inetAddress.getHostName();
+			}
+			catch (UnknownHostException unknownHostException) {
+			}
+		}
+
+		return computerName;
+	}
+
 	private static Configuration _getConfiguration() {
 		if (_configurations == null) {
 			return _configuration;
@@ -350,6 +378,16 @@ public class PropsUtil {
 	private static final Map<Long, Configuration> _configurations;
 
 	static {
+
+		// Computer name
+
+		String computerName = _getComputerName();
+
+		SystemProperties.set(PropsKeys.COMPUTER_NAME, computerName);
+
+		if (_log.isInfoEnabled()) {
+			_log.info("Computer name " + computerName);
+		}
 
 		// Default liferay home directory
 

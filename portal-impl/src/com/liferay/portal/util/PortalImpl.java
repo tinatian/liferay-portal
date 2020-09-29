@@ -311,31 +311,6 @@ import javax.servlet.http.HttpSession;
 public class PortalImpl implements Portal {
 
 	public PortalImpl() {
-
-		// Computer name
-
-		String computerName = System.getProperty("env.COMPUTERNAME");
-
-		if (Validator.isNull(computerName)) {
-			computerName = System.getProperty("env.HOST");
-		}
-
-		if (Validator.isNull(computerName)) {
-			computerName = System.getProperty("env.HOSTNAME");
-		}
-
-		if (Validator.isNull(computerName)) {
-			try {
-				InetAddress inetAddress = InetAddress.getLocalHost();
-
-				computerName = inetAddress.getHostName();
-			}
-			catch (UnknownHostException unknownHostException) {
-			}
-		}
-
-		_computerName = computerName;
-
 		try {
 			List<NetworkInterface> networkInterfaces = Collections.list(
 				NetworkInterface.getNetworkInterfaces());
@@ -1724,7 +1699,7 @@ public class PortalImpl implements Portal {
 
 	@Override
 	public String getComputerName() {
-		return _computerName;
+		return PropsUtil.get(PropsKeys.COMPUTER_NAME);
 	}
 
 	@Override
@@ -8726,7 +8701,6 @@ public class PortalImpl implements Portal {
 	private final List<AlwaysAllowDoAsUser> _alwaysAllowDoAsUsers =
 		new ArrayList<>();
 	private final Set<String> _computerAddresses = new HashSet<>();
-	private final String _computerName;
 	private String[] _customSqlKeys;
 	private String[] _customSqlValues;
 	private volatile StrutsAction _editDiscussionStrutsAction;
