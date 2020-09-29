@@ -40,6 +40,8 @@ import com.liferay.portal.kernel.util.ReleaseInfo;
 import com.liferay.portal.kernel.util.ServiceLoader;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.SystemProperties;
+import com.liferay.portal.kernel.xml.SAXReader;
+import com.liferay.portal.kernel.xml.SAXReaderUtil;
 import com.liferay.portal.module.framework.ModuleFramework;
 import com.liferay.portal.util.PropsValues;
 import com.liferay.registry.Registry;
@@ -1891,7 +1893,7 @@ public class ModuleFrameworkImpl implements ModuleFramework {
 
 		Props props = PropsUtil.getProps();
 
-		ServiceRegistration<Props> serviceRegistration =
+		ServiceRegistration<Props> propsServiceRegistration =
 			bundleContext.registerService(
 				Props.class, props,
 				_getProperties(props, Props.class.getName()));
@@ -1899,7 +1901,20 @@ public class ModuleFrameworkImpl implements ModuleFramework {
 		if (_log.isDebugEnabled()) {
 			_log.debug(
 				"Registered required service as " +
-					serviceRegistration.getReference());
+					propsServiceRegistration.getReference());
+		}
+
+		SAXReader saxReader = SAXReaderUtil.getSAXReader();
+
+		ServiceRegistration<SAXReader> saxReaderServiceRegistration =
+			bundleContext.registerService(
+				SAXReader.class, saxReader,
+				_getProperties(saxReader, SAXReader.class.getName()));
+
+		if (_log.isDebugEnabled()) {
+			_log.debug(
+				"Registered required service as " +
+					saxReaderServiceRegistration.getReference());
 		}
 
 		if (_log.isDebugEnabled()) {
