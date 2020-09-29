@@ -97,7 +97,7 @@ public class LayoutCommonTag extends IncludeTag {
 
 			jspWriter.write(": ");
 			jspWriter.write(
-				StringUtil.toLowerCase(PortalUtil.getComputerName()));
+				StringUtil.toLowerCase(PropsUtil.get(PropsKeys.COMPUTER_NAME)));
 			jspWriter.write(StringPool.COLON);
 			jspWriter.write(
 				String.valueOf(PortalUtil.getPortalLocalPort(false)));

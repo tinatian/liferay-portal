@@ -38,7 +38,7 @@ import com.liferay.portal.kernel.util.Http;
 import com.liferay.portal.kernel.util.MethodHandler;
 import com.liferay.portal.kernel.util.MethodKey;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ReleaseInfo;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -181,7 +181,7 @@ public class LicenseUtil {
 
 	public static Map<String, String> getServerInfo() {
 		return HashMapBuilder.put(
-			"hostName", PortalUtil.getComputerName()
+			"hostName", PropsUtil.get(PropsKeys.COMPUTER_NAME)
 		).put(
 			"ipAddresses", StringUtil.merge(getIpAddresses())
 		).put(
@@ -444,7 +444,7 @@ public class LicenseUtil {
 			}
 
 			jsonObject.put(
-				"hostName", PortalUtil.getComputerName()
+				"hostName", PropsUtil.get(PropsKeys.COMPUTER_NAME)
 			).put(
 				"ipAddresses", StringUtil.merge(getIpAddresses())
 			).put(

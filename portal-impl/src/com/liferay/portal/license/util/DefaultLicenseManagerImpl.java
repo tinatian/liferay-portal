@@ -23,7 +23,8 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.security.SecureRandomUtil;
 import com.liferay.portal.kernel.util.Constants;
 import com.liferay.portal.kernel.util.HashMapBuilder;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.util.LicenseUtil;
@@ -52,7 +53,7 @@ public class DefaultLicenseManagerImpl implements LicenseManager {
 
 	@Override
 	public String getHostName() {
-		return PortalUtil.getComputerName();
+		return PropsUtil.get(PropsKeys.COMPUTER_NAME);
 	}
 
 	@Override
