@@ -32,7 +32,6 @@ import com.liferay.portal.kernel.model.ModelHintsUtil;
 import com.liferay.portal.kernel.security.auth.DefaultFullNameGenerator;
 import com.liferay.portal.kernel.security.auth.FullNameGenerator;
 import com.liferay.portal.kernel.security.permission.ResourceActionsUtil;
-import com.liferay.portal.kernel.security.xml.SecureXMLFactoryProviderUtil;
 import com.liferay.portal.kernel.service.permission.PortletPermissionUtil;
 import com.liferay.portal.kernel.util.DigesterUtil;
 import com.liferay.portal.kernel.util.FastDateFormatFactoryUtil;
@@ -41,11 +40,8 @@ import com.liferay.portal.kernel.util.FriendlyURLNormalizerUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.HttpUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
-import com.liferay.portal.kernel.xml.SAXReaderUtil;
-import com.liferay.portal.kernel.xml.UnsecureSAXReaderUtil;
 import com.liferay.portal.model.DefaultModelHintsImpl;
 import com.liferay.portal.security.permission.ResourceActionsImpl;
-import com.liferay.portal.security.xml.SecureXMLFactoryProviderImpl;
 import com.liferay.portal.service.permission.PortletPermissionImpl;
 import com.liferay.portal.util.DigesterImpl;
 import com.liferay.portal.util.FastDateFormatFactoryImpl;
@@ -55,7 +51,6 @@ import com.liferay.portal.util.HtmlImpl;
 import com.liferay.portal.util.HttpImpl;
 import com.liferay.portal.util.InitUtil;
 import com.liferay.portal.util.PortalImpl;
-import com.liferay.portal.xml.SAXReaderImpl;
 import com.liferay.registry.BasicRegistryImpl;
 import com.liferay.registry.Registry;
 import com.liferay.registry.RegistryUtil;
@@ -129,29 +124,6 @@ public class ToolDependencies {
 			new PortletPermissionUtil();
 
 		portletPermissionUtil.setPortletPermission(new PortletPermissionImpl());
-
-		SAXReaderUtil saxReaderUtil = new SAXReaderUtil();
-
-		SAXReaderImpl secureSAXReaderImpl = new SAXReaderImpl();
-
-		secureSAXReaderImpl.setSecure(true);
-
-		saxReaderUtil.setSAXReader(secureSAXReaderImpl);
-
-		SecureXMLFactoryProviderUtil secureXMLFactoryProviderUtil =
-			new SecureXMLFactoryProviderUtil();
-
-		secureXMLFactoryProviderUtil.setSecureXMLFactoryProvider(
-			new SecureXMLFactoryProviderImpl());
-
-		UnsecureSAXReaderUtil unsecureSAXReaderUtil =
-			new UnsecureSAXReaderUtil();
-
-		SAXReaderImpl unsecureSAXReaderImpl = new SAXReaderImpl();
-
-		unsecureSAXReaderUtil.setSAXReader(unsecureSAXReaderImpl);
-
-		// DefaultModelHintsImpl requires SecureXMLFactoryProviderUtil
 
 		ModelHintsUtil modelHintsUtil = new ModelHintsUtil();
 
