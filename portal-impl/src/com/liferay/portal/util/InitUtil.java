@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.bean.PortalBeanLocatorUtil;
 import com.liferay.portal.kernel.configuration.ConfigurationFactoryUtil;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
 import com.liferay.portal.kernel.dao.jdbc.DataSourceFactoryUtil;
+import com.liferay.portal.kernel.license.util.LicenseManagerUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.log.SanitizerLogWrapper;
 import com.liferay.portal.kernel.module.framework.ModuleServiceLifecycle;
@@ -49,6 +50,7 @@ import com.liferay.portal.kernel.util.TimeZoneUtil;
 import com.liferay.portal.kernel.xml.SAXReader;
 import com.liferay.portal.kernel.xml.SAXReaderUtil;
 import com.liferay.portal.kernel.xml.UnsecureSAXReaderUtil;
+import com.liferay.portal.license.util.DefaultLicenseManagerImpl;
 import com.liferay.portal.log.Log4jLogFactoryImpl;
 import com.liferay.portal.module.framework.ModuleFrameworkUtilAdapter;
 import com.liferay.portal.security.xml.SecureXMLFactoryProviderImpl;
@@ -197,6 +199,12 @@ public class InitUtil {
 			System.out.println(
 				"InitAction takes " + stopWatch.getTime() + " ms");
 		}
+
+		// License manager
+
+		LicenseManagerUtil licenseManagerUtil = new LicenseManagerUtil();
+
+		licenseManagerUtil.setLicenseManager(new DefaultLicenseManagerImpl());
 
 		_initialized = true;
 	}
