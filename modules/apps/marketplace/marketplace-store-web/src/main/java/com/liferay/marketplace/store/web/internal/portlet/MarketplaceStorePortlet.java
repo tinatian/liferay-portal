@@ -289,7 +289,7 @@ public class MarketplaceStorePortlet extends RemoteMVCPortlet {
 			}
 
 			if (Validator.isNotNull(orderUuid)) {
-				_registerOrder(orderUuid, productEntryName);
+				LicenseUtil.registerOrder(orderUuid, productEntryName, 0);
 			}
 
 			_appService.installApp(app.getRemoteAppId());
@@ -328,7 +328,7 @@ public class MarketplaceStorePortlet extends RemoteMVCPortlet {
 		}
 
 		if (Validator.isNotNull(orderUuid)) {
-			_registerOrder(orderUuid, productEntryName);
+			LicenseUtil.registerOrder(orderUuid, productEntryName, 0);
 
 			jsonObject.put("message", "success");
 		}
@@ -585,12 +585,6 @@ public class MarketplaceStorePortlet extends RemoteMVCPortlet {
 		}
 
 		return FileUtil.getBytes(serverIdFile);
-	}
-
-	private void _registerOrder(String orderUuid, String productEntryName)
-		throws Exception {
-
-		LicenseUtil.registerOrder(orderUuid, productEntryName, 0);
 	}
 
 	private static final String _LICENSE_SERVER_ID_FILE_NAME =
