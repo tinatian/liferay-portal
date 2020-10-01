@@ -1697,6 +1697,11 @@ public class PortalImpl implements Portal {
 		return _computerAddresses;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *          com.liferay.portal.kernel.util.PropsUtil#get(String)}
+	 */
+	@Deprecated
 	@Override
 	public String getComputerName() {
 		return PropsUtil.get(PropsKeys.COMPUTER_NAME);

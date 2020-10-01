@@ -476,6 +476,11 @@ public interface Portal {
 
 	public Set<String> getComputerAddresses();
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *          PropsUtil#get(String)}
+	 */
+	@Deprecated
 	public String getComputerName();
 
 	public String getControlPanelFullURL(

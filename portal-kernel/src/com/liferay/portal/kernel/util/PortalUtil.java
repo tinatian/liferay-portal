@@ -612,6 +612,11 @@ public class PortalUtil {
 		return getPortal().getComputerAddresses();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *          PropsUtil#get(String)}
+	 */
+	@Deprecated
 	public static String getComputerName() {
 		return getPortal().getComputerName();
 	}

@@ -19,6 +19,11 @@ package com.liferay.portal.util;
  */
 public class ExtPortalImpl extends PortalImpl {
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *          PropsUtil#get(String)}
+	 */
+	@Deprecated
 	@Override
 	public String getComputerName() {
 		return "EXT_PORTAL_IMPL_INSTALLED_" + super.getComputerName();
