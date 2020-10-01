@@ -22,6 +22,8 @@ import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.concurrent.DefaultNoticeableFuture;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.io.unsync.UnsyncBufferedInputStream;
+import com.liferay.portal.kernel.license.util.LicenseManager;
+import com.liferay.portal.kernel.license.util.LicenseManagerUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.lpkg.StaticLPKGResolver;
@@ -1915,6 +1917,19 @@ public class ModuleFrameworkImpl implements ModuleFramework {
 			_log.debug(
 				"Registered required service as " +
 					saxReaderServiceRegistration.getReference());
+		}
+
+		LicenseManager licenseManager = LicenseManagerUtil.getLicenseManager();
+
+		ServiceRegistration<LicenseManager> licenseManagerServiceRegistration =
+			bundleContext.registerService(
+				LicenseManager.class, licenseManager,
+				_getProperties(licenseManager, LicenseManager.class.getName()));
+
+		if (_log.isDebugEnabled()) {
+			_log.debug(
+				"Registered required service as " +
+					licenseManagerServiceRegistration.getReference());
 		}
 
 		if (_log.isDebugEnabled()) {
