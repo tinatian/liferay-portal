@@ -28,7 +28,7 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.json.JSONUtil;
-import com.liferay.portal.kernel.license.util.LicenseManagerUtil;
+import com.liferay.portal.kernel.license.util.LicenseManager;
 import com.liferay.portal.kernel.patcher.PatcherUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.FileUtil;
@@ -557,12 +557,11 @@ public class MarketplaceStorePortlet extends RemoteMVCPortlet {
 		JSONObject jsonObject = JSONUtil.put(
 			"cmd", "GET_ORDER"
 		).put(
-			"hostName", LicenseManagerUtil.getHostName()
+			"hostName", _licenseManager.getHostName()
 		).put(
-			"ipAddresses", StringUtil.merge(LicenseManagerUtil.getIpAddresses())
+			"ipAddresses", StringUtil.merge(_licenseManager.getIpAddresses())
 		).put(
-			"macAddresses",
-			StringUtil.merge(LicenseManagerUtil.getMacAddresses())
+			"macAddresses", StringUtil.merge(_licenseManager.getMacAddresses())
 		).put(
 			"productEntryName", productEntryName
 		).put(
@@ -592,6 +591,10 @@ public class MarketplaceStorePortlet extends RemoteMVCPortlet {
 
 	private AppLocalService _appLocalService;
 	private AppService _appService;
+
+	@Reference
+	private LicenseManager _licenseManager;
+
 	private final ReentrantLock _reentrantLock = new ReentrantLock();
 
 }
