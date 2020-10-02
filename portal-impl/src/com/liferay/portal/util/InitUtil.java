@@ -33,6 +33,7 @@ import com.liferay.portal.kernel.module.framework.ModuleServiceLifecycle;
 import com.liferay.portal.kernel.security.xml.SecureXMLFactoryProvider;
 import com.liferay.portal.kernel.security.xml.SecureXMLFactoryProviderUtil;
 import com.liferay.portal.kernel.util.BasePortalLifecycle;
+import com.liferay.portal.kernel.util.DigesterUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.JavaDetector;
@@ -197,6 +198,12 @@ public class InitUtil {
 			System.out.println(
 				"InitAction takes " + stopWatch.getTime() + " ms");
 		}
+
+		// Digester
+
+		DigesterUtil digesterUtil = new DigesterUtil();
+
+		digesterUtil.setDigester(new DigesterImpl());
 
 		_initialized = true;
 	}
