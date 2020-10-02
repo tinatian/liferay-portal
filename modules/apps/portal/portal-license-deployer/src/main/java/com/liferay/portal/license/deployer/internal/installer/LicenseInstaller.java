@@ -84,7 +84,7 @@ public class LicenseInstaller implements FileInstaller {
 	@Reference
 	private LicenseManager _licenseManager;
 
-	@Reference(target = ModuleServiceLifecycle.PORTAL_INITIALIZED)
+	@Reference(target = ModuleServiceLifecycle.LICENSE_INSTALL)
 	private ModuleServiceLifecycle _moduleServiceLifecycle;
 
 }
