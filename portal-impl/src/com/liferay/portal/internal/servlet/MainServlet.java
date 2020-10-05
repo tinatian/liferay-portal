@@ -388,19 +388,6 @@ public class MainServlet extends HttpServlet {
 		}
 
 		if (_log.isDebugEnabled()) {
-			_log.debug("Process global startup events");
-		}
-
-		try {
-			EventsProcessorUtil.process(
-				PropsKeys.GLOBAL_STARTUP_EVENTS,
-				PropsValues.GLOBAL_STARTUP_EVENTS);
-		}
-		catch (Exception exception) {
-			_log.error(exception, exception);
-		}
-
-		if (_log.isDebugEnabled()) {
 			_log.debug("Initialize resource actions");
 		}
 
@@ -448,6 +435,19 @@ public class MainServlet extends HttpServlet {
 		StartupHelperUtil.setStartupFinished(true);
 
 		_registerPortalInitialized();
+
+		if (_log.isDebugEnabled()) {
+			_log.debug("Process global startup events");
+		}
+
+		try {
+			EventsProcessorUtil.process(
+				PropsKeys.GLOBAL_STARTUP_EVENTS,
+				PropsValues.GLOBAL_STARTUP_EVENTS);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+		}
 
 		ThreadLocalCacheManager.clearAll(Lifecycle.REQUEST);
 	}
