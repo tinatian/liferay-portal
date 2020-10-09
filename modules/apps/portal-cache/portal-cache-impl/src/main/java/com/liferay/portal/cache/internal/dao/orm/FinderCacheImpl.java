@@ -331,6 +331,15 @@ public class FinderCacheImpl
 
 		clearCache(_getCacheNameWithPagination(cacheName));
 
+		Set<String> dslQueryCacheNames = _dslQueryCacheNameSetMap.get(
+			baseModel.getTableName());
+
+		if (dslQueryCacheNames != null) {
+			for (String dslQueryCacheName : dslQueryCacheNames) {
+				clearCache(dslQueryCacheName);
+			}
+		}
+
 		for (FinderPath finderPath :
 				_getFinderPaths(_getCacheNameWithoutPagination(cacheName))) {
 
@@ -492,6 +501,8 @@ public class FinderCacheImpl
 	private ServiceTrackerMap<String, ArgumentsResolver>
 		_argumentsResolverServiceTrackerMap;
 	private BundleContext _bundleContext;
+	private final Map<String, Set<String>> _dslQueryCacheNameSetMap =
+		new ConcurrentHashMap<>();
 	private ServiceTracker<FinderPath, FinderPath> _finderPathServiceTracker;
 	private final Map<String, Set<FinderPath>> _finderPathSetMap =
 		new ConcurrentHashMap<>();
@@ -553,6 +564,25 @@ public class FinderCacheImpl
 				return null;
 			}
 
+			String[] tableNames = (String[])serviceReference.getProperty(
+				"table.names");
+
+			if (tableNames != null) {
+				for (String tableName : tableNames) {
+					_dslQueryCacheNameSetMap.compute(
+						tableName,
+						(key, value) -> {
+							if (value == null) {
+								value = new HashSet<>();
+							}
+
+							value.add(cacheName);
+
+							return value;
+						});
+				}
+			}
+
 			FinderPath finderPath = _bundleContext.getService(serviceReference);
 
 			_finderPathSetMap.compute(
@@ -581,8 +611,11 @@ public class FinderCacheImpl
 			ServiceReference<FinderPath> serviceReference,
 			FinderPath finderPath) {
 
+			String cacheName = (String)serviceReference.getProperty(
+				"cache.name");
+
 			_finderPathSetMap.computeIfPresent(
-				(String)serviceReference.getProperty("cache.name"),
+				cacheName,
 				(key, value) -> {
 					value.remove(finderPath);
 
@@ -592,6 +625,25 @@ public class FinderCacheImpl
 
 					return value;
 				});
+
+			String[] tableNames = (String[])serviceReference.getProperty(
+				"table.names");
+
+			if (tableNames != null) {
+				for (String tableName : tableNames) {
+					_dslQueryCacheNameSetMap.computeIfPresent(
+						tableName,
+						(key, value) -> {
+							value.remove(cacheName);
+
+							if (value.isEmpty()) {
+								return null;
+							}
+
+							return value;
+						});
+				}
+			}
 
 			_bundleContext.ungetService(serviceReference);
 		}

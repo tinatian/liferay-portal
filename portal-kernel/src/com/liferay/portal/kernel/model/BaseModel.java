@@ -15,6 +15,7 @@
 package com.liferay.portal.kernel.model;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
@@ -70,6 +71,10 @@ public interface BaseModel<T>
 	 */
 	@Override
 	public Serializable getPrimaryKeyObj();
+
+	public default String getTableName() {
+		return StringPool.BLANK;
+	}
 
 	/**
 	 * Returns <code>true</code> if this model instance was retrieved from the
