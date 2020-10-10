@@ -915,6 +915,11 @@ public class CommerceDiscountCommerceAccountGroupRelModelImpl
 		return (T)_columnOriginalValues.get(columnName);
 	}
 
+	@Override
+	public String getTableName() {
+		return TABLE_NAME;
+	}
+
 	private void _setColumnOriginalValues() {
 		_columnOriginalValues = new HashMap<String, Object>();
 
