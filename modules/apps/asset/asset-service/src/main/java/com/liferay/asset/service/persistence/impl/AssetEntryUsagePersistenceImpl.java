@@ -41,7 +41,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.change.tracking.helper.CTPersistenceHelper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
-import com.liferay.portal.kernel.util.MapUtil;
+import com.liferay.portal.kernel.util.HashMapDictionary;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
@@ -4140,9 +4140,7 @@ public class AssetEntryUsagePersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(AssetEntryUsageImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(AssetEntryUsageImpl.class);
 	}
 
 	/**
@@ -4167,9 +4165,7 @@ public class AssetEntryUsagePersistenceImpl
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(AssetEntryUsageImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(AssetEntryUsageImpl.class, primaryKey);
@@ -4873,8 +4869,16 @@ public class AssetEntryUsagePersistenceImpl
 		_argumentsResolverServiceRegistration = _bundleContext.registerService(
 			ArgumentsResolver.class,
 			new AssetEntryUsageModelArgumentsResolver(),
-			MapUtil.singletonDictionary(
-				"model.class.name", AssetEntryUsage.class.getName()));
+			new HashMapDictionary() {
+				{
+					put(
+						"model.impl.class.name",
+						AssetEntryUsageImpl.class.getName());
+					put(
+						"table.name",
+						AssetEntryUsageTable.INSTANCE.getTableName());
+				}
+			});
 
 		_finderPathWithPaginationFindAll = _createFinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
@@ -5121,9 +5125,35 @@ public class AssetEntryUsagePersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
+	@Override
+	protected FinderPath getDSLQueryFinderPath(
+		String sql, String[] tableNames, String[] argumentTypes,
+		boolean baseModelResult) {
+
+		return _dslQueryFinderPathMap.computeIfAbsent(
+			sql,
+			key -> _createFinderPath(
+				getDSLQueryCacheName(tableNames), "dslQuery", argumentTypes,
+				new String[0], tableNames, baseModelResult));
+	}
+
 	private FinderPath _createFinderPath(
 		String cacheName, String methodName, String[] params,
 		String[] columnNames, boolean baseModelResult) {
+
+		return _createFinderPath(
+			cacheName, methodName, params, columnNames, new String[0],
+			baseModelResult);
+	}
+
+	private FinderPath _createFinderPath(
+		String cacheName, String methodName, String[] params,
+		String[] columnNames, String[] tableNames, boolean baseModelResult) {
 
 		FinderPath finderPath = new FinderPath(
 			cacheName, methodName, params, columnNames, baseModelResult);
@@ -5132,7 +5162,12 @@ public class AssetEntryUsagePersistenceImpl
 			_serviceRegistrations.add(
 				_bundleContext.registerService(
 					FinderPath.class, finderPath,
-					MapUtil.singletonDictionary("cache.name", cacheName)));
+					new HashMapDictionary() {
+						{
+							put("cache.name", cacheName);
+							put("table.names", tableNames);
+						}
+					}));
 		}
 
 		return finderPath;
@@ -5142,6 +5177,8 @@ public class AssetEntryUsagePersistenceImpl
 		_argumentsResolverServiceRegistration;
 	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
 		new HashSet<>();
+	private Map<String, FinderPath> _dslQueryFinderPathMap =
+		new ConcurrentHashMap();
 
 	private static class AssetEntryUsageModelArgumentsResolver
 		implements ArgumentsResolver {

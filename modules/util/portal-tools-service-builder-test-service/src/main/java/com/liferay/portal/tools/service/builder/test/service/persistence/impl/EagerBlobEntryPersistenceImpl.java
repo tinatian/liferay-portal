@@ -17,6 +17,7 @@ package com.liferay.portal.tools.service.builder.test.service.persistence.impl;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.ArgumentsResolver;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
+import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
 import com.liferay.portal.kernel.dao.orm.Query;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
@@ -26,7 +27,7 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
-import com.liferay.portal.kernel.util.MapUtil;
+import com.liferay.portal.kernel.util.HashMapDictionary;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
@@ -926,23 +927,21 @@ public class EagerBlobEntryPersistenceImpl
 	 * Clears the cache for all eager blob entries.
 	 *
 	 * <p>
-	 * The <code>EntityCache</code> and <code>com.liferay.portal.kernel.dao.orm.FinderCache</code> are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
 	public void clearCache() {
 		dummyEntityCache.clearCache(EagerBlobEntryImpl.class);
 
-		dummyFinderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		dummyFinderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		dummyFinderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		dummyFinderCache.clearCache(EagerBlobEntryImpl.class);
 	}
 
 	/**
 	 * Clears the cache for the eager blob entry.
 	 *
 	 * <p>
-	 * The <code>EntityCache</code> and <code>com.liferay.portal.kernel.dao.orm.FinderCache</code> are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
@@ -960,9 +959,7 @@ public class EagerBlobEntryPersistenceImpl
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		dummyFinderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		dummyFinderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		dummyFinderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		dummyFinderCache.clearCache(EagerBlobEntryImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
 			dummyEntityCache.removeResult(EagerBlobEntryImpl.class, primaryKey);
@@ -1418,8 +1415,16 @@ public class EagerBlobEntryPersistenceImpl
 
 		_argumentsResolverServiceRegistration = _bundleContext.registerService(
 			ArgumentsResolver.class, new EagerBlobEntryModelArgumentsResolver(),
-			MapUtil.singletonDictionary(
-				"model.class.name", EagerBlobEntry.class.getName()));
+			new HashMapDictionary() {
+				{
+					put(
+						"model.impl.class.name",
+						EagerBlobEntryImpl.class.getName());
+					put(
+						"table.name",
+						EagerBlobEntryTable.INSTANCE.getTableName());
+				}
+			});
 
 		_finderPathWithPaginationFindAll = _createFinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
@@ -1502,9 +1507,35 @@ public class EagerBlobEntryPersistenceImpl
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid", "blob"});
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return dummyFinderCache;
+	}
+
+	@Override
+	protected FinderPath getDSLQueryFinderPath(
+		String sql, String[] tableNames, String[] argumentTypes,
+		boolean baseModelResult) {
+
+		return _dslQueryFinderPathMap.computeIfAbsent(
+			sql,
+			key -> _createFinderPath(
+				getDSLQueryCacheName(tableNames), "dslQuery", argumentTypes,
+				new String[0], tableNames, baseModelResult));
+	}
+
 	private FinderPath _createFinderPath(
 		String cacheName, String methodName, String[] params,
 		String[] columnNames, boolean baseModelResult) {
+
+		return _createFinderPath(
+			cacheName, methodName, params, columnNames, new String[0],
+			baseModelResult);
+	}
+
+	private FinderPath _createFinderPath(
+		String cacheName, String methodName, String[] params,
+		String[] columnNames, String[] tableNames, boolean baseModelResult) {
 
 		FinderPath finderPath = new FinderPath(
 			cacheName, methodName, params, columnNames, baseModelResult);
@@ -1513,7 +1544,12 @@ public class EagerBlobEntryPersistenceImpl
 			_serviceRegistrations.add(
 				_bundleContext.registerService(
 					FinderPath.class, finderPath,
-					MapUtil.singletonDictionary("cache.name", cacheName)));
+					new HashMapDictionary() {
+						{
+							put("cache.name", cacheName);
+							put("table.names", tableNames);
+						}
+					}));
 		}
 
 		return finderPath;
@@ -1523,6 +1559,8 @@ public class EagerBlobEntryPersistenceImpl
 		_argumentsResolverServiceRegistration;
 	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
 		new HashSet<>();
+	private Map<String, FinderPath> _dslQueryFinderPathMap =
+		new ConcurrentHashMap();
 
 	private static class EagerBlobEntryModelArgumentsResolver
 		implements ArgumentsResolver {

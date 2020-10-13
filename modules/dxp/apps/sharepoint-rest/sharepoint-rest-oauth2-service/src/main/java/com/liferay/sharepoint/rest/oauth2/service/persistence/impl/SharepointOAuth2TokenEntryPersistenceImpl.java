@@ -30,7 +30,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
-import com.liferay.portal.kernel.util.MapUtil;
+import com.liferay.portal.kernel.util.HashMapDictionary;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.sharepoint.rest.oauth2.exception.NoSuch2TokenEntryException;
@@ -921,9 +921,7 @@ public class SharepointOAuth2TokenEntryPersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(SharepointOAuth2TokenEntryImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(SharepointOAuth2TokenEntryImpl.class);
 	}
 
 	/**
@@ -956,9 +954,7 @@ public class SharepointOAuth2TokenEntryPersistenceImpl
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(SharepointOAuth2TokenEntryImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
@@ -1428,9 +1424,17 @@ public class SharepointOAuth2TokenEntryPersistenceImpl
 		_argumentsResolverServiceRegistration = _bundleContext.registerService(
 			ArgumentsResolver.class,
 			new SharepointOAuth2TokenEntryModelArgumentsResolver(),
-			MapUtil.singletonDictionary(
-				"model.class.name",
-				SharepointOAuth2TokenEntry.class.getName()));
+			new HashMapDictionary() {
+				{
+					put(
+						"model.impl.class.name",
+						SharepointOAuth2TokenEntryImpl.class.getName());
+					put(
+						"table.name",
+						SharepointOAuth2TokenEntryTable.INSTANCE.
+							getTableName());
+				}
+			});
 
 		_finderPathWithPaginationFindAll = _createFinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
@@ -1552,9 +1556,35 @@ public class SharepointOAuth2TokenEntryPersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
+	@Override
+	protected FinderPath getDSLQueryFinderPath(
+		String sql, String[] tableNames, String[] argumentTypes,
+		boolean baseModelResult) {
+
+		return _dslQueryFinderPathMap.computeIfAbsent(
+			sql,
+			key -> _createFinderPath(
+				getDSLQueryCacheName(tableNames), "dslQuery", argumentTypes,
+				new String[0], tableNames, baseModelResult));
+	}
+
 	private FinderPath _createFinderPath(
 		String cacheName, String methodName, String[] params,
 		String[] columnNames, boolean baseModelResult) {
+
+		return _createFinderPath(
+			cacheName, methodName, params, columnNames, new String[0],
+			baseModelResult);
+	}
+
+	private FinderPath _createFinderPath(
+		String cacheName, String methodName, String[] params,
+		String[] columnNames, String[] tableNames, boolean baseModelResult) {
 
 		FinderPath finderPath = new FinderPath(
 			cacheName, methodName, params, columnNames, baseModelResult);
@@ -1563,7 +1593,12 @@ public class SharepointOAuth2TokenEntryPersistenceImpl
 			_serviceRegistrations.add(
 				_bundleContext.registerService(
 					FinderPath.class, finderPath,
-					MapUtil.singletonDictionary("cache.name", cacheName)));
+					new HashMapDictionary() {
+						{
+							put("cache.name", cacheName);
+							put("table.names", tableNames);
+						}
+					}));
 		}
 
 		return finderPath;
@@ -1573,6 +1608,8 @@ public class SharepointOAuth2TokenEntryPersistenceImpl
 		_argumentsResolverServiceRegistration;
 	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
 		new HashSet<>();
+	private Map<String, FinderPath> _dslQueryFinderPathMap =
+		new ConcurrentHashMap();
 
 	private static class SharepointOAuth2TokenEntryModelArgumentsResolver
 		implements ArgumentsResolver {

@@ -26,6 +26,7 @@ import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.dao.orm.ArgumentsResolver;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
+import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
 import com.liferay.portal.kernel.dao.orm.Query;
@@ -5172,23 +5173,21 @@ public class AssetEntryPersistenceImpl
 	 * Clears the cache for all asset entries.
 	 *
 	 * <p>
-	 * The <code>EntityCache</code> and <code>com.liferay.portal.kernel.dao.orm.FinderCache</code> are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
 	public void clearCache() {
 		EntityCacheUtil.clearCache(AssetEntryImpl.class);
 
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		FinderCacheUtil.clearCache(AssetEntryImpl.class);
 	}
 
 	/**
 	 * Clears the cache for the asset entry.
 	 *
 	 * <p>
-	 * The <code>EntityCache</code> and <code>com.liferay.portal.kernel.dao.orm.FinderCache</code> are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
@@ -5205,9 +5204,7 @@ public class AssetEntryPersistenceImpl
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		FinderCacheUtil.clearCache(AssetEntryImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
 			EntityCacheUtil.removeResult(AssetEntryImpl.class, primaryKey);
@@ -6547,7 +6544,9 @@ public class AssetEntryPersistenceImpl
 		_argumentsResolverServiceRegistration = registry.registerService(
 			ArgumentsResolver.class, new AssetEntryModelArgumentsResolver(),
 			HashMapBuilder.<String, Object>put(
-				"model.class.name", AssetEntry.class.getName()
+				"model.impl.class.name", AssetEntryImpl.class.getName()
+			).put(
+				"table.name", AssetEntryTable.INSTANCE.getTableName()
 			).build());
 
 		assetEntryToAssetCategoryTableMapper =
@@ -6819,9 +6818,35 @@ public class AssetEntryPersistenceImpl
 	private static final Log _log = LogFactoryUtil.getLog(
 		AssetEntryPersistenceImpl.class);
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return FinderCacheUtil.getFinderCache();
+	}
+
+	@Override
+	protected FinderPath getDSLQueryFinderPath(
+		String sql, String[] tableNames, String[] argumentTypes,
+		boolean baseModelResult) {
+
+		return _dslQueryFinderPathMap.computeIfAbsent(
+			sql,
+			key -> _createFinderPath(
+				getDSLQueryCacheName(tableNames), "dslQuery", argumentTypes,
+				new String[0], tableNames, baseModelResult));
+	}
+
 	private FinderPath _createFinderPath(
 		String cacheName, String methodName, String[] params,
 		String[] columnNames, boolean baseModelResult) {
+
+		return _createFinderPath(
+			cacheName, methodName, params, columnNames, new String[0],
+			baseModelResult);
+	}
+
+	private FinderPath _createFinderPath(
+		String cacheName, String methodName, String[] params,
+		String[] columnNames, String[] tableNames, boolean baseModelResult) {
 
 		FinderPath finderPath = new FinderPath(
 			cacheName, methodName, params, columnNames, baseModelResult);
@@ -6834,6 +6859,8 @@ public class AssetEntryPersistenceImpl
 					FinderPath.class, finderPath,
 					HashMapBuilder.<String, Object>put(
 						"cache.name", cacheName
+					).put(
+						"table.names", tableNames
 					).build()));
 		}
 
@@ -6844,6 +6871,8 @@ public class AssetEntryPersistenceImpl
 		_argumentsResolverServiceRegistration;
 	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
 		new HashSet<>();
+	private Map<String, FinderPath> _dslQueryFinderPathMap =
+		new ConcurrentHashMap();
 
 	private static class AssetEntryModelArgumentsResolver
 		implements ArgumentsResolver {

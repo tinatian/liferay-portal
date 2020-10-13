@@ -32,8 +32,8 @@ import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.service.persistence.impl.TableMapper;
 import com.liferay.portal.kernel.service.persistence.impl.TableMapperFactory;
 import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.kernel.util.HashMapDictionary;
 import com.liferay.portal.kernel.util.ListUtil;
-import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
@@ -6032,9 +6032,7 @@ public class LVEntryPersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(LVEntryImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(LVEntryImpl.class);
 	}
 
 	/**
@@ -6058,9 +6056,7 @@ public class LVEntryPersistenceImpl
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(LVEntryImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(LVEntryImpl.class, primaryKey);
@@ -6874,8 +6870,12 @@ public class LVEntryPersistenceImpl
 
 		_argumentsResolverServiceRegistration = _bundleContext.registerService(
 			ArgumentsResolver.class, new LVEntryModelArgumentsResolver(),
-			MapUtil.singletonDictionary(
-				"model.class.name", LVEntry.class.getName()));
+			new HashMapDictionary() {
+				{
+					put("model.impl.class.name", LVEntryImpl.class.getName());
+					put("table.name", LVEntryTable.INSTANCE.getTableName());
+				}
+			});
 
 		lvEntryToBigDecimalEntryTableMapper = TableMapperFactory.getTableMapper(
 			"BigDecimalEntries_LVEntries", "companyId", "lvEntryId",
@@ -7157,9 +7157,35 @@ public class LVEntryPersistenceImpl
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid"});
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
+	@Override
+	protected FinderPath getDSLQueryFinderPath(
+		String sql, String[] tableNames, String[] argumentTypes,
+		boolean baseModelResult) {
+
+		return _dslQueryFinderPathMap.computeIfAbsent(
+			sql,
+			key -> _createFinderPath(
+				getDSLQueryCacheName(tableNames), "dslQuery", argumentTypes,
+				new String[0], tableNames, baseModelResult));
+	}
+
 	private FinderPath _createFinderPath(
 		String cacheName, String methodName, String[] params,
 		String[] columnNames, boolean baseModelResult) {
+
+		return _createFinderPath(
+			cacheName, methodName, params, columnNames, new String[0],
+			baseModelResult);
+	}
+
+	private FinderPath _createFinderPath(
+		String cacheName, String methodName, String[] params,
+		String[] columnNames, String[] tableNames, boolean baseModelResult) {
 
 		FinderPath finderPath = new FinderPath(
 			cacheName, methodName, params, columnNames, baseModelResult);
@@ -7168,7 +7194,12 @@ public class LVEntryPersistenceImpl
 			_serviceRegistrations.add(
 				_bundleContext.registerService(
 					FinderPath.class, finderPath,
-					MapUtil.singletonDictionary("cache.name", cacheName)));
+					new HashMapDictionary() {
+						{
+							put("cache.name", cacheName);
+							put("table.names", tableNames);
+						}
+					}));
 		}
 
 		return finderPath;
@@ -7178,6 +7209,8 @@ public class LVEntryPersistenceImpl
 		_argumentsResolverServiceRegistration;
 	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
 		new HashSet<>();
+	private Map<String, FinderPath> _dslQueryFinderPathMap =
+		new ConcurrentHashMap();
 
 	private static class LVEntryModelArgumentsResolver
 		implements ArgumentsResolver {

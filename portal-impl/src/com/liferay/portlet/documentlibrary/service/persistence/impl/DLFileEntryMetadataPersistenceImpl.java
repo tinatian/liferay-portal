@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.dao.orm.ArgumentsResolver;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
+import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
 import com.liferay.portal.kernel.dao.orm.Query;
@@ -2604,23 +2605,21 @@ public class DLFileEntryMetadataPersistenceImpl
 	 * Clears the cache for all document library file entry metadatas.
 	 *
 	 * <p>
-	 * The <code>EntityCache</code> and <code>com.liferay.portal.kernel.dao.orm.FinderCache</code> are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
 	public void clearCache() {
 		EntityCacheUtil.clearCache(DLFileEntryMetadataImpl.class);
 
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		FinderCacheUtil.clearCache(DLFileEntryMetadataImpl.class);
 	}
 
 	/**
 	 * Clears the cache for the document library file entry metadata.
 	 *
 	 * <p>
-	 * The <code>EntityCache</code> and <code>com.liferay.portal.kernel.dao.orm.FinderCache</code> are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
@@ -2639,9 +2638,7 @@ public class DLFileEntryMetadataPersistenceImpl
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		FinderCacheUtil.clearCache(DLFileEntryMetadataImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
 			EntityCacheUtil.removeResult(
@@ -3314,7 +3311,9 @@ public class DLFileEntryMetadataPersistenceImpl
 			ArgumentsResolver.class,
 			new DLFileEntryMetadataModelArgumentsResolver(),
 			HashMapBuilder.<String, Object>put(
-				"model.class.name", DLFileEntryMetadata.class.getName()
+				"model.impl.class.name", DLFileEntryMetadataImpl.class.getName()
+			).put(
+				"table.name", DLFileEntryMetadataTable.INSTANCE.getTableName()
 			).build());
 
 		_finderPathWithPaginationFindAll = _createFinderPath(
@@ -3451,9 +3450,35 @@ public class DLFileEntryMetadataPersistenceImpl
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid"});
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return FinderCacheUtil.getFinderCache();
+	}
+
+	@Override
+	protected FinderPath getDSLQueryFinderPath(
+		String sql, String[] tableNames, String[] argumentTypes,
+		boolean baseModelResult) {
+
+		return _dslQueryFinderPathMap.computeIfAbsent(
+			sql,
+			key -> _createFinderPath(
+				getDSLQueryCacheName(tableNames), "dslQuery", argumentTypes,
+				new String[0], tableNames, baseModelResult));
+	}
+
 	private FinderPath _createFinderPath(
 		String cacheName, String methodName, String[] params,
 		String[] columnNames, boolean baseModelResult) {
+
+		return _createFinderPath(
+			cacheName, methodName, params, columnNames, new String[0],
+			baseModelResult);
+	}
+
+	private FinderPath _createFinderPath(
+		String cacheName, String methodName, String[] params,
+		String[] columnNames, String[] tableNames, boolean baseModelResult) {
 
 		FinderPath finderPath = new FinderPath(
 			cacheName, methodName, params, columnNames, baseModelResult);
@@ -3466,6 +3491,8 @@ public class DLFileEntryMetadataPersistenceImpl
 					FinderPath.class, finderPath,
 					HashMapBuilder.<String, Object>put(
 						"cache.name", cacheName
+					).put(
+						"table.names", tableNames
 					).build()));
 		}
 
@@ -3476,6 +3503,8 @@ public class DLFileEntryMetadataPersistenceImpl
 		_argumentsResolverServiceRegistration;
 	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
 		new HashSet<>();
+	private Map<String, FinderPath> _dslQueryFinderPathMap =
+		new ConcurrentHashMap();
 
 	private static class DLFileEntryMetadataModelArgumentsResolver
 		implements ArgumentsResolver {
