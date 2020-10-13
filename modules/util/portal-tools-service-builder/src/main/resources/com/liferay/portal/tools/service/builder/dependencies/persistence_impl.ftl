@@ -2258,14 +2258,14 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 					_bundleContext = bundle.getBundleContext();
 				</#if>
 
-				_argumentsResolverServiceRegistration = _bundleContext.registerService(ArgumentsResolver.class, new ${entity.name}ModelArgumentsResolver(), MapUtil.singletonDictionary("model.class.name", ${entity.name}.class.getName()));
+				_argumentsResolverServiceRegistration = _bundleContext.registerService(ArgumentsResolver.class, new ${entity.name}ModelArgumentsResolver(), MapUtil.singletonDictionary("model.impl.class.name", ${entity.name}Impl.class.getName()));
 			<#else>
 				Registry registry = RegistryUtil.getRegistry();
 
 				_argumentsResolverServiceRegistration = registry.registerService(
 					ArgumentsResolver.class, new ${entity.name}ModelArgumentsResolver(),
 					HashMapBuilder.<String, Object>put(
-						"model.class.name", ${entity.name}.class.getName()
+						"model.impl.class.name", ${entity.name}Impl.class.getName()
 					).build());
 			</#if>
 		</#if>
