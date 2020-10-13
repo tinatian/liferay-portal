@@ -39,6 +39,7 @@ import com.liferay.portal.kernel.dao.orm.Dialect;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
+import com.liferay.portal.kernel.dao.orm.FinderPath;
 import com.liferay.portal.kernel.dao.orm.ORMException;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.Projection;
@@ -79,6 +80,7 @@ import java.sql.Connection;
 import java.sql.Timestamp;
 import java.sql.Types;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -195,6 +197,20 @@ public class BasePersistenceImpl<T extends BaseModel<T>>
 
 		List<Object> scalarValues = defaultASTNodeListener.getScalarValues();
 
+		FinderCache finderCache = getFinderCache();
+
+		FinderPath finderPath = getDSLQueryFinderPath(
+			sql, tableNames, _getClassTypes(scalarValues),
+			projectionType == ProjectionType.MODELS);
+
+		Object[] arguments = _getArguments(scalarValues);
+
+		Object cacheResult = finderCache.getResult(finderPath, arguments, this);
+
+		if (cacheResult != null) {
+			return (R)cacheResult;
+		}
+
 		Session session = null;
 
 		try {
@@ -237,19 +253,27 @@ public class BasePersistenceImpl<T extends BaseModel<T>>
 				}
 			}
 
+			Object result;
+
 			if (projectionType == ProjectionType.COUNT) {
 				List<?> results = sqlQuery.list();
 
 				if (results.isEmpty()) {
-					return (R)(Long)0L;
+					result = 0L;
 				}
-
-				return (R)results.get(0);
+				else {
+					result = results.get(0);
+				}
+			}
+			else {
+				result = QueryUtil.list(
+					sqlQuery, getDialect(), defaultASTNodeListener.getStart(),
+					defaultASTNodeListener.getEnd());
 			}
 
-			return (R)QueryUtil.list(
-				sqlQuery, getDialect(), defaultASTNodeListener.getStart(),
-				defaultASTNodeListener.getEnd());
+			finderCache.putResult(finderPath, arguments, result);
+
+			return (R)result;
 		}
 		catch (Exception exception) {
 			throw processException(exception);
@@ -797,7 +821,32 @@ public class BasePersistenceImpl<T extends BaseModel<T>>
 		return fieldName;
 	}
 
+	protected String getDSLQueryCacheName(String[] tableNames) {
+		StringBundler sb = new StringBundler((tableNames.length * 2) - 1);
+
+		for (int i = 0; i < tableNames.length; i++) {
+			sb.append(tableNames[i]);
+
+			if ((i + 1) < tableNames.length) {
+				sb.append(StringPool.PERIOD);
+			}
+		}
+
+		return sb.toString();
+	}
+
+	protected FinderPath getDSLQueryFinderPath(
+		String sql, String[] tableNames, String[] argumentTypes,
+		boolean baseModelResult) {
+
+		throw new UnsupportedOperationException();
+	}
+
 	protected EntityCache getEntityCache() {
+		throw new UnsupportedOperationException();
+	}
+
+	protected FinderCache getFinderCache() {
 		throw new UnsupportedOperationException();
 	}
 
@@ -919,6 +968,39 @@ public class BasePersistenceImpl<T extends BaseModel<T>>
 	 */
 	@Deprecated
 	protected boolean finderCacheEnabled = true;
+
+	private Object[] _getArguments(List<Object> objects) {
+		List<Object> arguments = new ArrayList<>();
+
+		for (Object object : objects) {
+			if (object instanceof Date) {
+				Date date = (Date)object;
+
+				arguments.add(date.getTime());
+			}
+			else {
+				arguments.add(object);
+			}
+		}
+
+		return arguments.toArray(new Object[0]);
+	}
+
+	private String[] _getClassTypes(List<Object> objects) {
+		if ((objects == null) || objects.isEmpty()) {
+			return new String[0];
+		}
+
+		List<String> argumentTypes = new ArrayList<>();
+
+		for (Object argument : objects) {
+			Class<?> clazz = argument.getClass();
+
+			argumentTypes.add(clazz.getName());
+		}
+
+		return argumentTypes.toArray(new String[0]);
+	}
 
 	private ProjectionType _getProjectionType(
 		String[] tableNames, Collection<? extends Expression<?>> expressions) {

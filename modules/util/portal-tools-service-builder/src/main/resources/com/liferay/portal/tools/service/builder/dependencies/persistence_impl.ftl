@@ -107,6 +107,7 @@ import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HashMapBuilder;
+import com.liferay.portal.kernel.util.HashMapDictionary;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
@@ -2258,7 +2259,14 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 					_bundleContext = bundle.getBundleContext();
 				</#if>
 
-				_argumentsResolverServiceRegistration = _bundleContext.registerService(ArgumentsResolver.class, new ${entity.name}ModelArgumentsResolver(), MapUtil.singletonDictionary("model.impl.class.name", ${entity.name}Impl.class.getName()));
+				_argumentsResolverServiceRegistration = _bundleContext.registerService(
+					ArgumentsResolver.class, new ${entity.name}ModelArgumentsResolver(),
+					new HashMapDictionary() {
+						{
+							put("model.impl.class.name", ${entity.name}Impl.class.getName());
+							put("table.name", ${entity.name}Table.INSTANCE.getTableName());
+						}
+					});
 			<#else>
 				Registry registry = RegistryUtil.getRegistry();
 
@@ -2266,6 +2274,8 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 					ArgumentsResolver.class, new ${entity.name}ModelArgumentsResolver(),
 					HashMapBuilder.<String, Object>put(
 						"model.impl.class.name", ${entity.name}Impl.class.getName()
+					).put(
+						"table.name", ${entity.name}Table.INSTANCE.getTableName()
 					).build());
 			</#if>
 		</#if>
@@ -2836,25 +2846,61 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 	</#if>
 
 	<#if serviceBuilder.isVersionGTE_7_3_0()>
+		@Override
+		protected FinderCache getFinderCache() {
+			<#if !entity.isCacheEnabled()>
+				return dummyFinderCache;
+			<#elseif osgiModule>
+				return finderCache;
+			<#else>
+				return FinderCacheUtil.getFinderCache();
+			</#if>
+		}
+
+		@Override
+		protected FinderPath getDSLQueryFinderPath(
+			String sql, String[] tableNames, String[] argumentTypes, boolean baseModelResult) {
+
+			return _dslQueryFinderPathMap.computeIfAbsent(
+				sql, key -> _createFinderPath(getDSLQueryCacheName(tableNames), "dslQuery", argumentTypes, new String[0], tableNames, baseModelResult));
+		}
+
 		private FinderPath _createFinderPath(
 			String cacheName, String methodName, String[] params,
 			String[] columnNames, boolean baseModelResult) {
 
+			return _createFinderPath(cacheName, methodName, params, columnNames, new String[0], baseModelResult);
+		}
+
+		private FinderPath _createFinderPath(
+			String cacheName, String methodName, String[] params,
+			String[] columnNames, String[] tableNames, boolean baseModelResult) {
+
 			FinderPath finderPath = new FinderPath(cacheName, methodName, params, columnNames, baseModelResult);
 
 			if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
-				<#if osgiModule>
-					_serviceRegistrations.add(_bundleContext.registerService(FinderPath.class, finderPath, MapUtil.singletonDictionary("cache.name", cacheName)));
-				<#else>
-					Registry registry = RegistryUtil.getRegistry();
+			<#if osgiModule>
+				_serviceRegistrations.add(
+					_bundleContext.registerService(
+						FinderPath.class, finderPath,
+						new HashMapDictionary() {
+						{
+							put("cache.name", cacheName);
+							put("table.names", tableNames);
+						}
+						}));
+			<#else>
+				Registry registry = RegistryUtil.getRegistry();
 
-					_serviceRegistrations.add(
-						registry.registerService(
-							FinderPath.class, finderPath,
-							HashMapBuilder.<String, Object>put(
-								"cache.name", cacheName
-							).build()));
-				</#if>
+				_serviceRegistrations.add(
+					registry.registerService(
+						FinderPath.class, finderPath,
+						HashMapBuilder.<String, Object>put(
+							"cache.name", cacheName
+						).put(
+							"table.names", tableNames
+						).build()));
+			</#if>
 			}
 
 			return finderPath;
@@ -2862,6 +2908,7 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 
 		private ServiceRegistration<ArgumentsResolver> _argumentsResolverServiceRegistration;
 		private Set<ServiceRegistration<FinderPath>> _serviceRegistrations = new HashSet<>();
+		private Map<String, FinderPath> _dslQueryFinderPathMap = new ConcurrentHashMap();
 
 		private static class ${entity.name}ModelArgumentsResolver implements ArgumentsResolver {
 
