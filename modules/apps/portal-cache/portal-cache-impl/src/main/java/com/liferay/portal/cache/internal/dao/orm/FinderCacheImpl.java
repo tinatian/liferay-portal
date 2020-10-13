@@ -293,10 +293,12 @@ public class FinderCacheImpl
 	}
 
 	public void removeByEntityCache(Class<?> clazz, BaseModel<?> baseModel) {
+		clearLocalCache();
+
 		String className = clazz.getName();
 
-		clearCache(_getCacheNameWithPagination(className));
-		clearCache(_getCacheNameWithoutPagination(className));
+		_clearCache(_getCacheNameWithPagination(className));
+		_clearCache(_getCacheNameWithoutPagination(className));
 
 		for (FinderPath finderPath : _getFinderPaths(className)) {
 			removeResult(
@@ -337,16 +339,18 @@ public class FinderCacheImpl
 			return;
 		}
 
+		clearLocalCache();
+
 		String className = clazz.getName();
 
-		clearCache(_getCacheNameWithPagination(className));
+		_clearCache(_getCacheNameWithPagination(className));
 
 		Set<String> dslQueryCacheNames = _dslQueryCacheNameSetMap.get(
 			className);
 
 		if (dslQueryCacheNames != null) {
 			for (String dslQueryCacheName : dslQueryCacheNames) {
-				clearCache(dslQueryCacheName);
+				_clearCache(dslQueryCacheName);
 			}
 		}
 
