@@ -78,12 +78,21 @@ public class FinderCacheImpl
 	}
 
 	@Override
+	public void clearCache(Class<?> clazz) {
+		clearLocalCache();
+
+		String className = clazz.getName();
+
+		_clearCache(className);
+		_clearCache(_getCacheNameWithPagination(className));
+		_clearCache(_getCacheNameWithoutPagination(className));
+	}
+
+	@Override
 	public void clearCache(String className) {
 		clearLocalCache();
 
-		PortalCache<?, ?> portalCache = _getPortalCache(className);
-
-		portalCache.removeAll();
+		_clearCache(className);
 	}
 
 	public void clearCacheByEntityCache(Class<?> clazz) {
@@ -392,6 +401,12 @@ public class FinderCacheImpl
 		_finderPathServiceTrackerMap.close();
 
 		_argumentsResolverServiceTrackerMap.close();
+	}
+
+	private void _clearCache(String cacheName) {
+		PortalCache<?, ?> portalCache = _getPortalCache(cacheName);
+
+		portalCache.removeAll();
 	}
 
 	private Object[] _getArguments(
