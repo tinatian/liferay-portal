@@ -95,14 +95,6 @@ public class FinderCacheImpl
 		_clearCache(className);
 	}
 
-	public void clearCacheByEntityCache(Class<?> clazz) {
-		String cacheName = clazz.getName();
-
-		clearCache(cacheName);
-		clearCache(_getCacheNameWithPagination(cacheName));
-		clearCache(_getCacheNameWithoutPagination(cacheName));
-	}
-
 	@Override
 	public void clearLocalCache() {
 		if (_isLocalCacheEnabled()) {
