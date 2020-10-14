@@ -29,6 +29,11 @@ public interface FinderCache {
 
 	public void clearCache(Class<?> clazz);
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 * 			#clearCache(Class)}
+	 */
+	@Deprecated
 	public void clearCache(String className);
 
 	public void clearLocalCache();

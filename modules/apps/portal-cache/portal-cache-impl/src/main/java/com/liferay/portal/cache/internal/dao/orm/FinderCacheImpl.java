@@ -88,6 +88,11 @@ public class FinderCacheImpl
 		_clearCache(_getCacheNameWithoutPagination(className));
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 * 			#clearCache(Class)}
+	 */
+	@Deprecated
 	@Override
 	public void clearCache(String className) {
 		clearLocalCache();

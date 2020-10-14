@@ -31,6 +31,11 @@ public class FinderCacheUtil {
 		_finderCache.clearCache(clazz);
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 * 			#clearCache(Class)}
+	 */
+	@Deprecated
 	public static void clearCache(String className) {
 		_finderCache.clearCache(className);
 	}
