@@ -43,7 +43,6 @@ import com.liferay.view.count.service.persistence.impl.constants.ViewCountPersis
 
 import java.io.Serializable;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -595,12 +594,6 @@ public class ViewCountEntryPersistenceImpl
 		entityCache.removeCache(ViewCountEntryImpl.class.getName());
 
 		_argumentsResolverServiceRegistration.unregister();
-
-		for (ServiceRegistration<FinderPath> serviceRegistration :
-				_serviceRegistrations) {
-
-			serviceRegistration.unregister();
-		}
 	}
 
 	@Override
@@ -667,23 +660,12 @@ public class ViewCountEntryPersistenceImpl
 		String cacheName, String methodName, String[] params,
 		String[] columnNames, boolean baseModelResult) {
 
-		FinderPath finderPath = new FinderPath(
+		return new FinderPath(
 			cacheName, methodName, params, columnNames, baseModelResult);
-
-		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
-			_serviceRegistrations.add(
-				_bundleContext.registerService(
-					FinderPath.class, finderPath,
-					MapUtil.singletonDictionary("cache.name", cacheName)));
-		}
-
-		return finderPath;
 	}
 
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
-	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
-		new HashSet<>();
 
 	private static class ViewCountEntryModelArgumentsResolver
 		implements ArgumentsResolver {
