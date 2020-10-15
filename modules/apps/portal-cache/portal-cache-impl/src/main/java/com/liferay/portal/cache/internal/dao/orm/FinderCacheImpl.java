@@ -26,6 +26,8 @@ import com.liferay.portal.kernel.cache.PortalCache;
 import com.liferay.portal.kernel.cache.PortalCacheHelperUtil;
 import com.liferay.portal.kernel.cache.PortalCacheManager;
 import com.liferay.portal.kernel.cache.PortalCacheManagerListener;
+import com.liferay.portal.kernel.cache.key.CacheKeyGenerator;
+import com.liferay.portal.kernel.cache.key.CacheKeyGeneratorUtil;
 import com.liferay.portal.kernel.dao.orm.ArgumentsResolver;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -34,10 +36,16 @@ import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Props;
 import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.servlet.filters.threadlocal.ThreadLocalFilterThreadLocal;
+import org.apache.commons.collections.map.LRUMap;
+import org.osgi.framework.BundleContext;
+import org.osgi.service.component.annotations.Activate;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Deactivate;
+import org.osgi.service.component.annotations.Reference;
 
 import java.io.Serializable;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -46,14 +54,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-
-import org.apache.commons.collections.map.LRUMap;
-
-import org.osgi.framework.BundleContext;
-import org.osgi.service.component.annotations.Activate;
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Deactivate;
-import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Brian Wing Shun Chan
@@ -128,7 +128,7 @@ public class FinderCacheImpl
 			return null;
 		}
 
-		Serializable cacheKey = finderPath.encodeCacheKey(args);
+		Serializable cacheKey = _encodeCacheKey(finderPath, args);
 		Serializable cacheValue = null;
 		Map<LocalCacheKey, Serializable> localCache = null;
 		LocalCacheKey localCacheKey = null;
@@ -265,7 +265,7 @@ public class FinderCacheImpl
 			}
 		}
 
-		Serializable cacheKey = finderPath.encodeCacheKey(args);
+		Serializable cacheKey = _encodeCacheKey(finderPath, args);
 
 		if (_isLocalCacheEnabled()) {
 			Map<LocalCacheKey, Serializable> localCache = _localCache.get();
@@ -412,6 +412,36 @@ public class FinderCacheImpl
 		portalCache.removeAll();
 	}
 
+	private Serializable _encodeCacheKey(
+		FinderPath finderPath, Object[] arguments) {
+
+		CacheKeyGenerator cacheKeyGenerator;
+
+		if (finderPath.isBaseModelResult()) {
+			cacheKeyGenerator = CacheKeyGeneratorUtil.getCacheKeyGenerator(
+				_BASE_MODEL_CACHE_KEY_GENERATOR_NAME);
+		}
+		else {
+			cacheKeyGenerator = CacheKeyGeneratorUtil.getCacheKeyGenerator(
+				FinderCache.class.getName());
+		}
+
+		String[] keys = new String[arguments.length * 2];
+
+		for (int i = 0; i < arguments.length; i++) {
+			int index = i * 2;
+
+			keys[index] = StringPool.PERIOD;
+			keys[index + 1] = StringUtil.toHexString(arguments[i]);
+		}
+
+		return cacheKeyGenerator.getCacheKey(
+			new String[] {
+				finderPath.getCacheKeyPrefix(),
+				StringUtil.toHexString(cacheKeyGenerator.getCacheKey(keys))
+			});
+	}
+
 	private Object[] _getArguments(
 		FinderPath finderPath, BaseModel<?> baseModel, boolean checkColumn,
 		boolean original) {
@@ -482,7 +512,7 @@ public class FinderCacheImpl
 			return;
 		}
 
-		Serializable cacheKey = finderPath.encodeCacheKey(args);
+		Serializable cacheKey = _encodeCacheKey(finderPath, args);
 
 		if (_isLocalCacheEnabled()) {
 			Map<LocalCacheKey, Serializable> localCache = _localCache.get();
@@ -496,6 +526,9 @@ public class FinderCacheImpl
 
 		portalCache.remove(cacheKey);
 	}
+
+	private static final String _BASE_MODEL_CACHE_KEY_GENERATOR_NAME =
+		FinderCache.class.getName() + "#BaseModel";
 
 	private static final String _GROUP_KEY_PREFIX =
 		FinderCache.class.getName() + StringPool.PERIOD;
