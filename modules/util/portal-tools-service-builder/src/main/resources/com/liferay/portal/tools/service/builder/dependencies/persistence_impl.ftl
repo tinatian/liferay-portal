@@ -2639,12 +2639,6 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 
 		<#if serviceBuilder.isVersionGTE_7_3_0()>
 			_argumentsResolverServiceRegistration.unregister();
-
-			for (ServiceRegistration<FinderPath> serviceRegistration :
-				_serviceRegistrations) {
-
-				serviceRegistration.unregister();
-			}
 		<#else>
 			${finderCache}.removeCache(FINDER_CLASS_NAME_ENTITY);
 			${finderCache}.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
@@ -2840,28 +2834,10 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 			String cacheName, String methodName, String[] params,
 			String[] columnNames, boolean baseModelResult) {
 
-			FinderPath finderPath = new FinderPath(cacheName, methodName, params, columnNames, baseModelResult);
-
-			if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
-				<#if osgiModule>
-					_serviceRegistrations.add(_bundleContext.registerService(FinderPath.class, finderPath, MapUtil.singletonDictionary("cache.name", cacheName)));
-				<#else>
-					Registry registry = RegistryUtil.getRegistry();
-
-					_serviceRegistrations.add(
-						registry.registerService(
-							FinderPath.class, finderPath,
-							HashMapBuilder.<String, Object>put(
-								"cache.name", cacheName
-							).build()));
-				</#if>
-			}
-
-			return finderPath;
+			return new FinderPath(cacheName, methodName, params, columnNames, baseModelResult);
 		}
 
 		private ServiceRegistration<ArgumentsResolver> _argumentsResolverServiceRegistration;
-		private Set<ServiceRegistration<FinderPath>> _serviceRegistrations = new HashSet<>();
 
 		private static class ${entity.name}ModelArgumentsResolver implements ArgumentsResolver {
 
