@@ -8005,12 +8005,6 @@ public class UserGroupPersistenceImpl
 
 		_argumentsResolverServiceRegistration.unregister();
 
-		for (ServiceRegistration<FinderPath> serviceRegistration :
-				_serviceRegistrations) {
-
-			serviceRegistration.unregister();
-		}
-
 		TableMapperFactory.removeTableMapper("Groups_UserGroups");
 		TableMapperFactory.removeTableMapper("UserGroups_Teams");
 		TableMapperFactory.removeTableMapper("Users_UserGroups");
@@ -8087,27 +8081,12 @@ public class UserGroupPersistenceImpl
 		String cacheName, String methodName, String[] params,
 		String[] columnNames, boolean baseModelResult) {
 
-		FinderPath finderPath = new FinderPath(
+		return new FinderPath(
 			cacheName, methodName, params, columnNames, baseModelResult);
-
-		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
-			Registry registry = RegistryUtil.getRegistry();
-
-			_serviceRegistrations.add(
-				registry.registerService(
-					FinderPath.class, finderPath,
-					HashMapBuilder.<String, Object>put(
-						"cache.name", cacheName
-					).build()));
-		}
-
-		return finderPath;
 	}
 
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
-	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
-		new HashSet<>();
 
 	private static class UserGroupModelArgumentsResolver
 		implements ArgumentsResolver {
