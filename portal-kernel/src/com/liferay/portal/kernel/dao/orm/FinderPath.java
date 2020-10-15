@@ -98,24 +98,6 @@ public class FinderPath {
 		_columnNames = columnNames;
 		_baseModelResult = baseModelResult;
 
-		if (baseModelResult) {
-			_cacheKeyGeneratorCacheName = _BASE_MODEL_CACHE_KEY_GENERATOR_NAME;
-		}
-		else {
-			_cacheKeyGeneratorCacheName = FinderCache.class.getName();
-		}
-
-		CacheKeyGenerator cacheKeyGenerator =
-			CacheKeyGeneratorUtil.getCacheKeyGenerator(
-				_cacheKeyGeneratorCacheName);
-
-		if (cacheKeyGenerator.isCallingGetCacheKeyThreadSafe()) {
-			_cacheKeyGenerator = cacheKeyGenerator;
-		}
-		else {
-			_cacheKeyGenerator = null;
-		}
-
 		_initCacheKeyPrefix(methodName, params);
 	}
 
@@ -142,11 +124,15 @@ public class FinderPath {
 	 */
 	@Deprecated
 	public Serializable encodeCacheKey(Object[] arguments) {
-		CacheKeyGenerator cacheKeyGenerator = _cacheKeyGenerator;
+		CacheKeyGenerator cacheKeyGenerator;
 
-		if (cacheKeyGenerator == null) {
+		if (_baseModelResult) {
 			cacheKeyGenerator = CacheKeyGeneratorUtil.getCacheKeyGenerator(
-				_cacheKeyGeneratorCacheName);
+				_BASE_MODEL_CACHE_KEY_GENERATOR_NAME);
+		}
+		else {
+			cacheKeyGenerator = CacheKeyGeneratorUtil.getCacheKeyGenerator(
+				FinderCache.class.getName());
 		}
 
 		String[] keys = new String[arguments.length * 2];
@@ -258,11 +244,15 @@ public class FinderPath {
 	}
 
 	private Serializable _getCacheKey(String[] keys) {
-		CacheKeyGenerator cacheKeyGenerator = _cacheKeyGenerator;
+		CacheKeyGenerator cacheKeyGenerator;
 
-		if (cacheKeyGenerator == null) {
+		if (_baseModelResult) {
 			cacheKeyGenerator = CacheKeyGeneratorUtil.getCacheKeyGenerator(
-				_cacheKeyGeneratorCacheName);
+				_BASE_MODEL_CACHE_KEY_GENERATOR_NAME);
+		}
+		else {
+			cacheKeyGenerator = CacheKeyGeneratorUtil.getCacheKeyGenerator(
+				FinderCache.class.getName());
 		}
 
 		return cacheKeyGenerator.getCacheKey(keys);
@@ -294,8 +284,6 @@ public class FinderPath {
 	private static final Map<String, String> _encodedTypes = _getEncodedTypes();
 
 	private final boolean _baseModelResult;
-	private final CacheKeyGenerator _cacheKeyGenerator;
-	private final String _cacheKeyGeneratorCacheName;
 	private String _cacheKeyPrefix;
 	private final String _cacheName;
 	private final String[] _columnNames;
