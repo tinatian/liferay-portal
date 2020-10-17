@@ -2086,6 +2086,11 @@ public class OAuth2ScopeGrantPersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -2140,6 +2145,16 @@ public class OAuth2ScopeGrantPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			OAuth2ScopeGrantModelImpl oAuth2ScopeGrantModelImpl,
 			String[] columnNames, boolean original) {
@@ -2165,6 +2180,10 @@ public class OAuth2ScopeGrantPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = OAuth2ScopeGrantImpl.class.getName();
+		private final String _tableName =
+			OAuth2ScopeGrantTable.INSTANCE.getTableName();
 
 	}
 

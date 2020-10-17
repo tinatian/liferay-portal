@@ -1888,6 +1888,11 @@ public class PushNotificationsDevicePersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -1944,6 +1949,16 @@ public class PushNotificationsDevicePersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			PushNotificationsDeviceModelImpl pushNotificationsDeviceModelImpl,
 			String[] columnNames, boolean original) {
@@ -1970,6 +1985,11 @@ public class PushNotificationsDevicePersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			PushNotificationsDeviceImpl.class.getName();
+		private final String _tableName =
+			PushNotificationsDeviceTable.INSTANCE.getTableName();
 
 	}
 

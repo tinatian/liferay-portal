@@ -1541,6 +1541,11 @@ public class SharepointOAuth2TokenEntryPersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -1598,6 +1603,16 @@ public class SharepointOAuth2TokenEntryPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			SharepointOAuth2TokenEntryModelImpl
 				sharepointOAuth2TokenEntryModelImpl,
@@ -1625,6 +1640,11 @@ public class SharepointOAuth2TokenEntryPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			SharepointOAuth2TokenEntryImpl.class.getName();
+		private final String _tableName =
+			SharepointOAuth2TokenEntryTable.INSTANCE.getTableName();
 
 	}
 

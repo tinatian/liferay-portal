@@ -7386,6 +7386,11 @@ public class CPInstancePersistenceImpl
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid", "deliverySubscriptionTypeSettings"});
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -7438,6 +7443,16 @@ public class CPInstancePersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			CPInstanceModelImpl cpInstanceModelImpl, String[] columnNames,
 			boolean original) {
@@ -7462,6 +7477,10 @@ public class CPInstancePersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = CPInstanceImpl.class.getName();
+		private final String _tableName =
+			CPInstanceTable.INSTANCE.getTableName();
 
 	}
 

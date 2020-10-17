@@ -2687,6 +2687,11 @@ public class CommercePriceModifierRelPersistenceImpl
 	private static final Log _log = LogFactoryUtil.getLog(
 		CommercePriceModifierRelPersistenceImpl.class);
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -2744,6 +2749,16 @@ public class CommercePriceModifierRelPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			CommercePriceModifierRelModelImpl commercePriceModifierRelModelImpl,
 			String[] columnNames, boolean original) {
@@ -2770,6 +2785,11 @@ public class CommercePriceModifierRelPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			CommercePriceModifierRelImpl.class.getName();
+		private final String _tableName =
+			CommercePriceModifierRelTable.INSTANCE.getTableName();
 
 	}
 

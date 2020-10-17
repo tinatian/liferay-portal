@@ -8762,6 +8762,11 @@ public class CommerceOrderPersistenceImpl
 			"totalDiscountPercentageLevel4WithTaxAmount"
 		});
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -8801,6 +8806,16 @@ public class CommerceOrderPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			CommerceOrderModelImpl commerceOrderModelImpl, String[] columnNames,
 			boolean original) {
@@ -8826,6 +8841,10 @@ public class CommerceOrderPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = CommerceOrderImpl.class.getName();
+		private final String _tableName =
+			CommerceOrderTable.INSTANCE.getTableName();
 
 	}
 

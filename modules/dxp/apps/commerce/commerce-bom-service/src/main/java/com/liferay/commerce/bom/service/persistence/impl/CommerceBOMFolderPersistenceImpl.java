@@ -2592,6 +2592,11 @@ public class CommerceBOMFolderPersistenceImpl
 	private static final Log _log = LogFactoryUtil.getLog(
 		CommerceBOMFolderPersistenceImpl.class);
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -2646,6 +2651,16 @@ public class CommerceBOMFolderPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			CommerceBOMFolderModelImpl commerceBOMFolderModelImpl,
 			String[] columnNames, boolean original) {
@@ -2671,6 +2686,10 @@ public class CommerceBOMFolderPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = CommerceBOMFolderImpl.class.getName();
+		private final String _tableName =
+			CommerceBOMFolderTable.INSTANCE.getTableName();
 
 	}
 

@@ -14121,6 +14121,11 @@ public class MicroblogsEntryPersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -14175,6 +14180,16 @@ public class MicroblogsEntryPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			MicroblogsEntryModelImpl microblogsEntryModelImpl,
 			String[] columnNames, boolean original) {
@@ -14200,6 +14215,10 @@ public class MicroblogsEntryPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = MicroblogsEntryImpl.class.getName();
+		private final String _tableName =
+			MicroblogsEntryTable.INSTANCE.getTableName();
 
 	}
 

@@ -2166,6 +2166,11 @@ public class RemoteAppEntryPersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -2220,6 +2225,16 @@ public class RemoteAppEntryPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			RemoteAppEntryModelImpl remoteAppEntryModelImpl,
 			String[] columnNames, boolean original) {
@@ -2245,6 +2260,10 @@ public class RemoteAppEntryPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = RemoteAppEntryImpl.class.getName();
+		private final String _tableName =
+			RemoteAppEntryTable.INSTANCE.getTableName();
 
 	}
 

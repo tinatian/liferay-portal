@@ -4584,6 +4584,11 @@ public class DDLRecordSetPersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -4636,6 +4641,16 @@ public class DDLRecordSetPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			DDLRecordSetModelImpl ddlRecordSetModelImpl, String[] columnNames,
 			boolean original) {
@@ -4660,6 +4675,10 @@ public class DDLRecordSetPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = DDLRecordSetImpl.class.getName();
+		private final String _tableName =
+			DDLRecordSetTable.INSTANCE.getTableName();
 
 	}
 

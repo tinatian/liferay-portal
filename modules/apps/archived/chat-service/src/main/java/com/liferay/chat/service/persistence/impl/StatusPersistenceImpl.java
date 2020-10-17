@@ -2465,6 +2465,11 @@ public class StatusPersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -2516,6 +2521,16 @@ public class StatusPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			StatusModelImpl statusModelImpl, String[] columnNames,
 			boolean original) {
@@ -2539,6 +2554,9 @@ public class StatusPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = StatusImpl.class.getName();
+		private final String _tableName = StatusTable.INSTANCE.getTableName();
 
 	}
 

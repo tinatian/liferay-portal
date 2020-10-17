@@ -2078,6 +2078,11 @@ public class DDLRecordSetVersionPersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -2134,6 +2139,16 @@ public class DDLRecordSetVersionPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			DDLRecordSetVersionModelImpl ddlRecordSetVersionModelImpl,
 			String[] columnNames, boolean original) {
@@ -2159,6 +2174,11 @@ public class DDLRecordSetVersionPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			DDLRecordSetVersionImpl.class.getName();
+		private final String _tableName =
+			DDLRecordSetVersionTable.INSTANCE.getTableName();
 
 	}
 

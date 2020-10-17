@@ -1204,6 +1204,11 @@ public class FriendlyURLEntryMappingPersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -1260,6 +1265,16 @@ public class FriendlyURLEntryMappingPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			FriendlyURLEntryMappingModelImpl friendlyURLEntryMappingModelImpl,
 			String[] columnNames, boolean original) {
@@ -1286,6 +1301,11 @@ public class FriendlyURLEntryMappingPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			FriendlyURLEntryMappingImpl.class.getName();
+		private final String _tableName =
+			FriendlyURLEntryMappingTable.INSTANCE.getTableName();
 
 	}
 

@@ -2103,6 +2103,11 @@ public class CommerceAccountGroupRelPersistenceImpl
 	private static final Log _log = LogFactoryUtil.getLog(
 		CommerceAccountGroupRelPersistenceImpl.class);
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -2159,6 +2164,16 @@ public class CommerceAccountGroupRelPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			CommerceAccountGroupRelModelImpl commerceAccountGroupRelModelImpl,
 			String[] columnNames, boolean original) {
@@ -2185,6 +2200,11 @@ public class CommerceAccountGroupRelPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			CommerceAccountGroupRelImpl.class.getName();
+		private final String _tableName =
+			CommerceAccountGroupRelTable.INSTANCE.getTableName();
 
 	}
 

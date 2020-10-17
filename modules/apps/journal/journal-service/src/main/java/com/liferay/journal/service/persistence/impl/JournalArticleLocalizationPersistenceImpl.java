@@ -2519,6 +2519,11 @@ public class JournalArticleLocalizationPersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -2576,6 +2581,16 @@ public class JournalArticleLocalizationPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			JournalArticleLocalizationModelImpl
 				journalArticleLocalizationModelImpl,
@@ -2603,6 +2618,11 @@ public class JournalArticleLocalizationPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			JournalArticleLocalizationImpl.class.getName();
+		private final String _tableName =
+			JournalArticleLocalizationTable.INSTANCE.getTableName();
 
 	}
 

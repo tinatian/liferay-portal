@@ -4422,6 +4422,11 @@ public class SubscriptionPersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -4474,6 +4479,16 @@ public class SubscriptionPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			SubscriptionModelImpl subscriptionModelImpl, String[] columnNames,
 			boolean original) {
@@ -4498,6 +4513,10 @@ public class SubscriptionPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = SubscriptionImpl.class.getName();
+		private final String _tableName =
+			SubscriptionTable.INSTANCE.getTableName();
 
 	}
 

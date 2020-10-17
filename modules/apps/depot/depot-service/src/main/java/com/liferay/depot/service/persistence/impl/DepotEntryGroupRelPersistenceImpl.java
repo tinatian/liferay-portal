@@ -4621,6 +4621,11 @@ public class DepotEntryGroupRelPersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -4676,6 +4681,16 @@ public class DepotEntryGroupRelPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			DepotEntryGroupRelModelImpl depotEntryGroupRelModelImpl,
 			String[] columnNames, boolean original) {
@@ -4701,6 +4716,11 @@ public class DepotEntryGroupRelPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			DepotEntryGroupRelImpl.class.getName();
+		private final String _tableName =
+			DepotEntryGroupRelTable.INSTANCE.getTableName();
 
 	}
 

@@ -2124,6 +2124,11 @@ public class CommercePaymentMethodGroupRelPersistenceImpl
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"commercePaymentMethodGroupRelId", "active"});
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -2183,6 +2188,16 @@ public class CommercePaymentMethodGroupRelPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			CommercePaymentMethodGroupRelModelImpl
 				commercePaymentMethodGroupRelModelImpl,
@@ -2210,6 +2225,11 @@ public class CommercePaymentMethodGroupRelPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			CommercePaymentMethodGroupRelImpl.class.getName();
+		private final String _tableName =
+			CommercePaymentMethodGroupRelTable.INSTANCE.getTableName();
 
 	}
 

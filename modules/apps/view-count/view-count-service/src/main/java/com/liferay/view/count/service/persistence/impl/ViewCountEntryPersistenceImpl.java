@@ -656,6 +656,11 @@ public class ViewCountEntryPersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -710,6 +715,16 @@ public class ViewCountEntryPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			ViewCountEntryModelImpl viewCountEntryModelImpl,
 			String[] columnNames, boolean original) {
@@ -735,6 +750,10 @@ public class ViewCountEntryPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = ViewCountEntryImpl.class.getName();
+		private final String _tableName =
+			ViewCountEntryTable.INSTANCE.getTableName();
 
 	}
 

@@ -3380,6 +3380,11 @@ public class TrashEntryPersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -3432,6 +3437,16 @@ public class TrashEntryPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			TrashEntryModelImpl trashEntryModelImpl, String[] columnNames,
 			boolean original) {
@@ -3456,6 +3471,10 @@ public class TrashEntryPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = TrashEntryImpl.class.getName();
+		private final String _tableName =
+			TrashEntryTable.INSTANCE.getTableName();
 
 	}
 

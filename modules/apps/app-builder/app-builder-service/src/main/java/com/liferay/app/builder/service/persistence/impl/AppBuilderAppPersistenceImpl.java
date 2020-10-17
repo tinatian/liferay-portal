@@ -9169,6 +9169,11 @@ public class AppBuilderAppPersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -9221,6 +9226,16 @@ public class AppBuilderAppPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			AppBuilderAppModelImpl appBuilderAppModelImpl, String[] columnNames,
 			boolean original) {
@@ -9246,6 +9261,10 @@ public class AppBuilderAppPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = AppBuilderAppImpl.class.getName();
+		private final String _tableName =
+			AppBuilderAppTable.INSTANCE.getTableName();
 
 	}
 

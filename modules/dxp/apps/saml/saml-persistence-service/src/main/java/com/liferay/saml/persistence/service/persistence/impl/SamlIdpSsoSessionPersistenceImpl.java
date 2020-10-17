@@ -1567,6 +1567,11 @@ public class SamlIdpSsoSessionPersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -1621,6 +1626,16 @@ public class SamlIdpSsoSessionPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			SamlIdpSsoSessionModelImpl samlIdpSsoSessionModelImpl,
 			String[] columnNames, boolean original) {
@@ -1646,6 +1661,10 @@ public class SamlIdpSsoSessionPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = SamlIdpSsoSessionImpl.class.getName();
+		private final String _tableName =
+			SamlIdpSsoSessionTable.INSTANCE.getTableName();
 
 	}
 

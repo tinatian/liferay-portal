@@ -4206,6 +4206,11 @@ public class MBBanPersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -4257,6 +4262,16 @@ public class MBBanPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			MBBanModelImpl mbBanModelImpl, String[] columnNames,
 			boolean original) {
@@ -4280,6 +4295,9 @@ public class MBBanPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = MBBanImpl.class.getName();
+		private final String _tableName = MBBanTable.INSTANCE.getTableName();
 
 	}
 

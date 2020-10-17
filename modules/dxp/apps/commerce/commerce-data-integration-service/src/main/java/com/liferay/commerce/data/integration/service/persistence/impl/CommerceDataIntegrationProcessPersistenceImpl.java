@@ -3061,6 +3061,11 @@ public class CommerceDataIntegrationProcessPersistenceImpl
 			"commerceDataIntegrationProcessId", "type", "system", "active"
 		});
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -3120,6 +3125,16 @@ public class CommerceDataIntegrationProcessPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			CommerceDataIntegrationProcessModelImpl
 				commerceDataIntegrationProcessModelImpl,
@@ -3147,6 +3162,11 @@ public class CommerceDataIntegrationProcessPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			CommerceDataIntegrationProcessImpl.class.getName();
+		private final String _tableName =
+			CommerceDataIntegrationProcessTable.INSTANCE.getTableName();
 
 	}
 

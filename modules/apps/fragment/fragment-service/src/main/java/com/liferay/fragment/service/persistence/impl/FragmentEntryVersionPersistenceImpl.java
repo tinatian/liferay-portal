@@ -16604,6 +16604,11 @@ public class FragmentEntryVersionPersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -16660,6 +16665,16 @@ public class FragmentEntryVersionPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			FragmentEntryVersionModelImpl fragmentEntryVersionModelImpl,
 			String[] columnNames, boolean original) {
@@ -16685,6 +16700,11 @@ public class FragmentEntryVersionPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			FragmentEntryVersionImpl.class.getName();
+		private final String _tableName =
+			FragmentEntryVersionTable.INSTANCE.getTableName();
 
 	}
 

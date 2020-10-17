@@ -5317,6 +5317,11 @@ public class WikiNodePersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -5368,6 +5373,16 @@ public class WikiNodePersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			WikiNodeModelImpl wikiNodeModelImpl, String[] columnNames,
 			boolean original) {
@@ -5391,6 +5406,9 @@ public class WikiNodePersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = WikiNodeImpl.class.getName();
+		private final String _tableName = WikiNodeTable.INSTANCE.getTableName();
 
 	}
 

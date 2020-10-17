@@ -1986,6 +1986,11 @@ public class CTPreferencesPersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -2038,6 +2043,16 @@ public class CTPreferencesPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			CTPreferencesModelImpl ctPreferencesModelImpl, String[] columnNames,
 			boolean original) {
@@ -2063,6 +2078,10 @@ public class CTPreferencesPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = CTPreferencesImpl.class.getName();
+		private final String _tableName =
+			CTPreferencesTable.INSTANCE.getTableName();
 
 	}
 

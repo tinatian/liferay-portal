@@ -5304,6 +5304,11 @@ public class LayoutClassedModelUsagePersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -5360,6 +5365,16 @@ public class LayoutClassedModelUsagePersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			LayoutClassedModelUsageModelImpl layoutClassedModelUsageModelImpl,
 			String[] columnNames, boolean original) {
@@ -5386,6 +5401,11 @@ public class LayoutClassedModelUsagePersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			LayoutClassedModelUsageImpl.class.getName();
+		private final String _tableName =
+			LayoutClassedModelUsageTable.INSTANCE.getTableName();
 
 	}
 

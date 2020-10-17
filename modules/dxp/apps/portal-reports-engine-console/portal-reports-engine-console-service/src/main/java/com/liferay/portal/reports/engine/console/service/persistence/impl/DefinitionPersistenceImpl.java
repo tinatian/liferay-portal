@@ -3568,6 +3568,11 @@ public class DefinitionPersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -3620,6 +3625,16 @@ public class DefinitionPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			DefinitionModelImpl definitionModelImpl, String[] columnNames,
 			boolean original) {
@@ -3644,6 +3659,10 @@ public class DefinitionPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = DefinitionImpl.class.getName();
+		private final String _tableName =
+			DefinitionTable.INSTANCE.getTableName();
 
 	}
 

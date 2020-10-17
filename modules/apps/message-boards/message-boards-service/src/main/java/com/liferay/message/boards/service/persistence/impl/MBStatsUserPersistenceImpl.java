@@ -2794,6 +2794,11 @@ public class MBStatsUserPersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -2846,6 +2851,16 @@ public class MBStatsUserPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			MBStatsUserModelImpl mbStatsUserModelImpl, String[] columnNames,
 			boolean original) {
@@ -2870,6 +2885,10 @@ public class MBStatsUserPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = MBStatsUserImpl.class.getName();
+		private final String _tableName =
+			MBStatsUserTable.INSTANCE.getTableName();
 
 	}
 

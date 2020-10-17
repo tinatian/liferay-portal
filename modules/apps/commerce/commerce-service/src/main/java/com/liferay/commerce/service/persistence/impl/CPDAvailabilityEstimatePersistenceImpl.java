@@ -2689,6 +2689,11 @@ public class CPDAvailabilityEstimatePersistenceImpl
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid"});
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -2745,6 +2750,16 @@ public class CPDAvailabilityEstimatePersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			CPDAvailabilityEstimateModelImpl cpdAvailabilityEstimateModelImpl,
 			String[] columnNames, boolean original) {
@@ -2771,6 +2786,11 @@ public class CPDAvailabilityEstimatePersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			CPDAvailabilityEstimateImpl.class.getName();
+		private final String _tableName =
+			CPDAvailabilityEstimateTable.INSTANCE.getTableName();
 
 	}
 
