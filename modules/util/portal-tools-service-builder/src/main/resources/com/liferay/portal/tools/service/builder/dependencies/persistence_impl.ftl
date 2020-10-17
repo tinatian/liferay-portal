@@ -2944,6 +2944,13 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 				return null;
 			}
 
+			<#if serviceBuilder.isVersionGTE_7_4_0()>
+				@Override
+				public String getClassName() {
+					return _className;
+				}
+			</#if>
+
 			private Object[] _getValue(${entity.name}ModelImpl ${entity.variableName}ModelImpl, String[] columnNames, boolean original) {
 				Object[] arguments = new Object[columnNames.length];
 
@@ -2962,6 +2969,10 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 			}
 
 			private static Map<FinderPath, Long> _finderPathColumnBitmasksCache = new ConcurrentHashMap<>();
+
+			<#if serviceBuilder.isVersionGTE_7_4_0()>
+				private final String _className = ${entity.name}Impl.class.getName();
+			</#if>
 
 		}
 	</#if>
