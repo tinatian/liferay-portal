@@ -36,6 +36,7 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Props;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.servlet.filters.threadlocal.ThreadLocalFilterThreadLocal;
 
 import java.io.Serializable;
@@ -92,6 +93,8 @@ public class FinderCacheImpl
 		_clearCache(className);
 		_clearCache(_getCacheNameWithPagination(className));
 		_clearCache(_getCacheNameWithoutPagination(className));
+
+		_clearDSLQueryCache(className);
 	}
 
 	/**
@@ -280,10 +283,39 @@ public class FinderCacheImpl
 			}
 		}
 
-		Map<String, FinderPath> finderPaths = _finderPathsMap.computeIfAbsent(
-			finderPath.getCacheName(), key -> new ConcurrentHashMap<>());
+		String cacheName = finderPath.getCacheName();
+		String cacheKeyPrefix = finderPath.getCacheKeyPrefix();
 
-		finderPaths.putIfAbsent(finderPath.getCacheKeyPrefix(), finderPath);
+		Map<String, FinderPath> finderPaths = _finderPathsMap.computeIfAbsent(
+			cacheName, key -> new ConcurrentHashMap<>());
+
+		FinderPath originalFinderPath = finderPaths.putIfAbsent(
+			cacheKeyPrefix, finderPath);
+
+		if ((originalFinderPath == null) &&
+			cacheKeyPrefix.startsWith("dslQuery")) {
+
+			for (String tableName :
+					FinderPath.decodeDSLQueryCacheName(cacheName)) {
+
+				String modelImplClassName = _modelImplClassNameMap.get(
+					tableName);
+
+				if (Validator.isNull(modelImplClassName)) {
+					throw new IllegalArgumentException(
+						"Unable to find corresponding model impl class for " +
+							"table " + tableName);
+				}
+
+				Set<String> dslQueryCacheNames =
+					_dslQueryCacheNameSetMap.computeIfAbsent(
+						modelImplClassName,
+						key -> Collections.newSetFromMap(
+							new ConcurrentHashMap<>()));
+
+				dslQueryCacheNames.add(cacheName);
+			}
+		}
 
 		Serializable cacheKey = _encodeCacheKey(finderPath, args);
 
@@ -315,6 +347,8 @@ public class FinderCacheImpl
 		_clearCache(_getCacheNameWithPagination(cacheName));
 		_clearCache(_getCacheNameWithoutPagination(cacheName));
 
+		_clearDSLQueryCache(cacheName);
+
 		ArgumentsResolver argumentsResolver = _argumentsResolverMap.get(
 			cacheName);
 
@@ -345,6 +379,15 @@ public class FinderCacheImpl
 		removeCache(cacheName);
 		removeCache(_getCacheNameWithPagination(cacheName));
 		removeCache(_getCacheNameWithoutPagination(cacheName));
+
+		Set<String> dslQueryCacheNames = _dslQueryCacheNameSetMap.remove(
+			cacheName);
+
+		if (dslQueryCacheNames != null) {
+			for (String dslQueryCacheName : dslQueryCacheNames) {
+				removeCache(dslQueryCacheName);
+			}
+		}
 	}
 
 	@Override
@@ -366,6 +409,8 @@ public class FinderCacheImpl
 		String cacheName = clazz.getName();
 
 		_clearCache(_getCacheNameWithPagination(cacheName));
+
+		_clearDSLQueryCache(cacheName);
 
 		ArgumentsResolver argumentsResolver = _argumentsResolverMap.get(
 			cacheName);
@@ -444,6 +489,17 @@ public class FinderCacheImpl
 		PortalCache<?, ?> portalCache = _getPortalCache(cacheName);
 
 		portalCache.removeAll();
+	}
+
+	private void _clearDSLQueryCache(String className) {
+		Set<String> dslQueryCacheNames = _dslQueryCacheNameSetMap.get(
+			className);
+
+		if (dslQueryCacheNames != null) {
+			for (String dslQueryCacheName : dslQueryCacheNames) {
+				_clearCache(dslQueryCacheName);
+			}
+		}
 	}
 
 	private Serializable _encodeCacheKey(
@@ -559,6 +615,8 @@ public class FinderCacheImpl
 	private ServiceTracker<ArgumentsResolver, ArgumentsResolver>
 		_argumentsResolverServiceTracker;
 	private BundleContext _bundleContext;
+	private final Map<String, Set<String>> _dslQueryCacheNameSetMap =
+		new ConcurrentHashMap<>();
 	private final Map<String, Map<String, FinderPath>> _finderPathsMap =
 		new ConcurrentHashMap<>();
 	private ThreadLocal<LRUMap> _localCache;
