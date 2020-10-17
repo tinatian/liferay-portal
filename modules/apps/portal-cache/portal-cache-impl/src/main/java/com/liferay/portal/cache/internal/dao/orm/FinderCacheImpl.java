@@ -42,6 +42,7 @@ import com.liferay.portal.servlet.filters.threadlocal.ThreadLocalFilterThreadLoc
 import java.io.Serializable;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -128,6 +129,15 @@ public class FinderCacheImpl
 		BasePersistenceImpl<? extends BaseModel<?>> basePersistenceImpl) {
 
 		if (!_valueObjectFinderCacheEnabled || !CacheRegistryUtil.isActive()) {
+			return null;
+		}
+
+		Map<String, FinderPath> finderPaths = _finderPathsMap.get(
+			finderPath.getCacheName());
+
+		if ((finderPaths == null) ||
+			!finderPaths.containsKey(finderPath.getCacheKeyPrefix())) {
+
 			return null;
 		}
 
@@ -268,6 +278,11 @@ public class FinderCacheImpl
 			}
 		}
 
+		Map<String, FinderPath> finderPaths = _finderPathsMap.computeIfAbsent(
+			finderPath.getCacheName(), key -> new ConcurrentHashMap<>());
+
+		finderPaths.putIfAbsent(finderPath.getCacheKeyPrefix(), finderPath);
+
 		Serializable cacheKey = _encodeCacheKey(finderPath, args);
 
 		if (_isLocalCacheEnabled()) {
@@ -313,6 +328,8 @@ public class FinderCacheImpl
 		String groupKey = _GROUP_KEY_PREFIX.concat(className);
 
 		_multiVMPool.removePortalCache(groupKey);
+
+		_finderPathsMap.remove(className);
 	}
 
 	public void removeCacheByEntityCache(String cacheName) {
@@ -394,9 +411,6 @@ public class FinderCacheImpl
 
 		portalCacheManager.registerPortalCacheManagerListener(this);
 
-		_finderPathServiceTrackerMap =
-			ServiceTrackerMapFactory.openMultiValueMap(
-				bundleContext, FinderPath.class, "cache.name");
 		_argumentsResolverServiceTrackerMap =
 			ServiceTrackerMapFactory.openSingleValueMap(
 				bundleContext, ArgumentsResolver.class, "model.class.name");
@@ -404,8 +418,6 @@ public class FinderCacheImpl
 
 	@Deactivate
 	protected void deactivate() {
-		_finderPathServiceTrackerMap.close();
-
 		_argumentsResolverServiceTrackerMap.close();
 	}
 
@@ -465,15 +477,14 @@ public class FinderCacheImpl
 		return cacheName.concat(".List1");
 	}
 
-	private List<FinderPath> _getFinderPaths(String cacheName) {
-		List<FinderPath> finderPaths = _finderPathServiceTrackerMap.getService(
-			cacheName);
+	private Collection<FinderPath> _getFinderPaths(String cacheName) {
+		Map<String, FinderPath> finderPaths = _finderPathsMap.get(cacheName);
 
 		if (finderPaths == null) {
-			return Collections.emptyList();
+			return Collections.emptySet();
 		}
 
-		return finderPaths;
+		return finderPaths.values();
 	}
 
 	private PortalCache<Serializable, Serializable> _getPortalCache(
@@ -538,8 +549,8 @@ public class FinderCacheImpl
 
 	private ServiceTrackerMap<String, ArgumentsResolver>
 		_argumentsResolverServiceTrackerMap;
-	private ServiceTrackerMap<String, List<FinderPath>>
-		_finderPathServiceTrackerMap;
+	private final Map<String, Map<String, FinderPath>> _finderPathsMap =
+		new ConcurrentHashMap<>();
 	private ThreadLocal<LRUMap> _localCache;
 
 	@Reference
