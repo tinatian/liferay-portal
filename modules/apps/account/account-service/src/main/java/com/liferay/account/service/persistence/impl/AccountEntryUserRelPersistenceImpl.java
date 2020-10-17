@@ -47,7 +47,6 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -1893,19 +1892,19 @@ public class AccountEntryUserRelPersistenceImpl
 			MapUtil.singletonDictionary(
 				"model.class.name", AccountEntryUserRel.class.getName()));
 
-		_finderPathWithPaginationFindAll = _createFinderPath(
+		_finderPathWithPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathWithoutPaginationFindAll = _createFinderPath(
+		_finderPathWithoutPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathCountAll = _createFinderPath(
+		_finderPathCountAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0], new String[0], false);
 
-		_finderPathWithPaginationFindByAEI = _createFinderPath(
+		_finderPathWithPaginationFindByAEI = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByAEI",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -1913,17 +1912,17 @@ public class AccountEntryUserRelPersistenceImpl
 			},
 			new String[] {"accountEntryId"}, true);
 
-		_finderPathWithoutPaginationFindByAEI = _createFinderPath(
+		_finderPathWithoutPaginationFindByAEI = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByAEI",
 			new String[] {Long.class.getName()},
 			new String[] {"accountEntryId"}, true);
 
-		_finderPathCountByAEI = _createFinderPath(
+		_finderPathCountByAEI = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByAEI",
 			new String[] {Long.class.getName()},
 			new String[] {"accountEntryId"}, false);
 
-		_finderPathWithPaginationFindByAUI = _createFinderPath(
+		_finderPathWithPaginationFindByAUI = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByAUI",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -1931,22 +1930,22 @@ public class AccountEntryUserRelPersistenceImpl
 			},
 			new String[] {"accountUserId"}, true);
 
-		_finderPathWithoutPaginationFindByAUI = _createFinderPath(
+		_finderPathWithoutPaginationFindByAUI = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByAUI",
 			new String[] {Long.class.getName()}, new String[] {"accountUserId"},
 			true);
 
-		_finderPathCountByAUI = _createFinderPath(
+		_finderPathCountByAUI = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByAUI",
 			new String[] {Long.class.getName()}, new String[] {"accountUserId"},
 			false);
 
-		_finderPathFetchByAEI_AUI = _createFinderPath(
+		_finderPathFetchByAEI_AUI = new FinderPath(
 			FINDER_CLASS_NAME_ENTITY, "fetchByAEI_AUI",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			new String[] {"accountEntryId", "accountUserId"}, true);
 
-		_finderPathCountByAEI_AUI = _createFinderPath(
+		_finderPathCountByAEI_AUI = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByAEI_AUI",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			new String[] {"accountEntryId", "accountUserId"}, false);
@@ -1957,12 +1956,6 @@ public class AccountEntryUserRelPersistenceImpl
 		entityCache.removeCache(AccountEntryUserRelImpl.class.getName());
 
 		_argumentsResolverServiceRegistration.unregister();
-
-		for (ServiceRegistration<FinderPath> serviceRegistration :
-				_serviceRegistrations) {
-
-			serviceRegistration.unregister();
-		}
 	}
 
 	@Override
@@ -2031,27 +2024,8 @@ public class AccountEntryUserRelPersistenceImpl
 		}
 	}
 
-	private FinderPath _createFinderPath(
-		String cacheName, String methodName, String[] params,
-		String[] columnNames, boolean baseModelResult) {
-
-		FinderPath finderPath = new FinderPath(
-			cacheName, methodName, params, columnNames, baseModelResult);
-
-		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
-			_serviceRegistrations.add(
-				_bundleContext.registerService(
-					FinderPath.class, finderPath,
-					MapUtil.singletonDictionary("cache.name", cacheName)));
-		}
-
-		return finderPath;
-	}
-
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
-	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
-		new HashSet<>();
 
 	private static class AccountEntryUserRelModelArgumentsResolver
 		implements ArgumentsResolver {

@@ -55,7 +55,6 @@ import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -5005,19 +5004,19 @@ public class CommerceMLForecastAlertEntryPersistenceImpl
 				"model.class.name",
 				CommerceMLForecastAlertEntry.class.getName()));
 
-		_finderPathWithPaginationFindAll = _createFinderPath(
+		_finderPathWithPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathWithoutPaginationFindAll = _createFinderPath(
+		_finderPathWithoutPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathCountAll = _createFinderPath(
+		_finderPathCountAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0], new String[0], false);
 
-		_finderPathWithPaginationFindByUuid = _createFinderPath(
+		_finderPathWithPaginationFindByUuid = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
@@ -5025,17 +5024,17 @@ public class CommerceMLForecastAlertEntryPersistenceImpl
 			},
 			new String[] {"uuid_"}, true);
 
-		_finderPathWithoutPaginationFindByUuid = _createFinderPath(
+		_finderPathWithoutPaginationFindByUuid = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
 			new String[] {String.class.getName()}, new String[] {"uuid_"},
 			true);
 
-		_finderPathCountByUuid = _createFinderPath(
+		_finderPathCountByUuid = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
 			new String[] {String.class.getName()}, new String[] {"uuid_"},
 			false);
 
-		_finderPathWithPaginationFindByUuid_C = _createFinderPath(
+		_finderPathWithPaginationFindByUuid_C = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
@@ -5044,24 +5043,24 @@ public class CommerceMLForecastAlertEntryPersistenceImpl
 			},
 			new String[] {"uuid_", "companyId"}, true);
 
-		_finderPathWithoutPaginationFindByUuid_C = _createFinderPath(
+		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
 			new String[] {"uuid_", "companyId"}, true);
 
-		_finderPathCountByUuid_C = _createFinderPath(
+		_finderPathCountByUuid_C = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
 			new String[] {"uuid_", "companyId"}, false);
 
-		_finderPathFetchByC_C_T = _createFinderPath(
+		_finderPathFetchByC_C_T = new FinderPath(
 			FINDER_CLASS_NAME_ENTITY, "fetchByC_C_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Date.class.getName()
 			},
 			new String[] {"companyId", "commerceAccountId", "timestamp"}, true);
 
-		_finderPathCountByC_C_T = _createFinderPath(
+		_finderPathCountByC_C_T = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Date.class.getName()
@@ -5069,7 +5068,7 @@ public class CommerceMLForecastAlertEntryPersistenceImpl
 			new String[] {"companyId", "commerceAccountId", "timestamp"},
 			false);
 
-		_finderPathWithPaginationFindByC_C_S = _createFinderPath(
+		_finderPathWithPaginationFindByC_C_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_C_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -5078,7 +5077,7 @@ public class CommerceMLForecastAlertEntryPersistenceImpl
 			},
 			new String[] {"companyId", "commerceAccountId", "status"}, true);
 
-		_finderPathWithoutPaginationFindByC_C_S = _createFinderPath(
+		_finderPathWithoutPaginationFindByC_C_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_C_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -5086,7 +5085,7 @@ public class CommerceMLForecastAlertEntryPersistenceImpl
 			},
 			new String[] {"companyId", "commerceAccountId", "status"}, true);
 
-		_finderPathCountByC_C_S = _createFinderPath(
+		_finderPathCountByC_C_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -5094,7 +5093,7 @@ public class CommerceMLForecastAlertEntryPersistenceImpl
 			},
 			new String[] {"companyId", "commerceAccountId", "status"}, false);
 
-		_finderPathWithPaginationCountByC_C_S = _createFinderPath(
+		_finderPathWithPaginationCountByC_C_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByC_C_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -5102,7 +5101,7 @@ public class CommerceMLForecastAlertEntryPersistenceImpl
 			},
 			new String[] {"companyId", "commerceAccountId", "status"}, false);
 
-		_finderPathWithPaginationFindByC_C_GtRc_S = _createFinderPath(
+		_finderPathWithPaginationFindByC_C_GtRc_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_C_GtRc_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -5115,7 +5114,7 @@ public class CommerceMLForecastAlertEntryPersistenceImpl
 			},
 			true);
 
-		_finderPathWithPaginationCountByC_C_GtRc_S = _createFinderPath(
+		_finderPathWithPaginationCountByC_C_GtRc_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByC_C_GtRc_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -5126,7 +5125,7 @@ public class CommerceMLForecastAlertEntryPersistenceImpl
 			},
 			false);
 
-		_finderPathWithPaginationFindByC_C_LtRc_S = _createFinderPath(
+		_finderPathWithPaginationFindByC_C_LtRc_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_C_LtRc_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -5139,7 +5138,7 @@ public class CommerceMLForecastAlertEntryPersistenceImpl
 			},
 			true);
 
-		_finderPathWithPaginationCountByC_C_LtRc_S = _createFinderPath(
+		_finderPathWithPaginationCountByC_C_LtRc_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByC_C_LtRc_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -5156,12 +5155,6 @@ public class CommerceMLForecastAlertEntryPersistenceImpl
 			CommerceMLForecastAlertEntryImpl.class.getName());
 
 		_argumentsResolverServiceRegistration.unregister();
-
-		for (ServiceRegistration<FinderPath> serviceRegistration :
-				_serviceRegistrations) {
-
-			serviceRegistration.unregister();
-		}
 	}
 
 	private BundleContext _bundleContext;
@@ -5207,27 +5200,8 @@ public class CommerceMLForecastAlertEntryPersistenceImpl
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid"});
 
-	private FinderPath _createFinderPath(
-		String cacheName, String methodName, String[] params,
-		String[] columnNames, boolean baseModelResult) {
-
-		FinderPath finderPath = new FinderPath(
-			cacheName, methodName, params, columnNames, baseModelResult);
-
-		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
-			_serviceRegistrations.add(
-				_bundleContext.registerService(
-					FinderPath.class, finderPath,
-					MapUtil.singletonDictionary("cache.name", cacheName)));
-		}
-
-		return finderPath;
-	}
-
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
-	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
-		new HashSet<>();
 
 	private static class CommerceMLForecastAlertEntryModelArgumentsResolver
 		implements ArgumentsResolver {

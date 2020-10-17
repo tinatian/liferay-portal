@@ -6490,19 +6490,19 @@ public class PortletPreferencesPersistenceImpl
 				"model.class.name", PortletPreferences.class.getName()
 			).build());
 
-		_finderPathWithPaginationFindAll = _createFinderPath(
+		_finderPathWithPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathWithoutPaginationFindAll = _createFinderPath(
+		_finderPathWithoutPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathCountAll = _createFinderPath(
+		_finderPathCountAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0], new String[0], false);
 
-		_finderPathWithPaginationFindByOwnerId = _createFinderPath(
+		_finderPathWithPaginationFindByOwnerId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByOwnerId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -6510,17 +6510,17 @@ public class PortletPreferencesPersistenceImpl
 			},
 			new String[] {"ownerId"}, true);
 
-		_finderPathWithoutPaginationFindByOwnerId = _createFinderPath(
+		_finderPathWithoutPaginationFindByOwnerId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByOwnerId",
 			new String[] {Long.class.getName()}, new String[] {"ownerId"},
 			true);
 
-		_finderPathCountByOwnerId = _createFinderPath(
+		_finderPathCountByOwnerId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByOwnerId",
 			new String[] {Long.class.getName()}, new String[] {"ownerId"},
 			false);
 
-		_finderPathWithPaginationFindByPlid = _createFinderPath(
+		_finderPathWithPaginationFindByPlid = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByPlid",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -6528,15 +6528,15 @@ public class PortletPreferencesPersistenceImpl
 			},
 			new String[] {"plid"}, true);
 
-		_finderPathWithoutPaginationFindByPlid = _createFinderPath(
+		_finderPathWithoutPaginationFindByPlid = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPlid",
 			new String[] {Long.class.getName()}, new String[] {"plid"}, true);
 
-		_finderPathCountByPlid = _createFinderPath(
+		_finderPathCountByPlid = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPlid",
 			new String[] {Long.class.getName()}, new String[] {"plid"}, false);
 
-		_finderPathWithPaginationFindByPortletId = _createFinderPath(
+		_finderPathWithPaginationFindByPortletId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByPortletId",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
@@ -6544,17 +6544,17 @@ public class PortletPreferencesPersistenceImpl
 			},
 			new String[] {"portletId"}, true);
 
-		_finderPathWithoutPaginationFindByPortletId = _createFinderPath(
+		_finderPathWithoutPaginationFindByPortletId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPortletId",
 			new String[] {String.class.getName()}, new String[] {"portletId"},
 			true);
 
-		_finderPathCountByPortletId = _createFinderPath(
+		_finderPathCountByPortletId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPortletId",
 			new String[] {String.class.getName()}, new String[] {"portletId"},
 			false);
 
-		_finderPathWithPaginationFindByO_P = _createFinderPath(
+		_finderPathWithPaginationFindByO_P = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByO_P",
 			new String[] {
 				Integer.class.getName(), String.class.getName(),
@@ -6563,17 +6563,17 @@ public class PortletPreferencesPersistenceImpl
 			},
 			new String[] {"ownerType", "portletId"}, true);
 
-		_finderPathWithoutPaginationFindByO_P = _createFinderPath(
+		_finderPathWithoutPaginationFindByO_P = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByO_P",
 			new String[] {Integer.class.getName(), String.class.getName()},
 			new String[] {"ownerType", "portletId"}, true);
 
-		_finderPathCountByO_P = _createFinderPath(
+		_finderPathCountByO_P = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByO_P",
 			new String[] {Integer.class.getName(), String.class.getName()},
 			new String[] {"ownerType", "portletId"}, false);
 
-		_finderPathWithPaginationFindByP_P = _createFinderPath(
+		_finderPathWithPaginationFindByP_P = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByP_P",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
@@ -6582,17 +6582,17 @@ public class PortletPreferencesPersistenceImpl
 			},
 			new String[] {"plid", "portletId"}, true);
 
-		_finderPathWithoutPaginationFindByP_P = _createFinderPath(
+		_finderPathWithoutPaginationFindByP_P = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByP_P",
 			new String[] {Long.class.getName(), String.class.getName()},
 			new String[] {"plid", "portletId"}, true);
 
-		_finderPathCountByP_P = _createFinderPath(
+		_finderPathCountByP_P = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByP_P",
 			new String[] {Long.class.getName(), String.class.getName()},
 			new String[] {"plid", "portletId"}, false);
 
-		_finderPathWithPaginationFindByO_O_P = _createFinderPath(
+		_finderPathWithPaginationFindByO_O_P = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByO_O_P",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -6601,7 +6601,7 @@ public class PortletPreferencesPersistenceImpl
 			},
 			new String[] {"ownerId", "ownerType", "plid"}, true);
 
-		_finderPathWithoutPaginationFindByO_O_P = _createFinderPath(
+		_finderPathWithoutPaginationFindByO_O_P = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByO_O_P",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -6609,7 +6609,7 @@ public class PortletPreferencesPersistenceImpl
 			},
 			new String[] {"ownerId", "ownerType", "plid"}, true);
 
-		_finderPathCountByO_O_P = _createFinderPath(
+		_finderPathCountByO_O_P = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByO_O_P",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -6617,7 +6617,7 @@ public class PortletPreferencesPersistenceImpl
 			},
 			new String[] {"ownerId", "ownerType", "plid"}, false);
 
-		_finderPathWithPaginationFindByO_O_PI = _createFinderPath(
+		_finderPathWithPaginationFindByO_O_PI = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByO_O_PI",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -6626,7 +6626,7 @@ public class PortletPreferencesPersistenceImpl
 			},
 			new String[] {"ownerId", "ownerType", "portletId"}, true);
 
-		_finderPathWithoutPaginationFindByO_O_PI = _createFinderPath(
+		_finderPathWithoutPaginationFindByO_O_PI = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByO_O_PI",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -6634,7 +6634,7 @@ public class PortletPreferencesPersistenceImpl
 			},
 			new String[] {"ownerId", "ownerType", "portletId"}, true);
 
-		_finderPathCountByO_O_PI = _createFinderPath(
+		_finderPathCountByO_O_PI = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByO_O_PI",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -6642,7 +6642,7 @@ public class PortletPreferencesPersistenceImpl
 			},
 			new String[] {"ownerId", "ownerType", "portletId"}, false);
 
-		_finderPathWithPaginationFindByO_P_P = _createFinderPath(
+		_finderPathWithPaginationFindByO_P_P = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByO_P_P",
 			new String[] {
 				Integer.class.getName(), Long.class.getName(),
@@ -6651,7 +6651,7 @@ public class PortletPreferencesPersistenceImpl
 			},
 			new String[] {"ownerType", "plid", "portletId"}, true);
 
-		_finderPathWithoutPaginationFindByO_P_P = _createFinderPath(
+		_finderPathWithoutPaginationFindByO_P_P = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByO_P_P",
 			new String[] {
 				Integer.class.getName(), Long.class.getName(),
@@ -6659,7 +6659,7 @@ public class PortletPreferencesPersistenceImpl
 			},
 			new String[] {"ownerType", "plid", "portletId"}, true);
 
-		_finderPathCountByO_P_P = _createFinderPath(
+		_finderPathCountByO_P_P = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByO_P_P",
 			new String[] {
 				Integer.class.getName(), Long.class.getName(),
@@ -6667,7 +6667,7 @@ public class PortletPreferencesPersistenceImpl
 			},
 			new String[] {"ownerType", "plid", "portletId"}, false);
 
-		_finderPathWithPaginationFindByC_O_O_LikeP = _createFinderPath(
+		_finderPathWithPaginationFindByC_O_O_LikeP = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_O_O_LikeP",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -6678,7 +6678,7 @@ public class PortletPreferencesPersistenceImpl
 			new String[] {"companyId", "ownerId", "ownerType", "portletId"},
 			true);
 
-		_finderPathWithPaginationCountByC_O_O_LikeP = _createFinderPath(
+		_finderPathWithPaginationCountByC_O_O_LikeP = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByC_O_O_LikeP",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -6687,7 +6687,7 @@ public class PortletPreferencesPersistenceImpl
 			new String[] {"companyId", "ownerId", "ownerType", "portletId"},
 			false);
 
-		_finderPathFetchByO_O_P_P = _createFinderPath(
+		_finderPathFetchByO_O_P_P = new FinderPath(
 			FINDER_CLASS_NAME_ENTITY, "fetchByO_O_P_P",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -6695,7 +6695,7 @@ public class PortletPreferencesPersistenceImpl
 			},
 			new String[] {"ownerId", "ownerType", "plid", "portletId"}, true);
 
-		_finderPathCountByO_O_P_P = _createFinderPath(
+		_finderPathCountByO_O_P_P = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByO_O_P_P",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -6708,12 +6708,6 @@ public class PortletPreferencesPersistenceImpl
 		EntityCacheUtil.removeCache(PortletPreferencesImpl.class.getName());
 
 		_argumentsResolverServiceRegistration.unregister();
-
-		for (ServiceRegistration<FinderPath> serviceRegistration :
-				_serviceRegistrations) {
-
-			serviceRegistration.unregister();
-		}
 	}
 
 	private static final String _SQL_SELECT_PORTLETPREFERENCES =
@@ -6739,31 +6733,8 @@ public class PortletPreferencesPersistenceImpl
 	private static final Log _log = LogFactoryUtil.getLog(
 		PortletPreferencesPersistenceImpl.class);
 
-	private FinderPath _createFinderPath(
-		String cacheName, String methodName, String[] params,
-		String[] columnNames, boolean baseModelResult) {
-
-		FinderPath finderPath = new FinderPath(
-			cacheName, methodName, params, columnNames, baseModelResult);
-
-		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
-			Registry registry = RegistryUtil.getRegistry();
-
-			_serviceRegistrations.add(
-				registry.registerService(
-					FinderPath.class, finderPath,
-					HashMapBuilder.<String, Object>put(
-						"cache.name", cacheName
-					).build()));
-		}
-
-		return finderPath;
-	}
-
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
-	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
-		new HashSet<>();
 
 	private static class PortletPreferencesModelArgumentsResolver
 		implements ArgumentsResolver {

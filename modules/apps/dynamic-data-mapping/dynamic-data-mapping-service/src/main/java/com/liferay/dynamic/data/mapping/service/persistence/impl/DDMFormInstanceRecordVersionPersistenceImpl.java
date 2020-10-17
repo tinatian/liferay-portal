@@ -3603,19 +3603,19 @@ public class DDMFormInstanceRecordVersionPersistenceImpl
 				"model.class.name",
 				DDMFormInstanceRecordVersion.class.getName()));
 
-		_finderPathWithPaginationFindAll = _createFinderPath(
+		_finderPathWithPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathWithoutPaginationFindAll = _createFinderPath(
+		_finderPathWithoutPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathCountAll = _createFinderPath(
+		_finderPathCountAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0], new String[0], false);
 
-		_finderPathWithPaginationFindByFormInstanceRecordId = _createFinderPath(
+		_finderPathWithPaginationFindByFormInstanceRecordId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 			"findByFormInstanceRecordId",
 			new String[] {
@@ -3624,19 +3624,17 @@ public class DDMFormInstanceRecordVersionPersistenceImpl
 			},
 			new String[] {"formInstanceRecordId"}, true);
 
-		_finderPathWithoutPaginationFindByFormInstanceRecordId =
-			_createFinderPath(
-				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-				"findByFormInstanceRecordId",
-				new String[] {Long.class.getName()},
-				new String[] {"formInstanceRecordId"}, true);
+		_finderPathWithoutPaginationFindByFormInstanceRecordId = new FinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByFormInstanceRecordId", new String[] {Long.class.getName()},
+			new String[] {"formInstanceRecordId"}, true);
 
-		_finderPathCountByFormInstanceRecordId = _createFinderPath(
+		_finderPathCountByFormInstanceRecordId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByFormInstanceRecordId", new String[] {Long.class.getName()},
 			new String[] {"formInstanceRecordId"}, false);
 
-		_finderPathWithPaginationFindByF_F = _createFinderPath(
+		_finderPathWithPaginationFindByF_F = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByF_F",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
@@ -3645,27 +3643,27 @@ public class DDMFormInstanceRecordVersionPersistenceImpl
 			},
 			new String[] {"formInstanceId", "formInstanceVersion"}, true);
 
-		_finderPathWithoutPaginationFindByF_F = _createFinderPath(
+		_finderPathWithoutPaginationFindByF_F = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByF_F",
 			new String[] {Long.class.getName(), String.class.getName()},
 			new String[] {"formInstanceId", "formInstanceVersion"}, true);
 
-		_finderPathCountByF_F = _createFinderPath(
+		_finderPathCountByF_F = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByF_F",
 			new String[] {Long.class.getName(), String.class.getName()},
 			new String[] {"formInstanceId", "formInstanceVersion"}, false);
 
-		_finderPathFetchByF_V = _createFinderPath(
+		_finderPathFetchByF_V = new FinderPath(
 			FINDER_CLASS_NAME_ENTITY, "fetchByF_V",
 			new String[] {Long.class.getName(), String.class.getName()},
 			new String[] {"formInstanceRecordId", "version"}, true);
 
-		_finderPathCountByF_V = _createFinderPath(
+		_finderPathCountByF_V = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByF_V",
 			new String[] {Long.class.getName(), String.class.getName()},
 			new String[] {"formInstanceRecordId", "version"}, false);
 
-		_finderPathWithPaginationFindByF_S = _createFinderPath(
+		_finderPathWithPaginationFindByF_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByF_S",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -3674,17 +3672,17 @@ public class DDMFormInstanceRecordVersionPersistenceImpl
 			},
 			new String[] {"formInstanceRecordId", "status"}, true);
 
-		_finderPathWithoutPaginationFindByF_S = _createFinderPath(
+		_finderPathWithoutPaginationFindByF_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByF_S",
 			new String[] {Long.class.getName(), Integer.class.getName()},
 			new String[] {"formInstanceRecordId", "status"}, true);
 
-		_finderPathCountByF_S = _createFinderPath(
+		_finderPathCountByF_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByF_S",
 			new String[] {Long.class.getName(), Integer.class.getName()},
 			new String[] {"formInstanceRecordId", "status"}, false);
 
-		_finderPathWithPaginationFindByU_F_F_S = _createFinderPath(
+		_finderPathWithPaginationFindByU_F_F_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_F_F_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -3697,7 +3695,7 @@ public class DDMFormInstanceRecordVersionPersistenceImpl
 			},
 			true);
 
-		_finderPathWithoutPaginationFindByU_F_F_S = _createFinderPath(
+		_finderPathWithoutPaginationFindByU_F_F_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_F_F_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -3708,7 +3706,7 @@ public class DDMFormInstanceRecordVersionPersistenceImpl
 			},
 			true);
 
-		_finderPathCountByU_F_F_S = _createFinderPath(
+		_finderPathCountByU_F_F_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_F_F_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -3726,12 +3724,6 @@ public class DDMFormInstanceRecordVersionPersistenceImpl
 			DDMFormInstanceRecordVersionImpl.class.getName());
 
 		_argumentsResolverServiceRegistration.unregister();
-
-		for (ServiceRegistration<FinderPath> serviceRegistration :
-				_serviceRegistrations) {
-
-			serviceRegistration.unregister();
-		}
 	}
 
 	@Override
@@ -3804,27 +3796,8 @@ public class DDMFormInstanceRecordVersionPersistenceImpl
 		}
 	}
 
-	private FinderPath _createFinderPath(
-		String cacheName, String methodName, String[] params,
-		String[] columnNames, boolean baseModelResult) {
-
-		FinderPath finderPath = new FinderPath(
-			cacheName, methodName, params, columnNames, baseModelResult);
-
-		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
-			_serviceRegistrations.add(
-				_bundleContext.registerService(
-					FinderPath.class, finderPath,
-					MapUtil.singletonDictionary("cache.name", cacheName)));
-		}
-
-		return finderPath;
-	}
-
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
-	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
-		new HashSet<>();
 
 	private static class DDMFormInstanceRecordVersionModelArgumentsResolver
 		implements ArgumentsResolver {

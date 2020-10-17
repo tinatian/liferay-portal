@@ -53,7 +53,6 @@ import java.lang.reflect.InvocationHandler;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -2236,19 +2235,19 @@ public class PowwowParticipantPersistenceImpl
 				"model.class.name", PowwowParticipant.class.getName()
 			).build());
 
-		_finderPathWithPaginationFindAll = _createFinderPath(
+		_finderPathWithPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathWithoutPaginationFindAll = _createFinderPath(
+		_finderPathWithoutPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathCountAll = _createFinderPath(
+		_finderPathCountAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0], new String[0], false);
 
-		_finderPathWithPaginationFindByPowwowMeetingId = _createFinderPath(
+		_finderPathWithPaginationFindByPowwowMeetingId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByPowwowMeetingId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -2256,37 +2255,37 @@ public class PowwowParticipantPersistenceImpl
 			},
 			new String[] {"powwowMeetingId"}, true);
 
-		_finderPathWithoutPaginationFindByPowwowMeetingId = _createFinderPath(
+		_finderPathWithoutPaginationFindByPowwowMeetingId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPowwowMeetingId",
 			new String[] {Long.class.getName()},
 			new String[] {"powwowMeetingId"}, true);
 
-		_finderPathCountByPowwowMeetingId = _createFinderPath(
+		_finderPathCountByPowwowMeetingId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPowwowMeetingId",
 			new String[] {Long.class.getName()},
 			new String[] {"powwowMeetingId"}, false);
 
-		_finderPathFetchByPMI_PUI = _createFinderPath(
+		_finderPathFetchByPMI_PUI = new FinderPath(
 			FINDER_CLASS_NAME_ENTITY, "fetchByPMI_PUI",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			new String[] {"powwowMeetingId", "participantUserId"}, true);
 
-		_finderPathCountByPMI_PUI = _createFinderPath(
+		_finderPathCountByPMI_PUI = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPMI_PUI",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			new String[] {"powwowMeetingId", "participantUserId"}, false);
 
-		_finderPathFetchByPMI_EA = _createFinderPath(
+		_finderPathFetchByPMI_EA = new FinderPath(
 			FINDER_CLASS_NAME_ENTITY, "fetchByPMI_EA",
 			new String[] {Long.class.getName(), String.class.getName()},
 			new String[] {"powwowMeetingId", "emailAddress"}, true);
 
-		_finderPathCountByPMI_EA = _createFinderPath(
+		_finderPathCountByPMI_EA = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPMI_EA",
 			new String[] {Long.class.getName(), String.class.getName()},
 			new String[] {"powwowMeetingId", "emailAddress"}, false);
 
-		_finderPathWithPaginationFindByPMI_T = _createFinderPath(
+		_finderPathWithPaginationFindByPMI_T = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByPMI_T",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -2295,12 +2294,12 @@ public class PowwowParticipantPersistenceImpl
 			},
 			new String[] {"powwowMeetingId", "type_"}, true);
 
-		_finderPathWithoutPaginationFindByPMI_T = _createFinderPath(
+		_finderPathWithoutPaginationFindByPMI_T = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPMI_T",
 			new String[] {Long.class.getName(), Integer.class.getName()},
 			new String[] {"powwowMeetingId", "type_"}, true);
 
-		_finderPathCountByPMI_T = _createFinderPath(
+		_finderPathCountByPMI_T = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPMI_T",
 			new String[] {Long.class.getName(), Integer.class.getName()},
 			new String[] {"powwowMeetingId", "type_"}, false);
@@ -2310,12 +2309,6 @@ public class PowwowParticipantPersistenceImpl
 		EntityCacheUtil.removeCache(PowwowParticipantImpl.class.getName());
 
 		_argumentsResolverServiceRegistration.unregister();
-
-		for (ServiceRegistration<FinderPath> serviceRegistration :
-				_serviceRegistrations) {
-
-			serviceRegistration.unregister();
-		}
 	}
 
 	private static final String _SQL_SELECT_POWWOWPARTICIPANT =
@@ -2344,31 +2337,8 @@ public class PowwowParticipantPersistenceImpl
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"type"});
 
-	private FinderPath _createFinderPath(
-		String cacheName, String methodName, String[] params,
-		String[] columnNames, boolean baseModelResult) {
-
-		FinderPath finderPath = new FinderPath(
-			cacheName, methodName, params, columnNames, baseModelResult);
-
-		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
-			Registry registry = RegistryUtil.getRegistry();
-
-			_serviceRegistrations.add(
-				registry.registerService(
-					FinderPath.class, finderPath,
-					HashMapBuilder.<String, Object>put(
-						"cache.name", cacheName
-					).build()));
-		}
-
-		return finderPath;
-	}
-
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
-	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
-		new HashSet<>();
 
 	private static class PowwowParticipantModelArgumentsResolver
 		implements ArgumentsResolver {

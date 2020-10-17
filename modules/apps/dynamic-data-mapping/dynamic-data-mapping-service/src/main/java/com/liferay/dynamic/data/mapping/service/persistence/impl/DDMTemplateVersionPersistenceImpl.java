@@ -2196,19 +2196,19 @@ public class DDMTemplateVersionPersistenceImpl
 			MapUtil.singletonDictionary(
 				"model.class.name", DDMTemplateVersion.class.getName()));
 
-		_finderPathWithPaginationFindAll = _createFinderPath(
+		_finderPathWithPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathWithoutPaginationFindAll = _createFinderPath(
+		_finderPathWithoutPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathCountAll = _createFinderPath(
+		_finderPathCountAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0], new String[0], false);
 
-		_finderPathWithPaginationFindByTemplateId = _createFinderPath(
+		_finderPathWithPaginationFindByTemplateId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByTemplateId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -2216,27 +2216,27 @@ public class DDMTemplateVersionPersistenceImpl
 			},
 			new String[] {"templateId"}, true);
 
-		_finderPathWithoutPaginationFindByTemplateId = _createFinderPath(
+		_finderPathWithoutPaginationFindByTemplateId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByTemplateId",
 			new String[] {Long.class.getName()}, new String[] {"templateId"},
 			true);
 
-		_finderPathCountByTemplateId = _createFinderPath(
+		_finderPathCountByTemplateId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByTemplateId",
 			new String[] {Long.class.getName()}, new String[] {"templateId"},
 			false);
 
-		_finderPathFetchByT_V = _createFinderPath(
+		_finderPathFetchByT_V = new FinderPath(
 			FINDER_CLASS_NAME_ENTITY, "fetchByT_V",
 			new String[] {Long.class.getName(), String.class.getName()},
 			new String[] {"templateId", "version"}, true);
 
-		_finderPathCountByT_V = _createFinderPath(
+		_finderPathCountByT_V = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByT_V",
 			new String[] {Long.class.getName(), String.class.getName()},
 			new String[] {"templateId", "version"}, false);
 
-		_finderPathWithPaginationFindByT_S = _createFinderPath(
+		_finderPathWithPaginationFindByT_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByT_S",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -2245,12 +2245,12 @@ public class DDMTemplateVersionPersistenceImpl
 			},
 			new String[] {"templateId", "status"}, true);
 
-		_finderPathWithoutPaginationFindByT_S = _createFinderPath(
+		_finderPathWithoutPaginationFindByT_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByT_S",
 			new String[] {Long.class.getName(), Integer.class.getName()},
 			new String[] {"templateId", "status"}, true);
 
-		_finderPathCountByT_S = _createFinderPath(
+		_finderPathCountByT_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByT_S",
 			new String[] {Long.class.getName(), Integer.class.getName()},
 			new String[] {"templateId", "status"}, false);
@@ -2261,12 +2261,6 @@ public class DDMTemplateVersionPersistenceImpl
 		entityCache.removeCache(DDMTemplateVersionImpl.class.getName());
 
 		_argumentsResolverServiceRegistration.unregister();
-
-		for (ServiceRegistration<FinderPath> serviceRegistration :
-				_serviceRegistrations) {
-
-			serviceRegistration.unregister();
-		}
 	}
 
 	@Override
@@ -2338,27 +2332,8 @@ public class DDMTemplateVersionPersistenceImpl
 		}
 	}
 
-	private FinderPath _createFinderPath(
-		String cacheName, String methodName, String[] params,
-		String[] columnNames, boolean baseModelResult) {
-
-		FinderPath finderPath = new FinderPath(
-			cacheName, methodName, params, columnNames, baseModelResult);
-
-		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
-			_serviceRegistrations.add(
-				_bundleContext.registerService(
-					FinderPath.class, finderPath,
-					MapUtil.singletonDictionary("cache.name", cacheName)));
-		}
-
-		return finderPath;
-	}
-
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
-	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
-		new HashSet<>();
 
 	private static class DDMTemplateVersionModelArgumentsResolver
 		implements ArgumentsResolver {
