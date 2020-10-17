@@ -2861,6 +2861,19 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 		}
 	</#if>
 
+	<#if serviceBuilder.isVersionGTE_7_4_0()>
+		@Override
+		protected FinderCache getFinderCache() {
+			<#if !entity.isCacheEnabled()>
+				return dummyFinderCache;
+			<#elseif osgiModule>
+				return finderCache;
+			<#else>
+				return FinderCacheUtil.getFinderCache();
+			</#if>
+		}
+	</#if>
+
 	<#if serviceBuilder.isVersionGTE_7_3_0()>
 		<#if !serviceBuilder.isVersionGTE_7_4_0()>
 			private FinderPath _createFinderPath(
