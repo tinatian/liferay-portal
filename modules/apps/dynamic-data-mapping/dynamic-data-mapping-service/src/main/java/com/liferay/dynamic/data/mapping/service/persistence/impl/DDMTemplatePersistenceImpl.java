@@ -12951,19 +12951,19 @@ public class DDMTemplatePersistenceImpl
 			MapUtil.singletonDictionary(
 				"model.class.name", DDMTemplate.class.getName()));
 
-		_finderPathWithPaginationFindAll = _createFinderPath(
+		_finderPathWithPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathWithoutPaginationFindAll = _createFinderPath(
+		_finderPathWithoutPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathCountAll = _createFinderPath(
+		_finderPathCountAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0], new String[0], false);
 
-		_finderPathWithPaginationFindByUuid = _createFinderPath(
+		_finderPathWithPaginationFindByUuid = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
@@ -12971,27 +12971,27 @@ public class DDMTemplatePersistenceImpl
 			},
 			new String[] {"uuid_"}, true);
 
-		_finderPathWithoutPaginationFindByUuid = _createFinderPath(
+		_finderPathWithoutPaginationFindByUuid = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
 			new String[] {String.class.getName()}, new String[] {"uuid_"},
 			true);
 
-		_finderPathCountByUuid = _createFinderPath(
+		_finderPathCountByUuid = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
 			new String[] {String.class.getName()}, new String[] {"uuid_"},
 			false);
 
-		_finderPathFetchByUUID_G = _createFinderPath(
+		_finderPathFetchByUUID_G = new FinderPath(
 			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
 			new String[] {"uuid_", "groupId"}, true);
 
-		_finderPathCountByUUID_G = _createFinderPath(
+		_finderPathCountByUUID_G = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
 			new String[] {"uuid_", "groupId"}, false);
 
-		_finderPathWithPaginationFindByUuid_C = _createFinderPath(
+		_finderPathWithPaginationFindByUuid_C = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
@@ -13000,17 +13000,17 @@ public class DDMTemplatePersistenceImpl
 			},
 			new String[] {"uuid_", "companyId"}, true);
 
-		_finderPathWithoutPaginationFindByUuid_C = _createFinderPath(
+		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
 			new String[] {"uuid_", "companyId"}, true);
 
-		_finderPathCountByUuid_C = _createFinderPath(
+		_finderPathCountByUuid_C = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
 			new String[] {"uuid_", "companyId"}, false);
 
-		_finderPathWithPaginationFindByGroupId = _createFinderPath(
+		_finderPathWithPaginationFindByGroupId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -13018,17 +13018,17 @@ public class DDMTemplatePersistenceImpl
 			},
 			new String[] {"groupId"}, true);
 
-		_finderPathWithoutPaginationFindByGroupId = _createFinderPath(
+		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
 			new String[] {Long.class.getName()}, new String[] {"groupId"},
 			true);
 
-		_finderPathCountByGroupId = _createFinderPath(
+		_finderPathCountByGroupId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
 			new String[] {Long.class.getName()}, new String[] {"groupId"},
 			false);
 
-		_finderPathWithPaginationFindByClassPK = _createFinderPath(
+		_finderPathWithPaginationFindByClassPK = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByClassPK",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -13036,17 +13036,17 @@ public class DDMTemplatePersistenceImpl
 			},
 			new String[] {"classPK"}, true);
 
-		_finderPathWithoutPaginationFindByClassPK = _createFinderPath(
+		_finderPathWithoutPaginationFindByClassPK = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByClassPK",
 			new String[] {Long.class.getName()}, new String[] {"classPK"},
 			true);
 
-		_finderPathCountByClassPK = _createFinderPath(
+		_finderPathCountByClassPK = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByClassPK",
 			new String[] {Long.class.getName()}, new String[] {"classPK"},
 			false);
 
-		_finderPathWithPaginationFindByTemplateKey = _createFinderPath(
+		_finderPathWithPaginationFindByTemplateKey = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByTemplateKey",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
@@ -13054,17 +13054,17 @@ public class DDMTemplatePersistenceImpl
 			},
 			new String[] {"templateKey"}, true);
 
-		_finderPathWithoutPaginationFindByTemplateKey = _createFinderPath(
+		_finderPathWithoutPaginationFindByTemplateKey = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByTemplateKey",
 			new String[] {String.class.getName()}, new String[] {"templateKey"},
 			true);
 
-		_finderPathCountByTemplateKey = _createFinderPath(
+		_finderPathCountByTemplateKey = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByTemplateKey",
 			new String[] {String.class.getName()}, new String[] {"templateKey"},
 			false);
 
-		_finderPathWithPaginationFindByType = _createFinderPath(
+		_finderPathWithPaginationFindByType = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByType",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
@@ -13072,17 +13072,17 @@ public class DDMTemplatePersistenceImpl
 			},
 			new String[] {"type_"}, true);
 
-		_finderPathWithoutPaginationFindByType = _createFinderPath(
+		_finderPathWithoutPaginationFindByType = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByType",
 			new String[] {String.class.getName()}, new String[] {"type_"},
 			true);
 
-		_finderPathCountByType = _createFinderPath(
+		_finderPathCountByType = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByType",
 			new String[] {String.class.getName()}, new String[] {"type_"},
 			false);
 
-		_finderPathWithPaginationFindByLanguage = _createFinderPath(
+		_finderPathWithPaginationFindByLanguage = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByLanguage",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
@@ -13090,27 +13090,27 @@ public class DDMTemplatePersistenceImpl
 			},
 			new String[] {"language"}, true);
 
-		_finderPathWithoutPaginationFindByLanguage = _createFinderPath(
+		_finderPathWithoutPaginationFindByLanguage = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByLanguage",
 			new String[] {String.class.getName()}, new String[] {"language"},
 			true);
 
-		_finderPathCountByLanguage = _createFinderPath(
+		_finderPathCountByLanguage = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByLanguage",
 			new String[] {String.class.getName()}, new String[] {"language"},
 			false);
 
-		_finderPathFetchBySmallImageId = _createFinderPath(
+		_finderPathFetchBySmallImageId = new FinderPath(
 			FINDER_CLASS_NAME_ENTITY, "fetchBySmallImageId",
 			new String[] {Long.class.getName()}, new String[] {"smallImageId"},
 			true);
 
-		_finderPathCountBySmallImageId = _createFinderPath(
+		_finderPathCountBySmallImageId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countBySmallImageId",
 			new String[] {Long.class.getName()}, new String[] {"smallImageId"},
 			false);
 
-		_finderPathWithPaginationFindByG_C = _createFinderPath(
+		_finderPathWithPaginationFindByG_C = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -13119,17 +13119,17 @@ public class DDMTemplatePersistenceImpl
 			},
 			new String[] {"groupId", "classNameId"}, true);
 
-		_finderPathWithoutPaginationFindByG_C = _createFinderPath(
+		_finderPathWithoutPaginationFindByG_C = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_C",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			new String[] {"groupId", "classNameId"}, true);
 
-		_finderPathCountByG_C = _createFinderPath(
+		_finderPathCountByG_C = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_C",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			new String[] {"groupId", "classNameId"}, false);
 
-		_finderPathWithPaginationFindByG_CPK = _createFinderPath(
+		_finderPathWithPaginationFindByG_CPK = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_CPK",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -13138,22 +13138,22 @@ public class DDMTemplatePersistenceImpl
 			},
 			new String[] {"groupId", "classPK"}, true);
 
-		_finderPathWithoutPaginationFindByG_CPK = _createFinderPath(
+		_finderPathWithoutPaginationFindByG_CPK = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_CPK",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			new String[] {"groupId", "classPK"}, true);
 
-		_finderPathCountByG_CPK = _createFinderPath(
+		_finderPathCountByG_CPK = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_CPK",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			new String[] {"groupId", "classPK"}, false);
 
-		_finderPathWithPaginationCountByG_CPK = _createFinderPath(
+		_finderPathWithPaginationCountByG_CPK = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByG_CPK",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			new String[] {"groupId", "classPK"}, false);
 
-		_finderPathWithPaginationFindByG_C_C = _createFinderPath(
+		_finderPathWithPaginationFindByG_C_C = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_C_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -13162,28 +13162,28 @@ public class DDMTemplatePersistenceImpl
 			},
 			new String[] {"groupId", "classNameId", "classPK"}, true);
 
-		_finderPathWithoutPaginationFindByG_C_C = _createFinderPath(
+		_finderPathWithoutPaginationFindByG_C_C = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_C_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			},
 			new String[] {"groupId", "classNameId", "classPK"}, true);
 
-		_finderPathCountByG_C_C = _createFinderPath(
+		_finderPathCountByG_C_C = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_C_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			},
 			new String[] {"groupId", "classNameId", "classPK"}, false);
 
-		_finderPathWithPaginationCountByG_C_C = _createFinderPath(
+		_finderPathWithPaginationCountByG_C_C = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByG_C_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			},
 			new String[] {"groupId", "classNameId", "classPK"}, false);
 
-		_finderPathFetchByG_C_T = _createFinderPath(
+		_finderPathFetchByG_C_T = new FinderPath(
 			FINDER_CLASS_NAME_ENTITY, "fetchByG_C_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -13191,7 +13191,7 @@ public class DDMTemplatePersistenceImpl
 			},
 			new String[] {"groupId", "classNameId", "templateKey"}, true);
 
-		_finderPathCountByG_C_T = _createFinderPath(
+		_finderPathCountByG_C_T = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_C_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -13199,7 +13199,7 @@ public class DDMTemplatePersistenceImpl
 			},
 			new String[] {"groupId", "classNameId", "templateKey"}, false);
 
-		_finderPathWithPaginationFindByC_C_T = _createFinderPath(
+		_finderPathWithPaginationFindByC_C_T = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_C_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -13208,7 +13208,7 @@ public class DDMTemplatePersistenceImpl
 			},
 			new String[] {"classNameId", "classPK", "type_"}, true);
 
-		_finderPathWithoutPaginationFindByC_C_T = _createFinderPath(
+		_finderPathWithoutPaginationFindByC_C_T = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_C_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -13216,7 +13216,7 @@ public class DDMTemplatePersistenceImpl
 			},
 			new String[] {"classNameId", "classPK", "type_"}, true);
 
-		_finderPathCountByC_C_T = _createFinderPath(
+		_finderPathCountByC_C_T = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -13224,7 +13224,7 @@ public class DDMTemplatePersistenceImpl
 			},
 			new String[] {"classNameId", "classPK", "type_"}, false);
 
-		_finderPathWithPaginationFindByG_C_C_T = _createFinderPath(
+		_finderPathWithPaginationFindByG_C_C_T = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_C_C_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -13234,7 +13234,7 @@ public class DDMTemplatePersistenceImpl
 			},
 			new String[] {"groupId", "classNameId", "classPK", "type_"}, true);
 
-		_finderPathWithoutPaginationFindByG_C_C_T = _createFinderPath(
+		_finderPathWithoutPaginationFindByG_C_C_T = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_C_C_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -13242,7 +13242,7 @@ public class DDMTemplatePersistenceImpl
 			},
 			new String[] {"groupId", "classNameId", "classPK", "type_"}, true);
 
-		_finderPathCountByG_C_C_T = _createFinderPath(
+		_finderPathCountByG_C_C_T = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_C_C_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -13250,7 +13250,7 @@ public class DDMTemplatePersistenceImpl
 			},
 			new String[] {"groupId", "classNameId", "classPK", "type_"}, false);
 
-		_finderPathWithPaginationFindByG_C_C_T_M = _createFinderPath(
+		_finderPathWithPaginationFindByG_C_C_T_M = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_C_C_T_M",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -13263,7 +13263,7 @@ public class DDMTemplatePersistenceImpl
 			},
 			true);
 
-		_finderPathWithoutPaginationFindByG_C_C_T_M = _createFinderPath(
+		_finderPathWithoutPaginationFindByG_C_C_T_M = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_C_C_T_M",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -13275,7 +13275,7 @@ public class DDMTemplatePersistenceImpl
 			},
 			true);
 
-		_finderPathCountByG_C_C_T_M = _createFinderPath(
+		_finderPathCountByG_C_C_T_M = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_C_C_T_M",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -13293,12 +13293,6 @@ public class DDMTemplatePersistenceImpl
 		entityCache.removeCache(DDMTemplateImpl.class.getName());
 
 		_argumentsResolverServiceRegistration.unregister();
-
-		for (ServiceRegistration<FinderPath> serviceRegistration :
-				_serviceRegistrations) {
-
-			serviceRegistration.unregister();
-		}
 	}
 
 	@Override
@@ -13396,27 +13390,8 @@ public class DDMTemplatePersistenceImpl
 		}
 	}
 
-	private FinderPath _createFinderPath(
-		String cacheName, String methodName, String[] params,
-		String[] columnNames, boolean baseModelResult) {
-
-		FinderPath finderPath = new FinderPath(
-			cacheName, methodName, params, columnNames, baseModelResult);
-
-		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
-			_serviceRegistrations.add(
-				_bundleContext.registerService(
-					FinderPath.class, finderPath,
-					MapUtil.singletonDictionary("cache.name", cacheName)));
-		}
-
-		return finderPath;
-	}
-
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
-	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
-		new HashSet<>();
 
 	private static class DDMTemplateModelArgumentsResolver
 		implements ArgumentsResolver {

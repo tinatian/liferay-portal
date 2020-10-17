@@ -49,7 +49,6 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -6753,19 +6752,19 @@ public class SyncDLObjectPersistenceImpl
 			MapUtil.singletonDictionary(
 				"model.class.name", SyncDLObject.class.getName()));
 
-		_finderPathWithPaginationFindAll = _createFinderPath(
+		_finderPathWithPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathWithoutPaginationFindAll = _createFinderPath(
+		_finderPathWithoutPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathCountAll = _createFinderPath(
+		_finderPathCountAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0], new String[0], false);
 
-		_finderPathWithPaginationFindByTreePath = _createFinderPath(
+		_finderPathWithPaginationFindByTreePath = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByTreePath",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
@@ -6773,12 +6772,12 @@ public class SyncDLObjectPersistenceImpl
 			},
 			new String[] {"treePath"}, true);
 
-		_finderPathWithPaginationCountByTreePath = _createFinderPath(
+		_finderPathWithPaginationCountByTreePath = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByTreePath",
 			new String[] {String.class.getName()}, new String[] {"treePath"},
 			false);
 
-		_finderPathWithPaginationFindByM_R = _createFinderPath(
+		_finderPathWithPaginationFindByM_R = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByM_R",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -6787,12 +6786,12 @@ public class SyncDLObjectPersistenceImpl
 			},
 			new String[] {"modifiedTime", "repositoryId"}, true);
 
-		_finderPathWithPaginationCountByM_R = _createFinderPath(
+		_finderPathWithPaginationCountByM_R = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByM_R",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			new String[] {"modifiedTime", "repositoryId"}, false);
 
-		_finderPathWithPaginationFindByR_P = _createFinderPath(
+		_finderPathWithPaginationFindByR_P = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByR_P",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -6801,17 +6800,17 @@ public class SyncDLObjectPersistenceImpl
 			},
 			new String[] {"repositoryId", "parentFolderId"}, true);
 
-		_finderPathWithoutPaginationFindByR_P = _createFinderPath(
+		_finderPathWithoutPaginationFindByR_P = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByR_P",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			new String[] {"repositoryId", "parentFolderId"}, true);
 
-		_finderPathCountByR_P = _createFinderPath(
+		_finderPathCountByR_P = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByR_P",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			new String[] {"repositoryId", "parentFolderId"}, false);
 
-		_finderPathWithPaginationFindByR_NotE = _createFinderPath(
+		_finderPathWithPaginationFindByR_NotE = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByR_NotE",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
@@ -6820,12 +6819,12 @@ public class SyncDLObjectPersistenceImpl
 			},
 			new String[] {"repositoryId", "event"}, true);
 
-		_finderPathWithPaginationCountByR_NotE = _createFinderPath(
+		_finderPathWithPaginationCountByR_NotE = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByR_NotE",
 			new String[] {Long.class.getName(), String.class.getName()},
 			new String[] {"repositoryId", "event"}, false);
 
-		_finderPathWithPaginationFindByR_T = _createFinderPath(
+		_finderPathWithPaginationFindByR_T = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByR_T",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
@@ -6834,17 +6833,17 @@ public class SyncDLObjectPersistenceImpl
 			},
 			new String[] {"repositoryId", "type_"}, true);
 
-		_finderPathWithoutPaginationFindByR_T = _createFinderPath(
+		_finderPathWithoutPaginationFindByR_T = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByR_T",
 			new String[] {Long.class.getName(), String.class.getName()},
 			new String[] {"repositoryId", "type_"}, true);
 
-		_finderPathCountByR_T = _createFinderPath(
+		_finderPathCountByR_T = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByR_T",
 			new String[] {Long.class.getName(), String.class.getName()},
 			new String[] {"repositoryId", "type_"}, false);
 
-		_finderPathWithPaginationFindByT_NotE = _createFinderPath(
+		_finderPathWithPaginationFindByT_NotE = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByT_NotE",
 			new String[] {
 				String.class.getName(), String.class.getName(),
@@ -6853,12 +6852,12 @@ public class SyncDLObjectPersistenceImpl
 			},
 			new String[] {"treePath", "event"}, true);
 
-		_finderPathWithPaginationCountByT_NotE = _createFinderPath(
+		_finderPathWithPaginationCountByT_NotE = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByT_NotE",
 			new String[] {String.class.getName(), String.class.getName()},
 			new String[] {"treePath", "event"}, false);
 
-		_finderPathWithPaginationFindByV_T = _createFinderPath(
+		_finderPathWithPaginationFindByV_T = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByV_T",
 			new String[] {
 				String.class.getName(), String.class.getName(),
@@ -6867,27 +6866,27 @@ public class SyncDLObjectPersistenceImpl
 			},
 			new String[] {"version", "type_"}, true);
 
-		_finderPathWithoutPaginationFindByV_T = _createFinderPath(
+		_finderPathWithoutPaginationFindByV_T = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByV_T",
 			new String[] {String.class.getName(), String.class.getName()},
 			new String[] {"version", "type_"}, true);
 
-		_finderPathCountByV_T = _createFinderPath(
+		_finderPathCountByV_T = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByV_T",
 			new String[] {String.class.getName(), String.class.getName()},
 			new String[] {"version", "type_"}, false);
 
-		_finderPathFetchByT_T = _createFinderPath(
+		_finderPathFetchByT_T = new FinderPath(
 			FINDER_CLASS_NAME_ENTITY, "fetchByT_T",
 			new String[] {String.class.getName(), Long.class.getName()},
 			new String[] {"type_", "typePK"}, true);
 
-		_finderPathCountByT_T = _createFinderPath(
+		_finderPathCountByT_T = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByT_T",
 			new String[] {String.class.getName(), Long.class.getName()},
 			new String[] {"type_", "typePK"}, false);
 
-		_finderPathWithPaginationFindByM_R_NotE = _createFinderPath(
+		_finderPathWithPaginationFindByM_R_NotE = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByM_R_NotE",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -6896,7 +6895,7 @@ public class SyncDLObjectPersistenceImpl
 			},
 			new String[] {"modifiedTime", "repositoryId", "event"}, true);
 
-		_finderPathWithPaginationCountByM_R_NotE = _createFinderPath(
+		_finderPathWithPaginationCountByM_R_NotE = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByM_R_NotE",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -6904,7 +6903,7 @@ public class SyncDLObjectPersistenceImpl
 			},
 			new String[] {"modifiedTime", "repositoryId", "event"}, false);
 
-		_finderPathWithPaginationFindByR_P_T = _createFinderPath(
+		_finderPathWithPaginationFindByR_P_T = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByR_P_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -6913,7 +6912,7 @@ public class SyncDLObjectPersistenceImpl
 			},
 			new String[] {"repositoryId", "parentFolderId", "type_"}, true);
 
-		_finderPathWithoutPaginationFindByR_P_T = _createFinderPath(
+		_finderPathWithoutPaginationFindByR_P_T = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByR_P_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -6921,7 +6920,7 @@ public class SyncDLObjectPersistenceImpl
 			},
 			new String[] {"repositoryId", "parentFolderId", "type_"}, true);
 
-		_finderPathCountByR_P_T = _createFinderPath(
+		_finderPathCountByR_P_T = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByR_P_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -6929,7 +6928,7 @@ public class SyncDLObjectPersistenceImpl
 			},
 			new String[] {"repositoryId", "parentFolderId", "type_"}, false);
 
-		_finderPathWithPaginationCountByR_P_T = _createFinderPath(
+		_finderPathWithPaginationCountByR_P_T = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByR_P_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -6943,12 +6942,6 @@ public class SyncDLObjectPersistenceImpl
 		entityCache.removeCache(SyncDLObjectImpl.class.getName());
 
 		_argumentsResolverServiceRegistration.unregister();
-
-		for (ServiceRegistration<FinderPath> serviceRegistration :
-				_serviceRegistrations) {
-
-			serviceRegistration.unregister();
-		}
 	}
 
 	@Override
@@ -7020,27 +7013,8 @@ public class SyncDLObjectPersistenceImpl
 		}
 	}
 
-	private FinderPath _createFinderPath(
-		String cacheName, String methodName, String[] params,
-		String[] columnNames, boolean baseModelResult) {
-
-		FinderPath finderPath = new FinderPath(
-			cacheName, methodName, params, columnNames, baseModelResult);
-
-		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
-			_serviceRegistrations.add(
-				_bundleContext.registerService(
-					FinderPath.class, finderPath,
-					MapUtil.singletonDictionary("cache.name", cacheName)));
-		}
-
-		return finderPath;
-	}
-
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
-	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
-		new HashSet<>();
 
 	private static class SyncDLObjectModelArgumentsResolver
 		implements ArgumentsResolver {
