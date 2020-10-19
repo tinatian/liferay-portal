@@ -52,7 +52,6 @@ import java.lang.reflect.InvocationHandler;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -1940,39 +1939,39 @@ public class SamlSpSessionPersistenceImpl
 			MapUtil.singletonDictionary(
 				"model.class.name", SamlSpSession.class.getName()));
 
-		_finderPathWithPaginationFindAll = _createFinderPath(
+		_finderPathWithPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathWithoutPaginationFindAll = _createFinderPath(
+		_finderPathWithoutPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathCountAll = _createFinderPath(
+		_finderPathCountAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0], new String[0], false);
 
-		_finderPathFetchBySamlSpSessionKey = _createFinderPath(
+		_finderPathFetchBySamlSpSessionKey = new FinderPath(
 			FINDER_CLASS_NAME_ENTITY, "fetchBySamlSpSessionKey",
 			new String[] {String.class.getName()},
 			new String[] {"samlSpSessionKey"}, true);
 
-		_finderPathCountBySamlSpSessionKey = _createFinderPath(
+		_finderPathCountBySamlSpSessionKey = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countBySamlSpSessionKey", new String[] {String.class.getName()},
 			new String[] {"samlSpSessionKey"}, false);
 
-		_finderPathFetchByJSessionId = _createFinderPath(
+		_finderPathFetchByJSessionId = new FinderPath(
 			FINDER_CLASS_NAME_ENTITY, "fetchByJSessionId",
 			new String[] {String.class.getName()}, new String[] {"jSessionId"},
 			true);
 
-		_finderPathCountByJSessionId = _createFinderPath(
+		_finderPathCountByJSessionId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByJSessionId",
 			new String[] {String.class.getName()}, new String[] {"jSessionId"},
 			false);
 
-		_finderPathWithPaginationFindByNameIdValue = _createFinderPath(
+		_finderPathWithPaginationFindByNameIdValue = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByNameIdValue",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
@@ -1980,22 +1979,22 @@ public class SamlSpSessionPersistenceImpl
 			},
 			new String[] {"nameIdValue"}, true);
 
-		_finderPathWithoutPaginationFindByNameIdValue = _createFinderPath(
+		_finderPathWithoutPaginationFindByNameIdValue = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByNameIdValue",
 			new String[] {String.class.getName()}, new String[] {"nameIdValue"},
 			true);
 
-		_finderPathCountByNameIdValue = _createFinderPath(
+		_finderPathCountByNameIdValue = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByNameIdValue",
 			new String[] {String.class.getName()}, new String[] {"nameIdValue"},
 			false);
 
-		_finderPathFetchBySessionIndex = _createFinderPath(
+		_finderPathFetchBySessionIndex = new FinderPath(
 			FINDER_CLASS_NAME_ENTITY, "fetchBySessionIndex",
 			new String[] {String.class.getName()},
 			new String[] {"sessionIndex"}, true);
 
-		_finderPathCountBySessionIndex = _createFinderPath(
+		_finderPathCountBySessionIndex = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countBySessionIndex",
 			new String[] {String.class.getName()},
 			new String[] {"sessionIndex"}, false);
@@ -2006,12 +2005,6 @@ public class SamlSpSessionPersistenceImpl
 		entityCache.removeCache(SamlSpSessionImpl.class.getName());
 
 		_argumentsResolverServiceRegistration.unregister();
-
-		for (ServiceRegistration<FinderPath> serviceRegistration :
-				_serviceRegistrations) {
-
-			serviceRegistration.unregister();
-		}
 	}
 
 	@Override
@@ -2083,27 +2076,8 @@ public class SamlSpSessionPersistenceImpl
 		}
 	}
 
-	private FinderPath _createFinderPath(
-		String cacheName, String methodName, String[] params,
-		String[] columnNames, boolean baseModelResult) {
-
-		FinderPath finderPath = new FinderPath(
-			cacheName, methodName, params, columnNames, baseModelResult);
-
-		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
-			_serviceRegistrations.add(
-				_bundleContext.registerService(
-					FinderPath.class, finderPath,
-					MapUtil.singletonDictionary("cache.name", cacheName)));
-		}
-
-		return finderPath;
-	}
-
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
-	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
-		new HashSet<>();
 
 	private static class SamlSpSessionModelArgumentsResolver
 		implements ArgumentsResolver {

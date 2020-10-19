@@ -50,7 +50,6 @@ import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -914,26 +913,26 @@ public class HtmlPreviewEntryPersistenceImpl
 			MapUtil.singletonDictionary(
 				"model.class.name", HtmlPreviewEntry.class.getName()));
 
-		_finderPathWithPaginationFindAll = _createFinderPath(
+		_finderPathWithPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathWithoutPaginationFindAll = _createFinderPath(
+		_finderPathWithoutPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathCountAll = _createFinderPath(
+		_finderPathCountAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0], new String[0], false);
 
-		_finderPathFetchByG_C_C = _createFinderPath(
+		_finderPathFetchByG_C_C = new FinderPath(
 			FINDER_CLASS_NAME_ENTITY, "fetchByG_C_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			},
 			new String[] {"groupId", "classNameId", "classPK"}, true);
 
-		_finderPathCountByG_C_C = _createFinderPath(
+		_finderPathCountByG_C_C = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_C_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
@@ -946,12 +945,6 @@ public class HtmlPreviewEntryPersistenceImpl
 		entityCache.removeCache(HtmlPreviewEntryImpl.class.getName());
 
 		_argumentsResolverServiceRegistration.unregister();
-
-		for (ServiceRegistration<FinderPath> serviceRegistration :
-				_serviceRegistrations) {
-
-			serviceRegistration.unregister();
-		}
 	}
 
 	@Override
@@ -1020,27 +1013,8 @@ public class HtmlPreviewEntryPersistenceImpl
 		}
 	}
 
-	private FinderPath _createFinderPath(
-		String cacheName, String methodName, String[] params,
-		String[] columnNames, boolean baseModelResult) {
-
-		FinderPath finderPath = new FinderPath(
-			cacheName, methodName, params, columnNames, baseModelResult);
-
-		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
-			_serviceRegistrations.add(
-				_bundleContext.registerService(
-					FinderPath.class, finderPath,
-					MapUtil.singletonDictionary("cache.name", cacheName)));
-		}
-
-		return finderPath;
-	}
-
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
-	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
-		new HashSet<>();
 
 	private static class HtmlPreviewEntryModelArgumentsResolver
 		implements ArgumentsResolver {

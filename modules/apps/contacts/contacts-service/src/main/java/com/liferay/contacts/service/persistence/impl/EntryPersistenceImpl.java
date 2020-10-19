@@ -50,7 +50,6 @@ import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -1375,19 +1374,19 @@ public class EntryPersistenceImpl
 			MapUtil.singletonDictionary(
 				"model.class.name", Entry.class.getName()));
 
-		_finderPathWithPaginationFindAll = _createFinderPath(
+		_finderPathWithPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathWithoutPaginationFindAll = _createFinderPath(
+		_finderPathWithoutPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathCountAll = _createFinderPath(
+		_finderPathCountAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0], new String[0], false);
 
-		_finderPathWithPaginationFindByUserId = _createFinderPath(
+		_finderPathWithPaginationFindByUserId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUserId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -1395,21 +1394,21 @@ public class EntryPersistenceImpl
 			},
 			new String[] {"userId"}, true);
 
-		_finderPathWithoutPaginationFindByUserId = _createFinderPath(
+		_finderPathWithoutPaginationFindByUserId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUserId",
 			new String[] {Long.class.getName()}, new String[] {"userId"}, true);
 
-		_finderPathCountByUserId = _createFinderPath(
+		_finderPathCountByUserId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUserId",
 			new String[] {Long.class.getName()}, new String[] {"userId"},
 			false);
 
-		_finderPathFetchByU_EA = _createFinderPath(
+		_finderPathFetchByU_EA = new FinderPath(
 			FINDER_CLASS_NAME_ENTITY, "fetchByU_EA",
 			new String[] {Long.class.getName(), String.class.getName()},
 			new String[] {"userId", "emailAddress"}, true);
 
-		_finderPathCountByU_EA = _createFinderPath(
+		_finderPathCountByU_EA = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_EA",
 			new String[] {Long.class.getName(), String.class.getName()},
 			new String[] {"userId", "emailAddress"}, false);
@@ -1420,12 +1419,6 @@ public class EntryPersistenceImpl
 		entityCache.removeCache(EntryImpl.class.getName());
 
 		_argumentsResolverServiceRegistration.unregister();
-
-		for (ServiceRegistration<FinderPath> serviceRegistration :
-				_serviceRegistrations) {
-
-			serviceRegistration.unregister();
-		}
 	}
 
 	@Override
@@ -1494,27 +1487,8 @@ public class EntryPersistenceImpl
 		}
 	}
 
-	private FinderPath _createFinderPath(
-		String cacheName, String methodName, String[] params,
-		String[] columnNames, boolean baseModelResult) {
-
-		FinderPath finderPath = new FinderPath(
-			cacheName, methodName, params, columnNames, baseModelResult);
-
-		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
-			_serviceRegistrations.add(
-				_bundleContext.registerService(
-					FinderPath.class, finderPath,
-					MapUtil.singletonDictionary("cache.name", cacheName)));
-		}
-
-		return finderPath;
-	}
-
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
-	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
-		new HashSet<>();
 
 	private static class EntryModelArgumentsResolver
 		implements ArgumentsResolver {

@@ -3094,19 +3094,19 @@ public class SystemEventPersistenceImpl
 				"model.class.name", SystemEvent.class.getName()
 			).build());
 
-		_finderPathWithPaginationFindAll = _createFinderPath(
+		_finderPathWithPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathWithoutPaginationFindAll = _createFinderPath(
+		_finderPathWithoutPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathCountAll = _createFinderPath(
+		_finderPathCountAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0], new String[0], false);
 
-		_finderPathWithPaginationFindByGroupId = _createFinderPath(
+		_finderPathWithPaginationFindByGroupId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -3114,17 +3114,17 @@ public class SystemEventPersistenceImpl
 			},
 			new String[] {"groupId"}, true);
 
-		_finderPathWithoutPaginationFindByGroupId = _createFinderPath(
+		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
 			new String[] {Long.class.getName()}, new String[] {"groupId"},
 			true);
 
-		_finderPathCountByGroupId = _createFinderPath(
+		_finderPathCountByGroupId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
 			new String[] {Long.class.getName()}, new String[] {"groupId"},
 			false);
 
-		_finderPathWithPaginationFindByG_S = _createFinderPath(
+		_finderPathWithPaginationFindByG_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -3133,17 +3133,17 @@ public class SystemEventPersistenceImpl
 			},
 			new String[] {"groupId", "systemEventSetKey"}, true);
 
-		_finderPathWithoutPaginationFindByG_S = _createFinderPath(
+		_finderPathWithoutPaginationFindByG_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_S",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			new String[] {"groupId", "systemEventSetKey"}, true);
 
-		_finderPathCountByG_S = _createFinderPath(
+		_finderPathCountByG_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_S",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			new String[] {"groupId", "systemEventSetKey"}, false);
 
-		_finderPathWithPaginationFindByG_C_C = _createFinderPath(
+		_finderPathWithPaginationFindByG_C_C = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_C_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -3152,21 +3152,21 @@ public class SystemEventPersistenceImpl
 			},
 			new String[] {"groupId", "classNameId", "classPK"}, true);
 
-		_finderPathWithoutPaginationFindByG_C_C = _createFinderPath(
+		_finderPathWithoutPaginationFindByG_C_C = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_C_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			},
 			new String[] {"groupId", "classNameId", "classPK"}, true);
 
-		_finderPathCountByG_C_C = _createFinderPath(
+		_finderPathCountByG_C_C = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_C_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			},
 			new String[] {"groupId", "classNameId", "classPK"}, false);
 
-		_finderPathWithPaginationFindByG_C_C_T = _createFinderPath(
+		_finderPathWithPaginationFindByG_C_C_T = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_C_C_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -3176,7 +3176,7 @@ public class SystemEventPersistenceImpl
 			},
 			new String[] {"groupId", "classNameId", "classPK", "type_"}, true);
 
-		_finderPathWithoutPaginationFindByG_C_C_T = _createFinderPath(
+		_finderPathWithoutPaginationFindByG_C_C_T = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_C_C_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -3184,7 +3184,7 @@ public class SystemEventPersistenceImpl
 			},
 			new String[] {"groupId", "classNameId", "classPK", "type_"}, true);
 
-		_finderPathCountByG_C_C_T = _createFinderPath(
+		_finderPathCountByG_C_C_T = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_C_C_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -3197,12 +3197,6 @@ public class SystemEventPersistenceImpl
 		EntityCacheUtil.removeCache(SystemEventImpl.class.getName());
 
 		_argumentsResolverServiceRegistration.unregister();
-
-		for (ServiceRegistration<FinderPath> serviceRegistration :
-				_serviceRegistrations) {
-
-			serviceRegistration.unregister();
-		}
 	}
 
 	private static final String _SQL_SELECT_SYSTEMEVENT =
@@ -3231,31 +3225,8 @@ public class SystemEventPersistenceImpl
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"type"});
 
-	private FinderPath _createFinderPath(
-		String cacheName, String methodName, String[] params,
-		String[] columnNames, boolean baseModelResult) {
-
-		FinderPath finderPath = new FinderPath(
-			cacheName, methodName, params, columnNames, baseModelResult);
-
-		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
-			Registry registry = RegistryUtil.getRegistry();
-
-			_serviceRegistrations.add(
-				registry.registerService(
-					FinderPath.class, finderPath,
-					HashMapBuilder.<String, Object>put(
-						"cache.name", cacheName
-					).build()));
-		}
-
-		return finderPath;
-	}
-
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
-	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
-		new HashSet<>();
 
 	private static class SystemEventModelArgumentsResolver
 		implements ArgumentsResolver {

@@ -46,7 +46,6 @@ import java.io.Serializable;
 
 import java.lang.reflect.InvocationHandler;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -1485,19 +1484,19 @@ public class UserNotificationDeliveryPersistenceImpl
 				"model.class.name", UserNotificationDelivery.class.getName()
 			).build());
 
-		_finderPathWithPaginationFindAll = _createFinderPath(
+		_finderPathWithPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathWithoutPaginationFindAll = _createFinderPath(
+		_finderPathWithoutPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathCountAll = _createFinderPath(
+		_finderPathCountAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0], new String[0], false);
 
-		_finderPathWithPaginationFindByUserId = _createFinderPath(
+		_finderPathWithPaginationFindByUserId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUserId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -1505,16 +1504,16 @@ public class UserNotificationDeliveryPersistenceImpl
 			},
 			new String[] {"userId"}, true);
 
-		_finderPathWithoutPaginationFindByUserId = _createFinderPath(
+		_finderPathWithoutPaginationFindByUserId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUserId",
 			new String[] {Long.class.getName()}, new String[] {"userId"}, true);
 
-		_finderPathCountByUserId = _createFinderPath(
+		_finderPathCountByUserId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUserId",
 			new String[] {Long.class.getName()}, new String[] {"userId"},
 			false);
 
-		_finderPathFetchByU_P_C_N_D = _createFinderPath(
+		_finderPathFetchByU_P_C_N_D = new FinderPath(
 			FINDER_CLASS_NAME_ENTITY, "fetchByU_P_C_N_D",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
@@ -1527,7 +1526,7 @@ public class UserNotificationDeliveryPersistenceImpl
 			},
 			true);
 
-		_finderPathCountByU_P_C_N_D = _createFinderPath(
+		_finderPathCountByU_P_C_N_D = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_P_C_N_D",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
@@ -1546,12 +1545,6 @@ public class UserNotificationDeliveryPersistenceImpl
 			UserNotificationDeliveryImpl.class.getName());
 
 		_argumentsResolverServiceRegistration.unregister();
-
-		for (ServiceRegistration<FinderPath> serviceRegistration :
-				_serviceRegistrations) {
-
-			serviceRegistration.unregister();
-		}
 	}
 
 	private static final String _SQL_SELECT_USERNOTIFICATIONDELIVERY =
@@ -1578,31 +1571,8 @@ public class UserNotificationDeliveryPersistenceImpl
 	private static final Log _log = LogFactoryUtil.getLog(
 		UserNotificationDeliveryPersistenceImpl.class);
 
-	private FinderPath _createFinderPath(
-		String cacheName, String methodName, String[] params,
-		String[] columnNames, boolean baseModelResult) {
-
-		FinderPath finderPath = new FinderPath(
-			cacheName, methodName, params, columnNames, baseModelResult);
-
-		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
-			Registry registry = RegistryUtil.getRegistry();
-
-			_serviceRegistrations.add(
-				registry.registerService(
-					FinderPath.class, finderPath,
-					HashMapBuilder.<String, Object>put(
-						"cache.name", cacheName
-					).build()));
-		}
-
-		return finderPath;
-	}
-
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
-	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
-		new HashSet<>();
 
 	private static class UserNotificationDeliveryModelArgumentsResolver
 		implements ArgumentsResolver {

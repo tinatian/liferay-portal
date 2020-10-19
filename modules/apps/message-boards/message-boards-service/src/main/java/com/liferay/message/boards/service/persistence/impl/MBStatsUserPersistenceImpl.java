@@ -2643,19 +2643,19 @@ public class MBStatsUserPersistenceImpl
 			MapUtil.singletonDictionary(
 				"model.class.name", MBStatsUser.class.getName()));
 
-		_finderPathWithPaginationFindAll = _createFinderPath(
+		_finderPathWithPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathWithoutPaginationFindAll = _createFinderPath(
+		_finderPathWithoutPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathCountAll = _createFinderPath(
+		_finderPathCountAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0], new String[0], false);
 
-		_finderPathWithPaginationFindByGroupId = _createFinderPath(
+		_finderPathWithPaginationFindByGroupId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -2663,17 +2663,17 @@ public class MBStatsUserPersistenceImpl
 			},
 			new String[] {"groupId"}, true);
 
-		_finderPathWithoutPaginationFindByGroupId = _createFinderPath(
+		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
 			new String[] {Long.class.getName()}, new String[] {"groupId"},
 			true);
 
-		_finderPathCountByGroupId = _createFinderPath(
+		_finderPathCountByGroupId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
 			new String[] {Long.class.getName()}, new String[] {"groupId"},
 			false);
 
-		_finderPathWithPaginationFindByUserId = _createFinderPath(
+		_finderPathWithPaginationFindByUserId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUserId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -2681,26 +2681,26 @@ public class MBStatsUserPersistenceImpl
 			},
 			new String[] {"userId"}, true);
 
-		_finderPathWithoutPaginationFindByUserId = _createFinderPath(
+		_finderPathWithoutPaginationFindByUserId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUserId",
 			new String[] {Long.class.getName()}, new String[] {"userId"}, true);
 
-		_finderPathCountByUserId = _createFinderPath(
+		_finderPathCountByUserId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUserId",
 			new String[] {Long.class.getName()}, new String[] {"userId"},
 			false);
 
-		_finderPathFetchByG_U = _createFinderPath(
+		_finderPathFetchByG_U = new FinderPath(
 			FINDER_CLASS_NAME_ENTITY, "fetchByG_U",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			new String[] {"groupId", "userId"}, true);
 
-		_finderPathCountByG_U = _createFinderPath(
+		_finderPathCountByG_U = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_U",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			new String[] {"groupId", "userId"}, false);
 
-		_finderPathWithPaginationFindByG_NotU_NotM = _createFinderPath(
+		_finderPathWithPaginationFindByG_NotU_NotM = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_NotU_NotM",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -2709,7 +2709,7 @@ public class MBStatsUserPersistenceImpl
 			},
 			new String[] {"groupId", "userId", "messageCount"}, true);
 
-		_finderPathWithPaginationCountByG_NotU_NotM = _createFinderPath(
+		_finderPathWithPaginationCountByG_NotU_NotM = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByG_NotU_NotM",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -2723,12 +2723,6 @@ public class MBStatsUserPersistenceImpl
 		entityCache.removeCache(MBStatsUserImpl.class.getName());
 
 		_argumentsResolverServiceRegistration.unregister();
-
-		for (ServiceRegistration<FinderPath> serviceRegistration :
-				_serviceRegistrations) {
-
-			serviceRegistration.unregister();
-		}
 	}
 
 	@Override
@@ -2800,27 +2794,8 @@ public class MBStatsUserPersistenceImpl
 		}
 	}
 
-	private FinderPath _createFinderPath(
-		String cacheName, String methodName, String[] params,
-		String[] columnNames, boolean baseModelResult) {
-
-		FinderPath finderPath = new FinderPath(
-			cacheName, methodName, params, columnNames, baseModelResult);
-
-		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
-			_serviceRegistrations.add(
-				_bundleContext.registerService(
-					FinderPath.class, finderPath,
-					MapUtil.singletonDictionary("cache.name", cacheName)));
-		}
-
-		return finderPath;
-	}
-
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
-	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
-		new HashSet<>();
 
 	private static class MBStatsUserModelArgumentsResolver
 		implements ArgumentsResolver {
