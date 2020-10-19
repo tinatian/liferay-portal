@@ -286,34 +286,46 @@ public class FinderCacheImpl
 		String cacheName = finderPath.getCacheName();
 		String cacheKeyPrefix = finderPath.getCacheKeyPrefix();
 
-		Map<String, FinderPath> finderPaths = _finderPathsMap.computeIfAbsent(
-			cacheName, key -> new ConcurrentHashMap<>());
+		Map<String, FinderPath> finderPaths = _finderPathsMap.get(cacheName);
 
-		FinderPath originalFinderPath = finderPaths.putIfAbsent(
-			cacheKeyPrefix, finderPath);
+		if (finderPaths == null) {
+			finderPaths = new ConcurrentHashMap<>();
 
-		if ((originalFinderPath == null) &&
-			cacheKeyPrefix.startsWith("dslQuery")) {
+			Map<String, FinderPath> originalFinderPaths =
+				_finderPathsMap.putIfAbsent(cacheKeyPrefix, finderPaths);
 
-			for (String tableName :
-					FinderPath.decodeDSLQueryCacheName(cacheName)) {
+			if (originalFinderPaths != null) {
+				finderPaths = originalFinderPaths;
+			}
+		}
 
-				String modelImplClassName = _modelImplClassNameMap.get(
-					tableName);
+		if (!finderPaths.containsKey(cacheKeyPrefix)) {
+			FinderPath originalFinderPath = finderPaths.putIfAbsent(
+				cacheKeyPrefix, finderPath);
 
-				if (Validator.isNull(modelImplClassName)) {
-					throw new IllegalArgumentException(
-						"Unable to find corresponding model impl class for " +
-							"table " + tableName);
+			if ((originalFinderPath == null) &&
+				cacheKeyPrefix.startsWith("dslQuery")) {
+
+				for (String tableName :
+						FinderPath.decodeDSLQueryCacheName(cacheName)) {
+
+					String modelImplClassName = _modelImplClassNameMap.get(
+						tableName);
+
+					if (Validator.isNull(modelImplClassName)) {
+						throw new IllegalArgumentException(
+							"Unable to find corresponding model impl class " +
+								"for table " + tableName);
+					}
+
+					Set<String> dslQueryCacheNames =
+						_dslQueryCacheNameSetMap.computeIfAbsent(
+							modelImplClassName,
+							key -> Collections.newSetFromMap(
+								new ConcurrentHashMap<>()));
+
+					dslQueryCacheNames.add(cacheName);
 				}
-
-				Set<String> dslQueryCacheNames =
-					_dslQueryCacheNameSetMap.computeIfAbsent(
-						modelImplClassName,
-						key -> Collections.newSetFromMap(
-							new ConcurrentHashMap<>()));
-
-				dslQueryCacheNames.add(cacheName);
 			}
 		}
 
