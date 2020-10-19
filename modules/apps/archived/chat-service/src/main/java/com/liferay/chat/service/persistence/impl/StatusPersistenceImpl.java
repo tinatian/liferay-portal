@@ -46,7 +46,6 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -2313,28 +2312,28 @@ public class StatusPersistenceImpl
 			MapUtil.singletonDictionary(
 				"model.class.name", Status.class.getName()));
 
-		_finderPathWithPaginationFindAll = _createFinderPath(
+		_finderPathWithPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathWithoutPaginationFindAll = _createFinderPath(
+		_finderPathWithoutPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathCountAll = _createFinderPath(
+		_finderPathCountAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0], new String[0], false);
 
-		_finderPathFetchByUserId = _createFinderPath(
+		_finderPathFetchByUserId = new FinderPath(
 			FINDER_CLASS_NAME_ENTITY, "fetchByUserId",
 			new String[] {Long.class.getName()}, new String[] {"userId"}, true);
 
-		_finderPathCountByUserId = _createFinderPath(
+		_finderPathCountByUserId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUserId",
 			new String[] {Long.class.getName()}, new String[] {"userId"},
 			false);
 
-		_finderPathWithPaginationFindByModifiedDate = _createFinderPath(
+		_finderPathWithPaginationFindByModifiedDate = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByModifiedDate",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -2342,17 +2341,17 @@ public class StatusPersistenceImpl
 			},
 			new String[] {"modifiedDate"}, true);
 
-		_finderPathWithoutPaginationFindByModifiedDate = _createFinderPath(
+		_finderPathWithoutPaginationFindByModifiedDate = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByModifiedDate",
 			new String[] {Long.class.getName()}, new String[] {"modifiedDate"},
 			true);
 
-		_finderPathCountByModifiedDate = _createFinderPath(
+		_finderPathCountByModifiedDate = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByModifiedDate",
 			new String[] {Long.class.getName()}, new String[] {"modifiedDate"},
 			false);
 
-		_finderPathWithPaginationFindByOnline = _createFinderPath(
+		_finderPathWithPaginationFindByOnline = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByOnline",
 			new String[] {
 				Boolean.class.getName(), Integer.class.getName(),
@@ -2360,17 +2359,17 @@ public class StatusPersistenceImpl
 			},
 			new String[] {"online_"}, true);
 
-		_finderPathWithoutPaginationFindByOnline = _createFinderPath(
+		_finderPathWithoutPaginationFindByOnline = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByOnline",
 			new String[] {Boolean.class.getName()}, new String[] {"online_"},
 			true);
 
-		_finderPathCountByOnline = _createFinderPath(
+		_finderPathCountByOnline = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByOnline",
 			new String[] {Boolean.class.getName()}, new String[] {"online_"},
 			false);
 
-		_finderPathWithPaginationFindByM_O = _createFinderPath(
+		_finderPathWithPaginationFindByM_O = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByM_O",
 			new String[] {
 				Long.class.getName(), Boolean.class.getName(),
@@ -2379,12 +2378,12 @@ public class StatusPersistenceImpl
 			},
 			new String[] {"modifiedDate", "online_"}, true);
 
-		_finderPathWithoutPaginationFindByM_O = _createFinderPath(
+		_finderPathWithoutPaginationFindByM_O = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByM_O",
 			new String[] {Long.class.getName(), Boolean.class.getName()},
 			new String[] {"modifiedDate", "online_"}, true);
 
-		_finderPathCountByM_O = _createFinderPath(
+		_finderPathCountByM_O = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByM_O",
 			new String[] {Long.class.getName(), Boolean.class.getName()},
 			new String[] {"modifiedDate", "online_"}, false);
@@ -2395,12 +2394,6 @@ public class StatusPersistenceImpl
 		entityCache.removeCache(StatusImpl.class.getName());
 
 		_argumentsResolverServiceRegistration.unregister();
-
-		for (ServiceRegistration<FinderPath> serviceRegistration :
-				_serviceRegistrations) {
-
-			serviceRegistration.unregister();
-		}
 	}
 
 	@Override
@@ -2472,27 +2465,8 @@ public class StatusPersistenceImpl
 		}
 	}
 
-	private FinderPath _createFinderPath(
-		String cacheName, String methodName, String[] params,
-		String[] columnNames, boolean baseModelResult) {
-
-		FinderPath finderPath = new FinderPath(
-			cacheName, methodName, params, columnNames, baseModelResult);
-
-		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
-			_serviceRegistrations.add(
-				_bundleContext.registerService(
-					FinderPath.class, finderPath,
-					MapUtil.singletonDictionary("cache.name", cacheName)));
-		}
-
-		return finderPath;
-	}
-
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
-	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
-		new HashSet<>();
 
 	private static class StatusModelArgumentsResolver
 		implements ArgumentsResolver {

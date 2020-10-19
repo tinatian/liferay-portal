@@ -49,7 +49,6 @@ import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -1426,19 +1425,19 @@ public class ListTypePersistenceImpl
 				"model.class.name", ListType.class.getName()
 			).build());
 
-		_finderPathWithPaginationFindAll = _createFinderPath(
+		_finderPathWithPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathWithoutPaginationFindAll = _createFinderPath(
+		_finderPathWithoutPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathCountAll = _createFinderPath(
+		_finderPathCountAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0], new String[0], false);
 
-		_finderPathWithPaginationFindByType = _createFinderPath(
+		_finderPathWithPaginationFindByType = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByType",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
@@ -1446,22 +1445,22 @@ public class ListTypePersistenceImpl
 			},
 			new String[] {"type_"}, true);
 
-		_finderPathWithoutPaginationFindByType = _createFinderPath(
+		_finderPathWithoutPaginationFindByType = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByType",
 			new String[] {String.class.getName()}, new String[] {"type_"},
 			true);
 
-		_finderPathCountByType = _createFinderPath(
+		_finderPathCountByType = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByType",
 			new String[] {String.class.getName()}, new String[] {"type_"},
 			false);
 
-		_finderPathFetchByN_T = _createFinderPath(
+		_finderPathFetchByN_T = new FinderPath(
 			FINDER_CLASS_NAME_ENTITY, "fetchByN_T",
 			new String[] {String.class.getName(), String.class.getName()},
 			new String[] {"name", "type_"}, true);
 
-		_finderPathCountByN_T = _createFinderPath(
+		_finderPathCountByN_T = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByN_T",
 			new String[] {String.class.getName(), String.class.getName()},
 			new String[] {"name", "type_"}, false);
@@ -1471,12 +1470,6 @@ public class ListTypePersistenceImpl
 		EntityCacheUtil.removeCache(ListTypeImpl.class.getName());
 
 		_argumentsResolverServiceRegistration.unregister();
-
-		for (ServiceRegistration<FinderPath> serviceRegistration :
-				_serviceRegistrations) {
-
-			serviceRegistration.unregister();
-		}
 	}
 
 	private static final String _SQL_SELECT_LISTTYPE =
@@ -1505,31 +1498,8 @@ public class ListTypePersistenceImpl
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"type"});
 
-	private FinderPath _createFinderPath(
-		String cacheName, String methodName, String[] params,
-		String[] columnNames, boolean baseModelResult) {
-
-		FinderPath finderPath = new FinderPath(
-			cacheName, methodName, params, columnNames, baseModelResult);
-
-		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
-			Registry registry = RegistryUtil.getRegistry();
-
-			_serviceRegistrations.add(
-				registry.registerService(
-					FinderPath.class, finderPath,
-					HashMapBuilder.<String, Object>put(
-						"cache.name", cacheName
-					).build()));
-		}
-
-		return finderPath;
-	}
-
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
-	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
-		new HashSet<>();
 
 	private static class ListTypeModelArgumentsResolver
 		implements ArgumentsResolver {

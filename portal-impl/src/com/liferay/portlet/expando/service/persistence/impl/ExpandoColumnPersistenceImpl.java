@@ -2467,19 +2467,19 @@ public class ExpandoColumnPersistenceImpl
 				"model.class.name", ExpandoColumn.class.getName()
 			).build());
 
-		_finderPathWithPaginationFindAll = _createFinderPath(
+		_finderPathWithPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathWithoutPaginationFindAll = _createFinderPath(
+		_finderPathWithoutPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathCountAll = _createFinderPath(
+		_finderPathCountAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0], new String[0], false);
 
-		_finderPathWithPaginationFindByTableId = _createFinderPath(
+		_finderPathWithPaginationFindByTableId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByTableId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -2487,17 +2487,17 @@ public class ExpandoColumnPersistenceImpl
 			},
 			new String[] {"tableId"}, true);
 
-		_finderPathWithoutPaginationFindByTableId = _createFinderPath(
+		_finderPathWithoutPaginationFindByTableId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByTableId",
 			new String[] {Long.class.getName()}, new String[] {"tableId"},
 			true);
 
-		_finderPathCountByTableId = _createFinderPath(
+		_finderPathCountByTableId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByTableId",
 			new String[] {Long.class.getName()}, new String[] {"tableId"},
 			false);
 
-		_finderPathWithPaginationFindByT_N = _createFinderPath(
+		_finderPathWithPaginationFindByT_N = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByT_N",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
@@ -2506,22 +2506,22 @@ public class ExpandoColumnPersistenceImpl
 			},
 			new String[] {"tableId", "name"}, true);
 
-		_finderPathWithoutPaginationFindByT_N = _createFinderPath(
+		_finderPathWithoutPaginationFindByT_N = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByT_N",
 			new String[] {Long.class.getName(), String.class.getName()},
 			new String[] {"tableId", "name"}, true);
 
-		_finderPathFetchByT_N = _createFinderPath(
+		_finderPathFetchByT_N = new FinderPath(
 			FINDER_CLASS_NAME_ENTITY, "fetchByT_N",
 			new String[] {Long.class.getName(), String.class.getName()},
 			new String[] {"tableId", "name"}, true);
 
-		_finderPathCountByT_N = _createFinderPath(
+		_finderPathCountByT_N = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByT_N",
 			new String[] {Long.class.getName(), String.class.getName()},
 			new String[] {"tableId", "name"}, false);
 
-		_finderPathWithPaginationCountByT_N = _createFinderPath(
+		_finderPathWithPaginationCountByT_N = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByT_N",
 			new String[] {Long.class.getName(), String.class.getName()},
 			new String[] {"tableId", "name"}, false);
@@ -2531,12 +2531,6 @@ public class ExpandoColumnPersistenceImpl
 		EntityCacheUtil.removeCache(ExpandoColumnImpl.class.getName());
 
 		_argumentsResolverServiceRegistration.unregister();
-
-		for (ServiceRegistration<FinderPath> serviceRegistration :
-				_serviceRegistrations) {
-
-			serviceRegistration.unregister();
-		}
 	}
 
 	private static final String _SQL_SELECT_EXPANDOCOLUMN =
@@ -2588,31 +2582,8 @@ public class ExpandoColumnPersistenceImpl
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"type"});
 
-	private FinderPath _createFinderPath(
-		String cacheName, String methodName, String[] params,
-		String[] columnNames, boolean baseModelResult) {
-
-		FinderPath finderPath = new FinderPath(
-			cacheName, methodName, params, columnNames, baseModelResult);
-
-		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
-			Registry registry = RegistryUtil.getRegistry();
-
-			_serviceRegistrations.add(
-				registry.registerService(
-					FinderPath.class, finderPath,
-					HashMapBuilder.<String, Object>put(
-						"cache.name", cacheName
-					).build()));
-		}
-
-		return finderPath;
-	}
-
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
-	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
-		new HashSet<>();
 
 	private static class ExpandoColumnModelArgumentsResolver
 		implements ArgumentsResolver {

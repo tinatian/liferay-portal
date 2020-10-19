@@ -46,7 +46,6 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -1919,19 +1918,19 @@ public class CommerceTaxFixedRatePersistenceImpl
 			MapUtil.singletonDictionary(
 				"model.class.name", CommerceTaxFixedRate.class.getName()));
 
-		_finderPathWithPaginationFindAll = _createFinderPath(
+		_finderPathWithPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathWithoutPaginationFindAll = _createFinderPath(
+		_finderPathWithoutPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathCountAll = _createFinderPath(
+		_finderPathCountAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0], new String[0], false);
 
-		_finderPathWithPaginationFindByCPTaxCategoryId = _createFinderPath(
+		_finderPathWithPaginationFindByCPTaxCategoryId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCPTaxCategoryId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -1939,17 +1938,17 @@ public class CommerceTaxFixedRatePersistenceImpl
 			},
 			new String[] {"CPTaxCategoryId"}, true);
 
-		_finderPathWithoutPaginationFindByCPTaxCategoryId = _createFinderPath(
+		_finderPathWithoutPaginationFindByCPTaxCategoryId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCPTaxCategoryId",
 			new String[] {Long.class.getName()},
 			new String[] {"CPTaxCategoryId"}, true);
 
-		_finderPathCountByCPTaxCategoryId = _createFinderPath(
+		_finderPathCountByCPTaxCategoryId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCPTaxCategoryId",
 			new String[] {Long.class.getName()},
 			new String[] {"CPTaxCategoryId"}, false);
 
-		_finderPathWithPaginationFindByCommerceTaxMethodId = _createFinderPath(
+		_finderPathWithPaginationFindByCommerceTaxMethodId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCommerceTaxMethodId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -1957,24 +1956,22 @@ public class CommerceTaxFixedRatePersistenceImpl
 			},
 			new String[] {"commerceTaxMethodId"}, true);
 
-		_finderPathWithoutPaginationFindByCommerceTaxMethodId =
-			_createFinderPath(
-				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-				"findByCommerceTaxMethodId",
-				new String[] {Long.class.getName()},
-				new String[] {"commerceTaxMethodId"}, true);
+		_finderPathWithoutPaginationFindByCommerceTaxMethodId = new FinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByCommerceTaxMethodId", new String[] {Long.class.getName()},
+			new String[] {"commerceTaxMethodId"}, true);
 
-		_finderPathCountByCommerceTaxMethodId = _createFinderPath(
+		_finderPathCountByCommerceTaxMethodId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByCommerceTaxMethodId", new String[] {Long.class.getName()},
 			new String[] {"commerceTaxMethodId"}, false);
 
-		_finderPathFetchByC_C = _createFinderPath(
+		_finderPathFetchByC_C = new FinderPath(
 			FINDER_CLASS_NAME_ENTITY, "fetchByC_C",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			new String[] {"CPTaxCategoryId", "commerceTaxMethodId"}, true);
 
-		_finderPathCountByC_C = _createFinderPath(
+		_finderPathCountByC_C = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			new String[] {"CPTaxCategoryId", "commerceTaxMethodId"}, false);
@@ -1984,12 +1981,6 @@ public class CommerceTaxFixedRatePersistenceImpl
 		entityCache.removeCache(CommerceTaxFixedRateImpl.class.getName());
 
 		_argumentsResolverServiceRegistration.unregister();
-
-		for (ServiceRegistration<FinderPath> serviceRegistration :
-				_serviceRegistrations) {
-
-			serviceRegistration.unregister();
-		}
 	}
 
 	private BundleContext _bundleContext;
@@ -2024,27 +2015,8 @@ public class CommerceTaxFixedRatePersistenceImpl
 	private static final Log _log = LogFactoryUtil.getLog(
 		CommerceTaxFixedRatePersistenceImpl.class);
 
-	private FinderPath _createFinderPath(
-		String cacheName, String methodName, String[] params,
-		String[] columnNames, boolean baseModelResult) {
-
-		FinderPath finderPath = new FinderPath(
-			cacheName, methodName, params, columnNames, baseModelResult);
-
-		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
-			_serviceRegistrations.add(
-				_bundleContext.registerService(
-					FinderPath.class, finderPath,
-					MapUtil.singletonDictionary("cache.name", cacheName)));
-		}
-
-		return finderPath;
-	}
-
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
-	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
-		new HashSet<>();
 
 	private static class CommerceTaxFixedRateModelArgumentsResolver
 		implements ArgumentsResolver {
