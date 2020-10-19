@@ -4870,6 +4870,11 @@ public class SAPEntryPersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -4921,6 +4926,16 @@ public class SAPEntryPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			SAPEntryModelImpl sapEntryModelImpl, String[] columnNames,
 			boolean original) {
@@ -4944,6 +4959,9 @@ public class SAPEntryPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = SAPEntryImpl.class.getName();
+		private final String _tableName = SAPEntryTable.INSTANCE.getTableName();
 
 	}
 

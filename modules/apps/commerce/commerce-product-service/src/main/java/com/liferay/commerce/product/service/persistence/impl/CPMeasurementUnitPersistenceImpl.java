@@ -4133,6 +4133,11 @@ public class CPMeasurementUnitPersistenceImpl
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid", "key", "primary", "type"});
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -4187,6 +4192,16 @@ public class CPMeasurementUnitPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			CPMeasurementUnitModelImpl cpMeasurementUnitModelImpl,
 			String[] columnNames, boolean original) {
@@ -4212,6 +4227,10 @@ public class CPMeasurementUnitPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = CPMeasurementUnitImpl.class.getName();
+		private final String _tableName =
+			CPMeasurementUnitTable.INSTANCE.getTableName();
 
 	}
 

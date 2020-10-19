@@ -2503,6 +2503,11 @@ public class BatchEngineExportTaskPersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -2559,6 +2564,16 @@ public class BatchEngineExportTaskPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			BatchEngineExportTaskModelImpl batchEngineExportTaskModelImpl,
 			String[] columnNames, boolean original) {
@@ -2585,6 +2600,11 @@ public class BatchEngineExportTaskPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			BatchEngineExportTaskImpl.class.getName();
+		private final String _tableName =
+			BatchEngineExportTaskTable.INSTANCE.getTableName();
 
 	}
 

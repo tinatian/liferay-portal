@@ -3496,6 +3496,11 @@ public class CTSContentPersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -3548,6 +3553,16 @@ public class CTSContentPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			CTSContentModelImpl ctsContentModelImpl, String[] columnNames,
 			boolean original) {
@@ -3572,6 +3587,10 @@ public class CTSContentPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = CTSContentImpl.class.getName();
+		private final String _tableName =
+			CTSContentTable.INSTANCE.getTableName();
 
 	}
 

@@ -1915,6 +1915,11 @@ public class CommerceDataIntegrationProcessLogPersistenceImpl
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"commerceDataIntegrationProcessLogId", "output"});
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -1974,6 +1979,16 @@ public class CommerceDataIntegrationProcessLogPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			CommerceDataIntegrationProcessLogModelImpl
 				commerceDataIntegrationProcessLogModelImpl,
@@ -2001,6 +2016,11 @@ public class CommerceDataIntegrationProcessLogPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			CommerceDataIntegrationProcessLogImpl.class.getName();
+		private final String _tableName =
+			CommerceDataIntegrationProcessLogTable.INSTANCE.getTableName();
 
 	}
 

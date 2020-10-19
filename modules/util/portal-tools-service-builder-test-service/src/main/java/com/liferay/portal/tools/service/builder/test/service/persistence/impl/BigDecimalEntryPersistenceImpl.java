@@ -2674,6 +2674,11 @@ public class BigDecimalEntryPersistenceImpl
 	private static final Log _log = LogFactoryUtil.getLog(
 		BigDecimalEntryPersistenceImpl.class);
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -2728,6 +2733,16 @@ public class BigDecimalEntryPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			BigDecimalEntryModelImpl bigDecimalEntryModelImpl,
 			String[] columnNames, boolean original) {
@@ -2753,6 +2768,10 @@ public class BigDecimalEntryPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = BigDecimalEntryImpl.class.getName();
+		private final String _tableName =
+			BigDecimalEntryTable.INSTANCE.getTableName();
 
 	}
 

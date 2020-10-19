@@ -3084,6 +3084,11 @@ public class KBTemplatePersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -3136,6 +3141,16 @@ public class KBTemplatePersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			KBTemplateModelImpl kbTemplateModelImpl, String[] columnNames,
 			boolean original) {
@@ -3160,6 +3175,10 @@ public class KBTemplatePersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = KBTemplateImpl.class.getName();
+		private final String _tableName =
+			KBTemplateTable.INSTANCE.getTableName();
 
 	}
 

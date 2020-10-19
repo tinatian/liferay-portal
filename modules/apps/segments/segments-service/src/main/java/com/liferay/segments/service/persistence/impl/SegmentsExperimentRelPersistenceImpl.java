@@ -1795,6 +1795,11 @@ public class SegmentsExperimentRelPersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -1851,6 +1856,16 @@ public class SegmentsExperimentRelPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			SegmentsExperimentRelModelImpl segmentsExperimentRelModelImpl,
 			String[] columnNames, boolean original) {
@@ -1877,6 +1892,11 @@ public class SegmentsExperimentRelPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			SegmentsExperimentRelImpl.class.getName();
+		private final String _tableName =
+			SegmentsExperimentRelTable.INSTANCE.getTableName();
 
 	}
 

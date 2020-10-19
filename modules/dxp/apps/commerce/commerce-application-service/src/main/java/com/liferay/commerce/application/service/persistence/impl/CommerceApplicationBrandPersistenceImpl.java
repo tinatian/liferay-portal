@@ -1642,6 +1642,11 @@ public class CommerceApplicationBrandPersistenceImpl
 	private static final Log _log = LogFactoryUtil.getLog(
 		CommerceApplicationBrandPersistenceImpl.class);
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -1699,6 +1704,16 @@ public class CommerceApplicationBrandPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			CommerceApplicationBrandModelImpl commerceApplicationBrandModelImpl,
 			String[] columnNames, boolean original) {
@@ -1725,6 +1740,11 @@ public class CommerceApplicationBrandPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			CommerceApplicationBrandImpl.class.getName();
+		private final String _tableName =
+			CommerceApplicationBrandTable.INSTANCE.getTableName();
 
 	}
 

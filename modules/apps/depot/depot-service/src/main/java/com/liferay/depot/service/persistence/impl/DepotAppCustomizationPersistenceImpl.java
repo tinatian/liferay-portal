@@ -1792,6 +1792,11 @@ public class DepotAppCustomizationPersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -1848,6 +1853,16 @@ public class DepotAppCustomizationPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			DepotAppCustomizationModelImpl depotAppCustomizationModelImpl,
 			String[] columnNames, boolean original) {
@@ -1874,6 +1889,11 @@ public class DepotAppCustomizationPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			DepotAppCustomizationImpl.class.getName();
+		private final String _tableName =
+			DepotAppCustomizationTable.INSTANCE.getTableName();
 
 	}
 

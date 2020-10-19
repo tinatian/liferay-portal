@@ -2915,6 +2915,11 @@ public class MBDiscussionPersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -2967,6 +2972,16 @@ public class MBDiscussionPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			MBDiscussionModelImpl mbDiscussionModelImpl, String[] columnNames,
 			boolean original) {
@@ -2991,6 +3006,10 @@ public class MBDiscussionPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = MBDiscussionImpl.class.getName();
+		private final String _tableName =
+			MBDiscussionTable.INSTANCE.getTableName();
 
 	}
 

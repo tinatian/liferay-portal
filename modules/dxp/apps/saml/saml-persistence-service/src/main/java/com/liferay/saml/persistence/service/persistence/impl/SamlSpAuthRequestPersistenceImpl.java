@@ -1590,6 +1590,11 @@ public class SamlSpAuthRequestPersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -1644,6 +1649,16 @@ public class SamlSpAuthRequestPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			SamlSpAuthRequestModelImpl samlSpAuthRequestModelImpl,
 			String[] columnNames, boolean original) {
@@ -1669,6 +1684,10 @@ public class SamlSpAuthRequestPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = SamlSpAuthRequestImpl.class.getName();
+		private final String _tableName =
+			SamlSpAuthRequestTable.INSTANCE.getTableName();
 
 	}
 

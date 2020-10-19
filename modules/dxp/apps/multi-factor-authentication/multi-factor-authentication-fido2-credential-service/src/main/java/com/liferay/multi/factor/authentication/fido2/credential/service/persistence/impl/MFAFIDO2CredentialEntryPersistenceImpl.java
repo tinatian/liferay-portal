@@ -2125,6 +2125,11 @@ public class MFAFIDO2CredentialEntryPersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -2181,6 +2186,16 @@ public class MFAFIDO2CredentialEntryPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			MFAFIDO2CredentialEntryModelImpl mfaFIDO2CredentialEntryModelImpl,
 			String[] columnNames, boolean original) {
@@ -2207,6 +2222,11 @@ public class MFAFIDO2CredentialEntryPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			MFAFIDO2CredentialEntryImpl.class.getName();
+		private final String _tableName =
+			MFAFIDO2CredentialEntryTable.INSTANCE.getTableName();
 
 	}
 

@@ -2081,6 +2081,11 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -2140,6 +2145,16 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			AccountGroupAccountEntryRelModelImpl
 				accountGroupAccountEntryRelModelImpl,
@@ -2167,6 +2182,11 @@ public class AccountGroupAccountEntryRelPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			AccountGroupAccountEntryRelImpl.class.getName();
+		private final String _tableName =
+			AccountGroupAccountEntryRelTable.INSTANCE.getTableName();
 
 	}
 

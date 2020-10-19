@@ -1697,6 +1697,11 @@ public class DDMTemplateLinkPersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -1751,6 +1756,16 @@ public class DDMTemplateLinkPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			DDMTemplateLinkModelImpl ddmTemplateLinkModelImpl,
 			String[] columnNames, boolean original) {
@@ -1776,6 +1791,10 @@ public class DDMTemplateLinkPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = DDMTemplateLinkImpl.class.getName();
+		private final String _tableName =
+			DDMTemplateLinkTable.INSTANCE.getTableName();
 
 	}
 

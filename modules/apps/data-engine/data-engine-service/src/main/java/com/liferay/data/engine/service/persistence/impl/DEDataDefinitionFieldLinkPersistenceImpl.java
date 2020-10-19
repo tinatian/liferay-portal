@@ -6327,6 +6327,11 @@ public class DEDataDefinitionFieldLinkPersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -6384,6 +6389,16 @@ public class DEDataDefinitionFieldLinkPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			DEDataDefinitionFieldLinkModelImpl
 				deDataDefinitionFieldLinkModelImpl,
@@ -6411,6 +6426,11 @@ public class DEDataDefinitionFieldLinkPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			DEDataDefinitionFieldLinkImpl.class.getName();
+		private final String _tableName =
+			DEDataDefinitionFieldLinkTable.INSTANCE.getTableName();
 
 	}
 

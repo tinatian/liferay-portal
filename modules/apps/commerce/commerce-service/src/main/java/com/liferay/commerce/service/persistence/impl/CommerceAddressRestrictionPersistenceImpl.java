@@ -2109,6 +2109,11 @@ public class CommerceAddressRestrictionPersistenceImpl
 	private static final Log _log = LogFactoryUtil.getLog(
 		CommerceAddressRestrictionPersistenceImpl.class);
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -2166,6 +2171,16 @@ public class CommerceAddressRestrictionPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			CommerceAddressRestrictionModelImpl
 				commerceAddressRestrictionModelImpl,
@@ -2193,6 +2208,11 @@ public class CommerceAddressRestrictionPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			CommerceAddressRestrictionImpl.class.getName();
+		private final String _tableName =
+			CommerceAddressRestrictionTable.INSTANCE.getTableName();
 
 	}
 

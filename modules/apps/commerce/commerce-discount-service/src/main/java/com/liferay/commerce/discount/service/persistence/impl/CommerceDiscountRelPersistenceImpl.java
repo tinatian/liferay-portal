@@ -2342,6 +2342,11 @@ public class CommerceDiscountRelPersistenceImpl
 	private static final Log _log = LogFactoryUtil.getLog(
 		CommerceDiscountRelPersistenceImpl.class);
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -2398,6 +2403,16 @@ public class CommerceDiscountRelPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			CommerceDiscountRelModelImpl commerceDiscountRelModelImpl,
 			String[] columnNames, boolean original) {
@@ -2423,6 +2438,11 @@ public class CommerceDiscountRelPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			CommerceDiscountRelImpl.class.getName();
+		private final String _tableName =
+			CommerceDiscountRelTable.INSTANCE.getTableName();
 
 	}
 

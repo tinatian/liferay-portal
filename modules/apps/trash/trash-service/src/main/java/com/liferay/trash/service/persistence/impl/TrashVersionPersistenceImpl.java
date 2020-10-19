@@ -2252,6 +2252,11 @@ public class TrashVersionPersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -2304,6 +2309,16 @@ public class TrashVersionPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			TrashVersionModelImpl trashVersionModelImpl, String[] columnNames,
 			boolean original) {
@@ -2328,6 +2343,10 @@ public class TrashVersionPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = TrashVersionImpl.class.getName();
+		private final String _tableName =
+			TrashVersionTable.INSTANCE.getTableName();
 
 	}
 

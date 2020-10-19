@@ -2353,6 +2353,11 @@ public class DDMStructureVersionPersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -2409,6 +2414,16 @@ public class DDMStructureVersionPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			DDMStructureVersionModelImpl ddmStructureVersionModelImpl,
 			String[] columnNames, boolean original) {
@@ -2434,6 +2449,11 @@ public class DDMStructureVersionPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			DDMStructureVersionImpl.class.getName();
+		private final String _tableName =
+			DDMStructureVersionTable.INSTANCE.getTableName();
 
 	}
 

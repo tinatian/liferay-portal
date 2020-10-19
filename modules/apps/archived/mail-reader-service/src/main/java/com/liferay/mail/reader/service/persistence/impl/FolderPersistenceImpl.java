@@ -1489,6 +1489,11 @@ public class FolderPersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -1540,6 +1545,16 @@ public class FolderPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			FolderModelImpl folderModelImpl, String[] columnNames,
 			boolean original) {
@@ -1563,6 +1578,9 @@ public class FolderPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = FolderImpl.class.getName();
+		private final String _tableName = FolderTable.INSTANCE.getTableName();
 
 	}
 

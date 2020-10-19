@@ -2197,6 +2197,11 @@ public class AccountRolePersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -2249,6 +2254,16 @@ public class AccountRolePersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			AccountRoleModelImpl accountRoleModelImpl, String[] columnNames,
 			boolean original) {
@@ -2273,6 +2288,10 @@ public class AccountRolePersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = AccountRoleImpl.class.getName();
+		private final String _tableName =
+			AccountRoleTable.INSTANCE.getTableName();
 
 	}
 

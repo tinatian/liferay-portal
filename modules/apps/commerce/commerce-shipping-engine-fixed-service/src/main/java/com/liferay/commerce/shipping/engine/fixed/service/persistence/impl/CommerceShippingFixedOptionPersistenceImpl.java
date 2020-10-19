@@ -1273,6 +1273,11 @@ public class CommerceShippingFixedOptionPersistenceImpl
 	private static final Log _log = LogFactoryUtil.getLog(
 		CommerceShippingFixedOptionPersistenceImpl.class);
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -1332,6 +1337,16 @@ public class CommerceShippingFixedOptionPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			CommerceShippingFixedOptionModelImpl
 				commerceShippingFixedOptionModelImpl,
@@ -1359,6 +1374,11 @@ public class CommerceShippingFixedOptionPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			CommerceShippingFixedOptionImpl.class.getName();
+		private final String _tableName =
+			CommerceShippingFixedOptionTable.INSTANCE.getTableName();
 
 	}
 

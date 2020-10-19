@@ -3064,6 +3064,11 @@ public class CommerceInventoryWarehouseItemPersistenceImpl
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"commerceInventoryWarehouseItemId"});
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -3123,6 +3128,16 @@ public class CommerceInventoryWarehouseItemPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			CommerceInventoryWarehouseItemModelImpl
 				commerceInventoryWarehouseItemModelImpl,
@@ -3150,6 +3165,11 @@ public class CommerceInventoryWarehouseItemPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			CommerceInventoryWarehouseItemImpl.class.getName();
+		private final String _tableName =
+			CommerceInventoryWarehouseItemTable.INSTANCE.getTableName();
 
 	}
 

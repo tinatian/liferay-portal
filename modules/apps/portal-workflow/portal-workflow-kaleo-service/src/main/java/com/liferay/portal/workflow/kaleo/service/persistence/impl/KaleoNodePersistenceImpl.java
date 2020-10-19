@@ -2335,6 +2335,11 @@ public class KaleoNodePersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -2387,6 +2392,16 @@ public class KaleoNodePersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			KaleoNodeModelImpl kaleoNodeModelImpl, String[] columnNames,
 			boolean original) {
@@ -2411,6 +2426,10 @@ public class KaleoNodePersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = KaleoNodeImpl.class.getName();
+		private final String _tableName =
+			KaleoNodeTable.INSTANCE.getTableName();
 
 	}
 
