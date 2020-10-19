@@ -23122,6 +23122,11 @@ public class WikiPagePersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -23173,6 +23178,16 @@ public class WikiPagePersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			WikiPageModelImpl wikiPageModelImpl, String[] columnNames,
 			boolean original) {
@@ -23196,6 +23211,9 @@ public class WikiPagePersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = WikiPageImpl.class.getName();
+		private final String _tableName = WikiPageTable.INSTANCE.getTableName();
 
 	}
 

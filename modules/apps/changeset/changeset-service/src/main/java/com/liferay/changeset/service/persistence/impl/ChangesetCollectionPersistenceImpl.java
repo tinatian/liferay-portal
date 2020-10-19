@@ -3206,6 +3206,11 @@ public class ChangesetCollectionPersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -3262,6 +3267,16 @@ public class ChangesetCollectionPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			ChangesetCollectionModelImpl changesetCollectionModelImpl,
 			String[] columnNames, boolean original) {
@@ -3287,6 +3302,11 @@ public class ChangesetCollectionPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			ChangesetCollectionImpl.class.getName();
+		private final String _tableName =
+			ChangesetCollectionTable.INSTANCE.getTableName();
 
 	}
 

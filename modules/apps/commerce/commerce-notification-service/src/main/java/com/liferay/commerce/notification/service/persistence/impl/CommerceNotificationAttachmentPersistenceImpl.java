@@ -2811,6 +2811,11 @@ public class CommerceNotificationAttachmentPersistenceImpl
 			"commerceNotificationQueueEntryId"
 		});
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -2870,6 +2875,16 @@ public class CommerceNotificationAttachmentPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			CommerceNotificationAttachmentModelImpl
 				commerceNotificationAttachmentModelImpl,
@@ -2897,6 +2912,11 @@ public class CommerceNotificationAttachmentPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			CommerceNotificationAttachmentImpl.class.getName();
+		private final String _tableName =
+			CommerceNotificationAttachmentTable.INSTANCE.getTableName();
 
 	}
 

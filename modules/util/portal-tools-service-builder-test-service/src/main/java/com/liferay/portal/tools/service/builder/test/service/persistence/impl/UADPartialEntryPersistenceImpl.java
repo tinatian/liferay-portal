@@ -606,6 +606,11 @@ public class UADPartialEntryPersistenceImpl
 	private static final Log _log = LogFactoryUtil.getLog(
 		UADPartialEntryPersistenceImpl.class);
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -660,6 +665,16 @@ public class UADPartialEntryPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			UADPartialEntryModelImpl uadPartialEntryModelImpl,
 			String[] columnNames, boolean original) {
@@ -685,6 +700,10 @@ public class UADPartialEntryPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = UADPartialEntryImpl.class.getName();
+		private final String _tableName =
+			UADPartialEntryTable.INSTANCE.getTableName();
 
 	}
 

@@ -3528,6 +3528,11 @@ public class MDRRuleGroupPersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -3580,6 +3585,16 @@ public class MDRRuleGroupPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			MDRRuleGroupModelImpl mdrRuleGroupModelImpl, String[] columnNames,
 			boolean original) {
@@ -3604,6 +3619,10 @@ public class MDRRuleGroupPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = MDRRuleGroupImpl.class.getName();
+		private final String _tableName =
+			MDRRuleGroupTable.INSTANCE.getTableName();
 
 	}
 

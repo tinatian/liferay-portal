@@ -1928,6 +1928,11 @@ public class VersionedEntryPersistenceImpl
 	private static final Log _log = LogFactoryUtil.getLog(
 		VersionedEntryPersistenceImpl.class);
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -1982,6 +1987,16 @@ public class VersionedEntryPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			VersionedEntryModelImpl versionedEntryModelImpl,
 			String[] columnNames, boolean original) {
@@ -2007,6 +2022,10 @@ public class VersionedEntryPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = VersionedEntryImpl.class.getName();
+		private final String _tableName =
+			VersionedEntryTable.INSTANCE.getTableName();
 
 	}
 

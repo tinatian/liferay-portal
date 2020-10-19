@@ -1488,6 +1488,11 @@ public class CPTaxCategoryPersistenceImpl
 	private static final Log _log = LogFactoryUtil.getLog(
 		CPTaxCategoryPersistenceImpl.class);
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -1540,6 +1545,16 @@ public class CPTaxCategoryPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			CPTaxCategoryModelImpl cpTaxCategoryModelImpl, String[] columnNames,
 			boolean original) {
@@ -1565,6 +1580,10 @@ public class CPTaxCategoryPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = CPTaxCategoryImpl.class.getName();
+		private final String _tableName =
+			CPTaxCategoryTable.INSTANCE.getTableName();
 
 	}
 

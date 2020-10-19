@@ -1871,6 +1871,11 @@ public class CommerceInventoryAuditPersistenceImpl
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"commerceInventoryAuditId"});
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -1927,6 +1932,16 @@ public class CommerceInventoryAuditPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			CommerceInventoryAuditModelImpl commerceInventoryAuditModelImpl,
 			String[] columnNames, boolean original) {
@@ -1953,6 +1968,11 @@ public class CommerceInventoryAuditPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			CommerceInventoryAuditImpl.class.getName();
+		private final String _tableName =
+			CommerceInventoryAuditTable.INSTANCE.getTableName();
 
 	}
 

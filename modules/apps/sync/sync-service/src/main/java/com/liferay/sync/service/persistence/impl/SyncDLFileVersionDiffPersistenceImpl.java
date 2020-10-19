@@ -2112,6 +2112,11 @@ public class SyncDLFileVersionDiffPersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -2168,6 +2173,16 @@ public class SyncDLFileVersionDiffPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			SyncDLFileVersionDiffModelImpl syncDLFileVersionDiffModelImpl,
 			String[] columnNames, boolean original) {
@@ -2194,6 +2209,11 @@ public class SyncDLFileVersionDiffPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			SyncDLFileVersionDiffImpl.class.getName();
+		private final String _tableName =
+			SyncDLFileVersionDiffTable.INSTANCE.getTableName();
 
 	}
 

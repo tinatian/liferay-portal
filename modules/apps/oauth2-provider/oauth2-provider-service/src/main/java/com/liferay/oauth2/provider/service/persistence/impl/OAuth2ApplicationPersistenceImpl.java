@@ -1960,6 +1960,11 @@ public class OAuth2ApplicationPersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -2014,6 +2019,16 @@ public class OAuth2ApplicationPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			OAuth2ApplicationModelImpl oAuth2ApplicationModelImpl,
 			String[] columnNames, boolean original) {
@@ -2039,6 +2054,10 @@ public class OAuth2ApplicationPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = OAuth2ApplicationImpl.class.getName();
+		private final String _tableName =
+			OAuth2ApplicationTable.INSTANCE.getTableName();
 
 	}
 

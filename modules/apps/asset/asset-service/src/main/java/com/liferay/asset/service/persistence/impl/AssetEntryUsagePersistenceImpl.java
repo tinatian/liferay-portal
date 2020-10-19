@@ -5111,6 +5111,11 @@ public class AssetEntryUsagePersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -5165,6 +5170,16 @@ public class AssetEntryUsagePersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			AssetEntryUsageModelImpl assetEntryUsageModelImpl,
 			String[] columnNames, boolean original) {
@@ -5190,6 +5205,10 @@ public class AssetEntryUsagePersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = AssetEntryUsageImpl.class.getName();
+		private final String _tableName =
+			AssetEntryUsageTable.INSTANCE.getTableName();
 
 	}
 

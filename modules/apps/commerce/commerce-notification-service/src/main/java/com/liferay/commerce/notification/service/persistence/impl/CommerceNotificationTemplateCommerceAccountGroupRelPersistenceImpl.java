@@ -2307,6 +2307,11 @@ public class CommerceNotificationTemplateCommerceAccountGroupRelPersistenceImpl
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"commerceNotificationTemplateCommerceAccountGroupRelId"});
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -2369,6 +2374,16 @@ public class CommerceNotificationTemplateCommerceAccountGroupRelPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			CommerceNotificationTemplateCommerceAccountGroupRelModelImpl
 				commerceNotificationTemplateCommerceAccountGroupRelModelImpl,
@@ -2396,6 +2411,13 @@ public class CommerceNotificationTemplateCommerceAccountGroupRelPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			CommerceNotificationTemplateCommerceAccountGroupRelImpl.class.
+				getName();
+		private final String _tableName =
+			CommerceNotificationTemplateCommerceAccountGroupRelTable.INSTANCE.
+				getTableName();
 
 	}
 

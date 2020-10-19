@@ -7059,6 +7059,11 @@ public class CalendarResourcePersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -7113,6 +7118,16 @@ public class CalendarResourcePersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			CalendarResourceModelImpl calendarResourceModelImpl,
 			String[] columnNames, boolean original) {
@@ -7138,6 +7153,10 @@ public class CalendarResourcePersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = CalendarResourceImpl.class.getName();
+		private final String _tableName =
+			CalendarResourceTable.INSTANCE.getTableName();
 
 	}
 

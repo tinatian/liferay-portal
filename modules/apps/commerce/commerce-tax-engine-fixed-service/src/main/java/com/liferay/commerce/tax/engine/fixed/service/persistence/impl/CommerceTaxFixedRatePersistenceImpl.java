@@ -2015,6 +2015,11 @@ public class CommerceTaxFixedRatePersistenceImpl
 	private static final Log _log = LogFactoryUtil.getLog(
 		CommerceTaxFixedRatePersistenceImpl.class);
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -2071,6 +2076,16 @@ public class CommerceTaxFixedRatePersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			CommerceTaxFixedRateModelImpl commerceTaxFixedRateModelImpl,
 			String[] columnNames, boolean original) {
@@ -2096,6 +2111,11 @@ public class CommerceTaxFixedRatePersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			CommerceTaxFixedRateImpl.class.getName();
+		private final String _tableName =
+			CommerceTaxFixedRateTable.INSTANCE.getTableName();
 
 	}
 

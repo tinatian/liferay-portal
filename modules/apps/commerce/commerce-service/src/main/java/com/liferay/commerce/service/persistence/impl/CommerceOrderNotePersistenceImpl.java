@@ -2078,6 +2078,11 @@ public class CommerceOrderNotePersistenceImpl
 	private static final Log _log = LogFactoryUtil.getLog(
 		CommerceOrderNotePersistenceImpl.class);
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -2132,6 +2137,16 @@ public class CommerceOrderNotePersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			CommerceOrderNoteModelImpl commerceOrderNoteModelImpl,
 			String[] columnNames, boolean original) {
@@ -2157,6 +2172,10 @@ public class CommerceOrderNotePersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = CommerceOrderNoteImpl.class.getName();
+		private final String _tableName =
+			CommerceOrderNoteTable.INSTANCE.getTableName();
 
 	}
 

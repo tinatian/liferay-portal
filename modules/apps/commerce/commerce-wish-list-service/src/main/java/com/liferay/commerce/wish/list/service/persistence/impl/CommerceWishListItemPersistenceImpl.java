@@ -3848,6 +3848,11 @@ public class CommerceWishListItemPersistenceImpl
 	private static final Log _log = LogFactoryUtil.getLog(
 		CommerceWishListItemPersistenceImpl.class);
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -3904,6 +3909,16 @@ public class CommerceWishListItemPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			CommerceWishListItemModelImpl commerceWishListItemModelImpl,
 			String[] columnNames, boolean original) {
@@ -3929,6 +3944,11 @@ public class CommerceWishListItemPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			CommerceWishListItemImpl.class.getName();
+		private final String _tableName =
+			CommerceWishListItemTable.INSTANCE.getTableName();
 
 	}
 

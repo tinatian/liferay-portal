@@ -1009,6 +1009,11 @@ public class NestedSetsTreeEntryPersistenceImpl
 	private static final Log _log = LogFactoryUtil.getLog(
 		NestedSetsTreeEntryPersistenceImpl.class);
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -1065,6 +1070,16 @@ public class NestedSetsTreeEntryPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			NestedSetsTreeEntryModelImpl nestedSetsTreeEntryModelImpl,
 			String[] columnNames, boolean original) {
@@ -1090,6 +1105,11 @@ public class NestedSetsTreeEntryPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			NestedSetsTreeEntryImpl.class.getName();
+		private final String _tableName =
+			NestedSetsTreeEntryTable.INSTANCE.getTableName();
 
 	}
 

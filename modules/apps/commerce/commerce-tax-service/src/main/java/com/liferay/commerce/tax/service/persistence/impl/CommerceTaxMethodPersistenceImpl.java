@@ -2048,6 +2048,11 @@ public class CommerceTaxMethodPersistenceImpl
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"active"});
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -2102,6 +2107,16 @@ public class CommerceTaxMethodPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			CommerceTaxMethodModelImpl commerceTaxMethodModelImpl,
 			String[] columnNames, boolean original) {
@@ -2127,6 +2142,10 @@ public class CommerceTaxMethodPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = CommerceTaxMethodImpl.class.getName();
+		private final String _tableName =
+			CommerceTaxMethodTable.INSTANCE.getTableName();
 
 	}
 

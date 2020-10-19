@@ -1510,6 +1510,11 @@ public class CPDefinitionLocalizationPersistenceImpl
 	private static final Log _log = LogFactoryUtil.getLog(
 		CPDefinitionLocalizationPersistenceImpl.class);
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -1567,6 +1572,16 @@ public class CPDefinitionLocalizationPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			CPDefinitionLocalizationModelImpl cpDefinitionLocalizationModelImpl,
 			String[] columnNames, boolean original) {
@@ -1593,6 +1608,11 @@ public class CPDefinitionLocalizationPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			CPDefinitionLocalizationImpl.class.getName();
+		private final String _tableName =
+			CPDefinitionLocalizationTable.INSTANCE.getTableName();
 
 	}
 

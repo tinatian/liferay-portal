@@ -4379,6 +4379,11 @@ public class CommerceCurrencyPersistenceImpl
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid", "code", "primary", "active"});
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -4433,6 +4438,16 @@ public class CommerceCurrencyPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			CommerceCurrencyModelImpl commerceCurrencyModelImpl,
 			String[] columnNames, boolean original) {
@@ -4458,6 +4473,10 @@ public class CommerceCurrencyPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = CommerceCurrencyImpl.class.getName();
+		private final String _tableName =
+			CommerceCurrencyTable.INSTANCE.getTableName();
 
 	}
 

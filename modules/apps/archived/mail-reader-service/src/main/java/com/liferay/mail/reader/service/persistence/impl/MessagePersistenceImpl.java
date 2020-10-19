@@ -1993,6 +1993,11 @@ public class MessagePersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -2044,6 +2049,16 @@ public class MessagePersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			MessageModelImpl messageModelImpl, String[] columnNames,
 			boolean original) {
@@ -2067,6 +2082,9 @@ public class MessagePersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = MessageImpl.class.getName();
+		private final String _tableName = MessageTable.INSTANCE.getTableName();
 
 	}
 

@@ -1216,6 +1216,11 @@ public class CommerceOrderPaymentPersistenceImpl
 	private static final Log _log = LogFactoryUtil.getLog(
 		CommerceOrderPaymentPersistenceImpl.class);
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -1272,6 +1277,16 @@ public class CommerceOrderPaymentPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			CommerceOrderPaymentModelImpl commerceOrderPaymentModelImpl,
 			String[] columnNames, boolean original) {
@@ -1297,6 +1312,11 @@ public class CommerceOrderPaymentPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			CommerceOrderPaymentImpl.class.getName();
+		private final String _tableName =
+			CommerceOrderPaymentTable.INSTANCE.getTableName();
 
 	}
 

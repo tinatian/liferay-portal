@@ -3646,6 +3646,11 @@ public class BlogsStatsUserPersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -3700,6 +3705,16 @@ public class BlogsStatsUserPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			BlogsStatsUserModelImpl blogsStatsUserModelImpl,
 			String[] columnNames, boolean original) {
@@ -3725,6 +3740,10 @@ public class BlogsStatsUserPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = BlogsStatsUserImpl.class.getName();
+		private final String _tableName =
+			BlogsStatsUserTable.INSTANCE.getTableName();
 
 	}
 

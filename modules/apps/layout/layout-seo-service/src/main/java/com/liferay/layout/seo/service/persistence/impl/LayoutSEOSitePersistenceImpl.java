@@ -2379,6 +2379,11 @@ public class LayoutSEOSitePersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -2431,6 +2436,16 @@ public class LayoutSEOSitePersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			LayoutSEOSiteModelImpl layoutSEOSiteModelImpl, String[] columnNames,
 			boolean original) {
@@ -2456,6 +2471,10 @@ public class LayoutSEOSitePersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = LayoutSEOSiteImpl.class.getName();
+		private final String _tableName =
+			LayoutSEOSiteTable.INSTANCE.getTableName();
 
 	}
 

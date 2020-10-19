@@ -3932,6 +3932,11 @@ public class DispatchTriggerPersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -3986,6 +3991,16 @@ public class DispatchTriggerPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			DispatchTriggerModelImpl dispatchTriggerModelImpl,
 			String[] columnNames, boolean original) {
@@ -4011,6 +4026,10 @@ public class DispatchTriggerPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = DispatchTriggerImpl.class.getName();
+		private final String _tableName =
+			DispatchTriggerTable.INSTANCE.getTableName();
 
 	}
 

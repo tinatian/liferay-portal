@@ -2300,6 +2300,11 @@ public class AssetAutoTaggerEntryPersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -2356,6 +2361,16 @@ public class AssetAutoTaggerEntryPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			AssetAutoTaggerEntryModelImpl assetAutoTaggerEntryModelImpl,
 			String[] columnNames, boolean original) {
@@ -2381,6 +2396,11 @@ public class AssetAutoTaggerEntryPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			AssetAutoTaggerEntryImpl.class.getName();
+		private final String _tableName =
+			AssetAutoTaggerEntryTable.INSTANCE.getTableName();
 
 	}
 

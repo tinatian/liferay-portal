@@ -3298,6 +3298,11 @@ public class DEDataListViewPersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -3352,6 +3357,16 @@ public class DEDataListViewPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			DEDataListViewModelImpl deDataListViewModelImpl,
 			String[] columnNames, boolean original) {
@@ -3377,6 +3392,10 @@ public class DEDataListViewPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = DEDataListViewImpl.class.getName();
+		private final String _tableName =
+			DEDataListViewTable.INSTANCE.getTableName();
 
 	}
 

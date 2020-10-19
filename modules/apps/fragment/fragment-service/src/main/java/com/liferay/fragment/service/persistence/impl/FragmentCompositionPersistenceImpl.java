@@ -6421,6 +6421,11 @@ public class FragmentCompositionPersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -6477,6 +6482,16 @@ public class FragmentCompositionPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			FragmentCompositionModelImpl fragmentCompositionModelImpl,
 			String[] columnNames, boolean original) {
@@ -6502,6 +6517,11 @@ public class FragmentCompositionPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			FragmentCompositionImpl.class.getName();
+		private final String _tableName =
+			FragmentCompositionTable.INSTANCE.getTableName();
 
 	}
 

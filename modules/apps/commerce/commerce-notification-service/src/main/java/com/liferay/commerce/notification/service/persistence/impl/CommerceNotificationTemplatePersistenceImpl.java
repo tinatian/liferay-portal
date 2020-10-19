@@ -5263,6 +5263,11 @@ public class CommerceNotificationTemplatePersistenceImpl
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid", "from", "to", "type"});
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -5322,6 +5327,16 @@ public class CommerceNotificationTemplatePersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			CommerceNotificationTemplateModelImpl
 				commerceNotificationTemplateModelImpl,
@@ -5349,6 +5364,11 @@ public class CommerceNotificationTemplatePersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			CommerceNotificationTemplateImpl.class.getName();
+		private final String _tableName =
+			CommerceNotificationTemplateTable.INSTANCE.getTableName();
 
 	}
 
