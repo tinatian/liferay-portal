@@ -137,15 +137,6 @@ public class FinderCacheImpl
 			return null;
 		}
 
-		Map<String, FinderPath> finderPaths = _finderPathsMap.get(
-			finderPath.getCacheName());
-
-		if ((finderPaths == null) ||
-			!finderPaths.containsKey(finderPath.getCacheKeyPrefix())) {
-
-			return null;
-		}
-
 		Serializable cacheKey = _encodeCacheKey(finderPath, args);
 		Serializable cacheValue = null;
 		Map<LocalCacheKey, Serializable> localCache = null;
