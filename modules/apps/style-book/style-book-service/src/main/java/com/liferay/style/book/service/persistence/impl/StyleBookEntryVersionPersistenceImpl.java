@@ -9340,6 +9340,11 @@ public class StyleBookEntryVersionPersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -9396,6 +9401,16 @@ public class StyleBookEntryVersionPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			StyleBookEntryVersionModelImpl styleBookEntryVersionModelImpl,
 			String[] columnNames, boolean original) {
@@ -9422,6 +9437,11 @@ public class StyleBookEntryVersionPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			StyleBookEntryVersionImpl.class.getName();
+		private final String _tableName =
+			StyleBookEntryVersionTable.INSTANCE.getTableName();
 
 	}
 

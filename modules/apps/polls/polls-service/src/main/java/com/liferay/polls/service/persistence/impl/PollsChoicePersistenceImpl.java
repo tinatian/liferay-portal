@@ -2937,6 +2937,11 @@ public class PollsChoicePersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -2989,6 +2994,16 @@ public class PollsChoicePersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			PollsChoiceModelImpl pollsChoiceModelImpl, String[] columnNames,
 			boolean original) {
@@ -3013,6 +3028,10 @@ public class PollsChoicePersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = PollsChoiceImpl.class.getName();
+		private final String _tableName =
+			PollsChoiceTable.INSTANCE.getTableName();
 
 	}
 

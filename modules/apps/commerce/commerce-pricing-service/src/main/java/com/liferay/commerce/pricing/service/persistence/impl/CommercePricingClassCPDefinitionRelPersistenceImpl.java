@@ -2168,6 +2168,11 @@ public class CommercePricingClassCPDefinitionRelPersistenceImpl
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"CommercePricingClassCPDefinitionRelId"});
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -2228,6 +2233,16 @@ public class CommercePricingClassCPDefinitionRelPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			CommercePricingClassCPDefinitionRelModelImpl
 				commercePricingClassCPDefinitionRelModelImpl,
@@ -2255,6 +2270,11 @@ public class CommercePricingClassCPDefinitionRelPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			CommercePricingClassCPDefinitionRelImpl.class.getName();
+		private final String _tableName =
+			CommercePricingClassCPDefinitionRelTable.INSTANCE.getTableName();
 
 	}
 

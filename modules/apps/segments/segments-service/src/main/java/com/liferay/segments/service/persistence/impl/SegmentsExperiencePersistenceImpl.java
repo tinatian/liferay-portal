@@ -10804,6 +10804,11 @@ public class SegmentsExperiencePersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -10859,6 +10864,16 @@ public class SegmentsExperiencePersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			SegmentsExperienceModelImpl segmentsExperienceModelImpl,
 			String[] columnNames, boolean original) {
@@ -10884,6 +10899,11 @@ public class SegmentsExperiencePersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			SegmentsExperienceImpl.class.getName();
+		private final String _tableName =
+			SegmentsExperienceTable.INSTANCE.getTableName();
 
 	}
 

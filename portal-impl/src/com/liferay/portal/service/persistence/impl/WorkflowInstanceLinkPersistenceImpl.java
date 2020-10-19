@@ -19,6 +19,7 @@ import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.dao.orm.ArgumentsResolver;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
+import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
 import com.liferay.portal.kernel.dao.orm.Query;
@@ -1385,7 +1386,7 @@ public class WorkflowInstanceLinkPersistenceImpl
 	 * Clears the cache for all workflow instance links.
 	 *
 	 * <p>
-	 * The <code>EntityCache</code> and <code>com.liferay.portal.kernel.dao.orm.FinderCache</code> are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
@@ -1399,7 +1400,7 @@ public class WorkflowInstanceLinkPersistenceImpl
 	 * Clears the cache for the workflow instance link.
 	 *
 	 * <p>
-	 * The <code>EntityCache</code> and <code>com.liferay.portal.kernel.dao.orm.FinderCache</code> are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
@@ -2187,6 +2188,11 @@ public class WorkflowInstanceLinkPersistenceImpl
 	private static final Log _log = LogFactoryUtil.getLog(
 		WorkflowInstanceLinkPersistenceImpl.class);
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return FinderCacheUtil.getFinderCache();
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -2243,6 +2249,16 @@ public class WorkflowInstanceLinkPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			WorkflowInstanceLinkModelImpl workflowInstanceLinkModelImpl,
 			String[] columnNames, boolean original) {
@@ -2268,6 +2284,11 @@ public class WorkflowInstanceLinkPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			WorkflowInstanceLinkImpl.class.getName();
+		private final String _tableName =
+			WorkflowInstanceLinkTable.INSTANCE.getTableName();
 
 	}
 

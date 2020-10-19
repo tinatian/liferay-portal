@@ -1184,6 +1184,11 @@ public class AuditEventPersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -1236,6 +1241,16 @@ public class AuditEventPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			AuditEventModelImpl auditEventModelImpl, String[] columnNames,
 			boolean original) {
@@ -1260,6 +1275,10 @@ public class AuditEventPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = AuditEventImpl.class.getName();
+		private final String _tableName =
+			AuditEventTable.INSTANCE.getTableName();
 
 	}
 

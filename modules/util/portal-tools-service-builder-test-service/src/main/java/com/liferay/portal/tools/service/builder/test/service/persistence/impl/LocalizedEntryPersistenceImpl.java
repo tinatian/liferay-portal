@@ -602,6 +602,11 @@ public class LocalizedEntryPersistenceImpl
 	private static final Log _log = LogFactoryUtil.getLog(
 		LocalizedEntryPersistenceImpl.class);
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -656,6 +661,16 @@ public class LocalizedEntryPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			LocalizedEntryModelImpl localizedEntryModelImpl,
 			String[] columnNames, boolean original) {
@@ -681,6 +696,10 @@ public class LocalizedEntryPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = LocalizedEntryImpl.class.getName();
+		private final String _tableName =
+			LocalizedEntryTable.INSTANCE.getTableName();
 
 	}
 

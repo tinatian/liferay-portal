@@ -7013,6 +7013,11 @@ public class SyncDLObjectPersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -7065,6 +7070,16 @@ public class SyncDLObjectPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			SyncDLObjectModelImpl syncDLObjectModelImpl, String[] columnNames,
 			boolean original) {
@@ -7089,6 +7104,10 @@ public class SyncDLObjectPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = SyncDLObjectImpl.class.getName();
+		private final String _tableName =
+			SyncDLObjectTable.INSTANCE.getTableName();
 
 	}
 

@@ -1574,6 +1574,11 @@ public class RedirectNotFoundEntryPersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -1630,6 +1635,16 @@ public class RedirectNotFoundEntryPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			RedirectNotFoundEntryModelImpl redirectNotFoundEntryModelImpl,
 			String[] columnNames, boolean original) {
@@ -1656,6 +1671,11 @@ public class RedirectNotFoundEntryPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			RedirectNotFoundEntryImpl.class.getName();
+		private final String _tableName =
+			RedirectNotFoundEntryTable.INSTANCE.getTableName();
 
 	}
 

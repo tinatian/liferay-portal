@@ -2421,6 +2421,11 @@ public class CommerceVirtualOrderItemPersistenceImpl
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid", "active"});
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -2478,6 +2483,16 @@ public class CommerceVirtualOrderItemPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			CommerceVirtualOrderItemModelImpl commerceVirtualOrderItemModelImpl,
 			String[] columnNames, boolean original) {
@@ -2504,6 +2519,11 @@ public class CommerceVirtualOrderItemPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			CommerceVirtualOrderItemImpl.class.getName();
+		private final String _tableName =
+			CommerceVirtualOrderItemTable.INSTANCE.getTableName();
 
 	}
 

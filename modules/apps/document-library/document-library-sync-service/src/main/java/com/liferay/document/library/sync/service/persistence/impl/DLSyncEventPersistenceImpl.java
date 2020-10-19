@@ -1402,6 +1402,11 @@ public class DLSyncEventPersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -1454,6 +1459,16 @@ public class DLSyncEventPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			DLSyncEventModelImpl dlSyncEventModelImpl, String[] columnNames,
 			boolean original) {
@@ -1478,6 +1493,10 @@ public class DLSyncEventPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = DLSyncEventImpl.class.getName();
+		private final String _tableName =
+			DLSyncEventTable.INSTANCE.getTableName();
 
 	}
 

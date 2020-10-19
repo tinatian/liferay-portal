@@ -2888,6 +2888,11 @@ public class CommercePriceListCommerceAccountGroupRelPersistenceImpl
 			"uuid", "commercePriceListCommerceAccountGroupRelId", "order"
 		});
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -2950,6 +2955,16 @@ public class CommercePriceListCommerceAccountGroupRelPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			CommercePriceListCommerceAccountGroupRelModelImpl
 				commercePriceListCommerceAccountGroupRelModelImpl,
@@ -2977,6 +2992,12 @@ public class CommercePriceListCommerceAccountGroupRelPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			CommercePriceListCommerceAccountGroupRelImpl.class.getName();
+		private final String _tableName =
+			CommercePriceListCommerceAccountGroupRelTable.INSTANCE.
+				getTableName();
 
 	}
 

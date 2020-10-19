@@ -5799,6 +5799,11 @@ public class CommerceAddressPersistenceImpl
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"type"});
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -5853,6 +5858,16 @@ public class CommerceAddressPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			CommerceAddressModelImpl commerceAddressModelImpl,
 			String[] columnNames, boolean original) {
@@ -5878,6 +5893,10 @@ public class CommerceAddressPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = CommerceAddressImpl.class.getName();
+		private final String _tableName =
+			CommerceAddressTable.INSTANCE.getTableName();
 
 	}
 

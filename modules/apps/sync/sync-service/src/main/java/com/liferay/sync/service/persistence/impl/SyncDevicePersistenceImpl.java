@@ -2961,6 +2961,11 @@ public class SyncDevicePersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -3013,6 +3018,16 @@ public class SyncDevicePersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			SyncDeviceModelImpl syncDeviceModelImpl, String[] columnNames,
 			boolean original) {
@@ -3037,6 +3052,10 @@ public class SyncDevicePersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = SyncDeviceImpl.class.getName();
+		private final String _tableName =
+			SyncDeviceTable.INSTANCE.getTableName();
 
 	}
 

@@ -2452,6 +2452,11 @@ public class CommerceAvailabilityEstimatePersistenceImpl
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid"});
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -2511,6 +2516,16 @@ public class CommerceAvailabilityEstimatePersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			CommerceAvailabilityEstimateModelImpl
 				commerceAvailabilityEstimateModelImpl,
@@ -2538,6 +2553,11 @@ public class CommerceAvailabilityEstimatePersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			CommerceAvailabilityEstimateImpl.class.getName();
+		private final String _tableName =
+			CommerceAvailabilityEstimateTable.INSTANCE.getTableName();
 
 	}
 

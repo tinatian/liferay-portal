@@ -5200,6 +5200,11 @@ public class CommerceMLForecastAlertEntryPersistenceImpl
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid"});
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -5259,6 +5264,16 @@ public class CommerceMLForecastAlertEntryPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			CommerceMLForecastAlertEntryModelImpl
 				commerceMLForecastAlertEntryModelImpl,
@@ -5286,6 +5301,11 @@ public class CommerceMLForecastAlertEntryPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			CommerceMLForecastAlertEntryImpl.class.getName();
+		private final String _tableName =
+			CommerceMLForecastAlertEntryTable.INSTANCE.getTableName();
 
 	}
 

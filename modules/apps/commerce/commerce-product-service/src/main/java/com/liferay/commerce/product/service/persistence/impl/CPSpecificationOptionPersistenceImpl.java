@@ -4907,6 +4907,11 @@ public class CPSpecificationOptionPersistenceImpl
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid", "key"});
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -4963,6 +4968,16 @@ public class CPSpecificationOptionPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			CPSpecificationOptionModelImpl cpSpecificationOptionModelImpl,
 			String[] columnNames, boolean original) {
@@ -4989,6 +5004,11 @@ public class CPSpecificationOptionPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			CPSpecificationOptionImpl.class.getName();
+		private final String _tableName =
+			CPSpecificationOptionTable.INSTANCE.getTableName();
 
 	}
 

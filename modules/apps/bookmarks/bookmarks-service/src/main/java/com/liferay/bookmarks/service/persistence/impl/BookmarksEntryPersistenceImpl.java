@@ -13398,6 +13398,11 @@ public class BookmarksEntryPersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -13452,6 +13457,16 @@ public class BookmarksEntryPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			BookmarksEntryModelImpl bookmarksEntryModelImpl,
 			String[] columnNames, boolean original) {
@@ -13477,6 +13492,10 @@ public class BookmarksEntryPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = BookmarksEntryImpl.class.getName();
+		private final String _tableName =
+			BookmarksEntryTable.INSTANCE.getTableName();
 
 	}
 

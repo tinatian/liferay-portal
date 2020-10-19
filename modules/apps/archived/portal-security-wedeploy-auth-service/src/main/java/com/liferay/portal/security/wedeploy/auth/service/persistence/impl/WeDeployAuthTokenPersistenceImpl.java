@@ -1383,6 +1383,11 @@ public class WeDeployAuthTokenPersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -1437,6 +1442,16 @@ public class WeDeployAuthTokenPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			WeDeployAuthTokenModelImpl weDeployAuthTokenModelImpl,
 			String[] columnNames, boolean original) {
@@ -1462,6 +1477,10 @@ public class WeDeployAuthTokenPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = WeDeployAuthTokenImpl.class.getName();
+		private final String _tableName =
+			WeDeployAuthTokenTable.INSTANCE.getTableName();
 
 	}
 

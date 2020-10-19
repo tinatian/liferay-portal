@@ -611,6 +611,11 @@ public class TestEntityPersistenceImpl
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"id", "data"});
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -663,6 +668,16 @@ public class TestEntityPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			TestEntityModelImpl testEntityModelImpl, String[] columnNames,
 			boolean original) {
@@ -687,6 +702,10 @@ public class TestEntityPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = TestEntityImpl.class.getName();
+		private final String _tableName =
+			TestEntityTable.INSTANCE.getTableName();
 
 	}
 

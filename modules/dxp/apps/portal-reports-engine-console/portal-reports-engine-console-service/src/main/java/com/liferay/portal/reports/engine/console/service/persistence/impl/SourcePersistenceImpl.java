@@ -3540,6 +3540,11 @@ public class SourcePersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -3591,6 +3596,16 @@ public class SourcePersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			SourceModelImpl sourceModelImpl, String[] columnNames,
 			boolean original) {
@@ -3614,6 +3629,9 @@ public class SourcePersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = SourceImpl.class.getName();
+		private final String _tableName = SourceTable.INSTANCE.getTableName();
 
 	}
 

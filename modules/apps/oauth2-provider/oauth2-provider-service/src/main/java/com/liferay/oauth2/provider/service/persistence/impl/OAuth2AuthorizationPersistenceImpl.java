@@ -3281,6 +3281,11 @@ public class OAuth2AuthorizationPersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -3337,6 +3342,16 @@ public class OAuth2AuthorizationPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			OAuth2AuthorizationModelImpl oAuth2AuthorizationModelImpl,
 			String[] columnNames, boolean original) {
@@ -3362,6 +3377,11 @@ public class OAuth2AuthorizationPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			OAuth2AuthorizationImpl.class.getName();
+		private final String _tableName =
+			OAuth2AuthorizationTable.INSTANCE.getTableName();
 
 	}
 

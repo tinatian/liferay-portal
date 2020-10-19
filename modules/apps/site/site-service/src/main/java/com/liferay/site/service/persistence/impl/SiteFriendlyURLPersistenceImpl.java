@@ -3658,6 +3658,11 @@ public class SiteFriendlyURLPersistenceImpl
 		}
 	}
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -3712,6 +3717,16 @@ public class SiteFriendlyURLPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			SiteFriendlyURLModelImpl siteFriendlyURLModelImpl,
 			String[] columnNames, boolean original) {
@@ -3737,6 +3752,10 @@ public class SiteFriendlyURLPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = SiteFriendlyURLImpl.class.getName();
+		private final String _tableName =
+			SiteFriendlyURLTable.INSTANCE.getTableName();
 
 	}
 

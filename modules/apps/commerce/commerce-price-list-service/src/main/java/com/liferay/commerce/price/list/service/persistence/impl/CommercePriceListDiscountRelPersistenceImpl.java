@@ -2730,6 +2730,11 @@ public class CommercePriceListDiscountRelPersistenceImpl
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid", "order"});
 
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
 
@@ -2789,6 +2794,16 @@ public class CommercePriceListDiscountRelPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			CommercePriceListDiscountRelModelImpl
 				commercePriceListDiscountRelModelImpl,
@@ -2816,6 +2831,11 @@ public class CommercePriceListDiscountRelPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			CommercePriceListDiscountRelImpl.class.getName();
+		private final String _tableName =
+			CommercePriceListDiscountRelTable.INSTANCE.getTableName();
 
 	}
 
