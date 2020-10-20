@@ -72,14 +72,12 @@ import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyFactory;
 
+import javax.sql.DataSource;
 import java.io.Serializable;
-
 import java.math.BigDecimal;
-
 import java.sql.Connection;
 import java.sql.Timestamp;
 import java.sql.Types;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -93,8 +91,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-
-import javax.sql.DataSource;
 
 /**
  * The base implementation for all persistence classes. This class should never
@@ -275,7 +271,7 @@ public class BasePersistenceImpl<T extends BaseModel<T>>
 					defaultASTNodeListener.getEnd());
 			}
 
-			finderCache.putResult(finderPath, arguments, result);
+			finderCache.putResult(finderPath, arguments, result, false);
 
 			return (R)result;
 		}
