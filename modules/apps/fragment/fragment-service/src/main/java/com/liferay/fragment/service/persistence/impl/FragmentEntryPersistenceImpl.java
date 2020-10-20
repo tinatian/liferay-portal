@@ -15121,19 +15121,19 @@ public class FragmentEntryPersistenceImpl
 			MapUtil.singletonDictionary(
 				"model.class.name", FragmentEntry.class.getName()));
 
-		_finderPathWithPaginationFindAll = _createFinderPath(
+		_finderPathWithPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathWithoutPaginationFindAll = _createFinderPath(
+		_finderPathWithoutPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathCountAll = _createFinderPath(
+		_finderPathCountAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0], new String[0], false);
 
-		_finderPathWithPaginationFindByUuid = _createFinderPath(
+		_finderPathWithPaginationFindByUuid = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
@@ -15141,17 +15141,17 @@ public class FragmentEntryPersistenceImpl
 			},
 			new String[] {"uuid_"}, true);
 
-		_finderPathWithoutPaginationFindByUuid = _createFinderPath(
+		_finderPathWithoutPaginationFindByUuid = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
 			new String[] {String.class.getName()}, new String[] {"uuid_"},
 			true);
 
-		_finderPathCountByUuid = _createFinderPath(
+		_finderPathCountByUuid = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
 			new String[] {String.class.getName()}, new String[] {"uuid_"},
 			false);
 
-		_finderPathWithPaginationFindByUuid_Head = _createFinderPath(
+		_finderPathWithPaginationFindByUuid_Head = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_Head",
 			new String[] {
 				String.class.getName(), Boolean.class.getName(),
@@ -15160,17 +15160,17 @@ public class FragmentEntryPersistenceImpl
 			},
 			new String[] {"uuid_", "head"}, true);
 
-		_finderPathWithoutPaginationFindByUuid_Head = _createFinderPath(
+		_finderPathWithoutPaginationFindByUuid_Head = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_Head",
 			new String[] {String.class.getName(), Boolean.class.getName()},
 			new String[] {"uuid_", "head"}, true);
 
-		_finderPathCountByUuid_Head = _createFinderPath(
+		_finderPathCountByUuid_Head = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_Head",
 			new String[] {String.class.getName(), Boolean.class.getName()},
 			new String[] {"uuid_", "head"}, false);
 
-		_finderPathWithPaginationFindByUUID_G = _createFinderPath(
+		_finderPathWithPaginationFindByUUID_G = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUUID_G",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
@@ -15179,17 +15179,17 @@ public class FragmentEntryPersistenceImpl
 			},
 			new String[] {"uuid_", "groupId"}, true);
 
-		_finderPathWithoutPaginationFindByUUID_G = _createFinderPath(
+		_finderPathWithoutPaginationFindByUUID_G = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
 			new String[] {"uuid_", "groupId"}, true);
 
-		_finderPathCountByUUID_G = _createFinderPath(
+		_finderPathCountByUUID_G = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
 			new String[] {"uuid_", "groupId"}, false);
 
-		_finderPathFetchByUUID_G_Head = _createFinderPath(
+		_finderPathFetchByUUID_G_Head = new FinderPath(
 			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G_Head",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
@@ -15197,7 +15197,7 @@ public class FragmentEntryPersistenceImpl
 			},
 			new String[] {"uuid_", "groupId", "head"}, true);
 
-		_finderPathCountByUUID_G_Head = _createFinderPath(
+		_finderPathCountByUUID_G_Head = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G_Head",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
@@ -15205,7 +15205,7 @@ public class FragmentEntryPersistenceImpl
 			},
 			new String[] {"uuid_", "groupId", "head"}, false);
 
-		_finderPathWithPaginationFindByUuid_C = _createFinderPath(
+		_finderPathWithPaginationFindByUuid_C = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
@@ -15214,17 +15214,17 @@ public class FragmentEntryPersistenceImpl
 			},
 			new String[] {"uuid_", "companyId"}, true);
 
-		_finderPathWithoutPaginationFindByUuid_C = _createFinderPath(
+		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
 			new String[] {"uuid_", "companyId"}, true);
 
-		_finderPathCountByUuid_C = _createFinderPath(
+		_finderPathCountByUuid_C = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
 			new String[] {"uuid_", "companyId"}, false);
 
-		_finderPathWithPaginationFindByUuid_C_Head = _createFinderPath(
+		_finderPathWithPaginationFindByUuid_C_Head = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C_Head",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
@@ -15233,7 +15233,7 @@ public class FragmentEntryPersistenceImpl
 			},
 			new String[] {"uuid_", "companyId", "head"}, true);
 
-		_finderPathWithoutPaginationFindByUuid_C_Head = _createFinderPath(
+		_finderPathWithoutPaginationFindByUuid_C_Head = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C_Head",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
@@ -15241,7 +15241,7 @@ public class FragmentEntryPersistenceImpl
 			},
 			new String[] {"uuid_", "companyId", "head"}, true);
 
-		_finderPathCountByUuid_C_Head = _createFinderPath(
+		_finderPathCountByUuid_C_Head = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C_Head",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
@@ -15249,7 +15249,7 @@ public class FragmentEntryPersistenceImpl
 			},
 			new String[] {"uuid_", "companyId", "head"}, false);
 
-		_finderPathWithPaginationFindByGroupId = _createFinderPath(
+		_finderPathWithPaginationFindByGroupId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -15257,17 +15257,17 @@ public class FragmentEntryPersistenceImpl
 			},
 			new String[] {"groupId"}, true);
 
-		_finderPathWithoutPaginationFindByGroupId = _createFinderPath(
+		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
 			new String[] {Long.class.getName()}, new String[] {"groupId"},
 			true);
 
-		_finderPathCountByGroupId = _createFinderPath(
+		_finderPathCountByGroupId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
 			new String[] {Long.class.getName()}, new String[] {"groupId"},
 			false);
 
-		_finderPathWithPaginationFindByGroupId_Head = _createFinderPath(
+		_finderPathWithPaginationFindByGroupId_Head = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId_Head",
 			new String[] {
 				Long.class.getName(), Boolean.class.getName(),
@@ -15276,17 +15276,17 @@ public class FragmentEntryPersistenceImpl
 			},
 			new String[] {"groupId", "head"}, true);
 
-		_finderPathWithoutPaginationFindByGroupId_Head = _createFinderPath(
+		_finderPathWithoutPaginationFindByGroupId_Head = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId_Head",
 			new String[] {Long.class.getName(), Boolean.class.getName()},
 			new String[] {"groupId", "head"}, true);
 
-		_finderPathCountByGroupId_Head = _createFinderPath(
+		_finderPathCountByGroupId_Head = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId_Head",
 			new String[] {Long.class.getName(), Boolean.class.getName()},
 			new String[] {"groupId", "head"}, false);
 
-		_finderPathWithPaginationFindByFragmentCollectionId = _createFinderPath(
+		_finderPathWithPaginationFindByFragmentCollectionId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 			"findByFragmentCollectionId",
 			new String[] {
@@ -15295,20 +15295,18 @@ public class FragmentEntryPersistenceImpl
 			},
 			new String[] {"fragmentCollectionId"}, true);
 
-		_finderPathWithoutPaginationFindByFragmentCollectionId =
-			_createFinderPath(
-				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-				"findByFragmentCollectionId",
-				new String[] {Long.class.getName()},
-				new String[] {"fragmentCollectionId"}, true);
+		_finderPathWithoutPaginationFindByFragmentCollectionId = new FinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByFragmentCollectionId", new String[] {Long.class.getName()},
+			new String[] {"fragmentCollectionId"}, true);
 
-		_finderPathCountByFragmentCollectionId = _createFinderPath(
+		_finderPathCountByFragmentCollectionId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByFragmentCollectionId", new String[] {Long.class.getName()},
 			new String[] {"fragmentCollectionId"}, false);
 
 		_finderPathWithPaginationFindByFragmentCollectionId_Head =
-			_createFinderPath(
+			new FinderPath(
 				FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 				"findByFragmentCollectionId_Head",
 				new String[] {
@@ -15319,19 +15317,19 @@ public class FragmentEntryPersistenceImpl
 				new String[] {"fragmentCollectionId", "head"}, true);
 
 		_finderPathWithoutPaginationFindByFragmentCollectionId_Head =
-			_createFinderPath(
+			new FinderPath(
 				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 				"findByFragmentCollectionId_Head",
 				new String[] {Long.class.getName(), Boolean.class.getName()},
 				new String[] {"fragmentCollectionId", "head"}, true);
 
-		_finderPathCountByFragmentCollectionId_Head = _createFinderPath(
+		_finderPathCountByFragmentCollectionId_Head = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByFragmentCollectionId_Head",
 			new String[] {Long.class.getName(), Boolean.class.getName()},
 			new String[] {"fragmentCollectionId", "head"}, false);
 
-		_finderPathWithPaginationFindByG_FCI = _createFinderPath(
+		_finderPathWithPaginationFindByG_FCI = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_FCI",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -15340,17 +15338,17 @@ public class FragmentEntryPersistenceImpl
 			},
 			new String[] {"groupId", "fragmentCollectionId"}, true);
 
-		_finderPathWithoutPaginationFindByG_FCI = _createFinderPath(
+		_finderPathWithoutPaginationFindByG_FCI = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_FCI",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			new String[] {"groupId", "fragmentCollectionId"}, true);
 
-		_finderPathCountByG_FCI = _createFinderPath(
+		_finderPathCountByG_FCI = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_FCI",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			new String[] {"groupId", "fragmentCollectionId"}, false);
 
-		_finderPathWithPaginationFindByG_FCI_Head = _createFinderPath(
+		_finderPathWithPaginationFindByG_FCI_Head = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_FCI_Head",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -15359,7 +15357,7 @@ public class FragmentEntryPersistenceImpl
 			},
 			new String[] {"groupId", "fragmentCollectionId", "head"}, true);
 
-		_finderPathWithoutPaginationFindByG_FCI_Head = _createFinderPath(
+		_finderPathWithoutPaginationFindByG_FCI_Head = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_FCI_Head",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -15367,7 +15365,7 @@ public class FragmentEntryPersistenceImpl
 			},
 			new String[] {"groupId", "fragmentCollectionId", "head"}, true);
 
-		_finderPathCountByG_FCI_Head = _createFinderPath(
+		_finderPathCountByG_FCI_Head = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_FCI_Head",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -15375,7 +15373,7 @@ public class FragmentEntryPersistenceImpl
 			},
 			new String[] {"groupId", "fragmentCollectionId", "head"}, false);
 
-		_finderPathWithPaginationFindByG_FEK = _createFinderPath(
+		_finderPathWithPaginationFindByG_FEK = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_FEK",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
@@ -15384,17 +15382,17 @@ public class FragmentEntryPersistenceImpl
 			},
 			new String[] {"groupId", "fragmentEntryKey"}, true);
 
-		_finderPathWithoutPaginationFindByG_FEK = _createFinderPath(
+		_finderPathWithoutPaginationFindByG_FEK = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_FEK",
 			new String[] {Long.class.getName(), String.class.getName()},
 			new String[] {"groupId", "fragmentEntryKey"}, true);
 
-		_finderPathCountByG_FEK = _createFinderPath(
+		_finderPathCountByG_FEK = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_FEK",
 			new String[] {Long.class.getName(), String.class.getName()},
 			new String[] {"groupId", "fragmentEntryKey"}, false);
 
-		_finderPathFetchByG_FEK_Head = _createFinderPath(
+		_finderPathFetchByG_FEK_Head = new FinderPath(
 			FINDER_CLASS_NAME_ENTITY, "fetchByG_FEK_Head",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
@@ -15402,7 +15400,7 @@ public class FragmentEntryPersistenceImpl
 			},
 			new String[] {"groupId", "fragmentEntryKey", "head"}, true);
 
-		_finderPathCountByG_FEK_Head = _createFinderPath(
+		_finderPathCountByG_FEK_Head = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_FEK_Head",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
@@ -15410,7 +15408,7 @@ public class FragmentEntryPersistenceImpl
 			},
 			new String[] {"groupId", "fragmentEntryKey", "head"}, false);
 
-		_finderPathWithPaginationFindByG_FCI_LikeN = _createFinderPath(
+		_finderPathWithPaginationFindByG_FCI_LikeN = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_FCI_LikeN",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -15419,7 +15417,7 @@ public class FragmentEntryPersistenceImpl
 			},
 			new String[] {"groupId", "fragmentCollectionId", "name"}, true);
 
-		_finderPathWithPaginationCountByG_FCI_LikeN = _createFinderPath(
+		_finderPathWithPaginationCountByG_FCI_LikeN = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByG_FCI_LikeN",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -15427,7 +15425,7 @@ public class FragmentEntryPersistenceImpl
 			},
 			new String[] {"groupId", "fragmentCollectionId", "name"}, false);
 
-		_finderPathWithPaginationFindByG_FCI_LikeN_Head = _createFinderPath(
+		_finderPathWithPaginationFindByG_FCI_LikeN_Head = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_FCI_LikeN_Head",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -15438,7 +15436,7 @@ public class FragmentEntryPersistenceImpl
 			new String[] {"groupId", "fragmentCollectionId", "name", "head"},
 			true);
 
-		_finderPathWithPaginationCountByG_FCI_LikeN_Head = _createFinderPath(
+		_finderPathWithPaginationCountByG_FCI_LikeN_Head = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByG_FCI_LikeN_Head",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -15447,7 +15445,7 @@ public class FragmentEntryPersistenceImpl
 			new String[] {"groupId", "fragmentCollectionId", "name", "head"},
 			false);
 
-		_finderPathWithPaginationFindByG_FCI_T = _createFinderPath(
+		_finderPathWithPaginationFindByG_FCI_T = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_FCI_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -15456,7 +15454,7 @@ public class FragmentEntryPersistenceImpl
 			},
 			new String[] {"groupId", "fragmentCollectionId", "type_"}, true);
 
-		_finderPathWithoutPaginationFindByG_FCI_T = _createFinderPath(
+		_finderPathWithoutPaginationFindByG_FCI_T = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_FCI_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -15464,7 +15462,7 @@ public class FragmentEntryPersistenceImpl
 			},
 			new String[] {"groupId", "fragmentCollectionId", "type_"}, true);
 
-		_finderPathCountByG_FCI_T = _createFinderPath(
+		_finderPathCountByG_FCI_T = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_FCI_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -15472,7 +15470,7 @@ public class FragmentEntryPersistenceImpl
 			},
 			new String[] {"groupId", "fragmentCollectionId", "type_"}, false);
 
-		_finderPathWithPaginationFindByG_FCI_T_Head = _createFinderPath(
+		_finderPathWithPaginationFindByG_FCI_T_Head = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_FCI_T_Head",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -15483,7 +15481,7 @@ public class FragmentEntryPersistenceImpl
 			new String[] {"groupId", "fragmentCollectionId", "type_", "head"},
 			true);
 
-		_finderPathWithoutPaginationFindByG_FCI_T_Head = _createFinderPath(
+		_finderPathWithoutPaginationFindByG_FCI_T_Head = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_FCI_T_Head",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -15492,7 +15490,7 @@ public class FragmentEntryPersistenceImpl
 			new String[] {"groupId", "fragmentCollectionId", "type_", "head"},
 			true);
 
-		_finderPathCountByG_FCI_T_Head = _createFinderPath(
+		_finderPathCountByG_FCI_T_Head = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_FCI_T_Head",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -15501,7 +15499,7 @@ public class FragmentEntryPersistenceImpl
 			new String[] {"groupId", "fragmentCollectionId", "type_", "head"},
 			false);
 
-		_finderPathWithPaginationFindByG_FCI_S = _createFinderPath(
+		_finderPathWithPaginationFindByG_FCI_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_FCI_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -15510,7 +15508,7 @@ public class FragmentEntryPersistenceImpl
 			},
 			new String[] {"groupId", "fragmentCollectionId", "status"}, true);
 
-		_finderPathWithoutPaginationFindByG_FCI_S = _createFinderPath(
+		_finderPathWithoutPaginationFindByG_FCI_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_FCI_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -15518,7 +15516,7 @@ public class FragmentEntryPersistenceImpl
 			},
 			new String[] {"groupId", "fragmentCollectionId", "status"}, true);
 
-		_finderPathCountByG_FCI_S = _createFinderPath(
+		_finderPathCountByG_FCI_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_FCI_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -15526,7 +15524,7 @@ public class FragmentEntryPersistenceImpl
 			},
 			new String[] {"groupId", "fragmentCollectionId", "status"}, false);
 
-		_finderPathWithPaginationFindByG_FCI_S_Head = _createFinderPath(
+		_finderPathWithPaginationFindByG_FCI_S_Head = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_FCI_S_Head",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -15537,7 +15535,7 @@ public class FragmentEntryPersistenceImpl
 			new String[] {"groupId", "fragmentCollectionId", "status", "head"},
 			true);
 
-		_finderPathWithoutPaginationFindByG_FCI_S_Head = _createFinderPath(
+		_finderPathWithoutPaginationFindByG_FCI_S_Head = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_FCI_S_Head",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -15546,7 +15544,7 @@ public class FragmentEntryPersistenceImpl
 			new String[] {"groupId", "fragmentCollectionId", "status", "head"},
 			true);
 
-		_finderPathCountByG_FCI_S_Head = _createFinderPath(
+		_finderPathCountByG_FCI_S_Head = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_FCI_S_Head",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -15555,7 +15553,7 @@ public class FragmentEntryPersistenceImpl
 			new String[] {"groupId", "fragmentCollectionId", "status", "head"},
 			false);
 
-		_finderPathWithPaginationFindByG_FCI_LikeN_S = _createFinderPath(
+		_finderPathWithPaginationFindByG_FCI_LikeN_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_FCI_LikeN_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -15566,7 +15564,7 @@ public class FragmentEntryPersistenceImpl
 			new String[] {"groupId", "fragmentCollectionId", "name", "status"},
 			true);
 
-		_finderPathWithPaginationCountByG_FCI_LikeN_S = _createFinderPath(
+		_finderPathWithPaginationCountByG_FCI_LikeN_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByG_FCI_LikeN_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -15575,7 +15573,7 @@ public class FragmentEntryPersistenceImpl
 			new String[] {"groupId", "fragmentCollectionId", "name", "status"},
 			false);
 
-		_finderPathWithPaginationFindByG_FCI_LikeN_S_Head = _createFinderPath(
+		_finderPathWithPaginationFindByG_FCI_LikeN_S_Head = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_FCI_LikeN_S_Head",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -15588,7 +15586,7 @@ public class FragmentEntryPersistenceImpl
 			},
 			true);
 
-		_finderPathWithPaginationCountByG_FCI_LikeN_S_Head = _createFinderPath(
+		_finderPathWithPaginationCountByG_FCI_LikeN_S_Head = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByG_FCI_LikeN_S_Head",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -15600,7 +15598,7 @@ public class FragmentEntryPersistenceImpl
 			},
 			false);
 
-		_finderPathWithPaginationFindByG_FCI_T_S = _createFinderPath(
+		_finderPathWithPaginationFindByG_FCI_T_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_FCI_T_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -15611,7 +15609,7 @@ public class FragmentEntryPersistenceImpl
 			new String[] {"groupId", "fragmentCollectionId", "type_", "status"},
 			true);
 
-		_finderPathWithoutPaginationFindByG_FCI_T_S = _createFinderPath(
+		_finderPathWithoutPaginationFindByG_FCI_T_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_FCI_T_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -15620,7 +15618,7 @@ public class FragmentEntryPersistenceImpl
 			new String[] {"groupId", "fragmentCollectionId", "type_", "status"},
 			true);
 
-		_finderPathCountByG_FCI_T_S = _createFinderPath(
+		_finderPathCountByG_FCI_T_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_FCI_T_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -15629,7 +15627,7 @@ public class FragmentEntryPersistenceImpl
 			new String[] {"groupId", "fragmentCollectionId", "type_", "status"},
 			false);
 
-		_finderPathWithPaginationFindByG_FCI_T_S_Head = _createFinderPath(
+		_finderPathWithPaginationFindByG_FCI_T_S_Head = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_FCI_T_S_Head",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -15642,7 +15640,7 @@ public class FragmentEntryPersistenceImpl
 			},
 			true);
 
-		_finderPathWithoutPaginationFindByG_FCI_T_S_Head = _createFinderPath(
+		_finderPathWithoutPaginationFindByG_FCI_T_S_Head = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_FCI_T_S_Head",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -15654,7 +15652,7 @@ public class FragmentEntryPersistenceImpl
 			},
 			true);
 
-		_finderPathCountByG_FCI_T_S_Head = _createFinderPath(
+		_finderPathCountByG_FCI_T_S_Head = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_FCI_T_S_Head",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -15666,11 +15664,11 @@ public class FragmentEntryPersistenceImpl
 			},
 			false);
 
-		_finderPathFetchByHeadId = _createFinderPath(
+		_finderPathFetchByHeadId = new FinderPath(
 			FINDER_CLASS_NAME_ENTITY, "fetchByHeadId",
 			new String[] {Long.class.getName()}, new String[] {"headId"}, true);
 
-		_finderPathCountByHeadId = _createFinderPath(
+		_finderPathCountByHeadId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByHeadId",
 			new String[] {Long.class.getName()}, new String[] {"headId"},
 			false);
@@ -15681,12 +15679,6 @@ public class FragmentEntryPersistenceImpl
 		entityCache.removeCache(FragmentEntryImpl.class.getName());
 
 		_argumentsResolverServiceRegistration.unregister();
-
-		for (ServiceRegistration<FinderPath> serviceRegistration :
-				_serviceRegistrations) {
-
-			serviceRegistration.unregister();
-		}
 	}
 
 	@Override
@@ -15761,27 +15753,13 @@ public class FragmentEntryPersistenceImpl
 		}
 	}
 
-	private FinderPath _createFinderPath(
-		String cacheName, String methodName, String[] params,
-		String[] columnNames, boolean baseModelResult) {
-
-		FinderPath finderPath = new FinderPath(
-			cacheName, methodName, params, columnNames, baseModelResult);
-
-		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
-			_serviceRegistrations.add(
-				_bundleContext.registerService(
-					FinderPath.class, finderPath,
-					MapUtil.singletonDictionary("cache.name", cacheName)));
-		}
-
-		return finderPath;
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
 	}
 
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
-	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
-		new HashSet<>();
 
 	private static class FragmentEntryModelArgumentsResolver
 		implements ArgumentsResolver {
@@ -15832,6 +15810,16 @@ public class FragmentEntryPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			FragmentEntryModelImpl fragmentEntryModelImpl, String[] columnNames,
 			boolean original) {
@@ -15857,6 +15845,10 @@ public class FragmentEntryPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = FragmentEntryImpl.class.getName();
+		private final String _tableName =
+			FragmentEntryTable.INSTANCE.getTableName();
 
 	}
 

@@ -18,6 +18,7 @@ import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.ArgumentsResolver;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
+import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
 import com.liferay.portal.kernel.dao.orm.Query;
@@ -51,7 +52,6 @@ import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -7826,7 +7826,7 @@ public class LayoutRevisionPersistenceImpl
 	 * Clears the cache for all layout revisions.
 	 *
 	 * <p>
-	 * The <code>EntityCache</code> and <code>com.liferay.portal.kernel.dao.orm.FinderCache</code> are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
@@ -7840,7 +7840,7 @@ public class LayoutRevisionPersistenceImpl
 	 * Clears the cache for the layout revision.
 	 *
 	 * <p>
-	 * The <code>EntityCache</code> and <code>com.liferay.portal.kernel.dao.orm.FinderCache</code> are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
@@ -8337,19 +8337,19 @@ public class LayoutRevisionPersistenceImpl
 				"model.class.name", LayoutRevision.class.getName()
 			).build());
 
-		_finderPathWithPaginationFindAll = _createFinderPath(
+		_finderPathWithPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathWithoutPaginationFindAll = _createFinderPath(
+		_finderPathWithoutPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathCountAll = _createFinderPath(
+		_finderPathCountAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0], new String[0], false);
 
-		_finderPathWithPaginationFindByLayoutSetBranchId = _createFinderPath(
+		_finderPathWithPaginationFindByLayoutSetBranchId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByLayoutSetBranchId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -8357,17 +8357,17 @@ public class LayoutRevisionPersistenceImpl
 			},
 			new String[] {"layoutSetBranchId"}, true);
 
-		_finderPathWithoutPaginationFindByLayoutSetBranchId = _createFinderPath(
+		_finderPathWithoutPaginationFindByLayoutSetBranchId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByLayoutSetBranchId", new String[] {Long.class.getName()},
 			new String[] {"layoutSetBranchId"}, true);
 
-		_finderPathCountByLayoutSetBranchId = _createFinderPath(
+		_finderPathCountByLayoutSetBranchId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByLayoutSetBranchId", new String[] {Long.class.getName()},
 			new String[] {"layoutSetBranchId"}, false);
 
-		_finderPathWithPaginationFindByPlid = _createFinderPath(
+		_finderPathWithPaginationFindByPlid = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByPlid",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -8375,15 +8375,15 @@ public class LayoutRevisionPersistenceImpl
 			},
 			new String[] {"plid"}, true);
 
-		_finderPathWithoutPaginationFindByPlid = _createFinderPath(
+		_finderPathWithoutPaginationFindByPlid = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPlid",
 			new String[] {Long.class.getName()}, new String[] {"plid"}, true);
 
-		_finderPathCountByPlid = _createFinderPath(
+		_finderPathCountByPlid = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPlid",
 			new String[] {Long.class.getName()}, new String[] {"plid"}, false);
 
-		_finderPathWithPaginationFindByStatus = _createFinderPath(
+		_finderPathWithPaginationFindByStatus = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByStatus",
 			new String[] {
 				Integer.class.getName(), Integer.class.getName(),
@@ -8391,17 +8391,17 @@ public class LayoutRevisionPersistenceImpl
 			},
 			new String[] {"status"}, true);
 
-		_finderPathWithoutPaginationFindByStatus = _createFinderPath(
+		_finderPathWithoutPaginationFindByStatus = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByStatus",
 			new String[] {Integer.class.getName()}, new String[] {"status"},
 			true);
 
-		_finderPathCountByStatus = _createFinderPath(
+		_finderPathCountByStatus = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByStatus",
 			new String[] {Integer.class.getName()}, new String[] {"status"},
 			false);
 
-		_finderPathWithPaginationFindByL_H = _createFinderPath(
+		_finderPathWithPaginationFindByL_H = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByL_H",
 			new String[] {
 				Long.class.getName(), Boolean.class.getName(),
@@ -8410,17 +8410,17 @@ public class LayoutRevisionPersistenceImpl
 			},
 			new String[] {"layoutSetBranchId", "head"}, true);
 
-		_finderPathWithoutPaginationFindByL_H = _createFinderPath(
+		_finderPathWithoutPaginationFindByL_H = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByL_H",
 			new String[] {Long.class.getName(), Boolean.class.getName()},
 			new String[] {"layoutSetBranchId", "head"}, true);
 
-		_finderPathCountByL_H = _createFinderPath(
+		_finderPathCountByL_H = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByL_H",
 			new String[] {Long.class.getName(), Boolean.class.getName()},
 			new String[] {"layoutSetBranchId", "head"}, false);
 
-		_finderPathWithPaginationFindByL_P = _createFinderPath(
+		_finderPathWithPaginationFindByL_P = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByL_P",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -8429,17 +8429,17 @@ public class LayoutRevisionPersistenceImpl
 			},
 			new String[] {"layoutSetBranchId", "plid"}, true);
 
-		_finderPathWithoutPaginationFindByL_P = _createFinderPath(
+		_finderPathWithoutPaginationFindByL_P = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByL_P",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			new String[] {"layoutSetBranchId", "plid"}, true);
 
-		_finderPathCountByL_P = _createFinderPath(
+		_finderPathCountByL_P = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByL_P",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			new String[] {"layoutSetBranchId", "plid"}, false);
 
-		_finderPathWithPaginationFindByL_S = _createFinderPath(
+		_finderPathWithPaginationFindByL_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByL_S",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -8448,17 +8448,17 @@ public class LayoutRevisionPersistenceImpl
 			},
 			new String[] {"layoutSetBranchId", "status"}, true);
 
-		_finderPathWithoutPaginationFindByL_S = _createFinderPath(
+		_finderPathWithoutPaginationFindByL_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByL_S",
 			new String[] {Long.class.getName(), Integer.class.getName()},
 			new String[] {"layoutSetBranchId", "status"}, true);
 
-		_finderPathCountByL_S = _createFinderPath(
+		_finderPathCountByL_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByL_S",
 			new String[] {Long.class.getName(), Integer.class.getName()},
 			new String[] {"layoutSetBranchId", "status"}, false);
 
-		_finderPathWithPaginationFindByH_P = _createFinderPath(
+		_finderPathWithPaginationFindByH_P = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByH_P",
 			new String[] {
 				Boolean.class.getName(), Long.class.getName(),
@@ -8467,17 +8467,17 @@ public class LayoutRevisionPersistenceImpl
 			},
 			new String[] {"head", "plid"}, true);
 
-		_finderPathWithoutPaginationFindByH_P = _createFinderPath(
+		_finderPathWithoutPaginationFindByH_P = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByH_P",
 			new String[] {Boolean.class.getName(), Long.class.getName()},
 			new String[] {"head", "plid"}, true);
 
-		_finderPathCountByH_P = _createFinderPath(
+		_finderPathCountByH_P = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByH_P",
 			new String[] {Boolean.class.getName(), Long.class.getName()},
 			new String[] {"head", "plid"}, false);
 
-		_finderPathWithPaginationFindByP_NotS = _createFinderPath(
+		_finderPathWithPaginationFindByP_NotS = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByP_NotS",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -8486,12 +8486,12 @@ public class LayoutRevisionPersistenceImpl
 			},
 			new String[] {"plid", "status"}, true);
 
-		_finderPathWithPaginationCountByP_NotS = _createFinderPath(
+		_finderPathWithPaginationCountByP_NotS = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByP_NotS",
 			new String[] {Long.class.getName(), Integer.class.getName()},
 			new String[] {"plid", "status"}, false);
 
-		_finderPathWithPaginationFindByL_L_P = _createFinderPath(
+		_finderPathWithPaginationFindByL_L_P = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByL_L_P",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -8500,14 +8500,14 @@ public class LayoutRevisionPersistenceImpl
 			},
 			new String[] {"layoutSetBranchId", "layoutBranchId", "plid"}, true);
 
-		_finderPathWithoutPaginationFindByL_L_P = _createFinderPath(
+		_finderPathWithoutPaginationFindByL_L_P = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByL_L_P",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			},
 			new String[] {"layoutSetBranchId", "layoutBranchId", "plid"}, true);
 
-		_finderPathCountByL_L_P = _createFinderPath(
+		_finderPathCountByL_L_P = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByL_L_P",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
@@ -8515,7 +8515,7 @@ public class LayoutRevisionPersistenceImpl
 			new String[] {"layoutSetBranchId", "layoutBranchId", "plid"},
 			false);
 
-		_finderPathWithPaginationFindByL_P_P = _createFinderPath(
+		_finderPathWithPaginationFindByL_P_P = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByL_P_P",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -8527,7 +8527,7 @@ public class LayoutRevisionPersistenceImpl
 			},
 			true);
 
-		_finderPathWithoutPaginationFindByL_P_P = _createFinderPath(
+		_finderPathWithoutPaginationFindByL_P_P = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByL_P_P",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
@@ -8537,7 +8537,7 @@ public class LayoutRevisionPersistenceImpl
 			},
 			true);
 
-		_finderPathCountByL_P_P = _createFinderPath(
+		_finderPathCountByL_P_P = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByL_P_P",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
@@ -8547,7 +8547,7 @@ public class LayoutRevisionPersistenceImpl
 			},
 			false);
 
-		_finderPathFetchByL_H_P = _createFinderPath(
+		_finderPathFetchByL_H_P = new FinderPath(
 			FINDER_CLASS_NAME_ENTITY, "fetchByL_H_P",
 			new String[] {
 				Long.class.getName(), Boolean.class.getName(),
@@ -8555,7 +8555,7 @@ public class LayoutRevisionPersistenceImpl
 			},
 			new String[] {"layoutSetBranchId", "head", "plid"}, true);
 
-		_finderPathCountByL_H_P = _createFinderPath(
+		_finderPathCountByL_H_P = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByL_H_P",
 			new String[] {
 				Long.class.getName(), Boolean.class.getName(),
@@ -8563,7 +8563,7 @@ public class LayoutRevisionPersistenceImpl
 			},
 			new String[] {"layoutSetBranchId", "head", "plid"}, false);
 
-		_finderPathWithPaginationFindByL_H_P_Collection = _createFinderPath(
+		_finderPathWithPaginationFindByL_H_P_Collection = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByL_H_P_Collection",
 			new String[] {
 				Long.class.getName(), Boolean.class.getName(),
@@ -8572,7 +8572,7 @@ public class LayoutRevisionPersistenceImpl
 			},
 			new String[] {"layoutSetBranchId", "head", "plid"}, true);
 
-		_finderPathWithoutPaginationFindByL_H_P_Collection = _createFinderPath(
+		_finderPathWithoutPaginationFindByL_H_P_Collection = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByL_H_P_Collection",
 			new String[] {
 				Long.class.getName(), Boolean.class.getName(),
@@ -8580,7 +8580,7 @@ public class LayoutRevisionPersistenceImpl
 			},
 			new String[] {"layoutSetBranchId", "head", "plid"}, true);
 
-		_finderPathCountByL_H_P_Collection = _createFinderPath(
+		_finderPathCountByL_H_P_Collection = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByL_H_P_Collection",
 			new String[] {
@@ -8589,7 +8589,7 @@ public class LayoutRevisionPersistenceImpl
 			},
 			new String[] {"layoutSetBranchId", "head", "plid"}, false);
 
-		_finderPathWithPaginationFindByL_H_S = _createFinderPath(
+		_finderPathWithPaginationFindByL_H_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByL_H_S",
 			new String[] {
 				Long.class.getName(), Boolean.class.getName(),
@@ -8598,7 +8598,7 @@ public class LayoutRevisionPersistenceImpl
 			},
 			new String[] {"layoutSetBranchId", "head", "status"}, true);
 
-		_finderPathWithoutPaginationFindByL_H_S = _createFinderPath(
+		_finderPathWithoutPaginationFindByL_H_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByL_H_S",
 			new String[] {
 				Long.class.getName(), Boolean.class.getName(),
@@ -8606,7 +8606,7 @@ public class LayoutRevisionPersistenceImpl
 			},
 			new String[] {"layoutSetBranchId", "head", "status"}, true);
 
-		_finderPathCountByL_H_S = _createFinderPath(
+		_finderPathCountByL_H_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByL_H_S",
 			new String[] {
 				Long.class.getName(), Boolean.class.getName(),
@@ -8614,7 +8614,7 @@ public class LayoutRevisionPersistenceImpl
 			},
 			new String[] {"layoutSetBranchId", "head", "status"}, false);
 
-		_finderPathWithPaginationFindByL_P_S = _createFinderPath(
+		_finderPathWithPaginationFindByL_P_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByL_P_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -8623,7 +8623,7 @@ public class LayoutRevisionPersistenceImpl
 			},
 			new String[] {"layoutSetBranchId", "plid", "status"}, true);
 
-		_finderPathWithoutPaginationFindByL_P_S = _createFinderPath(
+		_finderPathWithoutPaginationFindByL_P_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByL_P_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -8631,7 +8631,7 @@ public class LayoutRevisionPersistenceImpl
 			},
 			new String[] {"layoutSetBranchId", "plid", "status"}, true);
 
-		_finderPathCountByL_P_S = _createFinderPath(
+		_finderPathCountByL_P_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByL_P_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -8639,7 +8639,7 @@ public class LayoutRevisionPersistenceImpl
 			},
 			new String[] {"layoutSetBranchId", "plid", "status"}, false);
 
-		_finderPathFetchByL_L_H_P = _createFinderPath(
+		_finderPathFetchByL_L_H_P = new FinderPath(
 			FINDER_CLASS_NAME_ENTITY, "fetchByL_L_H_P",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -8650,7 +8650,7 @@ public class LayoutRevisionPersistenceImpl
 			},
 			true);
 
-		_finderPathCountByL_L_H_P = _createFinderPath(
+		_finderPathCountByL_L_H_P = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByL_L_H_P",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -8666,12 +8666,6 @@ public class LayoutRevisionPersistenceImpl
 		EntityCacheUtil.removeCache(LayoutRevisionImpl.class.getName());
 
 		_argumentsResolverServiceRegistration.unregister();
-
-		for (ServiceRegistration<FinderPath> serviceRegistration :
-				_serviceRegistrations) {
-
-			serviceRegistration.unregister();
-		}
 	}
 
 	private static final String _SQL_SELECT_LAYOUTREVISION =
@@ -8697,31 +8691,13 @@ public class LayoutRevisionPersistenceImpl
 	private static final Log _log = LogFactoryUtil.getLog(
 		LayoutRevisionPersistenceImpl.class);
 
-	private FinderPath _createFinderPath(
-		String cacheName, String methodName, String[] params,
-		String[] columnNames, boolean baseModelResult) {
-
-		FinderPath finderPath = new FinderPath(
-			cacheName, methodName, params, columnNames, baseModelResult);
-
-		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
-			Registry registry = RegistryUtil.getRegistry();
-
-			_serviceRegistrations.add(
-				registry.registerService(
-					FinderPath.class, finderPath,
-					HashMapBuilder.<String, Object>put(
-						"cache.name", cacheName
-					).build()));
-		}
-
-		return finderPath;
+	@Override
+	protected FinderCache getFinderCache() {
+		return FinderCacheUtil.getFinderCache();
 	}
 
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
-	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
-		new HashSet<>();
 
 	private static class LayoutRevisionModelArgumentsResolver
 		implements ArgumentsResolver {
@@ -8774,6 +8750,16 @@ public class LayoutRevisionPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			LayoutRevisionModelImpl layoutRevisionModelImpl,
 			String[] columnNames, boolean original) {
@@ -8799,6 +8785,10 @@ public class LayoutRevisionPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = LayoutRevisionImpl.class.getName();
+		private final String _tableName =
+			LayoutRevisionTable.INSTANCE.getTableName();
 
 	}
 

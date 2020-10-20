@@ -3306,19 +3306,19 @@ public class CTSContentPersistenceImpl
 			MapUtil.singletonDictionary(
 				"model.class.name", CTSContent.class.getName()));
 
-		_finderPathWithPaginationFindAll = _createFinderPath(
+		_finderPathWithPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathWithoutPaginationFindAll = _createFinderPath(
+		_finderPathWithoutPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathCountAll = _createFinderPath(
+		_finderPathCountAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0], new String[0], false);
 
-		_finderPathWithPaginationFindByC_R_S = _createFinderPath(
+		_finderPathWithPaginationFindByC_R_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_R_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -3327,7 +3327,7 @@ public class CTSContentPersistenceImpl
 			},
 			new String[] {"companyId", "repositoryId", "storeType"}, true);
 
-		_finderPathWithoutPaginationFindByC_R_S = _createFinderPath(
+		_finderPathWithoutPaginationFindByC_R_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_R_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -3335,7 +3335,7 @@ public class CTSContentPersistenceImpl
 			},
 			new String[] {"companyId", "repositoryId", "storeType"}, true);
 
-		_finderPathCountByC_R_S = _createFinderPath(
+		_finderPathCountByC_R_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_R_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -3343,7 +3343,7 @@ public class CTSContentPersistenceImpl
 			},
 			new String[] {"companyId", "repositoryId", "storeType"}, false);
 
-		_finderPathWithPaginationFindByC_R_P_S = _createFinderPath(
+		_finderPathWithPaginationFindByC_R_P_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_R_P_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -3354,7 +3354,7 @@ public class CTSContentPersistenceImpl
 			new String[] {"companyId", "repositoryId", "path_", "storeType"},
 			true);
 
-		_finderPathWithoutPaginationFindByC_R_P_S = _createFinderPath(
+		_finderPathWithoutPaginationFindByC_R_P_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_R_P_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -3363,7 +3363,7 @@ public class CTSContentPersistenceImpl
 			new String[] {"companyId", "repositoryId", "path_", "storeType"},
 			true);
 
-		_finderPathCountByC_R_P_S = _createFinderPath(
+		_finderPathCountByC_R_P_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_R_P_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -3372,7 +3372,7 @@ public class CTSContentPersistenceImpl
 			new String[] {"companyId", "repositoryId", "path_", "storeType"},
 			false);
 
-		_finderPathWithPaginationFindByC_R_LikeP_S = _createFinderPath(
+		_finderPathWithPaginationFindByC_R_LikeP_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_R_LikeP_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -3383,7 +3383,7 @@ public class CTSContentPersistenceImpl
 			new String[] {"companyId", "repositoryId", "path_", "storeType"},
 			true);
 
-		_finderPathWithPaginationCountByC_R_LikeP_S = _createFinderPath(
+		_finderPathWithPaginationCountByC_R_LikeP_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByC_R_LikeP_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -3392,7 +3392,7 @@ public class CTSContentPersistenceImpl
 			new String[] {"companyId", "repositoryId", "path_", "storeType"},
 			false);
 
-		_finderPathFetchByC_R_P_V_S = _createFinderPath(
+		_finderPathFetchByC_R_P_V_S = new FinderPath(
 			FINDER_CLASS_NAME_ENTITY, "fetchByC_R_P_V_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -3404,7 +3404,7 @@ public class CTSContentPersistenceImpl
 			},
 			true);
 
-		_finderPathCountByC_R_P_V_S = _createFinderPath(
+		_finderPathCountByC_R_P_V_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_R_P_V_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -3422,12 +3422,6 @@ public class CTSContentPersistenceImpl
 		entityCache.removeCache(CTSContentImpl.class.getName());
 
 		_argumentsResolverServiceRegistration.unregister();
-
-		for (ServiceRegistration<FinderPath> serviceRegistration :
-				_serviceRegistrations) {
-
-			serviceRegistration.unregister();
-		}
 	}
 
 	@Override
@@ -3502,27 +3496,13 @@ public class CTSContentPersistenceImpl
 		}
 	}
 
-	private FinderPath _createFinderPath(
-		String cacheName, String methodName, String[] params,
-		String[] columnNames, boolean baseModelResult) {
-
-		FinderPath finderPath = new FinderPath(
-			cacheName, methodName, params, columnNames, baseModelResult);
-
-		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
-			_serviceRegistrations.add(
-				_bundleContext.registerService(
-					FinderPath.class, finderPath,
-					MapUtil.singletonDictionary("cache.name", cacheName)));
-		}
-
-		return finderPath;
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
 	}
 
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
-	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
-		new HashSet<>();
 
 	private static class CTSContentModelArgumentsResolver
 		implements ArgumentsResolver {
@@ -3573,6 +3553,16 @@ public class CTSContentPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			CTSContentModelImpl ctsContentModelImpl, String[] columnNames,
 			boolean original) {
@@ -3597,6 +3587,10 @@ public class CTSContentPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = CTSContentImpl.class.getName();
+		private final String _tableName =
+			CTSContentTable.INSTANCE.getTableName();
 
 	}
 

@@ -22,6 +22,7 @@ import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.ArgumentsResolver;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
+import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
 import com.liferay.portal.kernel.dao.orm.Query;
@@ -46,7 +47,6 @@ import java.io.Serializable;
 
 import java.lang.reflect.InvocationHandler;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -1380,7 +1380,7 @@ public class AnnouncementsFlagPersistenceImpl
 	 * Clears the cache for all announcements flags.
 	 *
 	 * <p>
-	 * The <code>EntityCache</code> and <code>com.liferay.portal.kernel.dao.orm.FinderCache</code> are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
@@ -1394,7 +1394,7 @@ public class AnnouncementsFlagPersistenceImpl
 	 * Clears the cache for the announcements flag.
 	 *
 	 * <p>
-	 * The <code>EntityCache</code> and <code>com.liferay.portal.kernel.dao.orm.FinderCache</code> are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
@@ -1864,19 +1864,19 @@ public class AnnouncementsFlagPersistenceImpl
 				"model.class.name", AnnouncementsFlag.class.getName()
 			).build());
 
-		_finderPathWithPaginationFindAll = _createFinderPath(
+		_finderPathWithPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathWithoutPaginationFindAll = _createFinderPath(
+		_finderPathWithoutPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathCountAll = _createFinderPath(
+		_finderPathCountAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0], new String[0], false);
 
-		_finderPathWithPaginationFindByCompanyId = _createFinderPath(
+		_finderPathWithPaginationFindByCompanyId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCompanyId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -1884,17 +1884,17 @@ public class AnnouncementsFlagPersistenceImpl
 			},
 			new String[] {"companyId"}, true);
 
-		_finderPathWithoutPaginationFindByCompanyId = _createFinderPath(
+		_finderPathWithoutPaginationFindByCompanyId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCompanyId",
 			new String[] {Long.class.getName()}, new String[] {"companyId"},
 			true);
 
-		_finderPathCountByCompanyId = _createFinderPath(
+		_finderPathCountByCompanyId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCompanyId",
 			new String[] {Long.class.getName()}, new String[] {"companyId"},
 			false);
 
-		_finderPathWithPaginationFindByEntryId = _createFinderPath(
+		_finderPathWithPaginationFindByEntryId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByEntryId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -1902,17 +1902,17 @@ public class AnnouncementsFlagPersistenceImpl
 			},
 			new String[] {"entryId"}, true);
 
-		_finderPathWithoutPaginationFindByEntryId = _createFinderPath(
+		_finderPathWithoutPaginationFindByEntryId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByEntryId",
 			new String[] {Long.class.getName()}, new String[] {"entryId"},
 			true);
 
-		_finderPathCountByEntryId = _createFinderPath(
+		_finderPathCountByEntryId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByEntryId",
 			new String[] {Long.class.getName()}, new String[] {"entryId"},
 			false);
 
-		_finderPathFetchByU_E_V = _createFinderPath(
+		_finderPathFetchByU_E_V = new FinderPath(
 			FINDER_CLASS_NAME_ENTITY, "fetchByU_E_V",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -1920,7 +1920,7 @@ public class AnnouncementsFlagPersistenceImpl
 			},
 			new String[] {"userId", "entryId", "value"}, true);
 
-		_finderPathCountByU_E_V = _createFinderPath(
+		_finderPathCountByU_E_V = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_E_V",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -1933,12 +1933,6 @@ public class AnnouncementsFlagPersistenceImpl
 		EntityCacheUtil.removeCache(AnnouncementsFlagImpl.class.getName());
 
 		_argumentsResolverServiceRegistration.unregister();
-
-		for (ServiceRegistration<FinderPath> serviceRegistration :
-				_serviceRegistrations) {
-
-			serviceRegistration.unregister();
-		}
 	}
 
 	private static final String _SQL_SELECT_ANNOUNCEMENTSFLAG =
@@ -1964,31 +1958,13 @@ public class AnnouncementsFlagPersistenceImpl
 	private static final Log _log = LogFactoryUtil.getLog(
 		AnnouncementsFlagPersistenceImpl.class);
 
-	private FinderPath _createFinderPath(
-		String cacheName, String methodName, String[] params,
-		String[] columnNames, boolean baseModelResult) {
-
-		FinderPath finderPath = new FinderPath(
-			cacheName, methodName, params, columnNames, baseModelResult);
-
-		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
-			Registry registry = RegistryUtil.getRegistry();
-
-			_serviceRegistrations.add(
-				registry.registerService(
-					FinderPath.class, finderPath,
-					HashMapBuilder.<String, Object>put(
-						"cache.name", cacheName
-					).build()));
-		}
-
-		return finderPath;
+	@Override
+	protected FinderCache getFinderCache() {
+		return FinderCacheUtil.getFinderCache();
 	}
 
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
-	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
-		new HashSet<>();
 
 	private static class AnnouncementsFlagModelArgumentsResolver
 		implements ArgumentsResolver {
@@ -2041,6 +2017,16 @@ public class AnnouncementsFlagPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			AnnouncementsFlagModelImpl announcementsFlagModelImpl,
 			String[] columnNames, boolean original) {
@@ -2066,6 +2052,10 @@ public class AnnouncementsFlagPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = AnnouncementsFlagImpl.class.getName();
+		private final String _tableName =
+			AnnouncementsFlagTable.INSTANCE.getTableName();
 
 	}
 

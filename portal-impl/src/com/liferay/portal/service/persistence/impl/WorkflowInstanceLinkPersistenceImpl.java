@@ -19,6 +19,7 @@ import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.dao.orm.ArgumentsResolver;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
+import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
 import com.liferay.portal.kernel.dao.orm.Query;
@@ -1385,7 +1386,7 @@ public class WorkflowInstanceLinkPersistenceImpl
 	 * Clears the cache for all workflow instance links.
 	 *
 	 * <p>
-	 * The <code>EntityCache</code> and <code>com.liferay.portal.kernel.dao.orm.FinderCache</code> are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
@@ -1399,7 +1400,7 @@ public class WorkflowInstanceLinkPersistenceImpl
 	 * Clears the cache for the workflow instance link.
 	 *
 	 * <p>
-	 * The <code>EntityCache</code> and <code>com.liferay.portal.kernel.dao.orm.FinderCache</code> are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
@@ -2092,19 +2093,19 @@ public class WorkflowInstanceLinkPersistenceImpl
 				"model.class.name", WorkflowInstanceLink.class.getName()
 			).build());
 
-		_finderPathWithPaginationFindAll = _createFinderPath(
+		_finderPathWithPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathWithoutPaginationFindAll = _createFinderPath(
+		_finderPathWithoutPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathCountAll = _createFinderPath(
+		_finderPathCountAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0], new String[0], false);
 
-		_finderPathWithPaginationFindByG_C_C = _createFinderPath(
+		_finderPathWithPaginationFindByG_C_C = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_C_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -2113,21 +2114,21 @@ public class WorkflowInstanceLinkPersistenceImpl
 			},
 			new String[] {"groupId", "companyId", "classNameId"}, true);
 
-		_finderPathWithoutPaginationFindByG_C_C = _createFinderPath(
+		_finderPathWithoutPaginationFindByG_C_C = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_C_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			},
 			new String[] {"groupId", "companyId", "classNameId"}, true);
 
-		_finderPathCountByG_C_C = _createFinderPath(
+		_finderPathCountByG_C_C = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_C_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			},
 			new String[] {"groupId", "companyId", "classNameId"}, false);
 
-		_finderPathWithPaginationFindByG_C_C_C = _createFinderPath(
+		_finderPathWithPaginationFindByG_C_C_C = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_C_C_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -2138,7 +2139,7 @@ public class WorkflowInstanceLinkPersistenceImpl
 			new String[] {"groupId", "companyId", "classNameId", "classPK"},
 			true);
 
-		_finderPathWithoutPaginationFindByG_C_C_C = _createFinderPath(
+		_finderPathWithoutPaginationFindByG_C_C_C = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_C_C_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -2147,7 +2148,7 @@ public class WorkflowInstanceLinkPersistenceImpl
 			new String[] {"groupId", "companyId", "classNameId", "classPK"},
 			true);
 
-		_finderPathCountByG_C_C_C = _createFinderPath(
+		_finderPathCountByG_C_C_C = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_C_C_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -2161,12 +2162,6 @@ public class WorkflowInstanceLinkPersistenceImpl
 		EntityCacheUtil.removeCache(WorkflowInstanceLinkImpl.class.getName());
 
 		_argumentsResolverServiceRegistration.unregister();
-
-		for (ServiceRegistration<FinderPath> serviceRegistration :
-				_serviceRegistrations) {
-
-			serviceRegistration.unregister();
-		}
 	}
 
 	private static final String _SQL_SELECT_WORKFLOWINSTANCELINK =
@@ -2193,31 +2188,13 @@ public class WorkflowInstanceLinkPersistenceImpl
 	private static final Log _log = LogFactoryUtil.getLog(
 		WorkflowInstanceLinkPersistenceImpl.class);
 
-	private FinderPath _createFinderPath(
-		String cacheName, String methodName, String[] params,
-		String[] columnNames, boolean baseModelResult) {
-
-		FinderPath finderPath = new FinderPath(
-			cacheName, methodName, params, columnNames, baseModelResult);
-
-		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
-			Registry registry = RegistryUtil.getRegistry();
-
-			_serviceRegistrations.add(
-				registry.registerService(
-					FinderPath.class, finderPath,
-					HashMapBuilder.<String, Object>put(
-						"cache.name", cacheName
-					).build()));
-		}
-
-		return finderPath;
+	@Override
+	protected FinderCache getFinderCache() {
+		return FinderCacheUtil.getFinderCache();
 	}
 
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
-	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
-		new HashSet<>();
 
 	private static class WorkflowInstanceLinkModelArgumentsResolver
 		implements ArgumentsResolver {
@@ -2272,6 +2249,16 @@ public class WorkflowInstanceLinkPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			WorkflowInstanceLinkModelImpl workflowInstanceLinkModelImpl,
 			String[] columnNames, boolean original) {
@@ -2297,6 +2284,11 @@ public class WorkflowInstanceLinkPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			WorkflowInstanceLinkImpl.class.getName();
+		private final String _tableName =
+			WorkflowInstanceLinkTable.INSTANCE.getTableName();
 
 	}
 

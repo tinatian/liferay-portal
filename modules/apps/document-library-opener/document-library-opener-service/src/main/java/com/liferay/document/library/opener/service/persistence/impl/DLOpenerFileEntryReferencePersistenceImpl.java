@@ -50,7 +50,6 @@ import java.lang.reflect.InvocationHandler;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -1180,34 +1179,34 @@ public class DLOpenerFileEntryReferencePersistenceImpl
 				"model.class.name",
 				DLOpenerFileEntryReference.class.getName()));
 
-		_finderPathWithPaginationFindAll = _createFinderPath(
+		_finderPathWithPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathWithoutPaginationFindAll = _createFinderPath(
+		_finderPathWithoutPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathCountAll = _createFinderPath(
+		_finderPathCountAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0], new String[0], false);
 
-		_finderPathFetchByFileEntryId = _createFinderPath(
+		_finderPathFetchByFileEntryId = new FinderPath(
 			FINDER_CLASS_NAME_ENTITY, "fetchByFileEntryId",
 			new String[] {Long.class.getName()}, new String[] {"fileEntryId"},
 			true);
 
-		_finderPathCountByFileEntryId = _createFinderPath(
+		_finderPathCountByFileEntryId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByFileEntryId",
 			new String[] {Long.class.getName()}, new String[] {"fileEntryId"},
 			false);
 
-		_finderPathFetchByR_F = _createFinderPath(
+		_finderPathFetchByR_F = new FinderPath(
 			FINDER_CLASS_NAME_ENTITY, "fetchByR_F",
 			new String[] {String.class.getName(), Long.class.getName()},
 			new String[] {"referenceType", "fileEntryId"}, true);
 
-		_finderPathCountByR_F = _createFinderPath(
+		_finderPathCountByR_F = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByR_F",
 			new String[] {String.class.getName(), Long.class.getName()},
 			new String[] {"referenceType", "fileEntryId"}, false);
@@ -1218,12 +1217,6 @@ public class DLOpenerFileEntryReferencePersistenceImpl
 		entityCache.removeCache(DLOpenerFileEntryReferenceImpl.class.getName());
 
 		_argumentsResolverServiceRegistration.unregister();
-
-		for (ServiceRegistration<FinderPath> serviceRegistration :
-				_serviceRegistrations) {
-
-			serviceRegistration.unregister();
-		}
 	}
 
 	@Override
@@ -1296,27 +1289,13 @@ public class DLOpenerFileEntryReferencePersistenceImpl
 		}
 	}
 
-	private FinderPath _createFinderPath(
-		String cacheName, String methodName, String[] params,
-		String[] columnNames, boolean baseModelResult) {
-
-		FinderPath finderPath = new FinderPath(
-			cacheName, methodName, params, columnNames, baseModelResult);
-
-		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
-			_serviceRegistrations.add(
-				_bundleContext.registerService(
-					FinderPath.class, finderPath,
-					MapUtil.singletonDictionary("cache.name", cacheName)));
-		}
-
-		return finderPath;
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
 	}
 
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
-	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
-		new HashSet<>();
 
 	private static class DLOpenerFileEntryReferenceModelArgumentsResolver
 		implements ArgumentsResolver {
@@ -1372,6 +1351,16 @@ public class DLOpenerFileEntryReferencePersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			DLOpenerFileEntryReferenceModelImpl
 				dlOpenerFileEntryReferenceModelImpl,
@@ -1399,6 +1388,11 @@ public class DLOpenerFileEntryReferencePersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			DLOpenerFileEntryReferenceImpl.class.getName();
+		private final String _tableName =
+			DLOpenerFileEntryReferenceTable.INSTANCE.getTableName();
 
 	}
 

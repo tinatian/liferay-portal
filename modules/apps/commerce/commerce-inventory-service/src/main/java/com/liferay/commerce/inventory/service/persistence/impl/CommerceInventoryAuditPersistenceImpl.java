@@ -50,7 +50,6 @@ import java.sql.Timestamp;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -1778,19 +1777,19 @@ public class CommerceInventoryAuditPersistenceImpl
 			MapUtil.singletonDictionary(
 				"model.class.name", CommerceInventoryAudit.class.getName()));
 
-		_finderPathWithPaginationFindAll = _createFinderPath(
+		_finderPathWithPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathWithoutPaginationFindAll = _createFinderPath(
+		_finderPathWithoutPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathCountAll = _createFinderPath(
+		_finderPathCountAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0], new String[0], false);
 
-		_finderPathWithPaginationFindByLtCreateDate = _createFinderPath(
+		_finderPathWithPaginationFindByLtCreateDate = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByLtCreateDate",
 			new String[] {
 				Date.class.getName(), Integer.class.getName(),
@@ -1798,12 +1797,12 @@ public class CommerceInventoryAuditPersistenceImpl
 			},
 			new String[] {"createDate"}, true);
 
-		_finderPathWithPaginationCountByLtCreateDate = _createFinderPath(
+		_finderPathWithPaginationCountByLtCreateDate = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByLtCreateDate",
 			new String[] {Date.class.getName()}, new String[] {"createDate"},
 			false);
 
-		_finderPathWithPaginationFindByC_S = _createFinderPath(
+		_finderPathWithPaginationFindByC_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_S",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
@@ -1812,12 +1811,12 @@ public class CommerceInventoryAuditPersistenceImpl
 			},
 			new String[] {"companyId", "sku"}, true);
 
-		_finderPathWithoutPaginationFindByC_S = _createFinderPath(
+		_finderPathWithoutPaginationFindByC_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_S",
 			new String[] {Long.class.getName(), String.class.getName()},
 			new String[] {"companyId", "sku"}, true);
 
-		_finderPathCountByC_S = _createFinderPath(
+		_finderPathCountByC_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_S",
 			new String[] {Long.class.getName(), String.class.getName()},
 			new String[] {"companyId", "sku"}, false);
@@ -1827,12 +1826,6 @@ public class CommerceInventoryAuditPersistenceImpl
 		entityCache.removeCache(CommerceInventoryAuditImpl.class.getName());
 
 		_argumentsResolverServiceRegistration.unregister();
-
-		for (ServiceRegistration<FinderPath> serviceRegistration :
-				_serviceRegistrations) {
-
-			serviceRegistration.unregister();
-		}
 	}
 
 	private BundleContext _bundleContext;
@@ -1878,27 +1871,13 @@ public class CommerceInventoryAuditPersistenceImpl
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"commerceInventoryAuditId"});
 
-	private FinderPath _createFinderPath(
-		String cacheName, String methodName, String[] params,
-		String[] columnNames, boolean baseModelResult) {
-
-		FinderPath finderPath = new FinderPath(
-			cacheName, methodName, params, columnNames, baseModelResult);
-
-		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
-			_serviceRegistrations.add(
-				_bundleContext.registerService(
-					FinderPath.class, finderPath,
-					MapUtil.singletonDictionary("cache.name", cacheName)));
-		}
-
-		return finderPath;
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
 	}
 
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
-	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
-		new HashSet<>();
 
 	private static class CommerceInventoryAuditModelArgumentsResolver
 		implements ArgumentsResolver {
@@ -1953,6 +1932,16 @@ public class CommerceInventoryAuditPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			CommerceInventoryAuditModelImpl commerceInventoryAuditModelImpl,
 			String[] columnNames, boolean original) {
@@ -1979,6 +1968,11 @@ public class CommerceInventoryAuditPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			CommerceInventoryAuditImpl.class.getName();
+		private final String _tableName =
+			CommerceInventoryAuditTable.INSTANCE.getTableName();
 
 	}
 

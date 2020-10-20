@@ -2170,19 +2170,19 @@ public class DDMStructureLinkPersistenceImpl
 			MapUtil.singletonDictionary(
 				"model.class.name", DDMStructureLink.class.getName()));
 
-		_finderPathWithPaginationFindAll = _createFinderPath(
+		_finderPathWithPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathWithoutPaginationFindAll = _createFinderPath(
+		_finderPathWithoutPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathCountAll = _createFinderPath(
+		_finderPathCountAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0], new String[0], false);
 
-		_finderPathWithPaginationFindByStructureId = _createFinderPath(
+		_finderPathWithPaginationFindByStructureId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByStructureId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -2190,17 +2190,17 @@ public class DDMStructureLinkPersistenceImpl
 			},
 			new String[] {"structureId"}, true);
 
-		_finderPathWithoutPaginationFindByStructureId = _createFinderPath(
+		_finderPathWithoutPaginationFindByStructureId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByStructureId",
 			new String[] {Long.class.getName()}, new String[] {"structureId"},
 			true);
 
-		_finderPathCountByStructureId = _createFinderPath(
+		_finderPathCountByStructureId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByStructureId",
 			new String[] {Long.class.getName()}, new String[] {"structureId"},
 			false);
 
-		_finderPathWithPaginationFindByC_C = _createFinderPath(
+		_finderPathWithPaginationFindByC_C = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -2209,24 +2209,24 @@ public class DDMStructureLinkPersistenceImpl
 			},
 			new String[] {"classNameId", "classPK"}, true);
 
-		_finderPathWithoutPaginationFindByC_C = _createFinderPath(
+		_finderPathWithoutPaginationFindByC_C = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_C",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			new String[] {"classNameId", "classPK"}, true);
 
-		_finderPathCountByC_C = _createFinderPath(
+		_finderPathCountByC_C = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			new String[] {"classNameId", "classPK"}, false);
 
-		_finderPathFetchByC_C_S = _createFinderPath(
+		_finderPathFetchByC_C_S = new FinderPath(
 			FINDER_CLASS_NAME_ENTITY, "fetchByC_C_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			},
 			new String[] {"classNameId", "classPK", "structureId"}, true);
 
-		_finderPathCountByC_C_S = _createFinderPath(
+		_finderPathCountByC_C_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
@@ -2239,12 +2239,6 @@ public class DDMStructureLinkPersistenceImpl
 		entityCache.removeCache(DDMStructureLinkImpl.class.getName());
 
 		_argumentsResolverServiceRegistration.unregister();
-
-		for (ServiceRegistration<FinderPath> serviceRegistration :
-				_serviceRegistrations) {
-
-			serviceRegistration.unregister();
-		}
 	}
 
 	@Override
@@ -2316,27 +2310,13 @@ public class DDMStructureLinkPersistenceImpl
 		}
 	}
 
-	private FinderPath _createFinderPath(
-		String cacheName, String methodName, String[] params,
-		String[] columnNames, boolean baseModelResult) {
-
-		FinderPath finderPath = new FinderPath(
-			cacheName, methodName, params, columnNames, baseModelResult);
-
-		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
-			_serviceRegistrations.add(
-				_bundleContext.registerService(
-					FinderPath.class, finderPath,
-					MapUtil.singletonDictionary("cache.name", cacheName)));
-		}
-
-		return finderPath;
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
 	}
 
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
-	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
-		new HashSet<>();
 
 	private static class DDMStructureLinkModelArgumentsResolver
 		implements ArgumentsResolver {
@@ -2389,6 +2369,16 @@ public class DDMStructureLinkPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			DDMStructureLinkModelImpl ddmStructureLinkModelImpl,
 			String[] columnNames, boolean original) {
@@ -2414,6 +2404,10 @@ public class DDMStructureLinkPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = DDMStructureLinkImpl.class.getName();
+		private final String _tableName =
+			DDMStructureLinkTable.INSTANCE.getTableName();
 
 	}
 

@@ -45,7 +45,6 @@ import java.io.Serializable;
 
 import java.lang.reflect.InvocationHandler;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -1428,19 +1427,19 @@ public class SharepointOAuth2TokenEntryPersistenceImpl
 				"model.class.name",
 				SharepointOAuth2TokenEntry.class.getName()));
 
-		_finderPathWithPaginationFindAll = _createFinderPath(
+		_finderPathWithPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathWithoutPaginationFindAll = _createFinderPath(
+		_finderPathWithoutPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathCountAll = _createFinderPath(
+		_finderPathCountAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0], new String[0], false);
 
-		_finderPathWithPaginationFindByUserId = _createFinderPath(
+		_finderPathWithPaginationFindByUserId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUserId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -1448,21 +1447,21 @@ public class SharepointOAuth2TokenEntryPersistenceImpl
 			},
 			new String[] {"userId"}, true);
 
-		_finderPathWithoutPaginationFindByUserId = _createFinderPath(
+		_finderPathWithoutPaginationFindByUserId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUserId",
 			new String[] {Long.class.getName()}, new String[] {"userId"}, true);
 
-		_finderPathCountByUserId = _createFinderPath(
+		_finderPathCountByUserId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUserId",
 			new String[] {Long.class.getName()}, new String[] {"userId"},
 			false);
 
-		_finderPathFetchByU_C = _createFinderPath(
+		_finderPathFetchByU_C = new FinderPath(
 			FINDER_CLASS_NAME_ENTITY, "fetchByU_C",
 			new String[] {Long.class.getName(), String.class.getName()},
 			new String[] {"userId", "configurationPid"}, true);
 
-		_finderPathCountByU_C = _createFinderPath(
+		_finderPathCountByU_C = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_C",
 			new String[] {Long.class.getName(), String.class.getName()},
 			new String[] {"userId", "configurationPid"}, false);
@@ -1473,12 +1472,6 @@ public class SharepointOAuth2TokenEntryPersistenceImpl
 		entityCache.removeCache(SharepointOAuth2TokenEntryImpl.class.getName());
 
 		_argumentsResolverServiceRegistration.unregister();
-
-		for (ServiceRegistration<FinderPath> serviceRegistration :
-				_serviceRegistrations) {
-
-			serviceRegistration.unregister();
-		}
 	}
 
 	@Override
@@ -1548,27 +1541,13 @@ public class SharepointOAuth2TokenEntryPersistenceImpl
 		}
 	}
 
-	private FinderPath _createFinderPath(
-		String cacheName, String methodName, String[] params,
-		String[] columnNames, boolean baseModelResult) {
-
-		FinderPath finderPath = new FinderPath(
-			cacheName, methodName, params, columnNames, baseModelResult);
-
-		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
-			_serviceRegistrations.add(
-				_bundleContext.registerService(
-					FinderPath.class, finderPath,
-					MapUtil.singletonDictionary("cache.name", cacheName)));
-		}
-
-		return finderPath;
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
 	}
 
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
-	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
-		new HashSet<>();
 
 	private static class SharepointOAuth2TokenEntryModelArgumentsResolver
 		implements ArgumentsResolver {
@@ -1624,6 +1603,16 @@ public class SharepointOAuth2TokenEntryPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			SharepointOAuth2TokenEntryModelImpl
 				sharepointOAuth2TokenEntryModelImpl,
@@ -1651,6 +1640,11 @@ public class SharepointOAuth2TokenEntryPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			SharepointOAuth2TokenEntryImpl.class.getName();
+		private final String _tableName =
+			SharepointOAuth2TokenEntryTable.INSTANCE.getTableName();
 
 	}
 

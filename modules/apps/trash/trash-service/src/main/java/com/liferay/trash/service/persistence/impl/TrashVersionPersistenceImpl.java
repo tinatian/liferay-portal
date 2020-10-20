@@ -2116,19 +2116,19 @@ public class TrashVersionPersistenceImpl
 			MapUtil.singletonDictionary(
 				"model.class.name", TrashVersion.class.getName()));
 
-		_finderPathWithPaginationFindAll = _createFinderPath(
+		_finderPathWithPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathWithoutPaginationFindAll = _createFinderPath(
+		_finderPathWithoutPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathCountAll = _createFinderPath(
+		_finderPathCountAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0], new String[0], false);
 
-		_finderPathWithPaginationFindByEntryId = _createFinderPath(
+		_finderPathWithPaginationFindByEntryId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByEntryId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -2136,17 +2136,17 @@ public class TrashVersionPersistenceImpl
 			},
 			new String[] {"entryId"}, true);
 
-		_finderPathWithoutPaginationFindByEntryId = _createFinderPath(
+		_finderPathWithoutPaginationFindByEntryId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByEntryId",
 			new String[] {Long.class.getName()}, new String[] {"entryId"},
 			true);
 
-		_finderPathCountByEntryId = _createFinderPath(
+		_finderPathCountByEntryId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByEntryId",
 			new String[] {Long.class.getName()}, new String[] {"entryId"},
 			false);
 
-		_finderPathWithPaginationFindByE_C = _createFinderPath(
+		_finderPathWithPaginationFindByE_C = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByE_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -2155,22 +2155,22 @@ public class TrashVersionPersistenceImpl
 			},
 			new String[] {"entryId", "classNameId"}, true);
 
-		_finderPathWithoutPaginationFindByE_C = _createFinderPath(
+		_finderPathWithoutPaginationFindByE_C = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByE_C",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			new String[] {"entryId", "classNameId"}, true);
 
-		_finderPathCountByE_C = _createFinderPath(
+		_finderPathCountByE_C = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByE_C",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			new String[] {"entryId", "classNameId"}, false);
 
-		_finderPathFetchByC_C = _createFinderPath(
+		_finderPathFetchByC_C = new FinderPath(
 			FINDER_CLASS_NAME_ENTITY, "fetchByC_C",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			new String[] {"classNameId", "classPK"}, true);
 
-		_finderPathCountByC_C = _createFinderPath(
+		_finderPathCountByC_C = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			new String[] {"classNameId", "classPK"}, false);
@@ -2181,12 +2181,6 @@ public class TrashVersionPersistenceImpl
 		entityCache.removeCache(TrashVersionImpl.class.getName());
 
 		_argumentsResolverServiceRegistration.unregister();
-
-		for (ServiceRegistration<FinderPath> serviceRegistration :
-				_serviceRegistrations) {
-
-			serviceRegistration.unregister();
-		}
 	}
 
 	@Override
@@ -2258,27 +2252,13 @@ public class TrashVersionPersistenceImpl
 		}
 	}
 
-	private FinderPath _createFinderPath(
-		String cacheName, String methodName, String[] params,
-		String[] columnNames, boolean baseModelResult) {
-
-		FinderPath finderPath = new FinderPath(
-			cacheName, methodName, params, columnNames, baseModelResult);
-
-		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
-			_serviceRegistrations.add(
-				_bundleContext.registerService(
-					FinderPath.class, finderPath,
-					MapUtil.singletonDictionary("cache.name", cacheName)));
-		}
-
-		return finderPath;
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
 	}
 
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
-	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
-		new HashSet<>();
 
 	private static class TrashVersionModelArgumentsResolver
 		implements ArgumentsResolver {
@@ -2329,6 +2309,16 @@ public class TrashVersionPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			TrashVersionModelImpl trashVersionModelImpl, String[] columnNames,
 			boolean original) {
@@ -2353,6 +2343,10 @@ public class TrashVersionPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = TrashVersionImpl.class.getName();
+		private final String _tableName =
+			TrashVersionTable.INSTANCE.getTableName();
 
 	}
 

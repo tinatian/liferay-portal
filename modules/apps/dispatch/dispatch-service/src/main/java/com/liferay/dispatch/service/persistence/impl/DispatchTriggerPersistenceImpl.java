@@ -52,7 +52,6 @@ import java.lang.reflect.InvocationHandler;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -3763,19 +3762,19 @@ public class DispatchTriggerPersistenceImpl
 			MapUtil.singletonDictionary(
 				"model.class.name", DispatchTrigger.class.getName()));
 
-		_finderPathWithPaginationFindAll = _createFinderPath(
+		_finderPathWithPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathWithoutPaginationFindAll = _createFinderPath(
+		_finderPathWithoutPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathCountAll = _createFinderPath(
+		_finderPathCountAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0], new String[0], false);
 
-		_finderPathWithPaginationFindByCompanyId = _createFinderPath(
+		_finderPathWithPaginationFindByCompanyId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCompanyId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -3783,17 +3782,17 @@ public class DispatchTriggerPersistenceImpl
 			},
 			new String[] {"companyId"}, true);
 
-		_finderPathWithoutPaginationFindByCompanyId = _createFinderPath(
+		_finderPathWithoutPaginationFindByCompanyId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCompanyId",
 			new String[] {Long.class.getName()}, new String[] {"companyId"},
 			true);
 
-		_finderPathCountByCompanyId = _createFinderPath(
+		_finderPathCountByCompanyId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCompanyId",
 			new String[] {Long.class.getName()}, new String[] {"companyId"},
 			false);
 
-		_finderPathWithPaginationFindByC_U = _createFinderPath(
+		_finderPathWithPaginationFindByC_U = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_U",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -3802,27 +3801,27 @@ public class DispatchTriggerPersistenceImpl
 			},
 			new String[] {"companyId", "userId"}, true);
 
-		_finderPathWithoutPaginationFindByC_U = _createFinderPath(
+		_finderPathWithoutPaginationFindByC_U = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_U",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			new String[] {"companyId", "userId"}, true);
 
-		_finderPathCountByC_U = _createFinderPath(
+		_finderPathCountByC_U = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_U",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			new String[] {"companyId", "userId"}, false);
 
-		_finderPathFetchByC_N = _createFinderPath(
+		_finderPathFetchByC_N = new FinderPath(
 			FINDER_CLASS_NAME_ENTITY, "fetchByC_N",
 			new String[] {Long.class.getName(), String.class.getName()},
 			new String[] {"companyId", "name"}, true);
 
-		_finderPathCountByC_N = _createFinderPath(
+		_finderPathCountByC_N = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_N",
 			new String[] {Long.class.getName(), String.class.getName()},
 			new String[] {"companyId", "name"}, false);
 
-		_finderPathWithPaginationFindByC_TET = _createFinderPath(
+		_finderPathWithPaginationFindByC_TET = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_TET",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
@@ -3831,12 +3830,12 @@ public class DispatchTriggerPersistenceImpl
 			},
 			new String[] {"companyId", "taskExecutorType"}, true);
 
-		_finderPathWithoutPaginationFindByC_TET = _createFinderPath(
+		_finderPathWithoutPaginationFindByC_TET = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_TET",
 			new String[] {Long.class.getName(), String.class.getName()},
 			new String[] {"companyId", "taskExecutorType"}, true);
 
-		_finderPathCountByC_TET = _createFinderPath(
+		_finderPathCountByC_TET = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_TET",
 			new String[] {Long.class.getName(), String.class.getName()},
 			new String[] {"companyId", "taskExecutorType"}, false);
@@ -3847,12 +3846,6 @@ public class DispatchTriggerPersistenceImpl
 		entityCache.removeCache(DispatchTriggerImpl.class.getName());
 
 		_argumentsResolverServiceRegistration.unregister();
-
-		for (ServiceRegistration<FinderPath> serviceRegistration :
-				_serviceRegistrations) {
-
-			serviceRegistration.unregister();
-		}
 	}
 
 	@Override
@@ -3947,27 +3940,13 @@ public class DispatchTriggerPersistenceImpl
 		}
 	}
 
-	private FinderPath _createFinderPath(
-		String cacheName, String methodName, String[] params,
-		String[] columnNames, boolean baseModelResult) {
-
-		FinderPath finderPath = new FinderPath(
-			cacheName, methodName, params, columnNames, baseModelResult);
-
-		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
-			_serviceRegistrations.add(
-				_bundleContext.registerService(
-					FinderPath.class, finderPath,
-					MapUtil.singletonDictionary("cache.name", cacheName)));
-		}
-
-		return finderPath;
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
 	}
 
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
-	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
-		new HashSet<>();
 
 	private static class DispatchTriggerModelArgumentsResolver
 		implements ArgumentsResolver {
@@ -4020,6 +3999,16 @@ public class DispatchTriggerPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			DispatchTriggerModelImpl dispatchTriggerModelImpl,
 			String[] columnNames, boolean original) {
@@ -4045,6 +4034,10 @@ public class DispatchTriggerPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = DispatchTriggerImpl.class.getName();
+		private final String _tableName =
+			DispatchTriggerTable.INSTANCE.getTableName();
 
 	}
 

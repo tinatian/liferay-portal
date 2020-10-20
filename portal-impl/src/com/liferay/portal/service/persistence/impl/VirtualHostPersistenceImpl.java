@@ -19,6 +19,7 @@ import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.dao.orm.ArgumentsResolver;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
+import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
 import com.liferay.portal.kernel.dao.orm.Query;
@@ -1235,7 +1236,7 @@ public class VirtualHostPersistenceImpl
 	 * Clears the cache for all virtual hosts.
 	 *
 	 * <p>
-	 * The <code>EntityCache</code> and <code>com.liferay.portal.kernel.dao.orm.FinderCache</code> are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
@@ -1249,7 +1250,7 @@ public class VirtualHostPersistenceImpl
 	 * Clears the cache for the virtual host.
 	 *
 	 * <p>
-	 * The <code>EntityCache</code> and <code>com.liferay.portal.kernel.dao.orm.FinderCache</code> are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
@@ -1908,29 +1909,29 @@ public class VirtualHostPersistenceImpl
 				"model.class.name", VirtualHost.class.getName()
 			).build());
 
-		_finderPathWithPaginationFindAll = _createFinderPath(
+		_finderPathWithPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathWithoutPaginationFindAll = _createFinderPath(
+		_finderPathWithoutPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathCountAll = _createFinderPath(
+		_finderPathCountAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0], new String[0], false);
 
-		_finderPathFetchByHostname = _createFinderPath(
+		_finderPathFetchByHostname = new FinderPath(
 			FINDER_CLASS_NAME_ENTITY, "fetchByHostname",
 			new String[] {String.class.getName()}, new String[] {"hostname"},
 			true);
 
-		_finderPathCountByHostname = _createFinderPath(
+		_finderPathCountByHostname = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByHostname",
 			new String[] {String.class.getName()}, new String[] {"hostname"},
 			false);
 
-		_finderPathWithPaginationFindByC_L = _createFinderPath(
+		_finderPathWithPaginationFindByC_L = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_L",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -1939,17 +1940,17 @@ public class VirtualHostPersistenceImpl
 			},
 			new String[] {"companyId", "layoutSetId"}, true);
 
-		_finderPathWithoutPaginationFindByC_L = _createFinderPath(
+		_finderPathWithoutPaginationFindByC_L = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_L",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			new String[] {"companyId", "layoutSetId"}, true);
 
-		_finderPathCountByC_L = _createFinderPath(
+		_finderPathCountByC_L = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_L",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			new String[] {"companyId", "layoutSetId"}, false);
 
-		_finderPathFetchByC_L_D = _createFinderPath(
+		_finderPathFetchByC_L_D = new FinderPath(
 			FINDER_CLASS_NAME_ENTITY, "fetchByC_L_D",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -1958,7 +1959,7 @@ public class VirtualHostPersistenceImpl
 			new String[] {"companyId", "layoutSetId", "defaultVirtualHost"},
 			true);
 
-		_finderPathCountByC_L_D = _createFinderPath(
+		_finderPathCountByC_L_D = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_L_D",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -1972,12 +1973,6 @@ public class VirtualHostPersistenceImpl
 		EntityCacheUtil.removeCache(VirtualHostImpl.class.getName());
 
 		_argumentsResolverServiceRegistration.unregister();
-
-		for (ServiceRegistration<FinderPath> serviceRegistration :
-				_serviceRegistrations) {
-
-			serviceRegistration.unregister();
-		}
 	}
 
 	private static final String _SQL_SELECT_VIRTUALHOST =
@@ -2003,31 +1998,13 @@ public class VirtualHostPersistenceImpl
 	private static final Log _log = LogFactoryUtil.getLog(
 		VirtualHostPersistenceImpl.class);
 
-	private FinderPath _createFinderPath(
-		String cacheName, String methodName, String[] params,
-		String[] columnNames, boolean baseModelResult) {
-
-		FinderPath finderPath = new FinderPath(
-			cacheName, methodName, params, columnNames, baseModelResult);
-
-		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
-			Registry registry = RegistryUtil.getRegistry();
-
-			_serviceRegistrations.add(
-				registry.registerService(
-					FinderPath.class, finderPath,
-					HashMapBuilder.<String, Object>put(
-						"cache.name", cacheName
-					).build()));
-		}
-
-		return finderPath;
+	@Override
+	protected FinderCache getFinderCache() {
+		return FinderCacheUtil.getFinderCache();
 	}
 
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
-	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
-		new HashSet<>();
 
 	private static class VirtualHostModelArgumentsResolver
 		implements ArgumentsResolver {
@@ -2078,6 +2055,16 @@ public class VirtualHostPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			VirtualHostModelImpl virtualHostModelImpl, String[] columnNames,
 			boolean original) {
@@ -2102,6 +2089,10 @@ public class VirtualHostPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = VirtualHostImpl.class.getName();
+		private final String _tableName =
+			VirtualHostTable.INSTANCE.getTableName();
 
 	}
 

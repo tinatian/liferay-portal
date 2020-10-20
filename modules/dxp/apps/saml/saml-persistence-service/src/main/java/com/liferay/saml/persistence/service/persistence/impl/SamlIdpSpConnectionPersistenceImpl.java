@@ -50,7 +50,6 @@ import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -1440,19 +1439,19 @@ public class SamlIdpSpConnectionPersistenceImpl
 			MapUtil.singletonDictionary(
 				"model.class.name", SamlIdpSpConnection.class.getName()));
 
-		_finderPathWithPaginationFindAll = _createFinderPath(
+		_finderPathWithPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathWithoutPaginationFindAll = _createFinderPath(
+		_finderPathWithoutPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathCountAll = _createFinderPath(
+		_finderPathCountAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0], new String[0], false);
 
-		_finderPathWithPaginationFindByCompanyId = _createFinderPath(
+		_finderPathWithPaginationFindByCompanyId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCompanyId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -1460,22 +1459,22 @@ public class SamlIdpSpConnectionPersistenceImpl
 			},
 			new String[] {"companyId"}, true);
 
-		_finderPathWithoutPaginationFindByCompanyId = _createFinderPath(
+		_finderPathWithoutPaginationFindByCompanyId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCompanyId",
 			new String[] {Long.class.getName()}, new String[] {"companyId"},
 			true);
 
-		_finderPathCountByCompanyId = _createFinderPath(
+		_finderPathCountByCompanyId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCompanyId",
 			new String[] {Long.class.getName()}, new String[] {"companyId"},
 			false);
 
-		_finderPathFetchByC_SSEI = _createFinderPath(
+		_finderPathFetchByC_SSEI = new FinderPath(
 			FINDER_CLASS_NAME_ENTITY, "fetchByC_SSEI",
 			new String[] {Long.class.getName(), String.class.getName()},
 			new String[] {"companyId", "samlSpEntityId"}, true);
 
-		_finderPathCountByC_SSEI = _createFinderPath(
+		_finderPathCountByC_SSEI = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_SSEI",
 			new String[] {Long.class.getName(), String.class.getName()},
 			new String[] {"companyId", "samlSpEntityId"}, false);
@@ -1486,12 +1485,6 @@ public class SamlIdpSpConnectionPersistenceImpl
 		entityCache.removeCache(SamlIdpSpConnectionImpl.class.getName());
 
 		_argumentsResolverServiceRegistration.unregister();
-
-		for (ServiceRegistration<FinderPath> serviceRegistration :
-				_serviceRegistrations) {
-
-			serviceRegistration.unregister();
-		}
 	}
 
 	@Override
@@ -1560,27 +1553,13 @@ public class SamlIdpSpConnectionPersistenceImpl
 		}
 	}
 
-	private FinderPath _createFinderPath(
-		String cacheName, String methodName, String[] params,
-		String[] columnNames, boolean baseModelResult) {
-
-		FinderPath finderPath = new FinderPath(
-			cacheName, methodName, params, columnNames, baseModelResult);
-
-		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
-			_serviceRegistrations.add(
-				_bundleContext.registerService(
-					FinderPath.class, finderPath,
-					MapUtil.singletonDictionary("cache.name", cacheName)));
-		}
-
-		return finderPath;
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
 	}
 
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
-	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
-		new HashSet<>();
 
 	private static class SamlIdpSpConnectionModelArgumentsResolver
 		implements ArgumentsResolver {
@@ -1635,6 +1614,16 @@ public class SamlIdpSpConnectionPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			SamlIdpSpConnectionModelImpl samlIdpSpConnectionModelImpl,
 			String[] columnNames, boolean original) {
@@ -1660,6 +1649,11 @@ public class SamlIdpSpConnectionPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			SamlIdpSpConnectionImpl.class.getName();
+		private final String _tableName =
+			SamlIdpSpConnectionTable.INSTANCE.getTableName();
 
 	}
 

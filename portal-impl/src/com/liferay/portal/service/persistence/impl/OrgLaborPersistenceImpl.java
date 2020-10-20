@@ -18,6 +18,7 @@ import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.ArgumentsResolver;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
+import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
 import com.liferay.portal.kernel.dao.orm.Query;
@@ -46,7 +47,6 @@ import java.io.Serializable;
 
 import java.lang.reflect.InvocationHandler;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -620,7 +620,7 @@ public class OrgLaborPersistenceImpl
 	 * Clears the cache for all org labors.
 	 *
 	 * <p>
-	 * The <code>EntityCache</code> and <code>com.liferay.portal.kernel.dao.orm.FinderCache</code> are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
@@ -634,7 +634,7 @@ public class OrgLaborPersistenceImpl
 	 * Clears the cache for the org labor.
 	 *
 	 * <p>
-	 * The <code>EntityCache</code> and <code>com.liferay.portal.kernel.dao.orm.FinderCache</code> are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
@@ -1073,19 +1073,19 @@ public class OrgLaborPersistenceImpl
 				"model.class.name", OrgLabor.class.getName()
 			).build());
 
-		_finderPathWithPaginationFindAll = _createFinderPath(
+		_finderPathWithPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathWithoutPaginationFindAll = _createFinderPath(
+		_finderPathWithoutPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathCountAll = _createFinderPath(
+		_finderPathCountAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0], new String[0], false);
 
-		_finderPathWithPaginationFindByOrganizationId = _createFinderPath(
+		_finderPathWithPaginationFindByOrganizationId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByOrganizationId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -1093,12 +1093,12 @@ public class OrgLaborPersistenceImpl
 			},
 			new String[] {"organizationId"}, true);
 
-		_finderPathWithoutPaginationFindByOrganizationId = _createFinderPath(
+		_finderPathWithoutPaginationFindByOrganizationId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByOrganizationId",
 			new String[] {Long.class.getName()},
 			new String[] {"organizationId"}, true);
 
-		_finderPathCountByOrganizationId = _createFinderPath(
+		_finderPathCountByOrganizationId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByOrganizationId",
 			new String[] {Long.class.getName()},
 			new String[] {"organizationId"}, false);
@@ -1108,12 +1108,6 @@ public class OrgLaborPersistenceImpl
 		EntityCacheUtil.removeCache(OrgLaborImpl.class.getName());
 
 		_argumentsResolverServiceRegistration.unregister();
-
-		for (ServiceRegistration<FinderPath> serviceRegistration :
-				_serviceRegistrations) {
-
-			serviceRegistration.unregister();
-		}
 	}
 
 	private static final String _SQL_SELECT_ORGLABOR =
@@ -1139,31 +1133,13 @@ public class OrgLaborPersistenceImpl
 	private static final Log _log = LogFactoryUtil.getLog(
 		OrgLaborPersistenceImpl.class);
 
-	private FinderPath _createFinderPath(
-		String cacheName, String methodName, String[] params,
-		String[] columnNames, boolean baseModelResult) {
-
-		FinderPath finderPath = new FinderPath(
-			cacheName, methodName, params, columnNames, baseModelResult);
-
-		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
-			Registry registry = RegistryUtil.getRegistry();
-
-			_serviceRegistrations.add(
-				registry.registerService(
-					FinderPath.class, finderPath,
-					HashMapBuilder.<String, Object>put(
-						"cache.name", cacheName
-					).build()));
-		}
-
-		return finderPath;
+	@Override
+	protected FinderCache getFinderCache() {
+		return FinderCacheUtil.getFinderCache();
 	}
 
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
-	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
-		new HashSet<>();
 
 	private static class OrgLaborModelArgumentsResolver
 		implements ArgumentsResolver {
@@ -1213,6 +1189,16 @@ public class OrgLaborPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			OrgLaborModelImpl orgLaborModelImpl, String[] columnNames,
 			boolean original) {
@@ -1236,6 +1222,9 @@ public class OrgLaborPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = OrgLaborImpl.class.getName();
+		private final String _tableName = OrgLaborTable.INSTANCE.getTableName();
 
 	}
 

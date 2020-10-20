@@ -18,6 +18,7 @@ import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.ArgumentsResolver;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
+import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
 import com.liferay.portal.kernel.dao.orm.Query;
@@ -49,7 +50,6 @@ import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -1298,7 +1298,7 @@ public class CompanyPersistenceImpl
 	 * Clears the cache for all companies.
 	 *
 	 * <p>
-	 * The <code>EntityCache</code> and <code>com.liferay.portal.kernel.dao.orm.FinderCache</code> are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
@@ -1312,7 +1312,7 @@ public class CompanyPersistenceImpl
 	 * Clears the cache for the company.
 	 *
 	 * <p>
-	 * The <code>EntityCache</code> and <code>com.liferay.portal.kernel.dao.orm.FinderCache</code> are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
@@ -1779,46 +1779,46 @@ public class CompanyPersistenceImpl
 				"model.class.name", Company.class.getName()
 			).build());
 
-		_finderPathWithPaginationFindAll = _createFinderPath(
+		_finderPathWithPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathWithoutPaginationFindAll = _createFinderPath(
+		_finderPathWithoutPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathCountAll = _createFinderPath(
+		_finderPathCountAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0], new String[0], false);
 
-		_finderPathFetchByWebId = _createFinderPath(
+		_finderPathFetchByWebId = new FinderPath(
 			FINDER_CLASS_NAME_ENTITY, "fetchByWebId",
 			new String[] {String.class.getName()}, new String[] {"webId"},
 			true);
 
-		_finderPathCountByWebId = _createFinderPath(
+		_finderPathCountByWebId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByWebId",
 			new String[] {String.class.getName()}, new String[] {"webId"},
 			false);
 
-		_finderPathFetchByMx = _createFinderPath(
+		_finderPathFetchByMx = new FinderPath(
 			FINDER_CLASS_NAME_ENTITY, "fetchByMx",
 			new String[] {String.class.getName()}, new String[] {"mx"}, true);
 
-		_finderPathCountByMx = _createFinderPath(
+		_finderPathCountByMx = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByMx",
 			new String[] {String.class.getName()}, new String[] {"mx"}, false);
 
-		_finderPathFetchByLogoId = _createFinderPath(
+		_finderPathFetchByLogoId = new FinderPath(
 			FINDER_CLASS_NAME_ENTITY, "fetchByLogoId",
 			new String[] {Long.class.getName()}, new String[] {"logoId"}, true);
 
-		_finderPathCountByLogoId = _createFinderPath(
+		_finderPathCountByLogoId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByLogoId",
 			new String[] {Long.class.getName()}, new String[] {"logoId"},
 			false);
 
-		_finderPathWithPaginationFindBySystem = _createFinderPath(
+		_finderPathWithPaginationFindBySystem = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findBySystem",
 			new String[] {
 				Boolean.class.getName(), Integer.class.getName(),
@@ -1826,12 +1826,12 @@ public class CompanyPersistenceImpl
 			},
 			new String[] {"system_"}, true);
 
-		_finderPathWithoutPaginationFindBySystem = _createFinderPath(
+		_finderPathWithoutPaginationFindBySystem = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findBySystem",
 			new String[] {Boolean.class.getName()}, new String[] {"system_"},
 			true);
 
-		_finderPathCountBySystem = _createFinderPath(
+		_finderPathCountBySystem = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countBySystem",
 			new String[] {Boolean.class.getName()}, new String[] {"system_"},
 			false);
@@ -1841,12 +1841,6 @@ public class CompanyPersistenceImpl
 		EntityCacheUtil.removeCache(CompanyImpl.class.getName());
 
 		_argumentsResolverServiceRegistration.unregister();
-
-		for (ServiceRegistration<FinderPath> serviceRegistration :
-				_serviceRegistrations) {
-
-			serviceRegistration.unregister();
-		}
 	}
 
 	private static final String _SQL_SELECT_COMPANY =
@@ -1875,31 +1869,13 @@ public class CompanyPersistenceImpl
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"system", "active"});
 
-	private FinderPath _createFinderPath(
-		String cacheName, String methodName, String[] params,
-		String[] columnNames, boolean baseModelResult) {
-
-		FinderPath finderPath = new FinderPath(
-			cacheName, methodName, params, columnNames, baseModelResult);
-
-		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
-			Registry registry = RegistryUtil.getRegistry();
-
-			_serviceRegistrations.add(
-				registry.registerService(
-					FinderPath.class, finderPath,
-					HashMapBuilder.<String, Object>put(
-						"cache.name", cacheName
-					).build()));
-		}
-
-		return finderPath;
+	@Override
+	protected FinderCache getFinderCache() {
+		return FinderCacheUtil.getFinderCache();
 	}
 
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
-	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
-		new HashSet<>();
 
 	private static class CompanyModelArgumentsResolver
 		implements ArgumentsResolver {
@@ -1949,6 +1925,16 @@ public class CompanyPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			CompanyModelImpl companyModelImpl, String[] columnNames,
 			boolean original) {
@@ -1972,6 +1958,9 @@ public class CompanyPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = CompanyImpl.class.getName();
+		private final String _tableName = CompanyTable.INSTANCE.getTableName();
 
 	}
 

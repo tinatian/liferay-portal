@@ -56,7 +56,6 @@ import java.lang.reflect.InvocationHandler;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -13025,19 +13024,19 @@ public class BookmarksEntryPersistenceImpl
 			MapUtil.singletonDictionary(
 				"model.class.name", BookmarksEntry.class.getName()));
 
-		_finderPathWithPaginationFindAll = _createFinderPath(
+		_finderPathWithPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathWithoutPaginationFindAll = _createFinderPath(
+		_finderPathWithoutPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathCountAll = _createFinderPath(
+		_finderPathCountAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0], new String[0], false);
 
-		_finderPathWithPaginationFindByUuid = _createFinderPath(
+		_finderPathWithPaginationFindByUuid = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
@@ -13045,27 +13044,27 @@ public class BookmarksEntryPersistenceImpl
 			},
 			new String[] {"uuid_"}, true);
 
-		_finderPathWithoutPaginationFindByUuid = _createFinderPath(
+		_finderPathWithoutPaginationFindByUuid = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
 			new String[] {String.class.getName()}, new String[] {"uuid_"},
 			true);
 
-		_finderPathCountByUuid = _createFinderPath(
+		_finderPathCountByUuid = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
 			new String[] {String.class.getName()}, new String[] {"uuid_"},
 			false);
 
-		_finderPathFetchByUUID_G = _createFinderPath(
+		_finderPathFetchByUUID_G = new FinderPath(
 			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
 			new String[] {"uuid_", "groupId"}, true);
 
-		_finderPathCountByUUID_G = _createFinderPath(
+		_finderPathCountByUUID_G = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
 			new String[] {"uuid_", "groupId"}, false);
 
-		_finderPathWithPaginationFindByUuid_C = _createFinderPath(
+		_finderPathWithPaginationFindByUuid_C = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
@@ -13074,17 +13073,17 @@ public class BookmarksEntryPersistenceImpl
 			},
 			new String[] {"uuid_", "companyId"}, true);
 
-		_finderPathWithoutPaginationFindByUuid_C = _createFinderPath(
+		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
 			new String[] {"uuid_", "companyId"}, true);
 
-		_finderPathCountByUuid_C = _createFinderPath(
+		_finderPathCountByUuid_C = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
 			new String[] {"uuid_", "companyId"}, false);
 
-		_finderPathWithPaginationFindByCompanyId = _createFinderPath(
+		_finderPathWithPaginationFindByCompanyId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCompanyId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -13092,17 +13091,17 @@ public class BookmarksEntryPersistenceImpl
 			},
 			new String[] {"companyId"}, true);
 
-		_finderPathWithoutPaginationFindByCompanyId = _createFinderPath(
+		_finderPathWithoutPaginationFindByCompanyId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCompanyId",
 			new String[] {Long.class.getName()}, new String[] {"companyId"},
 			true);
 
-		_finderPathCountByCompanyId = _createFinderPath(
+		_finderPathCountByCompanyId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCompanyId",
 			new String[] {Long.class.getName()}, new String[] {"companyId"},
 			false);
 
-		_finderPathWithPaginationFindByG_F = _createFinderPath(
+		_finderPathWithPaginationFindByG_F = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_F",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -13111,22 +13110,22 @@ public class BookmarksEntryPersistenceImpl
 			},
 			new String[] {"groupId", "folderId"}, true);
 
-		_finderPathWithoutPaginationFindByG_F = _createFinderPath(
+		_finderPathWithoutPaginationFindByG_F = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_F",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			new String[] {"groupId", "folderId"}, true);
 
-		_finderPathCountByG_F = _createFinderPath(
+		_finderPathCountByG_F = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_F",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			new String[] {"groupId", "folderId"}, false);
 
-		_finderPathWithPaginationCountByG_F = _createFinderPath(
+		_finderPathWithPaginationCountByG_F = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByG_F",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			new String[] {"groupId", "folderId"}, false);
 
-		_finderPathWithPaginationFindByG_S = _createFinderPath(
+		_finderPathWithPaginationFindByG_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_S",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -13135,17 +13134,17 @@ public class BookmarksEntryPersistenceImpl
 			},
 			new String[] {"groupId", "status"}, true);
 
-		_finderPathWithoutPaginationFindByG_S = _createFinderPath(
+		_finderPathWithoutPaginationFindByG_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_S",
 			new String[] {Long.class.getName(), Integer.class.getName()},
 			new String[] {"groupId", "status"}, true);
 
-		_finderPathCountByG_S = _createFinderPath(
+		_finderPathCountByG_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_S",
 			new String[] {Long.class.getName(), Integer.class.getName()},
 			new String[] {"groupId", "status"}, false);
 
-		_finderPathWithPaginationFindByG_NotS = _createFinderPath(
+		_finderPathWithPaginationFindByG_NotS = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_NotS",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -13154,12 +13153,12 @@ public class BookmarksEntryPersistenceImpl
 			},
 			new String[] {"groupId", "status"}, true);
 
-		_finderPathWithPaginationCountByG_NotS = _createFinderPath(
+		_finderPathWithPaginationCountByG_NotS = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByG_NotS",
 			new String[] {Long.class.getName(), Integer.class.getName()},
 			new String[] {"groupId", "status"}, false);
 
-		_finderPathWithPaginationFindByC_NotS = _createFinderPath(
+		_finderPathWithPaginationFindByC_NotS = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_NotS",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -13168,12 +13167,12 @@ public class BookmarksEntryPersistenceImpl
 			},
 			new String[] {"companyId", "status"}, true);
 
-		_finderPathWithPaginationCountByC_NotS = _createFinderPath(
+		_finderPathWithPaginationCountByC_NotS = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByC_NotS",
 			new String[] {Long.class.getName(), Integer.class.getName()},
 			new String[] {"companyId", "status"}, false);
 
-		_finderPathWithPaginationFindByG_U_S = _createFinderPath(
+		_finderPathWithPaginationFindByG_U_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_U_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -13182,7 +13181,7 @@ public class BookmarksEntryPersistenceImpl
 			},
 			new String[] {"groupId", "userId", "status"}, true);
 
-		_finderPathWithoutPaginationFindByG_U_S = _createFinderPath(
+		_finderPathWithoutPaginationFindByG_U_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_U_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -13190,7 +13189,7 @@ public class BookmarksEntryPersistenceImpl
 			},
 			new String[] {"groupId", "userId", "status"}, true);
 
-		_finderPathCountByG_U_S = _createFinderPath(
+		_finderPathCountByG_U_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_U_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -13198,7 +13197,7 @@ public class BookmarksEntryPersistenceImpl
 			},
 			new String[] {"groupId", "userId", "status"}, false);
 
-		_finderPathWithPaginationFindByG_U_NotS = _createFinderPath(
+		_finderPathWithPaginationFindByG_U_NotS = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_U_NotS",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -13207,7 +13206,7 @@ public class BookmarksEntryPersistenceImpl
 			},
 			new String[] {"groupId", "userId", "status"}, true);
 
-		_finderPathWithPaginationCountByG_U_NotS = _createFinderPath(
+		_finderPathWithPaginationCountByG_U_NotS = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByG_U_NotS",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -13215,7 +13214,7 @@ public class BookmarksEntryPersistenceImpl
 			},
 			new String[] {"groupId", "userId", "status"}, false);
 
-		_finderPathWithPaginationFindByG_F_S = _createFinderPath(
+		_finderPathWithPaginationFindByG_F_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_F_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -13224,7 +13223,7 @@ public class BookmarksEntryPersistenceImpl
 			},
 			new String[] {"groupId", "folderId", "status"}, true);
 
-		_finderPathWithoutPaginationFindByG_F_S = _createFinderPath(
+		_finderPathWithoutPaginationFindByG_F_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_F_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -13232,7 +13231,7 @@ public class BookmarksEntryPersistenceImpl
 			},
 			new String[] {"groupId", "folderId", "status"}, true);
 
-		_finderPathCountByG_F_S = _createFinderPath(
+		_finderPathCountByG_F_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_F_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -13240,7 +13239,7 @@ public class BookmarksEntryPersistenceImpl
 			},
 			new String[] {"groupId", "folderId", "status"}, false);
 
-		_finderPathWithPaginationCountByG_F_S = _createFinderPath(
+		_finderPathWithPaginationCountByG_F_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByG_F_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -13248,7 +13247,7 @@ public class BookmarksEntryPersistenceImpl
 			},
 			new String[] {"groupId", "folderId", "status"}, false);
 
-		_finderPathWithPaginationFindByG_F_NotS = _createFinderPath(
+		_finderPathWithPaginationFindByG_F_NotS = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_F_NotS",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -13257,7 +13256,7 @@ public class BookmarksEntryPersistenceImpl
 			},
 			new String[] {"groupId", "folderId", "status"}, true);
 
-		_finderPathWithPaginationCountByG_F_NotS = _createFinderPath(
+		_finderPathWithPaginationCountByG_F_NotS = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByG_F_NotS",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -13265,7 +13264,7 @@ public class BookmarksEntryPersistenceImpl
 			},
 			new String[] {"groupId", "folderId", "status"}, false);
 
-		_finderPathWithPaginationFindByG_U_F_S = _createFinderPath(
+		_finderPathWithPaginationFindByG_U_F_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_U_F_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -13275,7 +13274,7 @@ public class BookmarksEntryPersistenceImpl
 			},
 			new String[] {"groupId", "userId", "folderId", "status"}, true);
 
-		_finderPathWithoutPaginationFindByG_U_F_S = _createFinderPath(
+		_finderPathWithoutPaginationFindByG_U_F_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_U_F_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -13283,7 +13282,7 @@ public class BookmarksEntryPersistenceImpl
 			},
 			new String[] {"groupId", "userId", "folderId", "status"}, true);
 
-		_finderPathCountByG_U_F_S = _createFinderPath(
+		_finderPathCountByG_U_F_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_U_F_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -13291,7 +13290,7 @@ public class BookmarksEntryPersistenceImpl
 			},
 			new String[] {"groupId", "userId", "folderId", "status"}, false);
 
-		_finderPathWithPaginationCountByG_U_F_S = _createFinderPath(
+		_finderPathWithPaginationCountByG_U_F_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByG_U_F_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -13305,12 +13304,6 @@ public class BookmarksEntryPersistenceImpl
 		entityCache.removeCache(BookmarksEntryImpl.class.getName());
 
 		_argumentsResolverServiceRegistration.unregister();
-
-		for (ServiceRegistration<FinderPath> serviceRegistration :
-				_serviceRegistrations) {
-
-			serviceRegistration.unregister();
-		}
 	}
 
 	@Override
@@ -13405,27 +13398,13 @@ public class BookmarksEntryPersistenceImpl
 		}
 	}
 
-	private FinderPath _createFinderPath(
-		String cacheName, String methodName, String[] params,
-		String[] columnNames, boolean baseModelResult) {
-
-		FinderPath finderPath = new FinderPath(
-			cacheName, methodName, params, columnNames, baseModelResult);
-
-		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
-			_serviceRegistrations.add(
-				_bundleContext.registerService(
-					FinderPath.class, finderPath,
-					MapUtil.singletonDictionary("cache.name", cacheName)));
-		}
-
-		return finderPath;
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
 	}
 
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
-	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
-		new HashSet<>();
 
 	private static class BookmarksEntryModelArgumentsResolver
 		implements ArgumentsResolver {
@@ -13478,6 +13457,16 @@ public class BookmarksEntryPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			BookmarksEntryModelImpl bookmarksEntryModelImpl,
 			String[] columnNames, boolean original) {
@@ -13503,6 +13492,10 @@ public class BookmarksEntryPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = BookmarksEntryImpl.class.getName();
+		private final String _tableName =
+			BookmarksEntryTable.INSTANCE.getTableName();
 
 	}
 

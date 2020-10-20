@@ -18,6 +18,7 @@ import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.ArgumentsResolver;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
+import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
 import com.liferay.portal.kernel.dao.orm.Query;
@@ -47,7 +48,6 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -950,7 +950,7 @@ public class ServiceComponentPersistenceImpl
 	 * Clears the cache for all service components.
 	 *
 	 * <p>
-	 * The <code>EntityCache</code> and <code>com.liferay.portal.kernel.dao.orm.FinderCache</code> are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
@@ -964,7 +964,7 @@ public class ServiceComponentPersistenceImpl
 	 * Clears the cache for the service component.
 	 *
 	 * <p>
-	 * The <code>EntityCache</code> and <code>com.liferay.portal.kernel.dao.orm.FinderCache</code> are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
@@ -1434,19 +1434,19 @@ public class ServiceComponentPersistenceImpl
 				"model.class.name", ServiceComponent.class.getName()
 			).build());
 
-		_finderPathWithPaginationFindAll = _createFinderPath(
+		_finderPathWithPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathWithoutPaginationFindAll = _createFinderPath(
+		_finderPathWithoutPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathCountAll = _createFinderPath(
+		_finderPathCountAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0], new String[0], false);
 
-		_finderPathWithPaginationFindByBuildNamespace = _createFinderPath(
+		_finderPathWithPaginationFindByBuildNamespace = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByBuildNamespace",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
@@ -1454,22 +1454,22 @@ public class ServiceComponentPersistenceImpl
 			},
 			new String[] {"buildNamespace"}, true);
 
-		_finderPathWithoutPaginationFindByBuildNamespace = _createFinderPath(
+		_finderPathWithoutPaginationFindByBuildNamespace = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByBuildNamespace",
 			new String[] {String.class.getName()},
 			new String[] {"buildNamespace"}, true);
 
-		_finderPathCountByBuildNamespace = _createFinderPath(
+		_finderPathCountByBuildNamespace = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByBuildNamespace",
 			new String[] {String.class.getName()},
 			new String[] {"buildNamespace"}, false);
 
-		_finderPathFetchByBNS_BNU = _createFinderPath(
+		_finderPathFetchByBNS_BNU = new FinderPath(
 			FINDER_CLASS_NAME_ENTITY, "fetchByBNS_BNU",
 			new String[] {String.class.getName(), Long.class.getName()},
 			new String[] {"buildNamespace", "buildNumber"}, true);
 
-		_finderPathCountByBNS_BNU = _createFinderPath(
+		_finderPathCountByBNS_BNU = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByBNS_BNU",
 			new String[] {String.class.getName(), Long.class.getName()},
 			new String[] {"buildNamespace", "buildNumber"}, false);
@@ -1479,12 +1479,6 @@ public class ServiceComponentPersistenceImpl
 		EntityCacheUtil.removeCache(ServiceComponentImpl.class.getName());
 
 		_argumentsResolverServiceRegistration.unregister();
-
-		for (ServiceRegistration<FinderPath> serviceRegistration :
-				_serviceRegistrations) {
-
-			serviceRegistration.unregister();
-		}
 	}
 
 	private static final String _SQL_SELECT_SERVICECOMPONENT =
@@ -1513,31 +1507,13 @@ public class ServiceComponentPersistenceImpl
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"data"});
 
-	private FinderPath _createFinderPath(
-		String cacheName, String methodName, String[] params,
-		String[] columnNames, boolean baseModelResult) {
-
-		FinderPath finderPath = new FinderPath(
-			cacheName, methodName, params, columnNames, baseModelResult);
-
-		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
-			Registry registry = RegistryUtil.getRegistry();
-
-			_serviceRegistrations.add(
-				registry.registerService(
-					FinderPath.class, finderPath,
-					HashMapBuilder.<String, Object>put(
-						"cache.name", cacheName
-					).build()));
-		}
-
-		return finderPath;
+	@Override
+	protected FinderCache getFinderCache() {
+		return FinderCacheUtil.getFinderCache();
 	}
 
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
-	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
-		new HashSet<>();
 
 	private static class ServiceComponentModelArgumentsResolver
 		implements ArgumentsResolver {
@@ -1590,6 +1566,16 @@ public class ServiceComponentPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			ServiceComponentModelImpl serviceComponentModelImpl,
 			String[] columnNames, boolean original) {
@@ -1615,6 +1601,10 @@ public class ServiceComponentPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = ServiceComponentImpl.class.getName();
+		private final String _tableName =
+			ServiceComponentTable.INSTANCE.getTableName();
 
 	}
 

@@ -49,7 +49,6 @@ import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -1452,19 +1451,19 @@ public class AppBuilderAppDeploymentPersistenceImpl
 			MapUtil.singletonDictionary(
 				"model.class.name", AppBuilderAppDeployment.class.getName()));
 
-		_finderPathWithPaginationFindAll = _createFinderPath(
+		_finderPathWithPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathWithoutPaginationFindAll = _createFinderPath(
+		_finderPathWithoutPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathCountAll = _createFinderPath(
+		_finderPathCountAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0], new String[0], false);
 
-		_finderPathWithPaginationFindByAppBuilderAppId = _createFinderPath(
+		_finderPathWithPaginationFindByAppBuilderAppId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByAppBuilderAppId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -1472,22 +1471,22 @@ public class AppBuilderAppDeploymentPersistenceImpl
 			},
 			new String[] {"appBuilderAppId"}, true);
 
-		_finderPathWithoutPaginationFindByAppBuilderAppId = _createFinderPath(
+		_finderPathWithoutPaginationFindByAppBuilderAppId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByAppBuilderAppId",
 			new String[] {Long.class.getName()},
 			new String[] {"appBuilderAppId"}, true);
 
-		_finderPathCountByAppBuilderAppId = _createFinderPath(
+		_finderPathCountByAppBuilderAppId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByAppBuilderAppId",
 			new String[] {Long.class.getName()},
 			new String[] {"appBuilderAppId"}, false);
 
-		_finderPathFetchByA_T = _createFinderPath(
+		_finderPathFetchByA_T = new FinderPath(
 			FINDER_CLASS_NAME_ENTITY, "fetchByA_T",
 			new String[] {Long.class.getName(), String.class.getName()},
 			new String[] {"appBuilderAppId", "type_"}, true);
 
-		_finderPathCountByA_T = _createFinderPath(
+		_finderPathCountByA_T = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByA_T",
 			new String[] {Long.class.getName(), String.class.getName()},
 			new String[] {"appBuilderAppId", "type_"}, false);
@@ -1498,12 +1497,6 @@ public class AppBuilderAppDeploymentPersistenceImpl
 		entityCache.removeCache(AppBuilderAppDeploymentImpl.class.getName());
 
 		_argumentsResolverServiceRegistration.unregister();
-
-		for (ServiceRegistration<FinderPath> serviceRegistration :
-				_serviceRegistrations) {
-
-			serviceRegistration.unregister();
-		}
 	}
 
 	@Override
@@ -1576,27 +1569,13 @@ public class AppBuilderAppDeploymentPersistenceImpl
 		}
 	}
 
-	private FinderPath _createFinderPath(
-		String cacheName, String methodName, String[] params,
-		String[] columnNames, boolean baseModelResult) {
-
-		FinderPath finderPath = new FinderPath(
-			cacheName, methodName, params, columnNames, baseModelResult);
-
-		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
-			_serviceRegistrations.add(
-				_bundleContext.registerService(
-					FinderPath.class, finderPath,
-					MapUtil.singletonDictionary("cache.name", cacheName)));
-		}
-
-		return finderPath;
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
 	}
 
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
-	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
-		new HashSet<>();
 
 	private static class AppBuilderAppDeploymentModelArgumentsResolver
 		implements ArgumentsResolver {
@@ -1651,6 +1630,16 @@ public class AppBuilderAppDeploymentPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			AppBuilderAppDeploymentModelImpl appBuilderAppDeploymentModelImpl,
 			String[] columnNames, boolean original) {
@@ -1677,6 +1666,11 @@ public class AppBuilderAppDeploymentPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			AppBuilderAppDeploymentImpl.class.getName();
+		private final String _tableName =
+			AppBuilderAppDeploymentTable.INSTANCE.getTableName();
 
 	}
 

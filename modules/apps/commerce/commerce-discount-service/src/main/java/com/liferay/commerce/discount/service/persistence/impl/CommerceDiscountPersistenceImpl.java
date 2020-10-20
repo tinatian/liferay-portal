@@ -56,7 +56,6 @@ import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -7164,19 +7163,19 @@ public class CommerceDiscountPersistenceImpl
 			MapUtil.singletonDictionary(
 				"model.class.name", CommerceDiscount.class.getName()));
 
-		_finderPathWithPaginationFindAll = _createFinderPath(
+		_finderPathWithPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathWithoutPaginationFindAll = _createFinderPath(
+		_finderPathWithoutPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathCountAll = _createFinderPath(
+		_finderPathCountAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0], new String[0], false);
 
-		_finderPathWithPaginationFindByUuid = _createFinderPath(
+		_finderPathWithPaginationFindByUuid = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
@@ -7184,17 +7183,17 @@ public class CommerceDiscountPersistenceImpl
 			},
 			new String[] {"uuid_"}, true);
 
-		_finderPathWithoutPaginationFindByUuid = _createFinderPath(
+		_finderPathWithoutPaginationFindByUuid = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
 			new String[] {String.class.getName()}, new String[] {"uuid_"},
 			true);
 
-		_finderPathCountByUuid = _createFinderPath(
+		_finderPathCountByUuid = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
 			new String[] {String.class.getName()}, new String[] {"uuid_"},
 			false);
 
-		_finderPathWithPaginationFindByUuid_C = _createFinderPath(
+		_finderPathWithPaginationFindByUuid_C = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
@@ -7203,17 +7202,17 @@ public class CommerceDiscountPersistenceImpl
 			},
 			new String[] {"uuid_", "companyId"}, true);
 
-		_finderPathWithoutPaginationFindByUuid_C = _createFinderPath(
+		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
 			new String[] {"uuid_", "companyId"}, true);
 
-		_finderPathCountByUuid_C = _createFinderPath(
+		_finderPathCountByUuid_C = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
 			new String[] {"uuid_", "companyId"}, false);
 
-		_finderPathWithPaginationFindByCompanyId = _createFinderPath(
+		_finderPathWithPaginationFindByCompanyId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCompanyId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -7221,17 +7220,17 @@ public class CommerceDiscountPersistenceImpl
 			},
 			new String[] {"companyId"}, true);
 
-		_finderPathWithoutPaginationFindByCompanyId = _createFinderPath(
+		_finderPathWithoutPaginationFindByCompanyId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCompanyId",
 			new String[] {Long.class.getName()}, new String[] {"companyId"},
 			true);
 
-		_finderPathCountByCompanyId = _createFinderPath(
+		_finderPathCountByCompanyId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCompanyId",
 			new String[] {Long.class.getName()}, new String[] {"companyId"},
 			false);
 
-		_finderPathWithPaginationFindByC_C = _createFinderPath(
+		_finderPathWithPaginationFindByC_C = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_C",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
@@ -7240,17 +7239,17 @@ public class CommerceDiscountPersistenceImpl
 			},
 			new String[] {"companyId", "couponCode"}, true);
 
-		_finderPathWithoutPaginationFindByC_C = _createFinderPath(
+		_finderPathWithoutPaginationFindByC_C = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_C",
 			new String[] {Long.class.getName(), String.class.getName()},
 			new String[] {"companyId", "couponCode"}, true);
 
-		_finderPathCountByC_C = _createFinderPath(
+		_finderPathCountByC_C = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C",
 			new String[] {Long.class.getName(), String.class.getName()},
 			new String[] {"companyId", "couponCode"}, false);
 
-		_finderPathWithPaginationFindByLtD_S = _createFinderPath(
+		_finderPathWithPaginationFindByLtD_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByLtD_S",
 			new String[] {
 				Date.class.getName(), Integer.class.getName(),
@@ -7259,12 +7258,12 @@ public class CommerceDiscountPersistenceImpl
 			},
 			new String[] {"displayDate", "status"}, true);
 
-		_finderPathWithPaginationCountByLtD_S = _createFinderPath(
+		_finderPathWithPaginationCountByLtD_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByLtD_S",
 			new String[] {Date.class.getName(), Integer.class.getName()},
 			new String[] {"displayDate", "status"}, false);
 
-		_finderPathWithPaginationFindByLtE_S = _createFinderPath(
+		_finderPathWithPaginationFindByLtE_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByLtE_S",
 			new String[] {
 				Date.class.getName(), Integer.class.getName(),
@@ -7273,12 +7272,12 @@ public class CommerceDiscountPersistenceImpl
 			},
 			new String[] {"expirationDate", "status"}, true);
 
-		_finderPathWithPaginationCountByLtE_S = _createFinderPath(
+		_finderPathWithPaginationCountByLtE_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByLtE_S",
 			new String[] {Date.class.getName(), Integer.class.getName()},
 			new String[] {"expirationDate", "status"}, false);
 
-		_finderPathFetchByC_C_A = _createFinderPath(
+		_finderPathFetchByC_C_A = new FinderPath(
 			FINDER_CLASS_NAME_ENTITY, "fetchByC_C_A",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
@@ -7286,7 +7285,7 @@ public class CommerceDiscountPersistenceImpl
 			},
 			new String[] {"companyId", "couponCode", "active_"}, true);
 
-		_finderPathCountByC_C_A = _createFinderPath(
+		_finderPathCountByC_C_A = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C_A",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
@@ -7294,12 +7293,12 @@ public class CommerceDiscountPersistenceImpl
 			},
 			new String[] {"companyId", "couponCode", "active_"}, false);
 
-		_finderPathFetchByC_ERC = _createFinderPath(
+		_finderPathFetchByC_ERC = new FinderPath(
 			FINDER_CLASS_NAME_ENTITY, "fetchByC_ERC",
 			new String[] {Long.class.getName(), String.class.getName()},
 			new String[] {"companyId", "externalReferenceCode"}, true);
 
-		_finderPathCountByC_ERC = _createFinderPath(
+		_finderPathCountByC_ERC = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_ERC",
 			new String[] {Long.class.getName(), String.class.getName()},
 			new String[] {"companyId", "externalReferenceCode"}, false);
@@ -7309,12 +7308,6 @@ public class CommerceDiscountPersistenceImpl
 		entityCache.removeCache(CommerceDiscountImpl.class.getName());
 
 		_argumentsResolverServiceRegistration.unregister();
-
-		for (ServiceRegistration<FinderPath> serviceRegistration :
-				_serviceRegistrations) {
-
-			serviceRegistration.unregister();
-		}
 	}
 
 	private BundleContext _bundleContext;
@@ -7382,27 +7375,13 @@ public class CommerceDiscountPersistenceImpl
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid", "level", "active"});
 
-	private FinderPath _createFinderPath(
-		String cacheName, String methodName, String[] params,
-		String[] columnNames, boolean baseModelResult) {
-
-		FinderPath finderPath = new FinderPath(
-			cacheName, methodName, params, columnNames, baseModelResult);
-
-		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
-			_serviceRegistrations.add(
-				_bundleContext.registerService(
-					FinderPath.class, finderPath,
-					MapUtil.singletonDictionary("cache.name", cacheName)));
-		}
-
-		return finderPath;
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
 	}
 
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
-	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
-		new HashSet<>();
 
 	private static class CommerceDiscountModelArgumentsResolver
 		implements ArgumentsResolver {
@@ -7455,6 +7434,16 @@ public class CommerceDiscountPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			CommerceDiscountModelImpl commerceDiscountModelImpl,
 			String[] columnNames, boolean original) {
@@ -7480,6 +7469,10 @@ public class CommerceDiscountPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = CommerceDiscountImpl.class.getName();
+		private final String _tableName =
+			CommerceDiscountTable.INSTANCE.getTableName();
 
 	}
 

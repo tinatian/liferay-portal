@@ -48,7 +48,6 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -2062,19 +2061,19 @@ public class AccountRolePersistenceImpl
 			MapUtil.singletonDictionary(
 				"model.class.name", AccountRole.class.getName()));
 
-		_finderPathWithPaginationFindAll = _createFinderPath(
+		_finderPathWithPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathWithoutPaginationFindAll = _createFinderPath(
+		_finderPathWithoutPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathCountAll = _createFinderPath(
+		_finderPathCountAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0], new String[0], false);
 
-		_finderPathWithPaginationFindByCompanyId = _createFinderPath(
+		_finderPathWithPaginationFindByCompanyId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCompanyId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -2082,17 +2081,17 @@ public class AccountRolePersistenceImpl
 			},
 			new String[] {"companyId"}, true);
 
-		_finderPathWithoutPaginationFindByCompanyId = _createFinderPath(
+		_finderPathWithoutPaginationFindByCompanyId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCompanyId",
 			new String[] {Long.class.getName()}, new String[] {"companyId"},
 			true);
 
-		_finderPathCountByCompanyId = _createFinderPath(
+		_finderPathCountByCompanyId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCompanyId",
 			new String[] {Long.class.getName()}, new String[] {"companyId"},
 			false);
 
-		_finderPathWithPaginationFindByAccountEntryId = _createFinderPath(
+		_finderPathWithPaginationFindByAccountEntryId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByAccountEntryId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -2100,26 +2099,26 @@ public class AccountRolePersistenceImpl
 			},
 			new String[] {"accountEntryId"}, true);
 
-		_finderPathWithoutPaginationFindByAccountEntryId = _createFinderPath(
+		_finderPathWithoutPaginationFindByAccountEntryId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByAccountEntryId",
 			new String[] {Long.class.getName()},
 			new String[] {"accountEntryId"}, true);
 
-		_finderPathCountByAccountEntryId = _createFinderPath(
+		_finderPathCountByAccountEntryId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByAccountEntryId",
 			new String[] {Long.class.getName()},
 			new String[] {"accountEntryId"}, false);
 
-		_finderPathWithPaginationCountByAccountEntryId = _createFinderPath(
+		_finderPathWithPaginationCountByAccountEntryId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByAccountEntryId",
 			new String[] {Long.class.getName()},
 			new String[] {"accountEntryId"}, false);
 
-		_finderPathFetchByRoleId = _createFinderPath(
+		_finderPathFetchByRoleId = new FinderPath(
 			FINDER_CLASS_NAME_ENTITY, "fetchByRoleId",
 			new String[] {Long.class.getName()}, new String[] {"roleId"}, true);
 
-		_finderPathCountByRoleId = _createFinderPath(
+		_finderPathCountByRoleId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByRoleId",
 			new String[] {Long.class.getName()}, new String[] {"roleId"},
 			false);
@@ -2130,12 +2129,6 @@ public class AccountRolePersistenceImpl
 		entityCache.removeCache(AccountRoleImpl.class.getName());
 
 		_argumentsResolverServiceRegistration.unregister();
-
-		for (ServiceRegistration<FinderPath> serviceRegistration :
-				_serviceRegistrations) {
-
-			serviceRegistration.unregister();
-		}
 	}
 
 	@Override
@@ -2204,27 +2197,13 @@ public class AccountRolePersistenceImpl
 		}
 	}
 
-	private FinderPath _createFinderPath(
-		String cacheName, String methodName, String[] params,
-		String[] columnNames, boolean baseModelResult) {
-
-		FinderPath finderPath = new FinderPath(
-			cacheName, methodName, params, columnNames, baseModelResult);
-
-		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
-			_serviceRegistrations.add(
-				_bundleContext.registerService(
-					FinderPath.class, finderPath,
-					MapUtil.singletonDictionary("cache.name", cacheName)));
-		}
-
-		return finderPath;
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
 	}
 
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
-	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
-		new HashSet<>();
 
 	private static class AccountRoleModelArgumentsResolver
 		implements ArgumentsResolver {
@@ -2275,6 +2254,16 @@ public class AccountRolePersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			AccountRoleModelImpl accountRoleModelImpl, String[] columnNames,
 			boolean original) {
@@ -2299,6 +2288,10 @@ public class AccountRolePersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = AccountRoleImpl.class.getName();
+		private final String _tableName =
+			AccountRoleTable.INSTANCE.getTableName();
 
 	}
 

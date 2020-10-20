@@ -54,7 +54,6 @@ import java.lang.reflect.InvocationHandler;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -1821,19 +1820,19 @@ public class OAuth2ApplicationPersistenceImpl
 			MapUtil.singletonDictionary(
 				"model.class.name", OAuth2Application.class.getName()));
 
-		_finderPathWithPaginationFindAll = _createFinderPath(
+		_finderPathWithPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathWithoutPaginationFindAll = _createFinderPath(
+		_finderPathWithoutPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathCountAll = _createFinderPath(
+		_finderPathCountAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0], new String[0], false);
 
-		_finderPathWithPaginationFindByC = _createFinderPath(
+		_finderPathWithPaginationFindByC = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -1841,22 +1840,22 @@ public class OAuth2ApplicationPersistenceImpl
 			},
 			new String[] {"companyId"}, true);
 
-		_finderPathWithoutPaginationFindByC = _createFinderPath(
+		_finderPathWithoutPaginationFindByC = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC",
 			new String[] {Long.class.getName()}, new String[] {"companyId"},
 			true);
 
-		_finderPathCountByC = _createFinderPath(
+		_finderPathCountByC = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC",
 			new String[] {Long.class.getName()}, new String[] {"companyId"},
 			false);
 
-		_finderPathFetchByC_C = _createFinderPath(
+		_finderPathFetchByC_C = new FinderPath(
 			FINDER_CLASS_NAME_ENTITY, "fetchByC_C",
 			new String[] {Long.class.getName(), String.class.getName()},
 			new String[] {"companyId", "clientId"}, true);
 
-		_finderPathCountByC_C = _createFinderPath(
+		_finderPathCountByC_C = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C",
 			new String[] {Long.class.getName(), String.class.getName()},
 			new String[] {"companyId", "clientId"}, false);
@@ -1867,12 +1866,6 @@ public class OAuth2ApplicationPersistenceImpl
 		entityCache.removeCache(OAuth2ApplicationImpl.class.getName());
 
 		_argumentsResolverServiceRegistration.unregister();
-
-		for (ServiceRegistration<FinderPath> serviceRegistration :
-				_serviceRegistrations) {
-
-			serviceRegistration.unregister();
-		}
 	}
 
 	@Override
@@ -1967,27 +1960,13 @@ public class OAuth2ApplicationPersistenceImpl
 		}
 	}
 
-	private FinderPath _createFinderPath(
-		String cacheName, String methodName, String[] params,
-		String[] columnNames, boolean baseModelResult) {
-
-		FinderPath finderPath = new FinderPath(
-			cacheName, methodName, params, columnNames, baseModelResult);
-
-		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
-			_serviceRegistrations.add(
-				_bundleContext.registerService(
-					FinderPath.class, finderPath,
-					MapUtil.singletonDictionary("cache.name", cacheName)));
-		}
-
-		return finderPath;
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
 	}
 
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
-	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
-		new HashSet<>();
 
 	private static class OAuth2ApplicationModelArgumentsResolver
 		implements ArgumentsResolver {
@@ -2040,6 +2019,16 @@ public class OAuth2ApplicationPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			OAuth2ApplicationModelImpl oAuth2ApplicationModelImpl,
 			String[] columnNames, boolean original) {
@@ -2065,6 +2054,10 @@ public class OAuth2ApplicationPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = OAuth2ApplicationImpl.class.getName();
+		private final String _tableName =
+			OAuth2ApplicationTable.INSTANCE.getTableName();
 
 	}
 

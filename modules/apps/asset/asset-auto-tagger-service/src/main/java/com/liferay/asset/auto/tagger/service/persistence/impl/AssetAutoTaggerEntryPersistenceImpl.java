@@ -2164,19 +2164,19 @@ public class AssetAutoTaggerEntryPersistenceImpl
 			MapUtil.singletonDictionary(
 				"model.class.name", AssetAutoTaggerEntry.class.getName()));
 
-		_finderPathWithPaginationFindAll = _createFinderPath(
+		_finderPathWithPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathWithoutPaginationFindAll = _createFinderPath(
+		_finderPathWithoutPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathCountAll = _createFinderPath(
+		_finderPathCountAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0], new String[0], false);
 
-		_finderPathWithPaginationFindByAssetEntryId = _createFinderPath(
+		_finderPathWithPaginationFindByAssetEntryId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByAssetEntryId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -2184,17 +2184,17 @@ public class AssetAutoTaggerEntryPersistenceImpl
 			},
 			new String[] {"assetEntryId"}, true);
 
-		_finderPathWithoutPaginationFindByAssetEntryId = _createFinderPath(
+		_finderPathWithoutPaginationFindByAssetEntryId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByAssetEntryId",
 			new String[] {Long.class.getName()}, new String[] {"assetEntryId"},
 			true);
 
-		_finderPathCountByAssetEntryId = _createFinderPath(
+		_finderPathCountByAssetEntryId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByAssetEntryId",
 			new String[] {Long.class.getName()}, new String[] {"assetEntryId"},
 			false);
 
-		_finderPathWithPaginationFindByAssetTagId = _createFinderPath(
+		_finderPathWithPaginationFindByAssetTagId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByAssetTagId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -2202,22 +2202,22 @@ public class AssetAutoTaggerEntryPersistenceImpl
 			},
 			new String[] {"assetTagId"}, true);
 
-		_finderPathWithoutPaginationFindByAssetTagId = _createFinderPath(
+		_finderPathWithoutPaginationFindByAssetTagId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByAssetTagId",
 			new String[] {Long.class.getName()}, new String[] {"assetTagId"},
 			true);
 
-		_finderPathCountByAssetTagId = _createFinderPath(
+		_finderPathCountByAssetTagId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByAssetTagId",
 			new String[] {Long.class.getName()}, new String[] {"assetTagId"},
 			false);
 
-		_finderPathFetchByA_A = _createFinderPath(
+		_finderPathFetchByA_A = new FinderPath(
 			FINDER_CLASS_NAME_ENTITY, "fetchByA_A",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			new String[] {"assetEntryId", "assetTagId"}, true);
 
-		_finderPathCountByA_A = _createFinderPath(
+		_finderPathCountByA_A = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByA_A",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			new String[] {"assetEntryId", "assetTagId"}, false);
@@ -2228,12 +2228,6 @@ public class AssetAutoTaggerEntryPersistenceImpl
 		entityCache.removeCache(AssetAutoTaggerEntryImpl.class.getName());
 
 		_argumentsResolverServiceRegistration.unregister();
-
-		for (ServiceRegistration<FinderPath> serviceRegistration :
-				_serviceRegistrations) {
-
-			serviceRegistration.unregister();
-		}
 	}
 
 	@Override
@@ -2306,27 +2300,13 @@ public class AssetAutoTaggerEntryPersistenceImpl
 		}
 	}
 
-	private FinderPath _createFinderPath(
-		String cacheName, String methodName, String[] params,
-		String[] columnNames, boolean baseModelResult) {
-
-		FinderPath finderPath = new FinderPath(
-			cacheName, methodName, params, columnNames, baseModelResult);
-
-		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
-			_serviceRegistrations.add(
-				_bundleContext.registerService(
-					FinderPath.class, finderPath,
-					MapUtil.singletonDictionary("cache.name", cacheName)));
-		}
-
-		return finderPath;
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
 	}
 
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
-	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
-		new HashSet<>();
 
 	private static class AssetAutoTaggerEntryModelArgumentsResolver
 		implements ArgumentsResolver {
@@ -2381,6 +2361,16 @@ public class AssetAutoTaggerEntryPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			AssetAutoTaggerEntryModelImpl assetAutoTaggerEntryModelImpl,
 			String[] columnNames, boolean original) {
@@ -2406,6 +2396,11 @@ public class AssetAutoTaggerEntryPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className =
+			AssetAutoTaggerEntryImpl.class.getName();
+		private final String _tableName =
+			AssetAutoTaggerEntryTable.INSTANCE.getTableName();
 
 	}
 

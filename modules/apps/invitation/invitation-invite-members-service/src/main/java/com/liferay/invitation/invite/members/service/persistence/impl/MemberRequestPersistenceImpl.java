@@ -52,7 +52,6 @@ import java.lang.reflect.InvocationHandler;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -2218,28 +2217,28 @@ public class MemberRequestPersistenceImpl
 			MapUtil.singletonDictionary(
 				"model.class.name", MemberRequest.class.getName()));
 
-		_finderPathWithPaginationFindAll = _createFinderPath(
+		_finderPathWithPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathWithoutPaginationFindAll = _createFinderPath(
+		_finderPathWithoutPaginationFindAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
 			new String[0], true);
 
-		_finderPathCountAll = _createFinderPath(
+		_finderPathCountAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0], new String[0], false);
 
-		_finderPathFetchByKey = _createFinderPath(
+		_finderPathFetchByKey = new FinderPath(
 			FINDER_CLASS_NAME_ENTITY, "fetchByKey",
 			new String[] {String.class.getName()}, new String[] {"key_"}, true);
 
-		_finderPathCountByKey = _createFinderPath(
+		_finderPathCountByKey = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByKey",
 			new String[] {String.class.getName()}, new String[] {"key_"},
 			false);
 
-		_finderPathWithPaginationFindByReceiverUserId = _createFinderPath(
+		_finderPathWithPaginationFindByReceiverUserId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByReceiverUserId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -2247,17 +2246,17 @@ public class MemberRequestPersistenceImpl
 			},
 			new String[] {"receiverUserId"}, true);
 
-		_finderPathWithoutPaginationFindByReceiverUserId = _createFinderPath(
+		_finderPathWithoutPaginationFindByReceiverUserId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByReceiverUserId",
 			new String[] {Long.class.getName()},
 			new String[] {"receiverUserId"}, true);
 
-		_finderPathCountByReceiverUserId = _createFinderPath(
+		_finderPathCountByReceiverUserId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByReceiverUserId",
 			new String[] {Long.class.getName()},
 			new String[] {"receiverUserId"}, false);
 
-		_finderPathWithPaginationFindByR_S = _createFinderPath(
+		_finderPathWithPaginationFindByR_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByR_S",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -2266,17 +2265,17 @@ public class MemberRequestPersistenceImpl
 			},
 			new String[] {"receiverUserId", "status"}, true);
 
-		_finderPathWithoutPaginationFindByR_S = _createFinderPath(
+		_finderPathWithoutPaginationFindByR_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByR_S",
 			new String[] {Long.class.getName(), Integer.class.getName()},
 			new String[] {"receiverUserId", "status"}, true);
 
-		_finderPathCountByR_S = _createFinderPath(
+		_finderPathCountByR_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByR_S",
 			new String[] {Long.class.getName(), Integer.class.getName()},
 			new String[] {"receiverUserId", "status"}, false);
 
-		_finderPathFetchByG_R_S = _createFinderPath(
+		_finderPathFetchByG_R_S = new FinderPath(
 			FINDER_CLASS_NAME_ENTITY, "fetchByG_R_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -2284,7 +2283,7 @@ public class MemberRequestPersistenceImpl
 			},
 			new String[] {"groupId", "receiverUserId", "status"}, true);
 
-		_finderPathCountByG_R_S = _createFinderPath(
+		_finderPathCountByG_R_S = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_R_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -2298,12 +2297,6 @@ public class MemberRequestPersistenceImpl
 		entityCache.removeCache(MemberRequestImpl.class.getName());
 
 		_argumentsResolverServiceRegistration.unregister();
-
-		for (ServiceRegistration<FinderPath> serviceRegistration :
-				_serviceRegistrations) {
-
-			serviceRegistration.unregister();
-		}
 	}
 
 	@Override
@@ -2375,27 +2368,13 @@ public class MemberRequestPersistenceImpl
 		}
 	}
 
-	private FinderPath _createFinderPath(
-		String cacheName, String methodName, String[] params,
-		String[] columnNames, boolean baseModelResult) {
-
-		FinderPath finderPath = new FinderPath(
-			cacheName, methodName, params, columnNames, baseModelResult);
-
-		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
-			_serviceRegistrations.add(
-				_bundleContext.registerService(
-					FinderPath.class, finderPath,
-					MapUtil.singletonDictionary("cache.name", cacheName)));
-		}
-
-		return finderPath;
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
 	}
 
 	private ServiceRegistration<ArgumentsResolver>
 		_argumentsResolverServiceRegistration;
-	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
-		new HashSet<>();
 
 	private static class MemberRequestModelArgumentsResolver
 		implements ArgumentsResolver {
@@ -2446,6 +2425,16 @@ public class MemberRequestPersistenceImpl
 			return null;
 		}
 
+		@Override
+		public String getClassName() {
+			return _className;
+		}
+
+		@Override
+		public String getTableName() {
+			return _tableName;
+		}
+
 		private Object[] _getValue(
 			MemberRequestModelImpl memberRequestModelImpl, String[] columnNames,
 			boolean original) {
@@ -2471,6 +2460,10 @@ public class MemberRequestPersistenceImpl
 
 		private static Map<FinderPath, Long> _finderPathColumnBitmasksCache =
 			new ConcurrentHashMap<>();
+
+		private final String _className = MemberRequestImpl.class.getName();
+		private final String _tableName =
+			MemberRequestTable.INSTANCE.getTableName();
 
 	}
 
