@@ -2930,6 +2930,11 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 				public String getClassName() {
 					return _className;
 				}
+
+				@Override
+				public String getTableName() {
+					return _tableName;
+				}
 			</#if>
 
 			private Object[] _getValue(${entity.name}ModelImpl ${entity.variableName}ModelImpl, String[] columnNames, boolean original) {
@@ -2953,6 +2958,7 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 
 			<#if serviceBuilder.isVersionGTE_7_4_0()>
 				private final String _className = ${entity.name}Impl.class.getName();
+				private final String _tableName = ${entity.name}Table.INSTANCE.getTableName();
 			</#if>
 
 		}
