@@ -107,6 +107,7 @@ import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HashMapBuilder;
+import com.liferay.portal.kernel.util.HashMapDictionary;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
@@ -2258,15 +2259,24 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 					_bundleContext = bundle.getBundleContext();
 				</#if>
 
-				_argumentsResolverServiceRegistration = _bundleContext.registerService(ArgumentsResolver.class, new ${entity.name}ModelArgumentsResolver(), MapUtil.singletonDictionary("model.class.name", ${entity.name}.class.getName()));
+				_argumentsResolverServiceRegistration = _bundleContext.registerService(
+					ArgumentsResolver.class, new ${entity.name}ModelArgumentsResolver(),
+					<#if serviceBuilder.isVersionGTE_7_4_0()>
+						new HashMapDictionary<>()
+					<#else>
+						MapUtil.singletonDictionary("model.class.name", ${entity.name}.class.getName())
+					</#if>
+				);
 			<#else>
 				Registry registry = RegistryUtil.getRegistry();
 
 				_argumentsResolverServiceRegistration = registry.registerService(
-					ArgumentsResolver.class, new ${entity.name}ModelArgumentsResolver(),
-					HashMapBuilder.<String, Object>put(
-						"model.class.name", ${entity.name}.class.getName()
-					).build());
+					ArgumentsResolver.class, new ${entity.name}ModelArgumentsResolver()
+					<#if !serviceBuilder.isVersionGTE_7_4_0()>
+						,HashMapBuilder.<String, Object>put(
+							"model.class.name", ${entity.name}.class.getName()
+						).build()
+					</#if>);
 			</#if>
 		</#if>
 
@@ -2915,6 +2925,13 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 				return null;
 			}
 
+			<#if serviceBuilder.isVersionGTE_7_4_0()>
+				@Override
+				public String getClassName() {
+					return _className;
+				}
+			</#if>
+
 			private Object[] _getValue(${entity.name}ModelImpl ${entity.variableName}ModelImpl, String[] columnNames, boolean original) {
 				Object[] arguments = new Object[columnNames.length];
 
@@ -2933,6 +2950,10 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 			}
 
 			private static Map<FinderPath, Long> _finderPathColumnBitmasksCache = new ConcurrentHashMap<>();
+
+			<#if serviceBuilder.isVersionGTE_7_4_0()>
+				private final String _className = ${entity.name}Impl.class.getName();
+			</#if>
 
 		}
 	</#if>
