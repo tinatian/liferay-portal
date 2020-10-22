@@ -64,7 +64,6 @@ import java.net.URLClassLoader;
 import java.nio.file.Paths;
 
 import java.sql.Connection;
-import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
@@ -136,7 +135,10 @@ public class DataSourceFactoryImpl implements DataSourceFactory {
 
 	@Override
 	public DataSource initDataSource(Properties properties) throws Exception {
-		if (JavaDetector.isIBM() && _isMySQLDriverPresent()) {
+		String driverClassName = properties.getProperty("driverClassName");
+
+		if (JavaDetector.isIBM() &&
+			driverClassName.startsWith("com.mysql.cj")) {
 
 			// https://issues.liferay.com/browse/LPS-120753
 
@@ -609,24 +611,6 @@ public class DataSourceFactoryImpl implements DataSourceFactory {
 				throw classNotFoundException;
 			}
 		}
-	}
-
-	private boolean _isMySQLDriverPresent() {
-		Enumeration<Driver> enumeration = DriverManager.getDrivers();
-
-		while (enumeration.hasMoreElements()) {
-			Driver driver = enumeration.nextElement();
-
-			Class<?> clazz = driver.getClass();
-
-			String driverName = clazz.getName();
-
-			if (driverName.startsWith("com.mysql.")) {
-				return true;
-			}
-		}
-
-		return false;
 	}
 
 	private void _populateIBMCipherSuites() {
