@@ -54,7 +54,6 @@ import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -3336,118 +3335,12 @@ public class AssetLinkPersistenceImpl
 	/**
 	 * Returns the asset link with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the asset link
-	 * @return the asset link, or <code>null</code> if a asset link with the primary key could not be found
-	 */
-	@Override
-	public AssetLink fetchByPrimaryKey(Serializable primaryKey) {
-		if (CTPersistenceHelperUtil.isProductionMode(AssetLink.class)) {
-			return super.fetchByPrimaryKey(primaryKey);
-		}
-
-		AssetLink assetLink = null;
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			assetLink = (AssetLink)session.get(AssetLinkImpl.class, primaryKey);
-
-			if (assetLink != null) {
-				cacheResult(assetLink);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return assetLink;
-	}
-
-	/**
-	 * Returns the asset link with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param linkId the primary key of the asset link
 	 * @return the asset link, or <code>null</code> if a asset link with the primary key could not be found
 	 */
 	@Override
 	public AssetLink fetchByPrimaryKey(long linkId) {
 		return fetchByPrimaryKey((Serializable)linkId);
-	}
-
-	@Override
-	public Map<Serializable, AssetLink> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (CTPersistenceHelperUtil.isProductionMode(AssetLink.class)) {
-			return super.fetchByPrimaryKeys(primaryKeys);
-		}
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, AssetLink> map =
-			new HashMap<Serializable, AssetLink>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			AssetLink assetLink = fetchByPrimaryKey(primaryKey);
-
-			if (assetLink != null) {
-				map.put(primaryKey, assetLink);
-			}
-
-			return map;
-		}
-
-		StringBundler sb = new StringBundler((primaryKeys.size() * 2) + 1);
-
-		sb.append(getSelectSQL());
-		sb.append(" WHERE ");
-		sb.append(getPKDBName());
-		sb.append(" IN (");
-
-		for (Serializable primaryKey : primaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (AssetLink assetLink : (List<AssetLink>)query.list()) {
-				map.put(assetLink.getPrimaryKeyObj(), assetLink);
-
-				cacheResult(assetLink);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -3648,6 +3541,10 @@ public class AssetLinkPersistenceImpl
 
 	@Override
 	protected EntityCache getEntityCache() {
+		if (!CTPersistenceHelperUtil.isProductionMode(AssetLink.class)) {
+			return dummyEntityCache;
+		}
+
 		return EntityCacheUtil.getEntityCache();
 	}
 
