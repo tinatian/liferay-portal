@@ -265,40 +265,40 @@ public class BasePersistenceImpl<T extends BaseModel<T>>
 	public T fetchByPrimaryKey(Serializable primaryKey) {
 		EntityCache entityCache = getEntityCache();
 
-		Serializable serializable = entityCache.getResult(
-			_modelImplClass, primaryKey);
+		if (entityCache != dummyEntityCache) {
+			Serializable serializable = entityCache.getResult(
+				_modelImplClass, primaryKey);
 
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		T model = (T)serializable;
-
-		if (model == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				model = (T)session.get(_modelImplClass, primaryKey);
-
-				if (model == null) {
-					entityCache.putResult(
-						_modelImplClass, primaryKey, nullModel);
-				}
-				else {
-					cacheResult(model);
-				}
+			if (serializable == nullModel) {
+				return null;
 			}
-			catch (Exception exception) {
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
+			else if (serializable != null) {
+				return (T)serializable;
 			}
 		}
 
-		return model;
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			T model = (T)session.get(_modelImplClass, primaryKey);
+
+			if (model == null) {
+				entityCache.putResult(_modelImplClass, primaryKey, nullModel);
+			}
+			else {
+				cacheResult(model);
+			}
+
+			return model;
+		}
+		catch (Exception exception) {
+			throw processException(exception);
+		}
+		finally {
+			closeSession(session);
+		}
 	}
 
 	@Override
@@ -338,29 +338,26 @@ public class BasePersistenceImpl<T extends BaseModel<T>>
 			return map;
 		}
 
-		Set<Serializable> uncachedPrimaryKeys = null;
+		Set<Serializable> uncachedPrimaryKeys = new HashSet<>(primaryKeys);
 
 		EntityCache entityCache = getEntityCache();
 
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				_modelImplClass, primaryKey);
+		if (entityCache != dummyEntityCache) {
+			for (Serializable primaryKey : primaryKeys) {
+				Serializable serializable = entityCache.getResult(
+					_modelImplClass, primaryKey);
 
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<>();
+				if (serializable != null) {
+					if (serializable != nullModel) {
+						map.put(primaryKey, (T)serializable);
 					}
 
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (T)serializable);
+					uncachedPrimaryKeys.remove(primaryKey);
 				}
 			}
 		}
 
-		if (uncachedPrimaryKeys == null) {
+		if (uncachedPrimaryKeys.isEmpty()) {
 			return map;
 		}
 
