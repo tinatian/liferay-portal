@@ -1113,7 +1113,7 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 
 			return ${entity.variableName};
 		}
-	<#elseif entity.isChangeTrackingEnabled()>
+	<#elseif entity.isChangeTrackingEnabled() && !serviceBuilder.isVersionGTE_7_4_0()>
 		/**
 		 * Returns the ${entity.humanName} with the primary key or returns <code>null</code> if it could not be found.
 		 *
@@ -1279,7 +1279,7 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 				return map;
 			</#if>
 		}
-	<#elseif entity.isChangeTrackingEnabled()>
+	<#elseif entity.isChangeTrackingEnabled() && !serviceBuilder.isVersionGTE_7_4_0()>
 		@Override
 		public Map<Serializable, ${entity.name}> fetchByPrimaryKeys(Set<Serializable> primaryKeys) {
 			if (${ctPersistenceHelper}.isProductionMode(${entity.name}.class)) {
@@ -1908,10 +1908,18 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 		protected EntityCache getEntityCache() {
 			<#if serviceBuilder.isVersionGTE_7_3_0() && !entity.isCacheEnabled()>
 				return dummyEntityCache;
-			<#elseif osgiModule>
-				return entityCache;
 			<#else>
-				return EntityCacheUtil.getEntityCache();
+				<#if serviceBuilder.isVersionGTE_7_4_0() && entity.isChangeTrackingEnabled()>
+					if (!${ctPersistenceHelper}.isProductionMode(${entity.name}.class)) {
+						return dummyEntityCache;
+					}
+				</#if>
+
+				<#if osgiModule>
+					return entityCache;
+				<#else>
+					return EntityCacheUtil.getEntityCache();
+				</#if>
 			</#if>
 		}
 
