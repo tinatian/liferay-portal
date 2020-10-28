@@ -185,7 +185,7 @@ public class AddressPersistenceImpl
 
 		if (useFinderCache) {
 			list = (List<Address>)FinderCacheUtil.getResult(
-				finderPath, finderArgs, this);
+				finderPath, finderArgs);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Address address : list) {
@@ -565,8 +565,7 @@ public class AddressPersistenceImpl
 
 		Object[] finderArgs = new Object[] {uuid};
 
-		Long count = (Long)FinderCacheUtil.getResult(
-			finderPath, finderArgs, this);
+		Long count = (Long)FinderCacheUtil.getResult(finderPath, finderArgs);
 
 		if (count == null) {
 			StringBundler sb = new StringBundler(2);
@@ -723,7 +722,7 @@ public class AddressPersistenceImpl
 
 		if (useFinderCache) {
 			list = (List<Address>)FinderCacheUtil.getResult(
-				finderPath, finderArgs, this);
+				finderPath, finderArgs);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Address address : list) {
@@ -1135,8 +1134,7 @@ public class AddressPersistenceImpl
 
 		Object[] finderArgs = new Object[] {uuid, companyId};
 
-		Long count = (Long)FinderCacheUtil.getResult(
-			finderPath, finderArgs, this);
+		Long count = (Long)FinderCacheUtil.getResult(finderPath, finderArgs);
 
 		if (count == null) {
 			StringBundler sb = new StringBundler(3);
@@ -1292,7 +1290,7 @@ public class AddressPersistenceImpl
 
 		if (useFinderCache) {
 			list = (List<Address>)FinderCacheUtil.getResult(
-				finderPath, finderArgs, this);
+				finderPath, finderArgs);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Address address : list) {
@@ -1648,8 +1646,7 @@ public class AddressPersistenceImpl
 
 		Object[] finderArgs = new Object[] {companyId};
 
-		Long count = (Long)FinderCacheUtil.getResult(
-			finderPath, finderArgs, this);
+		Long count = (Long)FinderCacheUtil.getResult(finderPath, finderArgs);
 
 		if (count == null) {
 			StringBundler sb = new StringBundler(2);
@@ -1781,7 +1778,7 @@ public class AddressPersistenceImpl
 
 		if (useFinderCache) {
 			list = (List<Address>)FinderCacheUtil.getResult(
-				finderPath, finderArgs, this);
+				finderPath, finderArgs);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Address address : list) {
@@ -2136,8 +2133,7 @@ public class AddressPersistenceImpl
 
 		Object[] finderArgs = new Object[] {userId};
 
-		Long count = (Long)FinderCacheUtil.getResult(
-			finderPath, finderArgs, this);
+		Long count = (Long)FinderCacheUtil.getResult(finderPath, finderArgs);
 
 		if (count == null) {
 			StringBundler sb = new StringBundler(2);
@@ -2279,7 +2275,7 @@ public class AddressPersistenceImpl
 
 		if (useFinderCache) {
 			list = (List<Address>)FinderCacheUtil.getResult(
-				finderPath, finderArgs, this);
+				finderPath, finderArgs);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Address address : list) {
@@ -2667,8 +2663,7 @@ public class AddressPersistenceImpl
 
 		Object[] finderArgs = new Object[] {companyId, classNameId};
 
-		Long count = (Long)FinderCacheUtil.getResult(
-			finderPath, finderArgs, this);
+		Long count = (Long)FinderCacheUtil.getResult(finderPath, finderArgs);
 
 		if (count == null) {
 			StringBundler sb = new StringBundler(3);
@@ -2825,7 +2820,7 @@ public class AddressPersistenceImpl
 
 		if (useFinderCache) {
 			list = (List<Address>)FinderCacheUtil.getResult(
-				finderPath, finderArgs, this);
+				finderPath, finderArgs);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Address address : list) {
@@ -3237,8 +3232,7 @@ public class AddressPersistenceImpl
 
 		Object[] finderArgs = new Object[] {companyId, classNameId, classPK};
 
-		Long count = (Long)FinderCacheUtil.getResult(
-			finderPath, finderArgs, this);
+		Long count = (Long)FinderCacheUtil.getResult(finderPath, finderArgs);
 
 		if (count == null) {
 			StringBundler sb = new StringBundler(4);
@@ -3412,7 +3406,7 @@ public class AddressPersistenceImpl
 
 		if (useFinderCache) {
 			list = (List<Address>)FinderCacheUtil.getResult(
-				finderPath, finderArgs, this);
+				finderPath, finderArgs);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Address address : list) {
@@ -3852,8 +3846,7 @@ public class AddressPersistenceImpl
 			companyId, classNameId, classPK, mailing
 		};
 
-		Long count = (Long)FinderCacheUtil.getResult(
-			finderPath, finderArgs, this);
+		Long count = (Long)FinderCacheUtil.getResult(finderPath, finderArgs);
 
 		if (count == null) {
 			StringBundler sb = new StringBundler(5);
@@ -4034,7 +4027,7 @@ public class AddressPersistenceImpl
 
 		if (useFinderCache) {
 			list = (List<Address>)FinderCacheUtil.getResult(
-				finderPath, finderArgs, this);
+				finderPath, finderArgs);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Address address : list) {
@@ -4474,8 +4467,7 @@ public class AddressPersistenceImpl
 			companyId, classNameId, classPK, primary
 		};
 
-		Long count = (Long)FinderCacheUtil.getResult(
-			finderPath, finderArgs, this);
+		Long count = (Long)FinderCacheUtil.getResult(finderPath, finderArgs);
 
 		if (count == null) {
 			StringBundler sb = new StringBundler(5);
@@ -4612,7 +4604,7 @@ public class AddressPersistenceImpl
 
 		if (useFinderCache) {
 			result = FinderCacheUtil.getResult(
-				_finderPathFetchByC_ERC, finderArgs, this);
+				_finderPathFetchByC_ERC, finderArgs);
 		}
 
 		if (result instanceof Address) {
@@ -4742,8 +4734,7 @@ public class AddressPersistenceImpl
 
 		Object[] finderArgs = new Object[] {companyId, externalReferenceCode};
 
-		Long count = (Long)FinderCacheUtil.getResult(
-			finderPath, finderArgs, this);
+		Long count = (Long)FinderCacheUtil.getResult(finderPath, finderArgs);
 
 		if (count == null) {
 			StringBundler sb = new StringBundler(3);
@@ -5230,7 +5221,7 @@ public class AddressPersistenceImpl
 
 		if (useFinderCache) {
 			list = (List<Address>)FinderCacheUtil.getResult(
-				finderPath, finderArgs, this);
+				finderPath, finderArgs);
 		}
 
 		if (list == null) {
@@ -5300,7 +5291,7 @@ public class AddressPersistenceImpl
 	@Override
 	public int countAll() {
 		Long count = (Long)FinderCacheUtil.getResult(
-			_finderPathCountAll, FINDER_ARGS_EMPTY, this);
+			_finderPathCountAll, FINDER_ARGS_EMPTY);
 
 		if (count == null) {
 			Session session = null;
