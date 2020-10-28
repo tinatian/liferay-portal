@@ -31,6 +31,7 @@ import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
+import com.liferay.portal.kernel.service.persistence.BasePersistence;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.HashMapDictionary;
 import com.liferay.portal.kernel.util.OrderByComparator;
@@ -75,7 +76,7 @@ import org.osgi.service.component.annotations.Reference;
  * @author Supritha Sundaram
  * @generated
  */
-@Component(service = WeDeployAuthAppPersistence.class)
+@Component(service = {WeDeployAuthAppPersistence.class, BasePersistence.class})
 public class WeDeployAuthAppPersistenceImpl
 	extends BasePersistenceImpl<WeDeployAuthApp>
 	implements WeDeployAuthAppPersistence {

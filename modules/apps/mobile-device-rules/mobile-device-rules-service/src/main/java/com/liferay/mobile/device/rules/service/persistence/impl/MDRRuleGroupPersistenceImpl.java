@@ -40,6 +40,7 @@ import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.security.permission.InlineSQLHelperUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
+import com.liferay.portal.kernel.service.persistence.BasePersistence;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.HashMapDictionary;
@@ -81,7 +82,7 @@ import org.osgi.service.component.annotations.Reference;
  * @author Edward C. Han
  * @generated
  */
-@Component(service = MDRRuleGroupPersistence.class)
+@Component(service = {MDRRuleGroupPersistence.class, BasePersistence.class})
 public class MDRRuleGroupPersistenceImpl
 	extends BasePersistenceImpl<MDRRuleGroup>
 	implements MDRRuleGroupPersistence {

@@ -37,6 +37,7 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
+import com.liferay.portal.kernel.service.persistence.BasePersistence;
 import com.liferay.portal.kernel.service.persistence.change.tracking.helper.CTPersistenceHelper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.HashMapDictionary;
@@ -80,7 +81,7 @@ import org.osgi.service.component.annotations.Reference;
  * @author Shuyang Zhou
  * @generated
  */
-@Component(service = CTSContentPersistence.class)
+@Component(service = {CTSContentPersistence.class, BasePersistence.class})
 public class CTSContentPersistenceImpl
 	extends BasePersistenceImpl<CTSContent> implements CTSContentPersistence {
 

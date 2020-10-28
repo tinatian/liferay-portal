@@ -31,6 +31,7 @@ import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
+import com.liferay.portal.kernel.service.persistence.BasePersistence;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.HashMapDictionary;
 import com.liferay.portal.kernel.util.OrderByComparator;
@@ -75,7 +76,9 @@ import org.osgi.service.component.annotations.Reference;
  * @author Mika Koivisto
  * @generated
  */
-@Component(service = SamlIdpSpConnectionPersistence.class)
+@Component(
+	service = {SamlIdpSpConnectionPersistence.class, BasePersistence.class}
+)
 public class SamlIdpSpConnectionPersistenceImpl
 	extends BasePersistenceImpl<SamlIdpSpConnection>
 	implements SamlIdpSpConnectionPersistence {

@@ -39,6 +39,7 @@ import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
+import com.liferay.portal.kernel.service.persistence.BasePersistence;
 import com.liferay.portal.kernel.service.persistence.change.tracking.helper.CTPersistenceHelper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.ArrayUtil;
@@ -86,7 +87,11 @@ import org.osgi.service.component.annotations.Reference;
  * @author Brian Wing Shun Chan
  * @generated
  */
-@Component(service = AssetListEntryAssetEntryRelPersistence.class)
+@Component(
+	service = {
+		AssetListEntryAssetEntryRelPersistence.class, BasePersistence.class
+	}
+)
 public class AssetListEntryAssetEntryRelPersistenceImpl
 	extends BasePersistenceImpl<AssetListEntryAssetEntryRel>
 	implements AssetListEntryAssetEntryRelPersistence {

@@ -38,6 +38,7 @@ import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
+import com.liferay.portal.kernel.service.persistence.BasePersistence;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.HashMapDictionary;
 import com.liferay.portal.kernel.util.OrderByComparator;
@@ -79,7 +80,11 @@ import org.osgi.service.component.annotations.Reference;
  * @author Eduardo Lundgren
  * @generated
  */
-@Component(service = CalendarNotificationTemplatePersistence.class)
+@Component(
+	service = {
+		CalendarNotificationTemplatePersistence.class, BasePersistence.class
+	}
+)
 public class CalendarNotificationTemplatePersistenceImpl
 	extends BasePersistenceImpl<CalendarNotificationTemplate>
 	implements CalendarNotificationTemplatePersistence {

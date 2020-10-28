@@ -39,6 +39,7 @@ import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
+import com.liferay.portal.kernel.service.persistence.BasePersistence;
 import com.liferay.portal.kernel.service.persistence.change.tracking.helper.CTPersistenceHelper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.HashMapDictionary;
@@ -86,7 +87,7 @@ import org.osgi.service.component.annotations.Reference;
  com.liferay.layout.model.impl.LayoutClassedModelUsageImpl}
  * @generated
  */
-@Component(service = AssetEntryUsagePersistence.class)
+@Component(service = {AssetEntryUsagePersistence.class, BasePersistence.class})
 @Deprecated
 public class AssetEntryUsagePersistenceImpl
 	extends BasePersistenceImpl<AssetEntryUsage>
