@@ -199,17 +199,23 @@ public class BasePersistenceImpl<T extends BaseModel<T>>
 
 		FinderCache finderCache = getFinderCache();
 
-		FinderPath finderPath = new FinderPath(
-			FinderPath.encodeDSLQueryCacheName(tableNames), "dslQuery",
-			_getClassNames(scalarValues), new String[0],
-			projectionType == ProjectionType.MODELS);
+		FinderPath finderPath = null;
+		Object[] arguments = null;
 
-		Object[] arguments = _getArguments(scalarValues);
+		if (finderCache != dummyFinderCache) {
+			finderPath = new FinderPath(
+				FinderPath.encodeDSLQueryCacheName(tableNames), "dslQuery",
+				_getClassNames(scalarValues), new String[0],
+				projectionType == ProjectionType.MODELS);
 
-		Object cacheResult = finderCache.getResult(finderPath, arguments, this);
+			arguments = _getArguments(scalarValues);
 
-		if (cacheResult != null) {
-			return (R)cacheResult;
+			Object cacheResult = finderCache.getResult(
+				finderPath, arguments, this);
+
+			if (cacheResult != null) {
+				return (R)cacheResult;
+			}
 		}
 
 		Session session = null;
@@ -272,7 +278,9 @@ public class BasePersistenceImpl<T extends BaseModel<T>>
 					defaultASTNodeListener.getEnd());
 			}
 
-			finderCache.putResult(finderPath, arguments, result);
+			if (finderCache != dummyFinderCache) {
+				finderCache.putResult(finderPath, arguments, result);
+			}
 
 			return (R)result;
 		}
@@ -289,23 +297,26 @@ public class BasePersistenceImpl<T extends BaseModel<T>>
 	public T fetchByPrimaryKey(Serializable primaryKey) {
 		EntityCache entityCache = getEntityCache();
 
-		Serializable serializable = entityCache.getResult(
-			_modelImplClass, primaryKey);
+		if (entityCache != dummyEntityCache) {
+			Serializable serializable = entityCache.getResult(
+				_modelImplClass, primaryKey);
 
-		if (serializable == nullModel) {
-			return null;
+			if (serializable == nullModel) {
+				return null;
+			}
+			else if (serializable != null) {
+				return (T)serializable;
+			}
 		}
 
-		T model = (T)serializable;
+		Session session = null;
 
-		if (model == null) {
-			Session session = null;
+		try {
+			session = openSession();
 
-			try {
-				session = openSession();
+			T model = (T)session.get(_modelImplClass, primaryKey);
 
-				model = (T)session.get(_modelImplClass, primaryKey);
-
+			if (entityCache != dummyEntityCache) {
 				if (model == null) {
 					entityCache.putResult(
 						_modelImplClass, primaryKey, nullModel);
@@ -314,15 +325,15 @@ public class BasePersistenceImpl<T extends BaseModel<T>>
 					cacheResult(model);
 				}
 			}
-			catch (Exception exception) {
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
 
-		return model;
+			return model;
+		}
+		catch (Exception exception) {
+			throw processException(exception);
+		}
+		finally {
+			closeSession(session);
+		}
 	}
 
 	@Override
@@ -362,29 +373,26 @@ public class BasePersistenceImpl<T extends BaseModel<T>>
 			return map;
 		}
 
-		Set<Serializable> uncachedPrimaryKeys = null;
+		Set<Serializable> uncachedPrimaryKeys = new HashSet<>(primaryKeys);
 
 		EntityCache entityCache = getEntityCache();
 
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				_modelImplClass, primaryKey);
+		if (entityCache != dummyEntityCache) {
+			for (Serializable primaryKey : primaryKeys) {
+				Serializable serializable = entityCache.getResult(
+					_modelImplClass, primaryKey);
 
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<>();
+				if (serializable != null) {
+					if (serializable != nullModel) {
+						map.put(primaryKey, (T)serializable);
 					}
 
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (T)serializable);
+					uncachedPrimaryKeys.remove(primaryKey);
 				}
 			}
 		}
 
-		if (uncachedPrimaryKeys == null) {
+		if (uncachedPrimaryKeys.isEmpty()) {
 			return map;
 		}
 
@@ -440,8 +448,11 @@ public class BasePersistenceImpl<T extends BaseModel<T>>
 				uncachedPrimaryKeys.remove(model.getPrimaryKeyObj());
 			}
 
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(_modelImplClass, primaryKey, nullModel);
+			if (entityCache != dummyEntityCache) {
+				for (Serializable primaryKey : uncachedPrimaryKeys) {
+					entityCache.putResult(
+						_modelImplClass, primaryKey, nullModel);
+				}
 			}
 		}
 		catch (Exception exception) {
