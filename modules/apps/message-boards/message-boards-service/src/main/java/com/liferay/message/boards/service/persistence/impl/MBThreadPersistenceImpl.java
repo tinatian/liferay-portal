@@ -71,7 +71,6 @@ import java.util.Date;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -13628,117 +13627,12 @@ public class MBThreadPersistenceImpl
 	/**
 	 * Returns the message boards thread with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the message boards thread
-	 * @return the message boards thread, or <code>null</code> if a message boards thread with the primary key could not be found
-	 */
-	@Override
-	public MBThread fetchByPrimaryKey(Serializable primaryKey) {
-		if (ctPersistenceHelper.isProductionMode(MBThread.class)) {
-			return super.fetchByPrimaryKey(primaryKey);
-		}
-
-		MBThread mbThread = null;
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			mbThread = (MBThread)session.get(MBThreadImpl.class, primaryKey);
-
-			if (mbThread != null) {
-				cacheResult(mbThread);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return mbThread;
-	}
-
-	/**
-	 * Returns the message boards thread with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param threadId the primary key of the message boards thread
 	 * @return the message boards thread, or <code>null</code> if a message boards thread with the primary key could not be found
 	 */
 	@Override
 	public MBThread fetchByPrimaryKey(long threadId) {
 		return fetchByPrimaryKey((Serializable)threadId);
-	}
-
-	@Override
-	public Map<Serializable, MBThread> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (ctPersistenceHelper.isProductionMode(MBThread.class)) {
-			return super.fetchByPrimaryKeys(primaryKeys);
-		}
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, MBThread> map = new HashMap<Serializable, MBThread>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			MBThread mbThread = fetchByPrimaryKey(primaryKey);
-
-			if (mbThread != null) {
-				map.put(primaryKey, mbThread);
-			}
-
-			return map;
-		}
-
-		StringBundler sb = new StringBundler((primaryKeys.size() * 2) + 1);
-
-		sb.append(getSelectSQL());
-		sb.append(" WHERE ");
-		sb.append(getPKDBName());
-		sb.append(" IN (");
-
-		for (Serializable primaryKey : primaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (MBThread mbThread : (List<MBThread>)query.list()) {
-				map.put(mbThread.getPrimaryKeyObj(), mbThread);
-
-				cacheResult(mbThread);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -13939,6 +13833,10 @@ public class MBThreadPersistenceImpl
 
 	@Override
 	protected EntityCache getEntityCache() {
+		if (!ctPersistenceHelper.isProductionMode(MBThread.class)) {
+			return dummyEntityCache;
+		}
+
 		return entityCache;
 	}
 

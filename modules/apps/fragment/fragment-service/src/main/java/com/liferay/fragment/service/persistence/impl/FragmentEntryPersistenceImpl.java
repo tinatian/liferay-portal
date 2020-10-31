@@ -59,7 +59,6 @@ import java.util.Date;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -14692,121 +14691,12 @@ public class FragmentEntryPersistenceImpl
 	/**
 	 * Returns the fragment entry with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the fragment entry
-	 * @return the fragment entry, or <code>null</code> if a fragment entry with the primary key could not be found
-	 */
-	@Override
-	public FragmentEntry fetchByPrimaryKey(Serializable primaryKey) {
-		if (ctPersistenceHelper.isProductionMode(FragmentEntry.class)) {
-			return super.fetchByPrimaryKey(primaryKey);
-		}
-
-		FragmentEntry fragmentEntry = null;
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			fragmentEntry = (FragmentEntry)session.get(
-				FragmentEntryImpl.class, primaryKey);
-
-			if (fragmentEntry != null) {
-				cacheResult(fragmentEntry);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return fragmentEntry;
-	}
-
-	/**
-	 * Returns the fragment entry with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param fragmentEntryId the primary key of the fragment entry
 	 * @return the fragment entry, or <code>null</code> if a fragment entry with the primary key could not be found
 	 */
 	@Override
 	public FragmentEntry fetchByPrimaryKey(long fragmentEntryId) {
 		return fetchByPrimaryKey((Serializable)fragmentEntryId);
-	}
-
-	@Override
-	public Map<Serializable, FragmentEntry> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (ctPersistenceHelper.isProductionMode(FragmentEntry.class)) {
-			return super.fetchByPrimaryKeys(primaryKeys);
-		}
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, FragmentEntry> map =
-			new HashMap<Serializable, FragmentEntry>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			FragmentEntry fragmentEntry = fetchByPrimaryKey(primaryKey);
-
-			if (fragmentEntry != null) {
-				map.put(primaryKey, fragmentEntry);
-			}
-
-			return map;
-		}
-
-		StringBundler sb = new StringBundler((primaryKeys.size() * 2) + 1);
-
-		sb.append(getSelectSQL());
-		sb.append(" WHERE ");
-		sb.append(getPKDBName());
-		sb.append(" IN (");
-
-		for (Serializable primaryKey : primaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (FragmentEntry fragmentEntry :
-					(List<FragmentEntry>)query.list()) {
-
-				map.put(fragmentEntry.getPrimaryKeyObj(), fragmentEntry);
-
-				cacheResult(fragmentEntry);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -15008,6 +14898,10 @@ public class FragmentEntryPersistenceImpl
 
 	@Override
 	protected EntityCache getEntityCache() {
+		if (!ctPersistenceHelper.isProductionMode(FragmentEntry.class)) {
+			return dummyEntityCache;
+		}
+
 		return entityCache;
 	}
 

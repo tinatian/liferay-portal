@@ -53,9 +53,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -1261,42 +1259,6 @@ public class SegmentsExperimentRelPersistenceImpl
 	/**
 	 * Returns the segments experiment rel with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the segments experiment rel
-	 * @return the segments experiment rel, or <code>null</code> if a segments experiment rel with the primary key could not be found
-	 */
-	@Override
-	public SegmentsExperimentRel fetchByPrimaryKey(Serializable primaryKey) {
-		if (ctPersistenceHelper.isProductionMode(SegmentsExperimentRel.class)) {
-			return super.fetchByPrimaryKey(primaryKey);
-		}
-
-		SegmentsExperimentRel segmentsExperimentRel = null;
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			segmentsExperimentRel = (SegmentsExperimentRel)session.get(
-				SegmentsExperimentRelImpl.class, primaryKey);
-
-			if (segmentsExperimentRel != null) {
-				cacheResult(segmentsExperimentRel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return segmentsExperimentRel;
-	}
-
-	/**
-	 * Returns the segments experiment rel with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param segmentsExperimentRelId the primary key of the segments experiment rel
 	 * @return the segments experiment rel, or <code>null</code> if a segments experiment rel with the primary key could not be found
 	 */
@@ -1305,82 +1267,6 @@ public class SegmentsExperimentRelPersistenceImpl
 		long segmentsExperimentRelId) {
 
 		return fetchByPrimaryKey((Serializable)segmentsExperimentRelId);
-	}
-
-	@Override
-	public Map<Serializable, SegmentsExperimentRel> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (ctPersistenceHelper.isProductionMode(SegmentsExperimentRel.class)) {
-			return super.fetchByPrimaryKeys(primaryKeys);
-		}
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, SegmentsExperimentRel> map =
-			new HashMap<Serializable, SegmentsExperimentRel>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			SegmentsExperimentRel segmentsExperimentRel = fetchByPrimaryKey(
-				primaryKey);
-
-			if (segmentsExperimentRel != null) {
-				map.put(primaryKey, segmentsExperimentRel);
-			}
-
-			return map;
-		}
-
-		StringBundler sb = new StringBundler((primaryKeys.size() * 2) + 1);
-
-		sb.append(getSelectSQL());
-		sb.append(" WHERE ");
-		sb.append(getPKDBName());
-		sb.append(" IN (");
-
-		for (Serializable primaryKey : primaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (SegmentsExperimentRel segmentsExperimentRel :
-					(List<SegmentsExperimentRel>)query.list()) {
-
-				map.put(
-					segmentsExperimentRel.getPrimaryKeyObj(),
-					segmentsExperimentRel);
-
-				cacheResult(segmentsExperimentRel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -1579,6 +1465,12 @@ public class SegmentsExperimentRelPersistenceImpl
 
 	@Override
 	protected EntityCache getEntityCache() {
+		if (!ctPersistenceHelper.isProductionMode(
+				SegmentsExperimentRel.class)) {
+
+			return dummyEntityCache;
+		}
+
 		return entityCache;
 	}
 

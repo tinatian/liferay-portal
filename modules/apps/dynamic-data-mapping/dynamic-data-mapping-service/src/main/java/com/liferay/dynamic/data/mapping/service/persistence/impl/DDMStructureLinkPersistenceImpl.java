@@ -50,9 +50,7 @@ import java.lang.reflect.InvocationHandler;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -1768,121 +1766,12 @@ public class DDMStructureLinkPersistenceImpl
 	/**
 	 * Returns the ddm structure link with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the ddm structure link
-	 * @return the ddm structure link, or <code>null</code> if a ddm structure link with the primary key could not be found
-	 */
-	@Override
-	public DDMStructureLink fetchByPrimaryKey(Serializable primaryKey) {
-		if (ctPersistenceHelper.isProductionMode(DDMStructureLink.class)) {
-			return super.fetchByPrimaryKey(primaryKey);
-		}
-
-		DDMStructureLink ddmStructureLink = null;
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			ddmStructureLink = (DDMStructureLink)session.get(
-				DDMStructureLinkImpl.class, primaryKey);
-
-			if (ddmStructureLink != null) {
-				cacheResult(ddmStructureLink);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return ddmStructureLink;
-	}
-
-	/**
-	 * Returns the ddm structure link with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param structureLinkId the primary key of the ddm structure link
 	 * @return the ddm structure link, or <code>null</code> if a ddm structure link with the primary key could not be found
 	 */
 	@Override
 	public DDMStructureLink fetchByPrimaryKey(long structureLinkId) {
 		return fetchByPrimaryKey((Serializable)structureLinkId);
-	}
-
-	@Override
-	public Map<Serializable, DDMStructureLink> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (ctPersistenceHelper.isProductionMode(DDMStructureLink.class)) {
-			return super.fetchByPrimaryKeys(primaryKeys);
-		}
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, DDMStructureLink> map =
-			new HashMap<Serializable, DDMStructureLink>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			DDMStructureLink ddmStructureLink = fetchByPrimaryKey(primaryKey);
-
-			if (ddmStructureLink != null) {
-				map.put(primaryKey, ddmStructureLink);
-			}
-
-			return map;
-		}
-
-		StringBundler sb = new StringBundler((primaryKeys.size() * 2) + 1);
-
-		sb.append(getSelectSQL());
-		sb.append(" WHERE ");
-		sb.append(getPKDBName());
-		sb.append(" IN (");
-
-		for (Serializable primaryKey : primaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (DDMStructureLink ddmStructureLink :
-					(List<DDMStructureLink>)query.list()) {
-
-				map.put(ddmStructureLink.getPrimaryKeyObj(), ddmStructureLink);
-
-				cacheResult(ddmStructureLink);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -2080,6 +1969,10 @@ public class DDMStructureLinkPersistenceImpl
 
 	@Override
 	protected EntityCache getEntityCache() {
+		if (!ctPersistenceHelper.isProductionMode(DDMStructureLink.class)) {
+			return dummyEntityCache;
+		}
+
 		return entityCache;
 	}
 

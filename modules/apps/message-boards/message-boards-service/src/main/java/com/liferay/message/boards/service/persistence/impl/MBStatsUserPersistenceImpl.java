@@ -50,9 +50,7 @@ import java.lang.reflect.InvocationHandler;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -2247,119 +2245,12 @@ public class MBStatsUserPersistenceImpl
 	/**
 	 * Returns the message boards stats user with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the message boards stats user
-	 * @return the message boards stats user, or <code>null</code> if a message boards stats user with the primary key could not be found
-	 */
-	@Override
-	public MBStatsUser fetchByPrimaryKey(Serializable primaryKey) {
-		if (ctPersistenceHelper.isProductionMode(MBStatsUser.class)) {
-			return super.fetchByPrimaryKey(primaryKey);
-		}
-
-		MBStatsUser mbStatsUser = null;
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			mbStatsUser = (MBStatsUser)session.get(
-				MBStatsUserImpl.class, primaryKey);
-
-			if (mbStatsUser != null) {
-				cacheResult(mbStatsUser);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return mbStatsUser;
-	}
-
-	/**
-	 * Returns the message boards stats user with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param statsUserId the primary key of the message boards stats user
 	 * @return the message boards stats user, or <code>null</code> if a message boards stats user with the primary key could not be found
 	 */
 	@Override
 	public MBStatsUser fetchByPrimaryKey(long statsUserId) {
 		return fetchByPrimaryKey((Serializable)statsUserId);
-	}
-
-	@Override
-	public Map<Serializable, MBStatsUser> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (ctPersistenceHelper.isProductionMode(MBStatsUser.class)) {
-			return super.fetchByPrimaryKeys(primaryKeys);
-		}
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, MBStatsUser> map =
-			new HashMap<Serializable, MBStatsUser>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			MBStatsUser mbStatsUser = fetchByPrimaryKey(primaryKey);
-
-			if (mbStatsUser != null) {
-				map.put(primaryKey, mbStatsUser);
-			}
-
-			return map;
-		}
-
-		StringBundler sb = new StringBundler((primaryKeys.size() * 2) + 1);
-
-		sb.append(getSelectSQL());
-		sb.append(" WHERE ");
-		sb.append(getPKDBName());
-		sb.append(" IN (");
-
-		for (Serializable primaryKey : primaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (MBStatsUser mbStatsUser : (List<MBStatsUser>)query.list()) {
-				map.put(mbStatsUser.getPrimaryKeyObj(), mbStatsUser);
-
-				cacheResult(mbStatsUser);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -2555,6 +2446,10 @@ public class MBStatsUserPersistenceImpl
 
 	@Override
 	protected EntityCache getEntityCache() {
+		if (!ctPersistenceHelper.isProductionMode(MBStatsUser.class)) {
+			return dummyEntityCache;
+		}
+
 		return entityCache;
 	}
 

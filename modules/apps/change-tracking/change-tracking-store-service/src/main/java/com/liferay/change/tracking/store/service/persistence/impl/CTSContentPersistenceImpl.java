@@ -54,7 +54,6 @@ import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -2901,119 +2900,12 @@ public class CTSContentPersistenceImpl
 	/**
 	 * Returns the cts content with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the cts content
-	 * @return the cts content, or <code>null</code> if a cts content with the primary key could not be found
-	 */
-	@Override
-	public CTSContent fetchByPrimaryKey(Serializable primaryKey) {
-		if (ctPersistenceHelper.isProductionMode(CTSContent.class)) {
-			return super.fetchByPrimaryKey(primaryKey);
-		}
-
-		CTSContent ctsContent = null;
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			ctsContent = (CTSContent)session.get(
-				CTSContentImpl.class, primaryKey);
-
-			if (ctsContent != null) {
-				cacheResult(ctsContent);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return ctsContent;
-	}
-
-	/**
-	 * Returns the cts content with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param ctsContentId the primary key of the cts content
 	 * @return the cts content, or <code>null</code> if a cts content with the primary key could not be found
 	 */
 	@Override
 	public CTSContent fetchByPrimaryKey(long ctsContentId) {
 		return fetchByPrimaryKey((Serializable)ctsContentId);
-	}
-
-	@Override
-	public Map<Serializable, CTSContent> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (ctPersistenceHelper.isProductionMode(CTSContent.class)) {
-			return super.fetchByPrimaryKeys(primaryKeys);
-		}
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, CTSContent> map =
-			new HashMap<Serializable, CTSContent>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			CTSContent ctsContent = fetchByPrimaryKey(primaryKey);
-
-			if (ctsContent != null) {
-				map.put(primaryKey, ctsContent);
-			}
-
-			return map;
-		}
-
-		StringBundler sb = new StringBundler((primaryKeys.size() * 2) + 1);
-
-		sb.append(getSelectSQL());
-		sb.append(" WHERE ");
-		sb.append(getPKDBName());
-		sb.append(" IN (");
-
-		for (Serializable primaryKey : primaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (CTSContent ctsContent : (List<CTSContent>)query.list()) {
-				map.put(ctsContent.getPrimaryKeyObj(), ctsContent);
-
-				cacheResult(ctsContent);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -3214,6 +3106,10 @@ public class CTSContentPersistenceImpl
 
 	@Override
 	protected EntityCache getEntityCache() {
+		if (!ctPersistenceHelper.isProductionMode(CTSContent.class)) {
+			return dummyEntityCache;
+		}
+
 		return entityCache;
 	}
 

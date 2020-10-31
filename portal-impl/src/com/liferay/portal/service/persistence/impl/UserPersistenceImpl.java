@@ -72,7 +72,6 @@ import java.util.Date;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -8677,117 +8676,12 @@ public class UserPersistenceImpl
 	/**
 	 * Returns the user with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the user
-	 * @return the user, or <code>null</code> if a user with the primary key could not be found
-	 */
-	@Override
-	public User fetchByPrimaryKey(Serializable primaryKey) {
-		if (CTPersistenceHelperUtil.isProductionMode(User.class)) {
-			return super.fetchByPrimaryKey(primaryKey);
-		}
-
-		User user = null;
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			user = (User)session.get(UserImpl.class, primaryKey);
-
-			if (user != null) {
-				cacheResult(user);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return user;
-	}
-
-	/**
-	 * Returns the user with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param userId the primary key of the user
 	 * @return the user, or <code>null</code> if a user with the primary key could not be found
 	 */
 	@Override
 	public User fetchByPrimaryKey(long userId) {
 		return fetchByPrimaryKey((Serializable)userId);
-	}
-
-	@Override
-	public Map<Serializable, User> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (CTPersistenceHelperUtil.isProductionMode(User.class)) {
-			return super.fetchByPrimaryKeys(primaryKeys);
-		}
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, User> map = new HashMap<Serializable, User>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			User user = fetchByPrimaryKey(primaryKey);
-
-			if (user != null) {
-				map.put(primaryKey, user);
-			}
-
-			return map;
-		}
-
-		StringBundler sb = new StringBundler((primaryKeys.size() * 2) + 1);
-
-		sb.append(getSelectSQL());
-		sb.append(" WHERE ");
-		sb.append(getPKDBName());
-		sb.append(" IN (");
-
-		for (Serializable primaryKey : primaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (User user : (List<User>)query.list()) {
-				map.put(user.getPrimaryKeyObj(), user);
-
-				cacheResult(user);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -10555,6 +10449,10 @@ public class UserPersistenceImpl
 
 	@Override
 	protected EntityCache getEntityCache() {
+		if (!CTPersistenceHelperUtil.isProductionMode(User.class)) {
+			return dummyEntityCache;
+		}
+
 		return EntityCacheUtil.getEntityCache();
 	}
 

@@ -62,7 +62,6 @@ import java.util.Date;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -11939,119 +11938,12 @@ public class MBCategoryPersistenceImpl
 	/**
 	 * Returns the message boards category with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the message boards category
-	 * @return the message boards category, or <code>null</code> if a message boards category with the primary key could not be found
-	 */
-	@Override
-	public MBCategory fetchByPrimaryKey(Serializable primaryKey) {
-		if (ctPersistenceHelper.isProductionMode(MBCategory.class)) {
-			return super.fetchByPrimaryKey(primaryKey);
-		}
-
-		MBCategory mbCategory = null;
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			mbCategory = (MBCategory)session.get(
-				MBCategoryImpl.class, primaryKey);
-
-			if (mbCategory != null) {
-				cacheResult(mbCategory);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return mbCategory;
-	}
-
-	/**
-	 * Returns the message boards category with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param categoryId the primary key of the message boards category
 	 * @return the message boards category, or <code>null</code> if a message boards category with the primary key could not be found
 	 */
 	@Override
 	public MBCategory fetchByPrimaryKey(long categoryId) {
 		return fetchByPrimaryKey((Serializable)categoryId);
-	}
-
-	@Override
-	public Map<Serializable, MBCategory> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (ctPersistenceHelper.isProductionMode(MBCategory.class)) {
-			return super.fetchByPrimaryKeys(primaryKeys);
-		}
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, MBCategory> map =
-			new HashMap<Serializable, MBCategory>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			MBCategory mbCategory = fetchByPrimaryKey(primaryKey);
-
-			if (mbCategory != null) {
-				map.put(primaryKey, mbCategory);
-			}
-
-			return map;
-		}
-
-		StringBundler sb = new StringBundler((primaryKeys.size() * 2) + 1);
-
-		sb.append(getSelectSQL());
-		sb.append(" WHERE ");
-		sb.append(getPKDBName());
-		sb.append(" IN (");
-
-		for (Serializable primaryKey : primaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (MBCategory mbCategory : (List<MBCategory>)query.list()) {
-				map.put(mbCategory.getPrimaryKeyObj(), mbCategory);
-
-				cacheResult(mbCategory);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -12252,6 +12144,10 @@ public class MBCategoryPersistenceImpl
 
 	@Override
 	protected EntityCache getEntityCache() {
+		if (!ctPersistenceHelper.isProductionMode(MBCategory.class)) {
+			return dummyEntityCache;
+		}
+
 		return entityCache;
 	}
 

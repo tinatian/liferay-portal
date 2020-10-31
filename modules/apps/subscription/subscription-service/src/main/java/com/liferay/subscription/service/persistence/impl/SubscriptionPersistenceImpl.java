@@ -55,9 +55,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -3789,119 +3787,12 @@ public class SubscriptionPersistenceImpl
 	/**
 	 * Returns the subscription with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the subscription
-	 * @return the subscription, or <code>null</code> if a subscription with the primary key could not be found
-	 */
-	@Override
-	public Subscription fetchByPrimaryKey(Serializable primaryKey) {
-		if (ctPersistenceHelper.isProductionMode(Subscription.class)) {
-			return super.fetchByPrimaryKey(primaryKey);
-		}
-
-		Subscription subscription = null;
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			subscription = (Subscription)session.get(
-				SubscriptionImpl.class, primaryKey);
-
-			if (subscription != null) {
-				cacheResult(subscription);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return subscription;
-	}
-
-	/**
-	 * Returns the subscription with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param subscriptionId the primary key of the subscription
 	 * @return the subscription, or <code>null</code> if a subscription with the primary key could not be found
 	 */
 	@Override
 	public Subscription fetchByPrimaryKey(long subscriptionId) {
 		return fetchByPrimaryKey((Serializable)subscriptionId);
-	}
-
-	@Override
-	public Map<Serializable, Subscription> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (ctPersistenceHelper.isProductionMode(Subscription.class)) {
-			return super.fetchByPrimaryKeys(primaryKeys);
-		}
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, Subscription> map =
-			new HashMap<Serializable, Subscription>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			Subscription subscription = fetchByPrimaryKey(primaryKey);
-
-			if (subscription != null) {
-				map.put(primaryKey, subscription);
-			}
-
-			return map;
-		}
-
-		StringBundler sb = new StringBundler((primaryKeys.size() * 2) + 1);
-
-		sb.append(getSelectSQL());
-		sb.append(" WHERE ");
-		sb.append(getPKDBName());
-		sb.append(" IN (");
-
-		for (Serializable primaryKey : primaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (Subscription subscription : (List<Subscription>)query.list()) {
-				map.put(subscription.getPrimaryKeyObj(), subscription);
-
-				cacheResult(subscription);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -4097,6 +3988,10 @@ public class SubscriptionPersistenceImpl
 
 	@Override
 	protected EntityCache getEntityCache() {
+		if (!ctPersistenceHelper.isProductionMode(Subscription.class)) {
+			return dummyEntityCache;
+		}
+
 		return entityCache;
 	}
 

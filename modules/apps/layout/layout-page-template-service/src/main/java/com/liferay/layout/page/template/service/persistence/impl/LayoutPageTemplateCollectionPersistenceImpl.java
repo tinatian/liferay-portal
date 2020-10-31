@@ -61,7 +61,6 @@ import java.util.Date;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -4516,47 +4515,6 @@ public class LayoutPageTemplateCollectionPersistenceImpl
 	/**
 	 * Returns the layout page template collection with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the layout page template collection
-	 * @return the layout page template collection, or <code>null</code> if a layout page template collection with the primary key could not be found
-	 */
-	@Override
-	public LayoutPageTemplateCollection fetchByPrimaryKey(
-		Serializable primaryKey) {
-
-		if (ctPersistenceHelper.isProductionMode(
-				LayoutPageTemplateCollection.class)) {
-
-			return super.fetchByPrimaryKey(primaryKey);
-		}
-
-		LayoutPageTemplateCollection layoutPageTemplateCollection = null;
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			layoutPageTemplateCollection =
-				(LayoutPageTemplateCollection)session.get(
-					LayoutPageTemplateCollectionImpl.class, primaryKey);
-
-			if (layoutPageTemplateCollection != null) {
-				cacheResult(layoutPageTemplateCollection);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return layoutPageTemplateCollection;
-	}
-
-	/**
-	 * Returns the layout page template collection with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param layoutPageTemplateCollectionId the primary key of the layout page template collection
 	 * @return the layout page template collection, or <code>null</code> if a layout page template collection with the primary key could not be found
 	 */
@@ -4565,84 +4523,6 @@ public class LayoutPageTemplateCollectionPersistenceImpl
 		long layoutPageTemplateCollectionId) {
 
 		return fetchByPrimaryKey((Serializable)layoutPageTemplateCollectionId);
-	}
-
-	@Override
-	public Map<Serializable, LayoutPageTemplateCollection> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (ctPersistenceHelper.isProductionMode(
-				LayoutPageTemplateCollection.class)) {
-
-			return super.fetchByPrimaryKeys(primaryKeys);
-		}
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, LayoutPageTemplateCollection> map =
-			new HashMap<Serializable, LayoutPageTemplateCollection>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			LayoutPageTemplateCollection layoutPageTemplateCollection =
-				fetchByPrimaryKey(primaryKey);
-
-			if (layoutPageTemplateCollection != null) {
-				map.put(primaryKey, layoutPageTemplateCollection);
-			}
-
-			return map;
-		}
-
-		StringBundler sb = new StringBundler((primaryKeys.size() * 2) + 1);
-
-		sb.append(getSelectSQL());
-		sb.append(" WHERE ");
-		sb.append(getPKDBName());
-		sb.append(" IN (");
-
-		for (Serializable primaryKey : primaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (LayoutPageTemplateCollection layoutPageTemplateCollection :
-					(List<LayoutPageTemplateCollection>)query.list()) {
-
-				map.put(
-					layoutPageTemplateCollection.getPrimaryKeyObj(),
-					layoutPageTemplateCollection);
-
-				cacheResult(layoutPageTemplateCollection);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -4849,6 +4729,12 @@ public class LayoutPageTemplateCollectionPersistenceImpl
 
 	@Override
 	protected EntityCache getEntityCache() {
+		if (!ctPersistenceHelper.isProductionMode(
+				LayoutPageTemplateCollection.class)) {
+
+			return dummyEntityCache;
+		}
+
 		return entityCache;
 	}
 

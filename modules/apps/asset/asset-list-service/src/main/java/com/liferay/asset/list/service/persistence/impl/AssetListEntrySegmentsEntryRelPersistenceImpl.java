@@ -58,7 +58,6 @@ import java.util.Date;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -3299,47 +3298,6 @@ public class AssetListEntrySegmentsEntryRelPersistenceImpl
 	/**
 	 * Returns the asset list entry segments entry rel with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the asset list entry segments entry rel
-	 * @return the asset list entry segments entry rel, or <code>null</code> if a asset list entry segments entry rel with the primary key could not be found
-	 */
-	@Override
-	public AssetListEntrySegmentsEntryRel fetchByPrimaryKey(
-		Serializable primaryKey) {
-
-		if (ctPersistenceHelper.isProductionMode(
-				AssetListEntrySegmentsEntryRel.class)) {
-
-			return super.fetchByPrimaryKey(primaryKey);
-		}
-
-		AssetListEntrySegmentsEntryRel assetListEntrySegmentsEntryRel = null;
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			assetListEntrySegmentsEntryRel =
-				(AssetListEntrySegmentsEntryRel)session.get(
-					AssetListEntrySegmentsEntryRelImpl.class, primaryKey);
-
-			if (assetListEntrySegmentsEntryRel != null) {
-				cacheResult(assetListEntrySegmentsEntryRel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return assetListEntrySegmentsEntryRel;
-	}
-
-	/**
-	 * Returns the asset list entry segments entry rel with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param assetListEntrySegmentsEntryRelId the primary key of the asset list entry segments entry rel
 	 * @return the asset list entry segments entry rel, or <code>null</code> if a asset list entry segments entry rel with the primary key could not be found
 	 */
@@ -3349,84 +3307,6 @@ public class AssetListEntrySegmentsEntryRelPersistenceImpl
 
 		return fetchByPrimaryKey(
 			(Serializable)assetListEntrySegmentsEntryRelId);
-	}
-
-	@Override
-	public Map<Serializable, AssetListEntrySegmentsEntryRel> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (ctPersistenceHelper.isProductionMode(
-				AssetListEntrySegmentsEntryRel.class)) {
-
-			return super.fetchByPrimaryKeys(primaryKeys);
-		}
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, AssetListEntrySegmentsEntryRel> map =
-			new HashMap<Serializable, AssetListEntrySegmentsEntryRel>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			AssetListEntrySegmentsEntryRel assetListEntrySegmentsEntryRel =
-				fetchByPrimaryKey(primaryKey);
-
-			if (assetListEntrySegmentsEntryRel != null) {
-				map.put(primaryKey, assetListEntrySegmentsEntryRel);
-			}
-
-			return map;
-		}
-
-		StringBundler sb = new StringBundler((primaryKeys.size() * 2) + 1);
-
-		sb.append(getSelectSQL());
-		sb.append(" WHERE ");
-		sb.append(getPKDBName());
-		sb.append(" IN (");
-
-		for (Serializable primaryKey : primaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (AssetListEntrySegmentsEntryRel assetListEntrySegmentsEntryRel :
-					(List<AssetListEntrySegmentsEntryRel>)query.list()) {
-
-				map.put(
-					assetListEntrySegmentsEntryRel.getPrimaryKeyObj(),
-					assetListEntrySegmentsEntryRel);
-
-				cacheResult(assetListEntrySegmentsEntryRel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -3633,6 +3513,12 @@ public class AssetListEntrySegmentsEntryRelPersistenceImpl
 
 	@Override
 	protected EntityCache getEntityCache() {
+		if (!ctPersistenceHelper.isProductionMode(
+				AssetListEntrySegmentsEntryRel.class)) {
+
+			return dummyEntityCache;
+		}
+
 		return entityCache;
 	}
 

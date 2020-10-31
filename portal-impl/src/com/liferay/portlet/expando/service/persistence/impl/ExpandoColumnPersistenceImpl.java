@@ -58,7 +58,6 @@ import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -2062,121 +2061,12 @@ public class ExpandoColumnPersistenceImpl
 	/**
 	 * Returns the expando column with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the expando column
-	 * @return the expando column, or <code>null</code> if a expando column with the primary key could not be found
-	 */
-	@Override
-	public ExpandoColumn fetchByPrimaryKey(Serializable primaryKey) {
-		if (CTPersistenceHelperUtil.isProductionMode(ExpandoColumn.class)) {
-			return super.fetchByPrimaryKey(primaryKey);
-		}
-
-		ExpandoColumn expandoColumn = null;
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			expandoColumn = (ExpandoColumn)session.get(
-				ExpandoColumnImpl.class, primaryKey);
-
-			if (expandoColumn != null) {
-				cacheResult(expandoColumn);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return expandoColumn;
-	}
-
-	/**
-	 * Returns the expando column with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param columnId the primary key of the expando column
 	 * @return the expando column, or <code>null</code> if a expando column with the primary key could not be found
 	 */
 	@Override
 	public ExpandoColumn fetchByPrimaryKey(long columnId) {
 		return fetchByPrimaryKey((Serializable)columnId);
-	}
-
-	@Override
-	public Map<Serializable, ExpandoColumn> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (CTPersistenceHelperUtil.isProductionMode(ExpandoColumn.class)) {
-			return super.fetchByPrimaryKeys(primaryKeys);
-		}
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, ExpandoColumn> map =
-			new HashMap<Serializable, ExpandoColumn>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			ExpandoColumn expandoColumn = fetchByPrimaryKey(primaryKey);
-
-			if (expandoColumn != null) {
-				map.put(primaryKey, expandoColumn);
-			}
-
-			return map;
-		}
-
-		StringBundler sb = new StringBundler((primaryKeys.size() * 2) + 1);
-
-		sb.append(getSelectSQL());
-		sb.append(" WHERE ");
-		sb.append(getPKDBName());
-		sb.append(" IN (");
-
-		for (Serializable primaryKey : primaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (ExpandoColumn expandoColumn :
-					(List<ExpandoColumn>)query.list()) {
-
-				map.put(expandoColumn.getPrimaryKeyObj(), expandoColumn);
-
-				cacheResult(expandoColumn);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -2378,6 +2268,10 @@ public class ExpandoColumnPersistenceImpl
 
 	@Override
 	protected EntityCache getEntityCache() {
+		if (!CTPersistenceHelperUtil.isProductionMode(ExpandoColumn.class)) {
+			return dummyEntityCache;
+		}
+
 		return EntityCacheUtil.getEntityCache();
 	}
 

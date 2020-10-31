@@ -51,9 +51,7 @@ import java.lang.reflect.InvocationHandler;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -1262,119 +1260,12 @@ public class ExpandoTablePersistenceImpl
 	/**
 	 * Returns the expando table with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the expando table
-	 * @return the expando table, or <code>null</code> if a expando table with the primary key could not be found
-	 */
-	@Override
-	public ExpandoTable fetchByPrimaryKey(Serializable primaryKey) {
-		if (CTPersistenceHelperUtil.isProductionMode(ExpandoTable.class)) {
-			return super.fetchByPrimaryKey(primaryKey);
-		}
-
-		ExpandoTable expandoTable = null;
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			expandoTable = (ExpandoTable)session.get(
-				ExpandoTableImpl.class, primaryKey);
-
-			if (expandoTable != null) {
-				cacheResult(expandoTable);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return expandoTable;
-	}
-
-	/**
-	 * Returns the expando table with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param tableId the primary key of the expando table
 	 * @return the expando table, or <code>null</code> if a expando table with the primary key could not be found
 	 */
 	@Override
 	public ExpandoTable fetchByPrimaryKey(long tableId) {
 		return fetchByPrimaryKey((Serializable)tableId);
-	}
-
-	@Override
-	public Map<Serializable, ExpandoTable> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (CTPersistenceHelperUtil.isProductionMode(ExpandoTable.class)) {
-			return super.fetchByPrimaryKeys(primaryKeys);
-		}
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, ExpandoTable> map =
-			new HashMap<Serializable, ExpandoTable>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			ExpandoTable expandoTable = fetchByPrimaryKey(primaryKey);
-
-			if (expandoTable != null) {
-				map.put(primaryKey, expandoTable);
-			}
-
-			return map;
-		}
-
-		StringBundler sb = new StringBundler((primaryKeys.size() * 2) + 1);
-
-		sb.append(getSelectSQL());
-		sb.append(" WHERE ");
-		sb.append(getPKDBName());
-		sb.append(" IN (");
-
-		for (Serializable primaryKey : primaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (ExpandoTable expandoTable : (List<ExpandoTable>)query.list()) {
-				map.put(expandoTable.getPrimaryKeyObj(), expandoTable);
-
-				cacheResult(expandoTable);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -1570,6 +1461,10 @@ public class ExpandoTablePersistenceImpl
 
 	@Override
 	protected EntityCache getEntityCache() {
+		if (!CTPersistenceHelperUtil.isProductionMode(ExpandoTable.class)) {
+			return dummyEntityCache;
+		}
+
 		return EntityCacheUtil.getEntityCache();
 	}
 

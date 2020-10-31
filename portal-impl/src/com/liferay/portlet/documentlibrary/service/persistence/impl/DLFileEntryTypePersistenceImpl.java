@@ -68,7 +68,6 @@ import java.util.Date;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -3791,121 +3790,12 @@ public class DLFileEntryTypePersistenceImpl
 	/**
 	 * Returns the document library file entry type with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the document library file entry type
-	 * @return the document library file entry type, or <code>null</code> if a document library file entry type with the primary key could not be found
-	 */
-	@Override
-	public DLFileEntryType fetchByPrimaryKey(Serializable primaryKey) {
-		if (CTPersistenceHelperUtil.isProductionMode(DLFileEntryType.class)) {
-			return super.fetchByPrimaryKey(primaryKey);
-		}
-
-		DLFileEntryType dlFileEntryType = null;
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			dlFileEntryType = (DLFileEntryType)session.get(
-				DLFileEntryTypeImpl.class, primaryKey);
-
-			if (dlFileEntryType != null) {
-				cacheResult(dlFileEntryType);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return dlFileEntryType;
-	}
-
-	/**
-	 * Returns the document library file entry type with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param fileEntryTypeId the primary key of the document library file entry type
 	 * @return the document library file entry type, or <code>null</code> if a document library file entry type with the primary key could not be found
 	 */
 	@Override
 	public DLFileEntryType fetchByPrimaryKey(long fileEntryTypeId) {
 		return fetchByPrimaryKey((Serializable)fileEntryTypeId);
-	}
-
-	@Override
-	public Map<Serializable, DLFileEntryType> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (CTPersistenceHelperUtil.isProductionMode(DLFileEntryType.class)) {
-			return super.fetchByPrimaryKeys(primaryKeys);
-		}
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, DLFileEntryType> map =
-			new HashMap<Serializable, DLFileEntryType>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			DLFileEntryType dlFileEntryType = fetchByPrimaryKey(primaryKey);
-
-			if (dlFileEntryType != null) {
-				map.put(primaryKey, dlFileEntryType);
-			}
-
-			return map;
-		}
-
-		StringBundler sb = new StringBundler((primaryKeys.size() * 2) + 1);
-
-		sb.append(getSelectSQL());
-		sb.append(" WHERE ");
-		sb.append(getPKDBName());
-		sb.append(" IN (");
-
-		for (Serializable primaryKey : primaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (DLFileEntryType dlFileEntryType :
-					(List<DLFileEntryType>)query.list()) {
-
-				map.put(dlFileEntryType.getPrimaryKeyObj(), dlFileEntryType);
-
-				cacheResult(dlFileEntryType);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -4438,6 +4328,10 @@ public class DLFileEntryTypePersistenceImpl
 
 	@Override
 	protected EntityCache getEntityCache() {
+		if (!CTPersistenceHelperUtil.isProductionMode(DLFileEntryType.class)) {
+			return dummyEntityCache;
+		}
+
 		return EntityCacheUtil.getEntityCache();
 	}
 

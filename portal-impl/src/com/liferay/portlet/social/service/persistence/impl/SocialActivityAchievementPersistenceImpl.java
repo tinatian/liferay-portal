@@ -51,9 +51,7 @@ import java.lang.reflect.InvocationHandler;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -3600,46 +3598,6 @@ public class SocialActivityAchievementPersistenceImpl
 	/**
 	 * Returns the social activity achievement with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the social activity achievement
-	 * @return the social activity achievement, or <code>null</code> if a social activity achievement with the primary key could not be found
-	 */
-	@Override
-	public SocialActivityAchievement fetchByPrimaryKey(
-		Serializable primaryKey) {
-
-		if (CTPersistenceHelperUtil.isProductionMode(
-				SocialActivityAchievement.class)) {
-
-			return super.fetchByPrimaryKey(primaryKey);
-		}
-
-		SocialActivityAchievement socialActivityAchievement = null;
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			socialActivityAchievement = (SocialActivityAchievement)session.get(
-				SocialActivityAchievementImpl.class, primaryKey);
-
-			if (socialActivityAchievement != null) {
-				cacheResult(socialActivityAchievement);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return socialActivityAchievement;
-	}
-
-	/**
-	 * Returns the social activity achievement with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param activityAchievementId the primary key of the social activity achievement
 	 * @return the social activity achievement, or <code>null</code> if a social activity achievement with the primary key could not be found
 	 */
@@ -3648,84 +3606,6 @@ public class SocialActivityAchievementPersistenceImpl
 		long activityAchievementId) {
 
 		return fetchByPrimaryKey((Serializable)activityAchievementId);
-	}
-
-	@Override
-	public Map<Serializable, SocialActivityAchievement> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (CTPersistenceHelperUtil.isProductionMode(
-				SocialActivityAchievement.class)) {
-
-			return super.fetchByPrimaryKeys(primaryKeys);
-		}
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, SocialActivityAchievement> map =
-			new HashMap<Serializable, SocialActivityAchievement>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			SocialActivityAchievement socialActivityAchievement =
-				fetchByPrimaryKey(primaryKey);
-
-			if (socialActivityAchievement != null) {
-				map.put(primaryKey, socialActivityAchievement);
-			}
-
-			return map;
-		}
-
-		StringBundler sb = new StringBundler((primaryKeys.size() * 2) + 1);
-
-		sb.append(getSelectSQL());
-		sb.append(" WHERE ");
-		sb.append(getPKDBName());
-		sb.append(" IN (");
-
-		for (Serializable primaryKey : primaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (SocialActivityAchievement socialActivityAchievement :
-					(List<SocialActivityAchievement>)query.list()) {
-
-				map.put(
-					socialActivityAchievement.getPrimaryKeyObj(),
-					socialActivityAchievement);
-
-				cacheResult(socialActivityAchievement);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -3925,6 +3805,12 @@ public class SocialActivityAchievementPersistenceImpl
 
 	@Override
 	protected EntityCache getEntityCache() {
+		if (!CTPersistenceHelperUtil.isProductionMode(
+				SocialActivityAchievement.class)) {
+
+			return dummyEntityCache;
+		}
+
 		return EntityCacheUtil.getEntityCache();
 	}
 

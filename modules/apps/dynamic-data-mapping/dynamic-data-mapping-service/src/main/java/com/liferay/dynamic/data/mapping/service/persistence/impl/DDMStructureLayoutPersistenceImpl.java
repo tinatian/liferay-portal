@@ -59,7 +59,6 @@ import java.util.Date;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -4725,123 +4724,12 @@ public class DDMStructureLayoutPersistenceImpl
 	/**
 	 * Returns the ddm structure layout with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the ddm structure layout
-	 * @return the ddm structure layout, or <code>null</code> if a ddm structure layout with the primary key could not be found
-	 */
-	@Override
-	public DDMStructureLayout fetchByPrimaryKey(Serializable primaryKey) {
-		if (ctPersistenceHelper.isProductionMode(DDMStructureLayout.class)) {
-			return super.fetchByPrimaryKey(primaryKey);
-		}
-
-		DDMStructureLayout ddmStructureLayout = null;
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			ddmStructureLayout = (DDMStructureLayout)session.get(
-				DDMStructureLayoutImpl.class, primaryKey);
-
-			if (ddmStructureLayout != null) {
-				cacheResult(ddmStructureLayout);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return ddmStructureLayout;
-	}
-
-	/**
-	 * Returns the ddm structure layout with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param structureLayoutId the primary key of the ddm structure layout
 	 * @return the ddm structure layout, or <code>null</code> if a ddm structure layout with the primary key could not be found
 	 */
 	@Override
 	public DDMStructureLayout fetchByPrimaryKey(long structureLayoutId) {
 		return fetchByPrimaryKey((Serializable)structureLayoutId);
-	}
-
-	@Override
-	public Map<Serializable, DDMStructureLayout> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (ctPersistenceHelper.isProductionMode(DDMStructureLayout.class)) {
-			return super.fetchByPrimaryKeys(primaryKeys);
-		}
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, DDMStructureLayout> map =
-			new HashMap<Serializable, DDMStructureLayout>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			DDMStructureLayout ddmStructureLayout = fetchByPrimaryKey(
-				primaryKey);
-
-			if (ddmStructureLayout != null) {
-				map.put(primaryKey, ddmStructureLayout);
-			}
-
-			return map;
-		}
-
-		StringBundler sb = new StringBundler((primaryKeys.size() * 2) + 1);
-
-		sb.append(getSelectSQL());
-		sb.append(" WHERE ");
-		sb.append(getPKDBName());
-		sb.append(" IN (");
-
-		for (Serializable primaryKey : primaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (DDMStructureLayout ddmStructureLayout :
-					(List<DDMStructureLayout>)query.list()) {
-
-				map.put(
-					ddmStructureLayout.getPrimaryKeyObj(), ddmStructureLayout);
-
-				cacheResult(ddmStructureLayout);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -5045,6 +4933,10 @@ public class DDMStructureLayoutPersistenceImpl
 
 	@Override
 	protected EntityCache getEntityCache() {
+		if (!ctPersistenceHelper.isProductionMode(DDMStructureLayout.class)) {
+			return dummyEntityCache;
+		}
+
 		return entityCache;
 	}
 

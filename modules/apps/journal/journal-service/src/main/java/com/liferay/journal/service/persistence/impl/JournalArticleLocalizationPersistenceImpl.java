@@ -50,9 +50,7 @@ import java.lang.reflect.InvocationHandler;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -1938,47 +1936,6 @@ public class JournalArticleLocalizationPersistenceImpl
 	/**
 	 * Returns the journal article localization with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the journal article localization
-	 * @return the journal article localization, or <code>null</code> if a journal article localization with the primary key could not be found
-	 */
-	@Override
-	public JournalArticleLocalization fetchByPrimaryKey(
-		Serializable primaryKey) {
-
-		if (ctPersistenceHelper.isProductionMode(
-				JournalArticleLocalization.class)) {
-
-			return super.fetchByPrimaryKey(primaryKey);
-		}
-
-		JournalArticleLocalization journalArticleLocalization = null;
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			journalArticleLocalization =
-				(JournalArticleLocalization)session.get(
-					JournalArticleLocalizationImpl.class, primaryKey);
-
-			if (journalArticleLocalization != null) {
-				cacheResult(journalArticleLocalization);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return journalArticleLocalization;
-	}
-
-	/**
-	 * Returns the journal article localization with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param articleLocalizationId the primary key of the journal article localization
 	 * @return the journal article localization, or <code>null</code> if a journal article localization with the primary key could not be found
 	 */
@@ -1987,84 +1944,6 @@ public class JournalArticleLocalizationPersistenceImpl
 		long articleLocalizationId) {
 
 		return fetchByPrimaryKey((Serializable)articleLocalizationId);
-	}
-
-	@Override
-	public Map<Serializable, JournalArticleLocalization> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (ctPersistenceHelper.isProductionMode(
-				JournalArticleLocalization.class)) {
-
-			return super.fetchByPrimaryKeys(primaryKeys);
-		}
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, JournalArticleLocalization> map =
-			new HashMap<Serializable, JournalArticleLocalization>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			JournalArticleLocalization journalArticleLocalization =
-				fetchByPrimaryKey(primaryKey);
-
-			if (journalArticleLocalization != null) {
-				map.put(primaryKey, journalArticleLocalization);
-			}
-
-			return map;
-		}
-
-		StringBundler sb = new StringBundler((primaryKeys.size() * 2) + 1);
-
-		sb.append(getSelectSQL());
-		sb.append(" WHERE ");
-		sb.append(getPKDBName());
-		sb.append(" IN (");
-
-		for (Serializable primaryKey : primaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (JournalArticleLocalization journalArticleLocalization :
-					(List<JournalArticleLocalization>)query.list()) {
-
-				map.put(
-					journalArticleLocalization.getPrimaryKeyObj(),
-					journalArticleLocalization);
-
-				cacheResult(journalArticleLocalization);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -2266,6 +2145,12 @@ public class JournalArticleLocalizationPersistenceImpl
 
 	@Override
 	protected EntityCache getEntityCache() {
+		if (!ctPersistenceHelper.isProductionMode(
+				JournalArticleLocalization.class)) {
+
+			return dummyEntityCache;
+		}
+
 		return entityCache;
 	}
 

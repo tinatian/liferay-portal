@@ -58,7 +58,6 @@ import java.util.Date;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -4453,121 +4452,12 @@ public class AssetEntryUsagePersistenceImpl
 	/**
 	 * Returns the asset entry usage with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the asset entry usage
-	 * @return the asset entry usage, or <code>null</code> if a asset entry usage with the primary key could not be found
-	 */
-	@Override
-	public AssetEntryUsage fetchByPrimaryKey(Serializable primaryKey) {
-		if (ctPersistenceHelper.isProductionMode(AssetEntryUsage.class)) {
-			return super.fetchByPrimaryKey(primaryKey);
-		}
-
-		AssetEntryUsage assetEntryUsage = null;
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			assetEntryUsage = (AssetEntryUsage)session.get(
-				AssetEntryUsageImpl.class, primaryKey);
-
-			if (assetEntryUsage != null) {
-				cacheResult(assetEntryUsage);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return assetEntryUsage;
-	}
-
-	/**
-	 * Returns the asset entry usage with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param assetEntryUsageId the primary key of the asset entry usage
 	 * @return the asset entry usage, or <code>null</code> if a asset entry usage with the primary key could not be found
 	 */
 	@Override
 	public AssetEntryUsage fetchByPrimaryKey(long assetEntryUsageId) {
 		return fetchByPrimaryKey((Serializable)assetEntryUsageId);
-	}
-
-	@Override
-	public Map<Serializable, AssetEntryUsage> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (ctPersistenceHelper.isProductionMode(AssetEntryUsage.class)) {
-			return super.fetchByPrimaryKeys(primaryKeys);
-		}
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, AssetEntryUsage> map =
-			new HashMap<Serializable, AssetEntryUsage>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			AssetEntryUsage assetEntryUsage = fetchByPrimaryKey(primaryKey);
-
-			if (assetEntryUsage != null) {
-				map.put(primaryKey, assetEntryUsage);
-			}
-
-			return map;
-		}
-
-		StringBundler sb = new StringBundler((primaryKeys.size() * 2) + 1);
-
-		sb.append(getSelectSQL());
-		sb.append(" WHERE ");
-		sb.append(getPKDBName());
-		sb.append(" IN (");
-
-		for (Serializable primaryKey : primaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (AssetEntryUsage assetEntryUsage :
-					(List<AssetEntryUsage>)query.list()) {
-
-				map.put(assetEntryUsage.getPrimaryKeyObj(), assetEntryUsage);
-
-				cacheResult(assetEntryUsage);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -4770,6 +4660,10 @@ public class AssetEntryUsagePersistenceImpl
 
 	@Override
 	protected EntityCache getEntityCache() {
+		if (!ctPersistenceHelper.isProductionMode(AssetEntryUsage.class)) {
+			return dummyEntityCache;
+		}
+
 		return entityCache;
 	}
 

@@ -58,7 +58,6 @@ import java.util.Date;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -4136,124 +4135,12 @@ public class DDMFormInstanceRecordPersistenceImpl
 	/**
 	 * Returns the ddm form instance record with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the ddm form instance record
-	 * @return the ddm form instance record, or <code>null</code> if a ddm form instance record with the primary key could not be found
-	 */
-	@Override
-	public DDMFormInstanceRecord fetchByPrimaryKey(Serializable primaryKey) {
-		if (ctPersistenceHelper.isProductionMode(DDMFormInstanceRecord.class)) {
-			return super.fetchByPrimaryKey(primaryKey);
-		}
-
-		DDMFormInstanceRecord ddmFormInstanceRecord = null;
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			ddmFormInstanceRecord = (DDMFormInstanceRecord)session.get(
-				DDMFormInstanceRecordImpl.class, primaryKey);
-
-			if (ddmFormInstanceRecord != null) {
-				cacheResult(ddmFormInstanceRecord);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return ddmFormInstanceRecord;
-	}
-
-	/**
-	 * Returns the ddm form instance record with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param formInstanceRecordId the primary key of the ddm form instance record
 	 * @return the ddm form instance record, or <code>null</code> if a ddm form instance record with the primary key could not be found
 	 */
 	@Override
 	public DDMFormInstanceRecord fetchByPrimaryKey(long formInstanceRecordId) {
 		return fetchByPrimaryKey((Serializable)formInstanceRecordId);
-	}
-
-	@Override
-	public Map<Serializable, DDMFormInstanceRecord> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (ctPersistenceHelper.isProductionMode(DDMFormInstanceRecord.class)) {
-			return super.fetchByPrimaryKeys(primaryKeys);
-		}
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, DDMFormInstanceRecord> map =
-			new HashMap<Serializable, DDMFormInstanceRecord>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			DDMFormInstanceRecord ddmFormInstanceRecord = fetchByPrimaryKey(
-				primaryKey);
-
-			if (ddmFormInstanceRecord != null) {
-				map.put(primaryKey, ddmFormInstanceRecord);
-			}
-
-			return map;
-		}
-
-		StringBundler sb = new StringBundler((primaryKeys.size() * 2) + 1);
-
-		sb.append(getSelectSQL());
-		sb.append(" WHERE ");
-		sb.append(getPKDBName());
-		sb.append(" IN (");
-
-		for (Serializable primaryKey : primaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (DDMFormInstanceRecord ddmFormInstanceRecord :
-					(List<DDMFormInstanceRecord>)query.list()) {
-
-				map.put(
-					ddmFormInstanceRecord.getPrimaryKeyObj(),
-					ddmFormInstanceRecord);
-
-				cacheResult(ddmFormInstanceRecord);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -4457,6 +4344,12 @@ public class DDMFormInstanceRecordPersistenceImpl
 
 	@Override
 	protected EntityCache getEntityCache() {
+		if (!ctPersistenceHelper.isProductionMode(
+				DDMFormInstanceRecord.class)) {
+
+			return dummyEntityCache;
+		}
+
 		return entityCache;
 	}
 

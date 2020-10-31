@@ -50,9 +50,7 @@ import java.lang.reflect.InvocationHandler;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -5573,124 +5571,12 @@ public class JournalContentSearchPersistenceImpl
 	/**
 	 * Returns the journal content search with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the journal content search
-	 * @return the journal content search, or <code>null</code> if a journal content search with the primary key could not be found
-	 */
-	@Override
-	public JournalContentSearch fetchByPrimaryKey(Serializable primaryKey) {
-		if (ctPersistenceHelper.isProductionMode(JournalContentSearch.class)) {
-			return super.fetchByPrimaryKey(primaryKey);
-		}
-
-		JournalContentSearch journalContentSearch = null;
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			journalContentSearch = (JournalContentSearch)session.get(
-				JournalContentSearchImpl.class, primaryKey);
-
-			if (journalContentSearch != null) {
-				cacheResult(journalContentSearch);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return journalContentSearch;
-	}
-
-	/**
-	 * Returns the journal content search with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param contentSearchId the primary key of the journal content search
 	 * @return the journal content search, or <code>null</code> if a journal content search with the primary key could not be found
 	 */
 	@Override
 	public JournalContentSearch fetchByPrimaryKey(long contentSearchId) {
 		return fetchByPrimaryKey((Serializable)contentSearchId);
-	}
-
-	@Override
-	public Map<Serializable, JournalContentSearch> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (ctPersistenceHelper.isProductionMode(JournalContentSearch.class)) {
-			return super.fetchByPrimaryKeys(primaryKeys);
-		}
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, JournalContentSearch> map =
-			new HashMap<Serializable, JournalContentSearch>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			JournalContentSearch journalContentSearch = fetchByPrimaryKey(
-				primaryKey);
-
-			if (journalContentSearch != null) {
-				map.put(primaryKey, journalContentSearch);
-			}
-
-			return map;
-		}
-
-		StringBundler sb = new StringBundler((primaryKeys.size() * 2) + 1);
-
-		sb.append(getSelectSQL());
-		sb.append(" WHERE ");
-		sb.append(getPKDBName());
-		sb.append(" IN (");
-
-		for (Serializable primaryKey : primaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (JournalContentSearch journalContentSearch :
-					(List<JournalContentSearch>)query.list()) {
-
-				map.put(
-					journalContentSearch.getPrimaryKeyObj(),
-					journalContentSearch);
-
-				cacheResult(journalContentSearch);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -5889,6 +5775,10 @@ public class JournalContentSearchPersistenceImpl
 
 	@Override
 	protected EntityCache getEntityCache() {
+		if (!ctPersistenceHelper.isProductionMode(JournalContentSearch.class)) {
+			return dummyEntityCache;
+		}
+
 		return entityCache;
 	}
 

@@ -68,7 +68,6 @@ import java.util.Date;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -2998,117 +2997,12 @@ public class TeamPersistenceImpl
 	/**
 	 * Returns the team with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the team
-	 * @return the team, or <code>null</code> if a team with the primary key could not be found
-	 */
-	@Override
-	public Team fetchByPrimaryKey(Serializable primaryKey) {
-		if (CTPersistenceHelperUtil.isProductionMode(Team.class)) {
-			return super.fetchByPrimaryKey(primaryKey);
-		}
-
-		Team team = null;
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			team = (Team)session.get(TeamImpl.class, primaryKey);
-
-			if (team != null) {
-				cacheResult(team);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return team;
-	}
-
-	/**
-	 * Returns the team with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param teamId the primary key of the team
 	 * @return the team, or <code>null</code> if a team with the primary key could not be found
 	 */
 	@Override
 	public Team fetchByPrimaryKey(long teamId) {
 		return fetchByPrimaryKey((Serializable)teamId);
-	}
-
-	@Override
-	public Map<Serializable, Team> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (CTPersistenceHelperUtil.isProductionMode(Team.class)) {
-			return super.fetchByPrimaryKeys(primaryKeys);
-		}
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, Team> map = new HashMap<Serializable, Team>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			Team team = fetchByPrimaryKey(primaryKey);
-
-			if (team != null) {
-				map.put(primaryKey, team);
-			}
-
-			return map;
-		}
-
-		StringBundler sb = new StringBundler((primaryKeys.size() * 2) + 1);
-
-		sb.append(getSelectSQL());
-		sb.append(" WHERE ");
-		sb.append(getPKDBName());
-		sb.append(" IN (");
-
-		for (Serializable primaryKey : primaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (Team team : (List<Team>)query.list()) {
-				map.put(team.getPrimaryKeyObj(), team);
-
-				cacheResult(team);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -3935,6 +3829,10 @@ public class TeamPersistenceImpl
 
 	@Override
 	protected EntityCache getEntityCache() {
+		if (!CTPersistenceHelperUtil.isProductionMode(Team.class)) {
+			return dummyEntityCache;
+		}
+
 		return EntityCacheUtil.getEntityCache();
 	}
 

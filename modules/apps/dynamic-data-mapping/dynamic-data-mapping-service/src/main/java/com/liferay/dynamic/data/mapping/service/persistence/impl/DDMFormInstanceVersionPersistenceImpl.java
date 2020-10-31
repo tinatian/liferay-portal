@@ -53,7 +53,6 @@ import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -1816,44 +1815,6 @@ public class DDMFormInstanceVersionPersistenceImpl
 	/**
 	 * Returns the ddm form instance version with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the ddm form instance version
-	 * @return the ddm form instance version, or <code>null</code> if a ddm form instance version with the primary key could not be found
-	 */
-	@Override
-	public DDMFormInstanceVersion fetchByPrimaryKey(Serializable primaryKey) {
-		if (ctPersistenceHelper.isProductionMode(
-				DDMFormInstanceVersion.class)) {
-
-			return super.fetchByPrimaryKey(primaryKey);
-		}
-
-		DDMFormInstanceVersion ddmFormInstanceVersion = null;
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			ddmFormInstanceVersion = (DDMFormInstanceVersion)session.get(
-				DDMFormInstanceVersionImpl.class, primaryKey);
-
-			if (ddmFormInstanceVersion != null) {
-				cacheResult(ddmFormInstanceVersion);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return ddmFormInstanceVersion;
-	}
-
-	/**
-	 * Returns the ddm form instance version with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param formInstanceVersionId the primary key of the ddm form instance version
 	 * @return the ddm form instance version, or <code>null</code> if a ddm form instance version with the primary key could not be found
 	 */
@@ -1862,84 +1823,6 @@ public class DDMFormInstanceVersionPersistenceImpl
 		long formInstanceVersionId) {
 
 		return fetchByPrimaryKey((Serializable)formInstanceVersionId);
-	}
-
-	@Override
-	public Map<Serializable, DDMFormInstanceVersion> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (ctPersistenceHelper.isProductionMode(
-				DDMFormInstanceVersion.class)) {
-
-			return super.fetchByPrimaryKeys(primaryKeys);
-		}
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, DDMFormInstanceVersion> map =
-			new HashMap<Serializable, DDMFormInstanceVersion>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			DDMFormInstanceVersion ddmFormInstanceVersion = fetchByPrimaryKey(
-				primaryKey);
-
-			if (ddmFormInstanceVersion != null) {
-				map.put(primaryKey, ddmFormInstanceVersion);
-			}
-
-			return map;
-		}
-
-		StringBundler sb = new StringBundler((primaryKeys.size() * 2) + 1);
-
-		sb.append(getSelectSQL());
-		sb.append(" WHERE ");
-		sb.append(getPKDBName());
-		sb.append(" IN (");
-
-		for (Serializable primaryKey : primaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (DDMFormInstanceVersion ddmFormInstanceVersion :
-					(List<DDMFormInstanceVersion>)query.list()) {
-
-				map.put(
-					ddmFormInstanceVersion.getPrimaryKeyObj(),
-					ddmFormInstanceVersion);
-
-				cacheResult(ddmFormInstanceVersion);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -2143,6 +2026,12 @@ public class DDMFormInstanceVersionPersistenceImpl
 
 	@Override
 	protected EntityCache getEntityCache() {
+		if (!ctPersistenceHelper.isProductionMode(
+				DDMFormInstanceVersion.class)) {
+
+			return dummyEntityCache;
+		}
+
 		return entityCache;
 	}
 

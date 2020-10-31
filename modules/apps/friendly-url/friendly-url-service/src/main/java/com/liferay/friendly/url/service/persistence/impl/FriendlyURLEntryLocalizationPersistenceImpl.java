@@ -50,9 +50,7 @@ import java.lang.reflect.InvocationHandler;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -2312,47 +2310,6 @@ public class FriendlyURLEntryLocalizationPersistenceImpl
 	/**
 	 * Returns the friendly url entry localization with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the friendly url entry localization
-	 * @return the friendly url entry localization, or <code>null</code> if a friendly url entry localization with the primary key could not be found
-	 */
-	@Override
-	public FriendlyURLEntryLocalization fetchByPrimaryKey(
-		Serializable primaryKey) {
-
-		if (ctPersistenceHelper.isProductionMode(
-				FriendlyURLEntryLocalization.class)) {
-
-			return super.fetchByPrimaryKey(primaryKey);
-		}
-
-		FriendlyURLEntryLocalization friendlyURLEntryLocalization = null;
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			friendlyURLEntryLocalization =
-				(FriendlyURLEntryLocalization)session.get(
-					FriendlyURLEntryLocalizationImpl.class, primaryKey);
-
-			if (friendlyURLEntryLocalization != null) {
-				cacheResult(friendlyURLEntryLocalization);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return friendlyURLEntryLocalization;
-	}
-
-	/**
-	 * Returns the friendly url entry localization with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param friendlyURLEntryLocalizationId the primary key of the friendly url entry localization
 	 * @return the friendly url entry localization, or <code>null</code> if a friendly url entry localization with the primary key could not be found
 	 */
@@ -2361,84 +2318,6 @@ public class FriendlyURLEntryLocalizationPersistenceImpl
 		long friendlyURLEntryLocalizationId) {
 
 		return fetchByPrimaryKey((Serializable)friendlyURLEntryLocalizationId);
-	}
-
-	@Override
-	public Map<Serializable, FriendlyURLEntryLocalization> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (ctPersistenceHelper.isProductionMode(
-				FriendlyURLEntryLocalization.class)) {
-
-			return super.fetchByPrimaryKeys(primaryKeys);
-		}
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, FriendlyURLEntryLocalization> map =
-			new HashMap<Serializable, FriendlyURLEntryLocalization>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			FriendlyURLEntryLocalization friendlyURLEntryLocalization =
-				fetchByPrimaryKey(primaryKey);
-
-			if (friendlyURLEntryLocalization != null) {
-				map.put(primaryKey, friendlyURLEntryLocalization);
-			}
-
-			return map;
-		}
-
-		StringBundler sb = new StringBundler((primaryKeys.size() * 2) + 1);
-
-		sb.append(getSelectSQL());
-		sb.append(" WHERE ");
-		sb.append(getPKDBName());
-		sb.append(" IN (");
-
-		for (Serializable primaryKey : primaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (FriendlyURLEntryLocalization friendlyURLEntryLocalization :
-					(List<FriendlyURLEntryLocalization>)query.list()) {
-
-				map.put(
-					friendlyURLEntryLocalization.getPrimaryKeyObj(),
-					friendlyURLEntryLocalization);
-
-				cacheResult(friendlyURLEntryLocalization);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -2640,6 +2519,12 @@ public class FriendlyURLEntryLocalizationPersistenceImpl
 
 	@Override
 	protected EntityCache getEntityCache() {
+		if (!ctPersistenceHelper.isProductionMode(
+				FriendlyURLEntryLocalization.class)) {
+
+			return dummyEntityCache;
+		}
+
 		return entityCache;
 	}
 

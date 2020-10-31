@@ -51,9 +51,7 @@ import java.lang.reflect.InvocationHandler;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -2402,128 +2400,12 @@ public class SocialActivityLimitPersistenceImpl
 	/**
 	 * Returns the social activity limit with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the social activity limit
-	 * @return the social activity limit, or <code>null</code> if a social activity limit with the primary key could not be found
-	 */
-	@Override
-	public SocialActivityLimit fetchByPrimaryKey(Serializable primaryKey) {
-		if (CTPersistenceHelperUtil.isProductionMode(
-				SocialActivityLimit.class)) {
-
-			return super.fetchByPrimaryKey(primaryKey);
-		}
-
-		SocialActivityLimit socialActivityLimit = null;
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			socialActivityLimit = (SocialActivityLimit)session.get(
-				SocialActivityLimitImpl.class, primaryKey);
-
-			if (socialActivityLimit != null) {
-				cacheResult(socialActivityLimit);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return socialActivityLimit;
-	}
-
-	/**
-	 * Returns the social activity limit with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param activityLimitId the primary key of the social activity limit
 	 * @return the social activity limit, or <code>null</code> if a social activity limit with the primary key could not be found
 	 */
 	@Override
 	public SocialActivityLimit fetchByPrimaryKey(long activityLimitId) {
 		return fetchByPrimaryKey((Serializable)activityLimitId);
-	}
-
-	@Override
-	public Map<Serializable, SocialActivityLimit> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (CTPersistenceHelperUtil.isProductionMode(
-				SocialActivityLimit.class)) {
-
-			return super.fetchByPrimaryKeys(primaryKeys);
-		}
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, SocialActivityLimit> map =
-			new HashMap<Serializable, SocialActivityLimit>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			SocialActivityLimit socialActivityLimit = fetchByPrimaryKey(
-				primaryKey);
-
-			if (socialActivityLimit != null) {
-				map.put(primaryKey, socialActivityLimit);
-			}
-
-			return map;
-		}
-
-		StringBundler sb = new StringBundler((primaryKeys.size() * 2) + 1);
-
-		sb.append(getSelectSQL());
-		sb.append(" WHERE ");
-		sb.append(getPKDBName());
-		sb.append(" IN (");
-
-		for (Serializable primaryKey : primaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (SocialActivityLimit socialActivityLimit :
-					(List<SocialActivityLimit>)query.list()) {
-
-				map.put(
-					socialActivityLimit.getPrimaryKeyObj(),
-					socialActivityLimit);
-
-				cacheResult(socialActivityLimit);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -2722,6 +2604,12 @@ public class SocialActivityLimitPersistenceImpl
 
 	@Override
 	protected EntityCache getEntityCache() {
+		if (!CTPersistenceHelperUtil.isProductionMode(
+				SocialActivityLimit.class)) {
+
+			return dummyEntityCache;
+		}
+
 		return EntityCacheUtil.getEntityCache();
 	}
 

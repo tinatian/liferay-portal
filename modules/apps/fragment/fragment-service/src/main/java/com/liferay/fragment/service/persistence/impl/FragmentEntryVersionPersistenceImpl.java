@@ -56,7 +56,6 @@ import java.util.Date;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -15454,124 +15453,12 @@ public class FragmentEntryVersionPersistenceImpl
 	/**
 	 * Returns the fragment entry version with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the fragment entry version
-	 * @return the fragment entry version, or <code>null</code> if a fragment entry version with the primary key could not be found
-	 */
-	@Override
-	public FragmentEntryVersion fetchByPrimaryKey(Serializable primaryKey) {
-		if (ctPersistenceHelper.isProductionMode(FragmentEntryVersion.class)) {
-			return super.fetchByPrimaryKey(primaryKey);
-		}
-
-		FragmentEntryVersion fragmentEntryVersion = null;
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			fragmentEntryVersion = (FragmentEntryVersion)session.get(
-				FragmentEntryVersionImpl.class, primaryKey);
-
-			if (fragmentEntryVersion != null) {
-				cacheResult(fragmentEntryVersion);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return fragmentEntryVersion;
-	}
-
-	/**
-	 * Returns the fragment entry version with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param fragmentEntryVersionId the primary key of the fragment entry version
 	 * @return the fragment entry version, or <code>null</code> if a fragment entry version with the primary key could not be found
 	 */
 	@Override
 	public FragmentEntryVersion fetchByPrimaryKey(long fragmentEntryVersionId) {
 		return fetchByPrimaryKey((Serializable)fragmentEntryVersionId);
-	}
-
-	@Override
-	public Map<Serializable, FragmentEntryVersion> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (ctPersistenceHelper.isProductionMode(FragmentEntryVersion.class)) {
-			return super.fetchByPrimaryKeys(primaryKeys);
-		}
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, FragmentEntryVersion> map =
-			new HashMap<Serializable, FragmentEntryVersion>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			FragmentEntryVersion fragmentEntryVersion = fetchByPrimaryKey(
-				primaryKey);
-
-			if (fragmentEntryVersion != null) {
-				map.put(primaryKey, fragmentEntryVersion);
-			}
-
-			return map;
-		}
-
-		StringBundler sb = new StringBundler((primaryKeys.size() * 2) + 1);
-
-		sb.append(getSelectSQL());
-		sb.append(" WHERE ");
-		sb.append(getPKDBName());
-		sb.append(" IN (");
-
-		for (Serializable primaryKey : primaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (FragmentEntryVersion fragmentEntryVersion :
-					(List<FragmentEntryVersion>)query.list()) {
-
-				map.put(
-					fragmentEntryVersion.getPrimaryKeyObj(),
-					fragmentEntryVersion);
-
-				cacheResult(fragmentEntryVersion);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -15775,6 +15662,10 @@ public class FragmentEntryVersionPersistenceImpl
 
 	@Override
 	protected EntityCache getEntityCache() {
+		if (!ctPersistenceHelper.isProductionMode(FragmentEntryVersion.class)) {
+			return dummyEntityCache;
+		}
+
 		return entityCache;
 	}
 

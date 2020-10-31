@@ -56,9 +56,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -1040,119 +1038,12 @@ public class RatingsStatsPersistenceImpl
 	/**
 	 * Returns the ratings stats with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the ratings stats
-	 * @return the ratings stats, or <code>null</code> if a ratings stats with the primary key could not be found
-	 */
-	@Override
-	public RatingsStats fetchByPrimaryKey(Serializable primaryKey) {
-		if (CTPersistenceHelperUtil.isProductionMode(RatingsStats.class)) {
-			return super.fetchByPrimaryKey(primaryKey);
-		}
-
-		RatingsStats ratingsStats = null;
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			ratingsStats = (RatingsStats)session.get(
-				RatingsStatsImpl.class, primaryKey);
-
-			if (ratingsStats != null) {
-				cacheResult(ratingsStats);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return ratingsStats;
-	}
-
-	/**
-	 * Returns the ratings stats with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param statsId the primary key of the ratings stats
 	 * @return the ratings stats, or <code>null</code> if a ratings stats with the primary key could not be found
 	 */
 	@Override
 	public RatingsStats fetchByPrimaryKey(long statsId) {
 		return fetchByPrimaryKey((Serializable)statsId);
-	}
-
-	@Override
-	public Map<Serializable, RatingsStats> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (CTPersistenceHelperUtil.isProductionMode(RatingsStats.class)) {
-			return super.fetchByPrimaryKeys(primaryKeys);
-		}
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, RatingsStats> map =
-			new HashMap<Serializable, RatingsStats>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			RatingsStats ratingsStats = fetchByPrimaryKey(primaryKey);
-
-			if (ratingsStats != null) {
-				map.put(primaryKey, ratingsStats);
-			}
-
-			return map;
-		}
-
-		StringBundler sb = new StringBundler((primaryKeys.size() * 2) + 1);
-
-		sb.append(getSelectSQL());
-		sb.append(" WHERE ");
-		sb.append(getPKDBName());
-		sb.append(" IN (");
-
-		for (Serializable primaryKey : primaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (RatingsStats ratingsStats : (List<RatingsStats>)query.list()) {
-				map.put(ratingsStats.getPrimaryKeyObj(), ratingsStats);
-
-				cacheResult(ratingsStats);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -1348,6 +1239,10 @@ public class RatingsStatsPersistenceImpl
 
 	@Override
 	protected EntityCache getEntityCache() {
+		if (!CTPersistenceHelperUtil.isProductionMode(RatingsStats.class)) {
+			return dummyEntityCache;
+		}
+
 		return EntityCacheUtil.getEntityCache();
 	}
 

@@ -53,9 +53,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -1737,122 +1735,12 @@ public class SegmentsEntryRolePersistenceImpl
 	/**
 	 * Returns the segments entry role with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the segments entry role
-	 * @return the segments entry role, or <code>null</code> if a segments entry role with the primary key could not be found
-	 */
-	@Override
-	public SegmentsEntryRole fetchByPrimaryKey(Serializable primaryKey) {
-		if (ctPersistenceHelper.isProductionMode(SegmentsEntryRole.class)) {
-			return super.fetchByPrimaryKey(primaryKey);
-		}
-
-		SegmentsEntryRole segmentsEntryRole = null;
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			segmentsEntryRole = (SegmentsEntryRole)session.get(
-				SegmentsEntryRoleImpl.class, primaryKey);
-
-			if (segmentsEntryRole != null) {
-				cacheResult(segmentsEntryRole);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return segmentsEntryRole;
-	}
-
-	/**
-	 * Returns the segments entry role with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param segmentsEntryRoleId the primary key of the segments entry role
 	 * @return the segments entry role, or <code>null</code> if a segments entry role with the primary key could not be found
 	 */
 	@Override
 	public SegmentsEntryRole fetchByPrimaryKey(long segmentsEntryRoleId) {
 		return fetchByPrimaryKey((Serializable)segmentsEntryRoleId);
-	}
-
-	@Override
-	public Map<Serializable, SegmentsEntryRole> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (ctPersistenceHelper.isProductionMode(SegmentsEntryRole.class)) {
-			return super.fetchByPrimaryKeys(primaryKeys);
-		}
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, SegmentsEntryRole> map =
-			new HashMap<Serializable, SegmentsEntryRole>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			SegmentsEntryRole segmentsEntryRole = fetchByPrimaryKey(primaryKey);
-
-			if (segmentsEntryRole != null) {
-				map.put(primaryKey, segmentsEntryRole);
-			}
-
-			return map;
-		}
-
-		StringBundler sb = new StringBundler((primaryKeys.size() * 2) + 1);
-
-		sb.append(getSelectSQL());
-		sb.append(" WHERE ");
-		sb.append(getPKDBName());
-		sb.append(" IN (");
-
-		for (Serializable primaryKey : primaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (SegmentsEntryRole segmentsEntryRole :
-					(List<SegmentsEntryRole>)query.list()) {
-
-				map.put(
-					segmentsEntryRole.getPrimaryKeyObj(), segmentsEntryRole);
-
-				cacheResult(segmentsEntryRole);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -2050,6 +1938,10 @@ public class SegmentsEntryRolePersistenceImpl
 
 	@Override
 	protected EntityCache getEntityCache() {
+		if (!ctPersistenceHelper.isProductionMode(SegmentsEntryRole.class)) {
+			return dummyEntityCache;
+		}
+
 		return entityCache;
 	}
 

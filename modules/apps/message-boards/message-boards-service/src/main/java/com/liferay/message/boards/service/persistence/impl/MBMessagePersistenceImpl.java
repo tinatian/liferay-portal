@@ -69,7 +69,6 @@ import java.util.Date;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -21522,118 +21521,12 @@ public class MBMessagePersistenceImpl
 	/**
 	 * Returns the message-boards message with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the message-boards message
-	 * @return the message-boards message, or <code>null</code> if a message-boards message with the primary key could not be found
-	 */
-	@Override
-	public MBMessage fetchByPrimaryKey(Serializable primaryKey) {
-		if (ctPersistenceHelper.isProductionMode(MBMessage.class)) {
-			return super.fetchByPrimaryKey(primaryKey);
-		}
-
-		MBMessage mbMessage = null;
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			mbMessage = (MBMessage)session.get(MBMessageImpl.class, primaryKey);
-
-			if (mbMessage != null) {
-				cacheResult(mbMessage);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return mbMessage;
-	}
-
-	/**
-	 * Returns the message-boards message with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param messageId the primary key of the message-boards message
 	 * @return the message-boards message, or <code>null</code> if a message-boards message with the primary key could not be found
 	 */
 	@Override
 	public MBMessage fetchByPrimaryKey(long messageId) {
 		return fetchByPrimaryKey((Serializable)messageId);
-	}
-
-	@Override
-	public Map<Serializable, MBMessage> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (ctPersistenceHelper.isProductionMode(MBMessage.class)) {
-			return super.fetchByPrimaryKeys(primaryKeys);
-		}
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, MBMessage> map =
-			new HashMap<Serializable, MBMessage>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			MBMessage mbMessage = fetchByPrimaryKey(primaryKey);
-
-			if (mbMessage != null) {
-				map.put(primaryKey, mbMessage);
-			}
-
-			return map;
-		}
-
-		StringBundler sb = new StringBundler((primaryKeys.size() * 2) + 1);
-
-		sb.append(getSelectSQL());
-		sb.append(" WHERE ");
-		sb.append(getPKDBName());
-		sb.append(" IN (");
-
-		for (Serializable primaryKey : primaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (MBMessage mbMessage : (List<MBMessage>)query.list()) {
-				map.put(mbMessage.getPrimaryKeyObj(), mbMessage);
-
-				cacheResult(mbMessage);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -21834,6 +21727,10 @@ public class MBMessagePersistenceImpl
 
 	@Override
 	protected EntityCache getEntityCache() {
+		if (!ctPersistenceHelper.isProductionMode(MBMessage.class)) {
+			return dummyEntityCache;
+		}
+
 		return entityCache;
 	}
 

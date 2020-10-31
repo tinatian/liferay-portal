@@ -62,7 +62,6 @@ import java.util.Date;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -10690,119 +10689,12 @@ public class DDMStructurePersistenceImpl
 	/**
 	 * Returns the ddm structure with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the ddm structure
-	 * @return the ddm structure, or <code>null</code> if a ddm structure with the primary key could not be found
-	 */
-	@Override
-	public DDMStructure fetchByPrimaryKey(Serializable primaryKey) {
-		if (ctPersistenceHelper.isProductionMode(DDMStructure.class)) {
-			return super.fetchByPrimaryKey(primaryKey);
-		}
-
-		DDMStructure ddmStructure = null;
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			ddmStructure = (DDMStructure)session.get(
-				DDMStructureImpl.class, primaryKey);
-
-			if (ddmStructure != null) {
-				cacheResult(ddmStructure);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return ddmStructure;
-	}
-
-	/**
-	 * Returns the ddm structure with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param structureId the primary key of the ddm structure
 	 * @return the ddm structure, or <code>null</code> if a ddm structure with the primary key could not be found
 	 */
 	@Override
 	public DDMStructure fetchByPrimaryKey(long structureId) {
 		return fetchByPrimaryKey((Serializable)structureId);
-	}
-
-	@Override
-	public Map<Serializable, DDMStructure> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (ctPersistenceHelper.isProductionMode(DDMStructure.class)) {
-			return super.fetchByPrimaryKeys(primaryKeys);
-		}
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, DDMStructure> map =
-			new HashMap<Serializable, DDMStructure>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			DDMStructure ddmStructure = fetchByPrimaryKey(primaryKey);
-
-			if (ddmStructure != null) {
-				map.put(primaryKey, ddmStructure);
-			}
-
-			return map;
-		}
-
-		StringBundler sb = new StringBundler((primaryKeys.size() * 2) + 1);
-
-		sb.append(getSelectSQL());
-		sb.append(" WHERE ");
-		sb.append(getPKDBName());
-		sb.append(" IN (");
-
-		for (Serializable primaryKey : primaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (DDMStructure ddmStructure : (List<DDMStructure>)query.list()) {
-				map.put(ddmStructure.getPrimaryKeyObj(), ddmStructure);
-
-				cacheResult(ddmStructure);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -11003,6 +10895,10 @@ public class DDMStructurePersistenceImpl
 
 	@Override
 	protected EntityCache getEntityCache() {
+		if (!ctPersistenceHelper.isProductionMode(DDMStructure.class)) {
+			return dummyEntityCache;
+		}
+
 		return entityCache;
 	}
 

@@ -51,9 +51,7 @@ import java.lang.reflect.InvocationHandler;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -1787,47 +1785,6 @@ public class AssetEntryAssetCategoryRelPersistenceImpl
 	/**
 	 * Returns the asset entry asset category rel with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the asset entry asset category rel
-	 * @return the asset entry asset category rel, or <code>null</code> if a asset entry asset category rel with the primary key could not be found
-	 */
-	@Override
-	public AssetEntryAssetCategoryRel fetchByPrimaryKey(
-		Serializable primaryKey) {
-
-		if (ctPersistenceHelper.isProductionMode(
-				AssetEntryAssetCategoryRel.class)) {
-
-			return super.fetchByPrimaryKey(primaryKey);
-		}
-
-		AssetEntryAssetCategoryRel assetEntryAssetCategoryRel = null;
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			assetEntryAssetCategoryRel =
-				(AssetEntryAssetCategoryRel)session.get(
-					AssetEntryAssetCategoryRelImpl.class, primaryKey);
-
-			if (assetEntryAssetCategoryRel != null) {
-				cacheResult(assetEntryAssetCategoryRel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return assetEntryAssetCategoryRel;
-	}
-
-	/**
-	 * Returns the asset entry asset category rel with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param assetEntryAssetCategoryRelId the primary key of the asset entry asset category rel
 	 * @return the asset entry asset category rel, or <code>null</code> if a asset entry asset category rel with the primary key could not be found
 	 */
@@ -1836,84 +1793,6 @@ public class AssetEntryAssetCategoryRelPersistenceImpl
 		long assetEntryAssetCategoryRelId) {
 
 		return fetchByPrimaryKey((Serializable)assetEntryAssetCategoryRelId);
-	}
-
-	@Override
-	public Map<Serializable, AssetEntryAssetCategoryRel> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (ctPersistenceHelper.isProductionMode(
-				AssetEntryAssetCategoryRel.class)) {
-
-			return super.fetchByPrimaryKeys(primaryKeys);
-		}
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, AssetEntryAssetCategoryRel> map =
-			new HashMap<Serializable, AssetEntryAssetCategoryRel>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			AssetEntryAssetCategoryRel assetEntryAssetCategoryRel =
-				fetchByPrimaryKey(primaryKey);
-
-			if (assetEntryAssetCategoryRel != null) {
-				map.put(primaryKey, assetEntryAssetCategoryRel);
-			}
-
-			return map;
-		}
-
-		StringBundler sb = new StringBundler((primaryKeys.size() * 2) + 1);
-
-		sb.append(getSelectSQL());
-		sb.append(" WHERE ");
-		sb.append(getPKDBName());
-		sb.append(" IN (");
-
-		for (Serializable primaryKey : primaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (AssetEntryAssetCategoryRel assetEntryAssetCategoryRel :
-					(List<AssetEntryAssetCategoryRel>)query.list()) {
-
-				map.put(
-					assetEntryAssetCategoryRel.getPrimaryKeyObj(),
-					assetEntryAssetCategoryRel);
-
-				cacheResult(assetEntryAssetCategoryRel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -2115,6 +1994,12 @@ public class AssetEntryAssetCategoryRelPersistenceImpl
 
 	@Override
 	protected EntityCache getEntityCache() {
+		if (!ctPersistenceHelper.isProductionMode(
+				AssetEntryAssetCategoryRel.class)) {
+
+			return dummyEntityCache;
+		}
+
 		return entityCache;
 	}
 

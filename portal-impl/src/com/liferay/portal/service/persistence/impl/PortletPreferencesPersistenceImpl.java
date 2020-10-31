@@ -52,9 +52,7 @@ import java.lang.reflect.InvocationHandler;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -6079,127 +6077,12 @@ public class PortletPreferencesPersistenceImpl
 	/**
 	 * Returns the portlet preferences with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the portlet preferences
-	 * @return the portlet preferences, or <code>null</code> if a portlet preferences with the primary key could not be found
-	 */
-	@Override
-	public PortletPreferences fetchByPrimaryKey(Serializable primaryKey) {
-		if (CTPersistenceHelperUtil.isProductionMode(
-				PortletPreferences.class)) {
-
-			return super.fetchByPrimaryKey(primaryKey);
-		}
-
-		PortletPreferences portletPreferences = null;
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			portletPreferences = (PortletPreferences)session.get(
-				PortletPreferencesImpl.class, primaryKey);
-
-			if (portletPreferences != null) {
-				cacheResult(portletPreferences);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return portletPreferences;
-	}
-
-	/**
-	 * Returns the portlet preferences with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param portletPreferencesId the primary key of the portlet preferences
 	 * @return the portlet preferences, or <code>null</code> if a portlet preferences with the primary key could not be found
 	 */
 	@Override
 	public PortletPreferences fetchByPrimaryKey(long portletPreferencesId) {
 		return fetchByPrimaryKey((Serializable)portletPreferencesId);
-	}
-
-	@Override
-	public Map<Serializable, PortletPreferences> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (CTPersistenceHelperUtil.isProductionMode(
-				PortletPreferences.class)) {
-
-			return super.fetchByPrimaryKeys(primaryKeys);
-		}
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, PortletPreferences> map =
-			new HashMap<Serializable, PortletPreferences>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			PortletPreferences portletPreferences = fetchByPrimaryKey(
-				primaryKey);
-
-			if (portletPreferences != null) {
-				map.put(primaryKey, portletPreferences);
-			}
-
-			return map;
-		}
-
-		StringBundler sb = new StringBundler((primaryKeys.size() * 2) + 1);
-
-		sb.append(getSelectSQL());
-		sb.append(" WHERE ");
-		sb.append(getPKDBName());
-		sb.append(" IN (");
-
-		for (Serializable primaryKey : primaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (PortletPreferences portletPreferences :
-					(List<PortletPreferences>)query.list()) {
-
-				map.put(
-					portletPreferences.getPrimaryKeyObj(), portletPreferences);
-
-				cacheResult(portletPreferences);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -6398,6 +6281,12 @@ public class PortletPreferencesPersistenceImpl
 
 	@Override
 	protected EntityCache getEntityCache() {
+		if (!CTPersistenceHelperUtil.isProductionMode(
+				PortletPreferences.class)) {
+
+			return dummyEntityCache;
+		}
+
 		return EntityCacheUtil.getEntityCache();
 	}
 

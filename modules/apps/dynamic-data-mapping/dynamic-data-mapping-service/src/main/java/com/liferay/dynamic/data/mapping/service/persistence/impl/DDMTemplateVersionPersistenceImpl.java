@@ -50,9 +50,7 @@ import java.lang.reflect.InvocationHandler;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -1779,123 +1777,12 @@ public class DDMTemplateVersionPersistenceImpl
 	/**
 	 * Returns the ddm template version with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the ddm template version
-	 * @return the ddm template version, or <code>null</code> if a ddm template version with the primary key could not be found
-	 */
-	@Override
-	public DDMTemplateVersion fetchByPrimaryKey(Serializable primaryKey) {
-		if (ctPersistenceHelper.isProductionMode(DDMTemplateVersion.class)) {
-			return super.fetchByPrimaryKey(primaryKey);
-		}
-
-		DDMTemplateVersion ddmTemplateVersion = null;
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			ddmTemplateVersion = (DDMTemplateVersion)session.get(
-				DDMTemplateVersionImpl.class, primaryKey);
-
-			if (ddmTemplateVersion != null) {
-				cacheResult(ddmTemplateVersion);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return ddmTemplateVersion;
-	}
-
-	/**
-	 * Returns the ddm template version with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param templateVersionId the primary key of the ddm template version
 	 * @return the ddm template version, or <code>null</code> if a ddm template version with the primary key could not be found
 	 */
 	@Override
 	public DDMTemplateVersion fetchByPrimaryKey(long templateVersionId) {
 		return fetchByPrimaryKey((Serializable)templateVersionId);
-	}
-
-	@Override
-	public Map<Serializable, DDMTemplateVersion> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (ctPersistenceHelper.isProductionMode(DDMTemplateVersion.class)) {
-			return super.fetchByPrimaryKeys(primaryKeys);
-		}
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, DDMTemplateVersion> map =
-			new HashMap<Serializable, DDMTemplateVersion>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			DDMTemplateVersion ddmTemplateVersion = fetchByPrimaryKey(
-				primaryKey);
-
-			if (ddmTemplateVersion != null) {
-				map.put(primaryKey, ddmTemplateVersion);
-			}
-
-			return map;
-		}
-
-		StringBundler sb = new StringBundler((primaryKeys.size() * 2) + 1);
-
-		sb.append(getSelectSQL());
-		sb.append(" WHERE ");
-		sb.append(getPKDBName());
-		sb.append(" IN (");
-
-		for (Serializable primaryKey : primaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (DDMTemplateVersion ddmTemplateVersion :
-					(List<DDMTemplateVersion>)query.list()) {
-
-				map.put(
-					ddmTemplateVersion.getPrimaryKeyObj(), ddmTemplateVersion);
-
-				cacheResult(ddmTemplateVersion);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -2094,6 +1981,10 @@ public class DDMTemplateVersionPersistenceImpl
 
 	@Override
 	protected EntityCache getEntityCache() {
+		if (!ctPersistenceHelper.isProductionMode(DDMTemplateVersion.class)) {
+			return dummyEntityCache;
+		}
+
 		return entityCache;
 	}
 

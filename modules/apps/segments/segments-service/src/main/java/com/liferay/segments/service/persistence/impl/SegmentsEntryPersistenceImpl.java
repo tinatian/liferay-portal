@@ -62,7 +62,6 @@ import java.util.Date;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -10296,121 +10295,12 @@ public class SegmentsEntryPersistenceImpl
 	/**
 	 * Returns the segments entry with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the segments entry
-	 * @return the segments entry, or <code>null</code> if a segments entry with the primary key could not be found
-	 */
-	@Override
-	public SegmentsEntry fetchByPrimaryKey(Serializable primaryKey) {
-		if (ctPersistenceHelper.isProductionMode(SegmentsEntry.class)) {
-			return super.fetchByPrimaryKey(primaryKey);
-		}
-
-		SegmentsEntry segmentsEntry = null;
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			segmentsEntry = (SegmentsEntry)session.get(
-				SegmentsEntryImpl.class, primaryKey);
-
-			if (segmentsEntry != null) {
-				cacheResult(segmentsEntry);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return segmentsEntry;
-	}
-
-	/**
-	 * Returns the segments entry with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param segmentsEntryId the primary key of the segments entry
 	 * @return the segments entry, or <code>null</code> if a segments entry with the primary key could not be found
 	 */
 	@Override
 	public SegmentsEntry fetchByPrimaryKey(long segmentsEntryId) {
 		return fetchByPrimaryKey((Serializable)segmentsEntryId);
-	}
-
-	@Override
-	public Map<Serializable, SegmentsEntry> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (ctPersistenceHelper.isProductionMode(SegmentsEntry.class)) {
-			return super.fetchByPrimaryKeys(primaryKeys);
-		}
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, SegmentsEntry> map =
-			new HashMap<Serializable, SegmentsEntry>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			SegmentsEntry segmentsEntry = fetchByPrimaryKey(primaryKey);
-
-			if (segmentsEntry != null) {
-				map.put(primaryKey, segmentsEntry);
-			}
-
-			return map;
-		}
-
-		StringBundler sb = new StringBundler((primaryKeys.size() * 2) + 1);
-
-		sb.append(getSelectSQL());
-		sb.append(" WHERE ");
-		sb.append(getPKDBName());
-		sb.append(" IN (");
-
-		for (Serializable primaryKey : primaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (SegmentsEntry segmentsEntry :
-					(List<SegmentsEntry>)query.list()) {
-
-				map.put(segmentsEntry.getPrimaryKeyObj(), segmentsEntry);
-
-				cacheResult(segmentsEntry);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -10612,6 +10502,10 @@ public class SegmentsEntryPersistenceImpl
 
 	@Override
 	protected EntityCache getEntityCache() {
+		if (!ctPersistenceHelper.isProductionMode(SegmentsEntry.class)) {
+			return dummyEntityCache;
+		}
+
 		return entityCache;
 	}
 

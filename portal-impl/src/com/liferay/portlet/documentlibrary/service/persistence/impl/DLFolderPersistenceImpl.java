@@ -68,7 +68,6 @@ import java.util.Date;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -12888,117 +12887,12 @@ public class DLFolderPersistenceImpl
 	/**
 	 * Returns the document library folder with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the document library folder
-	 * @return the document library folder, or <code>null</code> if a document library folder with the primary key could not be found
-	 */
-	@Override
-	public DLFolder fetchByPrimaryKey(Serializable primaryKey) {
-		if (CTPersistenceHelperUtil.isProductionMode(DLFolder.class)) {
-			return super.fetchByPrimaryKey(primaryKey);
-		}
-
-		DLFolder dlFolder = null;
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			dlFolder = (DLFolder)session.get(DLFolderImpl.class, primaryKey);
-
-			if (dlFolder != null) {
-				cacheResult(dlFolder);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return dlFolder;
-	}
-
-	/**
-	 * Returns the document library folder with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param folderId the primary key of the document library folder
 	 * @return the document library folder, or <code>null</code> if a document library folder with the primary key could not be found
 	 */
 	@Override
 	public DLFolder fetchByPrimaryKey(long folderId) {
 		return fetchByPrimaryKey((Serializable)folderId);
-	}
-
-	@Override
-	public Map<Serializable, DLFolder> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (CTPersistenceHelperUtil.isProductionMode(DLFolder.class)) {
-			return super.fetchByPrimaryKeys(primaryKeys);
-		}
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, DLFolder> map = new HashMap<Serializable, DLFolder>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			DLFolder dlFolder = fetchByPrimaryKey(primaryKey);
-
-			if (dlFolder != null) {
-				map.put(primaryKey, dlFolder);
-			}
-
-			return map;
-		}
-
-		StringBundler sb = new StringBundler((primaryKeys.size() * 2) + 1);
-
-		sb.append(getSelectSQL());
-		sb.append(" WHERE ");
-		sb.append(getPKDBName());
-		sb.append(" IN (");
-
-		for (Serializable primaryKey : primaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (DLFolder dlFolder : (List<DLFolder>)query.list()) {
-				map.put(dlFolder.getPrimaryKeyObj(), dlFolder);
-
-				cacheResult(dlFolder);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -13539,6 +13433,10 @@ public class DLFolderPersistenceImpl
 
 	@Override
 	protected EntityCache getEntityCache() {
+		if (!CTPersistenceHelperUtil.isProductionMode(DLFolder.class)) {
+			return dummyEntityCache;
+		}
+
 		return EntityCacheUtil.getEntityCache();
 	}
 

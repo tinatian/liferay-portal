@@ -61,7 +61,6 @@ import java.util.Date;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -7863,121 +7862,12 @@ public class JournalFolderPersistenceImpl
 	/**
 	 * Returns the journal folder with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the journal folder
-	 * @return the journal folder, or <code>null</code> if a journal folder with the primary key could not be found
-	 */
-	@Override
-	public JournalFolder fetchByPrimaryKey(Serializable primaryKey) {
-		if (ctPersistenceHelper.isProductionMode(JournalFolder.class)) {
-			return super.fetchByPrimaryKey(primaryKey);
-		}
-
-		JournalFolder journalFolder = null;
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			journalFolder = (JournalFolder)session.get(
-				JournalFolderImpl.class, primaryKey);
-
-			if (journalFolder != null) {
-				cacheResult(journalFolder);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return journalFolder;
-	}
-
-	/**
-	 * Returns the journal folder with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param folderId the primary key of the journal folder
 	 * @return the journal folder, or <code>null</code> if a journal folder with the primary key could not be found
 	 */
 	@Override
 	public JournalFolder fetchByPrimaryKey(long folderId) {
 		return fetchByPrimaryKey((Serializable)folderId);
-	}
-
-	@Override
-	public Map<Serializable, JournalFolder> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (ctPersistenceHelper.isProductionMode(JournalFolder.class)) {
-			return super.fetchByPrimaryKeys(primaryKeys);
-		}
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, JournalFolder> map =
-			new HashMap<Serializable, JournalFolder>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			JournalFolder journalFolder = fetchByPrimaryKey(primaryKey);
-
-			if (journalFolder != null) {
-				map.put(primaryKey, journalFolder);
-			}
-
-			return map;
-		}
-
-		StringBundler sb = new StringBundler((primaryKeys.size() * 2) + 1);
-
-		sb.append(getSelectSQL());
-		sb.append(" WHERE ");
-		sb.append(getPKDBName());
-		sb.append(" IN (");
-
-		for (Serializable primaryKey : primaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (JournalFolder journalFolder :
-					(List<JournalFolder>)query.list()) {
-
-				map.put(journalFolder.getPrimaryKeyObj(), journalFolder);
-
-				cacheResult(journalFolder);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -8179,6 +8069,10 @@ public class JournalFolderPersistenceImpl
 
 	@Override
 	protected EntityCache getEntityCache() {
+		if (!ctPersistenceHelper.isProductionMode(JournalFolder.class)) {
+			return dummyEntityCache;
+		}
+
 		return entityCache;
 	}
 

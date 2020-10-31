@@ -63,7 +63,6 @@ import java.util.Date;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -15762,117 +15761,12 @@ public class LayoutPersistenceImpl
 	/**
 	 * Returns the layout with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the layout
-	 * @return the layout, or <code>null</code> if a layout with the primary key could not be found
-	 */
-	@Override
-	public Layout fetchByPrimaryKey(Serializable primaryKey) {
-		if (CTPersistenceHelperUtil.isProductionMode(Layout.class)) {
-			return super.fetchByPrimaryKey(primaryKey);
-		}
-
-		Layout layout = null;
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			layout = (Layout)session.get(LayoutImpl.class, primaryKey);
-
-			if (layout != null) {
-				cacheResult(layout);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return layout;
-	}
-
-	/**
-	 * Returns the layout with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param plid the primary key of the layout
 	 * @return the layout, or <code>null</code> if a layout with the primary key could not be found
 	 */
 	@Override
 	public Layout fetchByPrimaryKey(long plid) {
 		return fetchByPrimaryKey((Serializable)plid);
-	}
-
-	@Override
-	public Map<Serializable, Layout> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (CTPersistenceHelperUtil.isProductionMode(Layout.class)) {
-			return super.fetchByPrimaryKeys(primaryKeys);
-		}
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, Layout> map = new HashMap<Serializable, Layout>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			Layout layout = fetchByPrimaryKey(primaryKey);
-
-			if (layout != null) {
-				map.put(primaryKey, layout);
-			}
-
-			return map;
-		}
-
-		StringBundler sb = new StringBundler((primaryKeys.size() * 2) + 1);
-
-		sb.append(getSelectSQL());
-		sb.append(" WHERE ");
-		sb.append(getPKDBName());
-		sb.append(" IN (");
-
-		for (Serializable primaryKey : primaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (Layout layout : (List<Layout>)query.list()) {
-				map.put(layout.getPrimaryKeyObj(), layout);
-
-				cacheResult(layout);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -16073,6 +15967,10 @@ public class LayoutPersistenceImpl
 
 	@Override
 	protected EntityCache getEntityCache() {
+		if (!CTPersistenceHelperUtil.isProductionMode(Layout.class)) {
+			return dummyEntityCache;
+		}
+
 		return EntityCacheUtil.getEntityCache();
 	}
 

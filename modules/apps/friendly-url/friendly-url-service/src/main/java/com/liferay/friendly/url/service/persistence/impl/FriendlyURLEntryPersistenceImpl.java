@@ -58,7 +58,6 @@ import java.util.Date;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -2481,121 +2480,12 @@ public class FriendlyURLEntryPersistenceImpl
 	/**
 	 * Returns the friendly url entry with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the friendly url entry
-	 * @return the friendly url entry, or <code>null</code> if a friendly url entry with the primary key could not be found
-	 */
-	@Override
-	public FriendlyURLEntry fetchByPrimaryKey(Serializable primaryKey) {
-		if (ctPersistenceHelper.isProductionMode(FriendlyURLEntry.class)) {
-			return super.fetchByPrimaryKey(primaryKey);
-		}
-
-		FriendlyURLEntry friendlyURLEntry = null;
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			friendlyURLEntry = (FriendlyURLEntry)session.get(
-				FriendlyURLEntryImpl.class, primaryKey);
-
-			if (friendlyURLEntry != null) {
-				cacheResult(friendlyURLEntry);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return friendlyURLEntry;
-	}
-
-	/**
-	 * Returns the friendly url entry with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param friendlyURLEntryId the primary key of the friendly url entry
 	 * @return the friendly url entry, or <code>null</code> if a friendly url entry with the primary key could not be found
 	 */
 	@Override
 	public FriendlyURLEntry fetchByPrimaryKey(long friendlyURLEntryId) {
 		return fetchByPrimaryKey((Serializable)friendlyURLEntryId);
-	}
-
-	@Override
-	public Map<Serializable, FriendlyURLEntry> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (ctPersistenceHelper.isProductionMode(FriendlyURLEntry.class)) {
-			return super.fetchByPrimaryKeys(primaryKeys);
-		}
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, FriendlyURLEntry> map =
-			new HashMap<Serializable, FriendlyURLEntry>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			FriendlyURLEntry friendlyURLEntry = fetchByPrimaryKey(primaryKey);
-
-			if (friendlyURLEntry != null) {
-				map.put(primaryKey, friendlyURLEntry);
-			}
-
-			return map;
-		}
-
-		StringBundler sb = new StringBundler((primaryKeys.size() * 2) + 1);
-
-		sb.append(getSelectSQL());
-		sb.append(" WHERE ");
-		sb.append(getPKDBName());
-		sb.append(" IN (");
-
-		for (Serializable primaryKey : primaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (FriendlyURLEntry friendlyURLEntry :
-					(List<FriendlyURLEntry>)query.list()) {
-
-				map.put(friendlyURLEntry.getPrimaryKeyObj(), friendlyURLEntry);
-
-				cacheResult(friendlyURLEntry);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -2798,6 +2688,10 @@ public class FriendlyURLEntryPersistenceImpl
 
 	@Override
 	protected EntityCache getEntityCache() {
+		if (!ctPersistenceHelper.isProductionMode(FriendlyURLEntry.class)) {
+			return dummyEntityCache;
+		}
+
 		return entityCache;
 	}
 

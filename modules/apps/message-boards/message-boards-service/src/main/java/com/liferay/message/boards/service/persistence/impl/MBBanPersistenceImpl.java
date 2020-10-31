@@ -58,7 +58,6 @@ import java.util.Date;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -3596,117 +3595,12 @@ public class MBBanPersistenceImpl
 	/**
 	 * Returns the message boards ban with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the message boards ban
-	 * @return the message boards ban, or <code>null</code> if a message boards ban with the primary key could not be found
-	 */
-	@Override
-	public MBBan fetchByPrimaryKey(Serializable primaryKey) {
-		if (ctPersistenceHelper.isProductionMode(MBBan.class)) {
-			return super.fetchByPrimaryKey(primaryKey);
-		}
-
-		MBBan mbBan = null;
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			mbBan = (MBBan)session.get(MBBanImpl.class, primaryKey);
-
-			if (mbBan != null) {
-				cacheResult(mbBan);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return mbBan;
-	}
-
-	/**
-	 * Returns the message boards ban with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param banId the primary key of the message boards ban
 	 * @return the message boards ban, or <code>null</code> if a message boards ban with the primary key could not be found
 	 */
 	@Override
 	public MBBan fetchByPrimaryKey(long banId) {
 		return fetchByPrimaryKey((Serializable)banId);
-	}
-
-	@Override
-	public Map<Serializable, MBBan> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (ctPersistenceHelper.isProductionMode(MBBan.class)) {
-			return super.fetchByPrimaryKeys(primaryKeys);
-		}
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, MBBan> map = new HashMap<Serializable, MBBan>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			MBBan mbBan = fetchByPrimaryKey(primaryKey);
-
-			if (mbBan != null) {
-				map.put(primaryKey, mbBan);
-			}
-
-			return map;
-		}
-
-		StringBundler sb = new StringBundler((primaryKeys.size() * 2) + 1);
-
-		sb.append(getSelectSQL());
-		sb.append(" WHERE ");
-		sb.append(getPKDBName());
-		sb.append(" IN (");
-
-		for (Serializable primaryKey : primaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (MBBan mbBan : (List<MBBan>)query.list()) {
-				map.put(mbBan.getPrimaryKeyObj(), mbBan);
-
-				cacheResult(mbBan);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -3907,6 +3801,10 @@ public class MBBanPersistenceImpl
 
 	@Override
 	protected EntityCache getEntityCache() {
+		if (!ctPersistenceHelper.isProductionMode(MBBan.class)) {
+			return dummyEntityCache;
+		}
+
 		return entityCache;
 	}
 

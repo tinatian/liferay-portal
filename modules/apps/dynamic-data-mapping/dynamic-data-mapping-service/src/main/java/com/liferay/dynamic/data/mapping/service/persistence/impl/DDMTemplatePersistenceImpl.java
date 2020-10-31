@@ -62,7 +62,6 @@ import java.util.Date;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -12526,119 +12525,12 @@ public class DDMTemplatePersistenceImpl
 	/**
 	 * Returns the ddm template with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the ddm template
-	 * @return the ddm template, or <code>null</code> if a ddm template with the primary key could not be found
-	 */
-	@Override
-	public DDMTemplate fetchByPrimaryKey(Serializable primaryKey) {
-		if (ctPersistenceHelper.isProductionMode(DDMTemplate.class)) {
-			return super.fetchByPrimaryKey(primaryKey);
-		}
-
-		DDMTemplate ddmTemplate = null;
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			ddmTemplate = (DDMTemplate)session.get(
-				DDMTemplateImpl.class, primaryKey);
-
-			if (ddmTemplate != null) {
-				cacheResult(ddmTemplate);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return ddmTemplate;
-	}
-
-	/**
-	 * Returns the ddm template with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param templateId the primary key of the ddm template
 	 * @return the ddm template, or <code>null</code> if a ddm template with the primary key could not be found
 	 */
 	@Override
 	public DDMTemplate fetchByPrimaryKey(long templateId) {
 		return fetchByPrimaryKey((Serializable)templateId);
-	}
-
-	@Override
-	public Map<Serializable, DDMTemplate> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (ctPersistenceHelper.isProductionMode(DDMTemplate.class)) {
-			return super.fetchByPrimaryKeys(primaryKeys);
-		}
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, DDMTemplate> map =
-			new HashMap<Serializable, DDMTemplate>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			DDMTemplate ddmTemplate = fetchByPrimaryKey(primaryKey);
-
-			if (ddmTemplate != null) {
-				map.put(primaryKey, ddmTemplate);
-			}
-
-			return map;
-		}
-
-		StringBundler sb = new StringBundler((primaryKeys.size() * 2) + 1);
-
-		sb.append(getSelectSQL());
-		sb.append(" WHERE ");
-		sb.append(getPKDBName());
-		sb.append(" IN (");
-
-		for (Serializable primaryKey : primaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (DDMTemplate ddmTemplate : (List<DDMTemplate>)query.list()) {
-				map.put(ddmTemplate.getPrimaryKeyObj(), ddmTemplate);
-
-				cacheResult(ddmTemplate);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -12839,6 +12731,10 @@ public class DDMTemplatePersistenceImpl
 
 	@Override
 	protected EntityCache getEntityCache() {
+		if (!ctPersistenceHelper.isProductionMode(DDMTemplate.class)) {
+			return dummyEntityCache;
+		}
+
 		return entityCache;
 	}
 

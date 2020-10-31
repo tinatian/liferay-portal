@@ -61,7 +61,6 @@ import java.util.Date;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -5729,122 +5728,12 @@ public class LayoutFriendlyURLPersistenceImpl
 	/**
 	 * Returns the layout friendly url with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the layout friendly url
-	 * @return the layout friendly url, or <code>null</code> if a layout friendly url with the primary key could not be found
-	 */
-	@Override
-	public LayoutFriendlyURL fetchByPrimaryKey(Serializable primaryKey) {
-		if (CTPersistenceHelperUtil.isProductionMode(LayoutFriendlyURL.class)) {
-			return super.fetchByPrimaryKey(primaryKey);
-		}
-
-		LayoutFriendlyURL layoutFriendlyURL = null;
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			layoutFriendlyURL = (LayoutFriendlyURL)session.get(
-				LayoutFriendlyURLImpl.class, primaryKey);
-
-			if (layoutFriendlyURL != null) {
-				cacheResult(layoutFriendlyURL);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return layoutFriendlyURL;
-	}
-
-	/**
-	 * Returns the layout friendly url with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param layoutFriendlyURLId the primary key of the layout friendly url
 	 * @return the layout friendly url, or <code>null</code> if a layout friendly url with the primary key could not be found
 	 */
 	@Override
 	public LayoutFriendlyURL fetchByPrimaryKey(long layoutFriendlyURLId) {
 		return fetchByPrimaryKey((Serializable)layoutFriendlyURLId);
-	}
-
-	@Override
-	public Map<Serializable, LayoutFriendlyURL> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (CTPersistenceHelperUtil.isProductionMode(LayoutFriendlyURL.class)) {
-			return super.fetchByPrimaryKeys(primaryKeys);
-		}
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, LayoutFriendlyURL> map =
-			new HashMap<Serializable, LayoutFriendlyURL>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			LayoutFriendlyURL layoutFriendlyURL = fetchByPrimaryKey(primaryKey);
-
-			if (layoutFriendlyURL != null) {
-				map.put(primaryKey, layoutFriendlyURL);
-			}
-
-			return map;
-		}
-
-		StringBundler sb = new StringBundler((primaryKeys.size() * 2) + 1);
-
-		sb.append(getSelectSQL());
-		sb.append(" WHERE ");
-		sb.append(getPKDBName());
-		sb.append(" IN (");
-
-		for (Serializable primaryKey : primaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (LayoutFriendlyURL layoutFriendlyURL :
-					(List<LayoutFriendlyURL>)query.list()) {
-
-				map.put(
-					layoutFriendlyURL.getPrimaryKeyObj(), layoutFriendlyURL);
-
-				cacheResult(layoutFriendlyURL);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -6047,6 +5936,12 @@ public class LayoutFriendlyURLPersistenceImpl
 
 	@Override
 	protected EntityCache getEntityCache() {
+		if (!CTPersistenceHelperUtil.isProductionMode(
+				LayoutFriendlyURL.class)) {
+
+			return dummyEntityCache;
+		}
+
 		return EntityCacheUtil.getEntityCache();
 	}
 

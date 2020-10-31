@@ -56,7 +56,6 @@ import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -2896,128 +2895,12 @@ public class DLFileEntryMetadataPersistenceImpl
 	/**
 	 * Returns the document library file entry metadata with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the document library file entry metadata
-	 * @return the document library file entry metadata, or <code>null</code> if a document library file entry metadata with the primary key could not be found
-	 */
-	@Override
-	public DLFileEntryMetadata fetchByPrimaryKey(Serializable primaryKey) {
-		if (CTPersistenceHelperUtil.isProductionMode(
-				DLFileEntryMetadata.class)) {
-
-			return super.fetchByPrimaryKey(primaryKey);
-		}
-
-		DLFileEntryMetadata dlFileEntryMetadata = null;
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			dlFileEntryMetadata = (DLFileEntryMetadata)session.get(
-				DLFileEntryMetadataImpl.class, primaryKey);
-
-			if (dlFileEntryMetadata != null) {
-				cacheResult(dlFileEntryMetadata);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return dlFileEntryMetadata;
-	}
-
-	/**
-	 * Returns the document library file entry metadata with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param fileEntryMetadataId the primary key of the document library file entry metadata
 	 * @return the document library file entry metadata, or <code>null</code> if a document library file entry metadata with the primary key could not be found
 	 */
 	@Override
 	public DLFileEntryMetadata fetchByPrimaryKey(long fileEntryMetadataId) {
 		return fetchByPrimaryKey((Serializable)fileEntryMetadataId);
-	}
-
-	@Override
-	public Map<Serializable, DLFileEntryMetadata> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (CTPersistenceHelperUtil.isProductionMode(
-				DLFileEntryMetadata.class)) {
-
-			return super.fetchByPrimaryKeys(primaryKeys);
-		}
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, DLFileEntryMetadata> map =
-			new HashMap<Serializable, DLFileEntryMetadata>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			DLFileEntryMetadata dlFileEntryMetadata = fetchByPrimaryKey(
-				primaryKey);
-
-			if (dlFileEntryMetadata != null) {
-				map.put(primaryKey, dlFileEntryMetadata);
-			}
-
-			return map;
-		}
-
-		StringBundler sb = new StringBundler((primaryKeys.size() * 2) + 1);
-
-		sb.append(getSelectSQL());
-		sb.append(" WHERE ");
-		sb.append(getPKDBName());
-		sb.append(" IN (");
-
-		for (Serializable primaryKey : primaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (DLFileEntryMetadata dlFileEntryMetadata :
-					(List<DLFileEntryMetadata>)query.list()) {
-
-				map.put(
-					dlFileEntryMetadata.getPrimaryKeyObj(),
-					dlFileEntryMetadata);
-
-				cacheResult(dlFileEntryMetadata);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -3221,6 +3104,12 @@ public class DLFileEntryMetadataPersistenceImpl
 
 	@Override
 	protected EntityCache getEntityCache() {
+		if (!CTPersistenceHelperUtil.isProductionMode(
+				DLFileEntryMetadata.class)) {
+
+			return dummyEntityCache;
+		}
+
 		return EntityCacheUtil.getEntityCache();
 	}
 

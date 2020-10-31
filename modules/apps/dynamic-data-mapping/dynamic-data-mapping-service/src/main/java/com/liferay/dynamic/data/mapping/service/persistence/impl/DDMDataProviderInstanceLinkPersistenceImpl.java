@@ -50,9 +50,7 @@ import java.lang.reflect.InvocationHandler;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -1782,47 +1780,6 @@ public class DDMDataProviderInstanceLinkPersistenceImpl
 	/**
 	 * Returns the ddm data provider instance link with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the ddm data provider instance link
-	 * @return the ddm data provider instance link, or <code>null</code> if a ddm data provider instance link with the primary key could not be found
-	 */
-	@Override
-	public DDMDataProviderInstanceLink fetchByPrimaryKey(
-		Serializable primaryKey) {
-
-		if (ctPersistenceHelper.isProductionMode(
-				DDMDataProviderInstanceLink.class)) {
-
-			return super.fetchByPrimaryKey(primaryKey);
-		}
-
-		DDMDataProviderInstanceLink ddmDataProviderInstanceLink = null;
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			ddmDataProviderInstanceLink =
-				(DDMDataProviderInstanceLink)session.get(
-					DDMDataProviderInstanceLinkImpl.class, primaryKey);
-
-			if (ddmDataProviderInstanceLink != null) {
-				cacheResult(ddmDataProviderInstanceLink);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return ddmDataProviderInstanceLink;
-	}
-
-	/**
-	 * Returns the ddm data provider instance link with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param dataProviderInstanceLinkId the primary key of the ddm data provider instance link
 	 * @return the ddm data provider instance link, or <code>null</code> if a ddm data provider instance link with the primary key could not be found
 	 */
@@ -1831,84 +1788,6 @@ public class DDMDataProviderInstanceLinkPersistenceImpl
 		long dataProviderInstanceLinkId) {
 
 		return fetchByPrimaryKey((Serializable)dataProviderInstanceLinkId);
-	}
-
-	@Override
-	public Map<Serializable, DDMDataProviderInstanceLink> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (ctPersistenceHelper.isProductionMode(
-				DDMDataProviderInstanceLink.class)) {
-
-			return super.fetchByPrimaryKeys(primaryKeys);
-		}
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, DDMDataProviderInstanceLink> map =
-			new HashMap<Serializable, DDMDataProviderInstanceLink>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			DDMDataProviderInstanceLink ddmDataProviderInstanceLink =
-				fetchByPrimaryKey(primaryKey);
-
-			if (ddmDataProviderInstanceLink != null) {
-				map.put(primaryKey, ddmDataProviderInstanceLink);
-			}
-
-			return map;
-		}
-
-		StringBundler sb = new StringBundler((primaryKeys.size() * 2) + 1);
-
-		sb.append(getSelectSQL());
-		sb.append(" WHERE ");
-		sb.append(getPKDBName());
-		sb.append(" IN (");
-
-		for (Serializable primaryKey : primaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (DDMDataProviderInstanceLink ddmDataProviderInstanceLink :
-					(List<DDMDataProviderInstanceLink>)query.list()) {
-
-				map.put(
-					ddmDataProviderInstanceLink.getPrimaryKeyObj(),
-					ddmDataProviderInstanceLink);
-
-				cacheResult(ddmDataProviderInstanceLink);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -2110,6 +1989,12 @@ public class DDMDataProviderInstanceLinkPersistenceImpl
 
 	@Override
 	protected EntityCache getEntityCache() {
+		if (!ctPersistenceHelper.isProductionMode(
+				DDMDataProviderInstanceLink.class)) {
+
+			return dummyEntityCache;
+		}
+
 		return entityCache;
 	}
 

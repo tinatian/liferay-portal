@@ -54,7 +54,6 @@ import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -3892,122 +3891,12 @@ public class SocialActivitySetPersistenceImpl
 	/**
 	 * Returns the social activity set with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the social activity set
-	 * @return the social activity set, or <code>null</code> if a social activity set with the primary key could not be found
-	 */
-	@Override
-	public SocialActivitySet fetchByPrimaryKey(Serializable primaryKey) {
-		if (CTPersistenceHelperUtil.isProductionMode(SocialActivitySet.class)) {
-			return super.fetchByPrimaryKey(primaryKey);
-		}
-
-		SocialActivitySet socialActivitySet = null;
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			socialActivitySet = (SocialActivitySet)session.get(
-				SocialActivitySetImpl.class, primaryKey);
-
-			if (socialActivitySet != null) {
-				cacheResult(socialActivitySet);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return socialActivitySet;
-	}
-
-	/**
-	 * Returns the social activity set with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param activitySetId the primary key of the social activity set
 	 * @return the social activity set, or <code>null</code> if a social activity set with the primary key could not be found
 	 */
 	@Override
 	public SocialActivitySet fetchByPrimaryKey(long activitySetId) {
 		return fetchByPrimaryKey((Serializable)activitySetId);
-	}
-
-	@Override
-	public Map<Serializable, SocialActivitySet> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (CTPersistenceHelperUtil.isProductionMode(SocialActivitySet.class)) {
-			return super.fetchByPrimaryKeys(primaryKeys);
-		}
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, SocialActivitySet> map =
-			new HashMap<Serializable, SocialActivitySet>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			SocialActivitySet socialActivitySet = fetchByPrimaryKey(primaryKey);
-
-			if (socialActivitySet != null) {
-				map.put(primaryKey, socialActivitySet);
-			}
-
-			return map;
-		}
-
-		StringBundler sb = new StringBundler((primaryKeys.size() * 2) + 1);
-
-		sb.append(getSelectSQL());
-		sb.append(" WHERE ");
-		sb.append(getPKDBName());
-		sb.append(" IN (");
-
-		for (Serializable primaryKey : primaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (SocialActivitySet socialActivitySet :
-					(List<SocialActivitySet>)query.list()) {
-
-				map.put(
-					socialActivitySet.getPrimaryKeyObj(), socialActivitySet);
-
-				cacheResult(socialActivitySet);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -4210,6 +4099,12 @@ public class SocialActivitySetPersistenceImpl
 
 	@Override
 	protected EntityCache getEntityCache() {
+		if (!CTPersistenceHelperUtil.isProductionMode(
+				SocialActivitySet.class)) {
+
+			return dummyEntityCache;
+		}
+
 		return EntityCacheUtil.getEntityCache();
 	}
 

@@ -58,7 +58,6 @@ import java.util.Date;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -3265,42 +3264,6 @@ public class AssetDisplayPageEntryPersistenceImpl
 	/**
 	 * Returns the asset display page entry with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the asset display page entry
-	 * @return the asset display page entry, or <code>null</code> if a asset display page entry with the primary key could not be found
-	 */
-	@Override
-	public AssetDisplayPageEntry fetchByPrimaryKey(Serializable primaryKey) {
-		if (ctPersistenceHelper.isProductionMode(AssetDisplayPageEntry.class)) {
-			return super.fetchByPrimaryKey(primaryKey);
-		}
-
-		AssetDisplayPageEntry assetDisplayPageEntry = null;
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			assetDisplayPageEntry = (AssetDisplayPageEntry)session.get(
-				AssetDisplayPageEntryImpl.class, primaryKey);
-
-			if (assetDisplayPageEntry != null) {
-				cacheResult(assetDisplayPageEntry);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return assetDisplayPageEntry;
-	}
-
-	/**
-	 * Returns the asset display page entry with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param assetDisplayPageEntryId the primary key of the asset display page entry
 	 * @return the asset display page entry, or <code>null</code> if a asset display page entry with the primary key could not be found
 	 */
@@ -3309,82 +3272,6 @@ public class AssetDisplayPageEntryPersistenceImpl
 		long assetDisplayPageEntryId) {
 
 		return fetchByPrimaryKey((Serializable)assetDisplayPageEntryId);
-	}
-
-	@Override
-	public Map<Serializable, AssetDisplayPageEntry> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (ctPersistenceHelper.isProductionMode(AssetDisplayPageEntry.class)) {
-			return super.fetchByPrimaryKeys(primaryKeys);
-		}
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, AssetDisplayPageEntry> map =
-			new HashMap<Serializable, AssetDisplayPageEntry>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			AssetDisplayPageEntry assetDisplayPageEntry = fetchByPrimaryKey(
-				primaryKey);
-
-			if (assetDisplayPageEntry != null) {
-				map.put(primaryKey, assetDisplayPageEntry);
-			}
-
-			return map;
-		}
-
-		StringBundler sb = new StringBundler((primaryKeys.size() * 2) + 1);
-
-		sb.append(getSelectSQL());
-		sb.append(" WHERE ");
-		sb.append(getPKDBName());
-		sb.append(" IN (");
-
-		for (Serializable primaryKey : primaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (AssetDisplayPageEntry assetDisplayPageEntry :
-					(List<AssetDisplayPageEntry>)query.list()) {
-
-				map.put(
-					assetDisplayPageEntry.getPrimaryKeyObj(),
-					assetDisplayPageEntry);
-
-				cacheResult(assetDisplayPageEntry);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -3588,6 +3475,12 @@ public class AssetDisplayPageEntryPersistenceImpl
 
 	@Override
 	protected EntityCache getEntityCache() {
+		if (!ctPersistenceHelper.isProductionMode(
+				AssetDisplayPageEntry.class)) {
+
+			return dummyEntityCache;
+		}
+
 		return entityCache;
 	}
 

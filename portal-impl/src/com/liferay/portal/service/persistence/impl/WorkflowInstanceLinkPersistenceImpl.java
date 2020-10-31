@@ -54,9 +54,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -1681,128 +1679,12 @@ public class WorkflowInstanceLinkPersistenceImpl
 	/**
 	 * Returns the workflow instance link with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the workflow instance link
-	 * @return the workflow instance link, or <code>null</code> if a workflow instance link with the primary key could not be found
-	 */
-	@Override
-	public WorkflowInstanceLink fetchByPrimaryKey(Serializable primaryKey) {
-		if (CTPersistenceHelperUtil.isProductionMode(
-				WorkflowInstanceLink.class)) {
-
-			return super.fetchByPrimaryKey(primaryKey);
-		}
-
-		WorkflowInstanceLink workflowInstanceLink = null;
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			workflowInstanceLink = (WorkflowInstanceLink)session.get(
-				WorkflowInstanceLinkImpl.class, primaryKey);
-
-			if (workflowInstanceLink != null) {
-				cacheResult(workflowInstanceLink);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return workflowInstanceLink;
-	}
-
-	/**
-	 * Returns the workflow instance link with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param workflowInstanceLinkId the primary key of the workflow instance link
 	 * @return the workflow instance link, or <code>null</code> if a workflow instance link with the primary key could not be found
 	 */
 	@Override
 	public WorkflowInstanceLink fetchByPrimaryKey(long workflowInstanceLinkId) {
 		return fetchByPrimaryKey((Serializable)workflowInstanceLinkId);
-	}
-
-	@Override
-	public Map<Serializable, WorkflowInstanceLink> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (CTPersistenceHelperUtil.isProductionMode(
-				WorkflowInstanceLink.class)) {
-
-			return super.fetchByPrimaryKeys(primaryKeys);
-		}
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, WorkflowInstanceLink> map =
-			new HashMap<Serializable, WorkflowInstanceLink>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			WorkflowInstanceLink workflowInstanceLink = fetchByPrimaryKey(
-				primaryKey);
-
-			if (workflowInstanceLink != null) {
-				map.put(primaryKey, workflowInstanceLink);
-			}
-
-			return map;
-		}
-
-		StringBundler sb = new StringBundler((primaryKeys.size() * 2) + 1);
-
-		sb.append(getSelectSQL());
-		sb.append(" WHERE ");
-		sb.append(getPKDBName());
-		sb.append(" IN (");
-
-		for (Serializable primaryKey : primaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (WorkflowInstanceLink workflowInstanceLink :
-					(List<WorkflowInstanceLink>)query.list()) {
-
-				map.put(
-					workflowInstanceLink.getPrimaryKeyObj(),
-					workflowInstanceLink);
-
-				cacheResult(workflowInstanceLink);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -2001,6 +1883,12 @@ public class WorkflowInstanceLinkPersistenceImpl
 
 	@Override
 	protected EntityCache getEntityCache() {
+		if (!CTPersistenceHelperUtil.isProductionMode(
+				WorkflowInstanceLink.class)) {
+
+			return dummyEntityCache;
+		}
+
 		return EntityCacheUtil.getEntityCache();
 	}
 

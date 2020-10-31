@@ -57,7 +57,6 @@ import java.util.Date;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -714,124 +713,12 @@ public class DDMFormInstanceReportPersistenceImpl
 	/**
 	 * Returns the ddm form instance report with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the ddm form instance report
-	 * @return the ddm form instance report, or <code>null</code> if a ddm form instance report with the primary key could not be found
-	 */
-	@Override
-	public DDMFormInstanceReport fetchByPrimaryKey(Serializable primaryKey) {
-		if (ctPersistenceHelper.isProductionMode(DDMFormInstanceReport.class)) {
-			return super.fetchByPrimaryKey(primaryKey);
-		}
-
-		DDMFormInstanceReport ddmFormInstanceReport = null;
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			ddmFormInstanceReport = (DDMFormInstanceReport)session.get(
-				DDMFormInstanceReportImpl.class, primaryKey);
-
-			if (ddmFormInstanceReport != null) {
-				cacheResult(ddmFormInstanceReport);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return ddmFormInstanceReport;
-	}
-
-	/**
-	 * Returns the ddm form instance report with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param formInstanceReportId the primary key of the ddm form instance report
 	 * @return the ddm form instance report, or <code>null</code> if a ddm form instance report with the primary key could not be found
 	 */
 	@Override
 	public DDMFormInstanceReport fetchByPrimaryKey(long formInstanceReportId) {
 		return fetchByPrimaryKey((Serializable)formInstanceReportId);
-	}
-
-	@Override
-	public Map<Serializable, DDMFormInstanceReport> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (ctPersistenceHelper.isProductionMode(DDMFormInstanceReport.class)) {
-			return super.fetchByPrimaryKeys(primaryKeys);
-		}
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, DDMFormInstanceReport> map =
-			new HashMap<Serializable, DDMFormInstanceReport>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			DDMFormInstanceReport ddmFormInstanceReport = fetchByPrimaryKey(
-				primaryKey);
-
-			if (ddmFormInstanceReport != null) {
-				map.put(primaryKey, ddmFormInstanceReport);
-			}
-
-			return map;
-		}
-
-		StringBundler sb = new StringBundler((primaryKeys.size() * 2) + 1);
-
-		sb.append(getSelectSQL());
-		sb.append(" WHERE ");
-		sb.append(getPKDBName());
-		sb.append(" IN (");
-
-		for (Serializable primaryKey : primaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (DDMFormInstanceReport ddmFormInstanceReport :
-					(List<DDMFormInstanceReport>)query.list()) {
-
-				map.put(
-					ddmFormInstanceReport.getPrimaryKeyObj(),
-					ddmFormInstanceReport);
-
-				cacheResult(ddmFormInstanceReport);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -1035,6 +922,12 @@ public class DDMFormInstanceReportPersistenceImpl
 
 	@Override
 	protected EntityCache getEntityCache() {
+		if (!ctPersistenceHelper.isProductionMode(
+				DDMFormInstanceReport.class)) {
+
+			return dummyEntityCache;
+		}
+
 		return entityCache;
 	}
 

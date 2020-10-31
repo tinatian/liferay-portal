@@ -55,7 +55,6 @@ import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -2699,128 +2698,12 @@ public class JournalArticleResourcePersistenceImpl
 	/**
 	 * Returns the journal article resource with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the journal article resource
-	 * @return the journal article resource, or <code>null</code> if a journal article resource with the primary key could not be found
-	 */
-	@Override
-	public JournalArticleResource fetchByPrimaryKey(Serializable primaryKey) {
-		if (ctPersistenceHelper.isProductionMode(
-				JournalArticleResource.class)) {
-
-			return super.fetchByPrimaryKey(primaryKey);
-		}
-
-		JournalArticleResource journalArticleResource = null;
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			journalArticleResource = (JournalArticleResource)session.get(
-				JournalArticleResourceImpl.class, primaryKey);
-
-			if (journalArticleResource != null) {
-				cacheResult(journalArticleResource);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return journalArticleResource;
-	}
-
-	/**
-	 * Returns the journal article resource with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param resourcePrimKey the primary key of the journal article resource
 	 * @return the journal article resource, or <code>null</code> if a journal article resource with the primary key could not be found
 	 */
 	@Override
 	public JournalArticleResource fetchByPrimaryKey(long resourcePrimKey) {
 		return fetchByPrimaryKey((Serializable)resourcePrimKey);
-	}
-
-	@Override
-	public Map<Serializable, JournalArticleResource> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (ctPersistenceHelper.isProductionMode(
-				JournalArticleResource.class)) {
-
-			return super.fetchByPrimaryKeys(primaryKeys);
-		}
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, JournalArticleResource> map =
-			new HashMap<Serializable, JournalArticleResource>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			JournalArticleResource journalArticleResource = fetchByPrimaryKey(
-				primaryKey);
-
-			if (journalArticleResource != null) {
-				map.put(primaryKey, journalArticleResource);
-			}
-
-			return map;
-		}
-
-		StringBundler sb = new StringBundler((primaryKeys.size() * 2) + 1);
-
-		sb.append(getSelectSQL());
-		sb.append(" WHERE ");
-		sb.append(getPKDBName());
-		sb.append(" IN (");
-
-		for (Serializable primaryKey : primaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (JournalArticleResource journalArticleResource :
-					(List<JournalArticleResource>)query.list()) {
-
-				map.put(
-					journalArticleResource.getPrimaryKeyObj(),
-					journalArticleResource);
-
-				cacheResult(journalArticleResource);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -3024,6 +2907,12 @@ public class JournalArticleResourcePersistenceImpl
 
 	@Override
 	protected EntityCache getEntityCache() {
+		if (!ctPersistenceHelper.isProductionMode(
+				JournalArticleResource.class)) {
+
+			return dummyEntityCache;
+		}
+
 		return entityCache;
 	}
 
