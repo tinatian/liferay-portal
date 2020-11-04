@@ -68,6 +68,8 @@ public class StartupHelperUtil {
 					portletName, actionIds, true);
 			}
 		}
+
+		ResourceActionLocalServiceUtil.checkResourceActions();
 	}
 
 	public static boolean isDBNew() {
