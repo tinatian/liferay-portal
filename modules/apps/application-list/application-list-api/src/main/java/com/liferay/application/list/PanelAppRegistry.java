@@ -352,13 +352,17 @@ public class PanelAppRegistry {
 
 			panelApp.setGroupProvider(_groupProvider);
 
-			Portlet portlet = _portletLocalService.getPortletById(
-				panelApp.getPortletId());
+			Portlet portlet = panelApp.getPortlet();
+
+			if (portlet == null) {
+				portlet = _portletLocalService.getPortletById(
+					panelApp.getPortletId());
+
+				panelApp.setPortlet(portlet);
+			}
 
 			if (portlet != null) {
 				portlet.setControlPanelEntryCategory(panelCategoryKey);
-
-				panelApp.setPortlet(portlet);
 			}
 			else if (_log.isDebugEnabled()) {
 				_log.debug("Unable to get portlet " + panelApp.getPortletId());
