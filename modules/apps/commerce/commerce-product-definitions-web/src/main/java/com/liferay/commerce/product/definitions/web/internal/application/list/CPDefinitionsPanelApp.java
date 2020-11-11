@@ -15,11 +15,17 @@
 package com.liferay.commerce.product.definitions.web.internal.application.list;
 
 import com.liferay.application.list.BasePanelApp;
+import com.liferay.application.list.GroupProvider;
 import com.liferay.application.list.PanelApp;
 import com.liferay.commerce.application.list.constants.CommercePanelCategoryKeys;
 import com.liferay.commerce.product.constants.CPPortletKeys;
 import com.liferay.portal.kernel.model.Portlet;
+import com.liferay.portal.kernel.security.permission.ResourceActions;
+import com.liferay.portal.kernel.service.PortletLocalService;
 
+import java.util.Map;
+
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -42,13 +48,25 @@ public class CPDefinitionsPanelApp extends BasePanelApp {
 		return CPPortletKeys.CP_DEFINITIONS;
 	}
 
-	@Override
-	@Reference(
-		target = "(javax.portlet.name=" + CPPortletKeys.CP_DEFINITIONS + ")",
-		unbind = "-"
-	)
-	public void setPortlet(Portlet portlet) {
-		super.setPortlet(portlet);
+	@Activate
+	protected void activate(Map<String, Object> properties) {
+		init(
+			_resourceActions, _portlet, _groupProvider, _portletLocalService,
+			properties);
 	}
+
+	@Reference
+	private GroupProvider _groupProvider;
+
+	@Reference(
+		target = "(javax.portlet.name=" + CPPortletKeys.CP_DEFINITIONS + ")"
+	)
+	private Portlet _portlet;
+
+	@Reference
+	private PortletLocalService _portletLocalService;
+
+	@Reference
+	private ResourceActions _resourceActions;
 
 }

@@ -15,6 +15,7 @@
 package com.liferay.commerce.price.list.web.internal.application.list;
 
 import com.liferay.application.list.BasePanelApp;
+import com.liferay.application.list.GroupProvider;
 import com.liferay.application.list.PanelApp;
 import com.liferay.commerce.application.list.constants.CommercePanelCategoryKeys;
 import com.liferay.commerce.price.list.constants.CommercePriceListPortletKeys;
@@ -27,11 +28,15 @@ import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.module.configuration.ConfigurationProvider;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
+import com.liferay.portal.kernel.security.permission.ResourceActions;
+import com.liferay.portal.kernel.service.PortletLocalService;
 import com.liferay.portal.kernel.service.permission.PortletPermission;
 import com.liferay.portal.kernel.settings.SystemSettingsLocator;
 
+import java.util.Map;
 import java.util.Objects;
 
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -77,13 +82,11 @@ public class CommercePriceListPanelApp extends BasePanelApp {
 		return show;
 	}
 
-	@Override
-	@Reference(
-		target = "(javax.portlet.name=" + CommercePriceListPortletKeys.COMMERCE_PRICE_LIST + ")",
-		unbind = "-"
-	)
-	public void setPortlet(Portlet portlet) {
-		super.setPortlet(portlet);
+	@Activate
+	protected void activate(Map<String, Object> properties) {
+		init(
+			_resourceActions, _portlet, _groupProvider, _portletLocalService,
+			properties);
 	}
 
 	private String _getCommercePricingConfigurationKey()
@@ -102,6 +105,20 @@ public class CommercePriceListPanelApp extends BasePanelApp {
 	private ConfigurationProvider _configurationProvider;
 
 	@Reference
+	private GroupProvider _groupProvider;
+
+	@Reference(
+		target = "(javax.portlet.name=" + CommercePriceListPortletKeys.COMMERCE_PRICE_LIST + ")"
+	)
+	private Portlet _portlet;
+
+	@Reference
+	private PortletLocalService _portletLocalService;
+
+	@Reference
 	private PortletPermission _portletPermission;
+
+	@Reference
+	private ResourceActions _resourceActions;
 
 }

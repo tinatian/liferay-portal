@@ -15,14 +15,20 @@
 package com.liferay.portal.search.tuning.rankings.web.internal.application.list;
 
 import com.liferay.application.list.BasePanelApp;
+import com.liferay.application.list.GroupProvider;
 import com.liferay.application.list.PanelApp;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.Portlet;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
+import com.liferay.portal.kernel.security.permission.ResourceActions;
+import com.liferay.portal.kernel.service.PortletLocalService;
 import com.liferay.portal.search.tuning.rankings.web.internal.constants.ResultRankingsPortletKeys;
 import com.liferay.portal.search.tuning.web.application.list.constants.SearchTuningPanelCategoryKeys;
 
+import java.util.Map;
+
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -51,13 +57,25 @@ public class ResultRankingsPanelApp extends BasePanelApp {
 		return super.isShow(permissionChecker, group);
 	}
 
-	@Override
-	@Reference(
-		target = "(javax.portlet.name=" + ResultRankingsPortletKeys.RESULT_RANKINGS + ")",
-		unbind = "-"
-	)
-	public void setPortlet(Portlet portlet) {
-		super.setPortlet(portlet);
+	@Activate
+	protected void activate(Map<String, Object> properties) {
+		init(
+			_resourceActions, _portlet, _groupProvider, _portletLocalService,
+			properties);
 	}
+
+	@Reference
+	private GroupProvider _groupProvider;
+
+	@Reference(
+		target = "(javax.portlet.name=" + ResultRankingsPortletKeys.RESULT_RANKINGS + ")"
+	)
+	private Portlet _portlet;
+
+	@Reference
+	private PortletLocalService _portletLocalService;
+
+	@Reference
+	private ResourceActions _resourceActions;
 
 }

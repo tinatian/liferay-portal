@@ -15,19 +15,25 @@
 package com.liferay.exportimport.web.internal.application.list;
 
 import com.liferay.application.list.BasePanelApp;
+import com.liferay.application.list.GroupProvider;
 import com.liferay.application.list.PanelApp;
 import com.liferay.application.list.constants.PanelCategoryKeys;
 import com.liferay.exportimport.constants.ExportImportPortletKeys;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.Portlet;
+import com.liferay.portal.kernel.security.permission.ResourceActions;
+import com.liferay.portal.kernel.service.PortletLocalService;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.WebKeys;
+
+import java.util.Map;
 
 import javax.portlet.PortletURL;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -73,13 +79,25 @@ public class ImportPanelApp extends BasePanelApp {
 		return portletURL;
 	}
 
-	@Override
-	@Reference(
-		target = "(javax.portlet.name=" + ExportImportPortletKeys.IMPORT + ")",
-		unbind = "-"
-	)
-	public void setPortlet(Portlet portlet) {
-		super.setPortlet(portlet);
+	@Activate
+	protected void activate(Map<String, Object> properties) {
+		init(
+			_resourceActions, _portlet, _groupProvider, _portletLocalService,
+			properties);
 	}
+
+	@Reference
+	private GroupProvider _groupProvider;
+
+	@Reference(
+		target = "(javax.portlet.name=" + ExportImportPortletKeys.IMPORT + ")"
+	)
+	private Portlet _portlet;
+
+	@Reference
+	private PortletLocalService _portletLocalService;
+
+	@Reference
+	private ResourceActions _resourceActions;
 
 }

@@ -15,16 +15,21 @@
 package com.liferay.dispatch.web.internal.application.list;
 
 import com.liferay.application.list.BasePanelApp;
+import com.liferay.application.list.GroupProvider;
 import com.liferay.application.list.PanelApp;
 import com.liferay.application.list.constants.PanelCategoryKeys;
 import com.liferay.dispatch.constants.DispatchPortletKeys;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.Portlet;
+import com.liferay.portal.kernel.security.permission.ResourceActions;
+import com.liferay.portal.kernel.service.PortletLocalService;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 
 import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
 
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -59,15 +64,27 @@ public class DispatchPanelApp extends BasePanelApp {
 		return DispatchPortletKeys.DISPATCH;
 	}
 
-	@Override
-	@Reference(
-		target = "(javax.portlet.name=" + DispatchPortletKeys.DISPATCH + ")",
-		unbind = "-"
-	)
-	public void setPortlet(Portlet portlet) {
-		super.setPortlet(portlet);
+	@Activate
+	protected void activate(Map<String, Object> properties) {
+		init(
+			_resourceActions, _portlet, _groupProvider, _portletLocalService,
+			properties);
 	}
 
 	private static final String _KEY = "dispatch";
+
+	@Reference
+	private GroupProvider _groupProvider;
+
+	@Reference(
+		target = "(javax.portlet.name=" + DispatchPortletKeys.DISPATCH + ")"
+	)
+	private Portlet _portlet;
+
+	@Reference
+	private PortletLocalService _portletLocalService;
+
+	@Reference
+	private ResourceActions _resourceActions;
 
 }

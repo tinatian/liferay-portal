@@ -19,12 +19,10 @@ import com.liferay.osgi.service.tracker.collections.ServiceTrackerMapBuilder;
 import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerBucket;
 import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerBucketFactory;
 import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMap;
-import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMapListener;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
-import com.liferay.portal.kernel.model.Portlet;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.portlet.PortletPreferencesFactory;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
@@ -162,8 +160,6 @@ public class PanelAppRegistry {
 				"panel.category.key"
 			).collect(
 				new PanelAppsServiceTrackerBucketFactory()
-			).newCollector(
-				new PanelAppsServiceTrackerMapListener()
 			).build();
 	}
 
@@ -337,45 +333,6 @@ public class PanelAppRegistry {
 				_serviceReferenceServiceTuples = new ArrayList<>();
 			private List<PanelApp> _services = new ArrayList<>();
 
-		}
-
-	}
-
-	private class PanelAppsServiceTrackerMapListener
-		implements ServiceTrackerMapListener<String, PanelApp, List<PanelApp>> {
-
-		@Override
-		public void keyEmitted(
-			ServiceTrackerMap<String, List<PanelApp>> serviceTrackerMap,
-			String panelCategoryKey, PanelApp panelApp,
-			List<PanelApp> panelApps) {
-
-			panelApp.setGroupProvider(_groupProvider);
-
-			Portlet portlet = _portletLocalService.getPortletById(
-				panelApp.getPortletId());
-
-			if (portlet != null) {
-				portlet.setControlPanelEntryCategory(panelCategoryKey);
-
-				panelApp.setPortlet(portlet);
-			}
-			else if (_log.isDebugEnabled()) {
-				_log.debug("Unable to get portlet " + panelApp.getPortletId());
-			}
-
-			if (panelApp instanceof BasePanelApp) {
-				BasePanelApp basePanelApp = (BasePanelApp)panelApp;
-
-				basePanelApp.setPortletLocalService(_portletLocalService);
-			}
-		}
-
-		@Override
-		public void keyRemoved(
-			ServiceTrackerMap<String, List<PanelApp>> serviceTrackerMap,
-			String panelCategoryKey, PanelApp panelApp,
-			List<PanelApp> panelApps) {
 		}
 
 	}

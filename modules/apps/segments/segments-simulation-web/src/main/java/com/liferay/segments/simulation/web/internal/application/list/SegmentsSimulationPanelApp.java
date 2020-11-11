@@ -15,12 +15,15 @@
 package com.liferay.segments.simulation.web.internal.application.list;
 
 import com.liferay.application.list.BaseJSPPanelApp;
+import com.liferay.application.list.GroupProvider;
 import com.liferay.application.list.PanelApp;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.Portlet;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
+import com.liferay.portal.kernel.security.permission.ResourceActions;
 import com.liferay.portal.kernel.security.permission.resource.PortletResourcePermission;
+import com.liferay.portal.kernel.service.PortletLocalService;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.product.navigation.simulation.constants.ProductNavigationSimulationConstants;
 import com.liferay.segments.constants.SegmentsActionKeys;
@@ -28,10 +31,12 @@ import com.liferay.segments.constants.SegmentsConstants;
 import com.liferay.segments.constants.SegmentsPortletKeys;
 
 import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import javax.servlet.ServletContext;
 
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -79,15 +84,6 @@ public class SegmentsSimulationPanelApp extends BaseJSPPanelApp {
 
 	@Override
 	@Reference(
-		target = "(javax.portlet.name=" + SegmentsPortletKeys.SEGMENTS_SIMULATION + ")",
-		unbind = "-"
-	)
-	public void setPortlet(Portlet portlet) {
-		super.setPortlet(portlet);
-	}
-
-	@Override
-	@Reference(
 		target = "(osgi.web.symbolicname=com.liferay.segments.simulation.web)",
 		unbind = "-"
 	)
@@ -95,9 +91,30 @@ public class SegmentsSimulationPanelApp extends BaseJSPPanelApp {
 		super.setServletContext(servletContext);
 	}
 
+	@Activate
+	protected void activate(Map<String, Object> properties) {
+		init(
+			_resourceActions, _portlet, _groupProvider, _portletLocalService,
+			properties);
+	}
+
+	@Reference
+	private GroupProvider _groupProvider;
+
+	@Reference(
+		target = "(javax.portlet.name=" + SegmentsPortletKeys.SEGMENTS_SIMULATION + ")"
+	)
+	private Portlet _portlet;
+
+	@Reference
+	private PortletLocalService _portletLocalService;
+
 	@Reference(
 		target = "(resource.name=" + SegmentsConstants.RESOURCE_NAME + ")"
 	)
 	private PortletResourcePermission _portletResourcePermission;
+
+	@Reference
+	private ResourceActions _resourceActions;
 
 }

@@ -15,14 +15,20 @@
 package com.liferay.notifications.web.internal.application.list;
 
 import com.liferay.application.list.BasePanelApp;
+import com.liferay.application.list.GroupProvider;
 import com.liferay.application.list.PanelApp;
 import com.liferay.application.list.constants.PanelCategoryKeys;
 import com.liferay.notifications.web.internal.constants.NotificationsPortletKeys;
 import com.liferay.portal.kernel.model.Portlet;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.UserNotificationDeliveryConstants;
+import com.liferay.portal.kernel.security.permission.ResourceActions;
+import com.liferay.portal.kernel.service.PortletLocalService;
 import com.liferay.portal.kernel.service.UserNotificationEventLocalService;
 
+import java.util.Map;
+
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -57,13 +63,11 @@ public class NotificationsPanelApp extends BasePanelApp {
 		return NotificationsPortletKeys.NOTIFICATIONS;
 	}
 
-	@Override
-	@Reference(
-		target = "(javax.portlet.name=" + NotificationsPortletKeys.NOTIFICATIONS + ")",
-		unbind = "-"
-	)
-	public void setPortlet(Portlet portlet) {
-		super.setPortlet(portlet);
+	@Activate
+	protected void activate(Map<String, Object> properties) {
+		init(
+			_resourceActions, _portlet, _groupProvider, _portletLocalService,
+			properties);
 	}
 
 	@Override
@@ -73,6 +77,20 @@ public class NotificationsPanelApp extends BasePanelApp {
 
 		_userNotificationEventLocalService = userNotificationEventLocalService;
 	}
+
+	@Reference
+	private GroupProvider _groupProvider;
+
+	@Reference(
+		target = "(javax.portlet.name=" + NotificationsPortletKeys.NOTIFICATIONS + ")"
+	)
+	private Portlet _portlet;
+
+	@Reference
+	private PortletLocalService _portletLocalService;
+
+	@Reference
+	private ResourceActions _resourceActions;
 
 	private UserNotificationEventLocalService
 		_userNotificationEventLocalService;

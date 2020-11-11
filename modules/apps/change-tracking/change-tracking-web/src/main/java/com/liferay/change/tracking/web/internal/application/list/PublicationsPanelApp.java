@@ -15,6 +15,7 @@
 package com.liferay.change.tracking.web.internal.application.list;
 
 import com.liferay.application.list.BasePanelApp;
+import com.liferay.application.list.GroupProvider;
 import com.liferay.application.list.PanelApp;
 import com.liferay.application.list.constants.PanelCategoryKeys;
 import com.liferay.change.tracking.model.CTPreferences;
@@ -25,8 +26,13 @@ import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.Portlet;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
+import com.liferay.portal.kernel.security.permission.ResourceActions;
+import com.liferay.portal.kernel.service.PortletLocalService;
 import com.liferay.portal.kernel.service.permission.PortletPermission;
 
+import java.util.Map;
+
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -64,19 +70,31 @@ public class PublicationsPanelApp extends BasePanelApp {
 			permissionChecker, CTPortletKeys.PUBLICATIONS, ActionKeys.VIEW);
 	}
 
-	@Override
-	@Reference(
-		target = "(javax.portlet.name=" + CTPortletKeys.PUBLICATIONS + ")",
-		unbind = "-"
-	)
-	public void setPortlet(Portlet portlet) {
-		super.setPortlet(portlet);
+	@Activate
+	protected void activate(Map<String, Object> properties) {
+		init(
+			_resourceActions, _portlet, _groupProvider, _portletLocalService,
+			properties);
 	}
 
 	@Reference
 	private CTPreferencesLocalService _ctPreferencesLocalService;
 
 	@Reference
+	private GroupProvider _groupProvider;
+
+	@Reference(
+		target = "(javax.portlet.name=" + CTPortletKeys.PUBLICATIONS + ")"
+	)
+	private Portlet _portlet;
+
+	@Reference
+	private PortletLocalService _portletLocalService;
+
+	@Reference
 	private PortletPermission _portletPermission;
+
+	@Reference
+	private ResourceActions _resourceActions;
 
 }

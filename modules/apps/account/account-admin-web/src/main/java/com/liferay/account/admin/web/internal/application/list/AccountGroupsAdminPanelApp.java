@@ -17,9 +17,15 @@ package com.liferay.account.admin.web.internal.application.list;
 import com.liferay.account.constants.AccountPanelCategoryKeys;
 import com.liferay.account.constants.AccountPortletKeys;
 import com.liferay.application.list.BasePanelApp;
+import com.liferay.application.list.GroupProvider;
 import com.liferay.application.list.PanelApp;
 import com.liferay.portal.kernel.model.Portlet;
+import com.liferay.portal.kernel.security.permission.ResourceActions;
+import com.liferay.portal.kernel.service.PortletLocalService;
 
+import java.util.Map;
+
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -41,13 +47,25 @@ public class AccountGroupsAdminPanelApp extends BasePanelApp {
 		return AccountPortletKeys.ACCOUNT_GROUPS_ADMIN;
 	}
 
-	@Override
-	@Reference(
-		target = "(javax.portlet.name=" + AccountPortletKeys.ACCOUNT_GROUPS_ADMIN + ")",
-		unbind = "-"
-	)
-	public void setPortlet(Portlet portlet) {
-		super.setPortlet(portlet);
+	@Activate
+	protected void activate(Map<String, Object> properties) {
+		init(
+			_resourceActions, _portlet, _groupProvider, _portletLocalService,
+			properties);
 	}
+
+	@Reference
+	private GroupProvider _groupProvider;
+
+	@Reference(
+		target = "(javax.portlet.name=" + AccountPortletKeys.ACCOUNT_GROUPS_ADMIN + ")"
+	)
+	private Portlet _portlet;
+
+	@Reference
+	private PortletLocalService _portletLocalService;
+
+	@Reference
+	private ResourceActions _resourceActions;
 
 }

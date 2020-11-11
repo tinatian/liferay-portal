@@ -14,6 +14,7 @@
 
 package com.liferay.application.list;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
@@ -24,7 +25,9 @@ import com.liferay.portal.kernel.model.Portlet;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.UserNotificationDeliveryConstants;
 import com.liferay.portal.kernel.portlet.ControlPanelEntry;
+import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
+import com.liferay.portal.kernel.security.permission.ResourceActions;
 import com.liferay.portal.kernel.service.PortletLocalService;
 import com.liferay.portal.kernel.service.UserNotificationEventLocalService;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
@@ -37,7 +40,9 @@ import com.liferay.portal.kernel.util.WebKeys;
 
 import java.io.IOException;
 
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
@@ -216,6 +221,32 @@ public abstract class BasePanelApp implements PanelApp {
 		}
 
 		return groupProvider.getGroup(httpServletRequest);
+	}
+
+	protected void init(
+		ResourceActions resourceActions, Portlet portlet,
+		GroupProvider groupProvider, PortletLocalService portletLocalService,
+		Map<String, Object> properties) {
+
+		List<String> portletResourceActions =
+			resourceActions.getPortletResourceActions(portlet.getPortletId());
+
+		if (!portletResourceActions.contains(
+				ActionKeys.ACCESS_IN_CONTROL_PANEL)) {
+
+			throw new IllegalStateException(
+				StringBundler.concat(
+					"Unable to initialize panel app for portlet ",
+					portlet.getPortletId(),
+					" , please add ACCESS_IN_CONTROL_PANEL resource action"));
+		}
+
+		portlet.setControlPanelEntryCategory(
+			(String)properties.get("panel.category.key"));
+
+		_portlet = portlet;
+		this.groupProvider = groupProvider;
+		_portletLocalService = portletLocalService;
 	}
 
 	protected void setPortletLocalService(
