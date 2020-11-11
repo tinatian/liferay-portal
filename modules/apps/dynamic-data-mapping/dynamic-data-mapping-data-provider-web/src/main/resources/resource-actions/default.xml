@@ -6,6 +6,7 @@
 		<portlet-name>com_liferay_dynamic_data_mapping_data_provider_web_portlet_DDMDataProviderPortlet</portlet-name>
 		<permissions>
 			<supports>
+				<action-key>ACCESS_IN_CONTROL_PANEL</action-key>
 				<action-key>VIEW</action-key>
 			</supports>
 			<site-member-defaults>
