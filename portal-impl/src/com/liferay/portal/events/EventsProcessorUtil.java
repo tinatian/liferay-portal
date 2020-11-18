@@ -25,6 +25,7 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.registry.Registry;
 import com.liferay.registry.RegistryUtil;
 import com.liferay.registry.ServiceRegistration;
+import com.liferay.registry.collections.PropertyServiceReferenceComparator;
 import com.liferay.registry.collections.ServiceTrackerCollections;
 import com.liferay.registry.collections.ServiceTrackerMap;
 
@@ -163,7 +164,10 @@ public class EventsProcessorUtil {
 
 	private static final ServiceTrackerMap<String, List<LifecycleAction>>
 		_lifecycleActions = ServiceTrackerCollections.openMultiValueMap(
-			LifecycleAction.class, "key");
+			LifecycleAction.class, "(key=*)",
+			(serviceReference, emitter) -> emitter.emit(
+				(String)serviceReference.getProperty("key")),
+			new PropertyServiceReferenceComparator<>("service.ranking"));
 	private static final ConcurrentMap
 		<String, Map<Object, ServiceRegistration<LifecycleAction>>>
 			_serviceRegistrationMaps = new ConcurrentHashMap<>();
