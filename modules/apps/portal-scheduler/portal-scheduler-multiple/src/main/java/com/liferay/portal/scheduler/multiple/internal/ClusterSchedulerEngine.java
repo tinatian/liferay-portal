@@ -336,11 +336,18 @@ public class ClusterSchedulerEngine
 					}
 				}
 				else {
+					String fullName = getFullName(jobName, groupName);
+
 					ObjectValuePair<SchedulerResponse, TriggerState>
 						objectValuePair = _memoryClusteredJobs.get(
 							getFullName(jobName, groupName));
 
 					if (objectValuePair == null) {
+						JobScheduleInformation jobScheduleInformation =
+							new JobScheduleInformation(
+								description, destinationName, message,
+								storageType, trigger);
+
 						MethodHandler methodHandler = new MethodHandler(
 							_getScheduledJobMethodKey, jobName, groupName,
 							StorageType.MEMORY_CLUSTERED);
@@ -350,6 +357,9 @@ public class ClusterSchedulerEngine
 								methodHandler);
 
 						try {
+							_masterUndeployedMemoryClusteredJobs.put(
+								fullName, jobScheduleInformation);
+
 							SchedulerResponse schedulerResponse = future.get(
 								_callMasterTimeout, TimeUnit.SECONDS);
 
@@ -562,9 +572,12 @@ public class ClusterSchedulerEngine
 
 		message.remove(JOB_STATE);
 
+		String fullName = getFullName(jobName, groupName);
+
 		_memoryClusteredJobs.put(
-			getFullName(jobName, groupName),
-			new ObjectValuePair<>(schedulerResponse, triggerState));
+			fullName, new ObjectValuePair<>(schedulerResponse, triggerState));
+
+		_masterUndeployedMemoryClusteredJobs.remove(fullName);
 	}
 
 	protected String getFullName(String jobName, String groupName) {
@@ -854,6 +867,8 @@ public class ClusterSchedulerEngine
 	private long _callMasterTimeout;
 	private ClusterExecutor _clusterExecutor;
 	private ClusterMasterExecutor _clusterMasterExecutor;
+	private final Map<String, JobScheduleInformation>
+		_masterUndeployedMemoryClusteredJobs = new ConcurrentHashMap<>();
 	private final Map<String, ObjectValuePair<SchedulerResponse, TriggerState>>
 		_memoryClusteredJobs = new ConcurrentHashMap<>();
 	private boolean _portalReady;
@@ -864,6 +879,27 @@ public class ClusterSchedulerEngine
 	private final SchedulerEngine _schedulerEngine;
 	private final TriggerFactory _triggerFactory;
 	private final Lock _writeLock;
+
+	private static class JobScheduleInformation {
+
+		public JobScheduleInformation(
+			String description, String destinationName, Message message,
+			StorageType storageType, Trigger trigger) {
+
+			_description = description;
+			_destinationName = destinationName;
+			_message = message;
+			_storageType = storageType;
+			_trigger = trigger;
+		}
+
+		private final String _description;
+		private final String _destinationName;
+		private final Message _message;
+		private final StorageType _storageType;
+		private final Trigger _trigger;
+
+	}
 
 	private class SchedulerClusterMasterTokenTransitionListener
 		extends BaseClusterMasterTokenTransitionListener {
@@ -917,12 +953,35 @@ public class ClusterSchedulerEngine
 					}
 				}
 
+				for (JobScheduleInformation jobScheduleInformation :
+						_masterUndeployedMemoryClusteredJobs.values()) {
+
+					Trigger oldTrigger = jobScheduleInformation._trigger;
+
+					Date startDate = oldTrigger.getFireDateAfter(new Date());
+
+					Trigger newTrigger = _triggerFactory.createTrigger(
+						oldTrigger, startDate, oldTrigger.getEndDate());
+
+					_schedulerEngine.schedule(
+						newTrigger, jobScheduleInformation._description,
+						jobScheduleInformation._destinationName,
+						jobScheduleInformation._message,
+						jobScheduleInformation._storageType);
+				}
+
 				if (_log.isInfoEnabled()) {
-					_log.info(
+					int memoryClusteredJobsSize =
 						_memoryClusteredJobs.size() +
+							_masterUndeployedMemoryClusteredJobs.size();
+
+					_log.info(
+						memoryClusteredJobsSize +
 							" MEMORY_CLUSTERED jobs started running on this " +
 								"node");
 				}
+
+				_masterUndeployedMemoryClusteredJobs.clear();
 
 				_memoryClusteredJobs.clear();
 
