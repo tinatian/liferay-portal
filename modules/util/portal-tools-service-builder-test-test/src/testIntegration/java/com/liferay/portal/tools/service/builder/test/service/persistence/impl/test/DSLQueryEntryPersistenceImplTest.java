@@ -15,6 +15,7 @@
 package com.liferay.portal.tools.service.builder.test.service.persistence.impl.test;
 
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
+import com.liferay.petra.sql.dsl.DSLFunctionFactoryUtil;
 import com.liferay.petra.sql.dsl.DSLQueryFactoryUtil;
 import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
@@ -64,6 +65,31 @@ public class DSLQueryEntryPersistenceImplTest {
 		_testDSLQueryEntry1 = _addDSLQueryEntry();
 		_testDSLQueryEntry2 = _addDSLQueryEntry();
 		_testDSLQueryEntry3 = _addDSLQueryEntry();
+
+		_currentTime = System.currentTimeMillis();
+
+		_addDSLQueryStatusEntry(_testDSLQueryEntry1, -1);
+		_addDSLQueryStatusEntry(_testDSLQueryEntry1, 0);
+	}
+
+	@Test
+	public void testCount() {
+		Assert.assertEquals(
+			2L,
+			(long)_dslQueryStatusEntryPersistence.dslQuery(
+				DSLQueryFactoryUtil.count(
+				).from(
+					DSLQueryStatusEntryTable.INSTANCE
+				)));
+
+		Assert.assertEquals(
+			1L,
+			(long)_dslQueryStatusEntryPersistence.dslQuery(
+				DSLQueryFactoryUtil.countDistinct(
+					DSLQueryStatusEntryTable.INSTANCE.dslQueryEntryId
+				).from(
+					DSLQueryStatusEntryTable.INSTANCE
+				)));
 	}
 
 	@Test
@@ -109,12 +135,8 @@ public class DSLQueryEntryPersistenceImplTest {
 
 	@Test
 	public void testDSLQueryWithMultiTables() {
-		long currentTime = System.currentTimeMillis();
-
-		_addDSLQueryStatusEntry(_testDSLQueryEntry1, currentTime - 1);
-		_addDSLQueryStatusEntry(_testDSLQueryEntry1, currentTime);
-		_addDSLQueryStatusEntry(_testDSLQueryEntry2, currentTime - 1);
-		_addDSLQueryStatusEntry(_testDSLQueryEntry3, currentTime - 1);
+		_addDSLQueryStatusEntry(_testDSLQueryEntry2, -1);
+		_addDSLQueryStatusEntry(_testDSLQueryEntry3, -1);
 
 		DSLQuery dslQuery = DSLQueryFactoryUtil.select(
 			DSLQueryEntryTable.INSTANCE
@@ -126,7 +148,7 @@ public class DSLQueryEntryPersistenceImplTest {
 				DSLQueryStatusEntryTable.INSTANCE.dslQueryEntryId)
 		).where(
 			DSLQueryStatusEntryTable.INSTANCE.statusDate.gte(
-				new Date(currentTime))
+				new Date(_currentTime))
 		);
 
 		Assert.assertEquals(
@@ -139,11 +161,80 @@ public class DSLQueryEntryPersistenceImplTest {
 			Collections.emptyList(),
 			_dslQueryEntryPersistence.dslQuery(dslQuery));
 
-		_addDSLQueryStatusEntry(_testDSLQueryEntry2, currentTime);
+		_addDSLQueryStatusEntry(_testDSLQueryEntry2, 0);
 
 		Assert.assertEquals(
 			Arrays.asList(_testDSLQueryEntry2),
 			_dslQueryEntryPersistence.dslQuery(dslQuery));
+	}
+
+	@Test
+	public void testGroupBy() {
+		_addDSLQueryStatusEntry(_testDSLQueryEntry2, -1);
+		_addDSLQueryStatusEntry(_testDSLQueryEntry2, 0);
+		_addDSLQueryStatusEntry(_testDSLQueryEntry2, 1);
+		_addDSLQueryStatusEntry(_testDSLQueryEntry3, 0);
+
+		Assert.assertEquals(
+			Arrays.asList(_testDSLQueryEntry2.getDslQueryEntryId()),
+			_dslQueryEntryPersistence.dslQuery(
+				DSLQueryFactoryUtil.select(
+					DSLQueryStatusEntryTable.INSTANCE.dslQueryEntryId
+				).from(
+					DSLQueryStatusEntryTable.INSTANCE
+				).groupBy(
+					DSLQueryStatusEntryTable.INSTANCE.dslQueryEntryId
+				).having(
+					DSLFunctionFactoryUtil.countDistinct(
+						DSLQueryStatusEntryTable.INSTANCE.dslQueryStatusEntryId
+					).gte(
+						3L
+					)
+				)));
+
+		Assert.assertEquals(
+			Arrays.asList(_testDSLQueryEntry3.getDslQueryEntryId()),
+			_dslQueryEntryPersistence.dslQuery(
+				DSLQueryFactoryUtil.select(
+					DSLQueryStatusEntryTable.INSTANCE.dslQueryEntryId
+				).from(
+					DSLQueryStatusEntryTable.INSTANCE
+				).groupBy(
+					DSLQueryStatusEntryTable.INSTANCE.dslQueryEntryId
+				).having(
+					DSLFunctionFactoryUtil.countDistinct(
+						DSLQueryStatusEntryTable.INSTANCE.dslQueryStatusEntryId
+					).lte(
+						1L
+					)
+				)));
+	}
+
+	@Test
+	public void testOrderBy() {
+		Assert.assertEquals(
+			Arrays.asList(
+				_testDSLQueryEntry1, _testDSLQueryEntry2, _testDSLQueryEntry3),
+			_dslQueryEntryPersistence.dslQuery(
+				DSLQueryFactoryUtil.select(
+					DSLQueryEntryTable.INSTANCE
+				).from(
+					DSLQueryEntryTable.INSTANCE
+				).orderBy(
+					DSLQueryEntryTable.INSTANCE.dslQueryEntryId.ascending()
+				)));
+
+		Assert.assertEquals(
+			Arrays.asList(
+				_testDSLQueryEntry3, _testDSLQueryEntry2, _testDSLQueryEntry1),
+			_dslQueryEntryPersistence.dslQuery(
+				DSLQueryFactoryUtil.select(
+					DSLQueryEntryTable.INSTANCE
+				).from(
+					DSLQueryEntryTable.INSTANCE
+				).orderBy(
+					DSLQueryEntryTable.INSTANCE.dslQueryEntryId.descending()
+				)));
 	}
 
 	private DSLQueryEntry _addDSLQueryEntry() {
@@ -160,7 +251,7 @@ public class DSLQueryEntryPersistenceImplTest {
 	}
 
 	private DSLQueryStatusEntry _addDSLQueryStatusEntry(
-		DSLQueryEntry dslQueryEntry, long time) {
+		DSLQueryEntry dslQueryEntry, int deta) {
 
 		DSLQueryStatusEntry dslQueryStatusEntry =
 			_dslQueryStatusEntryPersistence.create(RandomTestUtil.nextLong());
@@ -168,7 +259,7 @@ public class DSLQueryEntryPersistenceImplTest {
 		dslQueryStatusEntry.setDslQueryEntryId(
 			dslQueryEntry.getDslQueryEntryId());
 		dslQueryStatusEntry.setStatus(RandomTestUtil.randomString());
-		dslQueryStatusEntry.setStatusDate(new Date(time));
+		dslQueryStatusEntry.setStatusDate(new Date(_currentTime + deta));
 
 		dslQueryStatusEntry = _dslQueryStatusEntryPersistence.updateImpl(
 			dslQueryStatusEntry);
@@ -177,6 +268,8 @@ public class DSLQueryEntryPersistenceImplTest {
 
 		return dslQueryStatusEntry;
 	}
+
+	private long _currentTime;
 
 	@DeleteAfterTestRun
 	private final List<DSLQueryEntry> _dslQueryEntries = new ArrayList<>();
