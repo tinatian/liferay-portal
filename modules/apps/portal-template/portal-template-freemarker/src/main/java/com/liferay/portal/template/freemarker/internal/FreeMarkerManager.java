@@ -556,8 +556,6 @@ public class FreeMarkerManager extends BaseTemplateManager {
 		Map<String, Object> threadLocals =
 			FreemarkerThreadLocalUtil.collectThreadLocals();
 
-		Thread currentThread = Thread.currentThread();
-
 		NoticeableFuture<?> noticeableFuture =
 			_noticeableExecutorService.submit(
 				(Callable<Void>)() -> {
@@ -569,12 +567,9 @@ public class FreeMarkerManager extends BaseTemplateManager {
 						callable.call();
 					}
 					finally {
-						if (Thread.currentThread() != currentThread) {
-							ThreadLocalCacheManager.clearAll(Lifecycle.REQUEST);
+						ThreadLocalCacheManager.clearAll(Lifecycle.REQUEST);
 
-							CentralizedThreadLocal.
-								clearShortLivedThreadLocals();
-						}
+						CentralizedThreadLocal.clearShortLivedThreadLocals();
 					}
 
 					return null;
