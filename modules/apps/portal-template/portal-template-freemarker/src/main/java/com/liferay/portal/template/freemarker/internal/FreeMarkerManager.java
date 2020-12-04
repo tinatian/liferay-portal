@@ -387,7 +387,7 @@ public class FreeMarkerManager extends BaseTemplateManager {
 
 		WriterFactoryUtil.setWriterFactory(new UnsyncStringWriterFactory());
 
-		if (_freeMarkerEngineConfiguration.threadPoolTimeout() > 0) {
+		if (_freeMarkerEngineConfiguration.asyncRenderTimeout() > 0) {
 			_noticeableExecutorService =
 				_portalExecutorManager.getPortalExecutor(
 					FreeMarkerManager.class.getName());
@@ -440,7 +440,7 @@ public class FreeMarkerManager extends BaseTemplateManager {
 	protected void deactivate() {
 		_bundleTracker.close();
 
-		if (_freeMarkerEngineConfiguration.threadPoolTimeout() > 0) {
+		if (_freeMarkerEngineConfiguration.asyncRenderTimeout() > 0) {
 			_noticeableExecutorService =
 				_portalExecutorManager.getPortalExecutor(
 					FreeMarkerManager.class.getName());
@@ -531,7 +531,7 @@ public class FreeMarkerManager extends BaseTemplateManager {
 	protected void render(String templateId, Callable<Void> callable)
 		throws Exception {
 
-		long timeout = _freeMarkerEngineConfiguration.threadPoolTimeout();
+		long timeout = _freeMarkerEngineConfiguration.asyncRenderTimeout();
 
 		if (timeout <= 0) {
 			callable.call();
@@ -543,13 +543,14 @@ public class FreeMarkerManager extends BaseTemplateManager {
 			templateId, key -> new AtomicInteger(0));
 
 		if (timeoutCounter.get() >=
-				_freeMarkerEngineConfiguration.threadPoolTimeoutThreshold()) {
+				_freeMarkerEngineConfiguration.asyncRenderTimeoutThreshold()) {
 
 			throw new IllegalStateException(
 				StringBundler.concat(
 					"Skip processing freemarker template ", templateId,
 					" as it had been timed out ",
-					_freeMarkerEngineConfiguration.threadPoolTimeoutThreshold(),
+					_freeMarkerEngineConfiguration.
+						asyncRenderTimeoutThreshold(),
 					" times"));
 		}
 
