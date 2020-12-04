@@ -539,19 +539,24 @@ public class FreeMarkerManager extends BaseTemplateManager {
 
 		long timeout = _freeMarkerEngineConfiguration.threadPoolTimeout();
 
-		AtomicInteger timeoutCounter = _timeoutTemplateCounters.computeIfAbsent(
-			templateId, key -> new AtomicInteger(0));
+		AtomicInteger timeoutCounter = null;
 
-		if ((timeout > 0) &&
-			(timeoutCounter.get() >=
-				_freeMarkerEngineConfiguration.threadPoolTimeoutThreshold())) {
+		if (timeout > 0) {
+			timeoutCounter = _timeoutTemplateCounters.computeIfAbsent(
+				templateId, key -> new AtomicInteger(0));
 
-			throw new IllegalStateException(
-				StringBundler.concat(
-					"Skip processing freemarker template ", templateId,
-					" as it had been timed out ",
-					_freeMarkerEngineConfiguration.threadPoolTimeoutThreshold(),
-					" times"));
+			if (timeoutCounter.get() >=
+					_freeMarkerEngineConfiguration.
+						threadPoolTimeoutThreshold()) {
+
+				throw new IllegalStateException(
+					StringBundler.concat(
+						"Skip processing freemarker template ", templateId,
+						" as it had been timed out ",
+						_freeMarkerEngineConfiguration.
+							threadPoolTimeoutThreshold(),
+						" times"));
+			}
 		}
 
 		Map<String, Object> threadLocals =
@@ -581,7 +586,7 @@ public class FreeMarkerManager extends BaseTemplateManager {
 					return null;
 				});
 
-		if (timeout == 0) {
+		if (timeoutCounter == null) {
 			noticeableFuture.get();
 
 			return;
