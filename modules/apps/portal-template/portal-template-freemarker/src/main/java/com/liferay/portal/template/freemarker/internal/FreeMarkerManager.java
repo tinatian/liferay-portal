@@ -16,7 +16,9 @@ package com.liferay.portal.template.freemarker.internal;
 
 import com.liferay.petra.concurrent.ConcurrentReferenceKeyHashMap;
 import com.liferay.petra.concurrent.NoticeableExecutorService;
+import com.liferay.petra.concurrent.NoticeableFuture;
 import com.liferay.petra.executor.PortalExecutorManager;
+import com.liferay.petra.lang.CentralizedThreadLocal;
 import com.liferay.petra.lang.ClassLoaderPool;
 import com.liferay.petra.memory.FinalizeManager;
 import com.liferay.petra.reflect.ReflectionUtil;
@@ -25,6 +27,8 @@ import com.liferay.petra.string.StringPool;
 import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.kernel.cache.PortalCache;
 import com.liferay.portal.kernel.cache.SingleVMPool;
+import com.liferay.portal.kernel.cache.thread.local.Lifecycle;
+import com.liferay.portal.kernel.cache.thread.local.ThreadLocalCacheManager;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.security.permission.PermissionCheckerFactory;
@@ -77,7 +81,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 
@@ -494,18 +501,6 @@ public class FreeMarkerManager extends BaseTemplateManager {
 		}
 	}
 
-	protected FreeMarkerEngineConfiguration getFreeMarkerEngineConfiguration() {
-		return _freeMarkerEngineConfiguration;
-	}
-
-	protected NoticeableExecutorService getNoticeableExecutorService() {
-		return _noticeableExecutorService;
-	}
-
-	protected PermissionCheckerFactory getPermissionCheckerFactory() {
-		return _permissionCheckerFactory;
-	}
-
 	protected ServletContextHashModel getServletContextHashModel(
 		ServletContext servletContext, ObjectWrapper objectWrapper) {
 
@@ -523,15 +518,6 @@ public class FreeMarkerManager extends BaseTemplateManager {
 				servletContext, freeMarkerBundleClassloader));
 	}
 
-	protected AtomicInteger getTimeoutCounter(String templateId) {
-		return _timeoutTemplateCounters.computeIfAbsent(
-			templateId, key -> new AtomicInteger(0));
-	}
-
-	protected UserLocalService getUserLocalService() {
-		return _userLocalService;
-	}
-
 	protected boolean isEnableDebuggerService() {
 		if ((System.getProperty("freemarker.debug.password") != null) &&
 			(System.getProperty("freemarker.debug.port") != null)) {
@@ -540,6 +526,81 @@ public class FreeMarkerManager extends BaseTemplateManager {
 		}
 
 		return false;
+	}
+
+	protected void render(String templateId, Callable<Void> callable)
+		throws Exception {
+
+		if (!_freeMarkerEngineConfiguration.threadPoolEnabled()) {
+			callable.call();
+
+			return;
+		}
+
+		long timeout = _freeMarkerEngineConfiguration.threadPoolTimeout();
+
+		AtomicInteger timeoutCounter = _timeoutTemplateCounters.computeIfAbsent(
+			templateId, key -> new AtomicInteger(0));
+
+		if ((timeout > 0) &&
+			(timeoutCounter.get() >=
+				_freeMarkerEngineConfiguration.threadPoolTimeoutThreshold())) {
+
+			throw new IllegalStateException(
+				StringBundler.concat(
+					"Skip processing freemarker template ", templateId,
+					" as it had been timed out ",
+					_freeMarkerEngineConfiguration.threadPoolTimeoutThreshold(),
+					" times"));
+		}
+
+		Map<String, Object> threadLocals =
+			FreemarkerThreadLocalUtil.collectThreadLocals();
+
+		Thread currentThread = Thread.currentThread();
+
+		NoticeableFuture<?> noticeableFuture =
+			_noticeableExecutorService.submit(
+				(Callable<Void>)() -> {
+					try {
+						FreemarkerThreadLocalUtil.populateThreadLocals(
+							threadLocals, _permissionCheckerFactory,
+							_userLocalService);
+
+						callable.call();
+					}
+					finally {
+						if (Thread.currentThread() != currentThread) {
+							ThreadLocalCacheManager.clearAll(Lifecycle.REQUEST);
+
+							CentralizedThreadLocal.
+								clearShortLivedThreadLocals();
+						}
+					}
+
+					return null;
+				});
+
+		if (timeout == 0) {
+			noticeableFuture.get();
+
+			return;
+		}
+
+		try {
+			noticeableFuture.get(timeout, TimeUnit.MILLISECONDS);
+		}
+		catch (TimeoutException timeoutException) {
+			timeoutCounter.incrementAndGet();
+
+			if (_log.isWarnEnabled()) {
+				_log.warn(
+					StringBundler.concat(
+						"Freemarker template ", templateId,
+						" processing timeout"),
+					timeoutException);
+			}
+		}
 	}
 
 	@Reference(unbind = "-")
