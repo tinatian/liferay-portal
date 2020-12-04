@@ -554,16 +554,18 @@ public class FreeMarkerManager extends BaseTemplateManager {
 					" times"));
 		}
 
-		Map<String, Object> threadLocals =
-			FreemarkerThreadLocalUtil.collectThreadLocals();
+		Map<CentralizedThreadLocal<?>, Object> longLivedThreadLocals =
+			CentralizedThreadLocal.getLongLivedThreadLocals();
+
+		Map<CentralizedThreadLocal<?>, Object> shortLivedThreadLocals =
+			CentralizedThreadLocal.getShortLivedThreadLocals();
 
 		NoticeableFuture<?> noticeableFuture =
 			_noticeableExecutorService.submit(
 				(Callable<Void>)() -> {
 					try {
-						FreemarkerThreadLocalUtil.populateThreadLocals(
-							threadLocals, _permissionCheckerFactory,
-							_userLocalService);
+						CentralizedThreadLocal.setThreadLocals(
+							longLivedThreadLocals, shortLivedThreadLocals);
 
 						callable.call();
 					}
