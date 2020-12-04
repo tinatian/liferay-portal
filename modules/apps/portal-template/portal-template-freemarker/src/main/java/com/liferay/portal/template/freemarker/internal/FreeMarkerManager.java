@@ -432,6 +432,16 @@ public class FreeMarkerManager extends BaseTemplateManager {
 	@Deactivate
 	protected void deactivate() {
 		_bundleTracker.close();
+
+		if (_freeMarkerEngineConfiguration.threadPoolEnabled()) {
+			_noticeableExecutorService =
+				_portalExecutorManager.getPortalExecutor(
+					FreeMarkerManager.class.getName());
+
+			_noticeableExecutorService.shutdownNow();
+
+			_timeoutTemplateCounters.clear();
+		}
 	}
 
 	@Override
