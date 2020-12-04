@@ -52,9 +52,6 @@ public interface FreeMarkerEngineConfiguration {
 	)
 	public String[] restrictedMethods();
 
-	@Meta.AD(deflt = "false", name = "thread-pool-enabled", required = false)
-	public boolean threadPoolEnabled();
-
 	@Meta.AD(deflt = "0", name = "thread-pool-timeout", required = false)
 	public long threadPoolTimeout();
 

@@ -387,7 +387,7 @@ public class FreeMarkerManager extends BaseTemplateManager {
 
 		WriterFactoryUtil.setWriterFactory(new UnsyncStringWriterFactory());
 
-		if (_freeMarkerEngineConfiguration.threadPoolEnabled()) {
+		if (_freeMarkerEngineConfiguration.threadPoolTimeout() > 0) {
 			_noticeableExecutorService =
 				_portalExecutorManager.getPortalExecutor(
 					FreeMarkerManager.class.getName());
@@ -440,7 +440,7 @@ public class FreeMarkerManager extends BaseTemplateManager {
 	protected void deactivate() {
 		_bundleTracker.close();
 
-		if (_freeMarkerEngineConfiguration.threadPoolEnabled()) {
+		if (_freeMarkerEngineConfiguration.threadPoolTimeout() > 0) {
 			_noticeableExecutorService =
 				_portalExecutorManager.getPortalExecutor(
 					FreeMarkerManager.class.getName());
@@ -531,32 +531,26 @@ public class FreeMarkerManager extends BaseTemplateManager {
 	protected void render(String templateId, Callable<Void> callable)
 		throws Exception {
 
-		if (!_freeMarkerEngineConfiguration.threadPoolEnabled()) {
+		long timeout = _freeMarkerEngineConfiguration.threadPoolTimeout();
+
+		if (timeout <= 0) {
 			callable.call();
 
 			return;
 		}
 
-		long timeout = _freeMarkerEngineConfiguration.threadPoolTimeout();
+		AtomicInteger timeoutCounter = _timeoutTemplateCounters.computeIfAbsent(
+			templateId, key -> new AtomicInteger(0));
 
-		AtomicInteger timeoutCounter = null;
+		if (timeoutCounter.get() >=
+				_freeMarkerEngineConfiguration.threadPoolTimeoutThreshold()) {
 
-		if (timeout > 0) {
-			timeoutCounter = _timeoutTemplateCounters.computeIfAbsent(
-				templateId, key -> new AtomicInteger(0));
-
-			if (timeoutCounter.get() >=
-					_freeMarkerEngineConfiguration.
-						threadPoolTimeoutThreshold()) {
-
-				throw new IllegalStateException(
-					StringBundler.concat(
-						"Skip processing freemarker template ", templateId,
-						" as it had been timed out ",
-						_freeMarkerEngineConfiguration.
-							threadPoolTimeoutThreshold(),
-						" times"));
-			}
+			throw new IllegalStateException(
+				StringBundler.concat(
+					"Skip processing freemarker template ", templateId,
+					" as it had been timed out ",
+					_freeMarkerEngineConfiguration.threadPoolTimeoutThreshold(),
+					" times"));
 		}
 
 		Map<String, Object> threadLocals =
@@ -585,12 +579,6 @@ public class FreeMarkerManager extends BaseTemplateManager {
 
 					return null;
 				});
-
-		if (timeoutCounter == null) {
-			noticeableFuture.get();
-
-			return;
-		}
 
 		try {
 			noticeableFuture.get(timeout, TimeUnit.MILLISECONDS);
