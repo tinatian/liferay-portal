@@ -19,12 +19,23 @@ import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.BaseModel;
+import com.liferay.portal.kernel.model.CompanyConstants;
+import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
+import com.liferay.portal.kernel.service.BaseLocalService;
+import com.liferay.portal.kernel.service.BaseService;
+import com.liferay.portal.kernel.transaction.Propagation;
+import com.liferay.portal.kernel.transaction.TransactionConfig;
+import com.liferay.portal.kernel.transaction.TransactionInvokerUtil;
 import com.liferay.portal.kernel.util.AggregateClassLoader;
+import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.spring.aop.AopInvocationHandler;
 import com.liferay.portal.util.PortalImpl;
 
 import freemarker.ext.beans.BeansWrapper;
+import freemarker.ext.beans.StringModel;
 import freemarker.ext.util.ModelFactory;
 
 import freemarker.template.ObjectWrapper;
@@ -39,6 +50,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
 
 /**
  * @author Mika Koivisto
@@ -169,20 +181,59 @@ public class RestrictedLiferayObjectWrapper extends LiferayObjectWrapper {
 		String className = clazz.getName();
 
 		if (!_allowAllClasses && _isRestricted(clazz)) {
-			return _LIFERAY_FREEMARKER_STRING_MODEL_FACTORY.create(
-				object, this);
+			return _RESTRICTED_STRING_MODEL_FACTORY.create(object, this);
 		}
 
 		if (_restrictedMethodNames.containsKey(className)) {
 			LiferayFreeMarkerStringModel liferayFreeMarkerStringModel =
 				(LiferayFreeMarkerStringModel)
-					_LIFERAY_FREEMARKER_STRING_MODEL_FACTORY.create(
-						object, this);
+					_RESTRICTED_STRING_MODEL_FACTORY.create(object, this);
 
 			liferayFreeMarkerStringModel.setRestrictedMethodNames(
 				_restrictedMethodNames.get(className));
 
 			return liferayFreeMarkerStringModel;
+		}
+
+		if (_serviceProxyClassNames.contains(className)) {
+			return _SERVICE_PROXY_STRING_MODEL_FACTORY.create(object, this);
+		}
+
+		if (object instanceof BaseLocalService ||
+			object instanceof BaseService) {
+
+			AopInvocationHandler aopInvocationHandler =
+				ProxyUtil.fetchInvocationHandler(
+					object, AopInvocationHandler.class);
+
+			if (aopInvocationHandler != null) {
+				_serviceProxyClassNames.add(className);
+
+				return _SERVICE_PROXY_STRING_MODEL_FACTORY.create(object, this);
+			}
+		}
+		else if (object instanceof BaseModel) {
+			long currentCompanyId = CompanyThreadLocal.getCompanyId();
+
+			if (currentCompanyId != CompanyConstants.SYSTEM) {
+				BaseModel<?> baseModel = (BaseModel<?>)object;
+
+				Map<String, Function<Object, Object>> getterFunctions =
+					(Map<String, Function<Object, Object>>)
+						(Map<String, ?>)baseModel.getAttributeGetterFunctions();
+
+				Function<Object, Object> function = getterFunctions.get(
+					"companyId");
+
+				if ((function != null) &&
+					(currentCompanyId != (Long)function.apply(object))) {
+
+					throw new TemplateModelException(
+						StringBundler.concat(
+							"Denied access to model object as it does not ",
+							"belong to current company ", currentCompanyId));
+				}
+			}
 		}
 
 		return super.wrap(object);
@@ -226,7 +277,7 @@ public class RestrictedLiferayObjectWrapper extends LiferayObjectWrapper {
 			});
 	}
 
-	private static final ModelFactory _LIFERAY_FREEMARKER_STRING_MODEL_FACTORY =
+	private static final ModelFactory _RESTRICTED_STRING_MODEL_FACTORY =
 		new ModelFactory() {
 
 			@Override
@@ -239,8 +290,40 @@ public class RestrictedLiferayObjectWrapper extends LiferayObjectWrapper {
 
 		};
 
+	private static final ModelFactory _SERVICE_PROXY_STRING_MODEL_FACTORY =
+		new ModelFactory() {
+
+			@Override
+			public TemplateModel create(
+				Object object, ObjectWrapper objectWrapper) {
+
+				Class<?> clazz = object.getClass();
+
+				return new StringModel(
+					ProxyUtil.newProxyInstance(
+						clazz.getClassLoader(), clazz.getInterfaces(),
+						(proxy, method, args) -> TransactionInvokerUtil.invoke(
+							_transactionConfig,
+							() -> method.invoke(object, args))),
+					(BeansWrapper)objectWrapper);
+			}
+
+		};
+
 	private static final Log _log = LogFactoryUtil.getLog(
 		RestrictedLiferayObjectWrapper.class);
+
+	private static final TransactionConfig _transactionConfig;
+
+	static {
+		TransactionConfig.Builder builder = new TransactionConfig.Builder();
+
+		builder.setPropagation(Propagation.REQUIRES_NEW);
+		builder.setStrictReadOnly(true);
+		builder.setRollbackForClasses(Exception.class);
+
+		_transactionConfig = builder.build();
+	}
 
 	private final boolean _allowAllClasses;
 	private final List<String> _allowedClassNames;
@@ -249,5 +332,7 @@ public class RestrictedLiferayObjectWrapper extends LiferayObjectWrapper {
 		new ConcurrentHashMap<>();
 	private final Map<String, Set<String>> _restrictedMethodNames;
 	private final List<String> _restrictedPackageNames;
+	private final Set<String> _serviceProxyClassNames =
+		Collections.newSetFromMap(new ConcurrentHashMap<>());
 
 }
