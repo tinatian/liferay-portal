@@ -134,7 +134,7 @@ public class Log4JUtilTest {
 
 		Assert.assertEquals(
 			"The original level should be WARN by configuration", "WARN",
-			Log4JUtil.getOriginalLevel(LoggerName.LOGGER_WARN.toString()));
+			Log4JUtil.getOriginalLevel(_LOGGER_WARN));
 
 		Assert.assertEquals(
 			"The original level should be ALL for Logger not configured or " +
@@ -170,15 +170,15 @@ public class Log4JUtilTest {
 	public void testSetLevel() {
 		Log4JUtil.configureLog4J(_classLoader);
 
-		Log log = LogFactoryUtil.getLog(LoggerName.LOGGER_WARN.toString());
+		Log log = LogFactoryUtil.getLog(_LOGGER_WARN);
 
 		java.util.logging.Logger jdkLogger = java.util.logging.Logger.getLogger(
-			LoggerName.LOGGER_WARN.toString());
+			_LOGGER_WARN);
 
 		_assertLog4JLevel("WARN", log);
 		_assertJDKLogLevel(Level.WARNING, jdkLogger);
 
-		Log4JUtil.setLevel(LoggerName.LOGGER_WARN.toString(), "DEBUG", false);
+		Log4JUtil.setLevel(_LOGGER_WARN, "DEBUG", false);
 
 		_assertLog4JLevel("DEBUG", log);
 		_assertJDKLogLevel(Level.FINE, jdkLogger);
@@ -235,37 +235,21 @@ public class Log4JUtilTest {
 
 	private void _assertJDKLogLevels() {
 		_assertJDKLogLevel(
-			Level.INFO,
-			java.util.logging.Logger.getLogger(
-				LoggerName.LOGGER_ALL.toString()));
+			Level.INFO, java.util.logging.Logger.getLogger(_LOGGER_ALL));
 		_assertJDKLogLevel(
-			Level.INFO,
-			java.util.logging.Logger.getLogger(
-				LoggerName.LOGGER_OFF.toString()));
+			Level.INFO, java.util.logging.Logger.getLogger(_LOGGER_OFF));
 		_assertJDKLogLevel(
-			Level.INFO,
-			java.util.logging.Logger.getLogger(
-				LoggerName.LOGGER_FATAL.toString()));
+			Level.INFO, java.util.logging.Logger.getLogger(_LOGGER_FATAL));
 		_assertJDKLogLevel(
-			Level.SEVERE,
-			java.util.logging.Logger.getLogger(
-				LoggerName.LOGGER_ERROR.toString()));
+			Level.SEVERE, java.util.logging.Logger.getLogger(_LOGGER_ERROR));
 		_assertJDKLogLevel(
-			Level.WARNING,
-			java.util.logging.Logger.getLogger(
-				LoggerName.LOGGER_WARN.toString()));
+			Level.WARNING, java.util.logging.Logger.getLogger(_LOGGER_WARN));
 		_assertJDKLogLevel(
-			Level.INFO,
-			java.util.logging.Logger.getLogger(
-				LoggerName.LOGGER_INFO.toString()));
+			Level.INFO, java.util.logging.Logger.getLogger(_LOGGER_INFO));
 		_assertJDKLogLevel(
-			Level.FINE,
-			java.util.logging.Logger.getLogger(
-				LoggerName.LOGGER_DEBUG.toString()));
+			Level.FINE, java.util.logging.Logger.getLogger(_LOGGER_DEBUG));
 		_assertJDKLogLevel(
-			Level.INFO,
-			java.util.logging.Logger.getLogger(
-				LoggerName.LOGGER_TRACE.toString()));
+			Level.INFO, java.util.logging.Logger.getLogger(_LOGGER_TRACE));
 	}
 
 	private void _assertLog4JLevel(String expectedLevel, Log log) {
@@ -306,45 +290,33 @@ public class Log4JUtilTest {
 	}
 
 	private void _assertLog4JLevels() {
-		_assertLog4JLevel(
-			"ALL", LogFactoryUtil.getLog(LoggerName.LOGGER_ALL.toString()));
-		_assertLog4JLevel(
-			"OFF", LogFactoryUtil.getLog(LoggerName.LOGGER_OFF.toString()));
-		_assertLog4JLevel(
-			"FATAL", LogFactoryUtil.getLog(LoggerName.LOGGER_FATAL.toString()));
-		_assertLog4JLevel(
-			"ERROR", LogFactoryUtil.getLog(LoggerName.LOGGER_ERROR.toString()));
-		_assertLog4JLevel(
-			"WARN", LogFactoryUtil.getLog(LoggerName.LOGGER_WARN.toString()));
-		_assertLog4JLevel(
-			"INFO", LogFactoryUtil.getLog(LoggerName.LOGGER_INFO.toString()));
-		_assertLog4JLevel(
-			"DEBUG", LogFactoryUtil.getLog(LoggerName.LOGGER_DEBUG.toString()));
-		_assertLog4JLevel(
-			"TRACE", LogFactoryUtil.getLog(LoggerName.LOGGER_TRACE.toString()));
+		_assertLog4JLevel("ALL", LogFactoryUtil.getLog(_LOGGER_ALL));
+		_assertLog4JLevel("OFF", LogFactoryUtil.getLog(_LOGGER_OFF));
+		_assertLog4JLevel("FATAL", LogFactoryUtil.getLog(_LOGGER_FATAL));
+		_assertLog4JLevel("ERROR", LogFactoryUtil.getLog(_LOGGER_ERROR));
+		_assertLog4JLevel("WARN", LogFactoryUtil.getLog(_LOGGER_WARN));
+		_assertLog4JLevel("INFO", LogFactoryUtil.getLog(_LOGGER_INFO));
+		_assertLog4JLevel("DEBUG", LogFactoryUtil.getLog(_LOGGER_DEBUG));
+		_assertLog4JLevel("TRACE", LogFactoryUtil.getLog(_LOGGER_TRACE));
 	}
+
+	private static final String _LOGGER_ALL = "logger.all";
+
+	private static final String _LOGGER_DEBUG = "logger.debug";
+
+	private static final String _LOGGER_ERROR = "logger.error";
+
+	private static final String _LOGGER_FATAL = "logger.fatal";
+
+	private static final String _LOGGER_INFO = "logger.info";
+
+	private static final String _LOGGER_OFF = "logger.off";
+
+	private static final String _LOGGER_TRACE = "logger.trace";
+
+	private static final String _LOGGER_WARN = "logger.warn";
 
 	private static final ClassLoader _classLoader =
 		Log4JUtilTest.class.getClassLoader();
-
-	private enum LoggerName {
-
-		LOGGER_ALL("logger.all"), LOGGER_DEBUG("logger.debug"),
-		LOGGER_ERROR("logger.error"), LOGGER_FATAL("logger.fatal"),
-		LOGGER_INFO("logger.info"), LOGGER_OFF("logger.off"),
-		LOGGER_TRACE("logger.trace"), LOGGER_WARN("logger.warn");
-
-		@Override
-		public String toString() {
-			return _name;
-		}
-
-		private LoggerName(String name) {
-			_name = name;
-		}
-
-		private final String _name;
-
-	}
 
 }
