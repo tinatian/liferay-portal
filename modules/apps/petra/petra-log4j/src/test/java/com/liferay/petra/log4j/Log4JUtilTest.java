@@ -64,7 +64,21 @@ public class Log4JUtilTest {
 
 	@Test
 	public void testConfigureLog4JWithClassLoader() {
-		Log4JUtil.configureLog4J(new TestClassLoader());
+		Log4JUtil.configureLog4J(
+			new ClassLoader() {
+
+				@Override
+				public Enumeration<URL> getResources(String name)
+					throws IOException {
+
+					if (name.equals("META-INF/portal-log4j-ext.xml")) {
+						return Collections.enumeration(Collections.emptyList());
+					}
+
+					return super.getResources(name);
+				}
+
+			});
 
 		Log log = LogFactoryUtil.getLog(
 			"com.liferay.portal.internal.servlet.MainServlet");
@@ -330,23 +344,6 @@ public class Log4JUtilTest {
 		}
 
 		private final String _name;
-
-	}
-
-	private class TestClassLoader extends ClassLoader {
-
-		@Override
-		public Enumeration<URL> getResources(String name) throws IOException {
-			if (name.equals("META-INF/portal-log4j-ext.xml")) {
-				return Collections.enumeration(Collections.<URL>emptyList());
-			}
-
-			return super.getResources(name);
-		}
-
-		private TestClassLoader() {
-			super(_classLoader);
-		}
 
 	}
 
