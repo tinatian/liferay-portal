@@ -72,6 +72,8 @@ public class Log4JOutputMessageTest {
 
 				_consoleAppender = new ConsoleAppender(appender.getLayout());
 
+				_unsyncStringWriter = new UnsyncStringWriter();
+
 				_consoleAppender.setWriter(_unsyncStringWriter);
 
 				_rootLogger.addAppender(_consoleAppender);
@@ -80,8 +82,6 @@ public class Log4JOutputMessageTest {
 
 		Log4JUtil.setLevel(
 			Log4JOutputMessageTest.class.getName(), "TRACE", false);
-
-		_unsyncStringWriter.reset();
 	}
 
 	@AfterClass
@@ -567,8 +567,7 @@ public class Log4JOutputMessageTest {
 	private static final Pattern _textFileNamePattern = Pattern.compile(
 		"liferay.\\d\\d\\d\\d-\\d\\d-\\d\\d.log");
 	private static File _textLogFile;
-	private static final UnsyncStringWriter _unsyncStringWriter =
-		new UnsyncStringWriter();
+	private static UnsyncStringWriter _unsyncStringWriter;
 	private static final Pattern _xmlFileNamePattern = Pattern.compile(
 		"liferay.\\d\\d\\d\\d-\\d\\d-\\d\\d.xml");
 	private static File _xmlLogFile;
