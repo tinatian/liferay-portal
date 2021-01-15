@@ -22,19 +22,18 @@ import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.kernel.util.Validator;
 
 import java.io.File;
 import java.io.RandomAccessFile;
 
 import java.util.Enumeration;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.log4j.Appender;
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.FileAppender;
-import org.apache.log4j.Layout;
 import org.apache.log4j.Logger;
 
 import org.junit.AfterClass;
@@ -55,41 +54,29 @@ public class Log4JOutputMessageTest {
 
 		Enumeration<Appender> enumeration = _rootLogger.getAllAppenders();
 
-		Layout layout = null;
-
 		while (enumeration.hasMoreElements()) {
 			Appender appender = enumeration.nextElement();
-
-			String name = appender.getName();
-
-			if (Validator.isNull(name)) {
-				continue;
-			}
 
 			if (appender instanceof FileAppender) {
 				FileAppender fileAppender = (FileAppender)appender;
 
-				String fileName = fileAppender.getFile();
-
-				if (name.equals("TEXT_FILE")) {
-					_textLogFile = new File(fileName);
+				if (Objects.equals("TEXT_FILE", appender.getName())) {
+					_textLogFile = new File(fileAppender.getFile());
 				}
-				else if (name.equals("XML_FILE")) {
-					_xmlLogFile = new File(fileName);
+				else if (Objects.equals("XML_FILE", appender.getName())) {
+					_xmlLogFile = new File(fileAppender.getFile());
 				}
 			}
-			else if (appender instanceof ConsoleAppender) {
-				if (name.equals("CONSOLE")) {
-					layout = appender.getLayout();
-				}
+			else if ((appender instanceof ConsoleAppender) &&
+					 Objects.equals("CONSOLE", appender.getName())) {
+
+				_consoleAppender = new ConsoleAppender(appender.getLayout());
+
+				_consoleAppender.setWriter(_unsyncStringWriter);
+
+				_rootLogger.addAppender(_consoleAppender);
 			}
 		}
-
-		_consoleAppender = new ConsoleAppender(layout);
-
-		_consoleAppender.setWriter(_unsyncStringWriter);
-
-		_rootLogger.addAppender(_consoleAppender);
 
 		Log4JUtil.setLevel(
 			Log4JOutputMessageTest.class.getName(), "TRACE", false);
