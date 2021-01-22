@@ -14,6 +14,7 @@
 
 package com.liferay.petra.log4j;
 
+import com.liferay.petra.log4j.internal.Log4JConfigurator;
 import com.liferay.petra.string.CharPool;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.io.unsync.UnsyncByteArrayOutputStream;
@@ -43,7 +44,6 @@ import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.spi.LoggerRepository;
-import org.apache.log4j.xml.DOMConfigurator;
 
 import org.dom4j.Document;
 import org.dom4j.Element;
@@ -89,11 +89,7 @@ public class Log4JUtil {
 
 		// See LPS-6029, LPS-8865, and LPS-24280
 
-		DOMConfigurator domConfigurator = new DOMConfigurator();
-
-		domConfigurator.doConfigure(
-			new UnsyncStringReader(urlContent),
-			LogManager.getLoggerRepository());
+		Log4JConfigurator.configureLog4JXml(urlContent);
 
 		try {
 			SAXReader saxReader = new SAXReader();
