@@ -16,10 +16,10 @@ package com.liferay.portal.log4j.extender.internal;
 
 import com.liferay.petra.io.StreamUtil;
 import com.liferay.petra.io.unsync.UnsyncByteArrayOutputStream;
+import com.liferay.petra.log4j.configuration.Log4JConfigurationUtil;
 import com.liferay.petra.string.CharPool;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
-import com.liferay.portal.kernel.io.unsync.UnsyncStringReader;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -35,9 +35,7 @@ import java.net.URL;
 
 import java.util.Enumeration;
 
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.apache.log4j.xml.DOMConfigurator;
 
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleActivator;
@@ -90,12 +88,8 @@ public class Log4jExtenderBundleActivator implements BundleActivator {
 
 		if (enumeration != null) {
 			while (enumeration.hasMoreElements()) {
-				DOMConfigurator domConfigurator = new DOMConfigurator();
-
-				domConfigurator.doConfigure(
-					new UnsyncStringReader(
-						_getURLContent(enumeration.nextElement())),
-					LogManager.getLoggerRepository());
+				Log4JConfigurationUtil.configureLog4JXml(
+					_getURLContent(enumeration.nextElement()));
 			}
 		}
 	}
@@ -112,13 +106,9 @@ public class Log4jExtenderBundleActivator implements BundleActivator {
 			return;
 		}
 
-		DOMConfigurator domConfigurator = new DOMConfigurator();
-
 		URI uri = configFile.toURI();
 
-		domConfigurator.doConfigure(
-			new UnsyncStringReader(_getURLContent(uri.toURL())),
-			LogManager.getLoggerRepository());
+		Log4JConfigurationUtil.configureLog4JXml(_getURLContent(uri.toURL()));
 	}
 
 	private String _escapeXMLAttribute(String s) {
