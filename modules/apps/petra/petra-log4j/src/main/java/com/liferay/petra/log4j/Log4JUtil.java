@@ -39,9 +39,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.log4j.Level;
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.apache.log4j.spi.LoggerRepository;
 
 import org.dom4j.Document;
 import org.dom4j.Element;
@@ -143,21 +141,7 @@ public class Log4JUtil {
 	}
 
 	public static String getOriginalLevel(String className) {
-		Level level = Level.ALL;
-
-		Enumeration<Logger> enumeration = LogManager.getCurrentLoggers();
-
-		while (enumeration.hasMoreElements()) {
-			Logger logger = enumeration.nextElement();
-
-			if (className.equals(logger.getName())) {
-				level = logger.getLevel();
-
-				break;
-			}
-		}
-
-		return level.toString();
+		return Log4JConfigurationUtil.getOriginalLevel(className);
 	}
 
 	public static void initLog4J(
@@ -185,9 +169,7 @@ public class Log4JUtil {
 	}
 
 	public static void setLevel(String name, String priority, boolean custom) {
-		Logger logger = Logger.getLogger(name);
-
-		logger.setLevel(Level.toLevel(priority));
+		Log4JConfigurationUtil.setLevel(name, priority);
 
 		java.util.logging.Logger jdkLogger = java.util.logging.Logger.getLogger(
 			name);
@@ -200,9 +182,7 @@ public class Log4JUtil {
 	}
 
 	public static void shutdownLog4J() {
-		LoggerRepository loggerRepository = LogManager.getLoggerRepository();
-
-		loggerRepository.shutdown();
+		Log4JConfigurationUtil.shutdownLog4J();
 	}
 
 	private static String _escapeXMLAttribute(String s) {
