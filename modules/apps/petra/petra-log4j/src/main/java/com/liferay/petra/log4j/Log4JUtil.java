@@ -37,6 +37,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Logger;
 
 import org.apache.log4j.Level;
 
@@ -86,9 +87,7 @@ public class Log4JUtil {
 			for (Map.Entry<String, String> loggerNameEntry :
 					loggersNameMap.entrySet()) {
 
-				java.util.logging.Logger jdkLogger =
-					java.util.logging.Logger.getLogger(
-						loggerNameEntry.getKey());
+				Logger jdkLogger = Logger.getLogger(loggerNameEntry.getKey());
 
 				String priority = loggerNameEntry.getValue();
 
@@ -151,8 +150,7 @@ public class Log4JUtil {
 	public static void setLevel(String name, String priority, boolean custom) {
 		Log4JConfigurator.setLevel(name, priority);
 
-		java.util.logging.Logger jdkLogger = java.util.logging.Logger.getLogger(
-			name);
+		Logger jdkLogger = Logger.getLogger(name);
 
 		jdkLogger.setLevel(_getJdkLevel(priority));
 
