@@ -14,19 +14,29 @@
 
 package com.liferay.petra.log4j.internal;
 
+import com.liferay.petra.string.StringPool;
+import com.liferay.portal.kernel.io.unsync.UnsyncByteArrayInputStream;
 import com.liferay.portal.kernel.io.unsync.UnsyncStringReader;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 
-import java.util.Enumeration;
+import java.io.IOException;
+
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-import org.apache.log4j.spi.LoggerRepository;
-import org.apache.log4j.xml.DOMConfigurator;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
+import org.apache.logging.log4j.core.LoggerContext;
+import org.apache.logging.log4j.core.config.AbstractConfiguration;
+import org.apache.logging.log4j.core.config.ConfigurationSource;
+import org.apache.logging.log4j.core.config.LoggerConfig;
+import org.apache.logging.log4j.core.config.plugins.util.PluginManager;
+import org.apache.logging.log4j.core.config.xml.XmlConfiguration;
 
 import org.dom4j.Document;
 import org.dom4j.Element;
@@ -41,10 +51,29 @@ import org.xml.sax.InputSource;
 public class Log4JConfigurator {
 
 	public static void configureLog4JXml(String xml) {
-		DOMConfigurator domConfigurator = new DOMConfigurator();
+		try {
+			ConfigurationSource configurationSource = new ConfigurationSource(
+				new UnsyncByteArrayInputStream(xml.getBytes(StringPool.UTF8)));
 
-		domConfigurator.doConfigure(
-			new UnsyncStringReader(xml), LogManager.getLoggerRepository());
+			AbstractConfiguration abstractConfiguration = null;
+
+			if (xml.contains(
+					"<!DOCTYPE log4j:configuration SYSTEM \"log4j.dtd\">")) {
+
+				abstractConfiguration =
+					new org.apache.log4j.xml.XmlConfiguration(
+						_loggerContext, configurationSource, 0);
+			}
+			else {
+				abstractConfiguration = new XmlConfiguration(
+					_loggerContext, configurationSource);
+			}
+
+			_centralizedConfiguration.addConfiguration(abstractConfiguration);
+		}
+		catch (IOException ioException) {
+			_log.error(ioException, ioException);
+		}
 	}
 
 	public static Map<String, String> getLoggersNameFromXml(String xml)
@@ -73,33 +102,44 @@ public class Log4JConfigurator {
 
 		Element rootElement = document.getRootElement();
 
-		List<Element> categoryElements = rootElement.elements("category");
+		Element loggersElement = rootElement.element("Loggers");
 
-		Map<String, String> loggersNameMap = new HashMap<>();
+		if (loggersElement == null) {
+			if (_log.isInfoEnabled()) {
+				_log.info("Config file " + xml + " does not include <Loggers>");
+			}
 
-		for (Element categoryElement : categoryElements) {
-			Element priorityElement = categoryElement.element("priority");
-
-			loggersNameMap.put(
-				categoryElement.attributeValue("name"),
-				priorityElement.attributeValue("value"));
+			return Collections.emptyMap();
 		}
 
-		return loggersNameMap;
+		Map<String, String> loggerLevelStrings = new HashMap<>();
+
+		List<Element> loggerElements = loggersElement.elements("Logger");
+
+		for (Element loggerElement : loggerElements) {
+			loggerLevelStrings.put(
+				loggerElement.attributeValue("name"),
+				loggerElement.attributeValue("level"));
+		}
+
+		return loggerLevelStrings;
 	}
 
 	public static Map<String, String> getLogLevelStrings() {
 		Map<String, String> logLevelStrings = new HashMap<>();
 
-		Enumeration<Logger> enumeration = LogManager.getCurrentLoggers();
+		Map<String, LoggerConfig> loggerLoggerConfigs =
+			_centralizedConfiguration.getLoggers();
 
-		while (enumeration.hasMoreElements()) {
-			Logger logger = enumeration.nextElement();
+		for (Map.Entry<String, LoggerConfig> loggerNameEntry :
+				loggerLoggerConfigs.entrySet()) {
 
-			Level level = logger.getLevel();
+			LoggerConfig loggerConfig = loggerNameEntry.getValue();
 
-			if (level != null) {
-				logLevelStrings.put(logger.getName(), level.toString());
+			if (loggerConfig.getParent() != null) {
+				logLevelStrings.put(
+					loggerNameEntry.getKey(),
+					String.valueOf(loggerConfig.getLevel()));
 			}
 		}
 
@@ -107,8 +147,8 @@ public class Log4JConfigurator {
 	}
 
 	public static String removeAppender(String content, String appenderName) {
-		String startAppenderTag = "<appender";
-		String endAppenderTag = "</appender>";
+		String startAppenderTag = "<RollingFile";
+		String endAppenderTag = "</RollingFile>";
 
 		int fromIndex = 0;
 
@@ -136,19 +176,51 @@ public class Log4JConfigurator {
 		}
 
 		return StringUtil.removeSubstring(
-			content, "<appender-ref ref=\"" + appenderName + "\" />");
+			content, "<AppenderRef ref=\"" + appenderName + "\" />");
 	}
 
 	public static void setLevel(String name, String priority) {
-		Logger logger = Logger.getLogger(name);
+		LoggerConfig loggerConfig = _centralizedConfiguration.getLogger(name);
 
-		logger.setLevel(Level.toLevel(priority));
+		Level level = Level.toLevel(priority);
+
+		if (loggerConfig != null) {
+			loggerConfig.setLevel(level);
+
+			Logger logger = _loggerContext.getLogger(name);
+
+			logger.setLevel(level);
+		}
+		else {
+			loggerConfig = new LoggerConfig(name, level, true);
+
+			_centralizedConfiguration.addLogger(name, loggerConfig);
+		}
 	}
 
 	public static void shutdownLog4J() {
-		LoggerRepository loggerRepository = LogManager.getLoggerRepository();
+		LogManager.shutdown();
+	}
 
-		loggerRepository.shutdown();
+	private static final Log _log = LogFactoryUtil.getLog(
+		Log4JConfigurator.class);
+
+	private static final CentralizedConfiguration _centralizedConfiguration;
+	private static final LoggerContext _loggerContext;
+
+	static {
+		PluginManager.addPackage("com.liferay.petra.log4j");
+
+		LoggerContext loggerContext = (LoggerContext)LogManager.getContext();
+
+		CentralizedConfiguration centralizedConfiguration =
+			new CentralizedConfiguration(loggerContext);
+
+		loggerContext.setConfiguration(centralizedConfiguration);
+
+		_loggerContext = loggerContext;
+
+		_centralizedConfiguration = centralizedConfiguration;
 	}
 
 }
