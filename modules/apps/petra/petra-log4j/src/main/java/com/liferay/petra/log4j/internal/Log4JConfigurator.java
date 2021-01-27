@@ -14,15 +14,21 @@
 
 package com.liferay.petra.log4j.internal;
 
-import com.liferay.portal.kernel.io.unsync.UnsyncStringReader;
+import com.liferay.petra.string.StringPool;
+import com.liferay.portal.kernel.io.unsync.UnsyncByteArrayInputStream;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 
-import java.util.Enumeration;
+import java.io.IOException;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-import org.apache.log4j.spi.LoggerRepository;
-import org.apache.log4j.xml.DOMConfigurator;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
+import org.apache.logging.log4j.core.LoggerContext;
+import org.apache.logging.log4j.core.config.AbstractConfiguration;
+import org.apache.logging.log4j.core.config.ConfigurationSource;
+import org.apache.logging.log4j.core.config.plugins.util.PluginManager;
+import org.apache.logging.log4j.core.config.xml.XmlConfiguration;
 
 /**
  * @author Hai Yu
@@ -30,40 +36,72 @@ import org.apache.log4j.xml.DOMConfigurator;
 public class Log4JConfigurator {
 
 	public static void configureLog4JXml(String xml) {
-		DOMConfigurator domConfigurator = new DOMConfigurator();
+		try {
+			ConfigurationSource configurationSource = new ConfigurationSource(
+				new UnsyncByteArrayInputStream(xml.getBytes(StringPool.UTF8)));
 
-		domConfigurator.doConfigure(
-			new UnsyncStringReader(xml), LogManager.getLoggerRepository());
+			AbstractConfiguration abstractConfiguration = null;
+
+			if (xml.contains(
+					"<!DOCTYPE log4j:configuration SYSTEM \"log4j.dtd\">")) {
+
+				abstractConfiguration =
+					new org.apache.log4j.xml.XmlConfiguration(
+						_loggerContext, configurationSource, 0);
+			}
+			else {
+				abstractConfiguration = new XmlConfiguration(
+					_loggerContext, configurationSource);
+			}
+
+			_centralizedConfiguration.addConfiguration(abstractConfiguration);
+		}
+		catch (IOException ioException) {
+			_log.error(ioException, ioException);
+		}
 	}
 
 	public static String getOriginalLevel(String className) {
 		Level level = Level.ALL;
 
-		Enumeration<Logger> enumeration = LogManager.getCurrentLoggers();
+		if (LogManager.exists(className)) {
+			Logger logger = (Logger)LogManager.getLogger(className);
 
-		while (enumeration.hasMoreElements()) {
-			Logger logger = enumeration.nextElement();
-
-			if (className.equals(logger.getName())) {
-				level = logger.getLevel();
-
-				break;
-			}
+			level = logger.getLevel();
 		}
 
 		return level.toString();
 	}
 
 	public static void setLevel(String name, String priority) {
-		Logger logger = Logger.getLogger(name);
+		Logger logger = (Logger)LogManager.getLogger(name);
 
 		logger.setLevel(Level.toLevel(priority));
 	}
 
 	public static void shutdownLog4J() {
-		LoggerRepository loggerRepository = LogManager.getLoggerRepository();
+		LogManager.shutdown();
+	}
 
-		loggerRepository.shutdown();
+	private static final Log _log = LogFactoryUtil.getLog(
+		Log4JConfigurator.class);
+
+	private static final CentralizedConfiguration _centralizedConfiguration;
+	private static final LoggerContext _loggerContext;
+
+	static {
+		PluginManager.addPackage("com.liferay.petra.log4j");
+
+		LoggerContext loggerContext = (LoggerContext)LogManager.getContext();
+
+		CentralizedConfiguration centralizedConfiguration =
+			new CentralizedConfiguration(loggerContext);
+
+		loggerContext.setConfiguration(centralizedConfiguration);
+
+		_loggerContext = loggerContext;
+
+		_centralizedConfiguration = centralizedConfiguration;
 	}
 
 }
