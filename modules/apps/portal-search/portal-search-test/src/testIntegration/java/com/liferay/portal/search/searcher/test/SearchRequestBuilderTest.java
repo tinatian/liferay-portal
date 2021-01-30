@@ -59,6 +59,7 @@ import com.liferay.users.admin.test.util.search.UserSearchFixture;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import org.junit.After;
 import org.junit.Before;
@@ -454,9 +455,7 @@ public class SearchRequestBuilderTest {
 	}
 
 	private boolean _isElasticsearch() {
-		String vendor = _searchEngine.getVendor();
-
-		return vendor.equals("Elasticsearch");
+		return Objects.equals(_searchEngine.getVendor(), "Elasticsearch");
 	}
 
 	@Inject
