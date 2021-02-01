@@ -299,10 +299,13 @@ public class Log4JUtil {
 		}
 		catch (Exception exception) {
 			_log.error(exception, exception);
+
+			return StringUtil.removeSubstring(
+				content, "<appender-ref ref=\"" + appenderName + "\" />");
 		}
 
 		return StringUtil.removeSubstring(
-			content, "<appender-ref ref=\"" + appenderName + "\" />");
+			content, "<appender-ref ref=\"" + appenderName + "\"/>");
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(Log4JUtil.class);
