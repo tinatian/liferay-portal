@@ -31,34 +31,18 @@ PortletURL clearResultsURL = PortletURLUtil.clone(searchURL, liferayPortletRespo
 clearResultsURL.setParameter("navigation", (String)null);
 clearResultsURL.setParameter("keywords", StringPool.BLANK);
 
-SearchContainer<Map.Entry<String, Logger>> loggerSearchContainer = new SearchContainer(liferayPortletRequest, searchURL, null, null);
+SearchContainer<Map.Entry<String, Level>> loggerSearchContainer = new SearchContainer(liferayPortletRequest, searchURL, null, null);
 
-Map<String, Logger> currentLoggerNames = new TreeMap<>();
+Map<String, Level> currentLoggerNames = Log4JUtil.getCurrentLoggersName(keywords);
 
-Enumeration<Logger> enu = LogManager.getCurrentLoggers();
+List<Map.Entry<String, Level>> currentLoggerNamesList = ListUtil.fromCollection(currentLoggerNames.entrySet());
 
-while (enu.hasMoreElements()) {
-	Logger logger = enu.nextElement();
-
-	String loggerName = logger.getName();
-
-	if (Validator.isNull(keywords) || loggerName.contains(keywords)) {
-		currentLoggerNames.put(loggerName, logger);
-	}
-}
-
-List<Map.Entry<String, Logger>> currentLoggerNamesList = ListUtil.fromCollection(currentLoggerNames.entrySet());
-
-Iterator<Map.Entry<String, Logger>> itr = currentLoggerNamesList.iterator();
+Iterator<Map.Entry<String, Level>> itr = currentLoggerNamesList.iterator();
 
 while (itr.hasNext()) {
-	Map.Entry<String, Logger> entry = itr.next();
+	Map.Entry<String, Level> entry = itr.next();
 
-	Logger logger = entry.getValue();
-
-	Level level = logger.getLevel();
-
-	if (level == null) {
+	if (entry.getValue() == null) {
 		itr.remove();
 	}
 }
@@ -117,9 +101,7 @@ CreationMenu creationMenu =
 			>
 
 				<%
-				Logger logger = (Logger)entry.getValue();
-
-				Level level = logger.getLevel();
+				Level level = (Level)entry.getValue();
 				%>
 
 				<select name="<%= liferayPortletResponse.getNamespace() + "logLevel" + HtmlUtil.escapeAttribute(name) %>">
