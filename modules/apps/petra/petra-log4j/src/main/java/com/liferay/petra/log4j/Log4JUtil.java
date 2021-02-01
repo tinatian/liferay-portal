@@ -26,6 +26,7 @@ import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ServerDetector;
 import com.liferay.portal.kernel.util.StreamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.util.xml.XMLSafeReader;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -283,16 +284,47 @@ public class Log4JUtil {
 	}
 
 	private static String _removeAppender(String content, String appenderName) {
-		int x = content.indexOf("<appender name=\"" + appenderName + "\"");
+		try {
+			SAXReader saxReader = new SAXReader();
 
-		int y = content.indexOf("</appender>", x);
+			saxReader.setEntityResolver(
+				new EntityResolver() {
 
-		if (y != -1) {
-			y = content.indexOf("<", y + 1);
+					@Override
+					public InputSource resolveEntity(
+						String publicId, String systemId) {
+
+						if (systemId.endsWith("log4j.dtd")) {
+							return new InputSource(
+								DOMConfigurator.class.getResourceAsStream(
+									"log4j.dtd"));
+						}
+
+						return null;
+					}
+
+				});
+
+			Document document = saxReader.read(new XMLSafeReader(content));
+
+			Element rootElement = document.getRootElement();
+
+			List<Element> appenderElements = rootElement.elements("appender");
+
+			for (Element appenderElement : appenderElements) {
+				String name = appenderElement.attributeValue("name");
+
+				if (name.equals(appenderName)) {
+					rootElement.remove(appenderElement);
+
+					break;
+				}
+			}
+
+			content = document.asXML();
 		}
-
-		if ((x != -1) && (y != -1)) {
-			content = content.substring(0, x) + content.substring(y);
+		catch (Exception exception) {
+			_log.error(exception, exception);
 		}
 
 		return StringUtil.removeSubstring(
