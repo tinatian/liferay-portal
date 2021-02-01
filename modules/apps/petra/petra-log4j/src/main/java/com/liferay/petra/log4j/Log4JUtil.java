@@ -98,6 +98,10 @@ public class Log4JUtil {
 		}
 	}
 
+	public static Map<String, Level> getCurrentLoggersName(String keywords) {
+		return Log4JConfigurator.getCurrentLoggersName(keywords);
+	}
+
 	public static Map<String, String> getCustomLogSettings() {
 		return new HashMap<>(_customLogSettings);
 	}

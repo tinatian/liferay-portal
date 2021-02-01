@@ -19,12 +19,14 @@ import com.liferay.portal.kernel.io.unsync.UnsyncStringReader;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.util.xml.XMLSafeReader;
 
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
@@ -49,6 +51,24 @@ public class Log4JConfigurator {
 
 		domConfigurator.doConfigure(
 			new UnsyncStringReader(xml), LogManager.getLoggerRepository());
+	}
+
+	public static Map<String, Level> getCurrentLoggersName(String keywords) {
+		Map<String, Level> currentLoggersNameMap = new TreeMap<>();
+
+		Enumeration<Logger> enumeration = LogManager.getCurrentLoggers();
+
+		while (enumeration.hasMoreElements()) {
+			Logger logger = enumeration.nextElement();
+
+			String loggerName = logger.getName();
+
+			if (Validator.isNull(keywords) || loggerName.contains(keywords)) {
+				currentLoggersNameMap.put(loggerName, logger.getLevel());
+			}
+		}
+
+		return currentLoggersNameMap;
 	}
 
 	public static Map<String, String> getLoggersNameFromXml(String xml)
