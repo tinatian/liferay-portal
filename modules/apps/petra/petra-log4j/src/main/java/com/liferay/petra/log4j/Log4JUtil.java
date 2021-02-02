@@ -29,6 +29,7 @@ import com.liferay.portal.kernel.util.StringUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Writer;
 
 import java.net.URL;
 
@@ -45,6 +46,12 @@ import org.apache.log4j.Level;
  * @author Tomas Polesovsky
  */
 public class Log4JUtil {
+
+	public static void addWriterAppenderToRootLogger(
+		String appenderName, Writer writer) {
+
+		Log4JConfigurator.addWriterAppenderToRootLogger(appenderName, writer);
+	}
 
 	public static void configureLog4J(ClassLoader classLoader) {
 		configureLog4J(classLoader.getResource("META-INF/portal-log4j.xml"));
@@ -132,6 +139,10 @@ public class Log4JUtil {
 		for (Map.Entry<String, String> entry : customLogSettings.entrySet()) {
 			setLevel(entry.getKey(), entry.getValue(), false);
 		}
+	}
+
+	public static void removeAppenderFromRootLogger(String appenderName) {
+		Log4JConfigurator.removeAppenderFromRootLogger(appenderName);
 	}
 
 	public static void setLevel(String name, String priority, boolean custom) {
