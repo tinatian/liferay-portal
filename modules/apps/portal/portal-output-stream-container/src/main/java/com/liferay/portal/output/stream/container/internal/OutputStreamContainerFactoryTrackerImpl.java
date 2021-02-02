@@ -224,9 +224,7 @@ public class OutputStreamContainerFactoryTrackerImpl
 
 		Logger rootLogger = Logger.getRootLogger();
 
-		if (rootLogger != null) {
-			rootLogger.removeAppender(_writerAppender);
-		}
+		rootLogger.removeAppender(_writerAppender);
 	}
 
 	@Reference(target = ModuleServiceLifecycle.PORTAL_INITIALIZED, unbind = "-")
