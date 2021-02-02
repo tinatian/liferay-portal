@@ -16,6 +16,7 @@ package com.liferay.portal.output.stream.container.internal;
 
 import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMap;
 import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMapFactory;
+import com.liferay.petra.log4j.Log4JUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.framework.ModuleServiceLifecycle;
@@ -36,10 +37,6 @@ import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.List;
 import java.util.Set;
-
-import org.apache.log4j.Logger;
-import org.apache.log4j.SimpleLayout;
-import org.apache.log4j.WriterAppender;
 
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
@@ -167,14 +164,8 @@ public class OutputStreamContainerFactoryTrackerImpl
 
 	@Activate
 	protected void activate(BundleContext bundleContext) {
-		Logger rootLogger = Logger.getRootLogger();
-
-		_writerAppender = new WriterAppender(
-			new SimpleLayout(), new ThreadLocalWriter());
-
-		_writerAppender.activateOptions();
-
-		rootLogger.addAppender(_writerAppender);
+		Log4JUtil.addWriterAppenderToRootLogger(
+			_APPENDER_NAME, new ThreadLocalWriter());
 
 		Dictionary<String, Object> dictionary = new HashMapDictionary<>();
 
@@ -222,15 +213,17 @@ public class OutputStreamContainerFactoryTrackerImpl
 
 		_serviceRegistrations.clear();
 
-		Logger rootLogger = Logger.getRootLogger();
-
-		rootLogger.removeAppender(_writerAppender);
+		Log4JUtil.removeAppenderFromRootLogger(_APPENDER_NAME);
 	}
 
 	@Reference(target = ModuleServiceLifecycle.PORTAL_INITIALIZED, unbind = "-")
 	protected void setModuleServiceLifecycle(
 		ModuleServiceLifecycle moduleServiceLifecycle) {
 	}
+
+	private static final String _APPENDER_NAME =
+		OutputStreamContainerFactoryTrackerImpl.class.getSimpleName() +
+			"_writerAppender";
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		OutputStreamContainerFactoryTrackerImpl.class);
@@ -247,7 +240,6 @@ public class OutputStreamContainerFactoryTrackerImpl
 
 	private final List<ServiceRegistration<?>> _serviceRegistrations =
 		new ArrayList<>();
-	private WriterAppender _writerAppender;
 	private final ThreadLocal<Writer> _writerThreadLocal = new ThreadLocal<>();
 
 	private class ThreadLocalWriter extends Writer {

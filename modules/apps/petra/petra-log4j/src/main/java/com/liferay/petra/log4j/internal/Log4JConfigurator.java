@@ -21,6 +21,8 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 
+import java.io.Writer;
+
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +32,8 @@ import java.util.TreeMap;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.apache.log4j.SimpleLayout;
+import org.apache.log4j.WriterAppender;
 import org.apache.log4j.spi.LoggerRepository;
 import org.apache.log4j.xml.DOMConfigurator;
 
@@ -44,6 +48,21 @@ import org.xml.sax.InputSource;
  * @author Hai Yu
  */
 public class Log4JConfigurator {
+
+	public static void addWriterAppenderToRootLogger(
+		String appenderName, Writer writer) {
+
+		Logger rootLogger = Logger.getRootLogger();
+
+		WriterAppender writerAppender = new WriterAppender(
+			new SimpleLayout(), writer);
+
+		writerAppender.setName(appenderName);
+
+		writerAppender.activateOptions();
+
+		rootLogger.addAppender(writerAppender);
+	}
 
 	public static void configureLog4JXml(String xml) {
 		DOMConfigurator domConfigurator = new DOMConfigurator();
@@ -141,6 +160,12 @@ public class Log4JConfigurator {
 
 		return StringUtil.removeSubstring(
 			content, "<appender-ref ref=\"" + appenderName + "\"/>");
+	}
+
+	public static void removeAppenderFromRootLogger(String appenderName) {
+		Logger rootLogger = Logger.getRootLogger();
+
+		rootLogger.removeAppender(appenderName);
 	}
 
 	public static void setLevel(String name, String priority) {
