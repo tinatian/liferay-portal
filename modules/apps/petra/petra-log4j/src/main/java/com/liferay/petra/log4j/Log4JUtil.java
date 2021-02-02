@@ -18,7 +18,6 @@ import com.liferay.petra.log4j.internal.Log4JConfigurator;
 import com.liferay.petra.string.CharPool;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.io.unsync.UnsyncByteArrayOutputStream;
-import com.liferay.portal.kernel.io.unsync.UnsyncStringReader;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactory;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -27,6 +26,7 @@ import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ServerDetector;
 import com.liferay.portal.kernel.util.StreamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.util.xml.XMLSafeReader;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -109,8 +109,7 @@ public class Log4JUtil {
 
 				});
 
-			Document document = saxReader.read(
-				new UnsyncStringReader(urlContent), url.toExternalForm());
+			Document document = saxReader.read(new XMLSafeReader(urlContent));
 
 			Element rootElement = document.getRootElement();
 
