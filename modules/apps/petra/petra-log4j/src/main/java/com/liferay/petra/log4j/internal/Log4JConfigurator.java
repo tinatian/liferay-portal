@@ -14,15 +14,30 @@
 
 package com.liferay.petra.log4j.internal;
 
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.io.unsync.UnsyncStringReader;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.util.xml.XMLSafeReader;
 
 import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.spi.LoggerRepository;
 import org.apache.log4j.xml.DOMConfigurator;
+
+import org.dom4j.Document;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
+
+import org.xml.sax.EntityResolver;
+import org.xml.sax.InputSource;
 
 /**
  * @author Hai Yu
@@ -34,6 +49,28 @@ public class Log4JConfigurator {
 
 		domConfigurator.doConfigure(
 			new UnsyncStringReader(xml), LogManager.getLoggerRepository());
+	}
+
+	public static Map<String, String> getLoggersNameFromXml(String xml)
+		throws Exception {
+
+		Map<String, String> loggersNameMap = new HashMap<>();
+
+		Document document = _getDocument(xml);
+
+		Element rootElement = document.getRootElement();
+
+		List<Element> categoryElements = rootElement.elements("category");
+
+		for (Element categoryElement : categoryElements) {
+			Element priorityElement = categoryElement.element("priority");
+
+			loggersNameMap.put(
+				categoryElement.attributeValue("name"),
+				priorityElement.attributeValue("value"));
+		}
+
+		return loggersNameMap;
 	}
 
 	public static String getOriginalPriority(String className) {
@@ -54,6 +91,39 @@ public class Log4JConfigurator {
 		return level.toString();
 	}
 
+	public static String removeAppender(String content, String appenderName) {
+		try {
+			Document document = _getDocument(content);
+
+			Element rootElement = document.getRootElement();
+
+			List<Element> appenderElements = rootElement.elements("appender");
+
+			for (Element appenderElement : appenderElements) {
+				String name = appenderElement.attributeValue("name");
+
+				if (name.equals(appenderName)) {
+					rootElement.remove(appenderElement);
+
+					break;
+				}
+			}
+
+			content = document.asXML();
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			return StringUtil.removeSubstring(
+				content,
+				"<appender-ref ref=\"" + appenderName + "\"" +
+					StringPool.SPACE + "/>");
+		}
+
+		return StringUtil.removeSubstring(
+			content, "<appender-ref ref=\"" + appenderName + "\"/>");
+	}
+
 	public static void setLevel(String name, String priority) {
 		Logger logger = Logger.getLogger(name);
 
@@ -65,5 +135,31 @@ public class Log4JConfigurator {
 
 		loggerRepository.shutdown();
 	}
+
+	private static Document _getDocument(String xml) throws Exception {
+		SAXReader saxReader = new SAXReader();
+
+		saxReader.setEntityResolver(
+			new EntityResolver() {
+
+				@Override
+				public InputSource resolveEntity(
+					String publicId, String systemId) {
+
+					if (systemId.endsWith("log4j.dtd")) {
+						return new InputSource(
+							Level.class.getResourceAsStream("xml/log4j.dtd"));
+					}
+
+					return null;
+				}
+
+			});
+
+		return saxReader.read(new XMLSafeReader(xml));
+	}
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		Log4JConfigurator.class);
 
 }
