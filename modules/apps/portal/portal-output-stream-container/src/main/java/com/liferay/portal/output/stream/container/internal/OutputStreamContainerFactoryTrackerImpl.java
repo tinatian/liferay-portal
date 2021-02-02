@@ -37,7 +37,6 @@ import java.util.Dictionary;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.SimpleLayout;
 import org.apache.log4j.WriterAppender;
@@ -172,8 +171,6 @@ public class OutputStreamContainerFactoryTrackerImpl
 
 		_writerAppender = new WriterAppender(
 			new SimpleLayout(), new ThreadLocalWriter());
-
-		_writerAppender.setThreshold(Level.ALL);
 
 		_writerAppender.activateOptions();
 
