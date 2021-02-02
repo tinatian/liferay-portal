@@ -116,7 +116,7 @@ public class Log4JUtil {
 				});
 
 			Document document = saxReader.read(
-				new UnsyncStringReader(urlContent), url.toExternalForm());
+				new UnsyncStringReader(urlContent));
 
 			Element rootElement = document.getRootElement();
 
