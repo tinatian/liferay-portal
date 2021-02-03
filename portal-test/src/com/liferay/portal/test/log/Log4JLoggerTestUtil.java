@@ -14,12 +14,12 @@
 
 package com.liferay.portal.test.log;
 
+import com.liferay.portal.kernel.log.Level;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.log.LogWrapper;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
 
-import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 /**
@@ -29,6 +29,13 @@ public class Log4JLoggerTestUtil {
 
 	public static CaptureAppender configureLog4JLogger(
 		String name, Level level) {
+
+		return configureLog4JLogger(
+			name, org.apache.log4j.Level.toLevel(String.valueOf(level)));
+	}
+
+	public static CaptureAppender configureLog4JLogger(
+		String name, org.apache.log4j.Level level) {
 
 		LogWrapper logWrapper = (LogWrapper)LogFactoryUtil.getLog(name);
 
