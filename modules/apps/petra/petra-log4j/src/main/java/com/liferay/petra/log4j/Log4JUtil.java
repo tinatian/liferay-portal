@@ -95,7 +95,28 @@ public class Log4JUtil {
 			LogManager.getLoggerRepository());
 
 		try {
-			Document document = _getDocument(urlContent);
+			SAXReader saxReader = new SAXReader();
+
+			saxReader.setEntityResolver(
+				new EntityResolver() {
+
+					@Override
+					public InputSource resolveEntity(
+						String publicId, String systemId) {
+
+						if (systemId.endsWith("log4j.dtd")) {
+							return new InputSource(
+								DOMConfigurator.class.getResourceAsStream(
+									"log4j.dtd"));
+						}
+
+						return null;
+					}
+
+				});
+
+			Document document = saxReader.read(
+				new UnsyncStringReader(urlContent));
 
 			Element rootElement = document.getRootElement();
 
@@ -210,29 +231,6 @@ public class Log4JUtil {
 		return unsyncByteArrayOutputStream.toByteArray();
 	}
 
-	private static Document _getDocument(String xml) throws Exception {
-		SAXReader saxReader = new SAXReader();
-
-		saxReader.setEntityResolver(
-			new EntityResolver() {
-
-				@Override
-				public InputSource resolveEntity(
-					String publicId, String systemId) {
-
-					if (systemId.endsWith("log4j.dtd")) {
-						return new InputSource(
-							Level.class.getResourceAsStream("xml/log4j.dtd"));
-					}
-
-					return null;
-				}
-
-			});
-
-		return saxReader.read(new UnsyncStringReader(xml));
-	}
-
 	private static java.util.logging.Level _getJdkLevel(String priority) {
 		if (StringUtil.equalsIgnoreCase(priority, Level.DEBUG.toString())) {
 			return java.util.logging.Level.FINE;
@@ -285,33 +283,16 @@ public class Log4JUtil {
 	}
 
 	private static String _removeAppender(String content, String appenderName) {
-		String oldContent = content;
+		int x = content.indexOf("<appender name=\"" + appenderName + "\"");
 
-		try {
-			Document document = _getDocument(content);
+		int y = content.indexOf("</appender>", x);
 
-			Element rootElement = document.getRootElement();
-
-			List<Element> appenderElements = rootElement.elements("appender");
-
-			for (Element appenderElement : appenderElements) {
-				String name = appenderElement.attributeValue("name");
-
-				if (name.equals(appenderName)) {
-					rootElement.remove(appenderElement);
-
-					break;
-				}
-			}
-
-			content = document.asXML();
-		}
-		catch (Exception exception) {
-			_log.error(exception, exception);
+		if (y != -1) {
+			y = content.indexOf("<", y + 1);
 		}
 
-		if (!oldContent.equals(content)) {
-			content = StringUtil.replace(content, "\"/>", "\" />");
+		if ((x != -1) && (y != -1)) {
+			content = content.substring(0, x) + content.substring(y);
 		}
 
 		return StringUtil.removeSubstring(
