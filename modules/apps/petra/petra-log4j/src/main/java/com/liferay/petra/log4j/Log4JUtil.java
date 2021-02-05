@@ -283,16 +283,32 @@ public class Log4JUtil {
 	}
 
 	private static String _removeAppender(String content, String appenderName) {
-		int x = content.indexOf("<appender name=\"" + appenderName + "\"");
+		String startAppenderTag = "<appender ";
+		String endAppenderTag = "</appender>";
 
-		int y = content.indexOf("</appender>", x);
+		int fromIndex = 0;
 
-		if (y != -1) {
-			y = content.indexOf("<", y + 1);
-		}
+		while (content.indexOf(startAppenderTag, fromIndex) > -1) {
+			int x = content.indexOf(startAppenderTag, fromIndex);
 
-		if ((x != -1) && (y != -1)) {
-			content = content.substring(0, x) + content.substring(y);
+			int y = content.indexOf(endAppenderTag, x);
+
+			if (y == -1) {
+				break;
+			}
+
+			String appenderTagContent = content.substring(
+				x, y + endAppenderTag.length());
+
+			if (appenderTagContent.contains("name=\"" + appenderName + "\"")) {
+				content =
+					content.substring(0, x) +
+						content.substring(y + endAppenderTag.length());
+
+				break;
+			}
+
+			fromIndex = y + endAppenderTag.length();
 		}
 
 		return StringUtil.removeSubstring(
