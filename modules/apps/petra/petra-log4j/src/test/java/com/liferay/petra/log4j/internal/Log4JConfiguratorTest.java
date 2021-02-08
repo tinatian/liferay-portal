@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.util.StringUtil;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Appender;
 import org.apache.log4j.ConsoleAppender;
@@ -141,20 +142,110 @@ public class Log4JConfiguratorTest {
 	}
 
 	@Test
-	public void testGetOriginalLevel() {
+	public void testGetLoggersNameFromXml() throws Exception {
 		String loggerName = StringUtil.randomString();
 
-		Assert.assertEquals(
-			"The original level should be ALL for Logger not configured or " +
-				"created",
-			_ALL, Log4JConfigurator.getOriginalPriority(loggerName));
+		Map<String, String> loggersNameMap =
+			Log4JConfigurator.getLoggersNameFromXml(
+				_generateXMLConfigurationContent(loggerName, _WARN));
+
+		Assert.assertTrue(loggersNameMap.containsKey(loggerName));
+		Assert.assertEquals(_WARN, loggersNameMap.get(loggerName));
+	}
+
+	@Test
+	public void testGetLogLevelStrings() {
+		String loggerName = StringUtil.randomString();
+
+		Map<String, String> logLevelStrings =
+			Log4JConfigurator.getLogLevelStrings();
+
+		Assert.assertFalse(logLevelStrings.containsKey(loggerName));
 
 		Log4JConfigurator.configureLog4JXml(
 			_generateXMLConfigurationContent(loggerName, _ERROR));
 
+		logLevelStrings = Log4JConfigurator.getLogLevelStrings();
+
 		Assert.assertEquals(
-			"The original level should be WARN by configuration", _ERROR,
-			Log4JConfigurator.getOriginalPriority(loggerName));
+			"The level should be ERROR by configuration", _ERROR,
+			logLevelStrings.get(loggerName));
+
+		Log4JConfigurator.configureLog4JXml(
+			_generateXMLConfigurationContent(loggerName, null));
+
+		logLevelStrings = Log4JConfigurator.getLogLevelStrings();
+
+		Assert.assertFalse(logLevelStrings.containsKey(loggerName));
+	}
+
+	@Test
+	public void testRemoveAppender() {
+
+		// Assert no appender exist to remove
+
+		String loggerName = StringUtil.randomString();
+
+		String xml = _generateXMLConfigurationContent(loggerName, _WARN);
+
+		Assert.assertEquals(
+			xml,
+			Log4JConfigurator.removeAppender(
+				xml, ConsoleAppender.class.getName()));
+
+		// Assert remove one appender
+
+		loggerName = StringUtil.randomString();
+
+		xml = Log4JConfigurator.removeAppender(
+			_generateXMLConfigurationContent(
+				loggerName, _WARN, ConsoleAppender.class),
+			ConsoleAppender.class.getName());
+
+		Assert.assertFalse(
+			xml.contains("<appender") || xml.contains("<appender-ref") ||
+			xml.contains("name=\"" + ConsoleAppender.class.getName() + "\""));
+
+		// Assert remove two appenders
+
+		xml = Log4JConfigurator.removeAppender(
+			_generateXMLConfigurationContent(
+				loggerName, _WARN, ConsoleAppender.class, FileAppender.class),
+			ConsoleAppender.class.getName());
+
+		xml = Log4JConfigurator.removeAppender(
+			xml, FileAppender.class.getName());
+
+		Assert.assertFalse(
+			xml.contains("<appender") || xml.contains("<appender-ref") ||
+			xml.contains("name=\"" + ConsoleAppender.class.getName() + "\"") ||
+			xml.contains("name=\"" + FileAppender.class.getName() + "\""));
+
+		// Assert one appender exist, but it won't be removed.
+
+		xml = Log4JConfigurator.removeAppender(
+			_generateXMLConfigurationContent(
+				loggerName, _WARN, ConsoleAppender.class),
+			FileAppender.class.getName());
+
+		Assert.assertTrue(
+			xml.contains("<appender") && xml.contains("<appender-ref") &&
+			xml.contains("name=\"" + ConsoleAppender.class.getName() + "\"") &&
+			xml.contains("ref=\"" + ConsoleAppender.class.getName() + "\""));
+
+		// Assert one appender only exist <appender>, not exist </appender>
+
+		xml = StringUtil.removeSubstring(
+			_generateXMLConfigurationContent(
+				loggerName, _WARN, ConsoleAppender.class),
+			"</appender>");
+
+		xml = Log4JConfigurator.removeAppender(
+			xml, ConsoleAppender.class.getName());
+
+		Assert.assertTrue(
+			xml.contains("<appender") && !xml.contains("<appender-ref") &&
+			xml.contains("name=\"" + ConsoleAppender.class.getName() + "\""));
 	}
 
 	@Test
