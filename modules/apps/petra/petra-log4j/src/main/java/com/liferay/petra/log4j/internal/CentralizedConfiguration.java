@@ -14,6 +14,14 @@
 
 package com.liferay.petra.log4j.internal;
 
+import com.liferay.petra.reflect.ReflectionUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+
+import java.lang.reflect.Field;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -139,27 +147,31 @@ public class CentralizedConfiguration extends AbstractConfiguration {
 		// Filters under Appender references included or discarded depending on
 		// whether their parent Appender reference is kept or discarded.
 
-		Map<String, Appender> currentLoggerConfigAppenders =
-			currentLoggerConfig.getAppenders();
-
 		Map<String, Appender> newLoggerConfigAppenders =
 			newLoggerConfig.getAppenders();
 
+		List<AppenderRef> currentLoggerConfigAppenderRef = new ArrayList<>();
+
+		for (AppenderRef appenderRef : currentLoggerConfig.getAppenderRefs()) {
+			currentLoggerConfig.removeAppender(appenderRef.getRef());
+		}
+
 		for (AppenderRef appenderRef : newLoggerConfig.getAppenderRefs()) {
-			Appender appender = currentLoggerConfigAppenders.get(
-				appenderRef.getRef());
-
-			// Existing appender must be removed first as the internal data
-			// structure holding appenders does not allow replacing an existing
-			// appender
-
-			if (appender != null) {
-				currentLoggerConfig.removeAppender(appenderRef.getRef());
-			}
+			currentLoggerConfigAppenderRef.add(appenderRef);
 
 			currentLoggerConfig.addAppender(
 				newLoggerConfigAppenders.get(appenderRef.getRef()),
 				appenderRef.getLevel(), appenderRef.getFilter());
+		}
+
+		try {
+			Field field = ReflectionUtil.getDeclaredField(
+				LoggerConfig.class, "appenderRefs");
+
+			field.set(currentLoggerConfig, currentLoggerConfigAppenderRef);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
 		}
 	}
 
@@ -211,5 +223,8 @@ public class CentralizedConfiguration extends AbstractConfiguration {
 
 		loggerContext.updateLoggers();
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		CentralizedConfiguration.class);
 
 }
