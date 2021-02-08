@@ -21,12 +21,15 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 
 import java.io.IOException;
 
+import java.util.Map;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 import org.apache.logging.log4j.core.LoggerContext;
 import org.apache.logging.log4j.core.config.AbstractConfiguration;
 import org.apache.logging.log4j.core.config.ConfigurationSource;
+import org.apache.logging.log4j.core.config.LoggerConfig;
 import org.apache.logging.log4j.core.config.plugins.util.PluginManager;
 import org.apache.logging.log4j.core.config.xml.XmlConfiguration;
 
@@ -64,10 +67,13 @@ public class Log4JConfigurator {
 	public static String getOriginalLevel(String className) {
 		Level level = Level.ALL;
 
-		if (LogManager.exists(className)) {
-			Logger logger = (Logger)LogManager.getLogger(className);
+		Map<String, LoggerConfig> loggersName =
+			_centralizedConfiguration.getLoggers();
 
-			level = logger.getLevel();
+		if (loggersName.containsKey(className)) {
+			LoggerConfig loggerConfig = loggersName.get(className);
+
+			level = loggerConfig.getLevel();
 		}
 
 		return level.toString();
