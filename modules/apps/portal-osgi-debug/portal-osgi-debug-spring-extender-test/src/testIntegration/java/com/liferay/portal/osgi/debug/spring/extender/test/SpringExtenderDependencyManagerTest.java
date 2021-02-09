@@ -270,7 +270,7 @@ public class SpringExtenderDependencyManagerTest {
 		return Log4JLoggerTestUtil.configureLog4JLogger(
 			"com.liferay.portal.osgi.debug.spring.extender.internal." +
 				"UnavailableComponentScanner",
-			Level.INFO);
+			Log4JLoggerTestUtil.INFO);
 	}
 
 	private static void _ensureStopScanning() throws Exception {
