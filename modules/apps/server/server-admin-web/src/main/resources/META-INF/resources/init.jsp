@@ -31,7 +31,6 @@ page import="com.liferay.document.library.kernel.service.DLFileEntryLocalService
 page import="com.liferay.expando.kernel.model.ExpandoBridge" %><%@
 page import="com.liferay.expando.kernel.model.ExpandoColumnConstants" %><%@
 page import="com.liferay.frontend.taglib.clay.servlet.taglib.util.CreationMenu" %><%@
-page import="com.liferay.petra.log4j.Levels" %><%@
 page import="com.liferay.petra.log4j.Log4JUtil" %><%@
 page import="com.liferay.petra.string.CharPool" %><%@
 page import="com.liferay.petra.string.StringPool" %><%@
@@ -102,6 +101,8 @@ page import="javax.portlet.WindowState" %>
 <%
 String tabs1 = ParamUtil.getString(request, "tabs1", "resources");
 String tabs2 = ParamUtil.getString(request, "tabs2");
+
+String[] allLevelStrings = {String.valueOf(Level.OFF), String.valueOf(Level.FATAL), String.valueOf(Level.ERROR), String.valueOf(Level.WARN), String.valueOf(Level.INFO), String.valueOf(Level.DEBUG), String.valueOf(Level.TRACE), String.valueOf(Level.ALL)};
 %>
 
 <%@ include file="/init-ext.jsp" %>
