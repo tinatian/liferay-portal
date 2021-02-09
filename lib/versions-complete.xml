@@ -350,6 +350,18 @@
 				</licenses>
 			</library>
 			<library>
+				<file-name>com.liferay.commerce.cart.taglib.jar!com.fasterxml.jackson.databind.jar</file-name>
+				<version>2.10.5.1.LIFERAY-PATCHED-1</version>
+				<project-name>jackson-databind</project-name>
+				<project-url>http://github.com/FasterXML/jackson</project-url>
+				<licenses>
+					<license>
+						<license-name>LGPL 2.1</license-name>
+						<license-url>http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt</license-url>
+					</license>
+				</licenses>
+			</library>
+			<library>
 				<file-name>com.liferay.commerce.cart.taglib.jar!jackson-annotations.jar</file-name>
 				<version>2.10.5</version>
 				<project-name>Jackson-annotations</project-name>
@@ -374,14 +386,14 @@
 				</licenses>
 			</library>
 			<library>
-				<file-name>com.liferay.commerce.cart.taglib.jar!jackson-databind.jar</file-name>
-				<version>2.10.5.1</version>
+				<file-name>com.liferay.commerce.frontend.impl.jar!com.fasterxml.jackson.databind.jar</file-name>
+				<version>2.10.5.1.LIFERAY-PATCHED-1</version>
 				<project-name>jackson-databind</project-name>
 				<project-url>http://github.com/FasterXML/jackson</project-url>
 				<licenses>
 					<license>
-						<license-name>The Apache Software License, Version 2.0</license-name>
-						<license-url>http://www.apache.org/licenses/LICENSE-2.0.txt</license-url>
+						<license-name>LGPL 2.1</license-name>
+						<license-url>http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt</license-url>
 					</license>
 				</licenses>
 			</library>
@@ -402,18 +414,6 @@
 				<version>2.10.5</version>
 				<project-name>Jackson-core</project-name>
 				<project-url>https://github.com/FasterXML/jackson-core</project-url>
-				<licenses>
-					<license>
-						<license-name>The Apache Software License, Version 2.0</license-name>
-						<license-url>http://www.apache.org/licenses/LICENSE-2.0.txt</license-url>
-					</license>
-				</licenses>
-			</library>
-			<library>
-				<file-name>com.liferay.commerce.frontend.impl.jar!jackson-databind.jar</file-name>
-				<version>2.10.5.1</version>
-				<project-name>jackson-databind</project-name>
-				<project-url>http://github.com/FasterXML/jackson</project-url>
 				<licenses>
 					<license>
 						<license-name>The Apache Software License, Version 2.0</license-name>
@@ -505,6 +505,18 @@
 				</licenses>
 			</library>
 			<library>
+				<file-name>com.liferay.commerce.payment.method.mercanet.jar!com.fasterxml.jackson.databind.jar</file-name>
+				<version>2.10.5.1.LIFERAY-PATCHED-1</version>
+				<project-name>jackson-databind</project-name>
+				<project-url>http://github.com/FasterXML/jackson</project-url>
+				<licenses>
+					<license>
+						<license-name>LGPL 2.1</license-name>
+						<license-url>http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt</license-url>
+					</license>
+				</licenses>
+			</library>
+			<library>
 				<file-name>com.liferay.commerce.payment.method.mercanet.jar!commons-codec.jar</file-name>
 				<version>1.4</version>
 				<project-name>Commons Codec</project-name>
@@ -557,18 +569,6 @@
 				<version>2.10.5</version>
 				<project-name>Jackson-core</project-name>
 				<project-url>https://github.com/FasterXML/jackson-core</project-url>
-				<licenses>
-					<license>
-						<license-name>The Apache Software License, Version 2.0</license-name>
-						<license-url>http://www.apache.org/licenses/LICENSE-2.0.txt</license-url>
-					</license>
-				</licenses>
-			</library>
-			<library>
-				<file-name>com.liferay.commerce.payment.method.mercanet.jar!jackson-databind.jar</file-name>
-				<version>2.10.5.1</version>
-				<project-name>jackson-databind</project-name>
-				<project-url>http://github.com/FasterXML/jackson</project-url>
 				<licenses>
 					<license>
 						<license-name>The Apache Software License, Version 2.0</license-name>
@@ -2188,6 +2188,18 @@
 				</licenses>
 			</library>
 			<library>
+				<file-name>com.liferay.petra.json.web.service.client.jar!com.fasterxml.jackson.databind.jar</file-name>
+				<version>2.10.5.1.LIFERAY-PATCHED-1</version>
+				<project-name>jackson-databind</project-name>
+				<project-url>http://github.com/FasterXML/jackson</project-url>
+				<licenses>
+					<license>
+						<license-name>LGPL 2.1</license-name>
+						<license-url>http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt</license-url>
+					</license>
+				</licenses>
+			</library>
+			<library>
 				<file-name>com.liferay.petra.json.web.service.client.jar!commons-codec.jar</file-name>
 				<version>1.7</version>
 				<project-name>Commons Codec</project-name>
@@ -2264,18 +2276,6 @@
 				<version>2.10.5</version>
 				<project-name>Jackson-core</project-name>
 				<project-url>https://github.com/FasterXML/jackson-core</project-url>
-				<licenses>
-					<license>
-						<license-name>The Apache Software License, Version 2.0</license-name>
-						<license-url>http://www.apache.org/licenses/LICENSE-2.0.txt</license-url>
-					</license>
-				</licenses>
-			</library>
-			<library>
-				<file-name>com.liferay.petra.json.web.service.client.jar!jackson-databind.jar</file-name>
-				<version>2.10.5.1</version>
-				<project-name>jackson-databind</project-name>
-				<project-url>http://github.com/FasterXML/jackson</project-url>
 				<licenses>
 					<license>
 						<license-name>The Apache Software License, Version 2.0</license-name>
