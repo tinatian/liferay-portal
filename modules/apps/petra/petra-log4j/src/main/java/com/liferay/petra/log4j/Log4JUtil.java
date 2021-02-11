@@ -85,24 +85,6 @@ public class Log4JUtil {
 		try (InputStream inputStream = url.openStream()) {
 			SAXReader saxReader = new SAXReader();
 
-			saxReader.setEntityResolver(
-				new EntityResolver() {
-
-					@Override
-					public InputSource resolveEntity(
-						String publicId, String systemId) {
-
-						if (systemId.endsWith("log4j.dtd")) {
-							return new InputSource(
-								DOMConfigurator.class.getResourceAsStream(
-									"log4j.dtd"));
-						}
-
-						return null;
-					}
-
-				});
-
 			document = saxReader.read(
 				new UnsyncStringReader(
 					StreamUtil.toString(inputStream, StringPool.UTF8)),
