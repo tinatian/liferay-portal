@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class CommerceRegionServiceWrapper
 	implements CommerceRegionService, ServiceWrapper<CommerceRegionService> {
 
+	public CommerceRegionServiceWrapper() {
+		this(null);
+	}
+
 	public CommerceRegionServiceWrapper(
 		CommerceRegionService commerceRegionService) {
 

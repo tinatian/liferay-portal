@@ -27,6 +27,10 @@ public class CommerceCountryLocalServiceWrapper
 	implements CommerceCountryLocalService,
 			   ServiceWrapper<CommerceCountryLocalService> {
 
+	public CommerceCountryLocalServiceWrapper() {
+		this(null);
+	}
+
 	public CommerceCountryLocalServiceWrapper(
 		CommerceCountryLocalService commerceCountryLocalService) {
 
