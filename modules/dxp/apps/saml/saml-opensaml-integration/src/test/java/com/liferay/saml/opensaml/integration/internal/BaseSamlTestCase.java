@@ -96,6 +96,7 @@ import org.opensaml.saml.saml2.metadata.SingleSignOnService;
 import org.opensaml.security.credential.Credential;
 
 import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -103,6 +104,7 @@ import org.springframework.mock.web.MockHttpServletRequest;
 /**
  * @author Mika Koivisto
  */
+@PowerMockIgnore("javax.management.*")
 @RunWith(PowerMockRunner.class)
 public abstract class BaseSamlTestCase extends PowerMockito {
 
