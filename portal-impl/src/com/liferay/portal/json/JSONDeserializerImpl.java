@@ -54,7 +54,7 @@ public class JSONDeserializerImpl<T> implements JSONDeserializer<T> {
 		ValueConverter<K, V> valueConverter =
 			new JoddJsonDeserializerTransformer<>(jsonDeserializerTransformer);
 
-		_jsonDeserializer.use(field, valueConverter);
+		_jsonDeserializer.withValueConverter(field, valueConverter);
 
 		return this;
 	}
