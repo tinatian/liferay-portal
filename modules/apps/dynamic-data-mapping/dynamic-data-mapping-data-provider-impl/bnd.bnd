@@ -6,6 +6,8 @@ Import-Package:\
 	\
 	!com.google.gson.*,\
 	\
+	!jodd.upload.*,\
+	\
 	!org.apache.commons.digester.*,\
 	!org.apache.commons.jexl2.*,\
 	!org.apache.commons.jxpath.*,\
