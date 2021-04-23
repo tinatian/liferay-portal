@@ -645,39 +645,35 @@ public class JSONWebServiceActionImpl implements JSONWebServiceAction {
 
 			stringValue = stringValue.trim();
 
-			if (!StringUtil.containsOnlyDigits(stringValue)) {
-				TemporalAccessor temporalAccessor =
-					_dateTimeFormatter.parseBest(
-						stringValue, ZonedDateTime::from, LocalDateTime::from,
-						LocalDate::from);
-
-				if (temporalAccessor instanceof LocalDate) {
-					return TimeUtil.toDate((LocalDate)temporalAccessor);
+			if (StringUtil.containsOnlyDigits(stringValue)) {
+				try {
+					return new Date(Long.parseLong(stringValue));
 				}
-
-				if (temporalAccessor instanceof LocalDateTime) {
-					return TimeUtil.toDate((LocalDateTime)temporalAccessor);
+				catch (NumberFormatException numberFormatException) {
+					throw new TypeConversionException(
+						object, numberFormatException);
 				}
-
-				if (temporalAccessor instanceof ZonedDateTime) {
-					ZonedDateTime zonedDateTime =
-						(ZonedDateTime)temporalAccessor;
-
-					return Date.from(zonedDateTime.toInstant());
-				}
-
-				throw new TypeConversionException(object);
 			}
 
-			try {
-				long milliseconds = Long.parseLong(stringValue);
+			TemporalAccessor temporalAccessor = _dateTimeFormatter.parseBest(
+				stringValue, ZonedDateTime::from, LocalDateTime::from,
+				LocalDate::from);
 
-				return new Date(milliseconds);
+			if (temporalAccessor instanceof LocalDate) {
+				return TimeUtil.toDate((LocalDate)temporalAccessor);
 			}
-			catch (NumberFormatException numberFormatException) {
-				throw new TypeConversionException(
-					object, numberFormatException);
+
+			if (temporalAccessor instanceof LocalDateTime) {
+				return TimeUtil.toDate((LocalDateTime)temporalAccessor);
 			}
+
+			if (temporalAccessor instanceof ZonedDateTime) {
+				ZonedDateTime zonedDateTime = (ZonedDateTime)temporalAccessor;
+
+				return Date.from(zonedDateTime.toInstant());
+			}
+
+			throw new TypeConversionException(object);
 		}
 
 		private static final DateTimeFormatter _dateTimeFormatter =
