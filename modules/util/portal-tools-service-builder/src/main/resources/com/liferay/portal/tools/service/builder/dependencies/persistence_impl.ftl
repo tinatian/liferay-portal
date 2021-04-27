@@ -356,6 +356,7 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 	@Override
 	public void cacheResult(List<${entity.name}> ${entity.pluralVariableName}) {
 		for (${entity.name} ${entity.variableName} : ${entity.pluralVariableName}) {
+
 			<#if entity.isChangeTrackingEnabled()>
 				if (${entity.variableName}.getCtCollectionId() != 0) {
 					<#if serviceBuilder.isVersionLTE_7_2_0()>
@@ -366,17 +367,36 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 				}
 			</#if>
 
-			if (${entityCache}.getResult(
-				<#if serviceBuilder.isVersionLTE_7_2_0()>
-					${entityCacheEnabled},
-				</#if>
-				${entity.name}Impl.class, ${entity.variableName}.getPrimaryKey()) == null) {
-				cacheResult(${entity.variableName});
-			}
-			<#if serviceBuilder.isVersionLTE_7_2_0()>
-				else {
-					${entity.variableName}.resetOriginalValues();
+			<#if (cacheFields?size > 0)>
+				${entity.name} cached${entity.name} = (${entity.name})${entityCache}.getResult(
+					<#if serviceBuilder.isVersionLTE_7_2_0()>
+						${entityCacheEnabled},
+					</#if>
+					${entity.name}Impl.class, ${entity.variableName}.getPrimaryKey());
+
+				if (cached${entity.name} == null) {
+					cacheResult(${entity.variableName});
 				}
+				else {
+					<#list cacheFields as cacheField>
+						<#assign methodName = serviceBuilder.getCacheFieldMethodName(cacheField) />
+
+						${entity.variableName}.set${methodName}(cached${entity.name}.get${methodName}());
+					</#list>
+				}
+			<#else>
+				if (${entityCache}.getResult(
+					<#if serviceBuilder.isVersionLTE_7_2_0()>
+						${entityCacheEnabled},
+					</#if>
+					${entity.name}Impl.class, ${entity.variableName}.getPrimaryKey()) == null) {
+					cacheResult(${entity.variableName});
+				}
+				<#if serviceBuilder.isVersionLTE_7_2_0()>
+					else {
+						${entity.variableName}.resetOriginalValues();
+					}
+				</#if>
 			</#if>
 		}
 	}
