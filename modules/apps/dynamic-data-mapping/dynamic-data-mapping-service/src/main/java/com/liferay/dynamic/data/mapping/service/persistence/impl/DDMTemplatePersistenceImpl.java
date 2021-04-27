@@ -12196,11 +12196,15 @@ public class DDMTemplatePersistenceImpl
 				continue;
 			}
 
-			if (entityCache.getResult(
-					DDMTemplateImpl.class, ddmTemplate.getPrimaryKey()) ==
-						null) {
+			DDMTemplate cachedDDMTemplate = (DDMTemplate)entityCache.getResult(
+				DDMTemplateImpl.class, ddmTemplate.getPrimaryKey());
 
+			if (cachedDDMTemplate == null) {
 				cacheResult(ddmTemplate);
+			}
+			else {
+				ddmTemplate.setResourceClassName(
+					cachedDDMTemplate.getResourceClassName());
 			}
 		}
 	}

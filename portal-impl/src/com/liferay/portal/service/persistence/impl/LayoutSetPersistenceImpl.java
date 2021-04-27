@@ -2313,10 +2313,18 @@ public class LayoutSetPersistenceImpl
 				continue;
 			}
 
-			if (EntityCacheUtil.getResult(
-					LayoutSetImpl.class, layoutSet.getPrimaryKey()) == null) {
+			LayoutSet cachedLayoutSet = (LayoutSet)EntityCacheUtil.getResult(
+				LayoutSetImpl.class, layoutSet.getPrimaryKey());
 
+			if (cachedLayoutSet == null) {
 				cacheResult(layoutSet);
+			}
+			else {
+				layoutSet.setCompanyFallbackVirtualHostname(
+					cachedLayoutSet.getCompanyFallbackVirtualHostname());
+
+				layoutSet.setVirtualHostnames(
+					cachedLayoutSet.getVirtualHostnames());
 			}
 		}
 	}

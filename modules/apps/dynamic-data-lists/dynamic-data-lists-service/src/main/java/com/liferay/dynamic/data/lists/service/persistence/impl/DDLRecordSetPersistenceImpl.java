@@ -3968,11 +3968,16 @@ public class DDLRecordSetPersistenceImpl
 				continue;
 			}
 
-			if (entityCache.getResult(
-					DDLRecordSetImpl.class, ddlRecordSet.getPrimaryKey()) ==
-						null) {
+			DDLRecordSet cachedDDLRecordSet =
+				(DDLRecordSet)entityCache.getResult(
+					DDLRecordSetImpl.class, ddlRecordSet.getPrimaryKey());
 
+			if (cachedDDLRecordSet == null) {
 				cacheResult(ddlRecordSet);
+			}
+			else {
+				ddlRecordSet.setDDMFormValues(
+					cachedDDLRecordSet.getDDMFormValues());
 			}
 		}
 	}

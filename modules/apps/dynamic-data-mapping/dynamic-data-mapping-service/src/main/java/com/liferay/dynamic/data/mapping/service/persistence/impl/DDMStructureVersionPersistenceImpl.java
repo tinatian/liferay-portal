@@ -1499,11 +1499,17 @@ public class DDMStructureVersionPersistenceImpl
 				continue;
 			}
 
-			if (entityCache.getResult(
+			DDMStructureVersion cachedDDMStructureVersion =
+				(DDMStructureVersion)entityCache.getResult(
 					DDMStructureVersionImpl.class,
-					ddmStructureVersion.getPrimaryKey()) == null) {
+					ddmStructureVersion.getPrimaryKey());
 
+			if (cachedDDMStructureVersion == null) {
 				cacheResult(ddmStructureVersion);
+			}
+			else {
+				ddmStructureVersion.setDDMForm(
+					cachedDDMStructureVersion.getDDMForm());
 			}
 		}
 	}

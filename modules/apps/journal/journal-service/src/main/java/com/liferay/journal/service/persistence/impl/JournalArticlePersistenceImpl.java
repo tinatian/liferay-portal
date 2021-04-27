@@ -32676,11 +32676,15 @@ public class JournalArticlePersistenceImpl
 				continue;
 			}
 
-			if (entityCache.getResult(
-					JournalArticleImpl.class, journalArticle.getPrimaryKey()) ==
-						null) {
+			JournalArticle cachedJournalArticle =
+				(JournalArticle)entityCache.getResult(
+					JournalArticleImpl.class, journalArticle.getPrimaryKey());
 
+			if (cachedJournalArticle == null) {
 				cacheResult(journalArticle);
+			}
+			else {
+				journalArticle.setDocument(cachedJournalArticle.getDocument());
 			}
 		}
 	}

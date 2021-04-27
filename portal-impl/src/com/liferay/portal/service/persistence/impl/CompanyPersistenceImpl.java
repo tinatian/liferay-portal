@@ -1281,10 +1281,17 @@ public class CompanyPersistenceImpl
 	@Override
 	public void cacheResult(List<Company> companies) {
 		for (Company company : companies) {
-			if (EntityCacheUtil.getResult(
-					CompanyImpl.class, company.getPrimaryKey()) == null) {
+			Company cachedCompany = (Company)EntityCacheUtil.getResult(
+				CompanyImpl.class, company.getPrimaryKey());
 
+			if (cachedCompany == null) {
 				cacheResult(company);
+			}
+			else {
+				company.setCompanySecurityBag(
+					cachedCompany.getCompanySecurityBag());
+
+				company.setVirtualHostname(cachedCompany.getVirtualHostname());
 			}
 		}
 	}

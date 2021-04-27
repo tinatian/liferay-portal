@@ -10363,11 +10363,17 @@ public class DDMStructurePersistenceImpl
 				continue;
 			}
 
-			if (entityCache.getResult(
-					DDMStructureImpl.class, ddmStructure.getPrimaryKey()) ==
-						null) {
+			DDMStructure cachedDDMStructure =
+				(DDMStructure)entityCache.getResult(
+					DDMStructureImpl.class, ddmStructure.getPrimaryKey());
 
+			if (cachedDDMStructure == null) {
 				cacheResult(ddmStructure);
+			}
+			else {
+				ddmStructure.setClassName(cachedDDMStructure.getClassName());
+
+				ddmStructure.setDDMForm(cachedDDMStructure.getDDMForm());
 			}
 		}
 	}
