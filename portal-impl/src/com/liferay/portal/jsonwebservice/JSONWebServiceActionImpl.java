@@ -670,9 +670,7 @@ public class JSONWebServiceActionImpl implements JSONWebServiceAction {
 			}
 
 			try {
-				long milliseconds = Long.parseLong(stringValue);
-
-				return new Date(milliseconds);
+				return new Date(Long.parseLong(stringValue));
 			}
 			catch (NumberFormatException numberFormatException) {
 				throw new TypeConversionException(
