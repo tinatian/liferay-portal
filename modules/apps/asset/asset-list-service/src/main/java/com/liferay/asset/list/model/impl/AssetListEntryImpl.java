@@ -20,7 +20,6 @@ import com.liferay.asset.list.asset.entry.provider.AssetListAssetEntryProvider;
 import com.liferay.asset.list.constants.AssetListEntryTypeConstants;
 import com.liferay.asset.list.model.AssetListEntrySegmentsEntryRel;
 import com.liferay.asset.list.service.AssetListEntrySegmentsEntryRelLocalServiceUtil;
-import com.liferay.asset.util.AssetHelper;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
@@ -28,10 +27,6 @@ import com.liferay.portal.kernel.util.StringUtil;
 
 import java.util.List;
 import java.util.Locale;
-
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
 
 /**
  * @author Pavel Savinov
@@ -190,24 +185,7 @@ public class AssetListEntryImpl extends AssetListEntryBaseImpl {
 	}
 
 	private AssetListAssetEntryProvider _getAssetListAssetEntryProvider() {
-		return _serviceTracker.getService();
-	}
-
-	private static final ServiceTracker
-		<AssetListAssetEntryProvider, AssetListAssetEntryProvider>
-			_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(AssetHelper.class);
-
-		ServiceTracker<AssetListAssetEntryProvider, AssetListAssetEntryProvider>
-			serviceTracker = new ServiceTracker<>(
-				bundle.getBundleContext(), AssetListAssetEntryProvider.class,
-				null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
+		return null;
 	}
 
 }
