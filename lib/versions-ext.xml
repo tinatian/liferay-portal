@@ -1852,10 +1852,10 @@
 				</licenses>
 			</library>
 			<library>
-				<file-name>lib/portal/jaxb-impl.jar</file-name>
-				<version>2.1.17</version>
+				<file-name>lib/portal/jaxb-runtime.jar</file-name>
+				<version>2.3.1</version>
 				<project-name>Java Architecture for XML Binding</project-name>
-				<project-url>http://jaxb.dev.java.net</project-url>
+				<project-url>https://javaee.github.io/jaxb-v2/</project-url>
 				<licenses>
 					<license>
 						<license-name>CDDL 1.0</license-name>
