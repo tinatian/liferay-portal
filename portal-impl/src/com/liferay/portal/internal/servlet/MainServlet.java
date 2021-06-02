@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.deploy.hot.HotDeployUtil;
 import com.liferay.portal.kernel.exception.NoSuchLayoutException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogContext;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.Group;
@@ -113,6 +114,7 @@ import java.io.InputStream;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -147,6 +149,8 @@ public class MainServlet extends HttpServlet {
 		}
 
 		DependencyManagerSyncUtil.sync();
+
+		_logContextServiceRegistration.unregister();
 
 		_portalInitializedModuleServiceLifecycleServiceRegistration.
 			unregister();
@@ -1291,6 +1295,24 @@ public class MainServlet extends HttpServlet {
 	private void _registerPortalInitialized() {
 		Registry registry = RegistryUtil.getRegistry();
 
+		_logContextServiceRegistration = registry.registerService(
+			LogContext.class,
+			new LogContext() {
+
+				@Override
+				public Map<String, String> getContext() {
+					return Collections.singletonMap(
+						"companyId",
+						String.valueOf(CompanyThreadLocal.getCompanyId()));
+				}
+
+				@Override
+				public String getName() {
+					return "test.log.context";
+				}
+
+			});
+
 		_portalInitializedModuleServiceLifecycleServiceRegistration =
 			registry.registerService(
 				ModuleServiceLifecycle.class,
@@ -1377,6 +1399,7 @@ public class MainServlet extends HttpServlet {
 
 	private ServiceRegistration<ModuleServiceLifecycle>
 		_licenseInstallModuleServiceLifecycleServiceRegistration;
+	private ServiceRegistration<LogContext> _logContextServiceRegistration;
 	private ServiceRegistration<ModuleServiceLifecycle>
 		_portalInitializedModuleServiceLifecycleServiceRegistration;
 	private ServiceRegistration<ModuleServiceLifecycle>
