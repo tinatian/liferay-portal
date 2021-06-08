@@ -1219,8 +1219,15 @@ public class PortletLocalServiceImpl extends PortletLocalServiceBaseImpl {
 			}
 		}
 
+		boolean active = true;
+
+		if (existingPortlet != null) {
+			active = existingPortlet.isActive();
+		}
+
 		updatePortlet(
-			portlet.getCompanyId(), portlet.getPortletId(), StringPool.BLANK);
+			portlet.getCompanyId(), portlet.getPortletId(), StringPool.BLANK,
+			active);
 	}
 
 	protected void readLiferayDisplay(
@@ -2683,21 +2690,6 @@ public class PortletLocalServiceImpl extends PortletLocalServiceBaseImpl {
 			spriteFileName);
 
 		portletApp.setSpriteImages(spriteFileName, spriteProperties);
-	}
-
-	protected Portlet updatePortlet(
-		long companyId, String portletId, String roles) {
-
-		Portlet existingPortlet = portletPersistence.fetchByC_P(
-			companyId, portletId);
-
-		boolean active = true;
-
-		if (existingPortlet != null) {
-			active = existingPortlet.isActive();
-		}
-
-		return updatePortlet(companyId, portletId, roles, active);
 	}
 
 	private void _deployRemotePortlet(
