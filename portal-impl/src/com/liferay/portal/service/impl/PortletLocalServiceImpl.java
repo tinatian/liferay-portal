@@ -188,6 +188,14 @@ public class PortletLocalServiceImpl extends PortletLocalServiceBaseImpl {
 
 	@Override
 	public void checkPortlet(Portlet portlet) throws PortalException {
+		if (!_checkedPortlets.add(
+				StringBundler.concat(
+					portlet.getPortletId(), _COMPANY_SEPARATOR,
+					portlet.getCompanyId()))) {
+
+			return;
+		}
+
 		resourcePermissionLocalService.initPortletDefaultPermissions(portlet);
 
 		initPortletAddToPagePermissions(portlet);
@@ -386,6 +394,18 @@ public class PortletLocalServiceImpl extends PortletLocalServiceBaseImpl {
 		}
 
 		clearCache();
+
+		Iterator<String> iterator = _checkedPortlets.iterator();
+
+		String prefix = portlet.getPortletId() + _COMPANY_SEPARATOR;
+
+		while (iterator.hasNext()) {
+			String checkedPortlet = iterator.next();
+
+			if (checkedPortlet.startsWith(prefix)) {
+				iterator.remove();
+			}
+		}
 	}
 
 	@Override
@@ -2804,9 +2824,13 @@ public class PortletLocalServiceImpl extends PortletLocalServiceBaseImpl {
 			servletContextName, extraPortletAppConfig);
 	}
 
+	private static final String _COMPANY_SEPARATOR = "_COMPANY_SEPARATOR_";
+
 	private static final Log _log = LogFactoryUtil.getLog(
 		PortletLocalServiceImpl.class);
 
+	private static final Set<String> _checkedPortlets =
+		Collections.newSetFromMap(new ConcurrentHashMap<>());
 	private static final Map<String, PortletApp> _portletApps =
 		new ConcurrentHashMap<>();
 	private static volatile Map<String, String> _portletIdsByStrutsPath;
