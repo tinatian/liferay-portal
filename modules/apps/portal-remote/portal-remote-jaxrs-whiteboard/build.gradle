@@ -50,4 +50,6 @@ deployDependencies {
 	include "xmlschema-core-*.jar"
 
 	rename(/geronimo-jaxrs_2\.1_spec-(.+)\.jar/, "geronimo-jaxrs_2.1_spec" + renameSuffix)
+	rename(/geronimo-json_1\.1_spec-(.+)\.jar/, "geronimo-json_1.1_spec" + renameSuffix)
+
 }
