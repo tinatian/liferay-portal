@@ -37,10 +37,8 @@ deployDependencies {
 	include "commons-*.jar"
 	include "cxf-*.jar"
 	include "geronimo-jaxrs_2.1_spec-*.jar"
-	include "geronimo-json_1.1_spec-*.jar"
 	include "geronimo-jsonb_1.0_spec-*.jar"
 	include "jaxb-osgi-*.jar"
-	include "johnzon-core-*.jar"
 	include "johnzon-jsonb-*.jar"
 	include "johnzon-mapper-*.jar"
 	include "org.apache.aries.component-dsl.*.jar"
@@ -50,6 +48,4 @@ deployDependencies {
 	include "xmlschema-core-*.jar"
 
 	rename(/geronimo-jaxrs_2\.1_spec-(.+)\.jar/, "geronimo-jaxrs_2.1_spec" + renameSuffix)
-	rename(/geronimo-json_1\.1_spec-(.+)\.jar/, "geronimo-json_1.1_spec" + renameSuffix)
-
 }
