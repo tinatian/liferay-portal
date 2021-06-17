@@ -346,12 +346,14 @@ public class DummyReferenceStagedModelRepository
 			List<DummyReference> result = _dummyReferences;
 
 			try {
+				Object detachedCriteria = ReflectionTestUtil.getFieldValue(
+					dynamicQuery, "_detachedCriteria");
+
+				Object criteriaImpl = ReflectionTestUtil.invoke(
+					detachedCriteria, "getCriteriaImpl", new Class<?>[0]);
+
 				Iterator<?> iterator = ReflectionTestUtil.invoke(
-					ReflectionTestUtil.invoke(
-						ReflectionTestUtil.getFieldValue(
-							dynamicQuery, "_detachedCriteria"),
-						"getCriteriaImpl", new Class<?>[0]),
-					"iterateExpressionEntries", new Class<?>[0]);
+					criteriaImpl, "iterateExpressionEntries", new Class<?>[0]);
 
 				while (iterator.hasNext()) {
 					Stream<DummyReference> dummyReferenceStream =
