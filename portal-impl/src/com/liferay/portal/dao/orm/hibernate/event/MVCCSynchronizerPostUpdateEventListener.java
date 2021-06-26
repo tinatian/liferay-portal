@@ -44,14 +44,17 @@ public class MVCCSynchronizerPostUpdateEventListener
 				}
 			}
 
-			BaseModel<?> baseModel = (BaseModel<?>)entity;
+			MVCCModel mvccModel = (MVCCModel)entity;
 
-			baseModel = (BaseModel<?>)EntityCacheUtil.getResult(
-				entity.getClass(), baseModel.getPrimaryKeyObj());
+			MVCCModel cachedMVCCModel = (MVCCModel)EntityCacheUtil.getResult(
+				entity.getClass(), ((BaseModel<?>)entity).getPrimaryKeyObj());
 
-			if (baseModel != null) {
+			if (cachedMVCCModel != null) {
+				cachedMVCCModel.setMvccVersion(mvccModel.getMvccVersion());
+
 				EntityCacheUtil.putResult(
-					entity.getClass(), baseModel, false, false);
+					entity.getClass(), (BaseModel<?>)cachedMVCCModel, false,
+					false);
 			}
 		}
 	}
