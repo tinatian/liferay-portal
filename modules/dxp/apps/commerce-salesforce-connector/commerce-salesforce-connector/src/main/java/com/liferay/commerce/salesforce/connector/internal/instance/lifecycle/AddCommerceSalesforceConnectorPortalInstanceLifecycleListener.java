@@ -18,10 +18,12 @@ import com.liferay.dispatch.model.DispatchTrigger;
 import com.liferay.dispatch.repository.DispatchFileRepository;
 import com.liferay.dispatch.service.DispatchTriggerLocalService;
 import com.liferay.dispatch.talend.archive.TalendArchiveParserUtil;
-import com.liferay.document.library.service.DLFileVersionPreviewLocalService;
 import com.liferay.portal.instance.lifecycle.BasePortalInstanceLifecycleListener;
 import com.liferay.portal.instance.lifecycle.PortalInstanceLifecycleListener;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Company;
+import com.liferay.portal.kernel.model.Release;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.UnicodeProperties;
@@ -29,6 +31,7 @@ import com.liferay.portal.kernel.util.UnicodeProperties;
 import java.io.File;
 import java.io.FileInputStream;
 
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -52,6 +55,13 @@ public class AddCommerceSalesforceConnectorPortalInstanceLifecycleListener
 			company, "etl-salesforce-price-list-connector-0.6.zip");
 		_createDispatchTrigger(
 			company, "etl-salesforce-product-connector-0.3.zip");
+	}
+
+	@Activate
+	protected void activate() {
+		if (_log.isTraceEnabled()) {
+			_log.trace("Activated against release " + _release.toString());
+		}
 	}
 
 	private void _createDispatchTrigger(Company company, String name)
@@ -92,14 +102,19 @@ public class AddCommerceSalesforceConnectorPortalInstanceLifecycleListener
 		}
 	}
 
+	private static final Log _log = LogFactoryUtil.getLog(
+		AddCommerceSalesforceConnectorPortalInstanceLifecycleListener.class);
+
 	@Reference
 	private DispatchFileRepository _dispatchFileRepository;
 
 	@Reference
 	private DispatchTriggerLocalService _dispatchTriggerLocalService;
 
-	@Reference
-	private DLFileVersionPreviewLocalService _dlFileVersionPreviewLocalService;
+	@Reference(
+		target = "(&(release.bundle.symbolic.name=com.liferay.document.library.service)(&(release.schema.version>=3.2.2)))"
+	)
+	private Release _release;
 
 	@Reference
 	private UserLocalService _userLocalService;
