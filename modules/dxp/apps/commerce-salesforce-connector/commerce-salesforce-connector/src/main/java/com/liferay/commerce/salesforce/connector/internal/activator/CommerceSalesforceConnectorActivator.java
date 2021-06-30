@@ -12,7 +12,7 @@
  *
  */
 
-package com.liferay.commerce.salesforce.connector.internal.instance.lifecycle;
+package com.liferay.commerce.salesforce.connector.internal.activator;
 
 import com.liferay.dispatch.model.DispatchTrigger;
 import com.liferay.dispatch.repository.DispatchFileRepository;
