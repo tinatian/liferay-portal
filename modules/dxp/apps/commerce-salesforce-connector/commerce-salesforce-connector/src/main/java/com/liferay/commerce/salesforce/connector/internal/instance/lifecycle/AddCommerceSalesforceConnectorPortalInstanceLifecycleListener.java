@@ -18,12 +18,7 @@ import com.liferay.dispatch.model.DispatchTrigger;
 import com.liferay.dispatch.repository.DispatchFileRepository;
 import com.liferay.dispatch.service.DispatchTriggerLocalService;
 import com.liferay.dispatch.talend.archive.TalendArchiveParserUtil;
-import com.liferay.portal.instance.lifecycle.BasePortalInstanceLifecycleListener;
-import com.liferay.portal.instance.lifecycle.PortalInstanceLifecycleListener;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.model.Company;
-import com.liferay.portal.kernel.model.Release;
+import com.liferay.portal.kernel.service.CompanyLocalService;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.UnicodeProperties;
@@ -39,27 +34,16 @@ import org.osgi.service.component.annotations.Reference;
 /**
  * @author Igor Beslic
  */
-@Component(
-	enabled = false, immediate = true, property = "service.ranking:Integer=100",
-	service = PortalInstanceLifecycleListener.class
-)
-public class AddCommerceSalesforceConnectorPortalInstanceLifecycleListener
-	extends BasePortalInstanceLifecycleListener {
+@Component(enabled = true, immediate = true, service = {})
+public class AddCommerceSalesforceConnectorPortalInstanceLifecycleListener {
 
-	@Override
-	public void portalInstanceRegistered(Company company) throws Exception {
+	@Activate
+	protected void activate() throws Exception {
 		_createDispatchTriggers(
-			company.getCompanyId(), "etl-salesforce-account-connector-0.3.zip",
+			"etl-salesforce-account-connector-0.3.zip",
 			"etl-salesforce-order-connector-0.6.zip",
 			"etl-salesforce-price-list-connector-0.6.zip",
 			"etl-salesforce-product-connector-0.3.zip");
-	}
-
-	@Activate
-	protected void activate() {
-		if (_log.isTraceEnabled()) {
-			_log.trace("Activated against release " + _release.toString());
-		}
 	}
 
 	private void _createDispatchTrigger(
@@ -97,30 +81,24 @@ public class AddCommerceSalesforceConnectorPortalInstanceLifecycleListener
 		}
 	}
 
-	private void _createDispatchTriggers(long companyId, String... names)
-		throws Exception {
-
-		Class<?> clazz = getClass();
-
+	private void _createDispatchTriggers(String... names) throws Exception {
 		for (String name : names) {
-			_createDispatchTrigger(
-				companyId, name, clazz.getResourceAsStream("/" + name));
+			Class<?> clazz = getClass();
+
+			_companyLocalService.forEachCompanyId(
+				companyId -> _createDispatchTrigger(
+					companyId, name, clazz.getResourceAsStream("/" + name)));
 		}
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(
-		AddCommerceSalesforceConnectorPortalInstanceLifecycleListener.class);
+	@Reference
+	private CompanyLocalService _companyLocalService;
 
 	@Reference
 	private DispatchFileRepository _dispatchFileRepository;
 
 	@Reference
 	private DispatchTriggerLocalService _dispatchTriggerLocalService;
-
-	@Reference(
-		target = "(&(release.bundle.symbolic.name=com.liferay.document.library.service)(&(release.schema.version>=3.2.2)))"
-	)
-	private Release _release;
 
 	@Reference
 	private UserLocalService _userLocalService;
