@@ -47,14 +47,11 @@ public class AddCommerceSalesforceConnectorPortalInstanceLifecycleListener
 
 	@Override
 	public void portalInstanceRegistered(Company company) throws Exception {
-		_createDispatchTrigger(
-			company, "etl-salesforce-account-connector-0.3.zip");
-		_createDispatchTrigger(
-			company, "etl-salesforce-order-connector-0.6.zip");
-		_createDispatchTrigger(
-			company, "etl-salesforce-price-list-connector-0.6.zip");
-		_createDispatchTrigger(
-			company, "etl-salesforce-product-connector-0.3.zip");
+		_createDispatchTriggers(
+			company, "etl-salesforce-account-connector-0.3.zip",
+			"etl-salesforce-order-connector-0.6.zip",
+			"etl-salesforce-price-list-connector-0.6.zip",
+			"etl-salesforce-product-connector-0.3.zip");
 	}
 
 	@Activate
@@ -99,6 +96,14 @@ public class AddCommerceSalesforceConnectorPortalInstanceLifecycleListener
 		}
 		finally {
 			FileUtil.delete(connectorArchiveFile);
+		}
+	}
+
+	private void _createDispatchTriggers(Company company, String... names)
+		throws Exception {
+
+		for (String name : names) {
+			_createDispatchTrigger(company, name);
 		}
 	}
 
