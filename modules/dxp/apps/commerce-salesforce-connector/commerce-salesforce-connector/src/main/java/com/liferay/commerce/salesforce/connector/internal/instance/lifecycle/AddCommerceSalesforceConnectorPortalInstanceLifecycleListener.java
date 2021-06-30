@@ -30,6 +30,7 @@ import com.liferay.portal.kernel.util.UnicodeProperties;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
 
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -48,7 +49,7 @@ public class AddCommerceSalesforceConnectorPortalInstanceLifecycleListener
 	@Override
 	public void portalInstanceRegistered(Company company) throws Exception {
 		_createDispatchTriggers(
-			company, "etl-salesforce-account-connector-0.3.zip",
+			company.getCompanyId(), "etl-salesforce-account-connector-0.3.zip",
 			"etl-salesforce-order-connector-0.6.zip",
 			"etl-salesforce-price-list-connector-0.6.zip",
 			"etl-salesforce-product-connector-0.3.zip");
@@ -61,20 +62,18 @@ public class AddCommerceSalesforceConnectorPortalInstanceLifecycleListener
 		}
 	}
 
-	private void _createDispatchTrigger(Company company, String name)
+	private void _createDispatchTrigger(
+			long companyId, String name, InputStream inputStream)
 		throws Exception {
 
 		DispatchTrigger dispatchTrigger =
-			_dispatchTriggerLocalService.fetchDispatchTrigger(
-				company.getCompanyId(), name);
+			_dispatchTriggerLocalService.fetchDispatchTrigger(companyId, name);
 
 		if (dispatchTrigger != null) {
 			return;
 		}
 
-		File connectorArchiveFile = FileUtil.createTempFile(
-			PortalInstanceLifecycleListener.class.getResourceAsStream(
-				"/" + name));
+		File connectorArchiveFile = FileUtil.createTempFile(inputStream);
 
 		try (FileInputStream fileInputStream = new FileInputStream(
 				connectorArchiveFile)) {
@@ -84,8 +83,7 @@ public class AddCommerceSalesforceConnectorPortalInstanceLifecycleListener
 			TalendArchiveParserUtil.updateUnicodeProperties(
 				fileInputStream, unicodeProperties);
 
-			long userId = _userLocalService.getDefaultUserId(
-				company.getCompanyId());
+			long userId = _userLocalService.getDefaultUserId(companyId);
 
 			dispatchTrigger = _dispatchTriggerLocalService.addDispatchTrigger(
 				userId, "talend", unicodeProperties, name, true);
@@ -99,11 +97,14 @@ public class AddCommerceSalesforceConnectorPortalInstanceLifecycleListener
 		}
 	}
 
-	private void _createDispatchTriggers(Company company, String... names)
+	private void _createDispatchTriggers(long companyId, String... names)
 		throws Exception {
 
+		Class<?> clazz = getClass();
+
 		for (String name : names) {
-			_createDispatchTrigger(company, name);
+			_createDispatchTrigger(
+				companyId, name, clazz.getResourceAsStream("/" + name));
 		}
 	}
 
