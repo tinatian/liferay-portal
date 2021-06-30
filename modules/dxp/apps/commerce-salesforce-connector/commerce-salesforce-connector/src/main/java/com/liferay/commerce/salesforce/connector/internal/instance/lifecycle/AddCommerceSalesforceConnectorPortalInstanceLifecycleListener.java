@@ -65,10 +65,9 @@ public class AddCommerceSalesforceConnectorPortalInstanceLifecycleListener
 			return;
 		}
 
-		Class<?> clazz = getClass();
-
 		File connectorArchiveFile = FileUtil.createTempFile(
-			clazz.getResourceAsStream("/" + name));
+			PortalInstanceLifecycleListener.class.getResourceAsStream(
+				"/" + name));
 
 		try (FileInputStream fileInputStream = new FileInputStream(
 				connectorArchiveFile)) {
