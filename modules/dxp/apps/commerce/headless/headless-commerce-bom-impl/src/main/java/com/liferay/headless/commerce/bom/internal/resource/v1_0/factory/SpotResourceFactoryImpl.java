@@ -50,7 +50,7 @@ import org.osgi.service.component.annotations.ReferenceScope;
  * @author Alessio Antonio Rendina
  * @generated
  */
-@Component(immediate = true, service = SpotResource.Factory.class)
+@Component(enabled = false, immediate = true, service = SpotResource.Factory.class)
 @Generated("")
 public class SpotResourceFactoryImpl implements SpotResource.Factory {
 

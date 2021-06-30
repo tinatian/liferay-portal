@@ -50,7 +50,7 @@ import org.osgi.service.component.annotations.ReferenceScope;
  * @author Andrea Sbarra
  * @generated
  */
-@Component(immediate = true, service = PaymentMethodResource.Factory.class)
+@Component(enabled = false, immediate = true, service = PaymentMethodResource.Factory.class)
 @Generated("")
 public class PaymentMethodResourceFactoryImpl
 	implements PaymentMethodResource.Factory {

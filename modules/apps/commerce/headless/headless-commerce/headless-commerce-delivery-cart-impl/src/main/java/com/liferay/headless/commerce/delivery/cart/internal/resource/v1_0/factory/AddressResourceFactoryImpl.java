@@ -50,7 +50,7 @@ import org.osgi.service.component.annotations.ReferenceScope;
  * @author Andrea Sbarra
  * @generated
  */
-@Component(immediate = true, service = AddressResource.Factory.class)
+@Component(enabled = false, immediate = true, service = AddressResource.Factory.class)
 @Generated("")
 public class AddressResourceFactoryImpl implements AddressResource.Factory {
 

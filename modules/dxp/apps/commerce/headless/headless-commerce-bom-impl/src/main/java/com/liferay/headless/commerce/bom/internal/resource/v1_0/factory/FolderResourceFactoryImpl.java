@@ -50,7 +50,7 @@ import org.osgi.service.component.annotations.ReferenceScope;
  * @author Alessio Antonio Rendina
  * @generated
  */
-@Component(immediate = true, service = FolderResource.Factory.class)
+@Component(enabled = false, immediate = true, service = FolderResource.Factory.class)
 @Generated("")
 public class FolderResourceFactoryImpl implements FolderResource.Factory {
 

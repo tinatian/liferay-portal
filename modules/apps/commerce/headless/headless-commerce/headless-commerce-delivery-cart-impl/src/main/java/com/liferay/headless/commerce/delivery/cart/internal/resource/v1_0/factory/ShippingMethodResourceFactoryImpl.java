@@ -50,7 +50,7 @@ import org.osgi.service.component.annotations.ReferenceScope;
  * @author Andrea Sbarra
  * @generated
  */
-@Component(immediate = true, service = ShippingMethodResource.Factory.class)
+@Component(enabled = false, immediate = true, service = ShippingMethodResource.Factory.class)
 @Generated("")
 public class ShippingMethodResourceFactoryImpl
 	implements ShippingMethodResource.Factory {

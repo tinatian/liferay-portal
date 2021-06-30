@@ -50,7 +50,7 @@ import org.osgi.service.component.annotations.ReferenceScope;
  * @author Andrea Sbarra
  * @generated
  */
-@Component(immediate = true, service = CartCommentResource.Factory.class)
+@Component(enabled = false, immediate = true, service = CartCommentResource.Factory.class)
 @Generated("")
 public class CartCommentResourceFactoryImpl
 	implements CartCommentResource.Factory {
