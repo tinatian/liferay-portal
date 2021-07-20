@@ -1255,7 +1255,19 @@ public class ResourceActionsImpl implements ResourceActions {
 					modelResourceElement.elementText("root"));
 
 				if (root) {
-					_portletRootModelResources.put(portletName, modelName);
+					String originalRootModelName =
+						_portletRootModelResources.putIfAbsent(
+							portletName, modelName);
+
+					if (Validator.isNotNull(originalRootModelName) &&
+						!Objects.equals(originalRootModelName, modelName)) {
+
+						throw new ResourceActionsException(
+							StringBundler.concat(
+								"More than one root model resources are ",
+								"defined for ", portletName, ": ",
+								originalRootModelName, ", ", modelName));
+					}
 				}
 			}
 
