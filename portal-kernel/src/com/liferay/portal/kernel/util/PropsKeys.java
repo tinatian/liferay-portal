@@ -3344,6 +3344,9 @@ public interface PropsKeys {
 	public static final String TRANSACTIONAL_CACHE_ENABLED =
 		"transactional.cache.enable";
 
+	public static final String TRANSACTIONAL_CACHE_MAX_ELEMENTS =
+		"transactional.cache.max.elements";
+
 	public static final String TRANSACTIONAL_CACHE_NAMES =
 		"transactional.cache.names";
 
