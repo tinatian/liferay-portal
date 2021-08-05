@@ -31,7 +31,10 @@ import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.TransactionAttribute;
 import com.liferay.portal.kernel.transaction.TransactionLifecycleListener;
 import com.liferay.portal.kernel.transaction.TransactionStatus;
+import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.test.rule.LiferayUnitTestRule;
+import com.liferay.portal.util.PropsUtil;
 import com.liferay.registry.BasicRegistryImpl;
 import com.liferay.registry.RegistryUtil;
 
@@ -647,6 +650,43 @@ public class TransactionalPortalCacheTest {
 			Propagation.REQUIRES_NEW);
 	}
 
+	@Test
+	public void testUncommitedBufferExhausted() {
+		int transactionalCacheMaxElements = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.TRANSACTIONAL_CACHE_MAX_ELEMENTS));
+
+		try {
+			_setEnableTransactionalCache(true);
+
+			_setTransactionalCacheMaxElements(1);
+
+			TransactionalPortalCache<String, String> transactionalPortalCache =
+				new TransactionalPortalCache<>(_portalCache, true);
+
+			TransactionalPortalCacheUtil.begin();
+
+			transactionalPortalCache.put(_KEY_1, _VALUE_1);
+
+			Assert.assertEquals(_VALUE_1, transactionalPortalCache.get(_KEY_1));
+
+			// Put second value to exhaust buffer
+
+			transactionalPortalCache.put(_KEY_2, _VALUE_2);
+
+			Assert.assertNull(transactionalPortalCache.get(_KEY_1));
+			Assert.assertNull(transactionalPortalCache.get(_KEY_2));
+
+			transactionalPortalCache.put(_KEY_1, _VALUE_1);
+
+			Assert.assertNull(transactionalPortalCache.get(_KEY_1));
+
+			TransactionalPortalCacheUtil.commit(false);
+		}
+		finally {
+			_setTransactionalCacheMaxElements(transactionalCacheMaxElements);
+		}
+	}
+
 	private int _getTransactionStackSize() {
 		ThreadLocal<List<?>> portalCacheMapsThreadLocal =
 			ReflectionTestUtil.getFieldValue(
@@ -710,6 +750,14 @@ public class TransactionalPortalCacheTest {
 		ReflectionTestUtil.setFieldValue(
 			TransactionalPortalCacheUtil.class, "_transactionalCacheEnabled",
 			enabled);
+	}
+
+	private void _setTransactionalCacheMaxElements(
+		int transactionalCacheMaxElements) {
+
+		ReflectionTestUtil.setFieldValue(
+			TransactionalPortalCacheUtil.class,
+			"_transactionalCacheMaxElements", transactionalCacheMaxElements);
 	}
 
 	private void _testNoneTransactionalPortalCache(
