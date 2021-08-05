@@ -207,6 +207,12 @@ public class TransactionalPortalCacheHelper {
 			portalCacheMap.put(portalCache, uncommittedBuffer);
 		}
 
+		if (uncommittedBuffer.isExhausted()) {
+			uncommittedBuffer.removeAll(SkipReplicationThreadLocal.isEnabled());
+
+			return;
+		}
+
 		uncommittedBuffer.put(
 			key,
 			new ValueEntry(value, ttl, SkipReplicationThreadLocal.isEnabled()));
@@ -244,6 +250,15 @@ public class TransactionalPortalCacheHelper {
 	protected static class PortalCacheMap
 		extends HashMap
 			<PortalCache<? extends Serializable, ?>, UncommittedBuffer> {
+	}
+
+	private static int _getTransactionalCacheMaxElements() {
+		if (_transactionalCacheMaxElements == null) {
+			_transactionalCacheMaxElements = GetterUtil.getInteger(
+				PropsUtil.get(PropsKeys.TRANSACTIONAL_CACHE_MAX_ELEMENTS));
+		}
+
+		return _transactionalCacheMaxElements;
 	}
 
 	private static boolean _isTransactionalCacheEnabled() {
@@ -285,6 +300,7 @@ public class TransactionalPortalCacheHelper {
 				"._portalCacheMapsThreadLocal",
 			ArrayList::new, false);
 	private static volatile Boolean _transactionalCacheEnabled;
+	private static volatile Integer _transactionalCacheMaxElements;
 
 	private static class MarkerUncommittedBuffer extends UncommittedBuffer {
 
@@ -410,6 +426,22 @@ public class TransactionalPortalCacheHelper {
 			}
 		}
 
+		protected boolean isExhausted() {
+			if (_exhausted) {
+				return true;
+			}
+
+			List<Serializable> keys = _portalCache.getKeys();
+
+			if (keys.size() >= _getTransactionalCacheMaxElements()) {
+				_exhausted = true;
+
+				return true;
+			}
+
+			return false;
+		}
+
 		protected boolean skipCommit(boolean readOnly) {
 			if (readOnly) {
 				_removeAll = false;
@@ -442,6 +474,7 @@ public class TransactionalPortalCacheHelper {
 			_portalCache = portalCache;
 		}
 
+		private boolean _exhausted;
 		private final PortalCache<Serializable, Object> _portalCache;
 		private boolean _removeAll;
 		private boolean _skipReplicator = true;
