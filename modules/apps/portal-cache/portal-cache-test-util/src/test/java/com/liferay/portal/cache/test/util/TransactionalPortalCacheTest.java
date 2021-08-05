@@ -424,6 +424,37 @@ public class TransactionalPortalCacheTest {
 	}
 
 	@Test
+	public void testTransactionalCacheMaxElementsDisabled() {
+
+		// For code coverage
+
+		int transactionalCacheMaxElements = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.TRANSACTIONAL_CACHE_MAX_ELEMENTS));
+
+		try {
+			_setEnableTransactionalCache(true);
+
+			_setTransactionalCacheMaxElements(-1);
+
+			TransactionalPortalCache<String, String> transactionalPortalCache =
+				new TransactionalPortalCache<>(_portalCache, true);
+
+			TransactionalPortalCacheUtil.begin();
+
+			transactionalPortalCache.put(_KEY_1, _VALUE_1);
+			transactionalPortalCache.put(_KEY_2, _VALUE_2);
+
+			Assert.assertEquals(_VALUE_1, transactionalPortalCache.get(_KEY_1));
+			Assert.assertEquals(_VALUE_2, transactionalPortalCache.get(_KEY_2));
+
+			TransactionalPortalCacheUtil.commit(false);
+		}
+		finally {
+			_setTransactionalCacheMaxElements(transactionalCacheMaxElements);
+		}
+	}
+
+	@Test
 	public void testTransactionalCacheWithParameterValidation() {
 		_setEnableTransactionalCache(true);
 
