@@ -47,7 +47,7 @@ definition {
 		var testBaseDirName = PropsUtil.get("test.base.dir.name");
 		var testDependenciesDirName = PropsUtil.get("test.dependencies.dir.name");
 
-		ArchiveUtil.archive("${testBaseDirName}tests/coreinfrastructureee/clustering/clusteringframework/${testDependenciesDirName}/com.liferay.cluster.test.module.jar", "${deployDir}/com.liferay.cluster.test.module.jar");
+		ArchiveUtil.archive("${testBaseDirName}tests/coreinfrastructureee/clustering/clusteringframework/${testDependenciesDirName}/com.liferay.portal.cluster.sample.jar", "${deployDir}/com.liferay.portal.cluster.sample.jar");
 
 		Pause(locator1 = "10000");
 
@@ -70,11 +70,11 @@ definition {
 		var testBaseDirName = PropsUtil.get("test.base.dir.name");
 		var testDependenciesDirName = PropsUtil.get("test.dependencies.dir.name");
 
-		ArchiveUtil.archive("${testBaseDirName}tests/coreinfrastructureee/clustering/clusteringframework/${testDependenciesDirName}/com.liferay.cluster.test.module.jar", "${deployDir}/com.liferay.cluster.test.module.jar");
+		ArchiveUtil.archive("${testBaseDirName}tests/coreinfrastructureee/clustering/clusteringframework/${testDependenciesDirName}/com.liferay.portal.cluster.sample.jar", "${deployDir}/com.liferay.portal.cluster.sample.jar");
 
 		Pause(locator1 = "10000");
 
-		AssertConsoleTextPresent(value1 = "STARTED com.liferay.cluster.test.module_");
+		AssertConsoleTextPresent(value1 = "STARTED com.liferay.portal.cluster.sample_");
 
 		GogoShell.openGogoShellAdmin();
 
@@ -95,13 +95,13 @@ definition {
 		var testBaseDirName = PropsUtil.get("test.base.dir.name");
 		var testDependenciesDirName = PropsUtil.get("test.dependencies.dir.name");
 
-		ArchiveUtil.archive("${testBaseDirName}tests/coreinfrastructureee/clustering/clusteringframework/${testDependenciesDirName}/com.liferay.cluster.test.module.jar", "${deployDir}/com.liferay.cluster.test.module.jar");
+		ArchiveUtil.archive("${testBaseDirName}tests/coreinfrastructureee/clustering/clusteringframework/${testDependenciesDirName}/com.liferay.portal.cluster.sample.jar", "${deployDir}/com.liferay.portal.cluster.sample.jar");
 
 		Pause(locator1 = "10000");
 
 		GogoShell.openGogoShellAdmin();
 
-		AssertConsoleTextNotPresent(value1 = "STARTED com.liferay.cluster.test.module_");
+		AssertConsoleTextNotPresent(value1 = "STARTED com.liferay.portal.cluster.sample_");
 
 		GogoShell.executeCommand(commandName = "lb | grep 'Test Module'");
 
@@ -134,11 +134,11 @@ definition {
 
 		FileInstall.deployFileOnServer(
 			filePath = "coreinfrastructureee/clustering/clusteringframework",
-			liferayDependencyJars = "com.liferay.cluster.test.module.jar");
+			liferayDependencyJars = "com.liferay.portal.cluster.sample");
 
 		GogoShell.openGogoShellAdmin();
 
-		AssertConsoleTextPresent(value1 = "STARTED com.liferay.cluster.test.module_");
+		AssertConsoleTextPresent(value1 = "STARTED com.liferay.portal.cluster.sample_");
 
 		GogoShell.executeCommand(commandName = "lb | grep 'Test Module'");
 
@@ -148,13 +148,13 @@ definition {
 
 		Portlet.shutdownServer();
 
-		FileInstall.deleteJarOffline(liferayDependencyJars = "com.liferay.cluster.test.module.jar");
+		FileInstall.deleteJarOffline(liferayDependencyJars = "com.liferay.portal.cluster.sample.jar");
 
 		Portlet.startServer(keepOSGiState = "true");
 
 		GogoShell.openGogoShellAdmin();
 
-		AssertConsoleTextNotPresent(value1 = "STARTED com.liferay.cluster.test.module_");
+		AssertConsoleTextNotPresent(value1 = "STARTED com.liferay.portal.cluster.sample_");
 
 		GogoShell.executeCommand(commandName = "lb | grep 'Test Module'");
 
