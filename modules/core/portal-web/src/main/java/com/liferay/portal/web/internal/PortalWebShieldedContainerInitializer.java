@@ -62,16 +62,14 @@ public class PortalWebShieldedContainerInitializer
 	public void initialize(ServletContext servletContext)
 		throws ServletException {
 
-		if (PropsValues.PORTLET_SESSION_REPLICATE_ENABLED) {
-			FilterRegistration.Dynamic dynamic = servletContext.addFilter(
-				SessionReplicationFilter.class.getName(),
-				new SessionReplicationFilter());
+		FilterRegistration.Dynamic dynamic = servletContext.addFilter(
+			SessionReplicationFilter.class.getName(),
+			new SessionReplicationFilter());
 
-			dynamic.setAsyncSupported(true);
+		dynamic.setAsyncSupported(true);
 
-			dynamic.addMappingForUrlPatterns(
-				EnumSet.of(DispatcherType.REQUEST), false, "/*");
-		}
+		dynamic.addMappingForUrlPatterns(
+			EnumSet.of(DispatcherType.REQUEST), false, "/*");
 
 		DocumentBuilderFactory documentBuilderFactory =
 			DocumentBuilderFactory.newInstance();
