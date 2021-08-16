@@ -62,13 +62,13 @@ public class PortalWebShieldedContainerInitializer
 	public void initialize(ServletContext servletContext)
 		throws ServletException {
 
-		FilterRegistration.Dynamic dynamic = servletContext.addFilter(
+		FilterRegistration.Dynamic dynamic1 = servletContext.addFilter(
 			SessionReplicationFilter.class.getName(),
 			new SessionReplicationFilter());
 
-		dynamic.setAsyncSupported(true);
+		dynamic1.setAsyncSupported(true);
 
-		dynamic.addMappingForUrlPatterns(
+		dynamic1.addMappingForUrlPatterns(
 			EnumSet.of(DispatcherType.REQUEST), false, "/*");
 
 		DocumentBuilderFactory documentBuilderFactory =
