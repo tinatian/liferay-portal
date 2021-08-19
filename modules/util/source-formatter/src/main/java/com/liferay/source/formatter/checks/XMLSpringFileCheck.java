@@ -74,13 +74,17 @@ public class XMLSpringFileCheck extends BaseFileCheck {
 
 		checkElementOrder(
 			fileName, rootElement, "bean", null,
-			new SpringBeanElementComparator("id"));
+			new SpringBeanElementComparator(fileName, "id"));
 	}
 
 	private class SpringBeanElementComparator extends ElementComparator {
 
-		public SpringBeanElementComparator(String nameAttribute) {
+		public SpringBeanElementComparator(
+			String fileName, String nameAttribute) {
+
 			super(nameAttribute);
+
+			_fileName = fileName;
 		}
 
 		@Override
@@ -92,15 +96,30 @@ public class XMLSpringFileCheck extends BaseFileCheck {
 				return 0;
 			}
 
-			int startsWithWeight = StringUtil.startsWithWeight(
-				elementName1, elementName2);
+			String startKey = null;
 
-			if (startsWithWeight != 0) {
-				String startKey = elementName1.substring(0, startsWithWeight);
+			if (_fileName.endsWith("portal-spring.xml")) {
+				String strippedElementName1 = StringUtil.replaceFirst(
+					elementName1, new String[] {".kernel.", ".portlet."},
+					new String[] {".", "."});
+				String strippedElementName2 = StringUtil.replaceFirst(
+					elementName2, new String[] {".kernel.", ".portlet."},
+					new String[] {".", "."});
 
-				if (startKey.contains(".service.")) {
-					return _compareServiceElements(elementName1, elementName2);
-				}
+				int startsWithWeight = StringUtil.startsWithWeight(
+					strippedElementName1, strippedElementName2);
+
+				startKey = strippedElementName1.substring(0, startsWithWeight);
+			}
+			else {
+				int startsWithWeight = StringUtil.startsWithWeight(
+					elementName1, elementName2);
+
+				startKey = elementName1.substring(0, startsWithWeight);
+			}
+
+			if (startKey.contains(".service.")) {
+				return _compareServiceElements(elementName1, elementName2);
 			}
 
 			if ((StringUtil.count(elementName1, StringPool.PERIOD) > 1) &&
@@ -142,6 +161,8 @@ public class XMLSpringFileCheck extends BaseFileCheck {
 
 			return springBeanServiceElemen1.compareTo(springBeanServiceElemen2);
 		}
+
+		private final String _fileName;
 
 		private class SpringBeanServiceElement
 			implements Comparable<SpringBeanServiceElement> {
