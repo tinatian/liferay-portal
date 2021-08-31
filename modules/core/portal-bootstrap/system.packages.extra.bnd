@@ -102,6 +102,7 @@ Export-Package:\
 	\
 	com.liferay.ibm.icu.*;version='4.0.1',\
 	\
+	com.adobe.xmp.xmpcore.*;version='6.0.6',\
 	com.sun.security.auth.module,\
 	com.sun.syndication;version='1.0',\
 	com.sun.syndication.feed;version='1.0',\
@@ -377,6 +378,7 @@ Provide-Capability:\
 	@../../../lib/portal/xercesImpl.jar,\
 	@../../../lib/portal/xml-apis.jar,\
 	@../../../lib/portal/xmlsec.jar,\
+	@../../../lib/portal/xmpcore.jar,\
 	@../../../lib/portal/xstream.jar,\
 	@../../../portal-impl/portal-impl.jar,\
 	@../../../portal-kernel/portal-kernel.jar,\
