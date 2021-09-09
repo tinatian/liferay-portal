@@ -16,6 +16,7 @@ package com.liferay.portal.file.install.internal;
 
 import com.liferay.osgi.service.tracker.collections.list.ServiceTrackerList;
 import com.liferay.osgi.service.tracker.collections.list.ServiceTrackerListFactory;
+import com.liferay.osgi.util.bundle.BundleStartLevelUtil;
 import com.liferay.petra.concurrent.DefaultNoticeableFuture;
 import com.liferay.petra.reflect.ReflectionUtil;
 import com.liferay.petra.string.CharPool;
@@ -65,7 +66,6 @@ import org.osgi.framework.FrameworkEvent;
 import org.osgi.framework.ServiceReference;
 import org.osgi.framework.Version;
 import org.osgi.framework.VersionRange;
-import org.osgi.framework.startlevel.BundleStartLevel;
 import org.osgi.framework.startlevel.FrameworkStartLevel;
 import org.osgi.framework.wiring.BundleRevision;
 import org.osgi.framework.wiring.FrameworkWiring;
@@ -827,14 +827,13 @@ public class DirectoryWatcher extends Thread implements BundleListener {
 
 			String header = headers.get("Web-ContextPath");
 
-			BundleStartLevel bundleStartLevel = bundle.adapt(
-				BundleStartLevel.class);
-
 			if (header != null) {
-				bundleStartLevel.setStartLevel(_webStartLevel);
+				BundleStartLevelUtil.setStartLevelAndStart(
+					bundle, _webStartLevel, _bundleContext);
 			}
 			else if (_startLevel != 0) {
-				bundleStartLevel.setStartLevel(_startLevel);
+				BundleStartLevelUtil.setStartLevelAndStart(
+					bundle, _startLevel, _bundleContext);
 			}
 
 			if (!_isFragment(bundle)) {
