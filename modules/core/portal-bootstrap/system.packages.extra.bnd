@@ -98,6 +98,11 @@ Export-Package:\
 	\
 	!unicode-license.txt,\
 	\
+	com.adobe.internal.xmp;version='6.0.6',\
+	com.adobe.internal.xmp.impl;version='6.0.6',\
+	com.adobe.internal.xmp.options;version='6.0.6',\
+	com.adobe.internal.xmp.properties;version='6.0.6',\
+	\
 	com.ibm.crypto.provider,\
 	\
 	com.liferay.ibm.icu.*;version='4.0.1',\
@@ -377,6 +382,7 @@ Provide-Capability:\
 	@../../../lib/portal/xercesImpl.jar,\
 	@../../../lib/portal/xml-apis.jar,\
 	@../../../lib/portal/xmlsec.jar,\
+	@../../../lib/portal/xmpcore.jar,\
 	@../../../lib/portal/xstream.jar,\
 	@../../../portal-impl/portal-impl.jar,\
 	@../../../portal-kernel/portal-kernel.jar,\
