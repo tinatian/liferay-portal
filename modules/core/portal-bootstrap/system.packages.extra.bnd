@@ -225,6 +225,7 @@ Export-Package:\
 	org.apache.commons.logging;version="1.2",\
 	org.apache.commons.logging.impl;version="1.2",\
 	org.apache.commons.validator.routines;version='1.5.1',\
+	org.apache.http.entity.mime;version='4.5.13',\
 	org.apache.log4j;version='2.14.1',\
 	org.apache.log4j.spi;version='2.14.1',\
 	org.apache.logging.log4j;version='2.14.1',\
@@ -340,6 +341,7 @@ Provide-Capability:\
 	@../../../lib/portal/commons-logging.jar,\
 	@../../../lib/portal/dom4j.jar,\
 	@../../../lib/portal/hibernate-core.jar,\
+	@../../../lib/portal/httpmime.jar,\
 	@../../../lib/portal/jaxen.jar,\
 	@../../../lib/portal/jaxrpc.jar,\
 	@../../../lib/portal/jdom.jar!/org/**,\
