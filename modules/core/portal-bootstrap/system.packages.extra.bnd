@@ -178,6 +178,8 @@ Export-Package:\
 	\
 	jodd.util.*;version='6.0.1',\
 	\
+	net.htmlparser.jericho;version='3.1',\
+	\
 	org.apache.bcel.*;version='2.7.1',\
 	org.apache.commons.beanutils;version='1.9.4',\
 	org.apache.commons.beanutils.converters;version='1.9.4',\
@@ -343,6 +345,7 @@ Provide-Capability:\
 	@../../../lib/portal/jaxen.jar,\
 	@../../../lib/portal/jaxrpc.jar,\
 	@../../../lib/portal/jdom.jar!/org/**,\
+	@../../../lib/portal/jericho-html.jar,\
 	@../../../lib/portal/jodd-json.jar,\
 	@../../../lib/portal/jodd-proxetta.jar,\
 	@../../../lib/portal/jodd-util.jar,\
