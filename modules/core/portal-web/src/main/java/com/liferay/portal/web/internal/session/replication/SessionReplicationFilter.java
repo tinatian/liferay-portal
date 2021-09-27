@@ -67,7 +67,8 @@ public class SessionReplicationFilter implements Filter {
 						httpServletRequest);
 
 				if (lastHttpServletRequestWrapper == null) {
-					servletRequest = sessionReplicationHttpServletRequest;
+					servletRequest = new HttpServletRequestWrapper(
+						sessionReplicationHttpServletRequest);
 				}
 				else {
 					lastHttpServletRequestWrapper.setRequest(
