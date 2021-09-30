@@ -42,7 +42,10 @@ public class SessionReplicationHttpServletRequest
 
 		httpSession = new SessionReplicationHttpSessionWrapper(httpSession);
 
-		ServletContext servletContext = _httpServletRequest.getServletContext();
+		HttpServletRequest httpServletRequest =
+			(HttpServletRequest)getRequest();
+
+		ServletContext servletContext = httpServletRequest.getServletContext();
 
 		servletContext.setAttribute(httpSession.getId(), httpSession);
 
