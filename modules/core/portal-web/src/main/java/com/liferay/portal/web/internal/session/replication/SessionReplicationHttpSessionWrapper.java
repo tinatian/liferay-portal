@@ -164,7 +164,7 @@ public class SessionReplicationHttpSessionWrapper extends HttpSessionWrapper {
 			}
 		};
 
-	private final Map<String, TransientValue<?>> _transientValues =
+	private final transient Map<String, TransientValue<?>> _transientValues =
 		new ConcurrentHashMap<>();
 
 }
