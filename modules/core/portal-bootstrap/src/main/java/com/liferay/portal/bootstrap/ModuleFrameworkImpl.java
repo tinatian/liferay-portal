@@ -14,7 +14,6 @@
 
 package com.liferay.portal.bootstrap;
 
-import com.liferay.petra.io.BigEndianCodec;
 import com.liferay.petra.reflect.ReflectionUtil;
 import com.liferay.petra.string.CharPool;
 import com.liferay.petra.string.StringBundler;
@@ -40,11 +39,8 @@ import com.liferay.portal.module.framework.ModuleFramework;
 import com.liferay.portal.util.PropsValues;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -96,12 +92,10 @@ import java.util.zip.ZipFile;
 
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.BundleEvent;
 import org.osgi.framework.BundleException;
 import org.osgi.framework.Constants;
 import org.osgi.framework.FrameworkEvent;
 import org.osgi.framework.ServiceRegistration;
-import org.osgi.framework.SynchronousBundleListener;
 import org.osgi.framework.Version;
 import org.osgi.framework.launch.Framework;
 import org.osgi.framework.launch.FrameworkFactory;
@@ -246,9 +240,9 @@ public class ModuleFrameworkImpl implements ModuleFramework {
 
 		_setUpPrerequisiteFrameworkService(_framework.getBundleContext());
 
-		Bundle fileInstallBundle = _setUpInitialBundles();
+		_setUpInitialBundles();
 
-		_startDynamicBundles(fileInstallBundle);
+		_startDynamicBundles();
 
 		if (_log.isInfoEnabled()) {
 			_log.info(
@@ -719,25 +713,6 @@ public class ModuleFrameworkImpl implements ModuleFramework {
 			StringUtil.merge(PropsValues.MODULE_FRAMEWORK_AUTO_DEPLOY_DIRS);
 	}
 
-	private String _getFragmentHost(Bundle bundle) {
-		Dictionary<String, String> dictionary = bundle.getHeaders(
-			StringPool.BLANK);
-
-		String fragmentHost = dictionary.get(Constants.FRAGMENT_HOST);
-
-		if (fragmentHost == null) {
-			return null;
-		}
-
-		int index = fragmentHost.indexOf(CharPool.SEMICOLON);
-
-		if (index != -1) {
-			fragmentHost = fragmentHost.substring(0, index);
-		}
-
-		return fragmentHost;
-	}
-
 	private String _getLPKGLocation(File lpkgFile) {
 		String uriString = String.valueOf(lpkgFile.toURI());
 
@@ -862,78 +837,6 @@ public class ModuleFrameworkImpl implements ModuleFramework {
 			PropsValues.MODULE_FRAMEWORK_MARKETPLACE_DIR + "/override");
 	}
 
-	private void _installBundlesFromDir(
-			String dirPath, Map<String, Long> checksums,
-			Set<String> fragmentHosts)
-		throws Exception {
-
-		BundleContext bundleContext = _framework.getBundleContext();
-
-		File dir = new File(dirPath);
-
-		dir = dir.getCanonicalFile();
-
-		for (File file :
-				dir.listFiles((folder, name) -> name.endsWith(".jar"))) {
-
-			URI uri = file.toURI();
-
-			uri = uri.normalize();
-
-			String location = uri.toString();
-
-			if (bundleContext.getBundle(location) != null) {
-				continue;
-			}
-
-			try (InputStream inputStream = new FileInputStream(file)) {
-				Bundle bundle = bundleContext.installBundle(
-					location, inputStream);
-
-				checksums.put(
-					bundle.getBundleId() + _CHECKSUM_SUFFIX,
-					_calculateChecksum(file));
-
-				if ((bundle.getState() != Bundle.INSTALLED) &&
-					(bundle.getState() != Bundle.RESOLVED)) {
-
-					// Defense for bundle blacklist auto uninstall
-
-					continue;
-				}
-
-				BundleStartLevel bundleStartLevel = bundle.adapt(
-					BundleStartLevel.class);
-
-				Dictionary<String, String> headers = bundle.getHeaders(
-					StringPool.BLANK);
-
-				String header = headers.get("Web-ContextPath");
-
-				if (header == null) {
-					bundleStartLevel.setStartLevel(
-						PropsValues.
-							MODULE_FRAMEWORK_DYNAMIC_INSTALL_START_LEVEL);
-				}
-				else {
-					bundleStartLevel.setStartLevel(
-						PropsValues.MODULE_FRAMEWORK_WEB_START_LEVEL);
-				}
-
-				if (_isFragmentBundle(bundle)) {
-					fragmentHosts.add(_getFragmentHost(bundle));
-				}
-				else {
-					bundle.start();
-				}
-			}
-			catch (BundleException bundleException) {
-				_log.error(
-					"Unable to install bundle at " + location, bundleException);
-			}
-		}
-	}
-
 	private void _installConfigs(ClassLoader classLoader) throws Exception {
 		BundleContext bundleContext = _framework.getBundleContext();
 
@@ -985,37 +888,6 @@ public class ModuleFrameworkImpl implements ModuleFramework {
 				}
 			}
 		}
-	}
-
-	private Map<String, Long> _installDynamicBundles() throws Exception {
-		Map<String, Long> checksums = new HashMap<>();
-
-		Set<String> fragmentHosts = new HashSet<>();
-
-		_installBundlesFromDir(
-			PropsValues.MODULE_FRAMEWORK_PORTAL_DIR, checksums, fragmentHosts);
-		_installBundlesFromDir(
-			PropsValues.MODULE_FRAMEWORK_MODULES_DIR, checksums, fragmentHosts);
-
-		if (!fragmentHosts.isEmpty()) {
-			List<Bundle> refreshBundles = new ArrayList<>();
-
-			BundleContext bundleContext = _framework.getBundleContext();
-
-			for (Bundle bundle : bundleContext.getBundles()) {
-				if (fragmentHosts.remove(bundle.getSymbolicName())) {
-					refreshBundles.add(bundle);
-
-					if (fragmentHosts.isEmpty()) {
-						break;
-					}
-				}
-			}
-
-			_refreshBundles(refreshBundles);
-		}
-
-		return checksums;
 	}
 
 	private Bundle _installInitialBundle(
@@ -1221,23 +1093,6 @@ public class ModuleFrameworkImpl implements ModuleFramework {
 			configurableApplicationContext, serviceRegistrations);
 	}
 
-	private void _registerDynamicBundles(
-			Map<String, Long> checksums, BundleContext bundleContext)
-		throws Exception {
-
-		byte[] data = new byte[8];
-
-		for (Map.Entry<String, Long> entry : checksums.entrySet()) {
-			File file = bundleContext.getDataFile(entry.getKey());
-
-			try (OutputStream outputStream = new FileOutputStream(file)) {
-				BigEndianCodec.putLong(data, 0, entry.getValue());
-
-				outputStream.write(data);
-			}
-		}
-	}
-
 	private ServiceRegistration<?> _registerService(
 		BundleContext bundleContext, String beanName, Object bean) {
 
@@ -1267,7 +1122,7 @@ public class ModuleFrameworkImpl implements ModuleFramework {
 		return serviceRegistration;
 	}
 
-	private Bundle _setUpInitialBundles() throws Exception {
+	private void _setUpInitialBundles() throws Exception {
 		if (_log.isInfoEnabled()) {
 			_log.info("Starting initial bundles");
 		}
@@ -1514,9 +1369,7 @@ public class ModuleFrameworkImpl implements ModuleFramework {
 			List<Future<Void>> futures = new ArrayList<>(bundles.size());
 
 			for (Bundle bundle : bundles) {
-				if (!_isFragmentBundle(bundle) &&
-					(bundle != fileInstallBundle)) {
-
+				if (!_isFragmentBundle(bundle)) {
 					futures.add(
 						executorService.submit(
 							() -> {
@@ -1543,9 +1396,7 @@ public class ModuleFrameworkImpl implements ModuleFramework {
 		}
 		else {
 			for (Bundle bundle : bundles) {
-				if (!_isFragmentBundle(bundle) &&
-					(bundle != fileInstallBundle)) {
-
+				if (!_isFragmentBundle(bundle)) {
 					bundle.start();
 				}
 			}
@@ -1568,8 +1419,6 @@ public class ModuleFrameworkImpl implements ModuleFramework {
 		if (_log.isInfoEnabled()) {
 			_log.info("Started initial bundles");
 		}
-
-		return fileInstallBundle;
 	}
 
 	private void _setUpPrerequisiteFrameworkService(
@@ -1611,14 +1460,10 @@ public class ModuleFrameworkImpl implements ModuleFramework {
 		}
 	}
 
-	private void _startDynamicBundles(Bundle fileInstallBundle)
-		throws Exception {
-
+	private void _startDynamicBundles() throws Exception {
 		if (_log.isInfoEnabled()) {
 			_log.info("Starting dynamic bundles");
 		}
-
-		Map<String, Long> dynamicBundleChecksums = _installDynamicBundles();
 
 		FrameworkStartLevel frameworkStartLevel = _framework.adapt(
 			FrameworkStartLevel.class);
@@ -1656,45 +1501,6 @@ public class ModuleFrameworkImpl implements ModuleFramework {
 
 		if (webFrameworkEvent.getType() == FrameworkEvent.ERROR) {
 			ReflectionUtil.throwException(webFrameworkEvent.getThrowable());
-		}
-
-		if (dynamicBundleChecksums.isEmpty()) {
-			fileInstallBundle.start();
-		}
-		else {
-			SynchronousBundleListener synchronousBundleListener = event -> {
-				if (event.getType() != BundleEvent.STARTING) {
-					return;
-				}
-
-				Bundle currentBundle = event.getBundle();
-
-				if (currentBundle != fileInstallBundle) {
-					return;
-				}
-
-				try {
-					_registerDynamicBundles(
-						dynamicBundleChecksums,
-						currentBundle.getBundleContext());
-				}
-				catch (Exception exception) {
-					_log.error(
-						"Unable to register dynamic bundle checksums",
-						exception);
-				}
-			};
-
-			BundleContext bundleContext = _framework.getBundleContext();
-
-			bundleContext.addBundleListener(synchronousBundleListener);
-
-			try {
-				fileInstallBundle.start();
-			}
-			finally {
-				bundleContext.removeBundleListener(synchronousBundleListener);
-			}
 		}
 
 		if (_log.isInfoEnabled()) {
@@ -1753,8 +1559,6 @@ public class ModuleFrameworkImpl implements ModuleFramework {
 					equinoxBaseDir, "\""));
 		}
 	}
-
-	private static final String _CHECKSUM_SUFFIX = ".checksum";
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		ModuleFrameworkImpl.class);

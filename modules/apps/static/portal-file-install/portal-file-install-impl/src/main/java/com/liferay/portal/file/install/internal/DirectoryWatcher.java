@@ -16,6 +16,7 @@ package com.liferay.portal.file.install.internal;
 
 import com.liferay.osgi.service.tracker.collections.list.ServiceTrackerList;
 import com.liferay.osgi.service.tracker.collections.list.ServiceTrackerListFactory;
+import com.liferay.osgi.util.bundle.BundleStartLevelUtil;
 import com.liferay.petra.concurrent.DefaultNoticeableFuture;
 import com.liferay.petra.reflect.ReflectionUtil;
 import com.liferay.petra.string.CharPool;
@@ -65,7 +66,6 @@ import org.osgi.framework.FrameworkEvent;
 import org.osgi.framework.ServiceReference;
 import org.osgi.framework.Version;
 import org.osgi.framework.VersionRange;
-import org.osgi.framework.startlevel.BundleStartLevel;
 import org.osgi.framework.startlevel.FrameworkStartLevel;
 import org.osgi.framework.wiring.BundleRevision;
 import org.osgi.framework.wiring.FrameworkWiring;
@@ -827,14 +827,17 @@ public class DirectoryWatcher extends Thread implements BundleListener {
 
 			String header = headers.get("Web-ContextPath");
 
-			BundleStartLevel bundleStartLevel = bundle.adapt(
-				BundleStartLevel.class);
-
 			if (header != null) {
-				bundleStartLevel.setStartLevel(_webStartLevel);
+				BundleStartLevelUtil.setStartLevelAndStart(
+					bundle, _webStartLevel, _bundleContext);
 			}
 			else if (_startLevel != 0) {
-				bundleStartLevel.setStartLevel(_startLevel);
+				BundleStartLevelUtil.setStartLevelAndStart(
+					bundle, _startLevel, _bundleContext);
+			}
+
+			if (!_isFragment(bundle)) {
+				bundle.start();
 			}
 
 			return bundle;
@@ -852,10 +855,6 @@ public class DirectoryWatcher extends Thread implements BundleListener {
 		}
 
 		return false;
-	}
-
-	private boolean _isStateChanged() {
-		return _stateChanged.get();
 	}
 
 	private List<String> _parseDelimitedString(String value, char delimiter) {
@@ -1020,30 +1019,6 @@ public class DirectoryWatcher extends Thread implements BundleListener {
 				_setStateChanged(true);
 			}
 		}
-
-		if (_startBundles) {
-			FrameworkStartLevel frameworkStartLevel = _systemBundle.adapt(
-				FrameworkStartLevel.class);
-
-			int startLevel = frameworkStartLevel.getStartLevel();
-
-			if (_isStateChanged() || (startLevel != _frameworkStartLevel)) {
-				_frameworkStartLevel = startLevel;
-
-				_startAllBundles();
-
-				_delayedStart.addAll(installedBundles);
-				_delayedStart.removeAll(uninstalledBundles);
-
-				_startBundles(_delayedStart);
-
-				_consistentlyFailingBundles.clear();
-
-				_consistentlyFailingBundles.addAll(_delayedStart);
-
-				_setStateChanged(false);
-			}
-		}
 	}
 
 	private void _refresh(Collection<Bundle> bundles)
@@ -1085,98 +1060,6 @@ public class DirectoryWatcher extends Thread implements BundleListener {
 
 	private void _setStateChanged(boolean changed) {
 		_stateChanged.set(changed);
-	}
-
-	private void _startAllBundles() {
-		FrameworkStartLevel frameworkStartLevel = _systemBundle.adapt(
-			FrameworkStartLevel.class);
-
-		Set<Bundle> bundles = new LinkedHashSet<>();
-
-		for (Artifact artifact : _getArtifacts()) {
-			long bundleId = artifact.getBundleId();
-
-			if (bundleId > 0) {
-				Bundle bundle = _bundleContext.getBundle(bundleId);
-
-				if (bundle != null) {
-					int state = bundle.getState();
-
-					BundleStartLevel bundleStartLevel = bundle.adapt(
-						BundleStartLevel.class);
-
-					if ((state != Bundle.STARTING) &&
-						(state != Bundle.ACTIVE) &&
-						(_useStartTransient ||
-						 bundleStartLevel.isPersistentlyStarted()) &&
-						(frameworkStartLevel.getStartLevel() >=
-							bundleStartLevel.getStartLevel())) {
-
-						bundles.add(bundle);
-					}
-				}
-			}
-		}
-
-		_startBundles(bundles);
-	}
-
-	private boolean _startBundle(Bundle bundle, boolean logFailures) {
-		BundleStartLevel bundleStartLevel = bundle.adapt(
-			BundleStartLevel.class);
-
-		if (_startBundles && (bundle.getState() != Bundle.UNINSTALLED) &&
-			!_isFragment(bundle) &&
-			(_frameworkStartLevel >= bundleStartLevel.getStartLevel())) {
-
-			try {
-				int options = 0;
-
-				if (_useStartTransient) {
-					options = Bundle.START_TRANSIENT;
-				}
-
-				if (_useStartActivationPolicy) {
-					options |= Bundle.START_ACTIVATION_POLICY;
-				}
-
-				bundle.start(options);
-
-				if (_log.isInfoEnabled()) {
-					_log.info("Started bundle: " + bundle.getLocation());
-				}
-
-				return true;
-			}
-			catch (IllegalStateException illegalStateException) {
-				if (bundle.getState() == Bundle.UNINSTALLED) {
-					return true;
-				}
-
-				throw illegalStateException;
-			}
-			catch (BundleException bundleException) {
-				if (logFailures) {
-					_log.error(
-						"Unable to start bundle: " + bundle.getLocation(),
-						bundleException);
-				}
-			}
-		}
-
-		return false;
-	}
-
-	private void _startBundles(Set<Bundle> bundles) {
-		Iterator<Bundle> iterator = bundles.iterator();
-
-		while (iterator.hasNext()) {
-			Bundle bundle = iterator.next();
-
-			if (_startBundle(bundle, true)) {
-				iterator.remove();
-			}
-		}
 	}
 
 	private boolean _startWith(String path, List<String> dirPaths) {
@@ -1345,14 +1228,11 @@ public class DirectoryWatcher extends Thread implements BundleListener {
 
 	private final int _activeLevel;
 	private final BundleContext _bundleContext;
-	private final Set<Bundle> _consistentlyFailingBundles = new HashSet<>();
 	private final Map<File, Artifact> _currentManagedArtifacts =
 		new HashMap<>();
-	private final Set<Bundle> _delayedStart = new HashSet<>();
 	private final ServiceTrackerList<FileInstaller, FileInstaller>
 		_fileInstallers;
 	private final String _filter;
-	private int _frameworkStartLevel;
 	private final Map<File, Artifact> _installationFailures = new HashMap<>();
 	private final boolean _noInitialDelay;
 	private final long _poll;

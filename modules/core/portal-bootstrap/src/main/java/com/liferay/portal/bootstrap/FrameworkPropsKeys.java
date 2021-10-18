@@ -33,7 +33,7 @@ public interface FrameworkPropsKeys {
 	public static final String FILE_INSTALL_TMPDIR = "file.install.tmpdir";
 
 	public static final String FILE_INSTALL_WEB_START_LEVEL =
-		"file.install.start.level";
+		"file.install.web.start.level";
 
 	public static final String OSGI_FRAMEWORK = "osgi.framework";
 

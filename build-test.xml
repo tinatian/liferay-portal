@@ -1747,6 +1747,12 @@ war.path=${app.server.portal.dir}/</echo>
 		</sequential>
 	</macrodef>
 
+	<target name="testTest">
+		<execute failonerror="false">
+			(sleep 2;echo "lb";sleep 2)|telnet localhost 11311
+		</execute>
+	</target>
+
 	<macrodef name="prepare-additional-bundles">
 		<sequential>
 			<if>
@@ -5860,6 +5866,8 @@ war.path=${app.server.portal.dir}/</echo>
 						<param name="process.name" value="Bootstrap" />
 					</antcall>
 
+					<antcall target="testTest" />
+
 					<stop-app-server app.server.bundle.index="@{app.server.bundle.index}" />
 
 					<fail if="app.server.waiting.timeout" message="No server is available at ${app.server.waiting.url}" />
@@ -5978,6 +5986,8 @@ war.path=${app.server.portal.dir}/</echo>
 							<antcall target="print-jstack-logs">
 								<param name="process.name" value="Bootstrap" />
 							</antcall>
+
+							<antcall target="testTest" />
 
 							<fail message="${wait.for.app.server.log.timed.out.message}" />
 						</then>

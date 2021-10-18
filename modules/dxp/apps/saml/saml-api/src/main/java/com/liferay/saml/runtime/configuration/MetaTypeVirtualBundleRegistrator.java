@@ -15,6 +15,7 @@
 package com.liferay.saml.runtime.configuration;
 
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.util.PropsValues;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -31,6 +32,7 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleException;
 import org.osgi.framework.ServiceRegistration;
+import org.osgi.framework.startlevel.BundleStartLevel;
 import org.osgi.service.metatype.MetaTypeProvider;
 
 /**
@@ -94,6 +96,12 @@ public class MetaTypeVirtualBundleRegistrator implements Closeable {
 		_bundle = _bundleContext.installBundle(
 			"virtualmetatypeprovider",
 			new ByteArrayInputStream(byteArrayOutputStream.toByteArray()));
+
+		BundleStartLevel bundleStartLevel = _bundle.adapt(
+			BundleStartLevel.class);
+
+		bundleStartLevel.setStartLevel(
+			PropsValues.MODULE_FRAMEWORK_DYNAMIC_INSTALL_START_LEVEL);
 
 		_bundle.start();
 
