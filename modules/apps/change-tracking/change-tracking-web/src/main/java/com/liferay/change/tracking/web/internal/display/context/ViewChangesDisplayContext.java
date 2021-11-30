@@ -18,9 +18,11 @@ import com.liferay.change.tracking.closure.CTClosure;
 import com.liferay.change.tracking.closure.CTClosureFactory;
 import com.liferay.change.tracking.constants.CTActionKeys;
 import com.liferay.change.tracking.constants.CTConstants;
+import com.liferay.change.tracking.mapping.CTMappingTableInfo;
 import com.liferay.change.tracking.model.CTCollection;
 import com.liferay.change.tracking.model.CTEntry;
 import com.liferay.change.tracking.model.CTEntryTable;
+import com.liferay.change.tracking.service.CTCollectionLocalService;
 import com.liferay.change.tracking.service.CTEntryLocalService;
 import com.liferay.change.tracking.service.CTSchemaVersionLocalService;
 import com.liferay.change.tracking.spi.display.CTDisplayRenderer;
@@ -104,6 +106,7 @@ public class ViewChangesDisplayContext {
 		long activeCTCollectionId,
 		BasePersistenceRegistry basePersistenceRegistry,
 		CTClosureFactory ctClosureFactory, CTCollection ctCollection,
+		CTCollectionLocalService ctCollectionLocalService,
 		CTConfiguration ctConfiguration,
 		CTDisplayRendererRegistry ctDisplayRendererRegistry,
 		CTEntryLocalService ctEntryLocalService,
@@ -117,6 +120,7 @@ public class ViewChangesDisplayContext {
 		_basePersistenceRegistry = basePersistenceRegistry;
 		_ctClosureFactory = ctClosureFactory;
 		_ctCollection = ctCollection;
+		_ctCollectionLocalService = ctCollectionLocalService;
 		_ctConfiguration = ctConfiguration;
 		_ctDisplayRendererRegistry = ctDisplayRendererRegistry;
 		_ctEntryLocalService = ctEntryLocalService;
@@ -439,6 +443,55 @@ public class ViewChangesDisplayContext {
 			}
 		).put(
 			"keywordsFromURL", ParamUtil.getString(_renderRequest, "keywords")
+		).put(
+			"mappingInfos",
+			() -> {
+				JSONArray mappingInfosJSONArray =
+					JSONFactoryUtil.createJSONArray();
+
+				List<CTMappingTableInfo> mappingTableInfos =
+					_ctCollectionLocalService.getCTMappingTableInfos(
+						_ctCollection.getCtCollectionId());
+
+				for (CTMappingTableInfo mappingTableInfo : mappingTableInfos) {
+					JSONObject addedMappingsJSONObject =
+						JSONFactoryUtil.createJSONObject();
+
+					for (Map.Entry<Long, Long> entry :
+							mappingTableInfo.getAddedMappings()) {
+
+						addedMappingsJSONObject.put(
+							String.valueOf(entry.getKey()), entry.getValue());
+					}
+
+					JSONObject removedMappingsJSONObject =
+						JSONFactoryUtil.createJSONObject();
+
+					for (Map.Entry<Long, Long> entry :
+							mappingTableInfo.getRemovedMappings()) {
+
+						removedMappingsJSONObject.put(
+							String.valueOf(entry.getKey()), entry.getValue());
+					}
+
+					mappingInfosJSONArray.put(
+						JSONUtil.put(
+							"addedMappings", addedMappingsJSONObject
+						).put(
+							"leftColumnName",
+							mappingTableInfo.getLeftColumnName()
+						).put(
+							"removedMappings", removedMappingsJSONObject
+						).put(
+							"rightColumnName",
+							mappingTableInfo.getRightColumnName()
+						).put(
+							"tableName", mappingTableInfo.getTableName()
+						));
+				}
+
+				return mappingInfosJSONArray;
+			}
 		).put(
 			"modelData",
 			() -> {
@@ -1179,6 +1232,7 @@ public class ViewChangesDisplayContext {
 	private final BasePersistenceRegistry _basePersistenceRegistry;
 	private final CTClosureFactory _ctClosureFactory;
 	private final CTCollection _ctCollection;
+	private final CTCollectionLocalService _ctCollectionLocalService;
 	private final CTConfiguration _ctConfiguration;
 	private final CTDisplayRendererRegistry _ctDisplayRendererRegistry;
 	private final CTEntryLocalService _ctEntryLocalService;

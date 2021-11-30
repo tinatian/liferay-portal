@@ -109,6 +109,7 @@ export default function ChangeTrackingChangesView({
 	expired,
 	getCTCommentsURL,
 	keywordsFromURL,
+	mappingInfos,
 	modelData,
 	name,
 	namespace,
