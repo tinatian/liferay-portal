@@ -2205,23 +2205,6 @@ export default function ChangeTrackingChangesView({
 	};
 
 	const renderTable = () => {
-		if (renderState.id > 0) {
-			return '';
-		}
-		else if (!renderState.changes || renderState.changes.length === 0) {
-			return (
-				<div className="sheet taglib-empty-result-message">
-					<div className="taglib-empty-search-result-message-header" />
-
-					<div className="sheet-text text-center">
-						{Liferay.Language.get(
-							'there-are-no-changes-to-display-in-this-view'
-						)}
-					</div>
-				</div>
-			);
-		}
-
 		return (
 			<>
 				<ClayTable
@@ -2232,51 +2215,78 @@ export default function ChangeTrackingChangesView({
 				>
 					<ClayTable.Head>
 						<ClayTable.Row>
-							<ClayTable.Cell headingCell>
-								{getColumnHeader(
-									COLUMN_USER,
-									Liferay.Language.get('user')
-								)}
-							</ClayTable.Cell>
-
-							<ClayTable.Cell headingCell>
-								{getColumnHeader(
-									COLUMN_SITE,
-									Liferay.Language.get('site')
-								)}
-							</ClayTable.Cell>
-
 							<ClayTable.Cell
-								className="table-cell-expand"
-								headingCell
+								className="publications-header-td"
+								colSpan={5}
 							>
-								{getColumnHeader(
-									COLUMN_TITLE,
-									Liferay.Language.get('title')
-								)}
-							</ClayTable.Cell>
-
-							<ClayTable.Cell
-								className="table-cell-expand-smallest"
-								headingCell
-							>
-								{getColumnHeader(
-									COLUMN_CHANGE_TYPE,
-									Liferay.Language.get('change-type')
-								)}
-							</ClayTable.Cell>
-
-							<ClayTable.Cell
-								className="table-cell-expand-smallest"
-								headingCell
-							>
-								{getColumnHeader(
-									COLUMN_MODIFIED_DATE,
-									Liferay.Language.get('last-modified')
-								)}
+								{renderManagementToolbar()}
 							</ClayTable.Cell>
 						</ClayTable.Row>
 					</ClayTable.Head>
+
+					{renderState.changes && renderState.changes.length > 0 ? (
+						<ClayTable.Head>
+							<ClayTable.Row>
+								<ClayTable.Cell headingCell>
+									{getColumnHeader(
+										COLUMN_USER,
+										Liferay.Language.get('user')
+									)}
+								</ClayTable.Cell>
+
+								<ClayTable.Cell headingCell>
+									{getColumnHeader(
+										COLUMN_SITE,
+										Liferay.Language.get('site')
+									)}
+								</ClayTable.Cell>
+
+								<ClayTable.Cell
+									className="table-cell-expand"
+									headingCell
+								>
+									{getColumnHeader(
+										COLUMN_TITLE,
+										Liferay.Language.get('title')
+									)}
+								</ClayTable.Cell>
+
+								<ClayTable.Cell
+									className="table-cell-expand-smallest"
+									headingCell
+								>
+									{getColumnHeader(
+										COLUMN_CHANGE_TYPE,
+										Liferay.Language.get('change-type')
+									)}
+								</ClayTable.Cell>
+
+								<ClayTable.Cell
+									className="table-cell-expand-smallest"
+									headingCell
+								>
+									{getColumnHeader(
+										COLUMN_MODIFIED_DATE,
+										Liferay.Language.get('last-modified')
+									)}
+								</ClayTable.Cell>
+							</ClayTable.Row>
+						</ClayTable.Head>
+					) : (
+						<ClayTable.Row>
+							<ClayTable.Cell>
+								<div className="taglib-empty-result-message">
+									<div className="taglib-empty-search-result-message-header" />
+
+									<div className="sheet-text text-center">
+										{Liferay.Language.get(
+											'there-are-no-changes-to-display-in-this-view'
+										)}
+									</div>
+								</div>
+							</ClayTable.Cell>
+						</ClayTable.Row>
+					)}
 
 					<ClayTable.Body>
 						{getTableRows(filterDisplayNodes(renderState.changes))}
@@ -2599,7 +2609,6 @@ export default function ChangeTrackingChangesView({
 	return (
 		<>
 			{renderPublicationsToolbar()}
-			{renderManagementToolbar()}
 			{renderResultsBar()}
 			<div
 				className={classNames('sidenav-container sidenav-right', {
