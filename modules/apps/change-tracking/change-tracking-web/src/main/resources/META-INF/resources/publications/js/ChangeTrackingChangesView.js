@@ -115,6 +115,7 @@ export default function ChangeTrackingChangesView({
 	modelData,
 	name,
 	namespace,
+	navigationFromURL,
 	orderByTypeFromURL,
 	pageFromURL,
 	publishURL,
@@ -150,8 +151,8 @@ export default function ChangeTrackingChangesView({
 	const MENU_TYPES = 'MENU_TYPES';
 	const MENU_USERS = 'MENU_USERS';
 	const MVC_RENDER_COMMAND_NAME = '/change_tracking/view_changes';
-	const NAVIGATION_DATA = 'NAVIGATION_DATA';
-	const NAVIGATION_RELATIONSHIPS = 'NAVIGATION_RELATIONSHIPS';
+	const NAVIGATION_DATA = 'data';
+	const NAVIGATION_RELATIONSHIPS = 'relationships';
 	const PARAM_CHANGE_TYPES = namespace + 'changeTypes';
 	const PARAM_COLUMN = namespace + 'column';
 	const PARAM_DELTA = namespace + 'delta';
@@ -159,6 +160,7 @@ export default function ChangeTrackingChangesView({
 	const PARAM_ENTRY = namespace + 'entry';
 	const PARAM_KEYWORDS = namespace + 'keywords';
 	const PARAM_MVC_RENDER_COMMAND_NAME = namespace + 'mvcRenderCommandName';
+	const PARAM_NAVIGATION = namespace + 'navigation';
 	const PARAM_ORDER_BY_TYPE = namespace + 'orderByType';
 	const PARAM_PAGE = namespace + 'page';
 	const PARAM_SHOW_HIDEABLE = namespace + 'showHideable';
@@ -224,6 +226,7 @@ export default function ChangeTrackingChangesView({
 	params.delete(PARAM_DELTA);
 	params.delete(PARAM_ENTRY);
 	params.delete(PARAM_KEYWORDS);
+	params.delete(PARAM_NAVIGATION);
 	params.delete(PARAM_ORDER_BY_TYPE);
 	params.delete(PARAM_PAGE);
 	params.delete(PARAM_SHOW_HIDEABLE);
@@ -588,7 +591,10 @@ export default function ChangeTrackingChangesView({
 	const [filterSearchTerms, setFilterSearchTerms] = useState('');
 	const [menu, setMenu] = useState(MENU_ROOT);
 	const [navigationState, setNavigationState] = useState(
-		changes.length > 0 ? NAVIGATION_DATA : NAVIGATION_RELATIONSHIPS
+		(mappingInfos.length > 0 && changes.length === 0) ||
+			navigationFromURL === NAVIGATION_RELATIONSHIPS
+			? NAVIGATION_RELATIONSHIPS
+			: NAVIGATION_DATA
 	);
 	const [resultsKeywords, setResultsKeywords] = useState(keywordsFromURL);
 	const [searchMobile, setSearchMobile] = useState(false);
@@ -781,6 +787,7 @@ export default function ChangeTrackingChangesView({
 			entryParam,
 			filters,
 			keywords,
+			navigation,
 			page,
 			showHideable
 		) => {
@@ -800,6 +807,10 @@ export default function ChangeTrackingChangesView({
 				PARAM_DELTA +
 				'=' +
 				delta.toString() +
+				'&' +
+				PARAM_NAVIGATION +
+				'=' +
+				navigation +
 				'&' +
 				PARAM_ORDER_BY_TYPE +
 				'=' +
@@ -858,6 +869,7 @@ export default function ChangeTrackingChangesView({
 			PARAM_DELTA,
 			PARAM_ENTRY,
 			PARAM_KEYWORDS,
+			PARAM_NAVIGATION,
 			PARAM_ORDER_BY_TYPE,
 			PARAM_PAGE,
 			PARAM_SHOW_HIDEABLE,
@@ -880,6 +892,7 @@ export default function ChangeTrackingChangesView({
 				getEntryParam(node),
 				filtersState,
 				resultsKeywords,
+				navigationState,
 				page,
 				renderState.showHideable
 			);
@@ -915,6 +928,7 @@ export default function ChangeTrackingChangesView({
 			filterNodes,
 			getNode,
 			getPath,
+			navigationState,
 			renderState,
 			resultsKeywords,
 		]
@@ -986,6 +1000,18 @@ export default function ChangeTrackingChangesView({
 				keywords = '';
 			}
 
+			let navigation = params.get(PARAM_NAVIGATION);
+
+			if (
+				(mappingInfos.length > 0 && changes.length === 0) ||
+				navigation === NAVIGATION_RELATIONSHIPS
+			) {
+				navigation = NAVIGATION_RELATIONSHIPS;
+			}
+			else {
+				navigation = NAVIGATION_DATA;
+			}
+
 			let page = params.get(PARAM_PAGE);
 
 			if (page) {
@@ -1028,6 +1054,7 @@ export default function ChangeTrackingChangesView({
 			setAscendingState(ascending);
 			setColumnState(column);
 			setFiltersState(filters);
+			setNavigationState(navigation);
 			setRenderState({
 				changes: nodes,
 				children: node.children,
@@ -1047,16 +1074,19 @@ export default function ChangeTrackingChangesView({
 			PARAM_DELTA,
 			PARAM_ENTRY,
 			PARAM_KEYWORDS,
+			PARAM_NAVIGATION,
 			PARAM_ORDER_BY_TYPE,
 			PARAM_PAGE,
 			PARAM_SHOW_HIDEABLE,
 			PARAM_SITES,
 			PARAM_TYPES,
 			PARAM_USERS,
+			changes.length,
 			filterNodes,
 			getFilters,
 			getNode,
 			isWithinApp,
+			mappingInfos.length,
 		]
 	);
 
@@ -1307,6 +1337,7 @@ export default function ChangeTrackingChangesView({
 							getEntryParam(renderState.node),
 							filtersState,
 							resultsKeywords,
+							navigationState,
 							renderState.page,
 							renderState.showHideable
 						);
@@ -1330,6 +1361,7 @@ export default function ChangeTrackingChangesView({
 						getEntryParam(renderState.node),
 						filtersState,
 						resultsKeywords,
+						navigationState,
 						renderState.page,
 						renderState.showHideable
 					);
@@ -1740,6 +1772,7 @@ export default function ChangeTrackingChangesView({
 			getEntryParam(renderState.node),
 			filters,
 			keywords,
+			navigationState,
 			page,
 			renderState.showHideable
 		);
@@ -1778,6 +1811,7 @@ export default function ChangeTrackingChangesView({
 			getEntryParam(node),
 			filters,
 			'',
+			navigation,
 			1,
 			false
 		);
@@ -1835,6 +1869,7 @@ export default function ChangeTrackingChangesView({
 			getEntryParam(renderState.node),
 			filters,
 			resultsKeywords,
+			navigationState,
 			page,
 			showHideable
 		);
@@ -2418,6 +2453,7 @@ export default function ChangeTrackingChangesView({
 								getEntryParam(renderState.node),
 								filtersState,
 								resultsKeywords,
+								navigationState,
 								page,
 								renderState.showHideable
 							);
@@ -2456,6 +2492,7 @@ export default function ChangeTrackingChangesView({
 								getEntryParam(renderState.node),
 								filtersState,
 								resultsKeywords,
+								navigationState,
 								page,
 								renderState.showHideable
 							);
