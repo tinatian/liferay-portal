@@ -2030,92 +2030,124 @@ export default function ChangeTrackingChangesView({
 	};
 
 	const renderManagementToolbar = () => {
+		if (navigationState !== NAVIGATION_DATA) {
+			return '';
+		}
+
 		return (
-			<ClayManagementToolbar>
-				{renderFilterDropdown()}
-
-				{renderState.id > 0 ? (
-					<ClayManagementToolbar.ItemList expand />
-				) : (
-					<ClayManagementToolbar.Search
-						onSubmit={(event) => {
-							event.preventDefault();
-
-							handleFiltersUpdate(
-								filtersState,
-								entrySearchTerms.trim()
-							);
-						}}
-						showMobile={searchMobile}
+			<ClayTable.Head>
+				<ClayTable.Row>
+					<ClayTable.Cell
+						className="publications-header-td"
+						colSpan={5}
 					>
-						<ClayInput.Group>
-							<ClayInput.GroupItem>
-								<ClayInput
-									aria-label={Liferay.Language.get('search')}
-									className="form-control input-group-inset input-group-inset-after"
-									disabled={changes.length === 0}
-									onChange={(event) =>
-										setEntrySearchTerms(event.target.value)
-									}
-									placeholder={`${Liferay.Language.get(
-										'search'
-									)}...`}
-									type="text"
-									value={entrySearchTerms}
-								/>
+						<ClayManagementToolbar>
+							{renderFilterDropdown()}
 
-								<ClayInput.GroupInsetItem after tag="span">
-									<ClayButtonWithIcon
-										className="navbar-breakpoint-d-none"
+							{renderState.id > 0 ? (
+								<ClayManagementToolbar.ItemList expand />
+							) : (
+								<ClayManagementToolbar.Search
+									onSubmit={(event) => {
+										event.preventDefault();
+
+										handleFiltersUpdate(
+											filtersState,
+											entrySearchTerms.trim()
+										);
+									}}
+									showMobile={searchMobile}
+								>
+									<ClayInput.Group>
+										<ClayInput.GroupItem>
+											<ClayInput
+												aria-label={Liferay.Language.get(
+													'search'
+												)}
+												className="form-control input-group-inset input-group-inset-after"
+												disabled={changes.length === 0}
+												onChange={(event) =>
+													setEntrySearchTerms(
+														event.target.value
+													)
+												}
+												placeholder={`${Liferay.Language.get(
+													'search'
+												)}...`}
+												type="text"
+												value={entrySearchTerms}
+											/>
+
+											<ClayInput.GroupInsetItem
+												after
+												tag="span"
+											>
+												<ClayButtonWithIcon
+													className="navbar-breakpoint-d-none"
+													disabled={
+														changes.length === 0
+													}
+													displayType="unstyled"
+													onClick={() =>
+														setSearchMobile(false)
+													}
+													spritemap={spritemap}
+													symbol="times"
+												/>
+
+												<ClayButtonWithIcon
+													disabled={
+														changes.length === 0
+													}
+													displayType="unstyled"
+													spritemap={spritemap}
+													symbol="search"
+													type="submit"
+												/>
+											</ClayInput.GroupInsetItem>
+										</ClayInput.GroupItem>
+									</ClayInput.Group>
+								</ClayManagementToolbar.Search>
+							)}
+
+							<ClayManagementToolbar.ItemList>
+								{renderState.id === 0 && (
+									<ClayManagementToolbar.Item className="navbar-breakpoint-d-none">
+										<ClayButton
+											className="nav-link nav-link-monospaced"
+											disabled={changes.length === 0}
+											displayType="unstyled"
+											onClick={() =>
+												setSearchMobile(true)
+											}
+										>
+											<ClayIcon
+												spritemap={spritemap}
+												symbol="search"
+											/>
+										</ClayButton>
+									</ClayManagementToolbar.Item>
+								)}
+
+								<ClayManagementToolbar.Item className="simple-toggle-switch-reverse">
+									<ClayToggle
 										disabled={changes.length === 0}
-										displayType="unstyled"
-										onClick={() => setSearchMobile(false)}
-										spritemap={spritemap}
-										symbol="times"
+										label={Liferay.Language.get(
+											'show-all-items'
+										)}
+										onToggle={(showHideable) =>
+											handleShowHideableToggle(
+												showHideable
+											)
+										}
+										toggled={renderState.showHideable}
 									/>
-
-									<ClayButtonWithIcon
-										disabled={changes.length === 0}
-										displayType="unstyled"
-										spritemap={spritemap}
-										symbol="search"
-										type="submit"
-									/>
-								</ClayInput.GroupInsetItem>
-							</ClayInput.GroupItem>
-						</ClayInput.Group>
-					</ClayManagementToolbar.Search>
-				)}
-
-				<ClayManagementToolbar.ItemList>
-					{renderState.id === 0 && (
-						<ClayManagementToolbar.Item className="navbar-breakpoint-d-none">
-							<ClayButton
-								className="nav-link nav-link-monospaced"
-								disabled={changes.length === 0}
-								displayType="unstyled"
-								onClick={() => setSearchMobile(true)}
-							>
-								<ClayIcon
-									spritemap={spritemap}
-									symbol="search"
-								/>
-							</ClayButton>
-						</ClayManagementToolbar.Item>
-					)}
-
-					<ClayManagementToolbar.Item className="simple-toggle-switch-reverse">
-						<ClayToggle
-							disabled={changes.length === 0}
-							label={Liferay.Language.get('show-all-items')}
-							onToggle={(showHideable) =>
-								handleShowHideableToggle(showHideable)
-							}
-							toggled={renderState.showHideable}
-						/>
-					</ClayManagementToolbar.Item>
-				</ClayManagementToolbar.ItemList>
-			</ClayManagementToolbar>
+								</ClayManagementToolbar.Item>
+							</ClayManagementToolbar.ItemList>
+						</ClayManagementToolbar>
+					</ClayTable.Cell>
+				</ClayTable.Row>
+			</ClayTable.Head>
 		);
 	};
 
@@ -2125,7 +2157,7 @@ export default function ChangeTrackingChangesView({
 				<ClayTable.Row>
 					<ClayTable.Cell
 						className="publications-header-td"
-						colSpan={5}
+						colSpan={navigationState === NAVIGATION_DATA ? 5 : 1}
 					>
 						<ClayNavigationBar spritemap={spritemap}>
 							<ClayNavigationBar.Item
@@ -2138,8 +2170,13 @@ export default function ChangeTrackingChangesView({
 											: 'nav-link'
 									}
 									displayType="unstyled"
-									onClick={() =>
-										handleNavigationUpdate(NAVIGATION_DATA)
+									onClick={
+										changes.length === 0
+											? null
+											: () =>
+													handleNavigationUpdate(
+														NAVIGATION_DATA
+													)
 									}
 								>
 									{Liferay.Language.get('data')}
@@ -2158,10 +2195,13 @@ export default function ChangeTrackingChangesView({
 											: 'nav-link'
 									}
 									displayType="unstyled"
-									onClick={() =>
-										handleNavigationUpdate(
-											NAVIGATION_RELATIONSHIPS
-										)
+									onClick={
+										mappingInfos.length === 0
+											? null
+											: () =>
+													handleNavigationUpdate(
+														NAVIGATION_RELATIONSHIPS
+													)
 									}
 								>
 									{Liferay.Language.get('relationships')}
@@ -2341,95 +2381,159 @@ export default function ChangeTrackingChangesView({
 		return <ClayResultsBar>{items}</ClayResultsBar>;
 	};
 
+	const renderBody = () => {
+		if (navigationState === NAVIGATION_DATA) {
+			if (renderState.changes && renderState.changes.length > 0) {
+				return getTableRows(filterDisplayNodes(renderState.changes));
+			}
+
+			return (
+				<ClayTable.Row>
+					<ClayTable.Cell>
+						<div className="taglib-empty-result-message">
+							<div className="taglib-empty-search-result-message-header" />
+
+							<div className="sheet-text text-center">
+								{Liferay.Language.get(
+									'there-are-no-changes-to-display-in-this-view'
+								)}
+							</div>
+						</div>
+					</ClayTable.Cell>
+				</ClayTable.Row>
+			);
+		}
+
+		if (mappingInfos.length > 0) {
+			return mappingInfos.map((mappingInfo) => (
+				<ClayTable.Row
+					key={
+						mappingInfo.name +
+						(mappingInfo.removed ? '_removed' : '_added')
+					}
+				>
+					<ClayTable.Cell>
+						{mappingInfo.name +
+							' (' +
+							mappingInfo.count +
+							' ' +
+							(mappingInfo.removed
+								? Liferay.Language.get('removed')
+								: Liferay.Language.get('added')) +
+							')'}
+					</ClayTable.Cell>
+				</ClayTable.Row>
+			));
+		}
+
+		return (
+			<ClayTable.Row>
+				<ClayTable.Cell>
+					<div className="taglib-empty-result-message">
+						<div className="taglib-empty-search-result-message-header" />
+
+						<div className="sheet-text text-center">
+							{Liferay.Language.get(
+								'there-are-no-relationships-to-display-in-this-view'
+							)}
+						</div>
+					</div>
+				</ClayTable.Cell>
+			</ClayTable.Row>
+		);
+	};
+
+	const renderHead = () => {
+		if (
+			navigationState === NAVIGATION_DATA &&
+			renderState.changes &&
+			renderState.changes.length > 0
+		) {
+			return (
+				<ClayTable.Head>
+					<ClayTable.Row>
+						<ClayTable.Cell headingCell>
+							{getColumnHeader(
+								COLUMN_USER,
+								Liferay.Language.get('user')
+							)}
+						</ClayTable.Cell>
+
+						<ClayTable.Cell headingCell>
+							{getColumnHeader(
+								COLUMN_SITE,
+								Liferay.Language.get('site')
+							)}
+						</ClayTable.Cell>
+
+						<ClayTable.Cell
+							className="table-cell-expand"
+							headingCell
+						>
+							{getColumnHeader(
+								COLUMN_TITLE,
+								Liferay.Language.get('title')
+							)}
+						</ClayTable.Cell>
+
+						<ClayTable.Cell
+							className="table-cell-expand-smallest"
+							headingCell
+						>
+							{getColumnHeader(
+								COLUMN_CHANGE_TYPE,
+								Liferay.Language.get('change-type')
+							)}
+						</ClayTable.Cell>
+
+						<ClayTable.Cell
+							className="table-cell-expand-smallest"
+							headingCell
+						>
+							{getColumnHeader(
+								COLUMN_MODIFIED_DATE,
+								Liferay.Language.get('last-modified')
+							)}
+						</ClayTable.Cell>
+					</ClayTable.Row>
+				</ClayTable.Head>
+			);
+		}
+		else if (
+			navigationState === NAVIGATION_RELATIONSHIPS &&
+			mappingInfos.length > 0
+		) {
+			return (
+				<ClayTable.Head>
+					<ClayTable.Row>
+						<ClayTable.Cell headingCell>
+							{Liferay.Language.get('name')}
+						</ClayTable.Cell>
+					</ClayTable.Row>
+				</ClayTable.Head>
+			);
+		}
+
+		return '';
+	};
+
 	const renderTable = () => {
+
 		return (
 			<>
 				<ClayTable
 					className="publications-table"
 					headingNoWrap
-					hover
+					hover={navigationState === NAVIGATION_DATA && renderState.changes && renderState.changes.length > 0}
 					noWrap
 				>
 					{renderNavigationBar()}
 
-					<ClayTable.Head>
-						<ClayTable.Row>
-							<ClayTable.Cell
-								className="publications-header-td"
-								colSpan={5}
-							>
-								{renderManagementToolbar()}
-							</ClayTable.Cell>
-						</ClayTable.Row>
-					</ClayTable.Head>
+					{renderManagementToolbar()}
 
-					{renderState.changes && renderState.changes.length > 0 ? (
-						<ClayTable.Head>
-							<ClayTable.Row>
-								<ClayTable.Cell headingCell>
-									{getColumnHeader(
-										COLUMN_USER,
-										Liferay.Language.get('user')
-									)}
-								</ClayTable.Cell>
+					{renderHead()}
 
-								<ClayTable.Cell headingCell>
-									{getColumnHeader(
-										COLUMN_SITE,
-										Liferay.Language.get('site')
-									)}
-								</ClayTable.Cell>
-
-								<ClayTable.Cell
-									className="table-cell-expand"
-									headingCell
-								>
-									{getColumnHeader(
-										COLUMN_TITLE,
-										Liferay.Language.get('title')
-									)}
-								</ClayTable.Cell>
-
-								<ClayTable.Cell
-									className="table-cell-expand-smallest"
-									headingCell
-								>
-									{getColumnHeader(
-										COLUMN_CHANGE_TYPE,
-										Liferay.Language.get('change-type')
-									)}
-								</ClayTable.Cell>
-
-								<ClayTable.Cell
-									className="table-cell-expand-smallest"
-									headingCell
-								>
-									{getColumnHeader(
-										COLUMN_MODIFIED_DATE,
-										Liferay.Language.get('last-modified')
-									)}
-								</ClayTable.Cell>
-							</ClayTable.Row>
-						</ClayTable.Head>
-					) : (
-						<ClayTable.Row>
-							<ClayTable.Cell>
-								<div className="taglib-empty-result-message">
-									<div className="taglib-empty-search-result-message-header" />
-
-									<div className="sheet-text text-center">
-										{Liferay.Language.get(
-											'there-are-no-changes-to-display-in-this-view'
-										)}
-									</div>
-								</div>
-							</ClayTable.Cell>
-						</ClayTable.Row>
-					)}
-
-					<ClayTable.Body>
-						{getTableRows(filterDisplayNodes(renderState.changes))}
-					</ClayTable.Body>
+					<ClayTable.Body>{renderBody()}</ClayTable.Body>
 				</ClayTable>
 				{renderState.changes.length > 5 && (
 					<ClayPaginationBarWithBasicItems

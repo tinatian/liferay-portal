@@ -454,40 +454,31 @@ public class ViewChangesDisplayContext {
 						_ctCollection.getCtCollectionId());
 
 				for (CTMappingTableInfo mappingTableInfo : mappingTableInfos) {
-					JSONObject addedMappingsJSONObject =
-						JSONFactoryUtil.createJSONObject();
+					List<Map.Entry<Long, Long>> addedMappings =
+						mappingTableInfo.getAddedMappings();
 
-					for (Map.Entry<Long, Long> entry :
-							mappingTableInfo.getAddedMappings()) {
-
-						addedMappingsJSONObject.put(
-							String.valueOf(entry.getKey()), entry.getValue());
+					if (!addedMappings.isEmpty()) {
+						mappingInfosJSONArray.put(
+							JSONUtil.put(
+								"count", addedMappings.size()
+							).put(
+								"name", mappingTableInfo.getTableName()
+							));
 					}
 
-					JSONObject removedMappingsJSONObject =
-						JSONFactoryUtil.createJSONObject();
+					List<Map.Entry<Long, Long>> removedMappings =
+						mappingTableInfo.getRemovedMappings();
 
-					for (Map.Entry<Long, Long> entry :
-							mappingTableInfo.getRemovedMappings()) {
-
-						removedMappingsJSONObject.put(
-							String.valueOf(entry.getKey()), entry.getValue());
+					if (!removedMappings.isEmpty()) {
+						mappingInfosJSONArray.put(
+							JSONUtil.put(
+								"count", removedMappings.size()
+							).put(
+								"name", mappingTableInfo.getTableName()
+							).put(
+								"removed", true
+							));
 					}
-
-					mappingInfosJSONArray.put(
-						JSONUtil.put(
-							"addedMappings", addedMappingsJSONObject
-						).put(
-							"leftColumnName",
-							mappingTableInfo.getLeftColumnName()
-						).put(
-							"removedMappings", removedMappingsJSONObject
-						).put(
-							"rightColumnName",
-							mappingTableInfo.getRightColumnName()
-						).put(
-							"tableName", mappingTableInfo.getTableName()
-						));
 				}
 
 				return mappingInfosJSONArray;
