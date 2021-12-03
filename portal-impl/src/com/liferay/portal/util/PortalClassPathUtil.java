@@ -30,6 +30,7 @@ import com.liferay.portal.kernel.util.URLCodec;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.IOException;
 
 import java.lang.reflect.Method;
 
@@ -41,6 +42,9 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.jar.Attributes;
+import java.util.jar.JarFile;
+import java.util.jar.Manifest;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -117,7 +121,7 @@ public class PortalClassPathUtil {
 			_buildClassPath(
 				classLoader, CentralizedThreadLocal.class.getName()));
 
-		String bootstrapClassPath = sb.toString();
+		String bootstrapClassPath = _buildBootstrapClassPath(classLoader);
 
 		sb.append(File.pathSeparator);
 		sb.append(
@@ -141,6 +145,48 @@ public class PortalClassPathUtil {
 		builder.setRuntimeClassPath(portalClassPath);
 
 		_portalProcessConfig = builder.build();
+	}
+
+	private static String _buildBootstrapClassPath(ClassLoader classLoader) {
+		File[] files = _listClassPathFiles(
+			classLoader, CentralizedThreadLocal.class.getName());
+
+		Arrays.sort(files);
+
+		StringBundler sb = new StringBundler(files.length);
+
+		for (File file : files) {
+			String filePath = file.getAbsolutePath();
+
+			if (filePath.contains("petra")) {
+				try (JarFile jarFile = new JarFile(
+						new File(file.getAbsolutePath()))) {
+
+					Manifest manifest = jarFile.getManifest();
+
+					if (manifest == null) {
+						continue;
+					}
+
+					Attributes attributes = manifest.getMainAttributes();
+
+					if (!attributes.containsKey("Liferay-Releng-App-Title")) {
+						sb.append(file.getAbsolutePath());
+						sb.append(File.pathSeparator);
+					}
+				}
+				catch (IOException ioException) {
+					_log.error(
+						"Unable to resolve bootstrap entry: " + file.getName() +
+							" from bundle",
+						ioException);
+				}
+			}
+		}
+
+		sb.setIndex(sb.index() - 1);
+
+		return sb.toString();
 	}
 
 	private static String _buildClassPath(Class<?>... classes) {
