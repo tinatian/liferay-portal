@@ -29,7 +29,7 @@ import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.URLCodec;
 
 import java.io.File;
-import java.io.FileFilter;
+import java.io.IOException;
 
 import java.lang.reflect.Method;
 
@@ -39,8 +39,12 @@ import java.net.URLConnection;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.jar.Attributes;
+import java.util.jar.JarFile;
+import java.util.jar.Manifest;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -107,23 +111,28 @@ public class PortalClassPathUtil {
 			classLoader = currentThread.getContextClassLoader();
 		}
 
-		StringBundler sb = new StringBundler(8);
+		List<File> fileList = _listClassPathFiles(
+			classLoader, ServletException.class.getName(),
+			CentralizedThreadLocal.class.getName(),
+			"com.liferay.shielded.container.ShieldedContainerInitializer");
 
-		sb.append(
-			_buildClassPath(classLoader, ServletException.class.getName()));
+		StringBundler sb = new StringBundler();
+		StringBundler bootstrapSB = new StringBundler();
 
-		sb.append(File.pathSeparator);
-		sb.append(
-			_buildClassPath(
-				classLoader, CentralizedThreadLocal.class.getName()));
+		if (fileList != null) {
+			for (File file : fileList) {
+				if (_isPetraJar(file)) {
+					bootstrapSB.append(file.getAbsolutePath());
+					bootstrapSB.append(File.pathSeparator);
+				}
 
-		String bootstrapClassPath = sb.toString();
+				sb.append(file.getAbsolutePath());
+				sb.append(File.pathSeparator);
+			}
 
-		sb.append(File.pathSeparator);
-		sb.append(
-			_buildClassPath(
-				classLoader,
-				"com.liferay.shielded.container.ShieldedContainerInitializer"));
+			sb.setIndex(sb.length() - 1);
+			bootstrapSB.setIndex(bootstrapSB.length() - 1);
+		}
 
 		if (servletContext != null) {
 			sb.append(File.pathSeparator);
@@ -136,7 +145,9 @@ public class PortalClassPathUtil {
 		ProcessConfig.Builder builder = new ProcessConfig.Builder();
 
 		builder.setArguments(_processArgs);
-		builder.setBootstrapClassPath(bootstrapClassPath);
+
+		builder.setBootstrapClassPath(bootstrapSB.toString());
+
 		builder.setReactClassLoader(classLoader);
 		builder.setRuntimeClassPath(portalClassPath);
 
@@ -166,10 +177,10 @@ public class PortalClassPathUtil {
 		Set<File> fileSet = new HashSet<>();
 
 		for (String className : classNames) {
-			File[] files = _listClassPathFiles(classLoader, className);
+			List<File> filesList = _listClassPathFiles(classLoader, className);
 
-			if (files != null) {
-				Collections.addAll(fileSet, files);
+			if (filesList != null) {
+				fileSet.addAll(filesList);
 			}
 		}
 
@@ -189,142 +200,178 @@ public class PortalClassPathUtil {
 		return sb.toString();
 	}
 
-	private static File[] _listClassPathFiles(
-		ClassLoader classLoader, String className) {
+	private static boolean _isPetraJar(File file) {
+		String filePath = file.getAbsolutePath();
 
-		String pathOfClass = StringUtil.replace(
-			className, CharPool.PERIOD, CharPool.SLASH);
+		if (filePath.contains("petra")) {
+			try (JarFile jarFile = new JarFile(new File(filePath))) {
+				Manifest manifest = jarFile.getManifest();
 
-		pathOfClass = pathOfClass.concat(".class");
+				if (manifest == null) {
+					return false;
+				}
 
-		URL url = classLoader.getResource(pathOfClass);
+				Attributes attributes = manifest.getMainAttributes();
 
-		if (_log.isDebugEnabled()) {
-			_log.debug("Build class path from " + url);
-		}
+				if (attributes.containsKey("Liferay-Releng-App-Title")) {
+					return false;
+				}
 
-		String protocol = url.getProtocol();
-
-		if (protocol.equals("bundle") || protocol.equals("bundleresource")) {
-			try {
-				URLConnection urlConnection = url.openConnection();
-
-				Class<?> clazz = urlConnection.getClass();
-
-				Method getLocalURLMethod = clazz.getDeclaredMethod(
-					"getLocalURL");
-
-				getLocalURLMethod.setAccessible(true);
-
-				url = (URL)getLocalURLMethod.invoke(urlConnection);
+				return true;
 			}
-			catch (Exception exception) {
+			catch (IOException ioException) {
 				_log.error(
-					"Unable to resolve local URL from bundle", exception);
-
-				return null;
+					"Unable to resolve bootstrap entry: " + file.getName() +
+						" from bundle",
+					ioException);
 			}
 		}
 
-		String path = URLCodec.decodeURL(url.getPath());
+		return false;
+	}
 
-		if (_log.isDebugEnabled()) {
-			_log.debug("Path " + path);
-		}
+	private static List<File> _listClassPathFiles(
+		ClassLoader classLoader, String... classNames) {
 
-		path = StringUtil.replace(path, CharPool.BACK_SLASH, CharPool.SLASH);
+		List<File> fileList = new LinkedList<>();
 
-		if (_log.isDebugEnabled()) {
-			_log.debug("Decoded path " + path);
-		}
+		for (String className : classNames) {
+			String pathOfClass = StringUtil.replace(
+				className, CharPool.PERIOD, CharPool.SLASH);
 
-		if (ServerDetector.isWebLogic() && protocol.equals("zip")) {
-			path = "file:".concat(path);
-		}
+			pathOfClass = pathOfClass.concat(".class");
 
-		if ((ServerDetector.isJBoss() || ServerDetector.isWildfly()) &&
-			(protocol.equals("vfs") || protocol.equals("vfsfile") ||
-			 protocol.equals("vfszip"))) {
+			URL url = classLoader.getResource(pathOfClass);
 
-			int pos = path.indexOf(".jar/");
+			if (_log.isDebugEnabled()) {
+				_log.debug("Build class path from " + url);
+			}
 
-			if (pos != -1) {
-				String jarFilePath = path.substring(0, pos + 4);
+			String protocol = url.getProtocol();
 
-				File jarFile = new File(jarFilePath);
+			if (protocol.equals("bundle") ||
+				protocol.equals("bundleresource")) {
 
-				if (jarFile.isFile()) {
-					path = jarFilePath + '!' + path.substring(pos + 4);
+				try {
+					URLConnection urlConnection = url.openConnection();
+
+					Class<?> clazz = urlConnection.getClass();
+
+					Method getLocalURLMethod = clazz.getDeclaredMethod(
+						"getLocalURL");
+
+					getLocalURLMethod.setAccessible(true);
+
+					url = (URL)getLocalURLMethod.invoke(urlConnection);
+				}
+				catch (Exception exception) {
+					_log.error(
+						"Unable to resolve local URL from bundle", exception);
+
+					return null;
 				}
 			}
 
-			path = "file:".concat(path);
-		}
+			String path = URLCodec.decodeURL(url.getPath());
 
-		File dir = null;
+			if (_log.isDebugEnabled()) {
+				_log.debug("Path " + path);
+			}
 
-		int pos = -1;
+			path = StringUtil.replace(
+				path, CharPool.BACK_SLASH, CharPool.SLASH);
 
-		if (!path.startsWith("file:") ||
-			((pos = path.indexOf(CharPool.EXCLAMATION)) == -1)) {
+			if (_log.isDebugEnabled()) {
+				_log.debug("Decoded path " + path);
+			}
 
-			if (!path.endsWith(pathOfClass)) {
-				_log.error(
-					"Class " + className + " is not loaded from a JAR file");
+			if (ServerDetector.isWebLogic() && protocol.equals("zip")) {
+				path = "file:".concat(path);
+			}
+
+			if ((ServerDetector.isJBoss() || ServerDetector.isWildfly()) &&
+				(protocol.equals("vfs") || protocol.equals("vfsfile") ||
+				 protocol.equals("vfszip"))) {
+
+				int pos = path.indexOf(".jar/");
+
+				if (pos != -1) {
+					String jarFilePath = path.substring(0, pos + 4);
+
+					File jarFile = new File(jarFilePath);
+
+					if (jarFile.isFile()) {
+						path = jarFilePath + '!' + path.substring(pos + 4);
+					}
+				}
+
+				path = "file:".concat(path);
+			}
+
+			File dir = null;
+
+			int pos = -1;
+
+			if (!path.startsWith("file:") ||
+				((pos = path.indexOf(CharPool.EXCLAMATION)) == -1)) {
+
+				if (!path.endsWith(pathOfClass)) {
+					_log.error(
+						"Class " + className +
+							" is not loaded from a JAR file");
+
+					return null;
+				}
+
+				String classesDirName = path.substring(
+					0, path.length() - pathOfClass.length());
+
+				if (!classesDirName.endsWith("/WEB-INF/classes/")) {
+					_log.error(
+						StringBundler.concat(
+							"Class ", className,
+							" is not loaded from a standard location ",
+							"(/WEB-INF/classes)"));
+
+					return null;
+				}
+
+				String libDirName = classesDirName.substring(
+					0, classesDirName.length() - "classes/".length());
+
+				libDirName += "/lib";
+
+				dir = new File(libDirName);
+			}
+			else {
+				pos = path.lastIndexOf(CharPool.SLASH, pos);
+
+				dir = new File(path.substring("file:".length(), pos));
+			}
+
+			if (!dir.isDirectory()) {
+				_log.error(dir.toString() + " is not a directory");
 
 				return null;
 			}
 
-			String classesDirName = path.substring(
-				0, path.length() - pathOfClass.length());
-
-			if (!classesDirName.endsWith("/WEB-INF/classes/")) {
-				_log.error(
-					StringBundler.concat(
-						"Class ", className, " is not loaded from a standard ",
-						"location (/WEB-INF/classes)"));
-
-				return null;
-			}
-
-			String libDirName = classesDirName.substring(
-				0, classesDirName.length() - "classes/".length());
-
-			libDirName += "/lib";
-
-			dir = new File(libDirName);
-		}
-		else {
-			pos = path.lastIndexOf(CharPool.SLASH, pos);
-
-			dir = new File(path.substring("file:".length(), pos));
-		}
-
-		if (!dir.isDirectory()) {
-			_log.error(dir.toString() + " is not a directory");
-
-			return null;
-		}
-
-		return dir.listFiles(
-			new FileFilter() {
-
-				@Override
-				public boolean accept(File file) {
+			File[] fileArray = dir.listFiles(
+				file -> {
 					if (file.isDirectory()) {
 						return false;
 					}
 
 					String name = file.getName();
 
-					if (name.equals("bundleFile") || name.endsWith(".jar")) {
-						return true;
-					}
+					return name.equals("bundleFile") || name.endsWith(".jar");
+				});
 
-					return false;
-				}
+			if (fileArray != null) {
+				Collections.addAll(fileList, fileArray);
+			}
+		}
 
-			});
+		return fileList;
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
