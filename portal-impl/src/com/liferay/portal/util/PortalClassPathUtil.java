@@ -30,6 +30,7 @@ import com.liferay.portal.kernel.util.URLCodec;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.IOException;
 
 import java.lang.reflect.Method;
 
@@ -41,6 +42,9 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.jar.Attributes;
+import java.util.jar.JarFile;
+import java.util.jar.Manifest;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -117,8 +121,6 @@ public class PortalClassPathUtil {
 			_buildClassPath(
 				classLoader, CentralizedThreadLocal.class.getName()));
 
-		String bootstrapClassPath = sb.toString();
-
 		sb.append(File.pathSeparator);
 		sb.append(
 			_buildClassPath(
@@ -136,7 +138,52 @@ public class PortalClassPathUtil {
 		ProcessConfig.Builder builder = new ProcessConfig.Builder();
 
 		builder.setArguments(_processArgs);
-		builder.setBootstrapClassPath(bootstrapClassPath);
+
+		String bootStrapClassPath = _buildClassPath(
+			classLoader,
+			new FileFilter() {
+
+				@Override
+				public boolean accept(File file) {
+					String filePath = file.getAbsolutePath();
+
+					if (filePath.contains("petra")) {
+						try (JarFile jarFile = new JarFile(
+								new File(filePath))) {
+
+							Manifest manifest = jarFile.getManifest();
+
+							if (manifest == null) {
+								return false;
+							}
+
+							Attributes attributes =
+								manifest.getMainAttributes();
+
+							if (attributes.containsKey(
+									"Liferay-Releng-App-Title")) {
+
+								return false;
+							}
+
+							return true;
+						}
+						catch (IOException ioException) {
+							_log.error(
+								"Unable to resolve bootstrap entry: " +
+									file.getName() + " from bundle",
+								ioException);
+						}
+					}
+
+					return false;
+				}
+
+			},
+			CentralizedThreadLocal.class.getName());
+
+		builder.setBootstrapClassPath(bootStrapClassPath);
+
 		builder.setReactClassLoader(classLoader);
 		builder.setRuntimeClassPath(portalClassPath);
 
@@ -161,6 +208,24 @@ public class PortalClassPathUtil {
 	}
 
 	private static String _buildClassPath(
+		ClassLoader classLoader, FileFilter fileFilter, String... classNames) {
+
+		Set<File> fileSet = new HashSet<>();
+
+		for (String className : classNames) {
+			File[] files = _listClassPathFiles(classLoader, className);
+
+			for (File file : files) {
+				if (fileFilter.accept(file)) {
+					fileSet.add(file);
+				}
+			}
+		}
+
+		return _buildClassPath(fileSet);
+	}
+
+	private static String _buildClassPath(
 		ClassLoader classLoader, String... classNames) {
 
 		Set<File> fileSet = new HashSet<>();
@@ -173,6 +238,10 @@ public class PortalClassPathUtil {
 			}
 		}
 
+		return _buildClassPath(fileSet);
+	}
+
+	private static String _buildClassPath(Set<File> fileSet) {
 		File[] files = fileSet.toArray(new File[0]);
 
 		Arrays.sort(files);
