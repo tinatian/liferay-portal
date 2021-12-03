@@ -30,6 +30,8 @@ import com.liferay.portal.kernel.util.URLCodec;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.IOException;
+import java.io.InputStream;
 
 import java.lang.reflect.Method;
 
@@ -40,6 +42,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Scanner;
 import java.util.Set;
 
 import javax.servlet.ServletContext;
@@ -117,7 +120,8 @@ public class PortalClassPathUtil {
 			_buildClassPath(
 				classLoader, CentralizedThreadLocal.class.getName()));
 
-		String bootstrapClassPath = sb.toString();
+		String bootstrapClassPath = _buildBootstrapClassPath(classLoader);
+		//		System.out.println(_buildBootstrapClassPath(classLoader));
 
 		sb.append(File.pathSeparator);
 		sb.append(
@@ -141,6 +145,56 @@ public class PortalClassPathUtil {
 		builder.setRuntimeClassPath(portalClassPath);
 
 		_portalProcessConfig = builder.build();
+	}
+
+	private static String _buildBootstrapClassPath(ClassLoader classLoader) {
+		File[] files = _listClassPathFiles(
+			classLoader, CentralizedThreadLocal.class.getName());
+
+		Arrays.sort(files);
+
+		StringBundler sb = new StringBundler(files.length);
+
+		for (File file : files) {
+			String filePath = file.getAbsolutePath();
+
+			if (filePath.contains("petra")) {
+				try {
+					URL url = new URL(
+						"jar:file:" + file.getAbsolutePath() +
+							"!/META-INF/MANIFEST.MF");
+
+					InputStream inputStream = url.openStream();
+
+					Scanner scanner = new Scanner(inputStream);
+
+					boolean corePetraPackage = true;
+
+					while (scanner.hasNext()) {
+						String line = scanner.nextLine();
+
+						if (line.contains("Liferay-Releng")) {
+							corePetraPackage = false;
+
+							break;
+						}
+					}
+
+					if (corePetraPackage) {
+						sb.append(file.getAbsolutePath());
+						sb.append(File.pathSeparator);
+					}
+				}
+				catch (IOException ioException) {
+					_log.error(
+						"Unable to resolve local URL from bundle", ioException);
+				}
+			}
+		}
+
+		sb.setIndex(sb.index() - 1);
+
+		return sb.toString();
 	}
 
 	private static String _buildClassPath(Class<?>... classes) {
