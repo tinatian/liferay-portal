@@ -874,6 +874,7 @@
 			<property name="serviceReferenceUtilClassNames" value="com.liferay.portal.kernel.comment.CommentManagerUtil" />
 			<property name="serviceReferenceUtilClassNames" value="com.liferay.portal.kernel.util.HttpUtil" />
 			<property name="serviceReferenceUtilClassNames" value="com.liferay.portal.kernel.util.PortalUtil" />
+			<property name="serviceReferenceUtilClassNames" value="com.liferay.portal.kernel.util.ColorSchemeFactoryUtil" />
 		</check>
 
 		<!-- Plugin Source Checks -->
