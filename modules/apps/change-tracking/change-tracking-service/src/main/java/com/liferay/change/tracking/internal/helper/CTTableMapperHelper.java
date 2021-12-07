@@ -24,6 +24,7 @@ import com.liferay.portal.kernel.dao.jdbc.CurrentConnectionUtil;
 import com.liferay.portal.kernel.service.change.tracking.CTService;
 import com.liferay.portal.kernel.service.persistence.change.tracking.CTPersistence;
 import com.liferay.portal.kernel.service.persistence.impl.TableMapper;
+import com.liferay.portal.kernel.util.InfrastructureUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -33,6 +34,8 @@ import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import javax.sql.DataSource;
 
 /**
  * @author Preston Crary
@@ -181,6 +184,12 @@ public class CTTableMapperHelper {
 
 		Connection connection = CurrentConnectionUtil.getConnection(
 			ctPersistence.getDataSource());
+
+		if (connection == null) {
+			DataSource dataSource = InfrastructureUtil.getDataSource();
+
+			connection = dataSource.getConnection();
+		}
 
 		List<Map.Entry<Long, Long>> mappingChanges = new ArrayList<>();
 
