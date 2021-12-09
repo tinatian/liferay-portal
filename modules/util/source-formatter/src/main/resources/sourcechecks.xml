@@ -875,6 +875,11 @@
 			<property name="serviceReferenceUtilClassNames" value="com.liferay.portal.kernel.util.HttpUtil" />
 			<property name="serviceReferenceUtilClassNames" value="com.liferay.portal.kernel.util.PortalUtil" />
 			<property name="serviceReferenceUtilClassNames" value="com.liferay.portal.kernel.util.ColorSchemeFactoryUtil" />
+			<property name="serviceReferenceUtilClassNames" value="com.liferay.expando.kernel.util.ExpandoBridgeIndexerUtil" />
+			<property name="serviceReferenceUtilClassNames" value="com.liferay.expando.kernel.util.BeanPropertiesUtil" />
+			<property name="serviceReferenceUtilClassNames" value="com.liferay.portal.kernel.cache.key.CacheKeyGeneratorUtil" />
+			<property name="serviceReferenceUtilClassNames" value="com.liferay.portal.kernel.dao.jdbc.CurrentConnectionUtil" />
+			<property name="serviceReferenceUtilClassNames" value="com.liferay.portal.kernel.diff.DiffHtmlUtil" />
 		</check>
 
 		<!-- Plugin Source Checks -->
