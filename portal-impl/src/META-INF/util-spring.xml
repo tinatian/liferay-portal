@@ -16,15 +16,17 @@
 		<property name="expandoBridgeIndexer" ref="com.liferay.expando.kernel.util.ExpandoBridgeIndexer" />
 	</bean>
 	<bean class="com.liferay.mail.util.DummyHook" id="com.liferay.mail.util.DummyHook" />
+	<bean class="com.liferay.portal.bean.BeanPropertiesImpl" id="com.liferay.portal.bean.BeanPropertiesImpl" />
 	<bean class="com.liferay.portal.convert.documentlibrary.DocumentLibraryConvertProcess" />
 	<bean class="com.liferay.portal.convert.documentlibrary.DocumentLibraryExtraSettingsConvertProcess" />
+	<bean class="com.liferay.portal.dao.jdbc.CurrentConnectionImpl" id="com.liferay.portal.dao.jdbc.CurrentConnectionImpl" />
+	<bean class="com.liferay.portal.diff.DiffImpl" id="com.liferay.portal.diff.DiffImpl" />
+	<bean class="com.liferay.portal.diff.DiffHtmlImpl" id="com.liferay.portal.diff.DiffHtmlImpl" />
 	<bean class="com.liferay.portal.format.IdenticalPhoneNumberFormatImpl" id="com.liferay.portal.format.IdenticalPhoneNumberFormatImpl" />
 	<bean class="com.liferay.portal.internal.increment.BufferedIncrementProcessorUtil" />
 	<bean factory-bean="com.liferay.portal.kernel.json.JSONFactory" factory-method="getLiferayJSONDeserializationWhitelist" id="com.liferay.portal.json.jabsorb.serializer.LiferayJSONDeserializationWhitelist" />
 	<bean class="com.liferay.portal.kernel.bean.BeanPropertiesUtil" id="com.liferay.portal.kernel.bean.BeanPropertiesUtil">
-		<property name="beanProperties">
-			<bean class="com.liferay.portal.bean.BeanPropertiesImpl" />
-		</property>
+		<property name="beanProperties" ref="com.liferay.portal.bean.BeanPropertiesImpl" />
 	</bean>
 	<bean class="com.liferay.portal.kernel.bean.ConstantsBeanFactoryUtil" id="com.liferay.portal.kernel.bean.ConstantsBeanFactoryUtil">
 		<property name="constantsBeanFactory">
@@ -49,9 +51,7 @@
 		</property>
 	</bean>
 	<bean class="com.liferay.portal.kernel.dao.jdbc.CurrentConnectionUtil">
-		<property name="currentConnection">
-			<bean class="com.liferay.portal.dao.jdbc.CurrentConnectionImpl" />
-		</property>
+		<property name="currentConnection" ref="com.liferay.portal.dao.jdbc.CurrentConnectionImpl" />
 	</bean>
 	<bean class="com.liferay.portal.kernel.dao.jdbc.MappingSqlQueryFactoryUtil" id="com.liferay.portal.kernel.dao.jdbc.MappingSqlQueryFactoryUtil">
 		<property name="mappingSqlQueryFactory">
@@ -74,14 +74,10 @@
 		</property>
 	</bean>
 	<bean class="com.liferay.portal.kernel.diff.DiffHtmlUtil" id="com.liferay.portal.kernel.diff.DiffHtmlUtil">
-		<property name="diffHtml">
-			<bean class="com.liferay.portal.diff.DiffHtmlImpl" />
-		</property>
+		<property name="diffHtml" ref="com.liferay.portal.diff.DiffHtmlImpl" />
 	</bean>
 	<bean class="com.liferay.portal.kernel.diff.DiffUtil" id="com.liferay.portal.kernel.diff.DiffUtil">
-		<property name="diff">
-			<bean class="com.liferay.portal.diff.DiffImpl" />
-		</property>
+		<property name="diff" ref="com.liferay.portal.diff.DiffImpl" />
 	</bean>
 	<bean class="com.liferay.portal.kernel.editor.configuration.EditorConfigurationFactoryUtil" id="com.liferay.portal.kernel.editor.configuration.EditorConfigurationFactory">
 		<property name="editorConfigurationFactory" ref="com.liferay.portal.kernel.editor.configuration.EditorConfigurationFactoryImpl" />
