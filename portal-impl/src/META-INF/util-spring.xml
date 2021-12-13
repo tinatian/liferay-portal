@@ -11,20 +11,24 @@
 	<bean class="com.liferay.expando.kernel.service.permission.ExpandoColumnPermissionUtil" id="com.liferay.expando.kernel.service.permission.ExpandoColumnPermissionUtil">
 		<property name="expandoColumnPermission" ref="com.liferay.expando.kernel.service.permission.ExpandoColumnPermission" />
 	</bean>
-	<bean class="com.liferay.portlet.expando.util.ExpandoBridgeIndexerImpl" id="com.liferay.expando.kernel.util.ExpandoBridgeIndexer" />
 	<bean class="com.liferay.expando.kernel.util.ExpandoBridgeIndexerUtil" id="com.liferay.expando.kernel.util.ExpandoBridgeIndexerUtil">
-		<property name="expandoBridgeIndexer" ref="com.liferay.expando.kernel.util.ExpandoBridgeIndexer" />
+		<property name="expandoBridgeIndexer" ref="com.liferay.portlet.expando.util.ExpandoBridgeIndexerImpl" />
 	</bean>
 	<bean class="com.liferay.mail.util.DummyHook" id="com.liferay.mail.util.DummyHook" />
+	<bean class="com.liferay.portal.bean.BeanPropertiesImpl" id="com.liferay.portal.bean.BeanPropertiesImpl" />
 	<bean class="com.liferay.portal.convert.documentlibrary.DocumentLibraryConvertProcess" />
 	<bean class="com.liferay.portal.convert.documentlibrary.DocumentLibraryExtraSettingsConvertProcess" />
+	<bean class="com.liferay.portal.dao.jdbc.CurrentConnectionImpl" id="com.liferay.portal.dao.jdbc.CurrentConnectionImpl" />
+	<bean class="com.liferay.portal.diff.DiffHtmlImpl" id="com.liferay.portal.diff.DiffHtmlImpl" />
+	<bean class="com.liferay.portal.diff.DiffImpl" id="com.liferay.portal.diff.DiffImpl" />
 	<bean class="com.liferay.portal.format.IdenticalPhoneNumberFormatImpl" id="com.liferay.portal.format.IdenticalPhoneNumberFormatImpl" />
+	<bean class="com.liferay.portal.image.GhostscriptImpl" id="com.liferay.portal.image.GhostscriptImpl" />
+	<bean class="com.liferay.portal.image.ImageMagickImpl" id="com.liferay.portal.image.ImageMagickImpl" />
+	<bean class="com.liferay.portal.image.ImageToolImpl" id="com.liferay.portal.image.ImageToolImpl" />
 	<bean class="com.liferay.portal.internal.increment.BufferedIncrementProcessorUtil" />
 	<bean factory-bean="com.liferay.portal.kernel.json.JSONFactory" factory-method="getLiferayJSONDeserializationWhitelist" id="com.liferay.portal.json.jabsorb.serializer.LiferayJSONDeserializationWhitelist" />
 	<bean class="com.liferay.portal.kernel.bean.BeanPropertiesUtil" id="com.liferay.portal.kernel.bean.BeanPropertiesUtil">
-		<property name="beanProperties">
-			<bean class="com.liferay.portal.bean.BeanPropertiesImpl" />
-		</property>
+		<property name="beanProperties" ref="com.liferay.portal.bean.BeanPropertiesImpl" />
 	</bean>
 	<bean class="com.liferay.portal.kernel.bean.ConstantsBeanFactoryUtil" id="com.liferay.portal.kernel.bean.ConstantsBeanFactoryUtil">
 		<property name="constantsBeanFactory">
@@ -49,9 +53,7 @@
 		</property>
 	</bean>
 	<bean class="com.liferay.portal.kernel.dao.jdbc.CurrentConnectionUtil">
-		<property name="currentConnection">
-			<bean class="com.liferay.portal.dao.jdbc.CurrentConnectionImpl" />
-		</property>
+		<property name="currentConnection" ref="com.liferay.portal.dao.jdbc.CurrentConnectionImpl" />
 	</bean>
 	<bean class="com.liferay.portal.kernel.dao.jdbc.MappingSqlQueryFactoryUtil" id="com.liferay.portal.kernel.dao.jdbc.MappingSqlQueryFactoryUtil">
 		<property name="mappingSqlQueryFactory">
@@ -74,14 +76,10 @@
 		</property>
 	</bean>
 	<bean class="com.liferay.portal.kernel.diff.DiffHtmlUtil" id="com.liferay.portal.kernel.diff.DiffHtmlUtil">
-		<property name="diffHtml">
-			<bean class="com.liferay.portal.diff.DiffHtmlImpl" />
-		</property>
+		<property name="diffHtml" ref="com.liferay.portal.diff.DiffHtmlImpl" />
 	</bean>
 	<bean class="com.liferay.portal.kernel.diff.DiffUtil" id="com.liferay.portal.kernel.diff.DiffUtil">
-		<property name="diff">
-			<bean class="com.liferay.portal.diff.DiffImpl" />
-		</property>
+		<property name="diff" ref="com.liferay.portal.diff.DiffImpl" />
 	</bean>
 	<bean class="com.liferay.portal.kernel.editor.configuration.EditorConfigurationFactoryUtil" id="com.liferay.portal.kernel.editor.configuration.EditorConfigurationFactory">
 		<property name="editorConfigurationFactory" ref="com.liferay.portal.kernel.editor.configuration.EditorConfigurationFactoryImpl" />
@@ -95,19 +93,13 @@
 		</property>
 	</bean>
 	<bean class="com.liferay.portal.kernel.image.GhostscriptUtil" id="com.liferay.portal.kernel.image.GhostscriptUtil">
-		<property name="ghostscript">
-			<bean class="com.liferay.portal.image.GhostscriptImpl" />
-		</property>
+		<property name="ghostscript" ref="com.liferay.portal.image.GhostscriptImpl" />
 	</bean>
 	<bean class="com.liferay.portal.kernel.image.ImageMagickUtil" destroy-method="destroy" id="com.liferay.portal.kernel.image.ImageMagickUtil">
-		<property name="imageMagick">
-			<bean class="com.liferay.portal.image.ImageMagickImpl" factory-method="getInstance" />
-		</property>
+		<property name="imageMagick" ref="com.liferay.portal.image.ImageMagickImpl" />
 	</bean>
 	<bean class="com.liferay.portal.kernel.image.ImageToolUtil" id="com.liferay.portal.kernel.image.ImageToolUtil">
-		<property name="imageTool">
-			<bean class="com.liferay.portal.image.ImageToolImpl" factory-method="getInstance" />
-		</property>
+		<property name="imageTool" ref="com.liferay.portal.image.ImageToolImpl" />
 	</bean>
 	<bean class="com.liferay.portal.kernel.image.SpriteProcessorUtil" id="com.liferay.portal.kernel.image.SpriteProcessorUtil">
 		<property name="spriteProcessor">
@@ -423,6 +415,7 @@
 		<constructor-arg name="portletContainer" ref="com.liferay.portlet.internal.PortletContainerImpl" />
 	</bean>
 	<bean class="com.liferay.portlet.admin.util.OmniadminImpl" id="com.liferay.portlet.admin.util.OmniadminImpl" />
+	<bean class="com.liferay.portlet.expando.util.ExpandoBridgeIndexerImpl" id="com.liferay.portlet.expando.util.ExpandoBridgeIndexerImpl" />
 	<bean class="com.liferay.portlet.internal.PortletContainerImpl" id="com.liferay.portlet.internal.PortletContainerImpl">
 		<property name="portletConfigurationIconMenu" ref="com.liferay.portal.kernel.portlet.configuration.icon.PortletConfigurationIconMenu" />
 		<property name="portletToolbar" ref="com.liferay.portal.kernel.portlet.toolbar.PortletToolbar" />
