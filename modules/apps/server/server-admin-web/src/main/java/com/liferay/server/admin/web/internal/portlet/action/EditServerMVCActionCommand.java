@@ -32,7 +32,7 @@ import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.Property;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.image.GhostscriptUtil;
+import com.liferay.portal.kernel.image.Ghostscript;
 import com.liferay.portal.kernel.image.ImageMagickUtil;
 import com.liferay.portal.kernel.io.unsync.UnsyncByteArrayOutputStream;
 import com.liferay.portal.kernel.io.unsync.UnsyncPrintWriter;
@@ -609,7 +609,7 @@ public class EditServerMVCActionCommand extends BaseMVCActionCommand {
 
 		portletPreferences.store();
 
-		GhostscriptUtil.reset();
+		_ghostscript.reset();
 		ImageMagickUtil.reset();
 	}
 
@@ -781,6 +781,9 @@ public class EditServerMVCActionCommand extends BaseMVCActionCommand {
 
 	@Reference
 	private DirectServletRegistry _directServletRegistry;
+
+	@Reference
+	private Ghostscript _ghostscript;
 
 	@Reference
 	private GroupLocalService _groupLocalService;
