@@ -33,7 +33,7 @@ import com.liferay.portal.kernel.dao.orm.Property;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.image.Ghostscript;
-import com.liferay.portal.kernel.image.ImageMagickUtil;
+import com.liferay.portal.kernel.image.ImageMagick;
 import com.liferay.portal.kernel.io.unsync.UnsyncByteArrayOutputStream;
 import com.liferay.portal.kernel.io.unsync.UnsyncPrintWriter;
 import com.liferay.portal.kernel.log.Log;
@@ -610,7 +610,7 @@ public class EditServerMVCActionCommand extends BaseMVCActionCommand {
 		portletPreferences.store();
 
 		_ghostscript.reset();
-		ImageMagickUtil.reset();
+		_imageMagick.reset();
 	}
 
 	protected void updateLogLevels(ActionRequest actionRequest)
@@ -787,6 +787,9 @@ public class EditServerMVCActionCommand extends BaseMVCActionCommand {
 
 	@Reference
 	private GroupLocalService _groupLocalService;
+
+	@Reference
+	private ImageMagick _imageMagick;
 
 	@Reference
 	private LayoutLocalService _layoutLocalService;
