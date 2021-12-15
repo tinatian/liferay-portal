@@ -95,23 +95,9 @@ public class UpgradeConfigurationPidUpgradeTest {
 
 	@Test
 	public void testUpgradeConfigurationPid() throws Exception {
-		_createConfiguration(
-			_CONFIGURATION_PID,
-			HashMapDictionaryBuilder.put(
-				"service.factoryPid", _SERVICE_FACTORY_PID
-			).put(
-				"service.pid", _CONFIGURATION_PID
-			).build());
-
-		_upgradeConfigurationPidUpgradeProcess.upgrade();
-
-		Dictionary<String, String> dictionary = _getDictionary();
-
-		Assert.assertEquals(
-			_SERVICE_FACTORY_PID, dictionary.get("service.factoryPid"));
-
-		Assert.assertEquals(
-			_SERVICE_FACTORY_PID + "~instance1", dictionary.get("service.pid"));
+		_testUpgradeConfigurationPid(CharPool.PERIOD, "1234");
+		_testUpgradeConfigurationPid(CharPool.DASH, "abcd-abcd");
+		_testUpgradeConfigurationPid(CharPool.TILDE, "1234");
 	}
 
 	@Test
@@ -170,6 +156,31 @@ public class UpgradeConfigurationPidUpgradeTest {
 		return ConfigurationHandler.read(
 			new UnsyncByteArrayInputStream(
 				dictionaryString.getBytes(StringPool.UTF8)));
+	}
+
+	private void _testUpgradeConfigurationPid(char separator, String postfix)
+		throws Exception {
+
+		String configurationPid = _SERVICE_FACTORY_PID + separator + postfix;
+
+		_createConfiguration(
+			configurationPid,
+			HashMapDictionaryBuilder.put(
+				"service.factoryPid", _SERVICE_FACTORY_PID
+			).put(
+				"service.pid", configurationPid
+			).build());
+
+		_upgradeConfigurationPidUpgradeProcess.upgrade();
+
+		Dictionary<String, String> dictionary = _getDictionary();
+
+		Assert.assertEquals(
+			_SERVICE_FACTORY_PID, dictionary.get("service.factoryPid"));
+
+		Assert.assertEquals(
+			_SERVICE_FACTORY_PID + StringPool.TILDE + postfix,
+			dictionary.get("service.pid"));
 	}
 
 	private void _testUpgradeFileConfiguration(char separator)
