@@ -105,20 +105,6 @@ public class UpgradeConfigurationPidUpgradeTest {
 
 		_upgradeConfigurationPidUpgradeProcess.upgrade();
 
-		try (Connection connection = DataAccess.getConnection();
-			PreparedStatement preparedStatement = connection.prepareStatement(
-				StringBundler.concat(
-					"select configurationId from Configuration_ where ",
-					"configurationId like '", _SERVICE_FACTORY_PID, "%'"));
-			ResultSet resultSet = preparedStatement.executeQuery()) {
-
-			while (resultSet.next()) {
-				Assert.assertEquals(
-					_SERVICE_FACTORY_PID + "~instance1",
-					resultSet.getString("configurationId"));
-			}
-		}
-
 		Dictionary<String, String> dictionary = _getDictionary();
 
 		Assert.assertEquals(
