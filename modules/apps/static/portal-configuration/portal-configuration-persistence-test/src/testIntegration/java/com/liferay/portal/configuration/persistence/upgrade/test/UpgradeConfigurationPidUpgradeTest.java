@@ -96,6 +96,7 @@ public class UpgradeConfigurationPidUpgradeTest {
 	@Test
 	public void testUpgradeConfigurationPid() throws Exception {
 		_createConfiguration(
+			_CONFIGURATION_PID,
 			HashMapDictionaryBuilder.put(
 				"service.factoryPid", _SERVICE_FACTORY_PID
 			).put(
@@ -142,7 +143,8 @@ public class UpgradeConfigurationPidUpgradeTest {
 		_testUpgradeFileConfiguration(CharPool.UNDERLINE);
 	}
 
-	private void _createConfiguration(Dictionary<String, String> dictionary)
+	private void _createConfiguration(
+			String configurationPid, Dictionary<String, String> dictionary)
 		throws Exception {
 
 		UnsyncByteArrayOutputStream unsyncByteArrayOutputStream =
@@ -155,7 +157,7 @@ public class UpgradeConfigurationPidUpgradeTest {
 				"insert into Configuration_ (configurationId, dictionary) " +
 					"values(?, ?)")) {
 
-			preparedStatement.setString(1, _CONFIGURATION_PID);
+			preparedStatement.setString(1, configurationPid);
 
 			preparedStatement.setString(
 				2, unsyncByteArrayOutputStream.toString());
@@ -200,6 +202,7 @@ public class UpgradeConfigurationPidUpgradeTest {
 
 		try {
 			_createConfiguration(
+				_CONFIGURATION_PID,
 				HashMapDictionaryBuilder.put(
 					"felix.fileinstall.filename", fileName
 				).put(
