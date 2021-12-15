@@ -41,6 +41,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import java.util.Dictionary;
+import java.util.Objects;
 
 import org.apache.felix.cm.file.ConfigurationHandler;
 
@@ -70,9 +71,12 @@ public class UpgradeConfigurationPidUpgradeTest {
 				for (UpgradeStep upgradeStep : upgradeSteps) {
 					Class<?> clazz = upgradeStep.getClass();
 
-					String className = clazz.getName();
+					if (Objects.equals(
+							clazz.getName(),
+							"com.liferay.portal.configuration.persistence." +
+								"internal.upgrade.v1_0_0." +
+									"UpgradeConfigurationPid")) {
 
-					if (className.contains(_CLASS_NAME)) {
 						_upgradeConfigurationPidUpgradeProcess =
 							(UpgradeProcess)upgradeStep;
 					}
@@ -216,10 +220,6 @@ public class UpgradeConfigurationPidUpgradeTest {
 			Files.deleteIfExists(path);
 		}
 	}
-
-	private static final String _CLASS_NAME =
-		"com.liferay.portal.configuration.persistence.internal.upgrade." +
-			"v1_0_0.UpgradeConfigurationPid";
 
 	private static final String _CONFIGURATION_PID =
 		"test.configuration.instance1";
