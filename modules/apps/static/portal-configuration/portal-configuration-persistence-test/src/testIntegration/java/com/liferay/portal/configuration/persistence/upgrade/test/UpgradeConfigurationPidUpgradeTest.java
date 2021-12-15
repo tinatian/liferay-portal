@@ -101,18 +101,21 @@ public class UpgradeConfigurationPidUpgradeTest {
 	}
 
 	@Test
-	public void testUpgradeFileConfigurationWithDash() throws Exception {
-		_testUpgradeFileConfiguration(CharPool.DASH);
-	}
+	public void testUpgradeFileConfiguration() throws Exception {
+		_testUpgradeFileConfiguration(CharPool.PERIOD, "1234", CharPool.PERIOD);
+		_testUpgradeFileConfiguration(
+			CharPool.DASH, "abcd-abcd", CharPool.PERIOD);
+		_testUpgradeFileConfiguration(CharPool.TILDE, "abcd", CharPool.PERIOD);
 
-	@Test
-	public void testUpgradeFileConfigurationWithTilde() throws Exception {
-		_testUpgradeFileConfiguration(CharPool.TILDE);
-	}
+		_testUpgradeFileConfiguration(CharPool.PERIOD, "1234", CharPool.DASH);
+		_testUpgradeFileConfiguration(
+			CharPool.DASH, "abcd-abcd", CharPool.DASH);
+		_testUpgradeFileConfiguration(CharPool.TILDE, "abcd", CharPool.DASH);
 
-	@Test
-	public void testUpgradeFileConfigurationWithUnderline() throws Exception {
-		_testUpgradeFileConfiguration(CharPool.UNDERLINE);
+		_testUpgradeFileConfiguration(CharPool.PERIOD, "1234", CharPool.TILDE);
+		_testUpgradeFileConfiguration(
+			CharPool.DASH, "abcd-abcd", CharPool.TILDE);
+		_testUpgradeFileConfiguration(CharPool.TILDE, "abcd", CharPool.TILDE);
 	}
 
 	private void _createConfiguration(
@@ -183,10 +186,17 @@ public class UpgradeConfigurationPidUpgradeTest {
 			dictionary.get("service.pid"));
 	}
 
-	private void _testUpgradeFileConfiguration(char separator)
+	private void _testUpgradeFileConfiguration(
+			char configurationPidSeparator, String configurationPidPostfix,
+			char fileSeparator)
 		throws Exception {
 
-		String fileName = _SERVICE_FACTORY_PID + separator + "default.config";
+		String fileName = StringBundler.concat(
+			_SERVICE_FACTORY_PID, fileSeparator, "default.config");
+
+		String configurationPid =
+			_SERVICE_FACTORY_PID + configurationPidSeparator +
+				configurationPidPostfix;
 
 		File file = new File(
 			PropsValues.MODULE_FRAMEWORK_CONFIGS_DIR, fileName);
@@ -199,13 +209,13 @@ public class UpgradeConfigurationPidUpgradeTest {
 
 		try {
 			_createConfiguration(
-				_CONFIGURATION_PID,
+				configurationPid,
 				HashMapDictionaryBuilder.put(
 					"felix.fileinstall.filename", fileName
 				).put(
 					"service.factoryPid", _SERVICE_FACTORY_PID
 				).put(
-					"service.pid", _CONFIGURATION_PID
+					"service.pid", configurationPid
 				).build());
 
 			_upgradeConfigurationPidUpgradeProcess.upgrade();
@@ -220,9 +230,6 @@ public class UpgradeConfigurationPidUpgradeTest {
 			Files.deleteIfExists(path);
 		}
 	}
-
-	private static final String _CONFIGURATION_PID =
-		"test.configuration.instance1";
 
 	private static final String _SERVICE_FACTORY_PID = "test.configuration";
 
