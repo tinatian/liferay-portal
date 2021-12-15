@@ -216,7 +216,7 @@ public class UpgradeConfigurationPidUpgradeTest {
 			Dictionary<String, String> dictionary = _getDictionary();
 
 			Assert.assertEquals(
-				_SERVICE_FACTORY_PID + "~default.config",
+				_SERVICE_FACTORY_PID + "~default",
 				dictionary.get("service.pid"));
 		}
 		finally {
