@@ -29,11 +29,14 @@ import com.liferay.portal.kernel.util.Validator;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 
 import java.net.URL;
 
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
@@ -102,6 +105,19 @@ public class Log4JUtil {
 		return new HashMap<>(_customLogSettings);
 	}
 
+	public static List<Log4JLevelConfig> getLog4JLevelConfigs() {
+		Map<String, String> priorities = Log4jConfigUtil.getPriorities();
+
+		List<Log4JLevelConfig> log4JLevelConfigs = new ArrayList<>();
+
+		priorities.forEach(
+			(name, priority) -> log4JLevelConfigs.add(
+				new Log4JLevelConfig(
+					name, priority, _customLogSettings.containsKey(name))));
+
+		return log4JLevelConfigs;
+	}
+
 	/**
 	 * @deprecated As of Cavanaugh (7.4.x), with no direct replacement
 	 */
@@ -160,6 +176,32 @@ public class Log4JUtil {
 
 	public static void shutdownLog4J() {
 		Log4jConfigUtil.shutdownLog4J();
+	}
+
+	public static class Log4JLevelConfig implements Serializable {
+
+		public Log4JLevelConfig(String name, String priority, boolean custom) {
+			_name = name;
+			_priority = priority;
+			_custom = custom;
+		}
+
+		public String getName() {
+			return _name;
+		}
+
+		public String getPriority() {
+			return _priority;
+		}
+
+		public boolean isCustom() {
+			return _custom;
+		}
+
+		private final boolean _custom;
+		private final String _name;
+		private final String _priority;
+
 	}
 
 	private static String _escapeXMLAttribute(String s) {

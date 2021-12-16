@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.cache.CacheRegistryUtil;
 import com.liferay.portal.kernel.cache.MultiVMPool;
 import com.liferay.portal.kernel.cache.SingleVMPool;
 import com.liferay.portal.kernel.cluster.ClusterExecutorUtil;
+import com.liferay.portal.kernel.cluster.ClusterMasterExecutorUtil;
 import com.liferay.portal.kernel.cluster.ClusterRequest;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
@@ -107,8 +108,6 @@ import com.liferay.portal.kernel.xuggler.XugglerUtil;
 import com.liferay.portal.util.MaintenanceUtil;
 import com.liferay.portal.util.PrefsPropsUtil;
 import com.liferay.portal.util.ShutdownUtil;
-
-import java.io.Serializable;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -247,9 +246,17 @@ public class EditServerMVCActionCommand extends BaseMVCActionCommand {
 
 		Log4JUtil.setLevel(loggerName, priority, true);
 
-		_executeOnCluster(
-			_updateLogLevelsMethodKey,
-			Collections.singletonList(new LogLevel(loggerName, priority)));
+		if (ClusterMasterExecutorUtil.isMaster()) {
+			_notifySlaves(
+				_updateLogLevelsMethodKey, Log4JUtil.getLog4JLevelConfigs());
+		}
+		else {
+			_notifyMaster(
+				_updateLogLevelsMethodKey,
+				Collections.singletonList(
+					new Log4JUtil.Log4JLevelConfig(
+						loggerName, priority, true)));
+		}
 	}
 
 	protected void cacheDb() throws Exception {
@@ -630,7 +637,7 @@ public class EditServerMVCActionCommand extends BaseMVCActionCommand {
 
 		Enumeration<String> enumeration = actionRequest.getParameterNames();
 
-		List<LogLevel> logLevels = new ArrayList<>();
+		List<Log4JUtil.Log4JLevelConfig> log4JLevelConfigs = new ArrayList<>();
 
 		while (enumeration.hasMoreElements()) {
 			String name = enumeration.nextElement();
@@ -643,12 +650,17 @@ public class EditServerMVCActionCommand extends BaseMVCActionCommand {
 
 				Log4JUtil.setLevel(loggerName, priority, true);
 
-				logLevels.add(new LogLevel(loggerName, priority));
+				log4JLevelConfigs.add(
+					new Log4JUtil.Log4JLevelConfig(loggerName, priority, true));
 			}
 		}
 
-		if (!logLevels.isEmpty()) {
-			_executeOnCluster(_updateLogLevelsMethodKey, logLevels);
+		if (ClusterMasterExecutorUtil.isMaster()) {
+			_notifySlaves(
+				_updateLogLevelsMethodKey, Log4JUtil.getLog4JLevelConfigs());
+		}
+		else if (!log4JLevelConfigs.isEmpty()) {
+			_notifyMaster(_updateLogLevelsMethodKey, log4JLevelConfigs);
 		}
 	}
 
@@ -796,7 +808,17 @@ public class EditServerMVCActionCommand extends BaseMVCActionCommand {
 		return portletIds.contains(portletId);
 	}
 
-	private void _executeOnCluster(MethodKey methodKey, Object... arguments) {
+	private void _notifyMaster(MethodKey methodKey, Object... arguments) {
+		try {
+			ClusterMasterExecutorUtil.executeOnMaster(
+				new MethodHandler(methodKey, arguments));
+		}
+		catch (Throwable throwable) {
+			_log.error("Unable to notify master", throwable);
+		}
+	}
+
+	private void _notifySlaves(MethodKey methodKey, Object... arguments) {
 		try {
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, arguments);
@@ -813,9 +835,18 @@ public class EditServerMVCActionCommand extends BaseMVCActionCommand {
 		}
 	}
 
-	private void _updateLogLevels(List<LogLevel> logLevels) {
-		for (LogLevel logLevel : logLevels) {
-			Log4JUtil.setLevel(logLevel._loggerName, logLevel._priority, true);
+	private void _updateLogLevels(
+		List<Log4JUtil.Log4JLevelConfig> log4JLevelConfigs) {
+
+		for (Log4JUtil.Log4JLevelConfig log4JLevelConfig : log4JLevelConfigs) {
+			Log4JUtil.setLevel(
+				log4JLevelConfig.getName(), log4JLevelConfig.getPriority(),
+				log4JLevelConfig.isCustom());
+		}
+
+		if (ClusterMasterExecutorUtil.isMaster()) {
+			_notifySlaves(
+				_updateLogLevelsMethodKey, Log4JUtil.getLog4JLevelConfigs());
 		}
 	}
 
@@ -879,17 +910,5 @@ public class EditServerMVCActionCommand extends BaseMVCActionCommand {
 
 	@Reference
 	private UserGroupMembershipPolicyFactory _userGroupMembershipPolicyFactory;
-
-	private static class LogLevel implements Serializable {
-
-		public LogLevel(String loggerName, String priority) {
-			_loggerName = loggerName;
-			_priority = priority;
-		}
-
-		private final String _loggerName;
-		private final String _priority;
-
-	}
 
 }
