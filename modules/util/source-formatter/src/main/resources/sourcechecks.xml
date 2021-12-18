@@ -877,6 +877,7 @@
 			<property name="serviceReferenceUtilClassNames" value="com.liferay.portal.kernel.util.HttpUtil" />
 			<property name="serviceReferenceUtilClassNames" value="com.liferay.portal.kernel.dao.jdbc.CurrentConnectionUtil" />
 			<property name="serviceReferenceUtilClassNames" value="com.liferay.portal.kernel.diff.DiffHtmlUtil" />
+			<property name="serviceReferenceUtilClassNames" value="com.liferay.portal.kernel.diff.DiffUtil" />
 			<property name="serviceReferenceUtilClassNames" value="com.liferay.portal.kernel.util.PortalUtil" />
 		</check>
 
