@@ -20,6 +20,7 @@
 	<bean class="com.liferay.portal.convert.documentlibrary.DocumentLibraryExtraSettingsConvertProcess" />
 	<bean class="com.liferay.portal.dao.jdbc.CurrentConnectionImpl" id="com.liferay.portal.dao.jdbc.CurrentConnectionImpl" />
 	<bean class="com.liferay.portal.diff.DiffHtmlImpl" id="com.liferay.portal.diff.DiffHtmlImpl" />
+	<bean class="com.liferay.portal.diff.DiffImpl" id="com.liferay.portal.diff.DiffImpl" />
 	<bean class="com.liferay.portal.format.IdenticalPhoneNumberFormatImpl" id="com.liferay.portal.format.IdenticalPhoneNumberFormatImpl" />
 	<bean class="com.liferay.portal.internal.increment.BufferedIncrementProcessorUtil" />
 	<bean factory-bean="com.liferay.portal.kernel.json.JSONFactory" factory-method="getLiferayJSONDeserializationWhitelist" id="com.liferay.portal.json.jabsorb.serializer.LiferayJSONDeserializationWhitelist" />
@@ -75,9 +76,7 @@
 		<property name="diffHtml" ref="com.liferay.portal.diff.DiffHtmlImpl" />
 	</bean>
 	<bean class="com.liferay.portal.kernel.diff.DiffUtil" id="com.liferay.portal.kernel.diff.DiffUtil">
-		<property name="diff">
-			<bean class="com.liferay.portal.diff.DiffImpl" />
-		</property>
+		<property name="diff" ref="com.liferay.portal.diff.DiffImpl" />
 	</bean>
 	<bean class="com.liferay.portal.kernel.editor.configuration.EditorConfigurationFactoryUtil" id="com.liferay.portal.kernel.editor.configuration.EditorConfigurationFactory">
 		<property name="editorConfigurationFactory" ref="com.liferay.portal.kernel.editor.configuration.EditorConfigurationFactoryImpl" />
