@@ -875,6 +875,7 @@
 			<property name="serviceReferenceUtilClassNames" value="com.liferay.portal.kernel.bean.BeanPropertiesUtil" />
 			<property name="serviceReferenceUtilClassNames" value="com.liferay.portal.kernel.comment.CommentManagerUtil" />
 			<property name="serviceReferenceUtilClassNames" value="com.liferay.portal.kernel.util.HttpUtil" />
+			<property name="serviceReferenceUtilClassNames" value="com.liferay.portal.kernel.dao.jdbc.CurrentConnectionUtil" />
 			<property name="serviceReferenceUtilClassNames" value="com.liferay.portal.kernel.util.PortalUtil" />
 		</check>
 
