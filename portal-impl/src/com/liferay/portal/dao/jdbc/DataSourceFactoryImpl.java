@@ -33,7 +33,6 @@ import com.liferay.portal.kernel.jndi.JNDIUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.util.SystemBundleUtil;
-import com.liferay.portal.kernel.util.DigesterUtil;
 import com.liferay.portal.kernel.util.JavaDetector;
 import com.liferay.portal.kernel.util.PropertiesUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
@@ -42,7 +41,6 @@ import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Time;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.spring.hibernate.DialectDetector;
-import com.liferay.portal.util.DigesterImpl;
 import com.liferay.portal.util.JarUtil;
 import com.liferay.portal.util.PropsUtil;
 import com.liferay.portal.util.PropsValues;
@@ -622,10 +620,6 @@ public class DataSourceFactoryImpl implements DataSourceFactory {
 			}
 
 			try {
-				DigesterUtil digesterUtil = new DigesterUtil();
-
-				digesterUtil.setDigester(new DigesterImpl());
-
 				JarUtil.downloadAndInstallJar(
 					new URL(url),
 					Paths.get(PropsValues.LIFERAY_LIB_PORTAL_DIR, name),
