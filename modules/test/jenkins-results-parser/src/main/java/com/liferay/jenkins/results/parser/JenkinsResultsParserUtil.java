@@ -952,6 +952,10 @@ public class JenkinsResultsParserUtil {
 
 				urlString = urlString.replaceAll("\\+", "%20");
 
+				urlString = urlString.replaceAll("%21", "!");
+				urlString = urlString.replaceAll("%25", "%");
+				urlString = urlString.replaceAll("%2B", "+");
+
 				return urlString;
 			}
 			catch (UnsupportedEncodingException unsupportedEncodingException) {
@@ -981,12 +985,20 @@ public class JenkinsResultsParserUtil {
 			try {
 				String queryParameterValue = matcher.group(2);
 
-				queryParameterValue = queryParameterValue.replaceAll(
-					"\\+", " ");
+				queryParameterValue = URLEncoder.encode(
+					queryParameterValue, StandardCharsets.UTF_8.name());
 
-				sb.append(
-					URLEncoder.encode(
-						queryParameterValue, StandardCharsets.UTF_8.name()));
+				queryParameterValue = queryParameterValue.replaceAll(
+					"\\+", "%20");
+
+				queryParameterValue = queryParameterValue.replaceAll(
+					"%21", "!");
+				queryParameterValue = queryParameterValue.replaceAll(
+					"%25", "%");
+				queryParameterValue = queryParameterValue.replaceAll(
+					"%2B", "+");
+
+				sb.append(queryParameterValue);
 			}
 			catch (UnsupportedEncodingException unsupportedEncodingException) {
 				throw new RuntimeException(unsupportedEncodingException);

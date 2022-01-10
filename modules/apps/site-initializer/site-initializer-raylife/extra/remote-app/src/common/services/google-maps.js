@@ -1,6 +1,7 @@
-/* eslint-disable no-undef */
 import '../../types';
 import {Loader} from '@googlemaps/js-api-loader';
+
+const google = window.google;
 
 /**
  * @description Load google global variable asynchronously

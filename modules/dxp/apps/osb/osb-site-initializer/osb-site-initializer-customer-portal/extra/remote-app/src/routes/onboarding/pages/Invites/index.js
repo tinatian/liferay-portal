@@ -274,8 +274,8 @@ const Invites = () => {
 				<div className="px-3">
 					<label>Project Name</label>
 
-					<p className="text-neutral-6 text-paragraph-lg">
-						<strong>{project ? project.code : ''}</strong>
+					<p className="invites-project-name text-neutral-6 text-paragraph-lg">
+						<strong>{project.name}</strong>
 					</p>
 				</div>
 
