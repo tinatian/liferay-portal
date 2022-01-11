@@ -55,6 +55,11 @@ public class PortalClassPathUtil {
 
 		File[] files = _listClassPathFiles(classes);
 
+		if (files.length == 0) {
+			throw new IllegalStateException(
+				"Class path files could not be loaded");
+		}
+
 		StringBundler sb = new StringBundler(files.length * 2);
 
 		for (File file : files) {
@@ -127,6 +132,11 @@ public class PortalClassPathUtil {
 		File[] files = _listClassPathFiles(
 			ServletException.class, CentralizedThreadLocal.class,
 			shieldedContainerInitializerClass);
+
+		if (files.length == 0) {
+			throw new IllegalStateException(
+				"Class path files could not be loaded");
+		}
 
 		StringBundler sb = new StringBundler(files.length * 2);
 
