@@ -19,7 +19,6 @@ import com.liferay.petra.process.ProcessConfig;
 import com.liferay.petra.process.ProcessLog;
 import com.liferay.petra.string.CharPool;
 import com.liferay.petra.string.StringBundler;
-import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.PortalClassLoaderUtil;
@@ -54,13 +53,20 @@ public class PortalClassPathUtil {
 
 		builder.setArguments(_processArgs);
 
-		String classpath = _buildClassPath(classes);
+		File[] files = _listClassPathFiles(classes);
 
-		classpath = StringBundler.concat(
-			classpath, File.pathSeparator,
-			_portalProcessConfig.getBootstrapClassPath());
+		StringBundler sb = new StringBundler(files.length * 2);
 
-		builder.setBootstrapClassPath(classpath);
+		for (File file : files) {
+			sb.append(file.getAbsolutePath());
+			sb.append(File.pathSeparator);
+		}
+
+		sb.append(_portalProcessConfig.getBootstrapClassPath());
+
+		String classPath = sb.toString();
+
+		builder.setBootstrapClassPath(classPath);
 
 		builder.setProcessLogConsumer(
 			processLog -> {
@@ -88,7 +94,7 @@ public class PortalClassPathUtil {
 				}
 			});
 		builder.setReactClassLoader(PortalClassLoaderUtil.getClassLoader());
-		builder.setRuntimeClassPath(classpath);
+		builder.setRuntimeClassPath(classPath);
 
 		return builder.build();
 	}
@@ -118,13 +124,18 @@ public class PortalClassPathUtil {
 				classNotFoundException);
 		}
 
-		String bootstrapClassPath = _buildClassPath(
+		File[] files = _listClassPathFiles(
 			ServletException.class, CentralizedThreadLocal.class,
 			shieldedContainerInitializerClass);
 
-		StringBundler sb = new StringBundler(4);
+		StringBundler sb = new StringBundler(files.length * 2);
 
-		sb.append(bootstrapClassPath);
+		for (File file : files) {
+			sb.append(file.getAbsolutePath());
+			sb.append(File.pathSeparator);
+		}
+
+		sb.setIndex(sb.index() - 1);
 
 		if (servletContext != null) {
 			sb.append(File.pathSeparator);
@@ -137,30 +148,11 @@ public class PortalClassPathUtil {
 		ProcessConfig.Builder builder = new ProcessConfig.Builder();
 
 		builder.setArguments(_processArgs);
-		builder.setBootstrapClassPath(bootstrapClassPath);
+		builder.setBootstrapClassPath(sb.toString());
 		builder.setReactClassLoader(classLoader);
 		builder.setRuntimeClassPath(portalClassPath);
 
 		_portalProcessConfig = builder.build();
-	}
-
-	private static String _buildClassPath(Class<?>... classes) {
-		File[] files = _listClassPathFiles(classes);
-
-		if (files.length == 0) {
-			return StringPool.BLANK;
-		}
-
-		StringBundler sb = new StringBundler(files.length * 2);
-
-		for (File file : files) {
-			sb.append(file.getAbsolutePath());
-			sb.append(File.pathSeparator);
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		return sb.toString();
 	}
 
 	private static File[] _listClassPathFiles(Class<?> clazz) {
