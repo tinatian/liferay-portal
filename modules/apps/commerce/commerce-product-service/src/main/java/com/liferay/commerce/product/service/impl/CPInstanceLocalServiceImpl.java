@@ -17,6 +17,7 @@ package com.liferay.commerce.product.service.impl;
 import com.liferay.commerce.product.constants.CPField;
 import com.liferay.commerce.product.exception.CPInstanceDisplayDateException;
 import com.liferay.commerce.product.exception.CPInstanceExpirationDateException;
+import com.liferay.commerce.product.exception.CPInstanceReplacementCPInstanceUuidException;
 import com.liferay.commerce.product.exception.CPInstanceSkuException;
 import com.liferay.commerce.product.exception.NoSuchCPInstanceException;
 import com.liferay.commerce.product.exception.NoSuchSkuContributorCPDefinitionOptionRelException;
@@ -1064,6 +1065,9 @@ public class CPInstanceLocalServiceImpl extends CPInstanceLocalServiceBaseImpl {
 
 		_validateSku(cpInstance.getCPDefinitionId(), cpInstanceId, sku);
 
+		_validateReplacementCPInstance(
+			cpInstance, replacementCPInstanceUuid, replacementCProductId);
+
 		User user = userLocalService.getUser(serviceContext.getUserId());
 
 		if (cpDefinitionLocalService.isVersionable(
@@ -1683,6 +1687,32 @@ public class CPInstanceLocalServiceImpl extends CPInstanceLocalServiceBaseImpl {
 			cpInstance, serviceContext, workflowContext);
 	}
 
+	private void _checkReplacementCPInstance(
+			String cpInstanceUuid, long cProductId,
+			String replacementCPInstanceUuid, long replacementCProductId)
+		throws CPInstanceReplacementCPInstanceUuidException {
+
+		CPInstance replacementCPInstance =
+			cpInstanceLocalService.fetchCProductInstance(
+				replacementCProductId, replacementCPInstanceUuid);
+
+		if (replacementCPInstance == null) {
+			return;
+		}
+
+		if ((cProductId == replacementCPInstance.getReplacementCProductId()) &&
+			cpInstanceUuid.equals(
+				replacementCPInstance.getReplacementCPInstanceUuid())) {
+
+			throw new CPInstanceReplacementCPInstanceUuidException();
+		}
+
+		_checkReplacementCPInstance(
+			cpInstanceUuid, cProductId,
+			replacementCPInstance.getReplacementCPInstanceUuid(),
+			replacementCPInstance.getReplacementCProductId());
+	}
+
 	private void _expireApprovedSiblingCPInstances(
 			long cpDefinitionId, long siblingCPInstanceId,
 			ServiceContext serviceContext)
@@ -1917,6 +1947,24 @@ public class CPInstanceLocalServiceImpl extends CPInstanceLocalServiceBaseImpl {
 		}
 
 		return cpDefinitionOptionRelIdCPDefinitionOptionValueRelIds;
+	}
+
+	private void _validateReplacementCPInstance(
+			CPInstance cpInstance, String replacementCPInstanceUuid,
+			long replacementCProductId)
+		throws PortalException {
+
+		CPDefinition cpDefinition = cpInstance.getCPDefinition();
+
+		if ((replacementCProductId == cpDefinition.getCProductId()) &&
+			replacementCPInstanceUuid.equals(cpInstance.getCPInstanceUuid())) {
+
+			throw new CPInstanceReplacementCPInstanceUuidException();
+		}
+
+		_checkReplacementCPInstance(
+			cpInstance.getCPInstanceUuid(), cpDefinition.getCProductId(),
+			replacementCPInstanceUuid, replacementCProductId);
 	}
 
 	private void _validateSku(

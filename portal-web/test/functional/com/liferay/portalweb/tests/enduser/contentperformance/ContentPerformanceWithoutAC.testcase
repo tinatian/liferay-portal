@@ -52,7 +52,6 @@ definition {
 	}
 
 	@description = "LPS-108856: When user opens Content Performance panel and AC is not connected, a Dont show me this again button is displayed"
-	@ignore = "true"
 	@priority = "3"
 	test DontShowButton {
 		task ("Assert if element is not present") {
@@ -67,7 +66,6 @@ definition {
 	}
 
 	@description = "LPS-105216: Validate that Free trial and dismiss buttons are displayed when AC is disabled"
-	@ignore = "true"
 	@priority = "5"
 	test FreeTrialButtonPresent {
 		task ("Open Content Performance and Assert if element is present") {
@@ -88,38 +86,60 @@ definition {
 	}
 
 	@description = "LPS-108856: When user clicks on Dont show me this again button, the Content Performance panel disappears"
-	@ignore = "true"
 	@priority = "5"
 	test HideContentPerformancePanel {
+		task ("Assert if element is not present") {
+			if (IsVisible(locator1 = "ContentPerformance#CONTENT_PERFORMANCE_PANEL")) {
+				Click(locator1 = "ContentPerformance#CONTENT_PERFORMANCE_BUTTON");
+			}
 
-		// TODO LPS-139239 HideContentPerformancePanel pending implementation
+			Click(locator1 = "ContentPerformance#CONTENT_PERFORMANCE_BUTTON");
+		}
+
+		task ("Click on the button") {
+			Click(locator1 = "ContentPerformance#CONTENT_PERFORMANCE_DO_NOT_SHOW_AGAIN");
+		}
+
+		task ("Assert that the Content Performance panel button disappears") {
+			AssertElementNotPresent(
+				locator1 = "ContentPerformance#CONTENT_PERFORMANCE_BUTTON",
+				value1 = "Content Performance");
+		}
+	}
+
+	@description = "LPS-126044: When DXP is not connected to AC, the metrics icon is shown in the bar above the blog display page in the view mode"
+	@ignore = "true"
+	@priority = "3"
+	test MetricsIconNotVisibleInBlogDisplayPageWithoutAC {
+
+		// TODO LPS-144030 MetricsIconNotVisibleInBlogDisplayPageWithoutAC pending implementation
 
 	}
 
-	@description = "LPS-126044: When DXP is not connected to AC, the metrics icon is not shown in the bar above the blog display page in the view mode"
+	@description = "LPS-126044: When DXP is not connected to AC, the metrics icon is shown in the bar above the document display page in the view mode"
 	@ignore = "true"
 	@priority = "3"
-	test MetricsIconNotVisibleInBlogDisplayPage {
+	test MetricsIconNotVisibleInDocumentDisplayPageWithoutAC {
 
-		// TODO LPS-144030 MetricsIconNotVisibleInBlogDisplayPage pending implementation
+		// TODO LPS-144030 MetricsIconNotVisibleInDocumentDisplayPageWithoutAC pending implementation
 
 	}
 
-	@description = "LPS-126044: When DXP is not connected to AC, the metrics icon is not shown in the bar above the document display page in the view mode"
+	@description = "LPS-126047: When DXP is not connected to AC, the metrics icon is shown in the bar above the widget page in the view mode"
 	@ignore = "true"
 	@priority = "3"
-	test MetricsIconNotVisibleInDocumentDisplayPage {
+	test MetricsIconNotVisibleInWidgetPageWithoutAC {
 
-		// TODO LPS-144030 MetricsIconNotVisibleInDocumentDisplayPage pending implementation
+		// TODO LPS-144029 MetricsIconNotVisibleInWidgetPageWithoutAC pending implementation
 
 	}
 
-	@description = "LPS-126047: When DXP is not connected to AC, the metrics icon is not shown in the bar above the widget page in the view mode"
+	@description = "LPS-127220: When DXP is not connected to AC, the metrics icon is shown in the bar above the content page in the view mode"
 	@ignore = "true"
 	@priority = "3"
-	test MetricsIconNotVisibleInWidgetPage {
+	test MetricsIconVisibleInContentPageWithoutAC {
 
-		// TODO LPS-144029 MetricsIconNotVisibleInWidgetPage pending implementation
+		// TODO LPS-144028 MetricsIconVisibleInContentPageWithoutAC pending implementation
 
 	}
 
@@ -181,7 +201,6 @@ definition {
 	}
 
 	@description = "LPS-108856: When user opens Content Performance panel and AC is connected but not synced, the Content Performance panel displays instructions to sync to AC (Dont show me this again button and the message is not displayed)"
-	@ignore = "true"
 	@priority = "3"
 	test NotSyncedPanel {
 		task ("Open Analytics Cloud") {

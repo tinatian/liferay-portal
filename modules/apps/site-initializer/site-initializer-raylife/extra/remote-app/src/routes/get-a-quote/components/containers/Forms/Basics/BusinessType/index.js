@@ -12,31 +12,29 @@
  * details.
  */
 
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {useFormContext} from 'react-hook-form';
-import {CardFormActions} from '../../../../../../../common/components/fragments/Card/FormActions';
-import FormCard from '../../../../../../../common/components/fragments/Card/FormCard';
+import {
+	STORAGE_KEYS,
+	Storage,
+} from '../../../../../../../common/services/liferay/storage';
 import {DEVICES} from '../../../../../../../common/utils/constants';
-import {smoothScroll} from '../../../../../../../common/utils/scroll';
 import {
 	ActionTypes,
 	AppContext,
 } from '../../../../../context/AppContextProvider';
-import {useStepWizard} from '../../../../../hooks/useStepWizard';
-import {AVAILABLE_STEPS} from '../../../../../utils/constants';
 import {BusinessTypeSearch} from './Search';
 
 export function FormBasicBusinessType({form}) {
-	const {setSection} = useStepWizard();
-	const [newSelectedProduct, setNewSelectedProduct] = useState('');
 	const {dispatch, state} = useContext(AppContext);
 	const {setValue} = useFormContext();
+	const [newSelectedProduct, setNewSelectedProduct] = useState(
+		Storage.getItem(STORAGE_KEYS.SELECTED_PRODUCT)
+	);
 
 	const isMobileDevice = state.dimensions.deviceSize === DEVICES.PHONE;
 
-	const goToNextForm = () => {
-		setSection(AVAILABLE_STEPS.BASICS_BUSINESS_INFORMATION);
-
+	useEffect(() => {
 		if (state.selectedProduct !== newSelectedProduct) {
 			setValue('business', '');
 			dispatch({
@@ -44,33 +42,21 @@ export function FormBasicBusinessType({form}) {
 				type: ActionTypes.SET_SELECTED_PRODUCT,
 			});
 		}
-
-		smoothScroll();
-	};
-
-	const goToPreviousPage = () => {
-		setSection(AVAILABLE_STEPS.BASICS_PRODUCT_QUOTE);
-
-		smoothScroll();
-	};
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [state.selectedProduct, newSelectedProduct]);
 
 	return (
-		<FormCard>
-			<div className="d-flex flex-column mb-5">
-				<BusinessTypeSearch
-					form={form}
-					isMobileDevice={isMobileDevice}
-					setNewSelectedProduct={setNewSelectedProduct}
-					taxonomyVocabularyId={state.taxonomyVocabulary.id}
-				/>
-			</div>
-
-			<CardFormActions
+		<div className="d-flex flex-column mb-5">
+			<BusinessTypeSearch
+				form={form}
 				isMobileDevice={isMobileDevice}
-				isValid={!!form?.basics?.businessCategoryId}
-				onNext={goToNextForm}
-				onPrevious={goToPreviousPage}
+				setNewSelectedProduct={(value) => {
+					setNewSelectedProduct(value);
+
+					Storage.setItem(STORAGE_KEYS.SELECTED_PRODUCT, value);
+				}}
+				taxonomyVocabularyId={state.taxonomyVocabulary.id}
 			/>
-		</FormCard>
+		</div>
 	);
 }

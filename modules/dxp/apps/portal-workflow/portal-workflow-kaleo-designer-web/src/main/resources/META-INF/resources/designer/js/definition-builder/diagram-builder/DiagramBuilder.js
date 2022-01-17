@@ -29,13 +29,13 @@ import {defaultLanguageId} from '../constants';
 import DeserializeUtil from '../source-builder/deserializeUtil';
 import {singleEventObserver} from '../util/EventObserver';
 import {retrieveDefinitionRequest} from '../util/fetchUtil';
-import {getCollidingElements} from '../util/utils';
 import {DiagramBuilderContextProvider} from './DiagramBuilderContext';
 import {nodeTypes} from './components/nodes/utils';
 import Sidebar from './components/sidebar/Sidebar';
 import {isIdDuplicated} from './components/sidebar/utils';
 import edgeTypes from './components/transitions/Edge';
 import FloatingConnectionLine from './components/transitions/FloatingConnectionLine';
+import getCollidingElements from './util/collisionDetection';
 
 let id = 2;
 const getId = () => `item_${id++}`;
@@ -59,6 +59,7 @@ export default function DiagramBuilder({version}) {
 	} = useContext(DefinitionBuilderContext);
 	const reactFlowWrapperRef = useRef(null);
 	const [collidingElements, setCollidingElements] = useState(null);
+	const [elementRectangle, setElementRectangle] = useState(null);
 	const [reactFlowInstance, setReactFlowInstance] = useState(null);
 	const [selectedItem, setSelectedItem] = useState(null);
 	const [selectedItemNewId, setSelectedItemNewId] = useState(null);
@@ -102,11 +103,19 @@ export default function DiagramBuilder({version}) {
 		const reactFlowBounds = reactFlowWrapperRef.current.getBoundingClientRect();
 
 		const position = reactFlowInstance.project({
-			x: event.clientX - reactFlowBounds.left,
-			y: event.clientY - reactFlowBounds.top,
+			x:
+				event.clientX -
+				reactFlowBounds.left -
+				elementRectangle.mouseXInRectangle,
+			y:
+				event.clientY -
+				reactFlowBounds.top -
+				elementRectangle.mouseYInRectangle,
 		});
 
-		setCollidingElements(getCollidingElements(elements, position));
+		setCollidingElements(
+			getCollidingElements(elements, elementRectangle, position)
+		);
 
 		event.preventDefault();
 
@@ -118,11 +127,20 @@ export default function DiagramBuilder({version}) {
 			const reactFlowBounds = reactFlowWrapperRef.current.getBoundingClientRect();
 
 			const position = reactFlowInstance.project({
-				x: event.clientX - reactFlowBounds.left,
-				y: event.clientY - reactFlowBounds.top,
+				x:
+					event.clientX -
+					reactFlowBounds.left -
+					elementRectangle.mouseXInRectangle,
+				y:
+					event.clientY -
+					reactFlowBounds.top -
+					elementRectangle.mouseYInRectangle,
 			});
 
-			if (getCollidingElements(elements, position).length === 0) {
+			if (
+				getCollidingElements(elements, elementRectangle, position)
+					.length === 0
+			) {
 				event.preventDefault();
 
 				const type = event.dataTransfer.getData(
@@ -142,7 +160,7 @@ export default function DiagramBuilder({version}) {
 			}
 			setCollidingElements(null);
 		},
-		[elements, reactFlowInstance, setElements]
+		[elements, elementRectangle, reactFlowInstance, setElements]
 	);
 
 	const onLoad = (reactFlowInstance) => {
@@ -253,9 +271,11 @@ export default function DiagramBuilder({version}) {
 
 	const contextProps = {
 		collidingElements,
+		elementRectangle,
 		selectedItem,
 		selectedItemNewId,
 		setCollidingElements,
+		setElementRectangle,
 		setSelectedItem,
 		setSelectedItemNewId,
 	};

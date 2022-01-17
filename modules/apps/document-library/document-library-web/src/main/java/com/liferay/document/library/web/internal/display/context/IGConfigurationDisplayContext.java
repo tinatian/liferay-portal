@@ -15,17 +15,21 @@
 package com.liferay.document.library.web.internal.display.context;
 
 import com.liferay.document.library.constants.DLPortletKeys;
+import com.liferay.document.library.kernel.exception.NoSuchFolderException;
 import com.liferay.document.library.kernel.model.DLFolderConstants;
 import com.liferay.document.library.kernel.service.DLAppLocalService;
 import com.liferay.document.library.web.internal.display.context.helper.DLPortletInstanceSettingsHelper;
 import com.liferay.document.library.web.internal.display.context.helper.IGRequestHelper;
 import com.liferay.document.library.web.internal.settings.DLPortletInstanceSettings;
+import com.liferay.document.library.web.internal.util.DLFolderUtil;
 import com.liferay.item.selector.ItemSelector;
 import com.liferay.item.selector.criteria.FolderItemSelectorReturnType;
 import com.liferay.item.selector.criteria.folder.criterion.FolderItemSelectorCriterion;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.Repository;
 import com.liferay.portal.kernel.portlet.RequestBackedPortletURLFactoryUtil;
@@ -267,6 +271,19 @@ public class IGConfigurationDisplayContext {
 				_folderName = _trashHelper.getOriginalTitle(_folder.getName());
 			}
 		}
+
+		try {
+			DLFolderUtil.validateDepotFolder(
+				_folderId, _folder.getGroupId(),
+				_themeDisplay.getScopeGroupId());
+		}
+		catch (NoSuchFolderException noSuchFolderException) {
+			if (_log.isWarnEnabled()) {
+				_log.warn(noSuchFolderException);
+			}
+
+			_folderNotFound = true;
+		}
 	}
 
 	private void _initRepository() {
@@ -310,6 +327,9 @@ public class IGConfigurationDisplayContext {
 			_repositoryNotFound = true;
 		}
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		IGConfigurationDisplayContext.class);
 
 	private final DLAppLocalService _dlAppLocalService;
 	private final DLPortletInstanceSettingsHelper

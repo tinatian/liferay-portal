@@ -46,6 +46,7 @@ boolean discontinued = BeanParamUtil.getBoolean(cpInstance, request, "discontinu
 	<liferay-ui:error exception="<%= CommerceUndefinedBasePriceListException.class %>" message="there-is-no-base-price-list-associated-with-the-current-sku" />
 	<liferay-ui:error exception="<%= CPDefinitionIgnoreSKUCombinationsException.class %>" message="only-one-sku-can-be-approved" />
 	<liferay-ui:error exception="<%= CPInstanceJsonException.class %>" message="there-is-already-one-sku-with-the-selected-options" />
+	<liferay-ui:error exception="<%= CPInstanceReplacementCPInstanceUuidException.class %>" message="please-enter-a-valid-replacement" />
 	<liferay-ui:error exception="<%= CPInstanceSkuException.class %>" message="please-enter-a-valid-sku" />
 
 	<commerce-ui:panel
@@ -173,12 +174,12 @@ boolean discontinued = BeanParamUtil.getBoolean(cpInstance, request, "discontinu
 	>
 		<div class="row">
 			<div class="align-items-start col-auto d-flex">
-				<aui:input checked="<%= discontinued %>" name="discontinued" type="toggle-switch" />
+				<aui:input checked="<%= discontinued %>" label="mark-the-sku-as-discontinued" name="discontinued" type="toggle-switch" />
 			</div>
 
 			<div class="col">
 				<div class="form-group input-date-wrapper">
-					<label for="discontinuedDate"><liferay-ui:message key="end-of-production-date" /></label>
+					<label for="discontinuedDate"><liferay-ui:message key="end-of-life-date" /></label>
 
 					<liferay-ui:input-date
 						dayParam="discontinuedDateDay"

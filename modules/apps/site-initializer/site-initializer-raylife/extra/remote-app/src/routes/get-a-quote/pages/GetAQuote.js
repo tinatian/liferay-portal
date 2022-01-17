@@ -19,7 +19,7 @@ import {DEVICES} from '../../../common/utils/constants';
 import {createExitAlert} from '../../../common/utils/exitAlert';
 import {getWebDavUrl} from '../../../common/utils/webdav';
 import Providers from '../Providers';
-import {Forms} from '../components/containers/Forms';
+import {FormLayout} from '../components/containers/Forms';
 import {Steps} from '../components/containers/Steps';
 import {AppContext} from '../context/AppContextProvider';
 import {useStepWizard} from '../hooks/useStepWizard';
@@ -44,7 +44,7 @@ const adaptRaylifeLayout = (isMobileDevice) => {
 		.querySelector('.quote-site-navbar .container img.navbar-logo')
 		?.setAttribute(
 			'src',
-			`${getWebDavUrl()}/${
+			`${getWebDavUrl()}${
 				isMobileDevice ? 'raylife_logo_mobile.svg' : 'raylife_logo.svg'
 			}`
 		);
@@ -84,7 +84,7 @@ const QuoteApp = () => {
 
 	return (
 		<div className="d-flex get-a-quote-structure justify-content-between">
-			<Steps />
+			<Steps isMobileDevice={isMobileDevice} />
 
 			<main className="d-flex flex-wrap justify-content-lg-start justify-content-md-center">
 				<h2 className="display-4 mb-6 mx-6 step-title">
@@ -101,7 +101,7 @@ const QuoteApp = () => {
 					)}
 				</h2>
 
-				<Forms form={form} />
+				<FormLayout form={form} />
 			</main>
 		</div>
 	);

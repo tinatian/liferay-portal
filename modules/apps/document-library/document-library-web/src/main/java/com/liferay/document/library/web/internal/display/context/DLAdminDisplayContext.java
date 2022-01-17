@@ -34,6 +34,7 @@ import com.liferay.document.library.kernel.versioning.VersioningStrategy;
 import com.liferay.document.library.web.internal.display.context.helper.DLPortletInstanceSettingsHelper;
 import com.liferay.document.library.web.internal.display.context.helper.DLRequestHelper;
 import com.liferay.document.library.web.internal.settings.DLPortletInstanceSettings;
+import com.liferay.document.library.web.internal.util.DLFolderUtil;
 import com.liferay.petra.portlet.url.builder.PortletURLBuilder;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
@@ -412,6 +413,10 @@ public class DLAdminDisplayContext {
 						rootFolder.getName());
 				}
 			}
+
+			DLFolderUtil.validateDepotFolder(
+				_rootFolderId, rootFolder.getGroupId(),
+				_themeDisplay.getScopeGroupId());
 		}
 		catch (NoSuchFolderException noSuchFolderException) {
 			if (_log.isWarnEnabled()) {

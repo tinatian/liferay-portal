@@ -416,6 +416,28 @@ public abstract class BaseJob implements Job {
 		}
 	}
 
+	@Override
+	public boolean testReleaseBundle() {
+		JobProperty jobProperty = getJobProperty("test.release.bundle");
+
+		if (jobProperty != null) {
+			return Boolean.parseBoolean(jobProperty.getValue());
+		}
+
+		return false;
+	}
+
+	@Override
+	public boolean testRelevantChanges() {
+		JobProperty jobProperty = getJobProperty("test.relevant.changes");
+
+		if (jobProperty != null) {
+			return Boolean.parseBoolean(jobProperty.getValue());
+		}
+
+		return false;
+	}
+
 	protected BaseJob(String jobName, BuildProfile buildProfile) {
 		_jobName = jobName;
 		_buildProfile = buildProfile;
@@ -661,10 +683,7 @@ public abstract class BaseJob implements Job {
 				JenkinsResultsParserUtil.getBuildProperty(
 					"dist.node.axis.count");
 
-			if (!JenkinsResultsParserUtil.isNullOrEmpty(distNodeAxisCount) &&
-				distNodeAxisCount.matches("\\d+") &&
-				!distNodeAxisCount.equals("0")) {
-
+			if (JenkinsResultsParserUtil.isInteger(distNodeAxisCount)) {
 				return Integer.parseInt(distNodeAxisCount);
 			}
 		}
@@ -680,10 +699,7 @@ public abstract class BaseJob implements Job {
 				JenkinsResultsParserUtil.getBuildProperty(
 					"dist.node.count.minimum");
 
-			if (!JenkinsResultsParserUtil.isNullOrEmpty(distNodeCountMinimum) &&
-				distNodeCountMinimum.matches("\\d+") &&
-				!distNodeCountMinimum.equals("0")) {
-
+			if (JenkinsResultsParserUtil.isInteger(distNodeCountMinimum)) {
 				return Integer.parseInt(distNodeCountMinimum);
 			}
 		}
@@ -699,11 +715,7 @@ public abstract class BaseJob implements Job {
 				JenkinsResultsParserUtil.getBuildProperty(
 					"slave.ram.minimum.default");
 
-			if (!JenkinsResultsParserUtil.isNullOrEmpty(
-					slaveRAMMinimumDefault) &&
-				slaveRAMMinimumDefault.matches("\\d+") &&
-				!slaveRAMMinimumDefault.equals("0")) {
-
+			if (JenkinsResultsParserUtil.isInteger(slaveRAMMinimumDefault)) {
 				return Integer.parseInt(slaveRAMMinimumDefault);
 			}
 		}
@@ -719,10 +731,7 @@ public abstract class BaseJob implements Job {
 				JenkinsResultsParserUtil.getBuildProperty(
 					"slaves.per.host.default");
 
-			if (!JenkinsResultsParserUtil.isNullOrEmpty(slavesPerHostDefault) &&
-				slavesPerHostDefault.matches("\\d+") &&
-				!slavesPerHostDefault.equals("0")) {
-
+			if (JenkinsResultsParserUtil.isInteger(slavesPerHostDefault)) {
 				return Integer.parseInt(slavesPerHostDefault);
 			}
 		}

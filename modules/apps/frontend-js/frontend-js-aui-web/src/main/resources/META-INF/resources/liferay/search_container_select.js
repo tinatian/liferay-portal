@@ -39,10 +39,13 @@ AUI.add(
 
 		var STR_ROW_SELECTOR = 'rowSelector';
 
-		var TPL_HIDDEN_INPUT =
+		var TPL_HIDDEN_INPUT_CHECKED =
 			'<input class="hide" name="{name}" value="{value}" type="checkbox" ' +
 			STR_CHECKED +
 			' />';
+
+		var TPL_HIDDEN_INPUT_UNCHECKED =
+			'<input class="hide" name="{name}" value="{value}" type="checkbox"/>';
 
 		var TPL_INPUT_SELECTOR = 'input[type="checkbox"][value="{value}"]';
 
@@ -120,10 +123,11 @@ AUI.add(
 
 					var elements = [];
 
-					var selectedElements = instance.getAllSelectedElements();
+					var allElements = instance._getAllElements(false);
 
-					selectedElements.each((item) => {
+					allElements.each((item) => {
 						elements.push({
+							checked: item.attr('checked'),
 							name: item.attr('name'),
 							value: item.val(),
 						});
@@ -392,14 +396,22 @@ AUI.add(
 						);
 
 						if (input) {
-							input.attr(STR_CHECKED, true);
-							input
-								.ancestor(params.rowSelector)
-								.addClass(params.rowClassNameActive);
+							if (item.checked) {
+								input.attr(STR_CHECKED, true);
+								input
+									.ancestor(params.rowSelector)
+									.addClass(params.rowClassNameActive);
+							}
+						}
+						else if (item.checked) {
+							offScreenElementsHtml += Lang.sub(
+								TPL_HIDDEN_INPUT_CHECKED,
+								item
+							);
 						}
 						else {
 							offScreenElementsHtml += Lang.sub(
-								TPL_HIDDEN_INPUT,
+								TPL_HIDDEN_INPUT_UNCHECKED,
 								item
 							);
 						}

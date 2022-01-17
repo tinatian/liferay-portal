@@ -41,6 +41,7 @@ import com.liferay.jenkins.results.parser.PullRequest;
 import com.liferay.jenkins.results.parser.PullRequestBuild;
 import com.liferay.jenkins.results.parser.QAWebsitesBranchInformationBuild;
 import com.liferay.jenkins.results.parser.QAWebsitesTopLevelBuild;
+import com.liferay.jenkins.results.parser.Retryable;
 import com.liferay.jenkins.results.parser.TopLevelBuild;
 import com.liferay.jenkins.results.parser.Workspace;
 import com.liferay.jenkins.results.parser.WorkspaceBuild;
@@ -2067,13 +2068,32 @@ public class TestrayImporter {
 			return;
 		}
 
-		Map<String, String> parameters = new HashMap<>();
+		final Map<String, String> parameters = new HashMap<>();
 
 		parameters.put(
 			"liferay.portal.bundle", portalRelease.getPortalVersion());
-		parameters.put(
-			"test.build.bundle.zip.url",
-			String.valueOf(portalRelease.getTomcatLocalURL()));
+
+		String tomcatURL = String.valueOf(portalRelease.getTomcatURL());
+
+		if (tomcatURL.startsWith("https://release.liferay.com")) {
+			try {
+				tomcatURL = tomcatURL.replaceAll(
+					"https://(release\\.liferay\\.com.*)",
+					JenkinsResultsParserUtil.combine(
+						"https://",
+						JenkinsResultsParserUtil.getBuildProperty(
+							"jenkins.admin.user.name"),
+						":",
+						JenkinsResultsParserUtil.getBuildProperty(
+							"jenkins.admin.user.password"),
+						"@$1"));
+			}
+			catch (IOException ioException) {
+				throw new RuntimeException(ioException);
+			}
+		}
+
+		parameters.put("test.build.bundle.zip.url", tomcatURL);
 
 		PortalFixpackRelease portalFixpackRelease = getPortalFixpackRelease();
 		PortalHotfixRelease portalHotfixRelease = getPortalHotfixRelease();
@@ -2102,18 +2122,32 @@ public class TestrayImporter {
 			}
 		}
 
-		try {
-			AntUtil.callTarget(
-				portalGitWorkingDirectory.getWorkingDirectory(),
-				"build-test.xml", "set-tomcat-version-number", parameters);
+		final File workingDirectory =
+			portalGitWorkingDirectory.getWorkingDirectory();
 
-			AntUtil.callTarget(
-				portalGitWorkingDirectory.getWorkingDirectory(),
-				"build-test.xml", "prepare-test-bundle", parameters);
-		}
-		catch (AntException antException) {
-			antException.printStackTrace();
-		}
+		Retryable<Object> retryable = new Retryable<Object>(true, 3, 15, true) {
+
+			@Override
+			public Object execute() {
+				try {
+					AntUtil.callTarget(
+						workingDirectory, "build-test.xml",
+						"set-tomcat-version-number", parameters);
+
+					AntUtil.callTarget(
+						workingDirectory, "build-test.xml",
+						"prepare-test-bundle", parameters);
+				}
+				catch (AntException antException) {
+					throw new RuntimeException(antException);
+				}
+
+				return null;
+			}
+
+		};
+
+		retryable.execute();
 	}
 
 	private void _setupProfileDXP() {

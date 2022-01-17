@@ -21,6 +21,8 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
 import com.liferay.portal.kernel.service.UserGroupService;
+import com.liferay.portal.kernel.service.UserService;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.vulcan.dto.converter.DTOConverterContext;
 import com.liferay.portal.vulcan.dto.converter.DefaultDTOConverterContext;
@@ -58,6 +60,13 @@ public class UserGroupResourceImpl extends BaseUserGroupResourceImpl {
 	}
 
 	@Override
+	public void postUserGroupUsers(Long userGroupId, Long[] userIds)
+		throws Exception {
+
+		_userService.addUserGroupUsers(userGroupId, ArrayUtil.toArray(userIds));
+	}
+
+	@Override
 	public UserGroup putUserGroup(Long userGroupId, UserGroup userGroup)
 		throws Exception {
 
@@ -85,6 +94,11 @@ public class UserGroupResourceImpl extends BaseUserGroupResourceImpl {
 				addAction(
 					ActionKeys.UPDATE, userGroupId, "patchUserGroup",
 					_userGroupModelResourcePermission)
+			).put(
+				"post-user-group-users",
+				addAction(
+					ActionKeys.ASSIGN_MEMBERS, userGroupId,
+					"postUserGroupUsers", _userGroupModelResourcePermission)
 			).put(
 				"put",
 				addAction(
@@ -115,5 +129,8 @@ public class UserGroupResourceImpl extends BaseUserGroupResourceImpl {
 
 	@Reference
 	private UserGroupService _userGroupService;
+
+	@Reference
+	private UserService _userService;
 
 }

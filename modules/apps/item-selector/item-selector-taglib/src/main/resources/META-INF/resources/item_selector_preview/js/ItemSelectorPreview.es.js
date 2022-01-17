@@ -30,19 +30,23 @@ const KEY_CODE = {
 	RIGTH: 39,
 };
 
+const noop = () => {};
+
 const ItemSelectorPreview = ({
 	container,
 	currentIndex = 0,
 	editImageURL,
+	handleClose = noop,
 	handleSelectedItem,
 	headerTitle,
 	itemReturnType,
 	items,
+	reloadOnHide: initialReloadOnHide = false,
 }) => {
 	const [currentItemIndex, setCurrentItemIndex] = useState(currentIndex);
 	const [isEditing, setIsEditing] = useState();
 	const [itemList, setItemList] = useState(items);
-	const [reloadOnHide, setReloadOnHide] = useState(false);
+	const [reloadOnHide, setReloadOnHide] = useState(initialReloadOnHide);
 
 	const currentItem = itemList[currentItemIndex];
 
@@ -51,8 +55,12 @@ const ItemSelectorPreview = ({
 	const isMounted = useIsMounted();
 
 	const close = useCallback(() => {
-		ReactDOM.unmountComponentAtNode(container);
-	}, [container]);
+		handleClose();
+
+		if (container) {
+			ReactDOM.unmountComponentAtNode(container);
+		}
+	}, [container, handleClose]);
 
 	const handleCancelEditing = () => {
 		setIsEditing(false);
@@ -71,11 +79,6 @@ const ItemSelectorPreview = ({
 	};
 
 	const handleClickDone = () => {
-
-		// LPS-120692
-
-		close();
-
 		handleSelectedItem(currentItem);
 	};
 
@@ -258,14 +261,16 @@ const ItemSelectorPreview = ({
 };
 
 ItemSelectorPreview.propTypes = {
-	container: PropTypes.instanceOf(Element).isRequired,
+	container: PropTypes.instanceOf(Element),
 	currentIndex: PropTypes.number,
-	editItemURL: PropTypes.string,
+	editImageURL: PropTypes.string,
 	handleSelectedItem: PropTypes.func.isRequired,
 	headerTitle: PropTypes.string.isRequired,
+	itemReturnType: PropTypes.string,
 	items: PropTypes.arrayOf(
 		PropTypes.shape({
 			base64: PropTypes.string,
+			fileEntryId: PropTypes.string,
 			metadata: PropTypes.string,
 			returntype: PropTypes.string.isRequired,
 			title: PropTypes.string.isRequired,

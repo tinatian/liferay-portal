@@ -44,7 +44,7 @@ export function BusinessTypeSearch({
 	const {register, setValue} = useFormContext();
 	const {isSelected, updateState} = useTriggerContext();
 
-	const {selectedStep, setPercentage} = useStepWizard();
+	const {setPercentage} = useStepWizard();
 	const [isLoading, setIsLoading] = useState(false);
 	const {applicationId, backToEdit} = getLoadedContentFlag();
 
@@ -168,7 +168,7 @@ export function BusinessTypeSearch({
 					event={TIP_EVENT}
 					label="I am unable to find my industry"
 					selected={isSelected(templateName)}
-					value={{step: selectedStep, templateName}}
+					value={{templateName}}
 				/>
 			)}
 		</>

@@ -17,6 +17,7 @@ package com.liferay.jenkins.results.parser;
 import com.google.common.collect.Lists;
 import com.google.common.io.CountingInputStream;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -102,6 +103,12 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.compress.archivers.ArchiveEntry;
+import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
+import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
+import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
+import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
+import org.apache.commons.compress.compressors.gzip.GzipCompressorOutputStream;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.SystemUtils;
@@ -3118,6 +3125,14 @@ public class JenkinsResultsParserUtil {
 		return false;
 	}
 
+	public static boolean isInteger(String string) {
+		if ((string != null) && string.matches("\\d+")) {
+			return true;
+		}
+
+		return false;
+	}
+
 	public static boolean isJSONArrayEqual(
 		JSONArray expectedJSONArray, JSONArray actualJSONArray) {
 
@@ -3561,6 +3576,38 @@ public class JenkinsResultsParserUtil {
 		}
 		catch (InterruptedException interruptedException) {
 			throw new RuntimeException(interruptedException);
+		}
+	}
+
+	public static void tarGzip(File sourceDir, File targetTarGzipFile) {
+		if (!sourceDir.isDirectory()) {
+			throw new RuntimeException(sourceDir + " is not a directory");
+		}
+
+		try (FileOutputStream fileOutputStream = new FileOutputStream(
+				targetTarGzipFile);
+			BufferedOutputStream bufferedOutputStream =
+				new BufferedOutputStream(fileOutputStream);
+			GzipCompressorOutputStream gzipCompressorOutputStream =
+				new GzipCompressorOutputStream(bufferedOutputStream);
+			TarArchiveOutputStream tarArchiveOutputStream =
+				new TarArchiveOutputStream(gzipCompressorOutputStream)) {
+
+			for (File file : findFiles(sourceDir, ".*")) {
+				TarArchiveEntry tarArchiveEntry = new TarArchiveEntry(
+					file, getPathRelativeTo(file, sourceDir));
+
+				tarArchiveOutputStream.putArchiveEntry(tarArchiveEntry);
+
+				Files.copy(file.toPath(), tarArchiveOutputStream);
+
+				tarArchiveOutputStream.closeArchiveEntry();
+			}
+
+			tarArchiveOutputStream.finish();
+		}
+		catch (IOException ioException) {
+			throw new RuntimeException(ioException);
 		}
 	}
 
@@ -4410,6 +4457,54 @@ public class JenkinsResultsParserUtil {
 
 			while ((length = gzipInputStream.read(bytes)) > 0) {
 				fileOutputStream.write(bytes, 0, length);
+			}
+		}
+		catch (IOException ioException) {
+			throw new RuntimeException(ioException);
+		}
+	}
+
+	public static void unTarGzip(File sourceTarGzipFile, File targetDir) {
+		targetDir.mkdirs();
+
+		try (FileInputStream fileInputStream = new FileInputStream(
+				sourceTarGzipFile);
+			GzipCompressorInputStream gzipCompressorInputStream =
+				new GzipCompressorInputStream(fileInputStream);
+			TarArchiveInputStream tarArchiveInputStream =
+				new TarArchiveInputStream(gzipCompressorInputStream)) {
+
+			ArchiveEntry archiveEntry = tarArchiveInputStream.getNextEntry();
+
+			while (archiveEntry != null) {
+				TarArchiveEntry tarArchiveEntry = (TarArchiveEntry)archiveEntry;
+
+				if (tarArchiveEntry.isDirectory()) {
+					File dir = new File(targetDir, tarArchiveEntry.getName());
+
+					dir.mkdirs();
+				}
+				else {
+					File file = new File(targetDir, tarArchiveEntry.getName());
+
+					write(file, "");
+
+					try (FileOutputStream fileOutputStream =
+							new FileOutputStream(file, false);
+						BufferedOutputStream bufferedOutputStream =
+							new BufferedOutputStream(fileOutputStream)) {
+
+						int b = tarArchiveInputStream.read();
+
+						while (b != -1) {
+							bufferedOutputStream.write(b);
+
+							b = tarArchiveInputStream.read();
+						}
+					}
+				}
+
+				archiveEntry = tarArchiveInputStream.getNextEntry();
 			}
 		}
 		catch (IOException ioException) {

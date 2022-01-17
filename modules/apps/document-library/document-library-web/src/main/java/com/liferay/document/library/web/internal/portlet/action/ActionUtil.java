@@ -22,6 +22,7 @@ import com.liferay.document.library.kernel.service.DLAppServiceUtil;
 import com.liferay.document.library.kernel.util.RawMetadataProcessorUtil;
 import com.liferay.document.library.service.DLFileVersionPreviewLocalServiceUtil;
 import com.liferay.document.library.web.internal.security.permission.resource.DLPermission;
+import com.liferay.document.library.web.internal.util.DLFolderUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -243,6 +244,9 @@ public class ActionUtil {
 		}
 
 		Folder folder = DLAppServiceUtil.getFolder(folderId);
+
+		DLFolderUtil.validateDepotFolder(
+			folderId, folder.getGroupId(), themeDisplay.getScopeGroupId());
 
 		if (folder.isMountPoint()) {
 			com.liferay.portal.kernel.repository.Repository repository =
