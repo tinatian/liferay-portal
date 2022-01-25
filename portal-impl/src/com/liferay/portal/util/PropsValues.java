@@ -816,27 +816,11 @@ public class PropsValues {
 	public static final int DL_FILE_ENTRY_LOCK_POLICY = GetterUtil.getInteger(
 		PropsUtil.get(PropsKeys.DL_FILE_ENTRY_LOCK_POLICY));
 
-	public static boolean
-		DL_FILE_ENTRY_OPEN_IN_MS_OFFICE_MANUAL_CHECK_IN_REQUIRED =
-			GetterUtil.getBoolean(
-				PropsUtil.get(
-					PropsKeys.
-						DL_FILE_ENTRY_OPEN_IN_MS_OFFICE_MANUAL_CHECK_IN_REQUIRED));
-
 	public static final String[] DL_FILE_ENTRY_PREVIEW_AUDIO_CONTAINERS =
 		PropsUtil.getArray(PropsKeys.DL_FILE_ENTRY_PREVIEW_AUDIO_CONTAINERS);
 
 	public static final String[] DL_FILE_ENTRY_PREVIEW_AUDIO_MIME_TYPES =
 		PropsUtil.getArray(PropsKeys.DL_FILE_ENTRY_PREVIEW_AUDIO_MIME_TYPES);
-
-	public static final boolean DL_FILE_ENTRY_PREVIEW_AUTO_CREATE_ON_UPGRADE =
-		GetterUtil.getBoolean(
-			PropsUtil.get(
-				PropsKeys.DL_FILE_ENTRY_PREVIEW_AUTO_CREATE_ON_UPGRADE));
-
-	public static final int DL_FILE_ENTRY_PREVIEW_DOCUMENT_DEPTH =
-		GetterUtil.getInteger(
-			PropsUtil.get(PropsKeys.DL_FILE_ENTRY_PREVIEW_DOCUMENT_DEPTH));
 
 	public static final int DL_FILE_ENTRY_PREVIEW_DOCUMENT_DPI =
 		GetterUtil.getInteger(
@@ -935,11 +919,6 @@ public class PropsValues {
 		GetterUtil.getInteger(
 			PropsUtil.get(PropsKeys.DL_FILE_ENTRY_THUMBNAIL_MAX_WIDTH));
 
-	public static final int DL_FILE_ENTRY_THUMBNAIL_VIDEO_FRAME_PERCENTAGE =
-		GetterUtil.getInteger(
-			PropsUtil.get(
-				PropsKeys.DL_FILE_ENTRY_THUMBNAIL_VIDEO_FRAME_PERCENTAGE));
-
 	/**
 	 * @deprecated As of Mueller (7.2.x), with no direct replacement
 	 */
@@ -948,10 +927,6 @@ public class PropsValues {
 		GetterUtil.getBoolean(
 			PropsUtil.get(
 				PropsKeys.DL_FILE_ENTRY_TYPE_IG_IMAGE_AUTO_CREATE_ON_UPGRADE));
-
-	public static final int DL_FILE_ENTRY_VERSION_POLICY =
-		GetterUtil.getInteger(
-			PropsUtil.get(PropsKeys.DL_FILE_ENTRY_VERSION_POLICY));
 
 	public static final boolean DL_FILE_EXTENSIONS_STRICT_CHECK =
 		GetterUtil.getBoolean(
@@ -962,10 +937,6 @@ public class PropsValues {
 
 	public static final int DL_FILE_INDEXING_MAX_SIZE = GetterUtil.getInteger(
 		PropsUtil.get(PropsKeys.DL_FILE_INDEXING_MAX_SIZE));
-
-	public static final boolean DL_FOLDER_ICON_CHECK_COUNT =
-		GetterUtil.getBoolean(
-			PropsUtil.get(PropsKeys.DL_FOLDER_ICON_CHECK_COUNT));
 
 	public static final String[] DL_NAME_BLACKLIST = PropsUtil.getArray(
 		PropsKeys.DL_NAME_BLACKLIST);
