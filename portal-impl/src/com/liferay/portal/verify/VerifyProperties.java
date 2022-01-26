@@ -1803,7 +1803,7 @@ public class VerifyProperties extends VerifyProcess {
 		"module.framework.properties.lpkg.index.validator.enabled",
 		"module.framework.register.liferay.services", "msn.login",
 		"msn.password", "multicast.group.address[\"hibernate\"]",
-		"multicast.group.port[\"hibernate\"]",
+		"multicast.group.port[\"hibernate\"]", "my.sites.display.style",
 		"net.sf.ehcache.configurationResourceName",
 		"net.sf.ehcache.configurationResourceName.peerProviderProperties",
 		"openoffice.server.enabled", "openoffice.server.host",
