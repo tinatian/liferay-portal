@@ -44,7 +44,6 @@ import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.util.FastDateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.Html;
-import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.LinkedHashMapBuilder;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
@@ -91,7 +90,6 @@ public class DDMFormInstanceRecordExporterImplTest extends PowerMockito {
 	@Before
 	public void setUp() throws Exception {
 		_setUpFastDateFormatFactoryUtil();
-		_setUpHtmlUtil();
 		_setUpLanguageUtil();
 	}
 
@@ -322,6 +320,8 @@ public class DDMFormInstanceRecordExporterImplTest extends PowerMockito {
 
 		ddmFormInstanceRecordExporterImpl.ddmFormFieldTypeServicesTracker =
 			_ddmFormFieldTypeServicesTracker;
+
+		ddmFormInstanceRecordExporterImpl.html = _html;
 
 		DDMFormFieldValueRenderer ddmFormFieldValueRenderer = mock(
 			DDMFormFieldValueRenderer.class);
@@ -766,12 +766,6 @@ public class DDMFormInstanceRecordExporterImplTest extends PowerMockito {
 
 		fastDateFormatFactoryUtil.setFastDateFormatFactory(
 			new FastDateFormatFactoryImpl());
-	}
-
-	private void _setUpHtmlUtil() {
-		HtmlUtil htmlUtil = new HtmlUtil();
-
-		htmlUtil.setHtml(_html);
 	}
 
 	private void _setUpLanguageUtil() {

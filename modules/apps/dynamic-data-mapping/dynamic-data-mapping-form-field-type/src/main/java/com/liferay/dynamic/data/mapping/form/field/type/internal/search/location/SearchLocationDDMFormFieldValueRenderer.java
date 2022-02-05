@@ -22,12 +22,13 @@ import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.Validator;
 
 import java.util.Locale;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Marcela Cunha
@@ -44,7 +45,7 @@ public class SearchLocationDDMFormFieldValueRenderer
 	public String render(DDMFormFieldValue ddmFormFieldValue, Locale locale) {
 		Value value = ddmFormFieldValue.getValue();
 
-		return HtmlUtil.escape(value.getString(locale));
+		return _html.escape(value.getString(locale));
 	}
 
 	@Override
@@ -70,5 +71,8 @@ public class SearchLocationDDMFormFieldValueRenderer
 			return StringPool.BLANK;
 		}
 	}
+
+	@Reference
+	private Html _html;
 
 }

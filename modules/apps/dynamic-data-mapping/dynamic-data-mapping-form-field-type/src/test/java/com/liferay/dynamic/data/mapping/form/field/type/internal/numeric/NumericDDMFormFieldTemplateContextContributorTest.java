@@ -19,8 +19,8 @@ import com.liferay.dynamic.data.mapping.model.DDMFormField;
 import com.liferay.dynamic.data.mapping.render.DDMFormFieldRenderingContext;
 import com.liferay.dynamic.data.mapping.test.util.DDMFormValuesTestUtil;
 import com.liferay.portal.kernel.json.JSONUtil;
+import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.util.HashMapBuilder;
-import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.PortalClassLoaderUtil;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
@@ -51,7 +51,9 @@ public class NumericDDMFormFieldTemplateContextContributorTest
 	public void setUp() throws Exception {
 		super.setUp();
 
-		_setUpHtmlUtil();
+		ReflectionTestUtil.setFieldValue(
+			_numericDDMFormFieldTemplateContextContributor, "_html",
+			new HtmlImpl());
 	}
 
 	@Test
@@ -319,12 +321,6 @@ public class NumericDDMFormFieldTemplateContextContributorTest
 				_locale));
 
 		return ddmFormField;
-	}
-
-	private void _setUpHtmlUtil() {
-		HtmlUtil htmlUtil = new HtmlUtil();
-
-		htmlUtil.setHtml(new HtmlImpl());
 	}
 
 	private final Locale _locale = LocaleUtil.US;

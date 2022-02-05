@@ -20,7 +20,7 @@ import com.liferay.petra.string.StringPool;
 import com.liferay.portal.json.JSONFactoryImpl;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONUtil;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.util.HtmlImpl;
 
@@ -40,7 +40,12 @@ public class SearchLocationDDMFormFieldValueRendererTest extends PowerMockito {
 
 	@Before
 	public void setUp() {
-		_setUpHtmlUtil();
+		_searchLocationDDMFormFieldValueRenderer =
+			new SearchLocationDDMFormFieldValueRenderer();
+
+		ReflectionTestUtil.setFieldValue(
+			_searchLocationDDMFormFieldValueRenderer, "_html", new HtmlImpl());
+
 		_setUpJSONFactoryUtil();
 	}
 
@@ -55,13 +60,9 @@ public class SearchLocationDDMFormFieldValueRendererTest extends PowerMockito {
 					).toString(),
 					LocaleUtil.US));
 
-		SearchLocationDDMFormFieldValueRenderer
-			searchLocationDDMFormFieldValueRenderer =
-				new SearchLocationDDMFormFieldValueRenderer();
-
 		Assert.assertEquals(
 			"{&#34;city&#34;:&#34;Recife&#34;}",
-			searchLocationDDMFormFieldValueRenderer.render(
+			_searchLocationDDMFormFieldValueRenderer.render(
 				ddmFormFieldValue, LocaleUtil.US));
 	}
 
@@ -76,13 +77,9 @@ public class SearchLocationDDMFormFieldValueRendererTest extends PowerMockito {
 					).toString(),
 					LocaleUtil.US));
 
-		SearchLocationDDMFormFieldValueRenderer
-			searchLocationDDMFormFieldValueRenderer =
-				new SearchLocationDDMFormFieldValueRenderer();
-
 		Assert.assertEquals(
 			"Recife",
-			searchLocationDDMFormFieldValueRenderer.render(
+			_searchLocationDDMFormFieldValueRenderer.render(
 				"city", ddmFormFieldValue, LocaleUtil.US));
 	}
 
@@ -97,13 +94,9 @@ public class SearchLocationDDMFormFieldValueRendererTest extends PowerMockito {
 					).toString(),
 					LocaleUtil.US));
 
-		SearchLocationDDMFormFieldValueRenderer
-			searchLocationDDMFormFieldValueRenderer =
-				new SearchLocationDDMFormFieldValueRenderer();
-
 		Assert.assertEquals(
 			StringPool.BLANK,
-			searchLocationDDMFormFieldValueRenderer.render(
+			_searchLocationDDMFormFieldValueRenderer.render(
 				"city", ddmFormFieldValue, LocaleUtil.US));
 	}
 
@@ -114,20 +107,10 @@ public class SearchLocationDDMFormFieldValueRendererTest extends PowerMockito {
 				"field",
 				DDMFormValuesTestUtil.createLocalizedValue("", LocaleUtil.US));
 
-		SearchLocationDDMFormFieldValueRenderer
-			searchLocationDDMFormFieldValueRenderer =
-				new SearchLocationDDMFormFieldValueRenderer();
-
 		Assert.assertEquals(
 			StringPool.BLANK,
-			searchLocationDDMFormFieldValueRenderer.render(
+			_searchLocationDDMFormFieldValueRenderer.render(
 				"city", ddmFormFieldValue, LocaleUtil.US));
-	}
-
-	private void _setUpHtmlUtil() {
-		HtmlUtil htmlUtil = new HtmlUtil();
-
-		htmlUtil.setHtml(new HtmlImpl());
 	}
 
 	private void _setUpJSONFactoryUtil() {
@@ -135,5 +118,8 @@ public class SearchLocationDDMFormFieldValueRendererTest extends PowerMockito {
 
 		jsonFactoryUtil.setJSONFactory(new JSONFactoryImpl());
 	}
+
+	private SearchLocationDDMFormFieldValueRenderer
+		_searchLocationDDMFormFieldValueRenderer;
 
 }

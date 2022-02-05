@@ -24,7 +24,7 @@ import com.liferay.portal.kernel.model.ThemeConstants;
 import com.liferay.portal.kernel.parsers.bbcode.BBCodeTranslator;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HashMapBuilder;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.IntegerWrapper;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -41,6 +41,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Iliyan Peychev
@@ -156,7 +157,7 @@ public class HtmlBBCodeTranslatorImpl implements BBCodeTranslator {
 		catch (Exception exception) {
 			_log.error("Unable to parse: " + bbcode, exception);
 
-			bbcode = HtmlUtil.escape(bbcode);
+			bbcode = _html.escape(bbcode);
 		}
 
 		return bbcode;
@@ -193,7 +194,7 @@ public class HtmlBBCodeTranslatorImpl implements BBCodeTranslator {
 		StringBundler sb, List<BBCodeItem> bbCodeItems, Stack<String> tags,
 		IntegerWrapper marker, BBCodeItem bbCodeItem) {
 
-		String value = HtmlUtil.escape(bbCodeItem.getValue());
+		String value = _html.escape(bbCodeItem.getValue());
 
 		value = _handleNewLine(bbCodeItems, marker, value);
 
@@ -364,7 +365,7 @@ public class HtmlBBCodeTranslatorImpl implements BBCodeTranslator {
 		String code = _extractData(
 			bbCodeItems, marker, "code", BBCodeParser.TYPE_DATA, true);
 
-		code = HtmlUtil.escape(code);
+		code = _html.escape(code);
 		code = StringUtil.replace(code, CharPool.TAB, StringPool.FOUR_SPACES);
 
 		String[] lines = code.split("\r?\n");
@@ -438,7 +439,7 @@ public class HtmlBBCodeTranslatorImpl implements BBCodeTranslator {
 			href = "mailto:" + href;
 		}
 
-		sb.append(HtmlUtil.escapeHREF(href));
+		sb.append(_html.escapeHREF(href));
 
 		sb.append("\">");
 
@@ -449,7 +450,7 @@ public class HtmlBBCodeTranslatorImpl implements BBCodeTranslator {
 		StringBundler sb, Stack<String> tags, BBCodeItem bbCodeItem) {
 
 		sb.append("<span style=\"font-family: ");
-		sb.append(HtmlUtil.escapeAttribute(bbCodeItem.getAttribute()));
+		sb.append(_html.escapeAttribute(bbCodeItem.getAttribute()));
 		sb.append("\">");
 
 		tags.push("</span>");
@@ -488,7 +489,7 @@ public class HtmlBBCodeTranslatorImpl implements BBCodeTranslator {
 		Matcher matcher = _imagePattern.matcher(src);
 
 		if (matcher.matches()) {
-			sb.append(HtmlUtil.escapeAttribute(src));
+			sb.append(_html.escapeAttribute(src));
 		}
 
 		sb.append("\"");
@@ -524,7 +525,7 @@ public class HtmlBBCodeTranslatorImpl implements BBCodeTranslator {
 				sb.append(attributeName);
 				sb.append(StringPool.EQUAL);
 				sb.append(StringPool.QUOTE);
-				sb.append(HtmlUtil.escapeAttribute(attributeValue));
+				sb.append(_html.escapeAttribute(attributeValue));
 				sb.append(StringPool.QUOTE);
 			}
 		}
@@ -714,7 +715,7 @@ public class HtmlBBCodeTranslatorImpl implements BBCodeTranslator {
 		Matcher matcher = _urlPattern.matcher(href);
 
 		if (matcher.matches()) {
-			sb.append(HtmlUtil.escapeHREF(href));
+			sb.append(_html.escapeHREF(href));
 		}
 
 		sb.append("\">");
@@ -776,6 +777,10 @@ public class HtmlBBCodeTranslatorImpl implements BBCodeTranslator {
 	private final String[] _emoticonFiles = new String[_EMOTICONS.length];
 	private final String[] _emoticonSymbols = new String[_EMOTICONS.length];
 	private final Map<String, Integer> _excludeNewLineTypes;
+
+	@Reference
+	private Html _html;
+
 	private final Set<String> _imageAttributes;
 	private final Map<String, String> _orderedListStyles;
 	private final Map<String, String> _unorderedListStyles;
