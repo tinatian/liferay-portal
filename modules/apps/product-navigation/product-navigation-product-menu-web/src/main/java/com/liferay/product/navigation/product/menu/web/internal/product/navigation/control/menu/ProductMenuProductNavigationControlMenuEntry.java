@@ -24,7 +24,7 @@ import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.HashMapBuilder;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.SessionClicks;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -133,8 +133,7 @@ public class ProductMenuProductNavigationControlMenuEntry
 				ProductNavigationProductMenuPortletKeys.
 					PRODUCT_NAVIGATION_PRODUCT_MENU)
 		).put(
-			"title",
-			HtmlUtil.escape(LanguageUtil.get(httpServletRequest, "menu"))
+			"title", _html.escape(LanguageUtil.get(httpServletRequest, "menu"))
 		).build();
 
 		try {
@@ -182,6 +181,9 @@ public class ProductMenuProductNavigationControlMenuEntry
 
 	private static final String _TMPL_CONTENT = StringUtil.read(
 		ProductMenuProductNavigationControlMenuEntry.class, "icon.tmpl");
+
+	@Reference
+	private Html _html;
 
 	@Reference
 	private Portal _portal;

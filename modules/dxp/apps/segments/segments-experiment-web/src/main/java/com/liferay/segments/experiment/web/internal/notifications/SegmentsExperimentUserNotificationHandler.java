@@ -27,7 +27,7 @@ import com.liferay.portal.kernel.service.LayoutLocalService;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserNotificationEventLocalService;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.Http;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
@@ -103,9 +103,9 @@ public class SegmentsExperimentUserNotificationHandler
 		return StringUtil.replace(
 			getBodyTemplate(), new String[] {"[$BODY$]", "[$TITLE$]"},
 			new String[] {
-				HtmlUtil.escape(
+				_html.escape(
 					StringUtil.shorten(
-						HtmlUtil.escape(segmentsExperiment.getName()))),
+						_html.escape(segmentsExperiment.getName()))),
 				title
 			});
 	}
@@ -173,6 +173,9 @@ public class SegmentsExperimentUserNotificationHandler
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		SegmentsExperimentUserNotificationHandler.class);
+
+	@Reference
+	private Html _html;
 
 	@Reference
 	private Http _http;

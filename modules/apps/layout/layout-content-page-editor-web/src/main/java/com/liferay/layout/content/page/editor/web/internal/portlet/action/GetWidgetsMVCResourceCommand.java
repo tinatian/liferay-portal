@@ -40,7 +40,7 @@ import com.liferay.portal.kernel.service.PortletPreferencesLocalService;
 import com.liferay.portal.kernel.service.permission.PortletPermissionUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ArrayUtil;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
@@ -181,7 +181,7 @@ public class GetWidgetsMVCResourceCommand extends BaseMVCResourceCommand {
 				).put(
 					"portletItemId", portletItem.getPortletItemId()
 				).put(
-					"title", HtmlUtil.escape(portletItem.getName())
+					"title", _html.escape(portletItem.getName())
 				).put(
 					"used", _isUsed(portlet, segmentsExperienceId, themeDisplay)
 				));
@@ -364,6 +364,9 @@ public class GetWidgetsMVCResourceCommand extends BaseMVCResourceCommand {
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		GetWidgetsMVCResourceCommand.class);
+
+	@Reference
+	private Html _html;
 
 	@Reference
 	private Portal _portal;

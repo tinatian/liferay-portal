@@ -43,7 +43,7 @@ import com.liferay.portal.kernel.security.permission.resource.PortletResourcePer
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ArrayUtil;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.Portal;
@@ -315,7 +315,7 @@ public class KBArticleServiceImpl extends KBArticleServiceBaseImpl {
 
 		Group group = themeDisplay.getScopeGroup();
 
-		String descriptiveName = HtmlUtil.escape(
+		String descriptiveName = _html.escape(
 			group.getDescriptiveName(themeDisplay.getLocale()));
 
 		String name = descriptiveName;
@@ -874,11 +874,11 @@ public class KBArticleServiceImpl extends KBArticleServiceBaseImpl {
 			String value = null;
 
 			if (rssDisplayStyle.equals(RSSUtil.DISPLAY_STYLE_ABSTRACT)) {
-				value = HtmlUtil.extractText(kbArticle.getDescription());
+				value = _html.extractText(kbArticle.getDescription());
 
 				if (Validator.isNull(value)) {
 					value = StringUtil.shorten(
-						HtmlUtil.extractText(kbArticle.getContent()), 200);
+						_html.extractText(kbArticle.getContent()), 200);
 				}
 			}
 			else if (rssDisplayStyle.equals(RSSUtil.DISPLAY_STYLE_TITLE)) {
@@ -1040,6 +1040,9 @@ public class KBArticleServiceImpl extends KBArticleServiceBaseImpl {
 		target = "(resource.name=" + KBConstants.RESOURCE_NAME_DISPLAY + ")"
 	)
 	private PortletResourcePermission _displayPortletResourcePermission;
+
+	@Reference
+	private Html _html;
 
 	@Reference(
 		target = "(model.class.name=com.liferay.knowledge.base.model.KBArticle)"

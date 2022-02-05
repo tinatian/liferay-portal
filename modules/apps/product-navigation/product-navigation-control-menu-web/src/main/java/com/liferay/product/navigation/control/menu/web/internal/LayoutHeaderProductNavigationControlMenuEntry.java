@@ -26,7 +26,7 @@ import com.liferay.portal.kernel.service.permission.LayoutPermission;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.Constants;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -90,8 +90,7 @@ public class LayoutHeaderProductNavigationControlMenuEntry
 		sb.append("control-menu-level-1-heading d-flex mr-1\" ");
 		sb.append("data-qa-id=\"headerTitle\"><span class=\"");
 		sb.append("lfr-portal-tooltip text-truncate\" title=\"");
-		sb.append(
-			HtmlUtil.escapeAttribute(_getHeaderTitle(httpServletRequest)));
+		sb.append(_html.escapeAttribute(_getHeaderTitle(httpServletRequest)));
 		sb.append("\">");
 		sb.append(_getHeaderTitle(httpServletRequest));
 		sb.append("</span>");
@@ -180,7 +179,7 @@ public class LayoutHeaderProductNavigationControlMenuEntry
 			return _portal.getPortletTitle(portletId, themeDisplay.getLocale());
 		}
 
-		return HtmlUtil.escape(layout.getName(themeDisplay.getLocale()));
+		return _html.escape(layout.getName(themeDisplay.getLocale()));
 	}
 
 	private boolean _hasDraftLayout(HttpServletRequest httpServletRequest) {
@@ -279,6 +278,9 @@ public class LayoutHeaderProductNavigationControlMenuEntry
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		LayoutHeaderProductNavigationControlMenuEntry.class);
+
+	@Reference
+	private Html _html;
 
 	@Reference
 	private LayoutContentModelResourcePermission

@@ -24,7 +24,7 @@ import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.portlet.RequestBackedPortletURLFactory;
 import com.liferay.portal.kernel.servlet.BrowserSniffer;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.TextFormatter;
 
 import java.util.Locale;
@@ -149,7 +149,7 @@ public class TinyMCEEditorConfigContributor
 			TinyMCEEditorConstants.ATTRIBUTE_NAMESPACE + ":toolbarSet");
 
 		String currentToolbarSet = TextFormatter.format(
-			HtmlUtil.escapeJS(toolbarSet), TextFormatter.M);
+			_html.escapeJS(toolbarSet), TextFormatter.M);
 
 		if (_browserSniffer.isMobile(themeDisplay.getRequest())) {
 			currentToolbarSet = "phone";
@@ -257,6 +257,9 @@ public class TinyMCEEditorConfigContributor
 
 	@Reference
 	private BrowserSniffer _browserSniffer;
+
+	@Reference
+	private Html _html;
 
 	@Reference
 	private ItemSelector _itemSelector;

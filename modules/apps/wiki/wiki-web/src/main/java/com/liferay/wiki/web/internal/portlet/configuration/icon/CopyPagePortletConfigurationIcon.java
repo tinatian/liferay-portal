@@ -24,7 +24,7 @@ import com.liferay.portal.kernel.portlet.configuration.icon.PortletConfiguration
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.wiki.constants.WikiPortletKeys;
@@ -82,7 +82,7 @@ public class CopyPagePortletConfigurationIcon
 			).setParameter(
 				"templateNodeId", page.getNodeId()
 			).setParameter(
-				"templateTitle", HtmlUtil.unescape(page.getTitle())
+				"templateTitle", _html.unescape(page.getTitle())
 			).setParameter(
 				"title", StringPool.BLANK
 			).buildString();
@@ -130,6 +130,9 @@ public class CopyPagePortletConfigurationIcon
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		CopyPagePortletConfigurationIcon.class);
+
+	@Reference
+	private Html _html;
 
 	@Reference
 	private Portal _portal;

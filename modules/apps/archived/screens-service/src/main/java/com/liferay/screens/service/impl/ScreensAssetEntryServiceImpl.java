@@ -57,7 +57,7 @@ import com.liferay.portal.kernel.service.LayoutLocalService;
 import com.liferay.portal.kernel.service.PortletItemLocalService;
 import com.liferay.portal.kernel.service.PortletPreferencesLocalService;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.PortletKeys;
 import com.liferay.portal.kernel.util.URLCodec;
@@ -293,7 +293,7 @@ public class ScreensAssetEntryServiceImpl
 			_portal.getPathContext(), "/documents/",
 			fileEntry.getRepositoryId(), StringPool.SLASH,
 			fileEntry.getFolderId(), StringPool.SLASH,
-			URLCodec.encodeURL(HtmlUtil.unescape(fileEntry.getTitle())),
+			URLCodec.encodeURL(_html.unescape(fileEntry.getTitle())),
 			StringPool.SLASH, fileEntry.getUuid());
 	}
 
@@ -411,6 +411,9 @@ public class ScreensAssetEntryServiceImpl
 
 	@Reference
 	private DLAppService _dlAppService;
+
+	@Reference
+	private Html _html;
 
 	@Reference
 	private JournalArticleLocalService _journalArticleLocalService;

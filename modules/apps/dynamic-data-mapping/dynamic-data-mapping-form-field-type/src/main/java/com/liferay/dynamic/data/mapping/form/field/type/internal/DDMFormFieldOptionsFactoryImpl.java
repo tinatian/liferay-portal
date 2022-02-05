@@ -27,7 +27,7 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.KeyValuePair;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.MapUtil;
@@ -70,6 +70,9 @@ public class DDMFormFieldOptionsFactoryImpl
 
 	@Reference
 	protected DDMDataProviderInvoker ddmDataProviderInvoker;
+
+	@Reference
+	protected Html html;
 
 	@Reference
 	protected JSONFactory jsonFactory;
@@ -151,7 +154,7 @@ public class DDMFormFieldOptionsFactoryImpl
 					ddmFormFieldRenderingContext.getLocale()
 				).withParameter(
 					"filterParameterValue",
-					HtmlUtil.escapeURL(
+					html.escapeURL(
 						String.valueOf(ddmFormFieldRenderingContext.getValue()))
 				).withParameter(
 					"httpServletRequest", httpServletRequest

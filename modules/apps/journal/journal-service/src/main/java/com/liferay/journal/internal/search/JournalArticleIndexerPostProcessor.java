@@ -21,12 +21,13 @@ import com.liferay.portal.kernel.search.IndexerPostProcessor;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.Summary;
 import com.liferay.portal.kernel.search.filter.BooleanFilter;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.StringUtil;
 
 import java.util.Locale;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Jesse Yeh
@@ -64,9 +65,12 @@ public class JournalArticleIndexerPostProcessor
 		Summary summary, Document document, Locale locale, String snippet) {
 
 		summary.setContent(
-			HtmlUtil.unescape(
+			_html.unescape(
 				StringUtil.replace(
 					summary.getContent(), "<br />", StringPool.NEW_LINE)));
 	}
+
+	@Reference
+	private Html _html;
 
 }

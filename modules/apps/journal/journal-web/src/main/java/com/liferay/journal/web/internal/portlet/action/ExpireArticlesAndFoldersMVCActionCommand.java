@@ -21,7 +21,7 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 
@@ -29,6 +29,7 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Eudaldo Alonso
@@ -68,8 +69,11 @@ public class ExpireArticlesAndFoldersMVCActionCommand
 
 		for (String expireArticleId : expireArticleIds) {
 			ActionUtil.expireArticle(
-				actionRequest, HtmlUtil.unescape(expireArticleId));
+				actionRequest, _html.unescape(expireArticleId));
 		}
 	}
+
+	@Reference
+	private Html _html;
 
 }

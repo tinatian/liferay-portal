@@ -25,7 +25,7 @@ import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.service.permission.OrganizationPermissionUtil;
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.users.admin.constants.UsersAdminPortletKeys;
@@ -37,6 +37,7 @@ import javax.portlet.PortletResponse;
 import javax.portlet.RenderResponse;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Pei-Jung Lan
@@ -92,7 +93,7 @@ public class DeleteOrganizationPortletConfigurationIcon
 							(RenderResponse)portletResponse);
 			}
 
-			sb.append(HtmlUtil.escapeJS(backURL));
+			sb.append(_html.escapeJS(backURL));
 
 			sb.append("');");
 		}
@@ -142,5 +143,8 @@ public class DeleteOrganizationPortletConfigurationIcon
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		DeleteOrganizationPortletConfigurationIcon.class);
+
+	@Reference
+	private Html _html;
 
 }

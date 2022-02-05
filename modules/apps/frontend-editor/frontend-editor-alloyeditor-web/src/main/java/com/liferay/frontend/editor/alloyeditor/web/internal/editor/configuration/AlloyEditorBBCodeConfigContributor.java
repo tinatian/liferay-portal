@@ -24,13 +24,14 @@ import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.parsers.bbcode.BBCodeTranslatorUtil;
 import com.liferay.portal.kernel.portlet.RequestBackedPortletURLFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.Validator;
 
 import java.util.Locale;
 import java.util.Map;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Ambrín Chaudhary
@@ -87,7 +88,7 @@ public class AlloyEditorBBCodeConfigContributor
 			toJSONArray(BBCodeTranslatorUtil.getEmoticonFiles())
 		).put(
 			"smiley_path",
-			HtmlUtil.escape(themeDisplay.getPathThemeImages()) + "/emoticons/"
+			_html.escape(themeDisplay.getPathThemeImages()) + "/emoticons/"
 		).put(
 			"smiley_symbols",
 			toJSONArray(BBCodeTranslatorUtil.getEmoticonSymbols())
@@ -213,5 +214,8 @@ public class AlloyEditorBBCodeConfigContributor
 	private static final int _CKEDITOR_STYLE_BLOCK = 1;
 
 	private static final int _CKEDITOR_STYLE_INLINE = 2;
+
+	@Reference
+	private Html _html;
 
 }

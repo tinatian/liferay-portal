@@ -34,7 +34,7 @@ import com.liferay.portal.kernel.servlet.taglib.ui.URLMenuItem;
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.HashMapBuilder;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
@@ -159,7 +159,7 @@ public class AssetPublisherPortletToolbarContributor
 					PortletDisplay portletDisplay =
 						themeDisplay.getPortletDisplay();
 
-					return HtmlUtil.escape(portletDisplay.getNamespace()) +
+					return _html.escape(portletDisplay.getNamespace()) +
 						"editAsset";
 				}
 			).put(
@@ -192,8 +192,7 @@ public class AssetPublisherPortletToolbarContributor
 
 		urlMenuItem.setData(
 			HashMapBuilder.<String, Object>put(
-				"id",
-				HtmlUtil.escape(portletDisplay.getNamespace()) + "editAsset"
+				"id", _html.escape(portletDisplay.getNamespace()) + "editAsset"
 			).put(
 				"title",
 				LanguageUtil.format(
@@ -287,6 +286,9 @@ public class AssetPublisherPortletToolbarContributor
 
 	@Reference
 	private GroupLocalService _groupLocalService;
+
+	@Reference
+	private Html _html;
 
 	@Reference
 	private Portal _portal;

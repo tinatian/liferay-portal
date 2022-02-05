@@ -49,7 +49,7 @@ import com.liferay.portal.kernel.service.ClassNameLocalService;
 import com.liferay.portal.kernel.servlet.taglib.BaseDynamicInclude;
 import com.liferay.portal.kernel.servlet.taglib.DynamicInclude;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.KeyValuePair;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.Portal;
@@ -213,7 +213,7 @@ public class OpenGraphTopHeadDynamicInclude extends BaseDynamicInclude {
 			printWriter.println(
 				_getOpenGraphTag(
 					"og:description",
-					HtmlUtil.unescape(HtmlUtil.stripHtml(description))));
+					_html.unescape(_html.stripHtml(description))));
 
 			printWriter.println(
 				_getOpenGraphTag("og:locale", themeDisplay.getLanguageId()));
@@ -433,8 +433,8 @@ public class OpenGraphTopHeadDynamicInclude extends BaseDynamicInclude {
 		}
 
 		return StringBundler.concat(
-			"<meta property=\"", HtmlUtil.escapeAttribute(property),
-			"\" content=\"", HtmlUtil.escapeAttribute(content), "\">");
+			"<meta property=\"", _html.escapeAttribute(property),
+			"\" content=\"", _html.escapeAttribute(content), "\">");
 	}
 
 	private String _getTitle(HttpServletRequest httpServletRequest) {
@@ -480,6 +480,9 @@ public class OpenGraphTopHeadDynamicInclude extends BaseDynamicInclude {
 
 	@Reference
 	private DLURLHelper _dlurlHelper;
+
+	@Reference
+	private Html _html;
 
 	@Reference
 	private InfoItemServiceTracker _infoItemServiceTracker;

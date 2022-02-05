@@ -25,7 +25,7 @@ import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
 import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.social.kernel.model.BaseSocialActivityInterpreter;
 import com.liferay.social.kernel.model.SocialActivity;
 import com.liferay.social.kernel.model.SocialActivityInterpreter;
@@ -97,7 +97,7 @@ public class MicroblogsActivityInterpreter
 
 		sb.append(
 			MicroblogsWebUtil.getProcessedContent(
-				HtmlUtil.replaceNewLine(microblogsEntry.getContent()),
+				_html.replaceNewLine(microblogsEntry.getContent()),
 				serviceContext));
 
 		return sb.toString();
@@ -123,6 +123,9 @@ public class MicroblogsActivityInterpreter
 	private static final String[] _CLASS_NAMES = {
 		MicroblogsEntry.class.getName()
 	};
+
+	@Reference
+	private Html _html;
 
 	private MicroblogsEntryLocalService _microblogsEntryLocalService;
 

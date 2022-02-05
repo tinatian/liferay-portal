@@ -20,7 +20,7 @@ import com.liferay.portal.kernel.struts.StrutsAction;
 import com.liferay.portal.kernel.util.Base64;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.CookieKeys;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.Http;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -101,8 +101,7 @@ public class KeepAliveStrutsAction implements StrutsAction {
 			keepAliveURL = _http.addParameter(keepAliveURL, "r", randomString);
 
 			printWriter.write("document.write('<img alt=\"\" src=\"");
-			printWriter.write(
-				HtmlUtil.escapeJS(HtmlUtil.escapeHREF(keepAliveURL)));
+			printWriter.write(_html.escapeJS(_html.escapeHREF(keepAliveURL)));
 			printWriter.write("\"/>');");
 		}
 	}
@@ -179,6 +178,9 @@ public class KeepAliveStrutsAction implements StrutsAction {
 
 	private static final String _BASE64_1X1_GIF =
 		"R0lGODdhAQABAIAAAP///////ywAAAAAAQABAAACAkQBADs=";
+
+	@Reference
+	private Html _html;
 
 	@Reference
 	private Http _http;

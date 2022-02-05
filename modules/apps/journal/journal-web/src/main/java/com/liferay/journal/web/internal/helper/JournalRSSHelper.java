@@ -48,7 +48,7 @@ import com.liferay.portal.kernel.service.ImageLocalService;
 import com.liferay.portal.kernel.service.LayoutLocalService;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.Http;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.MimeTypesUtil;
@@ -595,7 +595,7 @@ public class JournalRSSHelper {
 			Document document = SAXReaderUtil.read(
 				article.getContentByLocale(languageId));
 
-			contentField = HtmlUtil.escapeXPathAttribute(contentField);
+			contentField = _html.escapeXPathAttribute(contentField);
 
 			XPath xPathSelector = SAXReaderUtil.createXPath(
 				"//dynamic-element[@name=" + contentField + "]");
@@ -696,6 +696,9 @@ public class JournalRSSHelper {
 
 	@Reference
 	private DLURLHelper _dlURLHelper;
+
+	@Reference
+	private Html _html;
 
 	@Reference
 	private Http _http;

@@ -30,7 +30,7 @@ import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.service.UserNotificationEventLocalService;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.social.kernel.model.SocialRelationConstants;
@@ -188,7 +188,7 @@ public class ContactsCenterUserNotificationHandler
 				serviceContext.getThemeDisplay());
 
 			return StringBundler.concat(
-				"<a href=\"", userDisplayURL, "\">", HtmlUtil.escape(userName),
+				"<a href=\"", userDisplayURL, "\">", _html.escape(userName),
 				"</a>");
 		}
 		catch (Exception exception) {
@@ -206,6 +206,9 @@ public class ContactsCenterUserNotificationHandler
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		ContactsCenterUserNotificationHandler.class);
+
+	@Reference
+	private Html _html;
 
 	@Reference
 	private SocialRequestLocalService _socialRequestLocalService;

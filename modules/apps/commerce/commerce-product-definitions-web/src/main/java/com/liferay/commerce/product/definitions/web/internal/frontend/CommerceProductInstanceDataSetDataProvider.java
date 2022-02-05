@@ -37,7 +37,7 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.search.BaseModelSearchResult;
 import com.liferay.portal.kernel.search.Sort;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.KeyValuePair;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
@@ -121,11 +121,11 @@ public class CommerceProductInstanceDataSetDataProvider
 			skus.add(
 				new Sku(
 					cpInstance.getCPInstanceId(), cpInstance.getSku(),
-					HtmlUtil.escape(
+					_html.escape(
 						_getOptions(
 							cpInstance.getCPDefinitionId(),
 							keyValuesJSONArray.toString(), locale)),
-					HtmlUtil.escape(_formatPrice(cpInstance, locale)),
+					_html.escape(_formatPrice(cpInstance, locale)),
 					cpDefinitionName, stockQuantity,
 					new LabelField(
 						statusDisplayStyle,
@@ -247,6 +247,9 @@ public class CommerceProductInstanceDataSetDataProvider
 
 	@Reference
 	private CPInstanceService _cpInstanceService;
+
+	@Reference
+	private Html _html;
 
 	@Reference
 	private JsonHelper _jsonHelper;

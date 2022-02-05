@@ -28,7 +28,7 @@ import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.Constants;
 import com.liferay.portal.kernel.util.ContentTypes;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.trash.TrashHelper;
@@ -136,11 +136,14 @@ public class GetAttachmentsMVCResourceCommand extends BaseMVCResourceCommand {
 		).setCMD(
 			_getDeleteCommand(resourceRequest)
 		).setParameter(
-			"fileName", HtmlUtil.unescape(fileEntry.getTitle())
+			"fileName", _html.unescape(fileEntry.getTitle())
 		).setParameter(
 			"messageId", message.getMessageId()
 		).buildPortletURL();
 	}
+
+	@Reference
+	private Html _html;
 
 	@Reference
 	private Portal _portal;

@@ -34,7 +34,7 @@ import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.security.permission.ResourceActionsUtil;
 import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.WebKeys;
 
@@ -112,8 +112,7 @@ public class AssetVocabularyCTDisplayRenderer
 
 		displayBuilder.display(
 			"name",
-			HtmlUtil.escape(
-				assetVocabulary.getTitle(displayBuilder.getLocale()))
+			_html.escape(assetVocabulary.getTitle(displayBuilder.getLocale()))
 		).display(
 			"description",
 			assetVocabulary.getDescription(displayBuilder.getLocale())
@@ -195,6 +194,9 @@ public class AssetVocabularyCTDisplayRenderer
 
 	@Reference
 	private GroupLocalService _groupLocalService;
+
+	@Reference
+	private Html _html;
 
 	@Reference
 	private Portal _portal;

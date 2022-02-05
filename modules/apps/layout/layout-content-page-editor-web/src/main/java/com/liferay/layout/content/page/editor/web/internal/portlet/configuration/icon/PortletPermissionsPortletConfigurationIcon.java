@@ -35,7 +35,7 @@ import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.Constants;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.PropsKeys;
@@ -75,7 +75,7 @@ public class PortletPermissionsPortletConfigurationIcon
 		try {
 			return StringBundler.concat(
 				"Liferay.Util.openModal({title: '",
-				HtmlUtil.escapeJS(getMessage(portletRequest)), "', url: '",
+				_html.escapeJS(getMessage(portletRequest)), "', url: '",
 				_generatePermissionURL(portletRequest), "'});");
 		}
 		catch (Exception exception) {
@@ -215,6 +215,9 @@ public class PortletPermissionsPortletConfigurationIcon
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		PortletPermissionsPortletConfigurationIcon.class);
+
+	@Reference
+	private Html _html;
 
 	@Reference
 	private Portal _portal;

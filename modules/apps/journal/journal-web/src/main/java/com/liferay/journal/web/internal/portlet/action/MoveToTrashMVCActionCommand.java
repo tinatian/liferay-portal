@@ -23,7 +23,7 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.HashMapBuilder;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.Validator;
@@ -76,7 +76,7 @@ public class MoveToTrashMVCActionCommand extends BaseMVCActionCommand {
 		for (String deleteArticleId : deleteArticleIds) {
 			JournalArticle article = _journalArticleService.moveArticleToTrash(
 				themeDisplay.getScopeGroupId(),
-				HtmlUtil.unescape(deleteArticleId));
+				_html.unescape(deleteArticleId));
 
 			trashedModels.add(article);
 		}
@@ -93,6 +93,9 @@ public class MoveToTrashMVCActionCommand extends BaseMVCActionCommand {
 			hideDefaultSuccessMessage(actionRequest);
 		}
 	}
+
+	@Reference
+	private Html _html;
 
 	@Reference
 	private JournalArticleService _journalArticleService;

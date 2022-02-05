@@ -26,7 +26,7 @@ import com.liferay.portal.kernel.service.LayoutLocalService;
 import com.liferay.portal.kernel.servlet.ServletResponseUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ContentTypes;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.Validator;
@@ -144,11 +144,14 @@ public class FindLayoutsMVCResourceCommand extends BaseMVCResourceCommand {
 		Collections.reverse(ancestorLayouts);
 
 		for (Layout ancestorLayout : ancestorLayouts) {
-			jsonArray.put(HtmlUtil.escape(ancestorLayout.getName(locale)));
+			jsonArray.put(_html.escape(ancestorLayout.getName(locale)));
 		}
 
 		return jsonArray;
 	}
+
+	@Reference
+	private Html _html;
 
 	@Reference
 	private LayoutLocalService _layoutLocalService;

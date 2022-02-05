@@ -23,7 +23,7 @@ import com.liferay.portal.kernel.cache.MultiVMPool;
 import com.liferay.portal.kernel.cache.PortalCache;
 import com.liferay.portal.kernel.io.unsync.UnsyncStringReader;
 import com.liferay.portal.kernel.portlet.LiferayPortletURL;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.URLCodec;
 import com.liferay.wiki.engine.WikiEngine;
@@ -204,7 +204,7 @@ public class WikiEngineRendererImpl implements WikiEngineRenderer {
 
 			if (matcher.groupCount() >= 1) {
 				String encodedTitle = URLCodec.encodeURL(
-					HtmlUtil.unescape(matcher.group(1)));
+					_html.unescape(matcher.group(1)));
 
 				replacement = StringUtil.replace(url, "$1", encodedTitle);
 			}
@@ -241,6 +241,9 @@ public class WikiEngineRendererImpl implements WikiEngineRenderer {
 
 	@Reference
 	private DiffHtml _diffHtml;
+
+	@Reference
+	private Html _html;
 
 	@Reference
 	private MultiVMPool _multiVMPool;

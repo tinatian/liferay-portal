@@ -24,7 +24,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserNotificationEventLocalService;
 import com.liferay.portal.kernel.trash.TrashHandler;
 import com.liferay.portal.kernel.trash.TrashHandlerRegistryUtil;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.sharing.constants.SharingPortletKeys;
 import com.liferay.sharing.model.SharingEntry;
@@ -89,7 +89,7 @@ public class SharingUserNotificationHandler
 				userNotificationEvent);
 		}
 
-		return HtmlUtil.escape(message);
+		return _html.escape(message);
 	}
 
 	private boolean _isInTrash(String className, long classPK)
@@ -104,6 +104,9 @@ public class SharingUserNotificationHandler
 
 		return trashHandler.isInTrash(classPK);
 	}
+
+	@Reference
+	private Html _html;
 
 	@Reference
 	private SharingEntryLocalService _sharingEntryLocalService;

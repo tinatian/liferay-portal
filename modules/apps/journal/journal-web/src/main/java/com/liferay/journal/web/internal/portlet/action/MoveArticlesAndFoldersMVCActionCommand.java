@@ -27,7 +27,7 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -84,8 +84,8 @@ public class MoveArticlesAndFoldersMVCActionCommand
 		for (String articleId : articleIds) {
 			try {
 				_journalArticleService.moveArticle(
-					themeDisplay.getScopeGroupId(),
-					HtmlUtil.unescape(articleId), newFolderId, serviceContext);
+					themeDisplay.getScopeGroupId(), _html.unescape(articleId),
+					newFolderId, serviceContext);
 			}
 			catch (InvalidDDMStructureException invalidDDMStructureException) {
 				if (_log.isWarnEnabled()) {
@@ -107,6 +107,9 @@ public class MoveArticlesAndFoldersMVCActionCommand
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		MoveArticlesAndFoldersMVCActionCommand.class);
+
+	@Reference
+	private Html _html;
 
 	@Reference
 	private JournalArticleService _journalArticleService;

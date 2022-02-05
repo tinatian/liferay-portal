@@ -39,7 +39,7 @@ import com.liferay.portal.kernel.repository.model.Folder;
 import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ArrayUtil;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.Http;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.URLCodec;
@@ -235,7 +235,7 @@ public class DLURLHelperImpl implements DLURLHelper {
 			fileName = _trashHelper.getOriginalTitle(fileEntry.getFileName());
 		}
 
-		sb.append(URLCodec.encodeURL(HtmlUtil.unescape(fileName)));
+		sb.append(URLCodec.encodeURL(_html.unescape(fileName)));
 
 		sb.append(StringPool.SLASH);
 		sb.append(URLCodec.encodeURL(fileEntry.getUuid()));
@@ -477,6 +477,9 @@ public class DLURLHelperImpl implements DLURLHelper {
 
 	@Reference
 	private GroupLocalService _groupLocalService;
+
+	@Reference
+	private Html _html;
 
 	@Reference
 	private Http _http;

@@ -23,7 +23,7 @@ import com.liferay.portal.kernel.servlet.taglib.BaseDynamicInclude;
 import com.liferay.portal.kernel.servlet.taglib.DynamicInclude;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.CookieKeys;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.Http;
 import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -87,7 +87,7 @@ public class KeepAliveSPPortalDynamicInclude extends BaseDynamicInclude {
 			PrintWriter printWriter = httpServletResponse.getWriter();
 
 			printWriter.write("<script src=\"");
-			printWriter.write(HtmlUtil.escapeHREF(keepAliveURL));
+			printWriter.write(_html.escapeHREF(keepAliveURL));
 			printWriter.write("\" type=\"text/javascript\"></script>");
 		}
 		catch (IOException ioException) {
@@ -206,6 +206,9 @@ public class KeepAliveSPPortalDynamicInclude extends BaseDynamicInclude {
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		KeepAliveSPPortalDynamicInclude.class);
+
+	@Reference
+	private Html _html;
 
 	@Reference
 	private Http _http;

@@ -32,7 +32,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.search.Sort;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
@@ -92,7 +92,7 @@ public class CommerceProductImageDataSetDataProvider
 			FileEntry fileEntry = cpAttachmentFileEntry.fetchFileEntry();
 
 			if (fileEntry != null) {
-				extension = HtmlUtil.escape(fileEntry.getExtension());
+				extension = _html.escape(fileEntry.getExtension());
 			}
 
 			Date modifiedDate = cpAttachmentFileEntry.getModifiedDate();
@@ -148,6 +148,9 @@ public class CommerceProductImageDataSetDataProvider
 
 	@Reference
 	private CPAttachmentFileEntryService _cpAttachmentFileEntryService;
+
+	@Reference
+	private Html _html;
 
 	@Reference
 	private Portal _portal;

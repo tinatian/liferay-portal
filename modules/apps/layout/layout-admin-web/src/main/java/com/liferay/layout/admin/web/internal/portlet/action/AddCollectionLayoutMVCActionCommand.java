@@ -40,7 +40,7 @@ import com.liferay.portal.kernel.servlet.MultiSessionMessages;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.HashMapBuilder;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
@@ -190,7 +190,7 @@ public class AddCollectionLayoutMVCActionCommand
 		).put(
 			"CLASS_PK", classPK
 		).put(
-			"COLLECTION_NAME", HtmlUtil.escape(assetListEntry.getTitle())
+			"COLLECTION_NAME", _html.escape(assetListEntry.getTitle())
 		).build();
 
 		String collectionPageElementJSON = StringUtil.read(
@@ -263,6 +263,9 @@ public class AddCollectionLayoutMVCActionCommand
 
 	@Reference
 	private AssetListEntryLocalService _assetListEntryLocalService;
+
+	@Reference
+	private Html _html;
 
 	@Reference
 	private InfoItemServiceTracker _infoItemServiceTracker;

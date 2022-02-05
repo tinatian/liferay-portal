@@ -27,7 +27,7 @@ import com.liferay.frontend.taglib.clay.data.set.provider.ClayDataSetDataProvide
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.search.Sort;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
 
@@ -94,7 +94,7 @@ public class CPInstanceTierPriceEntryDataSetDataProvider
 						httpServletRequest, "x-ago", createDateDescription,
 						false),
 					commerceTierPriceEntry.getMinQuantity(),
-					HtmlUtil.escape(
+					_html.escape(
 						priceCommerceMoney.format(
 							_portal.getLocale(httpServletRequest)))));
 		}
@@ -116,6 +116,9 @@ public class CPInstanceTierPriceEntryDataSetDataProvider
 
 	@Reference
 	private CommerceTierPriceEntryService _commerceTierPriceEntryService;
+
+	@Reference
+	private Html _html;
 
 	@Reference
 	private Portal _portal;

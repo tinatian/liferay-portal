@@ -17,7 +17,7 @@ package com.liferay.journal.web.internal.portlet.action;
 import com.liferay.journal.constants.JournalPortletKeys;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 
@@ -25,6 +25,7 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Eudaldo Alonso
@@ -55,9 +56,12 @@ public class ExpireArticlesMVCActionCommand extends BaseMVCActionCommand {
 
 			for (String expireArticleId : expireArticleIds) {
 				ActionUtil.expireArticle(
-					actionRequest, HtmlUtil.unescape(expireArticleId));
+					actionRequest, _html.unescape(expireArticleId));
 			}
 		}
 	}
+
+	@Reference
+	private Html _html;
 
 }

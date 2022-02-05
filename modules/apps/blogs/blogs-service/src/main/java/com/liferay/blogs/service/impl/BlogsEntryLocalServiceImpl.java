@@ -93,7 +93,7 @@ import com.liferay.portal.kernel.util.FriendlyURLNormalizerUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.GroupSubscriptionCheckSubscriptionSender;
 import com.liferay.portal.kernel.util.HashMapBuilder;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.Http;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.MimeTypesUtil;
@@ -1107,7 +1107,7 @@ public class BlogsEntryLocalServiceImpl extends BlogsEntryLocalServiceBaseImpl {
 			visible = true;
 		}
 
-		String summary = HtmlUtil.extractText(
+		String summary = _html.extractText(
 			StringUtil.shorten(entry.getContent(), 500));
 
 		AssetEntry assetEntry = _assetEntryLocalService.updateEntry(
@@ -1953,7 +1953,7 @@ public class BlogsEntryLocalServiceImpl extends BlogsEntryLocalServiceBaseImpl {
 		subscriptionSender.setCompanyId(entry.getCompanyId());
 		subscriptionSender.setContextAttribute(
 			"[$BLOGS_ENTRY_CONTENT$]",
-			StringUtil.shorten(HtmlUtil.stripHtml(entry.getContent()), 500),
+			StringUtil.shorten(_html.stripHtml(entry.getContent()), 500),
 			false);
 
 		String description = entry.getDescription();
@@ -1965,7 +1965,7 @@ public class BlogsEntryLocalServiceImpl extends BlogsEntryLocalServiceBaseImpl {
 		else {
 			subscriptionSender.setContextAttribute(
 				"[$BLOGS_ENTRY_DESCRIPTION$]",
-				StringUtil.shorten(HtmlUtil.stripHtml(entry.getContent()), 400),
+				StringUtil.shorten(_html.stripHtml(entry.getContent()), 400),
 				false);
 		}
 
@@ -1975,7 +1975,7 @@ public class BlogsEntryLocalServiceImpl extends BlogsEntryLocalServiceBaseImpl {
 			"[$BLOGS_ENTRY_STATUS_BY_USER_NAME$]", entry.getStatusByUserName(),
 			"[$BLOGS_ENTRY_TITLE$]", entryTitle,
 			"[$BLOGS_ENTRY_UPDATE_COMMENT$]",
-			HtmlUtil.replaceNewLine(
+			_html.replaceNewLine(
 				GetterUtil.getString(
 					serviceContext.getAttribute("emailEntryUpdatedComment"))),
 			"[$BLOGS_ENTRY_URL$]", entryURL,
@@ -2198,7 +2198,7 @@ public class BlogsEntryLocalServiceImpl extends BlogsEntryLocalServiceBaseImpl {
 		).put(
 			"excerpt",
 			StringUtil.shorten(
-				HtmlUtil.extractText(entry.getContent()),
+				_html.extractText(entry.getContent()),
 				PropsValues.BLOGS_LINKBACK_EXCERPT_LENGTH)
 		).put(
 			"title", entry.getTitle()
@@ -2427,6 +2427,9 @@ public class BlogsEntryLocalServiceImpl extends BlogsEntryLocalServiceBaseImpl {
 
 	@Reference
 	private GroupLocalService _groupLocalService;
+
+	@Reference
+	private Html _html;
 
 	@Reference
 	private Http _http;

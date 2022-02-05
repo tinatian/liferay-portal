@@ -36,7 +36,7 @@ import com.liferay.portal.kernel.service.CompanyLocalService;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.settings.LocalizedValuesMap;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.PwdGenerator;
 
@@ -201,18 +201,18 @@ public class SendMFAEmailOTPMVCResourceCommand implements MVCResourceCommand {
 			"[$FROM_ADDRESS$]", mfaEmailOTPConfiguration.emailFromAddress());
 		mailTemplateContextBuilder.put(
 			"[$FROM_NAME$]",
-			HtmlUtil.escape(mfaEmailOTPConfiguration.emailFromName()));
+			_html.escape(mfaEmailOTPConfiguration.emailFromName()));
 		mailTemplateContextBuilder.put(
-			"[$ONE_TIME_PASSWORD$]", HtmlUtil.escape(generatedMFAEmailOTP));
+			"[$ONE_TIME_PASSWORD$]", _html.escape(generatedMFAEmailOTP));
 		mailTemplateContextBuilder.put(
 			"[$PORTAL_URL$]", _portal.getPortalURL(httpServletRequest));
 		mailTemplateContextBuilder.put(
 			"[$REMOTE_ADDRESS$]", httpServletRequest.getRemoteAddr());
 		mailTemplateContextBuilder.put(
 			"[$REMOTE_HOST$]",
-			HtmlUtil.escape(httpServletRequest.getRemoteHost()));
+			_html.escape(httpServletRequest.getRemoteHost()));
 		mailTemplateContextBuilder.put(
-			"[$TO_NAME$]", HtmlUtil.escape(user.getFullName()));
+			"[$TO_NAME$]", _html.escape(user.getFullName()));
 
 		_sendNotificationEmail(
 			mfaEmailOTPConfiguration.emailFromAddress(),
@@ -234,6 +234,9 @@ public class SendMFAEmailOTPMVCResourceCommand implements MVCResourceCommand {
 
 	@Reference
 	private ConfigurationProvider _configurationProvider;
+
+	@Reference
+	private Html _html;
 
 	@Reference
 	private MailService _mailService;

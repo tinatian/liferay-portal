@@ -47,7 +47,7 @@ import com.liferay.portal.kernel.search.generic.NestedQuery;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.FastDateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
@@ -402,7 +402,7 @@ public class DDMIndexerImpl implements DDMIndexer {
 								ddmStructure.getDDMFormField(field.getName()),
 								locale, values[i].toString());
 
-							sb.append(HtmlUtil.extractText(valueString));
+							sb.append(_html.extractText(valueString));
 						}
 						else {
 							sb.append(values[i]);
@@ -431,7 +431,7 @@ public class DDMIndexerImpl implements DDMIndexer {
 					}
 					else {
 						if (type.equals(DDMFormFieldTypeConstants.RICH_TEXT)) {
-							valueString = HtmlUtil.extractText(valueString);
+							valueString = _html.extractText(valueString);
 						}
 
 						sb.append(valueString);
@@ -754,8 +754,8 @@ public class DDMIndexerImpl implements DDMIndexer {
 			}
 			else {
 				if (type.equals(DDMFormFieldTypeConstants.RICH_TEXT)) {
-					valueString = HtmlUtil.extractText(valueString);
-					sortableValueString = HtmlUtil.extractText(
+					valueString = _html.extractText(valueString);
+					sortableValueString = _html.extractText(
 						sortableValueString);
 				}
 
@@ -844,5 +844,8 @@ public class DDMIndexerImpl implements DDMIndexer {
 	private DDMFormValuesToFieldsConverter _ddmFormValuesToFieldsConverter;
 	private volatile DDMIndexerConfiguration _ddmIndexerConfiguration;
 	private DDMStructureLocalService _ddmStructureLocalService;
+
+	@Reference
+	private Html _html;
 
 }

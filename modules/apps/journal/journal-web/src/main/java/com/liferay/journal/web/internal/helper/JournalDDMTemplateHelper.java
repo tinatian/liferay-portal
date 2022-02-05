@@ -22,7 +22,7 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.template.TemplateConstants;
 import com.liferay.portal.kernel.template.TemplateVariableDefinition;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 
@@ -32,6 +32,7 @@ import java.util.ResourceBundle;
 import javax.servlet.http.HttpServletRequest;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Eudaldo Alonso
@@ -100,7 +101,7 @@ public class JournalDDMTemplateHelper {
 		if (Validator.isNotNull(help)) {
 			sb.append("<p>");
 			sb.append(
-				HtmlUtil.escape(
+				_html.escape(
 					LanguageUtil.get(
 						httpServletRequest, resourceBundle, help)));
 			sb.append("</p>");
@@ -127,7 +128,7 @@ public class JournalDDMTemplateHelper {
 			sb.append(LanguageUtil.get(httpServletRequest, "variable"));
 			sb.append(StringPool.COLON);
 			sb.append(StringPool.NBSP);
-			sb.append(HtmlUtil.escape(templateVariableDefinition.getName()));
+			sb.append(_html.escape(templateVariableDefinition.getName()));
 		}
 
 		sb.append(
@@ -219,5 +220,8 @@ public class JournalDDMTemplateHelper {
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		JournalDDMTemplateHelper.class);
+
+	@Reference
+	private Html _html;
 
 }

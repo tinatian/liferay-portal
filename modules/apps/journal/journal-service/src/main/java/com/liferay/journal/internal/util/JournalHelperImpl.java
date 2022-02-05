@@ -48,7 +48,7 @@ import com.liferay.portal.kernel.templateparser.TransformerListener;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.Constants;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -319,7 +319,7 @@ public class JournalHelperImpl implements JournalHelper {
 				continue;
 			}
 
-			String changes = HtmlUtil.stripHtml(
+			String changes = _html.stripHtml(
 				spanElement.attributeValue("changes"));
 
 			if (changes == null) {
@@ -384,6 +384,9 @@ public class JournalHelperImpl implements JournalHelper {
 
 	@Reference
 	private DiffHtml _diffHtml;
+
+	@Reference
+	private Html _html;
 
 	@Reference
 	private LayoutLocalService _layoutLocalService;

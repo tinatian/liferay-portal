@@ -31,7 +31,7 @@ import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.repository.model.Folder;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.Http;
 import com.liferay.portal.kernel.util.StringUtil;
 
@@ -202,7 +202,7 @@ public class JournalArticleImageUpgradeHelper {
 
 		long groupId = GetterUtil.getLong(splitURL[2]);
 		long folderId = GetterUtil.getLong(splitURL[3]);
-		String title = _http.decodeURL(HtmlUtil.escape(splitURL[4]));
+		String title = _http.decodeURL(_html.escape(splitURL[4]));
 
 		try {
 			FileEntry fileEntry = _dlAppLocalService.getFileEntry(
@@ -234,6 +234,9 @@ public class JournalArticleImageUpgradeHelper {
 
 	@Reference
 	private DLAppLocalService _dlAppLocalService;
+
+	@Reference
+	private Html _html;
 
 	@Reference
 	private Http _http;

@@ -46,7 +46,7 @@ import com.liferay.portal.kernel.search.BaseModelSearchResult;
 import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.FastDateFormatFactoryUtil;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.KeyValuePair;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -151,7 +151,7 @@ public class CommerceOrderItemDataSetDataProvider
 		CommerceMoney discountAmountCommerceMoney =
 			commerceOrderItemPrice.getDiscountAmount();
 
-		return HtmlUtil.escape(discountAmountCommerceMoney.format(locale));
+		return _html.escape(discountAmountCommerceMoney.format(locale));
 	}
 
 	private String _getImage(CommerceOrderItem commerceOrderItem)
@@ -256,7 +256,7 @@ public class CommerceOrderItemDataSetDataProvider
 		CommerceMoney unitPriceCommerceMoney =
 			commerceOrderItemPrice.getUnitPrice();
 
-		return HtmlUtil.escape(unitPriceCommerceMoney.format(locale));
+		return _html.escape(unitPriceCommerceMoney.format(locale));
 	}
 
 	private String _getRequestedDeliveryDateTime(
@@ -434,7 +434,7 @@ public class CommerceOrderItemDataSetDataProvider
 		CommerceMoney finalPriceCommerceMoney =
 			commerceOrderItemPrice.getFinalPrice();
 
-		return HtmlUtil.escape(finalPriceCommerceMoney.format(locale));
+		return _html.escape(finalPriceCommerceMoney.format(locale));
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
@@ -459,5 +459,8 @@ public class CommerceOrderItemDataSetDataProvider
 
 	@Reference
 	private CPSubscriptionTypeRegistry _cpSubscriptionTypeRegistry;
+
+	@Reference
+	private Html _html;
 
 }

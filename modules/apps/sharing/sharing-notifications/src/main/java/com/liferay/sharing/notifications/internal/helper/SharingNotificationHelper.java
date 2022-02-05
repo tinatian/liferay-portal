@@ -27,7 +27,7 @@ import com.liferay.portal.kernel.template.TemplateConstants;
 import com.liferay.portal.kernel.template.TemplateManagerUtil;
 import com.liferay.portal.kernel.template.URLTemplateResource;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.sharing.interpreter.SharingEntryInterpreter;
@@ -236,7 +236,7 @@ public class SharingNotificationHelper {
 			return StringBundler.concat(
 				"<a href=\"", getNotificationURL(sharingEntry, portletRequest),
 				"\" style=\"color: #0b5fff; text-decoration: none;\">",
-				HtmlUtil.escape(title), "</a>");
+				_html.escape(title), "</a>");
 		}
 
 		return title;
@@ -244,11 +244,14 @@ public class SharingNotificationHelper {
 
 	private String _getUserName(User user, ResourceBundle resourceBundle) {
 		if (user != null) {
-			return HtmlUtil.escape(user.getFullName());
+			return _html.escape(user.getFullName());
 		}
 
 		return ResourceBundleUtil.getString(resourceBundle, "someone");
 	}
+
+	@Reference
+	private Html _html;
 
 	@Reference
 	private SharingEntryInterpreterProvider _sharingEntryInterpreterProvider;

@@ -26,7 +26,7 @@ import com.liferay.portal.kernel.model.Organization;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.portlet.RequestBackedPortletURLFactoryUtil;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.util.PropsValues;
 import com.liferay.product.navigation.personal.menu.PersonalMenuEntry;
@@ -90,7 +90,7 @@ public class MySitesPersonalMenuEntry implements PersonalMenuEntry {
 			"{Liferay.Util.navigate(selectedItem.url);}",
 			", selectEventName: '", eventName, "', title: '",
 			_language.get(httpServletRequest, "select-site"), "', url:'",
-			HtmlUtil.escapeJS(itemSelectorURL.toString()), "'});");
+			_html.escapeJS(itemSelectorURL.toString()), "'});");
 	}
 
 	@Override
@@ -120,6 +120,9 @@ public class MySitesPersonalMenuEntry implements PersonalMenuEntry {
 
 		return false;
 	}
+
+	@Reference
+	private Html _html;
 
 	@Reference
 	private ItemSelector _itemSelector;

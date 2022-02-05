@@ -19,7 +19,7 @@ import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -30,6 +30,7 @@ import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Eudaldo Alonso
@@ -64,7 +65,7 @@ public class DeleteArticlesMVCActionCommand extends BaseMVCActionCommand {
 
 		for (String deleteArticleId : deleteArticleIds) {
 			ActionUtil.deleteArticle(
-				actionRequest, HtmlUtil.unescape(deleteArticleId));
+				actionRequest, _html.unescape(deleteArticleId));
 		}
 
 		if (ActionUtil.hasArticle(actionRequest)) {
@@ -79,5 +80,8 @@ public class DeleteArticlesMVCActionCommand extends BaseMVCActionCommand {
 
 		actionRequest.setAttribute(WebKeys.REDIRECT, portletURL.toString());
 	}
+
+	@Reference
+	private Html _html;
 
 }

@@ -18,7 +18,7 @@ import com.liferay.journal.constants.JournalPortletKeys;
 import com.liferay.journal.service.JournalFolderService;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.ParamUtil;
 
 import javax.portlet.ActionRequest;
@@ -58,9 +58,12 @@ public class DeleteArticlesAndFoldersMVCActionCommand
 
 		for (String deleteArticleId : deleteArticleIds) {
 			ActionUtil.deleteArticle(
-				actionRequest, HtmlUtil.unescape(deleteArticleId));
+				actionRequest, _html.unescape(deleteArticleId));
 		}
 	}
+
+	@Reference
+	private Html _html;
 
 	@Reference
 	private JournalFolderService _journalFolderService;
