@@ -18,6 +18,8 @@ import com.liferay.normalizer.internal.NormalizerImpl;
 import com.liferay.petra.nio.CharsetEncoderUtil;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
+import com.liferay.portal.kernel.util.URLCodec;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.test.rule.LiferayUnitTestRule;
 import com.liferay.portal.util.HttpImpl;
 
@@ -31,6 +33,8 @@ import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 
+import org.mockito.Mockito;
+
 /**
  * @author Julio Camarero
  */
@@ -43,8 +47,33 @@ public class FriendlyURLNormalizerImplTest {
 
 	@BeforeClass
 	public static void setUpClass() {
+		HttpImpl httpImpl = Mockito.mock(HttpImpl.class);
+
+		Mockito.when(
+			httpImpl.decodePath(Mockito.anyString())
+		).thenAnswer(
+			invocation -> {
+				Object[] args = invocation.getArguments();
+
+				String url = (String)args[0];
+
+				if (Validator.isNull(url)) {
+					return url;
+				}
+
+				try {
+					return URLCodec.decodeURL(url, StringPool.UTF8);
+				}
+				catch (IllegalArgumentException illegalArgumentException) {
+				}
+
+				return StringPool.BLANK;
+			}
+		);
+
 		ReflectionTestUtil.setFieldValue(
-			_friendlyURLNormalizerImpl, "_http", new HttpImpl());
+			_friendlyURLNormalizerImpl, "_http", httpImpl);
+
 		ReflectionTestUtil.setFieldValue(
 			_friendlyURLNormalizerImpl, "_normalizer", new NormalizerImpl());
 	}
