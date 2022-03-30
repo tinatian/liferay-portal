@@ -128,8 +128,7 @@ public class ModifiedFacetPortlet extends MVCPortlet {
 
 		ModifiedFacetDisplayContextBuilder modifiedFacetDisplayContextBuilder =
 			_createModifiedFacetDisplayContextBuilder(
-				_getCalendarFactory(), _getDateFormatFactory(), http,
-				renderRequest);
+				_getCalendarFactory(), _getDateFormatFactory(), renderRequest);
 
 		modifiedFacetDisplayContextBuilder.setCurrentURL(
 			portal.getCurrentURL(renderRequest));
@@ -177,12 +176,11 @@ public class ModifiedFacetPortlet extends MVCPortlet {
 	private ModifiedFacetDisplayContextBuilder
 		_createModifiedFacetDisplayContextBuilder(
 			CalendarFactory calendarFactory,
-			DateFormatFactory dateFormatFactory, Http http,
-			RenderRequest renderRequest) {
+			DateFormatFactory dateFormatFactory, RenderRequest renderRequest) {
 
 		try {
 			return new ModifiedFacetDisplayContextBuilder(
-				calendarFactory, dateFormatFactory, http, renderRequest);
+				calendarFactory, dateFormatFactory, renderRequest);
 		}
 		catch (ConfigurationException configurationException) {
 			throw new RuntimeException(configurationException);

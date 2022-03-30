@@ -14,6 +14,7 @@
 
 package com.liferay.portal.search.web.internal.modified.facet.display.context;
 
+import com.liferay.petra.http.HttpImpl;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.json.JSONFactoryImpl;
 import com.liferay.portal.kernel.json.JSONArray;
@@ -41,7 +42,6 @@ import com.liferay.portal.search.web.internal.modified.facet.display.context.bui
 import com.liferay.portal.test.rule.LiferayUnitTestRule;
 import com.liferay.portal.util.CalendarFactoryImpl;
 import com.liferay.portal.util.DateFormatFactoryImpl;
-import com.liferay.portal.util.HttpImpl;
 
 import java.util.List;
 
@@ -78,7 +78,6 @@ public class ModifiedFacetDisplayContextBuilderTest {
 
 		_dateRangeFactory = new DateRangeFactory(_dateFormatFactory);
 
-		_httpImpl = new HttpImpl();
 		_jsonFactoryImpl = new JSONFactoryImpl();
 
 		_setUpPortalUtil();
@@ -399,8 +398,7 @@ public class ModifiedFacetDisplayContextBuilderTest {
 
 		try {
 			return new ModifiedFacetDisplayContextBuilder(
-				_calendarFactory, _dateFormatFactory, _httpImpl,
-				_getRenderRequest());
+				_calendarFactory, _dateFormatFactory, _getRenderRequest());
 		}
 		catch (ConfigurationException configurationException) {
 			throw new RuntimeException(configurationException);
@@ -518,7 +516,7 @@ public class ModifiedFacetDisplayContextBuilderTest {
 	@Mock
 	private FacetCollector _facetCollector;
 
-	private HttpImpl _httpImpl;
+	private final HttpImpl _httpImpl = new HttpImpl();
 	private JSONFactoryImpl _jsonFactoryImpl;
 
 }
