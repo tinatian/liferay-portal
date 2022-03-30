@@ -413,15 +413,15 @@ public class StringUtil {
 	/**
 	 * Replaces all occurrences of the character with the new character.
 	 *
-	 * @param  s the original string
-	 * @param  oldSub the character to be searched for and replaced in the
-	 *         original string
-	 * @param  newSub the character with which to replace the
-	 *         <code>oldSub</code> character
+	 * @param s      the original string
+	 * @param oldSub the character to be searched for and replaced in the
+	 *               original string
+	 * @param newSub the character with which to replace the
+	 *               <code>oldSub</code> character
 	 * @return a string representing the original string with all occurrences of
-	 *         the <code>oldSub</code> character replaced with the
-	 *         <code>newSub</code> character, or <code>null</code> if the
-	 *         original string is <code>null</code>
+	 * the <code>oldSub</code> character replaced with the
+	 * <code>newSub</code> character, or <code>null</code> if the
+	 * original string is <code>null</code>
 	 */
 	public static String replace(String s, char oldSub, char newSub) {
 		if (s == null) {
@@ -431,18 +431,64 @@ public class StringUtil {
 		return s.replace(oldSub, newSub);
 	}
 
+	public static String replace(String s, char[] oldSubs, String[] newSubs) {
+		if ((s == null) || (oldSubs == null) || (newSubs == null)) {
+			return null;
+		}
+
+		if (oldSubs.length != newSubs.length) {
+			return s;
+		}
+
+		StringBundler sb = null;
+
+		int lastReplacementIndex = 0;
+
+		for (int i = 0; i < s.length(); i++) {
+			char c = s.charAt(i);
+
+			for (int j = 0; j < oldSubs.length; j++) {
+				if (c == oldSubs[j]) {
+					if (sb == null) {
+						sb = new StringBundler();
+					}
+
+					if (i > lastReplacementIndex) {
+						sb.append(s.substring(lastReplacementIndex, i));
+					}
+
+					sb.append(newSubs[j]);
+
+					lastReplacementIndex = i + 1;
+
+					break;
+				}
+			}
+		}
+
+		if (sb == null) {
+			return s;
+		}
+
+		if (lastReplacementIndex < s.length()) {
+			sb.append(s.substring(lastReplacementIndex));
+		}
+
+		return sb.toString();
+	}
+
 	/**
 	 * Replaces all occurrences of the string with the new string.
 	 *
-	 * @param  s the original string
-	 * @param  oldSub the string to be searched for and replaced in the original
-	 *         string
-	 * @param  newSub the string with which to replace the <code>oldSub</code>
-	 *         string
+	 * @param s      the original string
+	 * @param oldSub the string to be searched for and replaced in the original
+	 *               string
+	 * @param newSub the string with which to replace the <code>oldSub</code>
+	 *               string
 	 * @return a string representing the original string with all occurrences of
-	 *         the <code>oldSub</code> string replaced with the string
-	 *         <code>newSub</code>, or <code>null</code> if the original string
-	 *         is <code>null</code>
+	 * the <code>oldSub</code> string replaced with the string
+	 * <code>newSub</code>, or <code>null</code> if the original string
+	 * is <code>null</code>
 	 */
 	public static String replace(String s, String oldSub, String newSub) {
 		return replace(s, oldSub, newSub, 0);
@@ -452,17 +498,17 @@ public class StringUtil {
 	 * Replaces all occurrences of the string with the new string, starting from
 	 * the specified index.
 	 *
-	 * @param  s the original string
-	 * @param  oldSub the string to be searched for and replaced in the original
-	 *         string
-	 * @param  newSub the string with which to replace the <code>oldSub</code>
-	 *         string
-	 * @param  fromIndex the index of the original string from which to begin
-	 *         searching
+	 * @param s         the original string
+	 * @param oldSub    the string to be searched for and replaced in the original
+	 *                  string
+	 * @param newSub    the string with which to replace the <code>oldSub</code>
+	 *                  string
+	 * @param fromIndex the index of the original string from which to begin
+	 *                  searching
 	 * @return a string representing the original string with all occurrences of
-	 *         the <code>oldSub</code> string occurring after the specified
-	 *         index replaced with the string <code>newSub</code>, or
-	 *         <code>null</code> if the original string is <code>null</code>
+	 * the <code>oldSub</code> string occurring after the specified
+	 * index replaced with the string <code>newSub</code>, or
+	 * <code>null</code> if the original string is <code>null</code>
 	 */
 	public static String replace(
 		String s, String oldSub, String newSub, int fromIndex) {
@@ -504,6 +550,22 @@ public class StringUtil {
 		return s;
 	}
 
+	public static String replace(String s, String[] oldSubs, String[] newSubs) {
+		if ((s == null) || (oldSubs == null) || (newSubs == null)) {
+			return null;
+		}
+
+		if (oldSubs.length != newSubs.length) {
+			return s;
+		}
+
+		for (int i = 0; i < oldSubs.length; i++) {
+			s = replace(s, oldSubs[i], newSubs[i]);
+		}
+
+		return s;
+	}
+
 	public static List<String> split(String s) {
 		return split(s, CharPool.COMMA);
 	}
@@ -524,6 +586,65 @@ public class StringUtil {
 		_split(elements, s, delimiter);
 
 		return elements;
+	}
+
+	/**
+	 * Splits the string <code>s</code> around the specified delimiter string.
+	 *
+	 * <p>
+	 * Example:
+	 * </p>
+	 *
+	 * <p>
+	 * <pre>
+	 * <code>
+	 * splitLines("oneandtwoandthreeandfour", "and") returns {"one","two","three","four"}
+	 * </code>
+	 * </pre></p>
+	 *
+	 * @param s         the string to split
+	 * @param delimiter the delimiter
+	 * @return the array of strings resulting from splitting string
+	 * <code>s</code> around the specified delimiter string, or an empty
+	 * string array if <code>s</code> is <code>null</code> or equals the
+	 * delimiter
+	 */
+	public static List<String> split(String s, String delimiter) {
+		if ((s == null) || s.isEmpty() || (delimiter == null) ||
+			delimiter.equals(StringPool.BLANK)) {
+
+			return Collections.emptyList();
+		}
+
+		s = s.trim();
+
+		if (s.equals(delimiter)) {
+			return Collections.emptyList();
+		}
+
+		if (delimiter.length() == 1) {
+			return split(s, delimiter.charAt(0));
+		}
+
+		List<String> nodeValues = new ArrayList<>();
+
+		int offset = 0;
+
+		int pos = s.indexOf(delimiter, offset);
+
+		while (pos != -1) {
+			nodeValues.add(s.substring(offset, pos));
+
+			offset = pos + delimiter.length();
+
+			pos = s.indexOf(delimiter, offset);
+		}
+
+		if (offset < s.length()) {
+			nodeValues.add(s.substring(offset));
+		}
+
+		return nodeValues;
 	}
 
 	private static String _read(InputStream inputStream) throws IOException {
