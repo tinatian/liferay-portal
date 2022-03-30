@@ -15,11 +15,11 @@
 package com.liferay.friendly.url.internal.util;
 
 import com.liferay.normalizer.Normalizer;
+import com.liferay.petra.http.HttpImpl;
 import com.liferay.petra.nio.CharsetEncoderUtil;
 import com.liferay.petra.string.CharPool;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.util.FriendlyURLNormalizer;
-import com.liferay.portal.kernel.util.Http;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 
@@ -53,10 +53,12 @@ public class FriendlyURLNormalizerImpl implements FriendlyURLNormalizer {
 			return friendlyURL;
 		}
 
-		String decodedFriendlyURL = _http.decodePath(friendlyURL);
+		HttpImpl httpImpl = new HttpImpl();
+
+		String decodedFriendlyURL = httpImpl.decodePath(friendlyURL);
 
 		if (Validator.isNull(decodedFriendlyURL)) {
-			decodedFriendlyURL = _http.decodePath(
+			decodedFriendlyURL = httpImpl.decodePath(
 				StringUtil.replace(
 					friendlyURL, CharPool.PERCENT, CharPool.POUND));
 		}
@@ -237,9 +239,6 @@ public class FriendlyURLNormalizerImpl implements FriendlyURLNormalizer {
 
 		_REPLACE_CHARS = replaceChars;
 	}
-
-	@Reference
-	private Http _http;
 
 	@Reference
 	private Normalizer _normalizer;
