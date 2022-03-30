@@ -116,7 +116,7 @@ public class SearchAdminPortlet extends MVCPortlet {
 		else if (tab.equals("field-mappings")) {
 			FieldMappingsDisplayContextBuilder
 				fieldMappingsDisplayContextBuilder =
-					new FieldMappingsDisplayContextBuilder(_http);
+					new FieldMappingsDisplayContextBuilder();
 
 			fieldMappingsDisplayContextBuilder.setCompanyId(
 				_portal.getCompanyId(renderRequest));
