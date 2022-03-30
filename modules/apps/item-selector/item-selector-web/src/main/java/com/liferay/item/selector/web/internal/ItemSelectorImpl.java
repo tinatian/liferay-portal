@@ -28,6 +28,7 @@ import com.liferay.item.selector.web.internal.util.ItemSelectorKeyUtil;
 import com.liferay.osgi.service.tracker.collections.map.ServiceReferenceMapperFactory;
 import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMap;
 import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMapFactory;
+import com.liferay.petra.http.HttpImpl;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -37,7 +38,6 @@ import com.liferay.portal.kernel.portlet.RequestBackedPortletURLFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.HashMapBuilder;
-import com.liferay.portal.kernel.util.Http;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -91,7 +91,7 @@ public class ItemSelectorImpl implements ItemSelector {
 		String namespace = _portal.getPortletNamespace(
 			ItemSelectorPortletKeys.ITEM_SELECTOR);
 
-		return _http.getParameter(
+		return _httpImpl.getParameter(
 			itemSelectorURL,
 			namespace.concat(PARAMETER_ITEM_SELECTED_EVENT_NAME), false);
 	}
@@ -124,8 +124,8 @@ public class ItemSelectorImpl implements ItemSelector {
 	public List<ItemSelectorCriterion> getItemSelectorCriteria(
 		String itemSelectorURL) {
 
-		Map<String, String[]> parameters = _http.getParameterMap(
-			_http.getQueryString(itemSelectorURL));
+		Map<String, String[]> parameters = _httpImpl.getParameterMap(
+			_httpImpl.getQueryString(itemSelectorURL));
 
 		Map<String, String[]> itemSelectorURLParameterMap = new HashMap<>();
 
@@ -148,7 +148,7 @@ public class ItemSelectorImpl implements ItemSelector {
 		if (matcher.matches()) {
 			itemSelectorURLParameterMap.put(
 				PARAMETER_CRITERIA,
-				new String[] {_http.decodePath(matcher.group(1))});
+				new String[] {_httpImpl.decodePath(matcher.group(1))});
 			itemSelectorURLParameterMap.put(
 				PARAMETER_ITEM_SELECTED_EVENT_NAME,
 				new String[] {matcher.group(2)});
@@ -487,9 +487,7 @@ public class ItemSelectorImpl implements ItemSelector {
 	private static final Pattern _itemSelectorURLPattern = Pattern.compile(
 		".*select\\/([^/]+)\\/([^$?/]+).*");
 
-	@Reference
-	private Http _http;
-
+	private final HttpImpl _httpImpl = new HttpImpl();
 	private final ConcurrentMap
 		<String, ItemSelectorCriterionHandler<ItemSelectorCriterion>>
 			_itemSelectionCriterionHandlers = new ConcurrentHashMap<>();
