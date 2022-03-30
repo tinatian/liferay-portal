@@ -332,6 +332,7 @@ Provide-Capability:\
 	@lib/com.liferay.petra.encryptor.jar,\
 	@lib/com.liferay.petra.executor.jar,\
 	@lib/com.liferay.petra.function.jar,\
+	@lib/com.liferay.petra.http.service.jar,\
 	@lib/com.liferay.petra.io.jar,\
 	@lib/com.liferay.petra.lang.jar,\
 	@lib/com.liferay.petra.log4j.jar,\
