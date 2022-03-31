@@ -19,7 +19,7 @@ import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.exception.NestableRuntimeException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.util.Http;
+import com.liferay.portal.kernel.util.HttpClient;
 
 import java.io.IOException;
 
@@ -30,8 +30,8 @@ import org.apache.http.HttpStatus;
  */
 public class AsahFaroBackendClient {
 
-	public AsahFaroBackendClient(Http http) {
-		_http = http;
+	public AsahFaroBackendClient(HttpClient httpClient) {
+		_httpClient = httpClient;
 	}
 
 	public String doGet(long companyId, String path) {
@@ -90,7 +90,7 @@ public class AsahFaroBackendClient {
 
 		options.setLocation(url);
 
-		String response = _http.URLtoString(options);
+		String response = _httpClient.urlToString(options);
 
 		Http.Response httpResponse = options.getResponse();
 
@@ -108,6 +108,6 @@ public class AsahFaroBackendClient {
 	private static final Log _log = LogFactoryUtil.getLog(
 		AsahFaroBackendClient.class);
 
-	private final Http _http;
+	private final HttpClient _httpClient;
 
 }
