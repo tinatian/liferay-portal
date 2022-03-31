@@ -14,11 +14,9 @@
 
 package com.liferay.portal.kernel.util;
 
-import java.io.IOException;
 import java.io.InputStream;
 
 import java.net.URI;
-import java.net.URL;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -171,40 +169,6 @@ public interface Http {
 	public String setParameter(String url, String name, String value);
 
 	public String shortenURL(String url);
-
-	public byte[] URLtoByteArray(Http.Options options) throws IOException;
-
-	public byte[] URLtoByteArray(String location) throws IOException;
-
-	public byte[] URLtoByteArray(String location, boolean post)
-		throws IOException;
-
-	public InputStream URLtoInputStream(Http.Options options)
-		throws IOException;
-
-	public InputStream URLtoInputStream(String location) throws IOException;
-
-	public InputStream URLtoInputStream(String location, boolean post)
-		throws IOException;
-
-	public String URLtoString(Http.Options options) throws IOException;
-
-	public String URLtoString(String location) throws IOException;
-
-	public String URLtoString(String location, boolean post) throws IOException;
-
-	/**
-	 * This method only uses the default Commons HttpClient implementation when
-	 * the URL object represents a HTTP resource. The URL object could also
-	 * represent a file or some JNDI resource. In that case, the default Java
-	 * implementation is used.
-	 *
-	 * @param  url the URL
-	 * @return A string representation of the resource referenced by the URL
-	 *         object
-	 * @throws IOException if an IO exception occurred
-	 */
-	public String URLtoString(URL url) throws IOException;
 
 	public class Auth {
 
