@@ -34,9 +34,12 @@ public class ClientExtensionEntryUpgradeProcess extends UpgradeProcess {
 	protected void doUpgrade() throws Exception {
 		_insertClientExtensionEntries();
 
-		_updateResourcePermissions();
-
 		runSQL("drop table RemoteAppEntry");
+		runSQL(
+			"delete from Release_ where servletContextName = " +
+				"'com.liferay.remote.app.service'");
+		runSQL(
+			"delete from ServiceComponent where buildNamespace = 'RemoteApp'");
 	}
 
 	private void _insertClientExtensionEntries() throws Exception {
@@ -137,19 +140,6 @@ public class ClientExtensionEntryUpgradeProcess extends UpgradeProcess {
 		}
 		catch (Exception exception) {
 			_log.error(exception);
-		}
-	}
-
-	private void _updateResourcePermissions() throws Exception {
-		try (PreparedStatement preparedStatement = connection.prepareStatement(
-				"update ResourcePermission set name = ? where name = ?")) {
-
-			preparedStatement.setString(
-				1, "com.liferay.remote.app.model.RemoteAppEntry");
-			preparedStatement.setString(
-				2, "com.liferay.client.extension.model.ClientExtensionEntry");
-
-			preparedStatement.executeUpdate();
 		}
 	}
 
