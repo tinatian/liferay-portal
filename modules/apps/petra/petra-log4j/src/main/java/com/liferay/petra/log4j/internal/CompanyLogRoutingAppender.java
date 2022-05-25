@@ -35,6 +35,7 @@ import org.apache.logging.log4j.core.LogEvent;
 import org.apache.logging.log4j.core.LoggerContext;
 import org.apache.logging.log4j.core.appender.AbstractAppender;
 import org.apache.logging.log4j.core.appender.RollingFileAppender;
+import org.apache.logging.log4j.core.appender.rolling.DirectFileRolloverStrategy;
 import org.apache.logging.log4j.core.appender.rolling.RolloverStrategy;
 import org.apache.logging.log4j.core.appender.rolling.TriggeringPolicy;
 import org.apache.logging.log4j.core.config.plugins.Plugin;
@@ -188,6 +189,13 @@ public final class CompanyLogRoutingAppender extends AbstractAppender {
 		builder.withLocking(_locking);
 		builder.withStrategy(_rolloverStrategy);
 		builder.withPolicy(_triggeringPolicy);
+
+		if (_rolloverStrategy instanceof DirectFileRolloverStrategy) {
+			DirectFileRolloverStrategy directFileRolloverStrategy =
+				(DirectFileRolloverStrategy)_rolloverStrategy;
+
+			directFileRolloverStrategy.clearCurrentFileName();
+		}
 
 		Appender fileAppender = builder.build();
 
