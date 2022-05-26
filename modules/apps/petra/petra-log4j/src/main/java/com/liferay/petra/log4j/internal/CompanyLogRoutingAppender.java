@@ -76,10 +76,12 @@ public final class CompanyLogRoutingAppender extends AbstractAppender {
 			return;
 		}
 
-		Appender textFileAppender = _fileAppenders.computeIfAbsent(
-			CompanyThreadLocal.getCompanyId(), key -> _createFileAppender(key));
+		RollingFileAppender rollingFileAppender =
+			_rollingFileAppenders.computeIfAbsent(
+				CompanyThreadLocal.getCompanyId(),
+				key -> _createFileAppender(key));
 
-		textFileAppender.append(logEvent);
+		rollingFileAppender.append(logEvent);
 	}
 
 	public static class Builder<B extends Builder<B>>
@@ -237,7 +239,7 @@ public final class CompanyLogRoutingAppender extends AbstractAppender {
 		_rolloverStrategy = rolloverStrategy;
 	}
 
-	private Appender _createFileAppender(long companyId) {
+	private RollingFileAppender _createFileAppender(long companyId) {
 		RollingFileAppender.Builder builder = RollingFileAppender.newBuilder();
 
 		LoggerContext loggerContext = (LoggerContext)LogManager.getContext();
@@ -307,11 +309,11 @@ public final class CompanyLogRoutingAppender extends AbstractAppender {
 			builder.withStrategy(_rolloverStrategy);
 		}
 
-		Appender fileAppender = builder.build();
+		RollingFileAppender rollingFileAppender = builder.build();
 
-		fileAppender.start();
+		rollingFileAppender.start();
 
-		return fileAppender;
+		return rollingFileAppender;
 	}
 
 	private static final boolean _ENABLED = GetterUtil.getBoolean(
@@ -326,8 +328,6 @@ public final class CompanyLogRoutingAppender extends AbstractAppender {
 	private final boolean _bufferedIo;
 	private final int _bufferSize;
 	private final boolean _createOnDemand;
-	private final Map<Long, Appender> _fileAppenders =
-		new ConcurrentHashMap<>();
 	private final String _fileGroup;
 	private final String _fileName;
 	private final String _fileOwner;
@@ -335,6 +335,8 @@ public final class CompanyLogRoutingAppender extends AbstractAppender {
 	private final String _filePermissions;
 	private final boolean _immediateFlush;
 	private final boolean _locking;
+	private final Map<Long, RollingFileAppender> _rollingFileAppenders =
+		new ConcurrentHashMap<>();
 	private final RolloverStrategy _rolloverStrategy;
 	private final TriggeringPolicy _triggeringPolicy;
 
