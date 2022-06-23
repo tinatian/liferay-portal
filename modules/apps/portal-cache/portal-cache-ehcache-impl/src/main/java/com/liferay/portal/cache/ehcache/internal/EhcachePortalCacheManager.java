@@ -86,6 +86,10 @@ public class EhcachePortalCacheManager<K extends Serializable, V>
 		_configFile = configFile;
 	}
 
+	public void setDBPartionEnabled(boolean dbPartionEnabled) {
+		_dbPartitionEnabled = dbPartionEnabled;
+	}
+
 	public void setDefaultConfigFile(String defaultConfigFile) {
 		_defaultConfigFile = defaultConfigFile;
 	}
@@ -93,6 +97,21 @@ public class EhcachePortalCacheManager<K extends Serializable, V>
 	@Override
 	protected PortalCache<K, V> createPortalCache(
 		PortalCacheConfiguration portalCacheConfiguration) {
+
+		return createPortalCache(portalCacheConfiguration, _dbPartitionEnabled);
+	}
+
+	protected PortalCache<K, V> createPortalCache(
+		PortalCacheConfiguration portalCacheConfiguration,
+		boolean dbPartitionEnabled) {
+
+		EhcachePortalCacheConfiguration ehcachePortalCacheConfiguration =
+			(EhcachePortalCacheConfiguration)portalCacheConfiguration;
+
+		if (dbPartitionEnabled) {
+			return new DBPartitionPortalCache<>(
+				this, ehcachePortalCacheConfiguration);
+		}
 
 		String portalCacheName = portalCacheConfiguration.getPortalCacheName();
 
@@ -103,9 +122,6 @@ public class EhcachePortalCacheManager<K extends Serializable, V>
 		}
 
 		Cache cache = _cacheManager.getCache(portalCacheName);
-
-		EhcachePortalCacheConfiguration ehcachePortalCacheConfiguration =
-			(EhcachePortalCacheConfiguration)portalCacheConfiguration;
 
 		if (ehcachePortalCacheConfiguration.isRequireSerialization()) {
 			return new SerializableEhcachePortalCache<>(this, cache);
@@ -316,6 +332,7 @@ public class EhcachePortalCacheManager<K extends Serializable, V>
 	private CacheManager _cacheManager;
 	private String _configFile;
 	private ServiceTracker<?, ?> _configuratorSettingsServiceTracker;
+	private boolean _dbPartitionEnabled;
 	private String _defaultConfigFile;
 	private ServiceTracker<MBeanServer, ManagementService>
 		_mBeanServerServiceTracker;
