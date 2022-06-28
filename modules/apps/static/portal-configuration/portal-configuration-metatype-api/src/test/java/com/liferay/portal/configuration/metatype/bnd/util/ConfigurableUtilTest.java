@@ -16,8 +16,10 @@ package com.liferay.portal.configuration.metatype.bnd.util;
 
 import aQute.bnd.annotation.metatype.Meta;
 
+import com.liferay.petra.reflect.ReflectionUtil;
 import com.liferay.petra.string.CharPool;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.SwappableSecurityManager;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.rule.CodeCoverageAssertor;
@@ -25,9 +27,10 @@ import com.liferay.portal.kernel.test.rule.NewEnv;
 import com.liferay.portal.kernel.test.util.ReflectionUtilTestUtil;
 import com.liferay.portal.kernel.util.HashMapDictionaryBuilder;
 import com.liferay.portal.kernel.util.PropsUtil;
-import com.liferay.portal.test.rule.AdviseWith;
 import com.liferay.portal.test.rule.LiferayUnitTestRule;
 import com.liferay.portal.util.PropsImpl;
+
+import java.lang.reflect.Method;
 
 import java.util.Collections;
 import java.util.concurrent.Callable;
@@ -84,10 +87,17 @@ public class ConfigurableUtilTest {
 		}
 	}
 
-	@AdviseWith(adviceClasses = ConfigurableUtilAdvice.class)
+	//	@AdviseWith(adviceClasses = ConfigurableUtilAdvice.class)
 	@NewEnv(type = NewEnv.Type.CLASSLOADER)
 	@Test
 	public void testConcurrentCreateConfigurable() throws Exception {
+		Method testDefineClassMethod = ReflectionUtil.getDeclaredMethod(
+			ConfigurableUtilTest.class, "_originDefineClassMethod");
+
+		ReflectionTestUtil.setFieldValue(
+			ConfigurableUtil.class, "_defineClassMethod",
+			testDefineClassMethod);
+
 		Callable<TestConfiguration> callable =
 			() -> ConfigurableUtil.createConfigurable(
 				TestConfiguration.class,
@@ -105,9 +115,9 @@ public class ConfigurableUtilTest {
 		thread1.start();
 		thread2.start();
 
-		ConfigurableUtilAdvice.waitUntilBlock();
-
-		ConfigurableUtilAdvice.unblock();
+		//		ConfigurableUtilAdvice.waitUntilBlock();
+		//
+		//		ConfigurableUtilAdvice.unblock();
 
 		_assertTestConfiguration(futureTask1.get(), "testReqiredString");
 		_assertTestConfiguration(futureTask2.get(), "testReqiredString");
@@ -286,6 +296,13 @@ public class ConfigurableUtilTest {
 		Assert.assertEquals("test.class", testClass.getName());
 	}
 
+	private Method _originDefineClassMethod() {
+
+		// add CountDownLatch
+
+		return _defineClassMethod;
+	}
+
 	private void _testBigString(int length) {
 		StringBundler sb = new StringBundler(length);
 
@@ -300,6 +317,19 @@ public class ConfigurableUtilTest {
 				TestConfiguration.class,
 				Collections.singletonMap("testReqiredString", bigString)),
 			bigString);
+	}
+
+	private static final Method _defineClassMethod;
+
+	static {
+		try {
+			_defineClassMethod = ReflectionUtil.getDeclaredMethod(
+				ClassLoader.class, "defineClass", String.class, byte[].class,
+				int.class, int.class);
+		}
+		catch (Throwable throwable) {
+			throw new ExceptionInInitializerError(throwable);
+		}
 	}
 
 	private interface TestConfiguration {
