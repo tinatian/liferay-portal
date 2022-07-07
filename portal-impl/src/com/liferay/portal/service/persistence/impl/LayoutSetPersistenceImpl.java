@@ -15,6 +15,7 @@
 package com.liferay.portal.service.persistence.impl;
 
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
@@ -1237,6 +1238,9 @@ public class LayoutSetPersistenceImpl
 	public LayoutSet fetchByG_P(
 		long groupId, boolean privateLayout, boolean useFinderCache) {
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			LayoutSet.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -1253,7 +1257,7 @@ public class LayoutSetPersistenceImpl
 		if (result instanceof LayoutSet) {
 			LayoutSet layoutSet = (LayoutSet)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					LayoutSet.class, layoutSet.getPrimaryKey()) ||
 				(groupId != layoutSet.getGroupId()) ||
 				(privateLayout != layoutSet.isPrivateLayout())) {
@@ -1289,7 +1293,9 @@ public class LayoutSetPersistenceImpl
 				List<LayoutSet> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByG_P, finderArgs, list);
 					}
@@ -2072,6 +2078,9 @@ public class LayoutSetPersistenceImpl
 	public LayoutSet fetchByP_L(
 		boolean privateLayout, long logoId, boolean useFinderCache) {
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			LayoutSet.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -2088,7 +2097,7 @@ public class LayoutSetPersistenceImpl
 		if (result instanceof LayoutSet) {
 			LayoutSet layoutSet = (LayoutSet)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					LayoutSet.class, layoutSet.getPrimaryKey()) ||
 				(privateLayout != layoutSet.isPrivateLayout()) ||
 				(logoId != layoutSet.getLogoId())) {
@@ -2124,7 +2133,9 @@ public class LayoutSetPersistenceImpl
 				List<LayoutSet> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByP_L, finderArgs, list);
 					}
@@ -2134,7 +2145,7 @@ public class LayoutSetPersistenceImpl
 						Collections.sort(list, Collections.reverseOrder());
 
 						if (_log.isWarnEnabled()) {
-							if (!useFinderCache) {
+							if (!productionMode || !useFinderCache) {
 								finderArgs = new Object[] {
 									privateLayout, logoId
 								};

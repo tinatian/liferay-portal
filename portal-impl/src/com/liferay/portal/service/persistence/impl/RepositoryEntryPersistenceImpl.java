@@ -15,6 +15,7 @@
 package com.liferay.portal.service.persistence.impl;
 
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
@@ -710,6 +711,9 @@ public class RepositoryEntryPersistenceImpl
 
 		uuid = Objects.toString(uuid, "");
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			RepositoryEntry.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -726,7 +730,7 @@ public class RepositoryEntryPersistenceImpl
 		if (result instanceof RepositoryEntry) {
 			RepositoryEntry repositoryEntry = (RepositoryEntry)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					RepositoryEntry.class, repositoryEntry.getPrimaryKey()) ||
 				!Objects.equals(uuid, repositoryEntry.getUuid()) ||
 				(groupId != repositoryEntry.getGroupId())) {
@@ -773,7 +777,9 @@ public class RepositoryEntryPersistenceImpl
 				List<RepositoryEntry> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByUUID_G, finderArgs, list);
 					}
@@ -2089,6 +2095,9 @@ public class RepositoryEntryPersistenceImpl
 
 		mappedId = Objects.toString(mappedId, "");
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			RepositoryEntry.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -2105,7 +2114,7 @@ public class RepositoryEntryPersistenceImpl
 		if (result instanceof RepositoryEntry) {
 			RepositoryEntry repositoryEntry = (RepositoryEntry)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					RepositoryEntry.class, repositoryEntry.getPrimaryKey()) ||
 				(repositoryId != repositoryEntry.getRepositoryId()) ||
 				!Objects.equals(mappedId, repositoryEntry.getMappedId())) {
@@ -2152,7 +2161,9 @@ public class RepositoryEntryPersistenceImpl
 				List<RepositoryEntry> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByR_M, finderArgs, list);
 					}

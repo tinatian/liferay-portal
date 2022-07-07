@@ -15,6 +15,7 @@
 package com.liferay.segments.service.persistence.impl;
 
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
@@ -732,6 +733,9 @@ public class SegmentsExperimentPersistenceImpl
 
 		uuid = Objects.toString(uuid, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			SegmentsExperiment.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -748,7 +752,7 @@ public class SegmentsExperimentPersistenceImpl
 		if (result instanceof SegmentsExperiment) {
 			SegmentsExperiment segmentsExperiment = (SegmentsExperiment)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					SegmentsExperiment.class,
 					segmentsExperiment.getPrimaryKey()) ||
 				!Objects.equals(uuid, segmentsExperiment.getUuid()) ||
@@ -796,7 +800,9 @@ public class SegmentsExperimentPersistenceImpl
 				List<SegmentsExperiment> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByUUID_G, finderArgs, list);
 					}
@@ -3075,6 +3081,9 @@ public class SegmentsExperimentPersistenceImpl
 
 		segmentsExperimentKey = Objects.toString(segmentsExperimentKey, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			SegmentsExperiment.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -3090,7 +3099,7 @@ public class SegmentsExperimentPersistenceImpl
 		if (result instanceof SegmentsExperiment) {
 			SegmentsExperiment segmentsExperiment = (SegmentsExperiment)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					SegmentsExperiment.class,
 					segmentsExperiment.getPrimaryKey()) ||
 				(groupId != segmentsExperiment.getGroupId()) ||
@@ -3140,7 +3149,9 @@ public class SegmentsExperimentPersistenceImpl
 				List<SegmentsExperiment> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByG_S, finderArgs, list);
 					}

@@ -23,6 +23,7 @@ import com.liferay.message.boards.service.persistence.MBDiscussionPersistence;
 import com.liferay.message.boards.service.persistence.MBDiscussionUtil;
 import com.liferay.message.boards.service.persistence.impl.constants.MBPersistenceConstants;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
@@ -716,6 +717,9 @@ public class MBDiscussionPersistenceImpl
 
 		uuid = Objects.toString(uuid, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			MBDiscussion.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -732,7 +736,7 @@ public class MBDiscussionPersistenceImpl
 		if (result instanceof MBDiscussion) {
 			MBDiscussion mbDiscussion = (MBDiscussion)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					MBDiscussion.class, mbDiscussion.getPrimaryKey()) ||
 				!Objects.equals(uuid, mbDiscussion.getUuid()) ||
 				(groupId != mbDiscussion.getGroupId())) {
@@ -779,7 +783,9 @@ public class MBDiscussionPersistenceImpl
 				List<MBDiscussion> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByUUID_G, finderArgs, list);
 					}
@@ -1563,6 +1569,9 @@ public class MBDiscussionPersistenceImpl
 	 */
 	@Override
 	public MBDiscussion fetchByThreadId(long threadId, boolean useFinderCache) {
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			MBDiscussion.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -1579,7 +1588,7 @@ public class MBDiscussionPersistenceImpl
 		if (result instanceof MBDiscussion) {
 			MBDiscussion mbDiscussion = (MBDiscussion)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					MBDiscussion.class, mbDiscussion.getPrimaryKey()) ||
 				(threadId != mbDiscussion.getThreadId())) {
 
@@ -1610,7 +1619,9 @@ public class MBDiscussionPersistenceImpl
 				List<MBDiscussion> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByThreadId, finderArgs, list);
 					}
@@ -1782,6 +1793,9 @@ public class MBDiscussionPersistenceImpl
 	public MBDiscussion fetchByC_C(
 		long classNameId, long classPK, boolean useFinderCache) {
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			MBDiscussion.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -1797,7 +1811,7 @@ public class MBDiscussionPersistenceImpl
 		if (result instanceof MBDiscussion) {
 			MBDiscussion mbDiscussion = (MBDiscussion)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					MBDiscussion.class, mbDiscussion.getPrimaryKey()) ||
 				(classNameId != mbDiscussion.getClassNameId()) ||
 				(classPK != mbDiscussion.getClassPK())) {
@@ -1833,7 +1847,9 @@ public class MBDiscussionPersistenceImpl
 				List<MBDiscussion> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByC_C, finderArgs, list);
 					}

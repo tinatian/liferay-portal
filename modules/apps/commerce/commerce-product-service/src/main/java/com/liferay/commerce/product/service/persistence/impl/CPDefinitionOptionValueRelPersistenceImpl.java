@@ -22,6 +22,7 @@ import com.liferay.commerce.product.model.impl.CPDefinitionOptionValueRelModelIm
 import com.liferay.commerce.product.service.persistence.CPDefinitionOptionValueRelPersistence;
 import com.liferay.commerce.product.service.persistence.CPDefinitionOptionValueRelUtil;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
@@ -724,6 +725,9 @@ public class CPDefinitionOptionValueRelPersistenceImpl
 
 		uuid = Objects.toString(uuid, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			CPDefinitionOptionValueRel.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -741,7 +745,7 @@ public class CPDefinitionOptionValueRelPersistenceImpl
 			CPDefinitionOptionValueRel cpDefinitionOptionValueRel =
 				(CPDefinitionOptionValueRel)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					CPDefinitionOptionValueRel.class,
 					cpDefinitionOptionValueRel.getPrimaryKey()) ||
 				!Objects.equals(uuid, cpDefinitionOptionValueRel.getUuid()) ||
@@ -789,7 +793,9 @@ public class CPDefinitionOptionValueRelPersistenceImpl
 				List<CPDefinitionOptionValueRel> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByUUID_G, finderArgs, list);
 					}
@@ -4325,6 +4331,9 @@ public class CPDefinitionOptionValueRelPersistenceImpl
 
 		key = Objects.toString(key, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			CPDefinitionOptionValueRel.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -4341,7 +4350,7 @@ public class CPDefinitionOptionValueRelPersistenceImpl
 			CPDefinitionOptionValueRel cpDefinitionOptionValueRel =
 				(CPDefinitionOptionValueRel)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					CPDefinitionOptionValueRel.class,
 					cpDefinitionOptionValueRel.getPrimaryKey()) ||
 				(CPDefinitionOptionRelId !=
@@ -4390,7 +4399,9 @@ public class CPDefinitionOptionValueRelPersistenceImpl
 				List<CPDefinitionOptionValueRel> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByC_K, finderArgs, list);
 					}

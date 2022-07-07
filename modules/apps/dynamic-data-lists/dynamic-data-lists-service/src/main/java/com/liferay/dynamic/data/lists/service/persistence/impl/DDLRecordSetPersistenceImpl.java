@@ -23,6 +23,7 @@ import com.liferay.dynamic.data.lists.service.persistence.DDLRecordSetPersistenc
 import com.liferay.dynamic.data.lists.service.persistence.DDLRecordSetUtil;
 import com.liferay.dynamic.data.lists.service.persistence.impl.constants.DDLPersistenceConstants;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
@@ -720,6 +721,9 @@ public class DDLRecordSetPersistenceImpl
 
 		uuid = Objects.toString(uuid, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			DDLRecordSet.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -736,7 +740,7 @@ public class DDLRecordSetPersistenceImpl
 		if (result instanceof DDLRecordSet) {
 			DDLRecordSet ddlRecordSet = (DDLRecordSet)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					DDLRecordSet.class, ddlRecordSet.getPrimaryKey()) ||
 				!Objects.equals(uuid, ddlRecordSet.getUuid()) ||
 				(groupId != ddlRecordSet.getGroupId())) {
@@ -783,7 +787,9 @@ public class DDLRecordSetPersistenceImpl
 				List<DDLRecordSet> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByUUID_G, finderArgs, list);
 					}
@@ -3715,6 +3721,9 @@ public class DDLRecordSetPersistenceImpl
 
 		recordSetKey = Objects.toString(recordSetKey, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			DDLRecordSet.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -3730,7 +3739,7 @@ public class DDLRecordSetPersistenceImpl
 		if (result instanceof DDLRecordSet) {
 			DDLRecordSet ddlRecordSet = (DDLRecordSet)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					DDLRecordSet.class, ddlRecordSet.getPrimaryKey()) ||
 				(groupId != ddlRecordSet.getGroupId()) ||
 				!Objects.equals(recordSetKey, ddlRecordSet.getRecordSetKey())) {
@@ -3777,7 +3786,9 @@ public class DDLRecordSetPersistenceImpl
 				List<DDLRecordSet> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByG_R, finderArgs, list);
 					}

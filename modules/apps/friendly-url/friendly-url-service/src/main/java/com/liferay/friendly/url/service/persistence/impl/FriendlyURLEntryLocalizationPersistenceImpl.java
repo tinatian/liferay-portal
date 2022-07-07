@@ -23,6 +23,7 @@ import com.liferay.friendly.url.service.persistence.FriendlyURLEntryLocalization
 import com.liferay.friendly.url.service.persistence.FriendlyURLEntryLocalizationUtil;
 import com.liferay.friendly.url.service.persistence.impl.constants.FURLPersistenceConstants;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
@@ -713,6 +714,9 @@ public class FriendlyURLEntryLocalizationPersistenceImpl
 
 		languageId = Objects.toString(languageId, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			FriendlyURLEntryLocalization.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -730,7 +734,7 @@ public class FriendlyURLEntryLocalizationPersistenceImpl
 			FriendlyURLEntryLocalization friendlyURLEntryLocalization =
 				(FriendlyURLEntryLocalization)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					FriendlyURLEntryLocalization.class,
 					friendlyURLEntryLocalization.getPrimaryKey()) ||
 				(friendlyURLEntryId !=
@@ -783,7 +787,9 @@ public class FriendlyURLEntryLocalizationPersistenceImpl
 				List<FriendlyURLEntryLocalization> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByFriendlyURLEntryId_LanguageId,
 							finderArgs, list);
@@ -1006,6 +1012,9 @@ public class FriendlyURLEntryLocalizationPersistenceImpl
 
 		urlTitle = Objects.toString(urlTitle, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			FriendlyURLEntryLocalization.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -1022,7 +1031,7 @@ public class FriendlyURLEntryLocalizationPersistenceImpl
 			FriendlyURLEntryLocalization friendlyURLEntryLocalization =
 				(FriendlyURLEntryLocalization)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					FriendlyURLEntryLocalization.class,
 					friendlyURLEntryLocalization.getPrimaryKey()) ||
 				(groupId != friendlyURLEntryLocalization.getGroupId()) ||
@@ -1077,7 +1086,9 @@ public class FriendlyURLEntryLocalizationPersistenceImpl
 				List<FriendlyURLEntryLocalization> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByG_C_U, finderArgs, list);
 					}

@@ -23,6 +23,7 @@ import com.liferay.dynamic.data.mapping.service.persistence.DDMFormInstanceRepor
 import com.liferay.dynamic.data.mapping.service.persistence.DDMFormInstanceReportUtil;
 import com.liferay.dynamic.data.mapping.service.persistence.impl.constants.DDMPersistenceConstants;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
@@ -165,6 +166,9 @@ public class DDMFormInstanceReportPersistenceImpl
 	public DDMFormInstanceReport fetchByFormInstanceId(
 		long formInstanceId, boolean useFinderCache) {
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			DDMFormInstanceReport.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -182,7 +186,7 @@ public class DDMFormInstanceReportPersistenceImpl
 			DDMFormInstanceReport ddmFormInstanceReport =
 				(DDMFormInstanceReport)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					DDMFormInstanceReport.class,
 					ddmFormInstanceReport.getPrimaryKey()) ||
 				(formInstanceId != ddmFormInstanceReport.getFormInstanceId())) {
@@ -214,7 +218,9 @@ public class DDMFormInstanceReportPersistenceImpl
 				List<DDMFormInstanceReport> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByFormInstanceId, finderArgs, list);
 					}
@@ -224,7 +230,7 @@ public class DDMFormInstanceReportPersistenceImpl
 						Collections.sort(list, Collections.reverseOrder());
 
 						if (_log.isWarnEnabled()) {
-							if (!useFinderCache) {
+							if (!productionMode || !useFinderCache) {
 								finderArgs = new Object[] {formInstanceId};
 							}
 

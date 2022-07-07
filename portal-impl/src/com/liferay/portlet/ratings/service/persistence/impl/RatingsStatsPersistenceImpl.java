@@ -15,6 +15,7 @@
 package com.liferay.portlet.ratings.service.persistence.impl;
 
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
@@ -405,6 +406,9 @@ public class RatingsStatsPersistenceImpl
 	public RatingsStats fetchByC_C(
 		long classNameId, long classPK, boolean useFinderCache) {
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			RatingsStats.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -421,7 +425,7 @@ public class RatingsStatsPersistenceImpl
 		if (result instanceof RatingsStats) {
 			RatingsStats ratingsStats = (RatingsStats)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					RatingsStats.class, ratingsStats.getPrimaryKey()) ||
 				(classNameId != ratingsStats.getClassNameId()) ||
 				(classPK != ratingsStats.getClassPK())) {
@@ -457,7 +461,9 @@ public class RatingsStatsPersistenceImpl
 				List<RatingsStats> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByC_C, finderArgs, list);
 					}

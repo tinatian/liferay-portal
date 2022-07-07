@@ -23,6 +23,7 @@ import com.liferay.dynamic.data.lists.service.persistence.DDLRecordVersionPersis
 import com.liferay.dynamic.data.lists.service.persistence.DDLRecordVersionUtil;
 import com.liferay.dynamic.data.lists.service.persistence.impl.constants.DDLPersistenceConstants;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
@@ -1284,6 +1285,9 @@ public class DDLRecordVersionPersistenceImpl
 
 		version = Objects.toString(version, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			DDLRecordVersion.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -1299,7 +1303,7 @@ public class DDLRecordVersionPersistenceImpl
 		if (result instanceof DDLRecordVersion) {
 			DDLRecordVersion ddlRecordVersion = (DDLRecordVersion)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					DDLRecordVersion.class, ddlRecordVersion.getPrimaryKey()) ||
 				(recordId != ddlRecordVersion.getRecordId()) ||
 				!Objects.equals(version, ddlRecordVersion.getVersion())) {
@@ -1346,7 +1350,9 @@ public class DDLRecordVersionPersistenceImpl
 				List<DDLRecordVersion> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByR_V, finderArgs, list);
 					}

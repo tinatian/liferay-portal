@@ -15,6 +15,7 @@
 package com.liferay.template.service.persistence.impl;
 
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
@@ -720,6 +721,9 @@ public class TemplateEntryPersistenceImpl
 
 		uuid = Objects.toString(uuid, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			TemplateEntry.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -736,7 +740,7 @@ public class TemplateEntryPersistenceImpl
 		if (result instanceof TemplateEntry) {
 			TemplateEntry templateEntry = (TemplateEntry)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					TemplateEntry.class, templateEntry.getPrimaryKey()) ||
 				!Objects.equals(uuid, templateEntry.getUuid()) ||
 				(groupId != templateEntry.getGroupId())) {
@@ -783,7 +787,9 @@ public class TemplateEntryPersistenceImpl
 				List<TemplateEntry> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByUUID_G, finderArgs, list);
 					}
@@ -2343,6 +2349,9 @@ public class TemplateEntryPersistenceImpl
 	public TemplateEntry fetchByDDMTemplateId(
 		long ddmTemplateId, boolean useFinderCache) {
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			TemplateEntry.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -2359,7 +2368,7 @@ public class TemplateEntryPersistenceImpl
 		if (result instanceof TemplateEntry) {
 			TemplateEntry templateEntry = (TemplateEntry)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					TemplateEntry.class, templateEntry.getPrimaryKey()) ||
 				(ddmTemplateId != templateEntry.getDDMTemplateId())) {
 
@@ -2390,7 +2399,9 @@ public class TemplateEntryPersistenceImpl
 				List<TemplateEntry> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByDDMTemplateId, finderArgs, list);
 					}
@@ -2400,7 +2411,7 @@ public class TemplateEntryPersistenceImpl
 						Collections.sort(list, Collections.reverseOrder());
 
 						if (_log.isWarnEnabled()) {
-							if (!useFinderCache) {
+							if (!productionMode || !useFinderCache) {
 								finderArgs = new Object[] {ddmTemplateId};
 							}
 

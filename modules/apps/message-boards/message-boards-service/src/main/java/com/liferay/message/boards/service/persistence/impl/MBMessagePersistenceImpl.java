@@ -23,6 +23,7 @@ import com.liferay.message.boards.service.persistence.MBMessagePersistence;
 import com.liferay.message.boards.service.persistence.MBMessageUtil;
 import com.liferay.message.boards.service.persistence.impl.constants.MBPersistenceConstants;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
@@ -725,6 +726,9 @@ public class MBMessagePersistenceImpl
 
 		uuid = Objects.toString(uuid, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			MBMessage.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -741,7 +745,7 @@ public class MBMessagePersistenceImpl
 		if (result instanceof MBMessage) {
 			MBMessage mbMessage = (MBMessage)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					MBMessage.class, mbMessage.getPrimaryKey()) ||
 				!Objects.equals(uuid, mbMessage.getUuid()) ||
 				(groupId != mbMessage.getGroupId())) {
@@ -788,7 +792,9 @@ public class MBMessagePersistenceImpl
 				List<MBMessage> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByUUID_G, finderArgs, list);
 					}
@@ -6884,6 +6890,9 @@ public class MBMessagePersistenceImpl
 
 		urlSubject = Objects.toString(urlSubject, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			MBMessage.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -6899,7 +6908,7 @@ public class MBMessagePersistenceImpl
 		if (result instanceof MBMessage) {
 			MBMessage mbMessage = (MBMessage)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					MBMessage.class, mbMessage.getPrimaryKey()) ||
 				(groupId != mbMessage.getGroupId()) ||
 				!Objects.equals(urlSubject, mbMessage.getUrlSubject())) {
@@ -6946,7 +6955,9 @@ public class MBMessagePersistenceImpl
 				List<MBMessage> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByG_US, finderArgs, list);
 					}
@@ -21190,6 +21201,9 @@ public class MBMessagePersistenceImpl
 
 		externalReferenceCode = Objects.toString(externalReferenceCode, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			MBMessage.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -21205,7 +21219,7 @@ public class MBMessagePersistenceImpl
 		if (result instanceof MBMessage) {
 			MBMessage mbMessage = (MBMessage)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					MBMessage.class, mbMessage.getPrimaryKey()) ||
 				(groupId != mbMessage.getGroupId()) ||
 				!Objects.equals(
@@ -21254,7 +21268,9 @@ public class MBMessagePersistenceImpl
 				List<MBMessage> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByG_ERC, finderArgs, list);
 					}

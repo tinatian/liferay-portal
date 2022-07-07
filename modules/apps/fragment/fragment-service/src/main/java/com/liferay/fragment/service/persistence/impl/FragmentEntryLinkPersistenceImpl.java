@@ -23,6 +23,7 @@ import com.liferay.fragment.service.persistence.FragmentEntryLinkPersistence;
 import com.liferay.fragment.service.persistence.FragmentEntryLinkUtil;
 import com.liferay.fragment.service.persistence.impl.constants.FragmentPersistenceConstants;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
@@ -726,6 +727,9 @@ public class FragmentEntryLinkPersistenceImpl
 
 		uuid = Objects.toString(uuid, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			FragmentEntryLink.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -742,7 +746,7 @@ public class FragmentEntryLinkPersistenceImpl
 		if (result instanceof FragmentEntryLink) {
 			FragmentEntryLink fragmentEntryLink = (FragmentEntryLink)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					FragmentEntryLink.class,
 					fragmentEntryLink.getPrimaryKey()) ||
 				!Objects.equals(uuid, fragmentEntryLink.getUuid()) ||
@@ -790,7 +794,9 @@ public class FragmentEntryLinkPersistenceImpl
 				List<FragmentEntryLink> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByUUID_G, finderArgs, list);
 					}

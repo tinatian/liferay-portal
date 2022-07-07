@@ -15,6 +15,7 @@
 package com.liferay.portlet.social.service.persistence.impl;
 
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
@@ -1909,6 +1910,9 @@ public class SocialActivityCounterPersistenceImpl
 
 		name = Objects.toString(name, "");
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			SocialActivityCounter.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -1928,7 +1932,7 @@ public class SocialActivityCounterPersistenceImpl
 			SocialActivityCounter socialActivityCounter =
 				(SocialActivityCounter)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					SocialActivityCounter.class,
 					socialActivityCounter.getPrimaryKey()) ||
 				(groupId != socialActivityCounter.getGroupId()) ||
@@ -1996,7 +2000,9 @@ public class SocialActivityCounterPersistenceImpl
 				List<SocialActivityCounter> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByG_C_C_N_O_S, finderArgs, list);
 					}
@@ -2271,6 +2277,9 @@ public class SocialActivityCounterPersistenceImpl
 
 		name = Objects.toString(name, "");
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			SocialActivityCounter.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -2290,7 +2299,7 @@ public class SocialActivityCounterPersistenceImpl
 			SocialActivityCounter socialActivityCounter =
 				(SocialActivityCounter)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					SocialActivityCounter.class,
 					socialActivityCounter.getPrimaryKey()) ||
 				(groupId != socialActivityCounter.getGroupId()) ||
@@ -2358,7 +2367,9 @@ public class SocialActivityCounterPersistenceImpl
 				List<SocialActivityCounter> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByG_C_C_N_O_E, finderArgs, list);
 					}

@@ -23,6 +23,7 @@ import com.liferay.dynamic.data.mapping.service.persistence.DDMStructurePersiste
 import com.liferay.dynamic.data.mapping.service.persistence.DDMStructureUtil;
 import com.liferay.dynamic.data.mapping.service.persistence.impl.constants.DDMPersistenceConstants;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
@@ -720,6 +721,9 @@ public class DDMStructurePersistenceImpl
 
 		uuid = Objects.toString(uuid, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			DDMStructure.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -736,7 +740,7 @@ public class DDMStructurePersistenceImpl
 		if (result instanceof DDMStructure) {
 			DDMStructure ddmStructure = (DDMStructure)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					DDMStructure.class, ddmStructure.getPrimaryKey()) ||
 				!Objects.equals(uuid, ddmStructure.getUuid()) ||
 				(groupId != ddmStructure.getGroupId())) {
@@ -783,7 +787,9 @@ public class DDMStructurePersistenceImpl
 				List<DDMStructure> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByUUID_G, finderArgs, list);
 					}
@@ -7003,6 +7009,9 @@ public class DDMStructurePersistenceImpl
 
 		structureKey = Objects.toString(structureKey, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			DDMStructure.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -7018,7 +7027,7 @@ public class DDMStructurePersistenceImpl
 		if (result instanceof DDMStructure) {
 			DDMStructure ddmStructure = (DDMStructure)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					DDMStructure.class, ddmStructure.getPrimaryKey()) ||
 				(groupId != ddmStructure.getGroupId()) ||
 				(classNameId != ddmStructure.getClassNameId()) ||
@@ -7070,7 +7079,9 @@ public class DDMStructurePersistenceImpl
 				List<DDMStructure> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByG_C_S, finderArgs, list);
 					}

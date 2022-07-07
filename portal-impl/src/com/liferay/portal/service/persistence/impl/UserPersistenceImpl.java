@@ -16,6 +16,7 @@ package com.liferay.portal.service.persistence.impl;
 
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.BeanReference;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
@@ -1797,6 +1798,9 @@ public class UserPersistenceImpl
 	 */
 	@Override
 	public User fetchByContactId(long contactId, boolean useFinderCache) {
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			User.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -1813,7 +1817,7 @@ public class UserPersistenceImpl
 		if (result instanceof User) {
 			User user = (User)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					User.class, user.getPrimaryKey()) ||
 				(contactId != user.getContactId())) {
 
@@ -1844,7 +1848,9 @@ public class UserPersistenceImpl
 				List<User> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByContactId, finderArgs, list);
 					}
@@ -2555,6 +2561,9 @@ public class UserPersistenceImpl
 	 */
 	@Override
 	public User fetchByPortraitId(long portraitId, boolean useFinderCache) {
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			User.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -2571,7 +2580,7 @@ public class UserPersistenceImpl
 		if (result instanceof User) {
 			User user = (User)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					User.class, user.getPrimaryKey()) ||
 				(portraitId != user.getPortraitId())) {
 
@@ -2602,7 +2611,9 @@ public class UserPersistenceImpl
 				List<User> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByPortraitId, finderArgs, list);
 					}
@@ -2612,7 +2623,7 @@ public class UserPersistenceImpl
 						Collections.sort(list, Collections.reverseOrder());
 
 						if (_log.isWarnEnabled()) {
-							if (!useFinderCache) {
+							if (!productionMode || !useFinderCache) {
 								finderArgs = new Object[] {portraitId};
 							}
 
@@ -3169,6 +3180,9 @@ public class UserPersistenceImpl
 	public User fetchByC_U(
 		long companyId, long userId, boolean useFinderCache) {
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			User.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -3185,7 +3199,7 @@ public class UserPersistenceImpl
 		if (result instanceof User) {
 			User user = (User)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					User.class, user.getPrimaryKey()) ||
 				(companyId != user.getCompanyId()) ||
 				(userId != user.getUserId())) {
@@ -3221,7 +3235,9 @@ public class UserPersistenceImpl
 				List<User> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByC_U, finderArgs, list);
 					}
@@ -4574,6 +4590,9 @@ public class UserPersistenceImpl
 	public User fetchByC_DU(
 		long companyId, boolean defaultUser, boolean useFinderCache) {
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			User.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -4590,7 +4609,7 @@ public class UserPersistenceImpl
 		if (result instanceof User) {
 			User user = (User)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					User.class, user.getPrimaryKey()) ||
 				(companyId != user.getCompanyId()) ||
 				(defaultUser != user.isDefaultUser())) {
@@ -4626,7 +4645,9 @@ public class UserPersistenceImpl
 				List<User> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByC_DU, finderArgs, list);
 					}
@@ -4636,7 +4657,7 @@ public class UserPersistenceImpl
 						Collections.sort(list, Collections.reverseOrder());
 
 						if (_log.isWarnEnabled()) {
-							if (!useFinderCache) {
+							if (!productionMode || !useFinderCache) {
 								finderArgs = new Object[] {
 									companyId, defaultUser
 								};
@@ -4826,6 +4847,9 @@ public class UserPersistenceImpl
 
 		screenName = Objects.toString(screenName, "");
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			User.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -4842,7 +4866,7 @@ public class UserPersistenceImpl
 		if (result instanceof User) {
 			User user = (User)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					User.class, user.getPrimaryKey()) ||
 				(companyId != user.getCompanyId()) ||
 				!Objects.equals(screenName, user.getScreenName())) {
@@ -4889,7 +4913,9 @@ public class UserPersistenceImpl
 				List<User> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByC_SN, finderArgs, list);
 					}
@@ -5088,6 +5114,9 @@ public class UserPersistenceImpl
 
 		emailAddress = Objects.toString(emailAddress, "");
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			User.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -5104,7 +5133,7 @@ public class UserPersistenceImpl
 		if (result instanceof User) {
 			User user = (User)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					User.class, user.getPrimaryKey()) ||
 				(companyId != user.getCompanyId()) ||
 				!Objects.equals(emailAddress, user.getEmailAddress())) {
@@ -5151,7 +5180,9 @@ public class UserPersistenceImpl
 				List<User> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByC_EA, finderArgs, list);
 					}
@@ -5348,6 +5379,9 @@ public class UserPersistenceImpl
 	public User fetchByC_FID(
 		long companyId, long facebookId, boolean useFinderCache) {
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			User.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -5364,7 +5398,7 @@ public class UserPersistenceImpl
 		if (result instanceof User) {
 			User user = (User)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					User.class, user.getPrimaryKey()) ||
 				(companyId != user.getCompanyId()) ||
 				(facebookId != user.getFacebookId())) {
@@ -5400,7 +5434,9 @@ public class UserPersistenceImpl
 				List<User> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByC_FID, finderArgs, list);
 					}
@@ -5410,7 +5446,7 @@ public class UserPersistenceImpl
 						Collections.sort(list, Collections.reverseOrder());
 
 						if (_log.isWarnEnabled()) {
-							if (!useFinderCache) {
+							if (!productionMode || !useFinderCache) {
 								finderArgs = new Object[] {
 									companyId, facebookId
 								};
@@ -5600,6 +5636,9 @@ public class UserPersistenceImpl
 
 		googleUserId = Objects.toString(googleUserId, "");
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			User.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -5616,7 +5655,7 @@ public class UserPersistenceImpl
 		if (result instanceof User) {
 			User user = (User)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					User.class, user.getPrimaryKey()) ||
 				(companyId != user.getCompanyId()) ||
 				!Objects.equals(googleUserId, user.getGoogleUserId())) {
@@ -5663,7 +5702,9 @@ public class UserPersistenceImpl
 				List<User> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByC_GUID, finderArgs, list);
 					}
@@ -5673,7 +5714,7 @@ public class UserPersistenceImpl
 						Collections.sort(list, Collections.reverseOrder());
 
 						if (_log.isWarnEnabled()) {
-							if (!useFinderCache) {
+							if (!productionMode || !useFinderCache) {
 								finderArgs = new Object[] {
 									companyId, googleUserId
 								};
@@ -5879,6 +5920,9 @@ public class UserPersistenceImpl
 
 		openId = Objects.toString(openId, "");
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			User.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -5895,7 +5939,7 @@ public class UserPersistenceImpl
 		if (result instanceof User) {
 			User user = (User)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					User.class, user.getPrimaryKey()) ||
 				(companyId != user.getCompanyId()) ||
 				!Objects.equals(openId, user.getOpenId())) {
@@ -5942,7 +5986,9 @@ public class UserPersistenceImpl
 				List<User> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByC_O, finderArgs, list);
 					}
@@ -5952,7 +5998,7 @@ public class UserPersistenceImpl
 						Collections.sort(list, Collections.reverseOrder());
 
 						if (_log.isWarnEnabled()) {
-							if (!useFinderCache) {
+							if (!productionMode || !useFinderCache) {
 								finderArgs = new Object[] {companyId, openId};
 							}
 
@@ -7967,6 +8013,9 @@ public class UserPersistenceImpl
 
 		externalReferenceCode = Objects.toString(externalReferenceCode, "");
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			User.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -7983,7 +8032,7 @@ public class UserPersistenceImpl
 		if (result instanceof User) {
 			User user = (User)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					User.class, user.getPrimaryKey()) ||
 				(companyId != user.getCompanyId()) ||
 				!Objects.equals(
@@ -8031,7 +8080,9 @@ public class UserPersistenceImpl
 				List<User> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByC_ERC, finderArgs, list);
 					}

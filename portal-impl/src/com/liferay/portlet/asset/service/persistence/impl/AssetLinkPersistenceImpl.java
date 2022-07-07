@@ -20,6 +20,7 @@ import com.liferay.asset.kernel.model.AssetLinkTable;
 import com.liferay.asset.kernel.service.persistence.AssetLinkPersistence;
 import com.liferay.asset.kernel.service.persistence.AssetLinkUtil;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
@@ -2827,6 +2828,9 @@ public class AssetLinkPersistenceImpl
 	public AssetLink fetchByE_E_T(
 		long entryId1, long entryId2, int type, boolean useFinderCache) {
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			AssetLink.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -2843,7 +2847,7 @@ public class AssetLinkPersistenceImpl
 		if (result instanceof AssetLink) {
 			AssetLink assetLink = (AssetLink)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					AssetLink.class, assetLink.getPrimaryKey()) ||
 				(entryId1 != assetLink.getEntryId1()) ||
 				(entryId2 != assetLink.getEntryId2()) ||
@@ -2884,7 +2888,9 @@ public class AssetLinkPersistenceImpl
 				List<AssetLink> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByE_E_T, finderArgs, list);
 					}

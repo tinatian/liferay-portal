@@ -23,6 +23,7 @@ import com.liferay.dynamic.data.mapping.service.persistence.DDMFormInstanceVersi
 import com.liferay.dynamic.data.mapping.service.persistence.DDMFormInstanceVersionUtil;
 import com.liferay.dynamic.data.mapping.service.persistence.impl.constants.DDMPersistenceConstants;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
@@ -702,6 +703,9 @@ public class DDMFormInstanceVersionPersistenceImpl
 
 		version = Objects.toString(version, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			DDMFormInstanceVersion.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -718,7 +722,7 @@ public class DDMFormInstanceVersionPersistenceImpl
 			DDMFormInstanceVersion ddmFormInstanceVersion =
 				(DDMFormInstanceVersion)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					DDMFormInstanceVersion.class,
 					ddmFormInstanceVersion.getPrimaryKey()) ||
 				(formInstanceId !=
@@ -767,7 +771,9 @@ public class DDMFormInstanceVersionPersistenceImpl
 				List<DDMFormInstanceVersion> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByF_V, finderArgs, list);
 					}

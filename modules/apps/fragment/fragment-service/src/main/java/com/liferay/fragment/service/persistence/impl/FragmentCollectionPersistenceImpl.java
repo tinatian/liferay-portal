@@ -23,6 +23,7 @@ import com.liferay.fragment.service.persistence.FragmentCollectionPersistence;
 import com.liferay.fragment.service.persistence.FragmentCollectionUtil;
 import com.liferay.fragment.service.persistence.impl.constants.FragmentPersistenceConstants;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
@@ -730,6 +731,9 @@ public class FragmentCollectionPersistenceImpl
 
 		uuid = Objects.toString(uuid, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			FragmentCollection.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -746,7 +750,7 @@ public class FragmentCollectionPersistenceImpl
 		if (result instanceof FragmentCollection) {
 			FragmentCollection fragmentCollection = (FragmentCollection)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					FragmentCollection.class,
 					fragmentCollection.getPrimaryKey()) ||
 				!Objects.equals(uuid, fragmentCollection.getUuid()) ||
@@ -794,7 +798,9 @@ public class FragmentCollectionPersistenceImpl
 				List<FragmentCollection> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByUUID_G, finderArgs, list);
 					}
@@ -2373,6 +2379,9 @@ public class FragmentCollectionPersistenceImpl
 
 		fragmentCollectionKey = Objects.toString(fragmentCollectionKey, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			FragmentCollection.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -2388,7 +2397,7 @@ public class FragmentCollectionPersistenceImpl
 		if (result instanceof FragmentCollection) {
 			FragmentCollection fragmentCollection = (FragmentCollection)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					FragmentCollection.class,
 					fragmentCollection.getPrimaryKey()) ||
 				(groupId != fragmentCollection.getGroupId()) ||
@@ -2438,7 +2447,9 @@ public class FragmentCollectionPersistenceImpl
 				List<FragmentCollection> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByG_FCK, finderArgs, list);
 					}

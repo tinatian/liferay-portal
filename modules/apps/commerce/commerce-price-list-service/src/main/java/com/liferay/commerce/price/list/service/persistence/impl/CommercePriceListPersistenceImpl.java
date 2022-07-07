@@ -22,6 +22,7 @@ import com.liferay.commerce.price.list.model.impl.CommercePriceListModelImpl;
 import com.liferay.commerce.price.list.service.persistence.CommercePriceListPersistence;
 import com.liferay.commerce.price.list.service.persistence.CommercePriceListUtil;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
@@ -717,6 +718,9 @@ public class CommercePriceListPersistenceImpl
 
 		uuid = Objects.toString(uuid, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			CommercePriceList.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -733,7 +737,7 @@ public class CommercePriceListPersistenceImpl
 		if (result instanceof CommercePriceList) {
 			CommercePriceList commercePriceList = (CommercePriceList)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					CommercePriceList.class,
 					commercePriceList.getPrimaryKey()) ||
 				!Objects.equals(uuid, commercePriceList.getUuid()) ||
@@ -781,7 +785,9 @@ public class CommercePriceListPersistenceImpl
 				List<CommercePriceList> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByUUID_G, finderArgs, list);
 					}
@@ -2623,6 +2629,9 @@ public class CommercePriceListPersistenceImpl
 	public CommercePriceList fetchByParentCommercePriceListId(
 		long parentCommercePriceListId, boolean useFinderCache) {
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			CommercePriceList.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -2639,7 +2648,7 @@ public class CommercePriceListPersistenceImpl
 		if (result instanceof CommercePriceList) {
 			CommercePriceList commercePriceList = (CommercePriceList)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					CommercePriceList.class,
 					commercePriceList.getPrimaryKey()) ||
 				(parentCommercePriceListId !=
@@ -2673,7 +2682,9 @@ public class CommercePriceListPersistenceImpl
 				List<CommercePriceList> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByParentCommercePriceListId,
 							finderArgs, list);
@@ -2684,7 +2695,7 @@ public class CommercePriceListPersistenceImpl
 						Collections.sort(list, Collections.reverseOrder());
 
 						if (_log.isWarnEnabled()) {
-							if (!useFinderCache) {
+							if (!productionMode || !useFinderCache) {
 								finderArgs = new Object[] {
 									parentCommercePriceListId
 								};
@@ -4350,6 +4361,9 @@ public class CommercePriceListPersistenceImpl
 	public CommercePriceList fetchByG_CatalogBasePriceList(
 		long groupId, boolean catalogBasePriceList, boolean useFinderCache) {
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			CommercePriceList.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -4366,7 +4380,7 @@ public class CommercePriceListPersistenceImpl
 		if (result instanceof CommercePriceList) {
 			CommercePriceList commercePriceList = (CommercePriceList)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					CommercePriceList.class,
 					commercePriceList.getPrimaryKey()) ||
 				(groupId != commercePriceList.getGroupId()) ||
@@ -4405,7 +4419,9 @@ public class CommercePriceListPersistenceImpl
 				List<CommercePriceList> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByG_CatalogBasePriceList,
 							finderArgs, list);
@@ -4416,7 +4432,7 @@ public class CommercePriceListPersistenceImpl
 						Collections.sort(list, Collections.reverseOrder());
 
 						if (_log.isWarnEnabled()) {
-							if (!useFinderCache) {
+							if (!productionMode || !useFinderCache) {
 								finderArgs = new Object[] {
 									groupId, catalogBasePriceList
 								};
@@ -8334,6 +8350,9 @@ public class CommercePriceListPersistenceImpl
 
 		type = Objects.toString(type, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			CommercePriceList.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -8349,7 +8368,7 @@ public class CommercePriceListPersistenceImpl
 		if (result instanceof CommercePriceList) {
 			CommercePriceList commercePriceList = (CommercePriceList)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					CommercePriceList.class,
 					commercePriceList.getPrimaryKey()) ||
 				(groupId != commercePriceList.getGroupId()) ||
@@ -8403,7 +8422,9 @@ public class CommercePriceListPersistenceImpl
 				List<CommercePriceList> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByG_C_T, finderArgs, list);
 					}
@@ -8413,7 +8434,7 @@ public class CommercePriceListPersistenceImpl
 						Collections.sort(list, Collections.reverseOrder());
 
 						if (_log.isWarnEnabled()) {
-							if (!useFinderCache) {
+							if (!productionMode || !useFinderCache) {
 								finderArgs = new Object[] {
 									groupId, catalogBasePriceList, type
 								};
@@ -8636,6 +8657,9 @@ public class CommercePriceListPersistenceImpl
 
 		externalReferenceCode = Objects.toString(externalReferenceCode, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			CommercePriceList.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -8651,7 +8675,7 @@ public class CommercePriceListPersistenceImpl
 		if (result instanceof CommercePriceList) {
 			CommercePriceList commercePriceList = (CommercePriceList)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					CommercePriceList.class,
 					commercePriceList.getPrimaryKey()) ||
 				(companyId != commercePriceList.getCompanyId()) ||
@@ -8701,7 +8725,9 @@ public class CommercePriceListPersistenceImpl
 				List<CommercePriceList> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByC_ERC, finderArgs, list);
 					}

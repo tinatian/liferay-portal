@@ -22,6 +22,7 @@ import com.liferay.commerce.pricing.model.impl.CommercePriceModifierModelImpl;
 import com.liferay.commerce.pricing.service.persistence.CommercePriceModifierPersistence;
 import com.liferay.commerce.pricing.service.persistence.CommercePriceModifierUtil;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
@@ -722,6 +723,9 @@ public class CommercePriceModifierPersistenceImpl
 
 		uuid = Objects.toString(uuid, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			CommercePriceModifier.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -739,7 +743,7 @@ public class CommercePriceModifierPersistenceImpl
 			CommercePriceModifier commercePriceModifier =
 				(CommercePriceModifier)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					CommercePriceModifier.class,
 					commercePriceModifier.getPrimaryKey()) ||
 				!Objects.equals(uuid, commercePriceModifier.getUuid()) ||
@@ -787,7 +791,9 @@ public class CommercePriceModifierPersistenceImpl
 				List<CommercePriceModifier> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByUUID_G, finderArgs, list);
 					}
@@ -6212,6 +6218,9 @@ public class CommercePriceModifierPersistenceImpl
 
 		externalReferenceCode = Objects.toString(externalReferenceCode, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			CommercePriceModifier.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -6228,7 +6237,7 @@ public class CommercePriceModifierPersistenceImpl
 			CommercePriceModifier commercePriceModifier =
 				(CommercePriceModifier)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					CommercePriceModifier.class,
 					commercePriceModifier.getPrimaryKey()) ||
 				(companyId != commercePriceModifier.getCompanyId()) ||
@@ -6278,7 +6287,9 @@ public class CommercePriceModifierPersistenceImpl
 				List<CommercePriceModifier> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByC_ERC, finderArgs, list);
 					}

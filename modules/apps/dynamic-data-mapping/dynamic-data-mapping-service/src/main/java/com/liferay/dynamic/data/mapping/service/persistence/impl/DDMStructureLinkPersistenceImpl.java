@@ -23,6 +23,7 @@ import com.liferay.dynamic.data.mapping.service.persistence.DDMStructureLinkPers
 import com.liferay.dynamic.data.mapping.service.persistence.DDMStructureLinkUtil;
 import com.liferay.dynamic.data.mapping.service.persistence.impl.constants.DDMPersistenceConstants;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
@@ -1249,6 +1250,9 @@ public class DDMStructureLinkPersistenceImpl
 		long classNameId, long classPK, long structureId,
 		boolean useFinderCache) {
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			DDMStructureLink.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -1264,7 +1268,7 @@ public class DDMStructureLinkPersistenceImpl
 		if (result instanceof DDMStructureLink) {
 			DDMStructureLink ddmStructureLink = (DDMStructureLink)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					DDMStructureLink.class, ddmStructureLink.getPrimaryKey()) ||
 				(classNameId != ddmStructureLink.getClassNameId()) ||
 				(classPK != ddmStructureLink.getClassPK()) ||
@@ -1305,7 +1309,9 @@ public class DDMStructureLinkPersistenceImpl
 				List<DDMStructureLink> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByC_C_S, finderArgs, list);
 					}

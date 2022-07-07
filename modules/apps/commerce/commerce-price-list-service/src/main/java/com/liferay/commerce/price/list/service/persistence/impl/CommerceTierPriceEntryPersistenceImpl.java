@@ -22,6 +22,7 @@ import com.liferay.commerce.price.list.model.impl.CommerceTierPriceEntryModelImp
 import com.liferay.commerce.price.list.service.persistence.CommerceTierPriceEntryPersistence;
 import com.liferay.commerce.price.list.service.persistence.CommerceTierPriceEntryUtil;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
@@ -2379,6 +2380,9 @@ public class CommerceTierPriceEntryPersistenceImpl
 	public CommerceTierPriceEntry fetchByC_M(
 		long commercePriceEntryId, int minQuantity, boolean useFinderCache) {
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			CommerceTierPriceEntry.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -2395,7 +2399,7 @@ public class CommerceTierPriceEntryPersistenceImpl
 			CommerceTierPriceEntry commerceTierPriceEntry =
 				(CommerceTierPriceEntry)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					CommerceTierPriceEntry.class,
 					commerceTierPriceEntry.getPrimaryKey()) ||
 				(commercePriceEntryId !=
@@ -2433,7 +2437,9 @@ public class CommerceTierPriceEntryPersistenceImpl
 				List<CommerceTierPriceEntry> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByC_M, finderArgs, list);
 					}
@@ -4945,6 +4951,9 @@ public class CommerceTierPriceEntryPersistenceImpl
 
 		externalReferenceCode = Objects.toString(externalReferenceCode, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			CommerceTierPriceEntry.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -4961,7 +4970,7 @@ public class CommerceTierPriceEntryPersistenceImpl
 			CommerceTierPriceEntry commerceTierPriceEntry =
 				(CommerceTierPriceEntry)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					CommerceTierPriceEntry.class,
 					commerceTierPriceEntry.getPrimaryKey()) ||
 				(companyId != commerceTierPriceEntry.getCompanyId()) ||
@@ -5011,7 +5020,9 @@ public class CommerceTierPriceEntryPersistenceImpl
 				List<CommerceTierPriceEntry> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByC_ERC, finderArgs, list);
 					}

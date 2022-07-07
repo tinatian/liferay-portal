@@ -23,6 +23,7 @@ import com.liferay.data.engine.service.persistence.DEDataDefinitionFieldLinkPers
 import com.liferay.data.engine.service.persistence.DEDataDefinitionFieldLinkUtil;
 import com.liferay.data.engine.service.persistence.impl.constants.DEPersistenceConstants;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
@@ -741,6 +742,9 @@ public class DEDataDefinitionFieldLinkPersistenceImpl
 
 		uuid = Objects.toString(uuid, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			DEDataDefinitionFieldLink.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -758,7 +762,7 @@ public class DEDataDefinitionFieldLinkPersistenceImpl
 			DEDataDefinitionFieldLink deDataDefinitionFieldLink =
 				(DEDataDefinitionFieldLink)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					DEDataDefinitionFieldLink.class,
 					deDataDefinitionFieldLink.getPrimaryKey()) ||
 				!Objects.equals(uuid, deDataDefinitionFieldLink.getUuid()) ||
@@ -806,7 +810,9 @@ public class DEDataDefinitionFieldLinkPersistenceImpl
 				List<DEDataDefinitionFieldLink> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByUUID_G, finderArgs, list);
 					}
@@ -5240,6 +5246,9 @@ public class DEDataDefinitionFieldLinkPersistenceImpl
 
 		fieldName = Objects.toString(fieldName, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			DEDataDefinitionFieldLink.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -5259,7 +5268,7 @@ public class DEDataDefinitionFieldLinkPersistenceImpl
 			DEDataDefinitionFieldLink deDataDefinitionFieldLink =
 				(DEDataDefinitionFieldLink)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					DEDataDefinitionFieldLink.class,
 					deDataDefinitionFieldLink.getPrimaryKey()) ||
 				(classNameId != deDataDefinitionFieldLink.getClassNameId()) ||
@@ -5319,7 +5328,9 @@ public class DEDataDefinitionFieldLinkPersistenceImpl
 				List<DEDataDefinitionFieldLink> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByC_C_DDMSI_F, finderArgs, list);
 					}

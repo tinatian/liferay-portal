@@ -16,6 +16,7 @@ package com.liferay.portal.service.persistence.impl;
 
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.BeanReference;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
@@ -3990,6 +3991,9 @@ public class UserGroupPersistenceImpl
 
 		name = Objects.toString(name, "");
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			UserGroup.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -4006,7 +4010,7 @@ public class UserGroupPersistenceImpl
 		if (result instanceof UserGroup) {
 			UserGroup userGroup = (UserGroup)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					UserGroup.class, userGroup.getPrimaryKey()) ||
 				(companyId != userGroup.getCompanyId()) ||
 				!Objects.equals(name, userGroup.getName())) {
@@ -4053,7 +4057,9 @@ public class UserGroupPersistenceImpl
 				List<UserGroup> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByC_N, finderArgs, list);
 					}
@@ -5903,6 +5909,9 @@ public class UserGroupPersistenceImpl
 
 		externalReferenceCode = Objects.toString(externalReferenceCode, "");
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			UserGroup.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -5919,7 +5928,7 @@ public class UserGroupPersistenceImpl
 		if (result instanceof UserGroup) {
 			UserGroup userGroup = (UserGroup)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					UserGroup.class, userGroup.getPrimaryKey()) ||
 				(companyId != userGroup.getCompanyId()) ||
 				!Objects.equals(
@@ -5968,7 +5977,9 @@ public class UserGroupPersistenceImpl
 				List<UserGroup> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByC_ERC, finderArgs, list);
 					}

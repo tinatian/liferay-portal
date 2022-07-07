@@ -23,6 +23,7 @@ import com.liferay.message.boards.service.persistence.MBBanPersistence;
 import com.liferay.message.boards.service.persistence.MBBanUtil;
 import com.liferay.message.boards.service.persistence.impl.constants.MBPersistenceConstants;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
@@ -711,6 +712,9 @@ public class MBBanPersistenceImpl
 
 		uuid = Objects.toString(uuid, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			MBBan.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -727,7 +731,7 @@ public class MBBanPersistenceImpl
 		if (result instanceof MBBan) {
 			MBBan mbBan = (MBBan)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					MBBan.class, mbBan.getPrimaryKey()) ||
 				!Objects.equals(uuid, mbBan.getUuid()) ||
 				(groupId != mbBan.getGroupId())) {
@@ -774,7 +778,9 @@ public class MBBanPersistenceImpl
 				List<MBBan> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByUUID_G, finderArgs, list);
 					}
@@ -3066,6 +3072,9 @@ public class MBBanPersistenceImpl
 	public MBBan fetchByG_B(
 		long groupId, long banUserId, boolean useFinderCache) {
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			MBBan.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -3081,7 +3090,7 @@ public class MBBanPersistenceImpl
 		if (result instanceof MBBan) {
 			MBBan mbBan = (MBBan)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					MBBan.class, mbBan.getPrimaryKey()) ||
 				(groupId != mbBan.getGroupId()) ||
 				(banUserId != mbBan.getBanUserId())) {
@@ -3117,7 +3126,9 @@ public class MBBanPersistenceImpl
 				List<MBBan> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByG_B, finderArgs, list);
 					}

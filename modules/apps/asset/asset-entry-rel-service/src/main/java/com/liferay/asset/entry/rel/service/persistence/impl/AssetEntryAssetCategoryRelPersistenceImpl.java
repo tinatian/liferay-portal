@@ -23,6 +23,7 @@ import com.liferay.asset.entry.rel.service.persistence.AssetEntryAssetCategoryRe
 import com.liferay.asset.entry.rel.service.persistence.AssetEntryAssetCategoryRelUtil;
 import com.liferay.asset.entry.rel.service.persistence.impl.constants.AssetPersistenceConstants;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
@@ -1232,6 +1233,9 @@ public class AssetEntryAssetCategoryRelPersistenceImpl
 	public AssetEntryAssetCategoryRel fetchByA_A(
 		long assetEntryId, long assetCategoryId, boolean useFinderCache) {
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			AssetEntryAssetCategoryRel.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -1248,7 +1252,7 @@ public class AssetEntryAssetCategoryRelPersistenceImpl
 			AssetEntryAssetCategoryRel assetEntryAssetCategoryRel =
 				(AssetEntryAssetCategoryRel)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					AssetEntryAssetCategoryRel.class,
 					assetEntryAssetCategoryRel.getPrimaryKey()) ||
 				(assetEntryId !=
@@ -1287,7 +1291,9 @@ public class AssetEntryAssetCategoryRelPersistenceImpl
 				List<AssetEntryAssetCategoryRel> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByA_A, finderArgs, list);
 					}
@@ -1297,7 +1303,7 @@ public class AssetEntryAssetCategoryRelPersistenceImpl
 						Collections.sort(list, Collections.reverseOrder());
 
 						if (_log.isWarnEnabled()) {
-							if (!useFinderCache) {
+							if (!productionMode || !useFinderCache) {
 								finderArgs = new Object[] {
 									assetEntryId, assetCategoryId
 								};

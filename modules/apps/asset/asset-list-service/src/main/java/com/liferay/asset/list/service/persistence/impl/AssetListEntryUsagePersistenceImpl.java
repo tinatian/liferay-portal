@@ -23,6 +23,7 @@ import com.liferay.asset.list.service.persistence.AssetListEntryUsagePersistence
 import com.liferay.asset.list.service.persistence.AssetListEntryUsageUtil;
 import com.liferay.asset.list.service.persistence.impl.constants.AssetListPersistenceConstants;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
@@ -728,6 +729,9 @@ public class AssetListEntryUsagePersistenceImpl
 
 		uuid = Objects.toString(uuid, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			AssetListEntryUsage.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -745,7 +749,7 @@ public class AssetListEntryUsagePersistenceImpl
 			AssetListEntryUsage assetListEntryUsage =
 				(AssetListEntryUsage)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					AssetListEntryUsage.class,
 					assetListEntryUsage.getPrimaryKey()) ||
 				!Objects.equals(uuid, assetListEntryUsage.getUuid()) ||
@@ -793,7 +797,9 @@ public class AssetListEntryUsagePersistenceImpl
 				List<AssetListEntryUsage> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByUUID_G, finderArgs, list);
 					}
@@ -5178,6 +5184,9 @@ public class AssetListEntryUsagePersistenceImpl
 		containerKey = Objects.toString(containerKey, "");
 		key = Objects.toString(key, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			AssetListEntryUsage.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -5197,7 +5206,7 @@ public class AssetListEntryUsagePersistenceImpl
 			AssetListEntryUsage assetListEntryUsage =
 				(AssetListEntryUsage)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					AssetListEntryUsage.class,
 					assetListEntryUsage.getPrimaryKey()) ||
 				(groupId != assetListEntryUsage.getGroupId()) ||
@@ -5277,7 +5286,9 @@ public class AssetListEntryUsagePersistenceImpl
 				List<AssetListEntryUsage> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByG_C_CK_CT_K_P, finderArgs, list);
 					}

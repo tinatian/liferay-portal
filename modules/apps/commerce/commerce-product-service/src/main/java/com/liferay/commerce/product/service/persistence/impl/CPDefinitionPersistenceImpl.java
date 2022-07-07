@@ -24,6 +24,7 @@ import com.liferay.commerce.product.service.persistence.CPDefinitionPersistence;
 import com.liferay.commerce.product.service.persistence.CPDefinitionUtil;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.BeanReference;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
@@ -710,6 +711,9 @@ public class CPDefinitionPersistenceImpl
 
 		uuid = Objects.toString(uuid, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			CPDefinition.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -726,7 +730,7 @@ public class CPDefinitionPersistenceImpl
 		if (result instanceof CPDefinition) {
 			CPDefinition cpDefinition = (CPDefinition)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					CPDefinition.class, cpDefinition.getPrimaryKey()) ||
 				!Objects.equals(uuid, cpDefinition.getUuid()) ||
 				(groupId != cpDefinition.getGroupId())) {
@@ -773,7 +777,9 @@ public class CPDefinitionPersistenceImpl
 				List<CPDefinition> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByUUID_G, finderArgs, list);
 					}
@@ -4213,6 +4219,9 @@ public class CPDefinitionPersistenceImpl
 	public CPDefinition fetchByC_V(
 		long CProductId, int version, boolean useFinderCache) {
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			CPDefinition.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -4228,7 +4237,7 @@ public class CPDefinitionPersistenceImpl
 		if (result instanceof CPDefinition) {
 			CPDefinition cpDefinition = (CPDefinition)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					CPDefinition.class, cpDefinition.getPrimaryKey()) ||
 				(CProductId != cpDefinition.getCProductId()) ||
 				(version != cpDefinition.getVersion())) {
@@ -4264,7 +4273,9 @@ public class CPDefinitionPersistenceImpl
 				List<CPDefinition> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByC_V, finderArgs, list);
 					}
@@ -4274,7 +4285,7 @@ public class CPDefinitionPersistenceImpl
 						Collections.sort(list, Collections.reverseOrder());
 
 						if (_log.isWarnEnabled()) {
-							if (!useFinderCache) {
+							if (!productionMode || !useFinderCache) {
 								finderArgs = new Object[] {CProductId, version};
 							}
 

@@ -23,6 +23,7 @@ import com.liferay.message.boards.service.persistence.MBSuspiciousActivityPersis
 import com.liferay.message.boards.service.persistence.MBSuspiciousActivityUtil;
 import com.liferay.message.boards.service.persistence.impl.constants.MBPersistenceConstants;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
@@ -732,6 +733,9 @@ public class MBSuspiciousActivityPersistenceImpl
 
 		uuid = Objects.toString(uuid, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			MBSuspiciousActivity.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -749,7 +753,7 @@ public class MBSuspiciousActivityPersistenceImpl
 			MBSuspiciousActivity mbSuspiciousActivity =
 				(MBSuspiciousActivity)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					MBSuspiciousActivity.class,
 					mbSuspiciousActivity.getPrimaryKey()) ||
 				!Objects.equals(uuid, mbSuspiciousActivity.getUuid()) ||
@@ -797,7 +801,9 @@ public class MBSuspiciousActivityPersistenceImpl
 				List<MBSuspiciousActivity> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByUUID_G, finderArgs, list);
 					}
@@ -2636,6 +2642,9 @@ public class MBSuspiciousActivityPersistenceImpl
 	public MBSuspiciousActivity fetchByU_M(
 		long userId, long messageId, boolean useFinderCache) {
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			MBSuspiciousActivity.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -2652,7 +2661,7 @@ public class MBSuspiciousActivityPersistenceImpl
 			MBSuspiciousActivity mbSuspiciousActivity =
 				(MBSuspiciousActivity)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					MBSuspiciousActivity.class,
 					mbSuspiciousActivity.getPrimaryKey()) ||
 				(userId != mbSuspiciousActivity.getUserId()) ||
@@ -2689,7 +2698,9 @@ public class MBSuspiciousActivityPersistenceImpl
 				List<MBSuspiciousActivity> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByU_M, finderArgs, list);
 					}
@@ -2699,7 +2710,7 @@ public class MBSuspiciousActivityPersistenceImpl
 						Collections.sort(list, Collections.reverseOrder());
 
 						if (_log.isWarnEnabled()) {
-							if (!useFinderCache) {
+							if (!productionMode || !useFinderCache) {
 								finderArgs = new Object[] {userId, messageId};
 							}
 

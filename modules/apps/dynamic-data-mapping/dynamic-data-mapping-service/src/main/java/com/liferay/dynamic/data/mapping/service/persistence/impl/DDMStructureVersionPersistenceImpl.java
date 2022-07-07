@@ -23,6 +23,7 @@ import com.liferay.dynamic.data.mapping.service.persistence.DDMStructureVersionP
 import com.liferay.dynamic.data.mapping.service.persistence.DDMStructureVersionUtil;
 import com.liferay.dynamic.data.mapping.service.persistence.impl.constants.DDMPersistenceConstants;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
@@ -695,6 +696,9 @@ public class DDMStructureVersionPersistenceImpl
 
 		version = Objects.toString(version, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			DDMStructureVersion.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -711,7 +715,7 @@ public class DDMStructureVersionPersistenceImpl
 			DDMStructureVersion ddmStructureVersion =
 				(DDMStructureVersion)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					DDMStructureVersion.class,
 					ddmStructureVersion.getPrimaryKey()) ||
 				(structureId != ddmStructureVersion.getStructureId()) ||
@@ -759,7 +763,9 @@ public class DDMStructureVersionPersistenceImpl
 				List<DDMStructureVersion> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByS_V, finderArgs, list);
 					}

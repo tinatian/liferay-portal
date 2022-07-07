@@ -15,6 +15,7 @@
 package com.liferay.portlet.social.service.persistence.impl;
 
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
@@ -2415,6 +2416,9 @@ public class SocialActivityAchievementPersistenceImpl
 
 		name = Objects.toString(name, "");
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			SocialActivityAchievement.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -2432,7 +2436,7 @@ public class SocialActivityAchievementPersistenceImpl
 			SocialActivityAchievement socialActivityAchievement =
 				(SocialActivityAchievement)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					SocialActivityAchievement.class,
 					socialActivityAchievement.getPrimaryKey()) ||
 				(groupId != socialActivityAchievement.getGroupId()) ||
@@ -2485,7 +2489,9 @@ public class SocialActivityAchievementPersistenceImpl
 				List<SocialActivityAchievement> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByG_U_N, finderArgs, list);
 					}

@@ -22,6 +22,7 @@ import com.liferay.document.library.kernel.service.persistence.DLFileEntryTypeUt
 import com.liferay.document.library.kernel.service.persistence.DLFolderPersistence;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.BeanReference;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
@@ -719,6 +720,9 @@ public class DLFileEntryTypePersistenceImpl
 
 		uuid = Objects.toString(uuid, "");
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			DLFileEntryType.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -735,7 +739,7 @@ public class DLFileEntryTypePersistenceImpl
 		if (result instanceof DLFileEntryType) {
 			DLFileEntryType dlFileEntryType = (DLFileEntryType)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					DLFileEntryType.class, dlFileEntryType.getPrimaryKey()) ||
 				!Objects.equals(uuid, dlFileEntryType.getUuid()) ||
 				(groupId != dlFileEntryType.getGroupId())) {
@@ -782,7 +786,9 @@ public class DLFileEntryTypePersistenceImpl
 				List<DLFileEntryType> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByUUID_G, finderArgs, list);
 					}
@@ -2936,6 +2942,9 @@ public class DLFileEntryTypePersistenceImpl
 	public DLFileEntryType fetchByG_DDI(
 		long groupId, long dataDefinitionId, boolean useFinderCache) {
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			DLFileEntryType.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -2952,7 +2961,7 @@ public class DLFileEntryTypePersistenceImpl
 		if (result instanceof DLFileEntryType) {
 			DLFileEntryType dlFileEntryType = (DLFileEntryType)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					DLFileEntryType.class, dlFileEntryType.getPrimaryKey()) ||
 				(groupId != dlFileEntryType.getGroupId()) ||
 				(dataDefinitionId != dlFileEntryType.getDataDefinitionId())) {
@@ -2988,7 +2997,9 @@ public class DLFileEntryTypePersistenceImpl
 				List<DLFileEntryType> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByG_DDI, finderArgs, list);
 					}
@@ -3172,6 +3183,9 @@ public class DLFileEntryTypePersistenceImpl
 
 		fileEntryTypeKey = Objects.toString(fileEntryTypeKey, "");
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			DLFileEntryType.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -3188,7 +3202,7 @@ public class DLFileEntryTypePersistenceImpl
 		if (result instanceof DLFileEntryType) {
 			DLFileEntryType dlFileEntryType = (DLFileEntryType)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					DLFileEntryType.class, dlFileEntryType.getPrimaryKey()) ||
 				(groupId != dlFileEntryType.getGroupId()) ||
 				!Objects.equals(
@@ -3236,7 +3250,9 @@ public class DLFileEntryTypePersistenceImpl
 				List<DLFileEntryType> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByG_F, finderArgs, list);
 					}

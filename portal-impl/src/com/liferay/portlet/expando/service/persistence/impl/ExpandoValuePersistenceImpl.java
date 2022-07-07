@@ -20,6 +20,7 @@ import com.liferay.expando.kernel.model.ExpandoValueTable;
 import com.liferay.expando.kernel.service.persistence.ExpandoValuePersistence;
 import com.liferay.expando.kernel.service.persistence.ExpandoValueUtil;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
@@ -3332,6 +3333,9 @@ public class ExpandoValuePersistenceImpl
 	public ExpandoValue fetchByC_R(
 		long columnId, long rowId, boolean useFinderCache) {
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			ExpandoValue.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -3348,7 +3352,7 @@ public class ExpandoValuePersistenceImpl
 		if (result instanceof ExpandoValue) {
 			ExpandoValue expandoValue = (ExpandoValue)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					ExpandoValue.class, expandoValue.getPrimaryKey()) ||
 				(columnId != expandoValue.getColumnId()) ||
 				(rowId != expandoValue.getRowId())) {
@@ -3384,7 +3388,9 @@ public class ExpandoValuePersistenceImpl
 				List<ExpandoValue> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByC_R, finderArgs, list);
 					}
@@ -4127,6 +4133,9 @@ public class ExpandoValuePersistenceImpl
 	public ExpandoValue fetchByT_C_C(
 		long tableId, long columnId, long classPK, boolean useFinderCache) {
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			ExpandoValue.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -4143,7 +4152,7 @@ public class ExpandoValuePersistenceImpl
 		if (result instanceof ExpandoValue) {
 			ExpandoValue expandoValue = (ExpandoValue)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					ExpandoValue.class, expandoValue.getPrimaryKey()) ||
 				(tableId != expandoValue.getTableId()) ||
 				(columnId != expandoValue.getColumnId()) ||
@@ -4184,7 +4193,9 @@ public class ExpandoValuePersistenceImpl
 				List<ExpandoValue> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByT_C_C, finderArgs, list);
 					}

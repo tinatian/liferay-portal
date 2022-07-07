@@ -15,6 +15,7 @@
 package com.liferay.segments.service.persistence.impl;
 
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
@@ -1852,6 +1853,9 @@ public class SegmentsEntryRelPersistenceImpl
 		long segmentsEntryId, long classNameId, long classPK,
 		boolean useFinderCache) {
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			SegmentsEntryRel.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -1868,7 +1872,7 @@ public class SegmentsEntryRelPersistenceImpl
 		if (result instanceof SegmentsEntryRel) {
 			SegmentsEntryRel segmentsEntryRel = (SegmentsEntryRel)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					SegmentsEntryRel.class, segmentsEntryRel.getPrimaryKey()) ||
 				(segmentsEntryId != segmentsEntryRel.getSegmentsEntryId()) ||
 				(classNameId != segmentsEntryRel.getClassNameId()) ||
@@ -1909,7 +1913,9 @@ public class SegmentsEntryRelPersistenceImpl
 				List<SegmentsEntryRel> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByS_CN_CPK, finderArgs, list);
 					}

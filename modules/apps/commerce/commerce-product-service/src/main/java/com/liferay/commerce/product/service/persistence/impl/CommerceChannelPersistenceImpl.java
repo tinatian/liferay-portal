@@ -22,6 +22,7 @@ import com.liferay.commerce.product.model.impl.CommerceChannelModelImpl;
 import com.liferay.commerce.product.service.persistence.CommerceChannelPersistence;
 import com.liferay.commerce.product.service.persistence.CommerceChannelUtil;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
@@ -3067,6 +3068,9 @@ public class CommerceChannelPersistenceImpl
 	public CommerceChannel fetchBySiteGroupId(
 		long siteGroupId, boolean useFinderCache) {
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			CommerceChannel.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -3083,7 +3087,7 @@ public class CommerceChannelPersistenceImpl
 		if (result instanceof CommerceChannel) {
 			CommerceChannel commerceChannel = (CommerceChannel)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					CommerceChannel.class, commerceChannel.getPrimaryKey()) ||
 				(siteGroupId != commerceChannel.getSiteGroupId())) {
 
@@ -3114,7 +3118,9 @@ public class CommerceChannelPersistenceImpl
 				List<CommerceChannel> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchBySiteGroupId, finderArgs, list);
 					}
@@ -3124,7 +3130,7 @@ public class CommerceChannelPersistenceImpl
 						Collections.sort(list, Collections.reverseOrder());
 
 						if (_log.isWarnEnabled()) {
-							if (!useFinderCache) {
+							if (!productionMode || !useFinderCache) {
 								finderArgs = new Object[] {siteGroupId};
 							}
 
@@ -3307,6 +3313,9 @@ public class CommerceChannelPersistenceImpl
 
 		externalReferenceCode = Objects.toString(externalReferenceCode, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			CommerceChannel.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -3322,7 +3331,7 @@ public class CommerceChannelPersistenceImpl
 		if (result instanceof CommerceChannel) {
 			CommerceChannel commerceChannel = (CommerceChannel)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					CommerceChannel.class, commerceChannel.getPrimaryKey()) ||
 				(companyId != commerceChannel.getCompanyId()) ||
 				!Objects.equals(
@@ -3371,7 +3380,9 @@ public class CommerceChannelPersistenceImpl
 				List<CommerceChannel> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByC_ERC, finderArgs, list);
 					}

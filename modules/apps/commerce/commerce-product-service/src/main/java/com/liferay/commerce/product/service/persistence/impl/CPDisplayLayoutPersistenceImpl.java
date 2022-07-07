@@ -22,6 +22,7 @@ import com.liferay.commerce.product.model.impl.CPDisplayLayoutModelImpl;
 import com.liferay.commerce.product.service.persistence.CPDisplayLayoutPersistence;
 import com.liferay.commerce.product.service.persistence.CPDisplayLayoutUtil;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
@@ -709,6 +710,9 @@ public class CPDisplayLayoutPersistenceImpl
 
 		uuid = Objects.toString(uuid, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			CPDisplayLayout.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -725,7 +729,7 @@ public class CPDisplayLayoutPersistenceImpl
 		if (result instanceof CPDisplayLayout) {
 			CPDisplayLayout cpDisplayLayout = (CPDisplayLayout)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					CPDisplayLayout.class, cpDisplayLayout.getPrimaryKey()) ||
 				!Objects.equals(uuid, cpDisplayLayout.getUuid()) ||
 				(groupId != cpDisplayLayout.getGroupId())) {
@@ -772,7 +776,9 @@ public class CPDisplayLayoutPersistenceImpl
 				List<CPDisplayLayout> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByUUID_G, finderArgs, list);
 					}
@@ -3794,6 +3800,9 @@ public class CPDisplayLayoutPersistenceImpl
 	public CPDisplayLayout fetchByG_C_C(
 		long groupId, long classNameId, long classPK, boolean useFinderCache) {
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			CPDisplayLayout.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -3809,7 +3818,7 @@ public class CPDisplayLayoutPersistenceImpl
 		if (result instanceof CPDisplayLayout) {
 			CPDisplayLayout cpDisplayLayout = (CPDisplayLayout)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					CPDisplayLayout.class, cpDisplayLayout.getPrimaryKey()) ||
 				(groupId != cpDisplayLayout.getGroupId()) ||
 				(classNameId != cpDisplayLayout.getClassNameId()) ||
@@ -3850,7 +3859,9 @@ public class CPDisplayLayoutPersistenceImpl
 				List<CPDisplayLayout> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByG_C_C, finderArgs, list);
 					}

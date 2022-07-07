@@ -22,6 +22,7 @@ import com.liferay.commerce.product.model.impl.CPOptionCategoryModelImpl;
 import com.liferay.commerce.product.service.persistence.CPOptionCategoryPersistence;
 import com.liferay.commerce.product.service.persistence.CPOptionCategoryUtil;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
@@ -3086,6 +3087,9 @@ public class CPOptionCategoryPersistenceImpl
 
 		key = Objects.toString(key, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			CPOptionCategory.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -3101,7 +3105,7 @@ public class CPOptionCategoryPersistenceImpl
 		if (result instanceof CPOptionCategory) {
 			CPOptionCategory cpOptionCategory = (CPOptionCategory)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					CPOptionCategory.class, cpOptionCategory.getPrimaryKey()) ||
 				(companyId != cpOptionCategory.getCompanyId()) ||
 				!Objects.equals(key, cpOptionCategory.getKey())) {
@@ -3148,7 +3152,9 @@ public class CPOptionCategoryPersistenceImpl
 				List<CPOptionCategory> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByC_K, finderArgs, list);
 					}

@@ -22,6 +22,7 @@ import com.liferay.document.library.kernel.service.persistence.DLFolderPersisten
 import com.liferay.document.library.kernel.service.persistence.DLFolderUtil;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.BeanReference;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
@@ -713,6 +714,9 @@ public class DLFolderPersistenceImpl
 
 		uuid = Objects.toString(uuid, "");
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			DLFolder.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -729,7 +733,7 @@ public class DLFolderPersistenceImpl
 		if (result instanceof DLFolder) {
 			DLFolder dlFolder = (DLFolder)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					DLFolder.class, dlFolder.getPrimaryKey()) ||
 				!Objects.equals(uuid, dlFolder.getUuid()) ||
 				(groupId != dlFolder.getGroupId())) {
@@ -776,7 +780,9 @@ public class DLFolderPersistenceImpl
 				List<DLFolder> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByUUID_G, finderArgs, list);
 					}
@@ -4943,6 +4949,9 @@ public class DLFolderPersistenceImpl
 	public DLFolder fetchByR_M(
 		long repositoryId, boolean mountPoint, boolean useFinderCache) {
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			DLFolder.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -4959,7 +4968,7 @@ public class DLFolderPersistenceImpl
 		if (result instanceof DLFolder) {
 			DLFolder dlFolder = (DLFolder)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					DLFolder.class, dlFolder.getPrimaryKey()) ||
 				(repositoryId != dlFolder.getRepositoryId()) ||
 				(mountPoint != dlFolder.isMountPoint())) {
@@ -4995,7 +5004,9 @@ public class DLFolderPersistenceImpl
 				List<DLFolder> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByR_M, finderArgs, list);
 					}
@@ -5005,7 +5016,7 @@ public class DLFolderPersistenceImpl
 						Collections.sort(list, Collections.reverseOrder());
 
 						if (_log.isWarnEnabled()) {
-							if (!useFinderCache) {
+							if (!productionMode || !useFinderCache) {
 								finderArgs = new Object[] {
 									repositoryId, mountPoint
 								};
@@ -7792,6 +7803,9 @@ public class DLFolderPersistenceImpl
 
 		name = Objects.toString(name, "");
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			DLFolder.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -7808,7 +7822,7 @@ public class DLFolderPersistenceImpl
 		if (result instanceof DLFolder) {
 			DLFolder dlFolder = (DLFolder)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					DLFolder.class, dlFolder.getPrimaryKey()) ||
 				(groupId != dlFolder.getGroupId()) ||
 				(parentFolderId != dlFolder.getParentFolderId()) ||
@@ -7860,7 +7874,9 @@ public class DLFolderPersistenceImpl
 				List<DLFolder> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByG_P_N, finderArgs, list);
 					}

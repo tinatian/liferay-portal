@@ -15,6 +15,7 @@
 package com.liferay.portal.service.persistence.impl;
 
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
@@ -4950,6 +4951,9 @@ public class ResourcePermissionPersistenceImpl
 		name = Objects.toString(name, "");
 		primKey = Objects.toString(primKey, "");
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			ResourcePermission.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -4966,7 +4970,7 @@ public class ResourcePermissionPersistenceImpl
 		if (result instanceof ResourcePermission) {
 			ResourcePermission resourcePermission = (ResourcePermission)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					ResourcePermission.class,
 					resourcePermission.getPrimaryKey()) ||
 				(companyId != resourcePermission.getCompanyId()) ||
@@ -5040,7 +5044,9 @@ public class ResourcePermissionPersistenceImpl
 				List<ResourcePermission> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByC_N_S_P_R, finderArgs, list);
 					}

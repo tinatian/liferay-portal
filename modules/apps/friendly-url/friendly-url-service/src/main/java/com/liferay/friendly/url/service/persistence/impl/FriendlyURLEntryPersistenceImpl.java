@@ -24,6 +24,7 @@ import com.liferay.friendly.url.service.persistence.FriendlyURLEntryPersistence;
 import com.liferay.friendly.url.service.persistence.FriendlyURLEntryUtil;
 import com.liferay.friendly.url.service.persistence.impl.constants.FURLPersistenceConstants;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
@@ -722,6 +723,9 @@ public class FriendlyURLEntryPersistenceImpl
 
 		uuid = Objects.toString(uuid, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			FriendlyURLEntry.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -738,7 +742,7 @@ public class FriendlyURLEntryPersistenceImpl
 		if (result instanceof FriendlyURLEntry) {
 			FriendlyURLEntry friendlyURLEntry = (FriendlyURLEntry)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					FriendlyURLEntry.class, friendlyURLEntry.getPrimaryKey()) ||
 				!Objects.equals(uuid, friendlyURLEntry.getUuid()) ||
 				(groupId != friendlyURLEntry.getGroupId())) {
@@ -785,7 +789,9 @@ public class FriendlyURLEntryPersistenceImpl
 				List<FriendlyURLEntry> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByUUID_G, finderArgs, list);
 					}

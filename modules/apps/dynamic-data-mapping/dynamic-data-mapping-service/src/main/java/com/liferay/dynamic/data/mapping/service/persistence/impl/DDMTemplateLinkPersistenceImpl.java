@@ -23,6 +23,7 @@ import com.liferay.dynamic.data.mapping.service.persistence.DDMTemplateLinkPersi
 import com.liferay.dynamic.data.mapping.service.persistence.DDMTemplateLinkUtil;
 import com.liferay.dynamic.data.mapping.service.persistence.impl.constants.DDMPersistenceConstants;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
@@ -679,6 +680,9 @@ public class DDMTemplateLinkPersistenceImpl
 	public DDMTemplateLink fetchByC_C(
 		long classNameId, long classPK, boolean useFinderCache) {
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			DDMTemplateLink.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -694,7 +698,7 @@ public class DDMTemplateLinkPersistenceImpl
 		if (result instanceof DDMTemplateLink) {
 			DDMTemplateLink ddmTemplateLink = (DDMTemplateLink)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					DDMTemplateLink.class, ddmTemplateLink.getPrimaryKey()) ||
 				(classNameId != ddmTemplateLink.getClassNameId()) ||
 				(classPK != ddmTemplateLink.getClassPK())) {
@@ -730,7 +734,9 @@ public class DDMTemplateLinkPersistenceImpl
 				List<DDMTemplateLink> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByC_C, finderArgs, list);
 					}

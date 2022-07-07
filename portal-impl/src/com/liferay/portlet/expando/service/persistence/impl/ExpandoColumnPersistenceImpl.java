@@ -20,6 +20,7 @@ import com.liferay.expando.kernel.model.ExpandoColumnTable;
 import com.liferay.expando.kernel.service.persistence.ExpandoColumnPersistence;
 import com.liferay.expando.kernel.service.persistence.ExpandoColumnUtil;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
@@ -1276,6 +1277,9 @@ public class ExpandoColumnPersistenceImpl
 
 		name = Objects.toString(name, "");
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			ExpandoColumn.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -1292,7 +1296,7 @@ public class ExpandoColumnPersistenceImpl
 		if (result instanceof ExpandoColumn) {
 			ExpandoColumn expandoColumn = (ExpandoColumn)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					ExpandoColumn.class, expandoColumn.getPrimaryKey()) ||
 				(tableId != expandoColumn.getTableId()) ||
 				!Objects.equals(name, expandoColumn.getName())) {
@@ -1339,7 +1343,9 @@ public class ExpandoColumnPersistenceImpl
 				List<ExpandoColumn> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByT_N, finderArgs, list);
 					}

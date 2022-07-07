@@ -23,6 +23,7 @@ import com.liferay.document.library.service.persistence.DLFileVersionPreviewPers
 import com.liferay.document.library.service.persistence.DLFileVersionPreviewUtil;
 import com.liferay.document.library.service.persistence.impl.constants.DLPersistenceConstants;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
@@ -1215,6 +1216,9 @@ public class DLFileVersionPreviewPersistenceImpl
 	public DLFileVersionPreview fetchByF_F(
 		long fileEntryId, long fileVersionId, boolean useFinderCache) {
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			DLFileVersionPreview.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -1231,7 +1235,7 @@ public class DLFileVersionPreviewPersistenceImpl
 			DLFileVersionPreview dlFileVersionPreview =
 				(DLFileVersionPreview)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					DLFileVersionPreview.class,
 					dlFileVersionPreview.getPrimaryKey()) ||
 				(fileEntryId != dlFileVersionPreview.getFileEntryId()) ||
@@ -1268,7 +1272,9 @@ public class DLFileVersionPreviewPersistenceImpl
 				List<DLFileVersionPreview> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByF_F, finderArgs, list);
 					}
@@ -1462,6 +1468,9 @@ public class DLFileVersionPreviewPersistenceImpl
 		long fileEntryId, long fileVersionId, int previewStatus,
 		boolean useFinderCache) {
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			DLFileVersionPreview.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -1480,7 +1489,7 @@ public class DLFileVersionPreviewPersistenceImpl
 			DLFileVersionPreview dlFileVersionPreview =
 				(DLFileVersionPreview)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					DLFileVersionPreview.class,
 					dlFileVersionPreview.getPrimaryKey()) ||
 				(fileEntryId != dlFileVersionPreview.getFileEntryId()) ||
@@ -1522,7 +1531,9 @@ public class DLFileVersionPreviewPersistenceImpl
 				List<DLFileVersionPreview> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByF_F_P, finderArgs, list);
 					}

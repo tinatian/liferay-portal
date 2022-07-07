@@ -15,6 +15,7 @@
 package com.liferay.portlet.social.service.persistence.impl;
 
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
@@ -2415,6 +2416,9 @@ public class SocialActivitySettingPersistenceImpl
 
 		name = Objects.toString(name, "");
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			SocialActivitySetting.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -2434,7 +2438,7 @@ public class SocialActivitySettingPersistenceImpl
 			SocialActivitySetting socialActivitySetting =
 				(SocialActivitySetting)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					SocialActivitySetting.class,
 					socialActivitySetting.getPrimaryKey()) ||
 				(groupId != socialActivitySetting.getGroupId()) ||
@@ -2492,7 +2496,9 @@ public class SocialActivitySettingPersistenceImpl
 				List<SocialActivitySetting> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByG_C_A_N, finderArgs, list);
 					}
@@ -2502,7 +2508,7 @@ public class SocialActivitySettingPersistenceImpl
 						Collections.sort(list, Collections.reverseOrder());
 
 						if (_log.isWarnEnabled()) {
-							if (!useFinderCache) {
+							if (!productionMode || !useFinderCache) {
 								finderArgs = new Object[] {
 									groupId, classNameId, activityType, name
 								};

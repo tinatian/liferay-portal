@@ -15,6 +15,7 @@
 package com.liferay.portlet.ratings.service.persistence.impl;
 
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
@@ -2124,6 +2125,9 @@ public class RatingsEntryPersistenceImpl
 	public RatingsEntry fetchByU_C_C(
 		long userId, long classNameId, long classPK, boolean useFinderCache) {
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			RatingsEntry.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -2140,7 +2144,7 @@ public class RatingsEntryPersistenceImpl
 		if (result instanceof RatingsEntry) {
 			RatingsEntry ratingsEntry = (RatingsEntry)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					RatingsEntry.class, ratingsEntry.getPrimaryKey()) ||
 				(userId != ratingsEntry.getUserId()) ||
 				(classNameId != ratingsEntry.getClassNameId()) ||
@@ -2181,7 +2185,9 @@ public class RatingsEntryPersistenceImpl
 				List<RatingsEntry> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByU_C_C, finderArgs, list);
 					}

@@ -15,6 +15,7 @@
 package com.liferay.segments.service.persistence.impl;
 
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
@@ -732,6 +733,9 @@ public class SegmentsExperiencePersistenceImpl
 
 		uuid = Objects.toString(uuid, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			SegmentsExperience.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -748,7 +752,7 @@ public class SegmentsExperiencePersistenceImpl
 		if (result instanceof SegmentsExperience) {
 			SegmentsExperience segmentsExperience = (SegmentsExperience)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					SegmentsExperience.class,
 					segmentsExperience.getPrimaryKey()) ||
 				!Objects.equals(uuid, segmentsExperience.getUuid()) ||
@@ -796,7 +800,9 @@ public class SegmentsExperiencePersistenceImpl
 				List<SegmentsExperience> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByUUID_G, finderArgs, list);
 					}
@@ -5156,6 +5162,9 @@ public class SegmentsExperiencePersistenceImpl
 
 		segmentsExperienceKey = Objects.toString(segmentsExperienceKey, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			SegmentsExperience.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -5174,7 +5183,7 @@ public class SegmentsExperiencePersistenceImpl
 		if (result instanceof SegmentsExperience) {
 			SegmentsExperience segmentsExperience = (SegmentsExperience)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					SegmentsExperience.class,
 					segmentsExperience.getPrimaryKey()) ||
 				(groupId != segmentsExperience.getGroupId()) ||
@@ -5234,7 +5243,9 @@ public class SegmentsExperiencePersistenceImpl
 				List<SegmentsExperience> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByG_SEK_C_C, finderArgs, list);
 					}
@@ -5476,6 +5487,9 @@ public class SegmentsExperiencePersistenceImpl
 		long groupId, long classNameId, long classPK, int priority,
 		boolean useFinderCache) {
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			SegmentsExperience.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -5492,7 +5506,7 @@ public class SegmentsExperiencePersistenceImpl
 		if (result instanceof SegmentsExperience) {
 			SegmentsExperience segmentsExperience = (SegmentsExperience)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					SegmentsExperience.class,
 					segmentsExperience.getPrimaryKey()) ||
 				(groupId != segmentsExperience.getGroupId()) ||
@@ -5539,7 +5553,9 @@ public class SegmentsExperiencePersistenceImpl
 				List<SegmentsExperience> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByG_C_C_P, finderArgs, list);
 					}

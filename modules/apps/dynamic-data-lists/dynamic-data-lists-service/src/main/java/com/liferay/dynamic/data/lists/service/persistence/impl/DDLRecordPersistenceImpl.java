@@ -23,6 +23,7 @@ import com.liferay.dynamic.data.lists.service.persistence.DDLRecordPersistence;
 import com.liferay.dynamic.data.lists.service.persistence.DDLRecordUtil;
 import com.liferay.dynamic.data.lists.service.persistence.impl.constants.DDLPersistenceConstants;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
@@ -715,6 +716,9 @@ public class DDLRecordPersistenceImpl
 
 		uuid = Objects.toString(uuid, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			DDLRecord.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -731,7 +735,7 @@ public class DDLRecordPersistenceImpl
 		if (result instanceof DDLRecord) {
 			DDLRecord ddlRecord = (DDLRecord)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					DDLRecord.class, ddlRecord.getPrimaryKey()) ||
 				!Objects.equals(uuid, ddlRecord.getUuid()) ||
 				(groupId != ddlRecord.getGroupId())) {
@@ -778,7 +782,9 @@ public class DDLRecordPersistenceImpl
 				List<DDLRecord> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByUUID_G, finderArgs, list);
 					}

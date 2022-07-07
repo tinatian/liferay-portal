@@ -23,6 +23,7 @@ import com.liferay.asset.category.property.service.persistence.AssetCategoryProp
 import com.liferay.asset.category.property.service.persistence.AssetCategoryPropertyUtil;
 import com.liferay.asset.category.property.service.persistence.impl.constants.AssetPersistenceConstants;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
@@ -1814,6 +1815,9 @@ public class AssetCategoryPropertyPersistenceImpl
 
 		key = Objects.toString(key, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			AssetCategoryProperty.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -1830,7 +1834,7 @@ public class AssetCategoryPropertyPersistenceImpl
 			AssetCategoryProperty assetCategoryProperty =
 				(AssetCategoryProperty)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					AssetCategoryProperty.class,
 					assetCategoryProperty.getPrimaryKey()) ||
 				(categoryId != assetCategoryProperty.getCategoryId()) ||
@@ -1878,7 +1882,9 @@ public class AssetCategoryPropertyPersistenceImpl
 				List<AssetCategoryProperty> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByCA_K, finderArgs, list);
 					}

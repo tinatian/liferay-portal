@@ -23,6 +23,7 @@ import com.liferay.asset.list.service.persistence.AssetListEntryPersistence;
 import com.liferay.asset.list.service.persistence.AssetListEntryUtil;
 import com.liferay.asset.list.service.persistence.impl.constants.AssetListPersistenceConstants;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
@@ -723,6 +724,9 @@ public class AssetListEntryPersistenceImpl
 
 		uuid = Objects.toString(uuid, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			AssetListEntry.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -739,7 +743,7 @@ public class AssetListEntryPersistenceImpl
 		if (result instanceof AssetListEntry) {
 			AssetListEntry assetListEntry = (AssetListEntry)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					AssetListEntry.class, assetListEntry.getPrimaryKey()) ||
 				!Objects.equals(uuid, assetListEntry.getUuid()) ||
 				(groupId != assetListEntry.getGroupId())) {
@@ -786,7 +790,9 @@ public class AssetListEntryPersistenceImpl
 				List<AssetListEntry> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByUUID_G, finderArgs, list);
 					}
@@ -2942,6 +2948,9 @@ public class AssetListEntryPersistenceImpl
 
 		assetListEntryKey = Objects.toString(assetListEntryKey, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			AssetListEntry.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -2958,7 +2967,7 @@ public class AssetListEntryPersistenceImpl
 		if (result instanceof AssetListEntry) {
 			AssetListEntry assetListEntry = (AssetListEntry)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					AssetListEntry.class, assetListEntry.getPrimaryKey()) ||
 				(groupId != assetListEntry.getGroupId()) ||
 				!Objects.equals(
@@ -3006,7 +3015,9 @@ public class AssetListEntryPersistenceImpl
 				List<AssetListEntry> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByG_ALEK, finderArgs, list);
 					}
@@ -3206,6 +3217,9 @@ public class AssetListEntryPersistenceImpl
 
 		title = Objects.toString(title, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			AssetListEntry.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -3221,7 +3235,7 @@ public class AssetListEntryPersistenceImpl
 		if (result instanceof AssetListEntry) {
 			AssetListEntry assetListEntry = (AssetListEntry)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					AssetListEntry.class, assetListEntry.getPrimaryKey()) ||
 				(groupId != assetListEntry.getGroupId()) ||
 				!Objects.equals(title, assetListEntry.getTitle())) {
@@ -3268,7 +3282,9 @@ public class AssetListEntryPersistenceImpl
 				List<AssetListEntry> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByG_T, finderArgs, list);
 					}

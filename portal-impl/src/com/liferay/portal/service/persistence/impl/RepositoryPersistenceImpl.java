@@ -15,6 +15,7 @@
 package com.liferay.portal.service.persistence.impl;
 
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
@@ -705,6 +706,9 @@ public class RepositoryPersistenceImpl
 
 		uuid = Objects.toString(uuid, "");
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			Repository.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -721,7 +725,7 @@ public class RepositoryPersistenceImpl
 		if (result instanceof Repository) {
 			Repository repository = (Repository)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					Repository.class, repository.getPrimaryKey()) ||
 				!Objects.equals(uuid, repository.getUuid()) ||
 				(groupId != repository.getGroupId())) {
@@ -768,7 +772,9 @@ public class RepositoryPersistenceImpl
 				List<Repository> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByUUID_G, finderArgs, list);
 					}
@@ -2074,6 +2080,9 @@ public class RepositoryPersistenceImpl
 		name = Objects.toString(name, "");
 		portletId = Objects.toString(portletId, "");
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			Repository.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -2090,7 +2099,7 @@ public class RepositoryPersistenceImpl
 		if (result instanceof Repository) {
 			Repository repository = (Repository)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					Repository.class, repository.getPrimaryKey()) ||
 				(groupId != repository.getGroupId()) ||
 				!Objects.equals(name, repository.getName()) ||
@@ -2153,7 +2162,9 @@ public class RepositoryPersistenceImpl
 				List<Repository> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByG_N_P, finderArgs, list);
 					}

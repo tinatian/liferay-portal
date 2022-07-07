@@ -22,6 +22,7 @@ import com.liferay.commerce.product.model.impl.CPInstanceOptionValueRelModelImpl
 import com.liferay.commerce.product.service.persistence.CPInstanceOptionValueRelPersistence;
 import com.liferay.commerce.product.service.persistence.CPInstanceOptionValueRelUtil;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
@@ -723,6 +724,9 @@ public class CPInstanceOptionValueRelPersistenceImpl
 
 		uuid = Objects.toString(uuid, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			CPInstanceOptionValueRel.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -740,7 +744,7 @@ public class CPInstanceOptionValueRelPersistenceImpl
 			CPInstanceOptionValueRel cpInstanceOptionValueRel =
 				(CPInstanceOptionValueRel)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					CPInstanceOptionValueRel.class,
 					cpInstanceOptionValueRel.getPrimaryKey()) ||
 				!Objects.equals(uuid, cpInstanceOptionValueRel.getUuid()) ||
@@ -788,7 +792,9 @@ public class CPInstanceOptionValueRelPersistenceImpl
 				List<CPInstanceOptionValueRel> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByUUID_G, finderArgs, list);
 					}
@@ -3240,6 +3246,9 @@ public class CPInstanceOptionValueRelPersistenceImpl
 		long CPDefinitionOptionValueRelId, long CPInstanceId,
 		boolean useFinderCache) {
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			CPInstanceOptionValueRel.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -3259,7 +3268,7 @@ public class CPInstanceOptionValueRelPersistenceImpl
 			CPInstanceOptionValueRel cpInstanceOptionValueRel =
 				(CPInstanceOptionValueRel)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					CPInstanceOptionValueRel.class,
 					cpInstanceOptionValueRel.getPrimaryKey()) ||
 				(CPDefinitionOptionValueRelId !=
@@ -3298,7 +3307,9 @@ public class CPInstanceOptionValueRelPersistenceImpl
 				List<CPInstanceOptionValueRel> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByCDOVRI_CII, finderArgs, list);
 					}
@@ -3308,7 +3319,7 @@ public class CPInstanceOptionValueRelPersistenceImpl
 						Collections.sort(list, Collections.reverseOrder());
 
 						if (_log.isWarnEnabled()) {
-							if (!useFinderCache) {
+							if (!productionMode || !useFinderCache) {
 								finderArgs = new Object[] {
 									CPDefinitionOptionValueRelId, CPInstanceId
 								};
@@ -3521,6 +3532,9 @@ public class CPInstanceOptionValueRelPersistenceImpl
 		long CPDefinitionOptionRelId, long CPDefinitionOptionValueRelId,
 		long CPInstanceId, boolean useFinderCache) {
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			CPInstanceOptionValueRel.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -3541,7 +3555,7 @@ public class CPInstanceOptionValueRelPersistenceImpl
 			CPInstanceOptionValueRel cpInstanceOptionValueRel =
 				(CPInstanceOptionValueRel)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					CPInstanceOptionValueRel.class,
 					cpInstanceOptionValueRel.getPrimaryKey()) ||
 				(CPDefinitionOptionRelId !=
@@ -3588,7 +3602,9 @@ public class CPInstanceOptionValueRelPersistenceImpl
 				List<CPInstanceOptionValueRel> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByCDORI_CDOVRI_CII, finderArgs,
 							list);

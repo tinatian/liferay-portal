@@ -23,6 +23,7 @@ import com.liferay.layout.seo.service.persistence.LayoutSEOEntryPersistence;
 import com.liferay.layout.seo.service.persistence.LayoutSEOEntryUtil;
 import com.liferay.layout.seo.service.persistence.impl.constants.LayoutSEOPersistenceConstants;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
@@ -719,6 +720,9 @@ public class LayoutSEOEntryPersistenceImpl
 
 		uuid = Objects.toString(uuid, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			LayoutSEOEntry.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -735,7 +739,7 @@ public class LayoutSEOEntryPersistenceImpl
 		if (result instanceof LayoutSEOEntry) {
 			LayoutSEOEntry layoutSEOEntry = (LayoutSEOEntry)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					LayoutSEOEntry.class, layoutSEOEntry.getPrimaryKey()) ||
 				!Objects.equals(uuid, layoutSEOEntry.getUuid()) ||
 				(groupId != layoutSEOEntry.getGroupId())) {
@@ -782,7 +786,9 @@ public class LayoutSEOEntryPersistenceImpl
 				List<LayoutSEOEntry> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByUUID_G, finderArgs, list);
 					}
@@ -1587,6 +1593,9 @@ public class LayoutSEOEntryPersistenceImpl
 		long groupId, boolean privateLayout, long layoutId,
 		boolean useFinderCache) {
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			LayoutSEOEntry.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -1602,7 +1611,7 @@ public class LayoutSEOEntryPersistenceImpl
 		if (result instanceof LayoutSEOEntry) {
 			LayoutSEOEntry layoutSEOEntry = (LayoutSEOEntry)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					LayoutSEOEntry.class, layoutSEOEntry.getPrimaryKey()) ||
 				(groupId != layoutSEOEntry.getGroupId()) ||
 				(privateLayout != layoutSEOEntry.isPrivateLayout()) ||
@@ -1643,7 +1652,9 @@ public class LayoutSEOEntryPersistenceImpl
 				List<LayoutSEOEntry> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByG_P_L, finderArgs, list);
 					}

@@ -22,6 +22,7 @@ import com.liferay.commerce.product.model.impl.CPInstanceModelImpl;
 import com.liferay.commerce.product.service.persistence.CPInstancePersistence;
 import com.liferay.commerce.product.service.persistence.CPInstanceUtil;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
@@ -706,6 +707,9 @@ public class CPInstancePersistenceImpl
 
 		uuid = Objects.toString(uuid, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			CPInstance.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -722,7 +726,7 @@ public class CPInstancePersistenceImpl
 		if (result instanceof CPInstance) {
 			CPInstance cpInstance = (CPInstance)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					CPInstance.class, cpInstance.getPrimaryKey()) ||
 				!Objects.equals(uuid, cpInstance.getUuid()) ||
 				(groupId != cpInstance.getGroupId())) {
@@ -769,7 +773,9 @@ public class CPInstancePersistenceImpl
 				List<CPInstance> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByUUID_G, finderArgs, list);
 					}
@@ -4795,6 +4801,9 @@ public class CPInstancePersistenceImpl
 
 		CPInstanceUuid = Objects.toString(CPInstanceUuid, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			CPInstance.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -4810,7 +4819,7 @@ public class CPInstancePersistenceImpl
 		if (result instanceof CPInstance) {
 			CPInstance cpInstance = (CPInstance)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					CPInstance.class, cpInstance.getPrimaryKey()) ||
 				(CPDefinitionId != cpInstance.getCPDefinitionId()) ||
 				!Objects.equals(
@@ -4858,7 +4867,9 @@ public class CPInstancePersistenceImpl
 				List<CPInstance> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByC_C, finderArgs, list);
 					}
@@ -5057,6 +5068,9 @@ public class CPInstancePersistenceImpl
 
 		sku = Objects.toString(sku, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			CPInstance.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -5073,7 +5087,7 @@ public class CPInstancePersistenceImpl
 		if (result instanceof CPInstance) {
 			CPInstance cpInstance = (CPInstance)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					CPInstance.class, cpInstance.getPrimaryKey()) ||
 				(CPDefinitionId != cpInstance.getCPDefinitionId()) ||
 				!Objects.equals(sku, cpInstance.getSku())) {
@@ -5120,7 +5134,9 @@ public class CPInstancePersistenceImpl
 				List<CPInstance> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByCPDI_SKU, finderArgs, list);
 					}
@@ -7077,6 +7093,9 @@ public class CPInstancePersistenceImpl
 
 		externalReferenceCode = Objects.toString(externalReferenceCode, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			CPInstance.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -7092,7 +7111,7 @@ public class CPInstancePersistenceImpl
 		if (result instanceof CPInstance) {
 			CPInstance cpInstance = (CPInstance)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					CPInstance.class, cpInstance.getPrimaryKey()) ||
 				(companyId != cpInstance.getCompanyId()) ||
 				!Objects.equals(
@@ -7141,7 +7160,9 @@ public class CPInstancePersistenceImpl
 				List<CPInstance> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByC_ERC, finderArgs, list);
 					}

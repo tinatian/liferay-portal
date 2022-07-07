@@ -20,6 +20,7 @@ import com.liferay.expando.kernel.model.ExpandoTableTable;
 import com.liferay.expando.kernel.service.persistence.ExpandoTablePersistence;
 import com.liferay.expando.kernel.service.persistence.ExpandoTableUtil;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
@@ -719,6 +720,9 @@ public class ExpandoTablePersistenceImpl
 
 		name = Objects.toString(name, "");
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			ExpandoTable.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -735,7 +739,7 @@ public class ExpandoTablePersistenceImpl
 		if (result instanceof ExpandoTable) {
 			ExpandoTable expandoTable = (ExpandoTable)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					ExpandoTable.class, expandoTable.getPrimaryKey()) ||
 				(companyId != expandoTable.getCompanyId()) ||
 				(classNameId != expandoTable.getClassNameId()) ||
@@ -787,7 +791,9 @@ public class ExpandoTablePersistenceImpl
 				List<ExpandoTable> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByC_C_N, finderArgs, list);
 					}

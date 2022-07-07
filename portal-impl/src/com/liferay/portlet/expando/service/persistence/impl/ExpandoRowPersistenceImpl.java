@@ -20,6 +20,7 @@ import com.liferay.expando.kernel.model.ExpandoRowTable;
 import com.liferay.expando.kernel.service.persistence.ExpandoRowPersistence;
 import com.liferay.expando.kernel.service.persistence.ExpandoRowUtil;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
@@ -1166,6 +1167,9 @@ public class ExpandoRowPersistenceImpl
 	public ExpandoRow fetchByT_C(
 		long tableId, long classPK, boolean useFinderCache) {
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			ExpandoRow.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -1182,7 +1186,7 @@ public class ExpandoRowPersistenceImpl
 		if (result instanceof ExpandoRow) {
 			ExpandoRow expandoRow = (ExpandoRow)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					ExpandoRow.class, expandoRow.getPrimaryKey()) ||
 				(tableId != expandoRow.getTableId()) ||
 				(classPK != expandoRow.getClassPK())) {
@@ -1218,7 +1222,9 @@ public class ExpandoRowPersistenceImpl
 				List<ExpandoRow> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByT_C, finderArgs, list);
 					}

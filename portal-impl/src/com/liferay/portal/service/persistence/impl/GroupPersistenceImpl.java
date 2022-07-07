@@ -16,6 +16,7 @@ package com.liferay.portal.service.persistence.impl;
 
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.BeanReference;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
@@ -713,6 +714,9 @@ public class GroupPersistenceImpl
 
 		uuid = Objects.toString(uuid, "");
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			Group.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -729,7 +733,7 @@ public class GroupPersistenceImpl
 		if (result instanceof Group) {
 			Group group = (Group)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					Group.class, group.getPrimaryKey()) ||
 				!Objects.equals(uuid, group.getUuid()) ||
 				(groupId != group.getGroupId())) {
@@ -776,7 +780,9 @@ public class GroupPersistenceImpl
 				List<Group> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByUUID_G, finderArgs, list);
 					}
@@ -2060,6 +2066,9 @@ public class GroupPersistenceImpl
 	 */
 	@Override
 	public Group fetchByLiveGroupId(long liveGroupId, boolean useFinderCache) {
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			Group.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -2076,7 +2085,7 @@ public class GroupPersistenceImpl
 		if (result instanceof Group) {
 			Group group = (Group)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					Group.class, group.getPrimaryKey()) ||
 				(liveGroupId != group.getLiveGroupId())) {
 
@@ -2107,7 +2116,9 @@ public class GroupPersistenceImpl
 				List<Group> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByLiveGroupId, finderArgs, list);
 					}
@@ -2117,7 +2128,7 @@ public class GroupPersistenceImpl
 						Collections.sort(list, Collections.reverseOrder());
 
 						if (_log.isWarnEnabled()) {
-							if (!useFinderCache) {
+							if (!productionMode || !useFinderCache) {
 								finderArgs = new Object[] {liveGroupId};
 							}
 
@@ -3401,6 +3412,9 @@ public class GroupPersistenceImpl
 
 		groupKey = Objects.toString(groupKey, "");
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			Group.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -3417,7 +3431,7 @@ public class GroupPersistenceImpl
 		if (result instanceof Group) {
 			Group group = (Group)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					Group.class, group.getPrimaryKey()) ||
 				(companyId != group.getCompanyId()) ||
 				!Objects.equals(groupKey, group.getGroupKey())) {
@@ -3464,7 +3478,9 @@ public class GroupPersistenceImpl
 				List<Group> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByC_GK, finderArgs, list);
 					}
@@ -3663,6 +3679,9 @@ public class GroupPersistenceImpl
 
 		friendlyURL = Objects.toString(friendlyURL, "");
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			Group.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -3679,7 +3698,7 @@ public class GroupPersistenceImpl
 		if (result instanceof Group) {
 			Group group = (Group)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					Group.class, group.getPrimaryKey()) ||
 				(companyId != group.getCompanyId()) ||
 				!Objects.equals(friendlyURL, group.getFriendlyURL())) {
@@ -3726,7 +3745,9 @@ public class GroupPersistenceImpl
 				List<Group> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByC_F, finderArgs, list);
 					}
@@ -6536,6 +6557,9 @@ public class GroupPersistenceImpl
 		long companyId, long classNameId, long classPK,
 		boolean useFinderCache) {
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			Group.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -6552,7 +6576,7 @@ public class GroupPersistenceImpl
 		if (result instanceof Group) {
 			Group group = (Group)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					Group.class, group.getPrimaryKey()) ||
 				(companyId != group.getCompanyId()) ||
 				(classNameId != group.getClassNameId()) ||
@@ -6593,7 +6617,9 @@ public class GroupPersistenceImpl
 				List<Group> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByC_C_C, finderArgs, list);
 					}
@@ -8575,6 +8601,9 @@ public class GroupPersistenceImpl
 
 		groupKey = Objects.toString(groupKey, "");
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			Group.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -8591,7 +8620,7 @@ public class GroupPersistenceImpl
 		if (result instanceof Group) {
 			Group group = (Group)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					Group.class, group.getPrimaryKey()) ||
 				(companyId != group.getCompanyId()) ||
 				(liveGroupId != group.getLiveGroupId()) ||
@@ -8643,7 +8672,9 @@ public class GroupPersistenceImpl
 				List<Group> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByC_L_GK, finderArgs, list);
 					}
@@ -11613,6 +11644,9 @@ public class GroupPersistenceImpl
 
 		groupKey = Objects.toString(groupKey, "");
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			Group.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -11631,7 +11665,7 @@ public class GroupPersistenceImpl
 		if (result instanceof Group) {
 			Group group = (Group)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					Group.class, group.getPrimaryKey()) ||
 				(companyId != group.getCompanyId()) ||
 				(classNameId != group.getClassNameId()) ||
@@ -11688,7 +11722,9 @@ public class GroupPersistenceImpl
 				List<Group> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByC_C_L_GK, finderArgs, list);
 					}

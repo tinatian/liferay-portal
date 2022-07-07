@@ -20,6 +20,7 @@ import com.liferay.document.library.kernel.model.DLFileVersionTable;
 import com.liferay.document.library.kernel.service.persistence.DLFileVersionPersistence;
 import com.liferay.document.library.kernel.service.persistence.DLFileVersionUtil;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
@@ -708,6 +709,9 @@ public class DLFileVersionPersistenceImpl
 
 		uuid = Objects.toString(uuid, "");
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			DLFileVersion.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -724,7 +728,7 @@ public class DLFileVersionPersistenceImpl
 		if (result instanceof DLFileVersion) {
 			DLFileVersion dlFileVersion = (DLFileVersion)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					DLFileVersion.class, dlFileVersion.getPrimaryKey()) ||
 				!Objects.equals(uuid, dlFileVersion.getUuid()) ||
 				(groupId != dlFileVersion.getGroupId())) {
@@ -771,7 +775,9 @@ public class DLFileVersionPersistenceImpl
 				List<DLFileVersion> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByUUID_G, finderArgs, list);
 					}
@@ -3690,6 +3696,9 @@ public class DLFileVersionPersistenceImpl
 
 		version = Objects.toString(version, "");
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			DLFileVersion.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -3706,7 +3715,7 @@ public class DLFileVersionPersistenceImpl
 		if (result instanceof DLFileVersion) {
 			DLFileVersion dlFileVersion = (DLFileVersion)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					DLFileVersion.class, dlFileVersion.getPrimaryKey()) ||
 				(fileEntryId != dlFileVersion.getFileEntryId()) ||
 				!Objects.equals(version, dlFileVersion.getVersion())) {
@@ -3753,7 +3762,9 @@ public class DLFileVersionPersistenceImpl
 				List<DLFileVersion> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByF_V, finderArgs, list);
 					}

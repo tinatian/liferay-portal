@@ -23,6 +23,7 @@ import com.liferay.dynamic.data.mapping.service.persistence.DDMTemplatePersisten
 import com.liferay.dynamic.data.mapping.service.persistence.DDMTemplateUtil;
 import com.liferay.dynamic.data.mapping.service.persistence.impl.constants.DDMPersistenceConstants;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
@@ -719,6 +720,9 @@ public class DDMTemplatePersistenceImpl
 
 		uuid = Objects.toString(uuid, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			DDMTemplate.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -735,7 +739,7 @@ public class DDMTemplatePersistenceImpl
 		if (result instanceof DDMTemplate) {
 			DDMTemplate ddmTemplate = (DDMTemplate)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					DDMTemplate.class, ddmTemplate.getPrimaryKey()) ||
 				!Objects.equals(uuid, ddmTemplate.getUuid()) ||
 				(groupId != ddmTemplate.getGroupId())) {
@@ -782,7 +786,9 @@ public class DDMTemplatePersistenceImpl
 				List<DDMTemplate> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByUUID_G, finderArgs, list);
 					}
@@ -4608,6 +4614,9 @@ public class DDMTemplatePersistenceImpl
 	public DDMTemplate fetchBySmallImageId(
 		long smallImageId, boolean useFinderCache) {
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			DDMTemplate.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -4624,7 +4633,7 @@ public class DDMTemplatePersistenceImpl
 		if (result instanceof DDMTemplate) {
 			DDMTemplate ddmTemplate = (DDMTemplate)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					DDMTemplate.class, ddmTemplate.getPrimaryKey()) ||
 				(smallImageId != ddmTemplate.getSmallImageId())) {
 
@@ -4655,7 +4664,9 @@ public class DDMTemplatePersistenceImpl
 				List<DDMTemplate> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchBySmallImageId, finderArgs, list);
 					}
@@ -4665,7 +4676,7 @@ public class DDMTemplatePersistenceImpl
 						Collections.sort(list, Collections.reverseOrder());
 
 						if (_log.isWarnEnabled()) {
-							if (!useFinderCache) {
+							if (!productionMode || !useFinderCache) {
 								finderArgs = new Object[] {smallImageId};
 							}
 
@@ -8827,6 +8838,9 @@ public class DDMTemplatePersistenceImpl
 
 		templateKey = Objects.toString(templateKey, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			DDMTemplate.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -8842,7 +8856,7 @@ public class DDMTemplatePersistenceImpl
 		if (result instanceof DDMTemplate) {
 			DDMTemplate ddmTemplate = (DDMTemplate)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					DDMTemplate.class, ddmTemplate.getPrimaryKey()) ||
 				(groupId != ddmTemplate.getGroupId()) ||
 				(classNameId != ddmTemplate.getClassNameId()) ||
@@ -8894,7 +8908,9 @@ public class DDMTemplatePersistenceImpl
 				List<DDMTemplate> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByG_C_T, finderArgs, list);
 					}

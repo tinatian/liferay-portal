@@ -23,6 +23,7 @@ import com.liferay.calendar.service.persistence.CalendarNotificationTemplatePers
 import com.liferay.calendar.service.persistence.CalendarNotificationTemplateUtil;
 import com.liferay.calendar.service.persistence.impl.constants.CalendarPersistenceConstants;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
@@ -742,6 +743,9 @@ public class CalendarNotificationTemplatePersistenceImpl
 
 		uuid = Objects.toString(uuid, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			CalendarNotificationTemplate.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -759,7 +763,7 @@ public class CalendarNotificationTemplatePersistenceImpl
 			CalendarNotificationTemplate calendarNotificationTemplate =
 				(CalendarNotificationTemplate)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					CalendarNotificationTemplate.class,
 					calendarNotificationTemplate.getPrimaryKey()) ||
 				!Objects.equals(uuid, calendarNotificationTemplate.getUuid()) ||
@@ -807,7 +811,9 @@ public class CalendarNotificationTemplatePersistenceImpl
 				List<CalendarNotificationTemplate> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByUUID_G, finderArgs, list);
 					}
@@ -2162,6 +2168,9 @@ public class CalendarNotificationTemplatePersistenceImpl
 		notificationTemplateType = Objects.toString(
 			notificationTemplateType, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			CalendarNotificationTemplate.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -2181,7 +2190,7 @@ public class CalendarNotificationTemplatePersistenceImpl
 			CalendarNotificationTemplate calendarNotificationTemplate =
 				(CalendarNotificationTemplate)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					CalendarNotificationTemplate.class,
 					calendarNotificationTemplate.getPrimaryKey()) ||
 				(calendarId != calendarNotificationTemplate.getCalendarId()) ||
@@ -2250,7 +2259,9 @@ public class CalendarNotificationTemplatePersistenceImpl
 				List<CalendarNotificationTemplate> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByC_NT_NTT, finderArgs, list);
 					}
@@ -2260,7 +2271,7 @@ public class CalendarNotificationTemplatePersistenceImpl
 						Collections.sort(list, Collections.reverseOrder());
 
 						if (_log.isWarnEnabled()) {
-							if (!useFinderCache) {
+							if (!productionMode || !useFinderCache) {
 								finderArgs = new Object[] {
 									calendarId, notificationType,
 									notificationTemplateType

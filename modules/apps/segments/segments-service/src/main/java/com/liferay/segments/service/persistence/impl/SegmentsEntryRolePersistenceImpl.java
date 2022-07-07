@@ -15,6 +15,7 @@
 package com.liferay.segments.service.persistence.impl;
 
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
@@ -1206,6 +1207,9 @@ public class SegmentsEntryRolePersistenceImpl
 	public SegmentsEntryRole fetchByS_R(
 		long segmentsEntryId, long roleId, boolean useFinderCache) {
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			SegmentsEntryRole.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -1221,7 +1225,7 @@ public class SegmentsEntryRolePersistenceImpl
 		if (result instanceof SegmentsEntryRole) {
 			SegmentsEntryRole segmentsEntryRole = (SegmentsEntryRole)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					SegmentsEntryRole.class,
 					segmentsEntryRole.getPrimaryKey()) ||
 				(segmentsEntryId != segmentsEntryRole.getSegmentsEntryId()) ||
@@ -1258,7 +1262,9 @@ public class SegmentsEntryRolePersistenceImpl
 				List<SegmentsEntryRole> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByS_R, finderArgs, list);
 					}

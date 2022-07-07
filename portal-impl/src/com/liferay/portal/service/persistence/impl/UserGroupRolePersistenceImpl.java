@@ -15,6 +15,7 @@
 package com.liferay.portal.service.persistence.impl;
 
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
@@ -2787,6 +2788,9 @@ public class UserGroupRolePersistenceImpl
 	public UserGroupRole fetchByU_G_R(
 		long userId, long groupId, long roleId, boolean useFinderCache) {
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			UserGroupRole.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -2803,7 +2807,7 @@ public class UserGroupRolePersistenceImpl
 		if (result instanceof UserGroupRole) {
 			UserGroupRole userGroupRole = (UserGroupRole)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					UserGroupRole.class, userGroupRole.getPrimaryKey()) ||
 				(userId != userGroupRole.getUserId()) ||
 				(groupId != userGroupRole.getGroupId()) ||
@@ -2844,7 +2848,9 @@ public class UserGroupRolePersistenceImpl
 				List<UserGroupRole> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByU_G_R, finderArgs, list);
 					}

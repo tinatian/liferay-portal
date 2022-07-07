@@ -23,6 +23,7 @@ import com.liferay.calendar.service.persistence.CalendarBookingPersistence;
 import com.liferay.calendar.service.persistence.CalendarBookingUtil;
 import com.liferay.calendar.service.persistence.impl.constants.CalendarPersistenceConstants;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
@@ -722,6 +723,9 @@ public class CalendarBookingPersistenceImpl
 
 		uuid = Objects.toString(uuid, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			CalendarBooking.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -738,7 +742,7 @@ public class CalendarBookingPersistenceImpl
 		if (result instanceof CalendarBooking) {
 			CalendarBooking calendarBooking = (CalendarBooking)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					CalendarBooking.class, calendarBooking.getPrimaryKey()) ||
 				!Objects.equals(uuid, calendarBooking.getUuid()) ||
 				(groupId != calendarBooking.getGroupId())) {
@@ -785,7 +789,9 @@ public class CalendarBookingPersistenceImpl
 				List<CalendarBooking> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByUUID_G, finderArgs, list);
 					}
@@ -3704,6 +3710,9 @@ public class CalendarBookingPersistenceImpl
 	public CalendarBooking fetchByC_P(
 		long calendarId, long parentCalendarBookingId, boolean useFinderCache) {
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			CalendarBooking.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -3719,7 +3728,7 @@ public class CalendarBookingPersistenceImpl
 		if (result instanceof CalendarBooking) {
 			CalendarBooking calendarBooking = (CalendarBooking)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					CalendarBooking.class, calendarBooking.getPrimaryKey()) ||
 				(calendarId != calendarBooking.getCalendarId()) ||
 				(parentCalendarBookingId !=
@@ -3756,7 +3765,9 @@ public class CalendarBookingPersistenceImpl
 				List<CalendarBooking> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByC_P, finderArgs, list);
 					}
@@ -3941,6 +3952,9 @@ public class CalendarBookingPersistenceImpl
 
 		vEventUid = Objects.toString(vEventUid, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			CalendarBooking.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -3956,7 +3970,7 @@ public class CalendarBookingPersistenceImpl
 		if (result instanceof CalendarBooking) {
 			CalendarBooking calendarBooking = (CalendarBooking)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					CalendarBooking.class, calendarBooking.getPrimaryKey()) ||
 				(calendarId != calendarBooking.getCalendarId()) ||
 				!Objects.equals(vEventUid, calendarBooking.getVEventUid())) {
@@ -4003,7 +4017,9 @@ public class CalendarBookingPersistenceImpl
 				List<CalendarBooking> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByC_V, finderArgs, list);
 					}

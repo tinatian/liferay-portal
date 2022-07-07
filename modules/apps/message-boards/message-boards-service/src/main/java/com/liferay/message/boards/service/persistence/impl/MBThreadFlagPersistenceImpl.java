@@ -23,6 +23,7 @@ import com.liferay.message.boards.service.persistence.MBThreadFlagPersistence;
 import com.liferay.message.boards.service.persistence.MBThreadFlagUtil;
 import com.liferay.message.boards.service.persistence.impl.constants.MBPersistenceConstants;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
@@ -716,6 +717,9 @@ public class MBThreadFlagPersistenceImpl
 
 		uuid = Objects.toString(uuid, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			MBThreadFlag.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -732,7 +736,7 @@ public class MBThreadFlagPersistenceImpl
 		if (result instanceof MBThreadFlag) {
 			MBThreadFlag mbThreadFlag = (MBThreadFlag)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					MBThreadFlag.class, mbThreadFlag.getPrimaryKey()) ||
 				!Objects.equals(uuid, mbThreadFlag.getUuid()) ||
 				(groupId != mbThreadFlag.getGroupId())) {
@@ -779,7 +783,9 @@ public class MBThreadFlagPersistenceImpl
 				List<MBThreadFlag> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByUUID_G, finderArgs, list);
 					}
@@ -2585,6 +2591,9 @@ public class MBThreadFlagPersistenceImpl
 	public MBThreadFlag fetchByU_T(
 		long userId, long threadId, boolean useFinderCache) {
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			MBThreadFlag.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -2600,7 +2609,7 @@ public class MBThreadFlagPersistenceImpl
 		if (result instanceof MBThreadFlag) {
 			MBThreadFlag mbThreadFlag = (MBThreadFlag)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					MBThreadFlag.class, mbThreadFlag.getPrimaryKey()) ||
 				(userId != mbThreadFlag.getUserId()) ||
 				(threadId != mbThreadFlag.getThreadId())) {
@@ -2636,7 +2645,9 @@ public class MBThreadFlagPersistenceImpl
 				List<MBThreadFlag> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByU_T, finderArgs, list);
 					}

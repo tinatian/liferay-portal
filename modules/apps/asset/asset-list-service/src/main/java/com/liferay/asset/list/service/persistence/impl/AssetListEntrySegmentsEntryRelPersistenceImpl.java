@@ -23,6 +23,7 @@ import com.liferay.asset.list.service.persistence.AssetListEntrySegmentsEntryRel
 import com.liferay.asset.list.service.persistence.AssetListEntrySegmentsEntryRelUtil;
 import com.liferay.asset.list.service.persistence.impl.constants.AssetListPersistenceConstants;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
@@ -748,6 +749,9 @@ public class AssetListEntrySegmentsEntryRelPersistenceImpl
 
 		uuid = Objects.toString(uuid, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			AssetListEntrySegmentsEntryRel.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -765,7 +769,7 @@ public class AssetListEntrySegmentsEntryRelPersistenceImpl
 			AssetListEntrySegmentsEntryRel assetListEntrySegmentsEntryRel =
 				(AssetListEntrySegmentsEntryRel)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					AssetListEntrySegmentsEntryRel.class,
 					assetListEntrySegmentsEntryRel.getPrimaryKey()) ||
 				!Objects.equals(
@@ -814,7 +818,9 @@ public class AssetListEntrySegmentsEntryRelPersistenceImpl
 				List<AssetListEntrySegmentsEntryRel> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByUUID_G, finderArgs, list);
 					}
@@ -2694,6 +2700,9 @@ public class AssetListEntrySegmentsEntryRelPersistenceImpl
 	public AssetListEntrySegmentsEntryRel fetchByA_S(
 		long assetListEntryId, long segmentsEntryId, boolean useFinderCache) {
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			AssetListEntrySegmentsEntryRel.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -2710,7 +2719,7 @@ public class AssetListEntrySegmentsEntryRelPersistenceImpl
 			AssetListEntrySegmentsEntryRel assetListEntrySegmentsEntryRel =
 				(AssetListEntrySegmentsEntryRel)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					AssetListEntrySegmentsEntryRel.class,
 					assetListEntrySegmentsEntryRel.getPrimaryKey()) ||
 				(assetListEntryId !=
@@ -2749,7 +2758,9 @@ public class AssetListEntrySegmentsEntryRelPersistenceImpl
 				List<AssetListEntrySegmentsEntryRel> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByA_S, finderArgs, list);
 					}

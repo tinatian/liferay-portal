@@ -23,6 +23,7 @@ import com.liferay.journal.service.persistence.JournalArticleResourcePersistence
 import com.liferay.journal.service.persistence.JournalArticleResourceUtil;
 import com.liferay.journal.service.persistence.impl.constants.JournalPersistenceConstants;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
@@ -730,6 +731,9 @@ public class JournalArticleResourcePersistenceImpl
 
 		uuid = Objects.toString(uuid, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			JournalArticleResource.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -747,7 +751,7 @@ public class JournalArticleResourcePersistenceImpl
 			JournalArticleResource journalArticleResource =
 				(JournalArticleResource)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					JournalArticleResource.class,
 					journalArticleResource.getPrimaryKey()) ||
 				!Objects.equals(uuid, journalArticleResource.getUuid()) ||
@@ -795,7 +799,9 @@ public class JournalArticleResourcePersistenceImpl
 				List<JournalArticleResource> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByUUID_G, finderArgs, list);
 					}
@@ -2116,6 +2122,9 @@ public class JournalArticleResourcePersistenceImpl
 
 		articleId = Objects.toString(articleId, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			JournalArticleResource.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -2132,7 +2141,7 @@ public class JournalArticleResourcePersistenceImpl
 			JournalArticleResource journalArticleResource =
 				(JournalArticleResource)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					JournalArticleResource.class,
 					journalArticleResource.getPrimaryKey()) ||
 				(groupId != journalArticleResource.getGroupId()) ||
@@ -2181,7 +2190,9 @@ public class JournalArticleResourcePersistenceImpl
 				List<JournalArticleResource> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByG_A, finderArgs, list);
 					}

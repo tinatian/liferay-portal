@@ -23,6 +23,7 @@ import com.liferay.message.boards.service.persistence.MBMailingListPersistence;
 import com.liferay.message.boards.service.persistence.MBMailingListUtil;
 import com.liferay.message.boards.service.persistence.impl.constants.MBPersistenceConstants;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
@@ -718,6 +719,9 @@ public class MBMailingListPersistenceImpl
 
 		uuid = Objects.toString(uuid, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			MBMailingList.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -734,7 +738,7 @@ public class MBMailingListPersistenceImpl
 		if (result instanceof MBMailingList) {
 			MBMailingList mbMailingList = (MBMailingList)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					MBMailingList.class, mbMailingList.getPrimaryKey()) ||
 				!Objects.equals(uuid, mbMailingList.getUuid()) ||
 				(groupId != mbMailingList.getGroupId())) {
@@ -781,7 +785,9 @@ public class MBMailingListPersistenceImpl
 				List<MBMailingList> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByUUID_G, finderArgs, list);
 					}
@@ -2084,6 +2090,9 @@ public class MBMailingListPersistenceImpl
 	public MBMailingList fetchByG_C(
 		long groupId, long categoryId, boolean useFinderCache) {
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			MBMailingList.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -2099,7 +2108,7 @@ public class MBMailingListPersistenceImpl
 		if (result instanceof MBMailingList) {
 			MBMailingList mbMailingList = (MBMailingList)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					MBMailingList.class, mbMailingList.getPrimaryKey()) ||
 				(groupId != mbMailingList.getGroupId()) ||
 				(categoryId != mbMailingList.getCategoryId())) {
@@ -2135,7 +2144,9 @@ public class MBMailingListPersistenceImpl
 				List<MBMailingList> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByG_C, finderArgs, list);
 					}

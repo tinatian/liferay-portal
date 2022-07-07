@@ -15,6 +15,7 @@
 package com.liferay.portal.service.persistence.impl;
 
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
@@ -5495,6 +5496,9 @@ public class PortletPreferencesPersistenceImpl
 
 		portletId = Objects.toString(portletId, "");
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			PortletPreferences.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -5511,7 +5515,7 @@ public class PortletPreferencesPersistenceImpl
 		if (result instanceof PortletPreferences) {
 			PortletPreferences portletPreferences = (PortletPreferences)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					PortletPreferences.class,
 					portletPreferences.getPrimaryKey()) ||
 				(ownerId != portletPreferences.getOwnerId()) ||
@@ -5569,7 +5573,9 @@ public class PortletPreferencesPersistenceImpl
 				List<PortletPreferences> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByO_O_P_P, finderArgs, list);
 					}

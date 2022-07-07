@@ -15,6 +15,7 @@
 package com.liferay.portlet.social.service.persistence.impl;
 
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
@@ -2199,6 +2200,9 @@ public class SocialActivityPersistenceImpl
 	public SocialActivity fetchByMirrorActivityId(
 		long mirrorActivityId, boolean useFinderCache) {
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			SocialActivity.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -2215,7 +2219,7 @@ public class SocialActivityPersistenceImpl
 		if (result instanceof SocialActivity) {
 			SocialActivity socialActivity = (SocialActivity)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					SocialActivity.class, socialActivity.getPrimaryKey()) ||
 				(mirrorActivityId != socialActivity.getMirrorActivityId())) {
 
@@ -2246,7 +2250,9 @@ public class SocialActivityPersistenceImpl
 				List<SocialActivity> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByMirrorActivityId, finderArgs,
 							list);
@@ -2257,7 +2263,7 @@ public class SocialActivityPersistenceImpl
 						Collections.sort(list, Collections.reverseOrder());
 
 						if (_log.isWarnEnabled()) {
-							if (!useFinderCache) {
+							if (!productionMode || !useFinderCache) {
 								finderArgs = new Object[] {mirrorActivityId};
 							}
 
@@ -5465,6 +5471,9 @@ public class SocialActivityPersistenceImpl
 		long groupId, long userId, long createDate, long classNameId,
 		long classPK, int type, long receiverUserId, boolean useFinderCache) {
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			SocialActivity.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -5484,7 +5493,7 @@ public class SocialActivityPersistenceImpl
 		if (result instanceof SocialActivity) {
 			SocialActivity socialActivity = (SocialActivity)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					SocialActivity.class, socialActivity.getPrimaryKey()) ||
 				(groupId != socialActivity.getGroupId()) ||
 				(userId != socialActivity.getUserId()) ||
@@ -5545,7 +5554,9 @@ public class SocialActivityPersistenceImpl
 				List<SocialActivity> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByG_U_CD_C_C_T_R, finderArgs, list);
 					}

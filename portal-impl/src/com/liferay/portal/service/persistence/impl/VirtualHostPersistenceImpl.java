@@ -15,6 +15,7 @@
 package com.liferay.portal.service.persistence.impl;
 
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
@@ -661,6 +662,9 @@ public class VirtualHostPersistenceImpl
 
 		hostname = Objects.toString(hostname, "");
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			VirtualHost.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -677,7 +681,7 @@ public class VirtualHostPersistenceImpl
 		if (result instanceof VirtualHost) {
 			VirtualHost virtualHost = (VirtualHost)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					VirtualHost.class, virtualHost.getPrimaryKey()) ||
 				!Objects.equals(hostname, virtualHost.getHostname())) {
 
@@ -719,7 +723,9 @@ public class VirtualHostPersistenceImpl
 				List<VirtualHost> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByHostname, finderArgs, list);
 					}
@@ -1472,6 +1478,9 @@ public class VirtualHostPersistenceImpl
 		long companyId, long layoutSetId, boolean defaultVirtualHost,
 		boolean useFinderCache) {
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			VirtualHost.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -1490,7 +1499,7 @@ public class VirtualHostPersistenceImpl
 		if (result instanceof VirtualHost) {
 			VirtualHost virtualHost = (VirtualHost)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					VirtualHost.class, virtualHost.getPrimaryKey()) ||
 				(companyId != virtualHost.getCompanyId()) ||
 				(layoutSetId != virtualHost.getLayoutSetId()) ||
@@ -1531,7 +1540,9 @@ public class VirtualHostPersistenceImpl
 				List<VirtualHost> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByC_L_D, finderArgs, list);
 					}
@@ -1541,7 +1552,7 @@ public class VirtualHostPersistenceImpl
 						Collections.sort(list, Collections.reverseOrder());
 
 						if (_log.isWarnEnabled()) {
-							if (!useFinderCache) {
+							if (!productionMode || !useFinderCache) {
 								finderArgs = new Object[] {
 									companyId, layoutSetId, defaultVirtualHost
 								};

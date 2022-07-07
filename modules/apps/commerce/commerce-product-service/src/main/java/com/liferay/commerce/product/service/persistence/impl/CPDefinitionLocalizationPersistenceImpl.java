@@ -22,6 +22,7 @@ import com.liferay.commerce.product.model.impl.CPDefinitionLocalizationModelImpl
 import com.liferay.commerce.product.service.persistence.CPDefinitionLocalizationPersistence;
 import com.liferay.commerce.product.service.persistence.CPDefinitionLocalizationUtil;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
@@ -694,6 +695,9 @@ public class CPDefinitionLocalizationPersistenceImpl
 
 		languageId = Objects.toString(languageId, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			CPDefinitionLocalization.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -711,7 +715,7 @@ public class CPDefinitionLocalizationPersistenceImpl
 			CPDefinitionLocalization cpDefinitionLocalization =
 				(CPDefinitionLocalization)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					CPDefinitionLocalization.class,
 					cpDefinitionLocalization.getPrimaryKey()) ||
 				(CPDefinitionId !=
@@ -764,7 +768,9 @@ public class CPDefinitionLocalizationPersistenceImpl
 				List<CPDefinitionLocalization> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByCPDefinitionId_LanguageId,
 							finderArgs, list);

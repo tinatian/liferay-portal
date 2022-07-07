@@ -23,6 +23,7 @@ import com.liferay.client.extension.service.persistence.ClientExtensionEntryRelP
 import com.liferay.client.extension.service.persistence.ClientExtensionEntryRelUtil;
 import com.liferay.client.extension.service.persistence.impl.constants.ClientExtensionPersistenceConstants;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
@@ -2539,6 +2540,9 @@ public class ClientExtensionEntryRelPersistenceImpl
 
 		externalReferenceCode = Objects.toString(externalReferenceCode, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			ClientExtensionEntryRel.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -2555,7 +2559,7 @@ public class ClientExtensionEntryRelPersistenceImpl
 			ClientExtensionEntryRel clientExtensionEntryRel =
 				(ClientExtensionEntryRel)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					ClientExtensionEntryRel.class,
 					clientExtensionEntryRel.getPrimaryKey()) ||
 				(companyId != clientExtensionEntryRel.getCompanyId()) ||
@@ -2605,7 +2609,9 @@ public class ClientExtensionEntryRelPersistenceImpl
 				List<ClientExtensionEntryRel> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByC_ERC, finderArgs, list);
 					}

@@ -22,6 +22,7 @@ import com.liferay.commerce.product.model.impl.CPAttachmentFileEntryModelImpl;
 import com.liferay.commerce.product.service.persistence.CPAttachmentFileEntryPersistence;
 import com.liferay.commerce.product.service.persistence.CPAttachmentFileEntryUtil;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
@@ -720,6 +721,9 @@ public class CPAttachmentFileEntryPersistenceImpl
 
 		uuid = Objects.toString(uuid, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			CPAttachmentFileEntry.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -737,7 +741,7 @@ public class CPAttachmentFileEntryPersistenceImpl
 			CPAttachmentFileEntry cpAttachmentFileEntry =
 				(CPAttachmentFileEntry)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					CPAttachmentFileEntry.class,
 					cpAttachmentFileEntry.getPrimaryKey()) ||
 				!Objects.equals(uuid, cpAttachmentFileEntry.getUuid()) ||
@@ -785,7 +789,9 @@ public class CPAttachmentFileEntryPersistenceImpl
 				List<CPAttachmentFileEntry> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByUUID_G, finderArgs, list);
 					}
@@ -5901,6 +5907,9 @@ public class CPAttachmentFileEntryPersistenceImpl
 
 		externalReferenceCode = Objects.toString(externalReferenceCode, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			CPAttachmentFileEntry.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -5917,7 +5926,7 @@ public class CPAttachmentFileEntryPersistenceImpl
 			CPAttachmentFileEntry cpAttachmentFileEntry =
 				(CPAttachmentFileEntry)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					CPAttachmentFileEntry.class,
 					cpAttachmentFileEntry.getPrimaryKey()) ||
 				(companyId != cpAttachmentFileEntry.getCompanyId()) ||
@@ -5967,7 +5976,9 @@ public class CPAttachmentFileEntryPersistenceImpl
 				List<CPAttachmentFileEntry> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByC_ERC, finderArgs, list);
 					}

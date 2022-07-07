@@ -15,6 +15,7 @@
 package com.liferay.translation.service.persistence.impl;
 
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
@@ -721,6 +722,9 @@ public class TranslationEntryPersistenceImpl
 
 		uuid = Objects.toString(uuid, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			TranslationEntry.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -737,7 +741,7 @@ public class TranslationEntryPersistenceImpl
 		if (result instanceof TranslationEntry) {
 			TranslationEntry translationEntry = (TranslationEntry)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					TranslationEntry.class, translationEntry.getPrimaryKey()) ||
 				!Objects.equals(uuid, translationEntry.getUuid()) ||
 				(groupId != translationEntry.getGroupId())) {
@@ -784,7 +788,9 @@ public class TranslationEntryPersistenceImpl
 				List<TranslationEntry> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByUUID_G, finderArgs, list);
 					}
@@ -2148,6 +2154,9 @@ public class TranslationEntryPersistenceImpl
 
 		languageId = Objects.toString(languageId, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			TranslationEntry.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -2163,7 +2172,7 @@ public class TranslationEntryPersistenceImpl
 		if (result instanceof TranslationEntry) {
 			TranslationEntry translationEntry = (TranslationEntry)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					TranslationEntry.class, translationEntry.getPrimaryKey()) ||
 				(classNameId != translationEntry.getClassNameId()) ||
 				(classPK != translationEntry.getClassPK()) ||
@@ -2215,7 +2224,9 @@ public class TranslationEntryPersistenceImpl
 				List<TranslationEntry> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByC_C_L, finderArgs, list);
 					}

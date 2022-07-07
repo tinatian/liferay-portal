@@ -23,6 +23,7 @@ import com.liferay.layout.service.persistence.LayoutClassedModelUsagePersistence
 import com.liferay.layout.service.persistence.LayoutClassedModelUsageUtil;
 import com.liferay.layout.service.persistence.impl.constants.LayoutPersistenceConstants;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
@@ -735,6 +736,9 @@ public class LayoutClassedModelUsagePersistenceImpl
 
 		uuid = Objects.toString(uuid, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			LayoutClassedModelUsage.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -752,7 +756,7 @@ public class LayoutClassedModelUsagePersistenceImpl
 			LayoutClassedModelUsage layoutClassedModelUsage =
 				(LayoutClassedModelUsage)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					LayoutClassedModelUsage.class,
 					layoutClassedModelUsage.getPrimaryKey()) ||
 				!Objects.equals(uuid, layoutClassedModelUsage.getUuid()) ||
@@ -800,7 +804,9 @@ public class LayoutClassedModelUsagePersistenceImpl
 				List<LayoutClassedModelUsage> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByUUID_G, finderArgs, list);
 					}
@@ -4558,6 +4564,9 @@ public class LayoutClassedModelUsagePersistenceImpl
 
 		containerKey = Objects.toString(containerKey, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			LayoutClassedModelUsage.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -4577,7 +4586,7 @@ public class LayoutClassedModelUsagePersistenceImpl
 			LayoutClassedModelUsage layoutClassedModelUsage =
 				(LayoutClassedModelUsage)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					LayoutClassedModelUsage.class,
 					layoutClassedModelUsage.getPrimaryKey()) ||
 				(classNameId != layoutClassedModelUsage.getClassNameId()) ||
@@ -4641,7 +4650,9 @@ public class LayoutClassedModelUsagePersistenceImpl
 				List<LayoutClassedModelUsage> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByCN_CPK_CK_CT_P, finderArgs, list);
 					}

@@ -15,6 +15,7 @@
 package com.liferay.portal.service.persistence.impl;
 
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
@@ -716,6 +717,9 @@ public class LayoutPersistenceImpl
 
 		uuid = Objects.toString(uuid, "");
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			Layout.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -732,7 +736,7 @@ public class LayoutPersistenceImpl
 		if (result instanceof Layout) {
 			Layout layout = (Layout)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					Layout.class, layout.getPrimaryKey()) ||
 				!Objects.equals(uuid, layout.getUuid()) ||
 				(groupId != layout.getGroupId()) ||
@@ -784,7 +788,9 @@ public class LayoutPersistenceImpl
 				List<Layout> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByUUID_G_P, finderArgs, list);
 					}
@@ -3462,6 +3468,9 @@ public class LayoutPersistenceImpl
 	 */
 	@Override
 	public Layout fetchByIconImageId(long iconImageId, boolean useFinderCache) {
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			Layout.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -3478,7 +3487,7 @@ public class LayoutPersistenceImpl
 		if (result instanceof Layout) {
 			Layout layout = (Layout)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					Layout.class, layout.getPrimaryKey()) ||
 				(iconImageId != layout.getIconImageId())) {
 
@@ -3509,7 +3518,9 @@ public class LayoutPersistenceImpl
 				List<Layout> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByIconImageId, finderArgs, list);
 					}
@@ -3519,7 +3530,7 @@ public class LayoutPersistenceImpl
 						Collections.sort(list, Collections.reverseOrder());
 
 						if (_log.isWarnEnabled()) {
-							if (!useFinderCache) {
+							if (!productionMode || !useFinderCache) {
 								finderArgs = new Object[] {iconImageId};
 							}
 
@@ -8367,6 +8378,9 @@ public class LayoutPersistenceImpl
 	public Layout fetchByP_I(
 		boolean privateLayout, long iconImageId, boolean useFinderCache) {
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			Layout.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -8383,7 +8397,7 @@ public class LayoutPersistenceImpl
 		if (result instanceof Layout) {
 			Layout layout = (Layout)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					Layout.class, layout.getPrimaryKey()) ||
 				(privateLayout != layout.isPrivateLayout()) ||
 				(iconImageId != layout.getIconImageId())) {
@@ -8419,7 +8433,9 @@ public class LayoutPersistenceImpl
 				List<Layout> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByP_I, finderArgs, list);
 					}
@@ -8429,7 +8445,7 @@ public class LayoutPersistenceImpl
 						Collections.sort(list, Collections.reverseOrder());
 
 						if (_log.isWarnEnabled()) {
-							if (!useFinderCache) {
+							if (!productionMode || !useFinderCache) {
 								finderArgs = new Object[] {
 									privateLayout, iconImageId
 								};
@@ -8617,6 +8633,9 @@ public class LayoutPersistenceImpl
 	public Layout fetchByC_C(
 		long classNameId, long classPK, boolean useFinderCache) {
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			Layout.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -8633,7 +8652,7 @@ public class LayoutPersistenceImpl
 		if (result instanceof Layout) {
 			Layout layout = (Layout)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					Layout.class, layout.getPrimaryKey()) ||
 				(classNameId != layout.getClassNameId()) ||
 				(classPK != layout.getClassPK())) {
@@ -8669,7 +8688,9 @@ public class LayoutPersistenceImpl
 				List<Layout> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByC_C, finderArgs, list);
 					}
@@ -8679,7 +8700,7 @@ public class LayoutPersistenceImpl
 						Collections.sort(list, Collections.reverseOrder());
 
 						if (_log.isWarnEnabled()) {
-							if (!useFinderCache) {
+							if (!productionMode || !useFinderCache) {
 								finderArgs = new Object[] {
 									classNameId, classPK
 								};
@@ -8877,6 +8898,9 @@ public class LayoutPersistenceImpl
 		long groupId, boolean privateLayout, long layoutId,
 		boolean useFinderCache) {
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			Layout.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -8893,7 +8917,7 @@ public class LayoutPersistenceImpl
 		if (result instanceof Layout) {
 			Layout layout = (Layout)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					Layout.class, layout.getPrimaryKey()) ||
 				(groupId != layout.getGroupId()) ||
 				(privateLayout != layout.isPrivateLayout()) ||
@@ -8934,7 +8958,9 @@ public class LayoutPersistenceImpl
 				List<Layout> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByG_P_L, finderArgs, list);
 					}
@@ -12536,6 +12562,9 @@ public class LayoutPersistenceImpl
 
 		friendlyURL = Objects.toString(friendlyURL, "");
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			Layout.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -12552,7 +12581,7 @@ public class LayoutPersistenceImpl
 		if (result instanceof Layout) {
 			Layout layout = (Layout)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					Layout.class, layout.getPrimaryKey()) ||
 				(groupId != layout.getGroupId()) ||
 				(privateLayout != layout.isPrivateLayout()) ||
@@ -12604,7 +12633,9 @@ public class LayoutPersistenceImpl
 				List<Layout> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByG_P_F, finderArgs, list);
 					}
@@ -12829,6 +12860,9 @@ public class LayoutPersistenceImpl
 		sourcePrototypeLayoutUuid = Objects.toString(
 			sourcePrototypeLayoutUuid, "");
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			Layout.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -12847,7 +12881,7 @@ public class LayoutPersistenceImpl
 		if (result instanceof Layout) {
 			Layout layout = (Layout)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					Layout.class, layout.getPrimaryKey()) ||
 				(groupId != layout.getGroupId()) ||
 				(privateLayout != layout.isPrivateLayout()) ||
@@ -12901,7 +12935,9 @@ public class LayoutPersistenceImpl
 				List<Layout> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByG_P_SPLU, finderArgs, list);
 					}
@@ -12911,7 +12947,7 @@ public class LayoutPersistenceImpl
 						Collections.sort(list, Collections.reverseOrder());
 
 						if (_log.isWarnEnabled()) {
-							if (!useFinderCache) {
+							if (!productionMode || !useFinderCache) {
 								finderArgs = new Object[] {
 									groupId, privateLayout,
 									sourcePrototypeLayoutUuid

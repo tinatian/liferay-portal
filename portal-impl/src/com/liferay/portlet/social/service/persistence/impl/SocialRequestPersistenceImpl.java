@@ -15,6 +15,7 @@
 package com.liferay.portlet.social.service.persistence.impl;
 
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
@@ -705,6 +706,9 @@ public class SocialRequestPersistenceImpl
 
 		uuid = Objects.toString(uuid, "");
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			SocialRequest.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -721,7 +725,7 @@ public class SocialRequestPersistenceImpl
 		if (result instanceof SocialRequest) {
 			SocialRequest socialRequest = (SocialRequest)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					SocialRequest.class, socialRequest.getPrimaryKey()) ||
 				!Objects.equals(uuid, socialRequest.getUuid()) ||
 				(groupId != socialRequest.getGroupId())) {
@@ -768,7 +772,9 @@ public class SocialRequestPersistenceImpl
 				List<SocialRequest> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByUUID_G, finderArgs, list);
 					}
@@ -4790,6 +4796,9 @@ public class SocialRequestPersistenceImpl
 		long userId, long classNameId, long classPK, int type,
 		long receiverUserId, boolean useFinderCache) {
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			SocialRequest.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -4808,7 +4817,7 @@ public class SocialRequestPersistenceImpl
 		if (result instanceof SocialRequest) {
 			SocialRequest socialRequest = (SocialRequest)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					SocialRequest.class, socialRequest.getPrimaryKey()) ||
 				(userId != socialRequest.getUserId()) ||
 				(classNameId != socialRequest.getClassNameId()) ||
@@ -4859,7 +4868,9 @@ public class SocialRequestPersistenceImpl
 				List<SocialRequest> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByU_C_C_T_R, finderArgs, list);
 					}

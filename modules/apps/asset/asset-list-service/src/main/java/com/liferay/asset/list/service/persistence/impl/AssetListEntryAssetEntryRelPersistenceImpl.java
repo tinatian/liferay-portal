@@ -23,6 +23,7 @@ import com.liferay.asset.list.service.persistence.AssetListEntryAssetEntryRelPer
 import com.liferay.asset.list.service.persistence.AssetListEntryAssetEntryRelUtil;
 import com.liferay.asset.list.service.persistence.impl.constants.AssetListPersistenceConstants;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
@@ -743,6 +744,9 @@ public class AssetListEntryAssetEntryRelPersistenceImpl
 
 		uuid = Objects.toString(uuid, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			AssetListEntryAssetEntryRel.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -760,7 +764,7 @@ public class AssetListEntryAssetEntryRelPersistenceImpl
 			AssetListEntryAssetEntryRel assetListEntryAssetEntryRel =
 				(AssetListEntryAssetEntryRel)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					AssetListEntryAssetEntryRel.class,
 					assetListEntryAssetEntryRel.getPrimaryKey()) ||
 				!Objects.equals(uuid, assetListEntryAssetEntryRel.getUuid()) ||
@@ -808,7 +812,9 @@ public class AssetListEntryAssetEntryRelPersistenceImpl
 				List<AssetListEntryAssetEntryRel> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByUUID_G, finderArgs, list);
 					}
@@ -3025,6 +3031,9 @@ public class AssetListEntryAssetEntryRelPersistenceImpl
 		long assetListEntryId, long segmentsEntryId, int position,
 		boolean useFinderCache) {
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			AssetListEntryAssetEntryRel.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -3043,7 +3052,7 @@ public class AssetListEntryAssetEntryRelPersistenceImpl
 			AssetListEntryAssetEntryRel assetListEntryAssetEntryRel =
 				(AssetListEntryAssetEntryRel)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					AssetListEntryAssetEntryRel.class,
 					assetListEntryAssetEntryRel.getPrimaryKey()) ||
 				(assetListEntryId !=
@@ -3087,7 +3096,9 @@ public class AssetListEntryAssetEntryRelPersistenceImpl
 				List<AssetListEntryAssetEntryRel> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByA_S_P, finderArgs, list);
 					}

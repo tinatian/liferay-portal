@@ -20,6 +20,7 @@ import com.liferay.document.library.kernel.model.DLFileEntryMetadataTable;
 import com.liferay.document.library.kernel.service.persistence.DLFileEntryMetadataPersistence;
 import com.liferay.document.library.kernel.service.persistence.DLFileEntryMetadataUtil;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
@@ -2361,6 +2362,9 @@ public class DLFileEntryMetadataPersistenceImpl
 	public DLFileEntryMetadata fetchByD_F(
 		long DDMStructureId, long fileVersionId, boolean useFinderCache) {
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			DLFileEntryMetadata.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -2378,7 +2382,7 @@ public class DLFileEntryMetadataPersistenceImpl
 			DLFileEntryMetadata dlFileEntryMetadata =
 				(DLFileEntryMetadata)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					DLFileEntryMetadata.class,
 					dlFileEntryMetadata.getPrimaryKey()) ||
 				(DDMStructureId != dlFileEntryMetadata.getDDMStructureId()) ||
@@ -2415,7 +2419,9 @@ public class DLFileEntryMetadataPersistenceImpl
 				List<DLFileEntryMetadata> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByD_F, finderArgs, list);
 					}

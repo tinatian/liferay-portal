@@ -23,6 +23,7 @@ import com.liferay.message.boards.service.persistence.MBThreadPersistence;
 import com.liferay.message.boards.service.persistence.MBThreadUtil;
 import com.liferay.message.boards.service.persistence.impl.constants.MBPersistenceConstants;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
@@ -726,6 +727,9 @@ public class MBThreadPersistenceImpl
 
 		uuid = Objects.toString(uuid, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			MBThread.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -742,7 +746,7 @@ public class MBThreadPersistenceImpl
 		if (result instanceof MBThread) {
 			MBThread mbThread = (MBThread)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					MBThread.class, mbThread.getPrimaryKey()) ||
 				!Objects.equals(uuid, mbThread.getUuid()) ||
 				(groupId != mbThread.getGroupId())) {
@@ -789,7 +793,9 @@ public class MBThreadPersistenceImpl
 				List<MBThread> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByUUID_G, finderArgs, list);
 					}
@@ -2447,6 +2453,9 @@ public class MBThreadPersistenceImpl
 	public MBThread fetchByRootMessageId(
 		long rootMessageId, boolean useFinderCache) {
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			MBThread.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -2463,7 +2472,7 @@ public class MBThreadPersistenceImpl
 		if (result instanceof MBThread) {
 			MBThread mbThread = (MBThread)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					MBThread.class, mbThread.getPrimaryKey()) ||
 				(rootMessageId != mbThread.getRootMessageId())) {
 
@@ -2494,7 +2503,9 @@ public class MBThreadPersistenceImpl
 				List<MBThread> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByRootMessageId, finderArgs, list);
 					}
@@ -2504,7 +2515,7 @@ public class MBThreadPersistenceImpl
 						Collections.sort(list, Collections.reverseOrder());
 
 						if (_log.isWarnEnabled()) {
-							if (!useFinderCache) {
+							if (!productionMode || !useFinderCache) {
 								finderArgs = new Object[] {rootMessageId};
 							}
 

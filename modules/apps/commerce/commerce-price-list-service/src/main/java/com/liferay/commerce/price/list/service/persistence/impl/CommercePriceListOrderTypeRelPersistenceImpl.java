@@ -22,6 +22,7 @@ import com.liferay.commerce.price.list.model.impl.CommercePriceListOrderTypeRelM
 import com.liferay.commerce.price.list.service.persistence.CommercePriceListOrderTypeRelPersistence;
 import com.liferay.commerce.price.list.service.persistence.CommercePriceListOrderTypeRelUtil;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
@@ -1872,6 +1873,9 @@ public class CommercePriceListOrderTypeRelPersistenceImpl
 		long commercePriceListId, long commerceOrderTypeId,
 		boolean useFinderCache) {
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			CommercePriceListOrderTypeRel.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -1891,7 +1895,7 @@ public class CommercePriceListOrderTypeRelPersistenceImpl
 			CommercePriceListOrderTypeRel commercePriceListOrderTypeRel =
 				(CommercePriceListOrderTypeRel)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					CommercePriceListOrderTypeRel.class,
 					commercePriceListOrderTypeRel.getPrimaryKey()) ||
 				(commercePriceListId !=
@@ -1930,7 +1934,9 @@ public class CommercePriceListOrderTypeRelPersistenceImpl
 				List<CommercePriceListOrderTypeRel> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByCPI_COTI, finderArgs, list);
 					}

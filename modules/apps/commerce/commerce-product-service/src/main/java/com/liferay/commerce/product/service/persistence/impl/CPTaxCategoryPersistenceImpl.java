@@ -22,6 +22,7 @@ import com.liferay.commerce.product.model.impl.CPTaxCategoryModelImpl;
 import com.liferay.commerce.product.service.persistence.CPTaxCategoryPersistence;
 import com.liferay.commerce.product.service.persistence.CPTaxCategoryUtil;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
@@ -1820,6 +1821,9 @@ public class CPTaxCategoryPersistenceImpl
 
 		externalReferenceCode = Objects.toString(externalReferenceCode, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			CPTaxCategory.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -1835,7 +1839,7 @@ public class CPTaxCategoryPersistenceImpl
 		if (result instanceof CPTaxCategory) {
 			CPTaxCategory cpTaxCategory = (CPTaxCategory)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					CPTaxCategory.class, cpTaxCategory.getPrimaryKey()) ||
 				(companyId != cpTaxCategory.getCompanyId()) ||
 				!Objects.equals(
@@ -1884,7 +1888,9 @@ public class CPTaxCategoryPersistenceImpl
 				List<CPTaxCategory> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByC_ERC, finderArgs, list);
 					}

@@ -23,6 +23,7 @@ import com.liferay.layout.page.template.service.persistence.LayoutPageTemplateSt
 import com.liferay.layout.page.template.service.persistence.LayoutPageTemplateStructureRelUtil;
 import com.liferay.layout.page.template.service.persistence.impl.constants.LayoutPersistenceConstants;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
@@ -746,6 +747,9 @@ public class LayoutPageTemplateStructureRelPersistenceImpl
 
 		uuid = Objects.toString(uuid, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			LayoutPageTemplateStructureRel.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -763,7 +767,7 @@ public class LayoutPageTemplateStructureRelPersistenceImpl
 			LayoutPageTemplateStructureRel layoutPageTemplateStructureRel =
 				(LayoutPageTemplateStructureRel)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					LayoutPageTemplateStructureRel.class,
 					layoutPageTemplateStructureRel.getPrimaryKey()) ||
 				!Objects.equals(
@@ -812,7 +816,9 @@ public class LayoutPageTemplateStructureRelPersistenceImpl
 				List<LayoutPageTemplateStructureRel> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByUUID_G, finderArgs, list);
 					}
@@ -2740,6 +2746,9 @@ public class LayoutPageTemplateStructureRelPersistenceImpl
 		long layoutPageTemplateStructureId, long segmentsExperienceId,
 		boolean useFinderCache) {
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			LayoutPageTemplateStructureRel.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -2758,7 +2767,7 @@ public class LayoutPageTemplateStructureRelPersistenceImpl
 			LayoutPageTemplateStructureRel layoutPageTemplateStructureRel =
 				(LayoutPageTemplateStructureRel)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					LayoutPageTemplateStructureRel.class,
 					layoutPageTemplateStructureRel.getPrimaryKey()) ||
 				(layoutPageTemplateStructureId !=
@@ -2798,7 +2807,9 @@ public class LayoutPageTemplateStructureRelPersistenceImpl
 				List<LayoutPageTemplateStructureRel> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByL_S, finderArgs, list);
 					}

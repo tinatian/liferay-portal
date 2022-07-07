@@ -22,6 +22,7 @@ import com.liferay.commerce.product.model.impl.CPOptionValueModelImpl;
 import com.liferay.commerce.product.service.persistence.CPOptionValuePersistence;
 import com.liferay.commerce.product.service.persistence.CPOptionValueUtil;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
@@ -2329,6 +2330,9 @@ public class CPOptionValuePersistenceImpl
 
 		key = Objects.toString(key, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			CPOptionValue.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -2344,7 +2348,7 @@ public class CPOptionValuePersistenceImpl
 		if (result instanceof CPOptionValue) {
 			CPOptionValue cpOptionValue = (CPOptionValue)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					CPOptionValue.class, cpOptionValue.getPrimaryKey()) ||
 				(CPOptionId != cpOptionValue.getCPOptionId()) ||
 				!Objects.equals(key, cpOptionValue.getKey())) {
@@ -2391,7 +2395,9 @@ public class CPOptionValuePersistenceImpl
 				List<CPOptionValue> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByC_K, finderArgs, list);
 					}
@@ -2594,6 +2600,9 @@ public class CPOptionValuePersistenceImpl
 
 		externalReferenceCode = Objects.toString(externalReferenceCode, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			CPOptionValue.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -2609,7 +2618,7 @@ public class CPOptionValuePersistenceImpl
 		if (result instanceof CPOptionValue) {
 			CPOptionValue cpOptionValue = (CPOptionValue)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					CPOptionValue.class, cpOptionValue.getPrimaryKey()) ||
 				(companyId != cpOptionValue.getCompanyId()) ||
 				!Objects.equals(
@@ -2658,7 +2667,9 @@ public class CPOptionValuePersistenceImpl
 				List<CPOptionValue> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByC_ERC, finderArgs, list);
 					}

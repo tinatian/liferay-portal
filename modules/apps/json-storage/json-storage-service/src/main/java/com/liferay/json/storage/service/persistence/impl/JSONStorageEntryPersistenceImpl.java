@@ -23,6 +23,7 @@ import com.liferay.json.storage.service.persistence.JSONStorageEntryPersistence;
 import com.liferay.json.storage.service.persistence.JSONStorageEntryUtil;
 import com.liferay.json.storage.service.persistence.impl.constants.JSONStorePersistenceConstants;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
@@ -2152,6 +2153,9 @@ public class JSONStorageEntryPersistenceImpl
 
 		key = Objects.toString(key, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			JSONStorageEntry.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -2170,7 +2174,7 @@ public class JSONStorageEntryPersistenceImpl
 		if (result instanceof JSONStorageEntry) {
 			JSONStorageEntry jsonStorageEntry = (JSONStorageEntry)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					JSONStorageEntry.class, jsonStorageEntry.getPrimaryKey()) ||
 				(classNameId != jsonStorageEntry.getClassNameId()) ||
 				(classPK != jsonStorageEntry.getClassPK()) ||
@@ -2233,7 +2237,9 @@ public class JSONStorageEntryPersistenceImpl
 				List<JSONStorageEntry> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByCN_CPK_P_I_K, finderArgs, list);
 					}

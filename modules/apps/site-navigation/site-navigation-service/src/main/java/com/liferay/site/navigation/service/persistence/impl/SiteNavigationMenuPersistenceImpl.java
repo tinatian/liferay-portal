@@ -15,6 +15,7 @@
 package com.liferay.site.navigation.service.persistence.impl;
 
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
@@ -732,6 +733,9 @@ public class SiteNavigationMenuPersistenceImpl
 
 		uuid = Objects.toString(uuid, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			SiteNavigationMenu.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -748,7 +752,7 @@ public class SiteNavigationMenuPersistenceImpl
 		if (result instanceof SiteNavigationMenu) {
 			SiteNavigationMenu siteNavigationMenu = (SiteNavigationMenu)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					SiteNavigationMenu.class,
 					siteNavigationMenu.getPrimaryKey()) ||
 				!Objects.equals(uuid, siteNavigationMenu.getUuid()) ||
@@ -796,7 +800,9 @@ public class SiteNavigationMenuPersistenceImpl
 				List<SiteNavigationMenu> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByUUID_G, finderArgs, list);
 					}
@@ -3478,6 +3484,9 @@ public class SiteNavigationMenuPersistenceImpl
 
 		name = Objects.toString(name, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			SiteNavigationMenu.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -3493,7 +3502,7 @@ public class SiteNavigationMenuPersistenceImpl
 		if (result instanceof SiteNavigationMenu) {
 			SiteNavigationMenu siteNavigationMenu = (SiteNavigationMenu)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					SiteNavigationMenu.class,
 					siteNavigationMenu.getPrimaryKey()) ||
 				(groupId != siteNavigationMenu.getGroupId()) ||
@@ -3541,7 +3550,9 @@ public class SiteNavigationMenuPersistenceImpl
 				List<SiteNavigationMenu> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByG_N, finderArgs, list);
 					}

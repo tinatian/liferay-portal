@@ -16,6 +16,7 @@ package com.liferay.portal.service.persistence.impl;
 
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.BeanReference;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
@@ -5795,6 +5796,9 @@ public class RolePersistenceImpl
 
 		name = Objects.toString(name, "");
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			Role.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -5811,7 +5815,7 @@ public class RolePersistenceImpl
 		if (result instanceof Role) {
 			Role role = (Role)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					Role.class, role.getPrimaryKey()) ||
 				(companyId != role.getCompanyId()) ||
 				!Objects.equals(name, role.getName())) {
@@ -5858,7 +5862,9 @@ public class RolePersistenceImpl
 				List<Role> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByC_N, finderArgs, list);
 					}
@@ -8726,6 +8732,9 @@ public class RolePersistenceImpl
 		long companyId, long classNameId, long classPK,
 		boolean useFinderCache) {
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			Role.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -8742,7 +8751,7 @@ public class RolePersistenceImpl
 		if (result instanceof Role) {
 			Role role = (Role)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					Role.class, role.getPrimaryKey()) ||
 				(companyId != role.getCompanyId()) ||
 				(classNameId != role.getClassNameId()) ||
@@ -8783,7 +8792,9 @@ public class RolePersistenceImpl
 				List<Role> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByC_C_C, finderArgs, list);
 					}
@@ -9459,6 +9470,9 @@ public class RolePersistenceImpl
 		long companyId, long classNameId, long classPK, int type,
 		boolean useFinderCache) {
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			Role.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -9475,7 +9489,7 @@ public class RolePersistenceImpl
 		if (result instanceof Role) {
 			Role role = (Role)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					Role.class, role.getPrimaryKey()) ||
 				(companyId != role.getCompanyId()) ||
 				(classNameId != role.getClassNameId()) ||
@@ -9520,7 +9534,9 @@ public class RolePersistenceImpl
 				List<Role> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByC_C_C_T, finderArgs, list);
 					}

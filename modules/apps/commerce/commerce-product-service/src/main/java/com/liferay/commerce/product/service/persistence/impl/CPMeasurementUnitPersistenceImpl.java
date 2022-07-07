@@ -22,6 +22,7 @@ import com.liferay.commerce.product.model.impl.CPMeasurementUnitModelImpl;
 import com.liferay.commerce.product.service.persistence.CPMeasurementUnitPersistence;
 import com.liferay.commerce.product.service.persistence.CPMeasurementUnitUtil;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
@@ -712,6 +713,9 @@ public class CPMeasurementUnitPersistenceImpl
 
 		uuid = Objects.toString(uuid, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			CPMeasurementUnit.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -728,7 +732,7 @@ public class CPMeasurementUnitPersistenceImpl
 		if (result instanceof CPMeasurementUnit) {
 			CPMeasurementUnit cpMeasurementUnit = (CPMeasurementUnit)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					CPMeasurementUnit.class,
 					cpMeasurementUnit.getPrimaryKey()) ||
 				!Objects.equals(uuid, cpMeasurementUnit.getUuid()) ||
@@ -776,7 +780,9 @@ public class CPMeasurementUnitPersistenceImpl
 				List<CPMeasurementUnit> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByUUID_G, finderArgs, list);
 					}
@@ -2092,6 +2098,9 @@ public class CPMeasurementUnitPersistenceImpl
 
 		key = Objects.toString(key, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			CPMeasurementUnit.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -2107,7 +2116,7 @@ public class CPMeasurementUnitPersistenceImpl
 		if (result instanceof CPMeasurementUnit) {
 			CPMeasurementUnit cpMeasurementUnit = (CPMeasurementUnit)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					CPMeasurementUnit.class,
 					cpMeasurementUnit.getPrimaryKey()) ||
 				(companyId != cpMeasurementUnit.getCompanyId()) ||
@@ -2155,7 +2164,9 @@ public class CPMeasurementUnitPersistenceImpl
 				List<CPMeasurementUnit> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByC_K, finderArgs, list);
 					}
@@ -3506,6 +3517,9 @@ public class CPMeasurementUnitPersistenceImpl
 
 		externalReferenceCode = Objects.toString(externalReferenceCode, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			CPMeasurementUnit.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -3521,7 +3535,7 @@ public class CPMeasurementUnitPersistenceImpl
 		if (result instanceof CPMeasurementUnit) {
 			CPMeasurementUnit cpMeasurementUnit = (CPMeasurementUnit)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					CPMeasurementUnit.class,
 					cpMeasurementUnit.getPrimaryKey()) ||
 				(companyId != cpMeasurementUnit.getCompanyId()) ||
@@ -3571,7 +3585,9 @@ public class CPMeasurementUnitPersistenceImpl
 				List<CPMeasurementUnit> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByC_ERC, finderArgs, list);
 					}

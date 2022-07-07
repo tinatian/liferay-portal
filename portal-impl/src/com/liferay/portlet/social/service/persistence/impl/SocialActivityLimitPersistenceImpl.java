@@ -15,6 +15,7 @@
 package com.liferay.portlet.social.service.persistence.impl;
 
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
@@ -1777,6 +1778,9 @@ public class SocialActivityLimitPersistenceImpl
 
 		activityCounterName = Objects.toString(activityCounterName, "");
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			SocialActivityLimit.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -1797,7 +1801,7 @@ public class SocialActivityLimitPersistenceImpl
 			SocialActivityLimit socialActivityLimit =
 				(SocialActivityLimit)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					SocialActivityLimit.class,
 					socialActivityLimit.getPrimaryKey()) ||
 				(groupId != socialActivityLimit.getGroupId()) ||
@@ -1867,7 +1871,9 @@ public class SocialActivityLimitPersistenceImpl
 				List<SocialActivityLimit> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByG_U_C_C_A_A, finderArgs, list);
 					}

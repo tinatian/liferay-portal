@@ -23,6 +23,7 @@ import com.liferay.asset.display.page.service.persistence.AssetDisplayPageEntryP
 import com.liferay.asset.display.page.service.persistence.AssetDisplayPageEntryUtil;
 import com.liferay.asset.display.page.service.persistence.impl.constants.AssetPersistenceConstants;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
@@ -731,6 +732,9 @@ public class AssetDisplayPageEntryPersistenceImpl
 
 		uuid = Objects.toString(uuid, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			AssetDisplayPageEntry.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -748,7 +752,7 @@ public class AssetDisplayPageEntryPersistenceImpl
 			AssetDisplayPageEntry assetDisplayPageEntry =
 				(AssetDisplayPageEntry)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					AssetDisplayPageEntry.class,
 					assetDisplayPageEntry.getPrimaryKey()) ||
 				!Objects.equals(uuid, assetDisplayPageEntry.getUuid()) ||
@@ -796,7 +800,9 @@ public class AssetDisplayPageEntryPersistenceImpl
 				List<AssetDisplayPageEntry> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByUUID_G, finderArgs, list);
 					}
@@ -2667,6 +2673,9 @@ public class AssetDisplayPageEntryPersistenceImpl
 	public AssetDisplayPageEntry fetchByG_C_C(
 		long groupId, long classNameId, long classPK, boolean useFinderCache) {
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			AssetDisplayPageEntry.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -2683,7 +2692,7 @@ public class AssetDisplayPageEntryPersistenceImpl
 			AssetDisplayPageEntry assetDisplayPageEntry =
 				(AssetDisplayPageEntry)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					AssetDisplayPageEntry.class,
 					assetDisplayPageEntry.getPrimaryKey()) ||
 				(groupId != assetDisplayPageEntry.getGroupId()) ||
@@ -2725,7 +2734,9 @@ public class AssetDisplayPageEntryPersistenceImpl
 				List<AssetDisplayPageEntry> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByG_C_C, finderArgs, list);
 					}

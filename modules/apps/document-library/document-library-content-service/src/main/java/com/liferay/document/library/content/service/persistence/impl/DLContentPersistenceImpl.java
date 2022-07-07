@@ -23,6 +23,7 @@ import com.liferay.document.library.content.service.persistence.DLContentPersist
 import com.liferay.document.library.content.service.persistence.DLContentUtil;
 import com.liferay.document.library.content.service.persistence.impl.constants.DLPersistenceConstants;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
@@ -1997,6 +1998,9 @@ public class DLContentPersistenceImpl
 		path = Objects.toString(path, "");
 		version = Objects.toString(version, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			DLContent.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -2013,7 +2017,7 @@ public class DLContentPersistenceImpl
 		if (result instanceof DLContent) {
 			DLContent dlContent = (DLContent)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					DLContent.class, dlContent.getPrimaryKey()) ||
 				(companyId != dlContent.getCompanyId()) ||
 				(repositoryId != dlContent.getRepositoryId()) ||
@@ -2081,7 +2085,9 @@ public class DLContentPersistenceImpl
 				List<DLContent> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByC_R_P_V, finderArgs, list);
 					}

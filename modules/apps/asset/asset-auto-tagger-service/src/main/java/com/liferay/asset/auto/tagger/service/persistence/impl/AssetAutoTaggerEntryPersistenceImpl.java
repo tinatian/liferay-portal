@@ -23,6 +23,7 @@ import com.liferay.asset.auto.tagger.service.persistence.AssetAutoTaggerEntryPer
 import com.liferay.asset.auto.tagger.service.persistence.AssetAutoTaggerEntryUtil;
 import com.liferay.asset.auto.tagger.service.persistence.impl.constants.AssetAutoTaggerPersistenceConstants;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
@@ -1215,6 +1216,9 @@ public class AssetAutoTaggerEntryPersistenceImpl
 	public AssetAutoTaggerEntry fetchByA_A(
 		long assetEntryId, long assetTagId, boolean useFinderCache) {
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			AssetAutoTaggerEntry.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -1231,7 +1235,7 @@ public class AssetAutoTaggerEntryPersistenceImpl
 			AssetAutoTaggerEntry assetAutoTaggerEntry =
 				(AssetAutoTaggerEntry)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					AssetAutoTaggerEntry.class,
 					assetAutoTaggerEntry.getPrimaryKey()) ||
 				(assetEntryId != assetAutoTaggerEntry.getAssetEntryId()) ||
@@ -1268,7 +1272,9 @@ public class AssetAutoTaggerEntryPersistenceImpl
 				List<AssetAutoTaggerEntry> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByA_A, finderArgs, list);
 					}

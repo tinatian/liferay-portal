@@ -23,6 +23,7 @@ import com.liferay.journal.service.persistence.JournalContentSearchPersistence;
 import com.liferay.journal.service.persistence.JournalContentSearchUtil;
 import com.liferay.journal.service.persistence.impl.constants.JournalPersistenceConstants;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
@@ -4944,6 +4945,9 @@ public class JournalContentSearchPersistenceImpl
 		portletId = Objects.toString(portletId, "");
 		articleId = Objects.toString(articleId, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			JournalContentSearch.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -4963,7 +4967,7 @@ public class JournalContentSearchPersistenceImpl
 			JournalContentSearch journalContentSearch =
 				(JournalContentSearch)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					JournalContentSearch.class,
 					journalContentSearch.getPrimaryKey()) ||
 				(groupId != journalContentSearch.getGroupId()) ||
@@ -5039,7 +5043,9 @@ public class JournalContentSearchPersistenceImpl
 				List<JournalContentSearch> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByG_P_L_P_A, finderArgs, list);
 					}

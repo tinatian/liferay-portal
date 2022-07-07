@@ -22,6 +22,7 @@ import com.liferay.commerce.product.model.impl.CPDefinitionSpecificationOptionVa
 import com.liferay.commerce.product.service.persistence.CPDefinitionSpecificationOptionValuePersistence;
 import com.liferay.commerce.product.service.persistence.CPDefinitionSpecificationOptionValueUtil;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
@@ -752,6 +753,9 @@ public class CPDefinitionSpecificationOptionValuePersistenceImpl
 
 		uuid = Objects.toString(uuid, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			CPDefinitionSpecificationOptionValue.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -770,7 +774,7 @@ public class CPDefinitionSpecificationOptionValuePersistenceImpl
 				cpDefinitionSpecificationOptionValue =
 					(CPDefinitionSpecificationOptionValue)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					CPDefinitionSpecificationOptionValue.class,
 					cpDefinitionSpecificationOptionValue.getPrimaryKey()) ||
 				!Objects.equals(
@@ -820,7 +824,9 @@ public class CPDefinitionSpecificationOptionValuePersistenceImpl
 				List<CPDefinitionSpecificationOptionValue> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByUUID_G, finderArgs, list);
 					}
@@ -3894,6 +3900,9 @@ public class CPDefinitionSpecificationOptionValuePersistenceImpl
 		long CPDefinitionSpecificationOptionValueId, long CPDefinitionId,
 		boolean useFinderCache) {
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			CPDefinitionSpecificationOptionValue.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -3914,7 +3923,7 @@ public class CPDefinitionSpecificationOptionValuePersistenceImpl
 				cpDefinitionSpecificationOptionValue =
 					(CPDefinitionSpecificationOptionValue)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					CPDefinitionSpecificationOptionValue.class,
 					cpDefinitionSpecificationOptionValue.getPrimaryKey()) ||
 				(CPDefinitionSpecificationOptionValueId !=
@@ -3955,7 +3964,9 @@ public class CPDefinitionSpecificationOptionValuePersistenceImpl
 				List<CPDefinitionSpecificationOptionValue> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByC_CSOVI, finderArgs, list);
 					}

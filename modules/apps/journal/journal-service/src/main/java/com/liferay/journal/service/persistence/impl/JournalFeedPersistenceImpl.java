@@ -23,6 +23,7 @@ import com.liferay.journal.service.persistence.JournalFeedPersistence;
 import com.liferay.journal.service.persistence.JournalFeedUtil;
 import com.liferay.journal.service.persistence.impl.constants.JournalPersistenceConstants;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
@@ -717,6 +718,9 @@ public class JournalFeedPersistenceImpl
 
 		uuid = Objects.toString(uuid, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			JournalFeed.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -733,7 +737,7 @@ public class JournalFeedPersistenceImpl
 		if (result instanceof JournalFeed) {
 			JournalFeed journalFeed = (JournalFeed)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					JournalFeed.class, journalFeed.getPrimaryKey()) ||
 				!Objects.equals(uuid, journalFeed.getUuid()) ||
 				(groupId != journalFeed.getGroupId())) {
@@ -780,7 +784,9 @@ public class JournalFeedPersistenceImpl
 				List<JournalFeed> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByUUID_G, finderArgs, list);
 					}
@@ -2455,6 +2461,9 @@ public class JournalFeedPersistenceImpl
 
 		feedId = Objects.toString(feedId, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			JournalFeed.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -2470,7 +2479,7 @@ public class JournalFeedPersistenceImpl
 		if (result instanceof JournalFeed) {
 			JournalFeed journalFeed = (JournalFeed)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					JournalFeed.class, journalFeed.getPrimaryKey()) ||
 				(groupId != journalFeed.getGroupId()) ||
 				!Objects.equals(feedId, journalFeed.getFeedId())) {
@@ -2517,7 +2526,9 @@ public class JournalFeedPersistenceImpl
 				List<JournalFeed> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByG_F, finderArgs, list);
 					}

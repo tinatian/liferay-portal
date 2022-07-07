@@ -23,6 +23,7 @@ import com.liferay.change.tracking.store.service.persistence.CTSContentPersisten
 import com.liferay.change.tracking.store.service.persistence.CTSContentUtil;
 import com.liferay.change.tracking.store.service.persistence.impl.constants.CTSPersistenceConstants;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
@@ -2259,6 +2260,9 @@ public class CTSContentPersistenceImpl
 		version = Objects.toString(version, "");
 		storeType = Objects.toString(storeType, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			CTSContent.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -2277,7 +2281,7 @@ public class CTSContentPersistenceImpl
 		if (result instanceof CTSContent) {
 			CTSContent ctsContent = (CTSContent)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					CTSContent.class, ctsContent.getPrimaryKey()) ||
 				(companyId != ctsContent.getCompanyId()) ||
 				(repositoryId != ctsContent.getRepositoryId()) ||
@@ -2361,7 +2365,9 @@ public class CTSContentPersistenceImpl
 				List<CTSContent> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByC_R_P_V_S, finderArgs, list);
 					}

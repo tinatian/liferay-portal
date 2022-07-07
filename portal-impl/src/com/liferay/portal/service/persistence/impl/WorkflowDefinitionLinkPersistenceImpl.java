@@ -15,6 +15,7 @@
 package com.liferay.portal.service.persistence.impl;
 
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
@@ -3209,6 +3210,9 @@ public class WorkflowDefinitionLinkPersistenceImpl
 		long groupId, long companyId, long classNameId, long classPK,
 		long typePK, boolean useFinderCache) {
 
+		boolean productionMode = CTPersistenceHelperUtil.isProductionMode(
+			WorkflowDefinitionLink.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -3228,7 +3232,7 @@ public class WorkflowDefinitionLinkPersistenceImpl
 			WorkflowDefinitionLink workflowDefinitionLink =
 				(WorkflowDefinitionLink)result;
 
-			if (CTPersistenceHelperUtil.isProductionMode(
+			if (!CTPersistenceHelperUtil.isProductionMode(
 					WorkflowDefinitionLink.class,
 					workflowDefinitionLink.getPrimaryKey()) ||
 				(groupId != workflowDefinitionLink.getGroupId()) ||
@@ -3280,7 +3284,9 @@ public class WorkflowDefinitionLinkPersistenceImpl
 				List<WorkflowDefinitionLink> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						FinderCacheUtil.putResult(
 							_finderPathFetchByG_C_C_C_T, finderArgs, list);
 					}
@@ -3290,7 +3296,7 @@ public class WorkflowDefinitionLinkPersistenceImpl
 						Collections.sort(list, Collections.reverseOrder());
 
 						if (_log.isWarnEnabled()) {
-							if (!useFinderCache) {
+							if (!productionMode || !useFinderCache) {
 								finderArgs = new Object[] {
 									groupId, companyId, classNameId, classPK,
 									typePK

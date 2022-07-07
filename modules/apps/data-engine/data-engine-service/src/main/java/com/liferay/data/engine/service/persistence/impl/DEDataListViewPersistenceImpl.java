@@ -23,6 +23,7 @@ import com.liferay.data.engine.service.persistence.DEDataListViewPersistence;
 import com.liferay.data.engine.service.persistence.DEDataListViewUtil;
 import com.liferay.data.engine.service.persistence.impl.constants.DEPersistenceConstants;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
@@ -719,6 +720,9 @@ public class DEDataListViewPersistenceImpl
 
 		uuid = Objects.toString(uuid, "");
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			DEDataListView.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -735,7 +739,7 @@ public class DEDataListViewPersistenceImpl
 		if (result instanceof DEDataListView) {
 			DEDataListView deDataListView = (DEDataListView)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					DEDataListView.class, deDataListView.getPrimaryKey()) ||
 				!Objects.equals(uuid, deDataListView.getUuid()) ||
 				(groupId != deDataListView.getGroupId())) {
@@ -782,7 +786,9 @@ public class DEDataListViewPersistenceImpl
 				List<DEDataListView> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByUUID_G, finderArgs, list);
 					}

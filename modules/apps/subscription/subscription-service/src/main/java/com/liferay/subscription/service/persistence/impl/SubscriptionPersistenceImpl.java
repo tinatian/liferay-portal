@@ -15,6 +15,7 @@
 package com.liferay.subscription.service.persistence.impl;
 
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.change.tracking.CTColumnResolutionType;
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
@@ -3132,6 +3133,9 @@ public class SubscriptionPersistenceImpl
 		long companyId, long userId, long classNameId, long classPK,
 		boolean useFinderCache) {
 
+		boolean productionMode = ctPersistenceHelper.isProductionMode(
+			Subscription.class);
+
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
@@ -3148,7 +3152,7 @@ public class SubscriptionPersistenceImpl
 		if (result instanceof Subscription) {
 			Subscription subscription = (Subscription)result;
 
-			if (ctPersistenceHelper.isProductionMode(
+			if (!ctPersistenceHelper.isProductionMode(
 					Subscription.class, subscription.getPrimaryKey()) ||
 				(companyId != subscription.getCompanyId()) ||
 				(userId != subscription.getUserId()) ||
@@ -3194,7 +3198,9 @@ public class SubscriptionPersistenceImpl
 				List<Subscription> list = query.list();
 
 				if (list.isEmpty()) {
-					if (useFinderCache) {
+					if (useFinderCache &&
+						CTCollectionThreadLocal.isProductionMode()) {
+
 						finderCache.putResult(
 							_finderPathFetchByC_U_C_C, finderArgs, list);
 					}
