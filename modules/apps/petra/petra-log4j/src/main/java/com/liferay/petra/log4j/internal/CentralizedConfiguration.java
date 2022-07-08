@@ -66,6 +66,17 @@ public class CentralizedConfiguration extends AbstractConfiguration {
 		loggerContext.updateLoggers();
 	}
 
+	public String getCompanyLogDirectory(long companyId) {
+		CompanyLogRoutingAppender companyLogRoutingAppender =
+			_companyLogRoutingAppender;
+
+		if (companyLogRoutingAppender == null) {
+			return null;
+		}
+
+		return companyLogRoutingAppender.getCompanyLogDirectory(companyId);
+	}
+
 	@Override
 	public void start() {
 		LoggerConfig rootLoggerConfig = getRootLogger();
@@ -85,10 +96,19 @@ public class CentralizedConfiguration extends AbstractConfiguration {
 		Map<String, Appender> newAppenders =
 			abstractConfiguration.getAppenders();
 
+		CompanyLogRoutingAppender companyLogRoutingAppender = null;
+
 		for (Appender newAppender : newAppenders.values()) {
 			newAppender.start();
 
 			String appenderName = newAppender.getName();
+
+			if ((newAppender instanceof CompanyLogRoutingAppender) &&
+				appenderName.equals("COMPANY_LOG_ROUTING_TEXT_FILE")) {
+
+				companyLogRoutingAppender =
+					(CompanyLogRoutingAppender)newAppender;
+			}
 
 			Appender currentAppender = currentAppenders.put(
 				appenderName, newAppender);
@@ -122,6 +142,10 @@ public class CentralizedConfiguration extends AbstractConfiguration {
 			}
 
 			currentAppender.stop();
+		}
+
+		if (companyLogRoutingAppender != null) {
+			_companyLogRoutingAppender = companyLogRoutingAppender;
 		}
 	}
 
@@ -254,5 +278,7 @@ public class CentralizedConfiguration extends AbstractConfiguration {
 			throw new ExceptionInInitializerError(exception);
 		}
 	}
+
+	private volatile CompanyLogRoutingAppender _companyLogRoutingAppender;
 
 }
