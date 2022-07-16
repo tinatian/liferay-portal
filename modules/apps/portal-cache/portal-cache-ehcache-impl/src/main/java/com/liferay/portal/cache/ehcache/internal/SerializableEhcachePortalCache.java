@@ -15,7 +15,6 @@
 package com.liferay.portal.cache.ehcache.internal;
 
 import com.liferay.portal.cache.io.SerializableObjectWrapper;
-import com.liferay.portal.kernel.cache.PortalCacheManager;
 
 import java.io.Serializable;
 
@@ -33,9 +32,10 @@ public class SerializableEhcachePortalCache<K extends Serializable, V>
 	extends EhcachePortalCache<K, V> {
 
 	public SerializableEhcachePortalCache(
-		PortalCacheManager<K, V> portalCacheManager, Ehcache ehcache) {
+		EhcachePortalCacheManager<K, V> ehcachePortalCacheManager,
+		String portalCacheName) {
 
-		super(portalCacheManager, ehcache);
+		super(ehcachePortalCacheManager, portalCacheName);
 	}
 
 	@Override

@@ -94,24 +94,16 @@ public class EhcachePortalCacheManager<K extends Serializable, V>
 	protected PortalCache<K, V> createPortalCache(
 		PortalCacheConfiguration portalCacheConfiguration) {
 
-		String portalCacheName = portalCacheConfiguration.getPortalCacheName();
-
-		synchronized (_cacheManager) {
-			if (!_cacheManager.cacheExists(portalCacheName)) {
-				_cacheManager.addCache(portalCacheName);
-			}
-		}
-
-		Cache cache = _cacheManager.getCache(portalCacheName);
-
 		EhcachePortalCacheConfiguration ehcachePortalCacheConfiguration =
 			(EhcachePortalCacheConfiguration)portalCacheConfiguration;
 
 		if (ehcachePortalCacheConfiguration.isRequireSerialization()) {
-			return new SerializableEhcachePortalCache<>(this, cache);
+			return new SerializableEhcachePortalCache<>(
+				this, ehcachePortalCacheConfiguration.getPortalCacheName());
 		}
 
-		return new EhcachePortalCache<>(this, cache);
+		return new EhcachePortalCache<>(
+			this, ehcachePortalCacheConfiguration.getPortalCacheName());
 	}
 
 	@Override
