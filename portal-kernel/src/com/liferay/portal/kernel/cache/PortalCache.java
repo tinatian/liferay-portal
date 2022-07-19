@@ -30,6 +30,9 @@ public interface PortalCache<K extends Serializable, V> {
 
 	public static final int DEFAULT_TIME_TO_LIVE = 0;
 
+	public static final String SHARDED_CACHE_NAME_SEPARATOR =
+		"_SHARDED_CACHE_NAME_";
+
 	public V get(K key);
 
 	public List<K> getKeys();
@@ -39,6 +42,8 @@ public interface PortalCache<K extends Serializable, V> {
 	public String getPortalCacheName();
 
 	public boolean isMVCC();
+
+	public boolean isSharded();
 
 	public void put(K key, V value);
 

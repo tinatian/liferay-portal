@@ -107,10 +107,12 @@ public class ShardedEhcachePortalCache<K extends Serializable, V>
 		return true;
 	}
 
-	public void removeEhcache(String cacheName) {
-		_ehcaches.remove(cacheName);
+	public void removeEhcache(long companyId) {
+		Ehcache ehcache = _ehcaches.remove(companyId);
 
-		_cacheManager.removeCache(cacheName);
+		if (ehcache != null) {
+			_cacheManager.removeCache(ehcache.getName());
+		}
 	}
 
 	@Override

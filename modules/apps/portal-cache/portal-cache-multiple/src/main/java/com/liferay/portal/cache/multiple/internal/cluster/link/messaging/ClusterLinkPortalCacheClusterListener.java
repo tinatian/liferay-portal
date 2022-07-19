@@ -16,6 +16,7 @@ package com.liferay.portal.cache.multiple.internal.cluster.link.messaging;
 
 import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMap;
 import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMapFactory;
+import com.liferay.petra.lang.SafeCloseable;
 import com.liferay.portal.cache.multiple.internal.PortalCacheClusterEvent;
 import com.liferay.portal.cache.multiple.internal.PortalCacheClusterEventType;
 import com.liferay.portal.cache.multiple.internal.constants.PortalCacheDestinationNames;
@@ -28,6 +29,8 @@ import com.liferay.portal.kernel.messaging.BaseMessageListener;
 import com.liferay.portal.kernel.messaging.Destination;
 import com.liferay.portal.kernel.messaging.Message;
 import com.liferay.portal.kernel.messaging.MessageListener;
+import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.util.SerializableUtil;
 
 import java.io.Serializable;
@@ -105,14 +108,45 @@ public class ClusterLinkPortalCacheClusterListener extends BaseMessageListener {
 			return;
 		}
 
+		String portalCacheName = portalCacheClusterEvent.getPortalCacheName();
+
+		int index = portalCacheName.indexOf(
+			PortalCache.SHARDED_CACHE_NAME_SEPARATOR);
+
+		if (index > 0) {
+			portalCacheName = portalCacheName.substring(0, index);
+		}
+
 		PortalCache<Serializable, Serializable> portalCache =
 			(PortalCache<Serializable, Serializable>)
-				portalCacheManager.fetchPortalCache(
-					portalCacheClusterEvent.getPortalCacheName());
+				portalCacheManager.fetchPortalCache(portalCacheName);
 
 		if (portalCache == null) {
 			return;
 		}
+
+		if (!portalCache.isSharded()) {
+			_handlePortalCacheClusterEvent(
+				portalCacheClusterEvent, portalCache);
+
+			return;
+		}
+
+		long companyId = GetterUtil.getLong(
+			portalCacheName.substring(
+				index + PortalCache.SHARDED_CACHE_NAME_SEPARATOR.length()));
+
+		try (SafeCloseable safeCloseable =
+				CompanyThreadLocal.setWithSafeCloseable(companyId)) {
+
+			_handlePortalCacheClusterEvent(
+				portalCacheClusterEvent, portalCache);
+		}
+	}
+
+	private void _handlePortalCacheClusterEvent(
+		PortalCacheClusterEvent portalCacheClusterEvent,
+		PortalCache<Serializable, Serializable> portalCache) {
 
 		PortalCacheClusterEventType portalCacheClusterEventType =
 			portalCacheClusterEvent.getEventType();

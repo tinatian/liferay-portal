@@ -22,6 +22,7 @@ import com.liferay.portal.cache.ehcache.internal.event.ConfigurableEhcachePortal
 import com.liferay.portal.cache.ehcache.internal.event.PortalCacheManagerEventListener;
 import com.liferay.portal.cache.ehcache.internal.management.ManagementService;
 import com.liferay.portal.kernel.cache.PortalCache;
+import com.liferay.portal.kernel.cache.PortalCacheException;
 import com.liferay.portal.kernel.cache.PortalCacheListener;
 import com.liferay.portal.kernel.cache.PortalCacheListenerScope;
 import com.liferay.portal.kernel.log.Log;
@@ -62,8 +63,22 @@ import org.osgi.util.tracker.ServiceTracker;
 public class EhcachePortalCacheManager<K extends Serializable, V>
 	extends BasePortalCacheManager<K, V> {
 
+	@Override
+	public PortalCache<K, V> fetchPortalCache(String portalCacheName) {
+		return super.fetchPortalCache(_parsePortalCacheName(portalCacheName));
+	}
+
 	public CacheManager getEhcacheManager() {
 		return _cacheManager;
+	}
+
+	@Override
+	public PortalCache<K, V> getPortalCache(
+			String portalCacheName, boolean mvcc, boolean sharded)
+		throws PortalCacheException {
+
+		return super.getPortalCache(
+			_parsePortalCacheName(portalCacheName), mvcc, sharded);
 	}
 
 	@Override
@@ -82,6 +97,42 @@ public class EhcachePortalCacheManager<K extends Serializable, V>
 		reconfigPortalCache(configurationObjectValuePair.getValue());
 	}
 
+	@Override
+	public void removePortalCache(String portalCacheName) {
+		int index = portalCacheName.indexOf(
+			ShardedEhcachePortalCache.SHARDED_SEPARATOR);
+
+		if (index < 0) {
+			super.removePortalCache(portalCacheName);
+
+			return;
+		}
+
+		PortalCache<K, V> portalCache = fetchPortalCache(
+			portalCacheName.substring(0, index));
+
+		if (portalCache == null) {
+			return;
+		}
+
+		ShardedEhcachePortalCache<K, V> shardedEhcachePortalCache =
+			(ShardedEhcachePortalCache<K, V>)
+				EhcacheUnwrapUtil.getWrappedPortalCache(portalCache);
+
+		if (shardedEhcachePortalCache != null) {
+			String shardedSeparator =
+				ShardedEhcachePortalCache.SHARDED_SEPARATOR;
+
+			shardedEhcachePortalCache.removeEhcache(
+				GetterUtil.getLong(
+					portalCacheName.substring(
+						index + shardedSeparator.length())));
+		}
+		else {
+			_log.error("Unable to remove cache with name " + portalCacheName);
+		}
+	}
+
 	public void setConfigFile(String configFile) {
 		_configFile = configFile;
 	}
@@ -92,10 +143,15 @@ public class EhcachePortalCacheManager<K extends Serializable, V>
 
 	@Override
 	protected PortalCache<K, V> createPortalCache(
-		PortalCacheConfiguration portalCacheConfiguration) {
+		PortalCacheConfiguration portalCacheConfiguration, boolean sharded) {
 
 		EhcachePortalCacheConfiguration ehcachePortalCacheConfiguration =
 			(EhcachePortalCacheConfiguration)portalCacheConfiguration;
+
+		if (sharded) {
+			return new ShardedEhcachePortalCache<>(
+				this, ehcachePortalCacheConfiguration);
+		}
 
 		return new EhcachePortalCache<>(this, ehcachePortalCacheConfiguration);
 	}
@@ -307,6 +363,17 @@ public class EhcachePortalCacheManager<K extends Serializable, V>
 		baseEhcachePortalCacheManagerConfigurator;
 	protected BundleContext bundleContext;
 	protected volatile Props props;
+
+	private String _parsePortalCacheName(String portalCacheName) {
+		int index = portalCacheName.indexOf(
+			ShardedEhcachePortalCache.SHARDED_SEPARATOR);
+
+		if (index < 0) {
+			return portalCacheName;
+		}
+
+		return portalCacheName.substring(0, index);
+	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		EhcachePortalCacheManager.class);
