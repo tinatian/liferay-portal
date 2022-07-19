@@ -69,13 +69,7 @@ public abstract class BaseEhcachePortalCache<K extends Serializable, V>
 	protected V doGet(K key) {
 		Ehcache ehcache = getEhcache();
 
-		Element element = ehcache.get(key);
-
-		if (element == null) {
-			return null;
-		}
-
-		return (V)element.getObjectValue();
+		return _getValue(ehcache.get(key));
 	}
 
 	@Override
@@ -101,13 +95,7 @@ public abstract class BaseEhcachePortalCache<K extends Serializable, V>
 
 		Ehcache ehcache = getEhcache();
 
-		Element oldElement = ehcache.putIfAbsent(element);
-
-		if (oldElement == null) {
-			return null;
-		}
-
-		return (V)oldElement.getObjectValue();
+		return _getValue(ehcache.putIfAbsent(element));
 	}
 
 	@Override
@@ -136,13 +124,7 @@ public abstract class BaseEhcachePortalCache<K extends Serializable, V>
 
 		Ehcache ehcache = getEhcache();
 
-		Element oldElement = ehcache.replace(element);
-
-		if (oldElement == null) {
-			return null;
-		}
-
-		return (V)oldElement.getObjectValue();
+		return _getValue(ehcache.replace(element));
 	}
 
 	@Override
@@ -168,6 +150,14 @@ public abstract class BaseEhcachePortalCache<K extends Serializable, V>
 	}
 
 	protected abstract void reconfigEhcache(Ehcache ehcache);
+
+	private V _getValue(Element element) {
+		if (element == null) {
+			return null;
+		}
+
+		return (V)element.getObjectValue();
+	}
 
 	private final String _portalCacheName;
 
