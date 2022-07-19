@@ -15,11 +15,13 @@
 package com.liferay.portal.cache.ehcache.internal;
 
 import com.liferay.portal.cache.BasePortalCache;
+import com.liferay.portal.cache.io.SerializableObjectWrapper;
 import com.liferay.portal.kernel.cache.PortalCacheListener;
 import com.liferay.portal.kernel.cache.PortalCacheListenerScope;
 
 import java.io.Serializable;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -37,11 +39,12 @@ public abstract class BaseEhcachePortalCache<K extends Serializable, V>
 
 	public BaseEhcachePortalCache(
 		EhcachePortalCacheManager<K, V> ehcachePortalCacheManager,
-		String portalCacheName) {
+		String portalCacheName, boolean serializable) {
 
 		super(ehcachePortalCacheManager);
 
 		_portalCacheName = portalCacheName;
+		_serializable = serializable;
 	}
 
 	public abstract Ehcache getEhcache();
@@ -50,12 +53,32 @@ public abstract class BaseEhcachePortalCache<K extends Serializable, V>
 	public List<K> getKeys() {
 		Ehcache ehcache = getEhcache();
 
-		return ehcache.getKeys();
+		List<?> rawKeys = ehcache.getKeys();
+
+		if (!_serializable) {
+			return (List<K>)rawKeys;
+		}
+
+		if (rawKeys.isEmpty()) {
+			return Collections.emptyList();
+		}
+
+		List<K> keys = new ArrayList<>(rawKeys.size());
+
+		for (Object object : rawKeys) {
+			keys.add(SerializableObjectWrapper.<K>unwrap(object));
+		}
+
+		return keys;
 	}
 
 	@Override
 	public String getPortalCacheName() {
 		return _portalCacheName;
+	}
+
+	public boolean isSerializable() {
+		return _serializable;
 	}
 
 	@Override
@@ -68,6 +91,10 @@ public abstract class BaseEhcachePortalCache<K extends Serializable, V>
 	@Override
 	protected V doGet(K key) {
 		Ehcache ehcache = getEhcache();
+
+		if (_serializable) {
+			return _getValue(ehcache.get(new SerializableObjectWrapper(key)));
+		}
 
 		return _getValue(ehcache.get(key));
 	}
@@ -91,7 +118,12 @@ public abstract class BaseEhcachePortalCache<K extends Serializable, V>
 	protected void doRemove(K key) {
 		Ehcache ehcache = getEhcache();
 
-		ehcache.remove(key);
+		if (_serializable) {
+			ehcache.remove(new SerializableObjectWrapper(key));
+		}
+		else {
+			ehcache.remove(key);
+		}
 	}
 
 	@Override
@@ -129,7 +161,22 @@ public abstract class BaseEhcachePortalCache<K extends Serializable, V>
 	protected abstract void reconfigEhcache(Ehcache ehcache);
 
 	private Element _createElement(K key, V value, int timeToLive) {
-		Element element = new Element(key, value);
+		Element element = null;
+
+		if (_serializable) {
+			Object objectValue = value;
+
+			if (value instanceof Serializable) {
+				objectValue = new SerializableObjectWrapper(
+					(Serializable)value);
+			}
+
+			element = new Element(
+				new SerializableObjectWrapper(key), objectValue);
+		}
+		else {
+			element = new Element(key, value);
+		}
 
 		if (timeToLive != DEFAULT_TIME_TO_LIVE) {
 			element.setTimeToLive(timeToLive);
@@ -143,9 +190,14 @@ public abstract class BaseEhcachePortalCache<K extends Serializable, V>
 			return null;
 		}
 
+		if (_serializable) {
+			return SerializableObjectWrapper.unwrap(element.getObjectValue());
+		}
+
 		return (V)element.getObjectValue();
 	}
 
 	private final String _portalCacheName;
+	private final boolean _serializable;
 
 }

@@ -36,9 +36,9 @@ public class EhcachePortalCache<K extends Serializable, V>
 
 	public EhcachePortalCache(
 		EhcachePortalCacheManager<K, V> ehcachePortalCacheManager,
-		String portalCacheName) {
+		String portalCacheName, boolean serializable) {
 
-		super(ehcachePortalCacheManager, portalCacheName);
+		super(ehcachePortalCacheManager, portalCacheName, serializable);
 
 		_portalCacheName = portalCacheName;
 
