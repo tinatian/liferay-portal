@@ -36,11 +36,9 @@ public class EhcachePortalCache<K extends Serializable, V>
 
 	public EhcachePortalCache(
 		EhcachePortalCacheManager<K, V> ehcachePortalCacheManager,
-		String portalCacheName, boolean serializable) {
+		EhcachePortalCacheConfiguration ehcachePortalCacheConfiguration) {
 
-		super(ehcachePortalCacheManager, portalCacheName, serializable);
-
-		_portalCacheName = portalCacheName;
+		super(ehcachePortalCacheManager, ehcachePortalCacheConfiguration);
 
 		_cacheManager = ehcachePortalCacheManager.getEhcacheManager();
 	}
@@ -54,12 +52,12 @@ public class EhcachePortalCache<K extends Serializable, V>
 		}
 
 		synchronized (_cacheManager) {
-			if (!_cacheManager.cacheExists(_portalCacheName)) {
-				_cacheManager.addCache(_portalCacheName);
+			if (!_cacheManager.cacheExists(getPortalCacheName())) {
+				_cacheManager.addCache(getPortalCacheName());
 			}
 		}
 
-		ehcache = _cacheManager.getCache(_portalCacheName);
+		ehcache = _cacheManager.getCache(getPortalCacheName());
 
 		RegisteredEventListeners registeredEventListeners =
 			ehcache.getCacheEventNotificationService();
@@ -102,6 +100,5 @@ public class EhcachePortalCache<K extends Serializable, V>
 
 	private final CacheManager _cacheManager;
 	private volatile Ehcache _ehcache;
-	private final String _portalCacheName;
 
 }

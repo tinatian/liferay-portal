@@ -39,12 +39,13 @@ public abstract class BaseEhcachePortalCache<K extends Serializable, V>
 
 	public BaseEhcachePortalCache(
 		EhcachePortalCacheManager<K, V> ehcachePortalCacheManager,
-		String portalCacheName, boolean serializable) {
+		EhcachePortalCacheConfiguration ehcachePortalCacheConfiguration) {
 
 		super(ehcachePortalCacheManager);
 
-		_portalCacheName = portalCacheName;
-		_serializable = serializable;
+		_portalCacheName = ehcachePortalCacheConfiguration.getPortalCacheName();
+		_serializable =
+			ehcachePortalCacheConfiguration.isRequireSerialization();
 	}
 
 	public abstract Ehcache getEhcache();
