@@ -74,28 +74,17 @@ public abstract class BaseEhcachePortalCache<K extends Serializable, V>
 
 	@Override
 	protected void doPut(K key, V value, int timeToLive) {
-		Element element = new Element(key, value);
-
-		if (timeToLive != DEFAULT_TIME_TO_LIVE) {
-			element.setTimeToLive(timeToLive);
-		}
-
 		Ehcache ehcache = getEhcache();
 
-		ehcache.put(element);
+		ehcache.put(_createElement(key, value, timeToLive));
 	}
 
 	@Override
 	protected V doPutIfAbsent(K key, V value, int timeToLive) {
-		Element element = new Element(key, value);
-
-		if (timeToLive != DEFAULT_TIME_TO_LIVE) {
-			element.setTimeToLive(timeToLive);
-		}
-
 		Ehcache ehcache = getEhcache();
 
-		return _getValue(ehcache.putIfAbsent(element));
+		return _getValue(
+			ehcache.putIfAbsent(_createElement(key, value, timeToLive)));
 	}
 
 	@Override
@@ -107,39 +96,27 @@ public abstract class BaseEhcachePortalCache<K extends Serializable, V>
 
 	@Override
 	protected boolean doRemove(K key, V value) {
-		Element element = new Element(key, value);
-
 		Ehcache ehcache = getEhcache();
 
-		return ehcache.removeElement(element);
+		return ehcache.removeElement(
+			_createElement(key, value, DEFAULT_TIME_TO_LIVE));
 	}
 
 	@Override
 	protected V doReplace(K key, V value, int timeToLive) {
-		Element element = new Element(key, value);
-
-		if (timeToLive != DEFAULT_TIME_TO_LIVE) {
-			element.setTimeToLive(timeToLive);
-		}
-
 		Ehcache ehcache = getEhcache();
 
-		return _getValue(ehcache.replace(element));
+		return _getValue(
+			ehcache.replace(_createElement(key, value, timeToLive)));
 	}
 
 	@Override
 	protected boolean doReplace(K key, V oldValue, V newValue, int timeToLive) {
-		Element oldElement = new Element(key, oldValue);
-
-		Element newElement = new Element(key, newValue);
-
-		if (timeToLive != DEFAULT_TIME_TO_LIVE) {
-			newElement.setTimeToLive(timeToLive);
-		}
-
 		Ehcache ehcache = getEhcache();
 
-		return ehcache.replace(oldElement, newElement);
+		return ehcache.replace(
+			_createElement(key, oldValue, DEFAULT_TIME_TO_LIVE),
+			_createElement(key, newValue, timeToLive));
 	}
 
 	protected Map<PortalCacheListener<K, V>, PortalCacheListenerScope>
@@ -150,6 +127,16 @@ public abstract class BaseEhcachePortalCache<K extends Serializable, V>
 	}
 
 	protected abstract void reconfigEhcache(Ehcache ehcache);
+
+	private Element _createElement(K key, V value, int timeToLive) {
+		Element element = new Element(key, value);
+
+		if (timeToLive != DEFAULT_TIME_TO_LIVE) {
+			element.setTimeToLive(timeToLive);
+		}
+
+		return element;
+	}
 
 	private V _getValue(Element element) {
 		if (element == null) {
