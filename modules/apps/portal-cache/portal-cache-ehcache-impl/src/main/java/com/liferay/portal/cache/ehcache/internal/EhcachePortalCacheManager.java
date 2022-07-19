@@ -127,8 +127,19 @@ public class EhcachePortalCacheManager<K extends Serializable, V>
 	}
 
 	@Override
-	protected void doRemovePortalCache(String portalCacheName) {
-		_cacheManager.removeCache(portalCacheName);
+	protected void doRemovePortalCache(PortalCache<K, V> portalCache) {
+		BaseEhcachePortalCache<K, V> baseEhcachePortalCache =
+			(BaseEhcachePortalCache<K, V>)
+				EhcacheUnwrapUtil.getWrappedPortalCache(portalCache);
+
+		if (baseEhcachePortalCache != null) {
+			baseEhcachePortalCache.destroy();
+		}
+		else {
+			_log.error(
+				"Unable to remove cache with name " +
+					portalCache.getPortalCacheName());
+		}
 	}
 
 	@Override

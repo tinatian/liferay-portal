@@ -44,6 +44,11 @@ public class EhcachePortalCache<K extends Serializable, V>
 	}
 
 	@Override
+	public void destroy() {
+		_cacheManager.removeCache(getPortalCacheName());
+	}
+
+	@Override
 	public Ehcache getEhcache() {
 		Ehcache ehcache = _ehcache;
 

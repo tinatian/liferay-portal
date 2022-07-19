@@ -48,6 +48,8 @@ public abstract class BaseEhcachePortalCache<K extends Serializable, V>
 			ehcachePortalCacheConfiguration.isRequireSerialization();
 	}
 
+	public abstract void destroy();
+
 	public abstract Ehcache getEhcache();
 
 	@Override
