@@ -303,12 +303,11 @@ public class CPOptionServiceHttp {
 	}
 
 	public static java.util.List<com.liferay.commerce.product.model.CPOption>
-			findCPOptionByCompanyId(
-				HttpPrincipal httpPrincipal, long companyId, int start, int end,
-				com.liferay.portal.kernel.util.OrderByComparator
-					<com.liferay.commerce.product.model.CPOption>
-						orderByComparator)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		findCPOptionByCompanyId(
+			HttpPrincipal httpPrincipal, long companyId, int start, int end,
+			com.liferay.portal.kernel.util.OrderByComparator
+				<com.liferay.commerce.product.model.CPOption>
+					orderByComparator) {
 
 		try {
 			MethodKey methodKey = new MethodKey(
@@ -324,13 +323,6 @@ public class CPOptionServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception exception) {
-				if (exception instanceof
-						com.liferay.portal.kernel.exception.PortalException) {
-
-					throw (com.liferay.portal.kernel.exception.PortalException)
-						exception;
-				}
-
 				throw new com.liferay.portal.kernel.exception.SystemException(
 					exception);
 			}

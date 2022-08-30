@@ -30,6 +30,7 @@ import com.liferay.commerce.product.model.CPDefinition;
 import com.liferay.commerce.product.model.CProduct;
 import com.liferay.commerce.product.model.CommerceChannel;
 import com.liferay.commerce.product.permission.CommerceProductViewPermission;
+import com.liferay.commerce.product.service.CPAttachmentFileEntryLocalService;
 import com.liferay.commerce.product.service.CPDefinitionLocalService;
 import com.liferay.commerce.product.service.CPInstanceLocalService;
 import com.liferay.commerce.product.service.CProductLocalService;
@@ -111,8 +112,8 @@ public class CPDefinitionHelperImpl implements CPDefinitionHelper {
 		throws PortalException {
 
 		CPAttachmentFileEntry cpAttachmentFileEntry =
-			_cpDefinitionLocalService.getDefaultImageCPAttachmentFileEntry(
-				cpDefinitionId);
+			_cpAttachmentFileEntryLocalService.
+				getDefaultImageCPAttachmentFileEntry(cpDefinitionId);
 
 		if (cpAttachmentFileEntry == null) {
 			CPDefinition cpDefinition =
@@ -366,6 +367,10 @@ public class CPDefinitionHelperImpl implements CPDefinitionHelper {
 
 	@Reference
 	private ConfigurationProvider _configurationProvider;
+
+	@Reference
+	private CPAttachmentFileEntryLocalService
+		_cpAttachmentFileEntryLocalService;
 
 	@Reference
 	private CPDefinitionLocalService _cpDefinitionLocalService;

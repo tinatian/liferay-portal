@@ -416,9 +416,6 @@ public interface CPDefinitionOptionValueRelLocalService
 			long cpDefinitionOptionValueRelId)
 		throws PortalException;
 
-	public void resetCPInstanceCPDefinitionOptionValueRels(
-		String cpInstanceUuid);
-
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Hits search(SearchContext searchContext);
 

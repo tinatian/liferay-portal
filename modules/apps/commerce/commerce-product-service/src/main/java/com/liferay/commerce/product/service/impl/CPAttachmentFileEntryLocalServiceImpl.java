@@ -14,20 +14,24 @@
 
 package com.liferay.commerce.product.service.impl;
 
+import com.liferay.commerce.product.constants.CPAttachmentFileEntryConstants;
 import com.liferay.commerce.product.constants.CPConstants;
 import com.liferay.commerce.product.constants.CPField;
 import com.liferay.commerce.product.exception.CPAttachmentFileEntryCDNURLException;
 import com.liferay.commerce.product.exception.CPAttachmentFileEntryDisplayDateException;
 import com.liferay.commerce.product.exception.CPAttachmentFileEntryExpirationDateException;
 import com.liferay.commerce.product.exception.DuplicateCPAttachmentFileEntryException;
+import com.liferay.commerce.product.internal.helper.CPDefinitionIndexHelper;
+import com.liferay.commerce.product.internal.helper.CheckCPAttachmentFileEntryHelper;
+import com.liferay.commerce.product.internal.helper.DeleteCPAttachmentFileEntryHelper;
 import com.liferay.commerce.product.model.CPAttachmentFileEntry;
 import com.liferay.commerce.product.model.CPAttachmentFileEntryTable;
 import com.liferay.commerce.product.model.CPDefinition;
+import com.liferay.commerce.product.service.CPDefinitionLocalService;
 import com.liferay.commerce.product.service.base.CPAttachmentFileEntryLocalServiceBaseImpl;
 import com.liferay.commerce.product.util.JsonHelper;
 import com.liferay.document.library.kernel.model.DLFolderConstants;
 import com.liferay.document.library.kernel.service.DLAppLocalService;
-import com.liferay.expando.kernel.service.ExpandoRowLocalService;
 import com.liferay.petra.sql.dsl.DSLFunctionFactoryUtil;
 import com.liferay.petra.sql.dsl.DSLQueryFactoryUtil;
 import com.liferay.petra.sql.dsl.expression.Expression;
@@ -35,6 +39,7 @@ import com.liferay.petra.sql.dsl.expression.Predicate;
 import com.liferay.petra.sql.dsl.query.GroupByStep;
 import com.liferay.petra.sql.dsl.query.JoinStep;
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.aop.AopService;
 import com.liferay.portal.dao.orm.custom.sql.CustomSQL;
 import com.liferay.portal.kernel.dao.orm.QueryDefinition;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -43,7 +48,6 @@ import com.liferay.portal.kernel.json.JSONFactory;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.model.ClassName;
 import com.liferay.portal.kernel.model.Repository;
 import com.liferay.portal.kernel.model.SystemEventConstants;
 import com.liferay.portal.kernel.model.User;
@@ -62,7 +66,9 @@ import com.liferay.portal.kernel.search.QueryConfig;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.search.SortFactoryUtil;
+import com.liferay.portal.kernel.service.ClassNameLocalService;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.systemevent.SystemEvent;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.Constants;
@@ -71,12 +77,10 @@ import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.Portal;
-import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.TempFileEntryUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
-import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import java.io.Serializable;
 
@@ -88,9 +92,17 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+
 /**
  * @author Marco Leo
  */
+@Component(
+	enabled = false,
+	property = "model.class.name=com.liferay.commerce.product.model.CPAttachmentFileEntry",
+	service = AopService.class
+)
 public class CPAttachmentFileEntryLocalServiceImpl
 	extends CPAttachmentFileEntryLocalServiceBaseImpl {
 
@@ -110,7 +122,7 @@ public class CPAttachmentFileEntryLocalServiceImpl
 
 		// Commerce product attachment file entry
 
-		User user = userLocalService.getUser(userId);
+		User user = _userLocalService.getUser(userId);
 
 		FileEntry fileEntry = null;
 
@@ -129,13 +141,13 @@ public class CPAttachmentFileEntryLocalServiceImpl
 		Date expirationDate = null;
 		Date now = new Date();
 
-		Date displayDate = PortalUtil.getDate(
+		Date displayDate = _portal.getDate(
 			displayDateMonth, displayDateDay, displayDateYear, displayDateHour,
 			displayDateMinute, user.getTimeZone(),
 			CPAttachmentFileEntryDisplayDateException.class);
 
 		if (!neverExpire) {
-			expirationDate = PortalUtil.getDate(
+			expirationDate = _portal.getDate(
 				expirationDateMonth, expirationDateDay, expirationDateYear,
 				expirationDateHour, expirationDateMinute, user.getTimeZone(),
 				CPAttachmentFileEntryExpirationDateException.class);
@@ -154,12 +166,12 @@ public class CPAttachmentFileEntryLocalServiceImpl
 		CPAttachmentFileEntry cpAttachmentFileEntry =
 			cpAttachmentFileEntryPersistence.create(cpAttachmentFileEntryId);
 
-		if ((classNameId == classNameLocalService.getClassNameId(
+		if ((classNameId == _classNameLocalService.getClassNameId(
 				CPDefinition.class)) &&
-			cpDefinitionLocalService.isVersionable(classPK)) {
+			_cpDefinitionLocalService.isVersionable(classPK)) {
 
 			CPDefinition newCPDefinition =
-				cpDefinitionLocalService.copyCPDefinition(classPK);
+				_cpDefinitionLocalService.copyCPDefinition(classPK);
 
 			classPK = newCPDefinition.getCPDefinitionId();
 		}
@@ -195,7 +207,7 @@ public class CPAttachmentFileEntryLocalServiceImpl
 		cpAttachmentFileEntry = cpAttachmentFileEntryPersistence.update(
 			cpAttachmentFileEntry);
 
-		reindex(classNameId, classPK);
+		_cpDefinitionIndexHelper.reindex(classNameId, classPK);
 
 		// Workflow
 
@@ -266,37 +278,8 @@ public class CPAttachmentFileEntryLocalServiceImpl
 			long classNameId, long classPK)
 		throws PortalException {
 
-		List<CPAttachmentFileEntry> cpAttachmentFileEntries = null;
-
-		if (classPK > 0) {
-			cpAttachmentFileEntries =
-				cpAttachmentFileEntryPersistence.findByC_C_LtD_S(
-					classNameId, classPK, new Date(),
-					WorkflowConstants.STATUS_SCHEDULED);
-		}
-		else {
-			cpAttachmentFileEntries =
-				cpAttachmentFileEntryPersistence.findByLtD_S(
-					new Date(), WorkflowConstants.STATUS_SCHEDULED);
-		}
-
-		for (CPAttachmentFileEntry cpAttachmentFileEntry :
-				cpAttachmentFileEntries) {
-
-			long userId = PortalUtil.getValidUserId(
-				cpAttachmentFileEntry.getCompanyId(),
-				cpAttachmentFileEntry.getUserId());
-
-			ServiceContext serviceContext = new ServiceContext();
-
-			serviceContext.setCommand(Constants.UPDATE);
-			serviceContext.setScopeGroupId(cpAttachmentFileEntry.getGroupId());
-
-			cpAttachmentFileEntryLocalService.updateStatus(
-				userId, cpAttachmentFileEntry.getCPAttachmentFileEntryId(),
-				WorkflowConstants.STATUS_APPROVED, serviceContext,
-				new HashMap<String, Serializable>());
-		}
+		_checkCPAttachmentFileEntryHelper.
+			checkCPAttachmentFileEntriesByDisplayDate(classNameId, classPK);
 	}
 
 	@Override
@@ -305,13 +288,14 @@ public class CPAttachmentFileEntryLocalServiceImpl
 
 		List<CPAttachmentFileEntry> cpAttachmentFileEntries =
 			cpAttachmentFileEntryPersistence.findByC_C(
-				classNameLocalService.getClassNameId(className), classPK);
+				_classNameLocalService.getClassNameId(className), classPK);
 
 		for (CPAttachmentFileEntry cpAttachmentFileEntry :
 				cpAttachmentFileEntries) {
 
 			cpAttachmentFileEntryLocalService.deleteCPAttachmentFileEntry(
-				cpAttachmentFileEntry);
+				_copyCPDefinitionAndPrepareCPAttachmentFileEntry(
+					cpAttachmentFileEntry));
 		}
 	}
 
@@ -322,48 +306,8 @@ public class CPAttachmentFileEntryLocalServiceImpl
 			CPAttachmentFileEntry cpAttachmentFileEntry)
 		throws PortalException {
 
-		long cpDefinitionClassNameId = classNameLocalService.getClassNameId(
-			CPDefinition.class);
-
-		if ((cpAttachmentFileEntry.getClassNameId() ==
-				cpDefinitionClassNameId) &&
-			cpDefinitionLocalService.isVersionable(
-				cpAttachmentFileEntry.getClassPK())) {
-
-			CPDefinition newCPDefinition =
-				cpDefinitionLocalService.copyCPDefinition(
-					cpAttachmentFileEntry.getClassPK());
-
-			if (cpAttachmentFileEntry.isCDNEnabled()) {
-				cpAttachmentFileEntry =
-					cpAttachmentFileEntryPersistence.findByC_C_C_First(
-						cpDefinitionClassNameId,
-						newCPDefinition.getCPDefinitionId(),
-						cpAttachmentFileEntry.getCDNURL(), null);
-			}
-			else {
-				cpAttachmentFileEntry =
-					cpAttachmentFileEntryPersistence.findByC_C_F_First(
-						cpDefinitionClassNameId,
-						newCPDefinition.getCPDefinitionId(),
-						cpAttachmentFileEntry.getFileEntryId(), null);
-			}
-		}
-
-		// Commerce product attachment file entry
-
-		cpAttachmentFileEntryPersistence.remove(cpAttachmentFileEntry);
-
-		// Expando
-
-		_expandoRowLocalService.deleteRows(
-			cpAttachmentFileEntry.getCPAttachmentFileEntryId());
-
-		reindex(
-			cpAttachmentFileEntry.getClassNameId(),
-			cpAttachmentFileEntry.getClassPK());
-
-		return cpAttachmentFileEntry;
+		return _deleteCPAttachmentFileEntryHelper.deleteCPAttachmentFileEntry(
+			cpAttachmentFileEntry);
 	}
 
 	@Override
@@ -376,7 +320,8 @@ public class CPAttachmentFileEntryLocalServiceImpl
 				cpAttachmentFileEntryId);
 
 		return cpAttachmentFileEntryLocalService.deleteCPAttachmentFileEntry(
-			cpAttachmentFileEntry);
+			_copyCPDefinitionAndPrepareCPAttachmentFileEntry(
+				cpAttachmentFileEntry));
 	}
 
 	@Override
@@ -470,11 +415,8 @@ public class CPAttachmentFileEntryLocalServiceImpl
 
 		List<CPAttachmentFileEntry> cpAttachmentFileEntries = new ArrayList<>();
 
-		CPDefinition cpDefinition = cpDefinitionLocalService.getCPDefinition(
+		CPDefinition cpDefinition = _cpDefinitionLocalService.getCPDefinition(
 			cpDefinitionId);
-
-		long cpDefinitionClassNameId = _portal.getClassNameId(
-			CPDefinition.class);
 
 		JSONArray jsonArray = _jsonFactory.createJSONArray();
 
@@ -489,7 +431,8 @@ public class CPAttachmentFileEntryLocalServiceImpl
 
 		Map<String, Serializable> attributes =
 			HashMapBuilder.<String, Serializable>put(
-				CPField.RELATED_ENTITY_CLASS_NAME_ID, cpDefinitionClassNameId
+				CPField.RELATED_ENTITY_CLASS_NAME_ID,
+				_portal.getClassNameId(CPDefinition.class)
 			).put(
 				CPField.RELATED_ENTITY_CLASS_PK, cpDefinitionId
 			).put(
@@ -591,6 +534,24 @@ public class CPAttachmentFileEntryLocalServiceImpl
 				CPAttachmentFileEntryTable.INSTANCE.title));
 	}
 
+	@Override
+	public CPAttachmentFileEntry getDefaultImageCPAttachmentFileEntry(
+			long cpDefinitionId)
+		throws PortalException {
+
+		List<CPAttachmentFileEntry> cpAttachmentFileEntries =
+			cpAttachmentFileEntryLocalService.getCPAttachmentFileEntries(
+				_classNameLocalService.getClassNameId(CPDefinition.class),
+				cpDefinitionId, CPAttachmentFileEntryConstants.TYPE_IMAGE,
+				WorkflowConstants.STATUS_APPROVED, 0, 1);
+
+		if (cpAttachmentFileEntries.isEmpty()) {
+			return null;
+		}
+
+		return cpAttachmentFileEntries.get(0);
+	}
+
 	@Indexable(type = IndexableType.REINDEX)
 	@Override
 	public CPAttachmentFileEntry updateCPAttachmentFileEntry(
@@ -604,22 +565,22 @@ public class CPAttachmentFileEntryLocalServiceImpl
 			double priority, int type, ServiceContext serviceContext)
 		throws PortalException {
 
-		User user = userLocalService.getUser(userId);
+		User user = _userLocalService.getUser(userId);
 
 		CPAttachmentFileEntry cpAttachmentFileEntry =
 			cpAttachmentFileEntryPersistence.findByPrimaryKey(
 				cpAttachmentFileEntryId);
 
-		long cpDefinitionClassNameId = classNameLocalService.getClassNameId(
+		long cpDefinitionClassNameId = _classNameLocalService.getClassNameId(
 			CPDefinition.class);
 
 		if ((cpAttachmentFileEntry.getClassNameId() ==
 				cpDefinitionClassNameId) &&
-			cpDefinitionLocalService.isVersionable(
+			_cpDefinitionLocalService.isVersionable(
 				cpAttachmentFileEntry.getClassPK())) {
 
 			CPDefinition newCPDefinition =
-				cpDefinitionLocalService.copyCPDefinition(
+				_cpDefinitionLocalService.copyCPDefinition(
 					cpAttachmentFileEntry.getClassPK());
 
 			if (cdnEnabled) {
@@ -658,13 +619,13 @@ public class CPAttachmentFileEntryLocalServiceImpl
 		Date expirationDate = null;
 		Date now = new Date();
 
-		Date displayDate = PortalUtil.getDate(
+		Date displayDate = _portal.getDate(
 			displayDateMonth, displayDateDay, displayDateYear, displayDateHour,
 			displayDateMinute, user.getTimeZone(),
 			CPAttachmentFileEntryDisplayDateException.class);
 
 		if (!neverExpire) {
-			expirationDate = PortalUtil.getDate(
+			expirationDate = _portal.getDate(
 				expirationDateMonth, expirationDateDay, expirationDateYear,
 				expirationDateHour, expirationDateMinute, user.getTimeZone(),
 				CPAttachmentFileEntryExpirationDateException.class);
@@ -716,47 +677,9 @@ public class CPAttachmentFileEntryLocalServiceImpl
 			Map<String, Serializable> workflowContext)
 		throws PortalException {
 
-		User user = userLocalService.getUser(userId);
-		Date now = new Date();
-
-		CPAttachmentFileEntry cpAttachmentFileEntry =
-			cpAttachmentFileEntryPersistence.findByPrimaryKey(
-				cpAttachmentFileEntryId);
-
-		if ((status == WorkflowConstants.STATUS_APPROVED) &&
-			(cpAttachmentFileEntry.getDisplayDate() != null) &&
-			now.before(cpAttachmentFileEntry.getDisplayDate())) {
-
-			status = WorkflowConstants.STATUS_SCHEDULED;
-		}
-
-		Date modifiedDate = serviceContext.getModifiedDate(now);
-
-		if (status == WorkflowConstants.STATUS_APPROVED) {
-			Date expirationDate = cpAttachmentFileEntry.getExpirationDate();
-
-			if ((expirationDate != null) && expirationDate.before(now)) {
-				cpAttachmentFileEntry.setExpirationDate(null);
-			}
-		}
-
-		if (status == WorkflowConstants.STATUS_EXPIRED) {
-			cpAttachmentFileEntry.setExpirationDate(now);
-		}
-
-		cpAttachmentFileEntry.setStatus(status);
-		cpAttachmentFileEntry.setStatusByUserId(user.getUserId());
-		cpAttachmentFileEntry.setStatusByUserName(user.getFullName());
-		cpAttachmentFileEntry.setStatusDate(modifiedDate);
-
-		cpAttachmentFileEntry = cpAttachmentFileEntryPersistence.update(
-			cpAttachmentFileEntry);
-
-		reindex(
-			cpAttachmentFileEntry.getClassNameId(),
-			cpAttachmentFileEntry.getClassPK());
-
-		return cpAttachmentFileEntry;
+		return _checkCPAttachmentFileEntryHelper.updateStatus(
+			userId, cpAttachmentFileEntryId, status, serviceContext,
+			workflowContext);
 	}
 
 	protected void checkCPAttachmentFileEntriesByDisplayDate()
@@ -785,7 +708,7 @@ public class CPAttachmentFileEntryLocalServiceImpl
 			for (CPAttachmentFileEntry cpAttachmentFileEntry :
 					cpAttachmentFileEntries) {
 
-				long userId = PortalUtil.getValidUserId(
+				long userId = _portal.getValidUserId(
 					cpAttachmentFileEntry.getCompanyId(),
 					cpAttachmentFileEntry.getUserId());
 
@@ -803,21 +726,6 @@ public class CPAttachmentFileEntryLocalServiceImpl
 		}
 	}
 
-	protected void reindex(long classNameId, long classPK)
-		throws PortalException {
-
-		ClassName className = classNameLocalService.getClassName(classNameId);
-
-		String classNameValue = className.getValue();
-
-		if (classNameValue.equals(CPDefinition.class.getName())) {
-			Indexer<CPDefinition> indexer =
-				IndexerRegistryUtil.nullSafeGetIndexer(CPDefinition.class);
-
-			indexer.reindex(CPDefinition.class.getName(), classPK);
-		}
-	}
-
 	protected CPAttachmentFileEntry startWorkflowInstance(
 			long userId, CPAttachmentFileEntry cpAttachmentFileEntry,
 			ServiceContext serviceContext)
@@ -831,6 +739,42 @@ public class CPAttachmentFileEntryLocalServiceImpl
 			CPAttachmentFileEntry.class.getName(),
 			cpAttachmentFileEntry.getCPAttachmentFileEntryId(),
 			cpAttachmentFileEntry, serviceContext, workflowContext);
+	}
+
+	private CPAttachmentFileEntry
+			_copyCPDefinitionAndPrepareCPAttachmentFileEntry(
+				CPAttachmentFileEntry cpAttachmentFileEntry)
+		throws PortalException {
+
+		long cpDefinitionClassNameId = _classNameLocalService.getClassNameId(
+			CPDefinition.class);
+
+		if ((cpAttachmentFileEntry.getClassNameId() ==
+				cpDefinitionClassNameId) &&
+			_cpDefinitionLocalService.isVersionable(
+				cpAttachmentFileEntry.getClassPK())) {
+
+			CPDefinition newCPDefinition =
+				_cpDefinitionLocalService.copyCPDefinition(
+					cpAttachmentFileEntry.getClassPK());
+
+			if (cpAttachmentFileEntry.isCDNEnabled()) {
+				cpAttachmentFileEntry =
+					cpAttachmentFileEntryPersistence.findByC_C_C_First(
+						cpDefinitionClassNameId,
+						newCPDefinition.getCPDefinitionId(),
+						cpAttachmentFileEntry.getCDNURL(), null);
+			}
+			else {
+				cpAttachmentFileEntry =
+					cpAttachmentFileEntryPersistence.findByC_C_F_First(
+						cpDefinitionClassNameId,
+						newCPDefinition.getCPDefinitionId(),
+						cpAttachmentFileEntry.getFileEntryId(), null);
+			}
+		}
+
+		return cpAttachmentFileEntry;
 	}
 
 	private long _getFileEntryId(
@@ -863,10 +807,8 @@ public class CPAttachmentFileEntryLocalServiceImpl
 	}
 
 	private GroupByStep _getGroupByStep(
-			JoinStep joinStep, long classNameId, long classPK, String keywords,
-			int type, int status,
-			Expression<String> keywordsPredicateExpression)
-		throws PortalException {
+		JoinStep joinStep, long classNameId, long classPK, String keywords,
+		int type, int status, Expression<String> keywordsPredicateExpression) {
 
 		return joinStep.where(
 			CPAttachmentFileEntryTable.INSTANCE.classNameId.eq(
@@ -967,22 +909,38 @@ public class CPAttachmentFileEntryLocalServiceImpl
 	private static final Log _log = LogFactoryUtil.getLog(
 		CPAttachmentFileEntryLocalServiceImpl.class);
 
-	@ServiceReference(type = CustomSQL.class)
+	@Reference
+	private CheckCPAttachmentFileEntryHelper _checkCPAttachmentFileEntryHelper;
+
+	@Reference
+	private ClassNameLocalService _classNameLocalService;
+
+	@Reference
+	private CPDefinitionIndexHelper _cpDefinitionIndexHelper;
+
+	@Reference
+	private CPDefinitionLocalService _cpDefinitionLocalService;
+
+	@Reference
 	private CustomSQL _customSQL;
 
-	@ServiceReference(type = DLAppLocalService.class)
+	@Reference
+	private DeleteCPAttachmentFileEntryHelper
+		_deleteCPAttachmentFileEntryHelper;
+
+	@Reference
 	private DLAppLocalService _dlAppLocalService;
 
-	@ServiceReference(type = ExpandoRowLocalService.class)
-	private ExpandoRowLocalService _expandoRowLocalService;
-
-	@ServiceReference(type = JSONFactory.class)
+	@Reference
 	private JSONFactory _jsonFactory;
 
-	@ServiceReference(type = JsonHelper.class)
+	@Reference
 	private JsonHelper _jsonHelper;
 
-	@ServiceReference(type = Portal.class)
+	@Reference
 	private Portal _portal;
+
+	@Reference
+	private UserLocalService _userLocalService;
 
 }

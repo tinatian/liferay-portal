@@ -111,6 +111,17 @@ public class CPDefinitionOptionRelLocalServiceWrapper
 			cpDefinitionId, cpOptionId, serviceContext);
 	}
 
+	@Override
+	public CPDefinitionOptionRel
+			copyCPDefinitionAndPrepareCPDefinitionOptionRel(
+				CPDefinitionOptionRel cpDefinitionOptionRel)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _cpDefinitionOptionRelLocalService.
+			copyCPDefinitionAndPrepareCPDefinitionOptionRel(
+				cpDefinitionOptionRel);
+	}
+
 	/**
 	 * Creates a new cp definition option rel with the primary key. Does not add the cp definition option rel to the database.
 	 *

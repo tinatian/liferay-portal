@@ -662,14 +662,6 @@ public class CPDefinitionLocalServiceUtil {
 			cProductId, status, start, end);
 	}
 
-	public static com.liferay.commerce.product.model.CPAttachmentFileEntry
-			getDefaultImageCPAttachmentFileEntry(long cpDefinitionId)
-		throws PortalException {
-
-		return getService().getDefaultImageCPAttachmentFileEntry(
-			cpDefinitionId);
-	}
-
 	public static com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery
 		getExportActionableDynamicQuery(
 			com.liferay.exportimport.kernel.lar.PortletDataContext
@@ -721,14 +713,8 @@ public class CPDefinitionLocalServiceUtil {
 		return getService().getUrlTitleMap(cpDefinitionId);
 	}
 
-	public static String getUrlTitleMapAsXML(long cpDefinitionId)
-		throws PortalException {
-
+	public static String getUrlTitleMapAsXML(long cpDefinitionId) {
 		return getService().getUrlTitleMapAsXML(cpDefinitionId);
-	}
-
-	public static boolean hasChildCPDefinitions(long cpDefinitionId) {
-		return getService().hasChildCPDefinitions(cpDefinitionId);
 	}
 
 	public static boolean isPublishedCPDefinition(CPDefinition cpDefinition) {
@@ -758,6 +744,14 @@ public class CPDefinitionLocalServiceUtil {
 		throws PortalException {
 
 		getService().maintainVersionThreshold(cProductId);
+	}
+
+	public static void processCPInstanceAndCPDefinition(
+			com.liferay.commerce.product.model.CPDefinitionOptionRel
+				cpDefinitionOptionRel)
+		throws PortalException {
+
+		getService().processCPInstanceAndCPDefinition(cpDefinitionOptionRel);
 	}
 
 	public static com.liferay.portal.kernel.search.BaseModelSearchResult

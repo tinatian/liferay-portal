@@ -78,6 +78,16 @@ public class CPDefinitionSpecificationOptionValueLocalServiceUtil {
 			valueMap, priority, serviceContext);
 	}
 
+	public static CPDefinitionSpecificationOptionValue
+		copyCPDefinitionAndPrepareCPDefinitionSpecificationOptionValue(
+			CPDefinitionSpecificationOptionValue
+				cpDefinitionSpecificationOptionValue) {
+
+		return getService().
+			copyCPDefinitionAndPrepareCPDefinitionSpecificationOptionValue(
+				cpDefinitionSpecificationOptionValue);
+	}
+
 	/**
 	 * Creates a new cp definition specification option value with the primary key. Does not add the cp definition specification option value to the database.
 	 *

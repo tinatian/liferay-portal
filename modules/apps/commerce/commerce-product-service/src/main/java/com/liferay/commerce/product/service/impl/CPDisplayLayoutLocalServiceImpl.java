@@ -18,7 +18,9 @@ import com.liferay.commerce.product.exception.CPDisplayLayoutEntryException;
 import com.liferay.commerce.product.exception.CPDisplayLayoutLayoutUuidException;
 import com.liferay.commerce.product.model.CPDefinition;
 import com.liferay.commerce.product.model.CPDisplayLayout;
+import com.liferay.commerce.product.service.CPDefinitionLocalService;
 import com.liferay.commerce.product.service.base.CPDisplayLayoutLocalServiceBaseImpl;
+import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.User;
@@ -34,6 +36,8 @@ import com.liferay.portal.kernel.search.QueryConfig;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.search.Sort;
+import com.liferay.portal.kernel.service.ClassNameLocalService;
+import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.LinkedHashMapBuilder;
@@ -44,10 +48,18 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+
 /**
  * @author Marco Leo
  * @author Alessio Antonio Rendina
  */
+@Component(
+	enabled = false,
+	property = "model.class.name=com.liferay.commerce.product.model.CPDisplayLayout",
+	service = AopService.class
+)
 public class CPDisplayLayoutLocalServiceImpl
 	extends CPDisplayLayoutLocalServiceBaseImpl {
 
@@ -60,18 +72,18 @@ public class CPDisplayLayoutLocalServiceImpl
 
 		validate(classPK, layoutUuid);
 
-		long classNameId = classNameLocalService.getClassNameId(clazz);
+		long classNameId = _classNameLocalService.getClassNameId(clazz);
 
 		CPDisplayLayout oldCPDisplayLayout =
 			cpDisplayLayoutPersistence.fetchByG_C_C(
 				groupId, classNameId, classPK);
 
 		if ((clazz == CPDefinition.class) &&
-			cpDefinitionLocalService.isVersionable(classPK)) {
+			_cpDefinitionLocalService.isVersionable(classPK)) {
 
 			try {
 				CPDefinition newCPDefinition =
-					cpDefinitionLocalService.copyCPDefinition(classPK);
+					_cpDefinitionLocalService.copyCPDefinition(classPK);
 
 				classPK = newCPDefinition.getCPDefinitionId();
 			}
@@ -96,7 +108,7 @@ public class CPDisplayLayoutLocalServiceImpl
 
 		cpDisplayLayout.setGroupId(groupId);
 
-		User user = userLocalService.getUser(userId);
+		User user = _userLocalService.getUser(userId);
 
 		cpDisplayLayout.setCompanyId(user.getCompanyId());
 
@@ -112,9 +124,9 @@ public class CPDisplayLayoutLocalServiceImpl
 	public CPDisplayLayout deleteCPDisplayLayout(Class<?> clazz, long classPK) {
 		try {
 			if ((clazz == CPDefinition.class) &&
-				cpDefinitionLocalService.isVersionable(classPK)) {
+				_cpDefinitionLocalService.isVersionable(classPK)) {
 
-				cpDefinitionLocalService.copyCPDefinition(classPK);
+				_cpDefinitionLocalService.copyCPDefinition(classPK);
 			}
 		}
 		catch (PortalException portalException) {
@@ -130,7 +142,7 @@ public class CPDisplayLayoutLocalServiceImpl
 	public void deleteCPDisplayLayouts(Class<?> clazz, long classPK) {
 		List<CPDisplayLayout> cpDisplayLayouts =
 			cpDisplayLayoutPersistence.findByC_C(
-				classNameLocalService.getClassNameId(clazz), classPK);
+				_classNameLocalService.getClassNameId(clazz), classPK);
 
 		for (CPDisplayLayout cpDisplayLayout : cpDisplayLayouts) {
 			cpDisplayLayoutLocalService.deleteCPDisplayLayout(cpDisplayLayout);
@@ -142,7 +154,7 @@ public class CPDisplayLayoutLocalServiceImpl
 		long groupId, Class<?> clazz, long classPK) {
 
 		return cpDisplayLayoutPersistence.fetchByG_C_C(
-			groupId, classNameLocalService.getClassNameId(clazz), classPK);
+			groupId, _classNameLocalService.getClassNameId(clazz), classPK);
 	}
 
 	@Override
@@ -252,7 +264,7 @@ public class CPDisplayLayoutLocalServiceImpl
 
 				indexer.delete(companyId, document.getUID());
 			}
-			else if (cpDisplayLayout != null) {
+			else {
 				cpDisplayLayouts.add(cpDisplayLayout);
 			}
 		}
@@ -297,5 +309,14 @@ public class CPDisplayLayoutLocalServiceImpl
 	private static final String[] _SELECTED_FIELD_NAMES = {
 		Field.ENTRY_CLASS_PK, Field.COMPANY_ID, Field.GROUP_ID, Field.UID
 	};
+
+	@Reference
+	private ClassNameLocalService _classNameLocalService;
+
+	@Reference
+	private CPDefinitionLocalService _cpDefinitionLocalService;
+
+	@Reference
+	private UserLocalService _userLocalService;
 
 }

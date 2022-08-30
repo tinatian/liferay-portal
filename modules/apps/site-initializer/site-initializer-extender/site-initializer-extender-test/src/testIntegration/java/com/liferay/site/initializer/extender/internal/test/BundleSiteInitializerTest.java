@@ -38,6 +38,7 @@ import com.liferay.commerce.product.model.CPOption;
 import com.liferay.commerce.product.model.CPSpecificationOption;
 import com.liferay.commerce.product.model.CommerceCatalog;
 import com.liferay.commerce.product.model.CommerceChannel;
+import com.liferay.commerce.product.service.CPAttachmentFileEntryLocalService;
 import com.liferay.commerce.product.service.CPDefinitionLocalService;
 import com.liferay.commerce.product.service.CPInstanceLocalService;
 import com.liferay.commerce.product.service.CPOptionLocalService;
@@ -586,8 +587,9 @@ public class BundleSiteInitializerTest {
 		Assert.assertEquals("Test Commerce Product", cpDefinition.getName());
 
 		CPAttachmentFileEntry cpAttachmentFileEntry =
-			_cpDefinitionLocalService.getDefaultImageCPAttachmentFileEntry(
-				cpDefinition.getCPDefinitionId());
+			_cpAttachmentFileEntryLocalService.
+				getDefaultImageCPAttachmentFileEntry(
+					cpDefinition.getCPDefinitionId());
 
 		Assert.assertNotNull(cpAttachmentFileEntry);
 
@@ -1730,6 +1732,10 @@ public class BundleSiteInitializerTest {
 	@Inject
 	private CommerceNotificationTemplateLocalService
 		_commerceNotificationTemplateLocalService;
+
+	@Inject
+	private CPAttachmentFileEntryLocalService
+		_cpAttachmentFileEntryLocalService;
 
 	@Inject
 	private CPDefinitionLocalService _cpDefinitionLocalService;

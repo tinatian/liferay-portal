@@ -510,12 +510,6 @@ public class CPDefinitionOptionValueRelLocalServiceUtil {
 			cpDefinitionOptionValueRelId);
 	}
 
-	public static void resetCPInstanceCPDefinitionOptionValueRels(
-		String cpInstanceUuid) {
-
-		getService().resetCPInstanceCPDefinitionOptionValueRels(cpInstanceUuid);
-	}
-
 	public static com.liferay.portal.kernel.search.Hits search(
 		com.liferay.portal.kernel.search.SearchContext searchContext) {
 

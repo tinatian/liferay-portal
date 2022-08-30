@@ -250,8 +250,7 @@ public class CPMeasurementUnitLocalServiceUtil {
 	}
 
 	public static CPMeasurementUnit fetchCPMeasurementUnitByKey(
-			long companyId, String key)
-		throws PortalException {
+		long companyId, String key) {
 
 		return getService().fetchCPMeasurementUnitByKey(companyId, key);
 	}
@@ -398,16 +397,14 @@ public class CPMeasurementUnitLocalServiceUtil {
 	}
 
 	public static List<CPMeasurementUnit> getCPMeasurementUnitsByType(
-			long companyId, int type)
-		throws PortalException {
+		long companyId, int type) {
 
 		return getService().getCPMeasurementUnitsByType(companyId, type);
 	}
 
 	public static List<CPMeasurementUnit> getCPMeasurementUnitsByType(
-			long companyId, int type, int start, int end,
-			OrderByComparator<CPMeasurementUnit> orderByComparator)
-		throws PortalException {
+		long companyId, int type, int start, int end,
+		OrderByComparator<CPMeasurementUnit> orderByComparator) {
 
 		return getService().getCPMeasurementUnitsByType(
 			companyId, type, start, end, orderByComparator);

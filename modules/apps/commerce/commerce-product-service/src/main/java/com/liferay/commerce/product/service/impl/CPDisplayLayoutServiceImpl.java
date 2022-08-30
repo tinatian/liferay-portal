@@ -19,23 +19,35 @@ import com.liferay.commerce.product.exception.NoSuchCPDefinitionException;
 import com.liferay.commerce.product.model.CPDefinition;
 import com.liferay.commerce.product.model.CPDisplayLayout;
 import com.liferay.commerce.product.model.CommerceCatalog;
+import com.liferay.commerce.product.service.CPDefinitionLocalService;
+import com.liferay.commerce.product.service.CommerceCatalogLocalService;
 import com.liferay.commerce.product.service.base.CPDisplayLayoutServiceBaseImpl;
+import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.search.BaseModelSearchResult;
 import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
-import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermissionFactory;
 import com.liferay.portal.kernel.service.LayoutLocalService;
-import com.liferay.portal.kernel.service.permission.GroupPermissionUtil;
+import com.liferay.portal.kernel.service.permission.GroupPermission;
 import com.liferay.portal.kernel.service.permission.LayoutPermissionUtil;
-import com.liferay.portal.spring.extender.service.ServiceReference;
 import com.liferay.portlet.asset.service.permission.AssetCategoryPermission;
+
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Alessio Antonio Rendina
  */
+@Component(
+	enabled = false,
+	property = {
+		"json.web.service.context.name=commerce",
+		"json.web.service.context.path=CPDisplayLayout"
+	},
+	service = AopService.class
+)
 public class CPDisplayLayoutServiceImpl extends CPDisplayLayoutServiceBaseImpl {
 
 	@Override
@@ -43,7 +55,7 @@ public class CPDisplayLayoutServiceImpl extends CPDisplayLayoutServiceBaseImpl {
 			long groupId, Class<?> clazz, long classPK, String layoutUuid)
 		throws PortalException {
 
-		GroupPermissionUtil.check(
+		_groupPermission.check(
 			getPermissionChecker(), groupId, ActionKeys.ADD_LAYOUT);
 
 		_checkCPDisplayLayout(clazz.getName(), classPK, ActionKeys.VIEW);
@@ -59,7 +71,7 @@ public class CPDisplayLayoutServiceImpl extends CPDisplayLayoutServiceBaseImpl {
 		CPDisplayLayout cpDisplayLayout =
 			cpDisplayLayoutLocalService.getCPDisplayLayout(cpDisplayLayoutId);
 
-		GroupPermissionUtil.check(
+		_groupPermission.check(
 			getPermissionChecker(), cpDisplayLayout.getGroupId(),
 			ActionKeys.ADD_LAYOUT);
 
@@ -96,7 +108,7 @@ public class CPDisplayLayoutServiceImpl extends CPDisplayLayoutServiceBaseImpl {
 			int start, int end, Sort sort)
 		throws PortalException {
 
-		GroupPermissionUtil.check(
+		_groupPermission.check(
 			getPermissionChecker(), groupId, ActionKeys.UPDATE);
 
 		return cpDisplayLayoutLocalService.searchCPDisplayLayout(
@@ -128,14 +140,14 @@ public class CPDisplayLayoutServiceImpl extends CPDisplayLayoutServiceBaseImpl {
 
 		if (className.equals(CPDefinition.class.getName())) {
 			CPDefinition cpDefinition =
-				cpDefinitionLocalService.fetchCPDefinition(classPK);
+				_cpDefinitionLocalService.fetchCPDefinition(classPK);
 
 			if (cpDefinition == null) {
 				throw new NoSuchCPDefinitionException();
 			}
 
 			CommerceCatalog commerceCatalog =
-				commerceCatalogLocalService.fetchCommerceCatalogByGroupId(
+				_commerceCatalogLocalService.fetchCommerceCatalogByGroupId(
 					cpDefinition.getGroupId());
 
 			_commerceCatalogModelResourcePermission.check(
@@ -161,14 +173,22 @@ public class CPDisplayLayoutServiceImpl extends CPDisplayLayoutServiceBaseImpl {
 			true);
 	}
 
-	private static volatile ModelResourcePermission<CommerceCatalog>
-		_commerceCatalogModelResourcePermission =
-			ModelResourcePermissionFactory.getInstance(
-				CPDisplayLayoutServiceImpl.class,
-				"_commerceCatalogModelResourcePermission",
-				CommerceCatalog.class);
+	@Reference
+	private CommerceCatalogLocalService _commerceCatalogLocalService;
 
-	@ServiceReference(type = LayoutLocalService.class)
+	@Reference(
+		target = "(model.class.name=com.liferay.commerce.product.model.CommerceCatalog)"
+	)
+	private ModelResourcePermission<CommerceCatalog>
+		_commerceCatalogModelResourcePermission;
+
+	@Reference
+	private CPDefinitionLocalService _cpDefinitionLocalService;
+
+	@Reference
+	private GroupPermission _groupPermission;
+
+	@Reference
 	private LayoutLocalService _layoutLocalService;
 
 }

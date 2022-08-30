@@ -20,8 +20,10 @@ import com.liferay.commerce.product.constants.CPField;
 import com.liferay.commerce.product.exception.CPOptionKeyException;
 import com.liferay.commerce.product.exception.CPOptionSKUContributorException;
 import com.liferay.commerce.product.model.CPOption;
+import com.liferay.commerce.product.service.CPOptionValueLocalService;
 import com.liferay.commerce.product.service.base.CPOptionLocalServiceBaseImpl;
 import com.liferay.expando.kernel.service.ExpandoRowLocalService;
+import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.SystemEventConstants;
@@ -40,7 +42,9 @@ import com.liferay.portal.kernel.search.QueryConfig;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.search.Sort;
+import com.liferay.portal.kernel.service.ResourceLocalService;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.settings.SystemSettingsLocator;
 import com.liferay.portal.kernel.systemevent.SystemEvent;
 import com.liferay.portal.kernel.util.ArrayUtil;
@@ -50,7 +54,6 @@ import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.LinkedHashMapBuilder;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import java.io.Serializable;
 
@@ -59,10 +62,18 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+
 /**
  * @author Marco Leo
  * @author Igor Beslic
  */
+@Component(
+	enabled = false,
+	property = "model.class.name=com.liferay.commerce.product.model.CPOption",
+	service = AopService.class
+)
 public class CPOptionLocalServiceImpl extends CPOptionLocalServiceBaseImpl {
 
 	@Indexable(type = IndexableType.REINDEX)
@@ -76,7 +87,7 @@ public class CPOptionLocalServiceImpl extends CPOptionLocalServiceBaseImpl {
 
 		validateDDMFormFieldTypeName(ddmFormFieldTypeName, skuContributor);
 
-		User user = userLocalService.getUser(userId);
+		User user = _userLocalService.getUser(userId);
 
 		if (Validator.isBlank(externalReferenceCode)) {
 			externalReferenceCode = null;
@@ -107,7 +118,7 @@ public class CPOptionLocalServiceImpl extends CPOptionLocalServiceBaseImpl {
 
 		// Resources
 
-		resourceLocalService.addModelResources(cpOption, serviceContext);
+		_resourceLocalService.addModelResources(cpOption, serviceContext);
 
 		return cpOption;
 	}
@@ -152,12 +163,12 @@ public class CPOptionLocalServiceImpl extends CPOptionLocalServiceBaseImpl {
 
 		// Commerce product option values
 
-		cpOptionValueLocalService.deleteCPOptionValues(
+		_cpOptionValueLocalService.deleteCPOptionValues(
 			cpOption.getCPOptionId());
 
 		// Resources
 
-		resourceLocalService.deleteResource(
+		_resourceLocalService.deleteResource(
 			cpOption, ResourceConstants.SCOPE_INDIVIDUAL);
 
 		// Expando
@@ -421,13 +432,22 @@ public class CPOptionLocalServiceImpl extends CPOptionLocalServiceBaseImpl {
 		Field.ENTRY_CLASS_PK, Field.COMPANY_ID, Field.UID
 	};
 
-	@ServiceReference(type = ConfigurationProvider.class)
+	@Reference
 	private ConfigurationProvider _configurationProvider;
 
-	@ServiceReference(type = ExpandoRowLocalService.class)
+	@Reference
+	private CPOptionValueLocalService _cpOptionValueLocalService;
+
+	@Reference
 	private ExpandoRowLocalService _expandoRowLocalService;
 
-	@ServiceReference(type = FriendlyURLNormalizer.class)
+	@Reference
 	private FriendlyURLNormalizer _friendlyURLNormalizer;
+
+	@Reference
+	private ResourceLocalService _resourceLocalService;
+
+	@Reference
+	private UserLocalService _userLocalService;
 
 }

@@ -119,6 +119,11 @@ public interface CPDefinitionOptionRelLocalService
 			long cpDefinitionId, long cpOptionId, ServiceContext serviceContext)
 		throws PortalException;
 
+	public CPDefinitionOptionRel
+			copyCPDefinitionAndPrepareCPDefinitionOptionRel(
+				CPDefinitionOptionRel cpDefinitionOptionRel)
+		throws PortalException;
+
 	/**
 	 * Creates a new cp definition option rel with the primary key. Does not add the cp definition option rel to the database.
 	 *

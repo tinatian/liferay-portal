@@ -15,12 +15,18 @@
 package com.liferay.commerce.product.service.impl;
 
 import com.liferay.commerce.product.exception.NoSuchCPDefinitionException;
+import com.liferay.commerce.product.internal.helper.CheckCPInstancesHelper;
 import com.liferay.commerce.product.model.CPDefinition;
 import com.liferay.commerce.product.model.CPInstance;
 import com.liferay.commerce.product.model.CProduct;
 import com.liferay.commerce.product.model.CommerceCatalog;
+import com.liferay.commerce.product.service.CPDefinitionLocalService;
+import com.liferay.commerce.product.service.CProductLocalService;
+import com.liferay.commerce.product.service.CommerceCatalogLocalService;
+import com.liferay.commerce.product.service.CommerceCatalogService;
 import com.liferay.commerce.product.service.base.CPInstanceServiceBaseImpl;
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.search.BaseModelSearchResult;
@@ -28,7 +34,6 @@ import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.security.auth.PrincipalException;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
-import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermissionFactory;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.UnicodeProperties;
@@ -40,10 +45,21 @@ import java.util.Map;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+
 /**
  * @author Marco Leo
  * @author Alessio Antonio Rendina
  */
+@Component(
+	enabled = false,
+	property = {
+		"json.web.service.context.name=commerce",
+		"json.web.service.context.path=CPInstance"
+	},
+	service = AopService.class
+)
 public class CPInstanceServiceImpl extends CPInstanceServiceBaseImpl {
 
 	/**
@@ -95,7 +111,7 @@ public class CPInstanceServiceImpl extends CPInstanceServiceBaseImpl {
 			ServiceContext serviceContext)
 		throws PortalException {
 
-		CPDefinition cpDefinition = cpDefinitionLocalService.getCPDefinition(
+		CPDefinition cpDefinition = _cpDefinitionLocalService.getCPDefinition(
 			cpDefinitionId);
 
 		return cpInstanceService.addCPInstance(
@@ -143,6 +159,15 @@ public class CPInstanceServiceImpl extends CPInstanceServiceBaseImpl {
 
 		_checkCommerceCatalogByCPDefinitionId(
 			cpDefinitionId, ActionKeys.UPDATE);
+
+		_checkCPInstancesHelper.validateSku(cpDefinitionId, 0, sku);
+
+		if (_cpDefinitionLocalService.isVersionable(cpDefinitionId)) {
+			CPDefinition newCPDefinition =
+				_cpDefinitionLocalService.copyCPDefinition(cpDefinitionId);
+
+			cpDefinitionId = newCPDefinition.getCPDefinitionId();
+		}
 
 		return cpInstanceLocalService.addCPInstance(
 			externalReferenceCode, cpDefinitionId, groupId, sku, gtin,
@@ -212,7 +237,9 @@ public class CPInstanceServiceImpl extends CPInstanceServiceBaseImpl {
 		_checkCommerceCatalogByCPDefinitionId(
 			cpInstance.getCPDefinitionId(), ActionKeys.UPDATE);
 
-		cpInstanceLocalService.deleteCPInstance(cpInstance);
+		cpInstanceLocalService.deleteCPInstance(
+			cpInstanceLocalService.copyCPDefinitionAndPrepareCPInstance(
+				cpInstance));
 	}
 
 	@Override
@@ -252,7 +279,7 @@ public class CPInstanceServiceImpl extends CPInstanceServiceBaseImpl {
 			long cProductId, String cpInstanceUuid)
 		throws PortalException {
 
-		CProduct cProduct = cProductLocalService.fetchCProduct(cProductId);
+		CProduct cProduct = _cProductLocalService.fetchCProduct(cProductId);
 
 		if (cProduct == null) {
 			return null;
@@ -383,7 +410,7 @@ public class CPInstanceServiceImpl extends CPInstanceServiceBaseImpl {
 		throws PortalException {
 
 		List<CommerceCatalog> commerceCatalogs =
-			commerceCatalogService.getCommerceCatalogs(
+			_commerceCatalogService.getCommerceCatalogs(
 				companyId, QueryUtil.ALL_POS, QueryUtil.ALL_POS);
 
 		Stream<CommerceCatalog> stream = commerceCatalogs.stream();
@@ -578,7 +605,7 @@ public class CPInstanceServiceImpl extends CPInstanceServiceBaseImpl {
 		throws PortalException {
 
 		CommerceCatalog commerceCatalog =
-			commerceCatalogLocalService.fetchCommerceCatalogByGroupId(groupId);
+			_commerceCatalogLocalService.fetchCommerceCatalogByGroupId(groupId);
 
 		if (commerceCatalog == null) {
 			throw new PrincipalException();
@@ -592,7 +619,7 @@ public class CPInstanceServiceImpl extends CPInstanceServiceBaseImpl {
 			long cpDefinitionId, String actionId)
 		throws PortalException {
 
-		CPDefinition cpDefinition = cpDefinitionLocalService.fetchCPDefinition(
+		CPDefinition cpDefinition = _cpDefinitionLocalService.fetchCPDefinition(
 			cpDefinitionId);
 
 		if (cpDefinition == null) {
@@ -600,7 +627,7 @@ public class CPInstanceServiceImpl extends CPInstanceServiceBaseImpl {
 		}
 
 		CommerceCatalog commerceCatalog =
-			commerceCatalogLocalService.fetchCommerceCatalogByGroupId(
+			_commerceCatalogLocalService.fetchCommerceCatalogByGroupId(
 				cpDefinition.getGroupId());
 
 		if (commerceCatalog == null) {
@@ -611,11 +638,25 @@ public class CPInstanceServiceImpl extends CPInstanceServiceBaseImpl {
 			getPermissionChecker(), commerceCatalog, actionId);
 	}
 
-	private static volatile ModelResourcePermission<CommerceCatalog>
-		_commerceCatalogModelResourcePermission =
-			ModelResourcePermissionFactory.getInstance(
-				CPInstanceServiceImpl.class,
-				"_commerceCatalogModelResourcePermission",
-				CommerceCatalog.class);
+	@Reference
+	private CheckCPInstancesHelper _checkCPInstancesHelper;
+
+	@Reference
+	private CommerceCatalogLocalService _commerceCatalogLocalService;
+
+	@Reference(
+		target = "(model.class.name=com.liferay.commerce.product.model.CommerceCatalog)"
+	)
+	private ModelResourcePermission<CommerceCatalog>
+		_commerceCatalogModelResourcePermission;
+
+	@Reference
+	private CommerceCatalogService _commerceCatalogService;
+
+	@Reference
+	private CPDefinitionLocalService _cpDefinitionLocalService;
+
+	@Reference
+	private CProductLocalService _cProductLocalService;
 
 }

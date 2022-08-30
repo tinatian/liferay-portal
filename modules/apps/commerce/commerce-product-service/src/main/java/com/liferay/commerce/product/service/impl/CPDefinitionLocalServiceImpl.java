@@ -23,18 +23,26 @@ import com.liferay.commerce.account.service.CommerceAccountGroupRelLocalService;
 import com.liferay.commerce.price.list.constants.CommercePriceListConstants;
 import com.liferay.commerce.price.list.model.CommercePriceEntry;
 import com.liferay.commerce.price.list.model.CommercePriceList;
-import com.liferay.commerce.price.list.service.CommercePriceEntryLocalServiceUtil;
-import com.liferay.commerce.price.list.service.CommercePriceListLocalServiceUtil;
+import com.liferay.commerce.price.list.service.CommercePriceEntryLocalService;
+import com.liferay.commerce.price.list.service.CommercePriceListLocalService;
 import com.liferay.commerce.product.configuration.CProductVersionConfiguration;
-import com.liferay.commerce.product.constants.CPAttachmentFileEntryConstants;
 import com.liferay.commerce.product.constants.CPField;
 import com.liferay.commerce.product.exception.CPDefinitionDisplayDateException;
 import com.liferay.commerce.product.exception.CPDefinitionExpirationDateException;
-import com.liferay.commerce.product.exception.CPDefinitionIgnoreSKUCombinationsException;
 import com.liferay.commerce.product.exception.CPDefinitionMetaDescriptionException;
 import com.liferay.commerce.product.exception.CPDefinitionMetaKeywordsException;
 import com.liferay.commerce.product.exception.CPDefinitionMetaTitleException;
 import com.liferay.commerce.product.exception.CPDefinitionProductTypeNameException;
+import com.liferay.commerce.product.internal.helper.AddCPInstanceHelper;
+import com.liferay.commerce.product.internal.helper.CPDefinitionIndexHelper;
+import com.liferay.commerce.product.internal.helper.CheckCPAttachmentFileEntryHelper;
+import com.liferay.commerce.product.internal.helper.CheckCPInstancesHelper;
+import com.liferay.commerce.product.internal.helper.DeleteCPAttachmentFileEntryHelper;
+import com.liferay.commerce.product.internal.helper.DeleteCPDefinitionLinkHelper;
+import com.liferay.commerce.product.internal.helper.DeleteCPDefinitionOptionRelHelper;
+import com.liferay.commerce.product.internal.helper.DeleteCPDefinitionSpecificationOptionValueHelper;
+import com.liferay.commerce.product.internal.helper.DeleteCPInstanceHelper;
+import com.liferay.commerce.product.internal.helper.InactiveCPInstanceHelper;
 import com.liferay.commerce.product.model.CPAttachmentFileEntry;
 import com.liferay.commerce.product.model.CPDefinition;
 import com.liferay.commerce.product.model.CPDefinitionLink;
@@ -49,7 +57,19 @@ import com.liferay.commerce.product.model.CProduct;
 import com.liferay.commerce.product.model.CommerceChannelRel;
 import com.liferay.commerce.product.model.impl.CPDefinitionImpl;
 import com.liferay.commerce.product.model.impl.CPDefinitionModelImpl;
+import com.liferay.commerce.product.service.CPInstanceOptionValueRelLocalService;
+import com.liferay.commerce.product.service.CProductLocalService;
+import com.liferay.commerce.product.service.CommerceChannelRelLocalService;
 import com.liferay.commerce.product.service.base.CPDefinitionLocalServiceBaseImpl;
+import com.liferay.commerce.product.service.persistence.CPAttachmentFileEntryPersistence;
+import com.liferay.commerce.product.service.persistence.CPDefinitionLinkPersistence;
+import com.liferay.commerce.product.service.persistence.CPDefinitionOptionRelPersistence;
+import com.liferay.commerce.product.service.persistence.CPDefinitionOptionValueRelPersistence;
+import com.liferay.commerce.product.service.persistence.CPDefinitionSpecificationOptionValuePersistence;
+import com.liferay.commerce.product.service.persistence.CPDisplayLayoutPersistence;
+import com.liferay.commerce.product.service.persistence.CPInstanceOptionValueRelPersistence;
+import com.liferay.commerce.product.service.persistence.CPInstancePersistence;
+import com.liferay.commerce.product.service.persistence.CProductPersistence;
 import com.liferay.commerce.product.type.CPType;
 import com.liferay.commerce.product.type.CPTypeServicesTracker;
 import com.liferay.commerce.product.type.virtual.constants.VirtualCPTypeConstants;
@@ -64,10 +84,12 @@ import com.liferay.friendly.url.model.FriendlyURLEntryLocalization;
 import com.liferay.friendly.url.service.FriendlyURLEntryLocalService;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.dao.orm.QueryDefinition;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
@@ -88,9 +110,12 @@ import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.search.facet.Facet;
 import com.liferay.portal.kernel.search.facet.MultiValueFacet;
+import com.liferay.portal.kernel.security.auth.PrincipalThreadLocal;
+import com.liferay.portal.kernel.service.ClassNameLocalService;
 import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
+import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalService;
 import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalService;
 import com.liferay.portal.kernel.settings.SystemSettingsLocator;
@@ -106,14 +131,13 @@ import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.OrderByComparatorFactoryUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.UnicodeProperties;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
+import com.liferay.portal.kernel.uuid.PortalUUID;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
-import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import java.io.Serializable;
 
@@ -135,10 +159,18 @@ import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+
 /**
  * @author Marco Leo
  * @author Alessio Antonio Rendina
  */
+@Component(
+	enabled = false,
+	property = "model.class.name=com.liferay.commerce.product.model.CPDefinition",
+	service = AopService.class
+)
 public class CPDefinitionLocalServiceImpl
 	extends CPDefinitionLocalServiceBaseImpl {
 
@@ -174,18 +206,18 @@ public class CPDefinitionLocalServiceImpl
 
 		// Commerce product definition
 
-		User user = userLocalService.getUser(userId);
+		User user = _userLocalService.getUser(userId);
 
 		Date expirationDate = null;
 		Date date = new Date();
 
-		Date displayDate = PortalUtil.getDate(
+		Date displayDate = _portal.getDate(
 			displayDateMonth, displayDateDay, displayDateYear, displayDateHour,
 			displayDateMinute, user.getTimeZone(),
 			CPDefinitionDisplayDateException.class);
 
 		if (!neverExpire) {
-			expirationDate = PortalUtil.getDate(
+			expirationDate = _portal.getDate(
 				expirationDateMonth, expirationDateDay, expirationDateYear,
 				expirationDateHour, expirationDateMinute, user.getTimeZone(),
 				CPDefinitionExpirationDateException.class);
@@ -204,7 +236,7 @@ public class CPDefinitionLocalServiceImpl
 		CPDefinition cpDefinition = cpDefinitionPersistence.create(
 			cpDefinitionId);
 
-		CProduct cProduct = cProductLocalService.addCProduct(
+		CProduct cProduct = _cProductLocalService.addCProduct(
 			externalReferenceCode, groupId, userId, new ServiceContext());
 
 		cpDefinition.setGroupId(groupId);
@@ -283,7 +315,15 @@ public class CPDefinitionLocalServiceImpl
 			cpInstanceServiceContext.setScopeGroupId(groupId);
 			cpInstanceServiceContext.setUserId(userId);
 
-			cpInstanceLocalService.addCPInstance(
+			_checkCPInstancesHelper.validateSku(cpDefinitionId, 0, defaultSku);
+
+			if (isVersionable(cpDefinitionId)) {
+				CPDefinition newCPDefinition = copyCPDefinition(cpDefinitionId);
+
+				cpDefinitionId = newCPDefinition.getCPDefinitionId();
+			}
+
+			_addCPInstanceHelper.addCPInstance(
 				externalReferenceCode, cpDefinitionId, groupId, defaultSku,
 				null, null, published, null, cpDefinition.getWidth(),
 				cpDefinition.getHeight(), cpDefinition.getDepth(),
@@ -312,7 +352,7 @@ public class CPDefinitionLocalServiceImpl
 
 		_friendlyURLEntryLocalService.addFriendlyURLEntry(
 			companyGroup.getGroupId(),
-			classNameLocalService.getClassNameId(CProduct.class),
+			_classNameLocalService.getClassNameId(CProduct.class),
 			cProduct.getCProductId(), newURLTitleMap, serviceContext);
 
 		// Asset
@@ -413,9 +453,8 @@ public class CPDefinitionLocalServiceImpl
 			externalReferenceCode = null;
 		}
 		else {
-			CProduct cProduct =
-				cProductLocalService.fetchCProductByReferenceCode(
-					serviceContext.getCompanyId(), externalReferenceCode);
+			CProduct cProduct = _cProductPersistence.fetchByC_ERC(
+				serviceContext.getCompanyId(), externalReferenceCode);
 
 			if (cProduct != null) {
 				CPDefinition cpDefinition =
@@ -531,7 +570,7 @@ public class CPDefinitionLocalServiceImpl
 		ServiceContext serviceContext =
 			ServiceContextThreadLocal.getServiceContext();
 
-		User user = userLocalService.getUser(serviceContext.getUserId());
+		User user = _userLocalService.getUser(serviceContext.getUserId());
 
 		CPDefinition originalCPDefinition =
 			cpDefinitionLocalService.getCPDefinition(cpDefinitionId);
@@ -539,7 +578,7 @@ public class CPDefinitionLocalServiceImpl
 		CPDefinition newCPDefinition =
 			(CPDefinition)originalCPDefinition.clone();
 
-		newCPDefinition.setUuid(PortalUUIDUtil.generate());
+		newCPDefinition.setUuid(_portalUUID.generate());
 
 		long newCPDefinitionId = counterLocalService.increment();
 
@@ -557,7 +596,7 @@ public class CPDefinitionLocalServiceImpl
 			 (status == WorkflowConstants.STATUS_APPROVED))) {
 
 			newCPDefinition.setVersion(
-				cProductLocalService.increment(
+				_cProductLocalService.increment(
 					originalCPDefinition.getCProductId()));
 
 			if (status == WorkflowConstants.STATUS_APPROVED) {
@@ -570,7 +609,7 @@ public class CPDefinitionLocalServiceImpl
 				publishedCPDefinition = cpDefinitionPersistence.update(
 					publishedCPDefinition);
 
-				cProductLocalService.updatePublishedCPDefinitionId(
+				_cProductLocalService.updatePublishedCPDefinitionId(
 					publishedCPDefinition.getCProductId(),
 					newCPDefinition.getCPDefinitionId());
 
@@ -588,7 +627,7 @@ public class CPDefinitionLocalServiceImpl
 		else {
 			CProduct newCProduct = (CProduct)originalCProduct.clone();
 
-			newCProduct.setUuid(PortalUUIDUtil.generate());
+			newCProduct.setUuid(_portalUUID.generate());
 
 			long cProductId = counterLocalService.increment();
 
@@ -601,14 +640,14 @@ public class CPDefinitionLocalServiceImpl
 
 			newCPDefinition.setCProductId(newCProduct.getCProductId());
 
-			cProductPersistence.update(newCProduct);
+			_cProductPersistence.update(newCProduct);
 		}
 
 		newCPDefinition.setStatus(status);
 
 		newCPDefinition = cpDefinitionPersistence.update(newCPDefinition);
 
-		long cpDefinitionClassNameId = classNameLocalService.getClassNameId(
+		long cpDefinitionClassNameId = _classNameLocalService.getClassNameId(
 			CPDefinition.class);
 
 		AssetEntry assetEntry = _assetEntryLocalService.fetchEntry(
@@ -641,7 +680,7 @@ public class CPDefinitionLocalServiceImpl
 					newCPDefinition.getCProductId()) {
 
 				newCPDefinitionLocalization.setName(
-					LanguageUtil.format(
+					_language.format(
 						LocaleUtil.fromLanguageId(
 							newCPDefinitionLocalization.getLanguageId()),
 						"copy-of-x", newCPDefinitionLocalization.getName()));
@@ -652,7 +691,7 @@ public class CPDefinitionLocalServiceImpl
 		}
 
 		List<CPAttachmentFileEntry> cpAttachmentFileEntries =
-			cpAttachmentFileEntryPersistence.findByC_C(
+			_cpAttachmentFileEntryPersistence.findByC_C(
 				cpDefinitionClassNameId, cpDefinitionId);
 
 		for (CPAttachmentFileEntry cpAttachmentFileEntry :
@@ -661,7 +700,7 @@ public class CPDefinitionLocalServiceImpl
 			CPAttachmentFileEntry newCPAttachmentFileEntry =
 				(CPAttachmentFileEntry)cpAttachmentFileEntry.clone();
 
-			newCPAttachmentFileEntry.setUuid(PortalUUIDUtil.generate());
+			newCPAttachmentFileEntry.setUuid(_portalUUID.generate());
 
 			long cpAttachmentFileEntryId = counterLocalService.increment();
 
@@ -672,26 +711,26 @@ public class CPDefinitionLocalServiceImpl
 
 			newCPAttachmentFileEntry.setClassPK(newCPDefinitionId);
 
-			cpAttachmentFileEntryPersistence.update(newCPAttachmentFileEntry);
+			_cpAttachmentFileEntryPersistence.update(newCPAttachmentFileEntry);
 		}
 
 		List<CPDefinitionLink> cpDefinitionLinks =
-			cpDefinitionLinkPersistence.findByCPDefinitionId(cpDefinitionId);
+			_cpDefinitionLinkPersistence.findByCPDefinitionId(cpDefinitionId);
 
 		for (CPDefinitionLink cpDefinitionLink : cpDefinitionLinks) {
 			CPDefinitionLink newCPDefinitionLink =
 				(CPDefinitionLink)cpDefinitionLink.clone();
 
-			newCPDefinitionLink.setUuid(PortalUUIDUtil.generate());
+			newCPDefinitionLink.setUuid(_portalUUID.generate());
 			newCPDefinitionLink.setCPDefinitionLinkId(
 				counterLocalService.increment());
 			newCPDefinitionLink.setCPDefinitionId(newCPDefinitionId);
 
-			cpDefinitionLinkPersistence.update(newCPDefinitionLink);
+			_cpDefinitionLinkPersistence.update(newCPDefinitionLink);
 		}
 
 		List<CPDefinitionOptionRel> cpDefinitionOptionRels =
-			cpDefinitionOptionRelPersistence.findByCPDefinitionId(
+			_cpDefinitionOptionRelPersistence.findByCPDefinitionId(
 				cpDefinitionId);
 
 		List<CPDefinitionOptionRel> newCPDefinitionOptionRels = new ArrayList<>(
@@ -703,7 +742,7 @@ public class CPDefinitionLocalServiceImpl
 			CPDefinitionOptionRel newCPDefinitionOptionRel =
 				(CPDefinitionOptionRel)cpDefinitionOptionRel.clone();
 
-			newCPDefinitionOptionRel.setUuid(PortalUUIDUtil.generate());
+			newCPDefinitionOptionRel.setUuid(_portalUUID.generate());
 
 			long newCPDefinitionOptionRelId = counterLocalService.increment();
 
@@ -712,13 +751,13 @@ public class CPDefinitionLocalServiceImpl
 
 			newCPDefinitionOptionRel.setCPDefinitionId(newCPDefinitionId);
 
-			newCPDefinitionOptionRel = cpDefinitionOptionRelPersistence.update(
+			newCPDefinitionOptionRel = _cpDefinitionOptionRelPersistence.update(
 				newCPDefinitionOptionRel);
 
 			newCPDefinitionOptionRels.add(newCPDefinitionOptionRel);
 
 			List<CPDefinitionOptionValueRel> cpDefinitionOptionValueRels =
-				cpDefinitionOptionValueRelPersistence.
+				_cpDefinitionOptionValueRelPersistence.
 					findByCPDefinitionOptionRelId(
 						cpDefinitionOptionRel.getCPDefinitionOptionRelId());
 
@@ -729,14 +768,13 @@ public class CPDefinitionLocalServiceImpl
 					(CPDefinitionOptionValueRel)
 						cpDefinitionOptionValueRel.clone();
 
-				newCPDefinitionOptionValueRel.setUuid(
-					PortalUUIDUtil.generate());
+				newCPDefinitionOptionValueRel.setUuid(_portalUUID.generate());
 				newCPDefinitionOptionValueRel.setCPDefinitionOptionValueRelId(
 					counterLocalService.increment());
 				newCPDefinitionOptionValueRel.setCPDefinitionOptionRelId(
 					newCPDefinitionOptionRelId);
 
-				cpDefinitionOptionValueRelPersistence.update(
+				_cpDefinitionOptionValueRelPersistence.update(
 					newCPDefinitionOptionValueRel);
 			}
 
@@ -747,7 +785,7 @@ public class CPDefinitionLocalServiceImpl
 
 		List<CPDefinitionSpecificationOptionValue>
 			cpDefinitionSpecificationOptionValues =
-				cpDefinitionSpecificationOptionValuePersistence.
+				_cpDefinitionSpecificationOptionValuePersistence.
 					findByCPDefinitionId(cpDefinitionId);
 
 		for (CPDefinitionSpecificationOptionValue
@@ -760,40 +798,40 @@ public class CPDefinitionLocalServiceImpl
 						cpDefinitionSpecificationOptionValue.clone();
 
 			newCPDefinitionSpecificationOptionValue.setUuid(
-				PortalUUIDUtil.generate());
+				_portalUUID.generate());
 			newCPDefinitionSpecificationOptionValue.
 				setCPDefinitionSpecificationOptionValueId(
 					counterLocalService.increment());
 			newCPDefinitionSpecificationOptionValue.setCPDefinitionId(
 				newCPDefinitionId);
 
-			cpDefinitionSpecificationOptionValuePersistence.update(
+			_cpDefinitionSpecificationOptionValuePersistence.update(
 				newCPDefinitionSpecificationOptionValue);
 		}
 
 		List<CPDisplayLayout> cpDisplayLayouts =
-			cpDisplayLayoutPersistence.findByC_C(
+			_cpDisplayLayoutPersistence.findByC_C(
 				cpDefinitionClassNameId, cpDefinitionId);
 
 		for (CPDisplayLayout cpDisplayLayout : cpDisplayLayouts) {
 			CPDisplayLayout newCPDisplayLayout =
 				(CPDisplayLayout)cpDisplayLayout.clone();
 
-			newCPDisplayLayout.setUuid(PortalUUIDUtil.generate());
+			newCPDisplayLayout.setUuid(_portalUUID.generate());
 			newCPDisplayLayout.setCPDisplayLayoutId(
 				counterLocalService.increment());
 			newCPDisplayLayout.setClassPK(newCPDefinitionId);
 
-			cpDisplayLayoutPersistence.update(newCPDisplayLayout);
+			_cpDisplayLayoutPersistence.update(newCPDisplayLayout);
 		}
 
 		List<CPInstance> cpInstances =
-			cpInstancePersistence.findByCPDefinitionId(cpDefinitionId);
+			_cpInstancePersistence.findByCPDefinitionId(cpDefinitionId);
 
 		for (CPInstance cpInstance : cpInstances) {
 			CPInstance newCPInstance = (CPInstance)cpInstance.clone();
 
-			newCPInstance.setUuid(PortalUUIDUtil.generate());
+			newCPInstance.setUuid(_portalUUID.generate());
 
 			long cpInstanceId = counterLocalService.increment();
 
@@ -802,10 +840,10 @@ public class CPDefinitionLocalServiceImpl
 			newCPInstance.setCPInstanceId(cpInstanceId);
 
 			newCPInstance.setCPDefinitionId(newCPDefinitionId);
-			newCPInstance.setCPInstanceUuid(PortalUUIDUtil.generate());
+			newCPInstance.setCPInstanceUuid(_portalUUID.generate());
 
 			List<CPInstanceOptionValueRel> cpInstanceOptionValueRels =
-				cpInstanceOptionValueRelPersistence.findByCPInstanceId(
+				_cpInstanceOptionValueRelPersistence.findByCPInstanceId(
 					cpInstance.getCPInstanceId());
 
 			for (CPInstanceOptionValueRel cpInstanceOptionValueRel :
@@ -814,14 +852,14 @@ public class CPDefinitionLocalServiceImpl
 				CPInstanceOptionValueRel newCPInstanceOptionValueRel =
 					(CPInstanceOptionValueRel)cpInstanceOptionValueRel.clone();
 
-				newCPInstanceOptionValueRel.setUuid(PortalUUIDUtil.generate());
+				newCPInstanceOptionValueRel.setUuid(_portalUUID.generate());
 				newCPInstanceOptionValueRel.setCPInstanceOptionValueRelId(
 					counterLocalService.increment());
 				newCPInstanceOptionValueRel.setCPInstanceId(
 					newCPInstance.getCPInstanceId());
 
 				CPDefinitionOptionRel cpDefinitionOptionRel =
-					cpDefinitionOptionRelPersistence.findByPrimaryKey(
+					_cpDefinitionOptionRelPersistence.findByPrimaryKey(
 						cpInstanceOptionValueRel.getCPDefinitionOptionRelId());
 
 				Stream<CPDefinitionOptionRel> cpDefinitionOptionRelStream =
@@ -873,7 +911,7 @@ public class CPDefinitionLocalServiceImpl
 					}
 				}
 
-				cpInstanceOptionValueRelLocalService.
+				_cpInstanceOptionValueRelLocalService.
 					updateCPInstanceOptionValueRel(newCPInstanceOptionValueRel);
 			}
 
@@ -884,16 +922,16 @@ public class CPDefinitionLocalServiceImpl
 				newCPInstance, CommercePriceListConstants.TYPE_PROMOTION,
 				newCPInstance.getPromoPrice(), serviceContext);
 
-			cpInstancePersistence.update(newCPInstance);
+			_cpInstancePersistence.update(newCPInstance);
 		}
 
 		for (CommerceChannelRel commerceChannelRel :
-				commerceChannelRelLocalService.getCommerceChannelRels(
+				_commerceChannelRelLocalService.getCommerceChannelRels(
 					originalCPDefinition.getModelClassName(),
 					originalCPDefinition.getCPDefinitionId(), QueryUtil.ALL_POS,
 					QueryUtil.ALL_POS, null)) {
 
-			commerceChannelRelLocalService.addCommerceChannelRel(
+			_commerceChannelRelLocalService.addCommerceChannelRel(
 				newCPDefinition.getModelClassName(), newCPDefinitionId,
 				commerceChannelRel.getCommerceChannelId(), serviceContext);
 		}
@@ -956,34 +994,161 @@ public class CPDefinitionLocalServiceImpl
 		if (!_isVersioningEnabled() ||
 			(_isVersioningEnabled() && (cpDefinitionsCount == 1))) {
 
-			cProductLocalService.deleteCProduct(cpDefinition.getCProductId());
+			_cProductLocalService.deleteCProduct(cpDefinition.getCProductId());
 		}
 
 		// Commerce product definition specification option values
 
-		cpDefinitionSpecificationOptionValueLocalService.
-			deleteCPDefinitionSpecificationOptionValues(
-				cpDefinition.getCPDefinitionId());
+		List<CPDefinitionSpecificationOptionValue>
+			cpDefinitionSpecificationOptionValues =
+				_cpDefinitionSpecificationOptionValuePersistence.
+					findByCPDefinitionId(
+						cpDefinition.getCPDefinitionId(), QueryUtil.ALL_POS,
+						QueryUtil.ALL_POS, null);
+
+		for (CPDefinitionSpecificationOptionValue
+				cpDefinitionSpecificationOptionValue :
+					cpDefinitionSpecificationOptionValues) {
+
+			if (isVersionable(
+					cpDefinitionSpecificationOptionValue.getCPDefinitionId())) {
+
+				try {
+					CPDefinition newCPDefinition = copyCPDefinition(
+						cpDefinitionSpecificationOptionValue.
+							getCPDefinitionId());
+
+					cpDefinitionSpecificationOptionValue =
+						_cpDefinitionSpecificationOptionValuePersistence.
+							findByC_CSOVI(
+								newCPDefinition.getCPDefinitionId(),
+								cpDefinitionSpecificationOptionValue.
+									getCPDefinitionSpecificationOptionValueId());
+				}
+				catch (PortalException portalException) {
+					throw new SystemException(portalException);
+				}
+			}
+
+			_deleteCPDefinitionSpecificationOptionValueHelper.
+				deleteCPDefinitionSpecificationOptionValue(
+					cpDefinitionSpecificationOptionValue);
+		}
+
+		_cpDefinitionIndexHelper.reindexCPDefinition(
+			cpDefinition.getCPDefinitionId());
 
 		// Commerce product instances
 
-		cpInstanceLocalService.deleteCPInstances(
-			cpDefinition.getCPDefinitionId());
+		List<CPInstance> cpInstances =
+			_cpInstancePersistence.findByCPDefinitionId(
+				cpDefinition.getCPDefinitionId());
+
+		for (CPInstance cpInstance : cpInstances) {
+			if (isVersionable(cpInstance.getCPDefinitionId())) {
+				CPDefinition newCPDefinition = copyCPDefinition(
+					cpInstance.getCPDefinitionId());
+
+				cpInstance = _cpInstancePersistence.findByC_C(
+					newCPDefinition.getCPDefinitionId(),
+					cpInstance.getCPInstanceUuid());
+			}
+
+			_deleteCPInstanceHelper.deleteCPInstance(cpInstance);
+		}
 
 		// Commerce product definition option rels
 
-		cpDefinitionOptionRelLocalService.deleteCPDefinitionOptionRels(
-			cpDefinition.getCPDefinitionId());
+		List<CPDefinitionOptionRel> cpDefinitionOptionRels =
+			_cpDefinitionOptionRelPersistence.findByCPDefinitionId(
+				cpDefinition.getCPDefinitionId(), QueryUtil.ALL_POS,
+				QueryUtil.ALL_POS);
+
+		for (CPDefinitionOptionRel cpDefinitionOptionRel :
+				cpDefinitionOptionRels) {
+
+			if (isVersionable(cpDefinitionOptionRel.getCPDefinitionId())) {
+				CPDefinition newCPDefinition = copyCPDefinition(
+					cpDefinitionOptionRel.getCPDefinitionId());
+
+				cpDefinitionOptionRel =
+					_cpDefinitionOptionRelPersistence.findByC_C(
+						newCPDefinition.getCPDefinitionId(),
+						cpDefinitionOptionRel.getCPOptionId());
+			}
+
+			_deleteCPDefinitionOptionRelHelper.deleteCPDefinitionOptionRel(
+				cpDefinitionOptionRel);
+
+			processCPInstanceAndCPDefinition(cpDefinitionOptionRel);
+		}
 
 		// Commerce product definition attachment file entries
 
-		cpAttachmentFileEntryLocalService.deleteCPAttachmentFileEntries(
-			CPDefinition.class.getName(), cpDefinition.getCPDefinitionId());
+		List<CPAttachmentFileEntry> cpAttachmentFileEntries =
+			_cpAttachmentFileEntryPersistence.findByC_C(
+				_classNameLocalService.getClassNameId(
+					CPDefinition.class.getName()),
+				cpDefinition.getCPDefinitionId());
+
+		long cpDefinitionClassNameId = _classNameLocalService.getClassNameId(
+			CPDefinition.class);
+
+		for (CPAttachmentFileEntry cpAttachmentFileEntry :
+				cpAttachmentFileEntries) {
+
+			if ((cpAttachmentFileEntry.getClassNameId() ==
+					cpDefinitionClassNameId) &&
+				isVersionable(cpAttachmentFileEntry.getClassPK())) {
+
+				CPDefinition newCPDefinition = copyCPDefinition(
+					cpAttachmentFileEntry.getClassPK());
+
+				if (cpAttachmentFileEntry.isCDNEnabled()) {
+					cpAttachmentFileEntry =
+						_cpAttachmentFileEntryPersistence.findByC_C_C_First(
+							cpDefinitionClassNameId,
+							newCPDefinition.getCPDefinitionId(),
+							cpAttachmentFileEntry.getCDNURL(), null);
+				}
+				else {
+					cpAttachmentFileEntry =
+						_cpAttachmentFileEntryPersistence.findByC_C_F_First(
+							cpDefinitionClassNameId,
+							newCPDefinition.getCPDefinitionId(),
+							cpAttachmentFileEntry.getFileEntryId(), null);
+				}
+			}
+
+			_deleteCPAttachmentFileEntryHelper.deleteCPAttachmentFileEntry(
+				cpAttachmentFileEntry);
+		}
 
 		// Commerce product definition links
 
-		cpDefinitionLinkLocalService.deleteCPDefinitionLinksByCPDefinitionId(
-			cpDefinition.getCPDefinitionId());
+		List<CPDefinitionLink> cpDefinitionLinks =
+			_cpDefinitionLinkPersistence.findByCPDefinitionId(
+				cpDefinition.getCPDefinitionId());
+
+		for (CPDefinitionLink cpDefinitionLink : cpDefinitionLinks) {
+			if (isVersionable(cpDefinitionLink.getCPDefinitionId())) {
+				try {
+					CPDefinition newCPDefinition = copyCPDefinition(
+						cpDefinitionLink.getCPDefinitionId());
+
+					cpDefinitionLink = _cpDefinitionLinkPersistence.findByC_C_T(
+						newCPDefinition.getCPDefinitionId(),
+						cpDefinitionLink.getCProductId(),
+						cpDefinitionLink.getType());
+				}
+				catch (PortalException portalException) {
+					throw new SystemException(portalException);
+				}
+			}
+
+			_deleteCPDefinitionLinkHelper.deleteCPDefinitionLink(
+				cpDefinitionLink);
+		}
 
 		// Commerce product type
 
@@ -1005,8 +1170,14 @@ public class CPDefinitionLocalServiceImpl
 
 		// Commerce product display layouts
 
-		cpDisplayLayoutLocalService.deleteCPDisplayLayouts(
-			CPDefinition.class, cpDefinition.getCPDefinitionId());
+		List<CPDisplayLayout> cpDisplayLayouts =
+			_cpDisplayLayoutPersistence.findByC_C(
+				_classNameLocalService.getClassNameId(CPDefinition.class),
+				cpDefinition.getCPDefinitionId());
+
+		for (CPDisplayLayout cpDisplayLayout : cpDisplayLayouts) {
+			_cpDisplayLayoutPersistence.remove(cpDisplayLayout);
+		}
 
 		// Commerce product version contributors
 
@@ -1074,7 +1245,7 @@ public class CPDefinitionLocalServiceImpl
 			return null;
 		}
 
-		CProduct cProduct = cProductLocalService.fetchCProductByReferenceCode(
+		CProduct cProduct = _cProductPersistence.fetchByC_ERC(
 			companyId, externalReferenceCode);
 
 		if (cProduct == null) {
@@ -1094,7 +1265,7 @@ public class CPDefinitionLocalServiceImpl
 
 	@Override
 	public CPDefinition fetchCPDefinitionByCProductId(long cProductId) {
-		CProduct cProduct = cProductLocalService.fetchCProduct(cProductId);
+		CProduct cProduct = _cProductPersistence.fetchByPrimaryKey(cProductId);
 
 		if (cProduct == null) {
 			return null;
@@ -1346,24 +1517,6 @@ public class CPDefinitionLocalServiceImpl
 	}
 
 	@Override
-	public CPAttachmentFileEntry getDefaultImageCPAttachmentFileEntry(
-			long cpDefinitionId)
-		throws PortalException {
-
-		List<CPAttachmentFileEntry> cpAttachmentFileEntries =
-			cpAttachmentFileEntryLocalService.getCPAttachmentFileEntries(
-				classNameLocalService.getClassNameId(CPDefinition.class),
-				cpDefinitionId, CPAttachmentFileEntryConstants.TYPE_IMAGE,
-				WorkflowConstants.STATUS_APPROVED, 0, 1);
-
-		if (cpAttachmentFileEntries.isEmpty()) {
-			return null;
-		}
-
-		return cpAttachmentFileEntries.get(0);
-	}
-
-	@Override
 	public List<Facet> getFacets(
 		String filterFields, String filterValues, SearchContext searchContext) {
 
@@ -1435,8 +1588,10 @@ public class CPDefinitionLocalServiceImpl
 	@Override
 	public String getLayoutUuid(long groupId, long cpDefinitionId) {
 		CPDisplayLayout cpDisplayLayout =
-			cpDisplayLayoutLocalService.fetchCPDisplayLayout(
-				groupId, CPDefinition.class, cpDefinitionId);
+			_cpDisplayLayoutPersistence.fetchByG_C_C(
+				groupId,
+				_classNameLocalService.getClassNameId(CPDefinition.class),
+				cpDefinitionId);
 
 		if (cpDisplayLayout == null) {
 			return null;
@@ -1459,7 +1614,7 @@ public class CPDefinitionLocalServiceImpl
 		try {
 			FriendlyURLEntry friendlyURLEntry =
 				_friendlyURLEntryLocalService.getMainFriendlyURLEntry(
-					classNameLocalService.getClassNameId(CProduct.class),
+					_classNameLocalService.getClassNameId(CProduct.class),
 					cpDefinition.getCProductId());
 
 			List<FriendlyURLEntryLocalization> friendlyURLEntryLocalizations =
@@ -1487,16 +1642,14 @@ public class CPDefinitionLocalServiceImpl
 	}
 
 	@Override
-	public String getUrlTitleMapAsXML(long cpDefinitionId)
-		throws PortalException {
-
+	public String getUrlTitleMapAsXML(long cpDefinitionId) {
 		try {
 			CPDefinition cpDefinition =
 				cpDefinitionPersistence.findByPrimaryKey(cpDefinitionId);
 
 			FriendlyURLEntry friendlyURLEntry =
 				_friendlyURLEntryLocalService.getMainFriendlyURLEntry(
-					classNameLocalService.getClassNameId(CProduct.class),
+					_classNameLocalService.getClassNameId(CProduct.class),
 					cpDefinition.getCProductId());
 
 			return friendlyURLEntry.getUrlTitleMapAsXML();
@@ -1511,24 +1664,8 @@ public class CPDefinitionLocalServiceImpl
 	}
 
 	@Override
-	public boolean hasChildCPDefinitions(long cpDefinitionId) {
-		int count =
-			cpDefinitionOptionRelLocalService.getCPDefinitionOptionRelsCount(
-				cpDefinitionId);
-
-		if ((count <= 0) ||
-			!cpDefinitionOptionRelLocalService.
-				hasLinkedCPInstanceCPDefinitionOptionRels(cpDefinitionId)) {
-
-			return false;
-		}
-
-		return true;
-	}
-
-	@Override
 	public boolean isPublishedCPDefinition(CPDefinition cpDefinition) {
-		CProduct cProduct = cProductLocalService.fetchCProduct(
+		CProduct cProduct = _cProductPersistence.fetchByPrimaryKey(
 			cpDefinition.getCProductId());
 
 		if ((cProduct != null) &&
@@ -1623,6 +1760,31 @@ public class CPDefinitionLocalServiceImpl
 		for (CPDefinition cpDefinition : deletableCPDefinitions) {
 			cpDefinitionLocalService.deleteCPDefinition(cpDefinition);
 		}
+	}
+
+	public void processCPInstanceAndCPDefinition(
+			CPDefinitionOptionRel cpDefinitionOptionRel)
+		throws PortalException {
+
+		// Commerce product instances
+
+		_inactiveCPInstanceHelper.inactivateCPDefinitionOptionRelCPInstances(
+			PrincipalThreadLocal.getUserId(),
+			cpDefinitionOptionRel.getCPDefinitionId(),
+			cpDefinitionOptionRel.getCPDefinitionOptionRelId());
+
+		int cpDefinitionOptionRelsCount =
+			_cpDefinitionOptionRelPersistence.countByC_SC(
+				cpDefinitionOptionRel.getCPDefinitionId(), true);
+
+		cpDefinitionLocalService.updateCPDefinitionIgnoreSKUCombinations(
+			cpDefinitionOptionRel.getCPDefinitionId(),
+			cpDefinitionOptionRelsCount <= 0, new ServiceContext());
+
+		// Commerce product definition
+
+		_cpDefinitionIndexHelper.reindexCPDefinition(
+			cpDefinitionOptionRel.getCPDefinitionId());
 	}
 
 	@Override
@@ -1720,7 +1882,7 @@ public class CPDefinitionLocalServiceImpl
 
 		// Commerce product definition
 
-		User user = userLocalService.getUser(serviceContext.getUserId());
+		User user = _userLocalService.getUser(serviceContext.getUserId());
 
 		CPDefinition cpDefinition = cpDefinitionPersistence.findByPrimaryKey(
 			cpDefinitionId);
@@ -1730,13 +1892,13 @@ public class CPDefinitionLocalServiceImpl
 		Date expirationDate = null;
 		Date date = new Date();
 
-		Date displayDate = PortalUtil.getDate(
+		Date displayDate = _portal.getDate(
 			displayDateMonth, displayDateDay, displayDateYear, displayDateHour,
 			displayDateMinute, user.getTimeZone(),
 			CPDefinitionDisplayDateException.class);
 
 		if (!neverExpire) {
-			expirationDate = PortalUtil.getDate(
+			expirationDate = _portal.getDate(
 				expirationDateMonth, expirationDateDay, expirationDateYear,
 				expirationDateHour, expirationDateMinute, user.getTimeZone(),
 				CPDefinitionExpirationDateException.class);
@@ -1748,7 +1910,7 @@ public class CPDefinitionLocalServiceImpl
 			groupId, ddmStructureKey, metaTitleMap, metaDescriptionMap,
 			metaKeywordsMap, displayDate, expirationDate, productTypeName);
 
-		CProduct cProduct = cProductLocalService.getCProduct(
+		CProduct cProduct = _cProductPersistence.findByPrimaryKey(
 			cpDefinition.getCProductId());
 
 		if (cpDefinitionLocalService.isVersionable(
@@ -1772,7 +1934,7 @@ public class CPDefinitionLocalServiceImpl
 				publishedCPDefinition = cpDefinitionPersistence.update(
 					publishedCPDefinition);
 
-				cProductLocalService.updatePublishedCPDefinitionId(
+				_cProductLocalService.updatePublishedCPDefinitionId(
 					publishedCPDefinition.getCProductId(),
 					cpDefinition.getCPDefinitionId());
 			}
@@ -1835,7 +1997,8 @@ public class CPDefinitionLocalServiceImpl
 
 		// Commerce product friendly URL entries
 
-		long classNameId = classNameLocalService.getClassNameId(CProduct.class);
+		long classNameId = _classNameLocalService.getClassNameId(
+			CProduct.class);
 
 		long classPK = cpDefinition.getCProductId();
 
@@ -1983,7 +2146,7 @@ public class CPDefinitionLocalServiceImpl
 			ServiceContext serviceContext)
 		throws PortalException {
 
-		checkCPInstances(
+		_checkCPInstancesHelper.checkCPInstances(
 			serviceContext.getUserId(), cpDefinitionId, ignoreSKUCombinations);
 
 		CPDefinition cpDefinition = cpDefinitionPersistence.findByPrimaryKey(
@@ -2016,7 +2179,7 @@ public class CPDefinitionLocalServiceImpl
 		CPDefinition cpDefinition = cpDefinitionLocalService.getCPDefinition(
 			cpDefinitionId);
 
-		cProductLocalService.updateCProductExternalReferenceCode(
+		_cProductLocalService.updateCProductExternalReferenceCode(
 			externalReferenceCode, cpDefinition.getCProductId());
 
 		return cpDefinitionLocalService.getCPDefinition(cpDefinitionId);
@@ -2061,7 +2224,7 @@ public class CPDefinitionLocalServiceImpl
 
 		// Commerce product definition
 
-		User user = userLocalService.getUser(userId);
+		User user = _userLocalService.getUser(userId);
 		Date date = new Date();
 
 		CPDefinition cpDefinition = cpDefinitionPersistence.findByPrimaryKey(
@@ -2106,7 +2269,7 @@ public class CPDefinitionLocalServiceImpl
 
 			// CProduct
 
-			cProductLocalService.updatePublishedCPDefinitionId(
+			_cProductLocalService.updatePublishedCPDefinitionId(
 				cpDefinition.getCProductId(), cpDefinition.getCPDefinitionId());
 		}
 		else {
@@ -2254,7 +2417,7 @@ public class CPDefinitionLocalServiceImpl
 			new Date(), WorkflowConstants.STATUS_SCHEDULED);
 
 		for (CPDefinition cpDefinition : cpDefinitions) {
-			long userId = PortalUtil.getValidUserId(
+			long userId = _portal.getValidUserId(
 				cpDefinition.getCompanyId(), cpDefinition.getUserId());
 
 			ServiceContext serviceContext = new ServiceContext();
@@ -2268,13 +2431,13 @@ public class CPDefinitionLocalServiceImpl
 				new HashMap<String, Serializable>());
 
 			if (cpDefinition.isApproved()) {
-				cpAttachmentFileEntryLocalService.
+				_checkCPAttachmentFileEntryHelper.
 					checkCPAttachmentFileEntriesByDisplayDate(
-						classNameLocalService.getClassNameId(
+						_classNameLocalService.getClassNameId(
 							cpDefinition.getModelClassName()),
 						cpDefinition.getCPDefinitionId());
 
-				cpInstanceLocalService.checkCPInstancesByDisplayDate(
+				_checkCPInstancesHelper.checkCPInstancesByDisplayDate(
 					cpDefinition.getCPDefinitionId());
 			}
 		}
@@ -2294,7 +2457,7 @@ public class CPDefinitionLocalServiceImpl
 
 		if ((cpDefinitions != null) && !cpDefinitions.isEmpty()) {
 			for (CPDefinition cpDefinition : cpDefinitions) {
-				long userId = PortalUtil.getValidUserId(
+				long userId = _portal.getValidUserId(
 					cpDefinition.getCompanyId(), cpDefinition.getUserId());
 
 				ServiceContext serviceContext = new ServiceContext();
@@ -2306,46 +2469,6 @@ public class CPDefinitionLocalServiceImpl
 					userId, cpDefinition.getCPDefinitionId(),
 					WorkflowConstants.STATUS_EXPIRED, serviceContext,
 					new HashMap<String, Serializable>());
-			}
-		}
-	}
-
-	protected void checkCPInstances(
-			long userId, long cpDefinitionId, boolean ignoreSKUCombinations)
-		throws PortalException {
-
-		if (ignoreSKUCombinations) {
-			int cpInstancesCount =
-				cpInstanceLocalService.getCPDefinitionInstancesCount(
-					cpDefinitionId, WorkflowConstants.STATUS_APPROVED);
-
-			if (cpInstancesCount <= 1) {
-				return;
-			}
-
-			throw new CPDefinitionIgnoreSKUCombinationsException();
-		}
-
-		int cpDefinitionOptionRelsCount =
-			cpDefinitionOptionRelLocalService.getCPDefinitionOptionRelsCount(
-				cpDefinitionId, true);
-
-		if (cpDefinitionOptionRelsCount == 0) {
-			return;
-		}
-
-		List<CPInstance> cpInstances =
-			cpInstanceLocalService.getCPDefinitionInstances(
-				cpDefinitionId, WorkflowConstants.STATUS_APPROVED,
-				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
-
-		for (CPInstance cpInstance : cpInstances) {
-			if (!cpInstanceOptionValueRelLocalService.
-					hasCPInstanceOptionValueRel(cpInstance.getCPInstanceId())) {
-
-				cpInstanceLocalService.updateStatus(
-					userId, cpInstance.getCPInstanceId(),
-					WorkflowConstants.STATUS_INACTIVE);
 			}
 		}
 	}
@@ -2458,7 +2581,7 @@ public class CPDefinitionLocalServiceImpl
 			DDMStructure ddmStructure =
 				_ddmStructureLocalService.fetchStructure(
 					groupId,
-					classNameLocalService.getClassNameId(
+					_classNameLocalService.getClassNameId(
 						CPDefinition.class.getName()),
 					ddmStructureKey, true);
 
@@ -2658,7 +2781,8 @@ public class CPDefinitionLocalServiceImpl
 		Group companyGroup = _groupLocalService.getCompanyGroup(
 			cpDefinition.getCompanyId());
 
-		long classNameId = classNameLocalService.getClassNameId(CProduct.class);
+		long classNameId = _classNameLocalService.getClassNameId(
+			CProduct.class);
 
 		for (Map.Entry<Locale, String> titleEntry : urlTitleMap.entrySet()) {
 			String urlTitle = urlTitleMap.get(titleEntry.getKey());
@@ -2703,25 +2827,25 @@ public class CPDefinitionLocalServiceImpl
 		throws PortalException {
 
 		CommercePriceList commercePriceList =
-			CommercePriceListLocalServiceUtil.
+			_commercePriceListLocalService.
 				getCatalogBaseCommercePriceListByType(
 					cpInstance.getGroupId(), type);
 
 		CommercePriceEntry commercePriceEntry =
-			CommercePriceEntryLocalServiceUtil.fetchCommercePriceEntry(
+			_commercePriceEntryLocalService.fetchCommercePriceEntry(
 				commercePriceList.getCommercePriceListId(),
 				cpInstance.getCPInstanceUuid());
 
 		if (commercePriceEntry == null) {
 			CPDefinition cpDefinition = cpInstance.getCPDefinition();
 
-			CommercePriceEntryLocalServiceUtil.addCommercePriceEntry(
+			_commercePriceEntryLocalService.addCommercePriceEntry(
 				cpDefinition.getCProductId(), cpInstance.getCPInstanceUuid(),
 				commercePriceList.getCommercePriceListId(), price, null,
 				serviceContext);
 		}
 		else {
-			CommercePriceEntryLocalServiceUtil.updateCommercePriceEntry(
+			_commercePriceEntryLocalService.updateCommercePriceEntry(
 				commercePriceEntry.getCommercePriceEntryId(), price, null,
 				serviceContext);
 		}
@@ -2766,36 +2890,130 @@ public class CPDefinitionLocalServiceImpl
 	private static final Log _log = LogFactoryUtil.getLog(
 		CPDefinitionLocalServiceImpl.class);
 
-	@ServiceReference(type = AssetEntryLocalService.class)
+	@Reference
+	private AddCPInstanceHelper _addCPInstanceHelper;
+
+	@Reference
 	private AssetEntryLocalService _assetEntryLocalService;
 
-	@ServiceReference(type = AssetLinkLocalService.class)
+	@Reference
 	private AssetLinkLocalService _assetLinkLocalService;
 
-	@ServiceReference(type = CommerceAccountGroupRelLocalService.class)
+	@Reference
+	private CheckCPAttachmentFileEntryHelper _checkCPAttachmentFileEntryHelper;
+
+	@Reference
+	private CheckCPInstancesHelper _checkCPInstancesHelper;
+
+	@Reference
+	private ClassNameLocalService _classNameLocalService;
+
+	@Reference
 	private CommerceAccountGroupRelLocalService
 		_commerceAccountGroupRelLocalService;
 
-	@ServiceReference(type = CPTypeServicesTracker.class)
+	@Reference
+	private CommerceChannelRelLocalService _commerceChannelRelLocalService;
+
+	@Reference
+	private CommercePriceEntryLocalService _commercePriceEntryLocalService;
+
+	@Reference
+	private CommercePriceListLocalService _commercePriceListLocalService;
+
+	@Reference
+	private CPAttachmentFileEntryPersistence _cpAttachmentFileEntryPersistence;
+
+	@Reference
+	private CPDefinitionIndexHelper _cpDefinitionIndexHelper;
+
+	@Reference
+	private CPDefinitionLinkPersistence _cpDefinitionLinkPersistence;
+
+	@Reference
+	private CPDefinitionOptionRelPersistence _cpDefinitionOptionRelPersistence;
+
+	@Reference
+	private CPDefinitionOptionValueRelPersistence
+		_cpDefinitionOptionValueRelPersistence;
+
+	@Reference
+	private CPDefinitionSpecificationOptionValuePersistence
+		_cpDefinitionSpecificationOptionValuePersistence;
+
+	@Reference
+	private CPDisplayLayoutPersistence _cpDisplayLayoutPersistence;
+
+	@Reference
+	private CPInstanceOptionValueRelLocalService
+		_cpInstanceOptionValueRelLocalService;
+
+	@Reference
+	private CPInstanceOptionValueRelPersistence
+		_cpInstanceOptionValueRelPersistence;
+
+	@Reference
+	private CPInstancePersistence _cpInstancePersistence;
+
+	@Reference
+	private CProductLocalService _cProductLocalService;
+
+	@Reference
+	private CProductPersistence _cProductPersistence;
+
+	@Reference
 	private CPTypeServicesTracker _cpTypeServicesTracker;
 
-	@ServiceReference(type = DDMStructureLocalService.class)
+	@Reference
 	private DDMStructureLocalService _ddmStructureLocalService;
 
-	@ServiceReference(type = ExpandoRowLocalService.class)
+	@Reference
+	private DeleteCPAttachmentFileEntryHelper
+		_deleteCPAttachmentFileEntryHelper;
+
+	@Reference
+	private DeleteCPDefinitionLinkHelper _deleteCPDefinitionLinkHelper;
+
+	@Reference
+	private DeleteCPDefinitionOptionRelHelper
+		_deleteCPDefinitionOptionRelHelper;
+
+	@Reference
+	private DeleteCPDefinitionSpecificationOptionValueHelper
+		_deleteCPDefinitionSpecificationOptionValueHelper;
+
+	@Reference
+	private DeleteCPInstanceHelper _deleteCPInstanceHelper;
+
+	@Reference
 	private ExpandoRowLocalService _expandoRowLocalService;
 
-	@ServiceReference(type = FriendlyURLEntryLocalService.class)
+	@Reference
 	private FriendlyURLEntryLocalService _friendlyURLEntryLocalService;
 
-	@ServiceReference(type = GroupLocalService.class)
+	@Reference
 	private GroupLocalService _groupLocalService;
 
-	@ServiceReference(type = WorkflowDefinitionLinkLocalService.class)
+	@Reference
+	private InactiveCPInstanceHelper _inactiveCPInstanceHelper;
+
+	@Reference
+	private Language _language;
+
+	@Reference
+	private Portal _portal;
+
+	@Reference
+	private PortalUUID _portalUUID;
+
+	@Reference
+	private UserLocalService _userLocalService;
+
+	@Reference
 	private WorkflowDefinitionLinkLocalService
 		_workflowDefinitionLinkLocalService;
 
-	@ServiceReference(type = WorkflowInstanceLinkLocalService.class)
+	@Reference
 	private WorkflowInstanceLinkLocalService _workflowInstanceLinkLocalService;
 
 }

@@ -19,6 +19,7 @@ import com.liferay.commerce.product.model.CPDefinition;
 import com.liferay.commerce.product.model.CPInstance;
 import com.liferay.commerce.product.model.CommerceCatalog;
 import com.liferay.commerce.product.service.CPDefinitionLocalService;
+import com.liferay.commerce.product.service.CPDefinitionOptionRelLocalService;
 import com.liferay.commerce.product.service.CPInstanceLocalService;
 import com.liferay.commerce.product.util.CPInstanceHelper;
 import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
@@ -270,8 +271,9 @@ public class CPInstanceIndexer extends BaseIndexer<CPInstance> {
 			cpInstance.getExternalReferenceCode());
 		document.addKeyword(
 			CPField.HAS_CHILD_CP_DEFINITIONS,
-			_cpDefinitionLocalService.hasChildCPDefinitions(
-				cpDefinition.getCPDefinitionId()));
+			_cpDefinitionOptionRelLocalService.
+				hasLinkedCPInstanceCPDefinitionOptionRels(
+					cpDefinition.getCPDefinitionId()));
 		document.addKeyword(CPField.UNSPSC, cpInstance.getUnspsc());
 
 		CommerceCatalog commerceCatalog = cpDefinition.getCommerceCatalog();
@@ -347,6 +349,10 @@ public class CPInstanceIndexer extends BaseIndexer<CPInstance> {
 
 	@Reference
 	private CPDefinitionLocalService _cpDefinitionLocalService;
+
+	@Reference
+	private CPDefinitionOptionRelLocalService
+		_cpDefinitionOptionRelLocalService;
 
 	@Reference
 	private CPInstanceHelper _cpInstanceHelper;

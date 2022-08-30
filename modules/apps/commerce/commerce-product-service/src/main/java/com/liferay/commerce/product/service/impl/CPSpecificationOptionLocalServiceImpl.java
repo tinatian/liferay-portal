@@ -21,9 +21,11 @@ import com.liferay.commerce.product.exception.DuplicateCPSpecificationOptionKeyE
 import com.liferay.commerce.product.model.CPDefinition;
 import com.liferay.commerce.product.model.CPDefinitionSpecificationOptionValue;
 import com.liferay.commerce.product.model.CPSpecificationOption;
+import com.liferay.commerce.product.service.CPDefinitionSpecificationOptionValueLocalService;
 import com.liferay.commerce.product.service.base.CPSpecificationOptionLocalServiceBaseImpl;
 import com.liferay.expando.kernel.service.ExpandoRowLocalService;
 import com.liferay.petra.string.CharPool;
+import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -44,7 +46,9 @@ import com.liferay.portal.kernel.search.QueryConfig;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.search.Sort;
+import com.liferay.portal.kernel.service.ResourceLocalService;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.systemevent.SystemEvent;
 import com.liferay.portal.kernel.transaction.TransactionCommitCallbackUtil;
 import com.liferay.portal.kernel.util.FriendlyURLNormalizer;
@@ -54,7 +58,6 @@ import com.liferay.portal.kernel.util.LinkedHashMapBuilder;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import java.io.Serializable;
 
@@ -64,10 +67,18 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+
 /**
  * @author Andrea Di Giorgi
  * @author Alessio Antonio Rendina
  */
+@Component(
+	enabled = false,
+	property = "model.class.name=com.liferay.commerce.product.model.CPSpecificationOption",
+	service = AopService.class
+)
 public class CPSpecificationOptionLocalServiceImpl
 	extends CPSpecificationOptionLocalServiceBaseImpl {
 
@@ -79,7 +90,7 @@ public class CPSpecificationOptionLocalServiceImpl
 			ServiceContext serviceContext)
 		throws PortalException {
 
-		User user = userLocalService.getUser(userId);
+		User user = _userLocalService.getUser(userId);
 
 		key = StringUtil.replace(key, CharPool.UNDERLINE, CharPool.DASH);
 
@@ -107,7 +118,7 @@ public class CPSpecificationOptionLocalServiceImpl
 
 		// Resources
 
-		resourceLocalService.addModelResources(
+		_resourceLocalService.addModelResources(
 			cpSpecificationOption, serviceContext);
 
 		return cpSpecificationOption;
@@ -126,13 +137,13 @@ public class CPSpecificationOptionLocalServiceImpl
 
 		// Commerce product definition specification option values
 
-		cpDefinitionSpecificationOptionValueLocalService.
+		_cpDefinitionSpecificationOptionValueLocalService.
 			deleteCPSpecificationOptionDefinitionValues(
 				cpSpecificationOption.getCPSpecificationOptionId());
 
 		// Resources
 
-		resourceLocalService.deleteResource(
+		_resourceLocalService.deleteResource(
 			cpSpecificationOption, ResourceConstants.SCOPE_INDIVIDUAL);
 
 		// Expando
@@ -408,7 +419,7 @@ public class CPSpecificationOptionLocalServiceImpl
 			CPDefinition.class);
 
 		IndexableActionableDynamicQuery indexableActionableDynamicQuery =
-			cpDefinitionSpecificationOptionValueLocalService.
+			_cpDefinitionSpecificationOptionValueLocalService.
 				getIndexableActionableDynamicQuery();
 
 		indexableActionableDynamicQuery.setCompanyId(companyId);
@@ -452,10 +463,20 @@ public class CPSpecificationOptionLocalServiceImpl
 	private static final Log _log = LogFactoryUtil.getLog(
 		CPSpecificationOptionLocalServiceImpl.class);
 
-	@ServiceReference(type = ExpandoRowLocalService.class)
+	@Reference
+	private CPDefinitionSpecificationOptionValueLocalService
+		_cpDefinitionSpecificationOptionValueLocalService;
+
+	@Reference
 	private ExpandoRowLocalService _expandoRowLocalService;
 
-	@ServiceReference(type = FriendlyURLNormalizer.class)
+	@Reference
 	private FriendlyURLNormalizer _friendlyURLNormalizer;
+
+	@Reference
+	private ResourceLocalService _resourceLocalService;
+
+	@Reference
+	private UserLocalService _userLocalService;
 
 }

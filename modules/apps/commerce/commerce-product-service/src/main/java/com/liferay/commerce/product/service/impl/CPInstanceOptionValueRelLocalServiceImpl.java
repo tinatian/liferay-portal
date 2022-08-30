@@ -17,15 +17,21 @@ package com.liferay.commerce.product.service.impl;
 import com.liferay.commerce.product.model.CPDefinitionOptionRel;
 import com.liferay.commerce.product.model.CPInstanceOptionValueRel;
 import com.liferay.commerce.product.service.base.CPInstanceOptionValueRelLocalServiceBaseImpl;
+import com.liferay.commerce.product.service.persistence.CPDefinitionOptionRelPersistence;
+import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.dao.orm.QueryDefinition;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * The implementation of the cp instance option value rel local service.
@@ -42,6 +48,11 @@ import java.util.Set;
  * @author Igor Beslic
  * @see    CPInstanceOptionValueRelLocalServiceBaseImpl
  */
+@Component(
+	enabled = false,
+	property = "model.class.name=com.liferay.commerce.product.model.CPInstanceOptionValueRel",
+	service = AopService.class
+)
 public class CPInstanceOptionValueRelLocalServiceImpl
 	extends CPInstanceOptionValueRelLocalServiceBaseImpl {
 
@@ -62,7 +73,7 @@ public class CPInstanceOptionValueRelLocalServiceImpl
 		cpInstanceOptionValueRel.setCompanyId(companyId);
 		cpInstanceOptionValueRel.setUserId(userId);
 
-		User user = userLocalService.getUser(userId);
+		User user = _userLocalService.getUser(userId);
 
 		cpInstanceOptionValueRel.setUserName(user.getFullName());
 
@@ -164,7 +175,7 @@ public class CPInstanceOptionValueRelLocalServiceImpl
 		long cpDefinitionId, long cpInstanceId) {
 
 		List<CPDefinitionOptionRel> cpDefinitionCPDefinitionOptionRels =
-			cpDefinitionOptionRelPersistence.findByC_SC(cpDefinitionId, true);
+			_cpDefinitionOptionRelPersistence.findByC_SC(cpDefinitionId, true);
 
 		List<CPInstanceOptionValueRel> cpInstanceCPInstanceOptionValueRels =
 			cpInstanceOptionValueRelLocalService.
@@ -304,5 +315,11 @@ public class CPInstanceOptionValueRelLocalServiceImpl
 			}
 		}
 	}
+
+	@Reference
+	private CPDefinitionOptionRelPersistence _cpDefinitionOptionRelPersistence;
+
+	@Reference
+	private UserLocalService _userLocalService;
 
 }

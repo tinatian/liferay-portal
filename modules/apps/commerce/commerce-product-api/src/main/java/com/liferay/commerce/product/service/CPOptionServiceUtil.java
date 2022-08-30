@@ -92,9 +92,8 @@ public class CPOptionServiceUtil {
 	}
 
 	public static List<CPOption> findCPOptionByCompanyId(
-			long companyId, int start, int end,
-			OrderByComparator<CPOption> orderByComparator)
-		throws PortalException {
+		long companyId, int start, int end,
+		OrderByComparator<CPOption> orderByComparator) {
 
 		return getService().findCPOptionByCompanyId(
 			companyId, start, end, orderByComparator);

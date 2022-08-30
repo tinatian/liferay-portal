@@ -345,6 +345,13 @@ public class CPInstanceLocalServiceUtil {
 		getService().checkCPInstancesByDisplayDate(cpDefinitionId);
 	}
 
+	public static CPInstance copyCPDefinitionAndPrepareCPInstance(
+			CPInstance cpInstance)
+		throws PortalException {
+
+		return getService().copyCPDefinitionAndPrepareCPInstance(cpInstance);
+	}
+
 	/**
 	 * Creates a new cp instance with the primary key. Does not add the cp instance to the database.
 	 *

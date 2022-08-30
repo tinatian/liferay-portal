@@ -20,20 +20,29 @@ import com.liferay.commerce.product.exception.CPInstanceDisplayDateException;
 import com.liferay.commerce.product.exception.CPInstanceExpirationDateException;
 import com.liferay.commerce.product.exception.CPInstanceMaxPriceValueException;
 import com.liferay.commerce.product.exception.CPInstanceReplacementCPInstanceUuidException;
-import com.liferay.commerce.product.exception.CPInstanceSkuException;
 import com.liferay.commerce.product.exception.NoSuchCPInstanceException;
 import com.liferay.commerce.product.exception.NoSuchSkuContributorCPDefinitionOptionRelException;
+import com.liferay.commerce.product.internal.helper.AddCPInstanceHelper;
+import com.liferay.commerce.product.internal.helper.CPDefinitionIndexHelper;
+import com.liferay.commerce.product.internal.helper.CPDefinitionOptionRelCPDefinitionOptionValueRelHelper;
+import com.liferay.commerce.product.internal.helper.CheckCPInstancesHelper;
+import com.liferay.commerce.product.internal.helper.DeleteCPInstanceHelper;
+import com.liferay.commerce.product.internal.helper.InactiveCPInstanceHelper;
+import com.liferay.commerce.product.internal.helper.UpdateCPInstanceStatusHelper;
 import com.liferay.commerce.product.internal.util.SKUCombinationsIterator;
 import com.liferay.commerce.product.model.CPDefinition;
 import com.liferay.commerce.product.model.CPDefinitionOptionRel;
 import com.liferay.commerce.product.model.CPDefinitionOptionValueRel;
 import com.liferay.commerce.product.model.CPInstance;
-import com.liferay.commerce.product.model.CPInstanceOptionValueRel;
 import com.liferay.commerce.product.model.CProduct;
+import com.liferay.commerce.product.service.CPDefinitionLocalService;
+import com.liferay.commerce.product.service.CPInstanceOptionValueRelLocalService;
 import com.liferay.commerce.product.service.base.CPInstanceLocalServiceBaseImpl;
-import com.liferay.expando.kernel.service.ExpandoRowLocalService;
+import com.liferay.commerce.product.service.persistence.CPDefinitionOptionRelPersistence;
+import com.liferay.commerce.product.service.persistence.CProductPersistence;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.dao.orm.QueryDefinition;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -55,7 +64,7 @@ import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalService;
+import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.systemevent.SystemEvent;
 import com.liferay.portal.kernel.util.CalendarFactoryUtil;
 import com.liferay.portal.kernel.util.Constants;
@@ -63,14 +72,12 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.LinkedHashMapBuilder;
 import com.liferay.portal.kernel.util.OrderByComparator;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.UnicodeProperties;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
-import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import java.io.Serializable;
 
@@ -83,11 +90,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+
 /**
  * @author Marco Leo
  * @author Alessio Antonio Rendina
  * @author Igor Beslic
  */
+@Component(
+	enabled = false,
+	property = "model.class.name=com.liferay.commerce.product.model.CPInstance",
+	service = AopService.class
+)
 public class CPInstanceLocalServiceImpl extends CPInstanceLocalServiceBaseImpl {
 
 	@Indexable(type = IndexableType.REINDEX)
@@ -118,151 +133,23 @@ public class CPInstanceLocalServiceImpl extends CPInstanceLocalServiceBaseImpl {
 			ServiceContext serviceContext)
 		throws PortalException {
 
-		_validateSku(cpDefinitionId, 0, sku);
-
-		// Commerce product instance
-
-		User user = userLocalService.getUser(serviceContext.getUserId());
-
-		if (Validator.isBlank(externalReferenceCode)) {
-			externalReferenceCode = null;
-		}
-
-		Date expirationDate = null;
-		Date date = new Date();
-
-		Date displayDate = PortalUtil.getDate(
-			displayDateMonth, displayDateDay, displayDateYear, displayDateHour,
-			displayDateMinute, user.getTimeZone(),
-			CPInstanceDisplayDateException.class);
-
-		if (!neverExpire) {
-			expirationDate = PortalUtil.getDate(
-				expirationDateMonth, expirationDateDay, expirationDateYear,
-				expirationDateHour, expirationDateMinute, user.getTimeZone(),
-				CPInstanceExpirationDateException.class);
-		}
-
-		long cpInstanceId = counterLocalService.increment();
-
-		CPInstance cpInstance = cpInstancePersistence.create(cpInstanceId);
-
-		if (cpDefinitionLocalService.isVersionable(cpDefinitionId)) {
-			CPDefinition newCPDefinition =
-				cpDefinitionLocalService.copyCPDefinition(cpDefinitionId);
-
-			cpDefinitionId = newCPDefinition.getCPDefinitionId();
-		}
-
-		cpInstance.setExternalReferenceCode(externalReferenceCode);
-		cpInstance.setGroupId(groupId);
-		cpInstance.setCompanyId(user.getCompanyId());
-		cpInstance.setUserId(user.getUserId());
-		cpInstance.setUserName(user.getFullName());
-		cpInstance.setCPDefinitionId(cpDefinitionId);
-		cpInstance.setCPInstanceUuid(PortalUUIDUtil.generate());
-		cpInstance.setSku(sku);
-		cpInstance.setGtin(gtin);
-		cpInstance.setManufacturerPartNumber(manufacturerPartNumber);
-		cpInstance.setPurchasable(purchasable);
-		cpInstance.setWidth(width);
-		cpInstance.setHeight(height);
-		cpInstance.setDepth(depth);
-		cpInstance.setWeight(weight);
-		cpInstance.setPrice(price);
-		cpInstance.setPromoPrice(promoPrice);
-		cpInstance.setCost(cost);
-		cpInstance.setPublished(published);
-		cpInstance.setDisplayDate(displayDate);
-		cpInstance.setExpirationDate(expirationDate);
-		cpInstance.setOverrideSubscriptionInfo(overrideSubscriptionInfo);
-		cpInstance.setSubscriptionEnabled(subscriptionEnabled);
-		cpInstance.setSubscriptionLength(subscriptionLength);
-		cpInstance.setSubscriptionType(subscriptionType);
-		cpInstance.setSubscriptionTypeSettingsProperties(
-			subscriptionTypeSettingsUnicodeProperties);
-		cpInstance.setMaxSubscriptionCycles(maxSubscriptionCycles);
-		cpInstance.setDeliverySubscriptionEnabled(deliverySubscriptionEnabled);
-		cpInstance.setDeliverySubscriptionLength(deliverySubscriptionLength);
-		cpInstance.setDeliverySubscriptionType(deliverySubscriptionType);
-		cpInstance.setDeliverySubscriptionTypeSettingsProperties(
-			deliverySubscriptionTypeSettingsUnicodeProperties);
-		cpInstance.setDeliveryMaxSubscriptionCycles(
-			deliveryMaxSubscriptionCycles);
-		cpInstance.setStatus(WorkflowConstants.STATUS_DRAFT);
-
-		if ((displayDate != null) && date.before(displayDate)) {
-			cpInstance.setStatus(WorkflowConstants.STATUS_SCHEDULED);
-		}
-
-		if (!neverExpire && expirationDate.before(date)) {
-			cpInstance.setStatus(WorkflowConstants.STATUS_EXPIRED);
-		}
-
-		cpInstance.setStatusByUserId(user.getUserId());
-		cpInstance.setStatusDate(serviceContext.getModifiedDate(date));
-		cpInstance.setExpandoBridgeAttributes(serviceContext);
-		cpInstance.setUnspsc(unspsc);
-		cpInstance.setDiscontinued(discontinued);
-		cpInstance.setDiscontinuedDate(
-			PortalUtil.getDate(
-				discontinuedDateMonth, discontinuedDateDay,
-				discontinuedDateYear));
-		cpInstance.setReplacementCPInstanceUuid(replacementCPInstanceUuid);
-		cpInstance.setReplacementCProductId(replacementCProductId);
-
-		cpInstance = cpInstancePersistence.update(cpInstance);
-
-		if ((cpDefinitionOptionRelIdCPDefinitionOptionValueRelIds != null) &&
-			!cpDefinitionOptionRelIdCPDefinitionOptionValueRelIds.isEmpty()) {
-
-			cpInstanceOptionValueRelLocalService.
-				updateCPInstanceOptionValueRels(
-					groupId, user.getCompanyId(), user.getUserId(),
-					cpInstanceId,
-					cpDefinitionOptionRelIdCPDefinitionOptionValueRelIds);
-		}
-
-		reindexCPDefinition(cpDefinitionId);
-
-		if (!_isWorkflowActionPublish(serviceContext)) {
-			return cpInstance;
-		}
-
-		CPDefinition cpDefinition = cpDefinitionLocalService.getCPDefinition(
-			cpDefinitionId);
-
-		if (cpDefinition.isIgnoreSKUCombinations()) {
-			_expireApprovedSiblingCPInstances(
-				cpDefinition.getCPDefinitionId(), cpInstance.getCPInstanceId(),
-				serviceContext);
-		}
-		else {
-			if (!cpInstanceOptionValueRelLocalService.
-					hasCPInstanceOptionValueRel(cpInstanceId)) {
-
-				cpInstance = cpInstanceLocalService.updateStatus(
-					user.getUserId(), cpInstance.getCPInstanceId(),
-					WorkflowConstants.STATUS_INACTIVE);
-			}
-
-			_expireApprovedSiblingMatchingCPInstances(
-				cpDefinitionId,
-				cpDefinitionOptionRelIdCPDefinitionOptionValueRelIds,
-				serviceContext);
-
-			_inactivateNoOptionSiblingCPInstances(
-				cpDefinitionId, serviceContext);
-		}
-
-		// Workflow
-
-		if (cpInstance.getStatus() == WorkflowConstants.STATUS_DRAFT) {
-			cpInstance = startWorkflowInstance(
-				user.getUserId(), cpInstance, serviceContext);
-		}
-
-		return cpInstance;
+		return _addCPInstanceHelper.addCPInstance(
+			externalReferenceCode, cpDefinitionId, groupId, sku, gtin,
+			manufacturerPartNumber, purchasable,
+			cpDefinitionOptionRelIdCPDefinitionOptionValueRelIds, width, height,
+			depth, weight, price, promoPrice, cost, published, displayDateMonth,
+			displayDateDay, displayDateYear, displayDateHour, displayDateMinute,
+			expirationDateMonth, expirationDateDay, expirationDateYear,
+			expirationDateHour, expirationDateMinute, neverExpire,
+			overrideSubscriptionInfo, subscriptionEnabled, subscriptionLength,
+			subscriptionType, subscriptionTypeSettingsUnicodeProperties,
+			maxSubscriptionCycles, deliverySubscriptionEnabled,
+			deliverySubscriptionLength, deliverySubscriptionType,
+			deliverySubscriptionTypeSettingsUnicodeProperties,
+			deliveryMaxSubscriptionCycles, unspsc, discontinued,
+			replacementCPInstanceUuid, replacementCProductId,
+			discontinuedDateMonth, discontinuedDateDay, discontinuedDateYear,
+			serviceContext);
 	}
 
 	/**
@@ -292,6 +179,15 @@ public class CPInstanceLocalServiceImpl extends CPInstanceLocalServiceBaseImpl {
 			long deliveryMaxSubscriptionCycles, String unspsc,
 			ServiceContext serviceContext)
 		throws PortalException {
+
+		_checkCPInstancesHelper.validateSku(cpDefinitionId, 0, sku);
+
+		if (_cpDefinitionLocalService.isVersionable(cpDefinitionId)) {
+			CPDefinition newCPDefinition =
+				_cpDefinitionLocalService.copyCPDefinition(cpDefinitionId);
+
+			cpDefinitionId = newCPDefinition.getCPDefinitionId();
+		}
 
 		return cpInstanceLocalService.addCPInstance(
 			externalReferenceCode, cpDefinitionId, groupId, sku, gtin,
@@ -453,12 +349,21 @@ public class CPInstanceLocalServiceImpl extends CPInstanceLocalServiceBaseImpl {
 			}
 		}
 
+		_checkCPInstancesHelper.validateSku(cpDefinitionId, 0, sku);
+
+		if (_cpDefinitionLocalService.isVersionable(cpDefinitionId)) {
+			CPDefinition newCPDefinition =
+				_cpDefinitionLocalService.copyCPDefinition(cpDefinitionId);
+
+			cpDefinitionId = newCPDefinition.getCPDefinitionId();
+		}
+
 		return cpInstanceLocalService.addCPInstance(
 			externalReferenceCode, cpDefinitionId, groupId, sku, gtin,
 			manufacturerPartNumber, purchasable,
-			cpDefinitionOptionRelLocalService.
+			_cpDefinitionOptionRelCPDefinitionOptionValueRelHelper.
 				getCPDefinitionOptionRelCPDefinitionOptionValueRelIds(
-					cpDefinitionId, json),
+					cpDefinitionId, false, json),
 			width, height, depth, weight, price, promoPrice, cost, published,
 			displayDateMonth, displayDateDay, displayDateYear, displayDateHour,
 			displayDateMinute, expirationDateMonth, expirationDateDay,
@@ -503,7 +408,7 @@ public class CPInstanceLocalServiceImpl extends CPInstanceLocalServiceBaseImpl {
 			long cpDefinitionId, ServiceContext serviceContext)
 		throws PortalException {
 
-		CPDefinition cpDefinition = cpDefinitionLocalService.getCPDefinition(
+		CPDefinition cpDefinition = _cpDefinitionLocalService.getCPDefinition(
 			cpDefinitionId);
 
 		boolean neverExpire = false;
@@ -562,47 +467,26 @@ public class CPInstanceLocalServiceImpl extends CPInstanceLocalServiceBaseImpl {
 	public void checkCPInstancesByDisplayDate(long cpDefinitionId)
 		throws PortalException {
 
-		List<CPInstance> cpInstances = null;
+		_checkCPInstancesHelper.checkCPInstancesByDisplayDate(cpDefinitionId);
+	}
 
-		if (cpDefinitionId > 0) {
-			cpInstances = cpInstancePersistence.findByC_LtD_S(
-				cpDefinitionId, new Date(), WorkflowConstants.STATUS_SCHEDULED);
-		}
-		else {
-			cpInstances = cpInstancePersistence.findByLtD_S(
-				new Date(), WorkflowConstants.STATUS_SCHEDULED);
-		}
+	public CPInstance copyCPDefinitionAndPrepareCPInstance(
+			CPInstance cpInstance)
+		throws PortalException {
 
-		for (CPInstance cpInstance : cpInstances) {
-			long userId = PortalUtil.getValidUserId(
-				cpInstance.getCompanyId(), cpInstance.getUserId());
+		if (_cpDefinitionLocalService.isVersionable(
+				cpInstance.getCPDefinitionId())) {
 
-			ServiceContext serviceContext = new ServiceContext();
-
-			serviceContext.setCommand(Constants.UPDATE);
-			serviceContext.setScopeGroupId(cpInstance.getGroupId());
-			serviceContext.setUserId(userId);
-			serviceContext.setWorkflowAction(WorkflowConstants.ACTION_PUBLISH);
-
-			CPDefinition cpDefinition =
-				cpDefinitionLocalService.getCPDefinition(
+			CPDefinition newCPDefinition =
+				_cpDefinitionLocalService.copyCPDefinition(
 					cpInstance.getCPDefinitionId());
 
-			if (cpDefinition.isIgnoreSKUCombinations()) {
-				_expireApprovedSiblingCPInstances(
-					cpInstance.getCPDefinitionId(),
-					cpInstance.getCPInstanceId(), serviceContext);
-			}
-			else {
-				_expireApprovedSiblingMatchingCPInstances(
-					cpInstance.getCPDefinitionId(),
-					cpInstance.getCPInstanceId(), serviceContext);
-			}
-
-			cpInstanceLocalService.updateStatus(
-				userId, cpInstance.getCPInstanceId(),
-				WorkflowConstants.STATUS_APPROVED);
+			cpInstance = cpInstancePersistence.findByC_C(
+				newCPDefinition.getCPDefinitionId(),
+				cpInstance.getCPInstanceUuid());
 		}
+
+		return cpInstance;
 	}
 
 	@Indexable(type = IndexableType.DELETE)
@@ -611,42 +495,7 @@ public class CPInstanceLocalServiceImpl extends CPInstanceLocalServiceBaseImpl {
 	public CPInstance deleteCPInstance(CPInstance cpInstance)
 		throws PortalException {
 
-		if (cpDefinitionLocalService.isVersionable(
-				cpInstance.getCPDefinitionId())) {
-
-			CPDefinition newCPDefinition =
-				cpDefinitionLocalService.copyCPDefinition(
-					cpInstance.getCPDefinitionId());
-
-			cpInstance = cpInstancePersistence.findByC_C(
-				newCPDefinition.getCPDefinitionId(),
-				cpInstance.getCPInstanceUuid());
-		}
-
-		// Commerce product instance
-
-		cpInstancePersistence.remove(cpInstance);
-
-		cpInstanceOptionValueRelPersistence.removeByCPInstanceId(
-			cpInstance.getCPInstanceId());
-
-		cpDefinitionOptionValueRelLocalService.
-			resetCPInstanceCPDefinitionOptionValueRels(
-				cpInstance.getCPInstanceUuid());
-
-		// Expando
-
-		_expandoRowLocalService.deleteRows(cpInstance.getCPInstanceId());
-
-		// Workflow
-
-		_workflowInstanceLinkLocalService.deleteWorkflowInstanceLinks(
-			cpInstance.getCompanyId(), cpInstance.getGroupId(),
-			CPInstance.class.getName(), cpInstance.getCPInstanceId());
-
-		reindexCPDefinition(cpInstance.getCPDefinitionId());
-
-		return cpInstance;
+		return _deleteCPInstanceHelper.deleteCPInstance(cpInstance);
 	}
 
 	@Override
@@ -656,7 +505,8 @@ public class CPInstanceLocalServiceImpl extends CPInstanceLocalServiceBaseImpl {
 		CPInstance cpInstance = cpInstancePersistence.findByPrimaryKey(
 			cpInstanceId);
 
-		return cpInstanceLocalService.deleteCPInstance(cpInstance);
+		return cpInstanceLocalService.deleteCPInstance(
+			copyCPDefinitionAndPrepareCPInstance(cpInstance));
 	}
 
 	@Override
@@ -665,7 +515,8 @@ public class CPInstanceLocalServiceImpl extends CPInstanceLocalServiceBaseImpl {
 			cpInstancePersistence.findByCPDefinitionId(cpDefinitionId);
 
 		for (CPInstance cpInstance : cpInstances) {
-			cpInstanceLocalService.deleteCPInstance(cpInstance);
+			cpInstanceLocalService.deleteCPInstance(
+				copyCPDefinitionAndPrepareCPInstance(cpInstance));
 		}
 	}
 
@@ -685,7 +536,7 @@ public class CPInstanceLocalServiceImpl extends CPInstanceLocalServiceBaseImpl {
 	public CPInstance fetchCProductInstance(
 		long cProductId, String cpInstanceUuid) {
 
-		CProduct cProduct = cProductLocalService.fetchCProduct(cProductId);
+		CProduct cProduct = _cProductPersistence.fetchByPrimaryKey(cProductId);
 
 		if (cProduct == null) {
 			return null;
@@ -798,7 +649,7 @@ public class CPInstanceLocalServiceImpl extends CPInstanceLocalServiceBaseImpl {
 			long cProductId, String cpInstanceUuid)
 		throws PortalException {
 
-		CProduct cProduct = cProductLocalService.getCProduct(cProductId);
+		CProduct cProduct = _cProductPersistence.findByPrimaryKey(cProductId);
 
 		return cpInstancePersistence.findByC_C(
 			cProduct.getPublishedCPDefinitionId(), cpInstanceUuid);
@@ -826,11 +677,8 @@ public class CPInstanceLocalServiceImpl extends CPInstanceLocalServiceBaseImpl {
 			long userId, long cpDefinitionId, long cpDefinitionOptionRelId)
 		throws PortalException {
 
-		_inactivateCPDefinitionOptionRelCPInstances(
-			userId, cpDefinitionOptionRelId,
-			cpInstanceLocalService.getCPDefinitionInstances(
-				cpDefinitionId, WorkflowConstants.STATUS_ANY, QueryUtil.ALL_POS,
-				QueryUtil.ALL_POS, null));
+		_inactiveCPInstanceHelper.inactivateCPDefinitionOptionRelCPInstances(
+			userId, cpDefinitionId, cpDefinitionOptionRelId);
 	}
 
 	@Override
@@ -838,11 +686,9 @@ public class CPInstanceLocalServiceImpl extends CPInstanceLocalServiceBaseImpl {
 			long userId, long cpDefinitionId, long cpDefinitionOptionValueRelId)
 		throws PortalException {
 
-		_inactivateCPDefinitionOptionValueRelCPInstances(
-			userId, cpDefinitionOptionValueRelId,
-			cpInstanceLocalService.getCPDefinitionInstances(
-				cpDefinitionId, WorkflowConstants.STATUS_ANY, QueryUtil.ALL_POS,
-				QueryUtil.ALL_POS, null));
+		_inactiveCPInstanceHelper.
+			inactivateCPDefinitionOptionValueRelCPInstances(
+				userId, cpDefinitionId, cpDefinitionOptionValueRelId);
 	}
 
 	@Override
@@ -850,21 +696,8 @@ public class CPInstanceLocalServiceImpl extends CPInstanceLocalServiceBaseImpl {
 			long userId, long cpDefinitionId)
 		throws PortalException {
 
-		List<CPInstance> cpInstances = cpInstancePersistence.findByC_ST(
-			cpDefinitionId, WorkflowConstants.STATUS_APPROVED);
-
-		for (CPInstance curCPInstance : cpInstances) {
-			if (cpInstanceOptionValueRelLocalService.
-					matchesCPDefinitionOptionRels(
-						cpDefinitionId, curCPInstance.getCPInstanceId())) {
-
-				continue;
-			}
-
-			cpInstanceLocalService.updateStatus(
-				userId, curCPInstance.getCPInstanceId(),
-				WorkflowConstants.STATUS_INACTIVE);
-		}
+		_inactiveCPInstanceHelper.inactivateIncompatibleCPInstances(
+			userId, cpDefinitionId);
 	}
 
 	@Override
@@ -1074,18 +907,19 @@ public class CPInstanceLocalServiceImpl extends CPInstanceLocalServiceBaseImpl {
 		CPInstance cpInstance = cpInstancePersistence.findByPrimaryKey(
 			cpInstanceId);
 
-		_validateSku(cpInstance.getCPDefinitionId(), cpInstanceId, sku);
+		_checkCPInstancesHelper.validateSku(
+			cpInstance.getCPDefinitionId(), cpInstanceId, sku);
 
 		_validateReplacementCPInstance(
 			cpInstance, replacementCPInstanceUuid, replacementCProductId);
 
-		User user = userLocalService.getUser(serviceContext.getUserId());
+		User user = _userLocalService.getUser(serviceContext.getUserId());
 
-		if (cpDefinitionLocalService.isVersionable(
+		if (_cpDefinitionLocalService.isVersionable(
 				cpInstance.getCPDefinitionId())) {
 
 			CPDefinition newCPDefinition =
-				cpDefinitionLocalService.copyCPDefinition(
+				_cpDefinitionLocalService.copyCPDefinition(
 					cpInstance.getCPDefinitionId());
 
 			cpInstance = cpInstancePersistence.findByC_C(
@@ -1096,13 +930,13 @@ public class CPInstanceLocalServiceImpl extends CPInstanceLocalServiceBaseImpl {
 		Date expirationDate = null;
 		Date date = new Date();
 
-		Date displayDate = PortalUtil.getDate(
+		Date displayDate = _portal.getDate(
 			displayDateMonth, displayDateDay, displayDateYear, displayDateHour,
 			displayDateMinute, user.getTimeZone(),
 			CPInstanceDisplayDateException.class);
 
 		if (!neverExpire) {
-			expirationDate = PortalUtil.getDate(
+			expirationDate = _portal.getDate(
 				expirationDateMonth, expirationDateDay, expirationDateYear,
 				expirationDateHour, expirationDateMinute, user.getTimeZone(),
 				CPInstanceExpirationDateException.class);
@@ -1133,7 +967,7 @@ public class CPInstanceLocalServiceImpl extends CPInstanceLocalServiceBaseImpl {
 		cpInstance.setUnspsc(unspsc);
 		cpInstance.setDiscontinued(discontinued);
 		cpInstance.setDiscontinuedDate(
-			PortalUtil.getDate(
+			_portal.getDate(
 				discontinuedDateMonth, discontinuedDateDay,
 				discontinuedDateYear));
 		cpInstance.setReplacementCPInstanceUuid(replacementCPInstanceUuid);
@@ -1141,21 +975,22 @@ public class CPInstanceLocalServiceImpl extends CPInstanceLocalServiceBaseImpl {
 
 		cpInstance = cpInstancePersistence.update(cpInstance);
 
-		reindexCPDefinition(cpInstance.getCPDefinitionId());
+		_cpDefinitionIndexHelper.reindexCPDefinition(
+			cpInstance.getCPDefinitionId());
 
-		if (!_isWorkflowActionPublish(serviceContext)) {
+		if (!_addCPInstanceHelper.isWorkflowActionPublish(serviceContext)) {
 			return cpInstance;
 		}
 
-		CPDefinition cpDefinition = cpDefinitionLocalService.getCPDefinition(
+		CPDefinition cpDefinition = _cpDefinitionLocalService.getCPDefinition(
 			cpInstance.getCPDefinitionId());
 
 		if (cpDefinition.isIgnoreSKUCombinations()) {
-			_expireApprovedSiblingCPInstances(
+			_checkCPInstancesHelper.expireApprovedSiblingCPInstances(
 				cpDefinition.getCPDefinitionId(), cpInstanceId, serviceContext);
 		}
 		else {
-			if (!cpInstanceOptionValueRelLocalService.
+			if (!_cpInstanceOptionValueRelLocalService.
 					hasCPInstanceOptionValueRel(cpInstanceId)) {
 
 				cpInstance = cpInstanceLocalService.updateStatus(
@@ -1163,17 +998,20 @@ public class CPInstanceLocalServiceImpl extends CPInstanceLocalServiceBaseImpl {
 					WorkflowConstants.STATUS_INACTIVE);
 			}
 
-			_inactivateNoOptionSiblingCPInstances(
+			_addCPInstanceHelper.inactivateNoOptionSiblingCPInstances(
 				cpInstance.getCPDefinitionId(), serviceContext);
 		}
 
 		// Workflow
 
 		if ((cpInstance.getStatus() == WorkflowConstants.STATUS_APPROVED) ||
-			_isWorkflowActionPublish(serviceContext)) {
+			_addCPInstanceHelper.isWorkflowActionPublish(serviceContext)) {
 
-			cpInstance = startWorkflowInstance(
-				user.getUserId(), cpInstance, serviceContext);
+			cpInstance = WorkflowHandlerRegistryUtil.startWorkflowInstance(
+				cpInstance.getCompanyId(), cpInstance.getGroupId(),
+				user.getUserId(), CPInstance.class.getName(),
+				cpInstance.getCPInstanceId(), cpInstance, serviceContext,
+				new HashMap<>());
 		}
 
 		return cpInstance;
@@ -1246,11 +1084,11 @@ public class CPInstanceLocalServiceImpl extends CPInstanceLocalServiceBaseImpl {
 		CPInstance cpInstance = cpInstancePersistence.findByPrimaryKey(
 			cpInstanceId);
 
-		if (cpDefinitionLocalService.isVersionable(
+		if (_cpDefinitionLocalService.isVersionable(
 				cpInstance.getCPDefinitionId())) {
 
 			CPDefinition newCPDefinition =
-				cpDefinitionLocalService.copyCPDefinition(
+				_cpDefinitionLocalService.copyCPDefinition(
 					cpInstance.getCPDefinitionId());
 
 			cpInstance = cpInstancePersistence.findByC_C(
@@ -1274,11 +1112,11 @@ public class CPInstanceLocalServiceImpl extends CPInstanceLocalServiceBaseImpl {
 		CPInstance cpInstance = cpInstancePersistence.findByPrimaryKey(
 			cpInstanceId);
 
-		if (cpDefinitionLocalService.isVersionable(
+		if (_cpDefinitionLocalService.isVersionable(
 				cpInstance.getCPDefinitionId())) {
 
 			CPDefinition newCPDefinition =
-				cpDefinitionLocalService.copyCPDefinition(
+				_cpDefinitionLocalService.copyCPDefinition(
 					cpInstance.getCPDefinitionId());
 
 			cpInstance = cpInstancePersistence.findByC_C(
@@ -1299,54 +1137,8 @@ public class CPInstanceLocalServiceImpl extends CPInstanceLocalServiceBaseImpl {
 	public CPInstance updateStatus(long userId, long cpInstanceId, int status)
 		throws PortalException {
 
-		User user = userLocalService.getUser(userId);
-		Date date = new Date();
-
-		CPInstance cpInstance = cpInstancePersistence.findByPrimaryKey(
-			cpInstanceId);
-
-		CPDefinition cpDefinition = cpInstance.getCPDefinition();
-
-		if (!cpDefinition.isIgnoreSKUCombinations() &&
-			!cpInstanceOptionValueRelLocalService.hasCPInstanceOptionValueRel(
-				cpInstance.getCPInstanceId())) {
-
-			status = WorkflowConstants.STATUS_INACTIVE;
-		}
-
-		if ((status == WorkflowConstants.STATUS_APPROVED) &&
-			(cpInstance.getDisplayDate() != null) &&
-			date.before(cpInstance.getDisplayDate())) {
-
-			status = WorkflowConstants.STATUS_SCHEDULED;
-		}
-
-		if (status == WorkflowConstants.STATUS_APPROVED) {
-			Date expirationDate = cpInstance.getExpirationDate();
-
-			if ((expirationDate != null) && expirationDate.before(date)) {
-				cpInstance.setExpirationDate(null);
-			}
-		}
-
-		if (status == WorkflowConstants.STATUS_EXPIRED) {
-			cpInstance.setExpirationDate(date);
-		}
-
-		if ((cpInstance.getStatus() == WorkflowConstants.STATUS_APPROVED) &&
-			(status != WorkflowConstants.STATUS_APPROVED)) {
-
-			cpDefinitionOptionValueRelLocalService.
-				resetCPInstanceCPDefinitionOptionValueRels(
-					cpInstance.getCPInstanceUuid());
-		}
-
-		cpInstance.setStatus(status);
-		cpInstance.setStatusByUserId(user.getUserId());
-		cpInstance.setStatusByUserName(user.getFullName());
-		cpInstance.setStatusDate(date);
-
-		return cpInstancePersistence.update(cpInstance);
+		return _updateCPInstanceStatusHelper.updateStatus(
+			userId, cpInstanceId, status);
 	}
 
 	@Indexable(type = IndexableType.REINDEX)
@@ -1365,11 +1157,11 @@ public class CPInstanceLocalServiceImpl extends CPInstanceLocalServiceBaseImpl {
 		CPInstance cpInstance = cpInstancePersistence.findByPrimaryKey(
 			cpInstanceId);
 
-		if (cpDefinitionLocalService.isVersionable(
+		if (_cpDefinitionLocalService.isVersionable(
 				cpInstance.getCPDefinitionId())) {
 
 			CPDefinition newCPDefinition =
-				cpDefinitionLocalService.copyCPDefinition(
+				_cpDefinitionLocalService.copyCPDefinition(
 					cpInstance.getCPDefinitionId());
 
 			cpInstance = cpInstancePersistence.findByC_C(
@@ -1424,7 +1216,7 @@ public class CPInstanceLocalServiceImpl extends CPInstanceLocalServiceBaseImpl {
 			boolean neverExpire, String unspsc, ServiceContext serviceContext)
 		throws PortalException {
 
-		User user = userLocalService.getUser(serviceContext.getUserId());
+		User user = _userLocalService.getUser(serviceContext.getUserId());
 
 		Calendar displayDateCalendar = CalendarFactoryUtil.getCalendar(
 			displayDate.getTime(), user.getTimeZone());
@@ -1635,7 +1427,7 @@ public class CPInstanceLocalServiceImpl extends CPInstanceLocalServiceBaseImpl {
 
 		if ((cpInstances != null) && !cpInstances.isEmpty()) {
 			for (CPInstance cpInstance : cpInstances) {
-				long userId = PortalUtil.getValidUserId(
+				long userId = _portal.getValidUserId(
 					cpInstance.getCompanyId(), cpInstance.getUserId());
 
 				ServiceContext serviceContext = new ServiceContext();
@@ -1682,27 +1474,6 @@ public class CPInstanceLocalServiceImpl extends CPInstanceLocalServiceBaseImpl {
 		return cpInstances;
 	}
 
-	protected void reindexCPDefinition(long cpDefinitionId)
-		throws PortalException {
-
-		Indexer<CPDefinition> indexer = IndexerRegistryUtil.nullSafeGetIndexer(
-			CPDefinition.class);
-
-		indexer.reindex(CPDefinition.class.getName(), cpDefinitionId);
-	}
-
-	protected CPInstance startWorkflowInstance(
-			long userId, CPInstance cpInstance, ServiceContext serviceContext)
-		throws PortalException {
-
-		Map<String, Serializable> workflowContext = new HashMap<>();
-
-		return WorkflowHandlerRegistryUtil.startWorkflowInstance(
-			cpInstance.getCompanyId(), cpInstance.getGroupId(), userId,
-			CPInstance.class.getName(), cpInstance.getCPInstanceId(),
-			cpInstance, serviceContext, workflowContext);
-	}
-
 	private void _checkReplacementCPInstance(
 			String cpInstanceUuid, long cProductId,
 			String replacementCPInstanceUuid, long replacementCProductId)
@@ -1729,77 +1500,6 @@ public class CPInstanceLocalServiceImpl extends CPInstanceLocalServiceBaseImpl {
 			replacementCPInstance.getReplacementCProductId());
 	}
 
-	private void _expireApprovedSiblingCPInstances(
-			long cpDefinitionId, long siblingCPInstanceId,
-			ServiceContext serviceContext)
-		throws PortalException {
-
-		List<CPInstance> cpInstances = cpInstancePersistence.findByC_ST(
-			cpDefinitionId, WorkflowConstants.STATUS_APPROVED);
-
-		for (CPInstance cpInstance : cpInstances) {
-			if (cpInstance.getCPInstanceId() == siblingCPInstanceId) {
-				continue;
-			}
-
-			cpInstanceLocalService.updateStatus(
-				serviceContext.getUserId(), cpInstance.getCPInstanceId(),
-				WorkflowConstants.STATUS_EXPIRED);
-		}
-	}
-
-	private void _expireApprovedSiblingMatchingCPInstances(
-			long cpDefinitionId, long cpInstanceId,
-			ServiceContext serviceContext)
-		throws PortalException {
-
-		List<CPInstance> cpInstances = cpInstancePersistence.findByC_ST(
-			cpDefinitionId, WorkflowConstants.STATUS_APPROVED);
-
-		List<CPInstanceOptionValueRel> cpInstanceCPInstanceOptionValueRels =
-			cpInstanceOptionValueRelLocalService.
-				getCPInstanceCPInstanceOptionValueRels(cpInstanceId);
-
-		for (CPInstance curCPInstance : cpInstances) {
-			if (!cpInstanceOptionValueRelLocalService.
-					matchesCPInstanceOptionValueRels(
-						curCPInstance.getCPInstanceId(),
-						cpInstanceCPInstanceOptionValueRels)) {
-
-				continue;
-			}
-
-			cpInstanceLocalService.updateStatus(
-				serviceContext.getUserId(), curCPInstance.getCPInstanceId(),
-				WorkflowConstants.STATUS_EXPIRED);
-		}
-	}
-
-	private void _expireApprovedSiblingMatchingCPInstances(
-			long cpDefinitionId,
-			Map<Long, List<Long>>
-				cpDefinitionOptionRelIdCPDefinitionOptionValueRelIds,
-			ServiceContext serviceContext)
-		throws PortalException {
-
-		List<CPInstance> cpInstances = cpInstancePersistence.findByC_ST(
-			cpDefinitionId, WorkflowConstants.STATUS_APPROVED);
-
-		for (CPInstance curCPInstance : cpInstances) {
-			if (!cpInstanceOptionValueRelLocalService.
-					matchesCPInstanceOptionValueRels(
-						curCPInstance.getCPInstanceId(),
-						cpDefinitionOptionRelIdCPDefinitionOptionValueRelIds)) {
-
-				continue;
-			}
-
-			cpInstanceLocalService.updateStatus(
-				serviceContext.getUserId(), curCPInstance.getCPInstanceId(),
-				WorkflowConstants.STATUS_EXPIRED);
-		}
-	}
-
 	private String _getSKU(
 		CPDefinitionOptionValueRel[] cpDefinitionOptionValueRels,
 		String languageId) {
@@ -1823,8 +1523,7 @@ public class CPInstanceLocalServiceImpl extends CPInstanceLocalServiceBaseImpl {
 		throws NoSuchSkuContributorCPDefinitionOptionRelException {
 
 		List<CPDefinitionOptionRel> cpDefinitionOptionRels =
-			cpDefinitionOptionRelLocalService.getCPDefinitionOptionRels(
-				cpDefinitionId, true);
+			_cpDefinitionOptionRelPersistence.findByC_SC(cpDefinitionId, true);
 
 		if (cpDefinitionOptionRels.isEmpty()) {
 			throw new NoSuchSkuContributorCPDefinitionOptionRelException();
@@ -1852,87 +1551,6 @@ public class CPInstanceLocalServiceImpl extends CPInstanceLocalServiceBaseImpl {
 		}
 
 		return new SKUCombinationsIterator(combinationGeneratorMap);
-	}
-
-	private void _inactivateCPDefinitionOptionRelCPInstances(
-			long userId, long cpDefinitionOptionRelId,
-			List<CPInstance> cpInstances)
-		throws PortalException {
-
-		for (CPInstance cpInstance : cpInstances) {
-			if (cpInstance.isInactive() ||
-				!cpInstanceOptionValueRelLocalService.
-					hasCPInstanceCPDefinitionOptionRel(
-						cpDefinitionOptionRelId,
-						cpInstance.getCPInstanceId())) {
-
-				continue;
-			}
-
-			if (userId <= 0) {
-				userId = cpInstance.getUserId();
-			}
-
-			cpInstanceLocalService.updateStatus(
-				userId, cpInstance.getCPInstanceId(),
-				WorkflowConstants.STATUS_INACTIVE);
-		}
-	}
-
-	private void _inactivateCPDefinitionOptionValueRelCPInstances(
-			long userId, long cpDefinitionOptionValueRelId,
-			List<CPInstance> cpInstances)
-		throws PortalException {
-
-		for (CPInstance cpInstance : cpInstances) {
-			if (cpInstance.isInactive() ||
-				!cpInstanceOptionValueRelLocalService.
-					hasCPInstanceCPDefinitionOptionValueRel(
-						cpDefinitionOptionValueRelId,
-						cpInstance.getCPInstanceId())) {
-
-				continue;
-			}
-
-			if (userId <= 0) {
-				userId = cpInstance.getUserId();
-			}
-
-			cpInstanceLocalService.updateStatus(
-				userId, cpInstance.getCPInstanceId(),
-				WorkflowConstants.STATUS_INACTIVE);
-		}
-	}
-
-	private void _inactivateNoOptionSiblingCPInstances(
-			long cpDefinitionId, ServiceContext serviceContext)
-		throws PortalException {
-
-		List<CPInstance> cpInstances = cpInstancePersistence.findByC_ST(
-			cpDefinitionId, WorkflowConstants.STATUS_APPROVED);
-
-		for (CPInstance curCPInstance : cpInstances) {
-			if (cpInstanceOptionValueRelLocalService.
-					hasCPInstanceOptionValueRel(
-						curCPInstance.getCPInstanceId())) {
-
-				continue;
-			}
-
-			cpInstanceLocalService.updateStatus(
-				serviceContext.getUserId(), curCPInstance.getCPInstanceId(),
-				WorkflowConstants.STATUS_INACTIVE);
-		}
-	}
-
-	private boolean _isWorkflowActionPublish(ServiceContext serviceContext) {
-		if (serviceContext.getWorkflowAction() ==
-				WorkflowConstants.ACTION_PUBLISH) {
-
-			return true;
-		}
-
-		return false;
 	}
 
 	private Map<Long, List<Long>>
@@ -1983,29 +1601,6 @@ public class CPInstanceLocalServiceImpl extends CPInstanceLocalServiceBaseImpl {
 			replacementCPInstanceUuid, replacementCProductId);
 	}
 
-	private void _validateSku(
-			long cpDefinitionId, long cpInstanceId, String sku)
-		throws CPInstanceSkuException {
-
-		if (Validator.isNull(sku)) {
-			throw new CPInstanceSkuException(
-				"SKU value required for product definition ID " +
-					cpDefinitionId);
-		}
-
-		CPInstance cpInstance = cpInstancePersistence.fetchByCPDI_SKU(
-			cpDefinitionId, sku);
-
-		if ((cpInstance == null) ||
-			(cpInstanceId == cpInstance.getCPInstanceId())) {
-
-			return;
-		}
-
-		throw new CPInstanceSkuException(
-			"Duplicate SKU value for product definition ID " + cpDefinitionId);
-	}
-
 	private static final String[] _SELECTED_FIELD_NAMES = {
 		Field.ENTRY_CLASS_PK, Field.COMPANY_ID, Field.GROUP_ID, Field.UID
 	};
@@ -2013,10 +1608,45 @@ public class CPInstanceLocalServiceImpl extends CPInstanceLocalServiceBaseImpl {
 	private static final Log _log = LogFactoryUtil.getLog(
 		CPInstanceLocalServiceImpl.class);
 
-	@ServiceReference(type = ExpandoRowLocalService.class)
-	private ExpandoRowLocalService _expandoRowLocalService;
+	@Reference
+	private AddCPInstanceHelper _addCPInstanceHelper;
 
-	@ServiceReference(type = WorkflowInstanceLinkLocalService.class)
-	private WorkflowInstanceLinkLocalService _workflowInstanceLinkLocalService;
+	@Reference
+	private CheckCPInstancesHelper _checkCPInstancesHelper;
+
+	@Reference
+	private CPDefinitionIndexHelper _cpDefinitionIndexHelper;
+
+	@Reference
+	private CPDefinitionLocalService _cpDefinitionLocalService;
+
+	@Reference
+	private CPDefinitionOptionRelCPDefinitionOptionValueRelHelper
+		_cpDefinitionOptionRelCPDefinitionOptionValueRelHelper;
+
+	@Reference
+	private CPDefinitionOptionRelPersistence _cpDefinitionOptionRelPersistence;
+
+	@Reference
+	private CPInstanceOptionValueRelLocalService
+		_cpInstanceOptionValueRelLocalService;
+
+	@Reference
+	private CProductPersistence _cProductPersistence;
+
+	@Reference
+	private DeleteCPInstanceHelper _deleteCPInstanceHelper;
+
+	@Reference
+	private InactiveCPInstanceHelper _inactiveCPInstanceHelper;
+
+	@Reference
+	private Portal _portal;
+
+	@Reference
+	private UpdateCPInstanceStatusHelper _updateCPInstanceStatusHelper;
+
+	@Reference
+	private UserLocalService _userLocalService;
 
 }

@@ -24,7 +24,6 @@ import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.security.access.control.AccessControlled;
 import com.liferay.portal.kernel.service.BaseService;
 import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.spring.osgi.OSGiBeanProperties;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -48,13 +47,6 @@ import org.osgi.annotation.versioning.ProviderType;
 @AccessControlled
 @CTAware
 @JSONWebService
-@OSGiBeanProperties(
-	property = {
-		"json.web.service.context.name=commerce",
-		"json.web.service.context.path=CPOption"
-	},
-	service = CPOptionService.class
-)
 @ProviderType
 @Transactional(
 	isolation = Isolation.PORTAL,
@@ -95,9 +87,8 @@ public interface CPOptionService extends BaseService {
 		throws PortalException;
 
 	public List<CPOption> findCPOptionByCompanyId(
-			long companyId, int start, int end,
-			OrderByComparator<CPOption> orderByComparator)
-		throws PortalException;
+		long companyId, int start, int end,
+		OrderByComparator<CPOption> orderByComparator);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public CPOption getCPOption(long cpOptionId) throws PortalException;

@@ -584,14 +584,6 @@ public class CPDefinitionOptionValueRelLocalServiceWrapper
 	}
 
 	@Override
-	public void resetCPInstanceCPDefinitionOptionValueRels(
-		String cpInstanceUuid) {
-
-		_cpDefinitionOptionValueRelLocalService.
-			resetCPInstanceCPDefinitionOptionValueRels(cpInstanceUuid);
-	}
-
-	@Override
 	public com.liferay.portal.kernel.search.Hits search(
 		com.liferay.portal.kernel.search.SearchContext searchContext) {
 

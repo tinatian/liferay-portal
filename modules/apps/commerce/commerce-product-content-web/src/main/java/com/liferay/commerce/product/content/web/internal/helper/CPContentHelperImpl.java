@@ -286,8 +286,8 @@ public class CPContentHelperImpl implements CPContentHelper {
 		}
 
 		CPAttachmentFileEntry cpAttachmentFileEntry =
-			_cpDefinitionLocalService.getDefaultImageCPAttachmentFileEntry(
-				cpDefinitionId);
+			_cpAttachmentFileEntryLocalService.
+				getDefaultImageCPAttachmentFileEntry(cpDefinitionId);
 
 		if (cpAttachmentFileEntry != null) {
 			FileEntry fileEntry = cpAttachmentFileEntry.fetchFileEntry();
@@ -565,7 +565,8 @@ public class CPContentHelperImpl implements CPContentHelper {
 
 	@Override
 	public boolean hasChildCPDefinitions(long cpDefinitionId) {
-		return _cpDefinitionLocalService.hasChildCPDefinitions(cpDefinitionId);
+		return _cpDefinitionOptionRelLocalService.
+			hasLinkedCPInstanceCPDefinitionOptionRels(cpDefinitionId);
 	}
 
 	@Override

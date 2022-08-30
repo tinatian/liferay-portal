@@ -740,15 +740,6 @@ public class CPDefinitionLocalServiceWrapper
 	}
 
 	@Override
-	public com.liferay.commerce.product.model.CPAttachmentFileEntry
-			getDefaultImageCPAttachmentFileEntry(long cpDefinitionId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		return _cpDefinitionLocalService.getDefaultImageCPAttachmentFileEntry(
-			cpDefinitionId);
-	}
-
-	@Override
 	public com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery
 		getExportActionableDynamicQuery(
 			com.liferay.exportimport.kernel.lar.PortletDataContext
@@ -809,15 +800,8 @@ public class CPDefinitionLocalServiceWrapper
 	}
 
 	@Override
-	public String getUrlTitleMapAsXML(long cpDefinitionId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public String getUrlTitleMapAsXML(long cpDefinitionId) {
 		return _cpDefinitionLocalService.getUrlTitleMapAsXML(cpDefinitionId);
-	}
-
-	@Override
-	public boolean hasChildCPDefinitions(long cpDefinitionId) {
-		return _cpDefinitionLocalService.hasChildCPDefinitions(cpDefinitionId);
 	}
 
 	@Override
@@ -855,6 +839,16 @@ public class CPDefinitionLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		_cpDefinitionLocalService.maintainVersionThreshold(cProductId);
+	}
+
+	@Override
+	public void processCPInstanceAndCPDefinition(
+			com.liferay.commerce.product.model.CPDefinitionOptionRel
+				cpDefinitionOptionRel)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		_cpDefinitionLocalService.processCPInstanceAndCPDefinition(
+			cpDefinitionOptionRel);
 	}
 
 	@Override

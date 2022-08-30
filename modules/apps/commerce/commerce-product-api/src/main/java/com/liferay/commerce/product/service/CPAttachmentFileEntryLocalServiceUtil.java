@@ -508,6 +508,14 @@ public class CPAttachmentFileEntryLocalServiceUtil {
 			uuid, groupId);
 	}
 
+	public static CPAttachmentFileEntry getDefaultImageCPAttachmentFileEntry(
+			long cpDefinitionId)
+		throws PortalException {
+
+		return getService().getDefaultImageCPAttachmentFileEntry(
+			cpDefinitionId);
+	}
+
 	public static com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery
 		getExportActionableDynamicQuery(
 			com.liferay.exportimport.kernel.lar.PortletDataContext

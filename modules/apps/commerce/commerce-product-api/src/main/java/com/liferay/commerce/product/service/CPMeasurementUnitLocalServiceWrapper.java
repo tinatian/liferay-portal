@@ -276,8 +276,7 @@ public class CPMeasurementUnitLocalServiceWrapper
 
 	@Override
 	public CPMeasurementUnit fetchCPMeasurementUnitByKey(
-			long companyId, String key)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		long companyId, String key) {
 
 		return _cpMeasurementUnitLocalService.fetchCPMeasurementUnitByKey(
 			companyId, key);
@@ -448,8 +447,7 @@ public class CPMeasurementUnitLocalServiceWrapper
 
 	@Override
 	public java.util.List<CPMeasurementUnit> getCPMeasurementUnitsByType(
-			long companyId, int type)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		long companyId, int type) {
 
 		return _cpMeasurementUnitLocalService.getCPMeasurementUnitsByType(
 			companyId, type);
@@ -457,10 +455,9 @@ public class CPMeasurementUnitLocalServiceWrapper
 
 	@Override
 	public java.util.List<CPMeasurementUnit> getCPMeasurementUnitsByType(
-			long companyId, int type, int start, int end,
-			com.liferay.portal.kernel.util.OrderByComparator<CPMeasurementUnit>
-				orderByComparator)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		long companyId, int type, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<CPMeasurementUnit>
+			orderByComparator) {
 
 		return _cpMeasurementUnitLocalService.getCPMeasurementUnitsByType(
 			companyId, type, start, end, orderByComparator);

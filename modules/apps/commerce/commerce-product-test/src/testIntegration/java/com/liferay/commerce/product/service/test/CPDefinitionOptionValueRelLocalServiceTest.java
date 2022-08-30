@@ -231,7 +231,9 @@ public class CPDefinitionOptionValueRelLocalServiceTest {
 			BigDecimal.TEN, cpDefinitionOptionValueRel.getPrice());
 		Assert.assertEquals(1, cpDefinitionOptionValueRel.getQuantity());
 
-		_cpInstanceLocalService.deleteCPInstance(cpInstance);
+		_cpInstanceLocalService.deleteCPInstance(
+			_cpInstanceLocalService.copyCPDefinitionAndPrepareCPInstance(
+				cpInstance));
 
 		cpDefinitionOptionValueRel =
 			_cpDefinitionOptionValueRelLocalService.

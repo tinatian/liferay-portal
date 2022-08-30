@@ -19,7 +19,13 @@ import com.liferay.commerce.product.model.CPAttachmentFileEntry;
 import com.liferay.commerce.product.model.CPDefinition;
 import com.liferay.commerce.product.model.CProduct;
 import com.liferay.commerce.product.model.CommerceCatalog;
+import com.liferay.commerce.product.service.CPAttachmentFileEntryLocalService;
+import com.liferay.commerce.product.service.CPDisplayLayoutLocalService;
+import com.liferay.commerce.product.service.CProductLocalService;
+import com.liferay.commerce.product.service.CommerceCatalogLocalService;
+import com.liferay.commerce.product.service.CommerceCatalogService;
 import com.liferay.commerce.product.service.base.CPDefinitionServiceBaseImpl;
+import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.GroupConstants;
@@ -28,7 +34,6 @@ import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.security.auth.PrincipalException;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
-import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermissionFactory;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.UnicodeProperties;
@@ -40,10 +45,21 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+
 /**
  * @author Marco Leo
  * @author Alessio Antonio Rendina
  */
+@Component(
+	enabled = false,
+	property = {
+		"json.web.service.context.name=commerce",
+		"json.web.service.context.path=CPDefinition"
+	},
+	service = AopService.class
+)
 public class CPDefinitionServiceImpl extends CPDefinitionServiceBaseImpl {
 
 	@Override
@@ -344,7 +360,7 @@ public class CPDefinitionServiceImpl extends CPDefinitionServiceBaseImpl {
 			long cProductId, int status, int start, int end)
 		throws PortalException {
 
-		CProduct cProduct = cProductLocalService.getCProduct(cProductId);
+		CProduct cProduct = _cProductLocalService.getCProduct(cProductId);
 
 		_checkCommerceCatalogByCPDefinitionId(
 			cProduct.getPublishedCPDefinitionId(), ActionKeys.VIEW);
@@ -360,8 +376,8 @@ public class CPDefinitionServiceImpl extends CPDefinitionServiceBaseImpl {
 
 		_checkCommerceCatalogByCPDefinitionId(cpDefinitionId, ActionKeys.VIEW);
 
-		return cpDefinitionLocalService.getDefaultImageCPAttachmentFileEntry(
-			cpDefinitionId);
+		return _cpAttachmentFileEntryLocalService.
+			getDefaultImageCPAttachmentFileEntry(cpDefinitionId);
 	}
 
 	/**
@@ -401,7 +417,7 @@ public class CPDefinitionServiceImpl extends CPDefinitionServiceBaseImpl {
 		throws PortalException {
 
 		List<CommerceCatalog> commerceCatalogs =
-			commerceCatalogService.getCommerceCatalogs(
+			_commerceCatalogService.getCommerceCatalogs(
 				companyId, QueryUtil.ALL_POS, QueryUtil.ALL_POS);
 
 		Stream<CommerceCatalog> stream = commerceCatalogs.stream();
@@ -421,7 +437,7 @@ public class CPDefinitionServiceImpl extends CPDefinitionServiceBaseImpl {
 		throws PortalException {
 
 		List<CommerceCatalog> commerceCatalogs =
-			commerceCatalogService.getCommerceCatalogs(
+			_commerceCatalogService.getCommerceCatalogs(
 				companyId, QueryUtil.ALL_POS, QueryUtil.ALL_POS);
 
 		Stream<CommerceCatalog> stream = commerceCatalogs.stream();
@@ -443,7 +459,7 @@ public class CPDefinitionServiceImpl extends CPDefinitionServiceBaseImpl {
 		throws PortalException {
 
 		List<CommerceCatalog> commerceCatalogs =
-			commerceCatalogService.getCommerceCatalogs(
+			_commerceCatalogService.getCommerceCatalogs(
 				companyId, QueryUtil.ALL_POS, QueryUtil.ALL_POS);
 
 		Stream<CommerceCatalog> stream = commerceCatalogs.stream();
@@ -535,7 +551,7 @@ public class CPDefinitionServiceImpl extends CPDefinitionServiceBaseImpl {
 		_checkCommerceCatalogByCPDefinitionId(
 			cpDefinitionId, ActionKeys.UPDATE);
 
-		cpDisplayLayoutLocalService.addCPDisplayLayout(
+		_cpDisplayLayoutLocalService.addCPDisplayLayout(
 			serviceContext.getUserId(), serviceContext.getScopeGroupId(),
 			CPDefinition.class, cpDefinitionId, layoutUuid);
 	}
@@ -643,7 +659,7 @@ public class CPDefinitionServiceImpl extends CPDefinitionServiceBaseImpl {
 		throws PortalException {
 
 		CommerceCatalog commerceCatalog =
-			commerceCatalogLocalService.fetchCommerceCatalogByGroupId(groupId);
+			_commerceCatalogLocalService.fetchCommerceCatalogByGroupId(groupId);
 
 		if (commerceCatalog == null) {
 			throw new PrincipalException();
@@ -665,18 +681,33 @@ public class CPDefinitionServiceImpl extends CPDefinitionServiceBaseImpl {
 		}
 
 		CommerceCatalog commerceCatalog =
-			commerceCatalogLocalService.fetchCommerceCatalogByGroupId(
+			_commerceCatalogLocalService.fetchCommerceCatalogByGroupId(
 				cpDefinition.getGroupId());
 
 		_commerceCatalogModelResourcePermission.check(
 			getPermissionChecker(), commerceCatalog, actionId);
 	}
 
-	private static volatile ModelResourcePermission<CommerceCatalog>
-		_commerceCatalogModelResourcePermission =
-			ModelResourcePermissionFactory.getInstance(
-				CPDefinitionServiceImpl.class,
-				"_commerceCatalogModelResourcePermission",
-				CommerceCatalog.class);
+	@Reference
+	private CommerceCatalogLocalService _commerceCatalogLocalService;
+
+	@Reference(
+		target = "(model.class.name=com.liferay.commerce.product.model.CommerceCatalog)"
+	)
+	private ModelResourcePermission<CommerceCatalog>
+		_commerceCatalogModelResourcePermission;
+
+	@Reference
+	private CommerceCatalogService _commerceCatalogService;
+
+	@Reference
+	private CPAttachmentFileEntryLocalService
+		_cpAttachmentFileEntryLocalService;
+
+	@Reference
+	private CPDisplayLayoutLocalService _cpDisplayLayoutLocalService;
+
+	@Reference
+	private CProductLocalService _cProductLocalService;
 
 }

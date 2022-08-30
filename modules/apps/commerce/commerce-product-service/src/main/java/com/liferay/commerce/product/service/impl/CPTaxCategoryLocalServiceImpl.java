@@ -17,11 +17,14 @@ package com.liferay.commerce.product.service.impl;
 import com.liferay.commerce.product.exception.CPTaxCategoryNameException;
 import com.liferay.commerce.product.exception.DuplicateCPTaxCategoryException;
 import com.liferay.commerce.product.model.CPTaxCategory;
+import com.liferay.commerce.product.service.CPDefinitionLocalService;
 import com.liferay.commerce.product.service.base.CPTaxCategoryLocalServiceBaseImpl;
+import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.SystemEventConstants;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.systemevent.SystemEvent;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
@@ -31,9 +34,17 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+
 /**
  * @author Alessio Antonio Rendina
  */
+@Component(
+	enabled = false,
+	property = "model.class.name=com.liferay.commerce.product.model.CPTaxCategory",
+	service = AopService.class
+)
 public class CPTaxCategoryLocalServiceImpl
 	extends CPTaxCategoryLocalServiceBaseImpl {
 
@@ -48,7 +59,7 @@ public class CPTaxCategoryLocalServiceImpl
 			ServiceContext serviceContext)
 		throws PortalException {
 
-		User user = userLocalService.getUser(serviceContext.getUserId());
+		User user = _userLocalService.getUser(serviceContext.getUserId());
 
 		validate(nameMap);
 
@@ -72,7 +83,7 @@ public class CPTaxCategoryLocalServiceImpl
 			Map<Locale, String> descriptionMap, ServiceContext serviceContext)
 		throws PortalException {
 
-		User user = userLocalService.getUser(serviceContext.getUserId());
+		User user = _userLocalService.getUser(serviceContext.getUserId());
 
 		validate(user.getCompanyId(), 0, externalReferenceCode, nameMap);
 
@@ -113,7 +124,7 @@ public class CPTaxCategoryLocalServiceImpl
 
 		// Commerce product definitions
 
-		cpDefinitionLocalService.updateCPDefinitionsByCPTaxCategoryId(
+		_cpDefinitionLocalService.updateCPDefinitionsByCPTaxCategoryId(
 			cpTaxCategory.getCPTaxCategoryId());
 
 		return cpTaxCategory;
@@ -230,5 +241,11 @@ public class CPTaxCategoryLocalServiceImpl
 			throw new CPTaxCategoryNameException();
 		}
 	}
+
+	@Reference
+	private CPDefinitionLocalService _cpDefinitionLocalService;
+
+	@Reference
+	private UserLocalService _userLocalService;
 
 }

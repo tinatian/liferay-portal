@@ -15,24 +15,36 @@
 package com.liferay.commerce.product.service.impl;
 
 import com.liferay.commerce.product.exception.DuplicateCProductException;
+import com.liferay.commerce.product.internal.helper.CPDefinitionIndexHelper;
 import com.liferay.commerce.product.model.CPDefinition;
 import com.liferay.commerce.product.model.CPInstance;
 import com.liferay.commerce.product.model.CProduct;
+import com.liferay.commerce.product.service.CPDefinitionLinkLocalService;
 import com.liferay.commerce.product.service.base.CProductLocalServiceBaseImpl;
+import com.liferay.commerce.product.service.persistence.CPDefinitionPersistence;
+import com.liferay.commerce.product.service.persistence.CPInstancePersistence;
+import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.SystemEventConstants;
 import com.liferay.portal.kernel.model.User;
-import com.liferay.portal.kernel.search.Indexer;
-import com.liferay.portal.kernel.search.IndexerRegistryUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.systemevent.SystemEvent;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
+
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Ethan Bustad
  * @author Alessio Antonio Rendina
  */
+@Component(
+	enabled = false,
+	property = "model.class.name=com.liferay.commerce.product.model.CProduct",
+	service = AopService.class
+)
 public class CProductLocalServiceImpl extends CProductLocalServiceBaseImpl {
 
 	@Override
@@ -41,7 +53,7 @@ public class CProductLocalServiceImpl extends CProductLocalServiceBaseImpl {
 			ServiceContext serviceContext)
 		throws PortalException {
 
-		User user = userLocalService.getUser(userId);
+		User user = _userLocalService.getUser(userId);
 
 		if (Validator.isBlank(externalReferenceCode)) {
 			externalReferenceCode = null;
@@ -68,12 +80,12 @@ public class CProductLocalServiceImpl extends CProductLocalServiceBaseImpl {
 
 		// Commerce product definitions
 
-		cpDefinitionLocalService.deleteCPDefinitions(
+		_cpDefinitionPersistence.removeByC_S(
 			cProduct.getCProductId(), WorkflowConstants.STATUS_ANY);
 
 		// Commerce product definition links
 
-		cpDefinitionLinkLocalService.deleteCPDefinitionLinksByCProductId(
+		_cpDefinitionLinkLocalService.deleteCPDefinitionLinksByCProductId(
 			cProduct.getCProductId());
 
 		// Commerce product
@@ -131,7 +143,8 @@ public class CProductLocalServiceImpl extends CProductLocalServiceBaseImpl {
 
 		cProduct = cProductPersistence.update(cProduct);
 
-		reindexCPDefinition(cProduct.getPublishedCPDefinitionId());
+		_cpDefinitionIndexHelper.reindexCPDefinition(
+			cProduct.getPublishedCPDefinitionId());
 
 		return cProduct;
 	}
@@ -154,19 +167,11 @@ public class CProductLocalServiceImpl extends CProductLocalServiceBaseImpl {
 
 		cProduct = cProductPersistence.update(cProduct);
 
-		reindexCPDefinition(originalPublishedCPDefinitionId);
-		reindexCPDefinition(publishedCPDefinitionId);
+		_cpDefinitionIndexHelper.reindexCPDefinition(
+			originalPublishedCPDefinitionId);
+		_cpDefinitionIndexHelper.reindexCPDefinition(publishedCPDefinitionId);
 
 		return cProduct;
-	}
-
-	protected void reindexCPDefinition(long cpDefinitionId)
-		throws PortalException {
-
-		Indexer<CPDefinition> indexer = IndexerRegistryUtil.nullSafeGetIndexer(
-			CPDefinition.class);
-
-		indexer.reindex(CPDefinition.class.getName(), cpDefinitionId);
 	}
 
 	protected void validate(String externalReferenceCode, long companyId)
@@ -185,5 +190,20 @@ public class CProductLocalServiceImpl extends CProductLocalServiceBaseImpl {
 					"code " + externalReferenceCode);
 		}
 	}
+
+	@Reference
+	protected CPInstancePersistence cpInstancePersistence;
+
+	@Reference
+	private CPDefinitionIndexHelper _cpDefinitionIndexHelper;
+
+	@Reference
+	private CPDefinitionLinkLocalService _cpDefinitionLinkLocalService;
+
+	@Reference
+	private CPDefinitionPersistence _cpDefinitionPersistence;
+
+	@Reference
+	private UserLocalService _userLocalService;
 
 }

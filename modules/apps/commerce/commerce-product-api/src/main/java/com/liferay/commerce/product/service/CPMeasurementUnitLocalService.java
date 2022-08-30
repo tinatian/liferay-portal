@@ -237,8 +237,7 @@ public interface CPMeasurementUnitLocalService
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public CPMeasurementUnit fetchCPMeasurementUnitByKey(
-			long companyId, String key)
-		throws PortalException;
+		long companyId, String key);
 
 	/**
 	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #fetchCPMeasurementUnitByExternalReferenceCode(long, String)}
@@ -345,14 +344,12 @@ public interface CPMeasurementUnitLocalService
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<CPMeasurementUnit> getCPMeasurementUnitsByType(
-			long companyId, int type)
-		throws PortalException;
+		long companyId, int type);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<CPMeasurementUnit> getCPMeasurementUnitsByType(
-			long companyId, int type, int start, int end,
-			OrderByComparator<CPMeasurementUnit> orderByComparator)
-		throws PortalException;
+		long companyId, int type, int start, int end,
+		OrderByComparator<CPMeasurementUnit> orderByComparator);
 
 	/**
 	 * Returns all the cp measurement units matching the UUID and company.

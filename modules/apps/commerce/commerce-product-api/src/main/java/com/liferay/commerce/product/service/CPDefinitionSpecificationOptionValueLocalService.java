@@ -98,6 +98,11 @@ public interface CPDefinitionSpecificationOptionValueLocalService
 				double priority, ServiceContext serviceContext)
 		throws PortalException;
 
+	public CPDefinitionSpecificationOptionValue
+		copyCPDefinitionAndPrepareCPDefinitionSpecificationOptionValue(
+			CPDefinitionSpecificationOptionValue
+				cpDefinitionSpecificationOptionValue);
+
 	/**
 	 * Creates a new cp definition specification option value with the primary key. Does not add the cp definition specification option value to the database.
 	 *

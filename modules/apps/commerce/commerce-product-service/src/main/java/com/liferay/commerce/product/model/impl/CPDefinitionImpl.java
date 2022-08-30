@@ -224,8 +224,8 @@ public class CPDefinitionImpl extends CPDefinitionBaseImpl {
 		throws Exception {
 
 		CPAttachmentFileEntry cpAttachmentFileEntry =
-			CPDefinitionLocalServiceUtil.getDefaultImageCPAttachmentFileEntry(
-				getCPDefinitionId());
+			CPAttachmentFileEntryLocalServiceUtil.
+				getDefaultImageCPAttachmentFileEntry(getCPDefinitionId());
 
 		if (cpAttachmentFileEntry == null) {
 			return CommerceMediaResolverUtil.getDefaultURL(getGroupId());

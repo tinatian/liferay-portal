@@ -169,7 +169,9 @@ public class CPInstanceHelperTest {
 			deletedCPInstanceDDMFormSerializedValues.add(
 				_getSerializedDDMFormValues(cpDefinitionInstance));
 
-			_cpInstanceLocalService.deleteCPInstance(cpDefinitionInstance);
+			_cpInstanceLocalService.deleteCPInstance(
+				_cpInstanceLocalService.copyCPDefinitionAndPrepareCPInstance(
+					cpDefinitionInstance));
 		}
 
 		cpDefinitionInstances =
@@ -248,7 +250,9 @@ public class CPInstanceHelperTest {
 			expectedCPInstance.getCPInstanceId(),
 			fetchCPInstance.getCPInstanceId());
 
-		_cpInstanceLocalService.deleteCPInstance(expectedCPInstance);
+		_cpInstanceLocalService.deleteCPInstance(
+			_cpInstanceLocalService.copyCPDefinitionAndPrepareCPInstance(
+				expectedCPInstance));
 
 		cpDefinitionInstances =
 			_cpInstanceLocalService.getCPDefinitionInstances(

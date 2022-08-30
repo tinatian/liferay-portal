@@ -97,10 +97,9 @@ public class CPOptionServiceWrapper
 
 	@Override
 	public java.util.List<CPOption> findCPOptionByCompanyId(
-			long companyId, int start, int end,
-			com.liferay.portal.kernel.util.OrderByComparator<CPOption>
-				orderByComparator)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		long companyId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<CPOption>
+			orderByComparator) {
 
 		return _cpOptionService.findCPOptionByCompanyId(
 			companyId, start, end, orderByComparator);

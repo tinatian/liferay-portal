@@ -574,6 +574,15 @@ public class CPAttachmentFileEntryLocalServiceWrapper
 	}
 
 	@Override
+	public CPAttachmentFileEntry getDefaultImageCPAttachmentFileEntry(
+			long cpDefinitionId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _cpAttachmentFileEntryLocalService.
+			getDefaultImageCPAttachmentFileEntry(cpDefinitionId);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery
 		getExportActionableDynamicQuery(
 			com.liferay.exportimport.kernel.lar.PortletDataContext

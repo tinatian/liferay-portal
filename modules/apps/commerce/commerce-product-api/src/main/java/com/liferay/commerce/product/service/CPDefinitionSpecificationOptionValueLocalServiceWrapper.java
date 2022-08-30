@@ -80,6 +80,17 @@ public class CPDefinitionSpecificationOptionValueLocalServiceWrapper
 				valueMap, priority, serviceContext);
 	}
 
+	@Override
+	public CPDefinitionSpecificationOptionValue
+		copyCPDefinitionAndPrepareCPDefinitionSpecificationOptionValue(
+			CPDefinitionSpecificationOptionValue
+				cpDefinitionSpecificationOptionValue) {
+
+		return _cpDefinitionSpecificationOptionValueLocalService.
+			copyCPDefinitionAndPrepareCPDefinitionSpecificationOptionValue(
+				cpDefinitionSpecificationOptionValue);
+	}
+
 	/**
 	 * Creates a new cp definition specification option value with the primary key. Does not add the cp definition specification option value to the database.
 	 *

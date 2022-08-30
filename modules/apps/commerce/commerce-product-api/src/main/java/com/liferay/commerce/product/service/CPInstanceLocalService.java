@@ -260,6 +260,10 @@ public interface CPInstanceLocalService
 	public void checkCPInstancesByDisplayDate(long cpDefinitionId)
 		throws PortalException;
 
+	public CPInstance copyCPDefinitionAndPrepareCPInstance(
+			CPInstance cpInstance)
+		throws PortalException;
+
 	/**
 	 * Creates a new cp instance with the primary key. Does not add the cp instance to the database.
 	 *
