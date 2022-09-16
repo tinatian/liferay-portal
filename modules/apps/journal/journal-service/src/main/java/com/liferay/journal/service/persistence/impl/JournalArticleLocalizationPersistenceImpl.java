@@ -39,7 +39,9 @@ import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 import com.liferay.portal.kernel.service.persistence.change.tracking.helper.CTPersistenceHelper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
@@ -2660,19 +2662,19 @@ public class JournalArticleLocalizationPersistenceImpl
 			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
 
 		_finderPathWithPaginationFindAll = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
-			new String[0], true);
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll",
+			new String[0], new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
-			new String[0], true);
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
+			new String[0], new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByArticlePK = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByArticlePK",
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByArticlePK",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -2680,37 +2682,37 @@ public class JournalArticleLocalizationPersistenceImpl
 			new String[] {"articlePK"}, true);
 
 		_finderPathWithoutPaginationFindByArticlePK = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByArticlePK",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByArticlePK",
 			new String[] {Long.class.getName()}, new String[] {"articlePK"},
 			true);
 
 		_finderPathCountByArticlePK = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByArticlePK",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByArticlePK",
 			new String[] {Long.class.getName()}, new String[] {"articlePK"},
 			false);
 
 		_finderPathFetchByC_A = new FinderPath(
-			FINDER_CLASS_NAME_ENTITY, "fetchByC_A",
+			this, FINDER_CLASS_NAME_ENTITY, "fetchByC_A",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			new String[] {"companyId", "articlePK"}, true);
 
 		_finderPathCountByC_A = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_A",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_A",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			new String[] {"companyId", "articlePK"}, false);
 
 		_finderPathFetchByA_L = new FinderPath(
-			FINDER_CLASS_NAME_ENTITY, "fetchByA_L",
+			this, FINDER_CLASS_NAME_ENTITY, "fetchByA_L",
 			new String[] {Long.class.getName(), String.class.getName()},
 			new String[] {"articlePK", "languageId"}, true);
 
 		_finderPathCountByA_L = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByA_L",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByA_L",
 			new String[] {Long.class.getName(), String.class.getName()},
 			new String[] {"articlePK", "languageId"}, false);
 
 		_finderPathFetchByC_A_L = new FinderPath(
-			FINDER_CLASS_NAME_ENTITY, "fetchByC_A_L",
+			this, FINDER_CLASS_NAME_ENTITY, "fetchByC_A_L",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				String.class.getName()
@@ -2718,7 +2720,7 @@ public class JournalArticleLocalizationPersistenceImpl
 			new String[] {"companyId", "articlePK", "languageId"}, true);
 
 		_finderPathCountByC_A_L = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_A_L",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_A_L",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				String.class.getName()
@@ -2726,7 +2728,7 @@ public class JournalArticleLocalizationPersistenceImpl
 			new String[] {"companyId", "articlePK", "languageId"}, false);
 
 		_finderPathFetchByC_A_T_L = new FinderPath(
-			FINDER_CLASS_NAME_ENTITY, "fetchByC_A_T_L",
+			this, FINDER_CLASS_NAME_ENTITY, "fetchByC_A_T_L",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				String.class.getName(), String.class.getName()
@@ -2735,13 +2737,49 @@ public class JournalArticleLocalizationPersistenceImpl
 			true);
 
 		_finderPathCountByC_A_T_L = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_A_T_L",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_A_T_L",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				String.class.getName(), String.class.getName()
 			},
 			new String[] {"companyId", "articlePK", "title", "languageId"},
 			false);
+
+		FinderPath.registerFinderPaths(
+			JournalArticleLocalization.class,
+			HashMapBuilder.<String, FinderPath>put(
+				"finderPathWithPaginationFindAll",
+				_finderPathWithPaginationFindAll
+			).put(
+				"finderPathWithoutPaginationFindAll",
+				_finderPathWithoutPaginationFindAll
+			).put(
+				"finderPathCountAll", _finderPathCountAll
+			).put(
+				"finderPathWithPaginationFindByArticlePK",
+				_finderPathWithPaginationFindByArticlePK
+			).put(
+				"finderPathWithoutPaginationFindByArticlePK",
+				_finderPathWithoutPaginationFindByArticlePK
+			).put(
+				"finderPathCountByArticlePK", _finderPathCountByArticlePK
+			).put(
+				"finderPathFetchByC_A", _finderPathFetchByC_A
+			).put(
+				"finderPathCountByC_A", _finderPathCountByC_A
+			).put(
+				"finderPathFetchByA_L", _finderPathFetchByA_L
+			).put(
+				"finderPathCountByA_L", _finderPathCountByA_L
+			).put(
+				"finderPathFetchByC_A_L", _finderPathFetchByC_A_L
+			).put(
+				"finderPathCountByC_A_L", _finderPathCountByC_A_L
+			).put(
+				"finderPathFetchByC_A_T_L", _finderPathFetchByC_A_T_L
+			).put(
+				"finderPathCountByC_A_T_L", _finderPathCountByC_A_T_L
+			).build());
 
 		_setJournalArticleLocalizationUtilPersistence(this);
 	}
@@ -2751,6 +2789,70 @@ public class JournalArticleLocalizationPersistenceImpl
 		_setJournalArticleLocalizationUtilPersistence(null);
 
 		entityCache.removeCache(JournalArticleLocalizationImpl.class.getName());
+
+		FinderPath.unregisterFinderPaths(JournalArticleLocalization.class);
+	}
+
+	@Override
+	public void loadFinderCache(FinderPath[] finderPaths) {
+		if (ArrayUtil.isEmpty(finderPaths)) {
+			return;
+		}
+
+		List<JournalArticleLocalization> journalArticleLocalizations =
+			findAll();
+
+		for (FinderPath finderPath : finderPaths) {
+			Map<List<Object>, List<JournalArticleLocalization>> resultMap =
+				new HashMap<>();
+
+			for (JournalArticleLocalization journalArticleLocalization :
+					journalArticleLocalizations) {
+
+				List<Object> arguments = new ArrayList<>();
+
+				for (String columnName : finderPath.getColumnNames()) {
+					JournalArticleLocalizationModelImpl
+						journalArticleLocalizationModelImpl =
+							(JournalArticleLocalizationModelImpl)
+								journalArticleLocalization;
+
+					arguments.add(
+						journalArticleLocalizationModelImpl.getColumnValue(
+							columnName));
+				}
+
+				if (Objects.equals(
+						finderPath.getCacheName(), FINDER_CLASS_NAME_ENTITY)) {
+
+					finderCache.putResult(
+						finderPath, arguments.toArray(),
+						journalArticleLocalization);
+				}
+				else {
+					List<JournalArticleLocalization> resultList =
+						resultMap.computeIfAbsent(
+							arguments, key -> new ArrayList<>());
+
+					resultList.add(journalArticleLocalization);
+				}
+			}
+
+			for (Map.Entry<List<Object>, List<JournalArticleLocalization>>
+					resultEntry : resultMap.entrySet()) {
+
+				List<Object> key = resultEntry.getKey();
+				List<JournalArticleLocalization> value = resultEntry.getValue();
+
+				if (finderPath.isBaseModelResult()) {
+					finderCache.putResult(finderPath, key.toArray(), value);
+				}
+				else {
+					finderCache.putResult(
+						finderPath, key.toArray(), value.size());
+				}
+			}
+		}
 	}
 
 	private void _setJournalArticleLocalizationUtilPersistence(

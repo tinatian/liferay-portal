@@ -41,6 +41,7 @@ import com.liferay.portal.kernel.service.persistence.BasePersistence;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
@@ -52,9 +53,12 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.sql.DataSource;
@@ -2802,19 +2806,20 @@ public class CTEntryPersistenceImpl
 			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
 
 		_finderPathWithPaginationFindAll = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
-			new String[0], true);
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll",
+			new String[0], new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
-			new String[0], true);
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
+			new String[0], new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByCtCollectionId = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCtCollectionId",
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByCtCollectionId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -2822,17 +2827,17 @@ public class CTEntryPersistenceImpl
 			new String[] {"ctCollectionId"}, true);
 
 		_finderPathWithoutPaginationFindByCtCollectionId = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCtCollectionId",
-			new String[] {Long.class.getName()},
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByCtCollectionId", new String[] {Long.class.getName()},
 			new String[] {"ctCollectionId"}, true);
 
 		_finderPathCountByCtCollectionId = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCtCollectionId",
-			new String[] {Long.class.getName()},
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByCtCollectionId", new String[] {Long.class.getName()},
 			new String[] {"ctCollectionId"}, false);
 
 		_finderPathWithPaginationFindByC_MCNI = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_MCNI",
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_MCNI",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -2841,17 +2846,17 @@ public class CTEntryPersistenceImpl
 			new String[] {"ctCollectionId", "modelClassNameId"}, true);
 
 		_finderPathWithoutPaginationFindByC_MCNI = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_MCNI",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_MCNI",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			new String[] {"ctCollectionId", "modelClassNameId"}, true);
 
 		_finderPathCountByC_MCNI = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_MCNI",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_MCNI",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			new String[] {"ctCollectionId", "modelClassNameId"}, false);
 
 		_finderPathFetchByC_MCNI_MCPK = new FinderPath(
-			FINDER_CLASS_NAME_ENTITY, "fetchByC_MCNI_MCPK",
+			this, FINDER_CLASS_NAME_ENTITY, "fetchByC_MCNI_MCPK",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			},
@@ -2859,7 +2864,8 @@ public class CTEntryPersistenceImpl
 			true);
 
 		_finderPathCountByC_MCNI_MCPK = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_MCNI_MCPK",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByC_MCNI_MCPK",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			},
@@ -2867,7 +2873,8 @@ public class CTEntryPersistenceImpl
 			false);
 
 		_finderPathWithPaginationFindByNotC_MCNI_MCPK = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByNotC_MCNI_MCPK",
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByNotC_MCNI_MCPK",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), Integer.class.getName(),
@@ -2877,12 +2884,52 @@ public class CTEntryPersistenceImpl
 			true);
 
 		_finderPathWithPaginationCountByNotC_MCNI_MCPK = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByNotC_MCNI_MCPK",
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"countByNotC_MCNI_MCPK",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			},
 			new String[] {"ctCollectionId", "modelClassNameId", "modelClassPK"},
 			false);
+
+		FinderPath.registerFinderPaths(
+			CTEntry.class,
+			HashMapBuilder.<String, FinderPath>put(
+				"finderPathWithPaginationFindAll",
+				_finderPathWithPaginationFindAll
+			).put(
+				"finderPathWithoutPaginationFindAll",
+				_finderPathWithoutPaginationFindAll
+			).put(
+				"finderPathCountAll", _finderPathCountAll
+			).put(
+				"finderPathWithPaginationFindByCtCollectionId",
+				_finderPathWithPaginationFindByCtCollectionId
+			).put(
+				"finderPathWithoutPaginationFindByCtCollectionId",
+				_finderPathWithoutPaginationFindByCtCollectionId
+			).put(
+				"finderPathCountByCtCollectionId",
+				_finderPathCountByCtCollectionId
+			).put(
+				"finderPathWithPaginationFindByC_MCNI",
+				_finderPathWithPaginationFindByC_MCNI
+			).put(
+				"finderPathWithoutPaginationFindByC_MCNI",
+				_finderPathWithoutPaginationFindByC_MCNI
+			).put(
+				"finderPathCountByC_MCNI", _finderPathCountByC_MCNI
+			).put(
+				"finderPathFetchByC_MCNI_MCPK", _finderPathFetchByC_MCNI_MCPK
+			).put(
+				"finderPathCountByC_MCNI_MCPK", _finderPathCountByC_MCNI_MCPK
+			).put(
+				"finderPathWithPaginationFindByNotC_MCNI_MCPK",
+				_finderPathWithPaginationFindByNotC_MCNI_MCPK
+			).put(
+				"finderPathWithPaginationCountByNotC_MCNI_MCPK",
+				_finderPathWithPaginationCountByNotC_MCNI_MCPK
+			).build());
 
 		_setCTEntryUtilPersistence(this);
 	}
@@ -2892,6 +2939,60 @@ public class CTEntryPersistenceImpl
 		_setCTEntryUtilPersistence(null);
 
 		entityCache.removeCache(CTEntryImpl.class.getName());
+
+		FinderPath.unregisterFinderPaths(CTEntry.class);
+	}
+
+	@Override
+	public void loadFinderCache(FinderPath[] finderPaths) {
+		if (ArrayUtil.isEmpty(finderPaths)) {
+			return;
+		}
+
+		List<CTEntry> ctEntrys = findAll();
+
+		for (FinderPath finderPath : finderPaths) {
+			Map<List<Object>, List<CTEntry>> resultMap = new HashMap<>();
+
+			for (CTEntry ctEntry : ctEntrys) {
+				List<Object> arguments = new ArrayList<>();
+
+				for (String columnName : finderPath.getColumnNames()) {
+					CTEntryModelImpl ctEntryModelImpl =
+						(CTEntryModelImpl)ctEntry;
+
+					arguments.add(ctEntryModelImpl.getColumnValue(columnName));
+				}
+
+				if (Objects.equals(
+						finderPath.getCacheName(), FINDER_CLASS_NAME_ENTITY)) {
+
+					finderCache.putResult(
+						finderPath, arguments.toArray(), ctEntry);
+				}
+				else {
+					List<CTEntry> resultList = resultMap.computeIfAbsent(
+						arguments, key -> new ArrayList<>());
+
+					resultList.add(ctEntry);
+				}
+			}
+
+			for (Map.Entry<List<Object>, List<CTEntry>> resultEntry :
+					resultMap.entrySet()) {
+
+				List<Object> key = resultEntry.getKey();
+				List<CTEntry> value = resultEntry.getValue();
+
+				if (finderPath.isBaseModelResult()) {
+					finderCache.putResult(finderPath, key.toArray(), value);
+				}
+				else {
+					finderCache.putResult(
+						finderPath, key.toArray(), value.size());
+				}
+			}
+		}
 	}
 
 	private void _setCTEntryUtilPersistence(

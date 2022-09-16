@@ -36,6 +36,7 @@ import com.liferay.portal.kernel.service.persistence.change.tracking.helper.CTPe
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
@@ -3346,19 +3347,19 @@ public class VirtualHostPersistenceImpl
 			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
 
 		_finderPathWithPaginationFindAll = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
-			new String[0], true);
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll",
+			new String[0], new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
-			new String[0], true);
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
+			new String[0], new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByCompanyId = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCompanyId",
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCompanyId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -3366,27 +3367,27 @@ public class VirtualHostPersistenceImpl
 			new String[] {"companyId"}, true);
 
 		_finderPathWithoutPaginationFindByCompanyId = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCompanyId",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCompanyId",
 			new String[] {Long.class.getName()}, new String[] {"companyId"},
 			true);
 
 		_finderPathCountByCompanyId = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCompanyId",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCompanyId",
 			new String[] {Long.class.getName()}, new String[] {"companyId"},
 			false);
 
 		_finderPathFetchByHostname = new FinderPath(
-			FINDER_CLASS_NAME_ENTITY, "fetchByHostname",
+			this, FINDER_CLASS_NAME_ENTITY, "fetchByHostname",
 			new String[] {String.class.getName()}, new String[] {"hostname"},
 			true);
 
 		_finderPathCountByHostname = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByHostname",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByHostname",
 			new String[] {String.class.getName()}, new String[] {"hostname"},
 			false);
 
 		_finderPathWithPaginationFindByC_L = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_L",
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_L",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -3395,17 +3396,17 @@ public class VirtualHostPersistenceImpl
 			new String[] {"companyId", "layoutSetId"}, true);
 
 		_finderPathWithoutPaginationFindByC_L = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_L",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_L",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			new String[] {"companyId", "layoutSetId"}, true);
 
 		_finderPathCountByC_L = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_L",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_L",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			new String[] {"companyId", "layoutSetId"}, false);
 
 		_finderPathWithPaginationFindByNotL_H = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByNotL_H",
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByNotL_H",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -3414,12 +3415,12 @@ public class VirtualHostPersistenceImpl
 			new String[] {"layoutSetId", "hostname"}, true);
 
 		_finderPathWithPaginationCountByNotL_H = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByNotL_H",
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByNotL_H",
 			new String[] {Long.class.getName(), String.class.getName()},
 			new String[] {"layoutSetId", "hostname"}, false);
 
 		_finderPathFetchByC_L_D = new FinderPath(
-			FINDER_CLASS_NAME_ENTITY, "fetchByC_L_D",
+			this, FINDER_CLASS_NAME_ENTITY, "fetchByC_L_D",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Boolean.class.getName()
@@ -3428,13 +3429,55 @@ public class VirtualHostPersistenceImpl
 			true);
 
 		_finderPathCountByC_L_D = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_L_D",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_L_D",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Boolean.class.getName()
 			},
 			new String[] {"companyId", "layoutSetId", "defaultVirtualHost"},
 			false);
+
+		FinderPath.registerFinderPaths(
+			VirtualHost.class,
+			HashMapBuilder.<String, FinderPath>put(
+				"finderPathWithPaginationFindAll",
+				_finderPathWithPaginationFindAll
+			).put(
+				"finderPathWithoutPaginationFindAll",
+				_finderPathWithoutPaginationFindAll
+			).put(
+				"finderPathCountAll", _finderPathCountAll
+			).put(
+				"finderPathWithPaginationFindByCompanyId",
+				_finderPathWithPaginationFindByCompanyId
+			).put(
+				"finderPathWithoutPaginationFindByCompanyId",
+				_finderPathWithoutPaginationFindByCompanyId
+			).put(
+				"finderPathCountByCompanyId", _finderPathCountByCompanyId
+			).put(
+				"finderPathFetchByHostname", _finderPathFetchByHostname
+			).put(
+				"finderPathCountByHostname", _finderPathCountByHostname
+			).put(
+				"finderPathWithPaginationFindByC_L",
+				_finderPathWithPaginationFindByC_L
+			).put(
+				"finderPathWithoutPaginationFindByC_L",
+				_finderPathWithoutPaginationFindByC_L
+			).put(
+				"finderPathCountByC_L", _finderPathCountByC_L
+			).put(
+				"finderPathWithPaginationFindByNotL_H",
+				_finderPathWithPaginationFindByNotL_H
+			).put(
+				"finderPathWithPaginationCountByNotL_H",
+				_finderPathWithPaginationCountByNotL_H
+			).put(
+				"finderPathFetchByC_L_D", _finderPathFetchByC_L_D
+			).put(
+				"finderPathCountByC_L_D", _finderPathCountByC_L_D
+			).build());
 
 		_setVirtualHostUtilPersistence(this);
 	}
@@ -3443,6 +3486,61 @@ public class VirtualHostPersistenceImpl
 		_setVirtualHostUtilPersistence(null);
 
 		EntityCacheUtil.removeCache(VirtualHostImpl.class.getName());
+
+		FinderPath.unregisterFinderPaths(VirtualHost.class);
+	}
+
+	@Override
+	public void loadFinderCache(FinderPath[] finderPaths) {
+		if (ArrayUtil.isEmpty(finderPaths)) {
+			return;
+		}
+
+		List<VirtualHost> virtualHosts = findAll();
+
+		for (FinderPath finderPath : finderPaths) {
+			Map<List<Object>, List<VirtualHost>> resultMap = new HashMap<>();
+
+			for (VirtualHost virtualHost : virtualHosts) {
+				List<Object> arguments = new ArrayList<>();
+
+				for (String columnName : finderPath.getColumnNames()) {
+					VirtualHostModelImpl virtualHostModelImpl =
+						(VirtualHostModelImpl)virtualHost;
+
+					arguments.add(
+						virtualHostModelImpl.getColumnValue(columnName));
+				}
+
+				if (Objects.equals(
+						finderPath.getCacheName(), FINDER_CLASS_NAME_ENTITY)) {
+
+					FinderCacheUtil.putResult(
+						finderPath, arguments.toArray(), virtualHost);
+				}
+				else {
+					List<VirtualHost> resultList = resultMap.computeIfAbsent(
+						arguments, key -> new ArrayList<>());
+
+					resultList.add(virtualHost);
+				}
+			}
+
+			for (Map.Entry<List<Object>, List<VirtualHost>> resultEntry :
+					resultMap.entrySet()) {
+
+				List<Object> key = resultEntry.getKey();
+				List<VirtualHost> value = resultEntry.getValue();
+
+				if (finderPath.isBaseModelResult()) {
+					FinderCacheUtil.putResult(finderPath, key.toArray(), value);
+				}
+				else {
+					FinderCacheUtil.putResult(
+						finderPath, key.toArray(), value.size());
+				}
+			}
+		}
 	}
 
 	private void _setVirtualHostUtilPersistence(

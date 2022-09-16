@@ -39,7 +39,9 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
@@ -52,7 +54,9 @@ import java.lang.reflect.InvocationHandler;
 
 import java.sql.Timestamp;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -2550,19 +2554,19 @@ public class AnalyticsAssociationPersistenceImpl
 			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
 
 		_finderPathWithPaginationFindAll = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
-			new String[0], true);
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll",
+			new String[0], new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
-			new String[0], true);
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
+			new String[0], new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByC_A = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_A",
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_A",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -2571,17 +2575,17 @@ public class AnalyticsAssociationPersistenceImpl
 			new String[] {"companyId", "associationClassName"}, true);
 
 		_finderPathWithoutPaginationFindByC_A = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_A",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_A",
 			new String[] {Long.class.getName(), String.class.getName()},
 			new String[] {"companyId", "associationClassName"}, true);
 
 		_finderPathCountByC_A = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_A",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_A",
 			new String[] {Long.class.getName(), String.class.getName()},
 			new String[] {"companyId", "associationClassName"}, false);
 
 		_finderPathWithPaginationFindByC_GtM_A = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_GtM_A",
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_GtM_A",
 			new String[] {
 				Long.class.getName(), Date.class.getName(),
 				String.class.getName(), Integer.class.getName(),
@@ -2591,7 +2595,7 @@ public class AnalyticsAssociationPersistenceImpl
 			true);
 
 		_finderPathWithPaginationCountByC_GtM_A = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByC_GtM_A",
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByC_GtM_A",
 			new String[] {
 				Long.class.getName(), Date.class.getName(),
 				String.class.getName()
@@ -2600,7 +2604,7 @@ public class AnalyticsAssociationPersistenceImpl
 			false);
 
 		_finderPathWithPaginationFindByC_A_A = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_A_A",
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_A_A",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
 				Long.class.getName(), Integer.class.getName(),
@@ -2612,7 +2616,7 @@ public class AnalyticsAssociationPersistenceImpl
 			true);
 
 		_finderPathWithoutPaginationFindByC_A_A = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_A_A",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_A_A",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
 				Long.class.getName()
@@ -2623,7 +2627,7 @@ public class AnalyticsAssociationPersistenceImpl
 			true);
 
 		_finderPathCountByC_A_A = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_A_A",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_A_A",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
 				Long.class.getName()
@@ -2633,6 +2637,40 @@ public class AnalyticsAssociationPersistenceImpl
 			},
 			false);
 
+		FinderPath.registerFinderPaths(
+			AnalyticsAssociation.class,
+			HashMapBuilder.<String, FinderPath>put(
+				"finderPathWithPaginationFindAll",
+				_finderPathWithPaginationFindAll
+			).put(
+				"finderPathWithoutPaginationFindAll",
+				_finderPathWithoutPaginationFindAll
+			).put(
+				"finderPathCountAll", _finderPathCountAll
+			).put(
+				"finderPathWithPaginationFindByC_A",
+				_finderPathWithPaginationFindByC_A
+			).put(
+				"finderPathWithoutPaginationFindByC_A",
+				_finderPathWithoutPaginationFindByC_A
+			).put(
+				"finderPathCountByC_A", _finderPathCountByC_A
+			).put(
+				"finderPathWithPaginationFindByC_GtM_A",
+				_finderPathWithPaginationFindByC_GtM_A
+			).put(
+				"finderPathWithPaginationCountByC_GtM_A",
+				_finderPathWithPaginationCountByC_GtM_A
+			).put(
+				"finderPathWithPaginationFindByC_A_A",
+				_finderPathWithPaginationFindByC_A_A
+			).put(
+				"finderPathWithoutPaginationFindByC_A_A",
+				_finderPathWithoutPaginationFindByC_A_A
+			).put(
+				"finderPathCountByC_A_A", _finderPathCountByC_A_A
+			).build());
+
 		_setAnalyticsAssociationUtilPersistence(this);
 	}
 
@@ -2641,6 +2679,67 @@ public class AnalyticsAssociationPersistenceImpl
 		_setAnalyticsAssociationUtilPersistence(null);
 
 		entityCache.removeCache(AnalyticsAssociationImpl.class.getName());
+
+		FinderPath.unregisterFinderPaths(AnalyticsAssociation.class);
+	}
+
+	@Override
+	public void loadFinderCache(FinderPath[] finderPaths) {
+		if (ArrayUtil.isEmpty(finderPaths)) {
+			return;
+		}
+
+		List<AnalyticsAssociation> analyticsAssociations = findAll();
+
+		for (FinderPath finderPath : finderPaths) {
+			Map<List<Object>, List<AnalyticsAssociation>> resultMap =
+				new HashMap<>();
+
+			for (AnalyticsAssociation analyticsAssociation :
+					analyticsAssociations) {
+
+				List<Object> arguments = new ArrayList<>();
+
+				for (String columnName : finderPath.getColumnNames()) {
+					AnalyticsAssociationModelImpl
+						analyticsAssociationModelImpl =
+							(AnalyticsAssociationModelImpl)analyticsAssociation;
+
+					arguments.add(
+						analyticsAssociationModelImpl.getColumnValue(
+							columnName));
+				}
+
+				if (Objects.equals(
+						finderPath.getCacheName(), FINDER_CLASS_NAME_ENTITY)) {
+
+					finderCache.putResult(
+						finderPath, arguments.toArray(), analyticsAssociation);
+				}
+				else {
+					List<AnalyticsAssociation> resultList =
+						resultMap.computeIfAbsent(
+							arguments, key -> new ArrayList<>());
+
+					resultList.add(analyticsAssociation);
+				}
+			}
+
+			for (Map.Entry<List<Object>, List<AnalyticsAssociation>>
+					resultEntry : resultMap.entrySet()) {
+
+				List<Object> key = resultEntry.getKey();
+				List<AnalyticsAssociation> value = resultEntry.getValue();
+
+				if (finderPath.isBaseModelResult()) {
+					finderCache.putResult(finderPath, key.toArray(), value);
+				}
+				else {
+					finderCache.putResult(
+						finderPath, key.toArray(), value.size());
+				}
+			}
+		}
 	}
 
 	private void _setAnalyticsAssociationUtilPersistence(

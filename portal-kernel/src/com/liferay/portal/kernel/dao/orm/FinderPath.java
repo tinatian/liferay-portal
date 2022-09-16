@@ -16,10 +16,12 @@ package com.liferay.portal.kernel.dao.orm;
 
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.kernel.service.persistence.BasePersistence;
 import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.StringUtil;
 
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author Brian Wing Shun Chan
@@ -45,15 +47,34 @@ public class FinderPath {
 		return sb.toString();
 	}
 
-	public FinderPath(
-		String cacheName, String methodName, String[] params,
-		String[] columnNames, boolean baseModelResult) {
+	public static Map<String, FinderPath> getFinderPaths(Class<?> modelClass) {
+		return _finderPathsMap.get(modelClass);
+	}
 
+	public static void registerFinderPaths(
+		Class<?> modelClass, Map<String, FinderPath> finderPaths) {
+
+		_finderPathsMap.put(modelClass, finderPaths);
+	}
+
+	public static void unregisterFinderPaths(Class<?> modelClass) {
+		_finderPathsMap.remove(modelClass);
+	}
+
+	public FinderPath(
+		BasePersistence<?> basePersistence, String cacheName, String methodName,
+		String[] params, String[] columnNames, boolean baseModelResult) {
+
+		_basePersistence = basePersistence;
 		_cacheName = cacheName;
 		_columnNames = columnNames;
 		_baseModelResult = baseModelResult;
 
 		_initCacheKeyPrefix(methodName, params);
+	}
+
+	public BasePersistence<?> getBasePersistence() {
+		return _basePersistence;
 	}
 
 	public String getCacheKeyPrefix() {
@@ -117,8 +138,11 @@ public class FinderPath {
 	private static final String _TABLE_SEPARATOR = "_T_";
 
 	private static final Map<String, String> _encodedTypes = _getEncodedTypes();
+	private static final Map<Class<?>, Map<String, FinderPath>>
+		_finderPathsMap = new ConcurrentHashMap<>();
 
 	private final boolean _baseModelResult;
+	private final BasePersistence<?> _basePersistence;
 	private String _cacheKeyPrefix;
 	private final String _cacheName;
 	private final String[] _columnNames;

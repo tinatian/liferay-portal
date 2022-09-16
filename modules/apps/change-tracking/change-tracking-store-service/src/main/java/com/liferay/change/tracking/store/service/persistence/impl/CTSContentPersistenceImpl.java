@@ -39,7 +39,9 @@ import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 import com.liferay.portal.kernel.service.persistence.change.tracking.helper.CTPersistenceHelper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
@@ -3330,19 +3332,19 @@ public class CTSContentPersistenceImpl
 			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
 
 		_finderPathWithPaginationFindAll = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
-			new String[0], true);
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll",
+			new String[0], new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
-			new String[0], true);
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
+			new String[0], new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByC_R_S = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_R_S",
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_R_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				String.class.getName(), Integer.class.getName(),
@@ -3351,7 +3353,7 @@ public class CTSContentPersistenceImpl
 			new String[] {"companyId", "repositoryId", "storeType"}, true);
 
 		_finderPathWithoutPaginationFindByC_R_S = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_R_S",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_R_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				String.class.getName()
@@ -3359,7 +3361,7 @@ public class CTSContentPersistenceImpl
 			new String[] {"companyId", "repositoryId", "storeType"}, true);
 
 		_finderPathCountByC_R_S = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_R_S",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_R_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				String.class.getName()
@@ -3367,7 +3369,7 @@ public class CTSContentPersistenceImpl
 			new String[] {"companyId", "repositoryId", "storeType"}, false);
 
 		_finderPathWithPaginationFindByC_R_P_S = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_R_P_S",
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_R_P_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				String.class.getName(), String.class.getName(),
@@ -3378,7 +3380,7 @@ public class CTSContentPersistenceImpl
 			true);
 
 		_finderPathWithoutPaginationFindByC_R_P_S = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_R_P_S",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_R_P_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				String.class.getName(), String.class.getName()
@@ -3387,7 +3389,7 @@ public class CTSContentPersistenceImpl
 			true);
 
 		_finderPathCountByC_R_P_S = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_R_P_S",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_R_P_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				String.class.getName(), String.class.getName()
@@ -3396,7 +3398,7 @@ public class CTSContentPersistenceImpl
 			false);
 
 		_finderPathWithPaginationFindByC_R_LikeP_S = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_R_LikeP_S",
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_R_LikeP_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				String.class.getName(), String.class.getName(),
@@ -3407,7 +3409,7 @@ public class CTSContentPersistenceImpl
 			true);
 
 		_finderPathWithPaginationCountByC_R_LikeP_S = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByC_R_LikeP_S",
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByC_R_LikeP_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				String.class.getName(), String.class.getName()
@@ -3416,7 +3418,7 @@ public class CTSContentPersistenceImpl
 			false);
 
 		_finderPathFetchByC_R_P_V_S = new FinderPath(
-			FINDER_CLASS_NAME_ENTITY, "fetchByC_R_P_V_S",
+			this, FINDER_CLASS_NAME_ENTITY, "fetchByC_R_P_V_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				String.class.getName(), String.class.getName(),
@@ -3428,7 +3430,7 @@ public class CTSContentPersistenceImpl
 			true);
 
 		_finderPathCountByC_R_P_V_S = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_R_P_V_S",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_R_P_V_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				String.class.getName(), String.class.getName(),
@@ -3439,6 +3441,44 @@ public class CTSContentPersistenceImpl
 			},
 			false);
 
+		FinderPath.registerFinderPaths(
+			CTSContent.class,
+			HashMapBuilder.<String, FinderPath>put(
+				"finderPathWithPaginationFindAll",
+				_finderPathWithPaginationFindAll
+			).put(
+				"finderPathWithoutPaginationFindAll",
+				_finderPathWithoutPaginationFindAll
+			).put(
+				"finderPathCountAll", _finderPathCountAll
+			).put(
+				"finderPathWithPaginationFindByC_R_S",
+				_finderPathWithPaginationFindByC_R_S
+			).put(
+				"finderPathWithoutPaginationFindByC_R_S",
+				_finderPathWithoutPaginationFindByC_R_S
+			).put(
+				"finderPathCountByC_R_S", _finderPathCountByC_R_S
+			).put(
+				"finderPathWithPaginationFindByC_R_P_S",
+				_finderPathWithPaginationFindByC_R_P_S
+			).put(
+				"finderPathWithoutPaginationFindByC_R_P_S",
+				_finderPathWithoutPaginationFindByC_R_P_S
+			).put(
+				"finderPathCountByC_R_P_S", _finderPathCountByC_R_P_S
+			).put(
+				"finderPathWithPaginationFindByC_R_LikeP_S",
+				_finderPathWithPaginationFindByC_R_LikeP_S
+			).put(
+				"finderPathWithPaginationCountByC_R_LikeP_S",
+				_finderPathWithPaginationCountByC_R_LikeP_S
+			).put(
+				"finderPathFetchByC_R_P_V_S", _finderPathFetchByC_R_P_V_S
+			).put(
+				"finderPathCountByC_R_P_V_S", _finderPathCountByC_R_P_V_S
+			).build());
+
 		_setCTSContentUtilPersistence(this);
 	}
 
@@ -3447,6 +3487,61 @@ public class CTSContentPersistenceImpl
 		_setCTSContentUtilPersistence(null);
 
 		entityCache.removeCache(CTSContentImpl.class.getName());
+
+		FinderPath.unregisterFinderPaths(CTSContent.class);
+	}
+
+	@Override
+	public void loadFinderCache(FinderPath[] finderPaths) {
+		if (ArrayUtil.isEmpty(finderPaths)) {
+			return;
+		}
+
+		List<CTSContent> ctsContents = findAll();
+
+		for (FinderPath finderPath : finderPaths) {
+			Map<List<Object>, List<CTSContent>> resultMap = new HashMap<>();
+
+			for (CTSContent ctsContent : ctsContents) {
+				List<Object> arguments = new ArrayList<>();
+
+				for (String columnName : finderPath.getColumnNames()) {
+					CTSContentModelImpl ctsContentModelImpl =
+						(CTSContentModelImpl)ctsContent;
+
+					arguments.add(
+						ctsContentModelImpl.getColumnValue(columnName));
+				}
+
+				if (Objects.equals(
+						finderPath.getCacheName(), FINDER_CLASS_NAME_ENTITY)) {
+
+					finderCache.putResult(
+						finderPath, arguments.toArray(), ctsContent);
+				}
+				else {
+					List<CTSContent> resultList = resultMap.computeIfAbsent(
+						arguments, key -> new ArrayList<>());
+
+					resultList.add(ctsContent);
+				}
+			}
+
+			for (Map.Entry<List<Object>, List<CTSContent>> resultEntry :
+					resultMap.entrySet()) {
+
+				List<Object> key = resultEntry.getKey();
+				List<CTSContent> value = resultEntry.getValue();
+
+				if (finderPath.isBaseModelResult()) {
+					finderCache.putResult(finderPath, key.toArray(), value);
+				}
+				else {
+					finderCache.putResult(
+						finderPath, key.toArray(), value.size());
+				}
+			}
+		}
 	}
 
 	private void _setCTSContentUtilPersistence(

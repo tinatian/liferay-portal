@@ -29,7 +29,9 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.service.persistence.impl.NestedSetsTreeManager;
 import com.liferay.portal.kernel.service.persistence.impl.PersistenceNestedSetsTreeManager;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
@@ -48,6 +50,8 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -916,19 +920,19 @@ public class NestedSetsTreeEntryPersistenceImpl
 			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
 
 		_finderPathWithPaginationFindAll = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
-			new String[0], true);
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll",
+			new String[0], new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
-			new String[0], true);
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
+			new String[0], new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0], new String[0], false);
 
 		_finderPathWithPaginationCountAncestors = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countAncestors",
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countAncestors",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			},
@@ -939,7 +943,7 @@ public class NestedSetsTreeEntryPersistenceImpl
 			false);
 
 		_finderPathWithPaginationCountDescendants = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countDescendants",
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countDescendants",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			},
@@ -950,7 +954,7 @@ public class NestedSetsTreeEntryPersistenceImpl
 			false);
 
 		_finderPathWithPaginationGetAncestors = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "getAncestors",
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "getAncestors",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			},
@@ -961,7 +965,7 @@ public class NestedSetsTreeEntryPersistenceImpl
 			true);
 
 		_finderPathWithPaginationGetDescendants = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "getDescendants",
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "getDescendants",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			},
@@ -971,6 +975,30 @@ public class NestedSetsTreeEntryPersistenceImpl
 			},
 			true);
 
+		FinderPath.registerFinderPaths(
+			NestedSetsTreeEntry.class,
+			HashMapBuilder.<String, FinderPath>put(
+				"finderPathWithPaginationFindAll",
+				_finderPathWithPaginationFindAll
+			).put(
+				"finderPathWithoutPaginationFindAll",
+				_finderPathWithoutPaginationFindAll
+			).put(
+				"finderPathCountAll", _finderPathCountAll
+			).put(
+				"finderPathWithPaginationCountAncestors",
+				_finderPathWithPaginationCountAncestors
+			).put(
+				"finderPathWithPaginationCountDescendants",
+				_finderPathWithPaginationCountDescendants
+			).put(
+				"finderPathWithPaginationGetAncestors",
+				_finderPathWithPaginationGetAncestors
+			).put(
+				"finderPathWithPaginationGetDescendants",
+				_finderPathWithPaginationGetDescendants
+			).build());
+
 		_setNestedSetsTreeEntryUtilPersistence(this);
 	}
 
@@ -978,6 +1006,66 @@ public class NestedSetsTreeEntryPersistenceImpl
 		_setNestedSetsTreeEntryUtilPersistence(null);
 
 		entityCache.removeCache(NestedSetsTreeEntryImpl.class.getName());
+
+		FinderPath.unregisterFinderPaths(NestedSetsTreeEntry.class);
+	}
+
+	@Override
+	public void loadFinderCache(FinderPath[] finderPaths) {
+		if (ArrayUtil.isEmpty(finderPaths)) {
+			return;
+		}
+
+		List<NestedSetsTreeEntry> nestedSetsTreeEntrys = findAll();
+
+		for (FinderPath finderPath : finderPaths) {
+			Map<List<Object>, List<NestedSetsTreeEntry>> resultMap =
+				new HashMap<>();
+
+			for (NestedSetsTreeEntry nestedSetsTreeEntry :
+					nestedSetsTreeEntrys) {
+
+				List<Object> arguments = new ArrayList<>();
+
+				for (String columnName : finderPath.getColumnNames()) {
+					NestedSetsTreeEntryModelImpl nestedSetsTreeEntryModelImpl =
+						(NestedSetsTreeEntryModelImpl)nestedSetsTreeEntry;
+
+					arguments.add(
+						nestedSetsTreeEntryModelImpl.getColumnValue(
+							columnName));
+				}
+
+				if (Objects.equals(
+						finderPath.getCacheName(), FINDER_CLASS_NAME_ENTITY)) {
+
+					finderCache.putResult(
+						finderPath, arguments.toArray(), nestedSetsTreeEntry);
+				}
+				else {
+					List<NestedSetsTreeEntry> resultList =
+						resultMap.computeIfAbsent(
+							arguments, key -> new ArrayList<>());
+
+					resultList.add(nestedSetsTreeEntry);
+				}
+			}
+
+			for (Map.Entry<List<Object>, List<NestedSetsTreeEntry>>
+					resultEntry : resultMap.entrySet()) {
+
+				List<Object> key = resultEntry.getKey();
+				List<NestedSetsTreeEntry> value = resultEntry.getValue();
+
+				if (finderPath.isBaseModelResult()) {
+					finderCache.putResult(finderPath, key.toArray(), value);
+				}
+				else {
+					finderCache.putResult(
+						finderPath, key.toArray(), value.size());
+				}
+			}
+		}
 	}
 
 	private void _setNestedSetsTreeEntryUtilPersistence(

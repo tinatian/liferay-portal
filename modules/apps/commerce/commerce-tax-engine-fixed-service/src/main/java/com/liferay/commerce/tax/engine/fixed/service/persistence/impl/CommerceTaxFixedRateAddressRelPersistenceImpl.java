@@ -39,7 +39,9 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
@@ -51,10 +53,12 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.sql.DataSource;
@@ -2254,19 +2258,20 @@ public class CommerceTaxFixedRateAddressRelPersistenceImpl
 			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
 
 		_finderPathWithPaginationFindAll = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
-			new String[0], true);
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll",
+			new String[0], new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
-			new String[0], true);
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
+			new String[0], new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByCommerceTaxMethodId = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCommerceTaxMethodId",
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByCommerceTaxMethodId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -2274,17 +2279,18 @@ public class CommerceTaxFixedRateAddressRelPersistenceImpl
 			new String[] {"commerceTaxMethodId"}, true);
 
 		_finderPathWithoutPaginationFindByCommerceTaxMethodId = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByCommerceTaxMethodId", new String[] {Long.class.getName()},
 			new String[] {"commerceTaxMethodId"}, true);
 
 		_finderPathCountByCommerceTaxMethodId = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByCommerceTaxMethodId", new String[] {Long.class.getName()},
 			new String[] {"commerceTaxMethodId"}, false);
 
 		_finderPathWithPaginationFindByCPTaxCategoryId = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCPTaxCategoryId",
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByCPTaxCategoryId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -2292,17 +2298,17 @@ public class CommerceTaxFixedRateAddressRelPersistenceImpl
 			new String[] {"CPTaxCategoryId"}, true);
 
 		_finderPathWithoutPaginationFindByCPTaxCategoryId = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCPTaxCategoryId",
-			new String[] {Long.class.getName()},
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByCPTaxCategoryId", new String[] {Long.class.getName()},
 			new String[] {"CPTaxCategoryId"}, true);
 
 		_finderPathCountByCPTaxCategoryId = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCPTaxCategoryId",
-			new String[] {Long.class.getName()},
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByCPTaxCategoryId", new String[] {Long.class.getName()},
 			new String[] {"CPTaxCategoryId"}, false);
 
 		_finderPathWithPaginationFindByCountryId = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCountryId",
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCountryId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -2310,14 +2316,52 @@ public class CommerceTaxFixedRateAddressRelPersistenceImpl
 			new String[] {"countryId"}, true);
 
 		_finderPathWithoutPaginationFindByCountryId = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCountryId",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCountryId",
 			new String[] {Long.class.getName()}, new String[] {"countryId"},
 			true);
 
 		_finderPathCountByCountryId = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCountryId",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCountryId",
 			new String[] {Long.class.getName()}, new String[] {"countryId"},
 			false);
+
+		FinderPath.registerFinderPaths(
+			CommerceTaxFixedRateAddressRel.class,
+			HashMapBuilder.<String, FinderPath>put(
+				"finderPathWithPaginationFindAll",
+				_finderPathWithPaginationFindAll
+			).put(
+				"finderPathWithoutPaginationFindAll",
+				_finderPathWithoutPaginationFindAll
+			).put(
+				"finderPathCountAll", _finderPathCountAll
+			).put(
+				"finderPathWithPaginationFindByCommerceTaxMethodId",
+				_finderPathWithPaginationFindByCommerceTaxMethodId
+			).put(
+				"finderPathWithoutPaginationFindByCommerceTaxMethodId",
+				_finderPathWithoutPaginationFindByCommerceTaxMethodId
+			).put(
+				"finderPathCountByCommerceTaxMethodId",
+				_finderPathCountByCommerceTaxMethodId
+			).put(
+				"finderPathWithPaginationFindByCPTaxCategoryId",
+				_finderPathWithPaginationFindByCPTaxCategoryId
+			).put(
+				"finderPathWithoutPaginationFindByCPTaxCategoryId",
+				_finderPathWithoutPaginationFindByCPTaxCategoryId
+			).put(
+				"finderPathCountByCPTaxCategoryId",
+				_finderPathCountByCPTaxCategoryId
+			).put(
+				"finderPathWithPaginationFindByCountryId",
+				_finderPathWithPaginationFindByCountryId
+			).put(
+				"finderPathWithoutPaginationFindByCountryId",
+				_finderPathWithoutPaginationFindByCountryId
+			).put(
+				"finderPathCountByCountryId", _finderPathCountByCountryId
+			).build());
 
 		_setCommerceTaxFixedRateAddressRelUtilPersistence(this);
 	}
@@ -2328,6 +2372,71 @@ public class CommerceTaxFixedRateAddressRelPersistenceImpl
 
 		entityCache.removeCache(
 			CommerceTaxFixedRateAddressRelImpl.class.getName());
+
+		FinderPath.unregisterFinderPaths(CommerceTaxFixedRateAddressRel.class);
+	}
+
+	@Override
+	public void loadFinderCache(FinderPath[] finderPaths) {
+		if (ArrayUtil.isEmpty(finderPaths)) {
+			return;
+		}
+
+		List<CommerceTaxFixedRateAddressRel> commerceTaxFixedRateAddressRels =
+			findAll();
+
+		for (FinderPath finderPath : finderPaths) {
+			Map<List<Object>, List<CommerceTaxFixedRateAddressRel>> resultMap =
+				new HashMap<>();
+
+			for (CommerceTaxFixedRateAddressRel commerceTaxFixedRateAddressRel :
+					commerceTaxFixedRateAddressRels) {
+
+				List<Object> arguments = new ArrayList<>();
+
+				for (String columnName : finderPath.getColumnNames()) {
+					CommerceTaxFixedRateAddressRelModelImpl
+						commerceTaxFixedRateAddressRelModelImpl =
+							(CommerceTaxFixedRateAddressRelModelImpl)
+								commerceTaxFixedRateAddressRel;
+
+					arguments.add(
+						commerceTaxFixedRateAddressRelModelImpl.getColumnValue(
+							columnName));
+				}
+
+				if (Objects.equals(
+						finderPath.getCacheName(), FINDER_CLASS_NAME_ENTITY)) {
+
+					finderCache.putResult(
+						finderPath, arguments.toArray(),
+						commerceTaxFixedRateAddressRel);
+				}
+				else {
+					List<CommerceTaxFixedRateAddressRel> resultList =
+						resultMap.computeIfAbsent(
+							arguments, key -> new ArrayList<>());
+
+					resultList.add(commerceTaxFixedRateAddressRel);
+				}
+			}
+
+			for (Map.Entry<List<Object>, List<CommerceTaxFixedRateAddressRel>>
+					resultEntry : resultMap.entrySet()) {
+
+				List<Object> key = resultEntry.getKey();
+				List<CommerceTaxFixedRateAddressRel> value =
+					resultEntry.getValue();
+
+				if (finderPath.isBaseModelResult()) {
+					finderCache.putResult(finderPath, key.toArray(), value);
+				}
+				else {
+					finderCache.putResult(
+						finderPath, key.toArray(), value.size());
+				}
+			}
+		}
 	}
 
 	private void _setCommerceTaxFixedRateAddressRelUtilPersistence(

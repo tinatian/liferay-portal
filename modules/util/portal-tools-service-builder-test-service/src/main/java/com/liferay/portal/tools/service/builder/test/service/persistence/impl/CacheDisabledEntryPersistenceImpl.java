@@ -25,7 +25,9 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
@@ -43,6 +45,8 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -838,25 +842,41 @@ public class CacheDisabledEntryPersistenceImpl
 			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
 
 		_finderPathWithPaginationFindAll = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
-			new String[0], true);
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll",
+			new String[0], new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
-			new String[0], true);
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
+			new String[0], new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0], new String[0], false);
 
 		_finderPathFetchByName = new FinderPath(
-			FINDER_CLASS_NAME_ENTITY, "fetchByName",
+			this, FINDER_CLASS_NAME_ENTITY, "fetchByName",
 			new String[] {String.class.getName()}, new String[] {"name"}, true);
 
 		_finderPathCountByName = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByName",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByName",
 			new String[] {String.class.getName()}, new String[] {"name"},
 			false);
+
+		FinderPath.registerFinderPaths(
+			CacheDisabledEntry.class,
+			HashMapBuilder.<String, FinderPath>put(
+				"finderPathWithPaginationFindAll",
+				_finderPathWithPaginationFindAll
+			).put(
+				"finderPathWithoutPaginationFindAll",
+				_finderPathWithoutPaginationFindAll
+			).put(
+				"finderPathCountAll", _finderPathCountAll
+			).put(
+				"finderPathFetchByName", _finderPathFetchByName
+			).put(
+				"finderPathCountByName", _finderPathCountByName
+			).build());
 
 		_setCacheDisabledEntryUtilPersistence(this);
 	}
@@ -865,6 +885,64 @@ public class CacheDisabledEntryPersistenceImpl
 		_setCacheDisabledEntryUtilPersistence(null);
 
 		dummyEntityCache.removeCache(CacheDisabledEntryImpl.class.getName());
+
+		FinderPath.unregisterFinderPaths(CacheDisabledEntry.class);
+	}
+
+	@Override
+	public void loadFinderCache(FinderPath[] finderPaths) {
+		if (ArrayUtil.isEmpty(finderPaths)) {
+			return;
+		}
+
+		List<CacheDisabledEntry> cacheDisabledEntrys = findAll();
+
+		for (FinderPath finderPath : finderPaths) {
+			Map<List<Object>, List<CacheDisabledEntry>> resultMap =
+				new HashMap<>();
+
+			for (CacheDisabledEntry cacheDisabledEntry : cacheDisabledEntrys) {
+				List<Object> arguments = new ArrayList<>();
+
+				for (String columnName : finderPath.getColumnNames()) {
+					CacheDisabledEntryModelImpl cacheDisabledEntryModelImpl =
+						(CacheDisabledEntryModelImpl)cacheDisabledEntry;
+
+					arguments.add(
+						cacheDisabledEntryModelImpl.getColumnValue(columnName));
+				}
+
+				if (Objects.equals(
+						finderPath.getCacheName(), FINDER_CLASS_NAME_ENTITY)) {
+
+					dummyFinderCache.putResult(
+						finderPath, arguments.toArray(), cacheDisabledEntry);
+				}
+				else {
+					List<CacheDisabledEntry> resultList =
+						resultMap.computeIfAbsent(
+							arguments, key -> new ArrayList<>());
+
+					resultList.add(cacheDisabledEntry);
+				}
+			}
+
+			for (Map.Entry<List<Object>, List<CacheDisabledEntry>> resultEntry :
+					resultMap.entrySet()) {
+
+				List<Object> key = resultEntry.getKey();
+				List<CacheDisabledEntry> value = resultEntry.getValue();
+
+				if (finderPath.isBaseModelResult()) {
+					dummyFinderCache.putResult(
+						finderPath, key.toArray(), value);
+				}
+				else {
+					dummyFinderCache.putResult(
+						finderPath, key.toArray(), value.size());
+				}
+			}
+		}
 	}
 
 	private void _setCacheDisabledEntryUtilPersistence(

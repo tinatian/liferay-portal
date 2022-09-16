@@ -39,7 +39,9 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
@@ -51,10 +53,12 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.sql.DataSource;
@@ -3287,19 +3291,19 @@ public class CommerceQualifierEntryPersistenceImpl
 			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
 
 		_finderPathWithPaginationFindAll = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
-			new String[0], true);
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll",
+			new String[0], new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
-			new String[0], true);
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
+			new String[0], new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByS_S = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByS_S",
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByS_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -3308,17 +3312,17 @@ public class CommerceQualifierEntryPersistenceImpl
 			new String[] {"sourceClassNameId", "sourceClassPK"}, true);
 
 		_finderPathWithoutPaginationFindByS_S = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByS_S",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByS_S",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			new String[] {"sourceClassNameId", "sourceClassPK"}, true);
 
 		_finderPathCountByS_S = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByS_S",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByS_S",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			new String[] {"sourceClassNameId", "sourceClassPK"}, false);
 
 		_finderPathWithPaginationFindByT_T = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByT_T",
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByT_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -3327,17 +3331,17 @@ public class CommerceQualifierEntryPersistenceImpl
 			new String[] {"targetClassNameId", "targetClassPK"}, true);
 
 		_finderPathWithoutPaginationFindByT_T = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByT_T",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByT_T",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			new String[] {"targetClassNameId", "targetClassPK"}, true);
 
 		_finderPathCountByT_T = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByT_T",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByT_T",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			new String[] {"targetClassNameId", "targetClassPK"}, false);
 
 		_finderPathWithPaginationFindByS_S_T = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByS_S_T",
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByS_S_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), Integer.class.getName(),
@@ -3349,7 +3353,7 @@ public class CommerceQualifierEntryPersistenceImpl
 			true);
 
 		_finderPathWithoutPaginationFindByS_S_T = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByS_S_T",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByS_S_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			},
@@ -3359,7 +3363,7 @@ public class CommerceQualifierEntryPersistenceImpl
 			true);
 
 		_finderPathCountByS_S_T = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByS_S_T",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByS_S_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			},
@@ -3369,7 +3373,7 @@ public class CommerceQualifierEntryPersistenceImpl
 			false);
 
 		_finderPathWithPaginationFindByS_T_T = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByS_T_T",
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByS_T_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), Integer.class.getName(),
@@ -3381,7 +3385,7 @@ public class CommerceQualifierEntryPersistenceImpl
 			true);
 
 		_finderPathWithoutPaginationFindByS_T_T = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByS_T_T",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByS_T_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			},
@@ -3391,7 +3395,7 @@ public class CommerceQualifierEntryPersistenceImpl
 			true);
 
 		_finderPathCountByS_T_T = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByS_T_T",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByS_T_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			},
@@ -3401,7 +3405,7 @@ public class CommerceQualifierEntryPersistenceImpl
 			false);
 
 		_finderPathFetchByS_S_T_T = new FinderPath(
-			FINDER_CLASS_NAME_ENTITY, "fetchByS_S_T_T",
+			this, FINDER_CLASS_NAME_ENTITY, "fetchByS_S_T_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), Long.class.getName()
@@ -3413,7 +3417,7 @@ public class CommerceQualifierEntryPersistenceImpl
 			true);
 
 		_finderPathCountByS_S_T_T = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByS_S_T_T",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByS_S_T_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), Long.class.getName()
@@ -3424,6 +3428,54 @@ public class CommerceQualifierEntryPersistenceImpl
 			},
 			false);
 
+		FinderPath.registerFinderPaths(
+			CommerceQualifierEntry.class,
+			HashMapBuilder.<String, FinderPath>put(
+				"finderPathWithPaginationFindAll",
+				_finderPathWithPaginationFindAll
+			).put(
+				"finderPathWithoutPaginationFindAll",
+				_finderPathWithoutPaginationFindAll
+			).put(
+				"finderPathCountAll", _finderPathCountAll
+			).put(
+				"finderPathWithPaginationFindByS_S",
+				_finderPathWithPaginationFindByS_S
+			).put(
+				"finderPathWithoutPaginationFindByS_S",
+				_finderPathWithoutPaginationFindByS_S
+			).put(
+				"finderPathCountByS_S", _finderPathCountByS_S
+			).put(
+				"finderPathWithPaginationFindByT_T",
+				_finderPathWithPaginationFindByT_T
+			).put(
+				"finderPathWithoutPaginationFindByT_T",
+				_finderPathWithoutPaginationFindByT_T
+			).put(
+				"finderPathCountByT_T", _finderPathCountByT_T
+			).put(
+				"finderPathWithPaginationFindByS_S_T",
+				_finderPathWithPaginationFindByS_S_T
+			).put(
+				"finderPathWithoutPaginationFindByS_S_T",
+				_finderPathWithoutPaginationFindByS_S_T
+			).put(
+				"finderPathCountByS_S_T", _finderPathCountByS_S_T
+			).put(
+				"finderPathWithPaginationFindByS_T_T",
+				_finderPathWithPaginationFindByS_T_T
+			).put(
+				"finderPathWithoutPaginationFindByS_T_T",
+				_finderPathWithoutPaginationFindByS_T_T
+			).put(
+				"finderPathCountByS_T_T", _finderPathCountByS_T_T
+			).put(
+				"finderPathFetchByS_S_T_T", _finderPathFetchByS_S_T_T
+			).put(
+				"finderPathCountByS_S_T_T", _finderPathCountByS_S_T_T
+			).build());
+
 		_setCommerceQualifierEntryUtilPersistence(this);
 	}
 
@@ -3432,6 +3484,69 @@ public class CommerceQualifierEntryPersistenceImpl
 		_setCommerceQualifierEntryUtilPersistence(null);
 
 		entityCache.removeCache(CommerceQualifierEntryImpl.class.getName());
+
+		FinderPath.unregisterFinderPaths(CommerceQualifierEntry.class);
+	}
+
+	@Override
+	public void loadFinderCache(FinderPath[] finderPaths) {
+		if (ArrayUtil.isEmpty(finderPaths)) {
+			return;
+		}
+
+		List<CommerceQualifierEntry> commerceQualifierEntrys = findAll();
+
+		for (FinderPath finderPath : finderPaths) {
+			Map<List<Object>, List<CommerceQualifierEntry>> resultMap =
+				new HashMap<>();
+
+			for (CommerceQualifierEntry commerceQualifierEntry :
+					commerceQualifierEntrys) {
+
+				List<Object> arguments = new ArrayList<>();
+
+				for (String columnName : finderPath.getColumnNames()) {
+					CommerceQualifierEntryModelImpl
+						commerceQualifierEntryModelImpl =
+							(CommerceQualifierEntryModelImpl)
+								commerceQualifierEntry;
+
+					arguments.add(
+						commerceQualifierEntryModelImpl.getColumnValue(
+							columnName));
+				}
+
+				if (Objects.equals(
+						finderPath.getCacheName(), FINDER_CLASS_NAME_ENTITY)) {
+
+					finderCache.putResult(
+						finderPath, arguments.toArray(),
+						commerceQualifierEntry);
+				}
+				else {
+					List<CommerceQualifierEntry> resultList =
+						resultMap.computeIfAbsent(
+							arguments, key -> new ArrayList<>());
+
+					resultList.add(commerceQualifierEntry);
+				}
+			}
+
+			for (Map.Entry<List<Object>, List<CommerceQualifierEntry>>
+					resultEntry : resultMap.entrySet()) {
+
+				List<Object> key = resultEntry.getKey();
+				List<CommerceQualifierEntry> value = resultEntry.getValue();
+
+				if (finderPath.isBaseModelResult()) {
+					finderCache.putResult(finderPath, key.toArray(), value);
+				}
+				else {
+					finderCache.putResult(
+						finderPath, key.toArray(), value.size());
+				}
+			}
+		}
 	}
 
 	private void _setCommerceQualifierEntryUtilPersistence(

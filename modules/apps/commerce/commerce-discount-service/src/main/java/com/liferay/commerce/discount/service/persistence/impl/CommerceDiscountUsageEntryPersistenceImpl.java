@@ -39,7 +39,9 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
@@ -50,9 +52,12 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.sql.DataSource;
@@ -2930,19 +2935,20 @@ public class CommerceDiscountUsageEntryPersistenceImpl
 			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
 
 		_finderPathWithPaginationFindAll = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
-			new String[0], true);
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll",
+			new String[0], new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
-			new String[0], true);
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
+			new String[0], new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByCommerceDiscountId = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCommerceDiscountId",
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByCommerceDiscountId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -2950,17 +2956,17 @@ public class CommerceDiscountUsageEntryPersistenceImpl
 			new String[] {"commerceDiscountId"}, true);
 
 		_finderPathWithoutPaginationFindByCommerceDiscountId = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByCommerceDiscountId", new String[] {Long.class.getName()},
 			new String[] {"commerceDiscountId"}, true);
 
 		_finderPathCountByCommerceDiscountId = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByCommerceDiscountId", new String[] {Long.class.getName()},
 			new String[] {"commerceDiscountId"}, false);
 
 		_finderPathWithPaginationFindByCAI_CDI = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCAI_CDI",
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCAI_CDI",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -2969,17 +2975,17 @@ public class CommerceDiscountUsageEntryPersistenceImpl
 			new String[] {"commerceAccountId", "commerceDiscountId"}, true);
 
 		_finderPathWithoutPaginationFindByCAI_CDI = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCAI_CDI",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCAI_CDI",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			new String[] {"commerceAccountId", "commerceDiscountId"}, true);
 
 		_finderPathCountByCAI_CDI = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCAI_CDI",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCAI_CDI",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			new String[] {"commerceAccountId", "commerceDiscountId"}, false);
 
 		_finderPathWithPaginationFindByCOI_CDI = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCOI_CDI",
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCOI_CDI",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -2988,17 +2994,17 @@ public class CommerceDiscountUsageEntryPersistenceImpl
 			new String[] {"commerceOrderId", "commerceDiscountId"}, true);
 
 		_finderPathWithoutPaginationFindByCOI_CDI = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCOI_CDI",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCOI_CDI",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			new String[] {"commerceOrderId", "commerceDiscountId"}, true);
 
 		_finderPathCountByCOI_CDI = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCOI_CDI",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCOI_CDI",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			new String[] {"commerceOrderId", "commerceDiscountId"}, false);
 
 		_finderPathWithPaginationFindByCAI_COI_CDI = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCAI_COI_CDI",
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCAI_COI_CDI",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), Integer.class.getName(),
@@ -3010,7 +3016,8 @@ public class CommerceDiscountUsageEntryPersistenceImpl
 			true);
 
 		_finderPathWithoutPaginationFindByCAI_COI_CDI = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCAI_COI_CDI",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByCAI_COI_CDI",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			},
@@ -3020,7 +3027,8 @@ public class CommerceDiscountUsageEntryPersistenceImpl
 			true);
 
 		_finderPathCountByCAI_COI_CDI = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCAI_COI_CDI",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByCAI_COI_CDI",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			},
@@ -3028,6 +3036,51 @@ public class CommerceDiscountUsageEntryPersistenceImpl
 				"commerceAccountId", "commerceOrderId", "commerceDiscountId"
 			},
 			false);
+
+		FinderPath.registerFinderPaths(
+			CommerceDiscountUsageEntry.class,
+			HashMapBuilder.<String, FinderPath>put(
+				"finderPathWithPaginationFindAll",
+				_finderPathWithPaginationFindAll
+			).put(
+				"finderPathWithoutPaginationFindAll",
+				_finderPathWithoutPaginationFindAll
+			).put(
+				"finderPathCountAll", _finderPathCountAll
+			).put(
+				"finderPathWithPaginationFindByCommerceDiscountId",
+				_finderPathWithPaginationFindByCommerceDiscountId
+			).put(
+				"finderPathWithoutPaginationFindByCommerceDiscountId",
+				_finderPathWithoutPaginationFindByCommerceDiscountId
+			).put(
+				"finderPathCountByCommerceDiscountId",
+				_finderPathCountByCommerceDiscountId
+			).put(
+				"finderPathWithPaginationFindByCAI_CDI",
+				_finderPathWithPaginationFindByCAI_CDI
+			).put(
+				"finderPathWithoutPaginationFindByCAI_CDI",
+				_finderPathWithoutPaginationFindByCAI_CDI
+			).put(
+				"finderPathCountByCAI_CDI", _finderPathCountByCAI_CDI
+			).put(
+				"finderPathWithPaginationFindByCOI_CDI",
+				_finderPathWithPaginationFindByCOI_CDI
+			).put(
+				"finderPathWithoutPaginationFindByCOI_CDI",
+				_finderPathWithoutPaginationFindByCOI_CDI
+			).put(
+				"finderPathCountByCOI_CDI", _finderPathCountByCOI_CDI
+			).put(
+				"finderPathWithPaginationFindByCAI_COI_CDI",
+				_finderPathWithPaginationFindByCAI_COI_CDI
+			).put(
+				"finderPathWithoutPaginationFindByCAI_COI_CDI",
+				_finderPathWithoutPaginationFindByCAI_COI_CDI
+			).put(
+				"finderPathCountByCAI_COI_CDI", _finderPathCountByCAI_COI_CDI
+			).build());
 
 		_setCommerceDiscountUsageEntryUtilPersistence(this);
 	}
@@ -3037,6 +3090,70 @@ public class CommerceDiscountUsageEntryPersistenceImpl
 		_setCommerceDiscountUsageEntryUtilPersistence(null);
 
 		entityCache.removeCache(CommerceDiscountUsageEntryImpl.class.getName());
+
+		FinderPath.unregisterFinderPaths(CommerceDiscountUsageEntry.class);
+	}
+
+	@Override
+	public void loadFinderCache(FinderPath[] finderPaths) {
+		if (ArrayUtil.isEmpty(finderPaths)) {
+			return;
+		}
+
+		List<CommerceDiscountUsageEntry> commerceDiscountUsageEntrys =
+			findAll();
+
+		for (FinderPath finderPath : finderPaths) {
+			Map<List<Object>, List<CommerceDiscountUsageEntry>> resultMap =
+				new HashMap<>();
+
+			for (CommerceDiscountUsageEntry commerceDiscountUsageEntry :
+					commerceDiscountUsageEntrys) {
+
+				List<Object> arguments = new ArrayList<>();
+
+				for (String columnName : finderPath.getColumnNames()) {
+					CommerceDiscountUsageEntryModelImpl
+						commerceDiscountUsageEntryModelImpl =
+							(CommerceDiscountUsageEntryModelImpl)
+								commerceDiscountUsageEntry;
+
+					arguments.add(
+						commerceDiscountUsageEntryModelImpl.getColumnValue(
+							columnName));
+				}
+
+				if (Objects.equals(
+						finderPath.getCacheName(), FINDER_CLASS_NAME_ENTITY)) {
+
+					finderCache.putResult(
+						finderPath, arguments.toArray(),
+						commerceDiscountUsageEntry);
+				}
+				else {
+					List<CommerceDiscountUsageEntry> resultList =
+						resultMap.computeIfAbsent(
+							arguments, key -> new ArrayList<>());
+
+					resultList.add(commerceDiscountUsageEntry);
+				}
+			}
+
+			for (Map.Entry<List<Object>, List<CommerceDiscountUsageEntry>>
+					resultEntry : resultMap.entrySet()) {
+
+				List<Object> key = resultEntry.getKey();
+				List<CommerceDiscountUsageEntry> value = resultEntry.getValue();
+
+				if (finderPath.isBaseModelResult()) {
+					finderCache.putResult(finderPath, key.toArray(), value);
+				}
+				else {
+					finderCache.putResult(
+						finderPath, key.toArray(), value.size());
+				}
+			}
+		}
 	}
 
 	private void _setCommerceDiscountUsageEntryUtilPersistence(

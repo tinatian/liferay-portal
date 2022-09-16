@@ -33,7 +33,9 @@ import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.persistence.UserNotificationEventPersistence;
 import com.liferay.portal.kernel.service.persistence.UserNotificationEventUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
@@ -49,6 +51,7 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11964,19 +11967,19 @@ public class UserNotificationEventPersistenceImpl
 			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
 
 		_finderPathWithPaginationFindAll = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
-			new String[0], true);
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll",
+			new String[0], new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
-			new String[0], true);
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
+			new String[0], new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -11984,17 +11987,17 @@ public class UserNotificationEventPersistenceImpl
 			new String[] {"uuid_"}, true);
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
 			new String[] {String.class.getName()}, new String[] {"uuid_"},
 			true);
 
 		_finderPathCountByUuid = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
 			new String[] {String.class.getName()}, new String[] {"uuid_"},
 			false);
 
 		_finderPathWithPaginationFindByUuid_C = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -12003,17 +12006,17 @@ public class UserNotificationEventPersistenceImpl
 			new String[] {"uuid_", "companyId"}, true);
 
 		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
 			new String[] {"uuid_", "companyId"}, true);
 
 		_finderPathCountByUuid_C = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
 			new String[] {"uuid_", "companyId"}, false);
 
 		_finderPathWithPaginationFindByUserId = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUserId",
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUserId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -12021,16 +12024,16 @@ public class UserNotificationEventPersistenceImpl
 			new String[] {"userId"}, true);
 
 		_finderPathWithoutPaginationFindByUserId = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUserId",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUserId",
 			new String[] {Long.class.getName()}, new String[] {"userId"}, true);
 
 		_finderPathCountByUserId = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUserId",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUserId",
 			new String[] {Long.class.getName()}, new String[] {"userId"},
 			false);
 
 		_finderPathWithPaginationFindByType = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByType",
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByType",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -12038,17 +12041,17 @@ public class UserNotificationEventPersistenceImpl
 			new String[] {"type_"}, true);
 
 		_finderPathWithoutPaginationFindByType = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByType",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByType",
 			new String[] {String.class.getName()}, new String[] {"type_"},
 			true);
 
 		_finderPathCountByType = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByType",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByType",
 			new String[] {String.class.getName()}, new String[] {"type_"},
 			false);
 
 		_finderPathWithPaginationFindByU_DT = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_DT",
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_DT",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -12057,17 +12060,17 @@ public class UserNotificationEventPersistenceImpl
 			new String[] {"userId", "deliveryType"}, true);
 
 		_finderPathWithoutPaginationFindByU_DT = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_DT",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_DT",
 			new String[] {Long.class.getName(), Integer.class.getName()},
 			new String[] {"userId", "deliveryType"}, true);
 
 		_finderPathCountByU_DT = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_DT",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_DT",
 			new String[] {Long.class.getName(), Integer.class.getName()},
 			new String[] {"userId", "deliveryType"}, false);
 
 		_finderPathWithPaginationFindByU_D = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_D",
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_D",
 			new String[] {
 				Long.class.getName(), Boolean.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -12076,17 +12079,17 @@ public class UserNotificationEventPersistenceImpl
 			new String[] {"userId", "delivered"}, true);
 
 		_finderPathWithoutPaginationFindByU_D = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_D",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_D",
 			new String[] {Long.class.getName(), Boolean.class.getName()},
 			new String[] {"userId", "delivered"}, true);
 
 		_finderPathCountByU_D = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_D",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_D",
 			new String[] {Long.class.getName(), Boolean.class.getName()},
 			new String[] {"userId", "delivered"}, false);
 
 		_finderPathWithPaginationFindByU_A = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_A",
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_A",
 			new String[] {
 				Long.class.getName(), Boolean.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -12095,17 +12098,17 @@ public class UserNotificationEventPersistenceImpl
 			new String[] {"userId", "archived"}, true);
 
 		_finderPathWithoutPaginationFindByU_A = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_A",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_A",
 			new String[] {Long.class.getName(), Boolean.class.getName()},
 			new String[] {"userId", "archived"}, true);
 
 		_finderPathCountByU_A = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_A",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_A",
 			new String[] {Long.class.getName(), Boolean.class.getName()},
 			new String[] {"userId", "archived"}, false);
 
 		_finderPathWithPaginationFindByU_DT_D = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_DT_D",
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_DT_D",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Boolean.class.getName(), Integer.class.getName(),
@@ -12114,7 +12117,7 @@ public class UserNotificationEventPersistenceImpl
 			new String[] {"userId", "deliveryType", "delivered"}, true);
 
 		_finderPathWithoutPaginationFindByU_DT_D = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_DT_D",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_DT_D",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Boolean.class.getName()
@@ -12122,7 +12125,7 @@ public class UserNotificationEventPersistenceImpl
 			new String[] {"userId", "deliveryType", "delivered"}, true);
 
 		_finderPathCountByU_DT_D = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_DT_D",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_DT_D",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Boolean.class.getName()
@@ -12130,7 +12133,7 @@ public class UserNotificationEventPersistenceImpl
 			new String[] {"userId", "deliveryType", "delivered"}, false);
 
 		_finderPathWithPaginationFindByU_DT_A = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_DT_A",
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_DT_A",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Boolean.class.getName(), Integer.class.getName(),
@@ -12139,7 +12142,7 @@ public class UserNotificationEventPersistenceImpl
 			new String[] {"userId", "deliveryType", "archived"}, true);
 
 		_finderPathWithoutPaginationFindByU_DT_A = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_DT_A",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_DT_A",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Boolean.class.getName()
@@ -12147,7 +12150,7 @@ public class UserNotificationEventPersistenceImpl
 			new String[] {"userId", "deliveryType", "archived"}, true);
 
 		_finderPathCountByU_DT_A = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_DT_A",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_DT_A",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Boolean.class.getName()
@@ -12155,7 +12158,7 @@ public class UserNotificationEventPersistenceImpl
 			new String[] {"userId", "deliveryType", "archived"}, false);
 
 		_finderPathWithPaginationFindByU_D_AR = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_D_AR",
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_D_AR",
 			new String[] {
 				Long.class.getName(), Boolean.class.getName(),
 				Boolean.class.getName(), Integer.class.getName(),
@@ -12164,7 +12167,7 @@ public class UserNotificationEventPersistenceImpl
 			new String[] {"userId", "delivered", "actionRequired"}, true);
 
 		_finderPathWithoutPaginationFindByU_D_AR = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_D_AR",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_D_AR",
 			new String[] {
 				Long.class.getName(), Boolean.class.getName(),
 				Boolean.class.getName()
@@ -12172,7 +12175,7 @@ public class UserNotificationEventPersistenceImpl
 			new String[] {"userId", "delivered", "actionRequired"}, true);
 
 		_finderPathCountByU_D_AR = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_D_AR",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_D_AR",
 			new String[] {
 				Long.class.getName(), Boolean.class.getName(),
 				Boolean.class.getName()
@@ -12180,7 +12183,7 @@ public class UserNotificationEventPersistenceImpl
 			new String[] {"userId", "delivered", "actionRequired"}, false);
 
 		_finderPathWithPaginationFindByU_D_A = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_D_A",
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_D_A",
 			new String[] {
 				Long.class.getName(), Boolean.class.getName(),
 				Boolean.class.getName(), Integer.class.getName(),
@@ -12189,7 +12192,7 @@ public class UserNotificationEventPersistenceImpl
 			new String[] {"userId", "delivered", "archived"}, true);
 
 		_finderPathWithoutPaginationFindByU_D_A = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_D_A",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_D_A",
 			new String[] {
 				Long.class.getName(), Boolean.class.getName(),
 				Boolean.class.getName()
@@ -12197,7 +12200,7 @@ public class UserNotificationEventPersistenceImpl
 			new String[] {"userId", "delivered", "archived"}, true);
 
 		_finderPathCountByU_D_A = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_D_A",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_D_A",
 			new String[] {
 				Long.class.getName(), Boolean.class.getName(),
 				Boolean.class.getName()
@@ -12205,7 +12208,7 @@ public class UserNotificationEventPersistenceImpl
 			new String[] {"userId", "delivered", "archived"}, false);
 
 		_finderPathWithPaginationFindByU_AR_A = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_AR_A",
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_AR_A",
 			new String[] {
 				Long.class.getName(), Boolean.class.getName(),
 				Boolean.class.getName(), Integer.class.getName(),
@@ -12214,7 +12217,7 @@ public class UserNotificationEventPersistenceImpl
 			new String[] {"userId", "actionRequired", "archived"}, true);
 
 		_finderPathWithoutPaginationFindByU_AR_A = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_AR_A",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_AR_A",
 			new String[] {
 				Long.class.getName(), Boolean.class.getName(),
 				Boolean.class.getName()
@@ -12222,7 +12225,7 @@ public class UserNotificationEventPersistenceImpl
 			new String[] {"userId", "actionRequired", "archived"}, true);
 
 		_finderPathCountByU_AR_A = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_AR_A",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_AR_A",
 			new String[] {
 				Long.class.getName(), Boolean.class.getName(),
 				Boolean.class.getName()
@@ -12230,7 +12233,7 @@ public class UserNotificationEventPersistenceImpl
 			new String[] {"userId", "actionRequired", "archived"}, false);
 
 		_finderPathWithPaginationFindByU_T_DT_D = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_T_DT_D",
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_T_DT_D",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
 				Integer.class.getName(), Boolean.class.getName(),
@@ -12241,7 +12244,7 @@ public class UserNotificationEventPersistenceImpl
 			true);
 
 		_finderPathWithoutPaginationFindByU_T_DT_D = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_T_DT_D",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_T_DT_D",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
 				Integer.class.getName(), Boolean.class.getName()
@@ -12250,7 +12253,7 @@ public class UserNotificationEventPersistenceImpl
 			true);
 
 		_finderPathCountByU_T_DT_D = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_T_DT_D",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_T_DT_D",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
 				Integer.class.getName(), Boolean.class.getName()
@@ -12259,7 +12262,7 @@ public class UserNotificationEventPersistenceImpl
 			false);
 
 		_finderPathWithPaginationFindByU_DT_D_AR = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_DT_D_AR",
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_DT_D_AR",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Boolean.class.getName(), Boolean.class.getName(),
@@ -12272,7 +12275,7 @@ public class UserNotificationEventPersistenceImpl
 			true);
 
 		_finderPathWithoutPaginationFindByU_DT_D_AR = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_DT_D_AR",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_DT_D_AR",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Boolean.class.getName(), Boolean.class.getName()
@@ -12283,7 +12286,7 @@ public class UserNotificationEventPersistenceImpl
 			true);
 
 		_finderPathCountByU_DT_D_AR = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_DT_D_AR",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_DT_D_AR",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Boolean.class.getName(), Boolean.class.getName()
@@ -12294,7 +12297,7 @@ public class UserNotificationEventPersistenceImpl
 			false);
 
 		_finderPathWithPaginationFindByU_DT_D_A = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_DT_D_A",
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_DT_D_A",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Boolean.class.getName(), Boolean.class.getName(),
@@ -12305,7 +12308,7 @@ public class UserNotificationEventPersistenceImpl
 			true);
 
 		_finderPathWithoutPaginationFindByU_DT_D_A = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_DT_D_A",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_DT_D_A",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Boolean.class.getName(), Boolean.class.getName()
@@ -12314,7 +12317,7 @@ public class UserNotificationEventPersistenceImpl
 			true);
 
 		_finderPathCountByU_DT_D_A = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_DT_D_A",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_DT_D_A",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Boolean.class.getName(), Boolean.class.getName()
@@ -12323,7 +12326,7 @@ public class UserNotificationEventPersistenceImpl
 			false);
 
 		_finderPathWithPaginationFindByU_DT_AR_A = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_DT_AR_A",
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_DT_AR_A",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Boolean.class.getName(), Boolean.class.getName(),
@@ -12336,7 +12339,7 @@ public class UserNotificationEventPersistenceImpl
 			true);
 
 		_finderPathWithoutPaginationFindByU_DT_AR_A = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_DT_AR_A",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_DT_AR_A",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Boolean.class.getName(), Boolean.class.getName()
@@ -12347,7 +12350,7 @@ public class UserNotificationEventPersistenceImpl
 			true);
 
 		_finderPathCountByU_DT_AR_A = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_DT_AR_A",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_DT_AR_A",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Boolean.class.getName(), Boolean.class.getName()
@@ -12358,7 +12361,7 @@ public class UserNotificationEventPersistenceImpl
 			false);
 
 		_finderPathWithPaginationFindByU_D_AR_A = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_D_AR_A",
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_D_AR_A",
 			new String[] {
 				Long.class.getName(), Boolean.class.getName(),
 				Boolean.class.getName(), Boolean.class.getName(),
@@ -12369,7 +12372,7 @@ public class UserNotificationEventPersistenceImpl
 			true);
 
 		_finderPathWithoutPaginationFindByU_D_AR_A = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_D_AR_A",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_D_AR_A",
 			new String[] {
 				Long.class.getName(), Boolean.class.getName(),
 				Boolean.class.getName(), Boolean.class.getName()
@@ -12378,7 +12381,7 @@ public class UserNotificationEventPersistenceImpl
 			true);
 
 		_finderPathCountByU_D_AR_A = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_D_AR_A",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_D_AR_A",
 			new String[] {
 				Long.class.getName(), Boolean.class.getName(),
 				Boolean.class.getName(), Boolean.class.getName()
@@ -12387,7 +12390,7 @@ public class UserNotificationEventPersistenceImpl
 			false);
 
 		_finderPathWithPaginationFindByU_T_DT_D_A = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_T_DT_D_A",
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_T_DT_D_A",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
 				Integer.class.getName(), Boolean.class.getName(),
@@ -12400,7 +12403,7 @@ public class UserNotificationEventPersistenceImpl
 			true);
 
 		_finderPathWithoutPaginationFindByU_T_DT_D_A = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_T_DT_D_A",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_T_DT_D_A",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
 				Integer.class.getName(), Boolean.class.getName(),
@@ -12412,7 +12415,8 @@ public class UserNotificationEventPersistenceImpl
 			true);
 
 		_finderPathCountByU_T_DT_D_A = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_T_DT_D_A",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByU_T_DT_D_A",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
 				Integer.class.getName(), Boolean.class.getName(),
@@ -12424,7 +12428,7 @@ public class UserNotificationEventPersistenceImpl
 			false);
 
 		_finderPathWithPaginationFindByU_DT_D_AR_A = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_DT_D_AR_A",
+			this, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_DT_D_AR_A",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Boolean.class.getName(), Boolean.class.getName(),
@@ -12438,7 +12442,8 @@ public class UserNotificationEventPersistenceImpl
 			true);
 
 		_finderPathWithoutPaginationFindByU_DT_D_AR_A = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_DT_D_AR_A",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByU_DT_D_AR_A",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Boolean.class.getName(), Boolean.class.getName(),
@@ -12451,7 +12456,8 @@ public class UserNotificationEventPersistenceImpl
 			true);
 
 		_finderPathCountByU_DT_D_AR_A = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_DT_D_AR_A",
+			this, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByU_DT_D_AR_A",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Boolean.class.getName(), Boolean.class.getName(),
@@ -12463,6 +12469,170 @@ public class UserNotificationEventPersistenceImpl
 			},
 			false);
 
+		FinderPath.registerFinderPaths(
+			UserNotificationEvent.class,
+			HashMapBuilder.<String, FinderPath>put(
+				"finderPathWithPaginationFindAll",
+				_finderPathWithPaginationFindAll
+			).put(
+				"finderPathWithoutPaginationFindAll",
+				_finderPathWithoutPaginationFindAll
+			).put(
+				"finderPathCountAll", _finderPathCountAll
+			).put(
+				"finderPathWithPaginationFindByUuid",
+				_finderPathWithPaginationFindByUuid
+			).put(
+				"finderPathWithoutPaginationFindByUuid",
+				_finderPathWithoutPaginationFindByUuid
+			).put(
+				"finderPathCountByUuid", _finderPathCountByUuid
+			).put(
+				"finderPathWithPaginationFindByUuid_C",
+				_finderPathWithPaginationFindByUuid_C
+			).put(
+				"finderPathWithoutPaginationFindByUuid_C",
+				_finderPathWithoutPaginationFindByUuid_C
+			).put(
+				"finderPathCountByUuid_C", _finderPathCountByUuid_C
+			).put(
+				"finderPathWithPaginationFindByUserId",
+				_finderPathWithPaginationFindByUserId
+			).put(
+				"finderPathWithoutPaginationFindByUserId",
+				_finderPathWithoutPaginationFindByUserId
+			).put(
+				"finderPathCountByUserId", _finderPathCountByUserId
+			).put(
+				"finderPathWithPaginationFindByType",
+				_finderPathWithPaginationFindByType
+			).put(
+				"finderPathWithoutPaginationFindByType",
+				_finderPathWithoutPaginationFindByType
+			).put(
+				"finderPathCountByType", _finderPathCountByType
+			).put(
+				"finderPathWithPaginationFindByU_DT",
+				_finderPathWithPaginationFindByU_DT
+			).put(
+				"finderPathWithoutPaginationFindByU_DT",
+				_finderPathWithoutPaginationFindByU_DT
+			).put(
+				"finderPathCountByU_DT", _finderPathCountByU_DT
+			).put(
+				"finderPathWithPaginationFindByU_D",
+				_finderPathWithPaginationFindByU_D
+			).put(
+				"finderPathWithoutPaginationFindByU_D",
+				_finderPathWithoutPaginationFindByU_D
+			).put(
+				"finderPathCountByU_D", _finderPathCountByU_D
+			).put(
+				"finderPathWithPaginationFindByU_A",
+				_finderPathWithPaginationFindByU_A
+			).put(
+				"finderPathWithoutPaginationFindByU_A",
+				_finderPathWithoutPaginationFindByU_A
+			).put(
+				"finderPathCountByU_A", _finderPathCountByU_A
+			).put(
+				"finderPathWithPaginationFindByU_DT_D",
+				_finderPathWithPaginationFindByU_DT_D
+			).put(
+				"finderPathWithoutPaginationFindByU_DT_D",
+				_finderPathWithoutPaginationFindByU_DT_D
+			).put(
+				"finderPathCountByU_DT_D", _finderPathCountByU_DT_D
+			).put(
+				"finderPathWithPaginationFindByU_DT_A",
+				_finderPathWithPaginationFindByU_DT_A
+			).put(
+				"finderPathWithoutPaginationFindByU_DT_A",
+				_finderPathWithoutPaginationFindByU_DT_A
+			).put(
+				"finderPathCountByU_DT_A", _finderPathCountByU_DT_A
+			).put(
+				"finderPathWithPaginationFindByU_D_AR",
+				_finderPathWithPaginationFindByU_D_AR
+			).put(
+				"finderPathWithoutPaginationFindByU_D_AR",
+				_finderPathWithoutPaginationFindByU_D_AR
+			).put(
+				"finderPathCountByU_D_AR", _finderPathCountByU_D_AR
+			).put(
+				"finderPathWithPaginationFindByU_D_A",
+				_finderPathWithPaginationFindByU_D_A
+			).put(
+				"finderPathWithoutPaginationFindByU_D_A",
+				_finderPathWithoutPaginationFindByU_D_A
+			).put(
+				"finderPathCountByU_D_A", _finderPathCountByU_D_A
+			).put(
+				"finderPathWithPaginationFindByU_AR_A",
+				_finderPathWithPaginationFindByU_AR_A
+			).put(
+				"finderPathWithoutPaginationFindByU_AR_A",
+				_finderPathWithoutPaginationFindByU_AR_A
+			).put(
+				"finderPathCountByU_AR_A", _finderPathCountByU_AR_A
+			).put(
+				"finderPathWithPaginationFindByU_T_DT_D",
+				_finderPathWithPaginationFindByU_T_DT_D
+			).put(
+				"finderPathWithoutPaginationFindByU_T_DT_D",
+				_finderPathWithoutPaginationFindByU_T_DT_D
+			).put(
+				"finderPathCountByU_T_DT_D", _finderPathCountByU_T_DT_D
+			).put(
+				"finderPathWithPaginationFindByU_DT_D_AR",
+				_finderPathWithPaginationFindByU_DT_D_AR
+			).put(
+				"finderPathWithoutPaginationFindByU_DT_D_AR",
+				_finderPathWithoutPaginationFindByU_DT_D_AR
+			).put(
+				"finderPathCountByU_DT_D_AR", _finderPathCountByU_DT_D_AR
+			).put(
+				"finderPathWithPaginationFindByU_DT_D_A",
+				_finderPathWithPaginationFindByU_DT_D_A
+			).put(
+				"finderPathWithoutPaginationFindByU_DT_D_A",
+				_finderPathWithoutPaginationFindByU_DT_D_A
+			).put(
+				"finderPathCountByU_DT_D_A", _finderPathCountByU_DT_D_A
+			).put(
+				"finderPathWithPaginationFindByU_DT_AR_A",
+				_finderPathWithPaginationFindByU_DT_AR_A
+			).put(
+				"finderPathWithoutPaginationFindByU_DT_AR_A",
+				_finderPathWithoutPaginationFindByU_DT_AR_A
+			).put(
+				"finderPathCountByU_DT_AR_A", _finderPathCountByU_DT_AR_A
+			).put(
+				"finderPathWithPaginationFindByU_D_AR_A",
+				_finderPathWithPaginationFindByU_D_AR_A
+			).put(
+				"finderPathWithoutPaginationFindByU_D_AR_A",
+				_finderPathWithoutPaginationFindByU_D_AR_A
+			).put(
+				"finderPathCountByU_D_AR_A", _finderPathCountByU_D_AR_A
+			).put(
+				"finderPathWithPaginationFindByU_T_DT_D_A",
+				_finderPathWithPaginationFindByU_T_DT_D_A
+			).put(
+				"finderPathWithoutPaginationFindByU_T_DT_D_A",
+				_finderPathWithoutPaginationFindByU_T_DT_D_A
+			).put(
+				"finderPathCountByU_T_DT_D_A", _finderPathCountByU_T_DT_D_A
+			).put(
+				"finderPathWithPaginationFindByU_DT_D_AR_A",
+				_finderPathWithPaginationFindByU_DT_D_AR_A
+			).put(
+				"finderPathWithoutPaginationFindByU_DT_D_AR_A",
+				_finderPathWithoutPaginationFindByU_DT_D_AR_A
+			).put(
+				"finderPathCountByU_DT_D_AR_A", _finderPathCountByU_DT_D_AR_A
+			).build());
+
 		_setUserNotificationEventUtilPersistence(this);
 	}
 
@@ -12470,6 +12640,68 @@ public class UserNotificationEventPersistenceImpl
 		_setUserNotificationEventUtilPersistence(null);
 
 		EntityCacheUtil.removeCache(UserNotificationEventImpl.class.getName());
+
+		FinderPath.unregisterFinderPaths(UserNotificationEvent.class);
+	}
+
+	@Override
+	public void loadFinderCache(FinderPath[] finderPaths) {
+		if (ArrayUtil.isEmpty(finderPaths)) {
+			return;
+		}
+
+		List<UserNotificationEvent> userNotificationEvents = findAll();
+
+		for (FinderPath finderPath : finderPaths) {
+			Map<List<Object>, List<UserNotificationEvent>> resultMap =
+				new HashMap<>();
+
+			for (UserNotificationEvent userNotificationEvent :
+					userNotificationEvents) {
+
+				List<Object> arguments = new ArrayList<>();
+
+				for (String columnName : finderPath.getColumnNames()) {
+					UserNotificationEventModelImpl
+						userNotificationEventModelImpl =
+							(UserNotificationEventModelImpl)
+								userNotificationEvent;
+
+					arguments.add(
+						userNotificationEventModelImpl.getColumnValue(
+							columnName));
+				}
+
+				if (Objects.equals(
+						finderPath.getCacheName(), FINDER_CLASS_NAME_ENTITY)) {
+
+					FinderCacheUtil.putResult(
+						finderPath, arguments.toArray(), userNotificationEvent);
+				}
+				else {
+					List<UserNotificationEvent> resultList =
+						resultMap.computeIfAbsent(
+							arguments, key -> new ArrayList<>());
+
+					resultList.add(userNotificationEvent);
+				}
+			}
+
+			for (Map.Entry<List<Object>, List<UserNotificationEvent>>
+					resultEntry : resultMap.entrySet()) {
+
+				List<Object> key = resultEntry.getKey();
+				List<UserNotificationEvent> value = resultEntry.getValue();
+
+				if (finderPath.isBaseModelResult()) {
+					FinderCacheUtil.putResult(finderPath, key.toArray(), value);
+				}
+				else {
+					FinderCacheUtil.putResult(
+						finderPath, key.toArray(), value.size());
+				}
+			}
+		}
 	}
 
 	private void _setUserNotificationEventUtilPersistence(
