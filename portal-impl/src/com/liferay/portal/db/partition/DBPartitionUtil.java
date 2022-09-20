@@ -723,7 +723,6 @@ public class DBPartitionUtil {
 
 	private static final Set<String> _controlTableNames = new HashSet<>(
 		Arrays.asList("company", "virtualhost"));
-	
 	private static String _defaultSchemaName;
 
 }
