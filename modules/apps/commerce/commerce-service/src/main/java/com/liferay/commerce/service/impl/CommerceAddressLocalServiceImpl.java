@@ -57,6 +57,7 @@ import org.osgi.service.component.annotations.Reference;
  * @author Alec Sloan
  */
 @Component(
+	enabled = false,
 	property = "model.class.name=com.liferay.commerce.model.CommerceAddress",
 	service = AopService.class
 )

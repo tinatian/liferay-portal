@@ -113,6 +113,7 @@ import org.osgi.service.component.annotations.Reference;
  * @author Igor Beslic
  */
 @Component(
+	enabled = false,
 	property = "model.class.name=com.liferay.commerce.model.CommerceOrderItem",
 	service = AopService.class
 )
