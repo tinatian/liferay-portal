@@ -12,23 +12,21 @@
  * details.
  */
 
-package com.liferay.commerce.service.impl;
-
-import com.liferay.commerce.service.base.CommerceAddressRestrictionServiceBaseImpl;
-import com.liferay.portal.aop.AopService;
-
-import org.osgi.service.component.annotations.Component;
+package com.liferay.commerce.service.persistence.impl.constants;
 
 /**
  * @author Alessio Antonio Rendina
+ * @generated
  */
-@Component(
-	property = {
-		"json.web.service.context.name=commerce",
-		"json.web.service.context.path=CommerceAddressRestriction"
-	},
-	service = AopService.class
-)
-public class CommerceAddressRestrictionServiceImpl
-	extends CommerceAddressRestrictionServiceBaseImpl {
+public class CommercePersistenceConstants {
+
+	public static final String BUNDLE_SYMBOLIC_NAME =
+		"com.liferay.commerce.service";
+
+	public static final String ORIGIN_BUNDLE_SYMBOLIC_NAME_FILTER =
+		"(origin.bundle.symbolic.name=" + BUNDLE_SYMBOLIC_NAME + ")";
+
+	public static final String SERVICE_CONFIGURATION_FILTER =
+		"(&" + ORIGIN_BUNDLE_SYMBOLIC_NAME_FILTER + "(name=service))";
+
 }
