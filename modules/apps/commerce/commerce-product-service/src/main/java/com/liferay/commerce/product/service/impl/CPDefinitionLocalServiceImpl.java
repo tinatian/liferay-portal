@@ -130,6 +130,7 @@ import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.OrderByComparatorFactoryUtil;
 import com.liferay.portal.kernel.util.Portal;
+import com.liferay.portal.kernel.util.ServiceProxyFactory;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.UnicodeProperties;
 import com.liferay.portal.kernel.util.Validator;
@@ -3170,6 +3171,13 @@ public class CPDefinitionLocalServiceImpl
 	private static final Log _log = LogFactoryUtil.getLog(
 		CPDefinitionLocalServiceImpl.class);
 
+	private static volatile CommercePriceListLocalService
+		_commercePriceListLocalService =
+			ServiceProxyFactory.newServiceTrackedInstance(
+				CommercePriceListLocalService.class,
+				CPDefinitionLocalServiceImpl.class,
+				"_commercePriceListLocalService", true);
+
 	@Reference
 	private AssetEntryLocalService _assetEntryLocalService;
 
@@ -3188,9 +3196,6 @@ public class CPDefinitionLocalServiceImpl
 
 	@Reference
 	private CommercePriceEntryLocalService _commercePriceEntryLocalService;
-
-	@Reference
-	private CommercePriceListLocalService _commercePriceListLocalService;
 
 	@Reference
 	private CPAttachmentFileEntryLocalService
