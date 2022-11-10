@@ -20,6 +20,7 @@ import com.liferay.commerce.product.exception.CPDefinitionOptionValueRelKeyExcep
 import com.liferay.commerce.product.exception.CPDefinitionOptionValueRelPriceException;
 import com.liferay.commerce.product.exception.CPDefinitionOptionValueRelQuantityException;
 import com.liferay.commerce.product.exception.NoSuchCPDefinitionOptionValueRelException;
+import com.liferay.commerce.product.internal.circular.dependency.CPDefinitionLocalServiceHelper;
 import com.liferay.commerce.product.model.CPDefinition;
 import com.liferay.commerce.product.model.CPDefinitionOptionRel;
 import com.liferay.commerce.product.model.CPDefinitionOptionValueRel;
@@ -27,8 +28,6 @@ import com.liferay.commerce.product.model.CPInstance;
 import com.liferay.commerce.product.model.CPInstanceOptionValueRel;
 import com.liferay.commerce.product.model.CPOption;
 import com.liferay.commerce.product.model.CPOptionValue;
-import com.liferay.commerce.product.service.CPDefinitionLocalService;
-import com.liferay.commerce.product.service.CPDefinitionOptionRelLocalService;
 import com.liferay.commerce.product.service.CPInstanceLocalService;
 import com.liferay.commerce.product.service.CPInstanceOptionValueRelLocalService;
 import com.liferay.commerce.product.service.CPOptionLocalService;
@@ -37,7 +36,7 @@ import com.liferay.commerce.product.service.base.CPDefinitionOptionValueRelLocal
 import com.liferay.commerce.product.service.persistence.CPDefinitionOptionRelPersistence;
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.service.ExpandoRowLocalService;
-import com.liferay.portal.kernel.bean.BeanReference;
+import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.dao.orm.Criterion;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
@@ -69,8 +68,8 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.LinkedHashMapBuilder;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.ServiceProxyFactory;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.spring.extender.service.ServiceReference;
 import com.liferay.taglib.util.CustomAttributesUtil;
 
 import java.io.Serializable;
@@ -84,10 +83,17 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+
 /**
  * @author Marco Leo
  * @author Igor Beslic
  */
+@Component(
+	property = "model.class.name=com.liferay.commerce.product.model.CPDefinitionOptionValueRel",
+	service = AopService.class
+)
 public class CPDefinitionOptionValueRelLocalServiceImpl
 	extends CPDefinitionOptionValueRelLocalServiceBaseImpl {
 
@@ -126,15 +132,15 @@ public class CPDefinitionOptionValueRelLocalServiceImpl
 				cpDefinitionOptionValueRelId);
 
 		CPDefinitionOptionRel cpDefinitionOptionRel =
-			_cpDefinitionOptionRelLocalService.getCPDefinitionOptionRel(
+			_cpDefinitionOptionRelPersistence.findByPrimaryKey(
 				cpDefinitionOptionRelId);
 
-		if (_cpDefinitionLocalService.isVersionable(
+		if (_cpDefinitionLocalServiceHelper.isVersionable(
 				cpDefinitionOptionRel.getCPDefinitionId(),
 				serviceContext.getRequest())) {
 
 			CPDefinition newCPDefinition =
-				_cpDefinitionLocalService.copyCPDefinition(
+				_cpDefinitionLocalServiceHelper.copyCPDefinition(
 					cpDefinitionOptionRel.getCPDefinitionId());
 
 			cpDefinitionOptionRel = _cpDefinitionOptionRelPersistence.findByC_C(
@@ -186,11 +192,11 @@ public class CPDefinitionOptionValueRelLocalServiceImpl
 		CPDefinitionOptionRel cpDefinitionOptionRel =
 			cpDefinitionOptionValueRel.getCPDefinitionOptionRel();
 
-		if (_cpDefinitionLocalService.isVersionable(
+		if (_cpDefinitionLocalServiceHelper.isVersionable(
 				cpDefinitionOptionRel.getCPDefinitionId())) {
 
 			CPDefinition newCPDefinition =
-				_cpDefinitionLocalService.copyCPDefinition(
+				_cpDefinitionLocalServiceHelper.copyCPDefinition(
 					cpDefinitionOptionRel.getCPDefinitionId());
 
 			cpDefinitionOptionRel = _cpDefinitionOptionRelPersistence.findByC_C(
@@ -449,7 +455,7 @@ public class CPDefinitionOptionValueRelLocalServiceImpl
 		throws PortalException {
 
 		CPDefinitionOptionRel cpDefinitionOptionRel =
-			_cpDefinitionOptionRelLocalService.getCPDefinitionOptionRel(
+			_cpDefinitionOptionRelPersistence.findByPrimaryKey(
 				cpDefinitionOptionRelId);
 
 		CPOption cpOption = _cpOptionLocalService.fetchCPOption(
@@ -578,12 +584,12 @@ public class CPDefinitionOptionValueRelLocalServiceImpl
 		CPDefinitionOptionRel cpDefinitionOptionRel =
 			cpDefinitionOptionValueRel.getCPDefinitionOptionRel();
 
-		if (_cpDefinitionLocalService.isVersionable(
+		if (_cpDefinitionLocalServiceHelper.isVersionable(
 				cpDefinitionOptionRel.getCPDefinitionId(),
 				serviceContext.getRequest())) {
 
 			CPDefinition newCPDefinition =
-				_cpDefinitionLocalService.copyCPDefinition(
+				_cpDefinitionLocalServiceHelper.copyCPDefinition(
 					cpDefinitionOptionRel.getCPDefinitionId());
 
 			cpDefinitionOptionRel = _cpDefinitionOptionRelPersistence.findByC_C(
@@ -962,11 +968,10 @@ public class CPDefinitionOptionValueRelLocalServiceImpl
 			return;
 		}
 
-		if (_cpDefinitionOptionRelLocalService.
-				hasCPDefinitionRequiredCPDefinitionOptionRels(
-					cpInstance.getCPDefinitionId()) ||
-			(cpInstance.getCPSubscriptionInfo() != null)) {
+		long count = _cpDefinitionOptionRelPersistence.countByCPDI_R(
+			cpInstance.getCPDefinitionId(), true);
 
+		if ((count != 0) || (cpInstance.getCPSubscriptionInfo() != null)) {
 			throw new CPDefinitionOptionValueRelCPInstanceException();
 		}
 
@@ -985,36 +990,36 @@ public class CPDefinitionOptionValueRelLocalServiceImpl
 		Field.ENTRY_CLASS_PK, Field.COMPANY_ID, Field.GROUP_ID, Field.UID
 	};
 
-	@BeanReference(type = CPDefinitionLocalService.class)
-	private CPDefinitionLocalService _cpDefinitionLocalService;
+	private static volatile CPInstanceLocalService _cpInstanceLocalService =
+		ServiceProxyFactory.newServiceTrackedInstance(
+			CPInstanceLocalService.class,
+			CPDefinitionOptionValueRelLocalServiceImpl.class,
+			"_cpInstanceLocalService",
+			"(model.class.name=" + CPInstance.class.getName() + ")", true);
 
-	@BeanReference(type = CPDefinitionOptionRelLocalService.class)
-	private CPDefinitionOptionRelLocalService
-		_cpDefinitionOptionRelLocalService;
+	@Reference
+	private CPDefinitionLocalServiceHelper _cpDefinitionLocalServiceHelper;
 
-	@BeanReference(type = CPDefinitionOptionRelPersistence.class)
+	@Reference
 	private CPDefinitionOptionRelPersistence _cpDefinitionOptionRelPersistence;
 
-	@BeanReference(type = CPInstanceLocalService.class)
-	private CPInstanceLocalService _cpInstanceLocalService;
-
-	@BeanReference(type = CPInstanceOptionValueRelLocalService.class)
+	@Reference
 	private CPInstanceOptionValueRelLocalService
 		_cpInstanceOptionValueRelLocalService;
 
-	@BeanReference(type = CPOptionLocalService.class)
+	@Reference
 	private CPOptionLocalService _cpOptionLocalService;
 
-	@BeanReference(type = CPOptionValueLocalService.class)
+	@Reference
 	private CPOptionValueLocalService _cpOptionValueLocalService;
 
-	@ServiceReference(type = ExpandoRowLocalService.class)
+	@Reference
 	private ExpandoRowLocalService _expandoRowLocalService;
 
-	@ServiceReference(type = FriendlyURLNormalizer.class)
+	@Reference
 	private FriendlyURLNormalizer _friendlyURLNormalizer;
 
-	@ServiceReference(type = UserLocalService.class)
+	@Reference
 	private UserLocalService _userLocalService;
 
 }
