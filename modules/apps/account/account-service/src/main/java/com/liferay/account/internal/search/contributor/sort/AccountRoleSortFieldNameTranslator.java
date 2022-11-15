@@ -14,6 +14,7 @@
 
 package com.liferay.account.internal.search.contributor.sort;
 
+import com.liferay.account.model.AccountRole;
 import com.liferay.portal.search.contributor.sort.SortFieldNameTranslator;
 
 import org.osgi.service.component.annotations.Component;
@@ -26,8 +27,8 @@ public class AccountRoleSortFieldNameTranslator
 	implements SortFieldNameTranslator {
 
 	@Override
-	public String getEntryClassName() {
-		return "com.liferay.account.model.AccountRole";
+	public Class<?> getEntryClass() {
+		return AccountRole.class;
 	}
 
 	@Override

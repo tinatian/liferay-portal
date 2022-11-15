@@ -14,6 +14,7 @@
 
 package com.liferay.users.admin.internal.search.contributor.sort;
 
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.search.contributor.sort.SortFieldNameTranslator;
 
 import org.osgi.service.component.annotations.Component;
@@ -25,8 +26,8 @@ import org.osgi.service.component.annotations.Component;
 public class UserSortFieldNameTranslator implements SortFieldNameTranslator {
 
 	@Override
-	public String getEntryClassName() {
-		return "com.liferay.portal.kernel.model.User";
+	public Class<?> getEntryClass() {
+		return User.class;
 	}
 
 	@Override

@@ -14,6 +14,7 @@
 
 package com.liferay.user.groups.admin.web.internal.search.contributor.sort;
 
+import com.liferay.portal.kernel.model.UserGroup;
 import com.liferay.portal.search.contributor.sort.SortFieldNameTranslator;
 
 import org.osgi.service.component.annotations.Component;
@@ -26,8 +27,8 @@ public class UserGroupSortFieldNameTranslator
 	implements SortFieldNameTranslator {
 
 	@Override
-	public String getEntryClassName() {
-		return "com.liferay.portal.kernel.model.UserGroup";
+	public Class<?> getEntryClass() {
+		return UserGroup.class;
 	}
 
 	@Override

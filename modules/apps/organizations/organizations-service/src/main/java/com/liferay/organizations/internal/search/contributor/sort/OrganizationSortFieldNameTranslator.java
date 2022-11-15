@@ -14,6 +14,7 @@
 
 package com.liferay.organizations.internal.search.contributor.sort;
 
+import com.liferay.portal.kernel.model.Organization;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.search.contributor.sort.SortFieldNameTranslator;
 
@@ -27,8 +28,8 @@ public class OrganizationSortFieldNameTranslator
 	implements SortFieldNameTranslator {
 
 	@Override
-	public String getEntryClassName() {
-		return "com.liferay.portal.kernel.model.Organization";
+	public Class<?> getEntryClass() {
+		return Organization.class;
 	}
 
 	@Override

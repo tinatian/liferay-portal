@@ -16,6 +16,7 @@ package com.liferay.trash.internal.search.contributor.sort;
 
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.search.contributor.sort.SortFieldNameTranslator;
+import com.liferay.trash.model.TrashEntry;
 
 import org.osgi.service.component.annotations.Component;
 
@@ -26,8 +27,8 @@ import org.osgi.service.component.annotations.Component;
 public class TrashSortFieldNameTranslator implements SortFieldNameTranslator {
 
 	@Override
-	public String getEntryClassName() {
-		return "com.liferay.trash.model.TrashEntry";
+	public Class<?> getEntryClass() {
+		return TrashEntry.class;
 	}
 
 	@Override
