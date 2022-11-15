@@ -42,8 +42,8 @@ import org.osgi.service.component.annotations.Reference;
 public class SortFieldBuilderImpl implements SortFieldBuilder {
 
 	@Override
-	public String getSortField(String entityClassName, String orderByCol) {
-		String sortField = _getSortField(entityClassName, orderByCol);
+	public String getSortField(Class<?> entityClass, String orderByCol) {
+		String sortField = _getSortField(entityClass, orderByCol);
 
 		if (_defaultSortableTextFields.contains(sortField)) {
 			return Field.getSortableFieldName(sortField);
@@ -54,7 +54,7 @@ public class SortFieldBuilderImpl implements SortFieldBuilder {
 
 	@Override
 	public String getSortField(
-		String entityClassName, String orderByCol, int sortType) {
+		Class<?> entityClass, String orderByCol, int sortType) {
 
 		if ((sortType == Sort.DOUBLE_TYPE) || (sortType == Sort.FLOAT_TYPE) ||
 			(sortType == Sort.INT_TYPE) || (sortType == Sort.LONG_TYPE)) {
@@ -62,7 +62,7 @@ public class SortFieldBuilderImpl implements SortFieldBuilder {
 			return Field.getSortableFieldName(orderByCol);
 		}
 
-		return getSortField(entityClassName, orderByCol);
+		return getSortField(entityClass, orderByCol);
 	}
 
 	@Activate
@@ -75,7 +75,7 @@ public class SortFieldBuilderImpl implements SortFieldBuilder {
 			ServiceReferenceMapperFactory.create(
 				bundleContext,
 				(sortFieldNameTranslator, emitter) -> emitter.emit(
-					sortFieldNameTranslator.getEntryClassName())));
+					sortFieldNameTranslator.getEntryClass())));
 	}
 
 	@Deactivate
@@ -89,12 +89,13 @@ public class SortFieldBuilderImpl implements SortFieldBuilder {
 	@Reference
 	protected Props props;
 
-	private String _getSortField(String entityClassName, String orderByCol) {
+	private String _getSortField(Class<?> entityClass, String orderByCol) {
 		SortFieldNameTranslator sortFieldNameTranslator =
-			_serviceTrackerMap.getService(entityClassName);
+			_serviceTrackerMap.getService(entityClass);
 
 		if (sortFieldNameTranslator == null) {
-			Indexer<?> indexer = indexerRegistry.getIndexer(entityClassName);
+			Indexer<?> indexer = indexerRegistry.getIndexer(
+				entityClass.getName());
 
 			return indexer.getSortField(orderByCol);
 		}
@@ -103,7 +104,7 @@ public class SortFieldBuilderImpl implements SortFieldBuilder {
 	}
 
 	private Set<String> _defaultSortableTextFields;
-	private ServiceTrackerMap<String, SortFieldNameTranslator>
+	private ServiceTrackerMap<Class<?>, SortFieldNameTranslator>
 		_serviceTrackerMap;
 
 }
