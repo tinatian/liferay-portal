@@ -61,7 +61,7 @@ public class DefaultIndexerRequestBufferOverflowHandler
 			try {
 				BufferOverflowThreadLocal.setOverflowMode(true);
 
-				indexerRequestBufferExecutor.execute(
+				_indexerRequestBufferExecutor.execute(
 					indexerRequestBuffer, numRequests);
 			}
 			finally {
@@ -99,14 +99,14 @@ public class DefaultIndexerRequestBufferOverflowHandler
 			minimumBufferAvailabilityPercentage;
 	}
 
-	@Reference
-	protected IndexerRequestBufferExecutor indexerRequestBufferExecutor;
-
 	private static final float _DEFAULT_MINIMUM_BUFFER_AVAILABILITY_PERCENTAGE =
 		0.90F;
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		DefaultIndexerRequestBufferOverflowHandler.class);
+
+	@Reference
+	private IndexerRequestBufferExecutor _indexerRequestBufferExecutor;
 
 	private volatile float _minimumBufferAvailabilityPercentage;
 
