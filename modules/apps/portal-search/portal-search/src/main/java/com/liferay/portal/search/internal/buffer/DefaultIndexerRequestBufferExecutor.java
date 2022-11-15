@@ -18,6 +18,7 @@ import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.search.IndexWriterHelper;
+import com.liferay.portal.kernel.search.SearchException;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -36,8 +37,12 @@ import org.osgi.util.tracker.ServiceTracker;
 	service = IndexerRequestBufferExecutor.class
 )
 public class DefaultIndexerRequestBufferExecutor
-	extends BaseIndexerRequestBufferExecutor
 	implements IndexerRequestBufferExecutor {
+
+	@Override
+	public void execute(IndexerRequestBuffer indexerRequestBuffer) {
+		execute(indexerRequestBuffer, indexerRequestBuffer.size());
+	}
 
 	@Override
 	public void execute(
@@ -93,12 +98,45 @@ public class DefaultIndexerRequestBufferExecutor
 		_indexWriterHelperServiceTracker.open();
 	}
 
+	protected void commit() {
+		IndexWriterHelper indexWriterHelper = getIndexWriterHelper();
+
+		if (indexWriterHelper == null) {
+			if (_log.isWarnEnabled()) {
+				_log.warn("Index writer helper is null");
+			}
+
+			return;
+		}
+
+		try {
+			indexWriterHelper.commit();
+		}
+		catch (SearchException searchException) {
+			if (_log.isWarnEnabled()) {
+				_log.warn("Unable to commit search engine", searchException);
+			}
+		}
+	}
+
 	@Deactivate
 	protected void deactivate() {
 		_indexWriterHelperServiceTracker.close();
 	}
 
-	@Override
+	protected void executeIndexerRequest(IndexerRequest indexerRequest) {
+		try {
+			indexerRequest.execute();
+		}
+		catch (Exception exception) {
+			if (_log.isWarnEnabled()) {
+				_log.warn(
+					"Unable to execute index request " + indexerRequest,
+					exception);
+			}
+		}
+	}
+
 	protected IndexWriterHelper getIndexWriterHelper() {
 		return _indexWriterHelperServiceTracker.getService();
 	}
