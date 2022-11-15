@@ -32,10 +32,7 @@ import org.osgi.util.tracker.ServiceTracker;
 /**
  * @author Michael C. Han
  */
-@Component(
-	immediate = true, property = "buffered.execution.mode=DEFAULT",
-	service = IndexerRequestBufferExecutor.class
-)
+@Component(immediate = true, service = IndexerRequestBufferExecutor.class)
 public class DefaultIndexerRequestBufferExecutor
 	implements IndexerRequestBufferExecutor {
 
