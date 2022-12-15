@@ -20,7 +20,6 @@ import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.messaging.BaseDestination;
 import com.liferay.portal.kernel.messaging.Destination;
 import com.liferay.portal.kernel.messaging.DestinationEventListener;
 import com.liferay.portal.kernel.messaging.Message;
@@ -35,7 +34,6 @@ import com.liferay.portal.kernel.util.ObjectValuePair;
 import com.liferay.portal.messaging.internal.configuration.DestinationWorkerConfiguration;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Dictionary;
 import java.util.HashMap;
@@ -71,13 +69,6 @@ import org.osgi.util.tracker.ServiceTrackerCustomizer;
 public class DefaultMessageBus implements ManagedServiceFactory, MessageBus {
 
 	@Override
-	public boolean addMessageBusEventListener(
-		MessageBusEventListener messageBusEventListener) {
-
-		return _messageBusEventListeners.add(messageBusEventListener);
-	}
-
-	@Override
 	public void deleted(String factoryPid) {
 		String destinationName = _factoryPidsToDestinationName.remove(
 			factoryPid);
@@ -96,16 +87,6 @@ public class DefaultMessageBus implements ManagedServiceFactory, MessageBus {
 	}
 
 	@Override
-	public Collection<String> getDestinationNames() {
-		return _destinations.keySet();
-	}
-
-	@Override
-	public Collection<Destination> getDestinations() {
-		return _destinations.values();
-	}
-
-	@Override
 	public String getName() {
 		return "Default Message Bus";
 	}
@@ -113,17 +94,6 @@ public class DefaultMessageBus implements ManagedServiceFactory, MessageBus {
 	@Override
 	public boolean hasDestination(String destinationName) {
 		return _destinations.containsKey(destinationName);
-	}
-
-	@Override
-	public boolean hasMessageListener(String destinationName) {
-		Destination destination = _destinations.get(destinationName);
-
-		if ((destination != null) && destination.isRegistered()) {
-			return true;
-		}
-
-		return false;
 	}
 
 	@Override
@@ -155,13 +125,6 @@ public class DefaultMessageBus implements ManagedServiceFactory, MessageBus {
 		}
 
 		return false;
-	}
-
-	@Override
-	public boolean removeMessageBusEventListener(
-		MessageBusEventListener messageBusEventListener) {
-
-		return _messageBusEventListeners.remove(messageBusEventListener);
 	}
 
 	@Override
@@ -292,27 +255,7 @@ public class DefaultMessageBus implements ManagedServiceFactory, MessageBus {
 					MessageListener messageListener = bundleContext.getService(
 						serviceReference);
 
-					Thread currentThread = Thread.currentThread();
-
-					ClassLoader contextClassLoader =
-						currentThread.getContextClassLoader();
-
-					try {
-						ClassLoader operatingClassLoader =
-							(ClassLoader)serviceReference.getProperty(
-								"message.listener.operating.class.loader");
-
-						if (operatingClassLoader != null) {
-							currentThread.setContextClassLoader(
-								operatingClassLoader);
-						}
-
-						registerMessageListener(
-							destinationName, messageListener);
-					}
-					finally {
-						currentThread.setContextClassLoader(contextClassLoader);
-					}
+					registerMessageListener(destinationName, messageListener);
 
 					return new ObjectValuePair<>(
 						destinationName, messageListener);
@@ -379,14 +322,6 @@ public class DefaultMessageBus implements ManagedServiceFactory, MessageBus {
 		String destinationName = MapUtil.getString(
 			properties, "destination.name");
 
-		if (BaseDestination.class.isInstance(destination)) {
-			BaseDestination baseDestination = (BaseDestination)destination;
-
-			baseDestination.setName(destinationName);
-
-			baseDestination.afterPropertiesSet();
-		}
-
 		_addDestination(destination);
 
 		DestinationWorkerConfiguration destinationWorkerConfiguration =
@@ -431,7 +366,7 @@ public class DefaultMessageBus implements ManagedServiceFactory, MessageBus {
 	protected void registerMessageBusEventListener(
 		MessageBusEventListener messageBusEventListener) {
 
-		addMessageBusEventListener(messageBusEventListener);
+		_messageBusEventListeners.add(messageBusEventListener);
 	}
 
 	protected synchronized void unregisterDestination(
@@ -465,7 +400,7 @@ public class DefaultMessageBus implements ManagedServiceFactory, MessageBus {
 	protected void unregisterMessageBusEventListener(
 		MessageBusEventListener messageBusEventListener) {
 
-		removeMessageBusEventListener(messageBusEventListener);
+		_messageBusEventListeners.remove(messageBusEventListener);
 	}
 
 	private void _addDestination(Destination destination) {

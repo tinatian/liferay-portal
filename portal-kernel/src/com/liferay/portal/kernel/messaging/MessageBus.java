@@ -14,8 +14,6 @@
 
 package com.liferay.portal.kernel.messaging;
 
-import java.util.Collection;
-
 import org.osgi.annotation.versioning.ProviderType;
 
 /**
@@ -25,26 +23,14 @@ import org.osgi.annotation.versioning.ProviderType;
 @ProviderType
 public interface MessageBus {
 
-	public boolean addMessageBusEventListener(
-		MessageBusEventListener messageBusEventListener);
-
 	public Destination getDestination(String destinationName);
 
 	public int getDestinationCount();
 
-	public Collection<String> getDestinationNames();
-
-	public Collection<Destination> getDestinations();
-
 	public boolean hasDestination(String destinationName);
-
-	public boolean hasMessageListener(String destinationName);
 
 	public boolean registerMessageListener(
 		String destinationName, MessageListener messageListener);
-
-	public boolean removeMessageBusEventListener(
-		MessageBusEventListener messageBusEventListener);
 
 	public void sendMessage(String destinationName, Message message);
 
