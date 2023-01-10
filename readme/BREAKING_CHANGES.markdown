@@ -1255,3 +1255,28 @@ Replace usages of `<aui:container>` with `<clay:container>`.
 ### Why was this change made?
 
 The tag `<aui:container>` was deprecated in a previous version.
+
+---------------------------------------
+
+## Removed ContentUtil class and its module com.liferay.petra.content
+
+- **Date:** 2023-Jan-04
+- **JIRA Ticket:** [LPS-149147](https://issues.liferay.com/browse/LPS-149147)
+
+### What changed?
+
+The class `ContentUtil` and its related module, `com.liferay.petra.content`, have been deleted and are no longer available.
+
+### Who is affected?
+
+This affects any development that uses the `ContentUtil` class.
+
+### How should I update my code?
+
+If you still need to use this class, you can replace the calls to `com.liferay.petra.content.ContentUtil.get` with `com.liferay.petra.string.StringUtil.read` from `com.liferay.petra.string` module.
+
+### Why was this change made?
+
+ContentUtil class caches the content read from files, but there are several issues with this cache:
+- It is not thread safe.
+- It does not provide a way to clear, which may cause leaking.
