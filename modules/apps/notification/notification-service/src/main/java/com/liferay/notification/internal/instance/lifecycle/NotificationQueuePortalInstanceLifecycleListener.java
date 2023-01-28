@@ -14,28 +14,28 @@
 
 package com.liferay.notification.internal.instance.lifecycle;
 
-import com.liferay.notification.constants.NotificationConstants;
-import com.liferay.notification.internal.messaging.CheckNotificationQueueEntryMessageListener;
-import com.liferay.notification.service.NotificationQueueEntryLocalService;
-import com.liferay.notification.type.NotificationTypeServiceTracker;
+import com.liferay.notification.internal.configuration.NotificationQueueConfiguration;
+import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.instance.lifecycle.BasePortalInstanceLifecycleListener;
 import com.liferay.portal.instance.lifecycle.PortalInstanceLifecycleListener;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.messaging.MessageListener;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.module.configuration.ConfigurationProvider;
-import com.liferay.portal.kernel.module.framework.ModuleServiceLifecycle;
-import com.liferay.portal.kernel.scheduler.SchedulerEngineHelper;
-import com.liferay.portal.kernel.scheduler.TriggerFactory;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HashMapDictionaryBuilder;
 
+import java.util.Collections;
+import java.util.Dictionary;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.ServiceReference;
+import org.osgi.framework.Constants;
 import org.osgi.framework.ServiceRegistration;
+import org.osgi.service.cm.ManagedServiceFactory;
+import org.osgi.service.component.ComponentFactory;
+import org.osgi.service.component.ComponentInstance;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
@@ -49,92 +49,130 @@ public class NotificationQueuePortalInstanceLifecycleListener
 	extends BasePortalInstanceLifecycleListener {
 
 	@Override
-	public void portalInstanceRegistered(Company company) {
+	public void portalInstanceRegistered(Company company) throws Exception {
 		if (_log.isDebugEnabled()) {
 			_log.debug("Registered portal instance " + company);
 		}
 
-		long companyId = company.getCompanyId();
-
-		_serviceRegistrations.computeIfAbsent(
-			companyId,
-			key -> _bundleContext.registerService(
-				MessageListener.class,
-				new CheckNotificationQueueEntryMessageListener(
-					companyId, _configurationProvider,
-					_notificationQueueEntryLocalService,
-					_notificationTypeServiceTracker, _schedulerEngineHelper,
-					_triggerFactory),
-				HashMapDictionaryBuilder.<String, Object>put(
-					"model.class.name", NotificationConstants.RESOURCE_NAME
-				).build()));
+		_updateComponentInstance(
+			company.getCompanyId(),
+			_configurationProvider.getCompanyConfiguration(
+				NotificationQueueConfiguration.class, company.getCompanyId()));
 	}
 
 	@Override
 	public void portalInstanceUnregistered(Company company) {
-		long companyId = company.getCompanyId();
+		ComponentInstance<?> componentInstance = _componentInstances.remove(
+			company.getCompanyId());
 
-		_unregisterService(companyId, _serviceRegistrations.get(companyId));
-
-		_serviceRegistrations.remove(companyId);
+		if (componentInstance != null) {
+			componentInstance.dispose();
+		}
 	}
 
 	@Activate
 	protected void activate(BundleContext bundleContext) {
-		_bundleContext = bundleContext;
+		_serviceRegistration = bundleContext.registerService(
+			ManagedServiceFactory.class,
+			new NotificationQueueConfigurationManagedServiceFactory(),
+			HashMapDictionaryBuilder.<String, Object>put(
+				Constants.SERVICE_PID,
+				"com.liferay.notification.internal.configuration." +
+					"NotificationQueueConfiguration.scoped"
+			).build());
 	}
 
 	@Deactivate
 	protected void deactivate() {
-		_serviceRegistrations.forEach(this::_unregisterService);
+		for (ComponentInstance<?> componentInstance :
+				_componentInstances.values()) {
 
-		_serviceRegistrations.clear();
+			componentInstance.dispose();
+		}
+
+		_serviceRegistration.unregister();
 	}
 
-	private void _unregisterService(
+	private void _updateComponentInstance(
 		long companyId,
-		ServiceRegistration<MessageListener> serviceRegistration) {
+		NotificationQueueConfiguration notificationQueueConfiguration) {
 
-		ServiceReference<MessageListener> serviceReference =
-			serviceRegistration.getReference();
+		_componentInstances.compute(
+			companyId,
+			(key, value) -> {
+				if (value != null) {
+					value.dispose();
+				}
 
-		MessageListener messageListener = _bundleContext.getService(
-			serviceReference);
-
-		_schedulerEngineHelper.unregister(messageListener);
-
-		_bundleContext.ungetService(serviceReference);
-
-		if (serviceRegistration != null) {
-			serviceRegistration.unregister();
-		}
+				return _componentFactory.newInstance(
+					HashMapDictionaryBuilder.<String, Object>put(
+						"companyId", companyId
+					).put(
+						"configuration", notificationQueueConfiguration
+					).build());
+			});
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		NotificationQueuePortalInstanceLifecycleListener.class);
 
-	private BundleContext _bundleContext;
+	@Reference(
+		target = "(component.factory=com.liferay.notification.internal.messaging.CheckNotificationQueueEntryMessageListener)"
+	)
+	private ComponentFactory<?> _componentFactory;
+
+	private final Map<Long, ComponentInstance<?>> _componentInstances =
+		new ConcurrentHashMap<>();
 
 	@Reference
 	private ConfigurationProvider _configurationProvider;
 
-	@Reference(target = ModuleServiceLifecycle.PORTAL_INITIALIZED)
-	private ModuleServiceLifecycle _moduleServiceLifecycle;
+	private ServiceRegistration<ManagedServiceFactory> _serviceRegistration;
 
-	@Reference
-	private NotificationQueueEntryLocalService
-		_notificationQueueEntryLocalService;
+	private class NotificationQueueConfigurationManagedServiceFactory
+		implements ManagedServiceFactory {
 
-	@Reference
-	private NotificationTypeServiceTracker _notificationTypeServiceTracker;
+		@Override
+		public void deleted(String pid) {
+			Long companyId = _companyIds.remove(pid);
 
-	@Reference
-	private SchedulerEngineHelper _schedulerEngineHelper;
+			if (companyId == null) {
+				return;
+			}
 
-	private final Map<Long, ServiceRegistration<MessageListener>>
-		_serviceRegistrations = new ConcurrentHashMap<>();
+			_updateComponentInstance(
+				companyId, _defaultNotificationQueueConfiguration);
+		}
 
-	@Reference
-	private TriggerFactory _triggerFactory;
+		@Override
+		public String getName() {
+			return NotificationQueueConfigurationManagedServiceFactory.class.
+				getName();
+		}
+
+		@Override
+		public void updated(String pid, Dictionary<String, ?> dictionary) {
+			long companyId = GetterUtil.getLong(dictionary.get("companyId"));
+
+			_companyIds.put(pid, companyId);
+
+			_updateComponentInstance(
+				companyId,
+				ConfigurableUtil.createConfigurable(
+					NotificationQueueConfiguration.class, dictionary));
+		}
+
+		private NotificationQueueConfigurationManagedServiceFactory() {
+			_defaultNotificationQueueConfiguration =
+				ConfigurableUtil.createConfigurable(
+					NotificationQueueConfiguration.class,
+					Collections.emptyMap());
+		}
+
+		private final Map<String, Long> _companyIds = new ConcurrentHashMap<>();
+		private final NotificationQueueConfiguration
+			_defaultNotificationQueueConfiguration;
+
+	}
 
 }
