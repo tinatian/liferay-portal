@@ -27,7 +27,10 @@ public class CTSQLInterceptor extends EmptyInterceptor {
 	@Override
 	public String onPrepareStatement(String sql) {
 		if (_enabled) {
-			return _ctSQLTransformer.transform(sql);
+			CTSQLTransformer ctsqlTransformer =
+				CTSQLTransformerHolder._ctSQLTransformer;
+
+			return ctsqlTransformer.transform(sql);
 		}
 
 		return sql;
@@ -37,11 +40,15 @@ public class CTSQLInterceptor extends EmptyInterceptor {
 		_enabled = enabled;
 	}
 
-	private static volatile CTSQLTransformer _ctSQLTransformer =
-		ServiceProxyFactory.newServiceTrackedInstance(
-			CTSQLTransformer.class, CTSQLInterceptor.class, "_ctSQLTransformer",
-			true);
-
 	private boolean _enabled;
+
+	private static class CTSQLTransformerHolder {
+
+		private static volatile CTSQLTransformer _ctSQLTransformer =
+			ServiceProxyFactory.newServiceTrackedInstance(
+				CTSQLTransformer.class, CTSQLTransformerHolder.class,
+				"_ctSQLTransformer", true);
+
+	}
 
 }

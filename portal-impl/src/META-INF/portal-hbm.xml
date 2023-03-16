@@ -10,6 +10,7 @@
 	<import class="com.liferay.asset.kernel.model.AssetLink" />
 	<import class="com.liferay.asset.kernel.model.AssetTag" />
 	<import class="com.liferay.asset.kernel.model.AssetVocabulary" />
+	<import class="com.liferay.counter.kernel.model.Counter" />
 	<import class="com.liferay.document.library.kernel.model.DLFileEntry" />
 	<import class="com.liferay.document.library.kernel.model.DLFileEntryMetadata" />
 	<import class="com.liferay.document.library.kernel.model.DLFileEntryType" />
@@ -94,6 +95,12 @@
 	<import class="com.liferay.social.kernel.model.SocialActivitySetting" />
 	<import class="com.liferay.social.kernel.model.SocialRelation" />
 	<import class="com.liferay.social.kernel.model.SocialRequest" />
+	<class name="com.liferay.counter.model.impl.CounterImpl" table="Counter">
+		<id access="com.liferay.portal.dao.orm.hibernate.MethodPropertyAccessor" name="name" type="java.lang.String">
+			<generator class="assigned" />
+		</id>
+		<property access="com.liferay.portal.dao.orm.hibernate.MethodPropertyAccessor" name="currentId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+	</class>
 	<class dynamic-update="true" name="com.liferay.portal.model.impl.AddressImpl" table="Address">
 		<id access="com.liferay.portal.dao.orm.hibernate.MethodPropertyAccessor" name="addressId" type="long">
 			<generator class="assigned" />
