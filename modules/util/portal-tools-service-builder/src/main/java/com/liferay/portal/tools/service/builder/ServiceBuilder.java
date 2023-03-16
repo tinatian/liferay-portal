@@ -3911,7 +3911,7 @@ public class ServiceBuilder {
 	}
 
 	private void _createSpringXml() throws Exception {
-		if (_packagePath.equals("com.liferay.counter")) {
+		if (isVersionLTE_7_3_0() && _packagePath.equals("com.liferay.counter")) {
 			return;
 		}
 
