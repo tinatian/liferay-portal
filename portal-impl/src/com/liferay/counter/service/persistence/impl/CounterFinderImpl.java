@@ -181,10 +181,6 @@ public class CounterFinderImpl implements CacheRegistryItem, CounterFinder {
 		_counterRegisterMap.put(name, counterRegister);
 	}
 
-	protected void closeSession(Session session) throws ORMException {
-		_sessionFactory.closeSession(session);
-	}
-
 	protected CounterRegister createCounterRegister(String name) {
 		return createCounterRegister(name, -1);
 	}
@@ -226,10 +222,6 @@ public class CounterFinderImpl implements CacheRegistryItem, CounterFinder {
 		CounterHolder counterHolder = _obtainIncrement(name, rangeSize, size);
 
 		return new CounterRegister(name, counterHolder, rangeSize);
-	}
-
-	protected Connection getConnection() throws SQLException {
-		return _dataSource.getConnection();
 	}
 
 	protected CounterRegister getCounterRegister(String name) {
@@ -285,10 +277,6 @@ public class CounterFinderImpl implements CacheRegistryItem, CounterFinder {
 		return rangeSize.intValue();
 	}
 
-	protected Session openSession() throws ORMException {
-		return _sessionFactory.openSession();
-	}
-
 	protected SystemException processException(Exception exception) {
 		if (!(exception instanceof ORMException)) {
 			_log.error("Caught unexpected exception", exception);
@@ -298,10 +286,6 @@ public class CounterFinderImpl implements CacheRegistryItem, CounterFinder {
 		}
 
 		return new SystemException(exception);
-	}
-
-	protected void setDataSource(DataSource dataSource) {
-		_dataSource = dataSource;
 	}
 
 	protected void setSessionFactory(SessionFactory sessionFactory) {
@@ -437,9 +421,7 @@ public class CounterFinderImpl implements CacheRegistryItem, CounterFinder {
 
 	private final Map<String, CounterRegister> _counterRegisterMap =
 		new ConcurrentHashMap<>();
-	private DataSource _dataSource;
 	private final Map<String, Integer> _rangeSizeMap =
 		new ConcurrentHashMap<>();
-	private SessionFactory _sessionFactory;
 
 }
