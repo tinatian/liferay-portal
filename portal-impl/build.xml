@@ -249,7 +249,6 @@ svn://svn.liferay.com/repos/public/alloy/trunk/sandbox/taglibs.
 
 	<target name="build-service-counter">
 		<antcall target="build-service">
-			<param name="hbm.file" value="counter-hbm.xml" />
 			<param name="service.file" value="${basedir}/src/com/liferay/counter/service.xml" />
 		</antcall>
 	</target>
