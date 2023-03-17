@@ -18,6 +18,7 @@ import com.liferay.bulk.rest.dto.v1_0.DocumentBulkSelection;
 import com.liferay.bulk.rest.dto.v1_0.TaxonomyVocabulary;
 import com.liferay.bulk.rest.resource.v1_0.TaxonomyVocabularyResource;
 import com.liferay.petra.function.UnsafeFunction;
+import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.GroupedModel;
@@ -39,7 +40,6 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.permission.Permission;
 import com.liferay.portal.vulcan.util.ActionUtil;
-import com.liferay.portal.vulcan.util.TransformUtil;
 
 import java.lang.reflect.Method;
 
