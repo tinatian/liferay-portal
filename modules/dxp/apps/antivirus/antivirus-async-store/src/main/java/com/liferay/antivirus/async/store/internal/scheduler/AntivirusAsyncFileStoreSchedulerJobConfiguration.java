@@ -55,7 +55,6 @@ import org.osgi.framework.ServiceReference;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.ConfigurationPolicy;
 import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 
@@ -64,7 +63,6 @@ import org.osgi.service.component.annotations.Reference;
  */
 @Component(
 	configurationPid = "com.liferay.antivirus.async.store.configuration.AntivirusAsyncConfiguration",
-	configurationPolicy = ConfigurationPolicy.REQUIRE,
 	property = {"osgi.command.function=scan", "osgi.command.scope=antivirus"},
 	service = SchedulerJobConfiguration.class
 )

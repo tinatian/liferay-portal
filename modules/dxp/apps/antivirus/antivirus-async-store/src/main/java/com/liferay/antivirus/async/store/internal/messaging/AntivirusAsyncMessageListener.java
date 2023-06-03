@@ -44,7 +44,6 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.ConfigurationPolicy;
 import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 
@@ -53,7 +52,6 @@ import org.osgi.service.component.annotations.Reference;
  */
 @Component(
 	configurationPid = "com.liferay.antivirus.async.store.configuration.AntivirusAsyncConfiguration",
-	configurationPolicy = ConfigurationPolicy.REQUIRE,
 	property = "destination.name=" + AntivirusAsyncDestinationNames.ANTIVIRUS,
 	service = MessageListener.class
 )
