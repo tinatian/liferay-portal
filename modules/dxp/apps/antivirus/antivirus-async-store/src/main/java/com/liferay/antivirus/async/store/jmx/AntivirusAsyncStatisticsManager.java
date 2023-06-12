@@ -37,7 +37,6 @@ import org.osgi.service.component.annotations.Reference;
  */
 @Component(
 	property = {
-		"destination.target=(destination.name=" + AntivirusAsyncDestinationNames.ANTIVIRUS + ")",
 		"jmx.objectname=com.liferay.antivirus:classification=antivirus_async,name=AntivirusAsyncStatistics",
 		"jmx.objectname.cache.key=AntivirusAsyncStatistics"
 	},
@@ -52,13 +51,8 @@ public class AntivirusAsyncStatisticsManager
 			   AntivirusAsyncStatisticsManagerMBean {
 
 	@Activate
-	public AntivirusAsyncStatisticsManager(
-			@Reference(name = "destination") Destination destination)
-		throws NotCompliantMBeanException {
-
+	public AntivirusAsyncStatisticsManager() throws NotCompliantMBeanException {
 		super(AntivirusAsyncStatisticsManagerMBean.class);
-
-		_destination = destination;
 	}
 
 	@Override
@@ -151,7 +145,12 @@ public class AntivirusAsyncStatisticsManager
 	private AntivirusAsyncRetryScheduler _antivirusAsyncRetryScheduler;
 
 	private boolean _autoRefresh;
-	private final Destination _destination;
+
+	@Reference(
+		target = "(destination.name= " + AntivirusAsyncDestinationNames.ANTIVIRUS + ")"
+	)
+	private Destination _destination;
+
 	private DestinationStatistics _destinationStatistics;
 	private long _lastRefresh;
 	private final AtomicLong _processingErrorCounter = new AtomicLong();
