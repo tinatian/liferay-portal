@@ -18,7 +18,6 @@ import com.liferay.antivirus.async.store.configuration.AntivirusAsyncConfigurati
 import com.liferay.antivirus.async.store.constants.AntivirusAsyncConstants;
 import com.liferay.antivirus.async.store.constants.AntivirusAsyncDestinationNames;
 import com.liferay.antivirus.async.store.internal.event.AntivirusAsyncEventListenerManager;
-import com.liferay.antivirus.async.store.util.AntivirusAsyncUtil;
 import com.liferay.document.library.kernel.store.Store;
 import com.liferay.petra.reflect.ReflectionUtil;
 import com.liferay.petra.string.CharPool;
@@ -279,10 +278,6 @@ public class AntivirusAsyncFileStoreMessageListener implements MessageListener {
 		message.put("companyId", companyId);
 		message.put("fileExtension", fileExtension);
 		message.put("fileName", fileName);
-		message.put(
-			"jobName",
-			AntivirusAsyncUtil.getJobName(
-				companyId, repositoryId, fileName, versionLabel));
 		message.put("repositoryId", repositoryId);
 
 		try {

@@ -14,10 +14,8 @@
 
 package com.liferay.antivirus.async.store.util;
 
-import com.liferay.petra.string.CharPool;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.messaging.Message;
-import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 
 /**
@@ -35,17 +33,6 @@ public class AntivirusAsyncUtil {
 
 		return StringBundler.concat(
 			fileName, " (", message.getString("jobName"), ")");
-	}
-
-	public static String getJobName(
-		long companyId, long repositoryId, String fileName,
-		String versionLabel) {
-
-		versionLabel = StringUtil.replace(
-			versionLabel, CharPool.PERIOD, CharPool.UNDERLINE);
-
-		return StringBundler.concat(
-			companyId, "-", repositoryId, "-", fileName, "-", versionLabel);
 	}
 
 }
