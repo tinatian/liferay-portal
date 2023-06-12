@@ -52,6 +52,7 @@ import org.osgi.service.component.annotations.Reference;
  */
 @Component(
 	configurationPid = "com.liferay.antivirus.async.store.configuration.AntivirusAsyncConfiguration",
+	enabled = false,
 	property = "destination.name=" + AntivirusAsyncDestinationNames.ANTIVIRUS,
 	service = MessageListener.class
 )
