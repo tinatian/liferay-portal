@@ -24,6 +24,7 @@ import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
 import com.liferay.document.library.kernel.antivirus.AntivirusScanner;
 import com.liferay.document.library.kernel.antivirus.AntivirusScannerException;
 import com.liferay.document.library.kernel.antivirus.AntivirusVirusFoundException;
+import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.document.library.kernel.model.DLFolder;
 import com.liferay.document.library.test.util.DLTestUtil;
 import com.liferay.petra.concurrent.NoticeableThreadPoolExecutor;
@@ -43,6 +44,7 @@ import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.HashMapDictionaryBuilder;
 import com.liferay.portal.kernel.util.MapUtil;
+import com.liferay.portal.kernel.util.ProxyFactory;
 import com.liferay.portal.test.log.LogCapture;
 import com.liferay.portal.test.log.LogEntry;
 import com.liferay.portal.test.log.LoggerTestUtil;
@@ -131,23 +133,21 @@ public class AsyncAntivirusDLStoreTest {
 			AntivirusScanner.class,
 			new MockAntivirusScanner(() -> calledScan.set(true)), null);
 
-		_withAsyncAntivirusConfiguration(
-			1, 1, true,
-			() -> {
-				_messageBus.sendMessage(
-					AntivirusAsyncDestinationNames.ANTIVIRUS,
-					new Message() {
-						{
-							put("companyId", 0);
-							put("fileName", RandomTestUtil.randomString());
-							put("repositoryId", 0);
-							put("versionLabel", RandomTestUtil.randomString());
-						}
-					});
+		try (SafeCloseable safeCloseable = _sync()) {
+			_messageBus.sendMessage(
+				AntivirusAsyncDestinationNames.ANTIVIRUS,
+				new Message() {
+					{
+						put("companyId", 0);
+						put("fileName", RandomTestUtil.randomString());
+						put("repositoryId", 0);
+						put("versionLabel", RandomTestUtil.randomString());
+					}
+				});
 
-				Assert.assertFalse(calledScan.get());
-				Assert.assertTrue(firedEventMissing.get());
-			});
+			Assert.assertFalse(calledScan.get());
+			Assert.assertTrue(firedEventMissing.get());
+		}
 	}
 
 	@Test
@@ -171,8 +171,26 @@ public class AsyncAntivirusDLStoreTest {
 
 		_registerService(
 			AntivirusAsyncRetryScheduler.class,
-			message -> calledSchedule.set(true),
+			new AntivirusAsyncRetryScheduler() {
+
+				@Override
+				public int getPendingMessageCount() {
+					return 0;
+				}
+
+				@Override
+				public Message getScheduledMessage() {
+					return null;
+				}
+
+				@Override
+				public void schedule(Message message) {
+					calledSchedule.set(true);
+				}
+
+			},
 			MapUtil.singletonDictionary(Constants.SERVICE_RANKING, 100));
+
 		_registerService(
 			AntivirusScanner.class,
 			new MockAntivirusScanner(
@@ -182,17 +200,27 @@ public class AsyncAntivirusDLStoreTest {
 				}),
 			null);
 
-		_withAsyncAntivirusConfiguration(
-			1, 1, true,
-			() -> {
-				DLFolder dlFolder = DLTestUtil.addDLFolder(_group.getGroupId());
+		try (SafeCloseable safeCloseable = _sync()) {
+			DLFolder dlFolder = DLTestUtil.addDLFolder(_group.getGroupId());
 
-				DLTestUtil.addDLFileEntry(dlFolder.getFolderId());
+			DLFileEntry dlFileEntry = DLTestUtil.addDLFileEntry(
+				dlFolder.getFolderId());
 
-				Assert.assertTrue(calledSchedule.get());
-				Assert.assertTrue(firedEventPrepare.get());
-				Assert.assertTrue(firedEventProcessingError.get());
-			});
+			_messageBus.sendMessage(
+				AntivirusAsyncDestinationNames.ANTIVIRUS,
+				new Message() {
+					{
+						put("companyId", dlFileEntry.getCompanyId());
+						put("fileName", dlFileEntry.getFileName());
+						put("repositoryId", dlFileEntry.getRepositoryId());
+						put("versionLabel", dlFileEntry.getVersion());
+					}
+				});
+
+			Assert.assertTrue(calledSchedule.get());
+			Assert.assertTrue(firedEventPrepare.get());
+			Assert.assertTrue(firedEventProcessingError.get());
+		}
 	}
 
 	@Test
@@ -214,20 +242,20 @@ public class AsyncAntivirusDLStoreTest {
 				).build()),
 			null);
 
-		_registerService(
-			AntivirusScanner.class,
-			new MockAntivirusScanner(
-				() -> {
-					calledScan.set(true);
-
-					throw new AntivirusScannerException(
-						AntivirusScannerException.SIZE_LIMIT_EXCEEDED);
-				}),
-			null);
-
 		_withAsyncAntivirusConfiguration(
 			1, 1, true,
 			() -> {
+				_registerService(
+					AntivirusScanner.class,
+					new MockAntivirusScanner(
+						() -> {
+							calledScan.set(true);
+
+							throw new AntivirusScannerException(
+								AntivirusScannerException.SIZE_LIMIT_EXCEEDED);
+						}),
+					null);
+
 				DLFolder dlFolder = DLTestUtil.addDLFolder(_group.getGroupId());
 
 				DLTestUtil.addDLFileEntry(dlFolder.getFolderId());
@@ -257,13 +285,13 @@ public class AsyncAntivirusDLStoreTest {
 				).build()),
 			null);
 
-		_registerService(
-			AntivirusScanner.class,
-			new MockAntivirusScanner(() -> calledScan.set(true)), null);
-
 		_withAsyncAntivirusConfiguration(
 			1, 1, true,
 			() -> {
+				_registerService(
+					AntivirusScanner.class,
+					new MockAntivirusScanner(() -> calledScan.set(true)), null);
+
 				DLFolder dlFolder = DLTestUtil.addDLFolder(_group.getGroupId());
 
 				DLTestUtil.addDLFileEntry(dlFolder.getFolderId());
@@ -293,21 +321,21 @@ public class AsyncAntivirusDLStoreTest {
 				).build()),
 			null);
 
-		_registerService(
-			AntivirusScanner.class,
-			new MockAntivirusScanner(
-				() -> {
-					calledScan.set(true);
-
-					throw new AntivirusVirusFoundException(
-						RandomTestUtil.randomString(),
-						RandomTestUtil.randomString());
-				}),
-			null);
-
 		_withAsyncAntivirusConfiguration(
 			1, 1, true,
 			() -> {
+				_registerService(
+					AntivirusScanner.class,
+					new MockAntivirusScanner(
+						() -> {
+							calledScan.set(true);
+
+							throw new AntivirusVirusFoundException(
+								RandomTestUtil.randomString(),
+								RandomTestUtil.randomString());
+						}),
+					null);
+
 				DLFolder dlFolder = DLTestUtil.addDLFolder(_group.getGroupId());
 
 				DLTestUtil.addDLFileEntry(dlFolder.getFolderId());
@@ -339,23 +367,41 @@ public class AsyncAntivirusDLStoreTest {
 
 		_registerService(
 			AntivirusAsyncRetryScheduler.class,
-			message -> calledSchedule.incrementAndGet(),
+			new AntivirusAsyncRetryScheduler() {
+
+				@Override
+				public int getPendingMessageCount() {
+					return 0;
+				}
+
+				@Override
+				public Message getScheduledMessage() {
+					return null;
+				}
+
+				@Override
+				public void schedule(Message message) {
+					calledSchedule.incrementAndGet();
+				}
+
+			},
 			MapUtil.singletonDictionary(Constants.SERVICE_RANKING, 100));
-		_registerService(
-			AntivirusScanner.class,
-			new MockAntivirusScanner(
-				() -> {
-					try {
-						Thread.sleep(Long.MAX_VALUE);
-					}
-					catch (InterruptedException interruptedException) {
-					}
-				}),
-			null);
 
 		_withAsyncAntivirusConfiguration(
 			1, 10, false,
 			() -> {
+				_registerService(
+					AntivirusScanner.class,
+					new MockAntivirusScanner(
+						() -> {
+							try {
+								Thread.sleep(Long.MAX_VALUE);
+							}
+							catch (InterruptedException interruptedException) {
+							}
+						}),
+					null);
+
 				DLFolder dlFolder = DLTestUtil.addDLFolder(_group.getGroupId());
 
 				int count = 10;
@@ -421,34 +467,36 @@ public class AsyncAntivirusDLStoreTest {
 			MapUtil.singletonDictionary(Constants.SERVICE_RANKING, -100));
 		_registerService(
 			AntivirusAsyncRetryScheduler.class,
-			message -> {
-			},
-			MapUtil.singletonDictionary(Constants.SERVICE_RANKING, 100));
-		_registerService(
-			AntivirusScanner.class,
-			new MockAntivirusScanner(
-				() -> {
-					int choice = random.nextInt(4);
-
-					if (choice == 1) {
-						throw new AntivirusVirusFoundException(
-							RandomTestUtil.randomString(),
-							RandomTestUtil.randomString());
-					}
-					else if (choice == 2) {
-						throw new AntivirusScannerException(
-							AntivirusScannerException.SIZE_LIMIT_EXCEEDED);
-					}
-					else if (choice == 3) {
-						throw new AntivirusScannerException(
-							AntivirusScannerException.PROCESS_FAILURE);
-					}
-				}),
+			ProxyFactory.newDummyInstance(AntivirusAsyncRetryScheduler.class),
 			MapUtil.singletonDictionary(Constants.SERVICE_RANKING, 100));
 
 		_withAsyncAntivirusConfiguration(
 			5, 10, true,
 			() -> {
+				_registerService(
+					AntivirusScanner.class,
+					new MockAntivirusScanner(
+						() -> {
+							int choice = random.nextInt(4);
+
+							if (choice == 1) {
+								throw new AntivirusVirusFoundException(
+									RandomTestUtil.randomString(),
+									RandomTestUtil.randomString());
+							}
+							else if (choice == 2) {
+								throw new AntivirusScannerException(
+									AntivirusScannerException.
+										SIZE_LIMIT_EXCEEDED);
+							}
+							else if (choice == 3) {
+								throw new AntivirusScannerException(
+									AntivirusScannerException.PROCESS_FAILURE);
+							}
+						}),
+					MapUtil.singletonDictionary(
+						Constants.SERVICE_RANKING, 100));
+
 				AntivirusAsyncStatisticsManagerMBean
 					antivirusAsyncStatisticsManagerMBean =
 						_bundleContext.getService(
