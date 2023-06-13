@@ -68,4 +68,6 @@ public class BlogsViewPortletProvider
 			httpServletRequest, getPortletName(), PortletRequest.RENDER_PHASE);
 	}
 
+	
+
 }
