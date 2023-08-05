@@ -26,6 +26,7 @@ import com.liferay.portal.kernel.module.framework.ModuleServiceLifecycle;
 import com.liferay.portal.kernel.module.util.ServiceLatch;
 import com.liferay.portal.kernel.module.util.SystemBundleUtil;
 import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
+import com.liferay.portal.kernel.upgrade.ReleaseManager;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HashMapDictionaryBuilder;
 import com.liferay.portal.kernel.util.ListUtil;
@@ -56,6 +57,7 @@ import org.apache.commons.lang.time.StopWatch;
 import org.apache.logging.log4j.core.Appender;
 
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceReference;
 
 /**
@@ -155,15 +157,6 @@ public class DBUpgrader {
 			InitUtil.registerContext();
 
 			upgradeModules(false);
-
-			BundleContext bundleContext = SystemBundleUtil.getBundleContext();
-
-			Collection<?> collection = bundleContext.getServiceReferences(
-				Store.class, "(default=true)");
-
-			if (collection.isEmpty()) {
-				throw new IllegalStateException("Missing default Store");
-			}
 		}
 		catch (Exception exception) {
 			_log.error(exception);
@@ -219,6 +212,33 @@ public class DBUpgrader {
 
 	public static void upgradeModules(boolean autoUpgrade) {
 		_registerModuleServiceLifecycle("portal.initialized");
+
+		ServiceLatch serviceLatch = SystemBundleUtil.newServiceLatch();
+
+		serviceLatch.waitFor(
+			ReleaseManager.class,
+			releaseManager -> {
+				BundleContext bundleContext =
+					SystemBundleUtil.getBundleContext();
+
+				try {
+					Collection<?> collection =
+						bundleContext.getServiceReferences(
+							Store.class, "(default=true)");
+
+					if (collection.isEmpty()) {
+						throw new IllegalStateException(
+							"Missing default Store");
+					}
+				}
+				catch (InvalidSyntaxException invalidSyntaxException) {
+					throw new RuntimeException(invalidSyntaxException);
+				}
+			});
+
+		serviceLatch.openOn(
+			() -> {
+			});
 
 		if (!autoUpgrade) {
 			DependencyManagerSyncUtil.sync();
