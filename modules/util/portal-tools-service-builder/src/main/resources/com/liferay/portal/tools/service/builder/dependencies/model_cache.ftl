@@ -36,7 +36,11 @@ import java.util.Map;
 <#if classDeprecated>
 	@Deprecated
 </#if>
-public class ${entity.name}CacheModel implements CacheModel<${entity.name}>, Externalizable
+public class ${entity.name}CacheModel implements CacheModel<${entity.name}>
+	<#if serviceBuilder.isVersionGTE_7_4_0() && entity.isChangeTrackingEnabled()>
+		, CTModel<${entity.name}>
+	</#if>
+	, Externalizable
 	<#if entity.isMvccEnabled()>
 		, MVCCModel
 	</#if>
@@ -85,6 +89,24 @@ public class ${entity.name}CacheModel implements CacheModel<${entity.name}>, Ext
 			return HashUtil.hash(0, ${entity.PKVariableName});
 		</#if>
 	}
+
+	<#if serviceBuilder.isVersionGTE_7_4_0() && entity.isChangeTrackingEnabled()>
+		public long getCtCollectionId() {
+			return ctCollectionId;
+		}
+
+		public long getPrimaryKey() {
+			return ${entity.PKVariableName};
+		}
+
+		public void setCtCollectionId(long ctCollectionId) {
+			throw new UnsupportedOperationException();
+		}
+
+		public void setPrimaryKey(long primaryKey) {
+			throw new UnsupportedOperationException();
+		}
+	</#if>
 
 	<#if entity.isMvccEnabled()>
 		@Override
