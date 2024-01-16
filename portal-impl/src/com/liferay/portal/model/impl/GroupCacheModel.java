@@ -25,7 +25,7 @@ import java.util.Date;
  * @generated
  */
 public class GroupCacheModel
-	implements CacheModel<Group>, Externalizable, MVCCModel {
+	implements CacheModel<Group>, CTModel<Group>, Externalizable, MVCCModel {
 
 	@Override
 	public boolean equals(Object object) {
@@ -53,6 +53,22 @@ public class GroupCacheModel
 		int hashCode = HashUtil.hash(0, groupId);
 
 		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	public long getCtCollectionId() {
+		return ctCollectionId;
+	}
+
+	public long getPrimaryKey() {
+		return groupId;
+	}
+
+	public void setCtCollectionId(long ctCollectionId) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setPrimaryKey(long primaryKey) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

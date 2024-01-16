@@ -25,7 +25,8 @@ import java.util.Date;
  * @generated
  */
 public class KaleoTimerCacheModel
-	implements CacheModel<KaleoTimer>, Externalizable, MVCCModel {
+	implements CacheModel<KaleoTimer>, CTModel<KaleoTimer>, Externalizable,
+			   MVCCModel {
 
 	@Override
 	public boolean equals(Object object) {
@@ -54,6 +55,22 @@ public class KaleoTimerCacheModel
 		int hashCode = HashUtil.hash(0, kaleoTimerId);
 
 		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	public long getCtCollectionId() {
+		return ctCollectionId;
+	}
+
+	public long getPrimaryKey() {
+		return kaleoTimerId;
+	}
+
+	public void setCtCollectionId(long ctCollectionId) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setPrimaryKey(long primaryKey) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

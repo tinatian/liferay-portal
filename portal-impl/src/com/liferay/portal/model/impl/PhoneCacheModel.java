@@ -25,7 +25,7 @@ import java.util.Date;
  * @generated
  */
 public class PhoneCacheModel
-	implements CacheModel<Phone>, Externalizable, MVCCModel {
+	implements CacheModel<Phone>, CTModel<Phone>, Externalizable, MVCCModel {
 
 	@Override
 	public boolean equals(Object object) {
@@ -53,6 +53,22 @@ public class PhoneCacheModel
 		int hashCode = HashUtil.hash(0, phoneId);
 
 		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	public long getCtCollectionId() {
+		return ctCollectionId;
+	}
+
+	public long getPrimaryKey() {
+		return phoneId;
+	}
+
+	public void setCtCollectionId(long ctCollectionId) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setPrimaryKey(long primaryKey) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

@@ -23,7 +23,8 @@ import java.io.ObjectOutput;
  * @generated
  */
 public class UserGroupRoleCacheModel
-	implements CacheModel<UserGroupRole>, Externalizable, MVCCModel {
+	implements CacheModel<UserGroupRole>, CTModel<UserGroupRole>,
+			   Externalizable, MVCCModel {
 
 	@Override
 	public boolean equals(Object object) {
@@ -52,6 +53,22 @@ public class UserGroupRoleCacheModel
 		int hashCode = HashUtil.hash(0, userGroupRoleId);
 
 		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	public long getCtCollectionId() {
+		return ctCollectionId;
+	}
+
+	public long getPrimaryKey() {
+		return userGroupRoleId;
+	}
+
+	public void setCtCollectionId(long ctCollectionId) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setPrimaryKey(long primaryKey) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

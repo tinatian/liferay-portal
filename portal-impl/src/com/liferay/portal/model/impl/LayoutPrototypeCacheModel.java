@@ -25,7 +25,8 @@ import java.util.Date;
  * @generated
  */
 public class LayoutPrototypeCacheModel
-	implements CacheModel<LayoutPrototype>, Externalizable, MVCCModel {
+	implements CacheModel<LayoutPrototype>, CTModel<LayoutPrototype>,
+			   Externalizable, MVCCModel {
 
 	@Override
 	public boolean equals(Object object) {
@@ -55,6 +56,22 @@ public class LayoutPrototypeCacheModel
 		int hashCode = HashUtil.hash(0, layoutPrototypeId);
 
 		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	public long getCtCollectionId() {
+		return ctCollectionId;
+	}
+
+	public long getPrimaryKey() {
+		return layoutPrototypeId;
+	}
+
+	public void setCtCollectionId(long ctCollectionId) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setPrimaryKey(long primaryKey) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

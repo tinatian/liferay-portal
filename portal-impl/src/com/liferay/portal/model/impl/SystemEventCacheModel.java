@@ -25,7 +25,8 @@ import java.util.Date;
  * @generated
  */
 public class SystemEventCacheModel
-	implements CacheModel<SystemEvent>, Externalizable, MVCCModel {
+	implements CacheModel<SystemEvent>, CTModel<SystemEvent>, Externalizable,
+			   MVCCModel {
 
 	@Override
 	public boolean equals(Object object) {
@@ -54,6 +55,22 @@ public class SystemEventCacheModel
 		int hashCode = HashUtil.hash(0, systemEventId);
 
 		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	public long getCtCollectionId() {
+		return ctCollectionId;
+	}
+
+	public long getPrimaryKey() {
+		return systemEventId;
+	}
+
+	public void setCtCollectionId(long ctCollectionId) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setPrimaryKey(long primaryKey) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

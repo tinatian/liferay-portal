@@ -23,7 +23,8 @@ import java.io.ObjectOutput;
  * @generated
  */
 public class JournalArticleResourceCacheModel
-	implements CacheModel<JournalArticleResource>, Externalizable, MVCCModel {
+	implements CacheModel<JournalArticleResource>,
+			   CTModel<JournalArticleResource>, Externalizable, MVCCModel {
 
 	@Override
 	public boolean equals(Object object) {
@@ -53,6 +54,22 @@ public class JournalArticleResourceCacheModel
 		int hashCode = HashUtil.hash(0, resourcePrimKey);
 
 		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	public long getCtCollectionId() {
+		return ctCollectionId;
+	}
+
+	public long getPrimaryKey() {
+		return resourcePrimKey;
+	}
+
+	public void setCtCollectionId(long ctCollectionId) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setPrimaryKey(long primaryKey) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

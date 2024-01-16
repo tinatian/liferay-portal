@@ -25,7 +25,8 @@ import java.util.Date;
  * @generated
  */
 public class TrashEntryCacheModel
-	implements CacheModel<TrashEntry>, Externalizable, MVCCModel {
+	implements CacheModel<TrashEntry>, CTModel<TrashEntry>, Externalizable,
+			   MVCCModel {
 
 	@Override
 	public boolean equals(Object object) {
@@ -54,6 +55,22 @@ public class TrashEntryCacheModel
 		int hashCode = HashUtil.hash(0, entryId);
 
 		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	public long getCtCollectionId() {
+		return ctCollectionId;
+	}
+
+	public long getPrimaryKey() {
+		return entryId;
+	}
+
+	public void setCtCollectionId(long ctCollectionId) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setPrimaryKey(long primaryKey) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

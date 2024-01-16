@@ -25,7 +25,8 @@ import java.util.Date;
  * @generated
  */
 public class KBArticleCacheModel
-	implements CacheModel<KBArticle>, Externalizable, MVCCModel {
+	implements CacheModel<KBArticle>, CTModel<KBArticle>, Externalizable,
+			   MVCCModel {
 
 	@Override
 	public boolean equals(Object object) {
@@ -53,6 +54,22 @@ public class KBArticleCacheModel
 		int hashCode = HashUtil.hash(0, kbArticleId);
 
 		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	public long getCtCollectionId() {
+		return ctCollectionId;
+	}
+
+	public long getPrimaryKey() {
+		return kbArticleId;
+	}
+
+	public void setCtCollectionId(long ctCollectionId) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setPrimaryKey(long primaryKey) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

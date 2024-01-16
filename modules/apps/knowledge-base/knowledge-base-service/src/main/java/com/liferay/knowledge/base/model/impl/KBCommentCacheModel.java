@@ -25,7 +25,8 @@ import java.util.Date;
  * @generated
  */
 public class KBCommentCacheModel
-	implements CacheModel<KBComment>, Externalizable, MVCCModel {
+	implements CacheModel<KBComment>, CTModel<KBComment>, Externalizable,
+			   MVCCModel {
 
 	@Override
 	public boolean equals(Object object) {
@@ -53,6 +54,22 @@ public class KBCommentCacheModel
 		int hashCode = HashUtil.hash(0, kbCommentId);
 
 		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	public long getCtCollectionId() {
+		return ctCollectionId;
+	}
+
+	public long getPrimaryKey() {
+		return kbCommentId;
+	}
+
+	public void setCtCollectionId(long ctCollectionId) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setPrimaryKey(long primaryKey) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

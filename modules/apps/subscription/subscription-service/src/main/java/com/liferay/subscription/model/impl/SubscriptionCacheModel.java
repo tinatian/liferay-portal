@@ -25,7 +25,8 @@ import java.util.Date;
  * @generated
  */
 public class SubscriptionCacheModel
-	implements CacheModel<Subscription>, Externalizable, MVCCModel {
+	implements CacheModel<Subscription>, CTModel<Subscription>, Externalizable,
+			   MVCCModel {
 
 	@Override
 	public boolean equals(Object object) {
@@ -54,6 +55,22 @@ public class SubscriptionCacheModel
 		int hashCode = HashUtil.hash(0, subscriptionId);
 
 		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	public long getCtCollectionId() {
+		return ctCollectionId;
+	}
+
+	public long getPrimaryKey() {
+		return subscriptionId;
+	}
+
+	public void setCtCollectionId(long ctCollectionId) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setPrimaryKey(long primaryKey) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

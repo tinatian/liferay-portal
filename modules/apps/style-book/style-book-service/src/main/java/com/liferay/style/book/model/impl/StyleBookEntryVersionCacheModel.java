@@ -25,7 +25,8 @@ import java.util.Date;
  * @generated
  */
 public class StyleBookEntryVersionCacheModel
-	implements CacheModel<StyleBookEntryVersion>, Externalizable, MVCCModel {
+	implements CacheModel<StyleBookEntryVersion>,
+			   CTModel<StyleBookEntryVersion>, Externalizable, MVCCModel {
 
 	@Override
 	public boolean equals(Object object) {
@@ -55,6 +56,22 @@ public class StyleBookEntryVersionCacheModel
 		int hashCode = HashUtil.hash(0, styleBookEntryVersionId);
 
 		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	public long getCtCollectionId() {
+		return ctCollectionId;
+	}
+
+	public long getPrimaryKey() {
+		return styleBookEntryVersionId;
+	}
+
+	public void setCtCollectionId(long ctCollectionId) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setPrimaryKey(long primaryKey) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

@@ -25,7 +25,8 @@ import java.util.Date;
  * @generated
  */
 public class RepositoryCacheModel
-	implements CacheModel<Repository>, Externalizable, MVCCModel {
+	implements CacheModel<Repository>, CTModel<Repository>, Externalizable,
+			   MVCCModel {
 
 	@Override
 	public boolean equals(Object object) {
@@ -54,6 +55,22 @@ public class RepositoryCacheModel
 		int hashCode = HashUtil.hash(0, repositoryId);
 
 		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	public long getCtCollectionId() {
+		return ctCollectionId;
+	}
+
+	public long getPrimaryKey() {
+		return repositoryId;
+	}
+
+	public void setCtCollectionId(long ctCollectionId) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setPrimaryKey(long primaryKey) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

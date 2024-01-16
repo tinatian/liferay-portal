@@ -23,7 +23,8 @@ import java.io.ObjectOutput;
  * @generated
  */
 public class PortletPreferenceValueCacheModel
-	implements CacheModel<PortletPreferenceValue>, Externalizable, MVCCModel {
+	implements CacheModel<PortletPreferenceValue>,
+			   CTModel<PortletPreferenceValue>, Externalizable, MVCCModel {
 
 	@Override
 	public boolean equals(Object object) {
@@ -53,6 +54,22 @@ public class PortletPreferenceValueCacheModel
 		int hashCode = HashUtil.hash(0, portletPreferenceValueId);
 
 		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	public long getCtCollectionId() {
+		return ctCollectionId;
+	}
+
+	public long getPrimaryKey() {
+		return portletPreferenceValueId;
+	}
+
+	public void setCtCollectionId(long ctCollectionId) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setPrimaryKey(long primaryKey) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

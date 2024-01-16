@@ -25,7 +25,8 @@ import java.util.Date;
  * @generated
  */
 public class DLFileVersionCacheModel
-	implements CacheModel<DLFileVersion>, Externalizable, MVCCModel {
+	implements CacheModel<DLFileVersion>, CTModel<DLFileVersion>,
+			   Externalizable, MVCCModel {
 
 	@Override
 	public boolean equals(Object object) {
@@ -54,6 +55,22 @@ public class DLFileVersionCacheModel
 		int hashCode = HashUtil.hash(0, fileVersionId);
 
 		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	public long getCtCollectionId() {
+		return ctCollectionId;
+	}
+
+	public long getPrimaryKey() {
+		return fileVersionId;
+	}
+
+	public void setCtCollectionId(long ctCollectionId) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setPrimaryKey(long primaryKey) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

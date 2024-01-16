@@ -25,7 +25,8 @@ import java.util.Date;
  * @generated
  */
 public class LayoutPageTemplateStructureRelCacheModel
-	implements CacheModel<LayoutPageTemplateStructureRel>, Externalizable,
+	implements CacheModel<LayoutPageTemplateStructureRel>,
+			   CTModel<LayoutPageTemplateStructureRel>, Externalizable,
 			   MVCCModel {
 
 	@Override
@@ -59,6 +60,22 @@ public class LayoutPageTemplateStructureRelCacheModel
 		int hashCode = HashUtil.hash(0, layoutPageTemplateStructureRelId);
 
 		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	public long getCtCollectionId() {
+		return ctCollectionId;
+	}
+
+	public long getPrimaryKey() {
+		return layoutPageTemplateStructureRelId;
+	}
+
+	public void setCtCollectionId(long ctCollectionId) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setPrimaryKey(long primaryKey) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

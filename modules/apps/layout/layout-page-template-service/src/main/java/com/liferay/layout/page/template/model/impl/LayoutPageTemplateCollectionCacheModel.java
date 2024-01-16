@@ -25,7 +25,8 @@ import java.util.Date;
  * @generated
  */
 public class LayoutPageTemplateCollectionCacheModel
-	implements CacheModel<LayoutPageTemplateCollection>, Externalizable,
+	implements CacheModel<LayoutPageTemplateCollection>,
+			   CTModel<LayoutPageTemplateCollection>, Externalizable,
 			   MVCCModel {
 
 	@Override
@@ -59,6 +60,22 @@ public class LayoutPageTemplateCollectionCacheModel
 		int hashCode = HashUtil.hash(0, layoutPageTemplateCollectionId);
 
 		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	public long getCtCollectionId() {
+		return ctCollectionId;
+	}
+
+	public long getPrimaryKey() {
+		return layoutPageTemplateCollectionId;
+	}
+
+	public void setCtCollectionId(long ctCollectionId) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setPrimaryKey(long primaryKey) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

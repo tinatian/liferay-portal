@@ -23,7 +23,8 @@ import java.io.ObjectOutput;
  * @generated
  */
 public class DLFileEntryMetadataCacheModel
-	implements CacheModel<DLFileEntryMetadata>, Externalizable, MVCCModel {
+	implements CacheModel<DLFileEntryMetadata>, CTModel<DLFileEntryMetadata>,
+			   Externalizable, MVCCModel {
 
 	@Override
 	public boolean equals(Object object) {
@@ -53,6 +54,22 @@ public class DLFileEntryMetadataCacheModel
 		int hashCode = HashUtil.hash(0, fileEntryMetadataId);
 
 		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	public long getCtCollectionId() {
+		return ctCollectionId;
+	}
+
+	public long getPrimaryKey() {
+		return fileEntryMetadataId;
+	}
+
+	public void setCtCollectionId(long ctCollectionId) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setPrimaryKey(long primaryKey) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

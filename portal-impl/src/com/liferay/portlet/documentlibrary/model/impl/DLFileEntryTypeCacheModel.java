@@ -25,7 +25,8 @@ import java.util.Date;
  * @generated
  */
 public class DLFileEntryTypeCacheModel
-	implements CacheModel<DLFileEntryType>, Externalizable, MVCCModel {
+	implements CacheModel<DLFileEntryType>, CTModel<DLFileEntryType>,
+			   Externalizable, MVCCModel {
 
 	@Override
 	public boolean equals(Object object) {
@@ -54,6 +55,22 @@ public class DLFileEntryTypeCacheModel
 		int hashCode = HashUtil.hash(0, fileEntryTypeId);
 
 		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	public long getCtCollectionId() {
+		return ctCollectionId;
+	}
+
+	public long getPrimaryKey() {
+		return fileEntryTypeId;
+	}
+
+	public void setCtCollectionId(long ctCollectionId) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setPrimaryKey(long primaryKey) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

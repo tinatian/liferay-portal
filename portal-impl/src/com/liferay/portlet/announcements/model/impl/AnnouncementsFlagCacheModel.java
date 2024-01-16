@@ -25,7 +25,8 @@ import java.util.Date;
  * @generated
  */
 public class AnnouncementsFlagCacheModel
-	implements CacheModel<AnnouncementsFlag>, Externalizable, MVCCModel {
+	implements CacheModel<AnnouncementsFlag>, CTModel<AnnouncementsFlag>,
+			   Externalizable, MVCCModel {
 
 	@Override
 	public boolean equals(Object object) {
@@ -54,6 +55,22 @@ public class AnnouncementsFlagCacheModel
 		int hashCode = HashUtil.hash(0, flagId);
 
 		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	public long getCtCollectionId() {
+		return ctCollectionId;
+	}
+
+	public long getPrimaryKey() {
+		return flagId;
+	}
+
+	public void setCtCollectionId(long ctCollectionId) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setPrimaryKey(long primaryKey) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

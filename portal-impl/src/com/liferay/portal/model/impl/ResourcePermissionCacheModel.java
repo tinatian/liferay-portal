@@ -23,7 +23,8 @@ import java.io.ObjectOutput;
  * @generated
  */
 public class ResourcePermissionCacheModel
-	implements CacheModel<ResourcePermission>, Externalizable, MVCCModel {
+	implements CacheModel<ResourcePermission>, CTModel<ResourcePermission>,
+			   Externalizable, MVCCModel {
 
 	@Override
 	public boolean equals(Object object) {
@@ -53,6 +54,22 @@ public class ResourcePermissionCacheModel
 		int hashCode = HashUtil.hash(0, resourcePermissionId);
 
 		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	public long getCtCollectionId() {
+		return ctCollectionId;
+	}
+
+	public long getPrimaryKey() {
+		return resourcePermissionId;
+	}
+
+	public void setCtCollectionId(long ctCollectionId) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setPrimaryKey(long primaryKey) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

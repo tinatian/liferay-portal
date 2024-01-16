@@ -25,7 +25,8 @@ import java.util.Date;
  * @generated
  */
 public class DLFileShortcutCacheModel
-	implements CacheModel<DLFileShortcut>, Externalizable, MVCCModel {
+	implements CacheModel<DLFileShortcut>, CTModel<DLFileShortcut>,
+			   Externalizable, MVCCModel {
 
 	@Override
 	public boolean equals(Object object) {
@@ -54,6 +55,22 @@ public class DLFileShortcutCacheModel
 		int hashCode = HashUtil.hash(0, fileShortcutId);
 
 		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	public long getCtCollectionId() {
+		return ctCollectionId;
+	}
+
+	public long getPrimaryKey() {
+		return fileShortcutId;
+	}
+
+	public void setCtCollectionId(long ctCollectionId) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setPrimaryKey(long primaryKey) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

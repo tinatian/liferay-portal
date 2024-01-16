@@ -23,7 +23,8 @@ import java.io.ObjectOutput;
  * @generated
  */
 public class ExpandoTableCacheModel
-	implements CacheModel<ExpandoTable>, Externalizable, MVCCModel {
+	implements CacheModel<ExpandoTable>, CTModel<ExpandoTable>, Externalizable,
+			   MVCCModel {
 
 	@Override
 	public boolean equals(Object object) {
@@ -52,6 +53,22 @@ public class ExpandoTableCacheModel
 		int hashCode = HashUtil.hash(0, tableId);
 
 		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	public long getCtCollectionId() {
+		return ctCollectionId;
+	}
+
+	public long getPrimaryKey() {
+		return tableId;
+	}
+
+	public void setCtCollectionId(long ctCollectionId) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setPrimaryKey(long primaryKey) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

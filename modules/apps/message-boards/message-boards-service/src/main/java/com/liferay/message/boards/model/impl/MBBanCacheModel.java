@@ -25,7 +25,7 @@ import java.util.Date;
  * @generated
  */
 public class MBBanCacheModel
-	implements CacheModel<MBBan>, Externalizable, MVCCModel {
+	implements CacheModel<MBBan>, CTModel<MBBan>, Externalizable, MVCCModel {
 
 	@Override
 	public boolean equals(Object object) {
@@ -53,6 +53,22 @@ public class MBBanCacheModel
 		int hashCode = HashUtil.hash(0, banId);
 
 		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	public long getCtCollectionId() {
+		return ctCollectionId;
+	}
+
+	public long getPrimaryKey() {
+		return banId;
+	}
+
+	public void setCtCollectionId(long ctCollectionId) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setPrimaryKey(long primaryKey) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

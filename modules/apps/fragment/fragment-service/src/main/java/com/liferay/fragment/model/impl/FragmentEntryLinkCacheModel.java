@@ -25,7 +25,8 @@ import java.util.Date;
  * @generated
  */
 public class FragmentEntryLinkCacheModel
-	implements CacheModel<FragmentEntryLink>, Externalizable, MVCCModel {
+	implements CacheModel<FragmentEntryLink>, CTModel<FragmentEntryLink>,
+			   Externalizable, MVCCModel {
 
 	@Override
 	public boolean equals(Object object) {
@@ -55,6 +56,22 @@ public class FragmentEntryLinkCacheModel
 		int hashCode = HashUtil.hash(0, fragmentEntryLinkId);
 
 		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	public long getCtCollectionId() {
+		return ctCollectionId;
+	}
+
+	public long getPrimaryKey() {
+		return fragmentEntryLinkId;
+	}
+
+	public void setCtCollectionId(long ctCollectionId) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setPrimaryKey(long primaryKey) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

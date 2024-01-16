@@ -25,7 +25,8 @@ import java.util.Date;
  * @generated
  */
 public class AssetVocabularyCacheModel
-	implements CacheModel<AssetVocabulary>, Externalizable, MVCCModel {
+	implements CacheModel<AssetVocabulary>, CTModel<AssetVocabulary>,
+			   Externalizable, MVCCModel {
 
 	@Override
 	public boolean equals(Object object) {
@@ -54,6 +55,22 @@ public class AssetVocabularyCacheModel
 		int hashCode = HashUtil.hash(0, vocabularyId);
 
 		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	public long getCtCollectionId() {
+		return ctCollectionId;
+	}
+
+	public long getPrimaryKey() {
+		return vocabularyId;
+	}
+
+	public void setCtCollectionId(long ctCollectionId) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setPrimaryKey(long primaryKey) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

@@ -23,7 +23,8 @@ import java.io.ObjectOutput;
  * @generated
  */
 public class SocialActivityLimitCacheModel
-	implements CacheModel<SocialActivityLimit>, Externalizable, MVCCModel {
+	implements CacheModel<SocialActivityLimit>, CTModel<SocialActivityLimit>,
+			   Externalizable, MVCCModel {
 
 	@Override
 	public boolean equals(Object object) {
@@ -53,6 +54,22 @@ public class SocialActivityLimitCacheModel
 		int hashCode = HashUtil.hash(0, activityLimitId);
 
 		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	public long getCtCollectionId() {
+		return ctCollectionId;
+	}
+
+	public long getPrimaryKey() {
+		return activityLimitId;
+	}
+
+	public void setCtCollectionId(long ctCollectionId) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setPrimaryKey(long primaryKey) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

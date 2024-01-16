@@ -25,7 +25,8 @@ import java.util.Date;
  * @generated
  */
 public class MBCategoryCacheModel
-	implements CacheModel<MBCategory>, Externalizable, MVCCModel {
+	implements CacheModel<MBCategory>, CTModel<MBCategory>, Externalizable,
+			   MVCCModel {
 
 	@Override
 	public boolean equals(Object object) {
@@ -54,6 +55,22 @@ public class MBCategoryCacheModel
 		int hashCode = HashUtil.hash(0, categoryId);
 
 		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	public long getCtCollectionId() {
+		return ctCollectionId;
+	}
+
+	public long getPrimaryKey() {
+		return categoryId;
+	}
+
+	public void setCtCollectionId(long ctCollectionId) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setPrimaryKey(long primaryKey) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

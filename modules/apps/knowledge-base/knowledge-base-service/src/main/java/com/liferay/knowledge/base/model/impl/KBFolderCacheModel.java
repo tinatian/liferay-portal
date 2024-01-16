@@ -25,7 +25,8 @@ import java.util.Date;
  * @generated
  */
 public class KBFolderCacheModel
-	implements CacheModel<KBFolder>, Externalizable, MVCCModel {
+	implements CacheModel<KBFolder>, CTModel<KBFolder>, Externalizable,
+			   MVCCModel {
 
 	@Override
 	public boolean equals(Object object) {
@@ -53,6 +54,22 @@ public class KBFolderCacheModel
 		int hashCode = HashUtil.hash(0, kbFolderId);
 
 		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	public long getCtCollectionId() {
+		return ctCollectionId;
+	}
+
+	public long getPrimaryKey() {
+		return kbFolderId;
+	}
+
+	public void setCtCollectionId(long ctCollectionId) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setPrimaryKey(long primaryKey) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

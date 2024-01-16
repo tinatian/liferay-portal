@@ -25,7 +25,8 @@ import java.util.Date;
  * @generated
  */
 public class CountryCacheModel
-	implements CacheModel<Country>, Externalizable, MVCCModel {
+	implements CacheModel<Country>, CTModel<Country>, Externalizable,
+			   MVCCModel {
 
 	@Override
 	public boolean equals(Object object) {
@@ -53,6 +54,22 @@ public class CountryCacheModel
 		int hashCode = HashUtil.hash(0, countryId);
 
 		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	public long getCtCollectionId() {
+		return ctCollectionId;
+	}
+
+	public long getPrimaryKey() {
+		return countryId;
+	}
+
+	public void setCtCollectionId(long ctCollectionId) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setPrimaryKey(long primaryKey) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

@@ -25,7 +25,8 @@ import java.util.Date;
  * @generated
  */
 public class MBThreadFlagCacheModel
-	implements CacheModel<MBThreadFlag>, Externalizable, MVCCModel {
+	implements CacheModel<MBThreadFlag>, CTModel<MBThreadFlag>, Externalizable,
+			   MVCCModel {
 
 	@Override
 	public boolean equals(Object object) {
@@ -54,6 +55,22 @@ public class MBThreadFlagCacheModel
 		int hashCode = HashUtil.hash(0, threadFlagId);
 
 		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	public long getCtCollectionId() {
+		return ctCollectionId;
+	}
+
+	public long getPrimaryKey() {
+		return threadFlagId;
+	}
+
+	public void setCtCollectionId(long ctCollectionId) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setPrimaryKey(long primaryKey) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

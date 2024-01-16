@@ -23,7 +23,8 @@ import java.io.ObjectOutput;
  * @generated
  */
 public class SocialRequestCacheModel
-	implements CacheModel<SocialRequest>, Externalizable, MVCCModel {
+	implements CacheModel<SocialRequest>, CTModel<SocialRequest>,
+			   Externalizable, MVCCModel {
 
 	@Override
 	public boolean equals(Object object) {
@@ -52,6 +53,22 @@ public class SocialRequestCacheModel
 		int hashCode = HashUtil.hash(0, requestId);
 
 		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	public long getCtCollectionId() {
+		return ctCollectionId;
+	}
+
+	public long getPrimaryKey() {
+		return requestId;
+	}
+
+	public void setCtCollectionId(long ctCollectionId) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setPrimaryKey(long primaryKey) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

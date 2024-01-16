@@ -25,7 +25,8 @@ import java.util.Date;
  * @generated
  */
 public class LayoutFriendlyURLCacheModel
-	implements CacheModel<LayoutFriendlyURL>, Externalizable, MVCCModel {
+	implements CacheModel<LayoutFriendlyURL>, CTModel<LayoutFriendlyURL>,
+			   Externalizable, MVCCModel {
 
 	@Override
 	public boolean equals(Object object) {
@@ -55,6 +56,22 @@ public class LayoutFriendlyURLCacheModel
 		int hashCode = HashUtil.hash(0, layoutFriendlyURLId);
 
 		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	public long getCtCollectionId() {
+		return ctCollectionId;
+	}
+
+	public long getPrimaryKey() {
+		return layoutFriendlyURLId;
+	}
+
+	public void setCtCollectionId(long ctCollectionId) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setPrimaryKey(long primaryKey) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

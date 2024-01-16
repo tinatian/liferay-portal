@@ -25,7 +25,8 @@ import java.util.Date;
  * @generated
  */
 public class SegmentsExperimentRelCacheModel
-	implements CacheModel<SegmentsExperimentRel>, Externalizable, MVCCModel {
+	implements CacheModel<SegmentsExperimentRel>,
+			   CTModel<SegmentsExperimentRel>, Externalizable, MVCCModel {
 
 	@Override
 	public boolean equals(Object object) {
@@ -55,6 +56,22 @@ public class SegmentsExperimentRelCacheModel
 		int hashCode = HashUtil.hash(0, segmentsExperimentRelId);
 
 		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	public long getCtCollectionId() {
+		return ctCollectionId;
+	}
+
+	public long getPrimaryKey() {
+		return segmentsExperimentRelId;
+	}
+
+	public void setCtCollectionId(long ctCollectionId) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setPrimaryKey(long primaryKey) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

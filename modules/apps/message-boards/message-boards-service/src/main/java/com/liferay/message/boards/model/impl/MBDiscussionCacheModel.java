@@ -25,7 +25,8 @@ import java.util.Date;
  * @generated
  */
 public class MBDiscussionCacheModel
-	implements CacheModel<MBDiscussion>, Externalizable, MVCCModel {
+	implements CacheModel<MBDiscussion>, CTModel<MBDiscussion>, Externalizable,
+			   MVCCModel {
 
 	@Override
 	public boolean equals(Object object) {
@@ -54,6 +55,22 @@ public class MBDiscussionCacheModel
 		int hashCode = HashUtil.hash(0, discussionId);
 
 		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	public long getCtCollectionId() {
+		return ctCollectionId;
+	}
+
+	public long getPrimaryKey() {
+		return discussionId;
+	}
+
+	public void setCtCollectionId(long ctCollectionId) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setPrimaryKey(long primaryKey) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

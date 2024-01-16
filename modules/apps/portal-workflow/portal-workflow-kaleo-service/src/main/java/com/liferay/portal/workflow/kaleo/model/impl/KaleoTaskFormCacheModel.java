@@ -25,7 +25,8 @@ import java.util.Date;
  * @generated
  */
 public class KaleoTaskFormCacheModel
-	implements CacheModel<KaleoTaskForm>, Externalizable, MVCCModel {
+	implements CacheModel<KaleoTaskForm>, CTModel<KaleoTaskForm>,
+			   Externalizable, MVCCModel {
 
 	@Override
 	public boolean equals(Object object) {
@@ -54,6 +55,22 @@ public class KaleoTaskFormCacheModel
 		int hashCode = HashUtil.hash(0, kaleoTaskFormId);
 
 		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	public long getCtCollectionId() {
+		return ctCollectionId;
+	}
+
+	public long getPrimaryKey() {
+		return kaleoTaskFormId;
+	}
+
+	public void setCtCollectionId(long ctCollectionId) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setPrimaryKey(long primaryKey) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

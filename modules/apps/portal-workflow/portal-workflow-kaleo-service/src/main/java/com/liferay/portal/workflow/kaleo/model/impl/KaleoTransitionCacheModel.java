@@ -25,7 +25,8 @@ import java.util.Date;
  * @generated
  */
 public class KaleoTransitionCacheModel
-	implements CacheModel<KaleoTransition>, Externalizable, MVCCModel {
+	implements CacheModel<KaleoTransition>, CTModel<KaleoTransition>,
+			   Externalizable, MVCCModel {
 
 	@Override
 	public boolean equals(Object object) {
@@ -55,6 +56,22 @@ public class KaleoTransitionCacheModel
 		int hashCode = HashUtil.hash(0, kaleoTransitionId);
 
 		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	public long getCtCollectionId() {
+		return ctCollectionId;
+	}
+
+	public long getPrimaryKey() {
+		return kaleoTransitionId;
+	}
+
+	public void setCtCollectionId(long ctCollectionId) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setPrimaryKey(long primaryKey) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

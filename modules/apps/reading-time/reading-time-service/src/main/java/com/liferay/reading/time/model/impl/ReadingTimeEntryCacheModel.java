@@ -25,7 +25,8 @@ import java.util.Date;
  * @generated
  */
 public class ReadingTimeEntryCacheModel
-	implements CacheModel<ReadingTimeEntry>, Externalizable, MVCCModel {
+	implements CacheModel<ReadingTimeEntry>, CTModel<ReadingTimeEntry>,
+			   Externalizable, MVCCModel {
 
 	@Override
 	public boolean equals(Object object) {
@@ -55,6 +56,22 @@ public class ReadingTimeEntryCacheModel
 		int hashCode = HashUtil.hash(0, readingTimeEntryId);
 
 		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	public long getCtCollectionId() {
+		return ctCollectionId;
+	}
+
+	public long getPrimaryKey() {
+		return readingTimeEntryId;
+	}
+
+	public void setCtCollectionId(long ctCollectionId) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setPrimaryKey(long primaryKey) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

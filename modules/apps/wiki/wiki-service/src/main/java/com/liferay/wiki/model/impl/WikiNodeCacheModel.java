@@ -25,7 +25,8 @@ import java.util.Date;
  * @generated
  */
 public class WikiNodeCacheModel
-	implements CacheModel<WikiNode>, Externalizable, MVCCModel {
+	implements CacheModel<WikiNode>, CTModel<WikiNode>, Externalizable,
+			   MVCCModel {
 
 	@Override
 	public boolean equals(Object object) {
@@ -53,6 +54,22 @@ public class WikiNodeCacheModel
 		int hashCode = HashUtil.hash(0, nodeId);
 
 		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	public long getCtCollectionId() {
+		return ctCollectionId;
+	}
+
+	public long getPrimaryKey() {
+		return nodeId;
+	}
+
+	public void setCtCollectionId(long ctCollectionId) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setPrimaryKey(long primaryKey) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

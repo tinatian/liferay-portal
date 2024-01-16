@@ -25,7 +25,8 @@ import java.util.Date;
  * @generated
  */
 public class SiteNavigationMenuCacheModel
-	implements CacheModel<SiteNavigationMenu>, Externalizable, MVCCModel {
+	implements CacheModel<SiteNavigationMenu>, CTModel<SiteNavigationMenu>,
+			   Externalizable, MVCCModel {
 
 	@Override
 	public boolean equals(Object object) {
@@ -55,6 +56,22 @@ public class SiteNavigationMenuCacheModel
 		int hashCode = HashUtil.hash(0, siteNavigationMenuId);
 
 		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	public long getCtCollectionId() {
+		return ctCollectionId;
+	}
+
+	public long getPrimaryKey() {
+		return siteNavigationMenuId;
+	}
+
+	public void setCtCollectionId(long ctCollectionId) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setPrimaryKey(long primaryKey) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

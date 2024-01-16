@@ -25,7 +25,8 @@ import java.util.Date;
  * @generated
  */
 public class UserGroupCacheModel
-	implements CacheModel<UserGroup>, Externalizable, MVCCModel {
+	implements CacheModel<UserGroup>, CTModel<UserGroup>, Externalizable,
+			   MVCCModel {
 
 	@Override
 	public boolean equals(Object object) {
@@ -53,6 +54,22 @@ public class UserGroupCacheModel
 		int hashCode = HashUtil.hash(0, userGroupId);
 
 		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	public long getCtCollectionId() {
+		return ctCollectionId;
+	}
+
+	public long getPrimaryKey() {
+		return userGroupId;
+	}
+
+	public void setCtCollectionId(long ctCollectionId) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setPrimaryKey(long primaryKey) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

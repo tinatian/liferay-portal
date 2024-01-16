@@ -25,7 +25,8 @@ import java.util.Date;
  * @generated
  */
 public class RatingsStatsCacheModel
-	implements CacheModel<RatingsStats>, Externalizable, MVCCModel {
+	implements CacheModel<RatingsStats>, CTModel<RatingsStats>, Externalizable,
+			   MVCCModel {
 
 	@Override
 	public boolean equals(Object object) {
@@ -54,6 +55,22 @@ public class RatingsStatsCacheModel
 		int hashCode = HashUtil.hash(0, statsId);
 
 		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	public long getCtCollectionId() {
+		return ctCollectionId;
+	}
+
+	public long getPrimaryKey() {
+		return statsId;
+	}
+
+	public void setCtCollectionId(long ctCollectionId) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setPrimaryKey(long primaryKey) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

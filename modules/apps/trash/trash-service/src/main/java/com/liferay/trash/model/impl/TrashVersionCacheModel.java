@@ -23,7 +23,8 @@ import java.io.ObjectOutput;
  * @generated
  */
 public class TrashVersionCacheModel
-	implements CacheModel<TrashVersion>, Externalizable, MVCCModel {
+	implements CacheModel<TrashVersion>, CTModel<TrashVersion>, Externalizable,
+			   MVCCModel {
 
 	@Override
 	public boolean equals(Object object) {
@@ -52,6 +53,22 @@ public class TrashVersionCacheModel
 		int hashCode = HashUtil.hash(0, versionId);
 
 		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	public long getCtCollectionId() {
+		return ctCollectionId;
+	}
+
+	public long getPrimaryKey() {
+		return versionId;
+	}
+
+	public void setCtCollectionId(long ctCollectionId) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setPrimaryKey(long primaryKey) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

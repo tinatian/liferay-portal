@@ -23,7 +23,8 @@ import java.io.ObjectOutput;
  * @generated
  */
 public class VirtualHostCacheModel
-	implements CacheModel<VirtualHost>, Externalizable, MVCCModel {
+	implements CacheModel<VirtualHost>, CTModel<VirtualHost>, Externalizable,
+			   MVCCModel {
 
 	@Override
 	public boolean equals(Object object) {
@@ -52,6 +53,22 @@ public class VirtualHostCacheModel
 		int hashCode = HashUtil.hash(0, virtualHostId);
 
 		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	public long getCtCollectionId() {
+		return ctCollectionId;
+	}
+
+	public long getPrimaryKey() {
+		return virtualHostId;
+	}
+
+	public void setCtCollectionId(long ctCollectionId) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setPrimaryKey(long primaryKey) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

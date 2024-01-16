@@ -25,7 +25,8 @@ import java.util.Date;
  * @generated
  */
 public class DLFolderCacheModel
-	implements CacheModel<DLFolder>, Externalizable, MVCCModel {
+	implements CacheModel<DLFolder>, CTModel<DLFolder>, Externalizable,
+			   MVCCModel {
 
 	@Override
 	public boolean equals(Object object) {
@@ -53,6 +54,22 @@ public class DLFolderCacheModel
 		int hashCode = HashUtil.hash(0, folderId);
 
 		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	public long getCtCollectionId() {
+		return ctCollectionId;
+	}
+
+	public long getPrimaryKey() {
+		return folderId;
+	}
+
+	public void setCtCollectionId(long ctCollectionId) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setPrimaryKey(long primaryKey) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

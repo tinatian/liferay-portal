@@ -25,7 +25,8 @@ import java.util.Date;
  * @generated
  */
 public class ExpandoRowCacheModel
-	implements CacheModel<ExpandoRow>, Externalizable, MVCCModel {
+	implements CacheModel<ExpandoRow>, CTModel<ExpandoRow>, Externalizable,
+			   MVCCModel {
 
 	@Override
 	public boolean equals(Object object) {
@@ -54,6 +55,22 @@ public class ExpandoRowCacheModel
 		int hashCode = HashUtil.hash(0, rowId);
 
 		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	public long getCtCollectionId() {
+		return ctCollectionId;
+	}
+
+	public long getPrimaryKey() {
+		return rowId;
+	}
+
+	public void setCtCollectionId(long ctCollectionId) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setPrimaryKey(long primaryKey) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

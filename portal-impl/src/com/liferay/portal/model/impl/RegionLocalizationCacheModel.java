@@ -23,7 +23,8 @@ import java.io.ObjectOutput;
  * @generated
  */
 public class RegionLocalizationCacheModel
-	implements CacheModel<RegionLocalization>, Externalizable, MVCCModel {
+	implements CacheModel<RegionLocalization>, CTModel<RegionLocalization>,
+			   Externalizable, MVCCModel {
 
 	@Override
 	public boolean equals(Object object) {
@@ -53,6 +54,22 @@ public class RegionLocalizationCacheModel
 		int hashCode = HashUtil.hash(0, regionLocalizationId);
 
 		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	public long getCtCollectionId() {
+		return ctCollectionId;
+	}
+
+	public long getPrimaryKey() {
+		return regionLocalizationId;
+	}
+
+	public void setCtCollectionId(long ctCollectionId) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setPrimaryKey(long primaryKey) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

@@ -25,7 +25,8 @@ import java.util.Date;
  * @generated
  */
 public class EmailAddressCacheModel
-	implements CacheModel<EmailAddress>, Externalizable, MVCCModel {
+	implements CacheModel<EmailAddress>, CTModel<EmailAddress>, Externalizable,
+			   MVCCModel {
 
 	@Override
 	public boolean equals(Object object) {
@@ -54,6 +55,22 @@ public class EmailAddressCacheModel
 		int hashCode = HashUtil.hash(0, emailAddressId);
 
 		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	public long getCtCollectionId() {
+		return ctCollectionId;
+	}
+
+	public long getPrimaryKey() {
+		return emailAddressId;
+	}
+
+	public void setCtCollectionId(long ctCollectionId) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setPrimaryKey(long primaryKey) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

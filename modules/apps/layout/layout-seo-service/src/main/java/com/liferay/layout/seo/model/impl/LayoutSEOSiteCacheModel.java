@@ -25,7 +25,8 @@ import java.util.Date;
  * @generated
  */
 public class LayoutSEOSiteCacheModel
-	implements CacheModel<LayoutSEOSite>, Externalizable, MVCCModel {
+	implements CacheModel<LayoutSEOSite>, CTModel<LayoutSEOSite>,
+			   Externalizable, MVCCModel {
 
 	@Override
 	public boolean equals(Object object) {
@@ -54,6 +55,22 @@ public class LayoutSEOSiteCacheModel
 		int hashCode = HashUtil.hash(0, layoutSEOSiteId);
 
 		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	public long getCtCollectionId() {
+		return ctCollectionId;
+	}
+
+	public long getPrimaryKey() {
+		return layoutSEOSiteId;
+	}
+
+	public void setCtCollectionId(long ctCollectionId) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setPrimaryKey(long primaryKey) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

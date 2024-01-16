@@ -25,7 +25,8 @@ import java.util.Date;
  * @generated
  */
 public class JournalFolderCacheModel
-	implements CacheModel<JournalFolder>, Externalizable, MVCCModel {
+	implements CacheModel<JournalFolder>, CTModel<JournalFolder>,
+			   Externalizable, MVCCModel {
 
 	@Override
 	public boolean equals(Object object) {
@@ -54,6 +55,22 @@ public class JournalFolderCacheModel
 		int hashCode = HashUtil.hash(0, folderId);
 
 		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	public long getCtCollectionId() {
+		return ctCollectionId;
+	}
+
+	public long getPrimaryKey() {
+		return folderId;
+	}
+
+	public void setCtCollectionId(long ctCollectionId) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setPrimaryKey(long primaryKey) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
