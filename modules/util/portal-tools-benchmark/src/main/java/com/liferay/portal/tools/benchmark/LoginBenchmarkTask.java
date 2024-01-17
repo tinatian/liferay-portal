@@ -78,7 +78,7 @@ public class LoginBenchmarkTask implements BenchmarkTask {
 	}
 
 	private HttpResponse _homePage() throws Exception {
-		HttpResponse httpResponse = HttpUtil.doGet(_newURL("/"), null);
+		HttpResponse httpResponse = HttpUtil.doGet(_newURL("/web/guest"), null);
 
 		_assertResult(httpResponse, _KEY_HOME_PAGE);
 
@@ -144,7 +144,7 @@ public class LoginBenchmarkTask implements BenchmarkTask {
 		"/c/portal/login?windowState=exclusive";
 
 	private static final String _URL_LOGIN_POST = StringBundler.concat(
-		"/home?p_p_id=", _P_P_ID, "&p_p_lifecycle=1&",
+		"/web/guest/home?p_p_id=", _P_P_ID, "&p_p_lifecycle=1&",
 		"p_p_state=normal&p_p_mode=view&", _P_P_ID_PREFIX,
 		"_javax.portlet.action=/login/login&", _P_P_ID_PREFIX,
 		"_mvcRenderCommandName=/login/login");
