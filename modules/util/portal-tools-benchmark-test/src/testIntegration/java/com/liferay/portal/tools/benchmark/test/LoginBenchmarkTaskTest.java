@@ -86,6 +86,7 @@ public class LoginBenchmarkTaskTest {
 				company.getVirtualHostname());
 
 			virtualHost.setHostname("127.0.0.1");
+			virtualHost.setDefaultVirtualHost(true);
 
 			virtualHost = _virtualHostLocalService.updateVirtualHost(
 				virtualHost);
