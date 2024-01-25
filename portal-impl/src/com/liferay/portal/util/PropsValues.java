@@ -2415,7 +2415,7 @@ public class PropsValues {
 	public static boolean USERS_EMAIL_ADDRESS_REQUIRED = GetterUtil.getBoolean(
 		PropsUtil.get(PropsKeys.USERS_EMAIL_ADDRESS_REQUIRED));
 
-	public static final String[] USERS_EXPORT_CSV_FIELDS = PropsUtil.getArray(
+	public static String[] USERS_EXPORT_CSV_FIELDS = PropsUtil.getArray(
 		PropsKeys.USERS_EXPORT_CSV_FIELDS);
 
 	public static final String USERS_PROFILE_FRIENDLY_URL = PropsUtil.get(
