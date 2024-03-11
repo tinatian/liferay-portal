@@ -39,12 +39,13 @@
 			classname="com.liferay.portal.tools.DBBuilder"
 			classpathref="db.builder.classpath"
 			failonerror="true"
-			fork="${fork.mode}"
+			fork="true"
+            logError="true"
 			outputproperty="db.builder.output"
 		>
 			<jvmarg if:true="${jvm.debug}" line="${jpda.settings}" />
 			<jvmarg value="-Xmx${db.build.java.mx}" />
-			<jvmarg value="-XX:MaxPermSize=${db.build.java.maxpermsize}" />
+            <jvmarg line="${junit.java.add.opens[17]}" />
 			<arg value="-Dexternal-properties=com/liferay/portal/tools/dependencies/portal-tools.properties" />
 			<arg value="db.database.name=${database.name}" />
 			<arg value="db.database.types=${database.types}" />
