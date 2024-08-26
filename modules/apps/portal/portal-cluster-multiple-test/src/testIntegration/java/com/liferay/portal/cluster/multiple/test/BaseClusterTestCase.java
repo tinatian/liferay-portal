@@ -9,6 +9,10 @@ import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -29,23 +33,45 @@ import java.util.concurrent.FutureTask;
  */
 public class BaseClusterTestCase {
 
-	protected void setupTomcat(String target) throws Exception {
-		FileUtil.copyDirectory(PropsUtil.get(PropsKeys.LIFERAY_HOME), target);
+	@BeforeClass
+	public static void setUpClass() throws IOException {
+		_testFolder = FileUtil.createTempFolder();
+
+		_testFolder.mkdirs();
+	}
+
+	@AfterClass
+	public static void tearDownClass() {
+		FileUtil.deltree(_testFolder);
+	}
+
+	@Before
+	public void setUp() {
+
+
+	}
+
+	protected void setupServer(String serverDir) {
+
+	}
+
+	protected void setupTomcat(String targetDir) throws Exception {
+		FileUtil.copyDirectory(PropsUtil.get(PropsKeys.LIFERAY_HOME), targetDir);
 
 		String content = FileUtil.read(
-			_getTomcatBase(target) + "/conf/server.xml");
+			_getTomcatBase(targetDir) + "/conf/server.xml");
 
 		content = content.replace("8005", "8006");
 		content = content.replace("8080", "8081");
 		content = content.replace("8443", "8444");
 
 		Files.write(
-			Paths.get(_getTomcatBase(target), "/conf/server.xml"),
+			Paths.get(_getTomcatBase(targetDir), "/conf/server.xml"),
 			content.getBytes(), StandardOpenOption.TRUNCATE_EXISTING);
 
 		File file = new File(
 			PropsUtil.get(PropsKeys.LIFERAY_HOME) +
-				"portal-setup-wizard.properties");
+				"/portal-setup-wizard.properties");
 
 		Properties properties = new Properties();
 
@@ -55,9 +81,9 @@ public class BaseClusterTestCase {
 
 		properties.setProperty(
 			"module.framework.properties.osgi.console", "11312");
-		properties.setProperty("liferay.home", target);
+		properties.setProperty("liferay.home", targetDir);
 
-		try (FileWriter fileWriter = new FileWriter(file)) {
+		try (FileWriter fileWriter = new FileWriter(targetDir + "/portal-setup-wizard.properties")) {
 			properties.store(fileWriter, "Configuration Settings");
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -185,6 +211,32 @@ public class BaseClusterTestCase {
 
 	private static final String _TOMCAT_BASE = System.getProperty("catalina.base");
 
+	private static File _testFolder;
 
+
+	public static class TestNode {
+
+		public int getPort() {
+			return _port;
+		}
+
+		public String getName () {
+			return _name;
+		}
+
+		private TestNode(String name, int port) {
+			_name = name;
+			_port = port;
+		}
+
+		private final String _name;
+		private final int _port;
+	}
+
+	private void _initalizeTestNode(TestNode testNode) {
+
+	}
+
+	private void _setupNode()
 
 }
