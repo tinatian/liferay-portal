@@ -6,6 +6,7 @@
 package com.liferay.portlet;
 
 import com.liferay.portal.kernel.portlet.Route;
+import com.liferay.portal.kernel.util.InheritableMap;
 import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.StringEncoder;
 import com.liferay.portal.kernel.util.StringParser;
@@ -113,7 +114,9 @@ public class RouteImpl implements Route {
 
 	@Override
 	public String parametersToUrl(Map<String, String> parameters) {
-		Map<String, String> allParameters = new HashMap<>(parameters);
+		InheritableMap<String, String> allParameters = new InheritableMap<>();
+
+		allParameters.setParentMap(parameters);
 
 		// The order is important because virtual parameters may sometimes be
 		// checked by implicit parameters

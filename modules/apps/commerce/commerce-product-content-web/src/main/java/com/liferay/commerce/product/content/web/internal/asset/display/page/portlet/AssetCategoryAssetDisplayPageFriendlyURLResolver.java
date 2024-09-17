@@ -42,12 +42,12 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.FriendlyURLNormalizer;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.HttpComponentsUtil;
+import com.liferay.portal.kernel.util.InheritableMap;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -267,13 +267,10 @@ public class AssetCategoryAssetDisplayPageFriendlyURLResolver
 
 		String layoutActualURL = _portal.getLayoutActualURL(layout, mainPath);
 
-		Map<String, String[]> actualParams = null;
+		InheritableMap<String, String[]> actualParams = new InheritableMap<>();
 
-		if (params == null) {
-			actualParams = new HashMap<>();
-		}
-		else {
-			actualParams = new HashMap<>(params);
+		if (params != null) {
+			actualParams.setParentMap(params);
 		}
 
 		actualParams.put(
