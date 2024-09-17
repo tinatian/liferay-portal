@@ -7800,7 +7800,14 @@ public class PortalImpl implements Portal {
 
 			friendlyURL = url.substring(0, position);
 
-			Map<String, String[]> actualParams = new HashMap<>();
+			Map<String, String[]> actualParams = null;
+
+			if (params == null) {
+				actualParams = new HashMap<>();
+			}
+			else {
+				actualParams = new HashMap<>(params);
+			}
 
 			Map<String, String> prpIdentifiers = new HashMap<>();
 
@@ -7829,10 +7836,6 @@ public class PortalImpl implements Portal {
 				friendlyURLMapper.populateParams(
 					url.substring(position), actualParams, requestContext);
 			}
-
-			Set<String> actualKeySet = actualParams.keySet();
-
-			actualKeySet.removeAll(params.keySet());
 
 			String actualParamsString = HttpComponentsUtil.parameterMapToString(
 				actualParams, false);
