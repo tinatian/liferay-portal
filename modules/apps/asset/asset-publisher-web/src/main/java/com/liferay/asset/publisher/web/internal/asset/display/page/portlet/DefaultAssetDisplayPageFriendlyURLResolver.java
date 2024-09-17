@@ -135,7 +135,8 @@ public class DefaultAssetDisplayPageFriendlyURLResolver
 		}
 
 		return _getBasicLayoutURL(
-			groupId, privateLayout, mainPath, friendlyURL, requestContext,
+			groupId, privateLayout, mainPath, friendlyURL, params,
+			requestContext,
 			journalArticle.getUrlTitle(_portal.getLocale(httpServletRequest)),
 			journalArticle);
 	}
@@ -215,8 +216,9 @@ public class DefaultAssetDisplayPageFriendlyURLResolver
 
 	private String _getBasicLayoutURL(
 			long groupId, boolean privateLayout, String mainPath,
-			String friendlyURL, Map<String, Object> requestContext,
-			String urlTitle, JournalArticle journalArticle)
+			String friendlyURL, Map<String, String[]> params,
+			Map<String, Object> requestContext, String urlTitle,
+			JournalArticle journalArticle)
 		throws PortalException {
 
 		Layout layout = _layoutLocalService.getLayoutByUuidAndGroupId(
@@ -224,7 +226,14 @@ public class DefaultAssetDisplayPageFriendlyURLResolver
 
 		String layoutActualURL = _portal.getLayoutActualURL(layout, mainPath);
 
-		Map<String, String[]> actualParams = new HashMap<>();
+		Map<String, String[]> actualParams;
+
+		if (params == null) {
+			actualParams = new HashMap<>();
+		}
+		else {
+			actualParams = new HashMap<>(params);
+		}
 
 		UnicodeProperties typeSettingsUnicodeProperties =
 			layout.getTypeSettingsProperties();
