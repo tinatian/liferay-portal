@@ -35,6 +35,10 @@ public class InheritableMap<K, V> extends HashMap<K, V> {
 	@Override
 	public boolean containsKey(Object key) {
 		if ((_parentMap != null) && _parentMap.containsKey(key)) {
+			if (!super.containsKey(key)) {
+				System.out.println("#######parent has, but local does not have key " + key);
+			}
+
 			return true;
 		}
 
@@ -44,6 +48,10 @@ public class InheritableMap<K, V> extends HashMap<K, V> {
 	@Override
 	public boolean containsValue(Object value) {
 		if ((_parentMap != null) && _parentMap.containsValue(value)) {
+			if (!super.containsKey(value)) {
+				System.out.println("#######parent has, but local does not have value " + value);
+			}
+
 			return true;
 		}
 
@@ -58,6 +66,10 @@ public class InheritableMap<K, V> extends HashMap<K, V> {
 			return value;
 		}
 		else if (_parentMap != null) {
+			if (super.containsKey(key)) {
+				System.out.println("###### super has a null value, fall back to parent " + key);
+			}
+
 			return _parentMap.get(key);
 		}
 
