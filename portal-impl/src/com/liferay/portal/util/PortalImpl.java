@@ -167,6 +167,7 @@ import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.Http;
 import com.liferay.portal.kernel.util.HttpComponentsUtil;
 import com.liferay.portal.kernel.util.InetAddressUtil;
+import com.liferay.portal.kernel.util.InheritableMap;
 import com.liferay.portal.kernel.util.JavaConstants;
 import com.liferay.portal.kernel.util.ListMergeable;
 import com.liferay.portal.kernel.util.LocaleUtil;
@@ -7800,7 +7801,12 @@ public class PortalImpl implements Portal {
 
 			friendlyURL = url.substring(0, position);
 
-			Map<String, String[]> actualParams = new HashMap<>();
+			InheritableMap<String, String[]> actualParams =
+				new InheritableMap<>();
+
+			if (params != null) {
+				actualParams.setParentMap(params);
+			}
 
 			Map<String, String> prpIdentifiers = new HashMap<>();
 
@@ -7829,10 +7835,6 @@ public class PortalImpl implements Portal {
 				friendlyURLMapper.populateParams(
 					url.substring(position), actualParams, requestContext);
 			}
-
-			Set<String> actualKeySet = actualParams.keySet();
-
-			actualKeySet.removeAll(params.keySet());
 
 			String actualParamsString = HttpComponentsUtil.parameterMapToString(
 				actualParams, false);

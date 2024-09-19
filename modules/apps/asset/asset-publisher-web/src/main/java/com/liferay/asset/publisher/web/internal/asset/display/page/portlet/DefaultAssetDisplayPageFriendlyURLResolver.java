@@ -54,6 +54,7 @@ import com.liferay.portal.kernel.util.FriendlyURLNormalizer;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.HttpComponentsUtil;
+import com.liferay.portal.kernel.util.InheritableMap;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.UnicodeProperties;
@@ -61,7 +62,6 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.kernel.workflow.permission.WorkflowPermissionUtil;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -135,7 +135,8 @@ public class DefaultAssetDisplayPageFriendlyURLResolver
 		}
 
 		return _getBasicLayoutURL(
-			groupId, privateLayout, mainPath, friendlyURL, requestContext,
+			groupId, privateLayout, mainPath, friendlyURL, params,
+			requestContext,
 			journalArticle.getUrlTitle(_portal.getLocale(httpServletRequest)),
 			journalArticle);
 	}
@@ -215,8 +216,9 @@ public class DefaultAssetDisplayPageFriendlyURLResolver
 
 	private String _getBasicLayoutURL(
 			long groupId, boolean privateLayout, String mainPath,
-			String friendlyURL, Map<String, Object> requestContext,
-			String urlTitle, JournalArticle journalArticle)
+			String friendlyURL, Map<String, String[]> params,
+			Map<String, Object> requestContext, String urlTitle,
+			JournalArticle journalArticle)
 		throws PortalException {
 
 		Layout layout = _layoutLocalService.getLayoutByUuidAndGroupId(
@@ -224,7 +226,11 @@ public class DefaultAssetDisplayPageFriendlyURLResolver
 
 		String layoutActualURL = _portal.getLayoutActualURL(layout, mainPath);
 
-		Map<String, String[]> actualParams = new HashMap<>();
+		InheritableMap<String, String[]> actualParams = new InheritableMap<>();
+
+		if (params != null) {
+			actualParams.setParentMap(params);
+		}
 
 		UnicodeProperties typeSettingsUnicodeProperties =
 			layout.getTypeSettingsProperties();
@@ -262,9 +268,9 @@ public class DefaultAssetDisplayPageFriendlyURLResolver
 				"p_p_state", new String[] {WindowState.MAXIMIZED.toString()});
 		}
 
+		actualParams.put("p_p_mode", new String[] {"view"});
 		actualParams.put(
 			"p_j_a_id", new String[] {String.valueOf(journalArticle.getId())});
-		actualParams.put("p_p_mode", new String[] {"view"});
 
 		String namespace = _portal.getPortletNamespace(
 			defaultAssetPublisherPortletId);

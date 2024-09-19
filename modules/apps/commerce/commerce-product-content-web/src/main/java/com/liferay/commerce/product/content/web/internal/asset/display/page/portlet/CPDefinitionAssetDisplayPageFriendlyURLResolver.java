@@ -67,8 +67,8 @@ import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.service.LayoutLocalService;
 import com.liferay.portal.kernel.settings.GroupServiceSettingsLocator;
 import com.liferay.portal.kernel.util.ArrayUtil;
-import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.HttpComponentsUtil;
+import com.liferay.portal.kernel.util.InheritableMap;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.Validator;
@@ -190,7 +190,8 @@ public class CPDefinitionAssetDisplayPageFriendlyURLResolver
 		}
 
 		return _getBasicLayoutURL(
-			groupId, privateLayout, mainPath, requestContext, cpDefinition);
+			groupId, privateLayout, mainPath, params, requestContext,
+			cpDefinition);
 	}
 
 	@Override
@@ -304,7 +305,8 @@ public class CPDefinitionAssetDisplayPageFriendlyURLResolver
 
 	private String _getBasicLayoutURL(
 			long groupId, boolean privateLayout, String mainPath,
-			Map<String, Object> requestContext, CPDefinition cpDefinition)
+			Map<String, String[]> params, Map<String, Object> requestContext,
+			CPDefinition cpDefinition)
 		throws PortalException {
 
 		HttpServletRequest httpServletRequest =
@@ -321,13 +323,17 @@ public class CPDefinitionAssetDisplayPageFriendlyURLResolver
 
 		String layoutActualURL = _portal.getLayoutActualURL(layout, mainPath);
 
+		InheritableMap<String, String[]> actualParams = new InheritableMap<>();
+
+		if (params != null) {
+			actualParams.setParentMap(params);
+		}
+
+		actualParams.put("p_p_lifecycle", new String[] {"0"});
+		actualParams.put("p_p_mode", new String[] {"view"});
+
 		String queryString = HttpComponentsUtil.parameterMapToString(
-			HashMapBuilder.put(
-				"p_p_lifecycle", new String[] {"0"}
-			).put(
-				"p_p_mode", new String[] {"view"}
-			).build(),
-			false);
+			actualParams, false);
 
 		if (layoutActualURL.contains(StringPool.QUESTION)) {
 			layoutActualURL =
