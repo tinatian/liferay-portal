@@ -171,18 +171,6 @@
 				</licenses>
 			</library>
 			<library>
-				<file-name>com.liferay.commerce.currency.service.jar!icu4j.jar</file-name>
-				<version>57.1</version>
-				<project-name>ICU4J</project-name>
-				<project-url>http://icu-project.org/</project-url>
-				<licenses>
-					<license>
-						<license-name>ICU License</license-name>
-						<license-url>http://source.icu-project.org/repos/icu/icu/trunk/LICENSE</license-url>
-					</license>
-				</licenses>
-			</library>
-			<library>
 				<file-name>com.liferay.commerce.google.merchant.jar!jackson-dataformat-xml.jar</file-name>
 				<version>2.10.3</version>
 				<project-name>Jackson-dataformat-XML</project-name>
@@ -370,18 +358,6 @@
 					<license>
 						<license-name>Eclipse Public License v1.0</license-name>
 						<license-url>http://www.eclipse.org/org/documents/epl-v10.php</license-url>
-					</license>
-				</licenses>
-			</library>
-			<library>
-				<file-name>com.liferay.commerce.report.impl.jar!icu4j.jar</file-name>
-				<version>57.1</version>
-				<project-name>ICU4J</project-name>
-				<project-url>http://icu-project.org/</project-url>
-				<licenses>
-					<license>
-						<license-name>ICU License</license-name>
-						<license-url>http://source.icu-project.org/repos/icu/icu/trunk/LICENSE</license-url>
 					</license>
 				</licenses>
 			</library>
@@ -1786,17 +1762,6 @@
 					<license>
 						<license-name>MIT</license-name>
 						<license-url>http://github.com/fernandezpablo85/scribe-java/blob/master/LICENSE.txt</license-url>
-					</license>
-				</licenses>
-			</library>
-			<library>
-				<file-name>com.liferay.normalizer.impl.jar!com.ibm.icu4j.jar</file-name>
-				<version>54.1.1.LIFERAY-PATCHED-2</version>
-				<project-name>com.liferay:com.ibm.icu4j</project-name>
-				<licenses>
-					<license>
-						<license-name>LGPL 2.1</license-name>
-						<license-url>http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt</license-url>
 					</license>
 				</licenses>
 			</library>
@@ -4989,6 +4954,18 @@
 				</licenses>
 			</library>
 			<library>
+				<file-name>com.liferay.shared.dependencies.icu4j.jar!icu4j.jar</file-name>
+				<version>69.1</version>
+				<project-name>ICU4J</project-name>
+				<project-url>http://icu-project.org/</project-url>
+				<licenses>
+					<license>
+						<license-name>Unicode/ICU License</license-name>
+						<license-url>https://raw.githubusercontent.com/unicode-org/icu/master/icu4c/LICENSE</license-url>
+					</license>
+				</licenses>
+			</library>
+			<library>
 				<file-name>com.liferay.shared.dependencies.jdom2.jar!org.jdom2.jar</file-name>
 				<version>2.0.6.LIFERAY-PATCHED-1</version>
 				<project-name>org.jdom2</project-name>
@@ -5482,18 +5459,6 @@
 					<license>
 						<license-name>BSD-3-Clause</license-name>
 						<license-url>http://x-stream.github.io/license.html</license-url>
-					</license>
-				</licenses>
-			</library>
-			<library>
-				<file-name>com.liferay.translation.service.jar!icu4j.jar</file-name>
-				<version>65.1</version>
-				<project-name>ICU4J</project-name>
-				<project-url>http://icu-project.org/</project-url>
-				<licenses>
-					<license>
-						<license-name>Unicode/ICU License</license-name>
-						<license-url>https://raw.githubusercontent.com/unicode-org/icu/master/icu4c/LICENSE</license-url>
 					</license>
 				</licenses>
 			</library>
