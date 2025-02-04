@@ -5,7 +5,6 @@
 
 package com.liferay.message.boards.internal.pop;
 
-import com.liferay.message.boards.constants.MBCategoryConstants;
 import com.liferay.message.boards.constants.MBMessageConstants;
 import com.liferay.message.boards.internal.util.MBMailMessage;
 import com.liferay.message.boards.internal.util.MBMailUtil;
@@ -259,24 +258,6 @@ public class MessageListenerImpl implements MessageListener {
 		return MessageListenerImpl.class.getName();
 	}
 
-	private String _getMx(String messageIdString) {
-		int pos =
-			messageIdString.indexOf(CharPool.AT) +
-				PropsValues.POP_SERVER_SUBDOMAIN.length() + 1;
-
-		if (PropsValues.POP_SERVER_SUBDOMAIN.length() > 0) {
-			pos++;
-		}
-
-		int endPos = messageIdString.indexOf(CharPool.GREATER_THAN, pos);
-
-		if (endPos == -1) {
-			endPos = messageIdString.length();
-		}
-
-		return messageIdString.substring(pos, endPos);
-	}
-
 	private String _getMessageIdString(List<String> recipients, Message message)
 		throws Exception {
 
@@ -295,6 +276,24 @@ public class MessageListenerImpl implements MessageListener {
 		}
 
 		return null;
+	}
+
+	private String _getMx(String messageIdString) {
+		int pos =
+			messageIdString.indexOf(CharPool.AT) +
+				PropsValues.POP_SERVER_SUBDOMAIN.length() + 1;
+
+		if (PropsValues.POP_SERVER_SUBDOMAIN.length() > 0) {
+			pos++;
+		}
+
+		int endPos = messageIdString.indexOf(CharPool.GREATER_THAN, pos);
+
+		if (endPos == -1) {
+			endPos = messageIdString.length();
+		}
+
+		return messageIdString.substring(pos, endPos);
 	}
 
 	private boolean _isAutoReply(Message message) throws MessagingException {
