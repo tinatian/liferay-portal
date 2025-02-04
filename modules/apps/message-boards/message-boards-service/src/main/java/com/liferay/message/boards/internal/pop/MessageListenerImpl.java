@@ -162,23 +162,12 @@ public class MessageListenerImpl implements MessageListener {
 				_log.debug("Parent message " + parentMessage);
 			}
 
-			long groupId = 0;
-
 			long categoryId = MBMailUtil.getCategoryId(messageIdString);
 
-			MBCategory category = _mbCategoryLocalService.fetchMBCategory(
+			MBCategory category = _mbCategoryLocalService.getMBCategory(
 				categoryId);
 
-			if (category == null) {
-				categoryId = MBCategoryConstants.DEFAULT_PARENT_CATEGORY_ID;
-
-				if (parentMessage != null) {
-					groupId = parentMessage.getGroupId();
-				}
-			}
-			else {
-				groupId = category.getGroupId();
-			}
+			long groupId = category.getGroupId();
 
 			if (_log.isDebugEnabled()) {
 				_log.debug("Group id " + groupId);
