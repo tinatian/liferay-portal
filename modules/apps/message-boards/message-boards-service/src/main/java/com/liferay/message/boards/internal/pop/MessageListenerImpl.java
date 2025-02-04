@@ -138,6 +138,11 @@ public class MessageListenerImpl implements MessageListener {
 				return;
 			}
 
+			long categoryId = MBMailUtil.getCategoryId(messageIdString);
+
+			MBCategory category = _mbCategoryLocalService.getMBCategory(
+				categoryId);
+
 			Company company = _companyLocalService.getCompanyByMx(
 				_getMx(messageIdString));
 
@@ -161,11 +166,6 @@ public class MessageListenerImpl implements MessageListener {
 			if (_log.isDebugEnabled()) {
 				_log.debug("Parent message " + parentMessage);
 			}
-
-			long categoryId = MBMailUtil.getCategoryId(messageIdString);
-
-			MBCategory category = _mbCategoryLocalService.getMBCategory(
-				categoryId);
 
 			long groupId = category.getGroupId();
 
