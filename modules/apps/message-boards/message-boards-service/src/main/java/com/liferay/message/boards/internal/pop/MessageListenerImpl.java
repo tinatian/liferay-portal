@@ -143,8 +143,8 @@ public class MessageListenerImpl implements MessageListener {
 			MBCategory category = _mbCategoryLocalService.getMBCategory(
 				categoryId);
 
-			Company company = _companyLocalService.getCompanyByMx(
-				_getMx(messageIdString));
+			Company company = _companyLocalService.getCompany(
+				category.getCompanyId());
 
 			if (_log.isDebugEnabled()) {
 				_log.debug("Message id " + messageIdString);
