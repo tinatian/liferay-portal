@@ -44,6 +44,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -76,13 +77,13 @@ public class MessageListenerImpl implements MessageListener {
 				return false;
 			}
 
-			Company company = _companyLocalService.getCompanyByMx(
-				_getMx(messageIdString));
-
 			MBCategory category = _mbCategoryLocalService.getCategory(
 				MBMailUtil.getCategoryId(messageIdString));
 
-			if ((category.getCompanyId() != company.getCompanyId()) &&
+			Company company = _companyLocalService.getCompany(
+				category.getCompanyId());
+
+			if (!Objects.equals(company.getMx(), _getMx(messageIdString)) &&
 				!category.isRoot()) {
 
 				return false;
