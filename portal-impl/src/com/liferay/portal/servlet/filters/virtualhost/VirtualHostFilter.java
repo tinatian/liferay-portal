@@ -285,6 +285,11 @@ public class VirtualHostFilter extends BasePortalFilter {
 
 			StringBundler sb = new StringBundler(5);
 
+			if (i18nLanguageId == null) {
+				i18nLanguageId = (String)httpServletRequest.getAttribute(
+					WebKeys.VIRTUAL_HOST_LANGUAGE_ID);
+			}
+
 			if (i18nLanguageId != null) {
 				sb.append(i18nLanguageId);
 			}
