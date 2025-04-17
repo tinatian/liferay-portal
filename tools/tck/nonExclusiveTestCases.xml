@@ -2,6 +2,32 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 
 <properties>
+    <entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPEvent_defineObjects1"></entry>
+	<entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPEvent_defineObjects10"></entry>
+	<entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPEvent_defineObjects11"></entry>
+	<entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPEvent_defineObjects12"></entry>
+	<entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPEvent_defineObjects13"></entry>
+	<entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPEvent_defineObjects2"></entry>
+	<entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPEvent_defineObjects3"></entry>
+	<entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPEvent_defineObjects4"></entry>
+	<entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPEvent_defineObjects5"></entry>
+	<entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPEvent_defineObjects6"></entry>
+	<entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPEvent_defineObjects7"></entry>
+	<entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPEvent_defineObjects8"></entry>
+	<entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPEvent_defineObjects9"></entry>
+	<entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPEvent_defineObjects1"></entry>
+	<entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPEvent_defineObjects10"></entry>
+	<entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPEvent_defineObjects11"></entry>
+	<entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPEvent_defineObjects12"></entry>
+	<entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPEvent_defineObjects13"></entry>
+	<entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPEvent_defineObjects2"></entry>
+	<entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPEvent_defineObjects3"></entry>
+	<entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPEvent_defineObjects4"></entry>
+	<entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPEvent_defineObjects5"></entry>
+	<entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPEvent_defineObjects6"></entry>
+	<entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPEvent_defineObjects7"></entry>
+	<entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPEvent_defineObjects8"></entry>
+	<entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPEvent_defineObjects9"></entry>
 	<entry key="TestModule1_PortletCanBeRendered"></entry>
 	<entry key="TestModule1_PortletConfigTest"></entry>
 	<entry key="TestModule1_GetInitParameterNamesTest1"></entry>

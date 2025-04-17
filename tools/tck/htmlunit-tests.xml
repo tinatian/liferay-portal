@@ -2,6 +2,37 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 
 <properties>
+	<entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPAction_defineObjects1">V4PortletTagLibraryTests</entry>
+	<entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPAction_defineObjects10">V4PortletTagLibraryTests</entry>
+	<entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPAction_defineObjects11">V4PortletTagLibraryTests</entry>
+	<entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPAction_defineObjects12">V4PortletTagLibraryTests</entry>
+	<entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPAction_defineObjects13">V4PortletTagLibraryTests</entry>
+	<entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPAction_defineObjects2">V4PortletTagLibraryTests</entry>
+	<entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPAction_defineObjects3">V4PortletTagLibraryTests</entry>
+	<entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPAction_defineObjects4">V4PortletTagLibraryTests</entry>
+	<entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPAction_defineObjects5">V4PortletTagLibraryTests</entry>
+	<entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPAction_defineObjects6">V4PortletTagLibraryTests</entry>
+	<entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPAction_defineObjects7">V4PortletTagLibraryTests</entry>
+	<entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPAction_defineObjects8">V4PortletTagLibraryTests</entry>
+	<entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPAction_defineObjects9">V4PortletTagLibraryTests</entry>
+	<entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPEvent_defineObjects1">V4PortletTagLibraryTests</entry>
+	<entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPEvent_defineObjects10">V4PortletTagLibraryTests</entry>
+	<entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPEvent_defineObjects11">V4PortletTagLibraryTests</entry>
+	<entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPEvent_defineObjects12">V4PortletTagLibraryTests</entry>
+	<entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPEvent_defineObjects13">V4PortletTagLibraryTests</entry>
+	<entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPEvent_defineObjects2">V4PortletTagLibraryTests</entry>
+	<entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPEvent_defineObjects3">V4PortletTagLibraryTests</entry>
+	<entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPEvent_defineObjects4">V4PortletTagLibraryTests</entry>
+	<entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPEvent_defineObjects5">V4PortletTagLibraryTests</entry>
+	<entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPEvent_defineObjects6">V4PortletTagLibraryTests</entry>
+	<entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPEvent_defineObjects7">V4PortletTagLibraryTests</entry>
+	<entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPEvent_defineObjects8">V4PortletTagLibraryTests</entry>
+	<entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPEvent_defineObjects9">V4PortletTagLibraryTests</entry>
+	<entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPGeneral_defineObjects1">V4PortletTagLibraryTests</entry>
+	<entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPGeneral_defineObjects2">V4PortletTagLibraryTests</entry>
+	<entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPGeneral_defineObjects3">V4PortletTagLibraryTests</entry>
+	<entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPGeneral_defineObjects4">V4PortletTagLibraryTests</entry>
+	<entry key="V4PortletTagLibraryTests_SPEC3_26_IncludeJSPGeneral_namespace">V4PortletTagLibraryTests</entry>
 	<entry key="V3AnnotationPortletConfigTests_SPEC2_28_CacheSettings_declaringCache1">V3AnnotationPortletConfigTests</entry>
 	<entry key="V3AnnotationPortletConfigTests_SPEC2_28_CacheSettings_declaringCache2">V3AnnotationPortletConfigTests</entry>
 	<entry key="V3AnnotationPortletConfigTests_SPEC2_28_EventDeclaration_eventEventDeclaration1">V3AnnotationPortletConfigTests</entry>
