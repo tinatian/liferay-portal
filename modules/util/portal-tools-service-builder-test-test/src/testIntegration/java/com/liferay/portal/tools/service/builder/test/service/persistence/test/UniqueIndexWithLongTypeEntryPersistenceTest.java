@@ -122,7 +122,8 @@ public class UniqueIndexWithLongTypeEntryPersistenceTest {
 
 		newUniqueIndexWithLongTypeEntry.setName(RandomTestUtil.randomString());
 
-		newUniqueIndexWithLongTypeEntry.setLongTypeId();
+		newUniqueIndexWithLongTypeEntry.setLongTypeId(
+			RandomTestUtil.nextLong());
 
 		_uniqueIndexWithLongTypeEntries.add(
 			_persistence.update(newUniqueIndexWithLongTypeEntry));
@@ -515,7 +516,7 @@ public class UniqueIndexWithLongTypeEntryPersistenceTest {
 
 		uniqueIndexWithLongTypeEntry.setName(RandomTestUtil.randomString());
 
-		uniqueIndexWithLongTypeEntry.setLongTypeId();
+		uniqueIndexWithLongTypeEntry.setLongTypeId(RandomTestUtil.nextLong());
 
 		_uniqueIndexWithLongTypeEntries.add(
 			_persistence.update(uniqueIndexWithLongTypeEntry));
