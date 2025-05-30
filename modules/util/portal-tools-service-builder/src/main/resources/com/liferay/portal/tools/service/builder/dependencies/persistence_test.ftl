@@ -168,7 +168,7 @@ public class ${entity.name}PersistenceTest {
 
 			<#if stringUtil.equals(entityColumn.type, "int")>
 				RandomTestUtil.nextInt()
-			<#elseif stringUtil.equals(entityColumn.type, "long")>
+			<#elseif stringUtil.equalsIgnoreCase(entityColumn.type, "long")>
 				RandomTestUtil.nextLong()
 			<#elseif stringUtil.equals(entityColumn.type, "String")>
 				<#assign maxLength = serviceBuilder.getMaxLength(entity.getName(), entityColumn) />
