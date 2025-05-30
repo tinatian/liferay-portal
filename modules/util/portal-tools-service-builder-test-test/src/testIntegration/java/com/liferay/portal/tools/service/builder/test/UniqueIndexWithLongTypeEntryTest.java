@@ -10,13 +10,14 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.transaction.Propagation;
+import com.liferay.portal.test.log.LogCapture;
+import com.liferay.portal.test.log.LoggerTestUtil;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.portal.test.rule.TransactionalTestRule;
 import com.liferay.portal.tools.service.builder.test.model.UniqueIndexWithLongTypeEntry;
 import com.liferay.portal.tools.service.builder.test.service.persistence.UniqueIndexWithLongTypeEntryPersistence;
 
-import org.hibernate.exception.ConstraintViolationException;
 import org.junit.Assert;
 import org.junit.ClassRule;
 import org.junit.Rule;
@@ -62,11 +63,21 @@ public class UniqueIndexWithLongTypeEntryTest {
 
 		uniqueIndexWithLongTypeEntry2.setLongTypeId(1L);
 
-		try {
+		try (LogCapture logCapture1 = LoggerTestUtil.configureLog4JLogger(
+				"org.hibernate.engine.jdbc.spi.SqlExceptionHelper",
+				LoggerTestUtil.OFF);
+			 LogCapture logCapture2 = LoggerTestUtil.configureLog4JLogger(
+				 "org.hibernate.engine.jdbc.batch.internal.BatchingBatch",
+				 LoggerTestUtil.OFF)) {
+
 			_update(uniqueIndexWithLongTypeEntry2);
 		}
 		catch (Exception exception) {
-			Assert.assertEquals("", exception.getCause().getMessage());
+			Assert.assertEquals(
+				"jakarta.persistence.PersistenceException: org.hibernate." +
+					"exception.ConstraintViolationException: could not " +
+						"execute batch",
+				exception.getMessage());
 		}
 	}
 
