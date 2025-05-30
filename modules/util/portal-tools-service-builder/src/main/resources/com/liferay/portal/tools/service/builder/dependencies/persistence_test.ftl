@@ -282,6 +282,8 @@ public class ${entity.name}PersistenceTest {
 					RandomTestUtil.nextInt()
 				<#elseif stringUtil.equals(entityColumn.type, "long")>
 					RandomTestUtil.nextLong()
+				<#elseif stringUtil.equals(entityColumn.type, "Long")>
+					RandomTestUtil.nextLong()
 				<#elseif stringUtil.equals(entityColumn.type, "BigDecimal")>
 					new BigDecimal(RandomTestUtil.nextDouble())
 				<#elseif stringUtil.equals(entityColumn.type, "Date")>
@@ -451,6 +453,8 @@ public class ${entity.name}PersistenceTest {
 						<#elseif stringUtil.equals(entityColumn.type, "int")>
 							RandomTestUtil.nextInt()
 						<#elseif stringUtil.equals(entityColumn.type, "long")>
+							RandomTestUtil.nextLong()
+						<#elseif stringUtil.equals(entityColumn.type, "Long")>
 							RandomTestUtil.nextLong()
 						<#elseif stringUtil.equals(entityColumn.type, "BigDecimal")>
 							new BigDecimal(RandomTestUtil.nextDouble())
@@ -1359,6 +1363,8 @@ public class ${entity.name}PersistenceTest {
 					RandomTestUtil.nextInt()
 				<#elseif stringUtil.equals(entityColumn.type, "long")>
 					RandomTestUtil.nextLong()
+				<#elseif stringUtil.equals(entityColumn.type, "Long")>
+					RandomTestUtil.nextLong()
 				<#elseif stringUtil.equals(entityColumn.type, "BigDecimal")>
 					new BigDecimal(RandomTestUtil.nextDouble())
 				<#elseif stringUtil.equals(entityColumn.type, "Blob")>
@@ -1624,6 +1630,8 @@ public class ${entity.name}PersistenceTest {
 							RandomTestUtil.nextDouble()
 						<#elseif stringUtil.equals(entityColumn.type, "int")>
 							RandomTestUtil.nextInt()
+						<#elseif stringUtil.equals(entityColumn.type, "long")>
+							RandomTestUtil.nextLong()
 						<#elseif stringUtil.equals(entityColumn.type, "long")>
 							RandomTestUtil.nextLong()
 						<#elseif stringUtil.equals(entityColumn.type, "Blob")>
