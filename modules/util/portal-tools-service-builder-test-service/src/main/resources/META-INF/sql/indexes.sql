@@ -68,6 +68,8 @@ create index IX_DA817981 on RenameFinderColumnEntry (columnToRename[$COLUMN_LENG
 
 create index IX_3C1F4D9A on UndefinedDefaultOrderEntry (name[$COLUMN_LENGTH:75$]);
 
+create unique index IX_93AD567F on UniqueIndexWithLongTypeEntry (name[$COLUMN_LENGTH:75$], longTypeId);
+
 create index IX_6770C47D on VersionedEntry (groupId, head);
 create unique index IX_AAA6F330 on VersionedEntry (headId);
 
