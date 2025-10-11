@@ -12,10 +12,24 @@ import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.model.GroupConstants;
+import com.liferay.portal.kernel.model.ResourceConstants;
+import com.liferay.portal.kernel.model.Role;
+import com.liferay.portal.kernel.model.UserGroupRole;
+import com.liferay.portal.kernel.model.role.RoleConstants;
+import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
+import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.InlineSQLHelperUtil;
 import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
+import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
+import com.liferay.portal.kernel.service.ResourcePermissionLocalServiceUtil;
+import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
+import com.liferay.portal.kernel.service.UserGroupRoleLocalServiceUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
+import com.liferay.portal.kernel.test.util.GroupTestUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
+import com.liferay.portal.kernel.test.util.RoleTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.util.IntegerWrapper;
@@ -34,6 +48,8 @@ import com.liferay.portal.tools.service.builder.test.service.persistence.Permiss
 import java.io.Serializable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -81,6 +97,18 @@ public class PermissionCheckFinderEntryPersistenceTest {
 			_persistence.remove(iterator.next());
 
 			iterator.remove();
+		}
+
+		for (UserGroupRole userGroupRole : _userGroupRoles) {
+			UserGroupRoleLocalServiceUtil.deleteUserGroupRole(userGroupRole);
+		}
+
+		for (Role role : _roles) {
+			RoleLocalServiceUtil.deleteRole(role);
+		}
+
+		for (Group group : _groups) {
+			GroupLocalServiceUtil.deleteGroup(group);
 		}
 	}
 
@@ -163,6 +191,11 @@ public class PermissionCheckFinderEntryPersistenceTest {
 	}
 
 	@Test
+	public void testCountByGroupIdArrayable() throws Exception {
+		_persistence.countByGroupId(new long[] {RandomTestUtil.nextLong(), 0L});
+	}
+
+	@Test
 	public void testFindByPrimaryKeyExisting() throws Exception {
 		PermissionCheckFinderEntry newPermissionCheckFinderEntry =
 			addPermissionCheckFinderEntry();
@@ -190,6 +223,8 @@ public class PermissionCheckFinderEntryPersistenceTest {
 
 	@Test
 	public void testFilterFindByGroupId() throws Exception {
+		long[] roleIds = new long[1];
+
 		PermissionThreadLocal.setPermissionChecker(
 			new SimplePermissionChecker() {
 				{
@@ -201,6 +236,20 @@ public class PermissionCheckFinderEntryPersistenceTest {
 					return false;
 				}
 
+				@Override
+				public boolean isGroupAdmin(long groupId) {
+					return false;
+				}
+
+				@Override
+				public boolean isGroupOwner(long groupId) {
+					return false;
+				}
+
+				@Override
+				public long[] getRoleIds(long userId, long groupId) {
+					return roleIds;
+				}
 			});
 
 		Assert.assertTrue(InlineSQLHelperUtil.isEnabled(0));
@@ -210,6 +259,176 @@ public class PermissionCheckFinderEntryPersistenceTest {
 
 		_persistence.filterFindByGroupId(
 			0, QueryUtil.ALL_POS, QueryUtil.ALL_POS, getOrderByComparator());
+
+		// Test scope: GROUP
+
+		Group group1 = GroupTestUtil.addGroup();
+
+		_groups.add(group1);
+
+		PermissionCheckFinderEntry newPermissionCheckFinderEntry1 =
+			_addPermissionCheckFinderEntry(group1.getGroupId(), 1);
+
+		Group group2 = GroupTestUtil.addGroup();
+
+		_groups.add(group2);
+
+		PermissionCheckFinderEntry newPermissionCheckFinderEntry2 =
+			_addPermissionCheckFinderEntry(group2.getGroupId(), 2);
+
+		Group group3 = GroupTestUtil.addGroup();
+
+		_groups.add(group3);
+
+		_addPermissionCheckFinderEntry(group3.getGroupId(), 3);
+
+		Role role = RoleTestUtil.addRole(RoleConstants.TYPE_SITE);
+
+		roleIds[0] = role.getRoleId();
+
+		_roles.add(role);
+
+		_userGroupRoles.addAll(
+			UserGroupRoleLocalServiceUtil.addUserGroupRoles(
+				new long[] {TestPropsValues.getUserId()}, group1.getGroupId(),
+				role.getRoleId()));
+		_userGroupRoles.addAll(
+			UserGroupRoleLocalServiceUtil.addUserGroupRoles(
+				new long[] {TestPropsValues.getUserId()}, group2.getGroupId(),
+				role.getRoleId()));
+
+		ResourcePermissionLocalServiceUtil.addResourcePermission(
+			TestPropsValues.getCompanyId(),
+			PermissionCheckFinderEntry.class.getName(),
+			ResourceConstants.SCOPE_GROUP,
+			String.valueOf(group1.getGroupId()), role.getRoleId(),
+			ActionKeys.VIEW);
+		ResourcePermissionLocalServiceUtil.addResourcePermission(
+			TestPropsValues.getCompanyId(),
+			PermissionCheckFinderEntry.class.getName(),
+			ResourceConstants.SCOPE_GROUP,
+			String.valueOf(group2.getGroupId()), role.getRoleId(),
+			ActionKeys.VIEW);
+
+		Assert.assertTrue(InlineSQLHelperUtil.isEnabled(group1.getGroupId()));
+		Assert.assertTrue(InlineSQLHelperUtil.isEnabled(group2.getGroupId()));
+		Assert.assertTrue(InlineSQLHelperUtil.isEnabled(group3.getGroupId()));
+
+		Assert.assertEquals(
+			Arrays.asList(newPermissionCheckFinderEntry1),
+			_persistence.filterFindByGroupId(
+				group1.getGroupId(), QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+				null));
+		Assert.assertEquals(
+			Arrays.asList(newPermissionCheckFinderEntry2),
+			_persistence.filterFindByGroupId(
+				group2.getGroupId(), QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+				null));
+		Assert.assertEquals(
+			Collections.emptyList(),
+			_persistence.filterFindByGroupId(
+				group3.getGroupId(), QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+				null));
+
+		Assert.assertEquals(
+			Arrays.asList(newPermissionCheckFinderEntry1),
+			_persistence.filterFindByGroupId(
+				new long[]{group1.getGroupId()}, QueryUtil.ALL_POS,
+				QueryUtil.ALL_POS, null));
+		Assert.assertEquals(
+			Arrays.asList(newPermissionCheckFinderEntry2),
+			_persistence.filterFindByGroupId(
+				new long[]{group2.getGroupId()}, QueryUtil.ALL_POS,
+				QueryUtil.ALL_POS, null));
+		Assert.assertEquals(
+			Collections.emptyList(),
+			_persistence.filterFindByGroupId(
+				new long[]{group3.getGroupId()}, QueryUtil.ALL_POS,
+				QueryUtil.ALL_POS, null));
+
+		Assert.assertEquals(
+			Arrays.asList(
+				newPermissionCheckFinderEntry1, newPermissionCheckFinderEntry2),
+			_persistence.filterFindByGroupId(
+				new long[]{
+					group1.getGroupId(), group2.getGroupId()},
+				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null));
+
+		Assert.assertEquals(
+			Arrays.asList(newPermissionCheckFinderEntry1),
+			_persistence.filterFindByGroupId(
+				new long[]{
+					group1.getGroupId(), group3.getGroupId()},
+				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null));
+
+		// Test Scope: GROUP_TEMPLATE
+
+		Group group4 = GroupTestUtil.addGroup();
+
+		_groups.add(group4);
+
+		PermissionCheckFinderEntry newPermissionCheckFinderEntry4 =
+			_addPermissionCheckFinderEntry(group4.getGroupId(), 1);
+
+		Group group5 = GroupTestUtil.addGroup();
+
+		_groups.add(group5);
+
+		PermissionCheckFinderEntry newPermissionCheckFinderEntry5 =
+			_addPermissionCheckFinderEntry(group5.getGroupId(), 2);
+
+		ResourcePermissionLocalServiceUtil.addResourcePermission(
+			CompanyThreadLocal.getCompanyId(),
+			PermissionCheckFinderEntry.class.getName(),
+			ResourceConstants.SCOPE_GROUP_TEMPLATE,
+			String.valueOf(GroupConstants.DEFAULT_PARENT_GROUP_ID),
+			role.getRoleId(), ActionKeys.VIEW);
+
+		Assert.assertTrue(InlineSQLHelperUtil.isEnabled(group4.getGroupId()));
+		Assert.assertTrue(InlineSQLHelperUtil.isEnabled(group5.getGroupId()));
+
+		Assert.assertEquals(
+			Arrays.asList(newPermissionCheckFinderEntry4),
+			_persistence.filterFindByGroupId(
+				group4.getGroupId(), QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+				null));
+		Assert.assertEquals(
+			Arrays.asList(newPermissionCheckFinderEntry5),
+			_persistence.filterFindByGroupId(
+				group5.getGroupId(), QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+				null));
+		Assert.assertEquals(
+			Collections.emptyList(),
+			_persistence.filterFindByGroupId(
+				0L, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null));
+
+		Assert.assertEquals(
+			Arrays.asList(newPermissionCheckFinderEntry4),
+			_persistence.filterFindByGroupId(
+				new long[]{group4.getGroupId()}, QueryUtil.ALL_POS,
+				QueryUtil.ALL_POS, null));
+		Assert.assertEquals(
+			Arrays.asList(newPermissionCheckFinderEntry5),
+			_persistence.filterFindByGroupId(
+				new long[]{group5.getGroupId()}, QueryUtil.ALL_POS,
+				QueryUtil.ALL_POS, null));
+		Assert.assertEquals(
+			Collections.emptyList(),
+			_persistence.filterFindByGroupId(
+				new long[]{0L}, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null));
+
+		Assert.assertEquals(
+			Arrays.asList(
+				newPermissionCheckFinderEntry4, newPermissionCheckFinderEntry5),
+			_persistence.filterFindByGroupId(
+				new long[]{
+					group4.getGroupId(), group5.getGroupId()},
+				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null));
+		Assert.assertEquals(
+			Arrays.asList(newPermissionCheckFinderEntry4),
+			_persistence.filterFindByGroupId(
+				new long[]{group4.getGroupId(), 0L},
+				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null));
 	}
 
 	protected OrderByComparator<PermissionCheckFinderEntry>
@@ -468,27 +687,39 @@ public class PermissionCheckFinderEntryPersistenceTest {
 	protected PermissionCheckFinderEntry addPermissionCheckFinderEntry()
 		throws Exception {
 
+		return _addPermissionCheckFinderEntry(
+			RandomTestUtil.nextLong(), RandomTestUtil.nextInt());
+	}
+
+	private PermissionCheckFinderEntry _addPermissionCheckFinderEntry(
+		long groupId, int integer) throws Exception {
+
 		long pk = RandomTestUtil.nextLong();
 
 		PermissionCheckFinderEntry permissionCheckFinderEntry =
 			_persistence.create(pk);
 
-		permissionCheckFinderEntry.setGroupId(RandomTestUtil.nextLong());
+		permissionCheckFinderEntry.setGroupId(groupId);
 
-		permissionCheckFinderEntry.setInteger(RandomTestUtil.nextInt());
+		permissionCheckFinderEntry.setInteger(integer);
 
 		permissionCheckFinderEntry.setName(RandomTestUtil.randomString());
 
 		permissionCheckFinderEntry.setType(RandomTestUtil.randomString());
 
-		_permissionCheckFinderEntries.add(
-			_persistence.update(permissionCheckFinderEntry));
+		permissionCheckFinderEntry = _persistence.update(
+			permissionCheckFinderEntry);
+
+		_permissionCheckFinderEntries.add(permissionCheckFinderEntry);
 
 		return permissionCheckFinderEntry;
 	}
 
+	private List<Group> _groups = new ArrayList<>();
 	private List<PermissionCheckFinderEntry> _permissionCheckFinderEntries =
 		new ArrayList<PermissionCheckFinderEntry>();
+	private List<Role> _roles = new ArrayList<>();
+	private List<UserGroupRole> _userGroupRoles = new ArrayList<>();
 	private PermissionCheckFinderEntryPersistence _persistence;
 	private ClassLoader _dynamicQueryClassLoader;
 
