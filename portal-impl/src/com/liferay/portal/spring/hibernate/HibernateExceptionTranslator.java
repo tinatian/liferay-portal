@@ -19,7 +19,6 @@ import jakarta.persistence.PessimisticLockException;
 import jakarta.persistence.QueryTimeoutException;
 import jakarta.persistence.TransactionRequiredException;
 import org.hibernate.HibernateException;
-import org.hibernate.JDBCException;
 import org.springframework.dao.CannotAcquireLockException;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -28,19 +27,9 @@ import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.dao.PessimisticLockingFailureException;
 import org.springframework.dao.support.PersistenceExceptionTranslator;
-import org.springframework.jdbc.support.SQLExceptionTranslator;
 import org.springframework.lang.Nullable;
 
 public class HibernateExceptionTranslator implements PersistenceExceptionTranslator {
-	@Nullable
-	private SQLExceptionTranslator jdbcExceptionTranslator;
-
-	public HibernateExceptionTranslator() {
-	}
-
-	public void setJdbcExceptionTranslator(SQLExceptionTranslator jdbcExceptionTranslator) {
-		this.jdbcExceptionTranslator = jdbcExceptionTranslator;
-	}
 
 	@Nullable
 	public DataAccessException translateExceptionIfPossible(RuntimeException ex) {
@@ -91,13 +80,6 @@ public class HibernateExceptionTranslator implements PersistenceExceptionTransla
 	}
 
 	protected DataAccessException convertHibernateAccessException(HibernateException ex) {
-		if (this.jdbcExceptionTranslator != null && ex instanceof JDBCException jdbcEx) {
-			DataAccessException dae = this.jdbcExceptionTranslator.translate("Hibernate operation: " + jdbcEx.getMessage(), jdbcEx.getSQL(), jdbcEx.getSQLException());
-			if (dae != null) {
-				return dae;
-			}
-		}
-
 		return SessionFactoryUtils.convertHibernateAccessException(ex);
 	}
 }
