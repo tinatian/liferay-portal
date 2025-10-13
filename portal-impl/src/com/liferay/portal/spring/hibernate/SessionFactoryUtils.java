@@ -47,123 +47,103 @@ import org.springframework.dao.PessimisticLockingFailureException;
 public class SessionFactoryUtils {
 
 	public static DataAccessException convertHibernateAccessException(
-		HibernateException ex) {
+		HibernateException hibernateException) {
 
-		if (ex instanceof JDBCConnectionException) {
-			return new DataAccessResourceFailureException(ex.getMessage(), ex);
-		}
-		else if (ex instanceof SQLGrammarException) {
-			SQLGrammarException hibJdbcEx = (SQLGrammarException)ex;
+		if (hibernateException instanceof JDBCException) {
+			JDBCException jdbcException = (JDBCException)hibernateException;
 
-			return new InvalidDataAccessResourceUsageException(
-				ex.getMessage() + "; SQL [" + hibJdbcEx.getSQL() + "]", ex);
-		}
-		else if (ex instanceof QueryTimeoutException) {
-			QueryTimeoutException hibJdbcEx = (QueryTimeoutException)ex;
+			if (hibernateException instanceof JDBCConnectionException) {
+				return new DataAccessResourceFailureException(
+					hibernateException.getMessage(), hibernateException);
+			}
+			else if (hibernateException instanceof SQLGrammarException) {
+				return new InvalidDataAccessResourceUsageException(
+					hibernateException.getMessage() +
+					"; SQL [" + jdbcException.getSQL() + "]",
+					hibernateException);
+			}
+			else if (hibernateException instanceof QueryTimeoutException) {
+				return new org.springframework.dao.QueryTimeoutException(
+					hibernateException.getMessage() +
+					"; SQL [" + jdbcException.getSQL() + "]",
+					hibernateException);
+			}
+			else if (hibernateException instanceof LockAcquisitionException) {
+				return new CannotAcquireLockException(
+					hibernateException.getMessage() + "; SQL [" + jdbcException.getSQL() + "]", hibernateException);
+			}
+			else if (hibernateException instanceof PessimisticLockException) {
+				return new PessimisticLockingFailureException(
+					hibernateException.getMessage() + "; SQL [" + jdbcException.getSQL() + "]", hibernateException);
+			}
+			else if (hibernateException instanceof ConstraintViolationException) {
+				ConstraintViolationException constraintViolationException =
+					(ConstraintViolationException)hibernateException;
 
-			return new org.springframework.dao.QueryTimeoutException(
-				ex.getMessage() + "; SQL [" + hibJdbcEx.getSQL() + "]", ex);
+				return new DataIntegrityViolationException(
+					hibernateException.getMessage() + "; SQL [" + constraintViolationException.getSQL() + "]; constraint [" +
+					constraintViolationException.getConstraintName() + "]",
+					hibernateException);
+			}
+			else if (hibernateException instanceof DataException) {
+				return new DataIntegrityViolationException(
+					hibernateException.getMessage() + "; SQL [" + jdbcException.getSQL() + "]", hibernateException);
+			}
+			else if (hibernateException instanceof JDBCException) {
+				return new HibernateJdbcException(jdbcException);
+			}
 		}
-		else if (ex instanceof LockAcquisitionException) {
-			LockAcquisitionException hibJdbcEx = (LockAcquisitionException)ex;
-
-			return new CannotAcquireLockException(
-				ex.getMessage() + "; SQL [" + hibJdbcEx.getSQL() + "]", ex);
+		else if (hibernateException instanceof QueryException) {
+			return new HibernateQueryException((QueryException)hibernateException);
 		}
-		else if (ex instanceof PessimisticLockException) {
-			PessimisticLockException hibJdbcEx = (PessimisticLockException)ex;
-
-			return new PessimisticLockingFailureException(
-				ex.getMessage() + "; SQL [" + hibJdbcEx.getSQL() + "]", ex);
-		}
-		else if (ex instanceof ConstraintViolationException) {
-			ConstraintViolationException hibJdbcEx =
-				(ConstraintViolationException)ex;
-			String var10002 = ex.getMessage();
-
-			return new DataIntegrityViolationException(
-				var10002 + "; SQL [" + hibJdbcEx.getSQL() + "]; constraint [" +
-					hibJdbcEx.getConstraintName() + "]",
-				ex);
-		}
-		else if (ex instanceof DataException) {
-			DataException hibJdbcEx = (DataException)ex;
-
-			return new DataIntegrityViolationException(
-				ex.getMessage() + "; SQL [" + hibJdbcEx.getSQL() + "]", ex);
-		}
-		else if (ex instanceof JDBCException) {
-			JDBCException hibJdbcEx = (JDBCException)ex;
-
-			return new HibernateJdbcException(hibJdbcEx);
-		}
-		else if (ex instanceof QueryException) {
-			QueryException queryException = (QueryException)ex;
-
-			return new HibernateQueryException(queryException);
-		}
-		else if (ex instanceof NonUniqueResultException) {
+		else if (hibernateException instanceof NonUniqueResultException) {
 			return new IncorrectResultSizeDataAccessException(
-				ex.getMessage(), 1, ex);
+				hibernateException.getMessage(), 1, hibernateException);
 		}
-		else if (ex instanceof NonUniqueObjectException) {
-			return new DuplicateKeyException(ex.getMessage(), ex);
+		else if (hibernateException instanceof NonUniqueObjectException) {
+			return new DuplicateKeyException(hibernateException.getMessage(), hibernateException);
 		}
-		else if (ex instanceof PropertyValueException) {
-			return new DataIntegrityViolationException(ex.getMessage(), ex);
+		else if (hibernateException instanceof PropertyValueException) {
+			return new DataIntegrityViolationException(hibernateException.getMessage(), hibernateException);
 		}
-		else if (ex instanceof PersistentObjectException) {
-			return new InvalidDataAccessApiUsageException(ex.getMessage(), ex);
+		else if (hibernateException instanceof PersistentObjectException) {
+			return new InvalidDataAccessApiUsageException(hibernateException.getMessage(), hibernateException);
 		}
-		else if (ex instanceof TransientObjectException) {
-			return new InvalidDataAccessApiUsageException(ex.getMessage(), ex);
+		else if (hibernateException instanceof TransientObjectException) {
+			return new InvalidDataAccessApiUsageException(hibernateException.getMessage(), hibernateException);
 		}
-		else if (ex instanceof ObjectDeletedException) {
-			return new InvalidDataAccessApiUsageException(ex.getMessage(), ex);
+		else if (hibernateException instanceof ObjectDeletedException) {
+			return new InvalidDataAccessApiUsageException(hibernateException.getMessage(), hibernateException);
 		}
-		else if (ex instanceof UnresolvableObjectException) {
-			UnresolvableObjectException unresolvableObjectException =
-				(UnresolvableObjectException)ex;
-
+		else if (hibernateException instanceof UnresolvableObjectException) {
 			return new HibernateObjectRetrievalFailureException(
-				unresolvableObjectException);
+				(UnresolvableObjectException)hibernateException);
 		}
-		else if (ex instanceof WrongClassException) {
-			WrongClassException wrongClassException = (WrongClassException)ex;
-
+		else if (hibernateException instanceof WrongClassException) {
 			return new HibernateObjectRetrievalFailureException(
-				wrongClassException);
+				(WrongClassException)hibernateException);
 		}
-		else if (ex instanceof StaleObjectStateException) {
-			StaleObjectStateException staleObjectStateException =
-				(StaleObjectStateException)ex;
-
+		else if (hibernateException instanceof StaleObjectStateException) {
 			return new HibernateOptimisticLockingFailureException(
-				staleObjectStateException);
+				(StaleObjectStateException)hibernateException);
 		}
-		else if (ex instanceof StaleStateException) {
-			StaleStateException staleStateException = (StaleStateException)ex;
-
+		else if (hibernateException instanceof StaleStateException) {
 			return new HibernateOptimisticLockingFailureException(
-				staleStateException);
+				(StaleStateException)hibernateException);
 		}
-		else if (ex instanceof OptimisticEntityLockException) {
-			OptimisticEntityLockException optimisticEntityLockException =
-				(OptimisticEntityLockException)ex;
-
+		else if (hibernateException instanceof OptimisticEntityLockException) {
 			return new HibernateOptimisticLockingFailureException(
-				optimisticEntityLockException);
+				(OptimisticEntityLockException)hibernateException);
 		}
-		else if (ex instanceof PessimisticEntityLockException) {
-			return (DataAccessException)
-				(ex.getCause() instanceof LockAcquisitionException ?
+		else if (hibernateException instanceof PessimisticEntityLockException) {
+			return (hibernateException.getCause() instanceof LockAcquisitionException ?
 					new CannotAcquireLockException(
-						ex.getMessage(), ex.getCause()) :
+						hibernateException.getMessage(), hibernateException.getCause()) :
 							new PessimisticLockingFailureException(
-								ex.getMessage(), ex));
+								hibernateException.getMessage(), hibernateException));
 		}
 
-		return new HibernateSystemException(ex);
+		return new HibernateSystemException(hibernateException);
 	}
 
 }

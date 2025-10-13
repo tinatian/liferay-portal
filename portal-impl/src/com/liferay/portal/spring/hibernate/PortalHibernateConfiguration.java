@@ -25,20 +25,8 @@ import com.liferay.portal.kernel.util.PropsValues;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.spring.hibernate.exception.JpaObjectRetrievalFailureException;
-import com.liferay.portal.spring.hibernate.exception.JpaOptimisticLockingFailureException;
-import com.liferay.portal.spring.hibernate.exception.JpaSystemException;
 
-import jakarta.persistence.EntityExistsException;
-import jakarta.persistence.EntityNotFoundException;
-import jakarta.persistence.LockTimeoutException;
-import jakarta.persistence.NoResultException;
-import jakarta.persistence.NonUniqueResultException;
-import jakarta.persistence.OptimisticLockException;
 import jakarta.persistence.PersistenceException;
-import jakarta.persistence.PessimisticLockException;
-import jakarta.persistence.QueryTimeoutException;
-import jakarta.persistence.TransactionRequiredException;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -257,13 +245,12 @@ public class PortalHibernateConfiguration
 			Throwable var3 = runtimeException.getCause();
 
 			if (var3 instanceof HibernateException) {
-				HibernateException hibernateEx = (HibernateException)var3;
+				HibernateException hibernateException =
+					(HibernateException) var3;
 
 				return SessionFactoryUtils.convertHibernateAccessException(
-					hibernateEx);
+					hibernateException);
 			}
-
-			return _convertJpaAccessExceptionIfPossible(runtimeException);
 		}
 
 		return null;
@@ -333,61 +320,6 @@ public class PortalHibernateConfiguration
 		}
 
 		return sessionFactory;
-	}
-
-	@Nullable
-	private DataAccessException _convertJpaAccessExceptionIfPossible(
-		RuntimeException ex) {
-
-		if (ex instanceof IllegalStateException) {
-			return new InvalidDataAccessApiUsageException(ex.getMessage(), ex);
-		}
-		else if (ex instanceof IllegalArgumentException) {
-			return new InvalidDataAccessApiUsageException(ex.getMessage(), ex);
-		}
-		else if (ex instanceof EntityNotFoundException) {
-			EntityNotFoundException entityNotFoundException =
-				(EntityNotFoundException)ex;
-
-			return new JpaObjectRetrievalFailureException(
-				entityNotFoundException);
-		}
-		else if (ex instanceof NoResultException) {
-			return new EmptyResultDataAccessException(ex.getMessage(), 1, ex);
-		}
-		else if (ex instanceof NonUniqueResultException) {
-			return new IncorrectResultSizeDataAccessException(
-				ex.getMessage(), 1, ex);
-		}
-		else if (ex instanceof QueryTimeoutException) {
-			return new org.springframework.dao.QueryTimeoutException(
-				ex.getMessage(), ex);
-		}
-		else if (ex instanceof LockTimeoutException) {
-			return new CannotAcquireLockException(ex.getMessage(), ex);
-		}
-		else if (ex instanceof PessimisticLockException) {
-			return new PessimisticLockingFailureException(ex.getMessage(), ex);
-		}
-		else if (ex instanceof OptimisticLockException) {
-			OptimisticLockException optimisticLockException =
-				(OptimisticLockException)ex;
-
-			return new JpaOptimisticLockingFailureException(
-				optimisticLockException);
-		}
-		else if (ex instanceof EntityExistsException) {
-			return new DataIntegrityViolationException(ex.getMessage(), ex);
-		}
-		else if (ex instanceof TransactionRequiredException) {
-			return new InvalidDataAccessApiUsageException(ex.getMessage(), ex);
-		}
-
-		if (ex instanceof PersistenceException) {
-			return new JpaSystemException(ex);
-		}
-
-		return null;
 	}
 
 	private File _getCacheFile(URL url) {
