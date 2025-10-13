@@ -39,6 +39,7 @@ import java.net.URLConnection;
 
 import java.nio.ByteBuffer;
 
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -47,6 +48,19 @@ import java.util.Properties;
 
 import javax.sql.DataSource;
 
+import com.liferay.portal.spring.hibernate.exception.JpaObjectRetrievalFailureException;
+import com.liferay.portal.spring.hibernate.exception.JpaOptimisticLockingFailureException;
+import com.liferay.portal.spring.hibernate.exception.JpaSystemException;
+import jakarta.persistence.EntityExistsException;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.LockTimeoutException;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.NonUniqueResultException;
+import jakarta.persistence.OptimisticLockException;
+import jakarta.persistence.PersistenceException;
+import jakarta.persistence.PessimisticLockException;
+import jakarta.persistence.QueryTimeoutException;
+import jakarta.persistence.TransactionRequiredException;
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
@@ -61,10 +75,31 @@ import org.hibernate.dialect.Dialect;
 import org.hibernate.engine.spi.SessionFactoryImplementor;
 import org.hibernate.internal.SessionFactoryImpl;
 import org.hibernate.metamodel.spi.MetamodelImplementor;
+import org.hibernate.resource.jdbc.spi.PhysicalConnectionHandlingMode;
 import org.hibernate.type.spi.TypeConfiguration;
 
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.BeanFactoryAware;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.FactoryBean;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.SmartInitializingSingleton;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.context.ResourceLoaderAware;
+import org.springframework.core.InfrastructureProxy;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.dao.CannotAcquireLockException;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
+import org.springframework.dao.PessimisticLockingFailureException;
+import org.springframework.dao.support.PersistenceExceptionTranslator;
+import org.springframework.lang.Nullable;
+import org.springframework.util.ClassUtils;
 
 /**
  * @author Brian Wing Shun Chan
@@ -72,7 +107,10 @@ import org.osgi.framework.BundleContext;
  * @author Shuyang Zhou
  * @author Tomas Polesovsky
  */
-public class PortalHibernateConfiguration extends LocalSessionFactoryBean {
+public class PortalHibernateConfiguration implements BeanFactoryAware,
+	DisposableBean, FactoryBean<SessionFactory>,
+	InitializingBean, PersistenceExceptionTranslator,
+	ResourceLoaderAware, SmartInitializingSingleton {
 
 	@Override
 	public void afterPropertiesSet() throws IOException {
@@ -111,7 +149,23 @@ public class PortalHibernateConfiguration extends LocalSessionFactoryBean {
 			"hibernate.query.sql.jdbc_style_params_base", "true");
 		properties.setProperty("jakarta.persistence.validation.mode", "none");
 
-		setHibernateProperties(properties);
+		if (_dataSource != null) {
+			properties.put("hibernate.connection.datasource", _dataSource);
+		}
+
+		properties.put(
+			"hibernate.connection.handling_mode",
+			PhysicalConnectionHandlingMode.DELAYED_ACQUISITION_AND_HOLD);
+
+		properties.put(
+			"hibernate.classLoaders",
+			Collections.singleton(ClassUtils.getDefaultClassLoader()));
+
+		if (_configurableListableBeanFactory != null) {
+			properties.put(
+				"hibernate.resource.beans.container",
+				new SpringBeanContainer(_configurableListableBeanFactory));
+		}
 
 		BootstrapServiceRegistryBuilder bootstrapServiceRegistryBuilder =
 			new BootstrapServiceRegistryBuilder();
@@ -127,14 +181,125 @@ public class PortalHibernateConfiguration extends LocalSessionFactoryBean {
 				new CTModelIntegrator());
 			bootstrapServiceRegistryBuilder.applyIntegrator(
 				MVCCEventListenerIntegrator.INSTANCE);
-
-			setEntityInterceptor(new CTSQLInterceptor());
 		}
 
-		setMetadataSources(
+		Configuration configuration = new Configuration(
 			new MetadataSources(bootstrapServiceRegistryBuilder.build()));
 
-		super.afterPropertiesSet();
+		if (_mvccEnabled) {
+			configuration.setInterceptor(new CTSQLInterceptor());
+		}
+
+		configuration.addProperties(properties);
+
+		_sessionFactory = _buildSessionFactory(configuration);
+	}
+
+	protected ClassLoader getConfigurationClassLoader() {
+		Class<?> clazz = getClass();
+
+		return clazz.getClassLoader();
+	}
+
+	protected String[] getConfigurationResources() {
+		if (_configurationResources == null) {
+			return PropsUtil.getArray(PropsKeys.HIBERNATE_CONFIGS);
+		}
+
+		return _configurationResources;
+	}
+
+	@Override
+	public DataAccessException translateExceptionIfPossible(
+		RuntimeException runtimeException) {
+
+		if (runtimeException instanceof HibernateException hibernateException) {
+			return SessionFactoryUtils.convertHibernateAccessException(
+				hibernateException);
+		}
+		else if (runtimeException instanceof PersistenceException) {
+			Throwable var3 = runtimeException.getCause();
+
+			if (var3 instanceof HibernateException) {
+				HibernateException hibernateEx = (HibernateException)var3;
+
+				return SessionFactoryUtils.convertHibernateAccessException(
+					hibernateEx);
+			}
+
+			return _convertJpaAccessExceptionIfPossible(runtimeException);
+		}
+
+		return null;
+	}
+
+	@Nullable
+	private DataAccessException _convertJpaAccessExceptionIfPossible(
+		RuntimeException ex) {
+
+		if (ex instanceof IllegalStateException) {
+			return new InvalidDataAccessApiUsageException(ex.getMessage(), ex);
+		}
+		else if (ex instanceof IllegalArgumentException) {
+			return new InvalidDataAccessApiUsageException(ex.getMessage(), ex);
+		}
+		else if (ex instanceof EntityNotFoundException) {
+			EntityNotFoundException entityNotFoundException =
+				(EntityNotFoundException)ex;
+
+			return new JpaObjectRetrievalFailureException(
+				entityNotFoundException);
+		}
+		else if (ex instanceof NoResultException) {
+			return new EmptyResultDataAccessException(ex.getMessage(), 1, ex);
+		}
+		else if (ex instanceof NonUniqueResultException) {
+			return new IncorrectResultSizeDataAccessException(
+				ex.getMessage(), 1, ex);
+		}
+		else if (ex instanceof QueryTimeoutException) {
+			return new org.springframework.dao.QueryTimeoutException(
+				ex.getMessage(), ex);
+		}
+		else if (ex instanceof LockTimeoutException) {
+			return new CannotAcquireLockException(ex.getMessage(), ex);
+		}
+		else if (ex instanceof PessimisticLockException) {
+			return new PessimisticLockingFailureException(ex.getMessage(), ex);
+		}
+		else if (ex instanceof OptimisticLockException) {
+			OptimisticLockException optimisticLockException =
+				(OptimisticLockException)ex;
+
+			return new JpaOptimisticLockingFailureException(
+				optimisticLockException);
+		}
+		else if (ex instanceof EntityExistsException) {
+			return new DataIntegrityViolationException(ex.getMessage(), ex);
+		}
+		else if (ex instanceof TransactionRequiredException) {
+			return new InvalidDataAccessApiUsageException(ex.getMessage(), ex);
+		}
+
+		if (ex instanceof PersistenceException) {
+			return new JpaSystemException(ex);
+		}
+
+		return null;
+	}
+
+	@Override
+	public boolean isSingleton() {
+		return true;
+	}
+
+	@Override
+	public void setBeanFactory(BeanFactory beanFactory) {
+		if (beanFactory instanceof
+			ConfigurableListableBeanFactory configurableListableBeanFactory) {
+
+			_configurableListableBeanFactory = configurableListableBeanFactory;
+		}
 	}
 
 	public void setConfigurationResources(String[] configurationResources) {
@@ -142,8 +307,6 @@ public class PortalHibernateConfiguration extends LocalSessionFactoryBean {
 	}
 
 	public void setDataSource(DataSource dataSource) {
-		super.setDataSource(dataSource);
-
 		_dataSource = dataSource;
 	}
 
@@ -152,7 +315,13 @@ public class PortalHibernateConfiguration extends LocalSessionFactoryBean {
 	}
 
 	@Override
-	protected SessionFactory buildSessionFactory(Configuration configuration)
+	public void destroy() {
+		if (_sessionFactory != null) {
+			_sessionFactory.close();
+		}
+	}
+
+	private SessionFactory _buildSessionFactory(Configuration configuration)
 		throws HibernateException {
 
 		try {
@@ -160,7 +329,7 @@ public class PortalHibernateConfiguration extends LocalSessionFactoryBean {
 
 			for (String resource : resources) {
 				try {
-					readResource(configuration, resource);
+					_readResource(configuration, resource);
 				}
 				catch (Exception exception) {
 					if (_log.isWarnEnabled()) {
@@ -173,8 +342,7 @@ public class PortalHibernateConfiguration extends LocalSessionFactoryBean {
 			_log.error(exception);
 		}
 
-		SessionFactory sessionFactory = super.buildSessionFactory(
-			configuration);
+		SessionFactory sessionFactory = configuration.buildSessionFactory();
 
 		SessionFactoryImplementor sessionFactoryImplementor =
 			(SessionFactoryImplementor)sessionFactory;
@@ -205,21 +373,7 @@ public class PortalHibernateConfiguration extends LocalSessionFactoryBean {
 		return sessionFactory;
 	}
 
-	protected ClassLoader getConfigurationClassLoader() {
-		Class<?> clazz = getClass();
-
-		return clazz.getClassLoader();
-	}
-
-	protected String[] getConfigurationResources() {
-		if (_configurationResources == null) {
-			return PropsUtil.getArray(PropsKeys.HIBERNATE_CONFIGS);
-		}
-
-		return _configurationResources;
-	}
-
-	protected void readResource(Configuration configuration, String resource)
+	private void _readResource(Configuration configuration, String resource)
 		throws Exception {
 
 		ClassLoader classLoader = getConfigurationClassLoader();
@@ -236,15 +390,15 @@ public class PortalHibernateConfiguration extends LocalSessionFactoryBean {
 			while (enumeration.hasMoreElements()) {
 				URL url = enumeration.nextElement();
 
-				readResource(configuration, url);
+				_readResource(configuration, url);
 			}
 		}
 		else {
-			readResource(configuration, classLoader.getResource(resource));
+			_readResource(configuration, classLoader.getResource(resource));
 		}
 	}
 
-	protected void readResource(Configuration configuration, URL url)
+	private void _readResource(Configuration configuration, URL url)
 		throws Exception {
 
 		if (url == null) {
@@ -255,6 +409,15 @@ public class PortalHibernateConfiguration extends LocalSessionFactoryBean {
 				PortalHibernateConfiguration.class.getClassLoader())) {
 
 			configuration.addXmlMapping(_loadBinding(configuration, url));
+		}
+	}
+
+	@Override
+	public void afterSingletonsInstantiated() {
+		if (_sessionFactory instanceof
+			InfrastructureProxy infrastructureProxy) {
+
+			infrastructureProxy.getWrappedObject();
 		}
 	}
 
@@ -362,9 +525,29 @@ public class PortalHibernateConfiguration extends LocalSessionFactoryBean {
 		}
 	}
 
+	@Override
+	public SessionFactory getObject() {
+		return _sessionFactory;
+	}
+
+	@Override
+	public Class<?> getObjectType() {
+		if (_sessionFactory != null) {
+			return _sessionFactory.getClass();
+		}
+
+		return SessionFactory.class;
+	}
+
+	private ConfigurableListableBeanFactory _configurableListableBeanFactory;
 	private String[] _configurationResources;
 	private DataSource _dataSource;
 	private boolean _mvccEnabled = true;
+	private SessionFactory _sessionFactory;
+
+	@Override
+	public void setResourceLoader(ResourceLoader resourceLoader) {
+	}
 
 	private static class SessionFactoryDelegate {
 
