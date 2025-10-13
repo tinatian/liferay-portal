@@ -5,11 +5,7 @@
 
 package com.liferay.portal.spring.hibernate;
 
-import com.liferay.portal.spring.hibernate.exception.HibernateJdbcException;
-import com.liferay.portal.spring.hibernate.exception.HibernateObjectRetrievalFailureException;
-import com.liferay.portal.spring.hibernate.exception.HibernateOptimisticLockingFailureException;
-import com.liferay.portal.spring.hibernate.exception.HibernateQueryException;
-import com.liferay.portal.spring.hibernate.exception.HibernateSystemException;
+import com.liferay.petra.string.StringBundler;
 
 import org.hibernate.HibernateException;
 import org.hibernate.JDBCException;
@@ -38,12 +34,18 @@ import org.springframework.dao.CannotAcquireLockException;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.dao.InvalidDataAccessResourceUsageException;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.dao.PessimisticLockingFailureException;
+import org.springframework.dao.UncategorizedDataAccessException;
 
+/**
+ * @author Tina Tian
+ */
 public class SessionFactoryUtils {
 
 	public static DataAccessException convertHibernateAccessException(
@@ -52,98 +54,129 @@ public class SessionFactoryUtils {
 		if (hibernateException instanceof JDBCException) {
 			JDBCException jdbcException = (JDBCException)hibernateException;
 
+			String message = _getJDBCExceptionMessage(jdbcException);
+
 			if (hibernateException instanceof JDBCConnectionException) {
 				return new DataAccessResourceFailureException(
-					hibernateException.getMessage(), hibernateException);
+					message, hibernateException);
 			}
 			else if (hibernateException instanceof SQLGrammarException) {
 				return new InvalidDataAccessResourceUsageException(
-					hibernateException.getMessage() +
-					"; SQL [" + jdbcException.getSQL() + "]",
-					hibernateException);
+					message, hibernateException);
 			}
 			else if (hibernateException instanceof QueryTimeoutException) {
 				return new org.springframework.dao.QueryTimeoutException(
-					hibernateException.getMessage() +
-					"; SQL [" + jdbcException.getSQL() + "]",
-					hibernateException);
+					message, hibernateException);
 			}
 			else if (hibernateException instanceof LockAcquisitionException) {
 				return new CannotAcquireLockException(
-					hibernateException.getMessage() + "; SQL [" + jdbcException.getSQL() + "]", hibernateException);
+					message, hibernateException);
 			}
 			else if (hibernateException instanceof PessimisticLockException) {
 				return new PessimisticLockingFailureException(
-					hibernateException.getMessage() + "; SQL [" + jdbcException.getSQL() + "]", hibernateException);
+					message, hibernateException);
 			}
-			else if (hibernateException instanceof ConstraintViolationException) {
+			else if (hibernateException instanceof
+						ConstraintViolationException) {
+
 				ConstraintViolationException constraintViolationException =
 					(ConstraintViolationException)hibernateException;
 
 				return new DataIntegrityViolationException(
-					hibernateException.getMessage() + "; SQL [" + constraintViolationException.getSQL() + "]; constraint [" +
-					constraintViolationException.getConstraintName() + "]",
+					StringBundler.concat(
+						hibernateException.getMessage(), "; SQL [",
+						constraintViolationException.getSQL(),
+						"]; constraint [",
+						constraintViolationException.getConstraintName(), "]"),
 					hibernateException);
 			}
 			else if (hibernateException instanceof DataException) {
 				return new DataIntegrityViolationException(
-					hibernateException.getMessage() + "; SQL [" + jdbcException.getSQL() + "]", hibernateException);
+					message, hibernateException);
 			}
 			else if (hibernateException instanceof JDBCException) {
-				return new HibernateJdbcException(jdbcException);
+				return new UncategorizedDataAccessException(
+					StringBundler.concat(
+						"JDBC exception on Hibernate data access: ",
+						"SQLException for SQL [", jdbcException.getSQL(),
+						"]; SQL state [", jdbcException.getSQLState(),
+						"]; error code [", jdbcException.getErrorCode(), "]; ",
+						jdbcException.getMessage()),
+					jdbcException) {
+				};
 			}
 		}
 		else if (hibernateException instanceof QueryException) {
-			return new HibernateQueryException((QueryException)hibernateException);
+			return new InvalidDataAccessResourceUsageException(
+				hibernateException.getMessage(), hibernateException);
 		}
 		else if (hibernateException instanceof NonUniqueResultException) {
 			return new IncorrectResultSizeDataAccessException(
 				hibernateException.getMessage(), 1, hibernateException);
 		}
 		else if (hibernateException instanceof NonUniqueObjectException) {
-			return new DuplicateKeyException(hibernateException.getMessage(), hibernateException);
+			return new DuplicateKeyException(
+				hibernateException.getMessage(), hibernateException);
 		}
 		else if (hibernateException instanceof PropertyValueException) {
-			return new DataIntegrityViolationException(hibernateException.getMessage(), hibernateException);
+			return new DataIntegrityViolationException(
+				hibernateException.getMessage(), hibernateException);
 		}
 		else if (hibernateException instanceof PersistentObjectException) {
-			return new InvalidDataAccessApiUsageException(hibernateException.getMessage(), hibernateException);
+			return new InvalidDataAccessApiUsageException(
+				hibernateException.getMessage(), hibernateException);
 		}
 		else if (hibernateException instanceof TransientObjectException) {
-			return new InvalidDataAccessApiUsageException(hibernateException.getMessage(), hibernateException);
+			return new InvalidDataAccessApiUsageException(
+				hibernateException.getMessage(), hibernateException);
 		}
 		else if (hibernateException instanceof ObjectDeletedException) {
-			return new InvalidDataAccessApiUsageException(hibernateException.getMessage(), hibernateException);
+			return new InvalidDataAccessApiUsageException(
+				hibernateException.getMessage(), hibernateException);
 		}
 		else if (hibernateException instanceof UnresolvableObjectException) {
-			return new HibernateObjectRetrievalFailureException(
-				(UnresolvableObjectException)hibernateException);
+			return new DataRetrievalFailureException(
+				hibernateException.getMessage(), hibernateException);
 		}
 		else if (hibernateException instanceof WrongClassException) {
-			return new HibernateObjectRetrievalFailureException(
-				(WrongClassException)hibernateException);
+			return new DataRetrievalFailureException(
+				hibernateException.getMessage(), hibernateException);
 		}
 		else if (hibernateException instanceof StaleObjectStateException) {
-			return new HibernateOptimisticLockingFailureException(
-				(StaleObjectStateException)hibernateException);
+			return new OptimisticLockingFailureException(
+				hibernateException.getMessage(), hibernateException);
 		}
 		else if (hibernateException instanceof StaleStateException) {
-			return new HibernateOptimisticLockingFailureException(
-				(StaleStateException)hibernateException);
+			return new OptimisticLockingFailureException(
+				hibernateException.getMessage(), hibernateException);
 		}
 		else if (hibernateException instanceof OptimisticEntityLockException) {
-			return new HibernateOptimisticLockingFailureException(
-				(OptimisticEntityLockException)hibernateException);
+			return new OptimisticLockingFailureException(
+				hibernateException.getMessage(), hibernateException);
 		}
 		else if (hibernateException instanceof PessimisticEntityLockException) {
-			return (hibernateException.getCause() instanceof LockAcquisitionException ?
-					new CannotAcquireLockException(
-						hibernateException.getMessage(), hibernateException.getCause()) :
-							new PessimisticLockingFailureException(
-								hibernateException.getMessage(), hibernateException));
+			Throwable throwable = hibernateException.getCause();
+
+			if (throwable instanceof LockAcquisitionException) {
+				return new CannotAcquireLockException(
+					hibernateException.getMessage(),
+					hibernateException.getCause());
+			}
+
+			return new PessimisticLockingFailureException(
+				hibernateException.getMessage(), hibernateException);
 		}
 
-		return new HibernateSystemException(hibernateException);
+		return new UncategorizedDataAccessException(
+			hibernateException.getMessage(), hibernateException) {
+		};
+	}
+
+	private static String _getJDBCExceptionMessage(
+		JDBCException jdbcException) {
+
+		return StringBundler.concat(
+			jdbcException.getMessage(), "; SQL [", jdbcException.getSQL(), "]");
 	}
 
 }
