@@ -25,6 +25,20 @@ import com.liferay.portal.kernel.util.PropsValues;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.spring.hibernate.exception.JpaObjectRetrievalFailureException;
+import com.liferay.portal.spring.hibernate.exception.JpaOptimisticLockingFailureException;
+import com.liferay.portal.spring.hibernate.exception.JpaSystemException;
+
+import jakarta.persistence.EntityExistsException;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.LockTimeoutException;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.NonUniqueResultException;
+import jakarta.persistence.OptimisticLockException;
+import jakarta.persistence.PersistenceException;
+import jakarta.persistence.PessimisticLockException;
+import jakarta.persistence.QueryTimeoutException;
+import jakarta.persistence.TransactionRequiredException;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -48,19 +62,6 @@ import java.util.Properties;
 
 import javax.sql.DataSource;
 
-import com.liferay.portal.spring.hibernate.exception.JpaObjectRetrievalFailureException;
-import com.liferay.portal.spring.hibernate.exception.JpaOptimisticLockingFailureException;
-import com.liferay.portal.spring.hibernate.exception.JpaSystemException;
-import jakarta.persistence.EntityExistsException;
-import jakarta.persistence.EntityNotFoundException;
-import jakarta.persistence.LockTimeoutException;
-import jakarta.persistence.NoResultException;
-import jakarta.persistence.NonUniqueResultException;
-import jakarta.persistence.OptimisticLockException;
-import jakarta.persistence.PersistenceException;
-import jakarta.persistence.PessimisticLockException;
-import jakarta.persistence.QueryTimeoutException;
-import jakarta.persistence.TransactionRequiredException;
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
@@ -80,13 +81,13 @@ import org.hibernate.type.spi.TypeConfiguration;
 
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
+
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.SmartInitializingSingleton;
-import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.core.InfrastructureProxy;
 import org.springframework.core.io.ResourceLoader;
@@ -107,10 +108,10 @@ import org.springframework.util.ClassUtils;
  * @author Shuyang Zhou
  * @author Tomas Polesovsky
  */
-public class PortalHibernateConfiguration implements BeanFactoryAware,
-	DisposableBean, FactoryBean<SessionFactory>,
-	InitializingBean, PersistenceExceptionTranslator,
-	ResourceLoaderAware, SmartInitializingSingleton {
+public class PortalHibernateConfiguration
+	implements BeanFactoryAware, DisposableBean, FactoryBean<SessionFactory>,
+			   InitializingBean, PersistenceExceptionTranslator,
+			   ResourceLoaderAware, SmartInitializingSingleton {
 
 	@Override
 	public void afterPropertiesSet() throws IOException {
@@ -161,12 +162,6 @@ public class PortalHibernateConfiguration implements BeanFactoryAware,
 			"hibernate.classLoaders",
 			Collections.singleton(ClassUtils.getDefaultClassLoader()));
 
-		if (_configurableListableBeanFactory != null) {
-			properties.put(
-				"hibernate.resource.beans.container",
-				new SpringBeanContainer(_configurableListableBeanFactory));
-		}
-
 		BootstrapServiceRegistryBuilder bootstrapServiceRegistryBuilder =
 			new BootstrapServiceRegistryBuilder();
 
@@ -195,18 +190,59 @@ public class PortalHibernateConfiguration implements BeanFactoryAware,
 		_sessionFactory = _buildSessionFactory(configuration);
 	}
 
-	protected ClassLoader getConfigurationClassLoader() {
-		Class<?> clazz = getClass();
+	@Override
+	public void afterSingletonsInstantiated() {
+		if (_sessionFactory instanceof
+				InfrastructureProxy infrastructureProxy) {
 
-		return clazz.getClassLoader();
+			infrastructureProxy.getWrappedObject();
+		}
 	}
 
-	protected String[] getConfigurationResources() {
-		if (_configurationResources == null) {
-			return PropsUtil.getArray(PropsKeys.HIBERNATE_CONFIGS);
+	@Override
+	public void destroy() {
+		if (_sessionFactory != null) {
+			_sessionFactory.close();
+		}
+	}
+
+	@Override
+	public SessionFactory getObject() {
+		return _sessionFactory;
+	}
+
+	@Override
+	public Class<?> getObjectType() {
+		if (_sessionFactory != null) {
+			return _sessionFactory.getClass();
 		}
 
-		return _configurationResources;
+		return SessionFactory.class;
+	}
+
+	@Override
+	public boolean isSingleton() {
+		return true;
+	}
+
+	@Override
+	public void setBeanFactory(BeanFactory beanFactory) {
+	}
+
+	public void setConfigurationResources(String[] configurationResources) {
+		_configurationResources = configurationResources;
+	}
+
+	public void setDataSource(DataSource dataSource) {
+		_dataSource = dataSource;
+	}
+
+	public void setMvccEnabled(boolean mvccEnabled) {
+		_mvccEnabled = mvccEnabled;
+	}
+
+	@Override
+	public void setResourceLoader(ResourceLoader resourceLoader) {
 	}
 
 	@Override
@@ -231,6 +267,72 @@ public class PortalHibernateConfiguration implements BeanFactoryAware,
 		}
 
 		return null;
+	}
+
+	protected ClassLoader getConfigurationClassLoader() {
+		Class<?> clazz = getClass();
+
+		return clazz.getClassLoader();
+	}
+
+	protected String[] getConfigurationResources() {
+		if (_configurationResources == null) {
+			return PropsUtil.getArray(PropsKeys.HIBERNATE_CONFIGS);
+		}
+
+		return _configurationResources;
+	}
+
+	private SessionFactory _buildSessionFactory(Configuration configuration)
+		throws HibernateException {
+
+		try {
+			String[] resources = getConfigurationResources();
+
+			for (String resource : resources) {
+				try {
+					_readResource(configuration, resource);
+				}
+				catch (Exception exception) {
+					if (_log.isWarnEnabled()) {
+						_log.warn(exception);
+					}
+				}
+			}
+		}
+		catch (Exception exception) {
+			_log.error(exception);
+		}
+
+		SessionFactory sessionFactory = configuration.buildSessionFactory();
+
+		SessionFactoryImplementor sessionFactoryImplementor =
+			(SessionFactoryImplementor)sessionFactory;
+
+		MetamodelImplementor metamodelImplementor =
+			sessionFactoryImplementor.getMetamodel();
+
+		TypeConfiguration typeConfiguration =
+			metamodelImplementor.getTypeConfiguration();
+
+		try {
+			_META_MODEL_FIELD.set(
+				sessionFactory,
+				ProxyUtil.newDelegateProxyInstance(
+					MetamodelImplementor.class.getClassLoader(),
+					MetamodelImplementor.class,
+					new SessionFactoryDelegate(
+						typeConfiguration.getImportMap()),
+					metamodelImplementor));
+		}
+		catch (Exception exception) {
+			if (_log.isWarnEnabled()) {
+				_log.warn(
+					"Unable to inject optimized query plan cache", exception);
+			}
+		}
+
+		return sessionFactory;
 	}
 
 	@Nullable
@@ -286,139 +388,6 @@ public class PortalHibernateConfiguration implements BeanFactoryAware,
 		}
 
 		return null;
-	}
-
-	@Override
-	public boolean isSingleton() {
-		return true;
-	}
-
-	@Override
-	public void setBeanFactory(BeanFactory beanFactory) {
-		if (beanFactory instanceof
-			ConfigurableListableBeanFactory configurableListableBeanFactory) {
-
-			_configurableListableBeanFactory = configurableListableBeanFactory;
-		}
-	}
-
-	public void setConfigurationResources(String[] configurationResources) {
-		_configurationResources = configurationResources;
-	}
-
-	public void setDataSource(DataSource dataSource) {
-		_dataSource = dataSource;
-	}
-
-	public void setMvccEnabled(boolean mvccEnabled) {
-		_mvccEnabled = mvccEnabled;
-	}
-
-	@Override
-	public void destroy() {
-		if (_sessionFactory != null) {
-			_sessionFactory.close();
-		}
-	}
-
-	private SessionFactory _buildSessionFactory(Configuration configuration)
-		throws HibernateException {
-
-		try {
-			String[] resources = getConfigurationResources();
-
-			for (String resource : resources) {
-				try {
-					_readResource(configuration, resource);
-				}
-				catch (Exception exception) {
-					if (_log.isWarnEnabled()) {
-						_log.warn(exception);
-					}
-				}
-			}
-		}
-		catch (Exception exception) {
-			_log.error(exception);
-		}
-
-		SessionFactory sessionFactory = configuration.buildSessionFactory();
-
-		SessionFactoryImplementor sessionFactoryImplementor =
-			(SessionFactoryImplementor)sessionFactory;
-
-		MetamodelImplementor metamodelImplementor =
-			sessionFactoryImplementor.getMetamodel();
-
-		TypeConfiguration typeConfiguration =
-			metamodelImplementor.getTypeConfiguration();
-
-		try {
-			_META_MODEL_FIELD.set(
-				sessionFactory,
-				ProxyUtil.newDelegateProxyInstance(
-					MetamodelImplementor.class.getClassLoader(),
-					MetamodelImplementor.class,
-					new SessionFactoryDelegate(
-						typeConfiguration.getImportMap()),
-					metamodelImplementor));
-		}
-		catch (Exception exception) {
-			if (_log.isWarnEnabled()) {
-				_log.warn(
-					"Unable to inject optimized query plan cache", exception);
-			}
-		}
-
-		return sessionFactory;
-	}
-
-	private void _readResource(Configuration configuration, String resource)
-		throws Exception {
-
-		ClassLoader classLoader = getConfigurationClassLoader();
-
-		if (resource.startsWith("classpath*:")) {
-			String name = resource.substring("classpath*:".length());
-
-			Enumeration<URL> enumeration = classLoader.getResources(name);
-
-			if (_log.isDebugEnabled() && !enumeration.hasMoreElements()) {
-				_log.debug("No resources found for " + name);
-			}
-
-			while (enumeration.hasMoreElements()) {
-				URL url = enumeration.nextElement();
-
-				_readResource(configuration, url);
-			}
-		}
-		else {
-			_readResource(configuration, classLoader.getResource(resource));
-		}
-	}
-
-	private void _readResource(Configuration configuration, URL url)
-		throws Exception {
-
-		if (url == null) {
-			return;
-		}
-
-		try (SafeCloseable safeCloseable = ThreadContextClassLoaderUtil.swap(
-				PortalHibernateConfiguration.class.getClassLoader())) {
-
-			configuration.addXmlMapping(_loadBinding(configuration, url));
-		}
-	}
-
-	@Override
-	public void afterSingletonsInstantiated() {
-		if (_sessionFactory instanceof
-			InfrastructureProxy infrastructureProxy) {
-
-			infrastructureProxy.getWrappedObject();
-		}
 	}
 
 	private File _getCacheFile(URL url) {
@@ -506,6 +475,45 @@ public class PortalHibernateConfiguration implements BeanFactoryAware,
 		return binding;
 	}
 
+	private void _readResource(Configuration configuration, String resource)
+		throws Exception {
+
+		ClassLoader classLoader = getConfigurationClassLoader();
+
+		if (resource.startsWith("classpath*:")) {
+			String name = resource.substring("classpath*:".length());
+
+			Enumeration<URL> enumeration = classLoader.getResources(name);
+
+			if (_log.isDebugEnabled() && !enumeration.hasMoreElements()) {
+				_log.debug("No resources found for " + name);
+			}
+
+			while (enumeration.hasMoreElements()) {
+				URL url = enumeration.nextElement();
+
+				_readResource(configuration, url);
+			}
+		}
+		else {
+			_readResource(configuration, classLoader.getResource(resource));
+		}
+	}
+
+	private void _readResource(Configuration configuration, URL url)
+		throws Exception {
+
+		if (url == null) {
+			return;
+		}
+
+		try (SafeCloseable safeCloseable = ThreadContextClassLoaderUtil.swap(
+				PortalHibernateConfiguration.class.getClassLoader())) {
+
+			configuration.addXmlMapping(_loadBinding(configuration, url));
+		}
+	}
+
 	private static final Field _META_MODEL_FIELD;
 
 	private static final Log _log = LogFactoryUtil.getLog(
@@ -525,29 +533,10 @@ public class PortalHibernateConfiguration implements BeanFactoryAware,
 		}
 	}
 
-	@Override
-	public SessionFactory getObject() {
-		return _sessionFactory;
-	}
-
-	@Override
-	public Class<?> getObjectType() {
-		if (_sessionFactory != null) {
-			return _sessionFactory.getClass();
-		}
-
-		return SessionFactory.class;
-	}
-
-	private ConfigurableListableBeanFactory _configurableListableBeanFactory;
 	private String[] _configurationResources;
 	private DataSource _dataSource;
 	private boolean _mvccEnabled = true;
 	private SessionFactory _sessionFactory;
-
-	@Override
-	public void setResourceLoader(ResourceLoader resourceLoader) {
-	}
 
 	private static class SessionFactoryDelegate {
 
