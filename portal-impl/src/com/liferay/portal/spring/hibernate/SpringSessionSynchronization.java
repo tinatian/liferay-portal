@@ -5,13 +5,20 @@
 
 package com.liferay.portal.spring.hibernate;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+
+import jakarta.persistence.PersistenceException;
+
 import org.hibernate.FlushMode;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.engine.spi.SessionImplementor;
 
 import org.springframework.core.Ordered;
 import org.springframework.dao.DataAccessException;
+import org.springframework.lang.Nullable;
 import org.springframework.transaction.support.TransactionSynchronization;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
@@ -43,8 +50,7 @@ public class SpringSessionSynchronization
 			this.sessionHolder.setSynchronizedWithTransaction(false);
 
 			if (this.newSession) {
-				SessionFactoryUtils.closeSession(
-					this.sessionHolder.getSession());
+				_closeSession(this.sessionHolder.getSession());
 			}
 		}
 	}
@@ -54,7 +60,7 @@ public class SpringSessionSynchronization
 			Session session = this.getCurrentSession();
 
 			if (!FlushMode.MANUAL.equals(session.getHibernateFlushMode())) {
-				SessionFactoryUtils.flush(this.getCurrentSession(), true);
+				_flush(this.getCurrentSession(), true);
 			}
 		}
 	}
@@ -84,7 +90,7 @@ public class SpringSessionSynchronization
 	}
 
 	public void flush() {
-		SessionFactoryUtils.flush(this.getCurrentSession(), false);
+		_flush(this.getCurrentSession(), false);
 	}
 
 	public int getOrder() {
@@ -105,9 +111,59 @@ public class SpringSessionSynchronization
 		}
 	}
 
+	private void _closeSession(@Nullable Session session) {
+		if (session != null) {
+			try {
+				if (session.isOpen()) {
+					session.close();
+				}
+			}
+			catch (Throwable var2) {
+				_log.error("Failed to release Hibernate Session", var2);
+			}
+		}
+	}
+
+	private void _flush(Session session, boolean synch)
+		throws DataAccessException {
+
+		if (synch) {
+			if (_log.isDebugEnabled()) {
+				_log.debug(
+					"Flushing Hibernate Session on transaction synchronization");
+			}
+		}
+		else {
+			if (_log.isDebugEnabled()) {
+				_log.debug("Flushing Hibernate Session on explicit request");
+			}
+		}
+
+		try {
+			session.flush();
+		}
+		catch (HibernateException hibernateException) {
+			throw SessionFactoryUtils.convertHibernateAccessException(
+				hibernateException);
+		}
+		catch (PersistenceException persistenceException) {
+			Throwable throwable = persistenceException.getCause();
+
+			if (throwable instanceof HibernateException hibernateException) {
+				throw SessionFactoryUtils.convertHibernateAccessException(
+					hibernateException);
+			}
+
+			throw persistenceException;
+		}
+	}
+
 	private Session getCurrentSession() {
 		return this.sessionHolder.getSession();
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		SpringSessionSynchronization.class);
 
 	private boolean holderActive;
 	private final boolean newSession;
