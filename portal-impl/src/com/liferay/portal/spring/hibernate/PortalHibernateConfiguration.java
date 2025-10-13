@@ -152,8 +152,7 @@ public class PortalHibernateConfiguration extends LocalSessionFactoryBean {
 	}
 
 	@Override
-	protected SessionFactory buildSessionFactory(
-			LocalSessionFactoryBuilder localSessionFactoryBuilder)
+	protected SessionFactory buildSessionFactory(Configuration configuration)
 		throws HibernateException {
 
 		try {
@@ -161,7 +160,7 @@ public class PortalHibernateConfiguration extends LocalSessionFactoryBean {
 
 			for (String resource : resources) {
 				try {
-					readResource(localSessionFactoryBuilder, resource);
+					readResource(configuration, resource);
 				}
 				catch (Exception exception) {
 					if (_log.isWarnEnabled()) {
@@ -175,7 +174,7 @@ public class PortalHibernateConfiguration extends LocalSessionFactoryBean {
 		}
 
 		SessionFactory sessionFactory = super.buildSessionFactory(
-			localSessionFactoryBuilder);
+			configuration);
 
 		SessionFactoryImplementor sessionFactoryImplementor =
 			(SessionFactoryImplementor)sessionFactory;

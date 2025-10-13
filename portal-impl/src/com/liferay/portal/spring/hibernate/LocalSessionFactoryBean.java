@@ -22,6 +22,7 @@ import jakarta.persistence.TransactionRequiredException;
 
 import java.io.IOException;
 
+import java.util.Collections;
 import java.util.Properties;
 
 import javax.sql.DataSource;
@@ -33,6 +34,7 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.BootstrapServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 
+import org.hibernate.resource.jdbc.spi.PhysicalConnectionHandlingMode;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.DisposableBean;
@@ -69,24 +71,31 @@ public class LocalSessionFactoryBean
 			this.metadataSources = null;
 		}
 
-		LocalSessionFactoryBuilder sfb = new LocalSessionFactoryBuilder(
-			this.dataSource, this.getResourceLoader(),
-			this.getMetadataSources());
+		Configuration configuration = new Configuration(metadataSources);
+
+		configuration.getProperties().put("hibernate.current_session_context_class", SpringSessionContext.class.getName());
+		if (dataSource != null) {
+			configuration.getProperties().put("hibernate.connection.datasource", dataSource);
+		}
+
+		configuration.getProperties().put("hibernate.connection.handling_mode", PhysicalConnectionHandlingMode.DELAYED_ACQUISITION_AND_HOLD);
+		configuration.getProperties().put("hibernate.classLoaders", Collections.singleton(getResourceLoader().getClassLoader()));
 
 		if (this.entityInterceptor != null) {
-			sfb.setInterceptor(this.entityInterceptor);
+			configuration.setInterceptor(this.entityInterceptor);
 		}
 
 		if (this.beanFactory != null) {
-			sfb.setBeanContainer(this.beanFactory);
+			configuration.getProperties().put("hibernate.resource.beans.container", new SpringBeanContainer(beanFactory));
 		}
 
 		if (this.hibernateProperties != null) {
-			sfb.addProperties(this.hibernateProperties);
+			configuration.addProperties(this.hibernateProperties);
 		}
 
-		this.configuration = sfb;
-		this.sessionFactory = this.buildSessionFactory(sfb);
+		this.configuration = configuration;
+
+		this.sessionFactory = this.buildSessionFactory(configuration);
 	}
 
 	public void afterSingletonsInstantiated() {
@@ -218,7 +227,7 @@ public class LocalSessionFactoryBean
 	}
 
 	protected SessionFactory buildSessionFactory(
-		LocalSessionFactoryBuilder sfb) {
+		Configuration sfb) {
 
 		return sfb.buildSessionFactory();
 	}
