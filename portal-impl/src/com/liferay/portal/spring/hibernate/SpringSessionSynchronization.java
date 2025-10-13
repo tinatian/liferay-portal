@@ -10,104 +10,125 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 
 import jakarta.persistence.PersistenceException;
 
+import java.util.Objects;
+
 import org.hibernate.FlushMode;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.engine.jdbc.spi.JdbcCoordinator;
 import org.hibernate.engine.spi.SessionImplementor;
+import org.hibernate.resource.jdbc.spi.LogicalConnectionImplementor;
 
-import org.springframework.core.Ordered;
 import org.springframework.dao.DataAccessException;
 import org.springframework.lang.Nullable;
 import org.springframework.transaction.support.TransactionSynchronization;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
+/**
+ * @author Tina Tian
+ */
 public class SpringSessionSynchronization
-	implements Ordered, TransactionSynchronization {
+	implements TransactionSynchronization {
 
 	public SpringSessionSynchronization(
 		SessionHolder sessionHolder, SessionFactory sessionFactory,
 		boolean newSession) {
 
-		this.sessionHolder = sessionHolder;
-		this.sessionFactory = sessionFactory;
-		this.newSession = newSession;
+		_sessionHolder = sessionHolder;
+		_sessionFactory = sessionFactory;
+		_newSession = newSession;
 
-		this.holderActive = true;
+		_holderActive = true;
 	}
 
+	@Override
 	public void afterCommit() {
 	}
 
+	@Override
 	public void afterCompletion(int status) {
 		try {
 			if (status != 0) {
-				this.sessionHolder.getSession(
-				).clear();
+				Session session = _sessionHolder.getSession();
+
+				session.clear();
 			}
 		}
 		finally {
-			this.sessionHolder.setSynchronizedWithTransaction(false);
+			_sessionHolder.setSynchronizedWithTransaction(false);
 
-			if (this.newSession) {
-				_closeSession(this.sessionHolder.getSession());
+			if (_newSession) {
+				_closeSession(_sessionHolder.getSession());
 			}
 		}
 	}
 
+	@Override
 	public void beforeCommit(boolean readOnly) throws DataAccessException {
 		if (!readOnly) {
-			Session session = this.getCurrentSession();
+			Session session = _sessionHolder.getSession();
 
-			if (!FlushMode.MANUAL.equals(session.getHibernateFlushMode())) {
-				_flush(this.getCurrentSession(), true);
+			if (!Objects.equals(
+					FlushMode.MANUAL, session.getHibernateFlushMode())) {
+
+				_flush(session, true);
 			}
 		}
 	}
 
+	@Override
 	public void beforeCompletion() {
 		try {
-			Session session = this.sessionHolder.getSession();
+			Session session = _sessionHolder.getSession();
 
-			if (this.sessionHolder.getPreviousFlushMode() != null) {
+			if (_sessionHolder.getPreviousFlushMode() != null) {
 				session.setHibernateFlushMode(
-					this.sessionHolder.getPreviousFlushMode());
+					_sessionHolder.getPreviousFlushMode());
 			}
 
-			if (session instanceof SessionImplementor sessionImpl) {
-				sessionImpl.getJdbcCoordinator(
-				).getLogicalConnection(
-				).manualDisconnect();
+			if (session instanceof SessionImplementor sessionImplementor) {
+				JdbcCoordinator jdbcCoordinator =
+					sessionImplementor.getJdbcCoordinator();
+
+				LogicalConnectionImplementor logicalConnectionImplementor =
+					jdbcCoordinator.getLogicalConnection();
+
+				logicalConnectionImplementor.manualDisconnect();
 			}
 		}
 		finally {
-			if (this.newSession) {
+			if (_newSession) {
 				TransactionSynchronizationManager.unbindResource(
-					this.sessionFactory);
-				this.holderActive = false;
+					_sessionFactory);
+
+				_holderActive = false;
 			}
 		}
 	}
 
+	@Override
 	public void flush() {
-		_flush(this.getCurrentSession(), false);
+		_flush(_sessionHolder.getSession(), false);
 	}
 
+	@Override
 	public int getOrder() {
 		return 900;
 	}
 
+	@Override
 	public void resume() {
-		if (this.holderActive) {
+		if (_holderActive) {
 			TransactionSynchronizationManager.bindResource(
-				this.sessionFactory, this.sessionHolder);
+				_sessionFactory, _sessionHolder);
 		}
 	}
 
+	@Override
 	public void suspend() {
-		if (this.holderActive) {
-			TransactionSynchronizationManager.unbindResource(
-				this.sessionFactory);
+		if (_holderActive) {
+			TransactionSynchronizationManager.unbindResource(_sessionFactory);
 		}
 	}
 
@@ -118,8 +139,8 @@ public class SpringSessionSynchronization
 					session.close();
 				}
 			}
-			catch (Throwable var2) {
-				_log.error("Failed to release Hibernate Session", var2);
+			catch (Throwable throwable) {
+				_log.error("Failed to release Hibernate Session", throwable);
 			}
 		}
 	}
@@ -130,7 +151,8 @@ public class SpringSessionSynchronization
 		if (synch) {
 			if (_log.isDebugEnabled()) {
 				_log.debug(
-					"Flushing Hibernate Session on transaction synchronization");
+					"Flushing Hibernate Session on transaction " +
+						"synchronization");
 			}
 		}
 		else {
@@ -158,16 +180,12 @@ public class SpringSessionSynchronization
 		}
 	}
 
-	private Session getCurrentSession() {
-		return this.sessionHolder.getSession();
-	}
-
 	private static final Log _log = LogFactoryUtil.getLog(
 		SpringSessionSynchronization.class);
 
-	private boolean holderActive;
-	private final boolean newSession;
-	private final SessionFactory sessionFactory;
-	private final SessionHolder sessionHolder;
+	private boolean _holderActive;
+	private final boolean _newSession;
+	private final SessionFactory _sessionFactory;
+	private final SessionHolder _sessionHolder;
 
 }

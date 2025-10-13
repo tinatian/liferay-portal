@@ -79,15 +79,8 @@ import org.springframework.beans.factory.SmartInitializingSingleton;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.core.InfrastructureProxy;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.dao.CannotAcquireLockException;
 import org.springframework.dao.DataAccessException;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.dao.IncorrectResultSizeDataAccessException;
-import org.springframework.dao.InvalidDataAccessApiUsageException;
-import org.springframework.dao.PessimisticLockingFailureException;
 import org.springframework.dao.support.PersistenceExceptionTranslator;
-import org.springframework.lang.Nullable;
 import org.springframework.util.ClassUtils;
 
 /**
@@ -242,11 +235,11 @@ public class PortalHibernateConfiguration
 				hibernateException);
 		}
 		else if (runtimeException instanceof PersistenceException) {
-			Throwable var3 = runtimeException.getCause();
+			Throwable throwable = runtimeException.getCause();
 
-			if (var3 instanceof HibernateException) {
+			if (throwable instanceof HibernateException) {
 				HibernateException hibernateException =
-					(HibernateException) var3;
+					(HibernateException)throwable;
 
 				return SessionFactoryUtils.convertHibernateAccessException(
 					hibernateException);

@@ -9,7 +9,6 @@ import org.hibernate.FlushMode;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import org.springframework.lang.Nullable;
 import org.springframework.transaction.support.ResourceHolderSupport;
 
 /**
@@ -28,7 +27,6 @@ public class SessionHolder extends ResourceHolderSupport {
 		_previousFlushMode = null;
 	}
 
-	@Nullable
 	public FlushMode getPreviousFlushMode() {
 		return _previousFlushMode;
 	}
@@ -37,25 +35,20 @@ public class SessionHolder extends ResourceHolderSupport {
 		return _session;
 	}
 
-	@Nullable
 	public Transaction getTransaction() {
 		return _transaction;
 	}
 
-	public void setPreviousFlushMode(@Nullable FlushMode previousFlushMode) {
+	public void setPreviousFlushMode(FlushMode previousFlushMode) {
 		_previousFlushMode = previousFlushMode;
 	}
 
-	public void setTransaction(@Nullable Transaction transaction) {
+	public void setTransaction(Transaction transaction) {
 		_transaction = transaction;
 	}
 
-	@Nullable
 	private FlushMode _previousFlushMode;
-
-	@Nullable
-	private Transaction _transaction;
-
 	private final Session _session;
+	private Transaction _transaction;
 
 }
