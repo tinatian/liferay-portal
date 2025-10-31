@@ -615,6 +615,16 @@ public class Entity implements Comparable<Entity> {
 		return entityColumn.getMethodName();
 	}
 
+	public String getPKName() {
+		if (hasCompoundPK()) {
+			return getVariableName() + "PK";
+		}
+
+		EntityColumn entityColumn = _getPKEntityColumn();
+
+		return entityColumn.getName();
+	}
+
 	public String getPKVariableName() {
 		if (hasCompoundPK()) {
 			return getVariableName() + "PK";

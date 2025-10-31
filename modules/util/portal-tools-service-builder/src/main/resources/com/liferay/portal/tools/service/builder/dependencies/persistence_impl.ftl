@@ -1548,7 +1548,7 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 
 			sb.append(getSelectSQL());
 			sb.append(" WHERE ");
-			sb.append(getPKDBName());
+			sb.append(getPKName());
 			sb.append(" IN (");
 
 			for (Serializable primaryKey : primaryKeys) {
@@ -2201,8 +2201,8 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 		}
 
 		@Override
-		protected String getPKDBName() {
-			return "${entity.PKDBName}";
+		protected String getPKName() {
+			return "${entity.PKName}";
 		}
 
 		@Override

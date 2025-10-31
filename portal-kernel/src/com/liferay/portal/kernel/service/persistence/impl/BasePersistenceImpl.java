@@ -456,7 +456,7 @@ public class BasePersistenceImpl<T extends BaseModel<T>>
 
 		sb.append(getSelectSQL());
 		sb.append(" WHERE ");
-		sb.append(getPKDBName());
+		sb.append(getPKName());
 		sb.append(" IN (");
 
 		if (_modelPKType == ModelPKType.STRING) {
@@ -932,7 +932,7 @@ public class BasePersistenceImpl<T extends BaseModel<T>>
 		throw new UnsupportedOperationException();
 	}
 
-	protected String getPKDBName() {
+	protected String getPKName() {
 		throw new UnsupportedOperationException();
 	}
 
