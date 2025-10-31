@@ -1646,7 +1646,7 @@ public class DispatchLogPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "dispatchLogId";
 	}
 

@@ -1140,7 +1140,7 @@ public class CommerceDiscountRulePersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "commerceDiscountRuleId";
 	}
 

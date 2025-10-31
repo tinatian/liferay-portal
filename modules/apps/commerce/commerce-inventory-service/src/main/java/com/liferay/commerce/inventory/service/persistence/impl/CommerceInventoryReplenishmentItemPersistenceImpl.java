@@ -5293,8 +5293,8 @@ public class CommerceInventoryReplenishmentItemPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
-		return "CIReplenishmentItemId";
+	protected String getPKName() {
+		return "commerceInventoryReplenishmentItemId";
 	}
 
 	@Override

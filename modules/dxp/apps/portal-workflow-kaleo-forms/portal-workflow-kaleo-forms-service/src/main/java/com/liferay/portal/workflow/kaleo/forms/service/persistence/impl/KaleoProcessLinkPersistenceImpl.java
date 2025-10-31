@@ -1306,7 +1306,7 @@ public class KaleoProcessLinkPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "kaleoProcessLinkId";
 	}
 

@@ -4214,7 +4214,7 @@ public class AssetListEntrySegmentsEntryRelPersistenceImpl
 
 		sb.append(getSelectSQL());
 		sb.append(" WHERE ");
-		sb.append(getPKDBName());
+		sb.append(getPKName());
 		sb.append(" IN (");
 
 		for (Serializable primaryKey : primaryKeys) {
@@ -4463,8 +4463,8 @@ public class AssetListEntrySegmentsEntryRelPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
-		return "alEntrySegmentsEntryRelId";
+	protected String getPKName() {
+		return "assetListEntrySegmentsEntryRelId";
 	}
 
 	@Override

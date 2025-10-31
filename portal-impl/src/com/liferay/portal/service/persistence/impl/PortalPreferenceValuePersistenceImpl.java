@@ -3424,7 +3424,7 @@ public class PortalPreferenceValuePersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "portalPreferenceValueId";
 	}
 

@@ -4647,7 +4647,7 @@ public class CommerceWishListPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "commerceWishListId";
 	}
 

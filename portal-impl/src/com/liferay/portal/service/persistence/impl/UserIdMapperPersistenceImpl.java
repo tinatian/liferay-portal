@@ -1502,7 +1502,7 @@ public class UserIdMapperPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "userIdMapperId";
 	}
 

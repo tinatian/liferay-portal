@@ -2095,7 +2095,7 @@ public class UserTrackerPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "userTrackerId";
 	}
 

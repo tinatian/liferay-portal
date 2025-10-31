@@ -809,7 +809,7 @@ public class RenameFinderColumnEntryPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "renameFinderColumnEntryId";
 	}
 

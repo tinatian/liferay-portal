@@ -15363,7 +15363,7 @@ public class ObjectDefinitionPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "objectDefinitionId";
 	}
 

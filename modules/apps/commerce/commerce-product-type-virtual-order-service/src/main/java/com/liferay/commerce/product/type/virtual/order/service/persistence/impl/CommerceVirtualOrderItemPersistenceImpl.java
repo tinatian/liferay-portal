@@ -2200,7 +2200,7 @@ public class CommerceVirtualOrderItemPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "commerceVirtualOrderItemId";
 	}
 

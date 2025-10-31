@@ -1390,7 +1390,7 @@ public class UserNotificationDeliveryPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "userNotificationDeliveryId";
 	}
 

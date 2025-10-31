@@ -2121,8 +2121,8 @@ public class CommerceNotificationTemplateCommerceAccountGroupRelPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
-		return "CNTemplateCAccountGroupRelId";
+	protected String getPKName() {
+		return "commerceNotificationTemplateCommerceAccountGroupRelId";
 	}
 
 	@Override

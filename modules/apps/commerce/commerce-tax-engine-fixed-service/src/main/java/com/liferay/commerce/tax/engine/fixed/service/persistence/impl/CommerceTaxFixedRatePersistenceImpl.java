@@ -1855,7 +1855,7 @@ public class CommerceTaxFixedRatePersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "commerceTaxFixedRateId";
 	}
 

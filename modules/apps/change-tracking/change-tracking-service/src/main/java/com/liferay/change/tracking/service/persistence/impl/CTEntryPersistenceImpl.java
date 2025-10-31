@@ -4140,7 +4140,7 @@ public class CTEntryPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "ctEntryId";
 	}
 

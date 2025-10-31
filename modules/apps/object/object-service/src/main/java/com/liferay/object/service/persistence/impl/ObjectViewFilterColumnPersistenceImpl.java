@@ -2874,7 +2874,7 @@ public class ObjectViewFilterColumnPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "objectViewFilterColumnId";
 	}
 

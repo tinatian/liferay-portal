@@ -2223,7 +2223,7 @@ public class ObjectFilterPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "objectFilterId";
 	}
 

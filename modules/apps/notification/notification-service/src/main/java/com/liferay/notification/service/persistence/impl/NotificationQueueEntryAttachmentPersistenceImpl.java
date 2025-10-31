@@ -1188,8 +1188,8 @@ public class NotificationQueueEntryAttachmentPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
-		return "NQueueEntryAttachmentId";
+	protected String getPKName() {
+		return "notificationQueueEntryAttachmentId";
 	}
 
 	@Override

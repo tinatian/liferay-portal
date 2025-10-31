@@ -11474,7 +11474,7 @@ public class ObjectRelationshipPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "objectRelationshipId";
 	}
 

@@ -2092,8 +2092,8 @@ public class CommerceShippingFixedOptionQualifierPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
-		return "CSFixedOptionQualifierId";
+	protected String getPKName() {
+		return "commerceShippingFixedOptionQualifierId";
 	}
 
 	@Override

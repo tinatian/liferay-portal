@@ -6002,7 +6002,7 @@ public class FragmentCollectionPersistenceImpl
 
 		sb.append(getSelectSQL());
 		sb.append(" WHERE ");
-		sb.append(getPKDBName());
+		sb.append(getPKName());
 		sb.append(" IN (");
 
 		for (Serializable primaryKey : primaryKeys) {
@@ -6246,7 +6246,7 @@ public class FragmentCollectionPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "fragmentCollectionId";
 	}
 

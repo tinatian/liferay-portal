@@ -1702,7 +1702,7 @@ public class SequenceEntryPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "sequenceEntryId";
 	}
 

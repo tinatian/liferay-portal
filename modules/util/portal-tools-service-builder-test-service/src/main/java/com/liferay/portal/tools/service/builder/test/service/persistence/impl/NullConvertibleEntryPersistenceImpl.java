@@ -768,7 +768,7 @@ public class NullConvertibleEntryPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "nullConvertibleEntryId";
 	}
 

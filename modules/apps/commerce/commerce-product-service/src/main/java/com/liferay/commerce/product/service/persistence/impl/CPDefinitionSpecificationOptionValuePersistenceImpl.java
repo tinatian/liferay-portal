@@ -6374,7 +6374,7 @@ public class CPDefinitionSpecificationOptionValuePersistenceImpl
 
 		sb.append(getSelectSQL());
 		sb.append(" WHERE ");
-		sb.append(getPKDBName());
+		sb.append(getPKName());
 		sb.append(" IN (");
 
 		for (Serializable primaryKey : primaryKeys) {
@@ -6631,8 +6631,8 @@ public class CPDefinitionSpecificationOptionValuePersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
-		return "CPDSpecificationOptionValueId";
+	protected String getPKName() {
+		return "CPDefinitionSpecificationOptionValueId";
 	}
 
 	@Override

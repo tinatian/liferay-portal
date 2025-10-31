@@ -1644,7 +1644,7 @@ public class SamlIdpSpSessionPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "samlIdpSpSessionId";
 	}
 

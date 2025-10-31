@@ -4964,7 +4964,7 @@ public class CommerceChannelAccountEntryRelPersistenceImpl
 
 		sb.append(getSelectSQL());
 		sb.append(" WHERE ");
-		sb.append(getPKDBName());
+		sb.append(getPKName());
 		sb.append(" IN (");
 
 		for (Serializable primaryKey : primaryKeys) {
@@ -5213,8 +5213,8 @@ public class CommerceChannelAccountEntryRelPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
-		return "CChannelAccountEntryRelId";
+	protected String getPKName() {
+		return "commerceChannelAccountEntryRelId";
 	}
 
 	@Override

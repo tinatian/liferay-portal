@@ -1283,7 +1283,7 @@ public class PasswordPolicyRelPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "passwordPolicyRelId";
 	}
 

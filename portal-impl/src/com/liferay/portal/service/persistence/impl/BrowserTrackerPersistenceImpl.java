@@ -734,7 +734,7 @@ public class BrowserTrackerPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "browserTrackerId";
 	}
 

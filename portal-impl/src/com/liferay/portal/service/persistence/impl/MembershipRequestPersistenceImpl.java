@@ -2701,7 +2701,7 @@ public class MembershipRequestPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "membershipRequestId";
 	}
 

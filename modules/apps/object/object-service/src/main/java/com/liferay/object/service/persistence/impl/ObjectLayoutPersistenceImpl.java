@@ -3336,7 +3336,7 @@ public class ObjectLayoutPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "objectLayoutId";
 	}
 

@@ -3204,7 +3204,7 @@ public class CommerceQualifierEntryPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "commerceQualifierEntryId";
 	}
 

@@ -1392,7 +1392,7 @@ public class OpenIdConnectUserPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "openIdConnectUserId";
 	}
 

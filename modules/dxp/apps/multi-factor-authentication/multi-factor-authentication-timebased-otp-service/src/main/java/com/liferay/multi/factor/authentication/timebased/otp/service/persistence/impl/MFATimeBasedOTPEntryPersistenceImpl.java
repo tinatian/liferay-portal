@@ -795,7 +795,7 @@ public class MFATimeBasedOTPEntryPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "mfaTimeBasedOTPEntryId";
 	}
 

@@ -1080,7 +1080,7 @@ public class UserTrackerPathPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "userTrackerPathId";
 	}
 

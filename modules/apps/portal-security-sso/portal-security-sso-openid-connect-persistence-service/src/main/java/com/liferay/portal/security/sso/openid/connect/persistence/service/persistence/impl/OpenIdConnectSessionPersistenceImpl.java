@@ -2612,7 +2612,7 @@ public class OpenIdConnectSessionPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "openIdConnectSessionId";
 	}
 

@@ -5080,7 +5080,7 @@ public class OAuth2ApplicationPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "oAuth2ApplicationId";
 	}
 

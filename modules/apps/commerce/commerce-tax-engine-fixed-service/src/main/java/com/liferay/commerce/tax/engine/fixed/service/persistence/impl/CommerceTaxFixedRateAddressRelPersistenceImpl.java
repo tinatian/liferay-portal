@@ -2216,8 +2216,8 @@ public class CommerceTaxFixedRateAddressRelPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
-		return "CTaxFixedRateAddressRelId";
+	protected String getPKName() {
+		return "commerceTaxFixedRateAddressRelId";
 	}
 
 	@Override

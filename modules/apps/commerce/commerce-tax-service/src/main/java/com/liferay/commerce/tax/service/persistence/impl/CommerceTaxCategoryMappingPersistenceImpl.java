@@ -3060,7 +3060,7 @@ public class CommerceTaxCategoryMappingPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "commerceTaxCategoryMappingId";
 	}
 

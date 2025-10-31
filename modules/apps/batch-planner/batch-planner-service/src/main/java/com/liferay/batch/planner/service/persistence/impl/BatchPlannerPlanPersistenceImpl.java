@@ -6483,7 +6483,7 @@ public class BatchPlannerPlanPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "batchPlannerPlanId";
 	}
 

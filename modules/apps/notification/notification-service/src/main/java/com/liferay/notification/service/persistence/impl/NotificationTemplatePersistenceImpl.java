@@ -3903,7 +3903,7 @@ public class NotificationTemplatePersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "notificationTemplateId";
 	}
 

@@ -9168,7 +9168,7 @@ public class BackgroundTaskPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "backgroundTaskId";
 	}
 

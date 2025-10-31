@@ -5260,7 +5260,7 @@ public class CommerceShipmentItemPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "commerceShipmentItemId";
 	}
 

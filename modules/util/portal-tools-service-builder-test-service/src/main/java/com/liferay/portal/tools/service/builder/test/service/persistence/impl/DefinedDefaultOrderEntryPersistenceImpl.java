@@ -1366,7 +1366,7 @@ public class DefinedDefaultOrderEntryPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "definedDefaultOrderEntryId";
 	}
 

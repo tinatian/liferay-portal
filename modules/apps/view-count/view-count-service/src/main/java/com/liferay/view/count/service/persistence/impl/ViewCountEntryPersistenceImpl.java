@@ -1112,7 +1112,7 @@ public class ViewCountEntryPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "viewCountEntryPK";
 	}
 

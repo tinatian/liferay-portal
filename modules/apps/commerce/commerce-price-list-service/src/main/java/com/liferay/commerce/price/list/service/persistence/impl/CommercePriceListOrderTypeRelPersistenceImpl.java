@@ -2585,7 +2585,7 @@ public class CommercePriceListOrderTypeRelPersistenceImpl
 
 		sb.append(getSelectSQL());
 		sb.append(" WHERE ");
-		sb.append(getPKDBName());
+		sb.append(getPKName());
 		sb.append(" IN (");
 
 		for (Serializable primaryKey : primaryKeys) {
@@ -2834,8 +2834,8 @@ public class CommercePriceListOrderTypeRelPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
-		return "CPriceListOrderTypeRelId";
+	protected String getPKName() {
+		return "commercePriceListOrderTypeRelId";
 	}
 
 	@Override

@@ -2312,7 +2312,7 @@ public class FaroChannelPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "faroChannelId";
 	}
 

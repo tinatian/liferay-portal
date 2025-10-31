@@ -4419,7 +4419,7 @@ public class CommerceCurrencyPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "commerceCurrencyId";
 	}
 

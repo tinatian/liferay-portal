@@ -3317,7 +3317,7 @@ public class CommerceOrderNotePersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "commerceOrderNoteId";
 	}
 

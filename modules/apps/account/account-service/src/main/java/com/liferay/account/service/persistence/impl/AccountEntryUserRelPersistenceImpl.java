@@ -1827,7 +1827,7 @@ public class AccountEntryUserRelPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "accountEntryUserRelId";
 	}
 

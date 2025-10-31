@@ -1765,7 +1765,7 @@ public class VersionedEntryPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "versionedEntryId";
 	}
 

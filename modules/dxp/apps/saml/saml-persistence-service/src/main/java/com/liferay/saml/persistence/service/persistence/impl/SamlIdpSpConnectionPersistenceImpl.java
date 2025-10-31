@@ -1359,7 +1359,7 @@ public class SamlIdpSpConnectionPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "samlIdpSpConnectionId";
 	}
 

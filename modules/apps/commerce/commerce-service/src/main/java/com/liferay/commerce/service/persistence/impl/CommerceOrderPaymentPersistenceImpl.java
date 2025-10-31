@@ -1124,7 +1124,7 @@ public class CommerceOrderPaymentPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "commerceOrderPaymentId";
 	}
 

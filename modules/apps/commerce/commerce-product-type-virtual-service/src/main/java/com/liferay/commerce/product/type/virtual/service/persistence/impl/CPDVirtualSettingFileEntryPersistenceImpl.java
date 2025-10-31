@@ -3089,8 +3089,8 @@ public class CPDVirtualSettingFileEntryPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
-		return "CPDVirtualSettingFileEntryId";
+	protected String getPKName() {
+		return "CPDefinitionVirtualSettingFileEntryId";
 	}
 
 	@Override

@@ -2012,7 +2012,7 @@ public class PermissionCheckFinderEntryPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "permissionCheckFinderEntryId";
 	}
 

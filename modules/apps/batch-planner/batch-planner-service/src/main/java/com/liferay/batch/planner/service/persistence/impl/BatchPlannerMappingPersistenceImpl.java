@@ -1402,7 +1402,7 @@ public class BatchPlannerMappingPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "batchPlannerMappingId";
 	}
 

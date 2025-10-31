@@ -2905,7 +2905,7 @@ public class AppPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "appId";
 	}
 

@@ -1378,7 +1378,7 @@ public class RedirectNotFoundEntryPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "redirectNotFoundEntryId";
 	}
 

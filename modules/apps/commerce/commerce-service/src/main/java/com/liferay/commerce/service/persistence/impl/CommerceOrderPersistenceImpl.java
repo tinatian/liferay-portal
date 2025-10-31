@@ -10555,7 +10555,7 @@ public class CommerceOrderPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "commerceOrderId";
 	}
 

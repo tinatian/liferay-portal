@@ -5070,7 +5070,7 @@ public class CommerceNotificationTemplatePersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "commerceNotificationTemplateId";
 	}
 

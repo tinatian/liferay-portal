@@ -1684,8 +1684,8 @@ public class OAuth2ApplicationScopeAliasesPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
-		return "oA2AScopeAliasesId";
+	protected String getPKName() {
+		return "oAuth2ApplicationScopeAliasesId";
 	}
 
 	@Override

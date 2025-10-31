@@ -4897,7 +4897,7 @@ public class ObjectValidationRulePersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "objectValidationRuleId";
 	}
 

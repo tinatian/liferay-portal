@@ -2592,7 +2592,7 @@ public class NotificationRecipientSettingPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "notificationRecipientSettingId";
 	}
 

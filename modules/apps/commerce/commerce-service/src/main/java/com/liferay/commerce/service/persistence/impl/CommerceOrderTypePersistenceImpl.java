@@ -6900,7 +6900,7 @@ public class CommerceOrderTypePersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "commerceOrderTypeId";
 	}
 

@@ -5008,7 +5008,7 @@ public class PatcherProjectVersionPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "patcherProjectVersionId";
 	}
 

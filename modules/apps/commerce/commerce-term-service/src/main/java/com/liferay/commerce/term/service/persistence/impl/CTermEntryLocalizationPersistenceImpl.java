@@ -1396,7 +1396,7 @@ public class CTermEntryLocalizationPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "cTermEntryLocalizationId";
 	}
 

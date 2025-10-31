@@ -3747,7 +3747,7 @@ public class PasswordPolicyPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "passwordPolicyId";
 	}
 

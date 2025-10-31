@@ -1339,7 +1339,7 @@ public class AkismetEntryPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "akismetEntryId";
 	}
 

@@ -7705,7 +7705,7 @@ public class LayoutRevisionPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "layoutRevisionId";
 	}
 

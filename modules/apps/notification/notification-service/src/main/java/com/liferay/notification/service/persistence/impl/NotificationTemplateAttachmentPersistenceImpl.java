@@ -1384,8 +1384,8 @@ public class NotificationTemplateAttachmentPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
-		return "NTemplateAttachmentId";
+	protected String getPKName() {
+		return "notificationTemplateAttachmentId";
 	}
 
 	@Override

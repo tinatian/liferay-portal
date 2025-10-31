@@ -3113,7 +3113,7 @@ public class ObjectDefinitionSettingPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "objectDefinitionSettingId";
 	}
 

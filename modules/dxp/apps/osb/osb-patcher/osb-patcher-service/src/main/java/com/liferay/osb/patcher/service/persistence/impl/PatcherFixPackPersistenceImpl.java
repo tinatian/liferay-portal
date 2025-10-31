@@ -8411,7 +8411,7 @@ public class PatcherFixPackPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "patcherFixPackId";
 	}
 

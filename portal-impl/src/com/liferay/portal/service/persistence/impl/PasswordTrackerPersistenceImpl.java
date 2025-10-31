@@ -1085,7 +1085,7 @@ public class PasswordTrackerPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "passwordTrackerId";
 	}
 

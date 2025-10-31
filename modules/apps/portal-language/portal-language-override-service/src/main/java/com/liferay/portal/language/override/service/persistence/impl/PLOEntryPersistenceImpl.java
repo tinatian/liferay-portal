@@ -2522,7 +2522,7 @@ public class PLOEntryPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "ploEntryId";
 	}
 

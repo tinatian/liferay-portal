@@ -4340,7 +4340,7 @@ public class FaroUserPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "faroUserId";
 	}
 

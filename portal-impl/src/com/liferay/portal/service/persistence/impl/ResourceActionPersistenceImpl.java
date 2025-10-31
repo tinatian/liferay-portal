@@ -1321,7 +1321,7 @@ public class ResourceActionPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "resourceActionId";
 	}
 

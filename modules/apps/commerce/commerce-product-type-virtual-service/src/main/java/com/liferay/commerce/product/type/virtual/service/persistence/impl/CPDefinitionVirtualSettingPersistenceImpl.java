@@ -2236,7 +2236,7 @@ public class CPDefinitionVirtualSettingPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "CPDefinitionVirtualSettingId";
 	}
 

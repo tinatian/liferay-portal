@@ -2777,7 +2777,7 @@ public class ObjectLayoutColumnPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "objectLayoutColumnId";
 	}
 

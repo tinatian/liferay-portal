@@ -1353,7 +1353,7 @@ public class ServiceComponentPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "serviceComponentId";
 	}
 

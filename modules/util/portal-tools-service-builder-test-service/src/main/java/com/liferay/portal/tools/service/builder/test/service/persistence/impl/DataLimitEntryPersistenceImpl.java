@@ -583,7 +583,7 @@ public class DataLimitEntryPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "dataLimitEntryId";
 	}
 

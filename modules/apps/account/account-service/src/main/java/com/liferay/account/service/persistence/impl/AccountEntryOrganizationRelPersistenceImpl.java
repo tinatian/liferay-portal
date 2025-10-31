@@ -1879,7 +1879,7 @@ public class AccountEntryOrganizationRelPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "accountEntryOrganizationRelId";
 	}
 

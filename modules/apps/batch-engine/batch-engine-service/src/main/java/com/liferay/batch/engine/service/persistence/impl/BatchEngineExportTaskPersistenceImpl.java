@@ -3141,7 +3141,7 @@ public class BatchEngineExportTaskPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "batchEngineExportTaskId";
 	}
 

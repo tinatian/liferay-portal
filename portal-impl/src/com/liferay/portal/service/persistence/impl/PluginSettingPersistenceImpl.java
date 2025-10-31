@@ -1329,7 +1329,7 @@ public class PluginSettingPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "pluginSettingId";
 	}
 

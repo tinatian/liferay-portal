@@ -1414,7 +1414,7 @@ public class CommerceShippingFixedOptionPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "commerceShippingFixedOptionId";
 	}
 

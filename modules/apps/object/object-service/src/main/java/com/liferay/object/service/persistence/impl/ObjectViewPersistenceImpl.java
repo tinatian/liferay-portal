@@ -2784,7 +2784,7 @@ public class ObjectViewPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "objectViewId";
 	}
 

@@ -758,7 +758,7 @@ public class CacheDisabledEntryPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "cacheDisabledEntryId";
 	}
 

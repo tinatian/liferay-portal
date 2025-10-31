@@ -532,7 +532,7 @@ public class AutoEscapeEntryPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "autoEscapeEntryId";
 	}
 

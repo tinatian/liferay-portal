@@ -3312,7 +3312,7 @@ public class DefinitionPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "definitionId";
 	}
 

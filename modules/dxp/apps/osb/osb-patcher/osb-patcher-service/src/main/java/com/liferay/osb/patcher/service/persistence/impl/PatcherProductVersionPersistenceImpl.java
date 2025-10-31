@@ -1746,7 +1746,7 @@ public class PatcherProductVersionPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "patcherProductVersionId";
 	}
 

@@ -2625,7 +2625,7 @@ public class ContactPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "contactId";
 	}
 

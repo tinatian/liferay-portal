@@ -1763,7 +1763,7 @@ public class ExpandoRowPersistenceImpl
 
 		sb.append(getSelectSQL());
 		sb.append(" WHERE ");
-		sb.append(getPKDBName());
+		sb.append(getPKName());
 		sb.append(" IN (");
 
 		for (Serializable primaryKey : primaryKeys) {
@@ -2001,8 +2001,8 @@ public class ExpandoRowPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
-		return "rowId_";
+	protected String getPKName() {
+		return "rowId";
 	}
 
 	@Override

@@ -1273,7 +1273,7 @@ public class CompanyPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "companyId";
 	}
 

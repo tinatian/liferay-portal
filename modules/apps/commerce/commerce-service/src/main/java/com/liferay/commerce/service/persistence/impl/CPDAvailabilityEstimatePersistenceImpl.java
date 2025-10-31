@@ -2508,7 +2508,7 @@ public class CPDAvailabilityEstimatePersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "CPDAvailabilityEstimateId";
 	}
 

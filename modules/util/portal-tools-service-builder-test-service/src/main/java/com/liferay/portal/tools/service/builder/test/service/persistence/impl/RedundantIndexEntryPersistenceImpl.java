@@ -788,7 +788,7 @@ public class RedundantIndexEntryPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "redundantIndexEntryId";
 	}
 

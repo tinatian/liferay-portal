@@ -1583,7 +1583,7 @@ public class PatcherFixRelPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "patcherFixRelId";
 	}
 

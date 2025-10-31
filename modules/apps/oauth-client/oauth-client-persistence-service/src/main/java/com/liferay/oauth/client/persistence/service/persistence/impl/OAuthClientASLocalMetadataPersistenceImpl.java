@@ -2695,7 +2695,7 @@ public class OAuthClientASLocalMetadataPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "oAuthClientASLocalMetadataId";
 	}
 

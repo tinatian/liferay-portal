@@ -1325,7 +1325,7 @@ public class LazyBlobEntryPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "lazyBlobEntryId";
 	}
 

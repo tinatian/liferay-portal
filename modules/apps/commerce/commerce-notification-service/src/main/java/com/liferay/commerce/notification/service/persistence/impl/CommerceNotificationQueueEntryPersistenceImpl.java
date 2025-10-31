@@ -3414,8 +3414,8 @@ public class CommerceNotificationQueueEntryPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
-		return "CNotificationQueueEntryId";
+	protected String getPKName() {
+		return "commerceNotificationQueueEntryId";
 	}
 
 	@Override

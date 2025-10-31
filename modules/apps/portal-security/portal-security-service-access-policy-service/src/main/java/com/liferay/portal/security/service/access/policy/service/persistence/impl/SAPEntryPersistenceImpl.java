@@ -4661,7 +4661,7 @@ public class SAPEntryPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "sapEntryId";
 	}
 

@@ -4138,7 +4138,7 @@ public class RedirectEntryPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "redirectEntryId";
 	}
 

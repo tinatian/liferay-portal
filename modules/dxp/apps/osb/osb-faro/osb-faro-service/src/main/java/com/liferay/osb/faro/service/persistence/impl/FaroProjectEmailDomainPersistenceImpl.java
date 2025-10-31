@@ -1608,7 +1608,7 @@ public class FaroProjectEmailDomainPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "faroProjectEmailDomainId";
 	}
 

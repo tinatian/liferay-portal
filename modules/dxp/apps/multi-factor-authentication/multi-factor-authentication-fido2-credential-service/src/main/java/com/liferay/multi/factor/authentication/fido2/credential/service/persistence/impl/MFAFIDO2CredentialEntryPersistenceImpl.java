@@ -1856,7 +1856,7 @@ public class MFAFIDO2CredentialEntryPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "mfaFIDO2CredentialEntryId";
 	}
 

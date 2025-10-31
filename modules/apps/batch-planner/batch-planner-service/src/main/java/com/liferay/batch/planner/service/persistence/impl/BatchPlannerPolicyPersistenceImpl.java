@@ -1346,7 +1346,7 @@ public class BatchPlannerPolicyPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "batchPlannerPolicyId";
 	}
 
