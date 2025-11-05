@@ -3021,7 +3021,7 @@ public class KaleoProcessPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "kaleoProcessId";
 	}
 

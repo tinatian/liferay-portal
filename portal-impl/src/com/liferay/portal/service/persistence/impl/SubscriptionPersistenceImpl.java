@@ -3350,7 +3350,7 @@ public class SubscriptionPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "subscriptionId";
 	}
 

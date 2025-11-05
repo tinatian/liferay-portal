@@ -1070,7 +1070,7 @@ public class AuditEventPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "auditEventId";
 	}
 

@@ -4526,7 +4526,7 @@ public class NotificationQueueEntryPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "notificationQueueEntryId";
 	}
 

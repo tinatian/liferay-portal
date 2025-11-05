@@ -4170,7 +4170,7 @@ public class LockPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "lockId";
 	}
 

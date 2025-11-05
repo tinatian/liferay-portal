@@ -1597,7 +1597,7 @@ public class PatcherBuildRelPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "patcherBuildRelId";
 	}
 

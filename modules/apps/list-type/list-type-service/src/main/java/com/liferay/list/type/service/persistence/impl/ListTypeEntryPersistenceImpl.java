@@ -4221,7 +4221,7 @@ public class ListTypeEntryPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "listTypeEntryId";
 	}
 

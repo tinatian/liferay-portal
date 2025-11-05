@@ -533,7 +533,7 @@ public class RSVEntryPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "rsvEntryId";
 	}
 

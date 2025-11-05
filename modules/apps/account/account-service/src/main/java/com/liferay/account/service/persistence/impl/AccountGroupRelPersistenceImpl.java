@@ -2436,7 +2436,7 @@ public class AccountGroupRelPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "accountGroupRelId";
 	}
 

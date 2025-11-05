@@ -744,7 +744,7 @@ public class DLStorageQuotaPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "dlStorageQuotaId";
 	}
 

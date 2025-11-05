@@ -6642,7 +6642,7 @@ public class SharingEntryPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "sharingEntryId";
 	}
 

@@ -6707,7 +6707,7 @@ public class LVEntryPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "lvEntryId";
 	}
 

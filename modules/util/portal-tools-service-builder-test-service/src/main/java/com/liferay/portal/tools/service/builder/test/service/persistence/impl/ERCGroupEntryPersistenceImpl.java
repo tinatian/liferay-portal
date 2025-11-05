@@ -2201,7 +2201,7 @@ public class ERCGroupEntryPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "ercGroupEntryId";
 	}
 

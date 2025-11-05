@@ -3722,7 +3722,7 @@ public class OAuth2AuthorizationPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "oAuth2AuthorizationId";
 	}
 

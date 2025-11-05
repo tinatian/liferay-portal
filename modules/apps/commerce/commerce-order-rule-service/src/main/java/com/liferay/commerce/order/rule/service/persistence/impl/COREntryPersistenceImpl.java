@@ -7951,7 +7951,7 @@ public class COREntryPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "COREntryId";
 	}
 

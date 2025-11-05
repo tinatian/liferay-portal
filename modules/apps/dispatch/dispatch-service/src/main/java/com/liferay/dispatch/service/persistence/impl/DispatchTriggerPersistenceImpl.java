@@ -8506,7 +8506,7 @@ public class DispatchTriggerPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "dispatchTriggerId";
 	}
 

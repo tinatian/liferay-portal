@@ -1271,7 +1271,7 @@ public class PortalPreferencesPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "portalPreferencesId";
 	}
 

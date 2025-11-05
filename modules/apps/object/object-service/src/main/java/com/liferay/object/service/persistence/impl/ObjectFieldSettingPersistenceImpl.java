@@ -2485,7 +2485,7 @@ public class ObjectFieldSettingPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "objectFieldSettingId";
 	}
 

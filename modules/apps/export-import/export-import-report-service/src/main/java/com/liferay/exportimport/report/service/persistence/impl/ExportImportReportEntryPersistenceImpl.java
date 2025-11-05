@@ -1193,7 +1193,7 @@ public class ExportImportReportEntryPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "exportImportReportEntryId";
 	}
 

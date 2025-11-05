@@ -1526,7 +1526,7 @@ public class CTCollectionTemplatePersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "ctCollectionTemplateId";
 	}
 

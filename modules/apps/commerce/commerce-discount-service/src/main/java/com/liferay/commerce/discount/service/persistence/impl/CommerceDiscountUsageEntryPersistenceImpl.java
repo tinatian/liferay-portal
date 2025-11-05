@@ -2892,7 +2892,7 @@ public class CommerceDiscountUsageEntryPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "commerceDiscountUsageEntryId";
 	}
 

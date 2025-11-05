@@ -2196,7 +2196,7 @@ public class SpringEntryPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "springEntryId";
 	}
 

@@ -1331,7 +1331,7 @@ public class EagerBlobEntryPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "eagerBlobEntryId";
 	}
 

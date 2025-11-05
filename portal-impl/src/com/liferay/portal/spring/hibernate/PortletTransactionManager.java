@@ -22,7 +22,6 @@ import org.hibernate.internal.SessionFactoryImpl;
 import org.hibernate.internal.SessionImpl;
 import org.hibernate.jdbc.Work;
 
-import org.springframework.orm.hibernate5.SessionHolder;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionException;
@@ -127,7 +126,7 @@ public class PortletTransactionManager implements PlatformTransactionManager {
 			portalSession.flush();
 		}
 
-		SessionBuilder<?> sessionBuilder = portletSessionFactory.withOptions();
+		SessionBuilder sessionBuilder = portletSessionFactory.withOptions();
 
 		sessionBuilder = sessionBuilder.connection(portalConnection);
 

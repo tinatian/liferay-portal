@@ -3244,7 +3244,7 @@ public class CPDefinitionGroupedEntryPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "CPDefinitionGroupedEntryId";
 	}
 

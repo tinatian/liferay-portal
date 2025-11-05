@@ -3729,7 +3729,7 @@ public class OAuthClientEntryPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "oAuthClientEntryId";
 	}
 

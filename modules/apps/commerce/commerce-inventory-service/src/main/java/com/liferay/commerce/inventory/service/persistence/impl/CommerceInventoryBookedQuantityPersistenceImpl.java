@@ -2446,8 +2446,8 @@ public class CommerceInventoryBookedQuantityPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
-		return "CIBookedQuantityId";
+	protected String getPKName() {
+		return "commerceInventoryBookedQuantityId";
 	}
 
 	@Override

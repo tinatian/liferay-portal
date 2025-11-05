@@ -1651,7 +1651,7 @@ public class ContactsLayoutTemplatePersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "contactsLayoutTemplateId";
 	}
 

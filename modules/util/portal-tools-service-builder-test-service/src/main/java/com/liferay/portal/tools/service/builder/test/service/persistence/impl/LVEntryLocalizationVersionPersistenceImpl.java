@@ -3266,7 +3266,7 @@ public class LVEntryLocalizationVersionPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "lvEntryLocalizationVersionId";
 	}
 

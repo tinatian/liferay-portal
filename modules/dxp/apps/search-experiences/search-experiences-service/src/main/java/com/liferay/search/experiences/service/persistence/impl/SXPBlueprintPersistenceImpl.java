@@ -3839,7 +3839,7 @@ public class SXPBlueprintPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "sxpBlueprintId";
 	}
 

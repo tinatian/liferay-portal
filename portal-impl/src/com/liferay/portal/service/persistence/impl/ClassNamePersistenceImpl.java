@@ -736,7 +736,7 @@ public class ClassNamePersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "classNameId";
 	}
 

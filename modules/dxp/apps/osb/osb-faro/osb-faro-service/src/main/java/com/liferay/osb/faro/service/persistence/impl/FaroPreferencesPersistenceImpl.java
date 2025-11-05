@@ -1267,7 +1267,7 @@ public class FaroPreferencesPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "faroPreferencesId";
 	}
 

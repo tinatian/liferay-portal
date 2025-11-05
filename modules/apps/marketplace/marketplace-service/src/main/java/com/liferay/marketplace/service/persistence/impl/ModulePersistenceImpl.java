@@ -3756,7 +3756,7 @@ public class ModulePersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "moduleId";
 	}
 

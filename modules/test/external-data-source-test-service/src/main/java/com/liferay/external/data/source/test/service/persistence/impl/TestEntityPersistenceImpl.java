@@ -534,8 +534,8 @@ public class TestEntityPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
-		return "id_";
+	protected String getPKName() {
+		return "id";
 	}
 
 	@Override

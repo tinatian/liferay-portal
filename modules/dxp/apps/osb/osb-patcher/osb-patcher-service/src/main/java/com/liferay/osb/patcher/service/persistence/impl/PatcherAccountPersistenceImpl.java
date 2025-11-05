@@ -3066,7 +3066,7 @@ public class PatcherAccountPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "patcherAccountId";
 	}
 

@@ -1068,7 +1068,7 @@ public class CTSchemaVersionPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "schemaVersionId";
 	}
 

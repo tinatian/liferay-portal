@@ -1125,7 +1125,7 @@ public class FinderWhereClauseEntryPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "finderWhereClauseEntryId";
 	}
 

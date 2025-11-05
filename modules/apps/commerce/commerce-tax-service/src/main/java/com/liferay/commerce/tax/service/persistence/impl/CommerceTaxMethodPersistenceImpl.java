@@ -1873,7 +1873,7 @@ public class CommerceTaxMethodPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "commerceTaxMethodId";
 	}
 

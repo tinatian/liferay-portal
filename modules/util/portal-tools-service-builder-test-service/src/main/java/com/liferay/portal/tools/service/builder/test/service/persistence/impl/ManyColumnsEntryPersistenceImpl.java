@@ -532,7 +532,7 @@ public class ManyColumnsEntryPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "manyColumnsEntryId";
 	}
 

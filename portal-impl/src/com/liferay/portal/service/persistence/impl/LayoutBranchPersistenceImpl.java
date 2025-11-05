@@ -2914,7 +2914,7 @@ public class LayoutBranchPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "layoutBranchId";
 	}
 

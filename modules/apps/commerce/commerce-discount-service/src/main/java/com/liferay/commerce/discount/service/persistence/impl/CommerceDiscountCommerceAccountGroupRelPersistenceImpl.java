@@ -2034,8 +2034,8 @@ public class CommerceDiscountCommerceAccountGroupRelPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
-		return "CDiscountCAccountGroupRelId";
+	protected String getPKName() {
+		return "commerceDiscountCommerceAccountGroupRelId";
 	}
 
 	@Override

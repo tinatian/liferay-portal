@@ -2543,7 +2543,7 @@ public class BigDecimalEntryPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "bigDecimalEntryId";
 	}
 

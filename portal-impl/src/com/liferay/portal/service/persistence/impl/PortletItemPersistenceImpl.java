@@ -2019,7 +2019,7 @@ public class PortletItemPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "portletItemId";
 	}
 

@@ -1265,8 +1265,8 @@ public class PortletPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
-		return "id_";
+	protected String getPKName() {
+		return "id";
 	}
 
 	@Override

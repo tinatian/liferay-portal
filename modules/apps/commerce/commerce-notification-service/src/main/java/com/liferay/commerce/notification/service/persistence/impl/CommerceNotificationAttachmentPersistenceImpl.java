@@ -2608,8 +2608,8 @@ public class CommerceNotificationAttachmentPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
-		return "CNotificationAttachmentId";
+	protected String getPKName() {
+		return "commerceNotificationAttachmentId";
 	}
 
 	@Override

@@ -797,7 +797,7 @@ public class PatcherTicketHintPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "patcherTicketHintId";
 	}
 

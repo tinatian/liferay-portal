@@ -1573,7 +1573,7 @@ public class CTCommentPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "ctCommentId";
 	}
 

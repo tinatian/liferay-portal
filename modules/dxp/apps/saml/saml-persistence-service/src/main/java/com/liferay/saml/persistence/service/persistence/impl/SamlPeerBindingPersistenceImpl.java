@@ -1892,7 +1892,7 @@ public class SamlPeerBindingPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "samlPeerBindingId";
 	}
 

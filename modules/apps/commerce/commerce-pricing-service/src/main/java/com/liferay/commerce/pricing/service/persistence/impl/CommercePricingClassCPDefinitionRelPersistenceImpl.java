@@ -2018,7 +2018,7 @@ public class CommercePricingClassCPDefinitionRelPersistenceImpl
 
 		sb.append(getSelectSQL());
 		sb.append(" WHERE ");
-		sb.append(getPKDBName());
+		sb.append(getPKName());
 		sb.append(" IN (");
 
 		for (Serializable primaryKey : primaryKeys) {
@@ -2275,8 +2275,8 @@ public class CommercePricingClassCPDefinitionRelPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
-		return "CPricingClassCPDefinitionRelId";
+	protected String getPKName() {
+		return "CommercePricingClassCPDefinitionRelId";
 	}
 
 	@Override

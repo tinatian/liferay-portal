@@ -2863,7 +2863,7 @@ public class ObjectViewSortColumnPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "objectViewSortColumnId";
 	}
 

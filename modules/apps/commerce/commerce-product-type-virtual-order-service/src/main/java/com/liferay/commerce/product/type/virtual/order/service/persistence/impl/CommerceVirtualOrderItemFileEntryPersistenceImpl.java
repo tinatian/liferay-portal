@@ -3213,8 +3213,8 @@ public class CommerceVirtualOrderItemFileEntryPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
-		return "cVirtualOrderItemFileEntryId";
+	protected String getPKName() {
+		return "commerceVirtualOrderItemFileEntryId";
 	}
 
 	@Override

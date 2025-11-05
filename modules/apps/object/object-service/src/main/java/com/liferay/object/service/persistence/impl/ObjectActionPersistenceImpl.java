@@ -4938,7 +4938,7 @@ public class ObjectActionPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "objectActionId";
 	}
 

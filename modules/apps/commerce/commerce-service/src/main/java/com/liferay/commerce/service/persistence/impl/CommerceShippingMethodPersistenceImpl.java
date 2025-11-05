@@ -1906,7 +1906,7 @@ public class CommerceShippingMethodPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "commerceShippingMethodId";
 	}
 

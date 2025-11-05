@@ -12603,7 +12603,7 @@ public class UserNotificationEventPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "userNotificationEventId";
 	}
 

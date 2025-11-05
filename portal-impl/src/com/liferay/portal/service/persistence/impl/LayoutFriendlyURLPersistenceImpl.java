@@ -6289,7 +6289,7 @@ public class LayoutFriendlyURLPersistenceImpl
 
 		sb.append(getSelectSQL());
 		sb.append(" WHERE ");
-		sb.append(getPKDBName());
+		sb.append(getPKName());
 		sb.append(" IN (");
 
 		for (Serializable primaryKey : primaryKeys) {
@@ -6533,7 +6533,7 @@ public class LayoutFriendlyURLPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "layoutFriendlyURLId";
 	}
 

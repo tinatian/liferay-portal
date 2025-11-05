@@ -5799,7 +5799,7 @@ public class AccountEntryPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "accountEntryId";
 	}
 

@@ -6707,7 +6707,7 @@ public class SXPElementPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "sxpElementId";
 	}
 

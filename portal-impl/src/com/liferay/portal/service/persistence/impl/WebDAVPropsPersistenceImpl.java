@@ -780,7 +780,7 @@ public class WebDAVPropsPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "webDavPropsId";
 	}
 

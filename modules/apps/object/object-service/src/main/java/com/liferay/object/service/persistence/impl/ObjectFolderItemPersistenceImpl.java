@@ -2974,7 +2974,7 @@ public class ObjectFolderItemPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "objectFolderItemId";
 	}
 

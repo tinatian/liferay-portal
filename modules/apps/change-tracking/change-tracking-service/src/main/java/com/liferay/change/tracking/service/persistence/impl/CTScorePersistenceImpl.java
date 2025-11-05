@@ -730,7 +730,7 @@ public class CTScorePersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "ctScoreId";
 	}
 

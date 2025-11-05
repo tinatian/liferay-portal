@@ -2021,8 +2021,8 @@ public class CommerceInventoryWarehouseRelPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
-		return "CIWarehouseRelId";
+	protected String getPKName() {
+		return "commerceInventoryWarehouseRelId";
 	}
 
 	@Override

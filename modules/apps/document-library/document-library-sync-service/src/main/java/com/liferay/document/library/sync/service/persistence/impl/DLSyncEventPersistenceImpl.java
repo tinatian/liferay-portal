@@ -1228,7 +1228,7 @@ public class DLSyncEventPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "syncEventId";
 	}
 

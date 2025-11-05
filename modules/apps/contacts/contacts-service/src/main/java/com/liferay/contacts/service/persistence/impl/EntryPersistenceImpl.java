@@ -1293,7 +1293,7 @@ public class EntryPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "entryId";
 	}
 

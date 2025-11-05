@@ -2106,8 +2106,8 @@ public class CommercePaymentMethodGroupRelQualifierPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
-		return "CPMethodGroupRelQualifierId";
+	protected String getPKName() {
+		return "commercePaymentMethodGroupRelQualifierId";
 	}
 
 	@Override

@@ -2251,7 +2251,7 @@ public class ObjectLayoutBoxPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "objectLayoutBoxId";
 	}
 

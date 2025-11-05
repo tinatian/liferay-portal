@@ -1386,7 +1386,7 @@ public class SamlSpMessagePersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "samlSpMessageId";
 	}
 

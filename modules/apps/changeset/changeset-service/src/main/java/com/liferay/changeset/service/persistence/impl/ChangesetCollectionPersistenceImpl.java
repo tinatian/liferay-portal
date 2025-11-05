@@ -2956,7 +2956,7 @@ public class ChangesetCollectionPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "changesetCollectionId";
 	}
 

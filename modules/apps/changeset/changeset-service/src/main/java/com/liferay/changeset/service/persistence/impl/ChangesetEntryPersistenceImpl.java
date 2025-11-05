@@ -3421,7 +3421,7 @@ public class ChangesetEntryPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "changesetEntryId";
 	}
 

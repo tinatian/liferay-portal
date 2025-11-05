@@ -539,7 +539,7 @@ public class DSLQueryStatusEntryPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "dslQueryStatusEntryId";
 	}
 

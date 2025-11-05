@@ -1356,7 +1356,7 @@ public class LocalizedEntryLocalizationPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "localizedEntryLocalizationId";
 	}
 

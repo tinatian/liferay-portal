@@ -2932,8 +2932,8 @@ public class WorkflowMetricsSLADefinitionVersionPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
-		return "wmSLADefinitionVersionId";
+	protected String getPKName() {
+		return "workflowMetricsSLADefinitionVersionId";
 	}
 
 	@Override

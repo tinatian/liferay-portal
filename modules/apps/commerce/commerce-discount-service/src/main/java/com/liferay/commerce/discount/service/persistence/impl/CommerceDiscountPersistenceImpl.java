@@ -8404,7 +8404,7 @@ public class CommerceDiscountPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "commerceDiscountId";
 	}
 

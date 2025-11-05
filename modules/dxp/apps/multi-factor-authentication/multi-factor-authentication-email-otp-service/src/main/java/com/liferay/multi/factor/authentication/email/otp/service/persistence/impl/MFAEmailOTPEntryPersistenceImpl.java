@@ -774,7 +774,7 @@ public class MFAEmailOTPEntryPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "mfaEmailOTPEntryId";
 	}
 

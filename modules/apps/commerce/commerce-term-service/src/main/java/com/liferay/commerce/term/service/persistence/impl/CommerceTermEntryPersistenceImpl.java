@@ -8613,7 +8613,7 @@ public class CommerceTermEntryPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "commerceTermEntryId";
 	}
 

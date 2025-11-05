@@ -3317,7 +3317,7 @@ public class ObjectStateTransitionPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "objectStateTransitionId";
 	}
 

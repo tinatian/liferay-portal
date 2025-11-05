@@ -4814,7 +4814,7 @@ public class ERCVersionedEntryPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "ercVersionedEntryId";
 	}
 

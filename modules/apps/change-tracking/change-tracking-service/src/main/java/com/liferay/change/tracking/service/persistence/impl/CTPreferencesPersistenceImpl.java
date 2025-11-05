@@ -1787,7 +1787,7 @@ public class CTPreferencesPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "ctPreferencesId";
 	}
 

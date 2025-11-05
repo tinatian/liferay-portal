@@ -4925,7 +4925,7 @@ public class CommerceMLForecastAlertEntryPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "commerceMLForecastAlertEntryId";
 	}
 

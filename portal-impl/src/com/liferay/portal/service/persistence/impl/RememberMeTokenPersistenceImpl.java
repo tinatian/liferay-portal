@@ -1612,7 +1612,7 @@ public class RememberMeTokenPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "rememberMeTokenId";
 	}
 

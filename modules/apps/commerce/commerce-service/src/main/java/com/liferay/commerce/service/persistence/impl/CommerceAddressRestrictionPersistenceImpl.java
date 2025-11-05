@@ -1927,7 +1927,7 @@ public class CommerceAddressRestrictionPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "commerceAddressRestrictionId";
 	}
 

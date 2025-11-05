@@ -7874,7 +7874,7 @@ public class AccountGroupPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "accountGroupId";
 	}
 

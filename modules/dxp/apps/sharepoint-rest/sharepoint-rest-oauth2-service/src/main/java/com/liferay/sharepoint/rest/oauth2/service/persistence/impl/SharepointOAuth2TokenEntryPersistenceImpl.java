@@ -1364,7 +1364,7 @@ public class SharepointOAuth2TokenEntryPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "sharepointOAuth2TokenEntryId";
 	}
 

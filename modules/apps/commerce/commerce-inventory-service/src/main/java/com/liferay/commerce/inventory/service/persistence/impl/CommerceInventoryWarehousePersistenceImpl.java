@@ -7182,8 +7182,8 @@ public class CommerceInventoryWarehousePersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
-		return "CIWarehouseId";
+	protected String getPKName() {
+		return "commerceInventoryWarehouseId";
 	}
 
 	@Override

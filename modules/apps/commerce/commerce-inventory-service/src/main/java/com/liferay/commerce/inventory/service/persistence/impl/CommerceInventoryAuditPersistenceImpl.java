@@ -1839,8 +1839,8 @@ public class CommerceInventoryAuditPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
-		return "CIAuditId";
+	protected String getPKName() {
+		return "commerceInventoryAuditId";
 	}
 
 	@Override

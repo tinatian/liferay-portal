@@ -1560,7 +1560,7 @@ public class SamlIdpSsoSessionPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "samlIdpSsoSessionId";
 	}
 

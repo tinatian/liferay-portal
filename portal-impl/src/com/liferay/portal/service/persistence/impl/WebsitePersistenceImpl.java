@@ -4708,7 +4708,7 @@ public class WebsitePersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "websiteId";
 	}
 

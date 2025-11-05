@@ -1464,7 +1464,7 @@ public class CTRemotePersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "ctRemoteId";
 	}
 

@@ -4772,7 +4772,7 @@ public class AccountRolePersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "accountRoleId";
 	}
 

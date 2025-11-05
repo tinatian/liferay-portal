@@ -2326,7 +2326,7 @@ public class RecentLayoutRevisionPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "recentLayoutRevisionId";
 	}
 

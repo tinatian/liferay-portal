@@ -7436,7 +7436,7 @@ public class ObjectEntryPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "objectEntryId";
 	}
 

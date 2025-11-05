@@ -2604,8 +2604,8 @@ public class CommerceShippingOptionAccountEntryRelPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
-		return "CSOptionAccountEntryRelId";
+	protected String getPKName() {
+		return "CommerceShippingOptionAccountEntryRelId";
 	}
 
 	@Override

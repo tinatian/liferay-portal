@@ -2000,7 +2000,7 @@ public class ERCCompanyEntryPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "ercCompanyEntryId";
 	}
 

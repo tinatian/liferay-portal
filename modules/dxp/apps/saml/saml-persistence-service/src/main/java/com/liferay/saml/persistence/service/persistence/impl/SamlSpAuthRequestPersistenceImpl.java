@@ -1396,7 +1396,7 @@ public class SamlSpAuthRequestPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "samlSpAuthnRequestId";
 	}
 

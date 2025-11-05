@@ -1061,7 +1061,7 @@ public class CacheFieldEntryPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "cacheFieldEntryId";
 	}
 

@@ -1064,7 +1064,7 @@ public class DLOpenerFileEntryReferencePersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "dlOpenerFileEntryReferenceId";
 	}
 

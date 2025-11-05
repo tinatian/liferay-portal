@@ -2171,7 +2171,7 @@ public class FaroProjectPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "faroProjectId";
 	}
 

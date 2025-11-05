@@ -1707,7 +1707,7 @@ public class PushNotificationsDevicePersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "pushNotificationsDeviceId";
 	}
 

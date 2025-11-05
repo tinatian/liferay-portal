@@ -2759,7 +2759,7 @@ public class ObjectLayoutTabPersistenceImpl
 	}
 
 	@Override
-	protected String getPKDBName() {
+	protected String getPKName() {
 		return "objectLayoutTabId";
 	}
 
