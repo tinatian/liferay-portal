@@ -11,6 +11,7 @@ import com.liferay.petra.lang.SafeCloseable;
 import com.liferay.petra.lang.ThreadContextClassLoaderUtil;
 import com.liferay.petra.reflect.ReflectionUtil;
 import com.liferay.petra.string.CharPool;
+import com.liferay.portal.dao.init.DBInitUtil;
 import com.liferay.portal.internal.change.tracking.hibernate.CTSQLInterceptor;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
 import com.liferay.portal.kernel.dao.db.DBType;
@@ -85,6 +86,10 @@ public class PortalHibernateConfiguration
 	implements FactoryBean<SessionFactory>, PersistenceExceptionTranslator {
 
 	public void afterPropertiesSet() throws IOException {
+		if (_dataSource == null) {
+			_dataSource = DBInitUtil.getDataSource();
+		}
+
 		Dialect dialect = DialectDetector.getDialect(_dataSource);
 
 		if (DBManagerUtil.getDBType(dialect) == DBType.ORACLE) {
@@ -113,9 +118,7 @@ public class PortalHibernateConfiguration
 			"hibernate.classLoaders",
 			Collections.singleton(ClassUtils.getDefaultClassLoader()));
 
-		if (_dataSource != null) {
-			properties.put("hibernate.connection.datasource", _dataSource);
-		}
+		properties.put("hibernate.connection.datasource", _dataSource);
 
 		properties.put(
 			"hibernate.connection.handling_mode",

@@ -42,7 +42,6 @@
 				<value>META-INF/counter-hbm.xml</value>
 			</array>
 		</property>
-		<property name="dataSource" ref="liferayDataSource" />
 		<property name="mvccEnabled" value="false" />
 	</bean>
 </beans>

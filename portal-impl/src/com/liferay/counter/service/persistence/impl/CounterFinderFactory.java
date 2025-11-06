@@ -6,12 +6,11 @@
 package com.liferay.counter.service.persistence.impl;
 
 import com.liferay.counter.kernel.service.persistence.CounterFinder;
+import com.liferay.portal.dao.init.DBInitUtil;
 import com.liferay.portal.dao.orm.hibernate.SessionFactoryImpl;
 import com.liferay.portal.kernel.dao.orm.SessionFactory;
 import com.liferay.portal.kernel.util.PortalClassLoaderUtil;
 import com.liferay.portal.kernel.util.PropsValues;
-
-import javax.sql.DataSource;
 
 /**
  * @author Shuyang Zhou
@@ -19,7 +18,7 @@ import javax.sql.DataSource;
 public class CounterFinderFactory {
 
 	public static CounterFinder createCounterFinder(
-		DataSource dataSource, SessionFactory sessionFactory) {
+		SessionFactory sessionFactory) {
 
 		if (sessionFactory instanceof SessionFactoryImpl) {
 			SessionFactoryImpl sessionFactoryImpl =
@@ -40,7 +39,7 @@ public class CounterFinderFactory {
 			counterFinderImpl = new CounterFinderImpl();
 		}
 
-		counterFinderImpl.setDataSource(dataSource);
+		counterFinderImpl.setDataSource(DBInitUtil.getDataSource());
 		counterFinderImpl.setSessionFactory(sessionFactory);
 
 		return counterFinderImpl;

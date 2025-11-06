@@ -153,8 +153,7 @@ public class PortalContextLoaderListener extends ContextLoaderListener {
 			}
 		}
 
-		DataSource dataSource = (DataSource)PortalBeanLocatorUtil.locate(
-			"liferayDataSource");
+		DataSource dataSource = DBInitUtil.getDataSource();
 
 		super.contextDestroyed(servletContextEvent);
 

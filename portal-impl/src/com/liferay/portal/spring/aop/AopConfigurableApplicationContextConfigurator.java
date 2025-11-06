@@ -6,6 +6,7 @@
 package com.liferay.portal.spring.aop;
 
 import com.liferay.petra.reflect.ReflectionUtil;
+import com.liferay.portal.dao.init.DBInitUtil;
 import com.liferay.portal.dao.orm.hibernate.SessionFactoryImpl;
 import com.liferay.portal.dao.orm.hibernate.VerifySessionFactoryWrapper;
 import com.liferay.portal.kernel.aop.SkipAop;
@@ -138,9 +139,7 @@ public class AopConfigurableApplicationContextConfigurator
 		private PlatformTransactionManager _getPlatformTransactionManager(
 			ConfigurableListableBeanFactory configurableListableBeanFactory) {
 
-			DataSource liferayDataSource =
-				configurableListableBeanFactory.getBean(
-					"liferayDataSource", DataSource.class);
+			DataSource liferayDataSource = DBInitUtil.getDataSource();
 
 			SessionFactoryImplementor liferayHibernateSessionFactory = null;
 
