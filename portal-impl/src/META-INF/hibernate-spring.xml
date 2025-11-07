@@ -36,12 +36,4 @@
 	</bean>
 	<bean class="com.liferay.portal.kernel.util.InfrastructureUtil" factory-method="getSessionFactory" id="liferayHibernateSessionFactory" />
 	<bean class="com.liferay.portal.kernel.util.InfrastructureUtil" factory-method="getTransactionManager" id="liferayTransactionManager" />
-	<bean class="com.liferay.portal.spring.hibernate.PortalHibernateConfiguration" id="counterHibernateSessionFactory">
-		<property name="configurationResources">
-			<array>
-				<value>META-INF/counter-hbm.xml</value>
-			</array>
-		</property>
-		<property name="mvccEnabled" value="false" />
-	</bean>
 </beans>

@@ -8,25 +8,36 @@ package com.liferay.counter.service.persistence.impl;
 import com.liferay.counter.kernel.service.persistence.CounterFinder;
 import com.liferay.portal.dao.init.DBInitUtil;
 import com.liferay.portal.dao.orm.hibernate.SessionFactoryImpl;
-import com.liferay.portal.kernel.dao.orm.SessionFactory;
 import com.liferay.portal.kernel.util.PortalClassLoaderUtil;
 import com.liferay.portal.kernel.util.PropsValues;
+import com.liferay.portal.spring.hibernate.PortalHibernateConfiguration;
+
+import java.io.IOException;
+
+import org.hibernate.engine.spi.SessionFactoryImplementor;
 
 /**
  * @author Shuyang Zhou
  */
 public class CounterFinderFactory {
 
-	public static CounterFinder createCounterFinder(
-		SessionFactory sessionFactory) {
+	public static CounterFinder createCounterFinder() throws IOException {
+		PortalHibernateConfiguration portalHibernateConfiguration =
+			new PortalHibernateConfiguration();
 
-		if (sessionFactory instanceof SessionFactoryImpl) {
-			SessionFactoryImpl sessionFactoryImpl =
-				(SessionFactoryImpl)sessionFactory;
+		portalHibernateConfiguration.setConfigurationResources(
+			new String[] {"META-INF/counter-hbm.xml"});
+		portalHibernateConfiguration.setMvccEnabled(false);
 
-			sessionFactoryImpl.setSessionFactoryClassLoader(
-				PortalClassLoaderUtil.getClassLoader());
-		}
+		portalHibernateConfiguration.afterPropertiesSet();
+
+		SessionFactoryImpl sessionFactoryImpl = new SessionFactoryImpl();
+
+		sessionFactoryImpl.setSessionFactoryImplementor(
+			(SessionFactoryImplementor)
+				portalHibernateConfiguration.getObject());
+		sessionFactoryImpl.setSessionFactoryClassLoader(
+			PortalClassLoaderUtil.getClassLoader());
 
 		CounterFinderImpl counterFinderImpl = null;
 
@@ -40,7 +51,7 @@ public class CounterFinderFactory {
 		}
 
 		counterFinderImpl.setDataSource(DBInitUtil.getDataSource());
-		counterFinderImpl.setSessionFactory(sessionFactory);
+		counterFinderImpl.setSessionFactory(sessionFactoryImpl);
 
 		return counterFinderImpl;
 	}
