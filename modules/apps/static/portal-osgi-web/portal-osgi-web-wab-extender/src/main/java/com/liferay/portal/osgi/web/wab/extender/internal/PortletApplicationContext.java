@@ -112,8 +112,6 @@ public class PortletApplicationContext extends XmlWebApplicationContext {
 			"WEB-INF/classes/META-INF/cluster-spring.xml");
 		serviceBuilderPropertiesConfigLocations.remove(
 			"WEB-INF/classes/META-INF/hibernate-spring.xml");
-		serviceBuilderPropertiesConfigLocations.remove(
-			"WEB-INF/classes/META-INF/infrastructure-spring.xml");
 
 		return ArrayUtil.append(
 			configLocations,

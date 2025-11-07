@@ -6,6 +6,7 @@
 package com.liferay.portal.spring.aop;
 
 import com.liferay.petra.reflect.ReflectionUtil;
+import com.liferay.portal.dao.init.DBInitUtil;
 import com.liferay.portal.dao.orm.hibernate.SessionFactoryImpl;
 import com.liferay.portal.dao.orm.hibernate.VerifySessionFactoryWrapper;
 import com.liferay.portal.kernel.aop.SkipAop;
@@ -138,9 +139,7 @@ public class AopConfigurableApplicationContextConfigurator
 		private PlatformTransactionManager _getPlatformTransactionManager(
 			ConfigurableListableBeanFactory configurableListableBeanFactory) {
 
-			DataSource liferayDataSource =
-				configurableListableBeanFactory.getBean(
-					"liferayDataSource", DataSource.class);
+			DataSource liferayDataSource = DBInitUtil.getDataSource();
 
 			SessionFactoryImplementor liferayHibernateSessionFactory = null;
 
@@ -149,9 +148,8 @@ public class AopConfigurableApplicationContextConfigurator
 
 			if (PortalClassLoaderUtil.isPortalClassLoader(_classLoader)) {
 				liferayHibernateSessionFactory =
-					configurableListableBeanFactory.getBean(
-						"liferayHibernateSessionFactory",
-						SessionFactoryImplementor.class);
+					(SessionFactoryImplementor)
+						InfrastructureUtil.getSessionFactory();
 			}
 			else {
 				PortletHibernateConfiguration portletHibernateConfiguration =
@@ -192,9 +190,8 @@ public class AopConfigurableApplicationContextConfigurator
 					liferayDataSource, sessionFactory));
 
 			if (PortalClassLoaderUtil.isPortalClassLoader(_classLoader)) {
-				return configurableListableBeanFactory.getBean(
-					"liferayTransactionManager",
-					PlatformTransactionManager.class);
+				return (PlatformTransactionManager)
+					InfrastructureUtil.getTransactionManager();
 			}
 
 			if (InfrastructureUtil.getDataSource() == liferayDataSource) {

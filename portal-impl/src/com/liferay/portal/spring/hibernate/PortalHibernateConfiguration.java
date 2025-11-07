@@ -11,6 +11,7 @@ import com.liferay.petra.lang.SafeCloseable;
 import com.liferay.petra.lang.ThreadContextClassLoaderUtil;
 import com.liferay.petra.reflect.ReflectionUtil;
 import com.liferay.petra.string.CharPool;
+import com.liferay.portal.dao.init.DBInitUtil;
 import com.liferay.portal.internal.change.tracking.hibernate.CTSQLInterceptor;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
 import com.liferay.portal.kernel.dao.db.DBType;
@@ -26,6 +27,8 @@ import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 
+import jakarta.persistence.PersistenceException;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -39,6 +42,7 @@ import java.net.URLConnection;
 
 import java.nio.ByteBuffer;
 
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -61,13 +65,16 @@ import org.hibernate.dialect.Dialect;
 import org.hibernate.engine.spi.SessionFactoryImplementor;
 import org.hibernate.internal.SessionFactoryImpl;
 import org.hibernate.metamodel.spi.MetamodelImplementor;
+import org.hibernate.resource.jdbc.spi.PhysicalConnectionHandlingMode;
 import org.hibernate.type.spi.TypeConfiguration;
 
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 
-import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
-import org.springframework.orm.hibernate5.LocalSessionFactoryBuilder;
+import org.springframework.beans.factory.FactoryBean;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.support.PersistenceExceptionTranslator;
+import org.springframework.util.ClassUtils;
 
 /**
  * @author Brian Wing Shun Chan
@@ -75,10 +82,14 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBuilder;
  * @author Shuyang Zhou
  * @author Tomas Polesovsky
  */
-public class PortalHibernateConfiguration extends LocalSessionFactoryBean {
+public class PortalHibernateConfiguration
+	implements FactoryBean<SessionFactory>, PersistenceExceptionTranslator {
 
-	@Override
 	public void afterPropertiesSet() throws IOException {
+		if (_dataSource == null) {
+			_dataSource = DBInitUtil.getDataSource();
+		}
+
 		Dialect dialect = DialectDetector.getDialect(_dataSource);
 
 		if (DBManagerUtil.getDBType(dialect) == DBType.ORACLE) {
@@ -93,13 +104,26 @@ public class PortalHibernateConfiguration extends LocalSessionFactoryBean {
 
 		Properties properties = PropsUtil.getProperties();
 
-		properties.remove("hibernate.cache.region.factory_class");
+		properties.setProperty("jakarta.persistence.validation.mode", "none");
 
 		properties.setProperty(
 			"hibernate.allow_update_outside_transaction", "true");
+
+		properties.remove("hibernate.cache.region.factory_class");
 		properties.setProperty("hibernate.cache.use_query_cache", "false");
 		properties.setProperty(
 			"hibernate.cache.use_second_level_cache", "false");
+
+		properties.put(
+			"hibernate.classLoaders",
+			Collections.singleton(ClassUtils.getDefaultClassLoader()));
+
+		properties.put("hibernate.connection.datasource", _dataSource);
+
+		properties.put(
+			"hibernate.connection.handling_mode",
+			PhysicalConnectionHandlingMode.DELAYED_ACQUISITION_AND_HOLD);
+
 		properties.setProperty(
 			"hibernate.current_session_context_class",
 			PortalCurrentSessionContext.class.getName());
@@ -112,9 +136,6 @@ public class PortalHibernateConfiguration extends LocalSessionFactoryBean {
 
 		properties.setProperty(
 			"hibernate.query.sql.jdbc_style_params_base", "true");
-		properties.setProperty("jakarta.persistence.validation.mode", "none");
-
-		setHibernateProperties(properties);
 
 		BootstrapServiceRegistryBuilder bootstrapServiceRegistryBuilder =
 			new BootstrapServiceRegistryBuilder();
@@ -130,14 +151,43 @@ public class PortalHibernateConfiguration extends LocalSessionFactoryBean {
 				new CTModelIntegrator());
 			bootstrapServiceRegistryBuilder.applyIntegrator(
 				MVCCEventListenerIntegrator.INSTANCE);
-
-			setEntityInterceptor(new CTSQLInterceptor());
 		}
 
-		setMetadataSources(
+		Configuration configuration = new Configuration(
 			new MetadataSources(bootstrapServiceRegistryBuilder.build()));
 
-		super.afterPropertiesSet();
+		if (_mvccEnabled) {
+			configuration.setInterceptor(new CTSQLInterceptor());
+		}
+
+		configuration.addProperties(properties);
+
+		_sessionFactory = _buildSessionFactory(configuration);
+	}
+
+	public void destroy() {
+		if (_sessionFactory != null) {
+			_sessionFactory.close();
+		}
+	}
+
+	@Override
+	public SessionFactory getObject() {
+		return _sessionFactory;
+	}
+
+	@Override
+	public Class<?> getObjectType() {
+		if (_sessionFactory != null) {
+			return _sessionFactory.getClass();
+		}
+
+		return SessionFactory.class;
+	}
+
+	@Override
+	public boolean isSingleton() {
+		return true;
 	}
 
 	public void setConfigurationResources(String[] configurationResources) {
@@ -145,8 +195,6 @@ public class PortalHibernateConfiguration extends LocalSessionFactoryBean {
 	}
 
 	public void setDataSource(DataSource dataSource) {
-		super.setDataSource(dataSource);
-
 		_dataSource = dataSource;
 	}
 
@@ -155,8 +203,43 @@ public class PortalHibernateConfiguration extends LocalSessionFactoryBean {
 	}
 
 	@Override
-	protected SessionFactory buildSessionFactory(
-			LocalSessionFactoryBuilder localSessionFactoryBuilder)
+	public DataAccessException translateExceptionIfPossible(
+		RuntimeException runtimeException) {
+
+		if (runtimeException instanceof HibernateException hibernateException) {
+			return SessionFactoryUtils.convertHibernateAccessException(
+				hibernateException);
+		}
+		else if (runtimeException instanceof PersistenceException) {
+			Throwable throwable = runtimeException.getCause();
+
+			if (throwable instanceof HibernateException) {
+				HibernateException hibernateException =
+					(HibernateException)throwable;
+
+				return SessionFactoryUtils.convertHibernateAccessException(
+					hibernateException);
+			}
+		}
+
+		return null;
+	}
+
+	protected ClassLoader getConfigurationClassLoader() {
+		Class<?> clazz = getClass();
+
+		return clazz.getClassLoader();
+	}
+
+	protected String[] getConfigurationResources() {
+		if (_configurationResources == null) {
+			return PropsUtil.getArray(PropsKeys.HIBERNATE_CONFIGS);
+		}
+
+		return _configurationResources;
+	}
+
+	private SessionFactory _buildSessionFactory(Configuration configuration)
 		throws HibernateException {
 
 		try {
@@ -164,7 +247,7 @@ public class PortalHibernateConfiguration extends LocalSessionFactoryBean {
 
 			for (String resource : resources) {
 				try {
-					readResource(localSessionFactoryBuilder, resource);
+					_readResource(configuration, resource);
 				}
 				catch (Exception exception) {
 					if (_log.isWarnEnabled()) {
@@ -177,8 +260,7 @@ public class PortalHibernateConfiguration extends LocalSessionFactoryBean {
 			_log.error(exception);
 		}
 
-		SessionFactory sessionFactory = super.buildSessionFactory(
-			localSessionFactoryBuilder);
+		SessionFactory sessionFactory = configuration.buildSessionFactory();
 
 		SessionFactoryImplementor sessionFactoryImplementor =
 			(SessionFactoryImplementor)sessionFactory;
@@ -207,59 +289,6 @@ public class PortalHibernateConfiguration extends LocalSessionFactoryBean {
 		}
 
 		return sessionFactory;
-	}
-
-	protected ClassLoader getConfigurationClassLoader() {
-		Class<?> clazz = getClass();
-
-		return clazz.getClassLoader();
-	}
-
-	protected String[] getConfigurationResources() {
-		if (_configurationResources == null) {
-			return PropsUtil.getArray(PropsKeys.HIBERNATE_CONFIGS);
-		}
-
-		return _configurationResources;
-	}
-
-	protected void readResource(Configuration configuration, String resource)
-		throws Exception {
-
-		ClassLoader classLoader = getConfigurationClassLoader();
-
-		if (resource.startsWith("classpath*:")) {
-			String name = resource.substring("classpath*:".length());
-
-			Enumeration<URL> enumeration = classLoader.getResources(name);
-
-			if (_log.isDebugEnabled() && !enumeration.hasMoreElements()) {
-				_log.debug("No resources found for " + name);
-			}
-
-			while (enumeration.hasMoreElements()) {
-				URL url = enumeration.nextElement();
-
-				readResource(configuration, url);
-			}
-		}
-		else {
-			readResource(configuration, classLoader.getResource(resource));
-		}
-	}
-
-	protected void readResource(Configuration configuration, URL url)
-		throws Exception {
-
-		if (url == null) {
-			return;
-		}
-
-		try (SafeCloseable safeCloseable = ThreadContextClassLoaderUtil.swap(
-				PortalHibernateConfiguration.class.getClassLoader())) {
-
-			configuration.addXmlMapping(_loadBinding(configuration, url));
-		}
 	}
 
 	private File _getCacheFile(URL url) {
@@ -347,6 +376,45 @@ public class PortalHibernateConfiguration extends LocalSessionFactoryBean {
 		return binding;
 	}
 
+	private void _readResource(Configuration configuration, String resource)
+		throws Exception {
+
+		ClassLoader classLoader = getConfigurationClassLoader();
+
+		if (resource.startsWith("classpath*:")) {
+			String name = resource.substring("classpath*:".length());
+
+			Enumeration<URL> enumeration = classLoader.getResources(name);
+
+			if (_log.isDebugEnabled() && !enumeration.hasMoreElements()) {
+				_log.debug("No resources found for " + name);
+			}
+
+			while (enumeration.hasMoreElements()) {
+				URL url = enumeration.nextElement();
+
+				_readResource(configuration, url);
+			}
+		}
+		else {
+			_readResource(configuration, classLoader.getResource(resource));
+		}
+	}
+
+	private void _readResource(Configuration configuration, URL url)
+		throws Exception {
+
+		if (url == null) {
+			return;
+		}
+
+		try (SafeCloseable safeCloseable = ThreadContextClassLoaderUtil.swap(
+				PortalHibernateConfiguration.class.getClassLoader())) {
+
+			configuration.addXmlMapping(_loadBinding(configuration, url));
+		}
+	}
+
 	private static final Field _META_MODEL_FIELD;
 
 	private static final Log _log = LogFactoryUtil.getLog(
@@ -369,6 +437,7 @@ public class PortalHibernateConfiguration extends LocalSessionFactoryBean {
 	private String[] _configurationResources;
 	private DataSource _dataSource;
 	private boolean _mvccEnabled = true;
+	private SessionFactory _sessionFactory;
 
 	private static class SessionFactoryDelegate {
 
