@@ -148,9 +148,8 @@ public class AopConfigurableApplicationContextConfigurator
 
 			if (PortalClassLoaderUtil.isPortalClassLoader(_classLoader)) {
 				liferayHibernateSessionFactory =
-					configurableListableBeanFactory.getBean(
-						"liferayHibernateSessionFactory",
-						SessionFactoryImplementor.class);
+					(SessionFactoryImplementor)
+						InfrastructureUtil.getSessionFactory();
 			}
 			else {
 				PortletHibernateConfiguration portletHibernateConfiguration =
@@ -191,9 +190,8 @@ public class AopConfigurableApplicationContextConfigurator
 					liferayDataSource, sessionFactory));
 
 			if (PortalClassLoaderUtil.isPortalClassLoader(_classLoader)) {
-				return configurableListableBeanFactory.getBean(
-					"liferayTransactionManager",
-					PlatformTransactionManager.class);
+				return (PlatformTransactionManager)
+					InfrastructureUtil.getTransactionManager();
 			}
 
 			if (InfrastructureUtil.getDataSource() == liferayDataSource) {

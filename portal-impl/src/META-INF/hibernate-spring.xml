@@ -34,6 +34,4 @@
 			<bean class="com.liferay.portal.dao.orm.hibernate.RestrictionsFactoryImpl" />
 		</property>
 	</bean>
-	<bean class="com.liferay.portal.kernel.util.InfrastructureUtil" factory-method="getSessionFactory" id="liferayHibernateSessionFactory" />
-	<bean class="com.liferay.portal.kernel.util.InfrastructureUtil" factory-method="getTransactionManager" id="liferayTransactionManager" />
 </beans>
