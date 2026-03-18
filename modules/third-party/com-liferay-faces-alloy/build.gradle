@@ -1,0 +1,18 @@
+ext {
+	gitHash = "daf908f411ea1593c1e8c41e334c9c9fc118b99e"
+	gitHubOwner = "liferay"
+	gitHubRepository = "liferay-faces-alloy"
+	mvnTargetDir = "alloy/target"
+}
+
+apply from: "../build-maven.gradle"
+
+downloadSource {
+	doLast {
+		File pomXmlFile = new File(mvnSourceDir, "pom.xml")
+
+		if (pomXmlFile.exists()) {
+			pomXmlFile.text = pomXmlFile.text.replace("<module>demo</module>", "")
+		}
+	}
+}

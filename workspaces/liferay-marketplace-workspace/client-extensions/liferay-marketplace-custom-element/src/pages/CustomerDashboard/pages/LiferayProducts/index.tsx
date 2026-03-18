@@ -12,12 +12,15 @@ import SearchBuilder from '../../../../core/SearchBuilder';
 import {OrderTypes, PaymentStatus} from '../../../../enums/Order';
 import i18n from '../../../../i18n';
 import {Liferay} from '../../../../liferay/liferay';
+import {getSiteURL} from '../../../../utils/site';
+import {safeJSONParse} from '../../../../utils/util';
 import PaymentStatusBadge from '../../../FinanceDashboard/components/PaymentStatus/PaymentStatusBadge';
 import {useCustomerDashboardOutletContext} from '../../CustomerDashboardOutlet';
 
 const searchParams = new URLSearchParams({
 	filter: SearchBuilder.in('orderTypeExternalReferenceCode', [
 		OrderTypes.ADDONS,
+		OrderTypes.AI_HUB,
 		OrderTypes.CMP,
 		OrderTypes.DXP,
 	]),
@@ -25,14 +28,16 @@ const searchParams = new URLSearchParams({
 	sort: 'createDate:desc',
 });
 
-const getViewDetailsPath = (orderId: string, orderType: string) => {
-	let path = orderId;
-
-	if ([OrderTypes.CMP, OrderTypes.DXP].includes(orderType as OrderTypes)) {
-		path = `${orderId}/activation-keys`;
+const getViewDetailsPath = (placedOrder: PlacedOrder) => {
+	if (
+		[OrderTypes.CMP, OrderTypes.DXP].includes(
+			placedOrder.orderTypeExternalReferenceCode as OrderTypes
+		)
+	) {
+		return `${placedOrder.id}/activation-keys`;
 	}
 
-	return path;
+	return `${placedOrder.id}`;
 };
 
 const LiferayProductsListView = () => {
@@ -64,14 +69,18 @@ const LiferayProductsListView = () => {
 						actions: [
 							{
 								name: i18n.translate('view-details'),
-								onClick: (row: PlacedOrder) =>
-									navigate(
-										`${getViewDetailsPath(String(row.id), row.orderTypeExternalReferenceCode)}`
-									),
+								onClick: (placedOrder: PlacedOrder) =>
+									navigate(getViewDetailsPath(placedOrder)),
 							},
 							{
-								disabled: true,
+								hidden: (row: PlacedOrder) =>
+									row.orderTypeExternalReferenceCode !==
+									OrderTypes.CMP,
 								name: i18n.translate('share-your-feedback'),
+								onClick: (row: PlacedOrder) =>
+									Liferay.Util.navigate(
+										`${getSiteURL()}/product-feedback?orderId=${row.id}`
+									),
 							},
 						],
 						columns: [
@@ -79,12 +88,24 @@ const LiferayProductsListView = () => {
 								clickable: true,
 								id: 'placedOrderItems',
 								name: i18n.translate('name'),
-								render: (
-									placedOrderItems,
-									{orderTypeExternalReferenceCode}
-								) => {
+								render: (placedOrderItems) => {
 									const placedOrderItem =
 										placedOrderItems[0] || [];
+
+									const options = safeJSONParse<
+										{skuOptionValueKey: string}[]
+									>(placedOrderItem.options, []);
+
+									const betaOption = options.find(
+										(option) =>
+											option.skuOptionValueKey === 'beta'
+									);
+
+									const privateBetaOption = options.find(
+										(option) =>
+											option.skuOptionValueKey ===
+											'private-beta'
+									);
 
 									return (
 										<div style={{width: 300}}>
@@ -101,11 +122,12 @@ const LiferayProductsListView = () => {
 													<span className="align-items-center d-flex font-weight-semi-bold">
 														{placedOrderItem?.name}
 
-														{orderTypeExternalReferenceCode.includes(
-															'BETA'
-														) && (
+														{(betaOption ||
+															privateBetaOption) && (
 															<span className="beta-badge-label ml-2">
-																Beta
+																{betaOption
+																	? 'Beta'
+																	: 'Private Beta'}
 															</span>
 														)}
 													</span>
@@ -167,8 +189,8 @@ const LiferayProductsListView = () => {
 								},
 							},
 						],
-						navigateTo: (item) =>
-							`${getViewDetailsPath(String(item.id), item.orderTypeExternalReferenceCode)}`,
+						navigateTo: (placedOrder) =>
+							getViewDetailsPath(placedOrder),
 					}}
 				/>
 			</div>
