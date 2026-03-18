@@ -4,9 +4,9 @@ import com.liferay.gradle.util.OSDetector
 task downloadSrc(type: Copy)
 task jarMvn(type: Exec)
 
-String facesUtilGitHash = "f58af699325311418afb2f08122c92e6574fcca9"
-String facesUtilSrcUrl = "https://github.com/liferay/liferay-faces-bridge-impl/archive/${facesUtilGitHash}.zip"
-File srcDir = new File(buildDir, "liferay-faces-bridge-impl-${facesUtilGitHash}")
+String facesUtilGitHash = "d79007e280dee49bb10aa3a9704fe225d942a02d"
+String facesUtilSrcUrl = "https://github.com/liferay/liferay-faces-portal/archive/${facesUtilGitHash}.zip"
+File srcDir = new File(buildDir, "liferay-faces-portal-${facesUtilGitHash}")
 
 downloadSrc {
 	doLast {
@@ -14,9 +14,6 @@ downloadSrc {
 
 		if (pomXmlFile.exists()) {
 			pomXmlFile.text = pomXmlFile.text.replace("<module>demo</module>", "")
-			pomXmlFile.text = pomXmlFile.text.replace("<module>issue</module>", "")
-			pomXmlFile.text = pomXmlFile.text.replace("<module>support</module>", "")
-			pomXmlFile.text = pomXmlFile.text.replace("<module>tck</module>", "")
 			pomXmlFile.text = pomXmlFile.text.replace("<module>test</module>", "")
 		}
 	}
@@ -41,8 +38,8 @@ jarMvn {
 
 	doLast {
 		copy {
-			from new File(srcDir, "bridge-impl/target")
-			include "com.liferay.faces.bridge.impl-7.0.0.jar"
+			from new File(srcDir, "portal/target")
+			include "com.liferay.faces.portal-7.0.0.jar"
 			into base.distsDirectory
 
 			rename {
