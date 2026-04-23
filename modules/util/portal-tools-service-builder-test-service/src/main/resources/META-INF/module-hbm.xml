@@ -33,6 +33,7 @@
 	<import class="com.liferay.portal.tools.service.builder.test.model.RenameFinderColumnEntry" />
 	<import class="com.liferay.portal.tools.service.builder.test.model.UADPartialEntry" />
 	<import class="com.liferay.portal.tools.service.builder.test.model.UndefinedDefaultOrderEntry" />
+	<import class="com.liferay.portal.tools.service.builder.test.model.UniqueIndexWithLongTypeEntry" />
 	<import class="com.liferay.portal.tools.service.builder.test.model.VersionedEntry" />
 	<import class="com.liferay.portal.tools.service.builder.test.model.VersionedEntryVersion" />
 	<class name="com.liferay.portal.tools.service.builder.test.model.impl.AutoEscapeEntryImpl" table="AutoEscapeEntry">
@@ -385,6 +386,13 @@
 		</id>
 		<property access="com.liferay.portal.dao.orm.hibernate.MethodPropertyAccessor" name="modifiedDate" type="org.hibernate.type.TimestampType" />
 		<property access="com.liferay.portal.dao.orm.hibernate.MethodPropertyAccessor" name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="com.liferay.portal.tools.service.builder.test.model.impl.UniqueIndexWithLongTypeEntryImpl" table="UniqueIndexWithLongTypeEntry">
+		<id access="com.liferay.portal.dao.orm.hibernate.MethodPropertyAccessor" name="uniqueIndexWithLongTypeEntryId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property access="com.liferay.portal.dao.orm.hibernate.MethodPropertyAccessor" name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property access="com.liferay.portal.dao.orm.hibernate.MethodPropertyAccessor" name="longTypeId" type="com.liferay.portal.dao.orm.hibernate.NullableLongType" />
 	</class>
 	<class name="com.liferay.portal.tools.service.builder.test.model.impl.VersionedEntryImpl" table="VersionedEntry">
 		<id access="com.liferay.portal.dao.orm.hibernate.MethodPropertyAccessor" name="versionedEntryId" type="long">

@@ -273,6 +273,11 @@
 		<field name="modifiedDate" type="Date" />
 		<field name="name" type="String" />
 	</model>
+	<model name="com.liferay.portal.tools.service.builder.test.model.UniqueIndexWithLongTypeEntry">
+		<field name="uniqueIndexWithLongTypeEntryId" type="long" />
+		<field name="name" type="String" />
+		<field name="longTypeId" type="Long" />
+	</model>
 	<model name="com.liferay.portal.tools.service.builder.test.model.VersionedEntry">
 		<field name="mvccVersion" type="long" />
 		<field name="headId" type="long" />

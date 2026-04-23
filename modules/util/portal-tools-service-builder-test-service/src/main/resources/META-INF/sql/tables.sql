@@ -318,6 +318,12 @@ create table UndefinedDefaultOrderEntry (
 	name VARCHAR(75) null
 );
 
+create table UniqueIndexWithLongTypeEntry (
+	uniqueIndexWithLongTypeEntryId LONG not null primary key,
+	name VARCHAR(75) null,
+	longTypeId LONG
+);
+
 create table VersionedEntry (
 	mvccVersion LONG default 0 not null,
 	headId LONG,
