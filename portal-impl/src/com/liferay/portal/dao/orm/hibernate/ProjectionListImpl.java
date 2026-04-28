@@ -9,47 +9,63 @@ import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.dao.orm.ProjectionList;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 /**
  * @author Brian Wing Shun Chan
  */
 public class ProjectionListImpl
 	extends ProjectionImpl implements ProjectionList {
 
-	public ProjectionListImpl(
-		org.hibernate.criterion.ProjectionList projectionList) {
-
-		super(projectionList);
-
-		_projectionList = projectionList;
+	public ProjectionListImpl() {
+		super(ProjectionType.PROJECTION_LIST, (String)null);
 	}
 
 	@Override
 	public ProjectionList add(Projection projection) {
-		ProjectionImpl projectionImpl = (ProjectionImpl)projection;
-
-		_projectionList.add(projectionImpl.getWrappedProjection());
-
-		return this;
+		return add(projection, null);
 	}
 
 	@Override
 	public ProjectionList add(Projection projection, String alias) {
-		ProjectionImpl projectionImpl = (ProjectionImpl)projection;
-
-		_projectionList.add(projectionImpl.getWrappedProjection(), alias);
+		_projections.put(projection, alias);
 
 		return this;
 	}
 
-	public org.hibernate.criterion.ProjectionList getWrappedProjectionList() {
-		return _projectionList;
+	public Map<Projection, String> getProjections() {
+		return _projections;
 	}
 
 	@Override
 	public String toString() {
-		return StringBundler.concat("{_projectionList=", _projectionList, "}");
+		StringBundler sb = new StringBundler();
+
+		sb.append("[");
+
+		for (Map.Entry<Projection, String> entry : _projections.entrySet()) {
+			sb.append(entry.getKey());
+
+			String alias = entry.getValue();
+
+			if (alias != null) {
+				sb.append(" as ");
+				sb.append(alias);
+			}
+
+			sb.append(", ");
+		}
+
+		if (!_projections.isEmpty()) {
+			sb.setIndex(sb.index() - 1);
+		}
+
+		sb.append("]");
+
+		return sb.toString();
 	}
 
-	private final org.hibernate.criterion.ProjectionList _projectionList;
+	private final Map<Projection, String> _projections = new LinkedHashMap<>();
 
 }
