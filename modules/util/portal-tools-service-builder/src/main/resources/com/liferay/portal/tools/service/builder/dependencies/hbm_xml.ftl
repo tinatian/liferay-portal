@@ -34,7 +34,7 @@
 					</#if>
 
 					<#if stringUtil.equals(entityColumn.type, "Date")>
-						type="org.hibernate.type.TimestampType"
+						type="timestamp"
 					</#if>
 
 					/>
@@ -122,7 +122,7 @@
 				<#elseif entityColumn.isPrimitiveType() || stringUtil.equals(entityColumn.type, "Map") || stringUtil.equals(entityColumn.type, "String")>
 					type="com.liferay.portal.dao.orm.hibernate.${serviceBuilder.getPrimitiveObj("${entityColumn.type}")}Type"
 				<#elseif stringUtil.equals(entityColumn.type, "Date")>
-					type="org.hibernate.type.TimestampType"
+					type="timestamp"
 				</#if>
 
 				/>
@@ -181,7 +181,7 @@
 							</#if>
 
 							<#if stringUtil.equals(entityColumn.type, "Date")>
-								type="org.hibernate.type.TimestampType"
+								type="timestamp"
 							</#if>
 
 							/>
