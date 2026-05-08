@@ -21,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.sql.DataSource;
 
-import org.hibernate.dialect.DB2400Dialect;
+import org.hibernate.dialect.DB2iDialect;
 import org.hibernate.dialect.Dialect;
 import org.hibernate.dialect.HSQLDialect;
 import org.hibernate.dialect.MariaDBDialect;
@@ -106,13 +106,13 @@ public class DialectDetector {
 			String msg = GetterUtil.getString(exception.getMessage());
 
 			if (msg.contains("explicitly set for database: DB2")) {
-				dialect = new DB2400Dialect();
+				dialect = new DB2iDialect();
 
 				if (_log.isWarnEnabled()) {
 					_log.warn(
-						"DB2400Dialect was dynamically chosen as the " +
-							"Hibernate dialect for DB2. This can be " +
-								"overriden in portal.properties");
+						"DB2iDialect was dynamically chosen as the Hibernate " +
+							"dialect for DB2. This can be overriden in " +
+								"portal.properties");
 				}
 			}
 			else {
