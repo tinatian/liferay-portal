@@ -12,6 +12,7 @@ import com.liferay.portal.kernel.dao.orm.Criterion;
 import com.liferay.portal.kernel.dao.orm.Order;
 import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.dao.orm.Type;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.ListUtil;
 
 import jakarta.persistence.TypedQuery;
@@ -171,6 +172,68 @@ public class HibernateTypedQueryUtil {
 		throw new IllegalArgumentException(
 			StringBundler.concat(
 				"Unable to resolve alias ", parsedAlias, " in: ", name));
+	}
+
+	private static List<String> _splitTopLevelCommas(String sql) {
+		List<String> parts = new ArrayList<>();
+
+		int depth = 0;
+		int start = 0;
+
+		for (int i = 0; i < sql.length(); i++) {
+			char c = sql.charAt(i);
+
+			if (c == CharPool.OPEN_PARENTHESIS) {
+				depth++;
+			}
+			else if (c == CharPool.CLOSE_PARENTHESIS) {
+				depth--;
+			}
+			else if ((c == CharPool.COMMA) && (depth == 0)) {
+				parts.add(sql.substring(start, i));
+
+				start = i + 1;
+			}
+		}
+
+		parts.add(sql.substring(start));
+
+		return parts;
+	}
+
+	@SuppressWarnings({"rawtypes", "unchecked"})
+	private static <T> Expression<T> _sqlSelection(
+		HibernateCriteriaBuilder hibernateCriteriaBuilder, String sql,
+		Class<?> javaType) {
+
+		return hibernateCriteriaBuilder.sql(sql, (Class)javaType);
+	}
+
+	private static String _stripTrailingAlias(String sql, String alias) {
+		String trimmed = sql.trim();
+
+		String upperCased =
+			com.liferay.portal.kernel.util.StringUtil.toUpperCase(trimmed);
+
+		int index = upperCased.lastIndexOf(" AS ");
+
+		if (index < 0) {
+			return trimmed;
+		}
+
+		String afterAs = trimmed.substring(
+			index + 4
+		).trim();
+
+		if (com.liferay.portal.kernel.util.StringUtil.equalsIgnoreCase(
+				afterAs, alias)) {
+
+			return trimmed.substring(
+				0, index
+			).trim();
+		}
+
+		return trimmed;
 	}
 
 	private static Predicate _toPredicate(
@@ -440,7 +503,7 @@ public class HibernateTypedQueryUtil {
 
 			Expression<?>[] arguments;
 
-			if ((values == null) || (values.length == 0)) {
+			if (ArrayUtil.isEmpty(values)) {
 				arguments = new Expression<?>[0];
 			}
 			else {
@@ -695,7 +758,9 @@ public class HibernateTypedQueryUtil {
 			Selection<?>[] selections = new Selection<?>[columnSqls.size()];
 
 			for (int i = 0; i < columnSqls.size(); i++) {
-				String columnSql = columnSqls.get(i).trim();
+				String columnSql = columnSqls.get(
+					i
+				).trim();
 
 				String columnAlias = null;
 
@@ -758,61 +823,6 @@ public class HibernateTypedQueryUtil {
 
 		throw new IllegalStateException(
 			"Unexpected projection type: " + projectionType);
-	}
-
-	@SuppressWarnings({"rawtypes", "unchecked"})
-	private static <T> Expression<T> _sqlSelection(
-		HibernateCriteriaBuilder hibernateCriteriaBuilder, String sql,
-		Class<?> javaType) {
-
-		return hibernateCriteriaBuilder.sql(sql, (Class)javaType);
-	}
-
-	private static List<String> _splitTopLevelCommas(String sql) {
-		List<String> parts = new ArrayList<>();
-
-		int depth = 0;
-		int start = 0;
-
-		for (int i = 0; i < sql.length(); i++) {
-			char c = sql.charAt(i);
-
-			if (c == CharPool.OPEN_PARENTHESIS) {
-				depth++;
-			}
-			else if (c == CharPool.CLOSE_PARENTHESIS) {
-				depth--;
-			}
-			else if ((c == CharPool.COMMA) && (depth == 0)) {
-				parts.add(sql.substring(start, i));
-
-				start = i + 1;
-			}
-		}
-
-		parts.add(sql.substring(start));
-
-		return parts;
-	}
-
-	private static String _stripTrailingAlias(String sql, String alias) {
-		String trimmed = sql.trim();
-
-		String upperCased = trimmed.toUpperCase();
-
-		int index = upperCased.lastIndexOf(" AS ");
-
-		if (index < 0) {
-			return trimmed;
-		}
-
-		String afterAs = trimmed.substring(index + 4).trim();
-
-		if (afterAs.equalsIgnoreCase(alias)) {
-			return trimmed.substring(0, index).trim();
-		}
-
-		return trimmed;
 	}
 
 	private static Subquery<?> _toSubquery(
