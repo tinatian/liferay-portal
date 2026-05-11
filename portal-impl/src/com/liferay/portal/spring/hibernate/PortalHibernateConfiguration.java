@@ -140,7 +140,7 @@ public class PortalHibernateConfiguration
 			new MetadataSources(bootstrapServiceRegistryBuilder.build()));
 
 		if (_mvccEnabled) {
-			configuration.setInterceptor(new CTSQLInterceptor());
+			configuration.setStatementInspector(new CTSQLInterceptor());
 		}
 
 		configuration.addProperties(properties);
