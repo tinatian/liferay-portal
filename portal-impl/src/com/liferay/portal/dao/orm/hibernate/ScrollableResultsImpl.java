@@ -31,7 +31,7 @@ public class ScrollableResultsImpl implements ScrollableResults {
 	}
 
 	@Override
-	public Object[] get() throws ORMException {
+	public Object get() throws ORMException {
 		try {
 			return _scrollableResults.get();
 		}
@@ -43,7 +43,13 @@ public class ScrollableResultsImpl implements ScrollableResults {
 	@Override
 	public Object get(int i) throws ORMException {
 		try {
-			return _scrollableResults.get(i);
+			Object row = _scrollableResults.get();
+
+			if (row instanceof Object[]) {
+				return ((Object[])row)[i];
+			}
+
+			return row;
 		}
 		catch (Exception exception) {
 			throw ExceptionTranslator.translate(exception);

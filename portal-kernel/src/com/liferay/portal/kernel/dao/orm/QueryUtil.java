@@ -91,7 +91,7 @@ public class QueryUtil {
 
 		if (sr.first() && sr.scroll(start)) {
 			for (int i = start; i < end; i++) {
-				Object[] array = sr.get();
+				Object[] array = (Object[])sr.get();
 
 				if (array.length == 1) {
 					list.add(array[0]);
@@ -149,7 +149,7 @@ public class QueryUtil {
 
 		for (int scrollId : scrollIds) {
 			if (sr.scroll(scrollId)) {
-				Object[] array = sr.get();
+				Object[] array = (Object[])sr.get();
 
 				if (array.length == 1) {
 					list.add(array[0]);

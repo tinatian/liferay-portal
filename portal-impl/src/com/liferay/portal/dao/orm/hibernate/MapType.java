@@ -77,7 +77,7 @@ public class MapType implements Serializable, UserType<Map> {
 		}
 
 		try {
-			return _jsonFactory.deserialize(json);
+			return (Map<?, ?>)_jsonFactory.deserialize(json);
 		}
 		catch (Exception exception) {
 			_log.error("Unable to process JSON " + json, exception);
