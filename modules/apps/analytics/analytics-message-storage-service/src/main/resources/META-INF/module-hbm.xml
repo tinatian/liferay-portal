@@ -47,10 +47,9 @@
 	</class>
 	<class dynamic-update="true" lazy="true" name="com.liferay.analytics.message.storage.model.AnalyticsMessageBodyBlobModel" table="AnalyticsMessage">
 		<id column="analyticsMessageId" name="analyticsMessageId">
-			<generator class="foreign">
-				<param name="property">com.liferay.analytics.message.storage.model.impl.AnalyticsMessageImpl</param>
-			</generator>
+			<generator class="assigned" />
 		</id>
 		<property column="body" name="bodyBlob" type="blob" />
-	</class>
+				<sql-insert>UPDATE AnalyticsMessage SET body = ? WHERE analyticsMessageId = ?</sql-insert>
+		</class>
 </hibernate-mapping>

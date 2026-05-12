@@ -440,10 +440,10 @@ public class ViewCountEntryPersistenceImpl
 			_SQL_SELECT_VIEWCOUNTENTRY_WHERE, _SQL_COUNT_VIEWCOUNTENTRY_WHERE,
 			ViewCountEntryModelImpl.ORDER_BY_JPQL, _ENTITY_ALIAS_PREFIX,
 			new FinderColumn<>(
-				"viewCountEntry.", "id.companyId", FinderColumn.Type.LONG, "=",
+				"viewCountEntry.", "primaryKey.companyId", FinderColumn.Type.LONG, "=",
 				true, false, ViewCountEntry::getCompanyId),
 			new FinderColumn<>(
-				"viewCountEntry.", "id.classNameId", FinderColumn.Type.LONG,
+				"viewCountEntry.", "primaryKey.classNameId", FinderColumn.Type.LONG,
 				"=", true, true, ViewCountEntry::getClassNameId));
 
 		ViewCountEntryUtil.setPersistence(this);

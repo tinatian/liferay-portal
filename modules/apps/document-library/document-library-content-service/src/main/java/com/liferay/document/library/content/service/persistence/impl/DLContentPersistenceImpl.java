@@ -836,6 +836,8 @@ public class DLContentPersistenceImpl
 
 		Session session = null;
 
+		DLContent mergedDLContent = null;
+
 		try {
 			session = openSession();
 
@@ -851,7 +853,8 @@ public class DLContentPersistenceImpl
 				session.evict(
 					DLContentImpl.class, dlContent.getPrimaryKeyObj());
 
-				session.saveOrUpdate(dlContent);
+				mergedDLContent =
+					(DLContent)session.merge(dlContent);
 			}
 
 			session.flush();

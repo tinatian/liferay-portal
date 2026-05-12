@@ -191,13 +191,15 @@
 					</composite-id>
 				<#else>
 					<id column="${entityColumn.DBName}" name="${entityColumn.name}">
-						<generator class="foreign">
-							<param name="property">${packagePath}.model.impl.${entity.name}Impl</param>
-						</generator>
+						<generator class="assigned" />
 					</id>
 				</#if>
 
 				<property column="${blobEntityColumn.DBName}" name="${blobEntityColumn.name}Blob" type="blob" />
+
+				<#if !entity.hasCompoundPK()>
+					<sql-insert>UPDATE ${entity.table} SET ${blobEntityColumn.DBName} = ? WHERE ${entityColumn.DBName} = ?</sql-insert>
+				</#if>
 			</class>
 		</#if>
 	</#list>

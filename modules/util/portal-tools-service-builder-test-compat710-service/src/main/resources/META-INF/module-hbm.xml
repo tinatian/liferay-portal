@@ -106,20 +106,18 @@
 	</class>
 	<class lazy="true" name="com.liferay.portal.tools.service.builder.test.compat710.model.LazyBlobEntryBlob1BlobModel" table="LazyBlobEntry">
 		<id column="lazyBlobEntryId" name="lazyBlobEntryId">
-			<generator class="foreign">
-				<param name="property">com.liferay.portal.tools.service.builder.test.compat710.model.impl.LazyBlobEntryImpl</param>
-			</generator>
+			<generator class="assigned" />
 		</id>
 		<property column="blob1" name="blob1Blob" type="blob" />
-	</class>
+				<sql-insert>UPDATE LazyBlobEntry SET blob1 = ? WHERE lazyBlobEntryId = ?</sql-insert>
+		</class>
 	<class lazy="true" name="com.liferay.portal.tools.service.builder.test.compat710.model.LazyBlobEntryBlob2BlobModel" table="LazyBlobEntry">
 		<id column="lazyBlobEntryId" name="lazyBlobEntryId">
-			<generator class="foreign">
-				<param name="property">com.liferay.portal.tools.service.builder.test.compat710.model.impl.LazyBlobEntryImpl</param>
-			</generator>
+			<generator class="assigned" />
 		</id>
 		<property column="blob2" name="blob2Blob" type="blob" />
-	</class>
+				<sql-insert>UPDATE LazyBlobEntry SET blob2 = ? WHERE lazyBlobEntryId = ?</sql-insert>
+		</class>
 	<class name="com.liferay.portal.tools.service.builder.test.compat710.model.impl.LikeFinderEntryImpl" table="LikeFinderEntry">
 		<id access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="likeFinderEntryId" type="long">
 			<generator class="assigned" />

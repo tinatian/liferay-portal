@@ -1070,6 +1070,8 @@ public class CTSContentPersistenceImpl
 
 		Session session = null;
 
+		CTSContent mergedCTSContent = null;
+
 		try {
 			session = openSession();
 
@@ -1085,7 +1087,8 @@ public class CTSContentPersistenceImpl
 				session.evict(
 					CTSContentImpl.class, ctsContent.getPrimaryKeyObj());
 
-				session.saveOrUpdate(ctsContent);
+				mergedCTSContent =
+					(CTSContent)session.merge(ctsContent);
 			}
 
 			session.flush();

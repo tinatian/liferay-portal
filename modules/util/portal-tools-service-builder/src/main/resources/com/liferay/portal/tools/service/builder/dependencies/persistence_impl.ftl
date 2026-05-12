@@ -1050,6 +1050,10 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 
 		Session session = null;
 
+		<#if entity.hasLazyBlobEntityColumn() && serviceBuilder.isVersionGTE_7_4_0()>
+			${entity.name} merged${entity.name} = null;
+		</#if>
+
 		try {
 			session = openSession();
 
@@ -1105,7 +1109,11 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 						session.evict(${entity.variableName});
 					</#if>
 
-					session.saveOrUpdate(${entity.variableName});
+					<#if serviceBuilder.isVersionGTE_7_4_0()>
+						merged${entity.name} = (${entity.name})session.merge(${entity.variableName});
+					<#else>
+						session.saveOrUpdate(${entity.variableName});
+					</#if>
 				<#else>
 					${entity.variableName} = (${entity.name})session.merge(${entity.variableName});
 				</#if>
@@ -1114,6 +1122,12 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 			<#if entity.hasLazyBlobEntityColumn()>
 				session.flush();
 				session.clear();
+
+				<#if serviceBuilder.isVersionGTE_7_4_0() && entity.isMvccEnabled()>
+					if (merged${entity.name} != null) {
+						${entity.variableName}.setMvccVersion(merged${entity.name}.getMvccVersion());
+					}
+				</#if>
 			</#if>
 		}
 		catch (Exception exception) {
@@ -3053,7 +3067,11 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 							new FinderColumn<>(
 								"${entity.alias}.",
 								<#if entity.hasCompoundPK() && entityColumn.isPrimary()>
-									"id.${entityColumn.name}",
+									<#if serviceBuilder.isVersionGTE_7_4_0()>
+										"primaryKey.${entityColumn.name}",
+									<#else>
+										"id.${entityColumn.name}",
+									</#if>
 								<#else>
 									"${entityColumn.name}",
 								</#if>
@@ -3085,7 +3103,11 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 							new FinderColumn<>(
 								"${entity.alias}.",
 								<#if entity.hasCompoundPK() && entityColumn.isPrimary()>
-									"id.${entityColumn.name}",
+									<#if serviceBuilder.isVersionGTE_7_4_0()>
+										"primaryKey.${entityColumn.name}",
+									<#else>
+										"id.${entityColumn.name}",
+									</#if>
 								<#else>
 									"${entityColumn.name}",
 								</#if>

@@ -313,9 +313,9 @@ public class SessionImpl implements Session {
 	}
 
 	@Override
-	public void load(Class<?> clazz, Serializable id) throws ORMException {
+	public Object load(Class<?> clazz, Serializable id) throws ORMException {
 		try {
-			_session.load(clazz, id);
+			return _session.getReference(clazz, id);
 		}
 		catch (Exception exception) {
 			throw ExceptionTranslator.translate(exception);

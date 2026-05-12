@@ -32,11 +32,10 @@
 	</class>
 	<class dynamic-update="true" lazy="true" name="com.liferay.batch.engine.model.BatchEngineExportTaskContentBlobModel" table="BatchEngineExportTask">
 		<id column="batchEngineExportTaskId" name="batchEngineExportTaskId">
-			<generator class="foreign">
-				<param name="property">com.liferay.batch.engine.model.impl.BatchEngineExportTaskImpl</param>
-			</generator>
+			<generator class="assigned" />
 		</id>
 		<property column="content" name="contentBlob" type="blob" />
+		<sql-insert>UPDATE BatchEngineExportTask SET content = ? WHERE batchEngineExportTaskId = ?</sql-insert>
 	</class>
 	<class dynamic-update="true" name="com.liferay.batch.engine.model.impl.BatchEngineImportTaskImpl" table="BatchEngineImportTask">
 		<id access="com.liferay.portal.dao.orm.hibernate.MethodPropertyAccessor" name="batchEngineImportTaskId" type="long">
@@ -68,11 +67,10 @@
 	</class>
 	<class dynamic-update="true" lazy="true" name="com.liferay.batch.engine.model.BatchEngineImportTaskContentBlobModel" table="BatchEngineImportTask">
 		<id column="batchEngineImportTaskId" name="batchEngineImportTaskId">
-			<generator class="foreign">
-				<param name="property">com.liferay.batch.engine.model.impl.BatchEngineImportTaskImpl</param>
-			</generator>
+			<generator class="assigned" />
 		</id>
 		<property column="content" name="contentBlob" type="blob" />
+		<sql-insert>UPDATE BatchEngineImportTask SET content = ? WHERE batchEngineImportTaskId = ?</sql-insert>
 	</class>
 	<class dynamic-update="true" name="com.liferay.batch.engine.model.impl.BatchEngineImportTaskErrorImpl" table="BatchEngineImportTaskError">
 		<id access="com.liferay.portal.dao.orm.hibernate.MethodPropertyAccessor" name="batchEngineImportTaskErrorId" type="long">

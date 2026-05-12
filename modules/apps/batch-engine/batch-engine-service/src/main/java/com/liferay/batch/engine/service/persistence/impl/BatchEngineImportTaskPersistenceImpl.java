@@ -1010,6 +1010,8 @@ public class BatchEngineImportTaskPersistenceImpl
 
 		Session session = null;
 
+		BatchEngineImportTask mergedBatchEngineImportTask = null;
+
 		try {
 			session = openSession();
 
@@ -1021,11 +1023,17 @@ public class BatchEngineImportTaskPersistenceImpl
 					BatchEngineImportTaskImpl.class,
 					batchEngineImportTask.getPrimaryKeyObj());
 
-				session.saveOrUpdate(batchEngineImportTask);
+				mergedBatchEngineImportTask =
+					(BatchEngineImportTask)session.merge(batchEngineImportTask);
 			}
 
 			session.flush();
 			session.clear();
+
+			if (mergedBatchEngineImportTask != null) {
+				batchEngineImportTask.setMvccVersion(
+					mergedBatchEngineImportTask.getMvccVersion());
+			}
 		}
 		catch (Exception exception) {
 			throw processException(exception);

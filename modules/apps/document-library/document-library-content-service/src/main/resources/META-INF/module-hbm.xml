@@ -19,10 +19,9 @@
 	</class>
 	<class dynamic-update="true" lazy="true" name="com.liferay.document.library.content.model.DLContentDataBlobModel" table="DLContent">
 		<id column="contentId" name="contentId">
-			<generator class="foreign">
-				<param name="property">com.liferay.document.library.content.model.impl.DLContentImpl</param>
-			</generator>
+			<generator class="assigned" />
 		</id>
 		<property column="data_" name="dataBlob" type="blob" />
-	</class>
+				<sql-insert>UPDATE DLContent SET data_ = ? WHERE contentId = ?</sql-insert>
+		</class>
 </hibernate-mapping>

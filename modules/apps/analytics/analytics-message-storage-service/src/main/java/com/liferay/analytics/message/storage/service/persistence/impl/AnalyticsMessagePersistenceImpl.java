@@ -355,6 +355,8 @@ public class AnalyticsMessagePersistenceImpl
 
 		Session session = null;
 
+		AnalyticsMessage mergedAnalyticsMessage = null;
+
 		try {
 			session = openSession();
 
@@ -372,7 +374,8 @@ public class AnalyticsMessagePersistenceImpl
 					AnalyticsMessageImpl.class,
 					analyticsMessage.getPrimaryKeyObj());
 
-				session.saveOrUpdate(analyticsMessage);
+				mergedAnalyticsMessage =
+					(AnalyticsMessage)session.merge(analyticsMessage);
 			}
 
 			session.flush();

@@ -46,8 +46,13 @@ public class HibernateTypedQueryUtil {
 
 		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
 
-		CriteriaQuery<?> criteriaQuery = criteriaBuilder.createQuery(
-			dynamicQueryImpl.getClazz());
+		Class<?> resultType = dynamicQueryImpl.getClazz();
+
+		if (dynamicQueryImpl.getProjection() != null) {
+			resultType = Object.class;
+		}
+
+		CriteriaQuery<?> criteriaQuery = criteriaBuilder.createQuery(resultType);
 
 		_apply(criteriaQuery, criteriaBuilder, dynamicQueryImpl);
 
@@ -519,133 +524,164 @@ public class HibernateTypedQueryUtil {
 					criterionImpl.getSQL(), Boolean.class, arguments));
 		}
 		else if (criterionType == CriterionType.SUBQUERY_EQ) {
+			Path<?> path = _getPath(propertyName, abstractQuery, from, alias);
+
 			return criteriaBuilder.equal(
-				_getPath(propertyName, abstractQuery, from, alias),
+				path,
 				_toSubquery(
 					criteriaBuilder, abstractQuery,
-					(DynamicQueryImpl)values[0]));
+					(DynamicQueryImpl)values[0], path.getJavaType()));
 		}
 		else if (criterionType == CriterionType.SUBQUERY_EQ_ALL) {
+			Path<?> path = _getPath(propertyName, abstractQuery, from, alias);
+
 			return criteriaBuilder.equal(
-				_getPath(propertyName, abstractQuery, from, alias),
+				path,
 				criteriaBuilder.all(
 					_toSubquery(
 						criteriaBuilder, abstractQuery,
-						(DynamicQueryImpl)values[0])));
+						(DynamicQueryImpl)values[0], path.getJavaType())));
 		}
 		else if (criterionType == CriterionType.SUBQUERY_GE) {
+			Path<?> path = _getPath(propertyName, abstractQuery, from, alias);
+
 			return criteriaBuilder.greaterThanOrEqualTo(
-				(Expression)_getPath(propertyName, abstractQuery, from, alias),
+				(Expression)path,
 				(Expression)_toSubquery(
 					criteriaBuilder, abstractQuery,
-					(DynamicQueryImpl)values[0]));
+					(DynamicQueryImpl)values[0], path.getJavaType()));
 		}
 		else if (criterionType == CriterionType.SUBQUERY_GE_ALL) {
+			Path<?> path = _getPath(propertyName, abstractQuery, from, alias);
+
 			return criteriaBuilder.greaterThanOrEqualTo(
-				(Expression)_getPath(propertyName, abstractQuery, from, alias),
+				(Expression)path,
 				(Expression)criteriaBuilder.all(
 					_toSubquery(
 						criteriaBuilder, abstractQuery,
-						(DynamicQueryImpl)values[0])));
+						(DynamicQueryImpl)values[0], path.getJavaType())));
 		}
 		else if (criterionType == CriterionType.SUBQUERY_GE_SOME) {
+			Path<?> path = _getPath(propertyName, abstractQuery, from, alias);
+
 			return criteriaBuilder.greaterThanOrEqualTo(
-				(Expression)_getPath(propertyName, abstractQuery, from, alias),
+				(Expression)path,
 				(Expression)criteriaBuilder.some(
 					_toSubquery(
 						criteriaBuilder, abstractQuery,
-						(DynamicQueryImpl)values[0])));
+						(DynamicQueryImpl)values[0], path.getJavaType())));
 		}
 		else if (criterionType == CriterionType.SUBQUERY_GT) {
+			Path<?> path = _getPath(propertyName, abstractQuery, from, alias);
+
 			return criteriaBuilder.greaterThan(
-				(Expression)_getPath(propertyName, abstractQuery, from, alias),
+				(Expression)path,
 				(Expression)_toSubquery(
 					criteriaBuilder, abstractQuery,
-					(DynamicQueryImpl)values[0]));
+					(DynamicQueryImpl)values[0], path.getJavaType()));
 		}
 		else if (criterionType == CriterionType.SUBQUERY_GT_ALL) {
+			Path<?> path = _getPath(propertyName, abstractQuery, from, alias);
+
 			return criteriaBuilder.greaterThan(
-				(Expression)_getPath(propertyName, abstractQuery, from, alias),
+				(Expression)path,
 				(Expression)criteriaBuilder.all(
 					_toSubquery(
 						criteriaBuilder, abstractQuery,
-						(DynamicQueryImpl)values[0])));
+						(DynamicQueryImpl)values[0], path.getJavaType())));
 		}
 		else if (criterionType == CriterionType.SUBQUERY_GT_SOME) {
+			Path<?> path = _getPath(propertyName, abstractQuery, from, alias);
+
 			return criteriaBuilder.greaterThan(
-				(Expression)_getPath(propertyName, abstractQuery, from, alias),
+				(Expression)path,
 				(Expression)criteriaBuilder.some(
 					_toSubquery(
 						criteriaBuilder, abstractQuery,
-						(DynamicQueryImpl)values[0])));
+						(DynamicQueryImpl)values[0], path.getJavaType())));
 		}
 		else if (criterionType == CriterionType.SUBQUERY_IN) {
-			return _getPath(
-				propertyName, abstractQuery, from, alias
-			).in(
+			Path<?> path = _getPath(propertyName, abstractQuery, from, alias);
+
+			return path.in(
 				_toSubquery(
-					criteriaBuilder, abstractQuery, (DynamicQueryImpl)values[0])
-			);
+					criteriaBuilder, abstractQuery,
+					(DynamicQueryImpl)values[0], path.getJavaType()));
 		}
 		else if (criterionType == CriterionType.SUBQUERY_LE) {
+			Path<?> path = _getPath(propertyName, abstractQuery, from, alias);
+
 			return criteriaBuilder.lessThanOrEqualTo(
-				(Expression)_getPath(propertyName, abstractQuery, from, alias),
+				(Expression)path,
 				(Expression)_toSubquery(
 					criteriaBuilder, abstractQuery,
-					(DynamicQueryImpl)values[0]));
+					(DynamicQueryImpl)values[0], path.getJavaType()));
 		}
 		else if (criterionType == CriterionType.SUBQUERY_LE_ALL) {
+			Path<?> path = _getPath(propertyName, abstractQuery, from, alias);
+
 			return criteriaBuilder.lessThanOrEqualTo(
-				(Expression)_getPath(propertyName, abstractQuery, from, alias),
+				(Expression)path,
 				(Expression)criteriaBuilder.all(
 					_toSubquery(
 						criteriaBuilder, abstractQuery,
-						(DynamicQueryImpl)values[0])));
+						(DynamicQueryImpl)values[0], path.getJavaType())));
 		}
 		else if (criterionType == CriterionType.SUBQUERY_LE_SOME) {
+			Path<?> path = _getPath(propertyName, abstractQuery, from, alias);
+
 			return criteriaBuilder.lessThanOrEqualTo(
-				(Expression)_getPath(propertyName, abstractQuery, from, alias),
+				(Expression)path,
 				(Expression)criteriaBuilder.some(
 					_toSubquery(
 						criteriaBuilder, abstractQuery,
-						(DynamicQueryImpl)values[0])));
+						(DynamicQueryImpl)values[0], path.getJavaType())));
 		}
 		else if (criterionType == CriterionType.SUBQUERY_LT) {
+			Path<?> path = _getPath(propertyName, abstractQuery, from, alias);
+
 			return criteriaBuilder.lessThan(
-				(Expression)_getPath(propertyName, abstractQuery, from, alias),
+				(Expression)path,
 				(Expression)_toSubquery(
 					criteriaBuilder, abstractQuery,
-					(DynamicQueryImpl)values[0]));
+					(DynamicQueryImpl)values[0], path.getJavaType()));
 		}
 		else if (criterionType == CriterionType.SUBQUERY_LT_ALL) {
+			Path<?> path = _getPath(propertyName, abstractQuery, from, alias);
+
 			return criteriaBuilder.lessThan(
-				(Expression)_getPath(propertyName, abstractQuery, from, alias),
+				(Expression)path,
 				(Expression)criteriaBuilder.all(
 					_toSubquery(
 						criteriaBuilder, abstractQuery,
-						(DynamicQueryImpl)values[0])));
+						(DynamicQueryImpl)values[0], path.getJavaType())));
 		}
 		else if (criterionType == CriterionType.SUBQUERY_LT_SOME) {
+			Path<?> path = _getPath(propertyName, abstractQuery, from, alias);
+
 			return criteriaBuilder.lessThan(
-				(Expression)_getPath(propertyName, abstractQuery, from, alias),
+				(Expression)path,
 				(Expression)criteriaBuilder.some(
 					_toSubquery(
 						criteriaBuilder, abstractQuery,
-						(DynamicQueryImpl)values[0])));
+						(DynamicQueryImpl)values[0], path.getJavaType())));
 		}
 		else if (criterionType == CriterionType.SUBQUERY_NE) {
+			Path<?> path = _getPath(propertyName, abstractQuery, from, alias);
+
 			return criteriaBuilder.notEqual(
-				_getPath(propertyName, abstractQuery, from, alias),
+				path,
 				_toSubquery(
 					criteriaBuilder, abstractQuery,
-					(DynamicQueryImpl)values[0]));
+					(DynamicQueryImpl)values[0], path.getJavaType()));
 		}
 		else if (criterionType == CriterionType.SUBQUERY_NOT_IN) {
-			return _getPath(
-				propertyName, abstractQuery, from, alias
-			).in(
+			Path<?> path = _getPath(propertyName, abstractQuery, from, alias);
+
+			return path.in(
 				_toSubquery(
-					criteriaBuilder, abstractQuery, (DynamicQueryImpl)values[0])
+					criteriaBuilder, abstractQuery,
+					(DynamicQueryImpl)values[0], path.getJavaType())
 			).not();
 		}
 
@@ -827,10 +863,20 @@ public class HibernateTypedQueryUtil {
 
 	private static Subquery<?> _toSubquery(
 		CriteriaBuilder criteriaBuilder, AbstractQuery<?> abstractQuery,
-		DynamicQueryImpl dynamicQueryImpl) {
+		DynamicQueryImpl dynamicQueryImpl, Class<?> expectedResultType) {
 
-		Subquery<?> subquery = abstractQuery.subquery(
-			dynamicQueryImpl.getClazz());
+		Class<?> resultType = dynamicQueryImpl.getClazz();
+
+		if (dynamicQueryImpl.getProjection() != null) {
+			if (expectedResultType != null) {
+				resultType = expectedResultType;
+			}
+			else {
+				resultType = Object.class;
+			}
+		}
+
+		Subquery<?> subquery = abstractQuery.subquery(resultType);
 
 		_apply(subquery, criteriaBuilder, dynamicQueryImpl);
 

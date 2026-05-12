@@ -19,10 +19,9 @@
 	</class>
 	<class dynamic-update="true" lazy="true" name="com.liferay.change.tracking.store.model.CTSContentDataBlobModel" table="CTSContent">
 		<id column="ctsContentId" name="ctsContentId">
-			<generator class="foreign">
-				<param name="property">com.liferay.change.tracking.store.model.impl.CTSContentImpl</param>
-			</generator>
+			<generator class="assigned" />
 		</id>
 		<property column="data_" name="dataBlob" type="blob" />
-	</class>
+				<sql-insert>UPDATE CTSContent SET data_ = ? WHERE ctsContentId = ?</sql-insert>
+		</class>
 </hibernate-mapping>

@@ -72,7 +72,7 @@ public interface Session {
 
 	public boolean isDirty() throws ORMException;
 
-	public void load(Class<?> clazz, Serializable id) throws ORMException;
+	public Object load(Class<?> clazz, Serializable id) throws ORMException;
 
 	public Object merge(Object object) throws ORMException;
 
