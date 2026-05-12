@@ -143,7 +143,7 @@
 					<#else>
 						access="com.liferay.portal.dao.orm.hibernate.PrivatePropertyAccessor"
 					</#if>
-					cascade="save-update" class="${apiPackagePath}.model.${entity.name}${entityColumn.methodName}BlobModel" constrained="${constrained}" name="${entityColumn.name}BlobModel" outer-join="false" />
+					cascade="persist, merge" class="${apiPackagePath}.model.${entity.name}${entityColumn.methodName}BlobModel" constrained="${constrained}" name="${entityColumn.name}BlobModel" outer-join="false" />
 			</#if>
 		</#list>
 	</class>
