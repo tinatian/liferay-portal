@@ -58,6 +58,14 @@ public class MethodPropertyAccessor implements PropertyAccessStrategy {
 
 	private static class MethodHolder {
 
+		public Method getGetterMethod() {
+			if (_getterMethod == null) {
+				_initialize();
+			}
+
+			return _getterMethod;
+		}
+
 		public MethodHandle getGetterMethodHandle() {
 			if (_getterMethodHandle == null) {
 				_initialize();
@@ -133,6 +141,7 @@ public class MethodPropertyAccessor implements PropertyAccessStrategy {
 								_propertyName)));
 				}
 
+				_getterMethod = getterMethod;
 				_getterMethodHandle = lookup.unreflect(getterMethod);
 
 				_setterMethodHandle = lookup.findVirtual(
@@ -146,6 +155,7 @@ public class MethodPropertyAccessor implements PropertyAccessStrategy {
 		}
 
 		private final Class<?> _clazz;
+		private Method _getterMethod;
 		private MethodHandle _getterMethodHandle;
 		private final String _propertyName;
 		private MethodHandle _setterMethodHandle;
@@ -212,7 +222,7 @@ public class MethodPropertyAccessor implements PropertyAccessStrategy {
 
 		@Override
 		public Member getMember() {
-			return null;
+			return _methodHolder.getGetterMethod();
 		}
 
 		@Override
