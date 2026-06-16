@@ -80,6 +80,10 @@ public class SessionClicks {
 			return;
 		}
 
+		if (key.equals("key")) {
+			new Exception("Put key").printStackTrace();
+		}
+
 		while (true) {
 			try {
 				PortalPreferences portalPreferences =
