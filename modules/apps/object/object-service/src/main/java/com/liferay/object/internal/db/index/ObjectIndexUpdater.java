@@ -17,25 +17,32 @@ import com.liferay.object.service.ObjectDefinitionLocalService;
 import com.liferay.object.service.ObjectFieldLocalService;
 import com.liferay.object.service.ObjectRelationshipLocalService;
 import com.liferay.petra.sql.dsl.Column;
+import com.liferay.portal.events.StartupHelperUtil;
 import com.liferay.portal.kernel.dao.jdbc.DataAccess;
-import com.liferay.portal.kernel.db.index.IndexUpdater;
+import com.liferay.portal.kernel.dependency.manager.DependencyManagerSyncUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Release;
 import com.liferay.portal.kernel.service.CompanyLocalService;
+import com.liferay.portal.kernel.util.PropsValues;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import java.sql.Connection;
 
+import org.osgi.framework.FrameworkUtil;
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.component.runtime.ServiceComponentRuntime;
+import org.osgi.service.component.runtime.dto.ComponentDescriptionDTO;
+import org.osgi.util.promise.Promise;
 
 /**
  * @author Yuri Monteiro
  */
-@Component(service = IndexUpdater.class)
-public class ObjectIndexUpdater implements IndexUpdater {
+@Component(service = {})
+public class ObjectIndexUpdater {
 
-	@Override
 	public void updateIndexes() throws Exception {
 		_companyLocalService.forEachCompanyId(
 			companyId -> {
@@ -61,6 +68,40 @@ public class ObjectIndexUpdater implements IndexUpdater {
 						"Unable to update indexes for company " + companyId,
 						exception);
 				}
+			});
+	}
+
+	@Activate
+	protected void activate() {
+		if (!PropsValues.DATABASE_INDEXES_UPDATE_ON_STARTUP ||
+			StartupHelperUtil.isDBNew()) {
+
+			return;
+		}
+
+		DependencyManagerSyncUtil.registerSyncCallable(
+			() -> {
+				try {
+					updateIndexes();
+				}
+				catch (Exception exception) {
+					_log.error(
+						"Unable to update object definition indexes",
+						exception);
+				}
+
+				ComponentDescriptionDTO componentDescriptionDTO =
+					_serviceComponentRuntime.getComponentDescriptionDTO(
+						FrameworkUtil.getBundle(ObjectIndexUpdater.class),
+						ObjectIndexUpdater.class.getName());
+
+				Promise<Void> promise =
+					_serviceComponentRuntime.disableComponent(
+						componentDescriptionDTO);
+
+				promise.getValue();
+
+				return null;
 			});
 	}
 
@@ -126,5 +167,13 @@ public class ObjectIndexUpdater implements IndexUpdater {
 
 	@Reference
 	private ObjectRelationshipLocalService _objectRelationshipLocalService;
+
+	@Reference(
+		target = "(&(release.bundle.symbolic.name=com.liferay.object.service)(release.schema.version>=1.0.0))"
+	)
+	private Release _release;
+
+	@Reference
+	private ServiceComponentRuntime _serviceComponentRuntime;
 
 }
