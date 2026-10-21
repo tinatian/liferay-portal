@@ -63,14 +63,14 @@ const BASE_ITEM_ACTION_IDS: IItemActionsData['id'][] = [
 ];
 
 const EXPIRATION_ITEM_ACTION_IDS: IItemActionsData['id'][] = [
-	...BASE_ITEM_ACTION_IDS,
 	'update-expiration-date',
+	...BASE_ITEM_ACTION_IDS,
 	'delete',
 ];
 
 const REVIEW_ITEM_ACTION_IDS: IItemActionsData['id'][] = [
-	...BASE_ITEM_ACTION_IDS,
 	'update-review-date',
+	...BASE_ITEM_ACTION_IDS,
 	'delete',
 ];
 
@@ -276,7 +276,7 @@ export function Freshness({
 				</ClayLayout.Col>
 
 				<ClayLayout.Col lg={6}>
-					<ClayLayout.Row>
+					<ClayLayout.Row className="h-100">
 						{FRESHNESS_CARDS.map((card) => {
 							const count = statistics?.[card.statKey] ?? 0;
 							const expanded = card === expandedCard;

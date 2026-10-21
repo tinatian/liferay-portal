@@ -1068,13 +1068,17 @@ public class ContactsEngineClientImpl
 
 	@Override
 	public Results<Account> getAccounts(
-		FaroProject faroProject, String channelId, String filterString,
-		boolean includeAnonymousUsers, String query, String rangeEnd,
-		Integer rangeKey, String rangeStart, String segmentId, int cur,
-		int delta, String sortString) {
+		FaroProject faroProject, String accountLifecycleId, String channelId,
+		String filterString, boolean includeAnonymousUsers, String query,
+		String rangeEnd, Integer rangeKey, String rangeStart, String segmentId,
+		int cur, int delta, String sortString) {
 
 		Map<String, Object> uriVariables = getUriVariables(
 			faroProject, cur, delta, null);
+
+		if (Validator.isNotNull(accountLifecycleId)) {
+			uriVariables.put("accountLifecycleId", accountLifecycleId);
+		}
 
 		if (Validator.isNotNull(channelId)) {
 			uriVariables.put("channelId", channelId);
@@ -1129,8 +1133,8 @@ public class ContactsEngineClientImpl
 		String query, int cur, int delta, String sortString) {
 
 		return getAccounts(
-			faroProject, channelId, filterString, true, query, null, null, null,
-			null, cur, delta, sortString);
+			faroProject, null, channelId, filterString, true, query, null, null,
+			null, null, cur, delta, sortString);
 	}
 
 	@Override
@@ -2972,9 +2976,12 @@ public class ContactsEngineClientImpl
 
 		FilterBuilder filterBuilder = new FilterBuilder();
 
-		filterBuilder.addFilter(
-			"channelId", FilterConstants.COMPARISON_OPERATOR_EQUALS,
-			Long.valueOf(channelId));
+		if (Validator.isNotNull(channelId)) {
+			filterBuilder.addFilter(
+				"channelId", FilterConstants.COMPARISON_OPERATOR_EQUALS,
+				Long.valueOf(channelId));
+		}
+
 		filterBuilder.addFilter(
 			"name", FilterConstants.STRING_FUNCTION_CONTAINS, query);
 		filterBuilder.addFilter(
