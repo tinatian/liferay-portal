@@ -8,12 +8,10 @@ package com.liferay.portal.proxy.internal;
 import com.liferay.petra.reflect.ReflectionUtil;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
-import com.liferay.portal.kernel.test.SwappableSecurityManager;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.rule.CodeCoverageAssertor;
 import com.liferay.portal.kernel.test.rule.NewEnv;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
-import com.liferay.portal.kernel.test.util.ReflectionUtilTestUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.DelegateProxyFactory;
 import com.liferay.portal.kernel.util.ProxyUtil;
@@ -23,6 +21,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Map;
 
 import org.junit.Assert;
@@ -213,18 +212,33 @@ public class ASMDelegateProxyFactoryTest {
 				illegalArgumentException.getMessage());
 		}
 
-		SecurityException securityException = new SecurityException();
+		Map<ClassLoader, Map<String, Class<?>>> classReferencesMap =
+			ReflectionTestUtil.getAndSetFieldValue(
+				ASMDelegateProxyFactory.class, "_classReferencesMap",
+				Collections.singletonMap(
+					TestInterface.class.getClassLoader(),
+					Collections.singletonMap(
+						TestDelegate.class.getPackageName() +
+							".TestInterfaceASMWrapper",
+						Object.class)));
 
-		try (SwappableSecurityManager swappableSecurityManager =
-				ReflectionUtilTestUtil.throwForSuppressAccessChecks(
-					securityException)) {
-
+		try {
 			delegateProxyFactory.newDelegateProxyInstance(
 				TestInterface.class.getClassLoader(), TestInterface.class,
 				new TestDelegate(), new TestDefault());
+
+			Assert.fail();
 		}
 		catch (RuntimeException runtimeException) {
-			Assert.assertSame(securityException, runtimeException.getCause());
+			Throwable throwable = runtimeException.getCause();
+
+			Assert.assertSame(
+				NoSuchMethodException.class, throwable.getClass());
+		}
+		finally {
+			ReflectionTestUtil.setFieldValue(
+				ASMDelegateProxyFactory.class, "_classReferencesMap",
+				classReferencesMap);
 		}
 	}
 
