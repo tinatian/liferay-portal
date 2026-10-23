@@ -5,12 +5,10 @@
 
 package com.liferay.portal.kernel.util;
 
-import com.liferay.petra.reflect.ReflectionUtil;
-import com.liferay.portal.kernel.test.SwappableSecurityManager;
-import com.liferay.portal.kernel.test.rule.AggregateTestRule;
+import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.test.ASMClassLoader;
 import com.liferay.portal.kernel.test.rule.CodeCoverageAssertor;
-import com.liferay.portal.kernel.test.rule.NewEnv;
-import com.liferay.portal.kernel.test.rule.NewEnvTestRule;
+import com.liferay.portal.kernel.test.util.RandomTestUtil;
 
 import java.lang.reflect.InvocationHandler;
 
@@ -20,7 +18,6 @@ import java.util.function.Supplier;
 
 import org.junit.Assert;
 import org.junit.ClassRule;
-import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -29,63 +26,47 @@ import org.junit.Test;
 public class ProxyUtilTest {
 
 	@ClassRule
-	@Rule
-	public static final AggregateTestRule aggregateTestRule =
-		new AggregateTestRule(
-			new CodeCoverageAssertor() {
+	public static final CodeCoverageAssertor codeCoverageAssertor =
+		new CodeCoverageAssertor() {
 
-				@Override
-				public void appendAssertClasses(List<Class<?>> assertClasses) {
-					assertClasses.clear();
+			@Override
+			public void appendAssertClasses(List<Class<?>> assertClasses) {
+				assertClasses.clear();
 
-					for (Class<?> clazz :
-							ProxyUtil.class.getDeclaredClasses()) {
+				for (Class<?> clazz : ProxyUtil.class.getDeclaredClasses()) {
+					if (InvocationHandler.class.isAssignableFrom(clazz)) {
+						assertClasses.add(clazz);
 
-						if (InvocationHandler.class.isAssignableFrom(clazz)) {
-							assertClasses.add(clazz);
-
-							break;
-						}
+						break;
 					}
 				}
+			}
 
-			},
-			NewEnvTestRule.INSTANCE);
+		};
 
-	@NewEnv(type = NewEnv.Type.CLASSLOADER)
 	@Test
 	public void testDelegateInvocationHandlerInitializationFailure()
 		throws ClassNotFoundException {
 
-		NoSuchMethodException noSuchMethodException =
-			new NoSuchMethodException();
+		String className =
+			ProxyUtil.class.getName() + "$DelegateInvocationHandler";
+		String methodName = RandomTestUtil.randomString();
 
-		AtomicInteger counter = new AtomicInteger();
-
-		try (SwappableSecurityManager swappableSecurityManager =
-				new SwappableSecurityManager() {
-
-					@Override
-					public void checkPackageAccess(String pkg) {
-						if (pkg.equals("java.lang") &&
-							(counter.getAndIncrement() == 18)) {
-
-							ReflectionUtil.throwException(
-								noSuchMethodException);
-						}
-					}
-
-				}) {
-
-			swappableSecurityManager.install();
-
-			String name = ProxyUtil.class.getName();
-
-			Class.forName(name.concat("$DelegateInvocationHandler"));
+		try {
+			Class.forName(
+				className, true,
+				new ASMClassLoader(className, methodName, "equals"));
 		}
 		catch (ExceptionInInitializerError exceptionInInitializerError) {
+			Throwable throwable = exceptionInInitializerError.getCause();
+
 			Assert.assertSame(
-				noSuchMethodException, exceptionInInitializerError.getCause());
+				NoSuchMethodException.class, throwable.getClass());
+			Assert.assertEquals(
+				StringBundler.concat(
+					Object.class.getName(), ".", methodName, "(",
+					Object.class.getName(), ")"),
+				throwable.getMessage());
 		}
 	}
 
