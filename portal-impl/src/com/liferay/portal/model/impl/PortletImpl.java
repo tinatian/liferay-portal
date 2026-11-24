@@ -176,8 +176,8 @@ public class PortletImpl extends PortletBaseImpl {
 		String userNotificationDefinitions,
 		List<String> userNotificationHandlerClasses, String webDAVStorageToken,
 		String webDAVStorageClass, String xmlRpcMethodClass,
-		String controlPanelEntryCategory, double controlPanelEntryWeight,
-		String controlPanelEntryClass, List<String> assetRendererFactoryClasses,
+		double controlPanelEntryWeight, String controlPanelEntryClass,
+		List<String> assetRendererFactoryClasses,
 		List<String> customAttributesDisplayClasses,
 		String permissionPropagatorClass, List<String> trashHandlerClasses,
 		List<String> workflowHandlerClasses, String defaultPreferences,
@@ -256,7 +256,6 @@ public class PortletImpl extends PortletBaseImpl {
 		_webDAVStorageToken = webDAVStorageToken;
 		_webDAVStorageClass = webDAVStorageClass;
 		_xmlRpcMethodClass = xmlRpcMethodClass;
-		_controlPanelEntryCategory = controlPanelEntryCategory;
 		_controlPanelEntryWeight = controlPanelEntryWeight;
 		_controlPanelEntryClass = controlPanelEntryClass;
 		_assetRendererFactoryClasses = assetRendererFactoryClasses;
@@ -428,8 +427,8 @@ public class PortletImpl extends PortletBaseImpl {
 			getUserNotificationDefinitions(),
 			getUserNotificationHandlerClasses(), getWebDAVStorageToken(),
 			getWebDAVStorageClass(), getXmlRpcMethodClass(),
-			getControlPanelEntryCategory(), getControlPanelEntryWeight(),
-			getControlPanelEntryClass(), getAssetRendererFactoryClasses(),
+			getControlPanelEntryWeight(), getControlPanelEntryClass(),
+			getAssetRendererFactoryClasses(),
 			getCustomAttributesDisplayClasses(), getPermissionPropagatorClass(),
 			getTrashHandlerClasses(), getWorkflowHandlerClasses(),
 			getDefaultPreferences(), getPreferencesValidator(),
@@ -3005,19 +3004,6 @@ public class PortletImpl extends PortletBaseImpl {
 	}
 
 	/**
-	 * Set the name of the category of the Control Panel where the portlet will
-	 * be shown.
-	 *
-	 * @param controlPanelEntryCategory the name of the category of the Control
-	 *        Panel where the portlet will be shown
-	 */
-	@Override
-	@TemplateRestricted
-	public void setControlPanelEntryCategory(String controlPanelEntryCategory) {
-		_controlPanelEntryCategory = controlPanelEntryCategory;
-	}
-
-	/**
 	 * Sets the name of the class that will control when the portlet will be
 	 * shown in the Control Panel.
 	 *
@@ -4537,12 +4523,6 @@ public class PortletImpl extends PortletBaseImpl {
 	 * The configuration action class of the portlet.
 	 */
 	private String _configurationActionClass;
-
-	/**
-	 * The name of the category of the Control Panel where this portlet will be
-	 * shown.
-	 */
-	private String _controlPanelEntryCategory = StringPool.BLANK;
 
 	/**
 	 * The name of the class that will control when this portlet will be shown

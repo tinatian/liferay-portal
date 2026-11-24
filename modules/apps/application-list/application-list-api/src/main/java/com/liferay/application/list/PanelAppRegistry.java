@@ -198,20 +198,6 @@ public class PanelAppRegistry {
 
 					panelApp.setGroupProvider(_groupProvider);
 
-					Portlet portlet = _portletLocalService.getPortletById(
-						panelApp.getPortletId());
-
-					if (portlet != null) {
-						portlet.setControlPanelEntryCategory(
-							String.valueOf(
-								serviceReference.getProperty(
-									"panel.category.key")));
-					}
-					else if (_log.isDebugEnabled()) {
-						_log.debug(
-							"Unable to get portlet " + panelApp.getPortletId());
-					}
-
 					if (panelApp instanceof BasePanelApp) {
 						BasePanelApp basePanelApp = (BasePanelApp)panelApp;
 
