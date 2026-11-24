@@ -39,6 +39,7 @@ import com.liferay.portal.kernel.portlet.PortletBagPool;
 import com.liferay.portal.kernel.portlet.PortletConfigurationListener;
 import com.liferay.portal.kernel.portlet.PortletIdCodec;
 import com.liferay.portal.kernel.portlet.PortletLayoutListener;
+import com.liferay.portal.kernel.portlet.PortletPanelCategoryRegistry;
 import com.liferay.portal.kernel.portlet.PortletQNameUtil;
 import com.liferay.portal.kernel.scheduler.SchedulerEntry;
 import com.liferay.portal.kernel.search.Indexer;
@@ -709,7 +710,22 @@ public class PortletImpl extends PortletBaseImpl {
 	 */
 	@Override
 	public String getControlPanelEntryCategory() {
-		return _controlPanelEntryCategory;
+		PortletPanelCategoryRegistry portletPanelCategoryRegistry =
+			_portletPanelCategoryRegistrySnapshot.get();
+
+		if (portletPanelCategoryRegistry == null) {
+			return StringPool.BLANK;
+		}
+
+		String controlPanelEntryCategory =
+			portletPanelCategoryRegistry.getControlPanelEntryCategory(
+				getRootPortletId());
+
+		if (controlPanelEntryCategory == null) {
+			return StringPool.BLANK;
+		}
+
+		return controlPanelEntryCategory;
 	}
 
 	/**
@@ -4421,6 +4437,9 @@ public class PortletImpl extends PortletBaseImpl {
 	private static final ControlPanelEntry _dummyControlPanelEntry =
 		new BaseControlPanelEntry() {
 		};
+	private static final Snapshot<PortletPanelCategoryRegistry>
+		_portletPanelCategoryRegistrySnapshot = new Snapshot<>(
+			PortletImpl.class, PortletPanelCategoryRegistry.class, null, true);
 
 	/**
 	 * Map of the ready states of all portlets keyed by their root portlet ID.
