@@ -2496,18 +2496,6 @@ public class PortletWrapper
 	}
 
 	/**
-	 * Set the name of the category of the Control Panel where the portlet will
-	 * be shown.
-	 *
-	 * @param controlPanelEntryCategory the name of the category of the Control
-	 Panel where the portlet will be shown
-	 */
-	@Override
-	public void setControlPanelEntryCategory(String controlPanelEntryCategory) {
-		model.setControlPanelEntryCategory(controlPanelEntryCategory);
-	}
-
-	/**
 	 * Sets the name of the class that will control when the portlet will be
 	 * shown in the Control Panel.
 	 *
@@ -3721,4 +3709,4 @@ public class PortletWrapper
 	}
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-254107043
+// LIFERAY-SERVICE-BUILDER-HASH:1331166121

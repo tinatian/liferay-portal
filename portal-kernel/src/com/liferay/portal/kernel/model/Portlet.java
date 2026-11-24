@@ -1721,16 +1721,6 @@ public interface Portlet extends PersistedModel, PortletModel {
 	public void setConfigurationActionClass(String configurationActionClass);
 
 	/**
-	 * Set the name of the category of the Control Panel where the portlet will
-	 * be shown.
-	 *
-	 * @param controlPanelEntryCategory the name of the category of the Control
-	 Panel where the portlet will be shown
-	 */
-	@com.liferay.portal.kernel.template.TemplateRestricted
-	public void setControlPanelEntryCategory(String controlPanelEntryCategory);
-
-	/**
 	 * Sets the name of the class that will control when the portlet will be
 	 * shown in the Control Panel.
 	 *
@@ -2659,4 +2649,4 @@ public interface Portlet extends PersistedModel, PortletModel {
 	public void unsetReady();
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-228832188
+// LIFERAY-SERVICE-BUILDER-HASH:-474288875
