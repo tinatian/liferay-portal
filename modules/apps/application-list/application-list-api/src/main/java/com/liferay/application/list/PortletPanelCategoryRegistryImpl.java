@@ -11,10 +11,13 @@ import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMap;
 import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMapFactory;
 import com.liferay.portal.kernel.portlet.PortletPanelCategoryRegistry;
 
+import java.util.function.Function;
+
 import org.osgi.framework.BundleContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
+import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
 /**
  * @author Tina Tian
@@ -30,18 +33,19 @@ public class PortletPanelCategoryRegistryImpl
 
 	@Activate
 	protected void activate(BundleContext bundleContext) {
+		Function<BundleContext, ServiceTrackerCustomizer<PanelApp, String>>
+			function =
+				ServiceTrackerCustomizerFactory.
+					<PanelApp, String>createFromFunction(
+						(serviceReference, panelApp) ->
+							(String)serviceReference.getProperty(
+								"panel.category.key"));
+
 		_serviceTrackerMap = ServiceTrackerMapFactory.openSingleValueMap(
 			bundleContext, PanelApp.class, "(panel.category.key=*)",
 			ServiceReferenceMapperFactory.createFromFunction(
 				bundleContext, PanelApp::getPortletId),
-			ServiceTrackerCustomizerFactory.
-				<PanelApp, String>createFromFunction(
-					(serviceReference, panelApp) ->
-						(String)serviceReference.getProperty(
-							"panel.category.key")
-				).apply(
-					bundleContext
-				));
+			function.apply(bundleContext));
 	}
 
 	@Deactivate
